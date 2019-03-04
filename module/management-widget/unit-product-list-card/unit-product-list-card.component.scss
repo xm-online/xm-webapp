@@ -1,0 +1,144 @@
+$cSelected: #004a93;
+$cAction: #0084d6;
+$cActionHover: #ffcd00;
+$cWhite: #fff;
+$cRowHover: #DFDFDF;
+$cTextDark: #ccc;
+$cMachineGrey: #555a60;
+
+.xm-paypods-products-list {
+    .card-header {
+        &.selected {
+            p {
+                color: $cWhite;
+                >.material-icons {
+                    vertical-align: bottom;
+                    margin: 0 0 0 -5px;
+                }
+            }
+        }
+    }
+
+    .link-like {
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .unit-products-table {
+        th {
+            vertical-align: bottom;
+            font-weight: normal;
+        }
+
+        td {
+            vertical-align: top;
+        }
+
+        a {
+            text-decoration: underline;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+
+    .info-item {
+        margin: 0 0 10px 0;
+
+        i.material-icons {
+            font-size: 14px;
+            display: inline-block;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
+        }
+
+        .date-val {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    .info-item-title {
+        color: $cTextDark;
+        font-size: 12px;
+    }
+
+    .info-item-content {
+        &.nowrap {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .product-state {
+        position: relative;
+        padding: 5px 45px 0 0;
+        margin: 0 0 10px 0;
+        white-space: nowrap;
+        text-align: right;
+
+        .xm-unit-status {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+
+    .product-name {
+        margin: 5px 0 0 0;
+    }
+
+    .update-firmware {
+        margin: 0 0 10px 0;
+    }
+}
+
+.xm-unit-status {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    display: inline-block;
+    border-radius: 30px;
+    margin: 0 5px -4px 5px;
+
+    >i {
+        font-size: 18px;
+        color: #fff;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+.xm-paypods-preheader {
+}
+
+.xm-refresh-data {
+    float: right;
+    margin: 10px 26px;
+    background-color: transparent;
+    color: $cAction;
+    border: none;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 36px;
+    cursor: pointer;
+    &:hover {
+        color: $cActionHover;
+    }
+}
+
+.min-height {
+    min-height: 100px;
+}

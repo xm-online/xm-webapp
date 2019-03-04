@@ -1,0 +1,52 @@
+<div class="card">
+  <div class="xm-paypods-preheader clearfix">
+    <div class="card-header card-header-text card-header-primary">
+      <div class="card-text">
+        <h4 class="card-title">Sites</h4>
+      </div>
+    </div>
+    <button class="material-icons xm-refresh-data" (click)="onRefresh()">refresh</button>
+  </div>
+  <xm-loader [showLoader]="showLoader"></xm-loader>
+  <div class="card-body">
+    <div class="fixed-height">
+      <div class="table-responsive" *ngIf="units?.length > 0">
+        <table class="table xm-paypods-list">
+          <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="sortUnitsBy.bind(this)">
+            <th [jhiSortBy]="'name'">
+              <span>Name</span>
+              <span class="fa fa-sort"></span>
+            </th>
+            <th [jhiSortBy]="'weight'" class="text-right status-th">
+              <span>Status</span>
+              <span class="fa fa-sort"></span>
+            </th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <ng-container *ngFor="let unit of units">
+            <tr (click)="onChooseUnit(unit)" [class.selected]="selectedUnit?.id === unit.id">
+              <td>
+                <div class="unit-name">
+                  {{unit.name ? unit.name : ''}}
+                </div>
+              </td>
+              <td class="text-right v-mid">
+                <div class="xm-unit-status"
+                     [style.background]="unit.alert.color"
+                     [title]="unit.alert.name ? unit.alert.name : 'Unknown status'"
+                     *ngIf="unit.alert">
+                  <i class="material-icons">{{ unit.alert.icon }}</i>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <no-data [show]="!(units?.length > 0)"></no-data>
+    </div>
+  </div>
+</div>

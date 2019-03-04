@@ -1,0 +1,53 @@
+<ng-container>
+  <div class="xm-filter-units-statistic">
+    <h2 style="margin: 0;">Analytic Data Metrics</h2>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label class="control-label" for="filterUnit">
+                <span>Select required Site</span>
+              </label>
+              <mat-form-field>
+                <mat-select id="filterUnit"
+                            [(ngModel)]="selectedUnit"
+                            (selectionChange)="onFilterChange()">
+                  <mat-option [value]="allUnits">
+                    Select all Sites
+                  </mat-option>
+                  <mat-option *ngFor="let unit of units"
+                              [value]="unit">
+                    {{ unit.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label class="control-label" for="filterRange">
+                <span>Select required date</span>
+              </label>
+              <mat-form-field>
+                <mat-select id="filterRange"
+                            [(ngModel)]="period"
+                            (selectionChange)="onFilterChange()">
+                  <mat-option value="30">
+                    Last 30 days
+                  </mat-option>
+                  <mat-option value="7">
+                    Last 7 days
+                  </mat-option>
+                  <mat-option value="1">
+                    Last day
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,89 @@
+$cSelected: rgb(223, 223, 223);
+$cAction: #0084d6;
+$cActionHover: #ffcd00;
+$cWhite: #fff;
+$cRowHover: rgb(223, 223, 223);
+
+.xm-paypods-list {
+    table-layout: fixed;
+    tbody tr {
+        position: relative;
+
+        &:hover {
+            background-color: $cRowHover;
+            cursor: pointer;
+        }
+
+        &.selected {
+            background-color: $cSelected;
+        }
+    }
+
+    .unit-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .status-th {
+        width: 100px;
+    }
+
+    @media screen and (max-width: 767px) {
+        > thead > tr > th {
+            width: auto !important;
+
+            &.status-th {
+                width: 80px !important;
+            }
+        }
+    }
+}
+
+.xm-unit-status {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    display: inline-block;
+    border-radius: 30px;
+    margin: 0 5px -4px 5px;
+
+    >i {
+        font-size: 18px;
+        color: #fff;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+.fixed-height {
+    height: 365px;
+    overflow: auto;
+}
+
+.xm-paypods-preheader {
+}
+
+.xm-refresh-data {
+    float: right;
+    margin: 10px 24px;
+    background-color: transparent;
+    color: $cAction;
+    border: none;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 36px;
+    cursor: pointer;
+
+    &:hover {
+        color: $cActionHover;
+    }
+}

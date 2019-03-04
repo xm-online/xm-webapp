@@ -1,0 +1,58 @@
+<ng-container *ngIf="markers?.length > 0">
+  <div class="card">
+    <div class="card-header card-header-text card-header-primary">
+      <h4 class="card-title">Map</h4>
+    </div>
+    <div class="card-body">
+      <div class="map-wrapper">
+        <ng-container *xmGMapApiInit>
+          <agm-map
+            #AgmMap
+            [scrollwheel]="false"
+            [latitude]="lat"
+            [longitude]="lng"
+            (mapReady)="mapReady($event)"
+            [zoom]="zoom">
+            <agm-marker-cluster
+              [imagePath]="'./assets/img/map/cpi/m/'"
+              [maxZoom]="maxZoom">
+              <agm-marker
+                *ngFor="let marker of markers"
+                [latitude]="marker.latitude"
+                [longitude]="marker.longitude"
+                [zIndex]="marker.zIndex"
+                [iconUrl]="marker.iconUrl"
+                (markerClick)="onMarkerChoose(marker)">
+                <agm-snazzy-info-window
+                  [padding]="'20px'"
+                  [maxWidth]="'auto'"
+                  [closeWhenOthersOpen]="true"
+                  [wrapperClass]="'xm-map-window'"
+                  [isOpen]="marker.isOpen">
+                  <ng-template>
+                    <div class="window-content" *ngIf="marker.alert">
+                      <div class="alert-item">
+                        <span class="status" [style.background]="marker.alert.color"></span>
+                        <div class="name">{{marker.alert.name ? marker.alert.name : 'Unknown status'}}</div>
+                        <div class="alert-text" *ngIf="marker.alert?.marketingDesciption">
+                          {{ marker.alert.marketingDesciption }}
+                        </div>
+                        <div class="product-name" *ngIf="marker.alert?.product?.name">
+                          [{{marker.alert.product.name}}]
+                        </div>
+                      </div>
+                      <div class="address-item" *ngIf="marker?.addressLine1">
+                        <i class="material-icons">place</i>
+                        {{marker.addressLine1}}
+                      </div>
+                    </div>
+                  </ng-template>
+                </agm-snazzy-info-window>
+              </agm-marker>
+            </agm-marker-cluster>
+          </agm-map>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>

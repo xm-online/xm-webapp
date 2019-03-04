@@ -1,0 +1,42 @@
+$cSelected: #004a93;
+$cAction: #0084d6;
+$cActionHover: #ffcd00;
+$cWhite: #fff;
+$cRowHover: #DFDFDF;
+$cTextDark: #999;
+
+.date-for {
+    position: relative;
+    padding: 15px 0 0 30px;
+    border-top: 1px solid $cTextDark;
+    color: $cTextDark;
+
+    >i {
+        position: absolute;
+        left: 0;
+        top: 16px;
+        font-size: 16px;
+    }
+}
+
+.cpi-yellow {
+    .card-text {
+        background: $cActionHover !important;
+        box-shadow: none;
+    }
+
+    .ct-series-a .ct-point, .ct-series-a .ct-line, .ct-series-a .ct-bar, .ct-series-a .ct-slice-donut {
+        stroke: $cActionHover;
+    }
+}
+
+.cpi-blue {
+    .card-text {
+        background: $cSelected !important;
+        box-shadow: none;
+        .ct-series-a .ct-point, .ct-series-a .ct-line, .ct-series-a .ct-bar, .ct-series-a .ct-slice-donut {
+            stroke: $cSelected;
+        }
+    }
+}
+

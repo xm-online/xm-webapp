@@ -1,0 +1,42 @@
+<ng-container>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="cpi-blue">
+        <div class="card">
+          <div class="card-header card-header-text card-header-primary">
+            <div class="card-text">
+              <h4 class="card-title">Humidity rate, %</h4>
+            </div>
+          </div>
+          <div class="card-body"></div>
+          <div class="ct-chart" id="loraAnalyticHumidity"></div>
+          <div class="card-body">
+            <div class="date-for" *ngIf="period">
+              <i class="material-icons">event_note</i> <span>For the last {{period}} day(s)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="cpi-yellow">
+        <div class="card">
+          <div class="card-header card-header-text card-header-primary">
+            <div class="card-text">
+              <h4 class="card-title">
+                <span>Temperature rate, C</span>
+              </h4>
+            </div>
+          </div>
+          <div class="card-body"></div>
+          <div class="ct-chart" id="loraAnalyticTemperature"></div>
+          <div class="card-body">
+            <div class="date-for" *ngIf="period">
+              <i class="material-icons">event_note</i><span>For the last {{period}} day(s)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
