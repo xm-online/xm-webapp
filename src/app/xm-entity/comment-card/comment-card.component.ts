@@ -20,6 +20,6 @@ export class CommentCardComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.commentator$ = this.entityService.getProfile(this.comment.userKey).pipe(map(responce => responce.body));
+        this.commentator$ = this.entityService.getProfile(null, this.comment.userKey).pipe(map(response => response.body));
     }
 }
