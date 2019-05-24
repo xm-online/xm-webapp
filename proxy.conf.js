@@ -29,15 +29,6 @@ const PROXY_CONFIG = [
         secure: false,
         changeOrigin: true,
         logLevel: "debug"
-    },
-    {
-        context: [
-            "/vitrina"
-        ],
-        target: "http://localhost:9222",
-        secure: false,
-        changeOrigin: true,
-        logLevel: "debug"
     }
 ];
 
