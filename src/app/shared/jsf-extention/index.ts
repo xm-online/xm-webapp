@@ -14,3 +14,5 @@ export * from './widgets/multilingual-input/multilingual-input-options.model';
 export * from './widgets/datetime-utc/datetime-utc.component';
 export * from './widgets/datetime-picker/datetime-picker.component';
 export * from './widgets/ext-md-editor/ext-md-editor.component';
+export * from './widgets/email-matcher/email-matcher.component';
+export * from './widgets/text-section/text-section.component';
