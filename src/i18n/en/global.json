@@ -26,12 +26,18 @@
                     "strength": "Password strength:",
                     "required": "Your password is required.",
                     "minlength": "Your password is required to be at least 4 characters.",
-                    "maxlength": "Your password cannot be longer than 50 characters."
+                    "maxlength": "Your password cannot be longer than 50 characters.",
+                    "password-min-length": "Your password is required to be at least {{minLength}} characters.",
+                    "password-max-length": "Your password cannot be longer than {{maxLength}} characters.",
+                    "password-pattern": "Your password dose not match pattern {{pattern}}"
                 },
                 "confirmpassword": {
                     "required": "Your confirmation password is required.",
                     "minlength": "Your confirmation password is required to be at least 4 characters.",
-                    "maxlength": "Your confirmation password cannot be longer than 50 characters."
+                    "maxlength": "Your confirmation password cannot be longer than 50 characters.",
+                    "password-min-length": "Your confirmation password is required to be at least {{minLength}} characters.",
+                    "password-max-length": "Your confirmation password cannot be longer than {{maxLength}} characters.",
+                    "password-pattern": "Your password dose not match pattern {{pattern}}"
                 },
                 "email": {
                     "required": "Your email is required.",
@@ -42,7 +48,10 @@
                 "oldpassword": {
                     "required": "Old password is required.",
                     "minlength": "Old password is required to be at least 4 characters.",
-                    "maxlength": "Old password cannot be longer than 50 characters."
+                    "maxlength": "Old password cannot be longer than 50 characters.",
+                    "password-min-length": "Old password is required to be at least {{minLength}} characters.",
+                    "password-max-length": "Old password cannot be longer than {{maxLength}} characters.",
+                    "password-pattern": "Your password dose not match pattern {{pattern}}"
                 },
                 "firstname": {
                     "required": "Your first name is required.",
@@ -60,11 +69,12 @@
             },
             "error": {
                 "dontmatch": "The password and its confirmation do not match!",
-                "captchaempty": "Please check captcha."
+                "captchaempty": "Please check captcha.",
+                "upload-fail": "Upload service unavailable!"
             },
             "info": {
                 "authenticated": {
-                    "prefix": "If you want to",
+                    "prefix": "If you want to ",
                     "link": "sign in",
                     "suffix": ", you can try the default accounts:"
                 }
@@ -239,5 +249,8 @@
         "business": "Forwarding error",
         "unauthorized": "Unauthorized",
         "session_expired": "Session expired. Please login."
+    },
+    "swagger": {
+        "select-component": "Select component"
     }
 }

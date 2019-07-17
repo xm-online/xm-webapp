@@ -1,11 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {JhiEventManager, JhiLanguageService} from 'ng-jhipster';
-import {Subscription} from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { JhiEventManager, JhiLanguageService } from 'ng-jhipster';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ModulesLanguageHelper } from '../../../shared/language/modules-language.helper';
-import {XM_EVENT_LIST} from '../../../xm.constants';
-import {XmConfigService} from '../../../shared';
-import {ActivatedRoute, Router} from '@angular/router';
+import { XM_EVENT_LIST } from '../../../xm.constants';
+import { XmConfigService } from '../../../shared';
 
 @Component({
     selector: 'xm-sign-in-up-widget',
@@ -21,15 +22,16 @@ export class SignInUpWidgetComponent implements OnInit, OnDestroy {
     isLoginFormView = true;
     successRegistration = false;
     socialConfiguration: any;
+    loginLabel: string;
 
     constructor(
         private eventManager: JhiEventManager,
+        private translateService: TranslateService,
         private jhiLanguageService: JhiLanguageService,
         private modulesLangHelper: ModulesLanguageHelper,
         private xmConfigService: XmConfigService,
         private route: ActivatedRoute,
-        private router: Router
-    ) {
+        private router: Router) {
     }
 
     ngOnInit() {
@@ -41,6 +43,9 @@ export class SignInUpWidgetComponent implements OnInit, OnDestroy {
 
         this.changeLanguageSubscriber = this.eventManager.subscribe(XM_EVENT_LIST.XM_CHANGE_LANGUAGE, (event) => {
             this.jhiLanguageService.changeLanguage(event.content);
+            if (this.config && this.config.loginLabel) {
+                this.updateLabels(this.config.loginLabel, event.content);
+            }
         });
 
         this.route.queryParams.subscribe(params => {
@@ -48,6 +53,9 @@ export class SignInUpWidgetComponent implements OnInit, OnDestroy {
                 this.isLoginFormView = !(params['type'] === 'registration');
             }
         });
+        if (this.config && this.config.loginLabel) {
+            this.updateLabels(this.config.loginLabel);
+        }
     }
 
     ngOnDestroy() {
@@ -64,4 +72,8 @@ export class SignInUpWidgetComponent implements OnInit, OnDestroy {
         });
     }
 
+    private updateLabels(label: any, currentLang?: string) {
+        const lang = currentLang ? currentLang : this.modulesLangHelper.getLangKey();
+        this.loginLabel = label[lang] || label;
+    }
 }

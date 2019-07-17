@@ -4,7 +4,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Principal } from '../../../shared/auth/principal.service';
 import { saveFile } from '../../../shared/helpers/file-download-helper';
 
-declare let nomnoml: any;
+import * as nomnoml from 'nomnoml';
+
 declare let YAML: any;
 declare let skanaar: any;
 declare let _: any;
@@ -132,7 +133,7 @@ export class ConfigVisualizerDialogComponent implements OnInit, AfterViewInit {
         const terms = [];
         if (dataSpec) {
             dataSpec = JSON.parse(dataSpec);
-            Object.keys(dataSpec.properties).forEach(k => {
+            dataSpec.properties && Object.keys(dataSpec.properties).forEach(k => {
                 terms.push(`${k}: ${dataSpec.properties[k].type}`);
             });
         }

@@ -15,6 +15,7 @@ import {Dashboard, DashboardWrapperService} from '../../xm-dashboard';
 import {XmEntitySpecWrapperService} from '../../xm-entity';
 import {DEBUG_INFO_ENABLED, VERSION, XM_EVENT_LIST} from '../../xm.constants';
 import {transpilingForIE} from '../../shared/jsf-extention/jsf-attributes-helper';
+import { PoweredBy } from '../../shared/components/powered-by/powered-by.model';
 
 const misc: any = {
     navbar_menu_visible: 0,
@@ -36,6 +37,8 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     private unauthSubscription: Subscription;
     private dashboardSubscription: Subscription;
     private contextSubscription: Subscription;
+    private logoutSubscribtion: Subscription;
+
     private toggleButton;
 
     dashboardGroups: any[];
@@ -57,6 +60,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
     tenantName: 'XM^online';
     tenantLogoUrl: '../assets/img/logo-xm-online.png';
     iconsInMenu: false;
+    poweredByConfig: PoweredBy;
 
     @ViewChild('navbar-cmp') button;
 
@@ -81,6 +85,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
         this.registerChangeAuth();
         this.registerChangeInDashboards();
         this.registerUnauthorized();
+        this.registerLogoutEvent();
         this.contextSubscription = this.eventManager.subscribe('CONTEXT_UPDATED', () => {
             this.groupDashboards();
             this.collapseTab();
@@ -106,6 +111,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
             if (this.tenantName === 'XM^online') {
                 this.tenantName += ' ' + this.version;
             }
+            this.poweredByConfig = result.poweredBy || null;
         }, error => {
             console.log(error);
             this.tenantLogoUrl = '../assets/img/logo-xm-online.png';
@@ -128,10 +134,17 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
         this.eventManager.destroy(this.dashboardSubscription);
         this.eventManager.destroy(this.unauthSubscription);
         this.eventManager.destroy(this.contextSubscription);
+        this.eventManager.destroy(this.logoutSubscribtion);
 
         if (this.psMainPanel) {
             this.psMainPanel.destroy();
         }
+    }
+
+    private registerLogoutEvent() {
+        this.logoutSubscribtion = this.eventManager.subscribe(XM_EVENT_LIST.XM_LOGOUT, () => {
+            this.logout(true);
+        });
     }
 
     private registerUnauthorized() {

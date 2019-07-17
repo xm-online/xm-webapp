@@ -17,12 +17,14 @@ declare let $: any;
 export class LoginComponent implements OnInit, AfterViewInit {
 
     @Input() successRegistration: boolean;
+    @Input() loginLabel: string;
 
     isShowPassword = false;
     isDisabled: boolean;
     authenticationError: boolean;
     password: string;
     hideRememberMe: boolean;
+    hideResetPasswordLink: boolean;
     rememberMe: boolean;
     username: string;
     credentials: any;
@@ -51,6 +53,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.xmConfigService.getUiConfig().subscribe(config => {
             this.socialConfig = config && config.social;
             this.hideRememberMe = config.hideRememberMe ? config.hideRememberMe : false;
+            this.hideResetPasswordLink = config.hideResetPasswordLink ? config.hideResetPasswordLink : false;
         });
     }
 
