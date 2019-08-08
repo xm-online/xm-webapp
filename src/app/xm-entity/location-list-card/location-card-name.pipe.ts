@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {Location} from '..';
+import { TranslateService } from '@ngx-translate/core';
+import { Location } from '..';
 
 @Pipe({name: 'locationAddress'})
 export class LocationCardNamePipe implements PipeTransform {

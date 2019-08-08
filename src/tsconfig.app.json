@@ -13,7 +13,9 @@
     "outDir": "../out-tsc/app",
     "module": "es2015",
     "baseUrl": "",
-    "types": []
+    "types": [
+	  "googlemaps"
+	]
   },
   "exclude": [
     "test.ts",
