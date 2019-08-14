@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { finalize, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { JhiOrderByPipe } from 'ng-jhipster';
 
 import { Log } from './log.model';
 import { LogsService } from './logs.service';
@@ -7,10 +10,12 @@ import { JhiHealthService } from '../health/health.service';
 @Component({
     selector: 'xm-logs',
     templateUrl: './logs.component.html',
+    styleUrls: ['./logs.component.scss'],
+    providers: [ JhiOrderByPipe ]
 })
 export class LogsComponent implements OnInit {
 
-    loggers: Log[];
+    loggers$: Observable<Log[]>;
     filter: string;
     orderProp: string;
     showLoader: boolean;
@@ -20,11 +25,13 @@ export class LogsComponent implements OnInit {
 
     constructor(
         private logsService: LogsService,
-        private healthService: JhiHealthService
+        private healthService: JhiHealthService,
+        private orderBy: JhiOrderByPipe
     ) {
         this.filter = '';
         this.orderProp = 'name';
         this.reverse = false;
+        this.showLoader = true;
     }
 
     ngOnInit() {
@@ -34,28 +41,20 @@ export class LogsComponent implements OnInit {
                 this.services = result || [];
                 if (this.services.length > 0) {
                     this.selectedService = this.services[1].name;
-                    this.onServiceSelect();
+                    this.getLoggers();
                 }
             }, error => console.log(error));
     }
 
     getLoggers() {
-        this.logsService
-            .findByService(this.selectedService)
-            .subscribe((loggers) => {
-                this.loggers = loggers.body || [];
-                this.showLoader = false;
-            }, error => {
-                console.error(error);
-                this.showLoader = false;
-                this.loggers = null;
-            });
-    }
-
-    onServiceSelect(): void {
-        this.loggers = [];
         this.showLoader = true;
-        this.getLoggers();
+        this.loggers$ = this.logsService
+            .findByService(this.selectedService)
+            .pipe(
+                map(resp => resp.body),
+                map( body => this.orderBy.transform(body, this.orderProp, this.reverse)),
+                finalize(() => this.showLoader = false )
+            )
     }
 
     changeLevel(name: string, level: string): void {
