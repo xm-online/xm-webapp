@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, share } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { JhiOrderByPipe } from 'ng-jhipster';
 
@@ -53,7 +53,8 @@ export class LogsComponent implements OnInit {
             .pipe(
                 map(resp => resp.body),
                 map( body => this.orderBy.transform(body, this.orderProp, this.reverse)),
-                finalize(() => this.showLoader = false )
+                finalize(() => this.showLoader = false ),
+                share()
             )
     }
 
