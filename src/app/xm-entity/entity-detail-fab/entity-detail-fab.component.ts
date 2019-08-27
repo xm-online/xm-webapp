@@ -1,8 +1,7 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
-import {BehaviorSubject, Subscription} from 'rxjs';
-
+import { Subscription } from 'rxjs';
 import { AttachmentDetailDialogComponent } from '../attachment-detail-dialog/attachment-detail-dialog.component';
 import { CommentDetailDialogComponent } from '../comment-detail-dialog/comment-detail-dialog.component';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
@@ -17,7 +16,7 @@ import { XmEntity } from '../shared/xm-entity.model';
     templateUrl: './entity-detail-fab.component.html',
     styleUrls: ['./entity-detail-fab.component.scss']
 })
-export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
+export class EntityDetailFabComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private eventSubscriber: Subscription;
 
@@ -25,10 +24,26 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
     @Input() xmEntitySpec: XmEntitySpec;
     @Input() spec: Spec;
 
-    view = {attachment: false, location: false, link: false, comment: false};
+    view = {
+        loaded: false,
+        attachment: false,
+        location: false,
+        links: false,
+        comment: false,
+        isEditable: false,
 
-    showEditOptions = false;
-    showEditSubOptions = false;
+        isFabVisible: false,
+        isReadOnlyMode: false,
+
+        isSubMenuVisible(): boolean {
+          return this.attachment || this.location || this.links || this.comment;
+        },
+        updateFabState(): void {
+            const subMenus = this.isSubMenuVisible();
+            this.isFabVisible = subMenus || this.isEditable || !this.loaded;
+            this.isReadOnlyMode = subMenus && !this.isEditable;
+        },
+    };
 
     constructor(private eventManager: JhiEventManager,
                 private modalService: NgbModal) {
@@ -36,17 +51,23 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     private registerChangeInXmEntities() {
-        this.eventSubscriber = this.eventManager.subscribe('xmEntityDetailModification', (response) => this.detectViewBtns());
+        this.eventSubscriber = this.eventManager.subscribe('xmEntityDetailModification',
+            (response) => this.view.updateFabState());
     }
 
+    /**
+     * Triggers updateFabState with !loaded to process permissions
+     */
     ngOnInit() {
-        this.detectViewBtns();
+        this.view.updateFabState();
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes.xmEntity && changes.xmEntity.previousValue !== changes.xmEntity.currentValue) {
-            this.detectViewBtns();
-        }
+    /**
+     * Sets loaded to true, to remove fab button if all conditions is false. updateFabState is called to re-evaluate *ngIf.
+     */
+    ngAfterViewInit() {
+        this.view.loaded = true;
+        this.view.updateFabState();
     }
 
     ngOnDestroy() {
@@ -55,35 +76,55 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
 
     xmEditContext(): Function  {
         return () => {
-            // this flag turns off
-            this.showEditOptions = true;
-            return this.showEditOptions;
+            // let shouldHideEdit = false;
+            /*if (this.xmEntitySpec.dataForm) {
+                try {
+                    const formSpec = interpolate(this.xmEntitySpec.dataForm);
+                    shouldHideEdit = formSpec && formSpec.entity && formSpec.entity.hideNameAndDescription;
+                } finally {
+                }
+            }*/
+            this.view.isEditable = true;
+            this.view.updateFabState();
+            console.log(`isEditable=${this.view.isEditable}`);
+            return this.view.isEditable;
         };
     }
 
     xmAttachmentContext(): Function  {
-        return () => this.view.attachment;
+        return () => {
+            this.view.attachment = !!(this.xmEntitySpec.attachments && this.xmEntitySpec.attachments.length);
+            this.view.updateFabState();
+            console.log(`xmAttachmentContext=${this.view.attachment}`);
+            return this.view.attachment
+        };
     }
 
     xmLinksContext(): Function {
-        return  () => this.view.link;
+        return  () => {
+            this.view.links = !!(this.xmEntitySpec  && this.xmEntitySpec.links && this.xmEntitySpec.links.length);
+            this.view.updateFabState();
+            console.log(`xmLocationContext=${this.view.links}`);
+            return this.view.links
+        };
     }
 
     xmLocationContext(): Function {
-        return () => this.view.location;
+        return () => {
+            this.view.location = !!(this.xmEntitySpec.locations && this.xmEntitySpec.locations.length);
+            this.view.updateFabState();
+            console.log(`xmLocationContext=${this.view.location}`);
+            return this.view.location;
+        }
     }
 
     xmCommentContext(): Function  {
-        return () => this.view.comment;
-    }
-
-    private detectViewBtns() {
-        this.view.attachment = !!(this.xmEntitySpec.attachments && this.xmEntitySpec.attachments.length);
-        this.view.location = !!(this.xmEntitySpec.locations && this.xmEntitySpec.locations.length);
-        this.view.link = !!(this.xmEntitySpec.links && this.xmEntitySpec.links.length);
-        this.view.comment = !!(this.xmEntitySpec.comments);
-        this.showEditSubOptions = this.view.attachment || this.view.location || this.view.link || this.view.comment ||
-            (this.xmEntitySpec  && this.xmEntitySpec.links && this.xmEntitySpec.links.length > 0);
+        return () => {
+            this.view.comment = !!(this.xmEntitySpec.comments && this.xmEntitySpec.comments.length);
+            this.view.updateFabState();
+            console.log(`xmCommentContext=${this.view.location}`);
+            return this.view.comment;
+        }
     }
 
     onRefresh() {
