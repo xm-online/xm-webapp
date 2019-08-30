@@ -7,6 +7,7 @@ const PROXY_CONFIG = [
             "/balance/management",
             "/balance/v2",
             "/communication-bulk/ws",
+            "/communication-event/",
             "/config/api",
             "/config/management",
             "/config/v2",
