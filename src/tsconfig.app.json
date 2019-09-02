@@ -11,7 +11,7 @@
       "dom"
     ],
     "outDir": "../out-tsc/app",
-    "module": "es2015",
+    "module": "esnext",
     "baseUrl": "",
     "types": []
   },
