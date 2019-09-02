@@ -36,16 +36,9 @@
           <ng-container *xmPermitted="['XMENTITY.STATE']">
             <div class="col flex-grow-1" *ngIf="nextStates?.length">
                 <p class="mb-2">{{'xm-entity.function-list-card.next-states' | translate}}</p>
-                <div class="xm-state act-as-button no-wrap mr-1 mb-1"
-                     *ngFor="let nextState of nextStates"
-                     title="{{nextState.actionName | i18nName: principal}}"
-                     (click)="onChangeState(nextState.key)"
-                     [style.background]="nextState.color">
-                  <div class="xm-state-icon mr-0" [style.background]="'transparent'">
-                    <i class="material-icons">{{nextState.icon}}</i>
-                  </div>
-                  {{nextState.actionName | i18nName: principal}}
-                </div>
+                <xm-entity-state *ngFor="let nextState of nextStates"
+                                 [stateSpec]="nextState" [cmpType]="'action'"
+                                 (click)="onChangeState(nextState.key)"></xm-entity-state>
             </div>
           </ng-container>
         </div>

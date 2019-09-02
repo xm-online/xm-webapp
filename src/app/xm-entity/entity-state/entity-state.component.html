@@ -2,5 +2,6 @@
   <div class="xm-state-icon" [style.background]="stateSpec.color">
     <i class="material-icons">{{stateSpec.icon}}</i>
   </div>
-  <span>{{stateSpec.name | i18nName: principal}}</span>
+  <span *ngIf="cmpType == 'view'">{{stateSpec.name | i18nName: principal}}</span>
+  <span *ngIf="cmpType == 'action'">{{stateSpec.actionName | i18nName: principal}}</span>
 </div>

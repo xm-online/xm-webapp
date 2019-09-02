@@ -11,10 +11,12 @@ import { Principal } from '../../shared/auth/principal.service';
 export class EntityStateComponent implements OnInit {
 
     @Input() stateSpec: StateSpec;
+    @Input() cmpType: 'view' | 'action';
 
     constructor( public principal: Principal) {
     }
 
     ngOnInit() {
+        this.cmpType = this.cmpType || 'view';
     }
 }

@@ -5,6 +5,7 @@ export class StateSpec implements BaseSpec {
                 public name?: any,
                 public icon?: string,
                 public color?: string,
+                public actionName?: any,
                 public next?: NextSpec[]) {
     }
 }
