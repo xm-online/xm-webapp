@@ -56,7 +56,8 @@ export class EntityDetailFabComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Using these values instead of xmPermitted directive for more complex conditions
+     * Using these assignments instead of xmPermitted directive in template,
+     * because of the need to combine multiple conditions for some elements
      */
     ngOnInit() {
         this.view.attachment = this.principal.hasPrivilegesInline(['ATTACHMENT.CREATE']) && this.xmAttachmentContext()();
