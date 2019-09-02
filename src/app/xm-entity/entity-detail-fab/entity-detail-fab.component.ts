@@ -10,13 +10,14 @@ import { LocationDetailDialogComponent } from '../location-detail-dialog/locatio
 import { Spec } from '../shared/spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
+import {Principal} from '../../shared';
 
 @Component({
     selector: 'xm-entity-detail-fab',
     templateUrl: './entity-detail-fab.component.html',
     styleUrls: ['./entity-detail-fab.component.scss']
 })
-export class EntityDetailFabComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EntityDetailFabComponent implements OnInit, OnDestroy {
 
     private eventSubscriber: Subscription;
 
@@ -25,28 +26,27 @@ export class EntityDetailFabComponent implements OnInit, AfterViewInit, OnDestro
     @Input() spec: Spec;
 
     view = {
-        loaded: false,
         attachment: false,
         location: false,
         links: false,
         comment: false,
+
         isEditable: false,
 
         isFabVisible: false,
-        isReadOnlyMode: false,
 
         isSubMenuVisible(): boolean {
           return this.attachment || this.location || this.links || this.comment;
         },
         updateFabState(): void {
             const subMenus = this.isSubMenuVisible();
-            this.isFabVisible = subMenus || this.isEditable || !this.loaded;
-            this.isReadOnlyMode = subMenus && !this.isEditable;
+            this.isFabVisible = subMenus || this.isEditable;
         },
     };
 
     constructor(private eventManager: JhiEventManager,
-                private modalService: NgbModal) {
+                private modalService: NgbModal,
+                private principal: Principal) {
         this.registerChangeInXmEntities();
     }
 
@@ -56,17 +56,16 @@ export class EntityDetailFabComponent implements OnInit, AfterViewInit, OnDestro
     }
 
     /**
-     * Triggers updateFabState with !loaded to process permissions
+     * Using these values instead of xmPermitted directive for more complex conditions
      */
     ngOnInit() {
-        this.view.updateFabState();
-    }
+        this.view.attachment = this.principal.hasPrivilegesInline(['ATTACHMENT.CREATE']) && this.xmAttachmentContext()();
+        this.view.links = this.principal.hasPrivilegesInline(['LINK.CREATE']) && this.xmLinksContext()();
+        this.view.location = this.principal.hasPrivilegesInline(['LOCATION.CREATE']) && this.xmLocationContext()();
+        this.view.comment = this.principal.hasPrivilegesInline(['COMMENT.CREATE']) && this.xmCommentContext()();
 
-    /**
-     * Sets loaded to true, to remove fab button if all conditions is false. updateFabState is called to re-evaluate *ngIf.
-     */
-    ngAfterViewInit() {
-        this.view.loaded = true;
+        this.view.isEditable = this.principal.hasPrivilegesInline(['ENTITY.UPDATE']) && this.xmEditContext()();
+
         this.view.updateFabState();
     }
 
@@ -75,7 +74,7 @@ export class EntityDetailFabComponent implements OnInit, AfterViewInit, OnDestro
     }
 
     xmEditContext(): Function  {
-        return () => {
+        return () => true;
             // let shouldHideEdit = false;
             /*if (this.xmEntitySpec.dataForm) {
                 try {
@@ -84,47 +83,22 @@ export class EntityDetailFabComponent implements OnInit, AfterViewInit, OnDestro
                 } finally {
                 }
             }*/
-            this.view.isEditable = true;
-            this.view.updateFabState();
-            console.log(`isEditable=${this.view.isEditable}`);
-            return this.view.isEditable;
-        };
     }
 
     xmAttachmentContext(): Function  {
-        return () => {
-            this.view.attachment = !!(this.xmEntitySpec.attachments && this.xmEntitySpec.attachments.length);
-            this.view.updateFabState();
-            console.log(`xmAttachmentContext=${this.view.attachment}`);
-            return this.view.attachment
-        };
+        return () => !!(this.xmEntitySpec.attachments && this.xmEntitySpec.attachments.length);
     }
 
     xmLinksContext(): Function {
-        return  () => {
-            this.view.links = !!(this.xmEntitySpec  && this.xmEntitySpec.links && this.xmEntitySpec.links.length);
-            this.view.updateFabState();
-            console.log(`xmLocationContext=${this.view.links}`);
-            return this.view.links
-        };
+        return () => !!(this.xmEntitySpec  && this.xmEntitySpec.links && this.xmEntitySpec.links.length);
     }
 
     xmLocationContext(): Function {
-        return () => {
-            this.view.location = !!(this.xmEntitySpec.locations && this.xmEntitySpec.locations.length);
-            this.view.updateFabState();
-            console.log(`xmLocationContext=${this.view.location}`);
-            return this.view.location;
-        }
+        return () => !!(this.xmEntitySpec.locations && this.xmEntitySpec.locations.length);
     }
 
     xmCommentContext(): Function  {
-        return () => {
-            this.view.comment = !!(this.xmEntitySpec.comments && this.xmEntitySpec.comments.length);
-            this.view.updateFabState();
-            console.log(`xmCommentContext=${this.view.location}`);
-            return this.view.comment;
-        }
+        return () => !!(this.xmEntitySpec.comments && this.xmEntitySpec.comments.length);
     }
 
     onRefresh() {

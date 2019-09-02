@@ -1,26 +1,29 @@
 <div class="xm-fab" *ngIf="view.isFabVisible">
   <div class="xm-fab-drop">
-    <button class="xm-fab-option" (click)="onAddAttachment()" *xmPermitted="['ATTACHMENT.CREATE']; context: xmAttachmentContext()">
+    <button class="xm-fab-option" (click)="onAddAttachment()" *ngIf="view.attachment">
       <i class="material-icons">attach_file</i>
     </button>
-    <ng-container *xmPermitted="['LINK.CREATE']; context: xmLinksContext()">
+    <ng-container *ngIf="view.links">
       <button class="xm-fab-option" *ngFor="let linkSpec of this.xmEntitySpec.links" (click)="onAddLink(linkSpec)">
         <i class="material-icons">{{linkSpec.icon}}</i>
       </button>
     </ng-container>
-    <button class="xm-fab-option" (click)="onAddComment()" *xmPermitted="['COMMENT.CREATE']; context: xmCommentContext()">
+    <button class="xm-fab-option" (click)="onAddComment()" *ngIf="view.comment">
       <i class="material-icons">comment</i>
     </button>
-    <button class="xm-fab-option" (click)="onAddALocation()" *xmPermitted="['LOCATION.CREATE']; context: xmLocationContext()">
+    <button class="xm-fab-option" (click)="onAddALocation()" *ngIf="view.location">
       <i class="material-icons">place</i>
     </button>
   </div>
 
-  <button mat-raised-button class="btn btn-primary btn-icon btn-just-icon btn-round btn-lg" (click)="onEdit()" *xmPermitted="['ENTITY.UPDATE']; context: xmEditContext()">
+  <button mat-raised-button class="btn btn-primary btn-icon btn-just-icon btn-round btn-lg" (click)="onEdit()" *ngIf="view.isEditable; else readOnlyBtn">
     <i class="material-icons">edit</i>
   </button>
 
-  <button mat-raised-button class="btn btn-primary btn-icon btn-just-icon btn-round btn-lg" *ngIf="view.isReadOnlyMode">
-    <i class="material-icons">more_vert</i>
-  </button>
+  <ng-template #readOnlyBtn>
+    <button mat-raised-button class="btn btn-primary btn-icon btn-just-icon btn-round btn-lg">
+      <i class="material-icons">more_vert</i>
+    </button>
+  </ng-template>
+
 </div>
