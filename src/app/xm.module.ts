@@ -62,7 +62,7 @@ const appInitializerFn = (appConfig: XmApplicationConfigService) => {
         XmNotificationsModule,
         XmConfigModule,
         MarkdownModule.forRoot(),
-        TranslateModule
+        TranslateModule.forRoot()
     ],
     declarations: [
         XmMainComponent,
