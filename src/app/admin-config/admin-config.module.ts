@@ -14,13 +14,15 @@ import { DashboardListCardComponent } from './dashboard-mng/dashboard-list-card/
 import { DashboardDetailDialogComponent } from './dashboard-mng/dashboard-detail-dialog/dashboard-detail-dialog.component';
 import { ConfigVisualizerDialogComponent } from './specification-mng/config-visualizer-dialog/config-visualizer-dialog.component';
 import { SpecificationMngComponent } from './specification-mng/specification-mng.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule.forChild(adminConfigState),
         XmSharedModule,
-        XmDashboardModule
+        XmDashboardModule,
+        TranslateModule
     ],
     declarations: [
         DashboardDetailDialogComponent,

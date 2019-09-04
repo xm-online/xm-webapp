@@ -69,6 +69,7 @@ import {
 import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
 import { AttachmentListSimplifiedComponent } from './attachment-list/attachment-list-simplified.component';
 import { AttachmentListBaseComponent } from './attachment-list/attachment-list-base.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -87,7 +88,8 @@ import { AttachmentListBaseComponent } from './attachment-list/attachment-list-b
         },
         ImageCropperModule,
         RatingModule,
-        TagInputModule
+        TagInputModule,
+        TranslateModule
     ],
     declarations: [
         AreaComponent,

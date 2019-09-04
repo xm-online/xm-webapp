@@ -33,6 +33,7 @@ import { XmEntityModule } from './xm-entity/xm-entity.module';
 import { XmNotificationsModule } from './xm-notifications/xm-notifications.module';
 import { XmRoutingModule } from './xm-routing.module';
 import { XmTimelineModule } from './xm-timeline/xm-timeline.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 const appInitializerFn = (appConfig: XmApplicationConfigService) => {
     return () => {
@@ -60,7 +61,8 @@ const appInitializerFn = (appConfig: XmApplicationConfigService) => {
         XmTimelineModule,
         XmNotificationsModule,
         XmConfigModule,
-        MarkdownModule.forRoot()
+        MarkdownModule.forRoot(),
+        TranslateModule
     ],
     declarations: [
         XmMainComponent,

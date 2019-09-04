@@ -19,12 +19,14 @@ import {
 } from './';
 import {accountState} from './account.route';
 import {XmSharedModule} from '../shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
     imports: [
         XmSharedModule,
-        RouterModule.forRoot(accountState, { useHash: false })
+        RouterModule.forRoot(accountState, {useHash: false}),
+        TranslateModule
     ],
     declarations: [
         SocialRegisterComponent,

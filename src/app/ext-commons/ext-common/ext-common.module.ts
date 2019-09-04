@@ -22,12 +22,14 @@ import {
     WeatherWidgetComponent,
     WelcomeWidgetComponent
 } from './';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
         CommonModule,
         XmSharedModule,
-        HttpClientJsonpModule
+        HttpClientJsonpModule,
+        TranslateModule
     ],
     declarations: [
         ClockWidgetComponent,

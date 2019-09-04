@@ -57,6 +57,7 @@ import { TranslationComponent } from './translations/translation.component';
 import { TranslationService } from './translations/translation.service';
 import { XmConfigService } from './../shared/spec/config.service';
 import { TagInputModule } from 'ngx-chips';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -74,7 +75,8 @@ import { TagInputModule } from 'ngx-chips';
             ]
         },
         FormsModule,
-        RouterModule.forChild(adminState)
+        RouterModule.forChild(adminState),
+        TranslateModule
     ],
     declarations: [
         AuditsComponent,

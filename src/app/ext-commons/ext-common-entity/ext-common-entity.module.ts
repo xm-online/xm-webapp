@@ -20,6 +20,7 @@ import {
     StatsWidgetComponent,
     TasksWidgetComponent
 } from './';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import {
         XmSharedModule,
         XmEntityModule,
         XmBalanceModule,
-        XmTimelineModule
+        XmTimelineModule,
+        TranslateModule
     ],
     declarations: [
         AvailableOfferingsWidgetComponent,
