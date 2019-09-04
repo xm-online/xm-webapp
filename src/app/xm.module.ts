@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,7 +33,8 @@ import { XmEntityModule } from './xm-entity/xm-entity.module';
 import { XmNotificationsModule } from './xm-notifications/xm-notifications.module';
 import { XmRoutingModule } from './xm-routing.module';
 import { XmTimelineModule } from './xm-timeline/xm-timeline.module';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 const appInitializerFn = (appConfig: XmApplicationConfigService) => {
     return () => {
@@ -41,6 +42,10 @@ const appInitializerFn = (appConfig: XmApplicationConfigService) => {
         return appConfig.loadAppConfig();
     }
 };
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http, './i18n/', '.json')
+}
 
 @NgModule({
     imports: [
@@ -62,7 +67,13 @@ const appInitializerFn = (appConfig: XmApplicationConfigService) => {
         XmNotificationsModule,
         XmConfigModule,
         MarkdownModule.forRoot(),
-        TranslateModule.forRoot()
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     declarations: [
         XmMainComponent,
