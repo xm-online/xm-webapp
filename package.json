@@ -13,7 +13,7 @@
     "start-local:aot": " npm run prebuild && node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng serve --proxy-config local.proxy.conf.js --live-reload  --host=0.0.0.0 --prod --aot=true",
     "dev": "npm run prebuild && ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0",
     "dev:aot": "npm run prebuild && ng serve --proxy-config local.proxy.conf.js --live-reload  --host=0.0.0.0 --prod --aot=true",
-    "build": "npm run prebuild && ng build",
+    "build": "npm run prebuild && ng build --stats-json",
     "build-aot": "npm run prebuild && node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot=true",
     "build-no-aot": "npm run prebuild && ng build --prod --aot=false",
     "build-prod-v1": "npm run prebuild && ng build -pr --prod",
@@ -26,7 +26,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "get-unwraped-labels": "node ./scripts/get-unwraped-labels.js",
-    "translations": "node ./scripts/translations.js"
+    "translations": "node ./scripts/translations.js",
+    "report:bundle": "webpack-bundle-analyzer dist/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -48,6 +49,7 @@
     "@ng-bootstrap/ng-bootstrap": "^5.1.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "@types/chartist": "^0.9.46",
     "ajv": "^6.5.0",
     "angular-calendar": "^0.28.0-beta.3",
     "angular2-cookie": "^1.2.6",
@@ -63,7 +65,7 @@
     "bootstrap-select": "1.12.2",
     "bootstrap-tagsinput": "^0.7.1",
     "brace": "^0.11.1",
-    "chartist": "^0.11.0",
+    "chartist": "^0.11.3",
     "chartist-plugin-zoom": "^0.4.1",
     "core-js": "2.4.1",
     "datatables": "1.10.13",
@@ -126,6 +128,7 @@
     "twitter-bootstrap-wizard": "^1.2.0",
     "validate": "3.0.1",
     "web-animations-js": "2.3.1",
+    "webpack-bundle-analyzer": "^3.4.1",
     "webstomp-client": "1.0.6",
     "yamljs": "^0.3.0",
     "zone.js": "~0.9.1"

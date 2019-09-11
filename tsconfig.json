@@ -3,10 +3,10 @@
   "compilerOptions": {
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
-    "baseUrl": "src",
+    "baseUrl": "./",
     "sourceMap": true,
-    "declaration": false,
-    "module": "esnext",
+    "declaration": true,
+    "downlevelIteration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -15,8 +15,10 @@
       "node_modules/@types"
     ],
     "lib": [
-      "es2017",
+      "es2018",
       "dom"
-    ]
+    ],
+    "inlineSources": true,
+    "module": "esnext"
   }
 }
