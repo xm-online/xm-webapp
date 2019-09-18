@@ -1,0 +1,251 @@
+<div class="logo xm-sidebar-logo">
+  <a class="simple-text logo-mini">
+    <div class="logo-img" *ngIf="tenantLogoUrl">
+      <img [src]="tenantLogoUrl"/>
+    </div>
+  </a>
+  <a [routerLink]="isAuthenticated() ? '/dashboard' : '/'" class="simple-text logo-normal">
+    {{tenantName}}
+  </a>
+</div>
+
+<div class="sidebar-wrapper" [class.bottom-spacer]="poweredByConfig" [ngSwitch]="isAuthenticated()">
+  <div *ngSwitchCase="true" class="user" [class.has-user-description]="(userDescription$ | async)">
+    <div class="photo">
+      <span *ngIf="getImageUrl()">
+        <img [src]="getImageUrl()" class="img-fluid rounded-circle" alt="Avatar">
+      </span>
+      <span *ngIf="!getImageUrl()">
+        <img src="./assets/img/anonymous.png" class="img-fluid rounded-circle" alt="Avatar">
+      </span>
+    </div>
+    <div class="user-info">
+      <a data-toggle="collapse" href="#collapseExample" class="collapsed">
+        <span class="user-name">
+            <em class="truncated pr-4">{{principal.getName()}}</em>
+            <em class="user-description text-muted truncated pr-4"
+                *ngIf="(userDescription$ | async) as userDescription"
+                [title]="userDescription | i18nName: principal">
+              {{userDescription | i18nName: principal}}
+            </em>
+            <b class="caret"></b>
+        </span>
+      </a>
+      <div class="collapse" id="collapseExample">
+        <ul class="nav">
+          <li class="nav-item" *permitted="'ACCOUNT.GET_LIST.ITEM'">
+            <a routerLink="settings" routerLinkActive="active" class="nav-link">
+              <span class="sidebar-mini" jhiTranslate="global.menu.account.mini.settings">S</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.account.settings">Settings</span>
+            </a>
+          </li>
+          <li class="nav-item" *permitted="'ACCOUNT.PASSWORD.UPDATE'">
+            <a routerLink="password" routerLinkActive="active" class="nav-link">
+              <span class="sidebar-mini" jhiTranslate="global.menu.account.mini.password">P</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.account.password">Password</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="javascript: void(0);" id="logout" (click)="logout()" class="nav-link">
+              <span class="sidebar-mini" jhiTranslate="global.menu.account.mini.profile">SO</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.account.logout">Sign out</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <ul class="nav" *permitted="'DASHBOARD.GET_LIST'">
+    <ng-container *ngFor="let group of dashboardGroups">
+      <ng-container *ngIf="group.groupIsLink; then groupLikeLink else normalItem"></ng-container>
+      <ng-template #normalItem>
+        <li class="nav-item" routerLinkActive="active">
+            <a  class="nav-link" href="#dashboards-{{group.key}}" data-toggle="collapse" [class.d-none]="!group.key">
+              <ng-container *ngIf="group?.config?.icon; then tmplIcon else tmplNoIcon"></ng-container>
+              <ng-template #tmplIcon><i class="material-icons">{{ group.config.icon }}</i></ng-template>
+              <ng-template #tmplNoIcon><i class="material-icons">dashboard</i></ng-template>
+              <p>
+                <span class="truncated pr-3" *ngIf="group.key === 'DASHBOARD'">{{'global.menu.dashboards.main' | translate}}</span>
+                <span class="truncated pr-3" *ngIf="group.key !== 'DASHBOARD'">{{group.name | i18nName:principal}}</span>
+                <b class="caret"></b>
+              </p>
+            </a>
+            <div id="dashboards-{{group?.key}}" class="collapse" [class.show]="!group.key">
+              <ul class="nav">
+                <ng-container *ngFor="let dashboard of group?.dashboards">
+                  <li class="nav-item"
+                      routerLinkActive="active"
+                      [ngClass]="{'d-none' : (dashboard.config && dashboard.config.hidden)}">
+                    <a class="nav-link"
+                       [routerLink]="['dashboard', dashboard.config?.slug ? dashboard.config?.slug : dashboard.id]">
+                      <span class="sidebar-mini" innerHtml="{{getDashboardIcon(dashboard)}}"></span>
+                      <span class="sidebar-normal">{{getDashboardName(dashboard)}}</span>
+                    </a>
+                  </li>
+                </ng-container>
+              </ul>
+            </div>
+        </li>
+      </ng-template>
+
+      <ng-template #groupLikeLink>
+        <li class="nav-item" routerLinkActive="active" *ngFor="let dashboard of group?.dashboards">
+          <a class="nav-link"
+             [routerLink]="['dashboard', dashboard.config?.slug ? dashboard.config?.slug : dashboard.id]">
+            <i class="material-icons">{{ dashboard.config.icon }}</i>
+            <p>
+              <span>{{getDashboardName(dashboard)}}</span>
+            </p>
+          </a>
+        </li>
+      </ng-template>
+    </ng-container>
+  </ul>
+
+  <ul class="nav">
+    <li class="nav-item" *ngSwitchCase="true" routerLinkActive="active">
+      <ng-container *permitted="'XMENTITY_SPEC.GET'">
+        <a class="nav-link" data-toggle="collapse" href="#applications" *ngIf="isApplicationExists">
+          <i class="material-icons">apps</i>
+          <p><span class="truncated pr-3">{{'global.menu.applications.main' | translate}}</span><b class="caret"></b></p>
+        </a>
+      </ng-container>
+      <div class="collapse" id="applications">
+        <ul class="nav" *ngIf="applications">
+          <li class="nav-item" *ngFor="let application of applications | async" routerLinkActive="active">
+            <ng-container *permitted="'APPLICATION.' + application.key">
+              <a class="nav-link" [routerLink]="['application', application.key]">
+              <span class="sidebar-mini" *ngIf="!iconsInMenu">
+                {{getApplicationName(application).charAt(0)}}
+              </span>
+                <span class="sidebar-mini" *ngIf="iconsInMenu">
+                <i class="material-icons">{{application.icon}}</i>
+              </span>
+                <span class="sidebar-normal">{{(application.pluralName ? application.pluralName : application.name) | i18nName: principal}}</span>
+              </a>
+            </ng-container>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item" *ngSwitchCase="true" routerLinkActive="active">
+      <a class="nav-link" data-toggle="collapse" href="#configuration" *permitted="'DASHBOARD.CREATE'">
+        <i class="material-icons">tune</i>
+        <p><span class="truncated pr-3">{{'admin-config.common.menu.title' | translate}}</span><b class="caret"></b></p>
+      </a>
+      <div class="collapse" id="configuration">
+        <ul class="nav">
+          <li class="nav-item" routerLinkActive="active" *permitted="'DASHBOARD.CREATE'">
+            <a class="nav-link" routerLink="/configuration/dashboard-management">
+              <span class="sidebar-mini" jhiTranslate="admin-config.common.menu.mini.dashboard-mng">D</span>
+              <span class="sidebar-normal"
+                    jhiTranslate="admin-config.common.menu.dashboard-mng">Dashboards Config</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/configuration/specification-management/ui">
+              <span class="sidebar-mini" jhiTranslate="admin-config.common.menu.mini.specification-mng">S</span>
+              <span class="sidebar-normal"
+                    jhiTranslate="admin-config.common.menu.specification-mng">Specification</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item" *ngSwitchCase="true" routerLinkActive="active">
+      <a class="nav-link" data-toggle="collapse" href="#administrations"
+         *permitted="['ROUTE.GET_LIST', 'ROLE.GET_LIST', 'ROLE.MATRIX.GET', 'USER.GET_LIST', 'CLIENT.GET_LIST']">
+        <i class="material-icons">settings</i>
+        <p><span class="truncated pr-3">{{'global.menu.admin.main' | translate}}</span><b class="caret"></b></p>
+      </a>
+      <div class="collapse" id="administrations">
+        <ul class="nav">
+          <li class="nav-item" routerLinkActive="active" *permitted="'ROUTE.GET_LIST'">
+            <a class="nav-link" routerLink="/administration/gateway">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.gateway">G</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.gateway">Gateway</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *permitted="'ROUTE.GET_LIST'">
+            <a class="nav-link" routerLink="/administration/metrics">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.metrics">M</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.metrics">Metrics</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *permitted="'ROUTE.GET_LIST'">
+            <a class="nav-link" routerLink="/administration/health">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.health">H</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.health">Health</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *permitted="'ROLE.GET_LIST'">
+            <a class="nav-link" routerLink="/administration/roles-management">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.rolesManagement">RM</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.rolesManagement">Roles Management</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *permitted="'ROLE.MATRIX.GET'">
+            <a class="nav-link" routerLink="/administration/roles-matrix">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.rolesMatrix">RM</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.rolesMatrix">Roles Matrix</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *permitted="'USER.GET_LIST'">
+            <a class="nav-link" routerLink="/administration/user-management">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.userManagement">UM</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.userManagement">User Management</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *permitted="'CLIENT.GET_LIST'">
+            <a class="nav-link" routerLink="/administration/client-management">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.clientManagement">CM</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.clientManagement">Client management</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *permitted="''">
+            <a class="nav-link" routerLink="/administration/audits">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.audits">A</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.audits">Audits</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *permitted="''">
+            <a class="nav-link" routerLink="/administration/logs">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.logs">L</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.logs">Logs</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *permitted="''">
+            <a class="nav-link" routerLink="/administration/form-playground">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.formPlayground">FP</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.formPlayground">Form playground</span>
+            </a>
+          </li>
+          <li class="nav-item"
+              routerLinkActive="active" *permitted="['ELASTICSEARCH.INDEX', 'CONFIG.ADMIN.REFRESH', 'CONFIG.CLIENT.REFRESH']">
+            <a class="nav-link" routerLink="/administration/maintenance">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.maintenance">M</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.maintenance">Maintenance</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *permitted="''">
+            <a class="nav-link" routerLink="/administration/translation">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.translation">T</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.translation">Translation</span>
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *permitted="'ROUTE.GET_LIST'">
+            <a class="nav-link" routerLink="/administration/docs">
+              <span class="sidebar-mini" jhiTranslate="global.menu.admin.mini.apidocs">A</span>
+              <span class="sidebar-normal" jhiTranslate="global.menu.admin.apidocs">API</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<xm-powered-by [config]="poweredByConfig"></xm-powered-by>

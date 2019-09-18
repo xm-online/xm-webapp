@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="col-md-12">
+    <xm-entity-list-card [options]="options" [spec]="spec" *ngIf="options && spec">
+    </xm-entity-list-card>
+  </div>
+</div>
+
+<xm-entity-list-fab [xmEntitySpec]="entityType" [spec]="spec" *ngIf="entityType && spec">
+</xm-entity-list-fab>

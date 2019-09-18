@@ -1,0 +1,116 @@
+<div class="form-group text-center" *ngIf="!checkOTP">
+  <xm-social [providerId]="provider.providerId"
+             [scope]="provider.scope"
+             [icon]="provider.icon"
+             *ngFor="let provider of socialConfig">
+  </xm-social>
+</div>
+
+<div class="alert alert-danger" *ngIf="authenticationError"
+     jhiTranslate="login.messages.error.authentication">
+  <strong>Failed to sign in!</strong> Please check your credentials and try again.
+</div>
+
+<div class="alert alert-success" *ngIf="successRegistration" jhiTranslate="register.messages.success">
+  <strong>Registration saved!</strong> Please check your email for confirmation.
+</div>
+
+<form class="form" role="form" (ngSubmit)="login()" *ngIf="!checkOTP" autocomplete="off">
+  <div class="form-group" id="userNameContainer">
+    <mat-form-field [floatLabel]="floatLabel ? 'always' : 'auto'">
+      <input matInput
+             type="text"
+             name="username"
+             [(ngModel)]="username"
+             (change)="floatLabel = false"
+             xmFocus
+             [placeholder]="loginLabel ? loginLabel : ('global.form.login' | translate)"
+             [disabled]="isFormDisabled()"
+             autocomplete="off">
+    </mat-form-field>
+  </div>
+
+  <div class="form-group" id="userPasswordContainer">
+    <mat-form-field [floatLabel]="floatLabel ? 'always' : 'auto'">
+      <input matInput
+             [type]="isShowPassword ? 'text' : 'password'"
+             name="password"
+             (change)="floatLabel = false"
+             [(ngModel)]="password"
+             placeholder="{{'login.form.password' | translate}}"
+             [disabled]="isFormDisabled()"
+             autocomplete="off">
+      <span class="form-control-addon" (click)="isShowPassword = !isShowPassword">
+        <span class="xm-tooltip direction-left" *ngIf="!isShowPassword">
+          <i class="material-icons">visibility</i>
+          <span jhiTranslate="login.form.show-password">Show password</span>
+        </span>
+        <span class="xm-tooltip direction-left" *ngIf="isShowPassword">
+          <i class="material-icons">visibility_off</i>
+          <span jhiTranslate="login.form.hide-password">Hide password</span>
+        </span>
+      </span>
+    </mat-form-field>
+  </div>
+
+  <div class="row align-items-center">
+    <div class="col-xs-12 col-md-6">
+      <div class="form-group" *ngIf="!(hideRememberMe)">
+          <mat-checkbox class="remember-me" color="primary" [(ngModel)]="rememberMe"
+                        name="rememberMe"
+                        [disabled]="isFormDisabled()">
+            <span jhiTranslate="login.form.rememberMe">Remember me</span>
+          </mat-checkbox>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6" *ngIf="!checkOTP && !hideResetPasswordLink">
+      <div class="form-group text-right">
+        <a class="forgot-link" href="javascript: void(0);" (click)="requestResetPassword()" jhiTranslate="login.password.forgot">
+          Did you forget your password?
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-right">
+    <button mat-raised-button type="submit"
+            class="btn btn-primary display-block"
+            [ngClass]="{'loading' : sendingLogin}"
+            [disabled]="isFormDisabled()">
+      <span jhiTranslate="login.form.button">Sign in</span>
+    </button>
+  </div>
+</form>
+
+<form class="form" role="form" (ngSubmit)="checkOtp()" *ngIf="checkOTP">
+  <div class="form-group">
+    <mat-form-field>
+      <input matInput
+             type="text"
+             name="otp"
+             [(ngModel)]="otpValue"
+             xmFocus
+             placeholder="{{'global.form.otp' | translate}}"
+             [disabled]="isFormDisabled()">
+    </mat-form-field>
+  </div>
+
+  <div class="text-right">
+    <button mat-raised-button
+            type="button"
+            class="btn mr-1"
+            [disabled]="isFormDisabled()"
+            (click)="backToLogin()">
+      <span jhiTranslate="login.form.otpValidateCancel">Cancel</span>
+    </button>
+    <button mat-raised-button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="isFormDisabled()">
+      <span jhiTranslate="login.form.otpValidateButton">
+        Validate OTP
+      </span>
+    </button>
+  </div>
+</form>

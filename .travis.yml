@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+ - "10.16.2"
+script:
+ - set -e
+ - npm install --save-dev
+ - npm run prebuild
+ - npm run build-aot

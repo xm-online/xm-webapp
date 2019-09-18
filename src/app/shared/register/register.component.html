@@ -1,0 +1,215 @@
+<div class="text-center">
+  <xm-social [providerId]="provider.providerId"
+             [scope]="provider.scope"
+             [icon]="provider.icon"
+             *ngFor="let provider of socialConfig">
+  </xm-social>
+</div>
+
+<!--Messages-->
+<div class="alert alert-success" *ngIf="success" jhiTranslate="register.messages.success">
+  <strong>Registration saved!</strong> Please check your email for confirmation.
+</div>
+
+<div class="alert alert-danger" *ngIf="error" jhiTranslate="register.messages.error.fail">
+  <strong>Registration failed!</strong> Please try again later.
+</div>
+
+<div class="alert alert-danger" *ngIf="errorUserExists" jhiTranslate="register.messages.error.userexists">
+  <strong>Login already registered!</strong> Please choose another one.
+</div>
+<div class="alert alert-danger" *ngIf="doNotMatch" jhiTranslate="global.messages.error.dontmatch">
+  The password and its confirmation do not match!
+</div>
+
+<div class="alert alert-danger" *ngIf="captchaRequired" jhiTranslate="global.messages.error.captchaempty">
+  Please check captcha.
+</div>
+
+<!--Body-->
+<form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm">
+  <div class="form-group">
+    <mat-form-field>
+      <input matInput
+             type="email"
+             name="email"
+             minlength=5
+             maxlength=100
+             [(ngModel)]="email"
+             #emailInput="ngModel"
+             required
+             xmFocus
+             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+             placeholder="{{'global.form.email' | translate}}">
+
+      <mat-error *ngIf="emailInput.hasError('required')">
+        <span jhiTranslate="global.messages.validate.email.required">Your email is required.</span>
+      </mat-error>
+      <mat-error *ngIf="emailInput.hasError('pattern')">
+        <span jhiTranslate="global.messages.validate.email.invalid">Your email is invalid.</span>
+      </mat-error>
+      <mat-error *ngIf="emailInput.hasError('minlength')">
+        <span jhiTranslate="global.messages.validate.email.minlength">
+          Your email is required to be at least 5 characters.
+        </span>
+      </mat-error>
+      <mat-error *ngIf="emailInput.hasError('maxlength')">
+        <span jhiTranslate="global.messages.validate.email.maxlength">
+          Your email cannot be longer than 100 characters.
+        </span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field>
+      <input matInput
+             type="text"
+             name="firstName"
+             minlength=1
+             maxlength=50
+             [(ngModel)]="registerAccount.firstName"
+             #firstNameInput="ngModel"
+             required
+             placeholder="{{'global.form.firstname' | translate}}">
+
+      <mat-error *ngIf="firstNameInput.hasError('required')">
+        <span jhiTranslate="global.messages.validate.firstname.required">
+          Your first name is required.
+        </span>
+      </mat-error>
+      <mat-error *ngIf="firstNameInput.hasError('minlength')">
+        <span jhiTranslate="global.messages.validate.firstname.minlength">
+          Your first name is required to be at least 1 character.
+        </span>
+      </mat-error>
+      <mat-error *ngIf="firstNameInput.hasError('maxlength')">
+        <span jhiTranslate="global.messages.validate.firstname.maxlength">
+          Your first name cannot be longer than 50 characters.
+        </span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field>
+      <input matInput
+             type="text"
+             name="lastName"
+             [(ngModel)]="registerAccount.lastName"
+             #lastNameInput="ngModel"
+             minlength=1
+             maxlength=50
+             required
+             placeholder="{{'global.form.lastname' | translate}}">
+
+      <mat-error *ngIf="lastNameInput.hasError('required')">
+        <span jhiTranslate="global.messages.validate.lastname.required">
+          Your last name is required.
+        </span>
+      </mat-error>
+      <mat-error *ngIf="lastNameInput.hasError('minlength')">
+        <span jhiTranslate="global.messages.validate.lastname.minlength">
+          Your last name is required to be at least 1 character.
+        </span>
+      </mat-error>
+      <mat-error *ngIf="lastNameInput.hasError('maxlength')">
+        <span jhiTranslate="global.messages.validate.lastname.maxlength">
+          Your last name cannot be longer than 50 characters.
+        </span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field>
+      <input matInput
+             type="password"
+             name="password"
+             [(ngModel)]="registerAccount.password"
+             #password="ngModel"
+             [minlength]="passwordSettings?.minLength"
+             [maxlength]="passwordSettings?.maxLength"
+             [pattern]="passwordSettings?.pattern"
+             required
+             placeholder="{{'global.form.newpassword' | translate}}">
+
+      <mat-error *ngIf="password.hasError('required')">
+        <span jhiTranslate="global.messages.validate.newpassword.required">
+          Your password is required.
+        </span>
+      </mat-error>
+      <mat-error *ngIf="password.hasError('minlength')">
+        {{'global.messages.validate.newpassword.password-min-length' | translate: passwordSettings}}
+      </mat-error>
+      <mat-error *ngIf="password.hasError('maxlength')">
+        {{'global.messages.validate.newpassword.password-min-length' | translate: passwordSettings}}
+      </mat-error>
+      <mat-error
+        *ngIf="password.hasError('pattern') && !(password.hasError('maxlength') || password.hasError('minlength'))">
+        <span *ngIf="!passwordSettings.patternMessage">{{'global.messages.validate.newpassword.password-pattern' | translate: passwordSettings}}</span>
+        <span *ngIf="passwordSettings.patternMessage && patternMessage">{{patternMessage}}</span>
+      </mat-error>
+    </mat-form-field>
+    <xm-password-strength-bar [passwordToCheck]="registerAccount.password"></xm-password-strength-bar>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field>
+      <input matInput
+             type="password"
+             name="confirmPassword"
+             [(ngModel)]="confirmPassword"
+             #confirmPasswordInput="ngModel"
+             [minlength]="passwordSettings?.minLength"
+             [maxlength]="passwordSettings?.maxLength"
+             [pattern]="passwordSettings?.pattern"
+             required
+             placeholder="{{'global.form.confirmpassword' | translate}}">
+
+      <mat-error *ngIf="confirmPasswordInput.hasError('required')">
+        <span jhiTranslate="global.messages.validate.confirmpassword.required">
+          Your confirmation password is required.
+        </span>
+      </mat-error>
+      <mat-error *ngIf="confirmPasswordInput.hasError('minlength')">
+        {{'global.messages.validate.confirmpassword.password-min-length' | translate: passwordSettings}}
+      </mat-error>
+      <mat-error *ngIf="confirmPasswordInput.hasError('maxlength')">
+        {{'global.messages.validate.confirmpassword.password-min-length' | translate: passwordSettings}}
+      </mat-error>
+      <mat-error
+        *ngIf="confirmPasswordInput.hasError('pattern') &&
+        !(confirmPasswordInput.hasError('minlength') || confirmPasswordInput.hasError('maxlength'))">
+        <span *ngIf="!passwordSettings.patternMessage">{{'global.messages.validate.confirmpassword.password-pattern' | translate: passwordSettings}}</span>
+        <span *ngIf="passwordSettings.patternMessage && patternMessage">{{patternMessage}}</span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group" *ngIf="needCaptcha">
+    <re-captcha (captchaResponse)="handleCorrectCaptcha($event)"
+                (captchaExpired)="handleCaptchaExpired($event)"
+                [language]="language"
+                site_key="{{publicKey}}"></re-captcha>
+
+    <input type="hidden" class="form-control" id="captcha" name="captcha"
+           #captcha="ngModel"
+           [(ngModel)]="registerAccount.captcha" required>
+    <div *ngIf="registerAccount.dirty && registerAccount.invalid">
+      <small class="form-text text-danger" *ngIf="registerAccount.errors.required"
+             jhiTranslate="global.messages.validate.captcha.required">
+        Captcha is required.
+      </small>
+    </div>
+  </div>
+
+  <div class="text-right">
+    <button type="submit"
+            [disabled]="registerForm.form.invalid"
+            class="btn btn-primary"
+            jhiTranslate="register.form.button">
+      Register
+    </button>
+  </div>
+</form>
