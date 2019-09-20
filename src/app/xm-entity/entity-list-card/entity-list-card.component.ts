@@ -1,11 +1,24 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {
+    Component,
+    Inject,
+    InjectionToken,
+    Injector,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
+    SimpleChanges,
+    ViewChild,
+    ViewContainerRef
+} from '@angular/core';
+import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { JhiEventManager } from 'ng-jhipster';
 import { Observable ,  Subscription, of } from 'rxjs';
-import {finalize, map, tap, catchError} from 'rxjs/operators';
+import { finalize, map, tap, catchError } from 'rxjs/operators';
 
 import { ContextService, I18nNamePipe, ITEMS_PER_PAGE, Principal } from '../../shared';
 import { saveFile } from '../../shared/helpers/file-download-helper';
@@ -15,11 +28,15 @@ import { FunctionCallDialogComponent } from '../function-call-dialog/function-ca
 import { Spec } from '../shared/spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
-import {EntityListCardOptions, EntityOptions, FieldOptions} from './entity-list-card-options.model';
+import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
 import { XmEntitySpecWrapperService } from '../shared/xm-entity-spec-wrapper.service';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import * as _ from 'lodash'
-import {getFieldValue} from '../../shared/helpers/entity-list-helper';
+import { getFieldValue } from '../../shared/helpers/entity-list-helper';
+import { EntityCompactCardComponent } from './entity-compact-card/entity-compact-card.component';
+import { CdkOverlayOrigin, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { over } from 'webstomp-client';
+import { CONTAINER_DATA } from '../shared/tokens';
 
 declare let swal: any;
 
@@ -36,6 +53,9 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     @Input() spec: Spec;
     @Input() options: EntityListCardOptions;
 
+    overlayRef: OverlayRef;
+    @ViewChild(CdkOverlayOrigin, {static: false}) _overlayOrigin: CdkOverlayOrigin;
+
     isShowFilterArea = false;
     list: EntityOptions[];
     activeItemId = 0;
@@ -44,6 +64,10 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     reverse: boolean;
     showLoader: boolean;
     firstPage = 1;
+    cardPosition = {
+        x: '',
+        y: ''
+    };
 
     constructor(private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private xmEntityService: XmEntityService,
@@ -53,11 +77,15 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 private i18nNamePipe: I18nNamePipe,
                 private router: Router,
                 private contextService: ContextService,
-                public principal: Principal) {
+                public principal: Principal,
+                public overlay: Overlay,
+                public viewContainerRef: ViewContainerRef,
+                private injector: Injector) {
         this.entitiesPerPage = ITEMS_PER_PAGE;
     }
 
     ngOnInit() {
+        console.log(this);
         this.entityListActionSuccessSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS,
             () => this.load());
         this.entityEntityListModificationSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
@@ -100,7 +128,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             }
 
             if (!this.list[this.activeItemId]) {
-               this.setActiveTab(0);
+                this.setActiveTab(0);
             } else {
                 const activeItem = this.list[this.activeItemId];
                 if (activeItem.query) {
@@ -212,8 +240,8 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         return this.getSpec(entityOptions, xmEntity).pipe(
-             map(xmSpec => this.processXmSpec(xmSpec, xmEntity)),
-             catchError(() => [])
+            map(xmSpec => this.processXmSpec(xmSpec, xmEntity)),
+            catchError(() => [])
         );
 
     }
@@ -332,6 +360,41 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 );
             }
         });
+    }
+
+    createInjector(data: any, overlayRef): PortalInjector {
+        const injectorTokens = new WeakMap();
+        injectorTokens.set(OverlayRef, overlayRef);
+        injectorTokens.set(CONTAINER_DATA, data);
+        return new PortalInjector(this.injector, injectorTokens);
+    }
+
+    onSelectRow(click, entity: XmEntity) {
+        if (this.options.broadcastEventName) {
+            const event = this.options.broadcastEventName || '';
+            this.eventManager.broadcast({name: event, data: entity});
+            console.log(click, entity);
+
+            const strategy = this.overlay.position()
+                .flexibleConnectedTo(this._overlayOrigin.elementRef)
+                .withPositions([{ originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetX: click.layerX, offsetY: click.layerY}])
+                .withLockedPosition(true)
+                .withViewportMargin(50)
+
+            const config = new OverlayConfig({
+                positionStrategy: strategy,
+                hasBackdrop: true,
+                backdropClass: 'transparent'
+            });
+            this.overlayRef = this.overlay.create(config);
+            this.overlayRef.attach(
+                new ComponentPortal(
+                    EntityCompactCardComponent,
+                    this.viewContainerRef,
+                    this.createInjector({ entity: entity, config: this.options.entityCardOptions}, this.overlayRef))
+            );
+            this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach());
+        }
     }
 
     private alert(type, key) {

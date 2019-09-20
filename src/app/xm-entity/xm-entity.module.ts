@@ -69,6 +69,8 @@ import {
 import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
 import { AttachmentListSimplifiedComponent } from './attachment-list/attachment-list-simplified.component';
 import { AttachmentListBaseComponent } from './attachment-list/attachment-list-base.component';
+import { EntityCompactCardComponent } from './entity-list-card/entity-compact-card/entity-compact-card.component';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
     imports: [
@@ -76,6 +78,7 @@ import { AttachmentListBaseComponent } from './attachment-list/attachment-list-b
         XmSharedModule,
         RouterModule,
         MaterialDesignFrameworkModule,
+        OverlayModule,
         {
             ngModule: JsonSchemaFormModule,
             providers: [
@@ -127,7 +130,8 @@ import { AttachmentListBaseComponent } from './attachment-list/attachment-list-b
         LocationCardNamePipe,
         StatesManagementDialogComponent,
         AttachmentListSimplifiedComponent,
-        AttachmentListBaseComponent
+        AttachmentListBaseComponent,
+        EntityCompactCardComponent
     ],
     entryComponents: [
         StatesManagementDialogComponent,
@@ -140,7 +144,8 @@ import { AttachmentListBaseComponent } from './attachment-list/attachment-list-b
         StateChangeDialogComponent,
         LinkDetailDialogComponent,
         LocationDetailDialogComponent,
-        OsmPolygonDialogComponent
+        OsmPolygonDialogComponent,
+        EntityCompactCardComponent
     ],
     exports: [
         AreaComponent,

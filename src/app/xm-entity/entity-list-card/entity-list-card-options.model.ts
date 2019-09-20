@@ -1,6 +1,7 @@
 import { FastSearchSpec } from '../shared/fast-search-spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
+import { EntityCompactCardOptions } from './entity-compact-card/enity-compact-card-options.model';
 
 export class EntityListCardOptions {
     constructor(public entities?: EntityOptions[],
@@ -8,7 +9,10 @@ export class EntityListCardOptions {
                 public smOverflow?: boolean,
                 public hideExport?: boolean,
                 public hideOptionsMenu?: boolean,
-                public noDeepLink?: boolean) {
+                public noDeepLink?: boolean,
+                public selectable?: boolean,
+                public broadcastEventName?: string,
+                public entityCardOptions?: EntityCompactCardOptions) {
     }
 }
 
