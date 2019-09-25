@@ -49,16 +49,16 @@ export class RatingListSectionComponent implements OnInit, OnChanges {
             }
             return
         }
-        this.xmEntityService.find(this.xmEntityId, {'embed': 'ratings'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {
-            this.xmEntity = xmEntity.body;
-            if (xmEntity.body.ratings) {
-                this.ratings = [...xmEntity.body.ratings];
+        this.xmEntityService.find(this.xmEntityId, {'embed': 'ratings'}).subscribe((xmEntity: XmEntity) => {
+            this.xmEntity = xmEntity;
+            if (xmEntity.ratings) {
+                this.ratings = [...xmEntity.ratings];
             }
 
             for (const rating of this.ratings) {
                 this.voteService.search({query: `rating.id:${rating.id}`}).subscribe(
-                    (response: HttpResponse<Vote[]>) => {
-                        this.votesNumber[rating.typeKey] = parseInt(response.headers.get('X-Total-Count'), 10);
+                    (response) => {
+                        this.votesNumber[rating.typeKey] = response.xTotalCount;
                     },
                     // TODO: error processing
                     (err) => console.log(err)
@@ -91,15 +91,15 @@ export class RatingListSectionComponent implements OnInit, OnChanges {
     }
 
     private addRating(rating: Rating, vote: Vote) {
-        this.ratingService.create(rating).subscribe((response: HttpResponse<Rating>) => {
-            vote.rating = response.body;
+        this.ratingService.create(rating).subscribe((response: Rating) => {
+            vote.rating = response;
             this.addVote(vote);
         }, () => this.alert('success', 'xm-entity.rating-list-section.vote-error'));
     }
 
     private updateRating(rating: Rating, vote: Vote) {
-        this.ratingService.update(rating).subscribe((response: HttpResponse<Rating>) => {
-            vote.rating = response.body;
+        this.ratingService.update(rating).subscribe((response: Rating) => {
+            vote.rating = response;
             this.addVote(vote);
         }, () => this.alert('success', 'xm-entity.rating-list-section.vote-error'));
     }

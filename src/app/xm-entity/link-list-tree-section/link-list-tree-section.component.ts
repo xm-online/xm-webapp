@@ -45,8 +45,8 @@ export class LinkListTreeSectionComponent implements OnInit {
 
     toggle(link) {
         if (!link.target.targets) {
-            this.xmEntityService.find(link.target.id, {'embed': 'targets'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {
-                link.target = xmEntity.body;
+            this.xmEntityService.find(link.target.id, {'embed': 'targets'}).subscribe((xmEntity: XmEntity) => {
+                link.target = xmEntity;
                 link.target.targets = link.target.targets ? link.target.targets : [];
             });
         }

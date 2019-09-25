@@ -53,7 +53,7 @@ export class CalendarEventDialogComponent implements OnInit {
             this.event.calendar = this.calendar;
             this.eventService.create(this.event).pipe(finalize(() => this.showLoader = false))
                 .subscribe(
-                (eventResp: HttpResponse<Event>) => this.onSaveSuccess(this.calendar.id, eventResp.body),
+                (eventResp: Event) => this.onSaveSuccess(this.calendar.id, eventResp),
                 (err) => console.log(err),
                 () => this.showLoader = false);
         } else {
@@ -63,7 +63,7 @@ export class CalendarEventDialogComponent implements OnInit {
             this.calendar.events = [copy];
             this.calendarService.create(this.calendar).pipe(finalize(() => this.showLoader = false))
                 .subscribe(
-                (calendarResp: HttpResponse<Calendar>) => this.onSaveSuccess(calendarResp.body.id, calendarResp.body.events.shift()),
+                (calendarResp: Calendar) => this.onSaveSuccess(calendarResp.id, calendarResp.events.shift()),
                 (err) => console.log(err),
                 () => this.showLoader = false);
         }

@@ -95,9 +95,9 @@ export class AttachmentListBaseComponent implements OnInit, OnChanges, OnDestroy
             return;
         }
 
-        this.xmEntityService.find(this.xmEntityId, {'embed': 'attachments'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {
-            if (xmEntity.body.attachments) {
-                this.attachments = [...xmEntity.body.attachments];
+        this.xmEntityService.find(this.xmEntityId, {'embed': 'attachments'}).subscribe((xmEntity: XmEntity) => {
+            if (xmEntity.attachments) {
+                this.attachments = [...xmEntity.attachments];
             }
         });
     }

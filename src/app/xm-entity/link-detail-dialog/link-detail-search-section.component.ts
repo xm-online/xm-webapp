@@ -72,9 +72,9 @@ export class LinkDetailSearchSectionComponent implements OnInit {
                 + (this.searchQuery ? ` AND ${this.searchQuery}` : ''),
             size: 5,
             page: this.page
-        }).subscribe((xmEntities: HttpResponse<XmEntity[]>) => {
-                this.total = parseInt(xmEntities.headers.get('X-Total-Count'), 10);
-                this.searchXmEntities.push(...xmEntities.body);
+        }).subscribe((res) => {
+                this.total = res.xTotalCount;
+                this.searchXmEntities.push(...res);
             },
             (err) => console.log(err), // tslint:disable-line
             () => this.showLoader = false);

@@ -137,18 +137,17 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             size: this.entitiesPerPage,
             sort: [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
         };
-        let method = 'query';
+        let method: 'query' | 'search' = 'query';
         if (entityOptions.currentQuery) {
             options.query = entityOptions.currentQuery;
             method = 'search';
         }
 
         return this.xmEntityService[method](options).pipe(
-            tap((xmEntities: HttpResponse<XmEntity[]>) => {
-                entityOptions.totalItems = xmEntities.headers.get('X-Total-Count');
-                entityOptions.queryCount = entityOptions.totalItems;
+            tap((xmEntities) => {
+                entityOptions.queryCount = entityOptions.totalItems  = xmEntities.xTotalCount;
             }),
-            map((xmEntities: HttpResponse<XmEntity[]>) => xmEntities.body),
+            map((xmEntities: XmEntity[]) => xmEntities),
             map((xmEntities: XmEntity[]) => {
                 return xmEntities.map(e => this.enrichEntity(e));
             }),

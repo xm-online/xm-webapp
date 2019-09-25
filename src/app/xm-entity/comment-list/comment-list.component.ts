@@ -48,10 +48,10 @@ export class CommentListComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     private load() {
-        this.xmEntityService.find(this.xmEntityId, {'embed': 'comments'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {
-            this.xmEntity = xmEntity.body;
-            if (xmEntity.body.comments) {
-                this.comments = [...xmEntity.body.comments];
+        this.xmEntityService.find(this.xmEntityId, {'embed': 'comments'}).subscribe((xmEntity: XmEntity) => {
+            this.xmEntity = xmEntity;
+            if (xmEntity.comments) {
+                this.comments = [...xmEntity.comments];
             }
         });
     }

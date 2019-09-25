@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JhiEventManager } from 'ng-jhipster';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { Principal } from '../../shared/auth/principal.service';
 import { I18nNamePipe } from '../../shared/language/i18n-name.pipe';
@@ -47,20 +47,20 @@ export class NotificationsService {
             }));
     }
 
-    public markRead(id: number, config: NotificationUiConfig): Observable<any> {
+    public markRead(id: number, config: NotificationUiConfig): Observable<boolean> {
         const targetState = config.changeStateName;
         const targetFunction = config.changeStateFunction;
 
-        const action$ = targetFunction ?
+        const action$ = (targetFunction ?
             this.functionService.callWithEntityId(id, targetFunction) :
-            this.entityService.changeState(id, targetState);
+            this.entityService.changeState(id, targetState)) as Observable<any>;
 
         return action$.pipe(
-            map((response: HttpResponse<any>) => {
+            tap(() => {
                 this.eventManager.broadcast({name: 'notificationListUpdated'});
                 this.totalCount--;
-                return true;
-            }));
+            }),
+            map((a: any) => true));
     }
 
     byString(o, s) {

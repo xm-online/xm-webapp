@@ -49,8 +49,8 @@ export class AvailableOfferingsWidgetComponent implements OnInit, OnDestroy {
     load() {
         if (this.config.query) {
             this.xmEntityService.search({query: this.config.query}).subscribe(
-                (resp: HttpResponse<XmEntity[]>) => {
-                    this.offerings = resp.body;
+                (resp: XmEntity[]) => {
+                    this.offerings = resp;
                     this.rows = Array.from(Array(Math.ceil(this.offerings.length / this.rowSize)).keys());
                 },
                 () => {

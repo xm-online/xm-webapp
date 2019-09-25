@@ -45,12 +45,12 @@ export class LocationMapWidgetComponent implements OnInit {
             query: this.currentGroup.query,
             size: this.currentGroup.size ? this.currentGroup.size : 20
         }).subscribe(
-            (res: HttpResponse<XmEntity[]>) => {
+            (res: XmEntity[]) => {
                 this.gMapApiReady$
                     .pipe(
                         filter(status => status === true)
                     )
-                    .subscribe(() => this.onShowMap(res.body))
+                    .subscribe(() => this.onShowMap(res))
             },
             (res: Response) =>
                 console.log('Error')

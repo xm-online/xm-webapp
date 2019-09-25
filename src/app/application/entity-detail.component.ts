@@ -66,8 +66,8 @@ export class EntityDetailComponent implements OnInit, OnDestroy {
         $.xmEntity = null;
         this.xmEntity = null;
         this.xmEntityService.find(id, {'embed': 'data'}).subscribe((xmEntity) => {
-                    this.xmEntity = xmEntity.body;
-                    $.xmEntity = xmEntity.body;
+                    this.xmEntity = xmEntity;
+                    $.xmEntity = xmEntity;
                     this.routeData.pageSubSubTitle = this.xmEntity.name;
                     this.jhiLanguageHelper.updateTitle();
                 },

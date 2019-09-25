@@ -30,8 +30,8 @@ export class ChartistLineWidgetComponent implements OnInit {
             page: 0,
             size: this.config.size,
             sort: [this.firstSeries.sort]
-        }).subscribe((resp: HttpResponse<XmEntity[]>) => {
-            const entities: any[] = resp.body;
+        }).subscribe((resp: XmEntity[]) => {
+            const entities: any[] = resp;
             const series = [[]];
             const labels = [];
             for (const entity of entities) {

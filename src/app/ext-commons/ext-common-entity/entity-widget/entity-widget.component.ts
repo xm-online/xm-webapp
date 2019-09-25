@@ -61,7 +61,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
 
         this.xmEntity$ = this.xmEntityService.find(xmEntityId, {'embed': 'data'})
             .pipe(
-                map(responce => responce.body),
+                map(responce => responce),
                 tap((entity) => this.xmEntity = entity),
                 tap((entity) => this.xmEntitySpec = this.getXmEntitySpec(entity.typeKey)),
                 tap(() => DEBUG_INFO_ENABLED ? console.log(`DBG spec = %o`, this.xmEntitySpec) : () => {} ),

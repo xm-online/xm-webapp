@@ -77,7 +77,7 @@ export class CustomerInfoWidgetComponent implements OnInit, OnDestroy {
             this.showCurrencies = this.config.showCurrencies;
         }
 
-        this.profile = this.xmEntityService.getProfile().pipe(map(responce => responce.body));
+        this.profile = this.xmEntityService.getProfile().pipe(map(responce => responce));
         this.createForm();
         this.resetForm();
         this.attachmentsSubscription = this.eventManager.subscribe(ATTACHMENT_EVENT, event => {
@@ -85,7 +85,7 @@ export class CustomerInfoWidgetComponent implements OnInit, OnDestroy {
             if (event.profileId || this.profileId) {
                 this.attachments = this.xmEntityService.find(event.profileId ? event.profileId : this.profileId, ['attachments'])
                     .pipe(
-                        map(entity => entity.body.attachments),
+                        map(entity => entity.attachments),
                         finalize(() => this.showAttachmentLoader = false),
                         catchError(() => {
                             this.showAttachmentLoader = false;
@@ -126,7 +126,7 @@ export class CustomerInfoWidgetComponent implements OnInit, OnDestroy {
             this.showAttachmentLoader = true;
             this.attachments = this.xmEntityService.find(profile.id, {'embed': 'attachments'})
                 .pipe(
-                    map(entity => entity.body.attachments),
+                    map(entity => entity.attachments),
                     finalize(() => this.showAttachmentLoader = false),
                     catchError(() => {
                         this.showAttachmentLoader = false;
@@ -188,8 +188,8 @@ export class CustomerInfoWidgetComponent implements OnInit, OnDestroy {
                 profile.stateKey = 'ON-REVIEW';
                 this.xmEntityService.update(profile).subscribe(p => {
                     this.alertService.info('tsg.notification.varificationDataSendSuccess');
-                    this.updateState(p.body);
-                    this.runProfileInterval(p.body.stateKey);
+                    this.updateState(p);
+                    this.runProfileInterval(p.stateKey);
                 });
             });
         } else {

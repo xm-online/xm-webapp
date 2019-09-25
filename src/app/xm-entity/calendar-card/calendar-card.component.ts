@@ -60,10 +60,10 @@ export class CalendarCardComponent implements OnInit, OnChanges {
             return
         }
 
-        this.xmEntityService.find(this.xmEntityId, {'embed': 'calendars.events'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {
-            this.xmEntity = xmEntity.body;
-            if (xmEntity.body.calendars) {
-                this.calendars = [...xmEntity.body.calendars];
+        this.xmEntityService.find(this.xmEntityId, {'embed': 'calendars.events'}).subscribe((xmEntity: XmEntity) => {
+            this.xmEntity = xmEntity;
+            if (xmEntity.calendars) {
+                this.calendars = [...xmEntity.calendars];
             }
 
             const notIncludedSpecs = this.calendarSpecs.filter((cs) => this.calendars.filter((c) => c.typeKey === cs.key).length === 0);

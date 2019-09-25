@@ -86,10 +86,10 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
     private load() {
         this.locations = [];
         this.locationMaps = {};
-        this.xmEntityService.find(this.xmEntityId, {'embed': 'locations'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {
-            this.xmEntity = xmEntity.body;
-            if (xmEntity.body.locations) {
-                this.locations = [...xmEntity.body.locations];
+        this.xmEntityService.find(this.xmEntityId, {'embed': 'locations'}).subscribe((xmEntity: XmEntity) => {
+            this.xmEntity = xmEntity;
+            if (xmEntity.locations) {
+                this.locations = [...xmEntity.locations];
             }
         });
     }

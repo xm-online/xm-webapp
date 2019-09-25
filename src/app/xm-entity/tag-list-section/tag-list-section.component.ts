@@ -55,10 +55,10 @@ export class TagListSectionComponent implements OnInit, OnChanges, OnDestroy {
             }
             return
         }
-        this.xmEntityService.find(this.xmEntityId, { 'embed': 'tags' }).subscribe((xmEntity: HttpResponse<XmEntity>) => {
-            this.xmEntity = xmEntity.body;
-            if (xmEntity.body.tags) {
-                this.tags = [...xmEntity.body.tags];
+        this.xmEntityService.find(this.xmEntityId, { 'embed': 'tags' }).subscribe((xmEntity: XmEntity) => {
+            this.xmEntity = xmEntity;
+            if (xmEntity.tags) {
+                this.tags = [...xmEntity.tags];
             }
         });
     }

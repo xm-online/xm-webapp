@@ -56,8 +56,8 @@ export class AvatarDialogComponent implements OnInit {
             // window.navigator.msSaveBlob(file, 'avatar-' + this.xmEntity.id);
         }
         this.xmEntityService.createAvatar(file).subscribe((avatarUrl) => {
-            this.xmEntityService.find(this.xmEntity.id, {'embed': 'data'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {
-                const xmEntityCopy = xmEntity.body;
+            this.xmEntityService.find(this.xmEntity.id, {'embed': 'data'}).subscribe((xmEntity: XmEntity) => {
+                const xmEntityCopy = xmEntity;
                 xmEntityCopy.avatarUrl = avatarUrl;
                 this.xmEntityService.update(xmEntityCopy).subscribe(() => {
                     this.eventManager.broadcast({

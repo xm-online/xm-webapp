@@ -77,7 +77,7 @@ export class StatsWidgetComponent implements OnInit {
             page: 0,
             size: 1
         }).pipe(
-            map((resp: HttpResponse<XmEntity[]>) => resp.headers.get('X-Total-Count')),
+            map(res => res.xTotalCount),
             catchError(e => of(iFunction.errorValue ? iFunction.errorValue : '?'))
         )
     }

@@ -52,10 +52,10 @@ export class LinkListComponent implements OnInit, OnDestroy, OnChanges {
     private load() {
         this.links = [];
 
-        this.xmEntityService.find(this.xmEntityId, {'embed': 'targets'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {
-            this.xmEntity = xmEntity.body;
-            if (xmEntity.body.targets) {
-                this.links.push(...xmEntity.body.targets);
+        this.xmEntityService.find(this.xmEntityId, {'embed': 'targets'}).subscribe((xmEntity: XmEntity) => {
+            this.xmEntity = xmEntity;
+            if (xmEntity.targets) {
+                this.links.push(...xmEntity.targets);
             }
         });
 
@@ -76,7 +76,7 @@ export class LinkListComponent implements OnInit, OnDestroy, OnChanges {
 
         return this.xmEntityService.findLinkSourcesInverted('' + this.xmEntityId, keys, {sort: ['id,desc']})
             .pipe(
-                map(response => response.body),
+                map(response => response),
                 map(items => items.map(item => this.inverseLink(item))),
                 catchError(err => of([]))
             )

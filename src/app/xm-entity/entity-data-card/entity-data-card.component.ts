@@ -53,8 +53,8 @@ export class EntityDataCardComponent implements OnInit, OnChanges {
         this.xmEntityService.update(this.xmEntity).pipe(finalize(() => this.showLoader = false))
             .subscribe(
             (res) => {
-                this.eventManager.broadcast({name: 'xmEntityDetailModification', content: {entity: res.body}});
-                this.xmEntity = Object.assign(this.xmEntity, res.body);
+                this.eventManager.broadcast({name: 'xmEntityDetailModification', content: {entity: res}});
+                this.xmEntity = Object.assign(this.xmEntity, res);
                 this.alert('success', 'xm-entity.entity-data-card.update-success');
             },
             (err) => {

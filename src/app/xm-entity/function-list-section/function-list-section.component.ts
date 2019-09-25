@@ -100,12 +100,12 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
     }
 
     private getContext() {
-        this.xmEntityService.find(this.xmEntityId, {'embed': 'functionContexts'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {
+        this.xmEntityService.find(this.xmEntityId, {'embed': 'functionContexts'}).subscribe((xmEntity: XmEntity) => {
             this.functionSpecs = this.functionSpecs.filter(
-                f => !f.allowedStateKeys || f.allowedStateKeys.includes(xmEntity.body.stateKey));
-            this.xmEntity = xmEntity.body;
-            if (xmEntity.body.functionContexts) {
-                this.functionContexts = [...xmEntity.body.functionContexts];
+                f => !f.allowedStateKeys || f.allowedStateKeys.includes(xmEntity.stateKey));
+            this.xmEntity = xmEntity;
+            if (xmEntity.functionContexts) {
+                this.functionContexts = [...xmEntity.functionContexts];
             }
         });
     }

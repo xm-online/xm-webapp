@@ -42,7 +42,7 @@ export class TasksWidgetComponent implements OnInit, OnDestroy {
             page: 0,
             size: 1000
         }).subscribe(
-            (res: HttpResponse<XmEntity[]>) => this.prepareData(res.body),
+            (res: XmEntity[]) => this.prepareData(res),
             (err) => console.log(err)
         );
     }
