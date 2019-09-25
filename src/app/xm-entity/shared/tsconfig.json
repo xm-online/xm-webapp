@@ -1,0 +1,19 @@
+// Configuration for IDEs only.
+{
+    "extends": "../../../tsconfig.app",
+    "compilerOptions": {
+        "rootDir": "..",
+        "baseUrl": ".",
+        "paths": {
+            "@xm-webapp/entity": [
+                "../shared"
+            ],
+            "@xm-webapp/entity/*": [
+                "../shared/*"
+            ]
+        }
+    },
+    "include": [
+        "./**/*.ts"
+    ]
+}

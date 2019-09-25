@@ -18,6 +18,10 @@
       "es2018",
       "dom"
     ],
+    "paths": {
+      "xm-webapp/entity": ["src/app/xm-entity/shared"],
+      "xm-webapp/entity/*": ["src/app/xm-entity/shared/*"]
+    },
     "inlineSources": true,
     "module": "esnext",
     "stripInternal": false,
