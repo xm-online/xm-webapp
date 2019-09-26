@@ -13,17 +13,17 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
                 ...LAYOUT_ROUTES,
                 {
                     path: 'administration',
-                    loadChildren: './admin/admin.module#XmAdminModule'
+                    loadChildren: () => import('./admin/admin.module').then((m) => m.XmAdminModule),
                 },
                 {
                     path: 'configuration',
-                    loadChildren: './admin-config/admin-config.module#XmAdminConfigModule'
-                }
+                    loadChildren: () => import('./admin-config/admin-config.module').then((m) => m.XmAdminConfigModule),
+                },
             ],
-            {useHash: false, enableTracing: DEBUG_INFO_ENABLED}
-        )
+            {useHash: false, enableTracing: DEBUG_INFO_ENABLED},
+        ),
     ],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
 export class XmRoutingModule {
 }
