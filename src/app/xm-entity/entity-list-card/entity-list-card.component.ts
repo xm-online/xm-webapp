@@ -370,30 +370,33 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     onSelectRow(click, entity: XmEntity) {
-        if (this.options.broadcastEventName) {
-            const event = this.options.broadcastEventName || '';
-            this.eventManager.broadcast({name: event, data: entity});
-            console.log(click, entity);
+        if (this.options.selectable) {
+            if (this.options.broadcastEventName) {
+                const event = this.options.broadcastEventName || '';
+                this.eventManager.broadcast({name: event, data: entity});
 
-            const strategy = this.overlay.position()
-                .flexibleConnectedTo(this._overlayOrigin.elementRef)
-                .withPositions([{ originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetX: click.layerX, offsetY: click.layerY}])
-                .withLockedPosition(true)
-                .withViewportMargin(50)
+                const strategy = this.overlay.position()
+                    .flexibleConnectedTo(this._overlayOrigin.elementRef)
+                    .withPositions([{originX: 'center', originY: 'center', overlayX: 'center', overlayY: 'center'}])
+                    .withLockedPosition(true)
+                    .withViewportMargin(50);
 
-            const config = new OverlayConfig({
-                positionStrategy: strategy,
-                hasBackdrop: true,
-                backdropClass: 'transparent'
-            });
-            this.overlayRef = this.overlay.create(config);
-            this.overlayRef.attach(
-                new ComponentPortal(
-                    EntityCompactCardComponent,
-                    this.viewContainerRef,
-                    this.createInjector({ entity: entity, config: this.options.entityCardOptions}, this.overlayRef))
-            );
-            this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach());
+                const config = new OverlayConfig({
+                    positionStrategy: strategy,
+                    hasBackdrop: true,
+                    backdropClass: 'transparent'
+                });
+                this.overlayRef = this.overlay.create(config);
+                this.overlayRef.attach(
+                    new ComponentPortal(
+                        EntityCompactCardComponent,
+                        this.viewContainerRef,
+                        this.createInjector({entity: entity, config: this.options.entityCardOptions}, this.overlayRef))
+                );
+                this.overlayRef.backdropClick().subscribe(() => {
+                    this.overlayRef.detach();
+                });
+            }
         }
     }
 

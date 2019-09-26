@@ -318,6 +318,25 @@
     z-index: 4;
 }
 
+.selectable-row {
+    &:hover {
+        background-color: #d2d2d2;
+    }
+}
+
+.row-active {
+    background-color: #7f7f7f69!important;
+}
+
+
+::ng-deep {
+    .left {
+        left: 0 !important;
+        right: 0;
+        width: 92%;
+    }
+}
+
 @media (max-width: 767px) {
     .table-responsive.sm-overflow .xm-table-options {
         width: auto !important;

@@ -7,7 +7,9 @@
             "are-you-sure": "Are you sure?",
             "yes-exit": "Yes, exit!",
             "maintenance-message": "Technical work in progress...<br>Please, try again later.",
-            "maintenance-description": "It usually takes a few minutes, otherwise contact your system administrator."
+            "maintenance-description": "It usually takes a few minutes, otherwise contact your system administrator.",
+            "yes": "Yes",
+            "no": "No"
         },
         "shared": {
             "privacy-and-terms-dialog": {

@@ -1,14 +1,24 @@
 <div class="card">
-  <div class="card-title">
-
+  <div class="card-header">
+    <div class="card-title">
+      <div class="status">
+        <div class="status-indicator" [style.background]="entity?.state?.color"></div>
+        <div class="status-name"><strong>{{entity?.state?.name | i18nName: principal}}</strong></div>
+        <div class="close-card" (click)="close()"><i class="material-icons">close</i></div>
+      </div>
+      <div class="name-container">
+        <div class="blank"></div>
+        <div class="name">{{entity?.name}}</div>
+      </div>
+    </div>
   </div>
-  <div class="avatar-container">
-    <img src="{{entity.avatarUrl}}" alt="avatar">
+  <div class="avatar-container card-icon" [ngStyle]="{ 'background-image': entity?.avatarUrl ? 'url(' + entity?.avatarUrl + ')' : 'url(./assets/img/placeholder.png)'}">
+<!--    <i class="material-icons" *ngIf="!entity?.avatarUrl">{{xmEntitySpec?.icon ? xmEntitySpec?.icon : 'search'}}</i>-->
   </div>
-  <div class="card-body" *ngIf="fields">
+  <div class="card-body" *ngIf="fields" #cardBody>
     <table>
     <tr *ngFor="let field of fields">
-      <td>{{field.title | i18nName: principal}}:</td> <td>{{getFieldValue(entity, field)}}</td>
+      <td class="card-label">{{field.title | i18nName: principal}}:</td> <td>{{getFieldValue(entity, field)}}</td>
     </tr>
     </table>
   </div>

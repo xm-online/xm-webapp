@@ -127,8 +127,8 @@
               </tr>
               </thead>
 
-              <tbody>
-              <tr *ngFor="let xmEntity of item.entities" cdkOverlayOrigin (click)="onSelectRow($event, xmEntity)">
+              <tbody cdkOverlayOrigin>
+              <tr [class.selectable-row]="this.options.selectable" *ngFor="let xmEntity of item.entities" (click)="onSelectRow($event, xmEntity)">
                 <td>
                   <div class="xm-avatar-img-container">
                     <img src="{{xmEntity.avatarUrl ? xmEntity.avatarUrl : './assets/img/placeholder.png'}}">
