@@ -12,6 +12,7 @@ export class EntityListCardOptions {
                 public noDeepLink?: boolean,
                 public selectable?: boolean,
                 public broadcastEventName?: string,
+                public isStriped?: boolean,
                 public entityCardOptions?: EntityCompactCardOptions) {
     }
 }

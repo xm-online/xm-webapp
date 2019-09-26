@@ -57,6 +57,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     @ViewChild(CdkOverlayOrigin, {static: false}) _overlayOrigin: CdkOverlayOrigin;
 
     isShowFilterArea = false;
+    isStriped: boolean;
     list: EntityOptions[];
     activeItemId = 0;
     entitiesPerPage: any;
@@ -90,6 +91,8 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             () => this.load());
         this.entityEntityListModificationSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
             () => this.load());
+
+        this.isStriped = this.options.isStriped ? this.options.isStriped : true;
     }
 
     ngOnChanges(changes: SimpleChanges) {
