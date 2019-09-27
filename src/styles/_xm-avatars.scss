@@ -1,0 +1,29 @@
+/**
+ XM avatars
+ */
+
+$avatar-size: 34px !default;
+
+.xm-avatar-img-container {
+    position: relative;
+    display:  inline-block;
+}
+
+.xm-avatar-img-container i {
+    display:    block;
+    text-align: center;
+    color:      $gray;
+    top:        50%;
+    position:   absolute;
+    left:       0;
+    right:      0;
+    transform:  translateY(-50%);
+}
+
+.xm-avatar-img-container img {
+    width:         $avatar-size;
+    height:        $avatar-size;
+    overflow:      hidden;
+    border-radius: 50%;
+    @include box-shadow-color(4)
+}

@@ -1,0 +1,122 @@
+$sidebar-open-width:      260px !default;
+$sidebar-logo-size:       42px !default;
+$sidebar-avatar-size:     64px !default;
+
+$sidebar-collapsed-width: 80px !default;
+
+.animation-transition-general {
+    @include transitions(350ms, linear);
+}
+
+.wrapper {
+    position: relative;
+    top:      0;
+    height:   100vh;
+}
+
+.sidebar {
+    position:   fixed;
+    top:        0;
+    bottom:     0;
+    left:       0;
+    z-index:    $zindex-fixed;
+    width:      $sidebar-open-width;
+    background: $white;
+    @include box-shadow-color(8);
+
+    .logo-img {
+        width:      $sidebar-logo-size;
+        max-height: $sidebar-logo-size;
+        display:    inline-block;
+
+        img {
+            max-width:  $sidebar-logo-size;
+            max-height: $sidebar-logo-size;
+        }
+    }
+
+    .user {
+        position: relative;
+
+        .photo {
+            width:         $sidebar-avatar-size;
+            height:        $sidebar-avatar-size;
+            margin:        0 auto;
+            overflow:      hidden;
+            border-radius: 50%;
+            @include box-shadow-color(4);
+            @extend .animation-transition-general;
+        }
+    }
+
+    .sidebar-wrapper {
+        position: relative;
+        height:   calc(100vh - 75px);
+        overflow: auto;
+        width:    $sidebar-open-width;
+    }
+
+    .nav {
+        display:        flex;
+        flex-direction: column;
+    }
+
+    .nav-item {
+        &:hover,
+        &.active {
+            background: $light;
+        }
+    }
+
+    .nav-link {
+        white-space: normal;
+
+        .sidebar-mini,
+        .material-icons {
+            vertical-align: middle;
+        }
+
+        .sidebar-normal,
+        > p {
+            display:      inline-block;
+            padding-left: $spacer;
+        }
+    }
+}
+
+.main-panel {
+    position:    relative;
+    display:     block;
+    margin-left: auto;
+    width:       $sidebar-width;
+    @include transition (0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1));
+}
+
+
+// utils
+
+.perfect-scrollbar-on {
+    .sidebar,
+    .main-panel {
+        height:     100%;
+        max-height: 100%;
+    }
+}
+
+.sidebar-mini {
+    .visible-on-sidebar-regular {
+        display: none !important;
+    }
+
+    .visible-on-sidebar-mini {
+        display: inline-block !important;
+    }
+}
+
+.visible-on-sidebar-regular {
+    display: inline-block !important;
+}
+
+.visible-on-sidebar-mini {
+    display: none !important;
+}

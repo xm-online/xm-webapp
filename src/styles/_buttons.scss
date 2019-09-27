@@ -1,0 +1,44 @@
+.btn {
+    &.btn-round {
+        border-radius: 50%;
+    }
+
+    &.btn-fab, &.btn-just-icon {
+        font-size: $mdb-btn-fab-font-size;
+        height:    $mdb-btn-fab-size;
+        min-width: $mdb-btn-fab-size;
+        width:     $mdb-btn-fab-size;
+    }
+
+    &.btn-just-icon {
+        display:         flex;
+        justify-content: center;
+        align-items:     center;
+
+        .material-icons, .fa {
+            display:      flex;
+            align-self:   center;
+            justify-self: center;
+        }
+    }
+}
+
+.btn-group {
+    & > .btn-round {
+        border-radius: $border-radius-pill;
+    }
+}
+
+// btn lg
+
+.btn-lg,
+.btn-group-lg .btn {
+    height:    $mdb-btn-fab-size-lg + 1;
+    min-width: $mdb-btn-fab-size-lg + 1;
+    width:     $mdb-btn-fab-size-lg + 1;
+
+    .material-icons,
+    .fa {
+        font-size: $mdb-btn-icon-size;
+    }
+}

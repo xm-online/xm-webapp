@@ -1,0 +1,34 @@
+.card-header {
+}
+
+.card-body {
+    padding: $card-spacer-x;
+}
+
+.card-header-image img {
+    max-width: 100%;
+}
+
+.card-icon {
+    display:       inline-block;
+    border-radius: $border-radius;
+    padding:       $spacer;
+    background:    $primary;
+    margin-right:  $spacer;
+    color:         $white;
+}
+
+.card-title {
+    display: inline-block;
+}
+
+.card {
+    width:         auto;
+    position:      relative;
+    border-radius: $border-radius-lg;
+    color:         $gray-dark;
+    background:    $white;
+    padding:       $spacer;
+
+    @include box-shadow-color(2);
+}

@@ -1,0 +1,8 @@
+.xm-entity-list-actions {
+    &.dropdown {
+        position: absolute;
+        right: 5px;
+        top: -40px;
+        z-index: $zindex-dropdown;
+    }
+}

@@ -1,0 +1,32 @@
+//colors
+$transparent:        transparent;
+
+// Sidebar variables
+$sidebar-width:      calc(100% - 260px);
+$sidebar-mini-width: calc(100% - 80px);
+
+// radius
+$border-radius-pill: 2rem;
+
+// z-index
+$z-indexes:          (
+                         dropdown: $zindex-dropdown,
+                         sticky: $zindex-sticky,
+                         fixed: $zindex-fixed,
+                         modalbackdrop: $zindex-modal-backdrop,
+                         modal: $zindex-modal,
+                         popover: $zindex-popover,
+                         tooltip: $zindex-tooltip,
+                     );
+
+// breakpoints
+$breakpoints:        (
+                         "phone": 400px,
+                         "phone-wide": 480px,
+                         "phablet": 560px,
+                         "tablet-small": 640px,
+                         "tablet": 768px,
+                         "tablet-wide": 1024px,
+                         "desktop": 1248px,
+                         "desktop-wide": 1440px
+                     );

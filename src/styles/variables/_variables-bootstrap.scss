@@ -1,0 +1,24 @@
+// Colors
+$spacer:         1rem;
+$black:          black;
+
+$primary:        material-color('teal');
+$secondary:      material-color('blue-grey');
+$success:        material-color('green');
+$info:           material-color('cyan');
+$warning:        material-color('yellow');
+$danger:         material-color('red');
+
+// Body
+$body-bg:        #eee;
+
+// Options
+$enable-shadows: true;
+
+// Shadow
+$box-shadow-sm:  0 .125rem .25rem rgba($black, .075);
+$box-shadow:     0 .5rem 1rem rgba($black, .15);
+$box-shadow-lg:  0 1rem 3rem rgba($black, .175);
+
+// Typography
+$font-size-base: 14;
