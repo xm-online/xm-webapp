@@ -105,7 +105,7 @@
         <!-- end filter area -->
         <ng-container *ngIf="item.entities">
           <div class="table-responsive" [ngClass]="{ 'sm-overflow': options.smOverflow }">
-            <table class="table" [class.table-striped]="isStriped">
+            <table class="table" [class.table-striped]="!options.noStrips">
               <thead>
               <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                 <th></th>

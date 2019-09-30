@@ -86,11 +86,11 @@ import { OverlayModule } from '@angular/cdk/overlay';
                 FrameworkLibraryService,
                 WidgetLibraryService,
                 {provide: Framework, useClass: MaterialDesignFramework, multi: true}
-            ]
+            ],
         },
         ImageCropperModule,
         RatingModule,
-        TagInputModule
+        TagInputModule,
     ],
     declarations: [
         AreaComponent,
@@ -131,7 +131,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
         StatesManagementDialogComponent,
         AttachmentListSimplifiedComponent,
         AttachmentListBaseComponent,
-        EntityCompactCardComponent
+        EntityCompactCardComponent,
     ],
     entryComponents: [
         StatesManagementDialogComponent,
@@ -145,7 +145,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
         LinkDetailDialogComponent,
         LocationDetailDialogComponent,
         OsmPolygonDialogComponent,
-        EntityCompactCardComponent
+        EntityCompactCardComponent,
     ],
     exports: [
         AreaComponent,

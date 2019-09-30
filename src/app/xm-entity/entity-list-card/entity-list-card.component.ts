@@ -17,8 +17,8 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { JhiEventManager } from 'ng-jhipster';
-import { Observable ,  Subscription, of } from 'rxjs';
-import { finalize, map, tap, catchError } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { catchError, finalize, map, tap } from 'rxjs/operators';
 
 import { ContextService, I18nNamePipe, ITEMS_PER_PAGE, Principal } from '../../shared';
 import { saveFile } from '../../shared/helpers/file-download-helper';
@@ -47,28 +47,27 @@ declare let swal: any;
 })
 export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 
-    private entityListActionSuccessSubscription: Subscription;
-    private entityEntityListModificationSubscription: Subscription;
-
     @Input() spec: Spec;
     @Input() options: EntityListCardOptions;
 
     overlayRef: OverlayRef;
     @ViewChild(CdkOverlayOrigin, {static: false}) _overlayOrigin: CdkOverlayOrigin;
 
-    isShowFilterArea = false;
-    isStriped: boolean;
-    list: EntityOptions[];
-    activeItemId = 0;
-    entitiesPerPage: any;
-    predicate = 'id';
-    reverse: boolean;
-    showLoader: boolean;
-    firstPage = 1;
-    cardPosition = {
+    public isShowFilterArea = false;
+    public list: EntityOptions[];
+    public activeItemId = 0;
+    public entitiesPerPage: any;
+    public predicate = 'id';
+    public reverse: boolean;
+    public showLoader: boolean;
+    public firstPage = 1;
+    public cardPosition = {
         x: '',
-        y: ''
+        y: '',
     };
+
+    private entityListActionSuccessSubscription: Subscription;
+    private entityEntityListModificationSubscription: Subscription;
 
     constructor(private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private xmEntityService: XmEntityService,
@@ -86,13 +85,11 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnInit() {
-        console.log(this);
         this.entityListActionSuccessSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS,
             () => this.load());
-        this.entityEntityListModificationSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
+        this.entityEntityListModificationSubscription =
+            this.eventManager.subscribe(XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
             () => this.load());
-
-        this.isStriped = this.options.isStriped ? this.options.isStriped : true;
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -112,9 +109,9 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         // TODO: move processing of options.entities to onChange hook.
         //  Will options ever change after component initialization?
         if (this.options.entities) {
-            this.list = this.options.entities.map(e => {
+            this.list = this.options.entities.map((e) => {
                 e.page = this.firstPage;
-                e.xmEntitySpec = this.spec.types.filter(t => t.key === e.typeKey).shift();
+                e.xmEntitySpec = this.spec.types.filter((t) => t.key === e.typeKey).shift();
                 e.currentQuery = e.currentQuery ? e.currentQuery : this.getDefaultSearch(e);
                 if (e.filter) {
                     e['filterJsfAttributes'] = buildJsfAttributes(e.filter.dataSpec, e.filter.dataForm);
@@ -131,20 +128,20 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             }
 
             if (!this.list[this.activeItemId]) {
-                this.setActiveTab(0);
+               this.setActiveTab(0);
             } else {
                 const activeItem = this.list[this.activeItemId];
                 if (activeItem.query) {
                     activeItem.currentQuery = activeItem.query;
                 }
-                this.loadEntities(activeItem).subscribe(resp => activeItem.entities = resp);
+                this.loadEntities(activeItem).subscribe((resp) => activeItem.entities = resp);
             }
         }
     }
 
     onRefresh() {
         this.filtersReset(this.list[this.activeItemId]);
-        this.loadEntities(this.list[this.activeItemId]).subscribe(result => {
+        this.loadEntities(this.list[this.activeItemId]).subscribe((result) => {
             this.list[this.activeItemId].entities = result;
         });
     }
@@ -164,7 +161,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             typeKey: entityOptions.typeKey,
             page: entityOptions.page - 1,
             size: this.entitiesPerPage,
-            sort: [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')]
+            sort: [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
         };
         let method = 'query';
         if (entityOptions.currentQuery) {
@@ -182,7 +179,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 return xmEntities.map(e => this.enrichEntity(e));
             }),
             catchError((err) => {
-                console.log(err);
+                console.log(err); // tslint:disable-line
                 this.showLoader = false;
                 return of([]);
             }),
@@ -206,7 +203,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.activeItemId = i;
         const entityOptions = this.list[i];
         entityOptions.currentQuery = entityOptions.query;
-        this.loadEntities(entityOptions).subscribe(result => this.list[i].entities = result);
+        this.loadEntities(entityOptions).subscribe((result) => this.list[i].entities = result);
     }
 
     getFieldValue(xmEntity: any = {}, field: FieldOptions): any {
@@ -218,14 +215,14 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     onLoadPage(entityOptions: EntityOptions) {
-        this.loadEntities(entityOptions).subscribe(result => entityOptions.entities = result);
+        this.loadEntities(entityOptions).subscribe((result) => entityOptions.entities = result);
     }
 
     onNavigate(entityOptions: EntityOptions, xmEntity: XmEntity) {
         this.getRouterLink(entityOptions, xmEntity)
             .pipe(
-                finalize(() => this.contextService.put('xmEntityId', xmEntity.id))
-            ).subscribe(commands => this.router.navigate(commands));
+                finalize(() => this.contextService.put('xmEntityId', xmEntity.id)),
+            ).subscribe((commands) => this.router.navigate(commands));
     }
 
     private getRouterLink(entityOptions: EntityOptions, xmEntity: XmEntity): Observable<any[]> {
@@ -243,15 +240,15 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         return this.getSpec(entityOptions, xmEntity).pipe(
-            map(xmSpec => this.processXmSpec(xmSpec, xmEntity)),
-            catchError(() => [])
+             map((xmSpec) => this.processXmSpec(xmSpec, xmEntity)),
+             catchError(() => []),
         );
 
     }
 
     private processXmSpec(xmSpec: XmEntitySpec, xmEntity: XmEntity): any[] {
         if (!xmSpec) {
-            return ['']
+            return [''];
         }
         const form: string = xmSpec.dataForm || '{}';
         const entityConfig: any = JSON.parse(form).entity || {};
@@ -270,10 +267,10 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (xmEntity && xmEntity.typeKey) {
-            return this.xmEntitySpecWrapperService.xmSpecByKey(xmEntity.typeKey)
+            return this.xmEntitySpecWrapperService.xmSpecByKey(xmEntity.typeKey);
         }
 
-        console.log(`No spec found by options=${entityOptions} or entity=${xmEntity}`);
+        console.log(`No spec found by options=${entityOptions} or entity=${xmEntity}`); // tslint:disable-line
 
         throw new Error('No spec found');
     }
@@ -292,7 +289,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 
     onApplyFastSearch(entityOptions: EntityOptions, query) {
         entityOptions.currentQuery = query;
-        this.loadEntities(entityOptions).subscribe(result => entityOptions.entities = result);
+        this.loadEntities(entityOptions).subscribe((result) => entityOptions.entities = result);
     }
 
     onApplyFilter(entityOptions: EntityOptions, data: any) {
@@ -301,14 +298,12 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         try {
             funcValue = new Function('return `' + entityOptions.filter.template + '`;').call(data);
         } catch (e) {
-            // console.log('--------------- e onApplyFilter');
             funcValue = transpilingForIE(entityOptions.filter.template, data);
-            // console.log('--------------- end');
         }
         copy.currentQuery = (copy.currentQuery ? copy.currentQuery : '') + ' ' + funcValue;
         entityOptions.currentQuery = copy.currentQuery;
         entityOptions.page = this.firstPage;
-        this.loadEntities(entityOptions).subscribe(resp => this.list[this.activeItemId].entities = resp);
+        this.loadEntities(entityOptions).subscribe((resp) => this.list[this.activeItemId].entities = resp);
     }
 
     public onAction(entityOptions: EntityOptions, xmEntity: XmEntity, action): void {
@@ -320,14 +315,16 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         const modalRef = this.modalService.open(FunctionCallDialogComponent, {backdrop: 'static'});
         this.translateService.get('xm-entity.entity-list-card.action-dialog.question', {
             action: this.i18nNamePipe.transform(action.name, this.principal),
-            name: xmEntity.name
-        }).subscribe(result => {
+            name: xmEntity.name,
+        }).subscribe((result) => {
             modalRef.componentInstance.dialogTitle = result;
         });
         modalRef.componentInstance.buttonTitle = action.name;
         modalRef.componentInstance.xmEntity = xmEntity;
         modalRef.componentInstance.functionSpec = entityOptions.xmEntitySpec.functions
-            ? entityOptions.xmEntitySpec.functions.filter(f => f.key === action.functionKey).shift() : {key: action.functionKey};
+            ? entityOptions.xmEntitySpec.functions
+                .filter((f) => f.key === action.functionKey)
+                .shift() : {key: action.functionKey};
     }
 
     onFileExport(entityOptions: EntityOptions, exportType: string) {
@@ -335,10 +332,10 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.xmEntityService.fileExport(exportType, entityOptions.typeKey).pipe(
             // TODO: file name extract from the headers
             tap((resp: Blob) => saveFile(resp, `${entityOptions.typeKey}.` + exportType, 'text/csv')),
-            finalize(() => this.showLoader = false)
+            finalize(() => this.showLoader = false),
         ).subscribe(
-            () => {console.log(`Exported ${entityOptions.typeKey}`)},
-            (err) => {console.log(err); this.showLoader = false}
+            () => {console.log(`Exported ${entityOptions.typeKey}`)}, // tslint:disable-line
+            (err) => {console.log(err); this.showLoader = false} // tslint:disable-line
         )
     }
 
@@ -355,14 +352,52 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 this.xmEntityService.delete(xmEntity.id).subscribe(
                     () => {
                         this.eventManager.broadcast({
-                            name: XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION
+                            name: XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
                         });
                         this.alert('success', 'xm-entity.entity-list-card.delete.remove-success');
                     },
-                    () => this.alert('error', 'xm-entity.entity-list-card.delete.remove-error')
+                    () => this.alert('error', 'xm-entity.entity-list-card.delete.remove-error'),
                 );
             }
         });
+    }
+
+    createInjector(data: any, overlayRef): PortalInjector {
+        const injectorTokens = new WeakMap();
+        injectorTokens.set(OverlayRef, overlayRef);
+        injectorTokens.set(CONTAINER_DATA, data);
+        return new PortalInjector(this.injector, injectorTokens);
+    }
+
+    onSelectRow(click, entity: XmEntity) {
+        if (this.options.selectable) {
+            if (this.options.broadcastEventName) {
+                const event = this.options.broadcastEventName || '';
+                this.eventManager.broadcast({name: event, data: entity});
+
+                const strategy = this.overlay.position()
+                    .flexibleConnectedTo(this._overlayOrigin.elementRef)
+                    .withPositions([{originX: 'center', originY: 'center', overlayX: 'center', overlayY: 'center'}])
+                    .withLockedPosition(true)
+                    .withViewportMargin(50);
+
+                const config = new OverlayConfig({
+                    positionStrategy: strategy,
+                    hasBackdrop: true,
+                    backdropClass: 'transparent'
+                });
+                this.overlayRef = this.overlay.create(config);
+                this.overlayRef.attach(
+                    new ComponentPortal(
+                        EntityCompactCardComponent,
+                        this.viewContainerRef,
+                        this.createInjector({entity: entity, config: this.options.entityCardOptions}, this.overlayRef)),
+                );
+                this.overlayRef.backdropClick().subscribe(() => {
+                    this.overlayRef.detach();
+                });
+            }
+        }
     }
 
     createInjector(data: any, overlayRef): PortalInjector {
@@ -405,10 +440,10 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 
     private alert(type, key) {
         swal({
-            type: type,
+            type,
             text: this.translateService.instant(key),
             buttonsStyling: false,
-            confirmButtonClass: 'btn btn-primary'
+            confirmButtonClass: 'btn btn-primary',
         });
     }
 
