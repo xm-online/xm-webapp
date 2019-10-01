@@ -18,8 +18,9 @@ import {
     LocationMapWidgetComponent,
     MdTableComponent,
     StatsWidgetComponent,
-    TasksWidgetComponent
+    TasksWidgetComponent,
 } from './';
+import { EntityStateCardComponent } from './entity-state-card/entity-state-card.component';
 
 @NgModule({
     imports: [
@@ -27,7 +28,7 @@ import {
         XmSharedModule,
         XmEntityModule,
         XmBalanceModule,
-        XmTimelineModule
+        XmTimelineModule,
     ],
     declarations: [
         AvailableOfferingsWidgetComponent,
@@ -40,7 +41,8 @@ import {
         LocationMapWidgetComponent,
         MdTableComponent,
         StatsWidgetComponent,
-        TasksWidgetComponent
+        TasksWidgetComponent,
+        EntityStateCardComponent,
     ],
     entryComponents: [
         AvailableOfferingsWidgetComponent,
@@ -53,7 +55,8 @@ import {
         LocationMapWidgetComponent,
         MdTableComponent,
         StatsWidgetComponent,
-        TasksWidgetComponent
+        TasksWidgetComponent,
+        EntityStateCardComponent,
     ],
     providers: [
         {provide: 'xm-widget-available-offerings', useValue: AvailableOfferingsWidgetComponent},
@@ -65,8 +68,9 @@ import {
         {provide: 'xm-widget-general-map', useValue: LocationMapWidgetComponent},
         {provide: 'xm-widget-general-countries', useValue: LocationCountriesWidgetComponent},
         {provide: 'xm-widget-stats', useValue: StatsWidgetComponent},
-        {provide: 'xm-widget-tasks', useValue: TasksWidgetComponent}
-    ]
+        {provide: 'xm-widget-tasks', useValue: TasksWidgetComponent},
+        {provide: 'xm-widget-entity-state-card', useValue: EntityStateCardComponent},
+    ],
 })
 export class ExtCommonEntityModule {
     constructor(private modulesLangHelper: ModulesLanguageHelper, private languageHelper: JhiLanguageHelper) {

@@ -400,44 +400,6 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    createInjector(data: any, overlayRef): PortalInjector {
-        const injectorTokens = new WeakMap();
-        injectorTokens.set(OverlayRef, overlayRef);
-        injectorTokens.set(CONTAINER_DATA, data);
-        return new PortalInjector(this.injector, injectorTokens);
-    }
-
-    onSelectRow(click, entity: XmEntity) {
-        if (this.options.selectable) {
-            if (this.options.broadcastEventName) {
-                const event = this.options.broadcastEventName || '';
-                this.eventManager.broadcast({name: event, data: entity});
-
-                const strategy = this.overlay.position()
-                    .flexibleConnectedTo(this._overlayOrigin.elementRef)
-                    .withPositions([{originX: 'center', originY: 'center', overlayX: 'center', overlayY: 'center'}])
-                    .withLockedPosition(true)
-                    .withViewportMargin(50);
-
-                const config = new OverlayConfig({
-                    positionStrategy: strategy,
-                    hasBackdrop: true,
-                    backdropClass: 'transparent'
-                });
-                this.overlayRef = this.overlay.create(config);
-                this.overlayRef.attach(
-                    new ComponentPortal(
-                        EntityCompactCardComponent,
-                        this.viewContainerRef,
-                        this.createInjector({entity: entity, config: this.options.entityCardOptions}, this.overlayRef))
-                );
-                this.overlayRef.backdropClick().subscribe(() => {
-                    this.overlayRef.detach();
-                });
-            }
-        }
-    }
-
     private alert(type, key) {
         swal({
             type,
