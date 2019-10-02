@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-    MaterialDesignFramework,
-    MaterialDesignFrameworkModule,
     Framework,
     FrameworkLibraryService,
-    JsonSchemaFormModule, JsonSchemaFormService,
-    WidgetLibraryService
+    JsonSchemaFormModule,
+    JsonSchemaFormService,
+    MaterialDesignFramework, MaterialDesignFrameworkModule,
+    WidgetLibraryService,
 } from 'angular2-json-schema-form';
 import { TagInputModule } from 'ngx-chips';
 import { ImageCropperModule } from 'ngx-img-cropper';
@@ -29,6 +29,7 @@ import {
     CommentService,
     ContentService,
     EntityCardComponent,
+    EntityCompactCardComponent,
     EntityDataCardComponent,
     EntityDetailDialogComponent,
     EntityDetailFabComponent,
@@ -43,12 +44,13 @@ import {
     LinkDetailDialogComponent,
     LinkDetailNewSectionComponent,
     LinkDetailSearchSectionComponent,
-    LinkedinProfileComponent,
     LinkedinDataItemComponent,
+    LinkedinProfileComponent,
     LinkListCardComponent,
     LinkListComponent,
     LinkListTreeSectionComponent,
     LinkService,
+    LocationCardNamePipe,
     LocationDetailDialogComponent,
     LocationListCardComponent,
     LocationService,
@@ -56,20 +58,18 @@ import {
     OverpassApiService,
     RatingListSectionComponent,
     RatingService,
+    StatesManagementDialogComponent,
     TagListSectionComponent,
     TagService,
     VoteService,
     XmEntityService,
     XmEntitySpecService,
     XmEntitySpecWrapperService,
-    LocationCardNamePipe,
-    StatesManagementDialogComponent
 } from './';
 
 import {StateChangeDialogComponent} from './state-change-dialog/state-change-dialog.component';
 import { AttachmentListSimplifiedComponent } from './attachment-list/attachment-list-simplified.component';
 import { AttachmentListBaseComponent } from './attachment-list/attachment-list-base.component';
-import { EntityCompactCardComponent } from './entity-list-card/entity-compact-card/entity-compact-card.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
@@ -169,7 +169,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
         LocationListCardComponent,
         RatingListSectionComponent,
         TagListSectionComponent,
-        StatesManagementDialogComponent
+        StatesManagementDialogComponent,
     ],
     providers: [
         AttachmentService,
@@ -187,9 +187,9 @@ import { OverlayModule } from '@angular/cdk/overlay';
         VoteService,
         XmEntityService,
         XmEntitySpecService,
-        XmEntitySpecWrapperService
+        XmEntitySpecWrapperService,
     ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class XmEntityModule {
 }

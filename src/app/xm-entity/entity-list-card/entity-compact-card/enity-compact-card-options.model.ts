@@ -2,7 +2,7 @@ export class EntityCompactCardOptions {
     constructor(public showTitle?: string,
                 public showState?: boolean,
                 public showAvatar?: boolean,
-                public fields?: CardFieldOptions[]
+                public fields?: CardFieldOptions[],
                 ) {}
 }
 

@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         'xm-widget-lots': 'ext-auction/xm-widget-lots',
         'xm-widget-welcome': 'ext-common/xm-widget-welcome',
         'xm-widget-entities-list': 'ext-common-entity/xm-widget-entities-list',
+        'xm-widget-entity-lifecycle': 'ext-common-entity/xm-widget-entity-lifecycle',
         'xm-widget-sign-in-up': 'ext-common/xm-widget-sign-in-up',
         'xm-widget-iframe': 'ext-common/xm-widget-iframe',
         'xm-widget-provide-customer-info': 'ext-common-entity/xm-widget-provide-customer-info',

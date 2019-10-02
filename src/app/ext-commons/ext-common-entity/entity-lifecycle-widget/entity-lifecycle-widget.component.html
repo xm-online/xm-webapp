@@ -1,0 +1,15 @@
+<div class="card">
+  <div class="card-header card-header-icon card-header-primary">
+    <div class="card-icon">
+      <i class="material-icons">{{xmEntitySpec?.icon ? xmEntitySpec?.icon : 'search'}}</i>
+    </div>
+    <h4 class="card-title" *ngIf="config?.title">{{config?.title | i18nName: principal}}</h4>
+  </div>
+
+  <div class="card-body" *ngIf="xmEntity">
+    <ng-container *ngFor="let item of config.statuses">
+      <xm-lifecycle-item [item]="item" [isCurrent]="item.name === xmEntity.stateKey">
+      </xm-lifecycle-item>
+    </ng-container>
+  </div>
+</div>

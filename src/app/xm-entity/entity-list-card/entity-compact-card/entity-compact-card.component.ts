@@ -35,14 +35,12 @@ export class EntityCompactCardComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        console.log(this);
         this.config = this.data.config || {};
         this.entity = this.data.entity || {};
         this.fields = this.config.fields || [];
         this.xmEntitySpecWrapperService.xmSpecByKey(this.entity.typeKey).subscribe(res => this.xmEntitySpec = res || {});
 
         if (this.isMobileView()) {
-            console.log(this.overlayRef.overlayElement);
             this.overlayRef.overlayElement.classList.add('left');
         }
     }

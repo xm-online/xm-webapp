@@ -33,6 +33,7 @@ export * from './location-list-card/location-card-name.pipe';
 export * from './rating-list-section/rating-list-section.component';
 export * from './tag-list-section/tag-list-section.component';
 export * from './states-management-dialog/states-management-dialog.component';
+export * from './entity-list-card/entity-compact-card/entity-compact-card.component';
 
 export * from './shared/attachment.model';
 export * from './shared/attachment.service';
@@ -61,9 +62,9 @@ export * from './shared/location.service';
 export * from './shared/location-spec.model';
 export * from './shared/rating.model';
 export * from './shared/rating.service';
-export * from './shared/rating-spec.model'
-export * from './shared/spec.model'
-export * from './shared/state-spec.model'
+export * from './shared/rating-spec.model';
+export * from './shared/spec.model';
+export * from './shared/state-spec.model';
 export * from './shared/tag.model';
 export * from './shared/tag.service';
 export * from './shared/tag-spec.model';
@@ -74,3 +75,4 @@ export * from './shared/xm-entity.service';
 export * from './shared/xm-entity-spec.model';
 export * from './shared/xm-entity-spec.service';
 export * from './shared/xm-entity-spec-wrapper.service';
+

@@ -1,3 +1,4 @@
+import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { HttpResponse } from '@angular/common/http';
 import {
     Component,
@@ -10,9 +11,8 @@ import {
     OnInit,
     SimpleChanges,
     ViewChild,
-    ViewContainerRef
+    ViewContainerRef,
 } from '@angular/core';
-import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,41 +20,38 @@ import { JhiEventManager } from 'ng-jhipster';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 
+import { CdkOverlayOrigin, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import * as _ from 'lodash';
 import { ContextService, I18nNamePipe, ITEMS_PER_PAGE, Principal } from '../../shared';
+import { getFieldValue } from '../../shared/helpers/entity-list-helper';
 import { saveFile } from '../../shared/helpers/file-download-helper';
 import { buildJsfAttributes, transpilingForIE } from '../../shared/jsf-extention/jsf-attributes-helper';
 import { XM_EVENT_LIST } from '../../xm.constants';
 import { FunctionCallDialogComponent } from '../function-call-dialog/function-call-dialog.component';
 import { Spec } from '../shared/spec.model';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
-import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
+import { CONTAINER_DATA } from '../shared/tokens';
 import { XmEntitySpecWrapperService } from '../shared/xm-entity-spec-wrapper.service';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
-import * as _ from 'lodash'
-import { getFieldValue } from '../../shared/helpers/entity-list-helper';
+import { XmEntity } from '../shared/xm-entity.model';
+import { XmEntityService } from '../shared/xm-entity.service';
 import { EntityCompactCardComponent } from './entity-compact-card/entity-compact-card.component';
-import { CdkOverlayOrigin, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
-import { over } from 'webstomp-client';
-import { CONTAINER_DATA } from '../shared/tokens';
+import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
 
 declare let swal: any;
 
 @Component({
     selector: 'xm-entity-list-card',
     templateUrl: './entity-list-card.component.html',
-    styleUrls: ['./entity-list-card.component.scss']
+    styleUrls: ['./entity-list-card.component.scss'],
 })
 export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 
-    @Input() spec: Spec;
-    @Input() options: EntityListCardOptions;
-
-    overlayRef: OverlayRef;
-    @ViewChild(CdkOverlayOrigin, {static: false}) _overlayOrigin: CdkOverlayOrigin;
+    @Input() public spec: Spec;
+    @Input() public options: EntityListCardOptions;
 
     public isShowFilterArea = false;
     public list: EntityOptions[];
+
     public activeItemId = 0;
     public entitiesPerPage: any;
     public predicate = 'id';
@@ -66,8 +63,10 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         y: '',
     };
 
+    private overlayRef: OverlayRef;
     private entityListActionSuccessSubscription: Subscription;
     private entityEntityListModificationSubscription: Subscription;
+    @ViewChild(CdkOverlayOrigin, {static: false}) private _overlayOrigin: CdkOverlayOrigin;
 
     constructor(private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private xmEntityService: XmEntityService,

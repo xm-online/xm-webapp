@@ -20,7 +20,8 @@ import {
     StatsWidgetComponent,
     TasksWidgetComponent,
 } from './';
-import { EntityStateCardComponent } from './entity-state-card/entity-state-card.component';
+import { EntityLifecycleWidgetComponent } from './entity-lifecycle-widget/entity-lifecycle-widget.component';
+import { LifecycleItemComponent } from './entity-lifecycle-widget/lifecycle-item/lifecycle-item.component';
 
 @NgModule({
     imports: [
@@ -42,7 +43,8 @@ import { EntityStateCardComponent } from './entity-state-card/entity-state-card.
         MdTableComponent,
         StatsWidgetComponent,
         TasksWidgetComponent,
-        EntityStateCardComponent,
+        EntityLifecycleWidgetComponent,
+        LifecycleItemComponent,
     ],
     entryComponents: [
         AvailableOfferingsWidgetComponent,
@@ -56,7 +58,7 @@ import { EntityStateCardComponent } from './entity-state-card/entity-state-card.
         MdTableComponent,
         StatsWidgetComponent,
         TasksWidgetComponent,
-        EntityStateCardComponent,
+        EntityLifecycleWidgetComponent,
     ],
     providers: [
         {provide: 'xm-widget-available-offerings', useValue: AvailableOfferingsWidgetComponent},
@@ -69,11 +71,13 @@ import { EntityStateCardComponent } from './entity-state-card/entity-state-card.
         {provide: 'xm-widget-general-countries', useValue: LocationCountriesWidgetComponent},
         {provide: 'xm-widget-stats', useValue: StatsWidgetComponent},
         {provide: 'xm-widget-tasks', useValue: TasksWidgetComponent},
-        {provide: 'xm-widget-entity-state-card', useValue: EntityStateCardComponent},
+        {provide: 'xm-widget-entity-lifecycle', useValue: EntityLifecycleWidgetComponent},
     ],
 })
 export class ExtCommonEntityModule {
     constructor(private modulesLangHelper: ModulesLanguageHelper, private languageHelper: JhiLanguageHelper) {
-        this.languageHelper.language.subscribe((languageKey: string) => {this.modulesLangHelper.correctLang(languageKey)});
+        this.languageHelper.language.subscribe((languageKey: string) => {
+            this.modulesLangHelper.correctLang(languageKey);
+        });
     }
 }
