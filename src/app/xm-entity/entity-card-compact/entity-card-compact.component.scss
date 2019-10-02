@@ -104,7 +104,13 @@
     }
   }
   .card-custom {
-    
+
+    flex-layout-root-widget {
+      @media (max-width: 768px) {
+        display: block !important;
+      }
+    }
+
     xm-function-list-section-compact {
       .mt-3 {
         margin-top: 0 !important;
