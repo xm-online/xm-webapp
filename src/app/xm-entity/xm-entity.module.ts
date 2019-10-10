@@ -8,6 +8,7 @@ import {
     JsonSchemaFormService,
     MaterialDesignFramework, MaterialDesignFrameworkModule,
     WidgetLibraryService,
+    WidgetLibraryService,
 } from 'angular2-json-schema-form';
 import { TagInputModule } from 'ngx-chips';
 import { ImageCropperModule } from 'ngx-img-cropper';
@@ -40,6 +41,7 @@ import {
     FunctionCallDialogComponent,
     FunctionContextService,
     FunctionListSectionComponent,
+    FunctionListSectionCompactComponent,
     FunctionService,
     LinkDetailDialogComponent,
     LinkDetailNewSectionComponent,
@@ -104,6 +106,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
         CommentDetailDialogComponent,
         CommentListComponent,
         EntityCardComponent,
+        EntityCardCompactComponent,
         EntityDataCardComponent,
         EntityDetailDialogComponent,
         EntityDetailFabComponent,
@@ -113,6 +116,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
         FunctionCallDialogComponent,
         StateChangeDialogComponent,
         FunctionListSectionComponent,
+        FunctionListSectionCompactComponent,
         LinkDetailDialogComponent,
         LinkDetailNewSectionComponent,
         LinkDetailSearchSectionComponent,
@@ -130,8 +134,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
         LocationCardNamePipe,
         StatesManagementDialogComponent,
         AttachmentListSimplifiedComponent,
-        AttachmentListBaseComponent,
-        EntityCompactCardComponent,
+        AttachmentListBaseComponent
     ],
     entryComponents: [
         StatesManagementDialogComponent,
@@ -156,12 +159,14 @@ import { OverlayModule } from '@angular/cdk/overlay';
         CommentCardComponent,
         CommentListComponent,
         EntityCardComponent,
+        EntityCardCompactComponent,
         EntityDataCardComponent,
         EntityDetailFabComponent,
         EntityListCardComponent,
         EntityListFabComponent,
         EntityStateComponent,
         FunctionListSectionComponent,
+        FunctionListSectionCompactComponent,
         LinkDetailNewSectionComponent,
         LinkDetailSearchSectionComponent,
         LinkListComponent,

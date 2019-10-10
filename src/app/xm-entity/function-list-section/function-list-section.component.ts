@@ -51,11 +51,11 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
         'ACCOUNT.EXTRACT-LINKEDIN-PROFILE': LinkedinProfileComponent
     };
 
-    constructor(private xmEntityService: XmEntityService,
-                private modalService: NgbModal,
-                private eventManager: JhiEventManager,
-                private translateService: TranslateService,
-                private contextService: ContextService,
+    constructor(protected xmEntityService: XmEntityService,
+                protected modalService: NgbModal,
+                protected eventManager: JhiEventManager,
+                protected translateService: TranslateService,
+                protected contextService: ContextService,
                 public principal: Principal) {
     }
 
@@ -179,7 +179,7 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
     public onCallFunction(functionSpec: FunctionSpec): void {
         const title = functionSpec.actionName ? functionSpec.actionName : functionSpec.name;
         const modalRef = this.modalService.open(FunctionCallDialogComponent, {backdrop: 'static'});
-        modalRef.componentInstance.xmEntity = this.xmEntity || new XmEntity(this.xmEntityId || undefined);
+        modalRef.componentInstance.xmEntity = this.xmEntity || { id: this.xmEntityId || undefined};
         modalRef.componentInstance.functionSpec = functionSpec;
         modalRef.componentInstance.dialogTitle = title;
         modalRef.componentInstance.buttonTitle = title;
