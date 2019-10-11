@@ -14,7 +14,7 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { JhiEventManager } from 'ng-jhipster';
 import { Observable, of, Subscription } from 'rxjs';
@@ -305,10 +305,10 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.loadEntities(entityOptions).subscribe((resp) => this.list[this.activeItemId].entities = resp);
     }
 
-    public onAction(entityOptions: EntityOptions, xmEntity: XmEntity, action): void {
+    public onAction(entityOptions: EntityOptions, xmEntity: XmEntity, action): NgbModalRef | null {
         if (action.handler) {
             action.handler(xmEntity);
-            return;
+            return null;
         }
 
         const modalRef = this.modalService.open(FunctionCallDialogComponent, {backdrop: 'static'});
@@ -324,6 +324,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             ? entityOptions.xmEntitySpec.functions
                 .filter((f) => f.key === action.functionKey)
                 .shift() : {key: action.functionKey};
+        return modalRef;
     }
 
     onFileExport(entityOptions: EntityOptions, exportType: string) {
