@@ -8,7 +8,6 @@ import {
     JsonSchemaFormService,
     MaterialDesignFramework, MaterialDesignFrameworkModule,
     WidgetLibraryService,
-    WidgetLibraryService,
 } from 'angular2-json-schema-form';
 import { TagInputModule } from 'ngx-chips';
 import { ImageCropperModule } from 'ngx-img-cropper';
@@ -29,6 +28,7 @@ import {
     CommentListComponent,
     CommentService,
     ContentService,
+    EntityCardCompactComponent,
     EntityCardComponent,
     EntityCompactCardComponent,
     EntityDataCardComponent,
@@ -40,8 +40,8 @@ import {
     EventService,
     FunctionCallDialogComponent,
     FunctionContextService,
-    FunctionListSectionComponent,
     FunctionListSectionCompactComponent,
+    FunctionListSectionComponent,
     FunctionService,
     LinkDetailDialogComponent,
     LinkDetailNewSectionComponent,
@@ -107,6 +107,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
         CommentListComponent,
         EntityCardComponent,
         EntityCardCompactComponent,
+        EntityCompactCardComponent,
         EntityDataCardComponent,
         EntityDetailDialogComponent,
         EntityDetailFabComponent,

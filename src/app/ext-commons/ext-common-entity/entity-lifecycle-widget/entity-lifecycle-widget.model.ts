@@ -1,17 +1,17 @@
-export class EntityLifecycleWidgetOptions {
-    constructor(public title: string,
-                public entity: string,
-                public statuses: LifecycleItem[],
-                public circle: boolean,
-                public subscribeEventName: string) {
-
-    }
+export interface IEntityLifecycleWidgetConfig {
+                title?: string;
+                entity?: string;
+                statuses?: ILifecycleItem[];
+                circle?: boolean;
+                subscribeEventName?: string;
 }
 
-export class LifecycleItem {
-    constructor(public name: string,
-                public color: string,
-                public icon: string,
-                public stateKeys: string[],
-                public final: boolean) {}
+export interface ILifecycleItem {
+    name?: string;
+    color?: string;
+    icon?: string;
+    stateKeys?: string[];
+    final?: boolean;
+    isCurrent?: boolean;
+    isColored?: boolean;
 }

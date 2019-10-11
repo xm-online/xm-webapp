@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { EntityLifecycleWidgetOptions } from './entity-lifecycle-widget.model';
-import { Spec, XmEntity, XmEntitySpec } from '../../../xm-entity';
-import { Principal } from '../../../shared';
-import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
+import { Subscription } from 'rxjs';
+
+import { Principal } from '../../../shared';
+import { Spec, XmEntity, XmEntitySpec } from '../../../xm-entity';
+import { IEntityLifecycleWidgetConfig, ILifecycleItem } from './entity-lifecycle-widget.model';
 
 @Component({
     selector: 'xm-entity-lifecycle-widget',
@@ -12,10 +13,12 @@ import { JhiEventManager } from 'ng-jhipster';
 })
 export class EntityLifecycleWidgetComponent implements OnInit, OnDestroy {
 
-    public config: EntityLifecycleWidgetOptions;
+    public config: IEntityLifecycleWidgetConfig;
     public spec: Spec;
     public xmEntitySpec: XmEntitySpec;
     public xmEntity: XmEntity;
+    public statuses: ILifecycleItem[];
+    public items: ILifecycleItem[];
     private entitySelectedSubscription: Subscription;
 
     constructor(public principal: Principal,
@@ -27,8 +30,33 @@ export class EntityLifecycleWidgetComponent implements OnInit, OnDestroy {
         this.xmEntitySpec = this.config && this.spec.types.filter((t) => t.key === this.config.entity).shift();
 
         this.entitySelectedSubscription = this.eventManager.subscribe(this.config.subscribeEventName, (event) => {
-            console.log(event.data);
-            this.xmEntity = event.data || {};
+            console.log(event);
+            this.xmEntity = event.data || null;
+            this.items = [];
+            this.statuses = [];
+            if (this.xmEntity) {
+                this.statuses = this.config && this.config.statuses.map( (item) => {
+                    item.stateKeys.forEach( (sk) => {
+                        if (sk === this.xmEntity.stateKey) {
+                            item.isCurrent = true;
+                        }
+                    });
+                    return item;
+                });
+                this.statuses.reduceRight( (prev, cur) => {
+                    console.log(prev, cur);
+                    if (prev) {
+                        if (prev.isCurrent || prev.isColored) {
+                            prev.isColored = true;
+                            cur.isColored = true;
+                        }
+                        this.items.unshift(prev);
+                        if (this.statuses[0] === cur) {
+                            this.items.unshift(cur);
+                        }
+                    }
+                } );
+            }
         });
     }
 

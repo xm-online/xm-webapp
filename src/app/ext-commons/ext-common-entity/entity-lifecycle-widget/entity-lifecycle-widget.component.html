@@ -6,10 +6,15 @@
     <h4 class="card-title" *ngIf="config?.title">{{config?.title | i18nName: principal}}</h4>
   </div>
 
-  <div class="card-body" *ngIf="xmEntity">
-    <ng-container *ngFor="let item of config.statuses">
-      <xm-lifecycle-item [item]="item" [isCurrent]="item.name === xmEntity.stateKey">
+  <div class="card-body" *ngIf="xmEntity else noEntity">
+    <ng-container *ngFor="let item of items">
+      <xm-lifecycle-item [item]="item">
       </xm-lifecycle-item>
     </ng-container>
   </div>
+
+  <ng-template class="card-body no-entity" #noEntity>
+    <div>No entity selected!</div>
+  </ng-template>
+
 </div>
