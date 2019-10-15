@@ -2,8 +2,6 @@ import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { HttpResponse } from '@angular/common/http';
 import {
     Component,
-    Inject,
-    InjectionToken,
     Injector,
     Input,
     OnChanges,
@@ -58,10 +56,6 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     public reverse: boolean;
     public showLoader: boolean;
     public firstPage = 1;
-    public cardPosition = {
-        x: '',
-        y: '',
-    };
 
     private overlayRef: OverlayRef;
     private entityListActionSuccessSubscription: Subscription;

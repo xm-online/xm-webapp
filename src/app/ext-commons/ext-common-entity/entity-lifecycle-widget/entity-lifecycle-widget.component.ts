@@ -17,7 +17,6 @@ export class EntityLifecycleWidgetComponent implements OnInit, OnDestroy {
     public spec: Spec;
     public xmEntitySpec: XmEntitySpec;
     public xmEntity: XmEntity;
-    public statuses: ILifecycleItem[];
     public items: ILifecycleItem[];
     private entitySelectedSubscription: Subscription;
 
@@ -26,36 +25,37 @@ export class EntityLifecycleWidgetComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        console.log(this);
+        console.log('----------- init -----------', this);
         this.xmEntitySpec = this.config && this.spec.types.filter((t) => t.key === this.config.entity).shift();
 
         this.entitySelectedSubscription = this.eventManager.subscribe(this.config.subscribeEventName, (event) => {
-            console.log(event);
             this.xmEntity = event.data || null;
-            this.items = [];
-            this.statuses = [];
+
             if (this.xmEntity) {
-                this.statuses = this.config && this.config.statuses.map( (item) => {
+                console.log('--- items ---', this.items);
+                this.items = [].slice();
+                let statuses = this.config.statuses.slice();
+
+                statuses.forEach( (item) => {
                     item.stateKeys.forEach( (sk) => {
                         if (sk === this.xmEntity.stateKey) {
                             item.isCurrent = true;
-                        }
+                        } else { item.isCurrent = false; }
                     });
+                    item.isColored = false;
                     return item;
                 });
-                this.statuses.reduceRight( (prev, cur) => {
+                console.log('--- statuses ---', statuses);
+                // @ts-ignore
+                statuses.reduceRight( (prev, cur) => {
                     console.log(prev, cur);
-                    if (prev) {
-                        if (prev.isCurrent || prev.isColored) {
-                            prev.isColored = true;
-                            cur.isColored = true;
-                        }
-                        this.items.unshift(prev);
-                        if (this.statuses[0] === cur) {
-                            this.items.unshift(cur);
-                        }
+                    if (prev.isCurrent || prev.isColored) {
+                        prev.isColored = true;
+                        cur.isColored = true;
                     }
-                } );
+                    return cur;
+                });
+                this.items = statuses.slice();
             }
         });
     }

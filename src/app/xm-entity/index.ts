@@ -9,6 +9,7 @@ export * from './comment-detail-dialog/comment-detail-dialog.component';
 export * from './comment-list/comment-list.component';
 export * from './entity-card/entity-card.component';
 export * from './entity-card-compact/entity-card-compact.component';
+export * from './entity-list-card/entity-compact-card/entity-compact-card.component';
 export * from './entity-data-card/entity-data-card.component';
 export * from './entity-detail-dialog/entity-detail-dialog.component';
 export * from './entity-detail-fab/entity-detail-fab.component';
@@ -35,7 +36,6 @@ export * from './location-list-card/location-card-name.pipe';
 export * from './rating-list-section/rating-list-section.component';
 export * from './tag-list-section/tag-list-section.component';
 export * from './states-management-dialog/states-management-dialog.component';
-export * from './entity-list-card/entity-compact-card/entity-compact-card.component';
 
 export * from './shared/attachment.model';
 export * from './shared/attachment.service';

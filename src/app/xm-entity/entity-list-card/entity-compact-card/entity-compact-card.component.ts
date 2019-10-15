@@ -1,5 +1,5 @@
 import { OverlayRef } from '@angular/cdk/overlay';
-import { AfterViewInit, Component, ElementRef, Inject, Input, OnInit, PipeTransform, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
