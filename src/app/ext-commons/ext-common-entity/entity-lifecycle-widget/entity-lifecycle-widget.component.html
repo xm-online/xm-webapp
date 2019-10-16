@@ -6,7 +6,7 @@
     <h4 class="card-title" *ngIf="config?.title">{{config?.title | i18nName: principal}}</h4>
   </div>
 
-  <div class="card-body" *ngIf="xmEntity else noEntity">
+  <div class="card-body items-container" *ngIf="xmEntity else noEntity">
     <ng-container *ngFor="let item of items">
       <xm-lifecycle-item [item]="item">
       </xm-lifecycle-item>

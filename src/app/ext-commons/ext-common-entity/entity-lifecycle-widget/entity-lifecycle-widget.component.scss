@@ -1,0 +1,22 @@
+xm-lifecycle-item {
+    flex: 1;
+}
+
+.items-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+
+    &:before {
+        position: absolute;
+        content: "";
+        width: 73%;
+        left: 14%;
+        height: 3px;
+        top: 43px;
+        background-color: #cccccc;
+    }
+}
+

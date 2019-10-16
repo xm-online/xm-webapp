@@ -1,6 +1,8 @@
 <div class="item-container">
-  <div class="item" [ngStyle]="(item.isCurrent || item.isColored) ? {'background-color': item.color} : {'background-color': '#B7B7B7'}">
+  <div class="{{item.isCurrent ? 'is-current' : 'not-current'}}" [ngStyle]="item.isCurrent ? {borderColor: item.color} : ''">
+  <div class="item" [ngStyle]="(item.isCurrent || item.isColored) ? {'background-color': item.color} : {'background-color': '#B7B7B7'}" [class.current-margin]="item.isCurrent">
     <i class="material-icons">{{item.icon}}</i>
   </div>
-  {{item.name}}
+  </div>
+  <div class="name">{{item.name}}</div>
 </div>
