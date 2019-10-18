@@ -32,35 +32,38 @@ export class EntityLifecycleWidgetComponent implements OnInit, OnDestroy {
             this.xmEntity = event.data || null;
 
             if (this.xmEntity) {
-                console.log('--- items ---', this.items);
-                this.items = [].slice();
-                let statuses = this.config.statuses.slice();
-
-                statuses.forEach( (item) => {
-                    item.stateKeys.forEach( (sk) => {
-                        if (sk === this.xmEntity.stateKey) {
-                            item.isCurrent = true;
-                        } else { item.isCurrent = false; }
-                    });
-                    item.isColored = false;
-                    return item;
-                });
-                console.log('--- statuses ---', statuses);
-                // @ts-ignore
-                statuses.reduceRight( (prev, cur) => {
-                    console.log(prev, cur);
-                    if (prev.isCurrent || prev.isColored) {
-                        prev.isColored = true;
-                        cur.isColored = true;
-                    }
-                    return cur;
-                });
-                this.items = statuses.slice();
+                this.processStatuses();
             }
         });
     }
 
     public ngOnDestroy(): void {
         this.eventManager.destroy(this.entitySelectedSubscription);
+    }
+
+    private processStatuses(): void {
+        this.items = [].slice();
+        const statuses = this.config.statuses.slice();
+
+        statuses.forEach((item) => {
+            item.stateKeys.forEach((sk) => {
+                if (sk === this.xmEntity.stateKey) {
+                    item.isCurrent = true;
+                } else {
+                    item.isCurrent = false;
+                }
+            });
+            item.isColored = false;
+            return item;
+        });
+
+        statuses.reduceRight((prev, cur) => {
+            if (prev.isCurrent || prev.isColored) {
+                prev.isColored = true;
+                cur.isColored = true;
+            }
+            return cur;
+        });
+        this.items = statuses.slice();
     }
 }

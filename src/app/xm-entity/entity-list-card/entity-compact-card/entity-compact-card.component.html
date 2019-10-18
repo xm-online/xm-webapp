@@ -12,14 +12,21 @@
       </div>
     </div>
   </div>
-  <div class="avatar-container card-icon" [ngStyle]="{ 'background-image': entity?.avatarUrl ? 'url(' + entity?.avatarUrl + ')' : 'url(./assets/img/placeholder.png)'}">
-<!--    <i class="material-icons" *ngIf="!entity?.avatarUrl">{{xmEntitySpec?.icon ? xmEntitySpec?.icon : 'search'}}</i>-->
+  <div class="avatar-container card-icon" #avatar [ngStyle]="{ 'background-image': entity?.avatarUrl ? 'url(' + entity?.avatarUrl + ')' : 'url(./assets/img/placeholder.png)'}">
+    <i class="material-icons placeholder-icon"
+       *ngIf="!entity?.avatarUrl"
+       [ngStyle]="{
+        'left': (avatar.offsetWidth / 2 - 35) + 'px',
+        'top': (avatar.offsetHeight / 2 - 35) + 'px'
+        }">
+      {{xmEntitySpec?.icon ? xmEntitySpec?.icon : 'search'}}
+    </i>
   </div>
   <div class="card-body" *ngIf="fields" #cardBody>
     <table>
-    <tr *ngFor="let field of fields">
-      <td class="card-label">{{field.title | i18nName: principal}}:</td> <td>{{getFieldValue(entity, field)}}</td>
-    </tr>
+      <tr *ngFor="let field of fields">
+        <td class="card-label">{{field.title | i18nName: principal}}:</td> <td>{{getFieldValue(entity, field)}}</td>
+      </tr>
     </table>
   </div>
 </div>

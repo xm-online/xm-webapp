@@ -2,6 +2,10 @@ xm-lifecycle-item {
     flex: 1;
 }
 
+.card {
+    min-width: 300px;
+}
+
 .items-container {
     display: flex;
     justify-content: space-between;
@@ -17,6 +21,57 @@ xm-lifecycle-item {
         height: 3px;
         top: 43px;
         background-color: #cccccc;
+    }
+}
+
+.is-mobile {
+    flex-direction: column;
+    padding-left: 1.25rem!important;
+
+    xm-lifecycle-item {
+        margin-bottom: 10%;
+    }
+
+    &:before {
+        width: 3px;
+        height: 75%;
+        left: 49px;
+    }
+
+    ::ng-deep {
+        .item-container {
+            text-align: left;
+        }
+
+        .not-current, .is-current {
+            margin-left: 0;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .name {
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: super;
+        }
+
+
+
+        .current-margin {
+            &:after {
+                bottom: -14px;
+                width: 3px;
+                height: 6px;
+                right: 20px;
+            }
+
+            &:before {
+                width: 3px;
+                top: -14px;
+                height: 6px;
+                left: 21px;
+            }
+        }
     }
 }
 
