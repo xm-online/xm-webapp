@@ -32,6 +32,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
     xmEntity$: Observable<XmEntity>;
 
     private modificationSubscription: Subscription;
+    private linkModificationSubscription: Subscription;
 
     constructor(private xmEntityService: XmEntityService,
                 private xmConfigService: XmConfigService,
@@ -51,10 +52,14 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.eventManager.destroy(this.modificationSubscription);
+        this.eventManager.destroy(this.linkModificationSubscription);
     }
 
-    private registerModificationSubscription() {
-        this.modificationSubscription = this.eventManager.subscribe('xmEntityDetailModification', () => this.loadEntity());
+    private registerModificationSubscription(): void {
+        this.modificationSubscription = this.eventManager
+            .subscribe('xmEntityDetailModification', () => this.loadEntity());
+        this.linkModificationSubscription = this.eventManager
+            .subscribe('linkListModification', () => this.loadEntity());
     }
 
     private loadEntity() {
