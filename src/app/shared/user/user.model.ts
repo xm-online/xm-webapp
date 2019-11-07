@@ -19,6 +19,7 @@ export class User {
     public password?: string;
     public tfaEnabled?: boolean;
     public imageUrl?: string;
+    public data?: any;
     constructor(
         id?: any,
         userKey?: string,
@@ -37,7 +38,8 @@ export class User {
         lastModifiedDate?: Date,
         password?: string,
         tfaEnabled?: boolean,
-        imageUrl?: string
+        imageUrl?: string,
+        data?: any,
     ) {
         this.id = id ? id : null;
         this.userKey = userKey ? userKey : null;

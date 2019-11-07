@@ -33,24 +33,40 @@
       </a>
       <div class="collapse" id="collapseExample">
         <ul class="nav">
-          <li class="nav-item" *permitted="'ACCOUNT.GET_LIST.ITEM'">
-            <a routerLink="settings" routerLinkActive="active" class="nav-link">
-              <span class="sidebar-mini" jhiTranslate="global.menu.account.mini.settings">S</span>
-              <span class="sidebar-normal" jhiTranslate="global.menu.account.settings">Settings</span>
-            </a>
-          </li>
-          <li class="nav-item" *permitted="'ACCOUNT.PASSWORD.UPDATE'">
-            <a routerLink="password" routerLinkActive="active" class="nav-link">
-              <span class="sidebar-mini" jhiTranslate="global.menu.account.mini.password">P</span>
-              <span class="sidebar-normal" jhiTranslate="global.menu.account.password">Password</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="javascript: void(0);" id="logout" (click)="logout()" class="nav-link">
-              <span class="sidebar-mini" jhiTranslate="global.menu.account.mini.profile">SO</span>
-              <span class="sidebar-normal" jhiTranslate="global.menu.account.logout">Sign out</span>
-            </a>
-          </li>
+          <ng-container *ngFor="let item of adminMenuItems; trackBy: trackByOrder;">
+
+            <ng-container *ngIf="item.isRouterLink; then routerLinkRef else eventBasedButton"></ng-container>
+            <!--  routerLinkRef  -->
+            <ng-template #routerLinkRef>
+            <li *permitted="item.permitted"
+                class="nav-item">
+              <a [attr.id]="item?.id"
+                 [routerLink]="[item.linkTo]"
+                 routerLinkActive="active"
+                 class="nav-link">
+              <span class="sidebar-mini"
+                    jhiTranslate="{{item.localeShort}}"></span>
+                <span class="sidebar-normal"
+                      jhiTranslate="{{item.locale}}"></span>
+              </a>
+            </li>
+            </ng-template>
+            <!--  eventBasedButton -->
+            <ng-template #eventBasedButton>
+              <li class="nav-item"
+                  *permitted="item.permitted">
+                <a href="javascript: void(0);"
+                   (click)="item.onClick()"
+                   [attr.id]="item?.id"
+                   class="nav-link">
+                  <span class="sidebar-mini" jhiTranslate="{{item.localeShort}}"></span>
+                  <span class="sidebar-normal" jhiTranslate="{{item.locale}}">Sign out</span>
+                </a>
+              </li>
+            </ng-template>
+
+          </ng-container>
+
         </ul>
       </div>
     </div>
