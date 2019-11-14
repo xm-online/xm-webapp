@@ -4,6 +4,7 @@ import { GetRolesByPage, PopulateRoles } from './role.actions';
 
 export class RoleStateModel {
     roles: Role[];
+    rolesPaged: Role[];
 }
 
 @State<RoleStateModel>({
