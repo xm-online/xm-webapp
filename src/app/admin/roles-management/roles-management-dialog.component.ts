@@ -7,7 +7,7 @@ import { Role } from '../../shared/role/role.model';
 
 @Component({
     selector: 'xm-role-mgmt-dialog',
-    templateUrl: './roles-management-dialog.component.html'
+    templateUrl: './roles-management-dialog.component.html',
 })
 export class RoleMgmtDialogComponent implements OnInit {
 
@@ -20,7 +20,7 @@ export class RoleMgmtDialogComponent implements OnInit {
     constructor(
         public activeModal: NgbActiveModal,
         private roleService: RoleService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
     ) {
     }
 

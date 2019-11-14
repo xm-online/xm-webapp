@@ -35,7 +35,7 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     ) {
         this.roleOptions.itemsPerPage = ITEMS_PER_PAGE;
         this.registerChangeInRoles();
-        this.roles$ = this.store.select((state) => state.roles.roles);
+        this.roles$ = this.store.select((state) => state.roles.rolesPaged);
     }
 
 
@@ -77,6 +77,7 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     onLoadPage(page: number) {
         if (page !== this.roleOptions.previousPage) {
             this.roleOptions.previousPage = page;
+            this.store.dispatch(new GetRolesByPage(this.roleOptions.page));
         }
     }
 
