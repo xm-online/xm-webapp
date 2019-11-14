@@ -19,6 +19,9 @@ import { XmSharedModule } from './shared/shared.module';
 import { XmApplicationConfigService } from './shared/spec/xm-config.service';
 import { XmDashboardModule } from './xm-dashboard/xm-dashboard.module';
 import { XmRoutingModule } from './xm-routing.module';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 
 export function appInitializerFn(appConfig: XmApplicationConfigService): () => Promise<any> {
     // tslint:disable-next-line:only-arrow-functions
@@ -51,6 +54,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         ),
         LayoutModule,
         MarkdownModule.forRoot(),
+        NgxsModule.forRoot([]),
+        NgxsReduxDevtoolsPluginModule.forRoot(),
+        NgxsLoggerPluginModule.forRoot(),
     ],
     providers: [
         XmApplicationConfigService,

@@ -10,7 +10,21 @@ export class Role {
         public updatedDate?: any,
         public updatedBy?: string,
         public env?: string[],
-        public permissions?: Permission[]
+        public permissions?: Permission[],
+    ) {
+    }
+}
+
+export class RoleOptions {
+    constructor(
+        public reverse: boolean,
+        public showLoader: boolean,
+        public page: number,
+        public predicate: string,
+        public previousPage?: number,
+        public totalItems?: number,
+        public queryCount?: number,
+        public itemsPerPage?: number,
     ) {
     }
 }

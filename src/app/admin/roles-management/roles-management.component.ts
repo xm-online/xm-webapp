@@ -1,14 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { JhiAlertService, JhiEventManager, JhiOrderByPipe } from 'ng-jhipster';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Principal } from '../../shared/auth/principal.service';
 import { ITEMS_PER_PAGE } from '../../shared/constants/pagination.constants';
-import { Role } from '../../shared/role/role.model';
+import { Role, RoleOptions } from '../../shared/role/role.model';
 import { RoleService } from '../../shared/role/role.service';
 import { RoleMgmtDialogComponent} from './roles-management-dialog.component';
 import { RoleMgmtDeleteDialogComponent} from './roles-management-delete-dialog.component';
+import { Store } from '@ngxs/store';
+import { GetRolesByPage, PopulateRoles } from './role.actions';
 
 @Component({
     selector: 'xm-roles-mgmt',
@@ -17,19 +19,13 @@ import { RoleMgmtDeleteDialogComponent} from './roles-management-delete-dialog.c
 })
 export class RolesMgmtComponent implements OnInit, OnDestroy {
 
-    roles: Role[];
-    rolesAll: Role[];
-    totalItems: any;
-    queryCount: any;
-    itemsPerPage: any;
-    previousPage: any;
-    page: any = 1;
-    predicate: any = 'roleKey';
-    reverse: any = true;
-    showLoader: boolean;
+    roles$: Observable<Role>;
+    roleOptions: RoleOptions = new RoleOptions(false, false, 1, 'roleKey');
+
     private eventSubscriber: Subscription;
 
     constructor(
+        private store: Store,
         private roleService: RoleService,
         private alertService: JhiAlertService,
         private principal: Principal,
@@ -37,8 +33,9 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         private orderByPipe: JhiOrderByPipe,
         private modalService: NgbModal,
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
+        this.roleOptions.itemsPerPage = ITEMS_PER_PAGE;
         this.registerChangeInRoles();
+        this.roles$ = this.store.select((state) => state.roles.roles);
     }
 
 
@@ -57,49 +54,44 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.showLoader = true;
+        this.roleOptions.showLoader = true;
         this.roleService.getRoles()
             .subscribe(
                 (result) => {
-                    this.rolesAll = this.orderByPipe.transform(result, this.predicate, !this.reverse);
-                    this.queryCount = this.totalItems = result.length;
-                    if (this.page > 1) {
-                        const length = parseInt(this.queryCount / this.itemsPerPage + '', 10)
-                            + (this.queryCount % this.itemsPerPage ? 1 : 0);
-                        if (this.page > length) {
-                            this.page = length;
-                            this.previousPage = null;
+                    this.updateRolesList(result);
+                    this.roleOptions.queryCount = this.roleOptions.totalItems = result.length;
+                    if (this.roleOptions.page > 1) {
+                        const length = parseInt(this.roleOptions.queryCount / this.roleOptions.itemsPerPage + '', 10)
+                            + (this.roleOptions.queryCount % this.roleOptions.itemsPerPage ? 1 : 0);
+                        if (this.roleOptions.page > length) {
+                            this.roleOptions.page = length;
+                            this.roleOptions.previousPage = null;
                         }
                     }
-                    this.roles = this.getItemsByPage(this.page);
                 },
                 (res: Response) => this.onError(res),
-                () => this.showLoader = false
+                () => this.roleOptions.showLoader = false
             );
     }
 
     onLoadPage(page: number) {
-        if (page !== this.previousPage) {
-            this.previousPage = page;
-            this.roles = this.getItemsByPage(page);
-            // this.transition();
+        if (page !== this.roleOptions.previousPage) {
+            this.roleOptions.previousPage = page;
         }
     }
 
     onTransition() {
-        this.rolesAll = this.orderByPipe.transform(this.rolesAll, this.predicate, !this.reverse);
-        this.roles = this.getItemsByPage(this.page);
+        this.loadAll();
     }
 
     onChangePerPage() {
-        this.previousPage = null;
-        this.onLoadPage(this.page);
+        this.roleOptions.previousPage = null;
+        this.onLoadPage(this.roleOptions.page);
     }
 
-    private getItemsByPage(page: number): Role[] {
-        const startPos = (page - 1) * this.itemsPerPage;
-        const endPos = startPos + this.itemsPerPage;
-        return this.rolesAll.slice(startPos, endPos);
+    private updateRolesList(data: Role[]): void {
+        this.store.dispatch(new PopulateRoles(this.orderByPipe.transform(data, this.roleOptions.predicate, !this.roleOptions.reverse)));
+        this.store.dispatch(new GetRolesByPage(this.roleOptions.page));
     }
 
     private onError(resp) {

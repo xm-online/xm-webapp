@@ -57,6 +57,8 @@ import { FormPlaygroundComponent } from './form-playground/form-playground.compo
 import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { TranslationComponent } from './translations/translation.component';
 import { TranslationService } from './translations/translation.service';
+import { RoleState } from './roles-management/role.state';
+import { NgxsModule } from '@ngxs/store';
 
 @NgModule({
     imports: [
@@ -75,6 +77,9 @@ import { TranslationService } from './translations/translation.service';
         },
         FormsModule,
         RouterModule.forChild(adminState),
+        NgxsModule.forFeature([
+            RoleState,
+        ]),
     ],
     declarations: [
         AuditsComponent,
