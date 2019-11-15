@@ -22,6 +22,7 @@ import { XmRoutingModule } from './xm-routing.module';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 
 export function appInitializerFn(appConfig: XmApplicationConfigService): () => Promise<any> {
     // tslint:disable-next-line:only-arrow-functions
@@ -40,6 +41,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         BrowserModule,
         HttpClientModule,
         XmRoutingModule,
+        NgxsModule.forRoot([]),
+        NgxsRouterPluginModule.forRoot(),
         NgxWebstorageModule.forRoot({prefix: 'jhi', separator: '-'}),
         XmSharedModule.forRoot(),
         BrowserAnimationsModule,
@@ -54,7 +57,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         ),
         LayoutModule,
         MarkdownModule.forRoot(),
-        NgxsModule.forRoot([]),
         NgxsReduxDevtoolsPluginModule.forRoot(),
         NgxsLoggerPluginModule.forRoot(),
     ],

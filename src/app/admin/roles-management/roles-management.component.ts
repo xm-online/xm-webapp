@@ -15,7 +15,7 @@ import { GetRolesByPage, PopulateRoles } from './role.actions';
 @Component({
     selector: 'xm-roles-mgmt',
     templateUrl: './roles-management.component.html',
-    providers: [JhiOrderByPipe]
+    providers: [JhiOrderByPipe],
 })
 export class RolesMgmtComponent implements OnInit, OnDestroy {
 
@@ -91,7 +91,8 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     }
 
     private updateRolesList(data: Role[]): void {
-        this.store.dispatch(new PopulateRoles(this.orderByPipe.transform(data, this.roleOptions.predicate, !this.roleOptions.reverse)));
+        this.store.dispatch(new PopulateRoles(
+            this.orderByPipe.transform(data, this.roleOptions.predicate, !this.roleOptions.reverse)));
         this.store.dispatch(new GetRolesByPage(this.roleOptions.page));
     }
 

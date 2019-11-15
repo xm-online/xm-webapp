@@ -52,6 +52,7 @@
     "@ng-bootstrap/ng-bootstrap": "^5.1.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "@ngxs/router-plugin": "^3.5.1",
     "@ngxs/store": "^3.5.1",
     "@types/chartist": "^0.9.46",
     "ajv": "^6.5.0",
