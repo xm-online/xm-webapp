@@ -8,10 +8,15 @@ import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-
 import { XmConfigService } from '../spec/config.service';
 import { RegisterService } from './register.service';
 import { PasswordSpec } from '../../xm-entity/shared/password-spec.model';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 
 @Component({
     selector: 'xm-register',
-    templateUrl: './register.component.html'
+    templateUrl: './register.component.html',
+    animations: [
+        fadeInOnEnterAnimation(),
+        fadeOutOnLeaveAnimation(),
+    ],
 })
 export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
 

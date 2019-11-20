@@ -20,6 +20,8 @@ import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
 
+import { fadeInOnEnterAnimation } from 'angular-animations';
+
 import * as _ from 'lodash';
 
 declare let swal: any;
@@ -27,7 +29,10 @@ declare let swal: any;
 @Component({
     selector: 'xm-entity-list-card',
     templateUrl: './entity-list-card.component.html',
-    styleUrls: ['./entity-list-card.component.scss']
+    styleUrls: ['./entity-list-card.component.scss'],
+    animations: [
+        fadeInOnEnterAnimation(),
+    ],
 })
 export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 

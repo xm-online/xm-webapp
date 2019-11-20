@@ -5,15 +5,19 @@ import { JhiEventManager } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 import { Account, AuthServerProvider, Principal } from '../shared';
 import { XmConfigService } from '../shared/spec/config.service';
 import { Widget } from '../xm-dashboard';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, XM_EVENT_LIST } from '../xm.constants';
 
-
 @Component({
     selector: 'xm-home',
-    templateUrl: './home.component.html'
+    templateUrl: './home.component.html',
+    animations: [
+        fadeInOnEnterAnimation(),
+        fadeOutOnLeaveAnimation(),
+    ],
 })
 export class HomeComponent implements OnInit, OnDestroy {
 

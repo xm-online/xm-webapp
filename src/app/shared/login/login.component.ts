@@ -10,6 +10,7 @@ import { XmConfigService } from '../spec/config.service';
 import { LoginService } from './login.service';
 import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 
 declare let $: any;
 
@@ -17,6 +18,10 @@ declare let $: any;
     selector: 'xm-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
+    animations: [
+        fadeInOnEnterAnimation(),
+        fadeOutOnLeaveAnimation(),
+    ],
 })
 export class LoginComponent implements OnInit, AfterViewInit {
 

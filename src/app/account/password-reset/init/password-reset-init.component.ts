@@ -2,10 +2,15 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatInput } from '@angular/material';
 
 import { PasswordResetInit } from './password-reset-init.service';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 
 @Component({
     selector: 'xm-password-reset-init',
     templateUrl: './password-reset-init.component.html',
+    animations: [
+        fadeInOnEnterAnimation(),
+        fadeOutOnLeaveAnimation(),
+    ],
 })
 export class PasswordResetInitComponent implements OnInit, AfterViewInit {
     error: string;

@@ -27,7 +27,7 @@
 </div>
 
 <!--Body-->
-<form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm">
+<form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm" [@fadeInOnEnter] [@fadeOutOnLeave]>
   <div class="form-group">
     <mat-form-field>
       <input matInput

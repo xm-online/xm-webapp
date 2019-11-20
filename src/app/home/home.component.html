@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div *ngIf="defaultLayout">
+<div *ngIf="defaultLayout" [@fadeInOnEnter] [@fadeOutOnLeave]>
   <div *ngFor="let row of defaultLayout" [className]="row.class">
     <div *ngFor="let item of row?.content" [className]="item.class">
       <xm-dynamic-widget [init]="{module: item.widget?.module, component: item.widget?.selector, config: item.widget?.config}"

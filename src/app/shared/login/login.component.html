@@ -15,7 +15,7 @@
   <strong>Registration saved!</strong> Please check your email for confirmation.
 </div>
 
-<form class="form" role="form" (ngSubmit)="login()" *ngIf="!checkOTP" autocomplete="off">
+<form class="form" role="form" (ngSubmit)="login()" *ngIf="!checkOTP" autocomplete="off" [@fadeInOnEnter] [@fadeOutOnLeave]>
   <div class="form-group" id="userNameContainer">
     <mat-form-field [floatLabel]="floatLabel ? 'always' : 'auto'">
       <input matInput

@@ -128,7 +128,7 @@
               </thead>
 
               <tbody>
-              <tr *ngFor="let xmEntity of item.entities">
+              <tr *ngFor="let xmEntity of item.entities; let i = index;" [@fadeInOnEnter]="{ value: '', params: { delay: i * 50 } }">
                 <td>
                   <div class="xm-avatar-img-container">
                     <img src="{{xmEntity.avatarUrl ? xmEntity.avatarUrl : './assets/img/placeholder.png'}}">
