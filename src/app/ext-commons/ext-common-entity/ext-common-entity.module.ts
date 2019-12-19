@@ -17,6 +17,7 @@ import {
     StatsWidgetComponent,
     TasksWidgetComponent,
 } from './';
+import { EntityChartWidgetComponent } from './entity-chart-widget/entity-chart-widget.component';
 
 @NgModule({
     imports: [
@@ -38,11 +39,13 @@ import {
         MdTableComponent,
         StatsWidgetComponent,
         TasksWidgetComponent,
+        EntityChartWidgetComponent,
     ],
     entryComponents: [
         AvailableOfferingsWidgetComponent,
         ChartistLineWidgetComponent,
         CustomerInfoWidgetComponent,
+        EntityChartWidgetComponent,
         EntityFabActionsComponent,
         EntityListWidgetComponent,
         EntityWidgetComponent,
@@ -55,6 +58,7 @@ import {
     providers: [
         {provide: 'xm-widget-available-offerings', useValue: AvailableOfferingsWidgetComponent},
         {provide: 'xm-widget-chartist-line', useValue: ChartistLineWidgetComponent},
+        {provide: 'xm-widget-chart', useValue: EntityChartWidgetComponent},
         {provide: 'xm-widget-provide-customer-info', useValue: CustomerInfoWidgetComponent},
         {provide: 'xm-widget-entity-fab-actions', useValue: EntityFabActionsComponent},
         {provide: 'xm-widget-entities-list', useValue: EntityListWidgetComponent},
