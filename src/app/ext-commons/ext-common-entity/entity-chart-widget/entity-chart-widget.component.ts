@@ -41,20 +41,55 @@ export class EntityChartWidgetComponent implements OnInit {
         const labels = [];
 
         if (this.config.chartType === 'Pie') {
+            const SRC = this.chartConfig.series[0];
             entities.map((e: XmEntity) => {
-                series.push(this.chatService.exposeValues(this.chartConfig.series[0], e));
+                const SLICE = {
+                    value: this.chatService.exposeValues(SRC, e),
+                    name: SRC.name,
+                };
+                if (this.config.useSeriesColorClass) {
+                    Object.assign(SLICE, {
+                        className: this.chatService.exposeClassPath(this.chartConfig.series[0], e),
+                    });
+                }
+                series.push(SLICE);
                 labels.push(this.chatService.exposeLabels(this.chartConfig.series[0], e));
             });
-            series = series.filter((s) => s > 0);
-            this.chartConfig.options['total'] = series.reduce((a, b) => a + b, 0);
+            series = series.filter((s) => s.value > 0);
+            this.chartConfig.options['total'] = series.map((a) => a.value).reduce((a, b) => a + b, 0);
+            if (this.config.useHalfForDonut) {
+                this.chartConfig.options['total'] = this.chartConfig.options['total'] * 2;
+            }
         } else {
-            this.chartConfig.series.map((s: any, index: number) => {
+            this.chartConfig.series.map((s: any) => {
                 const results = [];
                 entities.map((e: XmEntity) => {
                     results.push(this.chatService.exposeValues(s, e));
                 });
-                series[index] = results;
+                const SRS = {
+                    name: s.name,
+                    data: results,
+                };
+                if (this.config.useSeriesColorClass) {
+                    Object.assign(SRS, {
+                        className: s.className,
+                    });
+                }
+                series.push(SRS);
             });
+
+            // case we need separate bars from one query and colorClass from each entity
+            if (this.config.useSeriesColorClass && this.chartConfig.series[0].classNamePath) {
+                series = [];
+                const src = this.chartConfig.series[0];
+                for (const e of entities) {
+                    series.push({
+                        name: src.name,
+                        value: this.chatService.exposeValues(src, e),
+                        className: this.chatService.exposeClassPath(src, e),
+                    });
+                }
+            }
 
             for (const entity of entities) {
                 labels.push(this.chatService.exposeLabels(this.chartConfig.series[0], entity));
@@ -71,7 +106,14 @@ export class EntityChartWidgetComponent implements OnInit {
                     data,
                     this.chartConfig.options || null,
                 );
-            this.startAnimationForLineChart(chart);
+
+            if (this.config.useAnimations) {
+                if (type === 'Pie') {
+                    this.startAnimationForPieChart(chart);
+                } else {
+                    this.startAnimationForLineChart(chart);
+                }
+            }
         }
     }
 
@@ -107,5 +149,33 @@ export class EntityChartWidgetComponent implements OnInit {
             }
         });
         seq = 0;
+    }
+
+    private startAnimationForPieChart(chart: any): void {
+        chart.on('draw', (data) => {
+            if (data.type === 'slice') {
+                const pathLength = data.element._node.getTotalLength();
+                data.element.attr({
+                    'stroke-dasharray': pathLength + 'px ' + pathLength + 'px',
+                });
+                const animationDefinition = {
+                    'stroke-dashoffset': {
+                        id: 'anim' + data.index,
+                        dur: 500,
+                        from: -pathLength + 'px',
+                        to:  '0px',
+                        easing: Chartist.Svg.Easing.easeOutQuint,
+                        fill: 'freeze',
+                    },
+                };
+                if (data.index !== 0) {
+                    animationDefinition['stroke-dashoffset']['begin'] = 'anim' + (data.index - 1) + '.end';
+                }
+                data.element.attr({
+                    'stroke-dashoffset': -pathLength + 'px',
+                });
+                data.element.animate(animationDefinition, false);
+            }
+        });
     }
 }

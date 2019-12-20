@@ -29,4 +29,14 @@ export class ChartService {
         }
         return value ;
     }
+
+    public exposeClassPath(options: any, entity: XmEntity): any | null {
+        let value = null;
+        try {
+            value = options.classNamePath.split('.').reduce((a, b) => a[b], entity);
+        } catch (e) {
+            if (!environment.production) { console.info(e); }
+        }
+        return value ;
+    }
 }
