@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { JsonSchemaFormModule } from 'angular2-json-schema-form';
 import { XmSharedModule } from '../../shared/shared.module';
 import { XmBalanceModule } from '../../xm-balance/xm-balance.module';
 import { XmEntityModule } from '../../xm-entity/xm-entity.module';
@@ -17,6 +18,7 @@ import {
     StatsWidgetComponent,
     TasksWidgetComponent,
 } from './';
+import { EntityCardWidgetComponent } from './entity-card-widget/entity-card-widget.component';
 
 @NgModule({
     imports: [
@@ -25,6 +27,7 @@ import {
         XmEntityModule,
         XmBalanceModule,
         XmTimelineModule,
+        JsonSchemaFormModule,
     ],
     declarations: [
         AvailableOfferingsWidgetComponent,
@@ -38,6 +41,7 @@ import {
         MdTableComponent,
         StatsWidgetComponent,
         TasksWidgetComponent,
+        EntityCardWidgetComponent,
     ],
     entryComponents: [
         AvailableOfferingsWidgetComponent,
@@ -51,6 +55,7 @@ import {
         MdTableComponent,
         StatsWidgetComponent,
         TasksWidgetComponent,
+        EntityCardWidgetComponent
     ],
     providers: [
         {provide: 'xm-widget-available-offerings', useValue: AvailableOfferingsWidgetComponent},
@@ -63,6 +68,7 @@ import {
         {provide: 'xm-widget-general-countries', useValue: LocationCountriesWidgetComponent},
         {provide: 'xm-widget-stats', useValue: StatsWidgetComponent},
         {provide: 'xm-widget-tasks', useValue: TasksWidgetComponent},
+        {provide: 'xm-widget-entity-card', useValue: EntityCardWidgetComponent},
     ],
 })
 export class ExtCommonEntityModule {
