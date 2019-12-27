@@ -19,13 +19,11 @@ export interface MatMultiselectOptions {
     url?: string;
 }
 
-type Primitives = string | number | boolean;
-
 interface MultiplyDataObject {
-    [prop: string]: Primitives;
+    [prop: string]: string;
 }
 
-type MultiplyData = MultiplyDataObject | Primitives;
+type MultiplyData = MultiplyDataObject | string;
 
 @Component({
     selector: 'xm-ext-mat-multiselect',
@@ -72,7 +70,7 @@ export class ExtMatMultiselectComponent implements OnInit {
         return this.data.length === this.selected.length;
     }
 
-    public byConfigProp(source: MultiplyData, prop: string): Primitives {
+    public byConfigProp(source: MultiplyData, prop: string): string {
         const configProp: string = this.options[prop];
         return source[configProp] ? source[configProp] : source;
     }
