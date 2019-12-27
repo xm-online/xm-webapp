@@ -32,9 +32,9 @@ type MultiplyData = MultiplyDataObject | string;
 })
 export class ExtMatMultiselectComponent implements OnInit {
     public TRANSLATES: { all: string, others: string, other: string } = {
-        all: 'ext-tenant-obm.common.all',
-        others: 'ext-tenant-obm.common.others',
-        other: 'ext-tenant-obm.common.other',
+        all: 'ext-common.common.all',
+        others: 'ext-common.common.others',
+        other: 'ext-common.common.other',
     };
     @Input() public layoutNode: any;
     public options: MatMultiselectOptions = {

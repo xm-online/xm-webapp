@@ -21,6 +21,11 @@
             "humidity": "Humidity",
             "wind-speed": "Wind speed",
             "ms": "m/s"
+        },
+        "common": {
+            "all": "All",
+            "others": "Others",
+            "other": "Other"
         }
     }
 }
