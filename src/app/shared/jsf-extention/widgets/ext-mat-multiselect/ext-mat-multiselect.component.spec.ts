@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ExtMatMultiselectComponent} from './ext-mat-multiselect.component';
 
-describe('SelectComponent', () => {
+describe('ExtMatMultiselectComponent', () => {
   let component: ExtMatMultiselectComponent;
   let fixture: ComponentFixture<ExtMatMultiselectComponent>;
 
