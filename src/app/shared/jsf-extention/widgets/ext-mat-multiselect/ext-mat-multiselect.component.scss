@@ -1,0 +1,17 @@
+// hide default filter-option for selectedAll
+.filter-option > mat-pseudo-checkbox.mat-pseudo-checkbox-disabled {
+    display: none !important;
+}
+
+// fix XM-webapp shit code
+mat-pseudo-checkbox, .mat-option-text {
+    float: none !important;
+}
+
+::ng-deep .allSelected .multiselect-option > .mat-option-pseudo-checkbox {
+    opacity: .5;
+}
+
+::ng-deep .label-touchable label {
+    pointer-events: auto;
+}

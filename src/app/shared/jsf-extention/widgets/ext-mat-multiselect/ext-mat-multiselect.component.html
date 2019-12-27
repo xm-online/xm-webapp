@@ -1,0 +1,49 @@
+<mat-form-field [ngClass]="{ 'mat-form-field-disabled': options.disabled }" class="label-touchable">
+  <mat-label>
+    <span class="pr-2">{{ options.title | translate }}</span>
+    <mat-icon *ngIf="options.feedback" [matTooltip]="options.feedback | translate">help</mat-icon>
+  </mat-label>
+
+  <mat-select multiple
+              [(ngModel)]="selected"
+              [panelClass]="areAllSelected() ? 'allSelected' : ''"
+              [style.background]="'transparent'"
+              (selectionChange)="onSelectionChange($event.value)">
+
+    <mat-select-trigger>
+      <ng-container *ngIf="areAllSelected(); else someSelected">
+        {{ TRANSLATES.all | translate }}
+      </ng-container>
+
+      <ng-template #someSelected>
+        {{ (selected?.length ? byConfigProp(selected[0], 'titleKey') : '') | translate }}
+        <span *ngIf="selected?.length > 1" class="small">
+          (+{{selected.length - 1}} {{(selected.length === 2 ? TRANSLATES.other : TRANSLATES.others)  | translate}})
+        </span>
+      </ng-template>
+    </mat-select-trigger>
+
+    <div [attr.disabled]="options.disabled"
+         [ngClass]="{ 'mat-active': areAllSelected(), 'mat-option-disabled': options.disabled }"
+         class="mat-option mat-option-multiple mat-select-trigger"
+         (click)="toggleOptionAll()">
+
+      <mat-pseudo-checkbox
+        class="mat-option-pseudo-checkbox"
+        [disabled]="options.disabled"
+        [state]="areAllSelected() ? 'checked' : 'unchecked'"></mat-pseudo-checkbox>
+
+      <span class="mat-option-text">{{ TRANSLATES.all | translate }}</span>
+
+    </div>
+
+    <mat-option *ngFor="let item of data"
+                class="multiselect-option"
+                [disabled]="options.disabled"
+                [value]="byConfigProp(item, 'valueKey')">
+      {{ byConfigProp(item, 'titleKey') | translate  }}
+    </mat-option>
+
+  </mat-select>
+
+</mat-form-field>

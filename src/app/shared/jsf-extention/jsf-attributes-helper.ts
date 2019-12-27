@@ -4,6 +4,7 @@ import { DatetimePickerComponent } from './widgets/datetime-picker/datetime-pick
 import { DatetimeUtcComponent } from './widgets/datetime-utc/datetime-utc.component';
 import { EmailMatcherComponent } from './widgets/email-matcher/email-matcher.component';
 import { ExtAutocompleteComponent } from './widgets/ext-autocomplete/ext-autocomplete.component';
+import { ExtMatMultiselectComponent } from './widgets/ext-mat-multiselect/ext-mat-multiselect.component';
 import { ExtMdEditorComponent } from './widgets/ext-md-editor/ext-md-editor.component';
 import { ExtMultiSelectComponent } from './widgets/ext-multi-select/ext-multi-select.component';
 import { ExtQuerySelectComponent } from './widgets/ext-query-select/ext-query-select.component';
@@ -37,6 +38,7 @@ export const getJsfWidgets = () => {
         'email-matcher': EmailMatcherComponent,
         'text-section': TextSectionComponent,
         'file-upload': FileUploadComponent,
+        'ext-multiselect': ExtMatMultiselectComponent,
     };
 };
 

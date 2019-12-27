@@ -59,6 +59,7 @@ import { DatetimeUtcComponent } from './jsf-extention/widgets/datetime-utc/datet
 import { EmailMatcherComponent } from './jsf-extention/widgets/email-matcher/email-matcher.component';
 import { ExtAutocompleteService } from './jsf-extention/widgets/ext-autocomplete/ext-autocomplete-service';
 import { ExtAutocompleteComponent } from './jsf-extention/widgets/ext-autocomplete/ext-autocomplete.component';
+import { ExtMatMultiselectComponent } from './jsf-extention/widgets/ext-mat-multiselect/ext-mat-multiselect.component';
 import { ExtMdEditorComponent } from './jsf-extention/widgets/ext-md-editor/ext-md-editor.component';
 import { ExtMultiSelectComponent } from './jsf-extention/widgets/ext-multi-select/ext-multi-select.component';
 import { ExtQuerySelectComponent } from './jsf-extention/widgets/ext-query-select/ext-query-select.component';
@@ -123,6 +124,7 @@ const PIPES = [
         ValidationComponent,
         ExtAutocompleteComponent,
         ExtMultiSelectComponent,
+        ExtMatMultiselectComponent,
         ExtQuerySelectComponent,
         ExtTextareaComponent,
         ExtMdEditorComponent,
@@ -145,6 +147,7 @@ const PIPES = [
         ExtSelectComponent,
         ExtAutocompleteComponent,
         ExtMultiSelectComponent,
+        ExtMatMultiselectComponent,
         ExtQuerySelectComponent,
         ValidationComponent,
         ExtTextareaComponent,
@@ -220,6 +223,7 @@ const PIPES = [
         ExtSelectComponent,
         ExtAutocompleteComponent,
         ExtMultiSelectComponent,
+        ExtMatMultiselectComponent,
         ExtQuerySelectComponent,
         ValidationComponent,
         ExtTextareaComponent,
