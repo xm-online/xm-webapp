@@ -11,20 +11,20 @@ import {
     socialAuthRoute,
     socialRegisterRoute,
 } from './';
-
-const ACCOUNT_ROUTES = [
-    activateRoute,
-    passwordRoute,
-    passwordResetFinishRoute,
-    passwordSetupRoute,
-    passwordResetInitRoute,
-    registerRoute,
-    socialAuthRoute,
-    socialRegisterRoute,
-    settingsRoute,
-];
+import { logoutRoute } from './logout/logout.route';
 
 export const accountState: Routes = [{
     path: '',
-    children: ACCOUNT_ROUTES,
+    children: [
+        activateRoute,
+        passwordRoute,
+        passwordResetFinishRoute,
+        passwordSetupRoute,
+        passwordResetInitRoute,
+        registerRoute,
+        socialAuthRoute,
+        socialRegisterRoute,
+        settingsRoute,
+        logoutRoute,
+    ],
 }];
