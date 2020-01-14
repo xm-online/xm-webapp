@@ -1,0 +1,18 @@
+{
+  "name": "@xm-ngx/entity-collection",
+  "version": "0.0.1-alpha",
+  "author": "Yevhenii Kamenskyi",
+  "description": "Rest client, elastic rest client",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xm-online/xm-webapp.git",
+    "directory": "packages/entity-collection"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@elastic/elasticsearch": "^7.5.0"
+  }
+}

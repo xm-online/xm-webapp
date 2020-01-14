@@ -43,6 +43,7 @@ export function appInitializerFn(appConfig: XmApplicationConfigService): () => P
         XmTranslationModule.forRoot(),
         XmDashboardModule.forRoot(),
         MarkdownModule.forRoot(),
+        EntityCollectionModule.forRoot({root: 'entity/api/'}),
         LayoutModule,
     ],
     providers: [

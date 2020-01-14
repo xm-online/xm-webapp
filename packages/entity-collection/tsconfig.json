@@ -1,0 +1,14 @@
+// Configuration for IDEs only.
+{
+    "extends": "../../tsconfig",
+    "compilerOptions": {
+        "rootDir": ".",
+        "baseUrl": ".",
+        "paths": {
+            "@xm-ngx/entity-collection": ["../entity-collection"]
+        }
+    },
+    "include": [
+        "./**/*.ts"
+    ]
+}

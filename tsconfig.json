@@ -27,7 +27,9 @@
             "@xm-ngx/translation": ["src/app/modules/xm-translation"],
             "@xm-ngx/shared/operators": ["src/app/shared/operators"],
             "@xm-ngx/entity": ["src/app/xm-entity/shared"],
-            "@xm-ngx/dynamic": ["src/app/xm-dashboard"]
+            "@xm-ngx/dynamic": ["src/app/xm-dashboard"],
+          "@xm-ngx/entity-collection": ["./packages/entity-collection"]
+
         },
         "inlineSources": true,
         "module": "esnext",
