@@ -1,10 +1,7 @@
-/*
- * WARNING: Override of global ./src/styles.scss
- */
+/* You can add global styles to this file, and also import other style files */
 
 // Theme
-@import 'common-webapp-ext/styles/vodafone-font';
-@import 'theme';
+@import './styles/theme';
 
 @include xm-ngx-styles-theme($xm-theme);
 
@@ -13,5 +10,3 @@
 @include xm-angular-material-theme($xm-theme);
 @include xm-angular-material-typography();
 @include xm-vendor-xm-override();
-
-@import 'common-webapp-ext/styles/vodafone-toasters';
