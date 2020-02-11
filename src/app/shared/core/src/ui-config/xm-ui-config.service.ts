@@ -5,20 +5,21 @@ import {Observable} from 'rxjs';
 import {UIConfig} from './ui-config-model';
 import {takeUntilOnDestroy} from '@xm-ngx/shared/operators';
 import {RequestCache} from '../cache/request-cache';
-import {AuthServerProvider} from '../../../auth/auth-jwt.service';
+import {XmSessionService} from "../session/xm-session.service";
 
 export const UI_CONFIG_URL = 'config/api/profile/webapp/settings-public.yml?toJson';
 
 @Injectable({providedIn: 'root'})
-export class UiConfigService<T = UIConfig> implements OnDestroy {
+export class XmUiConfigService<T = UIConfig> implements OnDestroy {
 
     public url: string = UI_CONFIG_URL;
     protected requestCache: RequestCache<T>;
 
     constructor(protected httpClient: HttpClient,
-                protected authServerProvider: AuthServerProvider) {
+                protected sessionService: XmSessionService) {
         this.requestCache = new RequestCache(this.getAll.bind(this));
-        this.authServerProvider.session$.pipe(takeUntilOnDestroy(this)).subscribe((session) => {
+        this.sessionService.get().pipe(takeUntilOnDestroy(this)).subscribe((session) => {
+            console.log('asd11111', session.active);
             if (session.active) {
                 this.requestCache.forceReload();
             } else {

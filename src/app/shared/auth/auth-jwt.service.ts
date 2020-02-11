@@ -2,19 +2,20 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../xm.constants';
 import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
+import {XmSessionService} from '@xm-ngx/core';
 
 const TOKEN_STORAGE_KEY = 'WALLET-TOKEN';
 
 const DEFAULT_HEADERS = {
     'Content-Type': DEFAULT_CONTENT_TYPE,
-    'Authorization': DEFAULT_AUTH_TOKEN,
+    Authorization: DEFAULT_AUTH_TOKEN,
 };
 
 const REFRESH_TOKEN = 'refresh_token';
@@ -34,12 +35,12 @@ export const CONFIG_SETTINGS_API = _CONFIG_SETTINGS_API;
 @Injectable()
 export class AuthServerProvider {
 
-    public session$: ReplaySubject<{ active: boolean }> = new ReplaySubject<any>(1);
     private updateTokenTimer: any;
 
     constructor(
         private principal: Principal,
         private http: HttpClient,
+        private sessionService: XmSessionService,
         private $localStorage: LocalStorageService,
         private $sessionStorage: SessionStorageService,
         private stateStorageService: StateStorageService,
@@ -59,9 +60,9 @@ export class AuthServerProvider {
 
     public acceptTermsAndConditions(tocOneTimeToken: string): Observable<any> {
         const headers = {
-            'Authorization': DEFAULT_AUTH_TOKEN,
+            Authorization: DEFAULT_AUTH_TOKEN,
             'Content-Type': DEFAULT_CONTENT_TYPE,
-            'Accept': 'application/json',
+            Accept: 'application/json',
         };
         return this.http
             .post(`/uaa/api/users/accept-terms-of-conditions/${tocOneTimeToken}`, {}, {headers});
@@ -88,9 +89,8 @@ export class AuthServerProvider {
         }
 
         return this.getAccessToken(data, DEFAULT_HEADERS, credentials.rememberMe).pipe(
-            tap(() => this.session$.next({active: true})),
+            tap(() => this.sessionService.create()),
         );
-
     }
 
     public loginWithToken(jwt: string, rememberMe: boolean): Promise<never> | Promise<unknown> {
@@ -136,9 +136,8 @@ export class AuthServerProvider {
             observer.next();
             observer.complete();
         }).pipe(
-            tap(() => this.session$.next({active: false})),
+            tap(() => this.sessionService.clear()),
         );
-
     }
 
     private storeAT(resp: any, rememberMe: boolean): string {
@@ -159,7 +158,7 @@ export class AuthServerProvider {
                 this.refreshTokens(rememberMe);
             }, (resp.expires_in - 60) * 1000);
         } else {
-            console.info('Expected to get %s but got undefined', REFRESH_TOKEN); // tslint:disable-line
+            console.info('Expected to get %s but got undefined', REFRESH_TOKEN); // Tslint:disable-line
         }
     }
 
@@ -190,15 +189,14 @@ export class AuthServerProvider {
             }
 
             return accessToken;
-
         }));
     }
 
     private refreshTokens(rememberMe: boolean): void {
         const headers = {
-            'Authorization': DEFAULT_AUTH_TOKEN,
+            Authorization: DEFAULT_AUTH_TOKEN,
             'Content-Type': DEFAULT_CONTENT_TYPE,
-            'Accept': 'application/json',
+            Accept: 'application/json',
         };
 
         const body = new HttpParams()
@@ -211,12 +209,11 @@ export class AuthServerProvider {
                 this.storeAT(data, rememberMe);
                 this.storeRT(data, rememberMe);
             }, (error) => {
-                console.info('Refresh token fails: %o', error); // tslint:disable-line
+                console.info('Refresh token fails: %o', error); // Tslint:disable-line
                 this.logout().subscribe();
                 this.principal.logout();
                 this.router.navigate(['']);
             });
-
     }
 
     private setAutoRefreshTokens(rememberMe: boolean): void {

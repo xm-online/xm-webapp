@@ -1,7 +1,8 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {UiConfigService} from './ui-config/ui-config.service';
+import {XmUiConfigService} from './ui-config/xm-ui-config.service';
+import {XmSessionService} from './session/xm-session.service';
 
 @NgModule({
     declarations: [],
@@ -12,7 +13,7 @@ export class CoreModule {
     public static forRoot(): ModuleWithProviders {
         return {
             ngModule: CoreModule,
-            providers: [UiConfigService],
+            providers: [XmUiConfigService, XmSessionService],
         }
     }
 
