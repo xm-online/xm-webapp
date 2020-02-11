@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthServerProvider } from '../../../shared';
 import { XmEntitySpec } from '../../../xm-entity';
 import { ACache } from './a-cache';
-import { takeUntilOnDestroy } from './takeUntilOnDestroy';
+import {takeUntilOnDestroy} from '@xm-ngx/shared/operators';
 
 export const ENTITY_CONFIG_URL = 'entity/api/xm-entity-specs';
 
