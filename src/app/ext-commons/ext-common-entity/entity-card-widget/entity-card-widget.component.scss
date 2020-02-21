@@ -1,66 +1,115 @@
 .entity-card-content {
-    display: flex;
-    .info-block {
+  display: flex;
+  .info-block {
+    flex: 1;
+    padding: 15px 20px;
+    padding-right: 10px;
+  }
+
+  .fields {
+    flex: 4;
+    padding-right: 20px;
+
+    .field {
+      margin: 10px 0;
+      display: flex;
+      text-align: left;
+      .label {
         flex: 1;
-        padding: 15px 20px;
-    }
+        margin-right: 20px;
+        color: #747474;
+      }
 
-    .fields {
+      .value {
         flex: 4;
+        border-bottom: 1px solid #A4A4A4;
+      }
     }
+  }
 
-    .avatar-container-card {
-        position: relative;
-        display: inline-block;
-        margin-bottom: 10px;
-        margin: auto;
-    }
+  .avatar-container-card {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+    margin: auto;
+  }
 
-    .avatar {
-        display: flex;
-    }
+  .avatar {
+    display: flex;
+  }
 
-    .avatar-container-card i {
-        display: block;
-        text-align: center;
-        color: grey;
-        position: absolute;
-        left: 0;
-        right: 0;
-        transform: translateY(5%);
-        font-size: 72px;
-        top: 20%;
-    }
+  .avatar-container-card i {
+    display: block;
+    text-align: center;
+    color: grey;
+    position: absolute;
+    left: 0;
+    right: 0;
+    transform: translateY(5%);
+    font-size: 72px;
+    top: 20%;
+  }
 
-    .avatar-container-card img {
-        width: 130px;
-        height: 130px;
-        overflow: hidden;
-        border-radius: 50%;
-    }
+  .avatar-container-card img {
+    width: 130px;
+    height: 130px;
+    overflow: hidden;
+    border-radius: 50%;
+  }
 
-    .state-container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        p {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
+  .state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    p {
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
+  }
 
-    .rating {
-        width: 30%;
-        margin: 10px 0;
-        align-items: flex-start;
-    }
+  .rating {
+    width: 30%;
+    margin: 10px 0;
+    align-items: flex-start;
+  }
 
-    .tags {
-        width: 80%;
-        p {
-            margin: 10px 0 0 0;
-        }
+  .tags {
+    width: 80%;
+    p {
+      margin: 10px 0 0 0;
     }
+  }
 }
+
+.is-mobile {
+  flex-flow: column;
+
+  text-align: center;
+
+  .fields {
+    padding: 20px;
+  }
+
+  .state-container {
+    align-items: center;
+  }
+
+  .rating {
+    margin: auto;
+    justify-content: center;
+    display: flex;
+      ::ng-deep {
+        div.row {
+          flex-wrap: nowrap;
+        }
+    }
+  }
+
+  .tags {
+    margin: auto;
+  }
+}
+
+
 
 

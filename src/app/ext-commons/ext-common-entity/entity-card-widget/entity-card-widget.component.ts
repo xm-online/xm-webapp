@@ -1,12 +1,9 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { JhiEventManager } from 'ng-jhipster';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Principal } from '../../../shared';
 import { buildJsfAttributes, nullSafe } from '../../../shared/jsf-extention';
 import { XmEntity, XmEntityService, XmEntitySpec, Spec } from '../../../xm-entity';
-import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 
 @Component({
     selector: 'xm-entity-card-widget',
@@ -14,6 +11,10 @@ import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
     styleUrls: ['./entity-card-widget.component.scss']
 })
 export class EntityCardWidgetComponent implements OnInit {
+
+    @ViewChild('dataBlock', {static: false}) dataBlock;
+
+
 
     public config: any;
     public xmEntity: XmEntity;
@@ -26,14 +27,20 @@ export class EntityCardWidgetComponent implements OnInit {
     showLoader: boolean;
 
     constructor(private xmEntityService: XmEntityService,
-                private translateService: TranslateService,
-                private eventManager: JhiEventManager,
                 public principal: Principal) {
     }
 
     public ngOnInit(): void {
         this.loadEntity();
         console.log(this);
+
+        window.addEventListener('resize', this.onResize);
+    }
+
+    public onResize() {
+        if (this.dataBlock) {
+            console.log(this.dataBlock.nativeElement);
+        }
     }
 
     public onSubmitForm(): void {}
@@ -70,5 +77,11 @@ export class EntityCardWidgetComponent implements OnInit {
     private getXmEntitySpec(typeKey: string): XmEntitySpec {
         const vTypeKey = typeKey ? typeKey : this.xmEntity.typeKey;
         return this.spec.types.filter((t) => t.key === vTypeKey).shift();
+    }
+
+    public getEntityField(field) {
+        if (this.xmEntity) {
+            return this.xmEntity.data[field] || '';
+        }
     }
 }

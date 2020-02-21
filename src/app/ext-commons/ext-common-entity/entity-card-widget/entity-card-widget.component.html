@@ -6,7 +6,7 @@
               hasNotHeaderConfig;">
     </div>
 
-    <div class="card-body min-height entity-card-content">
+    <div #dataBlock class="card-body min-height entity-card-content" [class.is-mobile]="dataBlock.offsetWidth < 560">
 
       <div class="info-block">
           <div class="avatar">
@@ -35,17 +35,29 @@
 
       <xm-loader [showLoader]="showLoader"></xm-loader>
       <div class="fields">
-        <json-schema-form [framework]="'material-design'"
-                          [schema]="jsfAttributes.schema"
-                          [layout]="jsfAttributes.layout | i18nJsf :principal"
-                          [form]="jsfAttributes.form | i18nJsf :principal"
-                          [data]="jsfAttributes.data"
-                          [options]="jsfAttributes.options | i18nJsf :principal"
-                          [widgets]="jsfAttributes.widgets"
-                          (formLayout)="jsfAttributes.formLayout"
-                          (onSubmit)="onSubmitForm($event)"
-                          *ngIf="jsfAttributes?.schema">
-        </json-schema-form>
+
+        <ng-container *ngIf="config.listSpec; else jsfView">
+
+          <div class="field" *ngFor="let field of config.listSpec.fields">
+              <div class="label">{{field.title | translate}}</div>
+              <div class="value">{{getEntityField(field.key)}}</div>
+          </div>
+
+        </ng-container>
+
+        <ng-template #jsfView>
+          <json-schema-form [framework]="'material-design'"
+                            [schema]="jsfAttributes.schema"
+                            [layout]="jsfAttributes.layout | i18nJsf :principal"
+                            [form]="jsfAttributes.form | i18nJsf :principal"
+                            [data]="jsfAttributes.data"
+                            [options]="jsfAttributes.options | i18nJsf :principal"
+                            [widgets]="jsfAttributes.widgets"
+                            (formLayout)="jsfAttributes.formLayout"
+                            (onSubmit)="onSubmitForm($event)"
+                            *ngIf="jsfAttributes?.schema">
+          </json-schema-form>
+        </ng-template>
       </div>
     </div>
   </div>
