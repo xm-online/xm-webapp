@@ -1,13 +1,11 @@
-export class Permission {
-    constructor(
-        public msName?: string,
-        public roleKey?: string,
-        public privilegeKey?: string,
-        public enabled?: Boolean,
-        public reactionStrategy?: string,
-        public envCondition?: string,
-        public resourceCondition?: string,
-        public resources?: string[]
-    ) {
-    }
+export interface Permission {
+    msName?: string;
+    roleKey?: string;
+    privilegeKey?: string;
+    enabled?: boolean;
+    reactionStrategy?: string;
+    envCondition?: string;
+    resourceCondition?: string;
+    resources?: string[];
+    description?: string;
 }

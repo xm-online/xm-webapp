@@ -1,21 +1,22 @@
 import { Directive, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[xmInputPreventPaste]'
+    selector: '[xmInputPreventPaste]',
 })
 export class InputPreventPasteDirective {
 
-  constructor() { }
-
-    @HostListener('paste', ['$event']) blockPaste(e: KeyboardEvent) {
+    @HostListener('paste', ['$event'])
+    public blockPaste(e: KeyboardEvent): void {
         e.preventDefault();
     }
 
-    @HostListener('copy', ['$event']) blockCopy(e: KeyboardEvent) {
+    @HostListener('copy', ['$event'])
+    public blockCopy(e: KeyboardEvent): void {
         e.preventDefault();
     }
 
-    @HostListener('cut', ['$event']) blockCut(e: KeyboardEvent) {
+    @HostListener('cut', ['$event'])
+    public blockCut(e: KeyboardEvent): void {
         e.preventDefault();
     }
 }

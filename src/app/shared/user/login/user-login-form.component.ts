@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
@@ -8,7 +8,6 @@ import { AccountService } from '../../auth/account.service';
 import { Principal } from '../../auth/principal.service';
 import { User } from '../user.model';
 import { UserService } from '../user.service';
-import { UserLogin } from './user-login.model';
 import { UserLoginService } from './user-login.service';
 
 @Component({
@@ -18,15 +17,14 @@ import { UserLoginService } from './user-login.service';
 export class UserLoginFormComponent implements OnChanges {
 
     @Input()
+    public isUser: boolean = false;
+    @Input()
+    public isCreate: boolean = false;
+    public isSaving: boolean;
+    public userLogins: any = [];
+    public success: boolean;
+    @Input()
     private user: User;
-    @Input()
-    isUser: Boolean = false;
-    @Input()
-    isCreate: Boolean = false;
-
-    isSaving: Boolean;
-    userLogins: any = [];
-    success: Boolean;
 
     constructor(private activeModal: NgbActiveModal,
                 private userService: UserService,
@@ -36,11 +34,11 @@ export class UserLoginFormComponent implements OnChanges {
                 private userLoginService: UserLoginService) {
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
+    public ngOnChanges(): void {
         this.reload();
     }
 
-    isSubmitValid(editForm: NgForm): boolean {
+    public isSubmitValid(editForm: NgForm): boolean {
         for (const key in editForm.value) {
             if (editForm.value[key]) {
                 return true;
@@ -49,13 +47,13 @@ export class UserLoginFormComponent implements OnChanges {
         return false;
     }
 
-    clear() {
+    public clear(): void {
         if (this.isUser && !this.isCreate) {
             this.activeModal.dismiss('cancel');
         }
     }
 
-    save() {
+    public save(): void {
         if (this.isCreate) {
             return;
         }
@@ -70,24 +68,30 @@ export class UserLoginFormComponent implements OnChanges {
         }
     }
 
-    createLogins() {
+    public createLogins(): void {
         this.user.logins = [];
         this.userLogins.filter((login) => login.value).forEach((login) => {
-            this.user.logins.push(new UserLogin(login.id, login.key, null, login.value, false));
+            this.user.logins.push({
+                id: login.id,
+                typeKey: login.key,
+                stateKey: null,
+                login: login.value,
+                removed: false,
+            });
         });
     }
 
-    private reload() {
+    private reload(): void {
         this.isSaving = false;
         this.userLogins = [];
 
         this.userLoginService.getAllLogins().then((allLogins) => {
             Object.keys(allLogins).forEach((typeKey) => {
-                this.userLogins.push({'key': typeKey, 'name': this.userLoginService.getName(typeKey)});
+                this.userLogins.push({key: typeKey, name: this.userLoginService.getName(typeKey)});
             });
             if (this.user.logins) {
                 this.user.logins.forEach((login) => {
-                    const info = this.userLogins.find((i) => i['key'] === login.typeKey);
+                    const info = this.userLogins.find((i) => i.key === login.typeKey);
                     if (info) {
                         info.value = login.login;
                         info.id = login.id;
@@ -97,7 +101,7 @@ export class UserLoginFormComponent implements OnChanges {
         });
     }
 
-    private onSaveSuccess(result) {
+    private onSaveSuccess(result: any): void {
         this.isSaving = false;
         this.success = true;
         if (this.isUser) {
@@ -111,7 +115,7 @@ export class UserLoginFormComponent implements OnChanges {
         }
     }
 
-    private onSaveError() {
+    private onSaveError(): void {
         this.isSaving = false;
         this.success = false;
     }

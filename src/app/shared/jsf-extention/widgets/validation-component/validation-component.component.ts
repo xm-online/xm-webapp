@@ -1,65 +1,62 @@
-
-import {fromEvent as observableFromEvent,  Subscription } from 'rxjs';
-
-import {debounceTime} from 'rxjs/operators';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { JsonSchemaFormService } from 'angular2-json-schema-form';
-import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
-
 
 import { JhiEventManager } from 'ng-jhipster';
+import { fromEvent as observableFromEvent, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'xm-validation-widget',
-    templateUrl: 'validation-component.component.html'
+    templateUrl: 'validation-component.component.html',
 })
 export class ValidationComponent implements OnInit, OnDestroy {
 
-    @Input() layoutNode: any;
+    @Input() public layoutNode: any;
 
-    click: Subscription;
+    public click: Subscription;
 
-    options: any;
+    public options: any;
 
     constructor(private jsf: JsonSchemaFormService,
                 private eventManager: JhiEventManager) {
     }
 
-    ngOnInit() {
+    // tslint:disable-next-line:cognitive-complexity
+    public ngOnInit(): void {
         this.options = this.layoutNode.options || {};
-        // console.log(this.jsf);
         this.jsf.initializeControl(this);
         const formGroup: FormGroup = this.jsf.formGroup;
 
         this.click = observableFromEvent(document, 'click').pipe(
             debounceTime(10))
-            .subscribe(e => {
-                // let wasUpdated = false;
+            .subscribe(() => {
                 this.traverseControls(formGroup, (control: AbstractControl) => {
                     if (control.enabled && !control.untouched && !control.dirty) {
                         control.markAsDirty();
                         control.setValue(control.value);
-                        // wasUpdated = true;
                     }
                     control.updateValueAndValidity({emitEvent: true});
                 });
                 formGroup.updateValueAndValidity({emitEvent: true});
             });
 
-        this.eventManager.subscribe('xm.ValidationError', it => {
-            console.log(it);
+        this.eventManager.subscribe('xm.ValidationError', (it) => {
             const path = it.content.validationField;
             if (path) {
-                let control = this.resolveComponentByPath(formGroup, path.split('[').join('.').split(']').join('.').split('.'));
+                const control = this.resolveComponentByPath(formGroup, path.split('[')
+                    .join('.').split(']').join('.').split('.'));
                 if (control) {
-                    control.setErrors({'BE_ERROR': it.title});
+                    control.setErrors({BE_ERROR: it.title});
                 }
             }
             if (it.errors) {
-                for (let key in it.errors) {
-                    let control = this.resolveComponentByPath(formGroup, key.split('[').join('.').split(']').join('.').split('.'));
+                // tslint:disable-next-line:forin
+                for (const key in it.errors) {
+                    const control = this.resolveComponentByPath(formGroup, key.split('[')
+                        .join('.').split(']').join('.').split('.'));
                     if (control) {
-                        control.setErrors({'BE_ERROR': it.errors[key]});
+                        control.setErrors({BE_ERROR: it.errors[key]});
                     }
                 }
             }
@@ -69,7 +66,7 @@ export class ValidationComponent implements OnInit, OnDestroy {
 
     }
 
-    traverseControls(form: FormGroup | FormArray, operation): void {
+    public traverseControls(form: FormGroup | FormArray, operation: any): void {
         Object.keys(form.controls).forEach((key: string) => {
             const abstractControl = form.controls[key];
 
@@ -81,7 +78,7 @@ export class ValidationComponent implements OnInit, OnDestroy {
         });
     }
 
-    resolveComponentByPath(group: FormGroup | FormArray, path): AbstractControl {
+    public resolveComponentByPath(group: FormGroup | FormArray, path: any): AbstractControl {
         const abstractControl = group.controls[path.shift()];
         if (path.length === 0) {
             return abstractControl;
@@ -92,7 +89,7 @@ export class ValidationComponent implements OnInit, OnDestroy {
         return null;
     }
 
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.click.unsubscribe();
     }
 

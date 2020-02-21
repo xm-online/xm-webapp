@@ -1,3 +1,4 @@
+
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { JsonSchemaFormService } from 'angular2-json-schema-form';
 
@@ -8,29 +9,29 @@ declare const google: any;
 
 @Component({
     selector: 'xm-current-location-widget',
-    templateUrl: 'current-location.component.html'
+    templateUrl: 'current-location.component.html',
 })
 export class CurrentLocationComponent implements OnInit {
 
-    @Input() layoutNode: any;
-    options: CurrentLocationOptions;
+    @Input() public layoutNode: any;
+    public options: CurrentLocationOptions;
 
-    latitude: number;
-    longitude: number;
-    mapId: string;
+    public latitude: number;
+    public longitude: number;
+    public mapId: string;
 
     constructor(private jsf: JsonSchemaFormService,
                 private changeDetectorRef: ChangeDetectorRef) {
         this.mapId = buildMapId('currentLocation');
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.options = this.layoutNode.options || {};
         this.jsf.initializeControl(this);
     }
 
-    onAfterGMapApiInit() {
-        if (!!navigator.geolocation) {
+    public onAfterGMapApiInit(): void {
+        if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
                 this.latitude = position.coords.latitude;
                 this.longitude = position.coords.longitude;
@@ -41,17 +42,17 @@ export class CurrentLocationComponent implements OnInit {
         }
     }
 
-    showMap(location) {
+    public showMap(location: any): void {
         const mapOptions = {
             maxZoom: 16,
-            scrollwheel: false
+            scrollwheel: false,
         };
         const bounds = new google.maps.LatLngBounds();
         const map = new google.maps.Map(document.getElementById(this.mapId), mapOptions);
         const latLng = new google.maps.LatLng(location.latitude, location.longitude);
         const marker = new google.maps.Marker({
             position: latLng,
-            icon: buildPinSymbol('#009688')
+            icon: buildPinSymbol('#009688'),
         });
         marker.setMap(map);
         bounds.extend(latLng);

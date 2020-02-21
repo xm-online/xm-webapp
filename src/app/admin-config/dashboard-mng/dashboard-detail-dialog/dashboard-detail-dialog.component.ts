@@ -10,19 +10,19 @@ import { Dashboard, DashboardService } from '../../../xm-dashboard';
 declare let swal: any;
 
 @Component({
-  selector: 'xm-dashboard-detail-dialog',
-  templateUrl: './dashboard-detail-dialog.component.html',
-  styleUrls: ['./dashboard-detail-dialog.component.scss'],
+    selector: 'xm-dashboard-detail-dialog',
+    templateUrl: './dashboard-detail-dialog.component.html',
+    styleUrls: ['./dashboard-detail-dialog.component.scss'],
 })
 export class DashboardDetailDialogComponent implements OnInit {
 
-    @Input() dashboard: Dashboard = new Dashboard();
+    @Input() public dashboard: Dashboard = new Dashboard();
 
-    configStringIn: string;
-    configStringOut: string;
-    layoutStringIn: string;
-    layoutStringOut: string;
-    showLoader: boolean;
+    public configStringIn: string;
+    public configStringOut: string;
+    public layoutStringIn: string;
+    public layoutStringOut: string;
+    public showLoader: boolean;
 
     constructor(private activeModal: NgbActiveModal,
                 private dashboardService: DashboardService,
@@ -31,25 +31,25 @@ export class DashboardDetailDialogComponent implements OnInit {
                 public principal: Principal) {
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.configStringIn = JSON.stringify(this.dashboard.config, null, 2);
         this.layoutStringIn = JSON.stringify(this.dashboard.layout, null, 2);
         this.configStringOut = this.configStringIn;
         this.layoutStringOut = this.layoutStringIn;
     }
 
-    onConfigChange(textChanged) {
+    public onConfigChange(textChanged: string): void {
         if (!environment.production) {
-            console.log(`Changed text ${textChanged}`); // tslint:disable-line
+            console.info(`Changed text ${textChanged}`); // tslint:disable-line
         }
         this.configStringOut = textChanged;
     }
 
-    onLayoutChange(textChanged) {
+    public onLayoutChange(textChanged: string): void {
         this.layoutStringOut = textChanged;
     }
 
-    onConfirmSave() {
+    public onConfirmSave(): void {
         this.dashboard.config = this.configStringOut ? JSON.parse(this.configStringOut) : null;
         this.dashboard.layout = this.layoutStringOut ? JSON.parse(this.layoutStringOut) : null;
         this.showLoader = true;
@@ -57,30 +57,30 @@ export class DashboardDetailDialogComponent implements OnInit {
             this.dashboardService.update(this.dashboard).subscribe(
                 () => this.onSaveSuccess('admin-config.dashboard-detail-dialog.edit.success'),
                 // TODO: error processing
-                (err) => console.log(err), // tslint:disable-line
+                (err) => console.info(err), // tslint:disable-line
                 () => this.showLoader = false);
         } else {
             this.dashboard.owner = this.principal.getUserKey();
             this.dashboardService.create(this.dashboard).subscribe(
                 () => this.onSaveSuccess('admin-config.dashboard-detail-dialog.add.success'),
                 // TODO: error processing
-                (err) => console.log(err), // tslint:disable-line
+                (err) => console.info(err), // tslint:disable-line
                 () => this.showLoader = false);
         }
     }
 
-    onCancel() {
+    public onCancel(): void {
         this.activeModal.dismiss('cancel');
     }
 
-    private onSaveSuccess(key: string) {
+    private onSaveSuccess(key: string): void {
         // TODO: use constant for the broadcast and analyse listeners
         this.eventManager.broadcast({name: 'dashboardListModification'});
         this.activeModal.dismiss(true);
         this.alert('success', key);
     }
 
-    private alert(type, key) {
+    private alert(type: string, key: string): void {
         swal({
             type,
             text: this.translateService.instant(key),

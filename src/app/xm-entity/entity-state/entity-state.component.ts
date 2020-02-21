@@ -1,20 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { StateSpec } from '../shared/state-spec.model';
 import { Principal } from '../../shared/auth/principal.service';
+import { StateSpec } from '../shared/state-spec.model';
 
 @Component({
     selector: 'xm-entity-state',
     templateUrl: './entity-state.component.html',
-    styleUrls: ['./entity-state.component.scss']
+    styleUrls: ['./entity-state.component.scss'],
 })
-export class EntityStateComponent implements OnInit {
+export class EntityStateComponent {
 
-    @Input() stateSpec: StateSpec;
+    @Input() public stateSpec: StateSpec;
 
-    constructor( public principal: Principal) {
+    constructor(public principal: Principal) {
     }
 
-    ngOnInit() {
-    }
 }

@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import * as nomnoml from 'nomnoml';
+
 import { Principal } from '../../../shared/auth/principal.service';
 import { saveFile } from '../../../shared/helpers/file-download-helper';
-
-import * as nomnoml from 'nomnoml';
+import { Link } from '../../../xm-entity';
 
 declare let YAML: any;
 declare let skanaar: any;
@@ -16,34 +17,34 @@ declare let skanaar: any;
 })
 export class ConfigVisualizerDialogComponent implements OnInit, AfterViewInit {
 
-    @Input() entitySpecification: string;
-    zoomLevel = 0;
-    offset = {x:  0, y: 0};
-    source: any;
-    mouseDownPoint: any;
+    @Input() public entitySpecification: string;
+    public zoomLevel: number = 0;
+    public offset: any = {x: 0, y: 0};
+    public source: any;
+    public mouseDownPoint: any;
 
-    @ViewChild('canvas', {static: false}) canvas: ElementRef;
-    @ViewChild('downloadLink', {static: false}) downloadLink: ElementRef;
-    @ViewChild('downloadLinkSvg', {static: false}) downloadLinkSvg: ElementRef;
-    @ViewChild('canvasHolder', {static: false}) canvasHolder: ElementRef;
+    @ViewChild('canvas', {static: false}) public canvas: ElementRef;
+    @ViewChild('downloadLink', {static: false}) public downloadLink: ElementRef;
+    @ViewChild('downloadLinkSvg', {static: false}) public downloadLinkSvg: ElementRef;
+    @ViewChild('canvasHolder', {static: false}) public canvasHolder: ElementRef;
 
     constructor(private activeModal: NgbActiveModal,
                 public principal: Principal) {
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.source = this.getSource();
     }
 
-    ngAfterViewInit() {
+    public ngAfterViewInit(): void {
         setTimeout(() => {this.sourceChanged(); }, 100);
     }
 
-    onCancel() {
+    public onCancel(): void {
         this.activeModal.dismiss('cancel');
     }
 
-    sourceChanged() {
+    public sourceChanged(): void {
         const canvasElement = document.getElementById('canvas');
         try {
             const superSampling = window.devicePixelRatio || 1;
@@ -51,66 +52,66 @@ export class ConfigVisualizerDialogComponent implements OnInit, AfterViewInit {
             nomnoml.draw(canvasElement, this.source, scale);
             this.positionCanvas(canvasElement, superSampling, this.offset);
         } catch (e) {
-            console.log(e); // tslint:disable-line
+            console.warn(e); // tslint:disable-line
         }
     }
 
-    positionCanvas(rect, superSampling, offset) {
+    public positionCanvas(rect: any, superSampling: any, offset: any): void {
         const canvasElement = this.canvas.nativeElement;
         const canvasHolder = this.canvasHolder.nativeElement;
         const w = rect.width / superSampling;
         const h = rect.height / superSampling;
         canvasElement.style.top = (canvasHolder.offsetHeight - h) / 2 + offset.y + 'px';
-        canvasElement.style.left = (canvasHolder.offsetWidth  - w) / 2 + offset.x + 'px';
+        canvasElement.style.left = (canvasHolder.offsetWidth - w) / 2 + offset.x + 'px';
         canvasElement.style.width = w + 'px';
         canvasElement.style.height = h + 'px';
     }
 
-    magnifyViewport(diff) {
+    public magnifyViewport(diff: any): void {
         this.zoomLevel = Math.min(10, this.zoomLevel + diff);
         this.sourceChanged();
     }
 
-    resetViewport() {
+    public resetViewport(): void {
         this.zoomLevel = 1;
         this.offset = {x: 0, y: 0};
         this.sourceChanged();
     }
 
-    doDownloadPng(name) {
+    public doDownloadPng(name: string): void {
         this.downloadLink.nativeElement.href = this.canvas.nativeElement.toDataURL('image/png');
         this.downloadLink.nativeElement.download = `${name}.png`;
         this.downloadLink.nativeElement.click();
     }
 
-    doDownloadSvg(name) {
+    public doDownloadSvg(name: string): void {
         const svg = nomnoml.renderSvg(this.source, this.canvas.nativeElement);
         const blob = new Blob([svg], {type: 'image/svg+xml'});
         const filename = name;
         saveFile(blob, filename, 'image/svg+xml');
     }
 
-    mouseDown(e) {
-        this.mouseDownPoint = skanaar.vector.diff({ x: e.pageX, y: e.pageY }, this.offset);
+    public mouseDown(e: any): void {
+        this.mouseDownPoint = skanaar.vector.diff({x: e.pageX, y: e.pageY}, this.offset);
     }
 
-    mouseUp() {
+    public mouseUp(): void {
         this.mouseDownPoint = null;
     }
 
-    mouseMove(e) {
+    public mouseMove(e: any): void {
         if (this.mouseDownPoint) {
-            this.offset = skanaar.vector.diff({ x: e.pageX, y: e.pageY }, this.mouseDownPoint);
+            this.offset = skanaar.vector.diff({x: e.pageX, y: e.pageY}, this.mouseDownPoint);
             this.sourceChanged();
         }
     }
 
-    wheel(evant) {
+    public wheel(evant: any): void {
         this.zoomLevel = Math.min(10, this.zoomLevel - (evant.deltaY < 0 ? -1 : 1));
         this.sourceChanged();
     }
 
-    private typeToString(type) {
+    private typeToString(type: any): string {
         let result = '';
         let typeKey = type.key;
         if (type.key.includes('.')) {
@@ -127,18 +128,21 @@ export class ConfigVisualizerDialogComponent implements OnInit, AfterViewInit {
         return result;
     }
 
-    private dataSpecToString(dataSpec) {
+    private dataSpecToString(dataSpec: any): string {
         const terms = [];
         if (dataSpec) {
             dataSpec = JSON.parse(dataSpec);
-            dataSpec.properties && Object.keys(dataSpec.properties).forEach((k) => {
-                terms.push(`${k}: ${dataSpec.properties[k].type}`);
-            });
+
+            if (dataSpec.properties) {
+                Object.keys(dataSpec.properties).forEach((k) => {
+                    terms.push(`${k}: ${dataSpec.properties[k].type}`);
+                });
+            }
         }
         return terms.join(';');
     }
 
-    private functionsToString(functions) {
+    private functionsToString(functions: any): string {
         const terms = [];
         if (functions) {
             functions.forEach((f) => {
@@ -148,7 +152,7 @@ export class ConfigVisualizerDialogComponent implements OnInit, AfterViewInit {
         return terms.join(';');
     }
 
-    private statesToClassifiers(states) {
+    private statesToClassifiers(states: any): any[] {
         const classifiers = [];
         if (states) {
             states.forEach((s) => {
@@ -163,7 +167,7 @@ export class ConfigVisualizerDialogComponent implements OnInit, AfterViewInit {
         return classifiers;
     }
 
-    private linksToClassifiers(links, typeKey) {
+    private linksToClassifiers(links: Link[], typeKey: string): any[] {
         const classifiers = [];
         if (links) {
             links.map((l) => l.typeKey).filter((v, i, a) => a.indexOf(v) === i).forEach((tk) => {
@@ -173,7 +177,7 @@ export class ConfigVisualizerDialogComponent implements OnInit, AfterViewInit {
         return classifiers;
     }
 
-    private getSource() {
+    private getSource(): string {
         const spec = YAML.parse(this.entitySpecification);
         let source = '';
         spec.types.forEach((t) => {

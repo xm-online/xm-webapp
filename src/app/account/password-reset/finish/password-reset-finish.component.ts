@@ -39,7 +39,7 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     public passwordSettings: PasswordSpec;
     public patternMessage: string;
 
-    @ViewChild('passwordInputElement', {static: false}) passwordInputElement: MatInput;
+    @ViewChild('passwordInputElement', {static: false}) public passwordInputElement: MatInput;
 
     constructor(
         private passwordResetFinish: PasswordResetFinish,
@@ -60,16 +60,16 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
 
     public ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
-            this.key = params['key'];
+            this.key = params.key;
 
-            this.passwordResetFinish.check(this.key).subscribe(
-                (resp) => {
-                }, (err) => {
+            this.passwordResetFinish.check(this.key).subscribe({
+                error: (err) => {
                     if (err.error && err.error.error) {
                         this.keyExpired = (err.error.error === 'error.reset.code.expired');
                         this.keyUsed = (err.error.error === 'error.reset.code.used');
                     }
-                });
+                }
+            });
         });
         this.route.data.subscribe((data) => {
             if (data && data.config) {

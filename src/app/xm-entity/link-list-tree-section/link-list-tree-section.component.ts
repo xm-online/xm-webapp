@@ -12,24 +12,24 @@ declare let $: any;
 @Component({
     selector: 'xm-link-list-tree-section',
     templateUrl: './link-list-tree-section.component.html',
-    styleUrls: ['./link-list-tree-section.component.scss']
+    styleUrls: ['./link-list-tree-section.component.scss'],
 })
 export class LinkListTreeSectionComponent implements OnInit {
 
-    @Input() links: Link[];
-    @Input() linkSpec: LinkSpec;
+    @Input() public links: Link[];
+    @Input() public linkSpec: LinkSpec;
 
     constructor(private xmEntityService: XmEntityService,
                 private translateService: TranslateService) {
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         $('.tree li:has(ul)').addClass('parent_li').find(' > span')
             .attr('title', this.translateService.instant('xm-entity.link-list-tree-section.collapse'));
-        $('.tree ul > li.parent_li > span').on('click', function (e) {
-            console.log('click');
+        $('.tree ul > li.parent_li > span').on('click', function(this: HTMLElement, e: any): void {
+            console.info('click');
             const children = $(this).parent('li.parent_li').find(' > xm-link-list-tree-section > ul > li');
-            console.log(children);
+            console.info(children);
             if (children.is(':visible')) {
                 children.hide('fast');
             } else {
@@ -39,16 +39,17 @@ export class LinkListTreeSectionComponent implements OnInit {
         });
     }
 
-    filterByLinkType(items) {
+    public filterByLinkType(items: any): any {
         return items ? items.filter((link: Link) => link.typeKey === this.linkSpec.key) : [];
     }
 
-    toggle(link) {
+    public toggle(link: any): void {
         if (!link.target.targets) {
-            this.xmEntityService.find(link.target.id, {'embed': 'targets'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {
-                link.target = xmEntity.body;
-                link.target.targets = link.target.targets ? link.target.targets : [];
-            });
+            this.xmEntityService.find(link.target.id, {embed: 'targets'})
+                .subscribe((xmEntity: HttpResponse<XmEntity>) => {
+                    link.target = xmEntity.body;
+                    link.target.targets = link.target.targets ? link.target.targets : [];
+                });
         }
     }
 

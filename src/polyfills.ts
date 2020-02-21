@@ -1,3 +1,4 @@
+/* tslint:disable:ordered-imports */
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -18,7 +19,7 @@
  * BROWSER POLYFILLS
  */
 
-/** IE9, IE10 and IE11 requires all of the following polyfills. **/
+/** IE9, IE10 and IE11 requires all of the following polyfills. */
 import 'core-js/es6/symbol';
 import 'core-js/es6/object';
 import 'core-js/es6/function';
@@ -42,23 +43,16 @@ import 'core-js/es7/string';
 /** IE10 and IE11 requires the following to support `@angular/animation`. */
 // import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
-
-/** Evergreen browsers require these. **/
+/** Evergreen browsers require these. */
 import 'core-js/es6/reflect';
 
-
-
-/** ALL Firefox browsers require the following to support `@angular/animation`. **/
+/** ALL Firefox browsers require the following to support `@angular/animation`. */
 // import 'web-animations-js';  // Run `npm install --save web-animations-js`.
-
-
 
 /***************************************************************************************************
  * Zone JS is required by Angular itself.
  */
-import 'zone.js/dist/zone';  // Included with Angular CLI.
-
-
+import 'zone.js/dist/zone'; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
@@ -70,15 +64,16 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 // import 'intl';  // Run `npm install --save intl`.
 
+// eslint-disable-next-line @typescript-eslint/unbound-method
 if (!String.prototype.startsWith) {
     Object.defineProperty(String.prototype, 'startsWith', {
         enumerable: false,
         configurable: false,
         writable: false,
-        value: function(searchString, position) {
+        value(this: any, searchString: string, position: number): any {
             position = position || 0;
             return this.indexOf(searchString, position) === position;
-        }
+        },
     });
 }
 
@@ -86,5 +81,6 @@ if (!String.prototype.startsWith) {
     env: { DEBUG: undefined },
 };
 (window as any).global = window;
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 window.Buffer = window.Buffer || require('buffer').Buffer;

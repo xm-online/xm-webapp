@@ -44,8 +44,9 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('singleSelect', {static: false}) protected singleSelect: MatSelect;
     @Input() private layoutNode: any;
     private controlValue: any;
-    private regTemplateLiteral: RegExp = /@{\w+}/g;
+    private regTemplateLiteral: RegExp = /@{(\w+(\[\])?.?)+}/g;
     private _onDestroy: Subject<void> = new Subject<void>();
+    private dataIndex: number[];
 
     constructor(
         @Inject(forwardRef(() => JsonSchemaFormComponent)) private _parent: JsonSchemaFormComponent,
@@ -60,7 +61,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     public ngOnInit(): void {
         this.options = this.layoutNode.options || {};
         if (!environment.production) {
-            console.log('[dbg] initial -> %o', this.options);
+            console.info('[dbg] initial -> %o', this.options);
         }
         this.jsf.initializeControl(this);
         if (this.layoutNode.dataType === 'array') {
@@ -95,11 +96,10 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
             .map((result) => result.replace(/@{|}/g, ''))
             .forEach((eLiteral) => {
                 let currentFieldName: string;
-
                 of(eLiteral).pipe(
                     filter((fieldLiteral) => !!fieldLiteral),
                     tap((fieldName) => currentFieldName = fieldName),
-                    mergeMap((fieldName) => this._parent.jsf.formGroup.get(fieldName).valueChanges),
+                    mergeMap((fieldName) => ExtSelectService.controlByKey(fieldName, this._parent.jsf.formGroup, this.dataIndex).valueChanges),
                     tap(() => this.disabled$.next(true)),
                     filter((fieldValue) => !!fieldValue),
                     tap((fieldValue) => savedLiteralsValue[`@{${currentFieldName}}`] = fieldValue),
@@ -122,8 +122,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
                     tap((options) => this.fetchData(options)),
                     tap(() => this.jsf.updateValue(this, this.controlValue)),
                     takeUntil(this._onDestroy),
-                ).subscribe(() => {
-                });
+                ).subscribe();
             });
     }
 
@@ -143,11 +142,16 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public updateValue(event: any): void {
-        const item = this.elements.filter(e => e.value === event.value.value)[0];
+        const item = this.elements.filter((e) => e.value === event.value.value)[0];
         const fg: FormGroup = this.jsf.formGroup;
         if (this.options.relatedFields) {
-            this.options.relatedFields.forEach(field => {
-                fg.get(field.key).setValue(ExtSelectService.byString(item.object, field.value));
+            this.options.relatedFields.forEach((field) => {
+                const relativeControl = ExtSelectService.controlByKey(field.key, fg, this.dataIndex);
+                if (relativeControl) {
+                    const value = ExtSelectService.byString(item.object, field.value);
+                    relativeControl.setValue(value);
+                    relativeControl.updateValueAndValidity({emitEvent: true});
+                }
             });
         }
         if (this.layoutNode.dataType === 'array') {
@@ -179,6 +183,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
         );
     }
 
+    // tslint:disable-next-line:cognitive-complexity
     private fetchData(options: any): void {
         if (options.sourceField) {
             const array = new Function(
@@ -195,7 +200,8 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
                 if (this.options.translations && this.options.translations[it]) {
                     this.elements.push({
                         label: this.i18nNamePipe.transform(this.options.translations[it], this.principal),
-                        value: it});
+                        value: it,
+                    });
                 } else {
                     this.elements.push({label: it, value: it});
                 }
@@ -207,7 +213,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
             }
 
             this.fetchOptions(options).pipe(
-                tap((items) => !environment.production && console.log('[dbg] ext-select -> ', items)),
+                tap((items) => !environment.production && console.info('[dbg] ext-select -> ', items)),
                 tap((items) => this.elements = items),
                 tap(() => this.initOptionList()),
                 finalize(() => this.changeDetectorRef.detectChanges()),
@@ -217,7 +223,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
                         this.jsf.updateValue(this, this.controlValue);
                     }
                 },
-                (error) => console.error(error));
+                (error) => console.warn(error));
         }
     }
 

@@ -11,8 +11,8 @@ export class RolesResolve implements CanActivate {
     constructor(private principal: Principal) {
     }
 
-    canActivate() {
-        return this.principal.identity().then((account) => this.principal.hasAnyAuthority(['ROLE_ADMIN']));
+    public canActivate(): Promise<boolean> {
+        return this.principal.identity().then(() => this.principal.hasAnyAuthority(['ROLE_ADMIN']));
     }
 }
 
@@ -26,8 +26,8 @@ export const rolesMgmtRoute: Routes = [
                 data: {
                     privileges: {value: ['ROLE.GET_LIST']},
                     pageTitle: 'global.menu.admin.main',
-                    pageSubTitleTrans: 'global.menu.admin.rolesManagement'
-                }
+                    pageSubTitleTrans: 'global.menu.admin.rolesManagement',
+                },
             },
             {
                 path: 'role-management/:roleKey',
@@ -35,9 +35,9 @@ export const rolesMgmtRoute: Routes = [
                 data: {
                     privileges: {value: ['ROLE.GET_LIST']},
                     pageTitle: 'global.menu.admin.main',
-                    pageSubTitleTrans: 'rolesManagement.detail.title'
-                }
-            }
-        ]
-    }
+                    pageSubTitleTrans: 'rolesManagement.detail.title',
+                },
+            },
+        ],
+    },
 ];

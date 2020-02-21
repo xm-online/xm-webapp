@@ -1,13 +1,12 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { interval, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TitleService } from '../../modules/xm-translation/title.service';
 
 import { AccountService, ModulesLanguageHelper, Principal } from '../../shared';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { DEFAULT_LANG } from '../../xm.constants';
-import { TranslateService } from '@ngx-translate/core';
-import { TitleService } from '../../modules/xm-translation/title.service';
-
 
 @Component({
     selector: 'xm-settings',
@@ -53,10 +52,10 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.languages = (data && data.langs) ? data.langs : [DEFAULT_LANG];
             },
             (err) => {
-                // tslint:disable-next-line
-                console.error(err);
+                console.warn(err);
                 this.languages = [DEFAULT_LANG];
-            }, () => console.log('Languages: %o', this.languages),// tslint:disable-line
+            },
+            () => console.info('Languages: %o', this.languages),
         );
         this.clock = interval(1000).pipe(map(() => new Date()));
         this._clockSubscription = this.getClock().subscribe((time) => {

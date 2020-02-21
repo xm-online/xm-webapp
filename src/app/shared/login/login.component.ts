@@ -2,14 +2,16 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/co
 import { Router } from '@angular/router';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TERMS_ERROR, XM_EVENT_LIST } from '../../xm.constants';
 import { StateStorageService } from '../auth/state-storage.service';
+import {
+    PrivacyAndTermsDialogComponent,
+} from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfigService } from '../spec/config.service';
 import { LoginService } from './login.service';
-import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 declare let $: any;
 
@@ -20,24 +22,24 @@ declare let $: any;
 })
 export class LoginComponent implements OnInit, AfterViewInit {
 
-    @Input() successRegistration: boolean;
-    @Input() loginLabel: string;
+    @Input() public successRegistration: boolean;
+    @Input() public loginLabel: string;
     @Input() public config: any;
 
-    isShowPassword = false;
-    isDisabled: boolean;
-    authenticationError: boolean;
-    password: string;
-    hideRememberMe: boolean;
-    hideResetPasswordLink: boolean;
-    rememberMe: boolean;
-    username: string;
-    credentials: any;
-    checkOTP: boolean;
-    otpValue: string;
-    floatLabel: boolean;
-    sendingLogin: boolean;
-    socialConfig: [];
+    public isShowPassword: boolean = false;
+    public isDisabled: boolean;
+    public authenticationError: boolean;
+    public password: string;
+    public hideRememberMe: boolean;
+    public hideResetPasswordLink: boolean;
+    public rememberMe: boolean;
+    public username: string;
+    public credentials: any;
+    public checkOTP: boolean;
+    public otpValue: string;
+    public floatLabel: boolean;
+    public sendingLogin: boolean;
+    public socialConfig: [];
 
     public checkTermsOfConditions: boolean;
 
@@ -57,7 +59,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.successRegistration = false;
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         $('body').addClass('xm-public-screen');
         this.isDisabled = false;
 
@@ -73,15 +75,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
                 this.socialConfig = uiConfig && uiConfig.social;
                 this.hideRememberMe = uiConfig.hideRememberMe ? uiConfig.hideRememberMe : false;
                 this.hideResetPasswordLink = uiConfig.hideResetPasswordLink ? uiConfig.hideResetPasswordLink : false;
-                this.checkTermsOfConditions = uaaConfig && uaaConfig.isTermsOfConditionsEnabled || false;
+                this.checkTermsOfConditions = (uaaConfig && uaaConfig.isTermsOfConditionsEnabled) || false;
             });
     }
 
-    ngAfterViewInit() {
+    public ngAfterViewInit(): void {
         this.fixAutoFillFieldsChrome();
     }
 
-    cancel() {
+    public cancel(): void {
         this.credentials = {
             username: null,
             password: null,
@@ -91,84 +93,85 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.successRegistration = false;
     }
 
-    loginSuccess() {
-      $('body').removeClass('xm-public-screen');
-      if (this.router.url === '/register' || (/activate/.test(this.router.url)) ||
-        this.router.url === '/finishReset' || this.router.url === '/requestReset') {
-        this.router.navigate(['']);
-      }
+    public loginSuccess(): void {
+        $('body').removeClass('xm-public-screen');
+        if (this.router.url === '/register'
+            // eslint-disable-next-line @typescript-eslint/prefer-includes
+            || ((/activate/).test(this.router.url))
+            || this.router.url === '/finishReset'
+            || this.router.url === '/requestReset') {
+            this.router.navigate(['']);
+        }
 
-      this.eventManager.broadcast({
-        name: XM_EVENT_LIST.XM_SUCCESS_AUTH,
-        content: 'Sending Authentication Success',
-      });
+        this.eventManager.broadcast({
+            name: XM_EVENT_LIST.XM_SUCCESS_AUTH,
+            content: 'Sending Authentication Success',
+        });
 
-      // previousState was set in the authExpiredInterceptor before being redirected to login modal.
-      // since login is succesful, go to stored previousState and clear previousState
-      const redirect = this.stateStorageService.getUrl();
-      if (redirect) {
-        this.router.navigate([redirect]);
-      } else {
-        this.router.navigate(['dashboard']);
-      }
+        // previousState was set in the authExpiredInterceptor before being redirected to login modal.
+        // since login is succesful, go to stored previousState and clear previousState
+        const redirect = this.stateStorageService.getUrl();
+        if (redirect) {
+            this.router.navigate([redirect]);
+        } else {
+            this.router.navigate(['dashboard']);
+        }
     }
 
     public checkOtp(): void {
-      const credentials = {
-        grant_type: 'tfa_otp_token',
-        otp: this.otpValue,
-        rememberMe: this.rememberMe,
-      };
+        const credentials = {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            grant_type: 'tfa_otp_token',
+            otp: this.otpValue,
+            rememberMe: this.rememberMe,
+        };
 
-      const callBack = () => {};
-
-      this.loginService.login(credentials, callBack).then(() => {
-        this.isDisabled = false;
-        this.loginSuccess();
-      }).catch((err) => {
-        this.authenticationError = true;
-        this.successRegistration = false;
-        this.isDisabled = false;
-        this.backToLogin();
-      });
+        this.loginService.login(credentials).then(() => {
+            this.isDisabled = false;
+            this.loginSuccess();
+        }).catch(() => {
+            this.authenticationError = true;
+            this.successRegistration = false;
+            this.isDisabled = false;
+            this.backToLogin();
+        });
 
     }
 
-    backToLogin() {
-      this.checkOTP = false;
-      this.stateStorageService.resetAllStates();
-      this.password = '';
-      this.rememberMe = false;
-      this.username = '';
+    public backToLogin(): void {
+        this.checkOTP = false;
+        this.stateStorageService.resetAllStates();
+        this.password = '';
+        this.rememberMe = false;
+        this.username = '';
     }
 
-    login() {
+    public login(): void {
         this.sendingLogin = true;
         this.isDisabled = true;
         this.authenticationError = false;
         this.successRegistration = false;
         this.stateStorageService.resetAllStates();
         const credentials = {
-          grant_type: 'password',
-          username: this.username ? this.username.toLowerCase().trim() : '',
-          password: this.password ? this.password.trim() : '',
-          rememberMe: this.rememberMe,
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            grant_type: 'password',
+            username: this.username ? this.username.toLowerCase().trim() : '',
+            password: this.password ? this.password.trim() : '',
+            rememberMe: this.rememberMe,
         };
 
-        const callBack = () => {};
-
-        this.loginService.login(credentials, callBack).then((data) => {
+        this.loginService.login(credentials).then((data) => {
             this.isDisabled = false;
             this.sendingLogin = false;
-            if ('otpConfirmation' === data) {
-              this.checkOTP = true;
-              this.alertService.info('login.messages.otp.notification');
+            if (data === 'otpConfirmation') {
+                this.checkOTP = true;
+                this.alertService.info('login.messages.otp.notification');
             } else {
-              this.loginSuccess();
+                this.loginSuccess();
             }
         }).catch((err) => {
             const errObj = err.error || null;
-            const termsErr =  errObj && errObj.error === TERMS_ERROR;
+            const termsErr = errObj && errObj.error === TERMS_ERROR;
             const termsToken = errObj.oneTimeToken || null;
             if (termsErr && termsToken) { this.pushTermsAccepting(termsToken); }
             this.authenticationError = !termsErr;
@@ -178,11 +181,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
         });
     }
 
-    requestResetPassword() {
+    public requestResetPassword(): void {
         this.router.navigate(['/reset', 'request']);
     }
 
-    isFormDisabled() {
+    public isFormDisabled(): boolean {
         return this.isDisabled;
     }
 
@@ -194,6 +197,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
                     this.floatLabel = true;
                 }
             } catch (e) {
+                // empty block
             }
         }, 500);
     }

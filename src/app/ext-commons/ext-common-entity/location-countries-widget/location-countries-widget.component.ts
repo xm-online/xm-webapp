@@ -7,42 +7,39 @@ declare const $: any;
 @Component({
     selector: 'xm-location-countries-widget',
     templateUrl: './location-countries-widget.component.html',
-    styleUrls: ['./location-countries-widget.component.scss']
+    styleUrls: ['./location-countries-widget.component.scss'],
 })
 export class LocationCountriesWidgetComponent implements OnInit, AfterViewInit {
 
-    config: any;
-    tasks: any[];
+    public config: any;
+    public tasks: any[];
     public tableData: TableData;
 
-    constructor() {
-    }
-
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.tableData = {
-            headerRow: ['ID', 'Name', 'Salary', 'Country', 'City'],
             dataRows: [
-                ['US', 'USA', '2.920	', '53.23%'],
+                ['US', 'USA', '2.920    ', '53.23%'],
                 ['DE', 'Germany', '1.300', '20.43%'],
                 ['AU', 'Australia', '760', '10.35%'],
-                ['GB', 'United Kingdom	', '690', '7.87%'],
+                ['GB', 'United Kingdom  ', '690', '7.87%'],
                 ['RO', 'Romania', '600', '5.94%'],
-                ['BR', 'Brasil', '550', '4.34%']
-            ]
+                ['BR', 'Brasil', '550', '4.34%'],
+            ],
+            headerRow: ['ID', 'Name', 'Salary', 'Country', 'City'],
         };
 
         const mapData = {
-            'AU': 760,
-            'BR': 550,
-            'CA': 120,
-            'DE': 1300,
-            'FR': 540,
-            'GB': 690,
-            'GE': 200,
-            'IN': 200,
-            'RO': 600,
-            'RU': 300,
-            'US': 2920
+            AU: 760,
+            BR: 550,
+            CA: 120,
+            DE: 1300,
+            FR: 540,
+            GB: 690,
+            GE: 200,
+            IN: 200,
+            RO: 600,
+            RU: 300,
+            US: 2920,
         };
         $('#worldMap').vectorMap({
             map: 'world_mill_en',
@@ -50,46 +47,46 @@ export class LocationCountriesWidgetComponent implements OnInit, AfterViewInit {
             zoomOnScroll: false,
             regionStyle: {
                 initial: {
-                    fill: '#e4e4e4',
+                    'fill': '#e4e4e4',
                     'fill-opacity': 0.9,
-                    stroke: 'none',
+                    'stroke': 'none',
                     'stroke-width': 0,
-                    'stroke-opacity': 0
-                }
+                    'stroke-opacity': 0,
+                },
             },
 
             series: {
                 regions: [{
-                    values: mapData,
+                    normalizeFunction: 'polynomial',
                     scale: ['#AAAAAA', '#444444'],
-                    normalizeFunction: 'polynomial'
-                }]
-            }
+                    values: mapData,
+                }],
+            },
         });
     }
 
-    ngAfterViewInit() {
+    public ngAfterViewInit(): void {
         const breakCards = true;
         if (breakCards === true) {
             // We break the cards headers if there is too much stress on them :-)
-            $('[data-header-animation="true"]').each(function () {
+            $('[data-header-animation="true"]').each(function(this: HTMLElement) {
                 const $card = $(this).parent('.card');
-                $card.find('.fix-broken-card').click(function () {
+                $card.find('.fix-broken-card').click(function(this: HTMLElement) {
                     const $header = $(this).parent().parent().siblings('.card-header, .card-image');
                     $header.removeClass('hinge').addClass('fadeInDown');
 
                     $card.attr('data-count', 0);
 
-                    setTimeout(function () {
+                    setTimeout(() => {
                         $header.removeClass('fadeInDown animate');
                     }, 480);
                 });
 
-                $card.mouseenter(function () {
+                $card.mouseenter(function(this: HTMLElement) {
                     const $this = $(this);
-                    const hover_count = parseInt($this.attr('data-count'), 10) + 1 || 0;
-                    $this.attr('data-count', hover_count);
-                    if (hover_count >= 20) {
+                    const hoverCount = parseInt($this.attr('data-count'), 10) + 1 || 0;
+                    $this.attr('data-count', hoverCount);
+                    if (hoverCount >= 20) {
                         $(this).children('.card-header, .card-image').addClass('hinge animated');
                     }
                 });

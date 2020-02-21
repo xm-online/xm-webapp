@@ -4,14 +4,10 @@ import { Observable } from 'rxjs';
 
 import { TimelinePage } from './timeline-page.model';
 
-
 @Injectable()
 export class TimelineService {
 
-    private LIMIT = 10;
-    private resourceUrl = 'timeline/api/timelines';
-
-    private static toHttpParams(obj: Object): HttpParams {
+    private static toHttpParams(obj: object): HttpParams {
         let params = new HttpParams();
         for (const key in obj) {
             if (obj.hasOwnProperty(key)) {
@@ -24,10 +20,13 @@ export class TimelineService {
         return params;
     }
 
+    private LIMIT: number = 10;
+    private resourceUrl: string = 'timeline/api/timelines';
+
     constructor(private http: HttpClient) {
     }
 
-    search(options: any = {}): Observable<TimelinePage> {
+    public search(options: any = {}): Observable<TimelinePage> {
         const params = {
             limit: options.limit || this.LIMIT,
             idOrKey: options.id,
@@ -36,7 +35,7 @@ export class TimelineService {
             dateFrom: options.dateFrom,
             dateTo: options.dateTo,
             operation: options.operation,
-            next: options.next
+            next: options.next,
         };
         return this.http.get<TimelinePage>(this.resourceUrl, {params: TimelineService.toHttpParams(params)});
     }

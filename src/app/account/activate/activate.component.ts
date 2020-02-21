@@ -20,7 +20,7 @@ export class ActivateComponent implements OnInit {
 
     public ngOnInit(): void {
         this.route.queryParams.subscribe((params) => {
-            this.activate.get(params['key']).subscribe(() => {
+            this.activate.get(params.key).subscribe(() => {
                 this.error = null;
                 this.success = 'OK';
             }, () => {
@@ -35,7 +35,7 @@ export class ActivateComponent implements OnInit {
     }
 
     public register(): void {
-        this.router.navigate([''], { queryParams: { type: 'registration' } });
+        this.router.navigate([''], {queryParams: {type: 'registration'}});
     }
 
 }

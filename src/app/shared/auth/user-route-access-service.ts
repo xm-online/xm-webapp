@@ -15,29 +15,28 @@ export class UserRouteAccessService implements CanActivate, CanActivateChild {
         private alertService: JhiAlertService) {
     }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
+    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
         return this.canActivateFunc(route, state);
     }
 
-    canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
+    public canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
         return this.canActivateFunc(route, state);
     }
 
-    checkLogin(url: string, privileges: any = {}): Promise<boolean> {
+    public checkLogin(url: string, privileges: any = {}): Promise<boolean> {
         const principal = this.principal;
         return Promise.resolve(principal.identity().then((account) => {
-            if (account) {
-                if (privileges.value && privileges.value.length) {
-                    return principal.hasPrivileges(privileges.value, privileges.condition)
-                        .then((result) => {
-                            if (result instanceof Array) {
-                                result.length && this.alertService
-                                    .warning('error.privilegeInsufficient', {name: result.join(', ')});
-                                return !result.length;
+            if (account && privileges.value && privileges.value.length) {
+                return principal.hasPrivileges(privileges.value, privileges.condition)
+                    .then((result) => {
+                        if (result instanceof Array) {
+                            if (result.length) {
+                                this.alertService.warning('error.privilegeInsufficient', {name: result.join(', ')});
                             }
-                            return result;
-                        });
-                }
+                            return !result.length;
+                        }
+                        return result;
+                    });
             }
 
             this.stateStorageService.storeUrl(url);

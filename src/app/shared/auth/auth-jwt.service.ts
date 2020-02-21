@@ -42,17 +42,17 @@ export class AuthServerProvider {
         private $localStorage: LocalStorageService,
         private $sessionStorage: SessionStorageService,
         private stateStorageService: StateStorageService,
-        private router: Router
+        private router: Router,
     ) {
         const isRememberMe = this.$localStorage.retrieve(REFRESH_TOKEN) != null;
         this.setAutoRefreshTokens(isRememberMe);
     }
 
-    getToken() {
+    public getToken(): any {
         return this.$localStorage.retrieve(AUTH_TOKEN) || this.$sessionStorage.retrieve(AUTH_TOKEN);
     }
 
-    getRefreshToken() {
+    public getRefreshToken(): any {
         return this.$localStorage.retrieve(REFRESH_TOKEN) || this.$sessionStorage.retrieve(REFRESH_TOKEN);
     }
 
@@ -66,60 +66,7 @@ export class AuthServerProvider {
             .post(`/uaa/api/users/accept-terms-of-conditions/${tocOneTimeToken}`, {}, {headers});
     }
 
-    private storeAT(resp: any, rememberMe: boolean): string {
-        const accessToken = resp[ACCESS_TOKEN];
-        if (accessToken) {
-            this.storeAuthenticationToken(accessToken, rememberMe);
-        }
-        return accessToken;
-    }
-
-    private storeRT(resp: any, rememberMe: boolean) {
-        const refreshToken = resp[REFRESH_TOKEN];
-        if (refreshToken) {
-            const authenticationTokenexpiresDate = new Date().setSeconds(resp['expires_in']);
-            this.$sessionStorage.store(EXPIRES_DATE_FIELD, authenticationTokenexpiresDate);
-            this.storeRefreshToken(refreshToken, rememberMe);
-            this.updateTokenTimer = setTimeout(() => {
-                this.refreshTokens(rememberMe);
-            }, (resp['expires_in'] - 60) * 1000);
-        } else {
-            console.log('Expected to get %s but got undefined', REFRESH_TOKEN); // tslint:disable-line
-        }
-    }
-
-    private getAccessToken(data, headers, rememberMe): Observable<any> {
-        return this.http.post(TOKEN_URL, data, { headers: headers, observe: 'response'}).pipe(map((resp) => {
-            this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
-            const result = resp.body;
-            let accessToken;
-            let tfaChannel = '';
-
-            if ('required' === resp.headers.get('icthh-xm-tfa-otp')) {
-                tfaChannel = resp.headers.get('icthh-xm-tfa-otp-channel');
-                console.log('tfaRequired=%s using %s', true, tfaChannel);
-
-                this.stateStorageService.storeDestinationState(
-                    {
-                        'name': 'otpConfirmation',
-                        'data': {'tfaVerificationKey': result['tfaVerificationKey'], 'tfaChannel': tfaChannel}
-                    },
-                    {},
-                    {'name': 'login'});
-
-                accessToken = this.storeAT(result, rememberMe);
-            } else {
-                this.stateStorageService.resetDestinationState();
-                accessToken = this.storeAT(result, rememberMe);
-                this.storeRT(result, rememberMe);
-            }
-
-            return accessToken;
-
-        }));
-    }
-
-    login(credentials): Observable<any> {
+    public login(credentials: any): Observable<any> {
         let data = new HttpParams({encoder: new CustomUriEncoder()});
         this.$sessionStorage.clear(WIDGET_DATA);
 
@@ -129,7 +76,7 @@ export class AuthServerProvider {
             data = data.append('password', credentials.password);
         } else {
             data = data.append('grant_type', credentials.grant_type);
-            if ('tfa_otp_token' === credentials.grant_type) {
+            if (credentials.grant_type === 'tfa_otp_token') {
                 data = data.append('otp', credentials.otp);
                 data = data.append('tfa_access_token_type', 'bearer');
                 data = data.append('tfa_access_token', this.getToken());
@@ -143,17 +90,18 @@ export class AuthServerProvider {
 
     }
 
-    loginWithToken(jwt, rememberMe) {
+    public loginWithToken(jwt: string, rememberMe: boolean): Promise<never> | Promise<unknown> {
         this.$sessionStorage.clear(WIDGET_DATA);
         if (jwt) {
             this.storeAuthenticationToken(jwt, rememberMe);
             return Promise.resolve(jwt);
         } else {
+            // eslint-disable-next-line prefer-promise-reject-errors
             return Promise.reject('auth-jwt-service Promise reject'); // Put appropriate error message here
         }
     }
 
-    storeAuthenticationToken(jwt, rememberMe) {
+    public storeAuthenticationToken(jwt: string, rememberMe: boolean): void {
         if (rememberMe) {
             this.$localStorage.store(AUTH_TOKEN, jwt);
             this.$sessionStorage.store(AUTH_TOKEN, jwt);
@@ -162,7 +110,7 @@ export class AuthServerProvider {
         }
     }
 
-    storeRefreshToken(jwt, rememberMe) {
+    public storeRefreshToken(jwt: string, rememberMe: boolean): void {
         if (rememberMe) {
             this.$localStorage.store(REFRESH_TOKEN, jwt);
             this.$sessionStorage.store(REFRESH_TOKEN, jwt);
@@ -171,8 +119,8 @@ export class AuthServerProvider {
         }
     }
 
-    logout(): Observable<any> {
-        return new Observable(observer => {
+    public logout(): Observable<any> {
+        return new Observable((observer) => {
             this.$localStorage.clear(AUTH_TOKEN);
             this.$sessionStorage.clear(AUTH_TOKEN);
             this.$localStorage.clear(REFRESH_TOKEN);
@@ -188,7 +136,60 @@ export class AuthServerProvider {
 
     }
 
-    private refreshTokens(rememberMe) {
+    private storeAT(resp: any, rememberMe: boolean): string {
+        const accessToken = resp[ACCESS_TOKEN];
+        if (accessToken) {
+            this.storeAuthenticationToken(accessToken, rememberMe);
+        }
+        return accessToken;
+    }
+
+    private storeRT(resp: any, rememberMe: boolean): void {
+        const refreshToken = resp[REFRESH_TOKEN];
+        if (refreshToken) {
+            const authenticationTokenexpiresDate = new Date().setSeconds(resp.expires_in);
+            this.$sessionStorage.store(EXPIRES_DATE_FIELD, authenticationTokenexpiresDate);
+            this.storeRefreshToken(refreshToken, rememberMe);
+            this.updateTokenTimer = setTimeout(() => {
+                this.refreshTokens(rememberMe);
+            }, (resp.expires_in - 60) * 1000);
+        } else {
+            console.info('Expected to get %s but got undefined', REFRESH_TOKEN); // tslint:disable-line
+        }
+    }
+
+    private getAccessToken(data: any, headers: any, rememberMe: boolean): Observable<any> {
+        return this.http.post<any>(TOKEN_URL, data, {headers, observe: 'response'}).pipe(map((resp) => {
+            this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
+            const result = resp.body;
+            let accessToken;
+            let tfaChannel = '';
+
+            if (resp.headers.get('icthh-xm-tfa-otp') === 'required') {
+                tfaChannel = resp.headers.get('icthh-xm-tfa-otp-channel');
+                console.info('tfaRequired=%s using %s', true, tfaChannel);
+
+                this.stateStorageService.storeDestinationState(
+                    {
+                        name: 'otpConfirmation',
+                        data: {tfaVerificationKey: result.tfaVerificationKey, tfaChannel},
+                    },
+                    {},
+                    {name: 'login'});
+
+                accessToken = this.storeAT(result, rememberMe);
+            } else {
+                this.stateStorageService.resetDestinationState();
+                accessToken = this.storeAT(result, rememberMe);
+                this.storeRT(result, rememberMe);
+            }
+
+            return accessToken;
+
+        }));
+    }
+
+    private refreshTokens(rememberMe: boolean): void {
         const headers = {
             'Authorization': DEFAULT_AUTH_TOKEN,
             'Content-Type': DEFAULT_CONTENT_TYPE,
@@ -197,16 +198,15 @@ export class AuthServerProvider {
 
         const body = new HttpParams()
             .set('grant_type', 'refresh_token')
-            .set('refresh_token', this.getRefreshToken())
-        ;
+            .set('refresh_token', this.getRefreshToken());
 
-        this.http.post<any>(TOKEN_URL, body, { headers, observe: 'response'})
-            .pipe(map((resp) => { return resp.body; }))
+        this.http.post<any>(TOKEN_URL, body, {headers, observe: 'response'})
+            .pipe(map((resp) => resp.body))
             .subscribe((data) => {
                 this.storeAT(data, rememberMe);
                 this.storeRT(data, rememberMe);
             }, (error) => {
-                console.log('Refresh token fails: %o', error); // tslint:disable-line
+                console.info('Refresh token fails: %o', error); // tslint:disable-line
                 this.logout().subscribe();
                 this.principal.logout();
                 this.router.navigate(['']);
@@ -214,17 +214,17 @@ export class AuthServerProvider {
 
     }
 
-    private setAutoRefreshTokens(rememberMe) {
+    private setAutoRefreshTokens(rememberMe: boolean): void {
         if (this.getRefreshToken()) {
             const currentDate = new Date().setSeconds(0);
             const expiresdate = this.$sessionStorage.retrieve(EXPIRES_DATE_FIELD);
             if (currentDate < expiresdate) {
-                const expires_in = (expiresdate - currentDate) / 1000 - 30;
+                const expiresIn = (expiresdate - currentDate) / 1000 - 30;
                 this.updateTokenTimer = setTimeout(() => {
                     if (this.getRefreshToken()) {
                         this.refreshTokens(rememberMe);
                     }
-                }, expires_in * 1000);
+                }, expiresIn * 1000);
             } else {
                 this.refreshTokens(rememberMe);
             }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
 import { AuthServerProvider } from '../../auth/auth-jwt.service';
@@ -8,12 +8,12 @@ import { AuthServerProvider } from '../../auth/auth-jwt.service';
     templateUrl: './privacy-and-terms-dialog.component.html',
     styleUrls: ['./privacy-and-terms-dialog.component.scss'],
 })
-export class PrivacyAndTermsDialogComponent implements OnInit {
+export class PrivacyAndTermsDialogComponent {
 
-    @Input() config: any;
-    iAgree = false;
-    lang: string;
-    termsToken: string;
+    @Input() public config: any;
+    public iAgree: boolean = false;
+    public lang: string;
+    public termsToken: string;
 
     constructor(private activeModal: NgbActiveModal,
                 private authServerProvider: AuthServerProvider,
@@ -23,14 +23,11 @@ export class PrivacyAndTermsDialogComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
-    }
-
-    onCancel() {
+    public onCancel(): void {
         this.activeModal.close('cancel');
     }
 
-    onAccept() {
+    public onAccept(): void {
         if (!this.termsToken) {
             this.activeModal.close('accept');
         } else {
@@ -42,6 +39,6 @@ export class PrivacyAndTermsDialogComponent implements OnInit {
     private acceptTerms(token: string): void {
         this.authServerProvider
             .acceptTermsAndConditions(token)
-            .subscribe(() => this.activeModal.close('accept'), (err) => this.onCancel());
+            .subscribe(() => this.activeModal.close('accept'), () => this.onCancel());
     }
 }

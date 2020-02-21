@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-
-import { AuthServerProvider } from '../../shared/auth/auth-jwt.service';
+import { AfterViewInit, Component } from '@angular/core';
 
 import { SwaggerUIBundle } from 'swagger-ui-dist';
+
+import { AuthServerProvider } from '../../shared/auth/auth-jwt.service';
 
 @Component({
     selector: 'xm-docs',
     templateUrl: './docs.component.html',
 })
-export class JhiDocsComponent implements OnInit, AfterViewInit {
+export class JhiDocsComponent implements AfterViewInit {
 
-    swaggerResources: any[];
-    currentResource: any;
+    public swaggerResources: any[];
+    public currentResource: any;
 
     constructor(
         private http: HttpClient,
@@ -20,10 +20,7 @@ export class JhiDocsComponent implements OnInit, AfterViewInit {
     ) {
     }
 
-    ngOnInit() {
-    }
-
-    ngAfterViewInit() {
+    public ngAfterViewInit(): void {
         this.http
             .get<any[]>('/swagger-resources')
             .subscribe((data: any[]) => {
@@ -33,9 +30,11 @@ export class JhiDocsComponent implements OnInit, AfterViewInit {
             });
     }
 
-    updateSwagger(resource) {
+    public updateSwagger(resource: any): void {
         const authToken = this.auth.getToken();
+        // tslint:disable-next-line:no-unused-expression
         new SwaggerUIBundle({
+            // eslint-disable-next-line @typescript-eslint/camelcase
             dom_id: '#swaggerHolder',
             supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
             url: window.location.protocol + '//' + window.location.host + resource,
@@ -46,7 +45,7 @@ export class JhiDocsComponent implements OnInit, AfterViewInit {
             configs: {
                 preFetch: (req) => {
                     if (authToken) {
-                        req.headers['Authorization'] = 'Bearer ' + authToken;
+                        req.headers.Authorization = 'Bearer ' + authToken;
                     }
                     return req;
                 },

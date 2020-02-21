@@ -1,3 +1,4 @@
+/* tslint:disable:typedef */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Idle } from 'idlejs/dist';
@@ -47,6 +48,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
         this.xmConfigService.isMaintenanceProgress().subscribe((res: boolean) => this.isMaintenanceProgress$.next(res));
     }
 
+    // tslint:disable-next-line:cognitive-complexity
     public ngOnInit(): void {
         this.languageService.init();
         this.titleService.init();
@@ -56,7 +58,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
             this.registerAuthenticationSuccess();
         });
 
-        // const envType = environment.production ? 'PROD' : 'TEST';
+        // TODO: const envType = environment.production ? 'PROD' : 'TEST';
         const body = document.getElementsByTagName('body')[0];
         const isWindows = navigator.platform.indexOf('Win') > -1;
 
@@ -76,20 +78,20 @@ export class XmMainComponent implements OnInit, OnDestroy {
         });
 
         // TODO #14219. workaround for dynamic expand height of textarea
-        $('body').on('keyup', '.textarea-auto-height textarea', function () {
+        $('body').on('keyup', '.textarea-auto-height textarea', function(this: HTMLElement) {
             this.style.overflow = 'hidden';
             this.style.height = '52px';
             this.style.height = this.scrollHeight + 'px';
         });
 
         $(window).resize(() => {
-            $('.textarea-auto-height textarea').each(function (pos, el) {
+            $('.textarea-auto-height textarea').each((pos, el) => {
                 $(el).trigger('keyup');
             });
         });
 
         if (!$.emptyString) {
-            $.emptyString = function (str) {
+            $.emptyString = (str) => {
                 if (str || str === false) {
                     return str;
                 } else {
@@ -99,7 +101,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
         }
 
         if (!$.wrapArray) {
-            $.wrapArray = function (arr) {
+            $.wrapArray = (arr) => {
                 if (!Array.isArray(arr)) {
                     return $.emptyString(arr);
                 } else {
@@ -115,7 +117,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
                         result[i] = i === arr.length - 1 ? '"' + result[i] : result[i];
                         result[i] = i > 0 && i < arr.length - 1 ? '"' + result[i] + '"' : result[i];
                     }
-                    console.log(`["${result}"]`);
+                    console.info(`["${result}"]`);
                     return result;
                 }
             };
@@ -124,8 +126,8 @@ export class XmMainComponent implements OnInit, OnDestroy {
         // using in json form dataSpec interpolation
         // for avoid break dataSpec json
         if (!$.safe) {
-            $.safe = function (str) {
-                if (!(typeof str === 'string')) {
+            $.safe = (str) => {
+                if (typeof str !== 'string') {
                     return str;
                 }
 
@@ -142,14 +144,32 @@ export class XmMainComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.authSucessSubscription ? this.authSucessSubscription.unsubscribe() : console.log('No authSucessSubscription');
+        // eslint-disable-next-line no-unused-expressions
+        this.authSucessSubscription
+            ? this.authSucessSubscription.unsubscribe()
+            : console.info('No authSucessSubscription');
     }
 
     private registerAuthenticationSuccess(): void {
+        this.principal.getAuthenticationState().subscribe((auth) => {
+            if (auth) {
+                this.loadPrivateConfig();
+            }
+        });
+
         this.authSucessSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_SUCCESS_AUTH, (message) => {
             this.principal.identity();
             this.isGuestLayout = false;
+            this.loadPrivateConfig();
         });
+    }
+
+    private loadPrivateConfig() {
+        this.principal.hasPrivileges(['CONFIG.CLIENT.WEBAPP.GET_LIST.ITEM']).then((allowToRead) => {
+            if (allowToRead) {
+                this.xmConfigService.loadPrivateConfig();
+            }
+        })
     }
 
     private idleLogoutInit(): void {
@@ -179,7 +199,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
     }
 
     private idleAction(time: any): void {
-        (!environment.production) && console.log('>>> init idle logout in ' + time);
+        if (!environment.production) { console.info('>>> init idle logout in ' + time); }
         this.isIdleEnabled = true;
         this.idle = new Idle()
             .whenNotInteractive()
@@ -200,7 +220,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
                 this.isGuestLayout = false;
             }
         }, (error) => {
-            console.log(error);
+            console.info(error);
             this.isGuestLayout = false;
         });
     }

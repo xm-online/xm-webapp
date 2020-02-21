@@ -10,35 +10,35 @@ import { Dashboard } from './dashboard.model';
 @Injectable()
 export class DashboardService {
 
-    private resourceUrl = SERVER_API_URL + 'dashboard/api/dashboards';
+    private resourceUrl: string = SERVER_API_URL + 'dashboard/api/dashboards';
 
     constructor(private http: HttpClient) {
     }
 
-    create(dashboard: Dashboard): Observable<HttpResponse<Dashboard>> {
+    public create(dashboard: Dashboard): Observable<HttpResponse<Dashboard>> {
         const copy = this.convert(dashboard);
         return this.http.post<Dashboard>(this.resourceUrl, copy, {observe: 'response'}).pipe(
             map((res: HttpResponse<Dashboard>) => this.convertResponse(res)));
     }
 
-    update(dashboard: Dashboard): Observable<HttpResponse<Dashboard>> {
+    public update(dashboard: Dashboard): Observable<HttpResponse<Dashboard>> {
         const copy = this.convert(dashboard);
         return this.http.put<Dashboard>(this.resourceUrl, copy, {observe: 'response'}).pipe(
             map((res: HttpResponse<Dashboard>) => this.convertResponse(res)));
     }
 
-    find(id: number): Observable<HttpResponse<Dashboard>> {
+    public find(id: number): Observable<HttpResponse<Dashboard>> {
         return this.http.get<Dashboard>(`${this.resourceUrl}/${id}`, {observe: 'response'}).pipe(
             map((res: HttpResponse<Dashboard>) => this.convertResponse(res)));
     }
 
-    query(req?: any): Observable<HttpResponse<Dashboard[]>> {
+    public query(req?: any): Observable<HttpResponse<Dashboard[]>> {
         const options = createRequestOption(req);
         return this.http.get<Dashboard[]>(this.resourceUrl, {params: options, observe: 'response'}).pipe(
             map((res: HttpResponse<Dashboard[]>) => this.convertArrayResponse(res)));
     }
 
-    delete(id: number): Observable<HttpResponse<any>> {
+    public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
     }
 
@@ -50,8 +50,9 @@ export class DashboardService {
     private convertArrayResponse(res: HttpResponse<Dashboard[]>): HttpResponse<Dashboard[]> {
         const jsonResponse: Dashboard[] = res.body;
         const body: Dashboard[] = [];
-        for (let i = 0; i < jsonResponse.length; i++) {
-            body.push(this.convertItemFromServer(jsonResponse[i]));
+
+        for (const i of jsonResponse) {
+            body.push(this.convertItemFromServer(i));
         }
         return res.clone({body});
     }
@@ -60,15 +61,13 @@ export class DashboardService {
      * Convert a returned JSON object to Dashboard.
      */
     private convertItemFromServer(dashboard: Dashboard): Dashboard {
-        const copy: Dashboard = Object.assign({}, dashboard);
-        return copy;
+        return Object.assign({}, dashboard);
     }
 
     /**
      * Convert a Dashboard to a JSON which can be sent to the server.
      */
     private convert(dashboard: Dashboard): Dashboard {
-        const copy: Dashboard = Object.assign({}, dashboard);
-        return copy;
+        return Object.assign({}, dashboard);
     }
 }

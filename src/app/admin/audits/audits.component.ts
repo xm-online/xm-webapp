@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { JhiOrderByPipe, JhiParseLinks } from 'ng-jhipster';
 
 import { ITEMS_PER_PAGE } from '../../shared';
+import { Link } from '../../xm-entity';
 import { Audit } from './audit.model';
 import { AuditsService } from './audits.service';
 
@@ -14,16 +15,16 @@ declare let moment: any;
     providers: [JhiOrderByPipe],
 })
 export class AuditsComponent implements OnInit {
-    audits: Audit[];
-    fromDate: string;
-    itemsPerPage: any;
-    links: any;
-    page: number;
-    orderProp: string;
-    reverse: boolean;
-    toDate: string;
-    totalItems: number;
-    showLoader: boolean;
+    public audits: Audit[];
+    public fromDate: string;
+    public itemsPerPage: any;
+    public links: Link[];
+    public page: number;
+    public orderProp: string;
+    public reverse: boolean;
+    public toDate: string;
+    public totalItems: number;
+    public showLoader: boolean;
 
     constructor(
         private auditsService: AuditsService,
@@ -37,18 +38,18 @@ export class AuditsComponent implements OnInit {
         this.orderProp = 'timestamp';
     }
 
-    loadPage(page: number) {
+    public loadPage(page: number): void {
         this.page = page;
         this.onChangeDate();
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.today();
         this.previousMonth();
         this.onChangeDate();
     }
 
-    onChangeDate() {
+    public onChangeDate(): void {
         this.showLoader = true;
         this.auditsService
             .query({
@@ -62,11 +63,11 @@ export class AuditsComponent implements OnInit {
                     this.links = this.parseLinks.parse(res.headers.get('link'));
                     this.totalItems = +res.headers.get('X-Total-Count');
                 },
-                (err) => console.log(err), // tslint:disable-line
+                (err) => console.info(err), // tslint:disable-line
                 () => this.showLoader = false);
     }
 
-    previousMonth() {
+    public previousMonth(): void {
         const dateFormat = 'yyyy-MM-dd';
         let fromDate: Date = new Date();
 
@@ -79,7 +80,7 @@ export class AuditsComponent implements OnInit {
         this.fromDate = this.datePipe.transform(fromDate, dateFormat);
     }
 
-    today() {
+    public today(): void {
         const dateFormat = 'yyyy-MM-dd';
         // Today + 1 day - needed if the current day must be included
         const today: Date = new Date();
@@ -88,8 +89,8 @@ export class AuditsComponent implements OnInit {
         this.toDate = this.datePipe.transform(date, dateFormat);
     }
 
-    sortAudits(audits: Audit[], prop: string) {
+    public sortAudits(audits: Audit[], prop: string): any {
         this.reverse = !this.reverse;
-        return  this.orderByPipe.transform(audits, prop, this.reverse);
+        return this.orderByPipe.transform(audits, prop, this.reverse);
     }
 }

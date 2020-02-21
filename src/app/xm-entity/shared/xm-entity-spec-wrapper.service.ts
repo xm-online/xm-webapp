@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {defaultIfEmpty, filter, flatMap, map, shareReplay} from 'rxjs/operators';
+import { defaultIfEmpty, filter, flatMap, map, shareReplay } from 'rxjs/operators';
 
+import { environment } from '../../../environments/environment';
 import { Spec } from './spec.model';
+import { XmEntitySpec } from './xm-entity-spec.model';
 import { XmEntitySpecService } from './xm-entity-spec.service';
-import {environment} from '../../../environments/environment';
-import {XmEntitySpec} from './xm-entity-spec.model';
 
 const CACHE_SIZE = 1;
 
@@ -19,13 +19,14 @@ export class XmEntitySpecWrapperService {
 
     constructor(private xmEntitySpecService: XmEntitySpecService) {
         if (!environment.production) {
-            console.log(`DBG Creating XmEntitySpecWrapperService`);
+            console.info(`DBG Creating XmEntitySpecWrapperService`);
         }
     }
 
-    spec(force?: boolean, mockSpec?: boolean): Promise<Spec> {
+    // tslint:disable-next-line:cognitive-complexity
+    public spec(force: boolean = false, mockSpec: boolean = false): Promise<Spec> {
         if (!force && this.promise) {
-            if (!environment.production) {console.log('DBG Promise from cache')}
+            if (!environment.production) {console.info('DBG Promise from cache'); }
             return this.promise;
         } else {
             return this.promise = new Promise((resolve) => {
@@ -41,13 +42,13 @@ export class XmEntitySpecWrapperService {
                     return;
                 }
 
-                if (!environment.production) {console.log('DBG New Promise')}
+                if (!environment.production) {console.info('DBG New Promise'); }
 
                 // retrieve the spec data from the server, update the _spec object, and then resolve.
                 this.xmEntitySpecService.get().toPromise().then((spec) => {
                     this.promise = null;
                     if (spec.body) {
-                        this._spec = { types: spec.body };
+                        this._spec = {types: spec.body};
                     } else {
                         this._spec = null;
                     }
@@ -66,17 +67,17 @@ export class XmEntitySpecWrapperService {
         }
     }
 
-    specv2(force?: boolean): Observable<Spec> {
+    public specv2(): Observable<Spec> {
         if (!this.cache$) {
-            if (!environment.production) {console.log('DBG from cache$')}
+            if (!environment.production) {console.info('DBG from cache$'); }
             this.cache$ = this.requestSpec().pipe(
-                shareReplay(CACHE_SIZE)
-            )
+                shareReplay(CACHE_SIZE),
+            );
         }
         return this.cache$;
     }
 
-    xmSpecByKey(typeKey: string): Observable<XmEntitySpec> {
+    public xmSpecByKey(typeKey: string): Observable<XmEntitySpec> {
         return this.specv2().pipe(
             defaultIfEmpty({types: []} as Spec),
             flatMap((spec) => spec.types),
@@ -84,9 +85,9 @@ export class XmEntitySpecWrapperService {
         );
     }
 
-    clear() {
+    public clear(): void {
         if (!environment.production) {
-            console.log(`DBG XmEntitySpecWrapperService.clear`);
+            console.info(`DBG XmEntitySpecWrapperService.clear`);
         }
         if (this.cache$) {
             this.cache$ = null;
@@ -99,7 +100,7 @@ export class XmEntitySpecWrapperService {
 
     private requestSpec(): Observable<Spec> {
         return this.xmEntitySpecService.get().pipe(
-            map(httpResp => { return { types: httpResp.body }}));
+            map((httpResp) => ({types: httpResp.body})));
     }
 
 }

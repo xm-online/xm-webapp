@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Resolve, Routes } from '@angular/router';
 import { JhiPaginationUtil } from 'ng-jhipster';
+import { IApplicationResolvePagingParams } from '../../application/application.route';
 
 import { ITEMS_PER_PAGE, Principal } from '../../shared';
 import { UserMgmtDetailComponent } from './user-management-detail.component';
@@ -12,23 +13,24 @@ export class UserResolve implements CanActivate {
     constructor(private principal: Principal) {
     }
 
-    canActivate() {
-        return this.principal.identity().then((account) => this.principal.hasAnyAuthority(['ROLE_ADMIN']));
+    public canActivate(): Promise<boolean> {
+        return this.principal.identity().then(() => this.principal.hasAnyAuthority(['ROLE_ADMIN']));
     }
 }
 
+// tslint:disable-next-line:max-classes-per-file
 @Injectable()
 export class UserResolvePagingParams implements Resolve<any> {
 
     constructor(private paginationUtil: JhiPaginationUtil) {
     }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
-        const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
+    public resolve(route: ActivatedRouteSnapshot): IApplicationResolvePagingParams {
+        const page = route.queryParams.page ? route.queryParams.page : '1';
+        const sort = route.queryParams.sort ? route.queryParams.sort : 'id,asc';
         const size = route.queryParams.size && parseInt(route.queryParams.size, 10) || ITEMS_PER_PAGE;
         return {
-            size: size,
+            size,
             page: this.paginationUtil.parsePage(page),
             predicate: this.paginationUtil.parsePredicate(sort),
             ascending: this.paginationUtil.parseAscending(sort),
@@ -44,13 +46,13 @@ export const userMgmtRoute: Routes = [
                 path: '',
                 component: UserMgmtComponent,
                 resolve: {
-                    'pagingParams': UserResolvePagingParams
+                    pagingParams: UserResolvePagingParams,
                 },
                 data: {
                     privileges: {value: ['USER.GET_LIST']},
                     pageTitle: 'global.menu.admin.main',
-                    pageSubTitleTrans: 'global.menu.admin.userManagement'
-                }
+                    pageSubTitleTrans: 'global.menu.admin.userManagement',
+                },
             },
             {
                 path: 'user-management/:userKey',
@@ -58,9 +60,9 @@ export const userMgmtRoute: Routes = [
                 data: {
                     privileges: {value: ['USER.GET_LIST']},
                     pageTitle: 'global.menu.admin.main',
-                    pageSubTitleTrans: 'userManagement.detail.title'
-                }
-            }
-        ]
-    }
+                    pageSubTitleTrans: 'userManagement.detail.title',
+                },
+            },
+        ],
+    },
 ];

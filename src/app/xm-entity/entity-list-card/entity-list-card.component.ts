@@ -3,6 +3,8 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+
+import * as _ from 'lodash';
 import { JhiEventManager } from 'ng-jhipster';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
@@ -19,8 +21,6 @@ import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 import { ActionOptions, EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
-
-import * as _ from 'lodash';
 
 declare let swal: any;
 
@@ -113,7 +113,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     public filtersReset(activeList: any): void {
         const filter = activeList.filter || null;
         if (filter) {
-            activeList['filterJsfAttributes'] = buildJsfAttributes(filter.dataSpec, filter.dataForm);
+            activeList.filterJsfAttributes = buildJsfAttributes(filter.dataSpec, filter.dataForm);
             activeList.currentQuery = null;
             activeList.currentQuery = this.getDefaultSearch(activeList);
         }
@@ -134,7 +134,8 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.load();
     }
 
-    public onLoadPage(entityOptions: EntityOptions): void {
+    public onLoadPage(event: any,  entityOptions: EntityOptions): void {
+        entityOptions.page = event;
         this.loadEntities(entityOptions).subscribe((result) => entityOptions.entities = result);
     }
 
@@ -210,8 +211,11 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             tap((resp: Blob) => saveFile(resp, `${entityOptions.typeKey}.` + exportType, 'text/csv')),
             finalize(() => this.showLoader = false),
         ).subscribe(
-            () => {console.log(`Exported ${entityOptions.typeKey}`)}, // tslint:disable-line
-            (err) => {console.log(err); this.showLoader = false} // tslint:disable-line
+            () => {console.info(`Exported ${entityOptions.typeKey}`);}, // tslint:disable-line
+            (err) => {
+                console.info(err);
+                this.showLoader = false;
+            } // tslint:disable-line
         );
     }
 
@@ -244,7 +248,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             map((app) => app.config || {}),
             map((conf) => conf.entities || []),
             tap((entities) => this.entitiesUiConfig = entities),
-            tap( () => { this.getCurrentEntitiesConfig(); }),
+            tap(() => { this.getCurrentEntitiesConfig(); }),
         ).subscribe();
     }
 
@@ -263,12 +267,12 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         // TODO: move processing of options.entities to onChange hook.
         //  Will options ever change after component initialization?
         if (this.options.entities) {
-            this.list = this.options.entities.map((e) => {
+            this.list = this.options.entities.map((e: any) => {
                 e.page = this.firstPage;
                 e.xmEntitySpec = this.spec.types.filter((t) => t.key === e.typeKey).shift();
                 e.currentQuery = e.currentQuery ? e.currentQuery : this.getDefaultSearch(e);
                 if (e.filter) {
-                    e['filterJsfAttributes'] = buildJsfAttributes(e.filter.dataSpec, e.filter.dataForm);
+                    e.filterJsfAttributes = buildJsfAttributes(e.filter.dataSpec, e.filter.dataForm);
                 }
                 if (e.fields) { // Workaroud: server sorting doesn't work atm for nested "data" fields
                     e.fields
@@ -331,14 +335,14 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (xmEntity && xmEntity.hasOwnProperty('type')) {
-            return of(xmEntity['type']);
+            return of(xmEntity.type);
         }
 
         if (xmEntity && xmEntity.typeKey) {
             return this.xmEntitySpecWrapperService.xmSpecByKey(xmEntity.typeKey);
         }
 
-        console.log(`No spec found by options=${entityOptions} or entity=${xmEntity}`); // tslint:disable-line
+        console.info(`No spec found by options=${entityOptions} or entity=${xmEntity}`); // tslint:disable-line
 
         throw new Error('No spec found');
     }
@@ -358,7 +362,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 return xmEntities.map((e) => this.enrichEntity(e));
             }),
             catchError((err) => {
-                console.log(err); // tslint:disable-line
+                console.info(err); // tslint:disable-line
                 this.showLoader = false;
                 return of([]);
             }),
@@ -397,10 +401,10 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
      * @param entity current entity
      */
     private enrichEntity(entity: XmEntity): XmEntity {
-        entity['type'] = this.spec.types.filter((t) => t.key === entity.typeKey).shift();
-        const states = entity['type'].states;
+        entity.type = this.spec.types.filter((t) => t.key === entity.typeKey).shift();
+        const states = entity.type.states;
         if (states && states.length && entity.stateKey) {
-            entity['state'] = states.filter((s) => s.key === entity.stateKey).shift();
+            entity.state = states.filter((s) => s.key === entity.stateKey).shift();
         }
         return entity;
     }

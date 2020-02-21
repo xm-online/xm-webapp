@@ -4,29 +4,24 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class TwitterTimelineService {
 
-    private TWITTER_SCRIPT_ID = 'twitter-wjs';
-    private TWITTER_WIDGET_URL = 'https://platform.twitter.com/widgets.js';
+    private TWITTER_SCRIPT_ID: string = 'twitter-wjs';
+    private TWITTER_WIDGET_URL: string = 'https://platform.twitter.com/widgets.js';
 
-    constructor() {
-    }
-
-    loadScript(): Observable<any> {
-        const that = this;
-        return Observable.create(observer => {
-            that.startScriptLoad();
-            window['twttr'].ready(
-                function onLoadTwitterScript(twitter) {
+    public loadScript(): Observable<any> {
+        return Observable.create((observer) => {
+            this.startScriptLoad();
+            (window as any).twttr.ready((twitter) => {
                     observer.next(twitter);
                     observer.complete();
-                }
+                },
             );
         });
-    };
+    }
 
-    private startScriptLoad() {
-        window['twttr'] = (function (d, s, id, url) {
+    private startScriptLoad(): void {
+        (window as any).twttr = ((d, s, id, url) => {
             const fjs = d.getElementsByTagName(s)[0];
-            const t = window['twttr'] || {};
+            const t = (window as any).twttr || {};
 
             if (d.getElementById(id)) {
                 return t;
@@ -38,12 +33,12 @@ export class TwitterTimelineService {
             fjs.parentNode.insertBefore(js, fjs);
 
             t._e = [];
-            t.ready = function (f) {
+            t.ready = (f) => {
                 t._e.push(f);
             };
 
             return t;
-        }(document, 'script', this.TWITTER_SCRIPT_ID, this.TWITTER_WIDGET_URL));
+        })(document, 'script', this.TWITTER_SCRIPT_ID, this.TWITTER_WIDGET_URL);
     }
 
 }

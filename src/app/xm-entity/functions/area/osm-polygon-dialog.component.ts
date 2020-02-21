@@ -1,37 +1,40 @@
-import {Component} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {Principal} from '../../../shared/auth/principal.service';
-import {OverpassApiService} from './overpass-api.service';
+import { Component } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Principal } from '../../../shared/auth/principal.service';
+import { OverpassApiService } from './overpass-api.service';
 
 @Component({
     selector: 'xm-osm-polygon-dialog',
-    templateUrl: './osm-polygon-dialog.component.html'
+    templateUrl: './osm-polygon-dialog.component.html',
 })
 export class OsmPolygonDialogComponent {
 
-    showLoader: boolean;
-    relations: any[];
-    addPolygonInternal = new Function();
+    public showLoader: boolean;
+    public relations: any[];
 
     constructor(public principal: Principal,
                 public activeModal: NgbActiveModal,
                 private overpassApi: OverpassApiService) {
     }
 
-    search(searchString) {
+    public addPolygonInternal(..._args: any): any {
+        console.info('TODO: refactor', _args);
+    }
+
+    public search(searchString: string): void {
         if (searchString && searchString.length > 3) {
             this.showLoader = true;
             this.overpassApi.getBoundariesByName(searchString).subscribe((body) => {
                 this.relations = body.elements;
             }, (err) => {
-                console.log(err);
+                console.info(err);
             }, () => {
                 this.showLoader = false;
             });
         }
     }
 
-    addPolygon(rel) {
+    public addPolygon(rel: any): void {
         this.overpassApi.getRelGeom(rel.id).subscribe((body) => {
             const polygon = [];
             const members = body.elements.shift().members
@@ -52,13 +55,13 @@ export class OsmPolygonDialogComponent {
             }
             this.addPolygonInternal(polygon);
         }, (err) => {
-            console.log(err);
+            console.info(err);
         }, () => {
             this.activeModal.dismiss('cancel');
         });
     }
 
-    clear() {
+    public clear(): void {
         this.activeModal.dismiss('cancel');
     }
 

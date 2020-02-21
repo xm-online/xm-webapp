@@ -1,44 +1,45 @@
 import { Injectable } from '@angular/core';
-import { Observable ,  Subject } from 'rxjs';
-import { AccountService } from './account.service';
-import { SUPER_ADMIN } from './auth.constants';
-import { JhiAlertService } from 'ng-jhipster';
-import { shareReplay, takeUntil } from 'rxjs/operators';
-import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
-
-import { XmEntity } from '../../xm-entity';
 
 import * as moment from 'moment';
+import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
+import { Observable, Subject } from 'rxjs';
+import { shareReplay, takeUntil } from 'rxjs/operators';
+import { JhiAlertService } from 'ng-jhipster';
+
+import { AccountService } from './account.service';
+import { SUPER_ADMIN } from './auth.constants';
+import { XmEntity } from '../../xm-entity';
 
 const CACHE_SIZE = 1;
 const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
 
 @Injectable({ providedIn: 'root' })
 export class Principal {
+
     private userIdentity: any;
-    private authenticated = false;
-    private authenticationState = new Subject<any>();
+    private authenticated: boolean = false;
+    private authenticationState: Subject<any> = new Subject<any>();
     private promise: Promise<any>;
 
-    private reload$ = new Subject<void>();
+    private reload$: Subject<void> = new Subject<void>();
     private xmProfileCache$: Observable<XmEntity>;
 
-    constructor(
-        private account: AccountService,
-        private alertService: JhiAlertService,
-        private $localStorage: LocalStorageService,
-        private $sessionStorage: SessionStorageService) {
+    constructor(private account: AccountService,
+                private alertService: JhiAlertService,
+                private $localStorage: LocalStorageService,
+                private $sessionStorage: SessionStorageService,
+    ) {
         this.checkTokenAndForceIdentity();
     }
 
-    logout() {
+    public logout(): void {
         this.userIdentity = null;
         this.authenticated = false;
         this.authenticationState.next(this.userIdentity);
         this.resetCachedProfile();
     }
 
-    hasAnyAuthority(authorities: string[]): Promise<boolean> {
+    public hasAnyAuthority(authorities: string[]): Promise<boolean> {
         if (!this.authenticated || !this.userIdentity || !this.userIdentity.roleKey) {
             return Promise.resolve(false);
         }
@@ -46,7 +47,7 @@ export class Principal {
         return Promise.resolve(true);
     }
 
-    hasPrivilegesInline(privileges: string[] = [], privilegesOperation: string = 'OR'): any {
+    public hasPrivilegesInline(privileges: string[] = [], privilegesOperation: string = 'OR'): any {
         if (!this.authenticated || !this.userIdentity || !this.userIdentity.privileges) {
             return false;
         }
@@ -63,19 +64,18 @@ export class Principal {
             }
             return false;
         } else if (privilegesOperation === 'AND') {
-            return privileges.filter(el => this.userIdentity.privileges.indexOf(el) === -1);
+            return privileges.filter((el) => this.userIdentity.privileges.indexOf(el) === -1);
         } else {
             this.alertService.warning('error.privilegeOperationWrong', {name: privilegesOperation});
             return false;
         }
-
     }
 
-    hasPrivileges(privileges: string[] = [], privilegesOperation: string = 'OR'): Promise<any> {
+    public hasPrivileges(privileges: string[] = [], privilegesOperation: string = 'OR'): Promise<any> {
         return Promise.resolve(this.hasPrivilegesInline(privileges, privilegesOperation));
     }
 
-    hasAuthority(authority: string): Promise<boolean> {
+    public hasAuthority(authority: string): Promise<boolean> {
         if (!this.authenticated) {
             return Promise.resolve(false);
         }
@@ -87,7 +87,8 @@ export class Principal {
         });
     }
 
-    identity(force?: boolean, mockUser?: boolean): Promise<any> {
+    // tslint:disable-next-line:cognitive-complexity
+    public identity(force: boolean = false, mockUser: boolean = false): Promise<any> {
         if (!force && this.promise) {
             return this.promise;
         } else {
@@ -109,7 +110,7 @@ export class Principal {
                 this.account
                     .get()
                     .toPromise()
-                    .then(response => {
+                    .then((response) => {
                         const account = response.body;
                         this.promise = null;
                         this.resetCachedProfile();
@@ -131,14 +132,15 @@ export class Principal {
                         }
                         this.authenticationState.next(this.userIdentity);
                         resolve(this.userIdentity);
-                    }).catch(err => {
+                    })
+                    .catch(() => {
                         this.promise = null;
                         this.resetCachedProfile();
                         if (mockUser) {
                             this.userIdentity = {
                                 firstName: 'NoName',
                                 lastName: 'NoName',
-                                roleKey: 'ROLE_USER'
+                                roleKey: 'ROLE_USER',
                             };
                             this.authenticated = true;
                             this.authenticationState.next(this.userIdentity);
@@ -158,7 +160,7 @@ export class Principal {
      * Returns user XM Profile
      * @param force
      */
-    getXmEntityProfile(force?: boolean): Observable<XmEntity> {
+    public getXmEntityProfile(force: boolean = false): Observable<XmEntity> {
         if (force) {
             this.resetCachedProfile();
         }
@@ -166,24 +168,24 @@ export class Principal {
         if (!this.xmProfileCache$) {
             this.xmProfileCache$ = this.loadProfile().pipe(
                 takeUntil(this.reload$),
-                shareReplay(CACHE_SIZE)
+                shareReplay(CACHE_SIZE),
             );
         }
 
         return this.xmProfileCache$;
     }
 
-    isAuthenticated(): boolean {
+    public isAuthenticated(): boolean {
         return this.authenticated;
     }
 
-    getAuthenticationState(): Observable<any> {
+    public getAuthenticationState(): Observable<any> {
         return this.authenticationState.asObservable();
     }
 
-    getImageUrl(): String {
+    public getImageUrl(): string {
         if (this.isIdentityResolved()) {
-            if ('null' === this.userIdentity.imageUrl) {
+            if (this.userIdentity.imageUrl === 'null') {
                 return null;
             }
             return this.userIdentity.imageUrl;
@@ -191,45 +193,44 @@ export class Principal {
         return null;
     }
 
-    getUserKey(): string {
+    public getUserKey(): string {
         return this.isIdentityResolved() ? this.userIdentity.userKey : null;
     }
 
-    getName(): String {
-        if (!this.isIdentityResolved()) {return null}
-        if (this.userIdentity.firstName ||  this.userIdentity.lastName) {
+    public getName(): string {
+        if (!this.isIdentityResolved()) { return null; }
+        if (this.userIdentity.firstName || this.userIdentity.lastName) {
             return [this.userIdentity.firstName, this.userIdentity.lastName].join(' ');
         } else {
             return this.userIdentity.logins[0].login;
         }
     }
 
-    public getDetailName(): String[] {
-        if (!this.isIdentityResolved()) {return null}
+    public getDetailName(): string[] {
+        if (!this.isIdentityResolved()) { return null; }
 
         return [
             this.userIdentity.firstName ? this.userIdentity.firstName : this.userIdentity.logins[0].login,
-            this.userIdentity.lastName ? this.userIdentity.lastName : null
-        ]
+            this.userIdentity.lastName ? this.userIdentity.lastName : null,
+        ];
     }
 
-
-    getLangKey(): string {
+    public getLangKey(): string {
         return this.isIdentityResolved() ? this.userIdentity.langKey : null;
     }
 
-    setLangKey(langKey: string) {
+    public setLangKey(langKey: string): void {
         if (this.isIdentityResolved()) {
             this.userIdentity.langKey = langKey;
         }
     }
 
-    setTimezoneOffset(): string {
-        // for now setting offset from browser
+    public setTimezoneOffset(): string {
+        // For now setting offset from browser
         return moment().format('Z');
     }
 
-    private checkTokenAndForceIdentity() {
+    private checkTokenAndForceIdentity(): void {
         /* This method forcing identity on page load when user has token but identity does not inits */
         const tokeExDate = this.$localStorage.retrieve(EXPIRES_DATE_FIELD) ||
             this.$sessionStorage.retrieve(EXPIRES_DATE_FIELD);
@@ -251,8 +252,7 @@ export class Principal {
         return this.account.getProfile();
     }
 
-
-    private resetCachedProfile() {
+    private resetCachedProfile(): void {
         this.reload$.next();
         this.xmProfileCache$ = null;
     }
