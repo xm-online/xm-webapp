@@ -21,13 +21,15 @@
                       *ngIf="isUiSpecValid"
                       [class.loading]="uiSpecificationProgress"
                       [disabled]="uiSpecificationProgress"
-                      class="btn btn-primary"
+                      mat-button
+                      color="primary"
                       type="button">
                 {{'admin-config.specification-mng.ui.save' | translate}}
               </button>
               <button (click)="validateUiSpecification();"
                       *ngIf="!isUiSpecValid"
-                      class="btn btn-primary"
+                      color="primary"
+                      mat-button
                       type="button">
                 {{'admin-config.specification-mng.validate' | translate}}
               </button>
@@ -110,13 +112,15 @@
         <div class="card">
           <div class="card-body">
             <div class="text-center pb-3">
-              <button (click)="validateTimelineConfig();" *ngIf="!isTimelineSpecValid" class="btn btn-primary"
+              <button (click)="validateTimelineConfig();" *ngIf="!isTimelineSpecValid" color="primary"
                       jhiTranslate="admin-config.specification-mng.validate"
+                      mat-button
                       type="submit">
                 Validate
               </button>
-              <button (click)="updateTimelineConfig();" *ngIf="isTimelineSpecValid" class="btn btn-primary"
+              <button (click)="updateTimelineConfig();" *ngIf="isTimelineSpecValid" color="primary"
                       jhiTranslate="admin-config.specification-mng.timeline.save"
+                      mat-button
                       type="submit">
                 Save Timeline specification
               </button>
@@ -147,13 +151,15 @@
         <div class="card">
           <div class="card-body">
             <div class="text-center pb-3">
-              <button (click)="validateLoginsSpecification();" *ngIf="!isUaaLoginSpecValid" class="btn btn-primary"
+              <button (click)="validateLoginsSpecification();" *ngIf="!isUaaLoginSpecValid" color="primary"
                       jhiTranslate="admin-config.specification-mng.validate"
+                      mat-button
                       type="submit">
                 Validate
               </button>
-              <button (click)="updateLoginsSpecification();" *ngIf="isUaaLoginSpecValid" class="btn btn-primary"
+              <button (click)="updateLoginsSpecification();" *ngIf="isUaaLoginSpecValid" color="primary"
                       jhiTranslate="admin-config.specification-mng.uaa-login.save"
+                      mat-button
                       type="submit">
                 Save Login specification
               </button>
@@ -184,13 +190,15 @@
         <div class="card">
           <div class="card-body">
             <div class="text-center pb-3">
-              <button (click)="validateUaaSpecification();" *ngIf="!isUaaSpecValid" class="btn btn-primary"
+              <button (click)="validateUaaSpecification();" *ngIf="!isUaaSpecValid" color="primary"
                       jhiTranslate="admin-config.specification-mng.validate"
+                      mat-button
                       type="submit">
                 Validate
               </button>
-              <button (click)="updateUaaSpecification();" *ngIf="isUaaSpecValid" class="btn btn-primary"
+              <button (click)="updateUaaSpecification();" *ngIf="isUaaSpecValid" color="primary"
                       jhiTranslate="admin-config.specification-mng.uaa.save"
+                      mat-button
                       type="submit">
                 Save UAA specification
               </button>
@@ -225,13 +233,15 @@
                       *ngIf="isTenantSpecValid"
                       [class.loading]="tenantSpecificationProgress"
                       [disabled]="tenantSpecificationProgress"
-                      class="btn btn-primary"
+                      color="primary"
+                      mat-button
                       type="button">
                 {{'admin-config.specification-mng.tenant.save' | translate}}
               </button>
               <button (click)="validateTenantSpecification();"
                       *ngIf="!isTenantSpecValid"
-                      class="btn btn-primary"
+                      color="primary"
+                      mat-button
                       type="button">
                 {{'admin-config.specification-mng.validate' | translate}}
               </button>
@@ -251,6 +261,51 @@
                    [style.min-height]="'150px'"
                    [style.width]="'100%'"
                    [text]="tenantSpecificationIn"
+                   style="overflow-x: auto; border: 1px solid lightgray;"
+                   xmAceEditor>
+                <span jhiTranslate="admin-config.specification-mng.loading">loading specification...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngSwitchCase="'privateui'">
+        <div class="card">
+          <div class="card-body">
+            <div class="text-center pb-3">
+              <button (click)="updatePrivateUiConfig();"
+                      *ngIf="isUiPrivateSpecValid"
+                      [class.loading]="uiPrivateSpecificationProgress"
+                      [disabled]="uiPrivateSpecificationProgress"
+                      color="primary"
+                      mat-button
+                      type="button">
+                {{'admin-config.specification-mng.privateui.save' | translate}}
+              </button>
+              <button (click)="validatePrivateUiSpecification();"
+                      *ngIf="!isUiPrivateSpecValid"
+                      color="primary"
+                      mat-button
+                      type="button">
+                {{'admin-config.specification-mng.validate' | translate}}
+              </button>
+
+              <div class="text-center">
+                <div *ngIf="uiPrivateValidation && !uiPrivateValidation.valid"
+                     [innerHtml]="uiPrivateValidation?.errorMessage"
+                     class="text-danger">
+                </div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div (textChanged)="onPrivateUiSpecificationChange($event)"
+                   [autoUpdateContent]="true"
+                   [mode]="'yaml'"
+                   [options]="aceEditorOptions"
+                   [readOnly]="false"
+                   [style.min-height]="'150px'"
+                   [style.width]="'100%'"
+                   [text]="uiPrivateSpecificationIn"
                    style="overflow-x: auto; border: 1px solid lightgray;"
                    xmAceEditor>
                 <span jhiTranslate="admin-config.specification-mng.loading">loading specification...</span>
