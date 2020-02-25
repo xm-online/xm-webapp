@@ -102,7 +102,7 @@ export class EntityCardWidgetComponent implements OnInit {
         return this.spec.types.filter((t) => t.key === vTypeKey).shift();
     }
 
-    public getEntityField(field) {
+    public getEntityField(field): any {
         if (this.xmEntity) {
             return this.xmEntity.data[field] || '';
         }
