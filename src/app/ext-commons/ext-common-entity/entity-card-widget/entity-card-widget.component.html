@@ -36,7 +36,7 @@
       <xm-loader [showLoader]="showLoader"></xm-loader>
       <div class="fields">
 
-        <ng-container *ngIf="config.listSpec; else jsfView">
+        <ng-container *ngIf="config.displayList && config.listSpec; else jsfView">
 
           <div class="field" *ngFor="let field of config.listSpec.fields">
               <div class="label">{{field.title | translate}}</div>
@@ -54,7 +54,6 @@
                             [options]="jsfAttributes.options | i18nJsf :principal"
                             [widgets]="jsfAttributes.widgets"
                             (formLayout)="jsfAttributes.formLayout"
-                            (onSubmit)="onSubmitForm($event)"
                             *ngIf="jsfAttributes?.schema">
           </json-schema-form>
         </ng-template>
@@ -64,10 +63,16 @@
 
   <ng-template #hasHeaderConfig>
     <div class="card-header card-header-icon card-header-primary">
-      <div class="card-icon">
-        <i class="material-icons">{{jsfAttributes.entity.formHeaderIconName}}</i>
-      </div>
-      <h4 class="card-title">{{jsfAttributes.entity.formHeaderTitle | i18nName: principal}}</h4>
+      <div>
+        <div class="card-icon">
+          <i class="material-icons">{{jsfAttributes.entity.formHeaderIconName}}</i>
+        </div>
+        <h4 class="card-title">{{jsfAttributes.entity.formHeaderTitle | i18nName: principal}}</h4></div>
+<!--      <div class="edit-icon">-->
+<!--        <a href="javascript: void(0);" class="text-right">-->
+<!--          <i class="material-icons mat-primary">edit</i>-->
+<!--        </a>-->
+<!--      </div>-->
     </div>
   </ng-template>
   <ng-template #hasNotHeaderConfig>
@@ -76,6 +81,11 @@
         <i class="material-icons">info_outline</i>
       </div>
       <h4 class="card-title" jhiTranslate="xm-entity.entity-data-card.title">Data</h4>
+<!--      <div class="edit-icon" (click)="onEdit(xmEntity, xmEntitySpec)">-->
+<!--        <a href="javascript: void(0);" class="text-right">-->
+<!--          <i class="material-icons mat-primary">edit</i>-->
+<!--        </a>-->
+<!--      </div>-->
     </div>
   </ng-template>
 </ng-container>

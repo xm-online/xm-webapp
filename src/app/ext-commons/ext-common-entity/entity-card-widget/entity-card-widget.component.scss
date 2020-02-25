@@ -1,3 +1,13 @@
+.edit-icon {
+  align-self: flex-end;
+  display: flex;
+  margin-left: auto;
+}
+
+.card-header {
+  display: flex;
+}
+
 .entity-card-content {
   display: flex;
   .info-block {
@@ -103,6 +113,12 @@
           flex-wrap: nowrap;
         }
     }
+  }
+
+  .tags-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .tags {
