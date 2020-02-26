@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
+import { XmAlertService } from '@xm-ngx/alert';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
 
 import { Client, ClientService } from '../../shared';
@@ -24,13 +26,14 @@ export class ClientMgmtComponent extends BaseAdminListComponent {
     constructor(
         protected clientService: ClientService,
         protected activatedRoute: ActivatedRoute,
-        protected alertService: JhiAlertService,
+        protected toasterService: XmToasterService,
+        protected alertService: XmAlertService,
         protected eventManager: JhiEventManager,
         protected parseLinks: JhiParseLinks,
         private modalService: MatDialog,
         protected router: Router,
     ) {
-        super(activatedRoute, alertService, eventManager, parseLinks, router);
+        super(activatedRoute, toasterService, alertService, eventManager, parseLinks, router);
         this.itemsPerPage = 10;
     }
 
