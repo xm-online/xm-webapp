@@ -13,7 +13,7 @@ import { FunctionSpec } from '../shared/function-spec.model';
 import { FunctionService } from '../shared/function.service';
 import { XmEntity } from '../shared/xm-entity.model';
 
-declare let $: any;
+import * as $ from 'jquery';
 
 @Component({
     selector: 'xm-function-call-dialog',

@@ -12,7 +12,7 @@ import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-
 import { XmConfigService } from '../spec/config.service';
 import { LoginService } from '../auth/login.service';
 
-declare let $: any;
+import * as $ from 'jquery';
 
 @Component({
     selector: 'xm-login',

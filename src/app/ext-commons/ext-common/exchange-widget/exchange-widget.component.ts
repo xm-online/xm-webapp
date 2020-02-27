@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FinanceService } from './finance.service';
 
-declare let $: any;
+import * as $ from 'jquery';
 
 @Component({
     selector: 'xm-exchange-widget',

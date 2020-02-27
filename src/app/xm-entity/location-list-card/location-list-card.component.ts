@@ -14,7 +14,7 @@ import { LocationService } from '../shared/location.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 
-declare let $: any;
+import * as $ from 'jquery';
 declare let google: any;
 
 @Component({

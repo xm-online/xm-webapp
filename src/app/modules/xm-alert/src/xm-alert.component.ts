@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 
-declare const $: any;
+import * as $ from 'jquery';
 
 /**
  * Alerts can be used to provide feedback messages.

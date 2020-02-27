@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 
-declare let $: any;
+import * as $ from 'jquery';
 
 @Injectable()
 export class TranslationService {

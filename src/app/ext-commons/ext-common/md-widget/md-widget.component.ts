@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {Widget, WidgetService} from '@xm-ngx/dynamic';
 
-declare let $: any;
+import * as $ from 'jquery';
 declare let SimpleMDE: any;
 
 @Component({

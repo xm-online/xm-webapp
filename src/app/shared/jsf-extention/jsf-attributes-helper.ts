@@ -15,7 +15,7 @@ import { MultilingualInputComponent } from './widgets/multilingual-input/multili
 import { TextSectionComponent } from './widgets/text-section/text-section.component';
 import { ValidationComponent } from './widgets/validation-component/validation-component.component';
 
-declare const $: any;
+import * as $ from 'jquery';
 declare let Babili: any;
 
 /**

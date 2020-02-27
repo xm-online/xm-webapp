@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 import { TableData } from './md-table.component';
 
-declare const $: any;
+import * as $ from 'jquery';
 
 @Component({
     selector: 'xm-location-countries-widget',

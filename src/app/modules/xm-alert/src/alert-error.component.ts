@@ -10,7 +10,7 @@ import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 import { ResponseConfig, ResponseConfigItem, ResponseContext } from './response-config.model';
 import { XmAlertService } from './xm-alert.service';
 
-declare let $: any;
+import * as $ from 'jquery';
 
 @Component({
     selector: 'xm-alert-error',

@@ -7,7 +7,7 @@ import { Link } from '../shared/link.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 
-declare let $: any;
+import * as $ from 'jquery';
 
 @Component({
     selector: 'xm-link-list-tree-section',

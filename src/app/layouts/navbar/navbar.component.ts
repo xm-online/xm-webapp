@@ -14,7 +14,7 @@ import { XmConfigService } from '../../shared/spec/config.service';
 import { DashboardWrapperService } from '@xm-ngx/dynamic';
 import { DEBUG_INFO_ENABLED, VERSION } from '../../xm.constants';
 
-declare const $: any;
+import * as $ from 'jquery';
 
 @Component({
     selector: 'xm-navbar',
