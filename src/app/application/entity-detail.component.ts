@@ -6,8 +6,6 @@ import { Subscription } from 'rxjs';
 import { I18nNamePipe, JhiLanguageHelper, Principal } from '../shared';
 import { Spec, XmEntity, XmEntityService, XmEntitySpecWrapperService } from '../xm-entity';
 
-import * as $ from 'jquery';
-
 @Component({
     selector: 'xm-entity-detail',
     templateUrl: './entity-detail.component.html',
@@ -50,7 +48,6 @@ export class EntityDetailComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        $.xmEntity = null;
         this.routeParamsSubscription.unsubscribe();
         this.routeDataSubscription.unsubscribe();
         this.eventManager.destroy(this.eventSubscriber);
@@ -62,11 +59,9 @@ export class EntityDetailComponent implements OnInit, OnDestroy {
     }
 
     private load(id: any): void {
-        $.xmEntity = null;
         this.xmEntity = null;
         this.xmEntityService.find(id, {embed: 'data'}).subscribe((xmEntity) => {
                 this.xmEntity = xmEntity.body;
-                $.xmEntity = xmEntity.body;
                 this.routeData.pageSubSubTitle = this.xmEntity.name;
                 this.jhiLanguageHelper.updateTitle();
             },

@@ -13,8 +13,6 @@ import { FunctionSpec } from '../shared/function-spec.model';
 import { FunctionService } from '../shared/function.service';
 import { XmEntity } from '../shared/xm-entity.model';
 
-import * as $ from 'jquery';
-
 @Component({
     selector: 'xm-function-call-dialog',
     templateUrl: './function-call-dialog.component.html',
@@ -45,13 +43,10 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
 
     public ngOnInit(): void {
         // TODO think about correct way to work with context
-        $.xmEntity = this.xmEntity;
         if (this.functionSpec) {
             this.jsfAttributes = buildJsfAttributes(this.functionSpec.inputSpec || {},
                 this.functionSpec.inputForm || {});
         }
-        $.xmEntity = null;
-        console.info('ngOnInit');
     }
 
     public ngAfterViewInit(): void {
