@@ -1,12 +1,14 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Id, IId, QueryParams } from '../models';
+import { IUrlRest } from '../url/i-url-rest';
 import { IHttpRest } from './i-http-rest';
-import { UrlRest } from './url-rest';
 
 export class HttpClientRest<T extends IId> implements IHttpRest<T> {
 
-    public constructor(protected readonly url: UrlRest<T>,
+    public next = null;
+
+    public constructor(protected readonly url: IUrlRest<T>,
                        protected readonly httpClient: HttpClient) {
     }
 

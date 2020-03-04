@@ -3,6 +3,7 @@ import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { EntityCollectionModule } from '@xm-ngx/entity-collection';
 import { MarkdownModule } from 'ngx-markdown';
 import { XmAlertModule } from '@xm-ngx/alert';
 import { LocalStorageService, NgxWebstorageModule, SessionStorageService } from 'ngx-webstorage';

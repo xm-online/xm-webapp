@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import * as _ from 'lodash';
-import { EntityCollectionFactoryService } from './entity-collection/entity-collection-factory.service';
+import { EntityCollectionFactoryService } from './entity-collection-factory.service';
 import { ENTITY_COLLECTION_CONFIG } from './injectors';
 import { ENTITY_COLLECTION_CONFIG_DEFAULT, EntityCollectionConfig } from './models';
 

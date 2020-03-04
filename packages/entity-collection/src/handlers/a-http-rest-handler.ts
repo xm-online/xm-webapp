@@ -1,13 +1,9 @@
 import { HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Id, IId, QueryParams } from '../models';
-import { IHttpRest } from '../rest/i-http-rest';
+import { IHttpRestHandler } from './i-http-rest-handler';
 
-export interface IHttpRestHandler<T extends IId> extends IHttpRest<T> {
-    next: IHttpRestHandler<T>;
-}
-
-export abstract class HttpHandler<T extends IId> implements IHttpRestHandler<T> {
+export abstract class AHttpRestHandler<T extends IId> implements IHttpRestHandler<T> {
 
     public next: IHttpRestHandler<T>;
 

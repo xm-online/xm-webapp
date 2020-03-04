@@ -1,9 +1,9 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { IId } from '../models';
-import { ASingleHttpHandler, HandlerNext, HandlerRequest } from './a-single-http-handler';
+import { ASingleRestHttpHandler, HandlerNext, HandlerRequest } from './a-single-rest-http-handler';
 
-export class LoadHttpHandler<T extends IId> extends ASingleHttpHandler<T> {
+export class LoadingHttpRestHandler<T extends IId> extends ASingleRestHttpHandler<T> {
 
     public loading$: Observable<boolean>;
     protected $loading: BehaviorSubject<boolean>;
