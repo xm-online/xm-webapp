@@ -3,8 +3,8 @@ import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { JhiEventManager } from 'ng-jhipster';
 import { MarkdownModule } from 'ngx-markdown';
+import { XmAlertModule } from '@xm-ngx/alert';
 import { LocalStorageService, NgxWebstorageModule, SessionStorageService } from 'ngx-webstorage';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
@@ -17,7 +17,7 @@ import { UserRouteAccessService } from './shared';
 import { XmApplicationConfigService } from './shared/spec/xm-config.service';
 import { XmDashboardModule } from './xm-dashboard/xm-dashboard.module';
 import { XmRoutingModule } from './xm-routing.module';
-import {XmCoreModule} from '@xm-ngx/core';
+import { XmCoreModule, XmEventManager } from '@xm-ngx/core';
 
 export function appInitializerFn(appConfig: XmApplicationConfigService): () => Promise<any> {
     // tslint:disable-next-line
@@ -39,6 +39,7 @@ export function appInitializerFn(appConfig: XmApplicationConfigService): () => P
             isolate: false,
             loader: { deps: [HttpClient], provide: TranslateLoader, useFactory: HttpLoaderFactory },
         }),
+        XmAlertModule.forRoot(),
         XmTranslationModule.forRoot(),
         XmDashboardModule.forRoot(),
         MarkdownModule.forRoot(),
@@ -74,7 +75,7 @@ export function appInitializerFn(appConfig: XmApplicationConfigService): () => P
             provide: HTTP_INTERCEPTORS,
             useClass: ErrorHandlerInterceptor,
             multi: true,
-            deps: [JhiEventManager],
+            deps: [XmEventManager],
         },
         PaginationConfig,
         UserRouteAccessService,
