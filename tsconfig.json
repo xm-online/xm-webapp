@@ -19,6 +19,7 @@
       "dom"
     ],
     "paths": {
+      "@xm-ngx/environment": ["src/environments/environment.ts"],
       "@xm-ngx/styles": ["packages/styles"],
       "@xm-ngx/core": ["src/app/shared/core"],
       "@xm-ngx/core/auth": ["src/app/shared/auth"],
