@@ -224,10 +224,10 @@ export class NavbarComponent implements OnInit, DoCheck {
 
     private processTitle(routData: any): void {
         let titlePart1 = this.translateOrEmpty(routData.pageTitle);
-        let titlePart2 = routData.pageSubTitle || routData.pageSubTitleTrans ? ' - ' : '';
+        let titlePart2 = routData.pageSubTitle || routData.pageSubTitleTrans ? ' – ' : '';
         let titlePart3 = routData.pageSubTitle ? routData.pageSubTitle : '';
         let titlePart4 = this.translateOrEmpty(routData.pageSubTitleTrans);
-        let titlePart5 = routData.pageSubSubTitle || routData.pageSubSubTitleTrans ? ' - ' : '';
+        let titlePart5 = routData.pageSubSubTitle || routData.pageSubSubTitleTrans ? ' – ' : '';
         let titlePart6 = routData.pageSubSubTitle ? routData.pageSubSubTitle : '';
         let titlePart7 = this.translateOrEmpty(routData.pageSubSubTitleTrans);
         this.title = titlePart1 + titlePart2 + titlePart3 + titlePart4 + titlePart5 + titlePart6 + titlePart7;
