@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { FinanceService } from './finance.service';
 
-import * as $ from 'jquery';
+import * as _$ from 'jquery';
+const $: any = _$;
 
 @Component({
     selector: 'xm-exchange-widget',

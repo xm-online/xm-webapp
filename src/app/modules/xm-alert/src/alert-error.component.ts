@@ -2,6 +2,9 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
+import 'bootstrap-notify/bootstrap-notify.js';
+
+import * as _$ from 'jquery';
 import { JhiAlertService } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { I18nNamePipe } from '../../../shared/language';
@@ -10,7 +13,7 @@ import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 import { ResponseConfig, ResponseConfigItem, ResponseContext } from './response-config.model';
 import { XmAlertService } from './xm-alert.service';
 
-import * as $ from 'jquery';
+const $: any = _$;
 
 @Component({
     selector: 'xm-alert-error',

@@ -10,7 +10,8 @@ import { environment } from '../../../environments/environment';
 import { XmConfigService } from '../../shared';
 import { XM_EVENT_LIST } from '../../xm.constants';
 
-import * as $ from 'jquery';
+import * as _$ from 'jquery';
+const $: any = _$;
 
 @Component({
     selector: 'xm-main',

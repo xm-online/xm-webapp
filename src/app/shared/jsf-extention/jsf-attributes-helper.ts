@@ -281,7 +281,7 @@ const processDataFieldExpressions = (data: any) => {
 export const formLayout = () => {
     setTimeout(() => {
         // remove legend elements for the array view
-        const legendList: HTMLElement[] = $('legend');
+        const legendList: HTMLElement[] = $('legend') as any;
         for (const legend of legendList) {
             $(legend).addClass('hidden');
         }

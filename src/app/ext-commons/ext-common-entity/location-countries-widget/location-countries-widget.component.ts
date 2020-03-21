@@ -1,8 +1,14 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 
+import * as _$ from 'jquery';
+import 'jvectormap/jquery-jvectormap.min.js';
+import 'jvectormap/lib/jquery-mousewheel.js';
+import 'jvectormap/tests/assets/jquery-jvectormap-map.js';
+import 'jvectormap/tests/assets/jquery-jvectormap-world-mill-en.js';
+
 import { TableData } from './md-table.component';
 
-import * as $ from 'jquery';
+const $: any = _$;
 
 @Component({
     selector: 'xm-location-countries-widget',
@@ -69,9 +75,9 @@ export class LocationCountriesWidgetComponent implements OnInit, AfterViewInit {
         const breakCards = true;
         if (breakCards === true) {
             // We break the cards headers if there is too much stress on them :-)
-            $('[data-header-animation="true"]').each(function(this: HTMLElement) {
+            $('[data-header-animation="true"]').each(function (this: HTMLElement) {
                 const $card = $(this).parent('.card');
-                $card.find('.fix-broken-card').click(function(this: HTMLElement) {
+                $card.find('.fix-broken-card').click(function (this: HTMLElement) {
                     const $header = $(this).parent().parent().siblings('.card-header, .card-image');
                     $header.removeClass('hinge').addClass('fadeInDown');
 
@@ -82,7 +88,7 @@ export class LocationCountriesWidgetComponent implements OnInit, AfterViewInit {
                     }, 480);
                 });
 
-                $card.mouseenter(function(this: HTMLElement) {
+                $card.mouseenter(function (this: HTMLElement) {
                     const $this = $(this);
                     const hoverCount = parseInt($this.attr('data-count'), 10) + 1 || 0;
                     $this.attr('data-count', hoverCount);

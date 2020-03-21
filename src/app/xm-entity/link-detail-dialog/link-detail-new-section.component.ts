@@ -14,7 +14,8 @@ import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 
-import * as $ from 'jquery';
+import * as _$ from 'jquery';
+const $: any = _$;
 
 @Component({
     selector: 'xm-link-detail-new-section',
