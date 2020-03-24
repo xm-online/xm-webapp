@@ -1,6 +1,6 @@
-export * from './alert/xm-alert.component';
-export * from './alert/xm-alerts.component';
-export * from './alert/alert-error.component';
+// Backward compatibility
+export { createRequestOption } from '@xm-ngx/entity';
+
 export * from './auth/csrf.service';
 export * from './auth/state-storage.service';
 export * from './auth/account.service';
@@ -15,7 +15,7 @@ export * from './language/language.helper';
 export * from './language/modules-language.helper';
 export * from './language/find-language-from-key.pipe';
 export * from './login/login.component';
-export * from './login/login.service';
+export * from './auth/login.service';
 export * from './register/register.component';
 export * from './register/register.service';
 export * from './constants/pagination.constants';
@@ -31,9 +31,6 @@ export * from './client/client.service';
 export * from './spec/config.service';
 export * from './social/social.component';
 export * from './auth/user-route-access-service';
-export * from './model/request-util';
-export * from './model/base-entity';
-export * from './model/base-spec';
 export * from './role/role.model';
 export * from './role/role.service';
 
