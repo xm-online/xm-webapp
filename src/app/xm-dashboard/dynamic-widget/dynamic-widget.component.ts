@@ -152,6 +152,7 @@ export class DynamicWidgetComponent implements OnChanges {
         const widget = this.viewRef.createComponent<IWidget>(componentFactory);
         widget.instance.config = value.config;
         widget.instance.spec = value.spec;
+        // TODO: pass children layout
 
         const el = (widget.location.nativeElement as HTMLElement);
         if (this.class) {

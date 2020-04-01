@@ -33,11 +33,6 @@ interface SanitizedLayout {
                           [class]="item.layout.class"
                           [style]="item.layout.style"
                           [init]="item.customParams">
-                <ng-container xm-dynamic-widget-layout
-                              [resolveCustomParams]="resolveCustomParams"
-                              [isCustomElement]="isCustomElement"
-                              *ngIf="item.layout.content"
-                              [layouts]="item.layout.content"></ng-container>
             </ng-container>
         </ng-template>
 
