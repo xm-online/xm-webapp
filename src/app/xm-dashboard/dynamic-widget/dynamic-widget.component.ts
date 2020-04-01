@@ -88,7 +88,7 @@ export class DynamicWidgetComponent implements OnChanges {
 
         moduleFactory.subscribe((factory) => {
             const module = factory.create(this.injector);
-            const componentTypeOrLazyComponentType = module.injector.get(value.component || value.selector, ELEMENT_NOT_FOUND);
+            const componentTypeOrLazyComponentType = module.injector.get(value.selector || value.component, ELEMENT_NOT_FOUND);
 
             if (componentTypeOrLazyComponentType === ELEMENT_NOT_FOUND) {
                 // eslint-disable-next-line no-console

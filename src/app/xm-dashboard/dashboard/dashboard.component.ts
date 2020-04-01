@@ -182,7 +182,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public resolveCustomParams(layout: { widget: { module: string; selector: string; config: unknown } }): unknown {
         return {
             module: layout.widget.module,
-            component: layout.widget.selector,
+            selector: layout.widget.selector,
             config: layout.widget.config,
             spec: this.spec,
         };
