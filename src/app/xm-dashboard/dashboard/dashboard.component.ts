@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
+import { I18nNamePipe, JhiLanguageHelper } from '@xm-ngx/components/language';
+import { Principal } from '@xm-ngx/core/auth';
 
 import { environment } from '@xm-ngx/core/environment';
-import { Principal } from '@xm-ngx/core/auth';
-import { I18nNamePipe, JhiLanguageHelper } from '@xm-ngx/components/language';
+import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
 import { Dashboard } from '../shared/dashboard.model';
@@ -173,6 +173,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
             },
             () => (this.showLoader = false),
         );
+    }
+
+    public isCustomElement(layout: { widget: unknown }): boolean {
+        return Boolean(layout.widget);
+    }
+
+    public resolveCustomParams(layout: { widget: { module: string; selector: string; config: unknown } }): unknown {
+        return {
+            module: layout.widget.module,
+            component: layout.widget.selector,
+            config: layout.widget.config,
+            spec: this.spec,
+        };
     }
 
     private findAndEnrichWidget(layout: DashboardLayout, widgets: Widget[]): void {
