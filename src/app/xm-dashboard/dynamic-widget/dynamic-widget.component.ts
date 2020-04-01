@@ -6,10 +6,13 @@ import {
     NgModuleFactory,
     NgModuleFactoryLoader,
     NgModuleRef,
+    OnChanges,
     Optional,
     Renderer2,
+    SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
+import * as _ from 'lodash';
 import { from } from 'rxjs';
 
 export interface IWidget<C = any, S = any> {
@@ -40,11 +43,12 @@ export type LazyComponent = NgModuleFactory<any>;
     selector: 'xm-dynamic-widget, [xm-dynamic-widget]',
     template: '',
 })
-export class DynamicWidgetComponent {
+export class DynamicWidgetComponent implements OnChanges {
 
     public commons: string[] = ['ext-common', 'ext-common-csp', 'ext-common-entity'];
     @Input() public class: string;
     @Input() public style: string;
+    private _layout: WidgetConfig;
 
     constructor(private loader: NgModuleFactoryLoader,
                 private injector: Injector,
@@ -53,12 +57,27 @@ export class DynamicWidgetComponent {
                 private viewRef: ViewContainerRef) {
     }
 
+    public get init(): WidgetConfig {
+        return this._layout;
+    }
+
     @Input()
     public set init(value: WidgetConfig) {
         if (!value) {
             return;
         }
 
+        this._layout = value;
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.init && !_.isEqual(changes.init.currentValue, changes.init.previousValue)) {
+            this.loadComponent();
+        }
+    }
+
+    private loadComponent(): void {
+        const value = this._layout;
         if (value.selector && value.selector.indexOf('/') > 0) {
             value.module = value.selector.split('/')[0];
             value.selector = value.selector.split('/')[1];
