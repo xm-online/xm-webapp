@@ -59,6 +59,11 @@ export class DynamicWidgetComponent {
             return;
         }
 
+        if (value.selector && value.selector.indexOf('/') > 0) {
+            value.module = value.selector.split('/')[0];
+            value.selector = value.selector.split('/')[1];
+        }
+
         const modulePath = this.resolveModulePath(value.module);
         const moduleFactory = from(this.loader.load(modulePath));
 
@@ -131,10 +136,10 @@ export class DynamicWidgetComponent {
 
         const el = (widget.location.nativeElement as HTMLElement);
         if (this.class) {
-            this.renderer.setAttribute(el,'class', this.class);
+            this.renderer.setAttribute(el, 'class', this.class);
         }
         if (this.style) {
-            this.renderer.setAttribute(el,'style', this.style);
+            this.renderer.setAttribute(el, 'style', this.style);
         }
     }
 }
