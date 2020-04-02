@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
 import { XmJsonSchemeFormModule } from '@xm-ngx/json-scheme-form';
-import { CookieOptions, CookieService } from 'angular2-cookie/core';
+import { CookieOptions } from 'angular2-cookie/core';
 import { ReCaptchaModule } from 'angular2-recaptcha';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
@@ -118,29 +118,7 @@ const PIPES = [
         PrivacyAndTermsDialogComponent,
         PIPES,
     ],
-    entryComponents: [
-        LoginComponent,
-        RegisterComponent,
-        UserLoginFormComponent,
-        PasswordStrengthBarComponent,
-        CurrentLocationComponent,
-        ExtSelectComponent,
-        ExtAutocompleteComponent,
-        ExtMultiSelectComponent,
-        ExtQuerySelectComponent,
-        ValidationComponent,
-        ExtTextareaComponent,
-        ExtMdEditorComponent,
-        MultilingualInputComponent,
-        DatetimeUtcComponent,
-        DatetimePickerComponent,
-        EmailMatcherComponent,
-        TextSectionComponent,
-        FileUploadComponent,
-        PrivacyAndTermsDialogComponent,
-    ],
     providers: [
-        CookieService,
         {provide: CookieOptions, useValue: {}},
         ContextService,
         LoginService,
