@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { JhiHealthModalComponent } from './health-modal.component';
 
 import { JhiHealthService } from './health.service';
