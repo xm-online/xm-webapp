@@ -2,8 +2,10 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MatDialog, MatInputModule, MatSelectModule } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -12,10 +14,9 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiConfigService, JhiDateUtils, JhiModuleConfig } from 'ng-jhipster';
-
 import { NgxWebstorageModule } from 'ngx-webstorage';
-import { XmEntityService } from '..';
 
+import { XmEntityService } from '..';
 import { AccountService } from '../../shared';
 import { Principal } from '../../shared/auth/principal.service';
 import { I18nJsfPipe } from '../../shared/language/i18n-jsf.pipe';
