@@ -34,12 +34,6 @@ import { EntitySpecMngComponent } from './specification-mng/entity-spec-mng/enti
         WidgetListCardComponent,
         EntitySpecMngComponent,
     ],
-    entryComponents: [
-        DashboardDetailDialogComponent,
-        ConfigVisualizerDialogComponent,
-        SpecificationMngComponent,
-        WidgetDetailDialogComponent,
-    ],
     providers: [
         DashboardResolvePagingParams,
     ],

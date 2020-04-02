@@ -14,7 +14,6 @@ import { HOME_ROUTE } from './home.route';
     declarations: [
         HomeComponent,
     ],
-    entryComponents: [],
     providers: [],
 })
 export class GateHomeModule {

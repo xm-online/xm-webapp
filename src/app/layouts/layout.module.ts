@@ -46,11 +46,6 @@ import { XmRibbonModule } from "../modules/xm-ribbon/xm-ribbon.module";
         FeedbackComponent,
         FeedbackDialogComponent,
     ],
-    entryComponents: [
-        NavbarComponent,
-        XmMainComponent,
-        FeedbackDialogComponent,
-    ],
     providers: [],
 })
 export class LayoutModule {
