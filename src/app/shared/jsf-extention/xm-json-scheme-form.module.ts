@@ -1,14 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
 import {
     Framework,
     FrameworkLibraryService,
     JsonSchemaFormModule,
     JsonSchemaFormService,
-    MaterialDesignFramework,
-    MaterialDesignFrameworkModule,
     WidgetLibraryService,
-} from 'angular2-json-schema-form';
+} from '@ajsf/core';
+import { MaterialDesignFramework, MaterialDesignFrameworkModule } from '@ajsf/material';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 const _JsonSchemaFormModule = {
     ngModule: JsonSchemaFormModule,
