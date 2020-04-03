@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { JsonSchemaFormService } from 'angular2-json-schema-form';
+import { JsonSchemaFormService } from '@ajsf/core';
 import { fromEvent } from 'rxjs';
 
 import 'rxjs/add/operator/debounceTime';
