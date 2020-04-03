@@ -8,10 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { TranslateModule } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmSharedModule } from '@xm-ngx/shared';
+import { XmSharedTestingModule } from '@xm-ngx/shared';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiConfigService, JhiDateUtils, JhiModuleConfig } from 'ng-jhipster';
 import { NgxWebstorageModule } from 'ngx-webstorage';
@@ -32,13 +30,12 @@ describe('Entity detail dialog Component', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                XmSharedModule,
+                XmSharedTestingModule,
                 FormsModule,
                 MatSelectModule,
                 NoopAnimationsModule,
                 MatInputModule,
                 NgxWebstorageModule.forRoot(),
-                TranslateModule.forRoot(),
             ],
             declarations: [
                 EntityDetailDialogComponent,
