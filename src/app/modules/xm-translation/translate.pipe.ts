@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Injectable, OnDestroy, Pipe, PipeTransform } from '@angular/core';
+import { ChangeDetectorRef, Injectable, OnDestroy, Optional, Pipe, PipeTransform } from '@angular/core';
 import { TranslatePipe as NgxTranslate, TranslateService } from '@ngx-translate/core';
 
 import { DEFAULT_LANG } from '../../xm.constants';
@@ -15,7 +15,7 @@ export interface ITrKeyTranslates {
 })
 export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDestroy {
 
-    constructor(protected translateService: TranslateService, cdr: ChangeDetectorRef) {
+    constructor(protected translateService: TranslateService, @Optional() cdr: ChangeDetectorRef) {
         super(translateService, cdr);
     }
 
