@@ -5,7 +5,7 @@ import { EntityStateModule } from '@xm-ngx/entity/entity-state';
 import { StatesManagementDialogModule } from '@xm-ngx/entity/states-management-dialog';
 import { TagInputModule } from 'ngx-chips';
 import { ImageCropperModule } from 'ngx-img-cropper';
-import { RatingModule } from '../modules/components/xm-rating';
+import { RatingModule } from '@xm-ngx/components/xm-rating';
 
 import { XmSharedModule } from '../shared/shared.module';
 import {
