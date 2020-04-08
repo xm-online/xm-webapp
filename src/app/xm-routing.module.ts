@@ -1,9 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { errorRoute } from './layouts';
 
 const ROUTES: Routes = [
-    ...errorRoute,
+    {
+        path: 'error',
+        loadChildren: () => import('@xm-ngx/components/error').then((m) => m.ErrorModule),
+        data: {authorities: [], pageTitle: 'error.title'},
+    },
+    {
+        path: 'accessdenied',
+        loadChildren: () => import('@xm-ngx/components/error').then((m) => m.ErrorModule),
+        data: {authorities: [], pageTitle: 'error.title', error403: true},
+    },
     {path: 'administration', loadChildren: () => import('./admin/admin.module').then((m) => m.XmAdminModule)},
     {
         path: 'configuration',
