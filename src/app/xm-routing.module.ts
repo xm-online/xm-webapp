@@ -19,7 +19,11 @@ const ROUTES: Routes = [
     },
     {path: '', loadChildren: () => import('./home/home.module').then((m) => m.GateHomeModule)},
     {path: '', loadChildren: () => import('./account/account.module').then((m) => m.GateAccountModule)},
-    {path: '', loadChildren: () => import('./application/application.module').then((m) => m.ApplicationModule)},
+    {
+        path: 'application',
+        loadChildren: () => import('./application/application.module').then((m) => m.ApplicationModule),
+    },
+    {path: 'search', pathMatch: 'full', redirectTo: 'application/search'},
     {path: '', loadChildren: () => import('./xm-dashboard/xm-dashboard.module').then((m) => m.XmDashboardModule)},
 ];
 
