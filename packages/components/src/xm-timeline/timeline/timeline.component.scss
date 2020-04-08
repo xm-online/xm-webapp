@@ -1,4 +1,4 @@
-@import 'theme';
+@import 'src/styles/theme';
 
 @mixin timeline-badge-color($color) {
   background-color: $color;
