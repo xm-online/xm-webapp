@@ -19,7 +19,7 @@
 
   <div *ngIf="resolved$ | async" class="main-panel xm-main-panel">
 
-    <router-outlet name="navbar"></router-outlet>
+    <xm-navbar></xm-navbar>
 
     <div [ngClass]="isGuestLayout ? 'container' : 'container-fluid'" class="main-content xm-main-content">
       <router-outlet></router-outlet>
