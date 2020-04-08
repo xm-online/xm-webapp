@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { XmDashboardModule } from '@xm-ngx/dynamic';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { HomeComponent } from './';
 import { HOME_ROUTE } from './home.route';
@@ -9,7 +9,7 @@ import { HOME_ROUTE } from './home.route';
     imports: [
         XmSharedModule,
         RouterModule.forChild([HOME_ROUTE]),
-        XmDashboardModule,
+        XmDynamicModule,
     ],
     declarations: [
         HomeComponent,
