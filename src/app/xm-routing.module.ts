@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { errorRoute } from './layouts';
-import { navbarRoute } from './layouts/navbar/navbar.route';
 
 const ROUTES: Routes = [
-    navbarRoute,
     ...errorRoute,
     {path: 'administration', loadChildren: () => import('./admin/admin.module').then((m) => m.XmAdminModule)},
     {
