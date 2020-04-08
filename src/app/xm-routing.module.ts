@@ -24,7 +24,10 @@ const ROUTES: Routes = [
         loadChildren: () => import('./application/application.module').then((m) => m.ApplicationModule),
     },
     {path: 'search', pathMatch: 'full', redirectTo: 'application/search'},
-    {path: '', loadChildren: () => import('./xm-dashboard/xm-dashboard.module').then((m) => m.XmDashboardModule)},
+    {
+        path: 'dashboard',
+        loadChildren: () => import('./xm-dashboard/xm-dashboard.module').then((m) => m.XmDashboardModule),
+    },
 ];
 
 @NgModule({
