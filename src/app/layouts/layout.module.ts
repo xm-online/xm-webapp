@@ -11,7 +11,6 @@ import { LanguageModule } from '@xm-ngx/components/language';
 import { XmBalanceModule } from '@xm-ngx/xm-balance';
 import { XmNotificationsModule } from '../xm-notifications/xm-notifications.module';
 import { XmTimelineModule } from '../xm-timeline/xm-timeline.module';
-import { ErrorComponent } from './error/error.component';
 import { FooterComponent } from './footer/footer.component';
 import { XmMainComponent } from './main/main.component';
 import { FeedbackDialogComponent } from './navbar/feedback/feedback-dialog/feedback-dialog.component';
@@ -40,7 +39,6 @@ import { XmRibbonModule } from "../modules/xm-ribbon/xm-ribbon.module";
     declarations: [
         XmMainComponent,
         NavbarComponent,
-        ErrorComponent,
         PageRibbonComponent,
         FooterComponent,
         FeedbackComponent,
