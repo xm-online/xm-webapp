@@ -25,9 +25,6 @@ import { EntityDetailComponent } from './entity-detail.component';
         ApplicationComponent,
         EntityDetailComponent,
     ],
-    entryComponents: [
-        ApplicationComponent,
-    ],
     providers: [
         ApplicationResolvePagingParams,
     ],

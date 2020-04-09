@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { LinkSpec } from '../shared/link-spec.model';
 import { Spec } from '../shared/spec.model';

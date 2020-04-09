@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { Widget, WidgetService } from '@xm-ngx/dynamic';
 import { XmToasterService } from '@xm-ngx/toaster';

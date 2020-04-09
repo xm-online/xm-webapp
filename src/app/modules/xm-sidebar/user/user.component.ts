@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { matExpansionAnimations } from '@angular/material';
+import { matExpansionAnimations } from '@angular/material/expansion';
 import { ActivationEnd, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { combineLatest, Observable, Subscription } from 'rxjs';
