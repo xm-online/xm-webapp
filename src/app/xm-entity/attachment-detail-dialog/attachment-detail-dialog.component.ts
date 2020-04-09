@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';

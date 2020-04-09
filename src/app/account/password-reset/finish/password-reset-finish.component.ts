@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MatInput } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthServerProvider } from '@xm-ngx/core/auth';

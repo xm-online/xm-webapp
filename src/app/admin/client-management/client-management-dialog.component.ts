@@ -1,7 +1,9 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent, MatDialogRef } from '@angular/material';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { finalize, map, startWith } from 'rxjs/operators';

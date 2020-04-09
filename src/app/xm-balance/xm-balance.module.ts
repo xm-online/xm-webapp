@@ -23,10 +23,6 @@ import { PocketService } from './shared/pocket.service';
         BalanceDetailDialogComponent,
         BalanceDetailComponent,
     ],
-    entryComponents: [
-        BalanceDetailDialogComponent,
-        BalanceDetailComponent,
-    ],
     exports: [
         BalanceListCardComponent,
         BalanceDetailDialogComponent,

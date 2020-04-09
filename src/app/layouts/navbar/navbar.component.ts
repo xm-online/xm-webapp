@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, DoCheck, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';

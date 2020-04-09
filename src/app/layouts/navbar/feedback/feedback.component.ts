@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { XmUiConfigService } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';

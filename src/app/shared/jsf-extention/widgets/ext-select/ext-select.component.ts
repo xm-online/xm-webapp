@@ -10,8 +10,8 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatSelect } from '@angular/material';
-import { JsonSchemaFormComponent, JsonSchemaFormService } from 'angular2-json-schema-form';
+import { MatSelect } from '@angular/material/select';
+import { JsonSchemaFormComponent, JsonSchemaFormService } from '@ajsf/core';
 import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { filter, finalize, map, mergeMap, takeUntil, tap } from 'rxjs/operators';
 

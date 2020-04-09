@@ -35,17 +35,6 @@ import {
         WeatherWidgetComponent,
         WelcomeWidgetComponent,
     ],
-    entryComponents: [
-        ClockWidgetComponent,
-        ExchangeWidgetComponent,
-        IframeWidgetComponent,
-        MdWidgetComponent,
-        NewsWidgetComponent,
-        SignInUpWidgetComponent,
-        TwitterTimelineWidgetComponent,
-        WeatherWidgetComponent,
-        WelcomeWidgetComponent,
-    ],
     providers: [
         FeedService,
         FinanceService,

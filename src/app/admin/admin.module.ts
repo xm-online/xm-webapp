@@ -83,18 +83,6 @@ import { TranslationService } from './translations/translation.service';
         JhiMetricsMonitoringComponent,
         JhiMetricsMonitoringModalComponent,
     ],
-    entryComponents: [
-        RoleMgmtDialogComponent,
-        RoleMgmtDeleteDialogComponent,
-        RoleConditionDialogComponent,
-        UserLoginMgmtDialogComponent,
-        UserMgmtDialogComponent,
-        UserMgmtDeleteDialogComponent,
-        ClientMgmtDialogComponent,
-        ClientMgmtDeleteDialogComponent,
-        JhiHealthModalComponent,
-        JhiMetricsMonitoringModalComponent,
-    ],
     providers: [
         BaseAdminListComponent,
         AuditsService,

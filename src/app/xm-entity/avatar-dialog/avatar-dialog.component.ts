@@ -1,6 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { CropperSettings, ImageCropperComponent } from 'ngx-img-cropper';
 import { XmEntity } from '../shared/xm-entity.model';
