@@ -5,14 +5,15 @@ import { NoDataModule } from '@xm-ngx/components/no-data';
 import { XmSharedModule } from '@xm-ngx/shared';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DynamicWidgetComponent } from './dynamic-widget/dynamic-widget.component';
 import { DashboardWrapperService } from './shared/dashboard-wrapper.service';
 import { DashboardService } from './shared/dashboard.service';
 import { WidgetService } from './shared/widget.service';
 import { XmDashboardRoutingModule } from './xm-dashboard-routing.module';
+import { XmDynamicModule } from './xm-dynamic.module';
 
 @NgModule({
     imports: [
+        XmDynamicModule,
         CommonModule,
         XmSharedModule,
         XmDashboardRoutingModule,
@@ -20,11 +21,7 @@ import { XmDashboardRoutingModule } from './xm-dashboard-routing.module';
         NoDataModule,
     ],
     declarations: [
-        DynamicWidgetComponent,
         DashboardComponent,
-    ],
-    exports: [
-        DynamicWidgetComponent,
     ],
     providers: [
         WidgetService,

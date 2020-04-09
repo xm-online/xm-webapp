@@ -6,3 +6,4 @@ export * from './shared/dashboard-wrapper.service';
 export * from './shared/widget.model';
 export * from './shared/widget.service';
 export { XmDashboardModule } from './xm-dashboard.module';
+export { XmDynamicModule } from './xm-dynamic.module';
