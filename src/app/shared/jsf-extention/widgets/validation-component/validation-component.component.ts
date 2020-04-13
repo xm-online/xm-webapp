@@ -16,7 +16,7 @@ export class ValidationComponent implements OnInit, OnDestroy {
     public click: Subscription;
 
     public options: any;
-
+    private eventManagerSubscription: Subscription;
     constructor(private jsf: JsonSchemaFormService,
                 private eventManager: XmEventManager) {
     }
@@ -40,7 +40,7 @@ export class ValidationComponent implements OnInit, OnDestroy {
                 formGroup.updateValueAndValidity({emitEvent: true});
             });
 
-        this.eventManager.subscribe('xm.ValidationError', (it) => {
+        this.eventManagerSubscription = this.eventManager.subscribe('xm.ValidationError', (it) => {
             const path = it.content.validationField;
             if (path) {
                 const control = this.resolveComponentByPath(formGroup, path.split('[')
@@ -89,6 +89,7 @@ export class ValidationComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
+        this.eventManagerSubscription.unsubscribe();
         this.click.unsubscribe();
     }
 

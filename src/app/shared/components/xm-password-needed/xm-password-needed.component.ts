@@ -1,13 +1,14 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'xm-password-needed',
     templateUrl: './xm-password-needed.component.html',
 })
-export class XmPasswordNeededComponent implements OnInit {
+export class XmPasswordNeededComponent implements OnInit, OnDestroy {
 
     @ViewChild('passwordNeeded', {static: false}) public tpl: TemplateRef<any>;
     public form: FormGroup;
@@ -15,7 +16,7 @@ export class XmPasswordNeededComponent implements OnInit {
     public showLoader: boolean;
     public incorrect: boolean;
     public event: any;
-
+    private eventManagerSubscription: Subscription;
     constructor(private fb: FormBuilder,
                 private modalService: MatDialog,
                 private eventManager: XmEventManager) {
@@ -27,7 +28,7 @@ export class XmPasswordNeededComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eventManager.subscribe('error.passwordNeeded', (event) => {
+        this.eventManagerSubscription = this.eventManager.subscribe('error.passwordNeeded', (event) => {
             this.event = event;
             this.incorrect = false;
             this.showLoader = false;
@@ -36,6 +37,10 @@ export class XmPasswordNeededComponent implements OnInit {
             this.modal = this.modalService.open(this.tpl, {});
             this.modal.beforeClosed().subscribe(() => false);
         });
+    }
+
+    public ngOnDestroy(): void {
+        this.eventManagerSubscription.unsubscribe();
     }
 
     public onSubmit(): void {
