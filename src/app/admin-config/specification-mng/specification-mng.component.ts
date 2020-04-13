@@ -33,9 +33,7 @@ export class SpecificationMngComponent implements OnInit {
 
     public aceEditorOptions: any = {
         highlightActiveLine: true,
-        maxLines: 10000000,
-        printMargin: false,
-        autoScrollEditorIntoView: true,
+        maxLines: 50,
     };
     public line: number;
 
