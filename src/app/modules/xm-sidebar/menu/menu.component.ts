@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { matExpansionAnimations } from '@angular/material';
+import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router } from '@angular/router';
 import { Dashboard, DashboardService } from '@xm-ngx/dynamic';
 import { XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';

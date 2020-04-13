@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { MatDialogRef } from '@angular/material/dialog/typings/dialog-ref';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 

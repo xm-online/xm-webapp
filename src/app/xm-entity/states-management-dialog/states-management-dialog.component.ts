@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/prefer-string-starts-ends-with */
 import { Component, NgModule, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { EntityStateModule } from '@xm-ngx/entity/entity-state';
 import { XmSharedModule } from '@xm-ngx/shared';

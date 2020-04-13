@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { LOCALE_ID, ModuleWithProviders, NgModule } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { JhiLanguageService } from 'ng-jhipster';
 
@@ -23,11 +22,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ],
     declarations: [TranslatePipe, TranslateDirective],
     providers: [
+        TranslatePipe,
         JhiLanguageHelper,
         {provide: JhiLanguageService, useClass: XmJhiLanguageService, deps: [LanguageService]},
         ModulesLanguageHelper,
     ],
-    exports: [TranslatePipe, TranslateDirective, TranslateModule],
+    exports: [TranslatePipe, TranslateDirective],
 })
 export class XmTranslationModule {
     public static forRoot(): ModuleWithProviders {

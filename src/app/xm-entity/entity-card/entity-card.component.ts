@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { FunctionSpec, NextSpec, StateSpec } from '..';
 import { Principal } from '../../shared/auth/principal.service';

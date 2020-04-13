@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from '../../xm.constants';
 import { Dashboard } from './dashboard.model';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class DashboardService {
 
     private resourceUrl: string = `${SERVER_API_URL  }dashboard/api/dashboards`;

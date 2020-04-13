@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { buildMapId } from '../../../shared/helpers/google-map-helper';
 import { FunctionContext } from '../../shared/function-context.model';
