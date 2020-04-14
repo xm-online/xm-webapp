@@ -28,6 +28,7 @@ module.exports = {
         }],
         // not fixed
         '@typescript-eslint/no-misused-promises': 'warn',
+        '@typescript-eslint/no-unnecessary-type-assertion': "warn",
         'no-prototype-builtins': 'warn',
         'max-len': ['warn', {'code': 120}],
         'no-magic-numbers': ['warn', {'ignore': [1, -1, 0], 'ignoreArrayIndexes': true}],
