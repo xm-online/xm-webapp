@@ -73,6 +73,7 @@
     "@ngx-translate/http-loader": "4.0.0",
     "@types/chartist": "0.9.46",
     "@xm-ngx/styles": "file:./packages/styles",
+    "@xm-ngx/dashboards": "file:./packages/dashboards",
     "ajv": "6.10.2",
     "@ajsf/material": "0.1.4",
     "@ajsf/core": "0.1.4",
