@@ -32,6 +32,10 @@ export class Principal {
         this.checkTokenAndForceIdentity();
     }
 
+    public identityUserKey(): string {
+        return this.userIdentity && this.userIdentity.userKey;
+    }
+
     public logout(): void {
         this.userIdentity = null;
         this.authenticated = false;
