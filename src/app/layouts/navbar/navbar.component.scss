@@ -56,7 +56,7 @@
   flex-wrap:         $value;
 }
 
-::ng-deep {
+:host ::ng-deep {
   .xm-navbar-container {
     @include flex();
     @include flex-direction(row);
