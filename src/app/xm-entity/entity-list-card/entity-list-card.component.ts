@@ -133,7 +133,8 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.load();
     }
 
-    public onLoadPage(entityOptions: EntityOptions): void {
+    public onLoadPage(event: any,  entityOptions: EntityOptions): void {
+        entityOptions.page = event;
         this.loadEntities(entityOptions).subscribe((result) => entityOptions.entities = result);
     }
 
@@ -225,6 +226,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             confirmButtonClass: 'btn mat-button btn-primary',
             cancelButtonClass: 'btn mat-button',
             confirmButtonText: 'xm-entity.entity-list-card.delete.button',
+            cancelButtonText: this.translateService.instant('xm-entity.entity-list-card.delete.button-cancel'),
         }).subscribe((result) => {
             if (result.value) {
                 this.xmEntityService.delete(xmEntity.id).subscribe(

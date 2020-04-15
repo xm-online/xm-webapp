@@ -15,6 +15,8 @@ import { Event } from '../shared/event.model';
 import { EventService } from '../shared/event.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
+import { LanguageService } from "../../modules/xm-translation/language.service";
+import { TranslateService } from '@ngx-translate/core';
 
 declare const $: any;
 
@@ -38,7 +40,9 @@ export class CalendarCardComponent implements OnChanges {
                 private dateUtils: JhiDateUtils,
                 private i18nNamePipe: I18nNamePipe,
                 private toasterService: XmToasterService,
+                private translateService: TranslateService,
                 private alertService: XmAlertService,
+                private languageService: LanguageService,
                 private modalService: MatDialog,
                 private principal: Principal) {
     }
@@ -57,6 +61,7 @@ export class CalendarCardComponent implements OnChanges {
             confirmButtonClass: 'btn mat-button btn-primary',
             cancelButtonClass: 'btn mat-button',
             confirmButtonText: 'xm-entity.calendar-card.delete.button',
+            cancelButtonText: this.translateService.instant('xm-entity.calendar-card.delete.button-cancel'),
         }).subscribe((result) => {
             if (result.value) {
                 this.eventService.delete(event.id).subscribe(
@@ -123,6 +128,7 @@ export class CalendarCardComponent implements OnChanges {
                 center: 'month,agendaWeek,agendaDay,listDay,listWeek',
                 right: 'prev,next,today',
             },
+            locale: this.languageService.getUserLocale(),
             defaultDate: new Date(),
             selectable: true,
             selectHelper: true,
@@ -139,11 +145,11 @@ export class CalendarCardComponent implements OnChanges {
                     timeFormat: 'H(:mm)',
                 },
                 listDay: {
-                    buttonText: 'list day',
+                    buttonText: this.translateService.instant('xm-entity.calendar-card.calendar.btn-list-day'),
                     timeFormat: 'H(:mm)',
                 },
                 listWeek: {
-                    buttonText: 'list week',
+                    buttonText: this.translateService.instant('xm-entity.calendar-card.calendar.btn-list-week'),
                     timeFormat: 'H(:mm)',
                 },
             },

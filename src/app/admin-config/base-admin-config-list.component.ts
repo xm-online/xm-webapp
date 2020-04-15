@@ -5,9 +5,11 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 import { ITEMS_PER_PAGE } from '../shared/constants/pagination.constants';
+import { instanceDestroyed } from '../shared/helpers/instance-destroyed';
 import { Link } from '../xm-entity';
 
 @Injectable()
@@ -38,7 +40,9 @@ export class BaseAdminConfigListComponent implements OnInit, OnDestroy {
         protected router: Router,
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
-        this.routeData = this.activatedRoute.data.subscribe((data) => {
+        this.routeData = this.activatedRoute.data.pipe(
+            takeUntil(instanceDestroyed(this))
+        ).subscribe((data) => {
             this.itemsPerPage = data.pagingParams.size;
             this.page = data.pagingParams.page;
             this.previousPage = data.pagingParams.page;

@@ -5,8 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiOrderByPipe } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ITEMS_PER_PAGE } from '../../shared/constants/pagination.constants';
+import { instanceDestroyed } from '../../shared/helpers/instance-destroyed';
 import { JhiLanguageHelper } from '@xm-ngx/components/language';
 import { Permission } from '../../shared/role/permission.model';
 import { Role } from '../../shared/role/role.model';
@@ -57,7 +59,9 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
                 private activatedRoute: ActivatedRoute,
                 private orderByPipe: JhiOrderByPipe,
                 private modalService: MatDialog) {
-        this.routeDataSubscription = this.activatedRoute.data.subscribe((data) => this.routeData = data);
+        this.routeDataSubscription = this.activatedRoute.data
+            .pipe(takeUntil(instanceDestroyed(this)))
+            .subscribe((data) => this.routeData = data);
     }
 
     public ngOnInit(): void {
@@ -94,6 +98,7 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
     }
 
     public onLoadPage(page: number): void {
+        this.page = page;
         if (page !== this.previousPage) {
             this.previousPage = page;
             this.permissions = this.getItemsByPage(page);

@@ -162,6 +162,9 @@
                   <div *ngSwitchCase="'startDate'">
                     {{xmEntity.startDate | xmDateTime}}
                   </div>
+                  <div *ngSwitchCase="'updateDate'">
+                    {{xmEntity.updateDate | xmDateTime}}
+                  </div>
                   <div *ngSwitchCase="'actions'">
                     <div *permitted="field.actionsListPrivileges" class="xm-table-options dropdown">
                       <span aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown" href="#pablo">
@@ -216,7 +219,7 @@
           </div>
           <div class="col-sm"></div>
           <div class="col-auto mt-1 mb-1">
-            <ngb-pagination (pageChange)="onLoadPage(item)"
+            <ngb-pagination (pageChange)="onLoadPage($event, item)"
                             [(page)]="item.page"
                             [collectionSize]="item.totalItems"
                             [maxSize]="5"
