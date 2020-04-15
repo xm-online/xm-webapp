@@ -165,7 +165,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
             if (allowToRead) {
                 this.xmConfigService.loadPrivateConfig();
             }
-        });
+        })
     }
 
     private idleLogoutInit(): void {
