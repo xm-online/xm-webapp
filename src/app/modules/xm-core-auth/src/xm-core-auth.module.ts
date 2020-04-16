@@ -1,5 +1,6 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, ModuleWithProviders, NgModule } from '@angular/core';
+import { XmCoreConfig } from '@xm-ngx/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { AuthExpiredInterceptor } from './auth-expired.interceptor';
 import { AuthInterceptor } from './auth.interceptor';
@@ -21,6 +22,7 @@ export class XmCoreAuthModule {
                     deps: [
                         LocalStorageService,
                         SessionStorageService,
+                        XmCoreConfig,
                     ],
                 },
                 {
