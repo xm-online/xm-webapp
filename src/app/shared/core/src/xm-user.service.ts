@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { XmSuperAdminService } from './xm-super-admin.service';
 import { RequestCache } from './cache/request-cache';
 import { RequestCacheFactoryService } from './cache/request-cache-factory.service';
