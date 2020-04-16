@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, OnDestroy } from '@angular/core';
-import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs';
 import { RequestCache } from './cache/request-cache';
+import { RequestCacheFactoryService } from './cache/request-cache-factory.service';
 import { XmCoreConfig } from './xm-core-config';
 import { XmSessionService } from './xm-session.service';
 import { XmUser } from './xm-user-model';
@@ -13,17 +12,18 @@ import { XmUser } from './xm-user-model';
 })
 export class XmUserService<T = XmUser> implements OnDestroy {
 
-    protected requestCache: RequestCache<T> = new RequestCache<T>();
+    protected requestCache: RequestCache<T>;
 
     constructor(
         protected httpClient: HttpClient,
-        @Inject(XmCoreConfig) protected xmCoreConfig: XmCoreConfig,
+        private cacheFactoryService: RequestCacheFactoryService,
+        protected xmCoreConfig: XmCoreConfig,
         protected sessionService: XmSessionService,
     ) {
-        this.sessionService.isActive().pipe(
-            takeUntilOnDestroy(this),
-            map((isActive: boolean) => isActive ? this.getUser : (): Observable<null> => of(null)),
-        ).subscribe((request) => this.requestCache.setAndReload(request));
+        this.requestCache = this.cacheFactoryService.create<T>({
+            request: () => this.getUser(),
+            onlyWithUserSession: true,
+        });
     }
 
     public get user$(): Observable<T | null> {

@@ -12,7 +12,6 @@ import { LocationService } from './location.service';
 import { RatingService } from './rating.service';
 import { TagService } from './tag.service';
 import { VoteService } from './vote.service';
-import { XmEntitySpecWrapperService } from './xm-entity-spec-wrapper.service';
 import { XmEntitySpecService } from './xm-entity-spec.service';
 import { XmEntityService } from './xm-entity.service';
 
@@ -33,7 +32,6 @@ import { XmEntityService } from './xm-entity.service';
         VoteService,
         XmEntityService,
         XmEntitySpecService,
-        XmEntitySpecWrapperService,
     ],
 })
 export class XmEntityModule {

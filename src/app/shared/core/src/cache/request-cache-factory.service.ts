@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { interval, Observable, of } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { XmSessionService } from '../xm-session.service';
 import { RequestCache } from './request-cache';
-import { Observable, of } from 'rxjs';
 
 interface RequestCacheFactoryParams<T> {
     request: () => Observable<T>;
@@ -11,6 +12,8 @@ interface RequestCacheFactoryParams<T> {
      * Otherwise it returns null
      */
     onlyWithUserSession?: boolean;
+    reloadInterval?: number;
+    requestTimeOut?: number;
 }
 
 @Injectable({providedIn: 'root'})
@@ -20,16 +23,49 @@ export class RequestCacheFactoryService {
     }
 
     public create<T>(params: RequestCacheFactoryParams<T>): RequestCache<T> {
-        const request = params.request;
+        let storage: RequestCache<T> = new RequestCache<T>(params.request);
+        storage = this.requestTimeOutHandle(storage, params);
+        storage = this.reloadIntervalHandle(storage, params);
+        storage = this.onlyWithUserSessionHandle(storage, params);
+        return storage;
+    }
+
+    private onlyWithUserSessionHandle<T>(
+        storage: RequestCache<T>,
+        params: RequestCacheFactoryParams<T>,
+    ): RequestCache<T> {
         const emptyRequest = (): Observable<null> => of(null);
-        const storage = new RequestCache<T>(request);
 
         if (params.onlyWithUserSession) {
+            const prevRequest = storage.request;
+
             this.sessionService.isActive()
                 .pipe(takeUntilOnDestroy(storage))
-                .subscribe((active) => storage.setAndReload(active ? request : emptyRequest));
+                .subscribe((active) => storage.setAndReload(active ? prevRequest : emptyRequest));
         }
 
         return storage;
+    }
+
+    private requestTimeOutHandle<T>(
+        storage: RequestCache<T>,
+        params: RequestCacheFactoryParams<T>,
+    ): RequestCache<T> {
+        if (params.requestTimeOut) {
+            const prevRequest = storage.request;
+            storage.request = (): Observable<T> => prevRequest().pipe(takeUntil(interval(params.requestTimeOut)));
+        }
+        return storage;
+    }
+
+    private reloadIntervalHandle<T>(
+        storage: RequestCache<T>,
+        params: RequestCacheFactoryParams<T>,
+    ): RequestCache<T> {
+        if (params.reloadInterval) {
+            interval(params.reloadInterval).pipe(takeUntilOnDestroy(storage)).subscribe(() => storage.forceReload());
+        }
+        return storage;
+
     }
 }
