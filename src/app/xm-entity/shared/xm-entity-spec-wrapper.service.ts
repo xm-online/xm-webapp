@@ -45,7 +45,7 @@ export class XmEntitySpecWrapperService {
 
     public getByTypeKey(typeKey: string): Observable<XmEntitySpec | null> {
         return this.entitySpec.get().pipe(
-            map((i) => i.find((xmSpec) => typeKey === xmSpec.key)),
+            map((i) => i ? i.find((xmSpec) => typeKey === xmSpec.key): null),
         );
     }
 
