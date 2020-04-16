@@ -15,6 +15,7 @@ export class XmEntitySpecWrapperService {
                 private cacheFactoryService: RequestCacheFactoryService) {
         this.entitySpec = this.cacheFactoryService.create({
             request: () => this.requestSpec(),
+            onlyWithUserSession: true,
         });
     }
 
@@ -40,10 +41,6 @@ export class XmEntitySpecWrapperService {
     /** @deprecated use getByTypeKey(typeKey) instead */
     public xmSpecByKey(typeKey: string): Observable<XmEntitySpec> {
         return this.getByTypeKey(typeKey);
-    }
-
-    public clear(): void {
-        this.entitySpec.clear();
     }
 
     public getByTypeKey(typeKey: string): Observable<XmEntitySpec | null> {
