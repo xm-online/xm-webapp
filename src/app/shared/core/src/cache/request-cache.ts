@@ -1,5 +1,5 @@
 import { OnDestroy } from '@angular/core';
-import { interval, of, ReplaySubject } from 'rxjs';
+import { interval, of, ReplaySubject, Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { startWith, takeUntil } from 'rxjs/operators';
 
@@ -26,6 +26,7 @@ export class RequestCache<T> implements IRequestCache<T> {
 
     public options: typeof DEFAULT_OPTIONS = DEFAULT_OPTIONS;
     private _cache$: ReplaySubject<T | null>;
+    private _subscription: Subscription;
 
     constructor(public request: () => Observable<T> = (): Observable<null> => of(null)) {
     }
@@ -43,7 +44,7 @@ export class RequestCache<T> implements IRequestCache<T> {
         }
     }
 
-    public setAndReload(request: () => Observable<T>): void{
+    public setAndReload(request: () => Observable<T>): void {
         this.request = request;
         this.forceReload();
     }
@@ -80,7 +81,11 @@ export class RequestCache<T> implements IRequestCache<T> {
     }
 
     private updateData(): void {
-        this.request().pipe(
+        if (this._subscription) {
+            this._subscription.unsubscribe();
+        }
+
+        this._subscription = this.request().pipe(
             takeUntil(interval(this.options.requestTimeOut)),
         ).subscribe({
             next: this._cache$.next.bind(this._cache$),
