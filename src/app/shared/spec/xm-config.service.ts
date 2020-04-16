@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { VERSION } from '../../xm.constants';
+import { XmPublicUiConfigService } from '../core/src/config/xm-public-ui-config.service';
+import { XmUiConfigService } from '../core/src/config/xm-ui-config.service';
 
 const THEME_STARTEGY = {
     DEFAULT: 'THEME',
@@ -16,18 +18,17 @@ export class XmApplicationConfigService {
 
     public resolved$: BehaviorSubject<boolean>;
     public maintenance$: BehaviorSubject<boolean>;
-    private configUrl: string = 'config/api/profile/webapp/settings-public.yml?toJson';
-    private privateConfigUrl: string = 'config/api/profile/webapp/settings-private.yml?toJson';
     private appConfig: any;
 
-    constructor(private http: HttpClient) {
+    constructor(private configService: XmUiConfigService,
+                private publicConfigService: XmPublicUiConfigService) {
         this.resolved$ = new BehaviorSubject<boolean>(false);
         this.maintenance$ = new BehaviorSubject<boolean>(false);
     }
 
     public loadAppConfig(): Promise<void> {
         // Should be !!promise!!, to wait until data is loaded
-        return this.http.get(this.configUrl).toPromise().then((data: any) => {
+        return this.publicConfigService.config$.pipe(take(1)).toPromise().then((data: any) => {
             this.appConfig = data;
             if (data) {
                 if (!data.theme) {
@@ -50,14 +51,7 @@ export class XmApplicationConfigService {
     }
 
     public loadPrivateConfig(): Promise<void> {
-        return this.http.get(this.privateConfigUrl).toPromise().then((data: any) => {
-            this.appConfig = {
-                ...this.appConfig,
-                ...data,
-            };
-        }, (err) => {
-            console.warn(err);
-        });
+        return this.configService.config$().pipe(take(1)).toPromise().then((i) => this.appConfig = i);
     }
 
     public isResolved(): Observable<boolean> {

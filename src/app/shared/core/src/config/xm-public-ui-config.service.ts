@@ -3,6 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { RequestCacheFactoryService } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { RequestCache } from '../cache/request-cache';
+import { RequestCacheFactoryService } from '../cache/request-cache-factory.service';
 import { XmCoreConfig } from '../xm-core-config';
 import { UIPublicConfig } from './xm-ui-config-model';
 

@@ -3,6 +3,7 @@ export { RequestCacheFactoryService } from './src/cache/request-cache-factory.se
 export { RequestCache } from './src/cache/request-cache';
 export { XmSessionService, ISession } from './src/xm-session.service';
 export { XmCoreModule } from './src/xm-core.module';
+export { XmPublicUiConfigService } from './src/config/xm-public-ui-config.service';
 export { XmUiConfigService } from './src/config/xm-ui-config.service';
 export { XmUIConfig } from './src/config/xm-ui-config-model';
 export { XmUser } from './src/xm-user-model';

@@ -23,14 +23,12 @@ const AUTH_TOKEN = 'authenticationToken';
 const ACCESS_TOKEN = 'access_token';
 
 const _TOKEN_URL = 'uaa/oauth/token';
-const _CONFIG_SETTINGS_API = 'config/api/profile/webapp/settings-public.yml?toJson';
 
 const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
 
 const WIDGET_DATA = 'widget:data';
 
 export const TOKEN_URL = _TOKEN_URL;
-export const CONFIG_SETTINGS_API = _CONFIG_SETTINGS_API;
 
 @Injectable({providedIn: 'root'})
 export class AuthServerProvider {

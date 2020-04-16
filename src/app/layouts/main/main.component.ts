@@ -149,23 +149,15 @@ export class XmMainComponent implements OnInit, OnDestroy {
     private registerAuthenticationSuccess(): void {
         this.principal.getAuthenticationState().subscribe((auth) => {
             if (auth) {
-                this.loadPrivateConfig();
+                this.xmConfigService.loadPrivateConfig();
             }
         });
 
         this.authSucessSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_SUCCESS_AUTH, (message) => {
             this.principal.identity();
             this.isGuestLayout = false;
-            this.loadPrivateConfig();
+            this.xmConfigService.loadPrivateConfig();
         });
-    }
-
-    private loadPrivateConfig() {
-        this.principal.hasPrivileges(['CONFIG.CLIENT.WEBAPP.GET_LIST.ITEM']).then((allowToRead) => {
-            if (allowToRead) {
-                this.xmConfigService.loadPrivateConfig();
-            }
-        })
     }
 
     private idleLogoutInit(): void {
