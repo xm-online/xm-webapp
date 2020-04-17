@@ -43,10 +43,6 @@ function prepareRequest(jsonContent) {
 }
 
 class ImportDashboards {
-    url;
-    accessToken;
-    headers;
-
     connect(url, grant, auth) {
         logger.debug('XM start getAccessToken');
 
