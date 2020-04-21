@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { RequestCacheFactoryService } from '@xm-ngx/core';
+import { RequestCacheFactoryService } from '../cache/request-cache-factory.service';
 import { Observable } from 'rxjs';
 import { RequestCache } from '../cache/request-cache';
 import { XmCoreConfig } from '../xm-core-config';
