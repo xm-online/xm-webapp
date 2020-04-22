@@ -8,6 +8,7 @@ import { XmSharedModule } from '@xm-ngx/shared';
 import { XmBalanceModule } from '@xm-ngx/xm-balance';
 import { XmRibbonModule } from '../modules/xm-ribbon/xm-ribbon.module';
 import { XmSidebarModule } from '../modules/xm-sidebar';
+import { XmSidebarRightModule } from '../modules/xm-sidebar-right';
 import { XmMaintenanceViewModule } from '../shared/components/maintenance/xm-maintenance-view.module';
 import { InputModule } from '../shared/directives/input.module';
 import { XmNotificationsModule } from '../xm-notifications/xm-notifications.module';
@@ -32,6 +33,7 @@ import { PageRibbonComponent } from './profiles/page-ribbon.component';
         XmNotificationsModule,
         RouterModule,
         XmSidebarModule,
+        XmSidebarRightModule,
         XmRibbonModule,
         XmSharedModule,
     ],
