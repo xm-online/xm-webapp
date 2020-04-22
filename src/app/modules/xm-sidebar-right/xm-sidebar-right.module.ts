@@ -52,7 +52,7 @@ export class XmSidebarRight implements OnInit, OnDestroy {
 
         if (templateRef instanceof TemplateRef) {
             viewContainerRef.createEmbeddedView(templateRef);
-            this.openStyles(config.width || '300px');
+            this.openStyles(config.width || this.sidebarRightService.width);
             return null;
         } else {
             return this.loadComponent(templateRef, config);

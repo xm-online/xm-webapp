@@ -13,6 +13,8 @@ export class SidebarRightService {
 
     private container: Container | null | undefined;
 
+    public width: string = '300px';
+
     public setContainer(container: Container): void {
         this.container = container;
     }
@@ -22,12 +24,12 @@ export class SidebarRightService {
     }
 
     public open<T = unknown, D = unknown>(
-        componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
+        typeRef: ComponentType<T> | TemplateRef<T>,
         config: SidebarRightConfig<D>): T | null {
         if (!this.container) {
             return null;
         }
-        return this.container.create(componentOrTemplateRef, config);
+        return this.container.create(typeRef, config);
     }
 
     public close<R>(): R {
