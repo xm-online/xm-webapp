@@ -1,6 +1,6 @@
 import {
     Compiler,
-    Component,
+    Directive,
     Injector,
     Input,
     NgModuleFactory,
@@ -38,12 +38,10 @@ export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 
 export type LazyComponent = NgModuleFactory<any>;
 
-// TODO: replace with directive
-@Component({
+@Directive({
     selector: 'xm-dynamic-widget, [xm-dynamic-widget]',
-    template: '',
 })
-export class DynamicWidgetComponent implements OnChanges {
+export class DynamicWidgetDirective implements OnChanges {
 
     public commons: string[] = ['ext-common', 'ext-common-csp', 'ext-common-entity'];
     @Input() public class: string;
