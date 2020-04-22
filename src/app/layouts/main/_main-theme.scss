@@ -72,16 +72,15 @@ $breakpoint-tablet:     991px !default;
 @mixin main-panel() {
 
   .main-panel {
-    float:    right;
-    position: relative;
-    width:    calc(100% - #{$xm-sidebar-width});
+    position:    relative;
+    margin-left: $xm-sidebar-width;
 
     @include transition($xm-sidebar-transition);
   }
 
   @media (max-width: $breakpoint-tablet) {
     .main-panel {
-      width: 100%;
+      margin-left: 0;
     }
 
     .nav-open .main-panel {
@@ -99,8 +98,8 @@ $breakpoint-tablet:     991px !default;
   }
 
   .xm-guest-layout .main-panel {
-    width:      100%;
-    transition: none;
+    margin-left: 0;
+    transition:  none;
   }
 }
 
