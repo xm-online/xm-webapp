@@ -26,7 +26,7 @@
             [title]="title"></span>
     </div>
 
-    <div *ngIf="isMobileMenu()" class="navbar-container-part search-part">
+    <div *ngIf="isMobileMenu() && isShowSearchPanel" class="navbar-container-part search-part">
       <form *ngSwitchCase="true" class="navbar-form navbar-right" role="search">
         <div class="input-group no-border">
           <input #searchBox [regexp]="searchMask"

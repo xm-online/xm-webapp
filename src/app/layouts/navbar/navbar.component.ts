@@ -1,13 +1,15 @@
 import { Location } from '@angular/common';
-import { Component, DoCheck, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, DoCheck, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
+import { XmUiConfigService } from '@xm-ngx/core';
+import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { iif, Observable, of } from 'rxjs';
-import { mergeMap, tap } from 'rxjs/operators';
+import { filter, mergeMap, tap } from 'rxjs/operators';
 import { JhiLanguageHelper } from '@xm-ngx/components/language';
 import { Principal } from '@xm-ngx/core/auth';
 import { XmConfigService } from '../../shared/spec/config.service';
@@ -21,7 +23,7 @@ declare const $: any;
     styleUrls: ['./navbar.component.scss'],
     templateUrl: './navbar.component.html',
 })
-export class NavbarComponent implements OnInit, DoCheck {
+export class NavbarComponent implements OnInit, OnDestroy, DoCheck {
 
     public routeData: any = {};
     public languages: any[];
@@ -32,6 +34,7 @@ export class NavbarComponent implements OnInit, DoCheck {
     public titleContent: string;
     public tenantLogoUrl: '../assets/img/logo-xm-online.png';
     public searchMask: string = '';
+    public isShowSearchPanel: boolean = true;
     @ViewChild('navbar-cmp', {static: false}) public button: any;
     protected mobileMenuVisible: any = 0;
     private previousPath: string;
@@ -47,6 +50,7 @@ export class NavbarComponent implements OnInit, DoCheck {
                 private element: ElementRef,
                 private location: Location,
                 private xmConfigService: XmConfigService,
+                private uiConfigService: XmUiConfigService<{ searchPanel: boolean }>,
                 private dashboardWrapperService: DashboardWrapperService) {
         this.version = DEBUG_INFO_ENABLED ? 'v' + VERSION : '';
         this.registerPopState();
@@ -86,6 +90,17 @@ export class NavbarComponent implements OnInit, DoCheck {
 
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
+
+        this.uiConfigService.cache$.pipe(
+            filter((i) => Boolean(i)),
+            takeUntilOnDestroy(this),
+        ).subscribe((res) => {
+            this.isShowSearchPanel = res.hasOwnProperty('searchPanel') ? res.searchPanel : true;
+        });
+    }
+
+    public ngOnDestroy(): void {
+        // For takeUntilOnDestroy
     }
 
     public ngDoCheck(): void {
