@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import * as _ from 'lodash';
 
-interface Layout {
+export interface Layout {
     content?: Layout[];
     selector?: string;
     class?: string;

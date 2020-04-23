@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { LanguageModule } from '@xm-ngx/components/language';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmPasswordNeededModule } from '@xm-ngx/components/xm-password-needed';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmEntityModule } from '@xm-ngx/entity';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmBalanceModule } from '@xm-ngx/xm-balance';
@@ -36,6 +37,7 @@ import { PageRibbonComponent } from './profiles/page-ribbon.component';
         XmSidebarRightModule,
         XmRibbonModule,
         XmSharedModule,
+        XmDynamicModule,
     ],
     exports: [XmMainComponent],
     declarations: [
