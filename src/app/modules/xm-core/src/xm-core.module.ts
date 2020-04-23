@@ -3,18 +3,18 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { defaults } from 'lodash';
 import { JhiEventManager } from 'ng-jhipster';
-import { ErrorHandlerInterceptor } from '../../../modules/xm-core/src/errorhandler.interceptor';
-import { XmPermissionService } from '../../privilege/xm-permission.service';
-import { XmEventManager } from '../index';
-import { XM_CORE_CONFIG_DEFAULT, XM_CORE_EXTERNAL_CONFIG, XmCoreConfig } from './xm-core-config';
+import { ErrorHandlerInterceptor } from './errorhandler.interceptor';
+import { XmPermissionService } from '../../../shared/privilege/xm-permission.service';
+import { XmEventManagerService as XmEventManager } from './xm-event-manager.service';
+import { XmUiConfigService } from './config/xm-ui-config.service';
+import { XM_CORE_EXTERNAL_CONFIG, XmCoreConfig } from './xm-core-config';
 import { XmEventManagerService } from './xm-event-manager.service';
 
 import { XmSessionService } from './xm-session.service';
-import { XmUiConfigService } from './config/xm-ui-config.service';
 import { XmUserService } from './xm-user.service';
 
 export function xmCoreConfigFactory(externalConfig?: XmCoreConfig): XmCoreConfig {
-    return externalConfig ? defaults(externalConfig, XM_CORE_CONFIG_DEFAULT) : XM_CORE_CONFIG_DEFAULT;
+    return defaults(externalConfig, new XmCoreConfig());
 }
 
 @NgModule({

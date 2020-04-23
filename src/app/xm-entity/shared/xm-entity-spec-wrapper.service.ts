@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RequestCache } from '@xm-ngx/core';
+import { RequestCache, RequestCacheFactoryService } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Spec } from './spec.model';
@@ -9,9 +9,14 @@ import { XmEntitySpecService } from './xm-entity-spec.service';
 @Injectable({providedIn: 'root'})
 export class XmEntitySpecWrapperService {
 
-    private entitySpec: RequestCache<XmEntitySpec[]> = new RequestCache<XmEntitySpec[]>(() => this.requestSpec());
+    private entitySpec: RequestCache<XmEntitySpec[]>;
 
-    constructor(private xmEntitySpecService: XmEntitySpecService) {
+    constructor(private xmEntitySpecService: XmEntitySpecService,
+                private cacheFactoryService: RequestCacheFactoryService) {
+        this.entitySpec = this.cacheFactoryService.create({
+            request: () => this.requestSpec(),
+            onlyWithUserSession: true,
+        });
     }
 
     public entitySpec$(): Observable<XmEntitySpec[]> {
@@ -38,13 +43,9 @@ export class XmEntitySpecWrapperService {
         return this.getByTypeKey(typeKey);
     }
 
-    public clear(): void {
-        this.entitySpec.clear();
-    }
-
     public getByTypeKey(typeKey: string): Observable<XmEntitySpec | null> {
         return this.entitySpec.get().pipe(
-            map((i) => i.find((xmSpec) => typeKey === xmSpec.key)),
+            map((i) => i ? i.find((xmSpec) => typeKey === xmSpec.key): null),
         );
     }
 

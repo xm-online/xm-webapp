@@ -1,5 +1,6 @@
 export { DashboardComponent } from './dashboard/dashboard.component';
-export * from './dynamic-widget/dynamic-widget.component';
+export * from './dynamic/dynamic-widget.directive';
+export * from './dynamic/dynamic-widget-layout.component';
 export * from './shared/dashboard.model';
 export * from './shared/dashboard.service';
 export * from './shared/dashboard-wrapper.service';

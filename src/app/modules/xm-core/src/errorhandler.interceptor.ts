@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { XmEventManager } from '@xm-ngx/core';
+import { XmEventManagerService as XmEventManager } from './xm-event-manager.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 

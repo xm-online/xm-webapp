@@ -13,7 +13,7 @@ import { filter, mergeMap, tap } from 'rxjs/operators';
 import { JhiLanguageHelper } from '@xm-ngx/components/language';
 import { Principal } from '@xm-ngx/core/auth';
 import { XmConfigService } from '../../shared/spec/config.service';
-import { DashboardWrapperService } from '@xm-ngx/dynamic';
+import { DashboardWrapperService, Layout } from '@xm-ngx/dynamic';
 import { DEBUG_INFO_ENABLED, VERSION } from '../../xm.constants';
 
 declare const $: any;
@@ -34,6 +34,7 @@ export class NavbarComponent implements OnInit, OnDestroy, DoCheck {
     public titleContent: string;
     public tenantLogoUrl: '../assets/img/logo-xm-online.png';
     public searchMask: string = '';
+    public navbarLayout: Layout[];
     public isShowSearchPanel: boolean = true;
     @ViewChild('navbar-cmp', {static: false}) public button: any;
     protected mobileMenuVisible: any = 0;
@@ -61,6 +62,7 @@ export class NavbarComponent implements OnInit, OnDestroy, DoCheck {
     // tslint:disable-next-line:cognitive-complexity
     public ngOnInit(): void {
         this.xmConfigService.getUiConfig().subscribe((result) => {
+            this.navbarLayout = result.navbar && result.navbar.layout ? result.navbar.layout: null;
             this.tenantName = result.name ? result.name : 'XM^online';
             if (this.tenantName === 'XM^online') {
                 this.tenantName += ' ' + this.version;

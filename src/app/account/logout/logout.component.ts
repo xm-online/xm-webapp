@@ -40,7 +40,6 @@ export class LogoutComponent implements OnInit {
 
     public logout(): void {
         this.loginService.logout();
-        this.xmEntitySpecWrapperService.clear();
         this.router.navigate(['']);
         /** TODO: transform below as a listener of auth state */
         const body = document.querySelector('body');

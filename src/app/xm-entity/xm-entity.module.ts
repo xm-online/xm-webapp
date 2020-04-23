@@ -58,7 +58,6 @@ import {
     VoteService,
     XmEntityService,
     XmEntitySpecService,
-    XmEntitySpecWrapperService,
 } from './';
 import { AttachmentListBaseComponent } from './attachment-list/attachment-list-base.component';
 import { AttachmentListSimplifiedComponent } from './attachment-list/attachment-list-simplified.component';
@@ -173,7 +172,6 @@ const MODULES = [
         VoteService,
         XmEntityService,
         XmEntitySpecService,
-        XmEntitySpecWrapperService,
     ],
 })
 export class XmEntityModule {

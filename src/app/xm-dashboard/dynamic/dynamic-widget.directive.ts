@@ -1,18 +1,23 @@
 import {
     Compiler,
-    Component,
+    Directive,
     Injector,
     Input,
     NgModuleFactory,
     NgModuleFactoryLoader,
     NgModuleRef,
+    OnChanges,
     Optional,
+    Renderer2,
+    SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
+import * as _ from 'lodash';
 import { from } from 'rxjs';
 
 export interface IWidget<C = any, S = any> {
     config?: C;
+    /** @deprecated spec will be removed, you should provide the spec locally */
     spec?: S;
 }
 
@@ -22,6 +27,8 @@ export interface WidgetFn {
 
 export interface WidgetConfig<C = any, S = any> extends IWidget<C, S> {
     module: string;
+    selector: string;
+    /** @deprecated use selector instead */
     component: string;
     config?: C;
     spec?: S;
@@ -31,19 +38,25 @@ export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 
 export type LazyComponent = NgModuleFactory<any>;
 
-@Component({
-    selector: 'xm-dynamic-widget',
-    templateUrl: './dynamic-widget.component.html',
-    styleUrls: ['./dynamic-widget.component.scss'],
+@Directive({
+    selector: 'xm-dynamic-widget, [xm-dynamic-widget]',
 })
-export class DynamicWidgetComponent {
+export class DynamicWidgetDirective implements OnChanges {
 
     public commons: string[] = ['ext-common', 'ext-common-csp', 'ext-common-entity'];
+    @Input() public class: string;
+    @Input() public style: string;
+    private _layout: WidgetConfig;
 
     constructor(private loader: NgModuleFactoryLoader,
                 private injector: Injector,
+                private renderer: Renderer2,
                 @Optional() private compiler: Compiler,
                 private viewRef: ViewContainerRef) {
+    }
+
+    public get init(): WidgetConfig {
+        return this._layout;
     }
 
     @Input()
@@ -51,12 +64,29 @@ export class DynamicWidgetComponent {
         if (!value) {
             return;
         }
+
+        this._layout = value;
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.init && !_.isEqual(changes.init.currentValue, changes.init.previousValue)) {
+            this.loadComponent();
+        }
+    }
+
+    private loadComponent(): void {
+        const value = this._layout;
+        if (value.selector && value.selector.indexOf('/') > 0) {
+            value.module = value.selector.split('/')[0];
+            value.selector = value.selector.split('/')[1];
+        }
+
         const modulePath = this.resolveModulePath(value.module);
         const moduleFactory = from(this.loader.load(modulePath));
 
         moduleFactory.subscribe((factory) => {
             const module = factory.create(this.injector);
-            const componentTypeOrLazyComponentType = module.injector.get(value.component, ELEMENT_NOT_FOUND);
+            const componentTypeOrLazyComponentType = module.injector.get(value.selector || value.component, ELEMENT_NOT_FOUND);
 
             if (componentTypeOrLazyComponentType === ELEMENT_NOT_FOUND) {
                 // eslint-disable-next-line no-console
@@ -120,5 +150,14 @@ export class DynamicWidgetComponent {
         const widget = this.viewRef.createComponent<IWidget>(componentFactory);
         widget.instance.config = value.config;
         widget.instance.spec = value.spec;
+        // TODO: pass children layout
+
+        const el = (widget.location.nativeElement as HTMLElement);
+        if (this.class) {
+            this.renderer.setAttribute(el, 'class', this.class);
+        }
+        if (this.style) {
+            this.renderer.setAttribute(el, 'style', this.style);
+        }
     }
 }

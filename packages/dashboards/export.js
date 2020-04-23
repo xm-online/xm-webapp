@@ -20,10 +20,6 @@ function saveJson(path, data) {
 }
 
 class ExportDashboards {
-    url;
-    accessToken;
-    headers;
-
     connect(url, grant, auth) {
         logger.debug('XM start getAccessToken');
 

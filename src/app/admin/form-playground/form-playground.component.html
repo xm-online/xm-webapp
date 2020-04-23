@@ -103,7 +103,7 @@
             *ngIf="formActive"
             [framework]="'material-design'"
             [schema]="jsonFormObject.schema"
-            [layout]="jsonFormObject.layout.form | i18nJsf"
+            [layout]="jsonFormObject.layout | i18nJsf"
             [data]="jsonFormObject.data"
             [options]="jsonFormObject.options | i18nJsf"
             [form]="jsonFormObject.form | i18nJsf"

@@ -17,7 +17,7 @@
     <xm-sidebar></xm-sidebar>
   </div>
 
-  <div *ngIf="resolved$ | async" class="main-panel xm-main-panel">
+  <div *ngIf="resolved$ | async" id="main" class="main-panel xm-main-panel">
 
     <xm-navbar></xm-navbar>
 
@@ -30,5 +30,7 @@
     <xm-footer></xm-footer>
 
   </div>
+
+  <xm-sidebar-right></xm-sidebar-right>
 
 </div>

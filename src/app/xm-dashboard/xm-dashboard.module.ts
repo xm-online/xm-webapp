@@ -20,12 +20,9 @@ import { XmDynamicModule } from './xm-dynamic.module';
         LoaderModule,
         NoDataModule,
     ],
-    declarations: [
-        DashboardComponent,
-    ],
-    providers: [
-        WidgetService,
-    ],
+    declarations: [DashboardComponent],
+    exports: [],
+    providers: [WidgetService],
 })
 export class XmDashboardModule {
     public static forRoot(): ModuleWithProviders {

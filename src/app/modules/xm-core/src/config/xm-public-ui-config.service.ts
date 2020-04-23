@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import { RequestCacheFactoryService } from '../cache/request-cache-factory.service';
 import { Observable } from 'rxjs';
 import { RequestCache } from '../cache/request-cache';
 import { XmCoreConfig } from '../xm-core-config';
@@ -9,10 +10,12 @@ import { UIPublicConfig } from './xm-ui-config-model';
     providedIn: 'root',
 })
 export class XmPublicUiConfigService<T = UIPublicConfig> implements OnDestroy {
-    private requestCache: RequestCache<T> = new RequestCache<T>(() => this.publicAPI());
+    private requestCache: RequestCache<T>;
 
     constructor(private httpClient: HttpClient,
+                private cacheFactoryService: RequestCacheFactoryService,
                 private xmCoreConfig: XmCoreConfig) {
+        this.requestCache = this.cacheFactoryService.create<T>({request: () => this.publicAPI()});
     }
 
     public get config$(): Observable<T | null> {
