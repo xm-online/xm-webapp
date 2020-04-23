@@ -22,8 +22,8 @@
     <div *ngIf="routeData && title"
          class="navbar-container-part title-part">
       <span [innerHTML]="titleContent"
-            class="d-none d-sm-block"
-            [title]="title"></span>
+            [title]="title"
+            class="d-none d-sm-block"></span>
     </div>
 
     <div *ngIf="isMobileMenu()" class="navbar-container-part search-part">
@@ -72,6 +72,8 @@
     </div>
 
     <xm-feedback *ngSwitchCase="true"></xm-feedback>
+
+    <xm-dynamic-widget-layout *ngIf="navbarLayout" [layouts]="navbarLayout"></xm-dynamic-widget-layout>
 
     <div class="navbar-container-part sidbar-toggle">
       <button (click)="sidebarToggle()"
