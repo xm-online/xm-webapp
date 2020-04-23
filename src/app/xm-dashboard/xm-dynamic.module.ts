@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { XmSharedModule } from '@xm-ngx/shared';
-import { DynamicWidgetComponent } from './dynamic-widget/dynamic-widget.component';
+import { DynamicWidgetLayoutComponent } from './dynamic/dynamic-widget-layout.component';
+import { DynamicWidgetDirective } from './dynamic/dynamic-widget.directive';
 
 @NgModule({
     imports: [XmSharedModule],
-    exports: [DynamicWidgetComponent],
-    entryComponents: [DynamicWidgetComponent],
-    declarations: [DynamicWidgetComponent],
+    exports: [DynamicWidgetDirective, DynamicWidgetLayoutComponent],
+    declarations: [DynamicWidgetDirective, DynamicWidgetLayoutComponent],
     providers: [],
 })
 export class XmDynamicModule {
