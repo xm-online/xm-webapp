@@ -117,7 +117,7 @@
     "leaflet-draw": "0.4.14",
     "leaflet.gridlayer.googlemutant": "0.8.0",
     "lodash": "4.17.15",
-    "material-design-icons": "3.0.1",
+    "material-icons": "^0.3.1",
     "moment": "2.24.0",
     "moment-timezone": "0.5.27",
     "ng-jhipster": "0.12.0",
