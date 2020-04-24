@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 // Fonts
-@import '~material-design-icons/iconfont/material-icons.css';
+$material-icons-font-path: '~material-icons/iconfont/';
+@import '~material-icons/iconfont/material-icons.scss';
 
 // Theme
 @import './styles/theme';
