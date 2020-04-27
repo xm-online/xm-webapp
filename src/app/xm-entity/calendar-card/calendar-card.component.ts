@@ -15,7 +15,7 @@ import { Event } from '../shared/event.model';
 import { EventService } from '../shared/event.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
-import { LanguageService } from "../../modules/xm-translation/language.service";
+import { LanguageService } from '@xm-ngx/translation';
 import { TranslateService } from '@ngx-translate/core';
 
 declare const $: any;
@@ -128,7 +128,7 @@ export class CalendarCardComponent implements OnChanges {
                 center: 'month,agendaWeek,agendaDay,listDay,listWeek',
                 right: 'prev,next,today',
             },
-            locale: this.languageService.getUserLocale(),
+            locale: this.languageService.locale,
             defaultDate: new Date(),
             selectable: true,
             selectHelper: true,
