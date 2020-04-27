@@ -22,18 +22,18 @@ export class XmEventManagerService implements OnDestroy {
     /** @deprecated use 'observable' instead */
     public observer: Observer<EventManagerAction>;
 
-    protected cache: Subject<EventManagerAction> = new Subject<EventManagerAction>();
+    protected dispatcher: Subject<EventManagerAction> = new Subject<EventManagerAction>();
 
     constructor() {
-        this.observer = this.cache;
-        this.observable = this.cache.asObservable();
+        this.observer = this.dispatcher;
+        this.observable = this.dispatcher.asObservable();
     }
 
     /**
      * Method to broadcast the event to observer
      */
     public broadcast<T>(event: EventManagerAction<T>): void {
-        this.cache.next(event);
+        this.dispatcher.next(event);
     }
 
     /**
@@ -53,7 +53,7 @@ export class XmEventManagerService implements OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.cache.complete();
+        this.dispatcher.complete();
     }
 
 }
