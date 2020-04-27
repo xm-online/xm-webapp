@@ -14,10 +14,10 @@ export class XmUiConfigService<T extends XmUIConfig = XmUIConfig> {
                 private publicUiConfigService: XmPublicUiConfigService) {
     }
 
-    public get cache$(): Observable<T> {
+    public config$(): Observable<T> {
         return combineLatest([
-            this.publicUiConfigService.config$,
-            this.privateUiConfigService.config$.pipe(startWith(null)),
+            this.publicUiConfigService.config$(),
+            this.privateUiConfigService.config$().pipe(startWith(null)),
         ]).pipe(
             map((res) => _.merge.apply(null, res)),
         );

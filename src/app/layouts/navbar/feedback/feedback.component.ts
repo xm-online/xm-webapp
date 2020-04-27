@@ -30,7 +30,7 @@ export class FeedbackComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.showFeedback$ = this.uiConfigService.cache$.pipe(
+        this.showFeedback$ = this.uiConfigService.config$().pipe(
             filter((i) => Boolean(i && i.feedback)));
     }
 

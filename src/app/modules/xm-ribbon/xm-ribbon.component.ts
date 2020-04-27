@@ -19,7 +19,7 @@ export class XmRibbonComponent {
     }
 
     public ngOnInit(): void {
-        this.show$ = this.uiConfigService.cache$.pipe(
+        this.show$ = this.uiConfigService.config$().pipe(
             filter((i) => Boolean(i)),
             map((i) => i.ribbon),
         );

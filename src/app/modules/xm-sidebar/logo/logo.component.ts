@@ -47,7 +47,7 @@ export class LogoComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.logo$ = this.xmUiConfigService.cache$.pipe(
+        this.logo$ = this.xmUiConfigService.config$().pipe(
             map(optionsConfigToLogo),
             share(),
         );
