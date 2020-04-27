@@ -12,19 +12,24 @@ import { UIPrivateConfig } from './xm-ui-config-model';
     providedIn: 'root',
 })
 export class XmPrivateUiConfigService<T = UIPrivateConfig> implements OnDestroy {
+    public readonly UI_PRIVATE_CONFIG_URL: string;
+    public readonly UI_PRIVATE_CONFIG_PERMISSION: string;
+
     private requestCache: RequestCache<T>;
 
     constructor(private httpClient: HttpClient,
                 private cacheFactoryService: RequestCacheFactoryService,
                 private permissionService: XmPermissionService,
                 private xmCoreConfig: XmCoreConfig) {
+        this.UI_PRIVATE_CONFIG_URL = this.xmCoreConfig.UI_PRIVATE_CONFIG_URL;
+        this.UI_PRIVATE_CONFIG_PERMISSION = this.xmCoreConfig.UI_PRIVATE_CONFIG_PERMISSION;
         this.requestCache = this.cacheFactoryService.create<T>({
             request: () => this.resolveConfigAPI(),
             onlyWithUserSession: true,
         });
     }
 
-    public get config$(): Observable<T | null> {
+    public config$(): Observable<T | null> {
         return this.requestCache.get();
     }
 
@@ -33,7 +38,7 @@ export class XmPrivateUiConfigService<T = UIPrivateConfig> implements OnDestroy 
     }
 
     private resolveConfigAPI(): Observable<T> {
-        return this.permissionService.hasPrivilege(this.xmCoreConfig.UI_PRIVATE_CONFIG_PERMISSION).pipe(
+        return this.permissionService.hasPrivilege(this.UI_PRIVATE_CONFIG_PERMISSION).pipe(
             take(1),
             switchMap((allow) => {
                 if (allow) {
@@ -46,7 +51,7 @@ export class XmPrivateUiConfigService<T = UIPrivateConfig> implements OnDestroy 
     }
 
     private privateAPI(): Observable<T> {
-        return this.httpClient.get<T>(this.xmCoreConfig.UI_PRIVATE_CONFIG_URL);
+        return this.httpClient.get<T>(this.UI_PRIVATE_CONFIG_URL);
     }
 
 }
