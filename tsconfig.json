@@ -38,8 +38,7 @@
       "@xm-ngx/xm-balance": ["src/app/xm-balance"],
       "@xm-ngx/components/loader": ["src/app/shared/components/loader"],
       "@xm-ngx/components/no-data": ["src/app/shared/components/no-data"],
-      "@xm-ngx/components/language": ["src/app/shared/language"],
-      "@xm-ngx/components/xm-password-needed": ["src/app/shared/components/xm-password-needed"]
+      "@xm-ngx/components/language": ["src/app/shared/language"]
     },
     "inlineSources": true,
     "module": "esnext",

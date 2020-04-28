@@ -48,7 +48,7 @@ export * from './components/no-data/no-data.component';
 export * from './components/powered-by/powered-by.component';
 export * from './components/maintenance/maintenance.component';
 export * from './components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
-export * from './components/xm-password-needed/xm-password-needed.component';
+export * from '../../../packages/components/src/xm-password-needed/xm-password-needed.component';
 export * from './components/xm-confirmation-dialog/xm-confirm-dialog.component';
 
 export * from './password-strength-bar/password-strength-bar.component';
