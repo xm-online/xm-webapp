@@ -8,7 +8,10 @@ import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { XmSharedModule } from '../../shared/shared.module';
+import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
+import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
 import { UserMgmtDetailComponent } from './user-management-detail.component';
+import { UserMgmtDialogComponent } from './user-management-dialog.component';
 import { UserMgmtComponent } from './user-management.component';
 
 @NgModule({
@@ -24,7 +27,13 @@ import { UserMgmtComponent } from './user-management.component';
         XmSharedModule,
     ],
     exports: [UserMgmtComponent, UserMgmtDetailComponent],
-    declarations: [UserMgmtComponent, UserMgmtDetailComponent],
+    declarations: [
+        UserMgmtComponent,
+        UserMgmtDetailComponent,
+        UserMgmtDialogComponent,
+        UserLoginMgmtDialogComponent,
+        UserMgmtDeleteDialogComponent,
+    ],
     providers: [],
 })
 export class UserManagementModule {

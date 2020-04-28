@@ -14,6 +14,8 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { XmSharedModule } from '../../shared/shared.module';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
+import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
+import { RoleMgmtDetailComponent } from './roles-management-detail.component';
 import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
 import { RolesMgmtComponent } from './roles-management.component';
 
@@ -35,7 +37,13 @@ import { RolesMgmtComponent } from './roles-management.component';
         XmSharedModule,
     ],
     exports: [RolesMgmtComponent],
-    declarations: [RolesMgmtComponent, RoleMgmtDialogComponent, RoleConditionDialogComponent],
+    declarations: [
+        RolesMgmtComponent,
+        RoleMgmtDialogComponent,
+        RoleConditionDialogComponent,
+        RoleMgmtDetailComponent,
+        RoleMgmtDeleteDialogComponent,
+    ],
     providers: [],
 })
 export class RolesManagementModule {

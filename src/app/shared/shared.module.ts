@@ -37,7 +37,6 @@ import {
     XmGMapApiInitDirective,
 } from './';
 import { PrivacyAndTermsDialogComponent } from './components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
-import { AceEditorDirective } from './directives/ace-editor.directive';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { SafeNamePipe } from './helpers/safe-name.pipe';
 import { XmCondition } from './helpers/xm-condition';
@@ -81,7 +80,6 @@ const PIPES = [
         OwlNativeDateTimeModule,
     ],
     declarations: [
-        AceEditorDirective,
         JhiSocialComponent,
         LoginComponent,
         RegisterComponent,
@@ -144,7 +142,6 @@ const PIPES = [
     ],
     exports: [
         GateSharedLibsModule,
-        AceEditorDirective,
         JhiSocialComponent,
         LoginComponent,
         UserLoginFormComponent,
