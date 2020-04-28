@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { defaultIfEmpty, map } from 'rxjs/operators';
 import { XmUser, XmUserPermission } from '../../modules/xm-core/src/xm-user-model';
 import { XmUserService } from '../../modules/xm-core/src/xm-user.service';
 
@@ -29,8 +29,9 @@ export class XmPermissionService {
 
     public get permissions$(): Observable<XmUserPermission[]> {
         return this.userService.user$.pipe(
-            filter(Boolean),
-            map((u: XmUser) => u.permissions));
+            defaultIfEmpty<XmUser>({permissions: []}),
+            map((u: XmUser) => u.permissions),
+        );
     }
 
     public get privileges$(): Observable<string[]> {
