@@ -5,10 +5,9 @@ import { RouterModule } from '@angular/router';
 
 
 import { TagInputModule } from 'ngx-chips';
+import { AuditsModule } from '@xm-ngx/administration/audits';
 import { XmSharedModule } from '../shared/shared.module';
 import {
-    AuditsComponent,
-    AuditsService,
     BaseAdminListComponent,
     ClientMgmtComponent,
     ClientMgmtDeleteDialogComponent,
@@ -51,13 +50,13 @@ import { TranslationService } from './translations/translation.service';
 @NgModule({
     imports: [
         CommonModule,
+        AuditsModule,
         TagInputModule,
         XmSharedModule,
         FormsModule,
         RouterModule.forChild(adminState),
     ],
     declarations: [
-        AuditsComponent,
         RolesMgmtComponent,
         RoleMgmtDetailComponent,
         RoleMgmtDialogComponent,
@@ -85,7 +84,6 @@ import { TranslationService } from './translations/translation.service';
     ],
     providers: [
         BaseAdminListComponent,
-        AuditsService,
         JhiHealthService,
         JhiMetricsService,
         GatewayRoutesService,

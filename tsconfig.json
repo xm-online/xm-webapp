@@ -20,6 +20,7 @@
     ],
     "paths": {
       "@xm-ngx/styles": ["packages/styles"],
+      "@xm-ngx/administration/*": ["packages/administration/src/*"],
       "@xm-ngx/components/*": ["packages/components/src/*"],
       "@xm-ngx/core": ["src/app/modules/xm-core"],
       "@xm-ngx/core/auth": ["src/app/modules/xm-core-auth"],

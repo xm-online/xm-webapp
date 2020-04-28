@@ -1,14 +1,14 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { XmCoreConfig } from '@xm-ngx/core';
 import { createRequestOption } from '@xm-ngx/entity';
 import { Observable } from 'rxjs';
-
-import { SERVER_API_URL } from '../../xm.constants';
 import { Audit } from './audit.model';
 
 @Injectable()
 export class AuditsService {
-    constructor(private http: HttpClient) {
+    constructor(private coreConfig: XmCoreConfig,
+                private http: HttpClient) {
     }
 
     public query(req: any): Observable<HttpResponse<Audit[]>> {
@@ -16,7 +16,7 @@ export class AuditsService {
         params.set('fromDate', req.fromDate);
         params.set('toDate', req.toDate);
 
-        const requestURL = SERVER_API_URL + 'uaa/management/audits';
+        const requestURL = `${this.coreConfig.SERVER_API_URL}uaa/management/audits`;
 
         return this.http.get<Audit[]>(requestURL, {
             params,

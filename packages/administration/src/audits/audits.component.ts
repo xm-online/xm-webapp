@@ -1,16 +1,16 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
+
+import * as moment from 'moment';
 import { JhiOrderByPipe, JhiParseLinks } from 'ng-jhipster';
 
-import { ITEMS_PER_PAGE } from '../../shared';
-import { Link } from '../../xm-entity';
+import { Link } from '@xm-ngx/entity';
 import { Audit } from './audit.model';
 import { AuditsService } from './audits.service';
 
-declare let moment: any;
-
 @Component({
-    selector: 'xm-audit',
+    selector: 'xm-audits',
     templateUrl: './audits.component.html',
     providers: [JhiOrderByPipe],
 })

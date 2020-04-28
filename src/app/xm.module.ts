@@ -11,6 +11,7 @@ import { XmDashboardModule } from '@xm-ngx/dynamic';
 import { HttpLoaderFactory, XmTranslationModule } from '@xm-ngx/translation';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
+import { ADMIN_ELEMENTS } from './admin/admin.registry';
 import { XmMainComponent } from './layouts';
 import { LayoutModule } from './layouts/layout.module';
 import { XmCoreAuthModule } from './modules/xm-core-auth/src/xm-core-auth.module';
@@ -44,6 +45,7 @@ export function appInitializerFn(appConfig: XmApplicationConfigService): () => P
         LayoutModule,
     ],
     providers: [
+        ADMIN_ELEMENTS,
         XmApplicationConfigService,
         {
             provide: APP_INITIALIZER,
