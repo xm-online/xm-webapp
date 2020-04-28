@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { DEFAULT_LOCALE, LanguageService, Translate } from './language.service';
+import { LanguageService, Translate } from './language.service';
 
 export interface IRouteDate {
     pageTitle?: Translate;
@@ -26,12 +26,13 @@ export class TitleService implements OnInitialize {
                 protected route: ActivatedRoute,
                 protected router: Router,
                 protected title: Title,
+                @Inject(LOCALE_ID) protected localeId: string,
                 protected languageService: LanguageService) {
     }
 
     public init(): void {
         this.subscriptions.push(
-            this.translateService.get(DEFAULT_LOCALE).subscribe(this.update.bind(this)),
+            this.translateService.get(this.localeId).subscribe(this.update.bind(this)),
             this.router.events.pipe(
                 filter((e) => e instanceof NavigationEnd),
             ).subscribe(this.update.bind(this)),

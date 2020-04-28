@@ -1,35 +1,41 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
+import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
+import { LanguageService } from '@xm-ngx/translation';
 
 import * as moment from 'moment';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { Observable, Subject } from 'rxjs';
 import { shareReplay, takeUntil } from 'rxjs/operators';
+import { XmEntity } from '../../xm-entity';
 
 import { AccountService } from './account.service';
 import { SUPER_ADMIN } from './auth.constants';
-import { XmEntity } from '../../xm-entity';
 
 const CACHE_SIZE = 1;
 const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
 
-@Injectable({ providedIn: 'root' })
-export class Principal {
-
+@Injectable({providedIn: 'root'})
+export class Principal implements OnDestroy {
     private userIdentity: any;
     private authenticated: boolean = false;
     private authenticationState: Subject<any> = new Subject<any>();
     private promise: Promise<any>;
-
     private reload$: Subject<void> = new Subject<void>();
     private xmProfileCache$: Observable<XmEntity>;
 
     constructor(private account: AccountService,
                 private alertService: XmToasterService,
                 private $localStorage: LocalStorageService,
+                private languageService: LanguageService,
                 private $sessionStorage: SessionStorageService,
     ) {
         this.checkTokenAndForceIdentity();
+        this.onLanguageChange();
+    }
+
+    public ngOnDestroy(): void {
+       // TakeUntilOnDestroy
     }
 
     public identityUserKey(): string {
@@ -202,7 +208,9 @@ export class Principal {
     }
 
     public getName(): string {
-        if (!this.isIdentityResolved()) { return null; }
+        if (!this.isIdentityResolved()) {
+            return null;
+        }
         if (this.userIdentity.firstName || this.userIdentity.lastName) {
             return [this.userIdentity.firstName, this.userIdentity.lastName].join(' ');
         } else {
@@ -211,7 +219,9 @@ export class Principal {
     }
 
     public getDetailName(): string[] {
-        if (!this.isIdentityResolved()) { return null; }
+        if (!this.isIdentityResolved()) {
+            return null;
+        }
 
         return [
             this.userIdentity.firstName ? this.userIdentity.firstName : this.userIdentity.logins[0].login,
@@ -232,6 +242,12 @@ export class Principal {
     public setTimezoneOffset(): string {
         // For now setting offset from browser
         return moment().format('Z');
+    }
+
+    protected onLanguageChange(): void {
+        this.languageService.locale$
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((l) => this.setLangKey(l));
     }
 
     private checkTokenAndForceIdentity(): void {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LanguageService } from '../../modules/xm-translation/language.service';
+import { LanguageService } from '@xm-ngx/translation';
 
 @Injectable({providedIn: 'root'})
 export class ModulesLanguageHelper {
