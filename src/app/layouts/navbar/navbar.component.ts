@@ -93,7 +93,7 @@ export class NavbarComponent implements OnInit, OnDestroy, DoCheck {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
 
-        this.uiConfigService.cache$.pipe(
+        this.uiConfigService.config$().pipe(
             filter((i) => Boolean(i)),
             takeUntilOnDestroy(this),
         ).subscribe((res) => {
