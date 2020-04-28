@@ -33,7 +33,7 @@ export class XmDateTimePipe implements PipeTransform {
     }
 
     private getOffset(): string {
-        return this.account.timeZoneOffset || '';
+        return this.account?.timeZoneOffset || '';
     }
 
     private getDefaultFormat(): string {
