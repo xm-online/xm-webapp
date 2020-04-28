@@ -1,13 +1,12 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { XmEventManager } from '@xm-ngx/core';
+import { XmEventManager, XmUiConfigService, XmUserService } from '@xm-ngx/core';
+import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { SessionStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { Principal } from '../../shared/auth/principal.service';
-import { LANGUAGES } from '../../shared/language/language.constants';
-import { XmApplicationConfigService } from '../../shared/spec/xm-config.service';
 import { getBrowserLocale } from './getBrowserLocale';
+import { LANGUAGES } from './language.constants';
 import { OnInitialize } from './title.service';
 
 /** @description Translates as json
@@ -32,7 +31,6 @@ export type Translate = ITranslate | string;
 
 export const EVENT_CHANGE_LOCALE = 'TRANSLATION.EVENT_CHANGE_LOCALE';
 export const SESSION_LOCALE = 'currentLang';
-export const DEFAULT_LOCALE = LANGUAGES[0];
 
 export type Locale = string | 'en' | 'ru' | 'uk';
 
@@ -42,13 +40,21 @@ export class LanguageService implements OnDestroy, OnInitialize {
 
     protected $locale: BehaviorSubject<Locale>;
 
-    constructor(protected principal: Principal,
-                protected eventManager: XmEventManager,
-                protected translate: TranslateService,
-                protected appConfig: XmApplicationConfigService,
-                protected sessionStorage: SessionStorageService) {
+    protected userLocale: string | undefined;
+    protected configLocale: string | undefined;
+
+    constructor(
+        protected eventManager: XmEventManager,
+        @Inject(LOCALE_ID) protected localeId: string,
+        protected translate: TranslateService,
+        protected userService: XmUserService,
+        protected configService: XmUiConfigService<{ langs: string[] }>,
+        protected sessionStorage: SessionStorageService,
+    ) {
         this.$locale = new BehaviorSubject<Locale | null>(null);
         this.locale$ = this.$locale.asObservable();
+        this.onUserLocale();
+        this.onConfigLocale();
     }
 
     public get locale(): Locale {
@@ -84,7 +90,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
 
     /** @description Get the user locale */
     public getUserLocale(): Locale | null {
-        return this.principal.getLangKey();
+        return this.userLocale;
     }
 
     /** @description Get a locale form the session Storage */
@@ -94,8 +100,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
 
     /** @description Get a locale form the xm-webapp configuration */
     public getConfigLocale(): Locale | null {
-        const config = this.appConfig.getAppConfig();
-        return (config && config.langs && config.langs[0]) ? config.langs[0] : null;
+        return this.configLocale;
     }
 
     /** @description Get a locale form the browser */
@@ -105,7 +110,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
 
     /** @description Get a default locale */
     public getDefaultLocale(): Locale {
-        return DEFAULT_LOCALE;
+        return this.localeId;
     }
 
     public init(): void {
@@ -117,7 +122,6 @@ export class LanguageService implements OnDestroy, OnInitialize {
     protected update(locale: string): void {
         // TODO v2: rewrite below as listeners of the $locale
         this.translate.use(locale);
-        this.principal.setLangKey(locale);
         this.sessionStorage.store(SESSION_LOCALE, locale);
         this.translate.getTranslation(locale).subscribe((res) => {
             LANGUAGES.forEach((lang) => this.sessionStorage.clear(lang));
@@ -129,4 +133,15 @@ export class LanguageService implements OnDestroy, OnInitialize {
         this.eventManager.broadcast({name: EVENT_CHANGE_LOCALE, content: locale});
     }
 
+    protected onUserLocale(): void {
+        this.userService.user$
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((u) => this.userLocale = u && u.langKey ? u.langKey : null);
+    }
+
+    protected onConfigLocale(): void {
+        this.configService.config$()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((c) => this.configLocale = c && c.langs && c.langs[0] ? c.langs[0] : null);
+    }
 }

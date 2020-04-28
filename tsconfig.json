@@ -31,7 +31,7 @@
       "@xm-ngx/toaster": ["src/app/shared/toaster"],
       "@xm-ngx/shared": ["src/app/modules/xm-shared"],
       "@xm-ngx/shared/operators": ["src/app/modules/xm-shared-operators"],
-      "@xm-ngx/translation": ["src/app/modules/xm-translation"],
+      "@xm-ngx/translation": ["packages/xm-translation/src"],
       "@xm-ngx/entity": ["src/app/xm-entity/shared"],
       "@xm-ngx/entity/*": ["src/app/xm-entity/*"],
       "@xm-ngx/dynamic": ["src/app/xm-dashboard"],
