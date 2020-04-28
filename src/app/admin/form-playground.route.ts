@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { FormPlaygroundComponent } from './form-playground.component';
+import { FormPlaygroundComponent } from './form-playground/form-playground.component';
 
 export const formPlaygroundRoute: Route = {
     path: 'form-playground',
