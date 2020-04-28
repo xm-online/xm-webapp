@@ -1,10 +1,7 @@
 export * from './admin.service';
 
-export * from './audits/audits.component';
-export * from './audits/audits.service';
-export * from './audits/audits.route';
-export * from './audits/audit.model';
-export * from './audits/audit-data.model';
+export * from '@xm-ngx/administration/audits';
+export * from './audits.route';
 export * from './docs/docs.component';
 export * from './docs/docs.route';
 export * from './health/health.component';

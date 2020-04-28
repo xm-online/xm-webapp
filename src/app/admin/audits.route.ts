@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { AuditsComponent } from './audits.component';
+import { AuditsComponent } from '@xm-ngx/administration/audits';
 
 export const auditsRoute: Route = {
     path: 'audits',
