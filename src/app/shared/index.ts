@@ -18,7 +18,7 @@ export * from './login/login.component';
 export * from './auth/login.service';
 export * from './register/register.component';
 export * from './register/register.service';
-export * from './constants/pagination.constants';
+export * from '@xm-ngx/components/pagination';
 export * from './context/context.service';
 export * from './user/account.model';
 export * from './user/user.model';

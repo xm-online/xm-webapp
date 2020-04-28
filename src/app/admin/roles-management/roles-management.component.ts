@@ -6,7 +6,7 @@ import { JhiOrderByPipe } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
 import { Principal } from '@xm-ngx/core/auth';
-import { ITEMS_PER_PAGE } from '../../shared/constants/pagination.constants';
+import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { Role } from '../../shared/role/role.model';
 import { RoleService } from '../../shared/role/role.service';
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';

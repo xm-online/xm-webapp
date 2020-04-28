@@ -6,7 +6,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
-import { ITEMS_PER_PAGE } from '../shared/constants/pagination.constants';
+import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { Link } from '../xm-entity';
 
 @Injectable()

@@ -7,7 +7,7 @@ import { JhiOrderByPipe } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { ITEMS_PER_PAGE } from '../../shared/constants/pagination.constants';
+import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { instanceDestroyed } from '../../shared/helpers/instance-destroyed';
 import { JhiLanguageHelper } from '@xm-ngx/components/language';
 import { Permission } from '../../shared/role/permission.model';
