@@ -9,12 +9,14 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { JhiConfigService, NgJhipsterModule } from 'ng-jhipster';
 import { XmMaintenanceViewModule } from './components/maintenance/xm-maintenance-view.module';
 import { NoDataModule } from '@xm-ngx/components/no-data';
+import { PerPageModule } from '@xm-ngx/components/xm-per-page';
 import { InputModule } from './directives/input.module';
 import { LanguageModule } from './language/language.module';
 
 @NgModule({
     imports: [
         LoaderModule,
+        PerPageModule,
         InputModule,
         NoDataModule,
         LanguageModule,
@@ -36,6 +38,7 @@ import { LanguageModule } from './language/language.module';
     ],
     exports: [
         LoaderModule,
+        PerPageModule,
         InputModule,
         NoDataModule,
         LanguageModule,
