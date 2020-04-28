@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +12,7 @@ import { JhiDocsComponent } from './docs.component';
         MatSelectModule,
         FormsModule,
         XmTranslationModule,
+        CommonModule,
     ],
     exports: [JhiDocsComponent],
     declarations: [JhiDocsComponent],

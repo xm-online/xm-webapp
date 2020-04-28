@@ -1,100 +1,42 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
-
-import { TagInputModule } from 'ngx-chips';
 import { AuditsModule } from '@xm-ngx/administration/audits';
-import { XmSharedModule } from '../shared/shared.module';
-import {
-    BaseAdminListComponent,
-    ClientMgmtComponent,
-    ClientMgmtDeleteDialogComponent,
-    ClientMgmtDialogComponent,
-    ClientResolvePagingParams,
-    GatewayRoutesService,
-    JhiDocsComponent,
-    JhiGatewayComponent,
-    JhiHealthCheckComponent,
-    JhiHealthModalComponent,
-    JhiHealthService,
-    JhiMetricsMonitoringComponent,
-    JhiMetricsMonitoringModalComponent,
-    JhiMetricsService,
-    LogsComponent,
-    LogsService,
-    RoleConditionDialogComponent,
-    RoleMgmtDeleteDialogComponent,
-    RoleMgmtDetailComponent,
-    RoleMgmtDialogComponent,
-    RolesMatrixComponent,
-    RolesMgmtComponent,
-    RolesResolve,
-    UserLoginMgmtDialogComponent,
-    UserMgmtComponent,
-    UserMgmtDeleteDialogComponent,
-    UserMgmtDetailComponent,
-    UserMgmtDialogComponent,
-    UserModalService,
-    UserResolve,
-    UserResolvePagingParams,
-} from './';
-import { XmConfigService } from './../shared/spec/config.service';
 import { adminState } from './admin.route';
-import { FormPlaygroundComponent } from './form-playground/form-playground.component';
-import { MaintenanceComponent } from './maintenance/maintenance.component';
-import { TranslationComponent } from './translations/translation.component';
-import { TranslationService } from './translations/translation.service';
+import { ClientManagementModule } from './client-management';
+import { ClientResolvePagingParams } from './client-management.route';
+import { DocsModule } from './docs';
+import { FormPlaygroundModule } from './form-playground';
+import { GatewayModule } from './gateway';
+import { HealthModule } from './health';
+import { LogsModule } from './logs';
+import { MaintenanceModule } from './maintenance';
+import { MetricModule } from './metrics';
+import { RolesManagementModule } from './roles-management';
+import { RolesMatrixModule } from './roles-matrix';
+import { TranslationModule } from './translations';
+import { UserManagementModule } from './user-management';
+import { UserResolvePagingParams } from './user-management.route';
 
 @NgModule({
     imports: [
-        CommonModule,
         AuditsModule,
-        TagInputModule,
-        XmSharedModule,
-        FormsModule,
-        RouterModule.forChild(adminState),
-    ],
-    declarations: [
-        RolesMgmtComponent,
-        RoleMgmtDetailComponent,
-        RoleMgmtDialogComponent,
-        RoleMgmtDeleteDialogComponent,
-        RoleConditionDialogComponent,
-        RolesMatrixComponent,
-        ClientMgmtComponent,
-        ClientMgmtDialogComponent,
-        ClientMgmtDeleteDialogComponent,
-        UserMgmtComponent,
-        UserLoginMgmtDialogComponent,
-        UserMgmtDetailComponent,
-        UserMgmtDialogComponent,
-        UserMgmtDeleteDialogComponent,
-        LogsComponent,
-        JhiHealthCheckComponent,
-        JhiHealthModalComponent,
-        FormPlaygroundComponent,
-        MaintenanceComponent,
-        TranslationComponent,
-        JhiDocsComponent,
-        JhiGatewayComponent,
-        JhiMetricsMonitoringComponent,
-        JhiMetricsMonitoringModalComponent,
-    ],
+        ClientManagementModule,
+        DocsModule,
+        FormPlaygroundModule,
+        GatewayModule,
+        HealthModule,
+        LogsModule,
+        MaintenanceModule,
+        MetricModule,
+        RolesManagementModule,
+        RolesMatrixModule,
+        TranslationModule,
+        UserManagementModule,
+        RouterModule.forChild(adminState)],
+    declarations: [],
     providers: [
-        BaseAdminListComponent,
-        JhiHealthService,
-        JhiMetricsService,
-        GatewayRoutesService,
-        LogsService,
-        RolesResolve,
         UserResolvePagingParams,
-        UserResolve,
-        UserModalService,
         ClientResolvePagingParams,
-        XmConfigService,
-        TranslationService,
     ],
 })
 export class XmAdminModule {

@@ -63,7 +63,7 @@ export class FormPlaygroundComponent implements OnInit {
     public jsonFormSchema: string;
     public jsonFormValid: boolean = false;
     public jsonFormStatusMessage: string = 'Loading form...';
-    public jsonFormObject: any;
+    public jsonFormObject: {schema?: any; layout?: any; data?: any} |  any;
     public jsonFormOptions: any = {
         addSubmit: true, // Add a submit button if layout does not have one
         loadExternalAssets: true, // Load external css and JavaScript for frameworks
