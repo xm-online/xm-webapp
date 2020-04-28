@@ -4,7 +4,7 @@ import { JhiOrderByPipe } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
 
-import { ITEMS_PER_PAGE } from '../../shared/constants/pagination.constants';
+import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { RoleMatrix, RoleMatrixPermission } from '../../shared/role/role.model';
 import { RoleService } from '../../shared/role/role.service';
 
