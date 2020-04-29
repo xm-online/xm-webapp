@@ -63,6 +63,15 @@ export class JhiGatewayComponent implements OnInit {
             : console.info('Cancel'));
     }
 
+    public toDate(date: unknown): Date | null {
+        const isValidDate = (date) => date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date);
+        if (isValidDate(date)) {
+            return new Date(date as string);
+        } else {
+            return null;
+        }
+    }
+
     private triggerUpdate(type: 'updateTenantConfig' | 'reindexTenantElastic' = 'updateTenantConfig'): void {
         this.showLoader = true;
         this.service[type]().pipe(finalize(() => this.showLoader = false)).subscribe(

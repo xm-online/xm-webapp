@@ -58,7 +58,7 @@
                                 <span *ngIf="entry.key === 'hashCommit'" class="badge badge-default">{{entry.key}}
                                   : {{entry.value}}</span>
                                 <span *ngIf="entry.key === 'time'" class="badge badge-default">{{entry.key}}
-                                  : {{entry.value | date:'short'}}</span>
+                                  : {{toDate(entry.value) | date:'short'}}</span>
                             </span>
                         </span>
                       </td>
