@@ -117,3 +117,14 @@ export class AceEditorDirective implements OnDestroy{
     }
 
 }
+
+import { NgModule } from '@angular/core';
+
+@NgModule({
+    imports: [],
+    exports: [AceEditorDirective],
+    declarations: [AceEditorDirective],
+    providers: [],
+})
+export class AceEditorModule {
+}

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Resolve, Routes } from '@angular/router';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
-import { ITEMS_PER_PAGE, Principal } from '../../shared';
-import { UserMgmtDetailComponent } from './user-management-detail.component';
-import { UserMgmtComponent } from './user-management.component';
+import { ITEMS_PER_PAGE, Principal } from '../shared';
+import { UserMgmtDetailComponent } from './user-management/user-management-detail.component';
+import { UserMgmtComponent } from './user-management/user-management.component';
 
 @Injectable()
 export class UserResolve implements CanActivate {
