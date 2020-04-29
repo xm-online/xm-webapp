@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { MaintenanceComponent } from './maintenance/maintenance.component';
+import { MaintenanceComponent } from '@xm-ngx/administration/maintenance';
 
 export const maintenanceRoute: Route = {
     path: 'maintenance',

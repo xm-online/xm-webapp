@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { XmConfigService } from '../../shared/spec/config.service';
+import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
 
 @Component({
     selector: 'xm-maintenance',
