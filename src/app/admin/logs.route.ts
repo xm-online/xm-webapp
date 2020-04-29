@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { LogsComponent } from './logs/logs.component';
+import { LogsComponent } from '@xm-ngx/administration/logs';
 
 export const logsRoute: Route = {
     path: 'logs',

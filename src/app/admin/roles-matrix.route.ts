@@ -1,14 +1,12 @@
-import { Routes } from '@angular/router';
-import { RolesMatrixComponent } from './roles-matrix/roles-matrix.component';
+import { Route } from '@angular/router';
+import { RolesMatrixComponent } from '@xm-ngx/administration/roles-matrix';
 
-export const rolesMatrixRoute: Routes = [
-    {
-        path: 'roles-matrix',
-        component: RolesMatrixComponent,
-        data: {
-            privileges: {value: ['ROLE.MATRIX.GET']},
-            pageTitle: 'global.menu.admin.main',
-            pageSubTitleTrans: 'global.menu.admin.rolesMatrix',
-        },
+export const rolesMatrixRoute: Route = {
+    path: 'roles-matrix',
+    component: RolesMatrixComponent,
+    data: {
+        privileges: {value: ['ROLE.MATRIX.GET']},
+        pageTitle: 'global.menu.admin.main',
+        pageSubTitleTrans: 'global.menu.admin.rolesMatrix',
     },
-];
+};
