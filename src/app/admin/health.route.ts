@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { JhiHealthCheckComponent } from './health/health.component';
+import { JhiHealthCheckComponent } from '@xm-ngx/administration/health';
 
 export const healthRoute: Route = {
     path: 'health',
