@@ -3,7 +3,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
 
-import { XmConfigService } from '../../shared/spec/config.service';
+import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
 import { GatewayRoute } from './gateway-route.model';
 
 import { GatewayRoutesService } from './gateway-routes.service';
