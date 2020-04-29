@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { JhiDocsComponent } from './docs/docs.component';
+import { JhiDocsComponent } from '@xm-ngx/administration/docs';
 
 export const docsRoute: Route = {
     path: 'docs',
