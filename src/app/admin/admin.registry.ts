@@ -35,5 +35,9 @@ export const ADMIN_ELEMENTS = [
         provide: '@xm-ngx/administration/metrics',
         useFactory: () => import('@xm-ngx/administration/metrics').then(m => m.MetricModule),
     },
+    {
+        provide: '@xm-ngx/administration/translations',
+        useFactory: () => import('@xm-ngx/administration/translations').then(m => m.TranslationModule),
+    },
 
 ];
