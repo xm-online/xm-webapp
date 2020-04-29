@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { TranslationComponent } from './translations/translation.component';
+import { TranslationComponent } from '@xm-ngx/administration/translations';
 
 export const translationRoute: Route = {
     path: 'translation',
