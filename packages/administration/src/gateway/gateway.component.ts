@@ -3,7 +3,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
 
-import { XmConfigService } from '../../shared/spec/config.service';
+import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
 import { GatewayRoute } from './gateway-route.model';
 
 import { GatewayRoutesService } from './gateway-routes.service';
@@ -61,6 +61,15 @@ export class JhiGatewayComponent implements OnInit {
             confirmButtonText: 'Yes, reload!',
         }).subscribe((result) => result.value ? this.triggerUpdate('reindexTenantElastic')
             : console.info('Cancel'));
+    }
+
+    public toDate(date: unknown): Date | null {
+        const isValidDate = (date) => date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date);
+        if (isValidDate(date)) {
+            return new Date(date as string);
+        } else {
+            return null;
+        }
     }
 
     private triggerUpdate(type: 'updateTenantConfig' | 'reindexTenantElastic' = 'updateTenantConfig'): void {

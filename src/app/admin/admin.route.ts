@@ -25,7 +25,7 @@ const ADMIN_ROUTES = [
     translationRoute,
     logsRoute,
     gatewayRoute,
-    ...rolesMatrixRoute,
+    rolesMatrixRoute,
     ...userMgmtRoute,
     ...clientMgmtRoute,
     ...rolesMgmtRoute,

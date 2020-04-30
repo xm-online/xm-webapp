@@ -74,8 +74,35 @@ export class DynamicWidgetDirective implements OnChanges {
         }
     }
 
+    /** @deprecated Experimental */
+    private async loadFromInjector(): Promise<void> {
+        const moduleFac = this.injector.get(this._layout.config.name);
+        const module = await moduleFac;
+
+        let moduleFactory;
+        if (module instanceof NgModuleFactory) {
+            // For AOT
+            moduleFactory = module;
+        } else {
+            // For JIT
+            moduleFactory = await this.compiler.compileModuleAsync(module);
+        }
+        const activeModule = moduleFactory.create(this.injector);
+
+        const entryComponent = activeModule.instance.entry;
+
+        this.createComponent(this._layout, activeModule, entryComponent);
+    }
+
     private loadComponent(): void {
         const value = this._layout;
+
+        // WARNING: Experimental
+        if (value.module === '@xm-ngx') {
+            this.loadFromInjector().then();
+            return;
+        }
+
         if (value.selector && value.selector.indexOf('/') > 0) {
             value.module = value.selector.split('/')[0];
             value.selector = value.selector.split('/')[1];

@@ -5,8 +5,8 @@ import { finalize } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
 
 import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
-import { RoleMatrix, RoleMatrixPermission } from '../../shared/role/role.model';
-import { RoleService } from '../../shared/role/role.service';
+import { RoleMatrix, RoleMatrixPermission } from '../../../../src/app/shared/role/role.model';
+import { RoleService } from '../../../../src/app/shared/role/role.service';
 
 @Component({
     selector: 'xm-roles-matrix',

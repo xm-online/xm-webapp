@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, NgModule, Output, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -46,6 +47,7 @@ export class PerPageComponent {
         MatSelectModule,
         FormsModule,
         XmTranslationModule,
+        CommonModule,
     ],
     exports: [PerPageComponent],
     declarations: [PerPageComponent],

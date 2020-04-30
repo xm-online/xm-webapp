@@ -37,7 +37,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-4">
-            <ul class="nav nav-pills nav-stacked">
+            <ul class="nav nav-pills flex-column">
               <li *ngFor="let location of settings.locations; let first = first;" [class.active]="first">
                 <a data-toggle="tab" href="#function-{{location}}">{{location}}</a>
               </li>

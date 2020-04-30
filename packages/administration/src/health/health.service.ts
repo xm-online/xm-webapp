@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { SERVER_API_URL } from '../../xm.constants';
+import { SERVER_API_URL } from '../../../../src/app/xm.constants';
 
 const SERVICES_COLLECTION = '/api/monitoring/services';
 

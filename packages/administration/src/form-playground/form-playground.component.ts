@@ -12,8 +12,8 @@ import {
     formLayout,
     getJsfWidgets,
     processValidationMessages,
-} from '../../shared/jsf-extention/jsf-attributes-helper';
-import { FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService } from '../../xm-entity';
+} from '../../../../src/app/shared/jsf-extention/jsf-attributes-helper';
+import { FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity/index';
 import { EXAMPLES } from './example-schemas.model';
 
 interface FormsConfig {

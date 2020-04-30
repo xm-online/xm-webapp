@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import * as JSZip from 'jszip';
 import { LocalStorageService } from 'ngx-webstorage';
-import { XmConfigService } from '../../shared/spec/config.service';
+import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
 import { TranslationService } from './translation.service';
 
 @Component({

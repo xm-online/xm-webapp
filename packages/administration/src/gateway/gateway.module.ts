@@ -6,13 +6,10 @@ import { NoDataModule } from '@xm-ngx/components/no-data';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgJhipsterModule } from 'ng-jhipster';
-import { XmSharedModule } from '../../shared/shared.module';
 import { JhiGatewayComponent } from './gateway.component';
 
 @NgModule({
     imports: [
-        // | date
-        XmSharedModule,
         LoaderModule,
         XmTranslationModule,
         NoDataModule,

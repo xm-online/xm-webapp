@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { JhiMetricsMonitoringComponent } from './metrics/metrics.component';
+import { JhiMetricsMonitoringComponent } from '@xm-ngx/administration/metrics';
 
 export const metricsRoute: Route = {
     path: 'metrics',
