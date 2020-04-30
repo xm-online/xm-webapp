@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { XmSharedModule } from '@xm-ngx/shared';
+import { NgModule, Type } from '@angular/core';
 
 import { NotificationsComponent } from './notifications/notifications.component';
 import { NotificationsService } from './shared/notifications.service';
@@ -8,7 +7,6 @@ import { NotificationsService } from './shared/notifications.service';
 @NgModule({
     imports: [
         CommonModule,
-        XmSharedModule,
     ],
     declarations: [
         NotificationsComponent,
@@ -21,4 +19,5 @@ import { NotificationsService } from './shared/notifications.service';
     ],
 })
 export class XmNotificationsModule {
+    public entry: Type<NotificationsComponent> = NotificationsComponent;
 }

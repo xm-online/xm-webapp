@@ -12,7 +12,7 @@ import { XmSidebarModule } from '../modules/xm-sidebar';
 import { XmSidebarRightModule } from '../modules/xm-sidebar-right';
 import { XmMaintenanceViewModule } from '../shared/components/maintenance/xm-maintenance-view.module';
 import { InputModule } from '../shared/directives/input.module';
-import { XmNotificationsModule } from '../xm-notifications/xm-notifications.module';
+import { XmNotificationsModule } from '@xm-ngx/components/xm-notifications';
 import { XmTimelineModule } from '../xm-timeline/xm-timeline.module';
 import { FooterComponent } from './footer/footer.component';
 import { XmMainComponent } from './main/main.component';
