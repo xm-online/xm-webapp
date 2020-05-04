@@ -12,12 +12,14 @@ import { NoDataModule } from '@xm-ngx/components/no-data';
 import { PerPageModule } from '@xm-ngx/components/xm-per-page';
 import { AceEditorModule } from './directives/ace-editor.directive';
 import { InputModule } from './directives/input.module';
+import { WordAutocompleteModule } from './directives/word-autocomplete.directive';
 import { LanguageModule } from './language/language.module';
 
 @NgModule({
     imports: [
         LoaderModule,
         AceEditorModule,
+        WordAutocompleteModule,
         PerPageModule,
         InputModule,
         NoDataModule,
@@ -40,6 +42,7 @@ import { LanguageModule } from './language/language.module';
     ],
     exports: [
         AceEditorModule,
+        WordAutocompleteModule,
         LoaderModule,
         PerPageModule,
         InputModule,
