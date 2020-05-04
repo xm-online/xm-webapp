@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { FeedbackModule } from '@xm-ngx/components/feedback';
 import { LanguageModule } from '@xm-ngx/components/language';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmPasswordNeededModule } from '@xm-ngx/components/xm-password-needed';
@@ -16,8 +17,6 @@ import { XmNotificationsModule } from '../xm-notifications/xm-notifications.modu
 import { XmTimelineModule } from '../xm-timeline/xm-timeline.module';
 import { FooterComponent } from './footer/footer.component';
 import { XmMainComponent } from './main/main.component';
-import { FeedbackDialogComponent } from './navbar/feedback/feedback-dialog/feedback-dialog.component';
-import { FeedbackComponent } from './navbar/feedback/feedback.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PageRibbonComponent } from './profiles/page-ribbon.component';
 
@@ -38,6 +37,7 @@ import { PageRibbonComponent } from './profiles/page-ribbon.component';
         XmRibbonModule,
         XmSharedModule,
         XmDynamicModule,
+        FeedbackModule,
     ],
     exports: [XmMainComponent],
     declarations: [
@@ -45,8 +45,6 @@ import { PageRibbonComponent } from './profiles/page-ribbon.component';
         NavbarComponent,
         PageRibbonComponent,
         FooterComponent,
-        FeedbackComponent,
-        FeedbackDialogComponent,
     ],
     providers: [],
 })
