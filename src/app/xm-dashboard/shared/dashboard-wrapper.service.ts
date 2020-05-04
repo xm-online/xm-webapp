@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { RequestCache, RequestCacheFactoryService } from '@xm-ngx/core';
 
 import { from, iif, Observable, of } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { map, mergeMap, pluck } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Dashboard } from './dashboard.model';
 import { DashboardService } from './dashboard.service';
@@ -11,11 +12,36 @@ export class DashboardWrapperService {
 
     private promise: Promise<Dashboard[]>;
     private _dashboards: Dashboard[];
+    private requestCache: RequestCache<Dashboard[]>;
 
-    constructor(private dashboardService: DashboardService) {
+    constructor(private cacheFactoryService: RequestCacheFactoryService,
+                private dashboardService: DashboardService) {
+        this.requestCache = this.cacheFactoryService.create<Dashboard[]>({
+            request: () => this.dashboardService.query().pipe(pluck('body')),
+            onlyWithUserSession: true,
+        });
+    }
+
+    public dashboards$(): Observable<Dashboard[] | null> {
+        return this.requestCache.get();
+    }
+
+    public getBySlug(slug: string): Observable<Dashboard | null> {
+        return this.dashboards$().pipe(
+            map<Dashboard[] | null, Dashboard[]>((ds) => ds || []),
+            map((ds) => ds.find((d) => (d.config && d.config.slug === slug))),
+        );
+    }
+
+    public getById(id: number): Observable<Dashboard | null> {
+        return this.dashboards$().pipe(
+            map<Dashboard[] | null, Dashboard[]>((ds) => ds || []),
+            map((ds) => ds.find((d) => (d.id === id))),
+        );
     }
 
     // tslint:disable-next-line:cognitive-complexity
+    /** @deprecated Use dashboards$ instead */
     public dashboards(force: boolean = false, mockDashboards: boolean = false): Promise<Dashboard[]> {
         if (!environment.production) { console.info(`DBG Get dashboards: ${force}`); }
         if (!force && this.promise) {
@@ -57,6 +83,7 @@ export class DashboardWrapperService {
         }
     }
 
+    /** @deprecated getBySlug or getById instead */
     public getDashboardByIdOrSlug(idOrSlug: number | string,
                                   force: boolean = false): Observable<Dashboard | undefined> {
 
