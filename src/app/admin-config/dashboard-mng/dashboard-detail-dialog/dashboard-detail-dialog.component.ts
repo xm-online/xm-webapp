@@ -16,7 +16,7 @@ import { Dashboard, DashboardService } from '@xm-ngx/dynamic';
 })
 export class DashboardDetailDialogComponent implements OnInit {
 
-    @Input() public dashboard: Dashboard = new Dashboard();
+    @Input() public dashboard: Dashboard = {isPublic: false};
 
     public configStringIn: string;
     public configStringOut: string;

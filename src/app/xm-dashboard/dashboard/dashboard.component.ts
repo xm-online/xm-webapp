@@ -25,7 +25,7 @@ interface DashboardLayout {
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
-    public dashboard: Dashboard = new Dashboard();
+    public dashboard: Dashboard = {isPublic: false};
     public showLoader: boolean;
     public spec: Spec;
     // Back compatibility matrix
