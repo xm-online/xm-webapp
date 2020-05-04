@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-
-
-import { User, UserService } from '../../shared';
+import { User, UserService } from '../../../../src/app/shared';
 
 @Injectable()
 export class UserModalService {

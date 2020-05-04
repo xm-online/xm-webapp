@@ -3,8 +3,8 @@ import { ActivatedRouteSnapshot, CanActivate, Resolve, Routes } from '@angular/r
 import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { ITEMS_PER_PAGE, Principal } from '../shared';
-import { UserMgmtDetailComponent } from './user-management/user-management-detail.component';
-import { UserMgmtComponent } from './user-management/user-management.component';
+import { UserMgmtDetailComponent } from '@xm-ngx/administration/user-management/user-management-detail.component';
+import { UserMgmtComponent } from '@xm-ngx/administration/user-management/user-management.component';
 
 @Injectable()
 export class UserResolve implements CanActivate {

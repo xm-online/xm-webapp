@@ -3,8 +3,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { RoleService } from '../../shared';
-import { Role } from '../../shared/role/role.model';
+import { RoleService } from '../../../../src/app/shared';
+import { Role } from '../../../../src/app/shared/role/role.model';
 
 @Component({
     selector: 'xm-role-mgmt-delete-dialog',

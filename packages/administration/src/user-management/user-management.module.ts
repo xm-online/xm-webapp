@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgJhipsterModule } from 'ng-jhipster';
-import { XmSharedModule } from '../../shared/shared.module';
+import { XmSharedModule } from '../../../../src/app/shared/shared.module';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
 import { UserMgmtDetailComponent } from './user-management-detail.component';

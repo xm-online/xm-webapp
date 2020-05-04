@@ -2,10 +2,10 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 
-import { XM_EVENT_LIST } from '../../../app/xm.constants';
-import { JhiLanguageHelper, User, UserService } from '../../shared';
-import { RoleService } from '../../shared/role/role.service';
-import { XmConfigService } from '../../shared/spec/config.service';
+import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
+import { JhiLanguageHelper, User, UserService } from '../../../../src/app/shared';
+import { RoleService } from '../../../../src/app/shared/role/role.service';
+import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
 
 @Component({
     selector: 'xm-user-mgmt-dialog',

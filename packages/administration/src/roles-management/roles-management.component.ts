@@ -7,8 +7,8 @@ import { Subscription } from 'rxjs';
 
 import { Principal } from '@xm-ngx/core/auth';
 import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
-import { Role } from '../../shared/role/role.model';
-import { RoleService } from '../../shared/role/role.service';
+import { Role } from '../../../../src/app/shared/role/role.model';
+import { RoleService } from '../../../../src/app/shared/role/role.service';
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
 import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
 

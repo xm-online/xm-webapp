@@ -3,10 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
 
-import { AccountService, User, UserService } from '../../shared';
+import { AccountService, User, UserService } from '../../../../src/app/shared';
 import { JhiLanguageHelper } from '@xm-ngx/components/language';
-import { UserLogin } from '../../shared/user/login/user-login.model';
-import { UserLoginService } from '../../shared/user/login/user-login.service';
+import { UserLogin } from '../../../../src/app/shared/user/login/user-login.model';
+import { UserLoginService } from '../../../../src/app/shared/user/login/user-login.service';
 
 @Component({
     selector: 'xm-user-mgmt-detail',

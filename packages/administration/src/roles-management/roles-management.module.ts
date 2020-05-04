@@ -12,7 +12,7 @@ import { PerPageModule } from '@xm-ngx/components/xm-per-page';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgJhipsterModule } from 'ng-jhipster';
-import { XmSharedModule } from '../../shared/shared.module';
+import { XmSharedModule } from '../../../../src/app/shared/shared.module';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
 import { RoleMgmtDetailComponent } from './roles-management-detail.component';
