@@ -39,5 +39,16 @@ export const ADMIN_ELEMENTS = [
         provide: '@xm-ngx/administration/translations',
         useFactory: () => import('@xm-ngx/administration/translations').then(m => m.TranslationModule),
     },
-
+    {
+        provide: '@xm-ngx/administration/client-management',
+        useFactory: () => import('@xm-ngx/administration/client-management').then(m => m.ClientManagementModule),
+    },
+    {
+        provide: '@xm-ngx/administration/roles-management',
+        useFactory: () => import('@xm-ngx/administration/roles-management').then(m => m.RolesManagementModule),
+    },
+    {
+        provide: '@xm-ngx/administration/user-management',
+        useFactory: () => import('@xm-ngx/administration/user-management').then(m => m.UserManagementModule),
+    },
 ];

@@ -78,9 +78,9 @@
               <td>{{client.roleKey}}</td>
               <td>{{client.description}}</td>
               <td>{{client.createdBy}}</td>
-              <td>{{client.createdDate | xmDateTime}}</td>
+              <td>{{client.createdDate | date}}</td>
               <td>{{client.lastModifiedBy}}</td>
-              <td>{{client.lastModifiedDate | xmDateTime}}</td>
+              <td>{{client.lastModifiedDate | date}}</td>
               <td class="text-right nowrap">
                 <a href="javascript: void(0);"
                    (click)="onEdit(client)"

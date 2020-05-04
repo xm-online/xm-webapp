@@ -35,9 +35,9 @@
                 <td><a [routerLink]="['../role-management', item.roleKey]">{{item.roleKey}}</a></td>
                 <td>{{item.description}}</td>
                 <td>{{item.createdBy}}</td>
-                <td>{{item.createdDate | xmDateTime}}</td>
+                <td>{{item.createdDate | date}}</td>
                 <td>{{item.updatedBy}}</td>
-                <td>{{item.updatedDate | xmDateTime}}</td>
+                <td>{{item.updatedDate | date}}</td>
                 <td class="text-right nowrap">
                   <a (click)="onEdit(item)"
                      *permitted="'ROLE.UPDATE'"
