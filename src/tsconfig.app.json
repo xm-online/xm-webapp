@@ -14,7 +14,9 @@
     ],
     "exclude": [
         "./test.ts",
-        "./**/*.spec.ts"
+        "./**/*.spec.ts",
+        "./**/*.e2e-spec.ts",
+        "./**/*.po.ts"
     ],
     "angularCompilerOptions": {
         "annotateForClosureCompiler": true,
