@@ -26,7 +26,7 @@ export class XmUserService<T = XmUser> implements OnDestroy {
         });
     }
 
-    public get user$(): Observable<T | null> {
+    public user$(): Observable<T | null> {
         return this.requestCache.get();
     }
 

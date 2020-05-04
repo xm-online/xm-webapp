@@ -134,7 +134,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
     }
 
     protected onUserLocale(): void {
-        this.userService.user$
+        this.userService.user$()
             .pipe(takeUntilOnDestroy(this))
             .subscribe((u) => this.userLocale = u && u.langKey ? u.langKey : null);
     }

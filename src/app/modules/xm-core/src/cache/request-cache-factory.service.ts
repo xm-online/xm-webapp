@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { interval, Observable, of } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil } from 'rxjs/operators';
 import { XmSessionService } from '../xm-session.service';
 import { RequestCache } from './request-cache';
 
@@ -39,9 +39,10 @@ export class RequestCacheFactoryService {
         if (params.onlyWithUserSession) {
             const prevRequest = storage.request;
 
-            this.sessionService.isActive()
-                .pipe(takeUntilOnDestroy(storage))
-                .subscribe((active) => storage.setAndReload(active ? prevRequest : emptyRequest));
+            storage.request = (): Observable<T> => this.sessionService.isActive().pipe(
+                takeUntilOnDestroy(storage),
+                switchMap((active) => active ? prevRequest() : emptyRequest()),
+            );
         }
 
         return storage;
