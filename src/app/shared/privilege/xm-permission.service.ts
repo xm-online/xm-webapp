@@ -28,7 +28,7 @@ export class XmPermissionService {
     }
 
     public get permissions$(): Observable<XmUserPermission[]> {
-        return this.userService.user$.pipe(
+        return this.userService.user$().pipe(
             map((u) => u || {permissions: []}),
             map((u: XmUser) => u.permissions),
         );
