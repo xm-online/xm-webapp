@@ -16,8 +16,8 @@ export interface Dashboard<C = DashboardConfig, L = DashboardLayout> extends Bas
     name?: string;
     owner?: string;
     typeKey?: string;
-    layout?: L;
-    config?: C;
+    layout?: L | any;
+    config?: C | any;
     isPublic?: boolean;
     widgets?: Widget[];
 }
