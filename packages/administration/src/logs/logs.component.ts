@@ -61,7 +61,7 @@ export class LogsComponent implements OnInit {
 
     public changeLevel(name: string, level: string): void {
         this.showLoader = true;
-        const log = new Log(name, level);
+        const log = {name, level};
         this.logsService
             .changeLevel(log, this.selectedService)
             .subscribe(() => this.getLoggers());

@@ -1,6 +1,4 @@
-export class Log {
-    constructor(
-        public name: string,
-        public level: string,
-    ) { }
+export interface Log {
+    name: string;
+    level: string;
 }

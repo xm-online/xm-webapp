@@ -81,7 +81,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             if (this.config && this.config.autoUpdate && !this.autoUpdateEnabled && initAutoUpdate) {
                 this.autoUpdateEnabled = true;
                 // @TODO should be redone with webocets
-                this.updateInterval = setInterval(() => {
+                this.updateInterval = window.setInterval(() => {
                     if (this.principal.isAuthenticated()) {
                         this.getNotifications(this.config);
                     } else {
