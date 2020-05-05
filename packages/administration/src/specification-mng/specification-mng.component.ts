@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Principal } from '@xm-ngx/core/auth';
 import { finalize } from 'rxjs/operators';
 
-import { XmConfigService } from '../../shared/spec/config.service';
+import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
 import { ConfigValidatorUtil } from './config-validator/config-validator.util';
 
 const TENANT_SPEC_PATH = '/tenant-config.yml';
