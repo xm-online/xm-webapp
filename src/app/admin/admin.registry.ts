@@ -20,6 +20,10 @@ export const ADMIN_ELEMENTS = [
         useFactory: () => import('@xm-ngx/administration/health').then(m => m.HealthModule),
     },
     {
+        provide: '@xm-ngx/administration/high-level-architecture-widget',
+        useFactory: () => import('@xm-ngx/administration/high-level-architecture-widget').then(m => m.HighLevelArchitectureWidgetModule),
+    },
+    {
         provide: '@xm-ngx/administration/logs',
         useFactory: () => import('@xm-ngx/administration/logs').then(m => m.LogsModule),
     },
