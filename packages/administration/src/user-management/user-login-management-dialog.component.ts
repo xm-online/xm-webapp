@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { User } from '../../shared';
+import { User } from '../../../../src/app/shared';
 
 @Component({
     selector: 'xm-user-login-mgmt-dialog',

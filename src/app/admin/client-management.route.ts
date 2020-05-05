@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Routes } from '@angular/router';
-import { JhiPaginationUtil } from 'ng-jhipster';
 
-import { ClientMgmtComponent } from './client-management/client-management.component';
+import { ClientMgmtComponent } from '@xm-ngx/administration/client-management/client-management.component';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 @Injectable()
 export class ClientResolvePagingParams implements Resolve<any> {
@@ -24,19 +24,14 @@ export class ClientResolvePagingParams implements Resolve<any> {
 export const clientMgmtRoute: Routes = [
     {
         path: 'client-management',
-        children: [
-            {
-                path: '',
-                component: ClientMgmtComponent,
-                resolve: {
-                    pagingParams: ClientResolvePagingParams,
-                },
-                data: {
-                    privileges: {value: ['CLIENT.GET_LIST']},
-                    pageTitle: 'global.menu.admin.main',
-                    pageSubTitleTrans: 'global.menu.admin.clientManagement',
-                },
-            },
-        ],
+        component: ClientMgmtComponent,
+        resolve: {
+            pagingParams: ClientResolvePagingParams,
+        },
+        data: {
+            privileges: {value: ['CLIENT.GET_LIST']},
+            pageTitle: 'global.menu.admin.main',
+            pageSubTitleTrans: 'global.menu.admin.clientManagement',
+        },
     },
 ];

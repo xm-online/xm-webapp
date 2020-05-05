@@ -8,13 +8,13 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { finalize, map, startWith } from 'rxjs/operators';
 
-import { Client, ClientService, JhiLanguageHelper, RoleService, XmConfigService } from '../../shared';
+import { Client, ClientService, JhiLanguageHelper, RoleService, XmConfigService } from '../../../../src/app/shared';
 
 export const CLIENT_UNIQUE_ID_ERROR_CODE = 'client.already.exists';
 
 @Component({
     selector: 'xm-client-mgmt-dialog',
-    styleUrls: ['../client-management/client-management-dialog.component.scss'],
+    styleUrls: ['./client-management-dialog.component.scss'],
     templateUrl: './client-management-dialog.component.html',
 })
 export class ClientMgmtDialogComponent implements OnInit {

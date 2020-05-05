@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
-import { XM_EVENT_LIST } from '../../../app/xm.constants';
+import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 
-import { User, UserService } from '../../shared';
+import { User, UserService } from '../../../../src/app/shared';
 
 @Component({
     selector: 'xm-user-mgmt-delete-dialog',

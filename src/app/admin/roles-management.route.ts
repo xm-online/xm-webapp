@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Routes } from '@angular/router';
+import { RoleMgmtDetailComponent } from '@xm-ngx/administration/roles-management/roles-management-detail.component';
+import { RolesMgmtComponent } from '@xm-ngx/administration/roles-management/roles-management.component';
 
 import { Principal } from '@xm-ngx/core/auth';
-import { RoleMgmtDetailComponent } from './roles-management/roles-management-detail.component';
-import { RolesMgmtComponent } from './roles-management/roles-management.component';
 
 @Injectable()
 export class RolesResolve implements CanActivate {
@@ -19,25 +19,20 @@ export class RolesResolve implements CanActivate {
 export const rolesMgmtRoute: Routes = [
     {
         path: 'roles-management',
-        children: [
-            {
-                path: '',
-                component: RolesMgmtComponent,
-                data: {
-                    privileges: {value: ['ROLE.GET_LIST']},
-                    pageTitle: 'global.menu.admin.main',
-                    pageSubTitleTrans: 'global.menu.admin.rolesManagement',
-                },
-            },
-            {
-                path: 'role-management/:roleKey',
-                component: RoleMgmtDetailComponent,
-                data: {
-                    privileges: {value: ['ROLE.GET_LIST']},
-                    pageTitle: 'global.menu.admin.main',
-                    pageSubTitleTrans: 'rolesManagement.detail.title',
-                },
-            },
-        ],
+        component: RolesMgmtComponent,
+        data: {
+            privileges: {value: ['ROLE.GET_LIST']},
+            pageTitle: 'global.menu.admin.main',
+            pageSubTitleTrans: 'global.menu.admin.rolesManagement',
+        },
+    },
+    {
+        path: 'role-management/:roleKey',
+        component: RoleMgmtDetailComponent,
+        data: {
+            privileges: {value: ['ROLE.GET_LIST']},
+            pageTitle: 'global.menu.admin.main',
+            pageSubTitleTrans: 'rolesManagement.detail.title',
+        },
     },
 ];

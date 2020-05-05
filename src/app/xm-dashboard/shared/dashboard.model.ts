@@ -1,18 +1,23 @@
 import { BaseEntity } from '@xm-ngx/entity';
+import { Layout } from '../dynamic/dynamic-widget-layout.component';
 import { Widget } from './widget.model';
 
-export class Dashboard implements BaseEntity {
-    constructor(
-        public id?: number,
-        public name?: string,
-        public owner?: string,
-        public typeKey?: string,
-        public layout?: any,
-        public config?: any,
-        // Tslint:disable-next-line:bool-param-default
-        public isPublic?: boolean,
-        public widgets?: Widget[],
-    ) {
-        this.isPublic = false;
-    }
+export interface DashboardConfig {
+    slug?: string;
+}
+
+export interface DashboardLayout {
+    layout?: Layout[];
+    grid?: Layout[];
+}
+
+export interface Dashboard<C = DashboardConfig, L = DashboardLayout> extends BaseEntity {
+    id?: number;
+    name?: string;
+    owner?: string;
+    typeKey?: string;
+    layout?: L | any;
+    config?: C | any;
+    isPublic?: boolean;
+    widgets?: Widget[];
 }

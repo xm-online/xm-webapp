@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgJhipsterModule } from 'ng-jhipster';
-import { XmSharedModule } from '../../shared/shared.module';
+import { XmSharedModule } from '../../../../src/app/shared/shared.module';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
 import { UserMgmtDetailComponent } from './user-management-detail.component';
@@ -37,4 +37,5 @@ import { UserMgmtComponent } from './user-management.component';
     providers: [],
 })
 export class UserManagementModule {
+    public entry: Type<UserMgmtComponent> = UserMgmtComponent;
 }

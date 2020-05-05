@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { Permission } from '../../shared/role/permission.model';
+import { Permission } from '../../../../src/app/shared/role/permission.model';
 
 @Component({
     selector: 'xm-role-mgmt-condition-dialog',

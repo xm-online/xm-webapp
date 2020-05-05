@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Resolve, Routes } from '@angular/router';
+import { UserMgmtDetailComponent } from '@xm-ngx/administration/user-management/user-management-detail.component';
+import { UserMgmtComponent } from '@xm-ngx/administration/user-management/user-management.component';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { ITEMS_PER_PAGE, Principal } from '../shared';
-import { UserMgmtDetailComponent } from './user-management/user-management-detail.component';
-import { UserMgmtComponent } from './user-management/user-management.component';
 
 @Injectable()
 export class UserResolve implements CanActivate {
@@ -42,28 +42,23 @@ export class UserResolvePagingParams implements Resolve<any> {
 export const userMgmtRoute: Routes = [
     {
         path: 'user-management',
-        children: [
-            {
-                path: '',
-                component: UserMgmtComponent,
-                resolve: {
-                    pagingParams: UserResolvePagingParams,
-                },
-                data: {
-                    privileges: {value: ['USER.GET_LIST']},
-                    pageTitle: 'global.menu.admin.main',
-                    pageSubTitleTrans: 'global.menu.admin.userManagement',
-                },
-            },
-            {
-                path: 'user-management/:userKey',
-                component: UserMgmtDetailComponent,
-                data: {
-                    privileges: {value: ['USER.GET_LIST']},
-                    pageTitle: 'global.menu.admin.main',
-                    pageSubTitleTrans: 'userManagement.detail.title',
-                },
-            },
-        ],
+        component: UserMgmtComponent,
+        resolve: {
+            pagingParams: UserResolvePagingParams,
+        },
+        data: {
+            privileges: {value: ['USER.GET_LIST']},
+            pageTitle: 'global.menu.admin.main',
+            pageSubTitleTrans: 'global.menu.admin.userManagement',
+        },
+    },
+    {
+        path: 'user-management/:userKey',
+        component: UserMgmtDetailComponent,
+        data: {
+            privileges: {value: ['USER.GET_LIST']},
+            pageTitle: 'global.menu.admin.main',
+            pageSubTitleTrans: 'userManagement.detail.title',
+        },
     },
 ];

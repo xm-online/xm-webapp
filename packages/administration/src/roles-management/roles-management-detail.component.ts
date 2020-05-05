@@ -8,11 +8,11 @@ import { Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
-import { instanceDestroyed } from '../../shared/helpers/instance-destroyed';
+import { instanceDestroyed } from '../../../../src/app/shared/helpers/instance-destroyed';
 import { JhiLanguageHelper } from '@xm-ngx/components/language';
-import { Permission } from '../../shared/role/permission.model';
-import { Role } from '../../shared/role/role.model';
-import { RoleService } from '../../shared/role/role.service';
+import { Permission } from '../../../../src/app/shared/role/permission.model';
+import { Role } from '../../../../src/app/shared/role/role.model';
+import { RoleService } from '../../../../src/app/shared/role/role.service';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
 
 @Component({

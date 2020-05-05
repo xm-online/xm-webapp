@@ -7,8 +7,8 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
 
-import { Client, ClientService } from '../../shared';
-import { BaseAdminListComponent } from '../admin.service';
+import { Client, ClientService } from '../../../../src/app/shared';
+import { BaseAdminListComponent } from '../../../../src/app/admin/admin.service';
 import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dialog.component';
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';
 
