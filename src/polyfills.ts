@@ -63,5 +63,9 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 import '@angular/localize/init';
 
-// Fix charlist error: Global not defined
-(window as any)['global'] = window;
+// Fix charlist, Error: Global not defined
+(window as any).global = window;
+
+// Fix Swagger Ui, ReferenceError: Buffer is not defined
+(window as any).process = {version: '', browser: true};
+(window as any).Buffer = (window as any).Buffer || require('buffer').Buffer;
