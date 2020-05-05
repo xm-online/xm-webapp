@@ -150,7 +150,7 @@
     "string-template": "1.0.0",
     "stylelint-config-recommended": "3.0.0",
     "stylelint-declaration-use-variable": "1.7.2",
-    "swagger-ui-dist": "3.24.3",
+    "swagger-ui": "3.25.1",
     "sweetalert2": "7.22.0",
     "tether": "1.4.7",
     "tslib": "1.10.0",
