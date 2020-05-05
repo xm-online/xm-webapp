@@ -13,6 +13,7 @@ package-lock.json
 local.proxy.conf.js
 .vscode/
 
+src/i18n/ext
 src/i18n/en.json
 src/i18n/ru.json
 src/i18n/uk.json

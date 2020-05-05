@@ -1,11 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+ * WARNING: Override of global ./src/styles.scss
+ */
 
 // Fonts
 $material-icons-font-path: '~material-icons/iconfont/';
 @import '~material-icons/iconfont/material-icons.scss';
 
 // Theme
-@import './styles/theme';
+@import 'common-webapp-ext/styles/vodafone-font';
+@import 'theme';
 @import '~@xm-ngx/styles/components';
 
 @include xm-ngx-styles-theme($xm-theme);
@@ -28,6 +31,4 @@ $material-icons-font-path: '~material-icons/iconfont/';
 @include xm-layout-sidebar-with-mini($xm-theme);
 @include xm-navbar($xm-theme);
 
-// BC deps below will be removed!
-// Backward compatibility
-@import 'styles/backward-compatibility';
+@import 'common-webapp-ext/styles/vodafone-toasters';
