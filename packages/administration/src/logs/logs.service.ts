@@ -10,7 +10,7 @@ export class LogsService {
                 private coreConfig: XmCoreConfig) {
     }
 
-    public changeLevel(log: Log, service: string): Observable<HttpResponse<any>> {
+    public changeLevel(log: Log, service: string): Observable<HttpResponse<unknown>> {
         return this.http.put(`${this.coreConfig.SERVER_API_URL}${service}/management/logs`, log, {observe: 'response'});
     }
 
