@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from '@xm-ngx/core/auth';
+import { adminConfigState } from './admin-config.route';
 import { auditsRoute } from './audits.route';
 import { clientMgmtRoute } from './client-management.route';
 import { docsRoute } from './docs.route';
@@ -30,6 +31,7 @@ const ADMIN_ROUTES = [
     ...clientMgmtRoute,
     ...rolesMgmtRoute,
     metricsRoute,
+    ...adminConfigState,
 ];
 
 export const adminState: Routes = [{

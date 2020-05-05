@@ -2,31 +2,6 @@ import { MenuCategory } from './menu-models';
 
 export const DEFAULT_MENU_LIST: MenuCategory[] = [
     {
-        key: null,
-        permission: 'DASHBOARD.CREATE',
-        position: null,
-        isLink: false,
-        title: 'admin-config.common.menu.title',
-        icon: 'tune',
-        url: null,
-        children: [
-            {
-                position: 0,
-                permission: 'DASHBOARD.CREATE',
-                url: ['/configuration/dashboard-management'],
-                icon: 'dashboard',
-                title: 'admin-config.common.menu.dashboard-mng',
-            },
-            {
-                position: 1,
-                permission: '',
-                url: ['/configuration/specification-management/ui'],
-                icon: 'settings_applications',
-                title: 'admin-config.common.menu.specification-mng',
-            },
-        ],
-    },
-    {
         key: 'administration',
         permission: ['ROUTE.GET_LIST', 'ROLE.GET_LIST', 'ROLE.MATRIX.GET', 'USER.GET_LIST', 'CLIENT.GET_LIST'],
         position: null,
@@ -35,6 +10,20 @@ export const DEFAULT_MENU_LIST: MenuCategory[] = [
         icon: 'settings',
         url: null,
         children: [
+            {
+                position: 0,
+                permission: 'DASHBOARD.CREATE',
+                url: ['/administration/dashboard-management'],
+                icon: 'dashboard',
+                title: 'admin-config.common.menu.dashboard-mng',
+            },
+            {
+                position: 1,
+                permission: 'DASHBOARD.CREATE',
+                url: ['/administration/specification-management/ui'],
+                icon: 'settings_applications',
+                title: 'admin-config.common.menu.specification-mng',
+            },
             {
                 position: 0,
                 permission: 'ROUTE.GET_LIST',

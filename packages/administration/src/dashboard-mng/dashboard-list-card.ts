@@ -1,4 +1,5 @@
 import { DashboardListCardComponent } from './dashboard-list-card/dashboard-list-card.component';
+export { DashboardListCardComponent } from './dashboard-list-card/dashboard-list-card.component';
 import { NgModule, Type } from '@angular/core';
 import { DashboardMngModule } from './dashboard-mng.module';
 

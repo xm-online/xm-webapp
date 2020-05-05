@@ -38,7 +38,7 @@ export const dashboardMngRoute: Routes = [
         },
     },
     {
-        path: 'dashboard-management:id',
+        path: 'dashboard-management/:id',
         component: WidgetListCardComponent,
         resolve: {
             pagingParams: DashboardResolvePagingParams,
