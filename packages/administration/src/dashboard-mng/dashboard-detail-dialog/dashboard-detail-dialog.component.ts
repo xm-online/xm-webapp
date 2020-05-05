@@ -4,10 +4,9 @@ import { XmEventManager } from '@xm-ngx/core';
 
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '@xm-ngx/core/environment';
 import { Principal } from '@xm-ngx/core/auth';
 import { Dashboard, DashboardService } from '@xm-ngx/dynamic';
-
 
 @Component({
     selector: 'xm-dashboard-detail-dialog',

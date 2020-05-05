@@ -1,16 +1,13 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
+import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { XmEventManager } from '@xm-ngx/core';
+import { Link } from '@xm-ngx/entity';
+import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-
-import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
-import { instanceDestroyed } from '../shared/helpers/instance-destroyed';
-import { Link } from '../xm-entity';
 
 @Injectable()
 export class BaseAdminConfigListComponent implements OnInit, OnDestroy {
@@ -41,7 +38,7 @@ export class BaseAdminConfigListComponent implements OnInit, OnDestroy {
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.pipe(
-            takeUntil(instanceDestroyed(this))
+            takeUntilOnDestroy(this),
         ).subscribe((data) => {
             this.itemsPerPage = data.pagingParams.size;
             this.page = data.pagingParams.page;
