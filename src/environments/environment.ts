@@ -8,6 +8,7 @@ import { IEnvironment } from './models';
 
 export const environment: IEnvironment = {
     environment: 'default',
+    serverApiUrl: '/xm-api',
     version: npmPackage.version,
     release: npmPackage.release,
     production: false,
