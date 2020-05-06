@@ -71,7 +71,7 @@
     "@angular/platform-browser": "9.1.1",
     "@angular/platform-browser-dynamic": "9.1.1",
     "@angular/router": "9.1.1",
-    "@biesbjerg/ngx-translate-extract": "^6.0.4",
+    "@biesbjerg/ngx-translate-extract": "6.0.4",
     "@covalent/text-editor": "2.1.0",
     "@fortawesome/angular-fontawesome": "0.5.0",
     "@fortawesome/fontawesome-svg-core": "1.2.26",
