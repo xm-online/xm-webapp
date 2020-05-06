@@ -41,8 +41,12 @@ const PROXY_CONFIG = [
             "/websocket",
             "/xm-tenant-config-hazelcast-cluster/management",
             "/zendesk",
-            "/zendesk/management"
+            "/zendesk/management",
+            '/xm-api'
         ],
+        pathRewrite: {
+            '^/xm-api': '',
+        },
         target: "http://xm.test.xm-online.com.ua",
         secure: false,
         changeOrigin: true,
