@@ -12,13 +12,13 @@ import { XmEntity } from './xm-entity.model';
 @Injectable()
 export class XmEntityService {
 
-    private v2ResourceUrl: string = SERVER_API_URL + 'entity/api/v2/xm-entities';
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/xm-entities';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/xm-entities';
-    private resourceAvatarUrl: string = SERVER_API_URL + 'entity/api/storage/objects';
-    private resourceProfileUrl: string = SERVER_API_URL + 'entity/api/profile';
-    private resourceSearchTemplateUrl: string = SERVER_API_URL + 'entity/api/_search-with-template/xm-entities';
-    private getEntitiesByIdUrl: string = `entity/api/xm-entities-by-ids`;
+    private v2ResourceUrl: string = `${SERVER_API_URL}/entity/api/v2/xm-entities`;
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/xm-entities`;
+    private resourceSearchUrl: string = `${SERVER_API_URL}/entity/api/_search/xm-entities`;
+    private resourceAvatarUrl: string = `${SERVER_API_URL}/entity/api/storage/objects`;
+    private resourceProfileUrl: string = `${SERVER_API_URL}/entity/api/profile`;
+    private resourceSearchTemplateUrl: string = `${SERVER_API_URL}/entity/api/_search-with-template/xm-entities`;
+    private getEntitiesByIdUrl: string = `${SERVER_API_URL}/entity/api/xm-entities-by-ids`;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

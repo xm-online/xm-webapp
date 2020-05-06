@@ -8,7 +8,7 @@ import { Spec } from './spec.model';
 @Injectable()
 export class BalanceSpecService {
 
-    private resourceUrl: string = SERVER_API_URL + 'config/api/profile/balance/balancespec.yml?toJson';
+    private resourceUrl: string = `${SERVER_API_URL}/config/api/profile/balance/balancespec.yml?toJson`;
 
     constructor(private http: HttpClient) {
     }

@@ -8,7 +8,7 @@ import { SERVER_API_URL } from '../../xm.constants';
 @Injectable()
 export class FunctionService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/functions';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/functions`;
 
     constructor(private http: HttpClient) {
     }
@@ -54,7 +54,7 @@ export class FunctionService {
     }
 
     private resourceEntityUrl(id: any, key: string): any {
-        return SERVER_API_URL + `entity/api/xm-entities/${id}/functions/${key}`;
+        return `${SERVER_API_URL}/entity/api/xm-entities/${id}/functions/${key}`;
     }
 
     private callXmFunction(url: string, inputContext: any = {}): Observable<HttpResponse<any>> {

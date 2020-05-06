@@ -11,10 +11,10 @@ export class LogsService {
     }
 
     public changeLevel(log: Log, service: string): Observable<HttpResponse<unknown>> {
-        return this.http.put(`${this.coreConfig.SERVER_API_URL}${service}/management/logs`, log, {observe: 'response'});
+        return this.http.put(`${this.coreConfig.SERVER_API_URL}/${service}/management/logs`, log, {observe: 'response'});
     }
 
     public findByService(service: string): Observable<HttpResponse<Log[]>> {
-        return this.http.get<Log[]>(`${this.coreConfig.SERVER_API_URL}${service}/management/logs`, {observe: 'response'});
+        return this.http.get<Log[]>(`${this.coreConfig.SERVER_API_URL}/${service}/management/logs`, {observe: 'response'});
     }
 }

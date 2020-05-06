@@ -5,13 +5,12 @@ import { SERVER_API_URL } from '../../xm.constants';
 import { XmEntityService } from './xm-entity.service';
 
 describe('XmEntityService', () => {
-
-    const v2ResourceUrl = SERVER_API_URL + 'entity/api/v2/xm-entities';
-    const resourceUrl = SERVER_API_URL + 'entity/api/xm-entities';
-    const resourceSearchUrl = SERVER_API_URL + 'entity/api/_search/xm-entities';
-    const resourceProfileUrl = SERVER_API_URL + 'entity/api/profile';
-    const resourceSearchTemplateUrl = SERVER_API_URL + 'entity/api/_search-with-template/xm-entities';
-    const getEntitiesByIdUrl = `entity/api/xm-entities-by-ids`;
+    const v2ResourceUrl = `${SERVER_API_URL}/entity/api/v2/xm-entities`;
+    const resourceUrl = `${SERVER_API_URL}/entity/api/xm-entities`;
+    const resourceSearchUrl = `${SERVER_API_URL}/entity/api/_search/xm-entities`;
+    const resourceProfileUrl = `${SERVER_API_URL}/entity/api/profile`;
+    const resourceSearchTemplateUrl = `${SERVER_API_URL}/entity/api/_search-with-template/xm-entities`;
+    const getEntitiesByIdUrl = `${SERVER_API_URL}/entity/api/xm-entities-by-ids`;
 
     let service: XmEntityService;
     let httpTestingController: HttpTestingController;
@@ -32,7 +31,7 @@ describe('XmEntityService', () => {
         it('should call find() with correct url', () => {
             const id = 123;
             service.find(id).subscribe();
-            const req = httpTestingController.expectOne(SERVER_API_URL + resourceUrl + '/' + id);
+            const req = httpTestingController.expectOne(`${SERVER_API_URL}/${resourceUrl}/${id}`);
             req.flush({id: 123});
             httpTestingController.verify();
         });
@@ -99,7 +98,6 @@ describe('XmEntityService', () => {
             req.flush({id: 123});
             httpTestingController.verify();
         });
-
     });
 
     xit('should call create with correct url', () => {
@@ -113,5 +111,4 @@ describe('XmEntityService', () => {
     xit('should call delete with correct url', () => {
         expect(true).toBeTruthy();
     });
-
 });

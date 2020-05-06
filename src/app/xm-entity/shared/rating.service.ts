@@ -11,8 +11,8 @@ import { Rating } from './rating.model';
 @Injectable()
 export class RatingService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/ratings';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/ratings';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/ratings`;
+    private resourceSearchUrl: string = `${SERVER_API_URL}/entity/api/_search/ratings`;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

@@ -11,7 +11,7 @@ import { Pocket } from './pocket.model';
 @Injectable()
 export class PocketService {
 
-    private resourceUrl: string = SERVER_API_URL + 'balance/api/pockets';
+    private resourceUrl: string = `${SERVER_API_URL}/balance/api/pockets`;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

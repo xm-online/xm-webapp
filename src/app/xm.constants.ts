@@ -1,9 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 import { environment } from '@xm-ngx/core/environment';
-// @ts-ignore
-import { version } from '../../package.json';
 
-const _VERSION = version;
 const _DEBUG_INFO_ENABLED = true;
 
 const _DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded';
@@ -32,7 +29,7 @@ enum _XM_EVENT_LIST {
     XM_ENTITY_LIST_MODIFICATION = 'xmEntityListModification',
 }
 
-export const VERSION = _VERSION;
+export const VERSION = environment.version;
 export const DEBUG_INFO_ENABLED = _DEBUG_INFO_ENABLED;
 
 export const DEFAULT_LANG = _DEFAULT_LANG;

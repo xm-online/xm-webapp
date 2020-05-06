@@ -7,7 +7,7 @@ import { XmEntitySpec } from './xm-entity-spec.model';
 @Injectable()
 export class XmEntitySpecService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/xm-entity-specs';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/xm-entity-specs`;
 
     constructor(private http: HttpClient) {
     }

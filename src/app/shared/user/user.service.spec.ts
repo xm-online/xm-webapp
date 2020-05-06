@@ -4,7 +4,6 @@ import { SERVER_API_URL } from '../../xm.constants';
 import { UserService } from './user.service';
 
 describe('UserService', () => {
-
     const resourceUrl = 'uaa/api/users';
     const userOnline = 'uaa/api/onlineUsers';
     let service: UserService;
@@ -13,9 +12,7 @@ describe('UserService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
-            providers: [
-                UserService,
-            ],
+            providers: [UserService],
         });
         httpTestingController = TestBed.get(HttpTestingController);
         service = TestBed.get(UserService);
@@ -24,7 +21,7 @@ describe('UserService', () => {
     describe('create()', () => {
         it('should call with correct URL', () => {
             service.create({}).subscribe();
-            const req = httpTestingController.expectOne(SERVER_API_URL + resourceUrl);
+            const req = httpTestingController.expectOne(`${SERVER_API_URL}/${resourceUrl}`);
             req.flush({id: 1});
             httpTestingController.verify();
         });
@@ -33,7 +30,7 @@ describe('UserService', () => {
     describe('update()', () => {
         it('should call with correct URL', () => {
             service.update({}).subscribe();
-            const req = httpTestingController.expectOne(SERVER_API_URL + resourceUrl);
+            const req = httpTestingController.expectOne(`${SERVER_API_URL}/${resourceUrl}`);
             req.flush({id: 1});
             httpTestingController.verify();
         });
@@ -52,7 +49,7 @@ describe('UserService', () => {
         it('should call with correct URL', () => {
             const userID = '111';
             service.disable2FA(userID).subscribe();
-            const req = httpTestingController.expectOne(SERVER_API_URL + resourceUrl + '/' + userID + '/tfa_disable');
+            const req = httpTestingController.expectOne(`${SERVER_API_URL}/${resourceUrl}/${userID}/tfa_disable`);
             req.flush({});
             httpTestingController.verify();
         });
@@ -63,10 +60,9 @@ describe('UserService', () => {
             const userID = '111';
             const email = '';
             service.enable2FA(userID, email).subscribe();
-            const req = httpTestingController.expectOne(SERVER_API_URL + resourceUrl + '/' + userID + '/tfa_enable');
+            const req = httpTestingController.expectOne(`${SERVER_API_URL}/${resourceUrl}/${userID}/tfa_enable`);
             req.flush({});
             httpTestingController.verify();
         });
     });
-
 });

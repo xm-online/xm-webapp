@@ -11,8 +11,8 @@ import { Comment } from './comment.model';
 @Injectable()
 export class CommentService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/comments';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/comments';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/comments`;
+    private resourceSearchUrl: string = `${SERVER_API_URL}/entity/api/_search/comments`;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

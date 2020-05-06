@@ -10,8 +10,8 @@ import { Location } from './location.model';
 @Injectable()
 export class LocationService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/locations';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/locations';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/locations`;
+    private resourceSearchUrl: string = `${SERVER_API_URL}/entity/api/_search/locations`;
 
     constructor(private http: HttpClient) {
     }

@@ -10,7 +10,7 @@ import { Widget } from './widget.model';
 @Injectable()
 export class WidgetService {
 
-    private resourceUrl: string = SERVER_API_URL + 'dashboard/api/widgets';
+    private resourceUrl: string = `${SERVER_API_URL}/dashboard/api/widgets`;
 
     constructor(private http: HttpClient) { }
 

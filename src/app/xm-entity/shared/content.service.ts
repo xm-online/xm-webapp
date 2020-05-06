@@ -10,7 +10,7 @@ import { Content } from './content.model';
 @Injectable()
 export class ContentService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/contents';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/contents`;
 
     constructor(private http: HttpClient) {
     }

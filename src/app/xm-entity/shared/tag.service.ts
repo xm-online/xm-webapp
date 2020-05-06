@@ -11,8 +11,8 @@ import { Tag } from './tag.model';
 @Injectable()
 export class TagService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/tags';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/tags';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/tags`;
+    private resourceSearchUrl: string = `${SERVER_API_URL}/entity/api/_search/tags`;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

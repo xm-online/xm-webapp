@@ -11,8 +11,8 @@ import { Attachment } from './attachment.model';
 @Injectable()
 export class AttachmentService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/attachments';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/attachments';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/attachments`;
+    private resourceSearchUrl: string = `${SERVER_API_URL}/entity/api/_search/attachments`;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

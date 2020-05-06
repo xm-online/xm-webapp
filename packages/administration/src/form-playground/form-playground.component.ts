@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity/index';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 
@@ -13,7 +14,6 @@ import {
     getJsfWidgets,
     processValidationMessages,
 } from '../../../../src/app/shared/jsf-extention/jsf-attributes-helper';
-import { FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity/index';
 import { EXAMPLES } from './example-schemas.model';
 
 interface FormsConfig {
@@ -63,7 +63,7 @@ export class FormPlaygroundComponent implements OnInit {
     public jsonFormSchema: string;
     public jsonFormValid: boolean = false;
     public jsonFormStatusMessage: string = 'Loading form...';
-    public jsonFormObject: {schema?: any; layout?: any; data?: any} |  any;
+    public jsonFormObject: { schema?: any; layout?: any; data?: any } | any;
     public jsonFormOptions: any = {
         addSubmit: true, // Add a submit button if layout does not have one
         loadExternalAssets: true, // Load external css and JavaScript for frameworks
@@ -291,7 +291,7 @@ export class FormPlaygroundComponent implements OnInit {
     }
 
     private getSchemaTemplate(file: any): Observable<string> {
-        return this.http.get(`assets/example-schemas/${file}.json`, {responseType: 'text'});
+        return this.http.get(`/assets/example-schemas/${file}.json`, {responseType: 'text'});
     }
 
     private _filterSpec(value: string): XmEntitySpec[] {

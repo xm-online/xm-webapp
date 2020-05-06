@@ -11,8 +11,8 @@ import { Vote } from './vote.model';
 @Injectable()
 export class VoteService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/votes';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/votes';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/votes`;
+    private resourceSearchUrl: string = `${SERVER_API_URL}/entity/api/_search/votes`;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

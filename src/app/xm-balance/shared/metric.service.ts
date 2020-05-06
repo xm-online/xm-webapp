@@ -10,7 +10,7 @@ import { Metric } from './metric.model';
 @Injectable()
 export class MetricService {
 
-    private resourceUrl: string = SERVER_API_URL + 'balance/api/metrics';
+    private resourceUrl: string = `${SERVER_API_URL}/balance/api/metrics`;
 
     constructor(private http: HttpClient) {
     }

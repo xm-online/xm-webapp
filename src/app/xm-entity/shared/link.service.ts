@@ -11,8 +11,8 @@ import { Link } from './link.model';
 @Injectable()
 export class LinkService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/links';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/links';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/links`;
+    private resourceSearchUrl: string = `${SERVER_API_URL}/entity/api/_search/links`;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

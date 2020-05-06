@@ -11,8 +11,8 @@ import { FunctionContext } from './function-context.model';
 @Injectable()
 export class FunctionContextService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/function-contexts';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/function-contexts';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/function-contexts`;
+    private resourceSearchUrl: string = `${SERVER_API_URL}/entity/api/_search/function-contexts`;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

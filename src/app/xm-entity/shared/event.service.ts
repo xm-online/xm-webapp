@@ -11,8 +11,8 @@ import { Event } from './event.model';
 @Injectable()
 export class EventService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/events';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/events';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/events`;
+    private resourceSearchUrl: string = `${SERVER_API_URL}/entity/api/_search/events`;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

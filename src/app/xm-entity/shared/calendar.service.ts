@@ -11,8 +11,8 @@ import { Calendar } from './calendar.model';
 @Injectable()
 export class CalendarService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/calendars';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/calendars';
+    private resourceUrl: string = `${SERVER_API_URL}/entity/api/calendars`;
+    private resourceSearchUrl: string = `${SERVER_API_URL}/entity/api/_search/calendars`;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

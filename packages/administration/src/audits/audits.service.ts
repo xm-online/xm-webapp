@@ -16,7 +16,7 @@ export class AuditsService {
         params.set('fromDate', req.fromDate);
         params.set('toDate', req.toDate);
 
-        const requestURL = `${this.coreConfig.SERVER_API_URL}uaa/management/audits`;
+        const requestURL = `${this.coreConfig.SERVER_API_URL}/uaa/management/audits`;
 
         return this.http.get<Audit[]>(requestURL, {
             params,
