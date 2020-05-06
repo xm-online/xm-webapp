@@ -3,8 +3,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import * as nomnoml from 'nomnoml';
 
-import { saveFile } from '../../../shared/helpers/file-download-helper';
-import { Link } from '../../../xm-entity';
+import { saveFile } from '../../../../../src/app/shared/helpers/file-download-helper';
+import { Link } from '@xm-ngx/entity/index';
 
 declare let YAML: any;
 declare let skanaar: any;

@@ -13,10 +13,6 @@ const ROUTES: Routes = [
         data: {authorities: [], pageTitle: 'error.title', error403: true},
     },
     {path: 'administration', loadChildren: () => import('./admin/admin.module').then((m) => m.XmAdminModule)},
-    {
-        path: 'configuration',
-        loadChildren: () => import('./admin-config/admin-config.module').then((m) => m.XmAdminConfigModule),
-    },
     {path: '', loadChildren: () => import('./home/home.module').then((m) => m.GateHomeModule)},
     {path: '', loadChildren: () => import('./account/account.module').then((m) => m.GateAccountModule)},
     {

@@ -9,9 +9,9 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
 
-import { JhiLanguageHelper } from '../../../shared';
-import { XmEntity } from '../../../xm-entity';
-import { BaseAdminConfigListComponent } from '../../base-admin-config-list.component';
+import { JhiLanguageHelper } from '@xm-ngx/translation';
+import { XmEntity } from '@xm-ngx/entity';
+import { BaseAdminConfigListComponent } from '../base-admin-config-list.component';
 import { WidgetDetailDialogComponent } from '../widget-detail-dialog/widget-detail-dialog.component';
 
 @Component({

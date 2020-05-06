@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { SpecificationMngComponent } from './specification-mng.component';
+import { SpecificationMngComponent } from '@xm-ngx/administration/specification-mng';
 
 export const specificationMngRoute: Routes = [
     {

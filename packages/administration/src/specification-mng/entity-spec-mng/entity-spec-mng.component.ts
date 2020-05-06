@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { StatesManagementDialogComponent } from '@xm-ngx/entity/states-management-dialog';
 import { ConfigVisualizerDialogComponent } from '../config-visualizer-dialog/config-visualizer-dialog.component';
-import { XmConfigService } from '../../../shared/spec/config.service';
+import { XmConfigService } from '../../../../../src/app/shared/spec/config.service';
 
 import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
 

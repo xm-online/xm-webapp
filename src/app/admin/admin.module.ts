@@ -15,6 +15,7 @@ import { RolesManagementModule } from '@xm-ngx/administration/roles-management';
 import { RolesMatrixModule } from '@xm-ngx/administration/roles-matrix';
 import { TranslationModule } from '@xm-ngx/administration/translations';
 import { UserManagementModule } from '@xm-ngx/administration/user-management';
+import { DashboardResolvePagingParams } from './dashboard-mng.route';
 import { UserResolvePagingParams } from './user-management.route';
 
 @NgModule({
@@ -32,11 +33,13 @@ import { UserResolvePagingParams } from './user-management.route';
         RolesMatrixModule,
         TranslationModule,
         UserManagementModule,
-        RouterModule.forChild(adminState)],
+        RouterModule.forChild(adminState),
+    ],
     declarations: [],
     providers: [
         UserResolvePagingParams,
         ClientResolvePagingParams,
+        DashboardResolvePagingParams,
     ],
 })
 export class XmAdminModule {

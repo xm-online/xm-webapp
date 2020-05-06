@@ -14,7 +14,7 @@ import { finalize } from 'rxjs/operators';
 import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { Dashboard } from '@xm-ngx/dynamic';
 import { DashboardService } from '@xm-ngx/dynamic';
-import { BaseAdminConfigListComponent } from '../../base-admin-config-list.component';
+import { BaseAdminConfigListComponent } from '../base-admin-config-list.component';
 import { DashboardDetailDialogComponent } from '../dashboard-detail-dialog/dashboard-detail-dialog.component';
 
 

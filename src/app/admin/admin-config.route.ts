@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from '../shared';
-import { dashboardMngRoute } from './dashboard-mng/dashboard-mng.route';
-import { specificationMngRoute } from './specification-mng/specification-mng.route';
+import { dashboardMngRoute } from './dashboard-mng.route';
+import { specificationMngRoute } from './specification-mng.route';
 
 const ADMIN_CONFIG_ROUTES = [
     ...dashboardMngRoute,

@@ -54,7 +54,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let dashboard of list; trackBy: trackIdentity">
-              <td><a [routerLink]="['../', dashboard.id]">{{dashboard.id}}</a></td>
+              <td><a [routerLink]="['./', dashboard.id]">{{dashboard.id}}</a></td>
               <td>{{dashboard.name}}</td>
               <td>{{dashboard.owner}}</td>
               <td>{{dashboard.typeKey}}</td>
