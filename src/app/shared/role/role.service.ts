@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@xm-ngx/core/environment';
 import { JhiDateUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 
@@ -7,7 +8,7 @@ import { Role, RoleMatrix } from './role.model';
 
 @Injectable()
 export class RoleService {
-    private resourceUrl: string = 'uaa/api/roles';
+    private resourceUrl: string = `${environment.serverApiUrl}/uaa/api/roles`;
 
     constructor(private http: HttpClient,
                 private dateUtils: JhiDateUtils) {

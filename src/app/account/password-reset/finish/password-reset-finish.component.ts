@@ -5,6 +5,7 @@ import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthServerProvider } from '@xm-ngx/core/auth';
+import { environment } from '@xm-ngx/core/environment';
 import { PasswordSpec } from '@xm-ngx/entity';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -126,7 +127,7 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
             'Content-Type': DEFAULT_CONTENT_TYPE,
             'Authorization': DEFAULT_AUTH_TOKEN,
         };
-        return this.http.post<any>('uaa/oauth/token', data, {headers, observe: 'response'})
+        return this.http.post<any>(`${environment.serverApiUrl}/uaa/oauth/token`, data, {headers, observe: 'response'})
             .pipe(map((resp) => {
                 this.authServerProvider.loginWithToken(resp.body.access_token, false);
             }));

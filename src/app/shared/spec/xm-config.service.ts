@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@xm-ngx/core/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { VERSION } from '../../xm.constants';
 
@@ -16,8 +17,8 @@ export class XmApplicationConfigService {
 
     public resolved$: BehaviorSubject<boolean>;
     public maintenance$: BehaviorSubject<boolean>;
-    private configUrl: string = 'config/api/profile/webapp/settings-public.yml?toJson';
-    private privateConfigUrl: string = 'config/api/profile/webapp/settings-private.yml?toJson';
+    private configUrl: string = `${environment.serverApiUrl}/config/api/profile/webapp/settings-public.yml?toJson`;
+    private privateConfigUrl: string = `${environment.serverApiUrl}/config/api/profile/webapp/settings-private.yml?toJson`;
     private appConfig: any;
 
     constructor(private http: HttpClient) {

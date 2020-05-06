@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@xm-ngx/core/environment';
 import { AsyncSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PasswordSpec } from './password-spec.model';
 import { ModulesLanguageHelper } from '../language';
+import { PasswordSpec } from './password-spec.model';
 import { XmApplicationConfigService } from './xm-config.service';
 
 interface IUIConfig {
@@ -17,10 +18,10 @@ export type UIConfig = IUIConfig | any;
 @Injectable()
 export class XmConfigService {
 
-    private configUrl: string = 'config/api/profile';
-    private configMaintenanceUrl: string = 'config/api/config';
-    private uaaPasswordConfigUrl: string = 'uaa/api/uaa/properties/settings-public';
-    private elasticReindexUrl: string = '/entity/api/elasticsearch/index';
+    private configUrl: string = `${environment.serverApiUrl}/config/api/profile`;
+    private configMaintenanceUrl: string = `${environment.serverApiUrl}/config/api/config`;
+    private uaaPasswordConfigUrl: string = `${environment.serverApiUrl}/uaa/api/uaa/properties/settings-public`;
+    private elasticReindexUrl: string = `${environment.serverApiUrl}/entity/api/elasticsearch/index`;
 
     private uiConfig: UIConfig;
     private uiConfigState: AsyncSubject<any> = new AsyncSubject<any>();
@@ -33,18 +34,18 @@ export class XmConfigService {
     }
 
     public validateTimelineSpec(configContent: string): Observable<any> {
-        return this.http.post('timeline/api/timelines/properties/validate', configContent, this.headers()).pipe(
+        return this.http.post(`${environment.serverApiUrl}/timeline/api/timelines/properties/validate`, configContent, this.headers()).pipe(
             map((res: any) => res));
     }
 
     public updateTimelineSpec(configContent: string): Observable<any> {
-        return this.http.post('timeline/api/timelines/properties', configContent, this.headers()).pipe(
+        return this.http.post(`${environment.serverApiUrl}/timeline/api/timelines/properties`, configContent, this.headers()).pipe(
             map((res: any) => res));
     }
 
     /** @deprecated use XmEntitySpecService update instead */
     public updateXmEntitySpec(configContent: string): Observable<any> {
-        return this.http.post('entity/api/xm-entity-specs', configContent, this.headers()).pipe(
+        return this.http.post(`${environment.serverApiUrl}/entity/api/xm-entity-specs`, configContent, this.headers()).pipe(
             map((res: any) => res));
     }
 
@@ -89,27 +90,27 @@ export class XmConfigService {
     }
 
     public getLoginsSpec(): Observable<any> {
-        return this.http.get('uaa/api/logins').pipe(
+        return this.http.get(`${environment.serverApiUrl}/uaa/api/logins`).pipe(
             map((res: any) => res));
     }
 
     public validateLoginsSpec(configContent: string): Observable<any> {
-        return this.http.post('uaa/api/logins/validate', configContent, this.headers()).pipe(
+        return this.http.post(`${environment.serverApiUrl}/uaa/api/logins/validate`, configContent, this.headers()).pipe(
             map((res: any) => res));
     }
 
     public updateLoginsSpec(configContent: string): Observable<any> {
-        return this.http.post('uaa/api/logins', configContent, this.headers()).pipe(
+        return this.http.post(`${environment.serverApiUrl}/uaa/api/logins`, configContent, this.headers()).pipe(
             map((res: any) => res));
     }
 
     public validateUaaSpec(configContent: string): Observable<any> {
-        return this.http.post('uaa/api/uaa/properties/validate', configContent, this.headers()).pipe(
+        return this.http.post(`${environment.serverApiUrl}/uaa/api/uaa/properties/validate`, configContent, this.headers()).pipe(
             map((res: any) => res));
     }
 
     public updateUaaSpec(configContent: string): Observable<any> {
-        return this.http.post('uaa/api/uaa/properties', configContent, this.headers()).pipe(
+        return this.http.post(`${environment.serverApiUrl}/uaa/api/uaa/properties`, configContent, this.headers()).pipe(
             map((res: any) => res));
     }
 
@@ -134,7 +135,9 @@ export class XmConfigService {
             pattern: '',
             patternMessage: null,
         };
-        if (!config) {return DEFAULT_SETTINGS; }
+        if (!config) {
+            return DEFAULT_SETTINGS;
+        }
         const CONFIG_PARSED = JSON.parse(config);
         if (CONFIG_PARSED && CONFIG_PARSED.passwordSettings) {
             const CONFIG: PasswordSpec = CONFIG_PARSED.passwordSettings;

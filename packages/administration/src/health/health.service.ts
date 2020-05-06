@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@xm-ngx/core/environment';
 import { Observable } from 'rxjs';
 
-import { SERVER_API_URL } from '../../../../src/app/xm.constants';
-
-const SERVICES_COLLECTION = '/api/monitoring/services';
+const SERVICES_COLLECTION = `${environment.serverApiUrl}/api/monitoring/services`;
 
 @Injectable()
 export class JhiHealthService {
@@ -19,11 +18,11 @@ export class JhiHealthService {
     }
 
     public getHealsCheckByMsName(msName: string, metricsType: string): Observable<any> {
-        return this.http.get(`/api/monitoring/services/${msName}/${metricsType}`);
+        return this.http.get(`${environment.serverApiUrl}/api/monitoring/services/${msName}/${metricsType}`);
     }
 
     public checkHealth(): Observable<any> {
-        return this.http.get(SERVER_API_URL + 'management/health');
+        return this.http.get(`${environment.serverApiUrl}/management/health`);
     }
 
     public transformHealthData(data: any): any {
@@ -45,12 +44,12 @@ export class JhiHealthService {
             const split = name.split('.');
             split.splice(0, 1);
             const remainder = split.join('.');
-            return remainder ? ' - ' + remainder : '';
+            return remainder ? ` - ${remainder}` : '';
         }
         return name;
     }
 
-    /* private methods */
+    /* Private methods */
     private addHealthObject(result: any, isLeaf: any, healthObject: any, name: any): any {
         const healthData: any = {
             name,

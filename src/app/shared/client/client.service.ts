@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@xm-ngx/core/environment';
 import { Observable } from 'rxjs';
 
 import { Client } from './client.model';
@@ -7,7 +8,7 @@ import { Client } from './client.model';
 @Injectable()
 export class ClientService {
 
-    private resourceUrl: string = 'uaa/api/clients';
+    private resourceUrl: string = `${environment.serverApiUrl}/uaa/api/clients`;
     private resourceUrlByClientId: string = this.resourceUrl + '/clientid-contains';
 
     constructor(private http: HttpClient) {

@@ -1,15 +1,17 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@xm-ngx/core/environment';
 import { Observable } from 'rxjs';
 
 import { User } from './user.model';
 
 @Injectable()
 export class UserService {
-    private resourceUrl: string = 'uaa/api/users';
-    private resurceUrlByLogin: string = this.resourceUrl + '/logins-contains';
+    private resourceUrl: string = `${environment.serverApiUrl}/uaa/api/users`;
+    private resurceUrlByLogin: string = `${this.resourceUrl}/logins-contains`;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+    }
 
     public create(user: User): Observable<HttpResponse<any>> {
         return this.http.post(this.resourceUrl, user, {observe: 'response'});
@@ -92,6 +94,6 @@ export class UserService {
     }
 
     public getOnlineUsers(): Observable<HttpResponse<any>> {
-        return this.http.get('uaa/api/onlineUsers', {observe: 'response'});
+        return this.http.get(`${environment.serverApiUrl}/uaa/api/onlineUsers`, {observe: 'response'});
     }
 }

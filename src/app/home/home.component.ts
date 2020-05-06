@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
+import { environment } from '@xm-ngx/core/environment';
 import { Widget } from '@xm-ngx/dynamic';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -90,7 +91,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             'Content-Type': DEFAULT_CONTENT_TYPE,
             Authorization: DEFAULT_AUTH_TOKEN,
         };
-        return this.http.post<any>('uaa/oauth/token', data, {headers, observe: 'response'})
+        return this.http.post<any>(`${environment.serverApiUrl}/uaa/oauth/token`, data, {headers, observe: 'response'})
             .pipe(map((resp) => {
                 this.authServerProvider.loginWithToken(resp.body.access_token, false);
             }));

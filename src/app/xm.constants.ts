@@ -1,4 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+import { environment } from '@xm-ngx/core/environment';
 // @ts-ignore
 import { version } from '../../package.json';
 
@@ -43,4 +44,4 @@ export const DEFAULT_CONTENT_TYPE = _DEFAULT_CONTENT_TYPE;
 export const DEFAULT_AUTH_TOKEN = _DEFAULT_AUTH_TOKEN;
 
 // TODO: process.env.SERVER_API_URL as alternative from webpack
-export const SERVER_API_URL = '';
+export const SERVER_API_URL = environment.serverApiUrl;

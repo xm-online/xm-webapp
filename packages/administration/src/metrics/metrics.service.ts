@@ -1,25 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '@xm-ngx/core/environment';
 import { Observable } from 'rxjs';
-import { SERVER_API_URL } from '../../../../src/app/xm.constants';
 
-const SERVICES_COLLECTION = '/api/monitoring/services';
+const SERVICES_COLLECTION = `${environment.serverApiUrl}/api/monitoring/services`;
 
 @Injectable()
 export class JhiMetricsService {
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+    }
 
     public getMetrics(msName: string = ''): Observable<any> {
         if (!msName) {
-            return this.http.get(SERVER_API_URL + 'management/metrics');
+            return this.http.get(`${environment.serverApiUrl}/management/metrics`);
         } else {
-            return this.http.get(SERVER_API_URL + `/${msName}/management/metrics`);
+            return this.http.get(`${environment.serverApiUrl}/${msName}/management/metrics`);
         }
     }
 
     public threadDump(): Observable<any> {
-        return this.http.get(SERVER_API_URL + 'management/threaddump');
+        return this.http.get(`${environment.serverApiUrl}/management/threaddump`);
     }
 
     public getMonitoringServicesCollection(): Observable<any> {
@@ -27,7 +28,7 @@ export class JhiMetricsService {
     }
 
     public getMetricsByMsName(msName: string, metricsType: string): Observable<any> {
-        return this.http.get(`/api/monitoring/services/${msName}/${metricsType}`);
+        return this.http.get(`${environment.serverApiUrl}/api/monitoring/services/${msName}/${metricsType}`);
     }
 
     public isEmpty(obj: any): boolean {

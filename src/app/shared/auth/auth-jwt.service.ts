@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
+import { environment } from '@xm-ngx/core/environment';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -22,7 +23,7 @@ const REFRESH_TOKEN = 'refresh_token';
 const AUTH_TOKEN = 'authenticationToken';
 const ACCESS_TOKEN = 'access_token';
 
-const _TOKEN_URL = 'uaa/oauth/token';
+const _TOKEN_URL = `${environment.serverApiUrl}/uaa/oauth/token`;
 const _CONFIG_SETTINGS_API = 'config/api/profile/webapp/settings-public.yml?toJson';
 
 const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
@@ -65,7 +66,7 @@ export class AuthServerProvider {
             'Accept': 'application/json',
         };
         return this.http
-            .post(`/uaa/api/users/accept-terms-of-conditions/${tocOneTimeToken}`, {}, {headers});
+            .post(`${environment.serverApiUrl}/uaa/api/users/accept-terms-of-conditions/${tocOneTimeToken}`, {}, {headers});
     }
 
     public login(credentials: any): Observable<any> {

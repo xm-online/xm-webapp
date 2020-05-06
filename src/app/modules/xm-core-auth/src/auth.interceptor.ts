@@ -1,12 +1,13 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { XmCoreConfig } from '@xm-ngx/core';
+import { environment } from '@xm-ngx/core/environment';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from '../../../xm.constants';
 
-const TOKEN_URL = 'uaa/oauth/token';
+const TOKEN_URL = `${environment.serverApiUrl}/uaa/oauth/token`;
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -33,7 +34,7 @@ export class AuthInterceptor implements HttpInterceptor {
         if (!!token && noAuthHeader) {
             request = request.clone({
                 setHeaders: {
-                    Authorization: 'Bearer ' + token,
+                    Authorization: `Bearer ${token}`,
                 },
             });
         }
