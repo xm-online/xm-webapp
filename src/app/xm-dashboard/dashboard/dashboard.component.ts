@@ -10,6 +10,7 @@ import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
 import { Dashboard } from '../shared/dashboard.model';
 import { DashboardService } from '../shared/dashboard.service';
 import { Widget } from '../shared/widget.model';
+import { sortByOrderIndex } from './sortByOrderIndex';
 
 interface DashboardLayout {
     widget?: number | string | Widget;
@@ -149,10 +150,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
             console.info(`load dashboard ${id}`);
         }
 
-        this.dashboardService.find(id).subscribe((result) => {
-                const widgets
-                    = (result.body && result.body.widgets ? result.body.widgets : [])
-                    .sort((a, b) => this.sortByOrderIndex(a, b));
+        this.dashboardService
+            .find(id).subscribe((result) => {
+                const widgets = sortByOrderIndex(result.body && result.body.widgets ? result.body.widgets : []);
                 Object.assign(this.dashboard, {
                     widgets: this.getWidgetComponent(widgets),
                 });
@@ -275,24 +275,4 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
     }
 
-    /**
-     * Sort widgets by optional orderIndex field in widget.config
-     * @param itemA
-     * @param itemB
-     */
-    private sortByOrderIndex(itemA: Widget, itemB: Widget): number {
-        const aIndex = this.getOrderIndex(itemA.config ? itemA.config : {});
-        const bIndex = this.getOrderIndex(itemB.config ? itemB.config : {});
-        if (aIndex > bIndex) {
-            return 1;
-        }
-        if (aIndex < bIndex) {
-            return -1;
-        }
-        return 0;
-    }
-
-    private getOrderIndex({orderIndex = 100}: { orderIndex: number }): number {
-        return orderIndex;
-    }
 }
