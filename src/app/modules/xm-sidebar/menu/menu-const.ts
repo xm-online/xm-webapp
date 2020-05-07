@@ -54,7 +54,7 @@ export const DEFAULT_MENU_LIST: MenuCategory[] = [
             },
             {
                 position: 4,
-                permission: 'ROUTE.MATRIX.GET',
+                permission: 'ROLE.MATRIX.GET',
                 url: ['/administration/roles-matrix'],
                 icon: 'view_comfy',
                 title: 'global.menu.admin.rolesMatrix',
