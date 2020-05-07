@@ -4,11 +4,12 @@ import { XmApplicationConfigService, XmEventManager } from '@xm-ngx/core';
 import { LoginService, Principal } from '@xm-ngx/core/auth';
 import { LanguageService, TitleService } from '@xm-ngx/translation';
 import { Idle } from 'idlejs/dist';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { XmConfigService } from '../../shared';
 import { XM_EVENT_LIST } from '../../xm.constants';
+import { HeatmapService } from './heatmap.service';
 
 declare const $: any;
 
@@ -16,6 +17,7 @@ declare const $: any;
     selector: 'xm-main',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
+    providers: [HeatmapService],
 })
 export class XmMainComponent implements OnInit, OnDestroy {
     public showSidebar: boolean = true;
@@ -29,6 +31,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
     public userAutoLogoutEnabled: boolean;
     public userAutoLogoutSeconds: number;
     public idle: Idle;
+    public heatmapVisibility: Observable<boolean>;
     private excludePathsForViewSidebar: string[] = ['/social-auth'];
 
     constructor(private configService: XmConfigService,
@@ -37,12 +40,22 @@ export class XmMainComponent implements OnInit, OnDestroy {
                 private loginService: LoginService,
                 private languageService: LanguageService,
                 private principal: Principal,
+                private heatmapService: HeatmapService,
                 protected titleService: TitleService,
                 private eventManager: XmEventManager) {
         this.resolved$ = new BehaviorSubject<boolean>(false);
         this.isMaintenanceProgress$ = new BehaviorSubject<boolean>(false);
         this.xmConfigService.isResolved().subscribe((res: boolean) => this.resolved$.next(res));
         this.xmConfigService.isMaintenanceProgress().subscribe((res: boolean) => this.isMaintenanceProgress$.next(res));
+    }
+
+    public heatmapMouseMove(event: any): void {
+        event.preventDefault();
+        this.heatmapService.add({
+            x: event.x,
+            y: event.y,
+            value: 1,
+        });
     }
 
     public ngOnInit(): void {
@@ -52,6 +65,13 @@ export class XmMainComponent implements OnInit, OnDestroy {
             this.config = config ? config : null;
             this.prepareLayout();
             this.registerAuthenticationSuccess();
+        });
+
+        this.heatmapVisibility = this.heatmapService.$visibility();
+        this.router.events.subscribe(val => {
+            if (val instanceof NavigationEnd) {
+                this.heatmapService.initialize(document.querySelector('#heatmapContainer'), val.url);
+            }
         });
 
         // TODO: const envType = environment.production ? 'PROD' : 'TEST';
@@ -74,7 +94,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
         });
 
         // TODO #14219. workaround for dynamic expand height of textarea
-        $('body').on('keyup', '.textarea-auto-height textarea', function (this: HTMLElement) {
+        $('body').on('keyup', '.textarea-auto-height textarea', function(this: HTMLElement) {
             this.style.overflow = 'hidden';
             this.style.height = '52px';
             this.style.height = this.scrollHeight + 'px';
@@ -140,6 +160,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
+        this.heatmapService.ngOnDestroy();
         // eslint-disable-next-line no-unused-expressions
         this.authSucessSubscription
             ? this.authSucessSubscription.unsubscribe()
@@ -165,7 +186,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
             if (allowToRead) {
                 this.xmConfigService.loadPrivateConfig();
             }
-        })
+        });
     }
 
     private idleLogoutInit(): void {

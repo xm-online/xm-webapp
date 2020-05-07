@@ -5,32 +5,36 @@
 <xm-password-needed></xm-password-needed>
 <xm-maintenance-view [show]="isMaintenanceProgress$ | async"></xm-maintenance-view>
 
-<div [class.has-ackground]="guestBg"
-     [class.xm-guest-layout]="isGuestLayout"
-     class="wrapper">
+<div class="heatmap-container-wrapper" (mousemove)="heatmapMouseMove($event)">
+  <div id="heatmapContainer" [ngClass]="{'hidden-heatmap': !(heatmapVisibility | async)}">
+    <div [class.has-ackground]="guestBg"
+         [class.xm-guest-layout]="isGuestLayout"
+         class="wrapper">
 
-  <div *ngIf="isGuestLayout" [style.backgroundImage]="guestBg" class="main--custom-bg"></div>
+      <div *ngIf="isGuestLayout" [style.backgroundImage]="guestBg" class="main--custom-bg"></div>
 
-  <xm-loader [absolute]="true" [showLoader]="!(resolved$ | async)"></xm-loader>
+      <xm-loader [absolute]="true" [showLoader]="!(resolved$ | async)"></xm-loader>
 
-  <div *ngIf="!isGuestLayout" class="sidebar">
-    <xm-sidebar></xm-sidebar>
-  </div>
+      <div *ngIf="!isGuestLayout" class="sidebar">
+        <xm-sidebar></xm-sidebar>
+      </div>
 
-  <div *ngIf="resolved$ | async" id="main" class="main-panel xm-main-panel">
+      <div *ngIf="resolved$ | async" id="main" class="main-panel xm-main-panel">
 
-    <xm-navbar></xm-navbar>
+        <xm-navbar></xm-navbar>
 
-    <div [ngClass]="isGuestLayout ? 'container' : 'container-fluid'" class="main-content xm-main-content">
-      <router-outlet></router-outlet>
+        <div [ngClass]="isGuestLayout ? 'container' : 'container-fluid'" class="main-content xm-main-content">
+          <router-outlet></router-outlet>
+        </div>
+
+        <router-outlet name="popup"></router-outlet>
+
+        <xm-footer></xm-footer>
+
+      </div>
+
+      <xm-sidebar-right></xm-sidebar-right>
+
     </div>
-
-    <router-outlet name="popup"></router-outlet>
-
-    <xm-footer></xm-footer>
-
   </div>
-
-  <xm-sidebar-right></xm-sidebar-right>
-
 </div>

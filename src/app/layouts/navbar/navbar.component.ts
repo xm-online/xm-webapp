@@ -15,6 +15,7 @@ import { Principal } from '@xm-ngx/core/auth';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { DashboardWrapperService, Layout } from '@xm-ngx/dynamic';
 import { DEBUG_INFO_ENABLED, VERSION } from '../../xm.constants';
+import { HeatmapService } from '../main/heatmap.service';
 
 declare const $: any;
 
@@ -51,6 +52,7 @@ export class NavbarComponent implements OnInit, OnDestroy, DoCheck {
                 private element: ElementRef,
                 private location: Location,
                 private xmConfigService: XmConfigService,
+                private heatmapService: HeatmapService,
                 private uiConfigService: XmUiConfigService<{ searchPanel: boolean }>,
                 private dashboardWrapperService: DashboardWrapperService) {
         this.version = DEBUG_INFO_ENABLED ? 'v' + VERSION : '';
@@ -62,7 +64,7 @@ export class NavbarComponent implements OnInit, OnDestroy, DoCheck {
     // tslint:disable-next-line:cognitive-complexity
     public ngOnInit(): void {
         this.xmConfigService.getUiConfig().subscribe((result) => {
-            this.navbarLayout = result.navbar && result.navbar.layout ? result.navbar.layout: null;
+            this.navbarLayout = result.navbar && result.navbar.layout ? result.navbar.layout : null;
             this.tenantName = result.name ? result.name : 'XM^online';
             if (this.tenantName === 'XM^online') {
                 this.tenantName += ' ' + this.version;
@@ -125,6 +127,10 @@ export class NavbarComponent implements OnInit, OnDestroy, DoCheck {
 
     public isMobileMenu(): boolean {
         return $(window).width() > 991;
+    }
+
+    public toggleHeatmap(): void {
+        this.heatmapService.toggleVisibility();
     }
 
     public sidebarToggle(): void {
