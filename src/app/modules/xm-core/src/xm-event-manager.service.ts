@@ -45,6 +45,13 @@ export class XmEventManagerService implements OnDestroy {
     }
 
     /**
+     * Method to get stream by event name
+     */
+    public listenTo<T>(eventName: EventManagerKey): Observable<EventManagerAction<T>> {
+        return this.observable.pipe(filter(i => i.name === eventName));
+    }
+
+    /**
      * @deprecated use subscriber.unsubscribe(); instead
      * Method to unsubscribe the subscription
      */
