@@ -150,9 +150,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
             console.info(`load dashboard ${id}`);
         }
 
-        this.dashboardService
-            .find(id).subscribe((result) => {
-                const widgets = sortByOrderIndex(result.body && result.body.widgets ? result.body.widgets : []);
+        this.dashboardWrapperService
+            .getDashboardByIdOrSlug(id).subscribe((result) => {
+                const widgets = sortByOrderIndex(result && result.widgets ? result.widgets : []);
                 Object.assign(this.dashboard, {
                     widgets: this.getWidgetComponent(widgets),
                 });
