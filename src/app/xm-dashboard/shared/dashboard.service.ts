@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { SERVER_API_URL } from '../../xm.constants';
-import { Dashboard } from './dashboard.model';
+import { Dashboard, DashboardWithWidgets } from './dashboard.model';
 
 @Injectable({providedIn: 'root'})
 export class DashboardService {
 
-    private resourceUrl: string = `${SERVER_API_URL  }dashboard/api/dashboards`;
+    private resourceUrl: string = `${SERVER_API_URL}/dashboard/api/dashboards`;
 
     constructor(private http: HttpClient) {
     }
@@ -27,7 +27,7 @@ export class DashboardService {
             map((res: HttpResponse<Dashboard>) => this.convertResponse(res)));
     }
 
-    public find(id: number): Observable<HttpResponse<Dashboard>> {
+    public find(id: number): Observable<HttpResponse<DashboardWithWidgets>> {
         return this.http.get<Dashboard>(`${this.resourceUrl}/${id}`, {observe: 'response'}).pipe(
             map((res: HttpResponse<Dashboard>) => this.convertResponse(res)));
     }
@@ -61,13 +61,13 @@ export class DashboardService {
      * Convert a returned JSON object to Dashboard.
      */
     private convertItemFromServer(dashboard: Dashboard): Dashboard {
-        return { ...dashboard};
+        return {...dashboard};
     }
 
     /**
      * Convert a Dashboard to a JSON which can be sent to the server.
      */
     private convert(dashboard: Dashboard): Dashboard {
-        return { ...dashboard};
+        return {...dashboard};
     }
 }

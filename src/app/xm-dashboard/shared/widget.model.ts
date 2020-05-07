@@ -1,13 +1,10 @@
 import { BaseEntity } from '@xm-ngx/entity';
-import { Dashboard } from './dashboard.model';
 
-export interface Widget extends BaseEntity {
+export interface Widget<C = unknown> extends BaseEntity {
     id?: number;
-    selector?: string;
-    name?: string;
-    config?: any;
+    config?: C;
+    dashboard?: number;
     isPublic?: boolean;
-    dashboard?: Dashboard;
-    module?: string;
-    component?: any;
+    name?: string;
+    selector?: string;
 }
