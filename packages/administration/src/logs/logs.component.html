@@ -2,7 +2,7 @@
   <xm-loader [showLoader]="showLoader"></xm-loader>
 
   <div class="card-header">
-    <h2 class="card-title" jhiTranslate="logs.title">Logs</h2>
+    <h4 jhiTranslate="logs.title">Logs</h4>
 
     <p [innerHTML]="'logs.nbloggers' | translate : {total: (loggers$ | async)?.length || '0'}"></p>
 
