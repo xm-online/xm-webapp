@@ -15,8 +15,9 @@ function getTranslatesFromExts() {
 
     extsPaths.forEach((path) => {
         const extName = `${path.split('/').reverse()[0].split('-')[0]}-ext`;
-        const languagesString = helpers.LANGUAGES.join(',');
-        const command = `ngx-translate-extract -i ./${path} -o ./${path}/i18n/{${languagesString}}/${extName}.json -f namespaced-json -s --fi "  "`;
+        const outputPaths = helpers.LANGUAGES.map((l) => `-o ./${path}/i18n/${l}/${extName}.json`).join(' ');
+
+        const command = `ngx-translate-extract -i ./${path} ${outputPaths} -f namespaced-json -s --fi "  "`;
 
         execCommand(command);
     })
@@ -24,8 +25,10 @@ function getTranslatesFromExts() {
 
 function getCoreTranslates() {
     const directories = helpers.getDirectories('src/app/*').filter((directory) => !EXCLUDE_PATHS.includes(directory));
-    const pathsForExtract = directories.map((directory) => `-i ./${directory}/`);
-    const command = `ngx-translate-extract ${pathsForExtract.join(' ')} -o ./src/i18n/{en,ru,uk}/core.json -f namespaced-json -s --fi "  "`;
+    const pathsForExtract = directories.map((directory) => `-i ./${directory}`);
+    const outputPaths = helpers.LANGUAGES.map(l => `-o ./src/i18n/${l}/core.json`).join(' ');
+
+    const command = `ngx-translate-extract ${pathsForExtract.join(' ')} ${outputPaths} -f namespaced-json -s --fi "  "`;
 
     execCommand(command);
 }
