@@ -3,6 +3,8 @@ const {join} = require('path');
 let _ = require('lodash');
 let glob = require('glob');
 
+const helpers = require('./helpers');
+
 const core = 'src/i18n/';
 const custom = 'src/app/ext/*/i18n/';
 
@@ -11,7 +13,7 @@ const customPathMask = (lang) => custom + lang + '/*.json';
 const distPathMask = (lang) => core + lang + '.json';
 
 function saveJson(path, data) {
-    fs.writeFileSync(path, JSON.stringify(data, null, 4), {encoding: 'utf8'});
+    fs.writeFileSync(path, JSON.stringify(data, null, 2), {encoding: 'utf8'});
 }
 
 function readJson(file) {
@@ -34,13 +36,22 @@ function getTranslations(pathMask) {
     return translations;
 }
 
-const isDirectory = source => fs.lstatSync(source).isDirectory();
-const getDirectories = source => fs.readdirSync(source).map(name => join(source, name)).filter(isDirectory);
+function moveCustomTranslationsToCoreFolder(pathMask) {
+    glob.sync(pathMask).forEach(file => {
+        const [fileName, lang] = file.split('/').reverse();
+        const dirpath = `${core}ext/${lang}`;
+        fs.mkdirSync(dirpath, { recursive: true });
+
+        fs.copyFile(file, `${dirpath}/${fileName}`, (err) => {
+            if (err) throw err;
+        });
+    });
+}
 
 (function loadTranslates() {
 
-    getDirectories(core).forEach(langFolder => {
-        const lang = langFolder.substring(core.length);
+    helpers.LANGUAGES.forEach(lang => {
+        moveCustomTranslationsToCoreFolder(customPathMask(lang));
 
         const coreTranslations = getTranslations(corePathMask(lang));
         const customTranslations = getTranslations(customPathMask(lang));
@@ -49,5 +60,4 @@ const getDirectories = source => fs.readdirSync(source).map(name => join(source,
         saveJson(savePath, _.merge(coreTranslations, customTranslations));
         console.info('Updated: ', savePath);
     });
-
 })();
