@@ -1,15 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { I18nNamePipe, JhiLanguageHelper } from '@xm-ngx/components/language';
 import { Principal } from '@xm-ngx/core/auth';
 
 import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmConfigService } from '../../shared/spec/config.service';
+import { PageService } from '../page/page.service';
 import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
 import { Dashboard } from '../shared/dashboard.model';
 import { Widget } from '../shared/widget.model';
 import { DashboardBase } from './dashboard-base';
+import { PageTitleService } from './page-title.service';
 import { sortByOrderIndex } from './sortByOrderIndex';
 
 interface DashboardLayout {
@@ -23,6 +24,7 @@ interface DashboardLayout {
     selector: 'xm-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
+    providers: [PageTitleService],
 })
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
 
@@ -30,29 +32,27 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     public showLoader: boolean;
     public spec: Spec;
 
-    private routeData: any;
     private routeSubscription: any;
-    private routeDataSubscription: any;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
-                private jhiLanguageHelper: JhiLanguageHelper,
                 private dashboardWrapperService: DashboardWrapperService,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private principal: Principal,
+                private pageService: PageService,
+                pageTitleService: PageTitleService,
                 private xmConfigService: XmConfigService,
-                private i18nNamePipe: I18nNamePipe) {
+    ) {
         super();
+        pageTitleService.init();
     }
 
     public ngOnInit(): void {
         this.xmEntitySpecWrapperService.spec().then((spec) => this.spec = spec);
-        this.routeDataSubscription = this.route.data.subscribe((data) => {
-            this.routeData = data;
-        });
         this.routeSubscription = this.route.params.subscribe((params) => {
             if (params.id) {
                 this.load(params.id);
+                this.pageService.load(params.id);
             } else {
                 this.rootRedirect();
             }
@@ -61,7 +61,6 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
     public ngOnDestroy(): void {
         this.routeSubscription.unsubscribe();
-        this.routeDataSubscription.unsubscribe();
     }
 
     public rootRedirect(): void {
@@ -138,8 +137,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                     this.dashboard.layout = {};
                     this.dashboard.layout.grid = widgets.map((w) => this.defaultGrid(w));
                 }
-                this.routeData.pageSubSubTitle = this.processDashboardName(this.dashboard);
-                this.jhiLanguageHelper.updateTitle();
+
             },
             () => {
                 console.info('No dashboard found by %s', id);
@@ -176,15 +174,6 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 this.findAndEnrichWidget(layout[k], widgets);
             }
         });
-    }
-
-    private processDashboardName(dashboard: any): string {
-        const config = dashboard && dashboard.config || {};
-        const dashboardName = config.name ? this.i18nNamePipe.transform(config.name, this.principal) : null;
-        const dashboardMenuLabel = (config.menu && config.menu.name)
-            ? this.i18nNamePipe.transform(config.menu.name, this.principal)
-            : this.dashboard.name;
-        return dashboardName || dashboardMenuLabel;
     }
 
     private defaultGrid(el: Widget): { class: string; content: Array<{ widget: Widget; class: string }> } {
