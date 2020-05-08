@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router } from '@angular/router';
-import { Dashboard, DashboardService } from '@xm-ngx/dynamic';
+import { Dashboard, DashboardService, JavascriptCode } from '@xm-ngx/dynamic';
 import { XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { transpilingForIE } from '@xm-ngx/json-scheme-form';
 import * as _ from 'lodash';
@@ -10,7 +10,7 @@ import { filter, map, share, tap } from 'rxjs/operators';
 
 import { ContextService, Principal } from '../../../shared';
 import { DEFAULT_MENU_LIST } from './menu-const';
-import { JavascriptCode, MenuCategory, MenuItem } from './menu-models';
+import { MenuCategory, MenuItem } from './menu-models';
 
 function checkCondition(item: { config?: { condition?: JavascriptCode } }, contextService: ContextService): boolean {
 
@@ -46,7 +46,7 @@ function dashboardToCategory(dashboard: Dashboard): MenuCategory {
     return ({
         position: group.orderIndex,
         permission: group.permission || 'DASHBOARD.GET_LIST',
-        url: ['dashboard', (groupKey || dashboard.id)],
+        url: ['dashboard', (groupKey || String(dashboard.id))],
         key: groupKey,
         title: group.name || dashboard.name || '',
         isLink: menu.groupIsLink || false,
@@ -85,7 +85,7 @@ function dashboardToMenuItem(dashboard: Dashboard): MenuItem {
         position: config.orderIndex,
         class: config.hidden ? 'd-none' : '',
         permission: config.permission || 'DASHBOARD.GET_LIST',
-        url: ['dashboard', (config.slug || dashboard.id)],
+        url: ['dashboard', (config.slug || String(dashboard.id))],
         title: config.name || menu.name || dashboard.name || '',
         icon: config.icon || '',
     });

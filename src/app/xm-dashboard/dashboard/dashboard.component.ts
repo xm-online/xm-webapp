@@ -8,8 +8,9 @@ import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
 import { Dashboard } from '../shared/dashboard.model';
-import { DashboardService } from '../shared/dashboard.service';
 import { Widget } from '../shared/widget.model';
+import { DashboardBase } from './dashboard-base';
+import { sortByOrderIndex } from './sortByOrderIndex';
 
 interface DashboardLayout {
     widget?: number | string | Widget;
@@ -23,37 +24,12 @@ interface DashboardLayout {
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
 
     public dashboard: Dashboard = {isPublic: false};
     public showLoader: boolean;
     public spec: Spec;
-    // Back compatibility matrix
-    private mapWidgets: any = {
-        'xm-widget-available-offerings': 'ext-common-entity/xm-widget-available-offerings',
-        'xm-widget-clock': 'ext-common/xm-widget-clock',
-        'xm-widget-general-countries': 'ext-common-entity/xm-widget-general-countries',
-        'xm-widget-general-map': 'ext-common-entity/xm-widget-general-map',
-        'xm-widget-stats': 'ext-common-entity/xm-widget-stats',
-        'xm-widget-chartist-line': 'ext-common-entity/xm-widget-chartist-line',
-        'xm-widget-tasks': 'ext-common-entity/xm-widget-tasks',
-        'xm-widget-weather': 'ext-common/xm-widget-weather',
-        'xm-widget-exchange-calculator': 'ext-common/xm-widget-exchange-calculator',
-        'xm-widget-md': 'ext-common/xm-widget-md',
-        'xm-widget-lots': 'ext-auction/xm-widget-lots',
-        'xm-widget-welcome': 'ext-common/xm-widget-welcome',
-        'xm-widget-entities-list': 'ext-common-entity/xm-widget-entities-list',
-        'xm-widget-sign-in-up': 'ext-common/xm-widget-sign-in-up',
-        'xm-widget-iframe': 'ext-common/xm-widget-iframe',
-        'xm-widget-provide-customer-info': 'ext-common-entity/xm-widget-provide-customer-info',
-        'xm-widget-coin-account': 'ext-crypto-wallet/xm-widget-coin-account',
-        'xm-widget-coin-wallets': 'ext-crypto-wallet/xm-widget-coin-wallets',
-        'xm-widget-jbs-board': 'ext-tenant-jsales/xm-jbs-board-widget',
-        'xm-widget-zendesk-tickets': 'ext-zendesk/xm-widget-zendesk-tickets',
-        'xm-widget-coin-wallet-escrow': 'ext-crypto-wallet/xm-widget-coin-wallet-escrow',
-        'xm-widget-news': 'ext-common/xm-widget-news',
-        'xm-widget-ico': 'ext-ico/xm-widget-ico',
-    };
+
     private routeData: any;
     private routeSubscription: any;
     private routeDataSubscription: any;
@@ -61,12 +37,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private jhiLanguageHelper: JhiLanguageHelper,
-                private dashboardService: DashboardService,
                 private dashboardWrapperService: DashboardWrapperService,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private principal: Principal,
                 private xmConfigService: XmConfigService,
                 private i18nNamePipe: I18nNamePipe) {
+        super();
     }
 
     public ngOnInit(): void {
@@ -75,7 +51,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.routeData = data;
         });
         this.routeSubscription = this.route.params.subscribe((params) => {
-            console.info('-------------- dashboard--------', params);
             if (params.id) {
                 this.load(params.id);
             } else {
@@ -149,12 +124,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
             console.info(`load dashboard ${id}`);
         }
 
-        this.dashboardService.find(id).subscribe((result) => {
-                const widgets
-                    = (result.body && result.body.widgets ? result.body.widgets : [])
-                    .sort((a, b) => this.sortByOrderIndex(a, b));
+        this.dashboardWrapperService
+            .getDashboardByIdOrSlug(id).subscribe((result) => {
+                const widgets = sortByOrderIndex(result && result.widgets ? result.widgets : []);
                 Object.assign(this.dashboard, {
-                    widgets: this.getWidgetComponent(widgets),
+                    widgets: this.getWidgetsComponent(widgets),
                 });
 
                 if (this.dashboard.layout && this.dashboard.layout.layout) {
@@ -255,44 +229,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 }
             }
         });
-    }
-
-    private getWidgetComponent(widgets: Widget[]): Widget[] {
-        return widgets.map((widget) => {
-            if (typeof this.mapWidgets[widget.selector] === 'string'
-                || this.mapWidgets[widget.selector] instanceof String) {
-                widget.selector = this.mapWidgets[widget.selector];
-            } else {
-                widget.component = this.mapWidgets[widget.selector];
-            }
-            if (widget.selector.indexOf('/') > 0) {
-                widget.module = widget.selector.split('/')[0];
-                widget.selector = widget.selector.split('/')[1];
-            }
-            widget.config = widget.config || {};
-            Object.assign(widget.config, {id: widget.id, name: widget.name});
-            return widget;
-        });
-    }
-
-    /**
-     * Sort widgets by optional orderIndex field in widget.config
-     * @param itemA
-     * @param itemB
-     */
-    private sortByOrderIndex(itemA: Widget, itemB: Widget): number {
-        const aIndex = this.getOrderIndex(itemA.config ? itemA.config : {});
-        const bIndex = this.getOrderIndex(itemB.config ? itemB.config : {});
-        if (aIndex > bIndex) {
-            return 1;
-        }
-        if (aIndex < bIndex) {
-            return -1;
-        }
-        return 0;
-    }
-
-    private getOrderIndex({orderIndex = 100}: { orderIndex: number }): number {
-        return orderIndex;
     }
 }

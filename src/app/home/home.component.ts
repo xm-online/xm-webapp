@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 
 import { Account, AuthServerProvider, Principal } from '../shared';
 import { XmConfigService } from '../shared/spec/config.service';
+import { DashboardBase } from '../xm-dashboard/dashboard/dashboard-base';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, XM_EVENT_LIST } from '../xm.constants';
 
 @Component({
@@ -15,7 +16,7 @@ import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, XM_EVENT_LIST } from '../xm.c
     styleUrls: ['./home.component.scss'],
     templateUrl: './home.component.html',
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
 
     public account: Account;
     public modalRef: MatDialogRef<any>;
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 private xmConfigService: XmConfigService,
                 private http: HttpClient,
                 private authServerProvider: AuthServerProvider) {
+        super();
     }
 
     public ngOnInit(): void {
@@ -94,39 +96,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             .pipe(map((resp) => {
                 this.authServerProvider.loginWithToken(resp.body.access_token, false);
             }));
-    }
-
-    private getWidgetComponent(widget: Widget = {}): Widget {
-        widget.selector = widget.selector ? widget.selector : 'ext-common/xm-widget-welcome';
-        const mapComponents = {
-            'xm-widget-available-offerings': 'ext-common-entity/xm-widget-available-offerings',
-            'xm-widget-clock': 'ext-common/xm-widget-clock',
-            'xm-widget-general-map': 'ext-common-entity/xm-widget-general-map',
-            'xm-widget-stats': 'ext-common-entity/xm-widget-stats',
-            'xm-widget-tasks': 'ext-common-entity/xm-widget-tasks',
-            'xm-widget-weather': 'ext-common/xm-widget-weather',
-            'xm-widget-exchange-calculator': 'ext-common/xm-widget-exchange-calculator',
-            'xm-widget-md': 'ext-common/xm-widget-md',
-            'xm-widget-lots': 'ext-auction/xm-widget-lots',
-            'xm-widget-welcome': 'ext-common/xm-widget-welcome',
-            'xm-widget-sign-in-up': 'ext-common/xm-widget-sign-in-up',
-            'xm-widget-iframe': 'ext-common/xm-widget-iframe',
-        };
-        if (typeof mapComponents[widget.selector] === 'string' || mapComponents[widget.selector] instanceof String) {
-            widget.selector = mapComponents[widget.selector];
-        } else {
-            widget.component = mapComponents[widget.selector];
-        }
-        if (widget.selector.indexOf('/') > 0) {
-            widget.module = widget.selector.split('/')[0];
-            widget.selector = widget.selector.split('/')[1];
-        }
-        widget.config = widget.config || {};
-        Object.assign(widget.config, {
-            id: widget.id,
-            name: widget.name,
-        });
-        return widget;
     }
 
 }

@@ -1,4 +1,4 @@
-export type JavascriptCode = string;
+import { Translate } from '@xm-ngx/translation';
 
 export interface MenuItem {
     class?: string;
@@ -6,7 +6,7 @@ export interface MenuItem {
     permission?: string | string[];
     url: string[];
     icon: string;
-    title: string;
+    title: Translate;
 }
 
 export interface MenuCategory extends MenuItem {

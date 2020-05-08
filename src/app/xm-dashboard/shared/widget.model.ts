@@ -1,13 +1,22 @@
 import { BaseEntity } from '@xm-ngx/entity';
-import { Dashboard } from './dashboard.model';
 
-export interface Widget extends BaseEntity {
+export interface Widget<C = any> extends BaseEntity {
     id?: number;
-    selector?: string;
-    name?: string;
-    config?: any;
+    config?: C;
+    dashboard?: number
+        /*
+         * Backward compatibility,
+         * @todo: Backend, improve dashboard-microservice
+         */
+        | { id?: number } | any;
     isPublic?: boolean;
-    dashboard?: Dashboard;
-    module?: string;
-    component?: any;
+    name?: string;
+    selector?: string;
+
+    /*
+     * Backward compatibility, @deprecated
+     * @todo: add generics
+     */
+    [key: string]: any;
+
 }

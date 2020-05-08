@@ -2,6 +2,7 @@ export { DashboardComponent } from './dashboard/dashboard.component';
 export * from './dynamic/dynamic-widget.directive';
 export * from './dynamic/dynamic-widget-layout.component';
 export * from './shared/dashboard.model';
+export * from './shared/layout.model';
 export * from './shared/dashboard.service';
 export * from './shared/dashboard-wrapper.service';
 export * from './shared/widget.model';
