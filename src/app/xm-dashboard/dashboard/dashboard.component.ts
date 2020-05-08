@@ -6,7 +6,7 @@ import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmConfigService } from '../../shared/spec/config.service';
-import { PageService } from '../page/page.service';
+import { Page, PageService } from '../page/page.service';
 import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
 import { Dashboard } from '../shared/dashboard.model';
 import { Widget } from '../shared/widget.model';
@@ -38,7 +38,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 private dashboardWrapperService: DashboardWrapperService,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private principal: Principal,
-                private pageService: PageService,
+                private pageService: PageService<Page<{ slug?: string }>>,
                 pageTitleService: PageTitleService,
                 private xmConfigService: XmConfigService,
     ) {
@@ -48,14 +48,21 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
     public ngOnInit(): void {
         this.xmEntitySpecWrapperService.spec().then((spec) => this.spec = spec);
-        this.route.params.pipe(takeUntilOnDestroy(this)).subscribe((params) => {
-            if (params.id) {
-                this.load(params.id);
-                this.pageService.load(params.id);
-            } else {
-                this.rootRedirect();
-            }
-        });
+
+        this.route.params
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((params) => this.pageService.load(params.id));
+
+        this.pageService.active$()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((page) => {
+                if (!page) {
+                    this.rootRedirect();
+                    return;
+                }
+                const key = page.config && page.config.slug ? page.config.slug : page.id;
+                this.load(key);
+            });
     }
 
     public ngOnDestroy(): void {
