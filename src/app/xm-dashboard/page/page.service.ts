@@ -41,7 +41,7 @@ export class PageService<T extends Page = Page> implements OnDestroy {
 
     private loadPage(idOrSlug: string | null): void {
         if (idOrSlug) {
-            this.dashboard.getByByIdOrSlug(idOrSlug)
+            this.dashboard.getByIdOrSlug(idOrSlug)
                 .pipe(take(1))
                 .subscribe((i) => this._active$.next(i as T));
         } else {
