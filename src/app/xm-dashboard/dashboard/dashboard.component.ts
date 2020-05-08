@@ -4,6 +4,7 @@ import { Principal } from '@xm-ngx/core/auth';
 
 import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
+import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { PageService } from '../page/page.service';
 import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
@@ -32,8 +33,6 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     public showLoader: boolean;
     public spec: Spec;
 
-    private routeSubscription: any;
-
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private dashboardWrapperService: DashboardWrapperService,
@@ -49,7 +48,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
     public ngOnInit(): void {
         this.xmEntitySpecWrapperService.spec().then((spec) => this.spec = spec);
-        this.routeSubscription = this.route.params.subscribe((params) => {
+        this.route.params.pipe(takeUntilOnDestroy(this)).subscribe((params) => {
             if (params.id) {
                 this.load(params.id);
                 this.pageService.load(params.id);
@@ -60,7 +59,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     }
 
     public ngOnDestroy(): void {
-        this.routeSubscription.unsubscribe();
+        // TakeUntilOnDestroy
     }
 
     public rootRedirect(): void {
