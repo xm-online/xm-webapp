@@ -5,6 +5,7 @@ import { Principal } from '@xm-ngx/core/auth';
 import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import * as _ from 'lodash';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { Page, PageService } from '../page/page.service';
 import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
@@ -51,7 +52,10 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
         this.route.params
             .pipe(takeUntilOnDestroy(this))
-            .subscribe((params) => this.pageService.load(params.id));
+            .subscribe((params) => {
+                this.showLoader = true;
+                this.pageService.load(params.id);
+            });
 
         this.pageService.active$()
             .pipe(takeUntilOnDestroy(this))
@@ -60,8 +64,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                     this.rootRedirect();
                     return;
                 }
-                const key = page.config && page.config.slug ? page.config.slug : page.id;
-                this.load(key);
+                this.loadDashboard(page);
             });
     }
 
@@ -102,55 +105,25 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
             );
     }
 
-    public load(idOrSlug: any): void {
-        this.showLoader = true;
+    public loadDashboard(page: Page): void {
         if (!environment.production) {
-            console.info(`load ${idOrSlug}`);
-        }
-        this.dashboardWrapperService.dashboards().then((dashboards) => {
-                if (dashboards && dashboards.length) {
-                    this.dashboard = dashboards.filter((d) => (d.config && d.config.slug === idOrSlug)
-                        || d.id === parseInt(idOrSlug, 10)).shift();
-                    // TODO temporary fix for override widget variables
-                    this.dashboard = JSON.parse(JSON.stringify(this.dashboard || ''));
-                    if (this.dashboard && this.dashboard.id) {
-                        this.loadDashboard(this.dashboard.id);
-                    } else {
-                        console.info('No dashboard found by %s', idOrSlug);
-                        this.rootRedirect();
-                    }
-                }
-            },
-        );
-    }
-
-    public loadDashboard(id: any): void {
-        if (!environment.production) {
-            console.info(`load dashboard ${id}`);
+            console.info(`loadDashboard ${page.id}`);
         }
 
-        this.dashboardWrapperService
-            .getDashboardByIdOrSlug(id).subscribe((result) => {
-                const widgets = sortByOrderIndex(result && result.widgets ? result.widgets : []);
-                Object.assign(this.dashboard, {
-                    widgets: this.getWidgetsComponent(widgets),
-                });
+        this.dashboard = _.cloneDeep(page);
 
-                if (this.dashboard.layout && this.dashboard.layout.layout) {
-                    this.findAndEnrichWidget(this.dashboard.layout.layout, widgets);
-                    this.dashboard.layout.grid = this.dashboard.layout.layout;
-                } else {
-                    this.dashboard.layout = {};
-                    this.dashboard.layout.grid = widgets.map((w) => this.defaultGrid(w));
-                }
+        const widgets = sortByOrderIndex(this.dashboard.widgets || []);
+        this.dashboard.widgets = this.getWidgetsComponent(widgets);
 
-            },
-            () => {
-                console.info('No dashboard found by %s', id);
-                this.showLoader = false;
-            },
-            () => (this.showLoader = false),
-        );
+        if (this.dashboard.layout && this.dashboard.layout.layout) {
+            this.findAndEnrichWidget(this.dashboard.layout.layout, widgets);
+            this.dashboard.layout.grid = this.dashboard.layout.layout;
+        } else {
+            this.dashboard.layout = {};
+            this.dashboard.layout.grid = widgets.map((w) => this.defaultGrid(w));
+        }
+
+        this.showLoader = false;
     }
 
     public isCustomElement(layout: { widget: unknown }): boolean {
