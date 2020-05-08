@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 import { LanguageService, Translate } from './language.service';
 
@@ -35,6 +35,9 @@ export class TitleService implements OnInitialize {
             this.translateService.get(this.localeId).subscribe(this.update.bind(this)),
             this.router.events.pipe(
                 filter((e) => e instanceof NavigationEnd),
+                map(() => this.getCurrentActiveRoute()),
+                filter(route => route.outlet === 'primary'),
+                distinctUntilChanged(),
             ).subscribe(this.update.bind(this)),
         );
     }
@@ -69,6 +72,14 @@ export class TitleService implements OnInitialize {
 
         return route.data.pageTitle
             || this.getTitleFormRoute(route.firstChild);
+    }
+
+    private getCurrentActiveRoute(): ActivatedRoute {
+        let route = this.router.routerState.root;
+        while (route.firstChild) {
+            route = route.firstChild;
+        }
+        return route;
     }
 
 }
