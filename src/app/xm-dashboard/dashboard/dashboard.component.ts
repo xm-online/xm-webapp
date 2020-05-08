@@ -8,7 +8,6 @@ import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
 import { Dashboard } from '../shared/dashboard.model';
-import { DashboardService } from '../shared/dashboard.service';
 import { Widget } from '../shared/widget.model';
 import { DashboardBase } from './dashboard-base';
 import { sortByOrderIndex } from './sortByOrderIndex';
@@ -38,7 +37,6 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private jhiLanguageHelper: JhiLanguageHelper,
-                private dashboardService: DashboardService,
                 private dashboardWrapperService: DashboardWrapperService,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private principal: Principal,
