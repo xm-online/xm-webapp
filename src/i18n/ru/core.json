@@ -313,6 +313,8 @@
       "no": "Нет",
       "set": "Задать",
       "yes": "Да",
+      "delete": "Удалить",
+      "delete-message": "Удалить {{value}}?",
       "yes-exit": "Да, выйти!"
     },
     "field": {

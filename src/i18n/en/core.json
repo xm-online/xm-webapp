@@ -323,6 +323,8 @@
       "no": "No",
       "set": "Set",
       "yes": "Yes",
+      "delete": "Delete",
+      "delete-message": "Remove the {{value}}?",
       "yes-exit": "Yes, exit!"
     },
     "field": {

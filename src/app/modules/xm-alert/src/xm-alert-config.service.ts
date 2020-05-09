@@ -13,6 +13,9 @@ export class XmAlertConfigService {
     public cancelLabel: string = 'global.common.cancel';
     public reverseButtons: boolean = true;
 
+    public deleteMessage: string = 'global.common.delete-message';
+    public deleteLabel: string = 'global.common.delete';
+
     public confirmButtonClass: string = 'btn btn-outline-primary border-0 mx-1';
     public cancelButtonClass: string = 'btn btn-outline-dark border-0 mx-1';
 }
