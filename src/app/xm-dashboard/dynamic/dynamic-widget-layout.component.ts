@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import * as _ from 'lodash';
 import { Layout } from '../shared/layout.model';
+import { appearUp } from '@xm-ngx/components/animations';
 
 interface SanitizedLayout {
     layout: Layout;
@@ -16,6 +17,7 @@ interface SanitizedLayout {
             <div [class]="item.layout.class"
                  [style]="item.layout.style"
                  xm-dynamic-widget-layout
+                 @appearUp
                  [resolveCustomParams]="resolveCustomParams"
                  [isCustomElement]="isCustomElement"
                  [layouts]="item.layout.content">
@@ -38,6 +40,7 @@ interface SanitizedLayout {
             </ng-container>
         </ng-template>
     `,
+    animations: [appearUp],
 })
 export class DynamicWidgetLayoutComponent implements OnChanges {
     public sanitizedLayouts: SanitizedLayout[];
