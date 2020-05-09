@@ -318,13 +318,13 @@
       "accept": "Accept",
       "are-you-sure": "Are you sure?",
       "cancel": "Cancel",
+      "delete": "Delete",
+      "delete-message": "Remove the {{value}}?",
       "maintenance-description": "It usually takes a few minutes, otherwise contact your system administrator.",
       "maintenance-message": "Technical work in progress...<br>Please, try again later.",
       "no": "No",
       "set": "Set",
       "yes": "Yes",
-      "delete": "Delete",
-      "delete-message": "Remove the {{value}}?",
       "yes-exit": "Yes, exit!"
     },
     "field": {
