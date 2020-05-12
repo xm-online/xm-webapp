@@ -47,7 +47,7 @@ export const DEFAULT_MENU_LIST: MenuCategory[] = [
             },
             {
                 position: 3,
-                permission: 'ROUTE.GET_LIST',
+                permission: 'ROLE.GET_LIST',
                 url: ['/administration/roles-management'],
                 icon: 'supervisor_account',
                 title: 'global.menu.admin.rolesManagement',
@@ -61,14 +61,14 @@ export const DEFAULT_MENU_LIST: MenuCategory[] = [
             },
             {
                 position: 5,
-                permission: 'ROUTE.GET_LIST',
+                permission: 'USER.GET_LIST',
                 url: ['/administration/user-management'],
                 icon: 'supervisor_account',
                 title: 'global.menu.admin.userManagement',
             },
             {
                 position: 6,
-                permission: 'ROUTE.GET_LIST',
+                permission: 'CLIENT.GET_LIST',
                 url: ['/administration/client-management'],
                 icon: 'account_circle',
                 title: 'global.menu.admin.clientManagement',
@@ -89,7 +89,7 @@ export const DEFAULT_MENU_LIST: MenuCategory[] = [
             },
             {
                 position: 9,
-                permission: '',
+                permission: 'ROUTE.GET_LIST',
                 url: ['/administration/form-playground'],
                 icon: 'content_paste',
                 title: 'global.menu.admin.formPlayground',
