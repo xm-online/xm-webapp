@@ -86,7 +86,7 @@
     "@xm-ngx/styles": "file:./packages/styles",
     "ajv": "6.10.2",
     "angular-calendar": "0.28.2",
-    "angular2-cookie": "1.2.6",
+    "ngx-cookie-service": "3.0.4",
     "angular2-material-datepicker": "0.5.0",
     "angular2-recaptcha": "1.1.0",
     "angular2-uuid": "1.1.1",

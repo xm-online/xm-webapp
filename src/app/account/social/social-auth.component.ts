@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { CookieService } from 'angular2-cookie/core';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AuthService, LoginComponent, LoginService, XmConfigService } from '../../shared';
 import { StateStorageService } from '@xm-ngx/core/auth';
@@ -43,7 +43,7 @@ export class SocialAuthComponent extends LoginComponent implements OnInit {
         const token = this.cookieService.get(SOCIAL_AUTH);
         if (token) {
             this.loginService.loginWithToken(token, false).then(() => {
-                this.cookieService.remove(SOCIAL_AUTH);
+                this.cookieService.delete(SOCIAL_AUTH);
                 this.authService.authorize(true)
                     .then(
                         () => {

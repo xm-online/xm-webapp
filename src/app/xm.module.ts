@@ -9,6 +9,7 @@ import { XmApplicationConfigService, XmCoreModule } from '@xm-ngx/core';
 import { UserRouteAccessService } from '@xm-ngx/core/auth';
 import { XmDashboardModule } from '@xm-ngx/dynamic';
 import { HttpLoaderFactory, XmTranslationModule } from '@xm-ngx/translation';
+import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { ADMIN_ELEMENTS } from './admin/admin.registry';
@@ -54,6 +55,7 @@ export function appInitializerFn(appConfig: XmApplicationConfigService): () => P
             deps: [XmApplicationConfigService],
         },
         UserRouteAccessService,
+        CookieService,
     ],
     bootstrap: [XmMainComponent],
 })

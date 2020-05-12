@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { appearUp } from '@xm-ngx/components/animations';
 import { Principal } from '@xm-ngx/core/auth';
 
 import { environment } from '@xm-ngx/core/environment';
@@ -26,6 +27,7 @@ interface DashboardLayout {
     selector: 'xm-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
+    animations: [appearUp],
     providers: [PageTitleService],
 })
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {

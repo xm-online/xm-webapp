@@ -17,6 +17,8 @@ $material-icons-font-path: '~material-icons/iconfont/';
 @include xm-vendor-xm-override();
 
 // Components
+@import '~@xm-ngx/styles/src/_loader-placeholder.scss';
+
 @import 'src/app/layouts/main/main-theme';
 @import 'src/app/modules/xm-sidebar/sidebar-theme';
 @import 'src/app/modules/xm-sidebar-right/sidebar-right-theme';

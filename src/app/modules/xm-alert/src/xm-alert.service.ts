@@ -59,4 +59,27 @@ export class XmAlertService {
         return from(swal(settings));
     }
 
+    public yesNo(settings: XmAlertOptions): Observable<XmAlertResult> {
+        return this.open(_.merge({
+            showCancelButton: true,
+            confirmButtonText: this.config.yesLabel,
+            cancelButtonText: this.config.noLabel,
+        }, settings));
+    }
+
+    public yesCancel(settings: XmAlertOptions): Observable<XmAlertResult> {
+        return this.open(_.merge({
+            showCancelButton: true,
+            confirmButtonText: this.config.yesLabel,
+            cancelButtonText: this.config.cancelLabel,
+        }, settings));
+    }
+
+    public delete(options?: XmAlertOptions): Observable<XmAlertResult> {
+        return this.yesCancel(_.merge({
+            title: this.config.deleteLabel,
+            text: this.config.deleteMessage,
+            confirmButtonText: this.config.deleteLabel,
+        }, options));
+    }
 }
