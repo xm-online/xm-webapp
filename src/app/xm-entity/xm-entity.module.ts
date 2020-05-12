@@ -26,7 +26,7 @@ import {
     EntityCardCompactComponent,
     EntityCardComponent,
     EntityDataCardComponent,
-    EntityDetailDialogComponent,
+    EntityDetailDialogModule,
     EntityDetailFabComponent,
     EntityListCardComponent,
     EntityListFabComponent,
@@ -67,6 +67,7 @@ import { StateChangeDialogComponent } from './state-change-dialog/state-change-d
 const MODULES = [
     StatesManagementDialogModule,
     EntityStateModule,
+    EntityDetailDialogModule,
 ];
 
 @NgModule({
@@ -93,7 +94,6 @@ const MODULES = [
         EntityCardComponent,
         EntityCardCompactComponent,
         EntityDataCardComponent,
-        EntityDetailDialogComponent,
         EntityDetailFabComponent,
         EntityListCardComponent,
         EntityListFabComponent,
@@ -124,7 +124,6 @@ const MODULES = [
         AvatarDialogComponent,
         CalendarEventDialogComponent,
         CommentDetailDialogComponent,
-        EntityDetailDialogComponent,
         FunctionCallDialogComponent,
         StateChangeDialogComponent,
         LinkDetailDialogComponent,
