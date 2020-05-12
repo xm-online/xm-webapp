@@ -67,4 +67,8 @@ export const ADMIN_ELEMENTS = [
         provide: '@xm-ngx/administration/dashboard-mng/widget-list-card',
         useFactory: () => import('@xm-ngx/administration/dashboard-mng/widget-list-card').then(m => m.WidgetListCardModule),
     },
+    {
+        provide: '@xm-ngx/components/navbar-heatmap-widget',
+        useFactory: () => import('@xm-ngx/components/navbar-heatmap-widget').then(m => m.NavbarHeatmapWidgetModule),
+    },
 ];

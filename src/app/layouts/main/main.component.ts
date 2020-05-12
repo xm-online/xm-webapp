@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { HeatmapService } from '@xm-ngx/components/navbar-heatmap-widget';
 import { XmApplicationConfigService, XmEventManager } from '@xm-ngx/core';
 import { LoginService, Principal } from '@xm-ngx/core/auth';
 import { LanguageService, TitleService } from '@xm-ngx/translation';
@@ -9,7 +10,6 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { XmConfigService } from '../../shared';
 import { XM_EVENT_LIST } from '../../xm.constants';
-import { HeatmapService } from './heatmap.service';
 
 declare const $: any;
 

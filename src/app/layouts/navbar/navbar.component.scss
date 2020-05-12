@@ -56,10 +56,6 @@
   flex-wrap:         $value;
 }
 
-:host .heatmap-icon {
-  z-index: 99;
-}
-
 // TODO; redesign and remove ng-deep
 ::ng-deep {
   .xm-navbar-container {
