@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 
 @Injectable()
 export class HeatmapService {
+
     private heatmap: any;
     private heatmapContainer: any;
     private defaultConfig: any = {

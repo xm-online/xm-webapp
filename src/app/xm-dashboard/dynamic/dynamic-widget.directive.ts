@@ -78,7 +78,7 @@ export class DynamicWidgetDirective implements OnChanges {
 
     /** @deprecated Experimental */
     private async loadFromInjector(): Promise<void> {
-        const moduleFac = this.injector.get(this._layout.config.name);
+        const moduleFac = this.injector.get(this._layout?.config?.name || this._layout.selector);
         const module = await moduleFac;
 
         let moduleFactory;
@@ -100,7 +100,7 @@ export class DynamicWidgetDirective implements OnChanges {
         const value = this._layout;
 
         // WARNING: Experimental
-        if (value.module === '@xm-ngx') {
+        if (value.module === '@xm-ngx' || value.selector && value.selector.startsWith('@xm-ngx')) {
             this.loadFromInjector().then();
             return;
         }

@@ -35,6 +35,10 @@
 
 :host ::ng-deep .hidden-heatmap .heatmap-canvas {
   opacity: 0;
-  z-index: -33;
+}
+
+:host ::ng-deep .heatmap-canvas {
+  pointer-events: none;
+  width: 100%;
 }
 
