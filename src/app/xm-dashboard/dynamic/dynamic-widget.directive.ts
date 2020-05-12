@@ -26,11 +26,13 @@ export interface WidgetFn {
 }
 
 export interface WidgetConfig<C = any, S = any> extends IWidget<C, S> {
-    module: string;
     selector: string;
+    /** @deprecated use selector instead */
+    module: string;
     /** @deprecated use selector instead */
     component: string;
     config?: C;
+    /** @deprecated spec will be removed, you should provide the spec locally */
     spec?: S;
 }
 

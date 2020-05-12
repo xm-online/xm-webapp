@@ -1,6 +1,16 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, NgModule, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { LanguageModule } from '@xm-ngx/components/language';
+import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmEventManager } from '@xm-ngx/core';
+import { XmJsonSchemeFormModule } from '@xm-ngx/json-scheme-form';
+import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
@@ -144,4 +154,25 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
             this.smartDescription.value = formatString(this.smartDescription.template, data);
         }
     }
+}
+
+@NgModule({
+    imports: [
+        LoaderModule,
+        MatDialogModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        CommonModule,
+        XmJsonSchemeFormModule,
+        MatButtonModule,
+        LanguageModule,
+        MatInputModule,
+        XmTranslationModule,
+    ],
+    exports: [EntityDetailDialogComponent],
+    declarations: [EntityDetailDialogComponent],
+    providers: [],
+})
+export class EntityDetailDialogModule {
 }
