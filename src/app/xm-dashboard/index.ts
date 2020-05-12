@@ -9,3 +9,4 @@ export * from './shared/widget.model';
 export * from './shared/widget.service';
 export { XmDashboardModule } from './xm-dashboard.module';
 export { XmDynamicModule } from './xm-dynamic.module';
+export { PageService, Page } from './page/page.service';
