@@ -1,15 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { I18nNamePipe, JhiLanguageHelper } from '@xm-ngx/components/language';
 import { Principal } from '@xm-ngx/core/auth';
 
 import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
+import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import * as _ from 'lodash';
 import { XmConfigService } from '../../shared/spec/config.service';
+import { Page, PageService } from '../page/page.service';
 import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
 import { Dashboard } from '../shared/dashboard.model';
 import { Widget } from '../shared/widget.model';
 import { DashboardBase } from './dashboard-base';
+import { PageTitleService } from './page-title.service';
 import { sortByOrderIndex } from './sortByOrderIndex';
 
 interface DashboardLayout {
@@ -23,6 +26,7 @@ interface DashboardLayout {
     selector: 'xm-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
+    providers: [PageTitleService],
 })
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
 
@@ -30,38 +34,42 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     public showLoader: boolean;
     public spec: Spec;
 
-    private routeData: any;
-    private routeSubscription: any;
-    private routeDataSubscription: any;
-
     constructor(private router: Router,
                 private route: ActivatedRoute,
-                private jhiLanguageHelper: JhiLanguageHelper,
                 private dashboardWrapperService: DashboardWrapperService,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private principal: Principal,
+                private pageService: PageService<Page<{ slug?: string }>>,
+                pageTitleService: PageTitleService,
                 private xmConfigService: XmConfigService,
-                private i18nNamePipe: I18nNamePipe) {
+    ) {
         super();
+        pageTitleService.init();
     }
 
     public ngOnInit(): void {
         this.xmEntitySpecWrapperService.spec().then((spec) => this.spec = spec);
-        this.routeDataSubscription = this.route.data.subscribe((data) => {
-            this.routeData = data;
-        });
-        this.routeSubscription = this.route.params.subscribe((params) => {
-            if (params.id) {
-                this.load(params.id);
-            } else {
-                this.rootRedirect();
-            }
-        });
+
+        this.route.params
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((params) => {
+                this.showLoader = true;
+                this.pageService.load(params.id);
+            });
+
+        this.pageService.active$()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((page) => {
+                if (!page) {
+                    this.rootRedirect();
+                    return;
+                }
+                this.loadDashboard(page);
+            });
     }
 
     public ngOnDestroy(): void {
-        this.routeSubscription.unsubscribe();
-        this.routeDataSubscription.unsubscribe();
+        // TakeUntilOnDestroy
     }
 
     public rootRedirect(): void {
@@ -97,56 +105,25 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
             );
     }
 
-    public load(idOrSlug: any): void {
-        this.showLoader = true;
+    public loadDashboard(page: Page): void {
         if (!environment.production) {
-            console.info(`load ${idOrSlug}`);
-        }
-        this.dashboardWrapperService.dashboards().then((dashboards) => {
-                if (dashboards && dashboards.length) {
-                    this.dashboard = dashboards.filter((d) => (d.config && d.config.slug === idOrSlug)
-                        || d.id === parseInt(idOrSlug, 10)).shift();
-                    // TODO temporary fix for override widget variables
-                    this.dashboard = JSON.parse(JSON.stringify(this.dashboard || ''));
-                    if (this.dashboard && this.dashboard.id) {
-                        this.loadDashboard(this.dashboard.id);
-                    } else {
-                        console.info('No dashboard found by %s', idOrSlug);
-                        this.rootRedirect();
-                    }
-                }
-            },
-        );
-    }
-
-    public loadDashboard(id: any): void {
-        if (!environment.production) {
-            console.info(`load dashboard ${id}`);
+            console.info(`loadDashboard ${page.id}`);
         }
 
-        this.dashboardWrapperService
-            .getDashboardByIdOrSlug(id).subscribe((result) => {
-                const widgets = sortByOrderIndex(result && result.widgets ? result.widgets : []);
-                Object.assign(this.dashboard, {
-                    widgets: this.getWidgetsComponent(widgets),
-                });
+        this.dashboard = _.cloneDeep(page);
 
-                if (this.dashboard.layout && this.dashboard.layout.layout) {
-                    this.findAndEnrichWidget(this.dashboard.layout.layout, widgets);
-                    this.dashboard.layout.grid = this.dashboard.layout.layout;
-                } else {
-                    this.dashboard.layout = {};
-                    this.dashboard.layout.grid = widgets.map((w) => this.defaultGrid(w));
-                }
-                this.routeData.pageSubSubTitle = this.processDashboardName(this.dashboard);
-                this.jhiLanguageHelper.updateTitle();
-            },
-            () => {
-                console.info('No dashboard found by %s', id);
-                this.showLoader = false;
-            },
-            () => (this.showLoader = false),
-        );
+        const widgets = sortByOrderIndex(this.dashboard.widgets || []);
+        this.dashboard.widgets = this.getWidgetsComponent(widgets);
+
+        if (this.dashboard.layout && this.dashboard.layout.layout) {
+            this.findAndEnrichWidget(this.dashboard.layout.layout, widgets);
+            this.dashboard.layout.grid = this.dashboard.layout.layout;
+        } else {
+            this.dashboard.layout = {};
+            this.dashboard.layout.grid = widgets.map((w) => this.defaultGrid(w));
+        }
+
+        this.showLoader = false;
     }
 
     public isCustomElement(layout: { widget: unknown }): boolean {
@@ -176,15 +153,6 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 this.findAndEnrichWidget(layout[k], widgets);
             }
         });
-    }
-
-    private processDashboardName(dashboard: any): string {
-        const config = dashboard && dashboard.config || {};
-        const dashboardName = config.name ? this.i18nNamePipe.transform(config.name, this.principal) : null;
-        const dashboardMenuLabel = (config.menu && config.menu.name)
-            ? this.i18nNamePipe.transform(config.menu.name, this.principal)
-            : this.dashboard.name;
-        return dashboardName || dashboardMenuLabel;
     }
 
     private defaultGrid(el: Widget): { class: string; content: Array<{ widget: Widget; class: string }> } {

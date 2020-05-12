@@ -40,7 +40,7 @@ export class DashboardWrapperService {
         );
     }
 
-    public getByByIdOrSlug(idOrSlug: number | string): Observable<DashboardWithWidgets | null> {
+    public getByIdOrSlug(idOrSlug: number | string): Observable<DashboardWithWidgets | null> {
         return this.dashboards$().pipe(
             map<Dashboard[] | null, Dashboard[]>((ds) => ds || []),
             map((ds) => ds.find((d) => (d.id === Number(idOrSlug)) || (d.config && d.config.slug === idOrSlug))),
@@ -57,7 +57,7 @@ export class DashboardWrapperService {
     }
 
     public getDashboardByIdOrSlug(idOrSlug: number | string): Observable<DashboardWithWidgets> {
-        return this.getByByIdOrSlug(idOrSlug).pipe(
+        return this.getByIdOrSlug(idOrSlug).pipe(
             take(1),
             map((i) => _.cloneDeep(i)),
         );
