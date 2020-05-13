@@ -8,7 +8,7 @@ import { JhiParseLinks } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
 
 import { Client, ClientService } from '../../../../src/app/shared';
-import { BaseAdminListComponent } from '../../../../src/app/admin/admin.service';
+import { BaseAdminListComponent } from '../admin.service';
 import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dialog.component';
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';
 

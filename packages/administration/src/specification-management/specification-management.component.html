@@ -3,7 +3,8 @@
     <ul class="nav nav-pills nav-pills-primary nav-pills-icons justify-content-center" role="tablist">
       <li *ngFor="let type of specificationTypes" class="nav-item">
         <a [class.active]="type.slug === currentSpecificationSlug"
-           [routerLink]="['../' + type.slug]"
+           [routerLink]="'.'"
+           [queryParams]="{slug: type.slug}"
            class="nav-link" data-toggle="tab"
            role="tab">
           <i class="material-icons">{{type.icon}}</i>

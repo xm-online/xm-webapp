@@ -9,11 +9,11 @@ import { ConfigValidatorUtil } from './config-validator/config-validator.util';
 const TENANT_SPEC_PATH = '/tenant-config.yml';
 
 @Component({
-    selector: 'xm-specification-mng',
-    templateUrl: './specification-mng.component.html',
-    styleUrls: ['./specification-mng.component.css'],
+    selector: 'xm-specification-management',
+    templateUrl: './specification-management.component.html',
+    styleUrls: ['./specification-management.component.css'],
 })
-export class SpecificationMngComponent implements OnInit {
+export class SpecificationManagementComponent implements OnInit {
 
     public specificationTypes: any[] = [
         {slug: 'ui', icon: 'view_quilt'},
@@ -69,8 +69,8 @@ export class SpecificationMngComponent implements OnInit {
     constructor(private activatedRoute: ActivatedRoute,
                 private principal: Principal,
                 private service: XmConfigService) {
-        this.activatedRoute.params.subscribe((params) => {
-            this.currentSpecificationSlug = params.slug;
+        this.activatedRoute.queryParams.subscribe((params) => {
+            this.currentSpecificationSlug = params.slug || this.specificationTypes[0].slug;
             this.isTenantSpecValid = false;
             this.tenantValidation = null;
             this.isUiSpecValid = false;

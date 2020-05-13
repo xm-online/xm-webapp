@@ -52,12 +52,20 @@ export const ADMIN_ELEMENTS = [
         useFactory: () => import('@xm-ngx/administration/roles-management').then(m => m.RolesManagementModule),
     },
     {
+        provide: '@xm-ngx/administration/roles-management-detail',
+        useFactory: () => import('@xm-ngx/administration/roles-management-detail').then(m => m.RolesManagementDetailModule),
+    },
+    {
         provide: '@xm-ngx/administration/user-management',
         useFactory: () => import('@xm-ngx/administration/user-management').then(m => m.UserManagementModule),
     },
     {
-        provide: '@xm-ngx/administration/specification-mng',
-        useFactory: () => import('@xm-ngx/administration/specification-mng').then(m => m.SpecificationMngModule),
+        provide: '@xm-ngx/administration/user-management-detail',
+        useFactory: () => import('@xm-ngx/administration/user-management-detail').then(m => m.UserManagementDetailModule),
+    },
+    {
+        provide: '@xm-ngx/administration/specification-management',
+        useFactory: () => import('@xm-ngx/administration/specification-management').then(m => m.SpecificationManagementModule),
     },
     {
         provide: '@xm-ngx/administration/dashboard-mng/dashboard-list-card',

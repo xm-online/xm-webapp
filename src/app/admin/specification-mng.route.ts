@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { SpecificationMngComponent } from '@xm-ngx/administration/specification-mng';
+import { SpecificationManagementComponent } from '@xm-ngx/administration/specification-management';
 
 export const specificationMngRoute: Routes = [
     {
@@ -7,7 +7,7 @@ export const specificationMngRoute: Routes = [
         children: [
             {
                 path: ':slug',
-                component: SpecificationMngComponent,
+                component: SpecificationManagementComponent,
                 data: {
                     privileges: {value: ['CONFIG.CLIENT.GET_LIST.ITEM']},
                     pageTitle: 'admin-config.common.menu.title',

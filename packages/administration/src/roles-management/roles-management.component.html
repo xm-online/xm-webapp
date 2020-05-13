@@ -29,7 +29,7 @@
               </thead>
               <tbody>
               <tr *ngFor="let item of roles">
-                <td><a [routerLink]="['../role-management', item.roleKey]">{{item.roleKey}}</a></td>
+                <td><a [routerLink]="['/administration/role-management', item.roleKey]">{{item.roleKey}}</a></td>
                 <td>{{item.description}}</td>
                 <td>{{item.createdBy}}</td>
                 <td>{{item.createdDate | date}}</td>

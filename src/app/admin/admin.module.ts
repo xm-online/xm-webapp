@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuditsModule } from '@xm-ngx/administration/audits';
+import { RolesManagementDetailModule } from '@xm-ngx/administration/roles-management-detail';
+import { UserManagementDetailModule } from '@xm-ngx/administration/user-management-detail';
 import { adminState } from './admin.route';
 import { ClientManagementModule } from '@xm-ngx/administration/client-management';
 import { ClientResolvePagingParams } from './client-management.route';
@@ -30,9 +32,11 @@ import { UserResolvePagingParams } from './user-management.route';
         MaintenanceModule,
         MetricModule,
         RolesManagementModule,
+        RolesManagementDetailModule,
         RolesMatrixModule,
         TranslationModule,
         UserManagementModule,
+        UserManagementDetailModule,
         RouterModule.forChild(adminState),
     ],
     declarations: [],

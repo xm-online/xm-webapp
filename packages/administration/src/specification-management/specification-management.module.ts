@@ -6,8 +6,8 @@ import { RouterModule } from '@angular/router';
 import { StatesManagementDialogModule } from '@xm-ngx/entity/states-management-dialog';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { AceEditorModule } from '../../../../src/app/shared/directives/ace-editor.directive';
-import { SpecificationMngComponent } from './specification-mng.component';
-import { EntitySpecMngComponent } from './entity-spec-mng/entity-spec-mng.component';
+import { SpecificationManagementComponent } from './specification-management.component';
+import { EntitySpecManagementComponent } from './entity-spec-management/entity-spec-management.component';
 import { ConfigVisualizerDialogComponent } from './config-visualizer-dialog/config-visualizer-dialog.component';
 
 @NgModule({
@@ -20,10 +20,10 @@ import { ConfigVisualizerDialogComponent } from './config-visualizer-dialog/conf
         MatIconModule,
         StatesManagementDialogModule,
     ],
-    exports: [SpecificationMngComponent],
-    declarations: [SpecificationMngComponent, ConfigVisualizerDialogComponent, EntitySpecMngComponent],
+    exports: [SpecificationManagementComponent],
+    declarations: [SpecificationManagementComponent, ConfigVisualizerDialogComponent, EntitySpecManagementComponent],
     providers: [],
 })
-export class SpecificationMngModule {
-    public entry: Type<SpecificationMngComponent> = SpecificationMngComponent;
+export class SpecificationManagementModule {
+    public entry: Type<SpecificationManagementComponent> = SpecificationManagementComponent;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Resolve, Routes } from '@angular/router';
-import { UserMgmtDetailComponent } from '@xm-ngx/administration/user-management/user-management-detail.component';
+import { UserMgmtDetailComponent } from '@xm-ngx/administration/user-management-detail/user-management-detail.component';
 import { UserMgmtComponent } from '@xm-ngx/administration/user-management/user-management.component';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
