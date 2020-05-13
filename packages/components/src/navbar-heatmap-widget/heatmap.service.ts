@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { TakeUntilOnDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { create as createHeatmap, DataPoint, HeatmapConfiguration } from 'heatmap.js';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 
+@TakeUntilOnDestroy()
 @Injectable()
 export class HeatmapService {
 

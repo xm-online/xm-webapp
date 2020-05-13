@@ -4,11 +4,12 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { XmEventManager } from '@xm-ngx/core';
 import { Link } from '@xm-ngx/entity';
-import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { TakeUntilOnDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
+@TakeUntilOnDestroy()
 @Injectable()
 export class BaseAdminConfigListComponent implements OnInit, OnDestroy {
 
