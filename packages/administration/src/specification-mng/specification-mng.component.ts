@@ -69,8 +69,8 @@ export class SpecificationMngComponent implements OnInit {
     constructor(private activatedRoute: ActivatedRoute,
                 private principal: Principal,
                 private service: XmConfigService) {
-        this.activatedRoute.params.subscribe((params) => {
-            this.currentSpecificationSlug = params.slug;
+        this.activatedRoute.queryParams.subscribe((params) => {
+            this.currentSpecificationSlug = params.slug || this.specificationTypes[0].slug;
             this.isTenantSpecValid = false;
             this.tenantValidation = null;
             this.isUiSpecValid = false;
