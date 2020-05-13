@@ -5,7 +5,7 @@ import { Principal } from '@xm-ngx/core/auth';
 
 import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
-import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { TakeUntilOnDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { Page, PageService } from '../page/page.service';
@@ -23,6 +23,7 @@ interface DashboardLayout {
     [key: string]: DashboardLayout | any;
 }
 
+@TakeUntilOnDestroy()
 @Component({
     selector: 'xm-dashboard',
     templateUrl: './dashboard.component.html',

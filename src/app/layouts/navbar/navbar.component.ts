@@ -5,7 +5,7 @@ import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
 import { XmUiConfigService } from '@xm-ngx/core';
-import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { TakeUntilOnDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { iif, Observable, of } from 'rxjs';
@@ -18,6 +18,7 @@ import { DEBUG_INFO_ENABLED, VERSION } from '../../xm.constants';
 
 declare const $: any;
 
+@TakeUntilOnDestroy()
 @Component({
     selector: 'xm-navbar',
     styleUrls: ['./navbar.component.scss'],

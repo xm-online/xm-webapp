@@ -67,6 +67,5 @@ export class RequestCacheFactoryService {
             interval(params.reloadInterval).pipe(takeUntilOnDestroy(storage)).subscribe(() => storage.forceReload());
         }
         return storage;
-
     }
 }
