@@ -125,8 +125,8 @@ function dashboardsToCategories(dashboards: Dashboard[]): MenuCategory[] {
         }
     });
 
-    categories = _.orderBy(categories, 'position', 'asc');
-    _.forEach(categories, (i) => i.children = _.orderBy(i.children, 'position', 'asc'));
+    categories = _.orderBy(categories, ['title', 'position'], 'asc');
+    _.forEach(categories, (i) => i.children = _.orderBy(i.children, ['title', 'position'], 'asc'));
 
     return categories;
 }
