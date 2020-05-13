@@ -1,13 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { I18nNamePipe } from '@xm-ngx/components/language';
-import { TakeUntilOnDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { TitleService, Translate } from '@xm-ngx/translation';
 import { filter } from 'rxjs/operators';
 import { Principal } from '../../shared/auth';
 import { Page, PageService } from '../page/page.service';
 
-@TakeUntilOnDestroy()
+
 @Injectable()
 export class PageTitleService implements OnDestroy {
 
@@ -33,7 +33,7 @@ export class PageTitleService implements OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        // TakeUntilOnDestroy
+        takeUntilOnDestroyDestroy(this);
     }
 
     private processDashboardName(dashboard: Page<{ name?: Translate; menu?: { name?: Translate } }>): string {

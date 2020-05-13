@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { TakeUntilOnDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { LanguageService } from '@xm-ngx/translation';
 
@@ -15,7 +15,7 @@ import { SUPER_ADMIN } from './auth.constants';
 const CACHE_SIZE = 1;
 const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
 
-@TakeUntilOnDestroy()
+
 @Injectable({providedIn: 'root'})
 export class Principal implements OnDestroy {
     private userIdentity: any;
@@ -36,7 +36,7 @@ export class Principal implements OnDestroy {
     }
 
     public ngOnDestroy(): void {
-       // TakeUntilOnDestroy
+        takeUntilOnDestroyDestroy(this);
     }
 
     public identityUserKey(): string {

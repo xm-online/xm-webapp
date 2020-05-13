@@ -5,7 +5,7 @@ import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 
 import { TranslateService } from '@ngx-translate/core';
 import { XmUiConfigService } from '@xm-ngx/core';
-import { TakeUntilOnDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { iif, Observable, of } from 'rxjs';
@@ -18,7 +18,7 @@ import { DEBUG_INFO_ENABLED, VERSION } from '../../xm.constants';
 
 declare const $: any;
 
-@TakeUntilOnDestroy()
+
 @Component({
     selector: 'xm-navbar',
     styleUrls: ['./navbar.component.scss'],
@@ -103,7 +103,7 @@ export class NavbarComponent implements OnInit, OnDestroy, DoCheck {
     }
 
     public ngOnDestroy(): void {
-        // For takeUntilOnDestroy
+        takeUntilOnDestroyDestroy(this);
     }
 
     public ngDoCheck(): void {
