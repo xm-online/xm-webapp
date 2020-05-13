@@ -35,9 +35,16 @@ function filterByConditionDashboards(dashboards: Dashboard[], contextService: Co
 function dashboardToCategory(dashboard: Dashboard): MenuCategory {
     const config = dashboard.config || {};
     const menu = config.menu || {};
-    const group = menu.group || {};
+    let group = menu.group || {};
 
     let groupKey = Object.keys(menu).length > 0 ? menu.group.key : 'DASHBOARD';
+
+    if (Object.keys(menu).length === 0 && !menu.groupIsLink) {
+        group = {
+            icon: 'dashboard',
+            name: 'global.menu.dashboards.main',
+        };
+    }
 
     if (menu.groupIsLink) {
         groupKey = dashboard.config && dashboard.config.slug ? dashboard.config.slug : null;
@@ -97,11 +104,11 @@ function dashboardsToCategories(dashboards: Dashboard[]): MenuCategory[] {
 
     _.forEach(dashboards, (dashboard) => {
 
-        const menu = dashboard.config && dashboard.config.menu ? dashboard.config.menu : {};
-        const _group = menu.group || {};
+        const menu = dashboard.config && dashboard.config.menu ? dashboard.config.menu : null;
+        const _group = menu?.group || {};
         let groupKey = !menu ? 'DASHBOARD' : _group.key;
 
-        if (menu.groupIsLink) {
+        if (menu?.groupIsLink) {
             groupKey = dashboard.config && dashboard.config.slug ? dashboard.config.slug : null;
         }
 
@@ -118,8 +125,8 @@ function dashboardsToCategories(dashboards: Dashboard[]): MenuCategory[] {
         }
     });
 
-    categories = _.orderBy(categories, 'position', 'asc');
-    _.forEach(categories, (i) => i.children = _.orderBy(i.children, 'position', 'asc'));
+    categories = _.orderBy(categories, ['title', 'position'], 'asc');
+    _.forEach(categories, (i) => i.children = _.orderBy(i.children, ['title', 'position'], 'asc'));
 
     return categories;
 }
@@ -155,7 +162,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         const dashboards$ = this.dashboardService.query().pipe(
             map((i) => i.body),
             map((i) => filterByConditionDashboards(i, this.contextService)),
-            map((i) => _.filter(i, (j) => !!(j.config && j.config.slug))),
+            // map((i) => _.filter(i, (j) => !!(j.config && j.config.slug))),
             map(dashboardsToCategories),
         );
 
