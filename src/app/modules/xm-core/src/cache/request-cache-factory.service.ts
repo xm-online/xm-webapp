@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TakeUntilOnDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { interval, Observable, of } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { XmSessionService } from '../xm-session.service';
@@ -16,7 +16,6 @@ interface RequestCacheFactoryParams<T> {
     requestTimeOut?: number;
 }
 
-@TakeUntilOnDestroy()
 @Injectable({providedIn: 'root'})
 export class RequestCacheFactoryService {
 
@@ -68,6 +67,5 @@ export class RequestCacheFactoryService {
             interval(params.reloadInterval).pipe(takeUntilOnDestroy(storage)).subscribe(() => storage.forceReload());
         }
         return storage;
-
     }
 }
