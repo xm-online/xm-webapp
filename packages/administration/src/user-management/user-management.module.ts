@@ -10,7 +10,6 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { XmSharedModule } from '../../../../src/app/shared/shared.module';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
-import { UserMgmtDetailComponent } from './user-management-detail.component';
 import { UserMgmtDialogComponent } from './user-management-dialog.component';
 import { UserMgmtComponent } from './user-management.component';
 
@@ -26,10 +25,9 @@ import { UserMgmtComponent } from './user-management.component';
         RouterModule,
         XmSharedModule,
     ],
-    exports: [UserMgmtComponent, UserMgmtDetailComponent],
+    exports: [UserMgmtComponent],
     declarations: [
         UserMgmtComponent,
-        UserMgmtDetailComponent,
         UserMgmtDialogComponent,
         UserLoginMgmtDialogComponent,
         UserMgmtDeleteDialogComponent,
