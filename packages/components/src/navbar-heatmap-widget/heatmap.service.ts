@@ -52,6 +52,7 @@ export class HeatmapService {
             heatmapCanvasEl.parentNode.removeChild(heatmapCanvasEl);
         }
         this.heatmap = createHeatmap(heatmapConfig);
+        this.overrideColorizeFunction(this.heatmap);
         const data = JSON.parse(localStorage.getItem(`heatmap-${route}`));
         if (data && data.data) {
             this.heatmap.setData(data);
@@ -78,5 +79,74 @@ export class HeatmapService {
     public toggleVisibility(): void {
         this.visibility$.next(!this.visibility$.value);
         this.heatmap.repaint();
+    }
+
+    private overrideColorizeFunction(heatmap: any): void {
+        heatmap._renderer._colorize = () => {
+            const that = heatmap._renderer;
+            let x = that._renderBoundaries[0];
+            let y = that._renderBoundaries[1];
+            let width = that._renderBoundaries[2] - x;
+            let height = that._renderBoundaries[3] - y;
+            const maxWidth = that._width;
+            const maxHeight = that._height;
+            const opacity = that._opacity;
+            const maxOpacity = that._maxOpacity;
+            const minOpacity = that._minOpacity;
+            const useGradientOpacity = that._useGradientOpacity;
+
+            if (x < 0) {
+                x = 0;
+            }
+            if (y < 0) {
+                y = 0;
+            }
+            if (x + width > maxWidth) {
+                width = maxWidth - x;
+            }
+            if (y + height > maxHeight) {
+                height = maxHeight - y;
+            }
+
+            const img = that.shadowCtx.getImageData(x, y, width, height);
+            const imgData = img.data;
+            const len = imgData.length;
+            const palette = that._palette;
+
+            for (let i = 3; i < len; i += 4) {
+                const alpha = imgData[i];
+                const offset = alpha * 4;
+
+                if (!offset) {
+                    continue;
+                }
+
+                let finalAlpha;
+                if (opacity > 0) {
+                    finalAlpha = opacity;
+                } else {
+                    if (alpha < maxOpacity) {
+                        if (alpha < minOpacity) {
+                            finalAlpha = minOpacity;
+                        } else {
+                            finalAlpha = alpha;
+                        }
+                    } else {
+                        finalAlpha = maxOpacity;
+                    }
+                }
+
+                imgData[i - 3] = palette[offset];
+                imgData[i - 2] = palette[offset + 1];
+                imgData[i - 1] = palette[offset + 2];
+                imgData[i] = useGradientOpacity ? palette[offset + 3] : finalAlpha;
+
+            }
+
+            that.ctx.putImageData(img, x, y);
+
+            that._renderBoundaries = [1000, 1000, 0, 0];
+
+        };
     }
 }
