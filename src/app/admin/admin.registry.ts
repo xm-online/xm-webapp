@@ -52,6 +52,10 @@ export const ADMIN_ELEMENTS = [
         useFactory: () => import('@xm-ngx/administration/roles-management').then(m => m.RolesManagementModule),
     },
     {
+        provide: '@xm-ngx/administration/roles-management-detail',
+        useFactory: () => import('@xm-ngx/administration/roles-management-detail').then(m => m.RolesManagementDetailModule),
+    },
+    {
         provide: '@xm-ngx/administration/user-management',
         useFactory: () => import('@xm-ngx/administration/user-management').then(m => m.UserManagementModule),
     },
