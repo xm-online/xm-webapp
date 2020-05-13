@@ -32,6 +32,10 @@ export class DashboardWrapperService {
         );
     }
 
+    public forceReload(): void {
+        this._dashboards.forceReload();
+    }
+
     public getById(id: number): Observable<DashboardWithWidgets | null> {
         return this.dashboards$().pipe(
             map<Dashboard[] | null, Dashboard[]>((ds) => ds || []),
