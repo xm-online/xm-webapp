@@ -9,11 +9,11 @@ import { ConfigValidatorUtil } from './config-validator/config-validator.util';
 const TENANT_SPEC_PATH = '/tenant-config.yml';
 
 @Component({
-    selector: 'xm-specification-mng',
-    templateUrl: './specification-mng.component.html',
-    styleUrls: ['./specification-mng.component.css'],
+    selector: 'xm-specification-management',
+    templateUrl: './specification-management.component.html',
+    styleUrls: ['./specification-management.component.css'],
 })
-export class SpecificationMngComponent implements OnInit {
+export class SpecificationManagementComponent implements OnInit {
 
     public specificationTypes: any[] = [
         {slug: 'ui', icon: 'view_quilt'},

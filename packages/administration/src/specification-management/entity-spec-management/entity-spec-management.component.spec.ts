@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EntitySpecMngComponent } from './entity-spec-mng.component';
+import { EntitySpecManagementComponent } from './entity-spec-management.component';
 
 describe('TenantSpecMngComponent', () => {
-  let component: EntitySpecMngComponent;
-  let fixture: ComponentFixture<EntitySpecMngComponent>;
+  let component: EntitySpecManagementComponent;
+  let fixture: ComponentFixture<EntitySpecManagementComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EntitySpecMngComponent ]
+      declarations: [ EntitySpecManagementComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EntitySpecMngComponent);
+    fixture = TestBed.createComponent(EntitySpecManagementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -8,10 +8,10 @@ import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
 
 @Component({
     selector: 'xm-entity-spec-mng',
-    templateUrl: './entity-spec-mng.component.html',
-    styleUrls: ['./entity-spec-mng.component.scss'],
+    templateUrl: './entity-spec-management.component.html',
+    styleUrls: ['./entity-spec-management.component.scss'],
 })
-export class EntitySpecMngComponent implements OnInit {
+export class EntitySpecManagementComponent implements OnInit {
 
     public entityValidation: any;
     public isXmEntitySpecValid: boolean;
