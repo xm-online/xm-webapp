@@ -1,22 +1,22 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
+
+import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
-
-import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { Link } from '../xm-entity';
 
 @Injectable()
 export class BaseAdminListComponent implements OnInit, OnDestroy {
 
     public list: any[];
-    public page: any;
+    public page: any = 1;
     public previousPage: any;
     public reverse: any;
-    public predicate: any;
+    public predicate: any = 'lastModifiedDate';
     public itemsPerPage: any;
     public links: Link[];
     public totalItems: any;
