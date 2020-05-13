@@ -7,7 +7,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
-import { Link } from '../xm-entity';
+import { Link } from '@xm-ngx/entity';
 
 @Injectable()
 export class BaseAdminListComponent implements OnInit, OnDestroy {

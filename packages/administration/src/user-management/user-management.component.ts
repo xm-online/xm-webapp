@@ -10,7 +10,7 @@ import { finalize } from 'rxjs/operators';
 
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { Principal, RoleService, User, UserLogin, UserLoginService, UserService } from '../../../../src/app/shared';
-import { BaseAdminListComponent } from '../../../../src/app/admin/admin.service';
+import { BaseAdminListComponent } from '../admin.service';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
 import { UserMgmtDialogComponent } from './user-management-dialog.component';
