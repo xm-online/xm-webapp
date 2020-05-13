@@ -83,7 +83,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let user of list; trackBy: trackIdentity">
-              <td><a [routerLink]="['../user-management', user.userKey]">{{user.id}}</a></td>
+              <td><a [routerLink]="['/administration/user-management', user.userKey]">{{user.id}}</a></td>
               <td>
                 <table *ngIf="user.logins" class="clear-table" style="width:100%" width="100%">
                   <tbody>
