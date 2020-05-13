@@ -5,10 +5,11 @@ import { Dashboard, DashboardService, JavascriptCode } from '@xm-ngx/dynamic';
 import { XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { transpilingForIE } from '@xm-ngx/json-scheme-form';
 import * as _ from 'lodash';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import { filter, map, share, tap } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map, share, shareReplay, take, tap } from 'rxjs/operators';
 
 import { ContextService, Principal } from '../../../shared';
+import { XmPublicUiConfigService } from '../../xm-core/src/config/xm-public-ui-config.service';
 import { DEFAULT_MENU_LIST } from './menu-const';
 import { MenuCategory, MenuItem } from './menu-models';
 
@@ -147,6 +148,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     constructor(protected readonly dashboardService: DashboardService,
                 protected readonly router: Router,
                 protected readonly principal: Principal,
+                protected readonly uiConfigService: XmPublicUiConfigService<{ sidebar?: { hideAdminConsole?: boolean } }>,
                 protected readonly entityConfigService: XmEntitySpecWrapperService,
                 protected readonly contextService: ContextService) {
     }
@@ -171,7 +173,11 @@ export class MenuComponent implements OnInit, OnDestroy {
             map(applicationsToCategory),
         );
 
-        const default$ = of(DEFAULT_MENU_LIST);
+        const default$ = this.uiConfigService.config$().pipe(
+            take(1),
+            map(i => i?.sidebar?.hideAdminConsole ? [] : DEFAULT_MENU_LIST),
+            shareReplay(1),
+        );
 
         this.categories$ = combineLatest([dashboards$, applications$, default$]).pipe(
             map(([a, b, c]) => [...a, ...b, ...c]),
