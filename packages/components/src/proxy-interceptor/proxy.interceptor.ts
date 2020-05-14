@@ -3,13 +3,15 @@ import { Inject, Injectable, InjectionToken, Provider } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 
+export const PROXY_INTERCEPTOR_URL = new InjectionToken('PROXY_INTERCEPTOR_URL');
+
 @Injectable()
 export class ProxyInterceptor implements HttpInterceptor {
     constructor(@Inject(PROXY_INTERCEPTOR_URL) private url: string) {
     }
 
     public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-        if (_.includes(request.url, 'http')) {
+        if (_.includes(request.url, 'http') && !this.url) {
             return next.handle(request);
         }
 
@@ -24,12 +26,9 @@ export class ProxyInterceptor implements HttpInterceptor {
     }
 }
 
-export const PROXY_INTERCEPTOR_URL = new InjectionToken('PROXY_INTERCEPTOR_URL');
-export const PROXY_INTERCEPTOR: Provider = {provide: HTTP_INTERCEPTORS, useClass: ProxyInterceptor, multi: true};
-
 export function proxyInterceptorFactory(url: string): Provider[] {
     return [
         {provide: PROXY_INTERCEPTOR_URL, useValue: url},
-        PROXY_INTERCEPTOR,
+        {provide: HTTP_INTERCEPTORS, useClass: ProxyInterceptor, multi: true},
     ];
 }

@@ -7,6 +7,7 @@ import { XmAlertModule } from '@xm-ngx/alert';
 
 import { XmApplicationConfigService, XmCoreModule } from '@xm-ngx/core';
 import { UserRouteAccessService } from '@xm-ngx/core/auth';
+import { environment } from '@xm-ngx/core/environment';
 import { XmDashboardModule } from '@xm-ngx/dynamic';
 import { HttpLoaderFactory, XmTranslationModule } from '@xm-ngx/translation';
 import { CookieService } from 'ngx-cookie-service';
@@ -16,6 +17,7 @@ import { ADMIN_ELEMENTS } from './admin/admin.registry';
 import { XmMainComponent } from './layouts';
 import { LayoutModule } from './layouts/layout.module';
 import { XmCoreAuthModule } from './modules/xm-core-auth/src/xm-core-auth.module';
+import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 import { XmRoutingModule } from './xm-routing.module';
 
 export function appInitializerFn(appConfig: XmApplicationConfigService): () => Promise<any> {
@@ -46,6 +48,7 @@ export function appInitializerFn(appConfig: XmApplicationConfigService): () => P
         LayoutModule,
     ],
     providers: [
+        proxyInterceptorFactory(environment.serverApiUrl),
         ADMIN_ELEMENTS,
         XmApplicationConfigService,
         {
