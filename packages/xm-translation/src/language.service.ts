@@ -1,7 +1,7 @@
 import { Inject, Injectable, LOCALE_ID, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager, XmUiConfigService, XmUserService } from '@xm-ngx/core';
-import { TakeUntilOnDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { SessionStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -34,7 +34,6 @@ export const SESSION_LOCALE = 'currentLang';
 
 export type Locale = string | 'en' | 'ru' | 'uk';
 
-@TakeUntilOnDestroy()
 @Injectable({providedIn: 'root'})
 export class LanguageService implements OnDestroy, OnInitialize {
     public locale$: Observable<Locale | null>;
@@ -80,6 +79,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
 
     public ngOnDestroy(): void {
         this.$locale.complete();
+        takeUntilOnDestroyDestroy(this);
     }
 
     /** @description Set html lang

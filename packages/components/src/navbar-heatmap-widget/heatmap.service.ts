@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { TakeUntilOnDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { create as createHeatmap, DataPoint, HeatmapConfiguration } from 'heatmap.js';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 
-@TakeUntilOnDestroy()
 @Injectable()
 export class HeatmapService {
 
@@ -32,7 +31,7 @@ export class HeatmapService {
     private subscription: Subscription;
 
     public ngOnDestroy(): void {
-        // takeUntil
+        takeUntilOnDestroyDestroy(this);
     }
 
     public $visibility(): Observable<boolean> {

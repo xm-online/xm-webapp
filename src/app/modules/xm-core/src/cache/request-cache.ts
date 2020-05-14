@@ -1,5 +1,5 @@
 import { OnDestroy } from '@angular/core';
-import { TakeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { of, ReplaySubject, Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 
@@ -14,7 +14,6 @@ export interface IRequestCache<T> extends OnDestroy {
     clear(): void;
 }
 
-@TakeUntilOnDestroy()
 export class RequestCache<T> implements IRequestCache<T> {
 
     private _cache$: ReplaySubject<T | null>;
@@ -35,6 +34,7 @@ export class RequestCache<T> implements IRequestCache<T> {
         if (this._cache$) {
             this._cache$.complete();
         }
+        takeUntilOnDestroyDestroy(this);
     }
 
     public setAndReload(request: () => Observable<T>): void {

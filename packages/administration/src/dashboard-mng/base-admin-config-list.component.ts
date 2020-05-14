@@ -4,12 +4,11 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { XmEventManager } from '@xm-ngx/core';
 import { Link } from '@xm-ngx/entity';
-import { TakeUntilOnDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
-@TakeUntilOnDestroy()
 @Injectable()
 export class BaseAdminConfigListComponent implements OnInit, OnDestroy {
 
@@ -57,6 +56,7 @@ export class BaseAdminConfigListComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this.routeData.unsubscribe();
         this.eventManager.destroy(this.eventModifySubscriber);
+        takeUntilOnDestroyDestroy(this);
     }
 
     public loadAll(): void {
