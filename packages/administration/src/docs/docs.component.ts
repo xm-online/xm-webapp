@@ -12,6 +12,18 @@ interface SwaggerResource {
 @Component({
     selector: 'xm-docs',
     templateUrl: './docs.component.html',
+    styles: [
+        `
+            :host ::ng-deep #swaggerHolder .col-12 {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            :host ::ng-deep #swaggerHolder .scheme-container {
+                display: none;
+            }
+        `,
+    ],
 })
 export class JhiDocsComponent implements AfterViewInit {
 
