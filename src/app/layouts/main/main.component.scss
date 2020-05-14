@@ -35,6 +35,7 @@
 
 :host ::ng-deep .hidden-heatmap .heatmap-canvas {
   opacity: 0;
+  display: none;
 }
 
 :host ::ng-deep .heatmap-canvas {
