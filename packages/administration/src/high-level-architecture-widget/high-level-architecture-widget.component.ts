@@ -125,7 +125,11 @@ export class HighLevelArchitectureWidgetComponent implements OnInit {
 
             if (c.links) {
                 c.links.forEach((l) => {
-                    content += `[${this.typeToString(c.type)}${c.name}]->[${this.typeToString(l.type)}${l.name}]\n`;
+                    if (l.isReverse) {
+                        content += `[${this.typeToString(l.type)}${l.name}]->[${this.typeToString(c.type)}${c.name}]\n`;
+                    } else {
+                        content += `[${this.typeToString(c.type)}${c.name}]->[${this.typeToString(l.type)}${l.name}]\n`;
+                    }
                 });
             }
 
