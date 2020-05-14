@@ -42,5 +42,5 @@ export const XM_EVENT_LIST = _XM_EVENT_LIST;
 export const DEFAULT_CONTENT_TYPE = _DEFAULT_CONTENT_TYPE;
 export const DEFAULT_AUTH_TOKEN = _DEFAULT_AUTH_TOKEN;
 
-// TODO: process.env.SERVER_API_URL as alternative from webpack
+/** @deprecated use environment.serverApiUrl or provide it with @xm-ngx/components/proxy-interceptor */
 export const SERVER_API_URL = '';
