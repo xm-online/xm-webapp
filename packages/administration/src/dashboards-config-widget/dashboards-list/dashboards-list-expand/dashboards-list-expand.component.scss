@@ -1,0 +1,19 @@
+@import 'src/styles/theme';
+
+:host {
+  width:      100%;
+  display:    block;
+  min-height: 150px;
+  background: rgba(0, 0, 0, 0.01);
+  box-shadow: inset 0 0 4px 2px rgba(0, 0, 0, .2);
+
+  table {
+    width:         100%;
+    margin-bottom: 30px;
+    background:    rgba(0, 0, 0, 0.01);
+  }
+
+  .list-item-active .mat-cell {
+    color: $xm-primary;
+  }
+}

@@ -79,4 +79,8 @@ export const ADMIN_ELEMENTS = [
         provide: '@xm-ngx/components/navbar-heatmap-widget',
         useFactory: () => import('@xm-ngx/components/navbar-heatmap-widget').then(m => m.NavbarHeatmapWidgetModule),
     },
+    {
+        provide: '@xm-ngx/administration/dashboards-config-widget',
+        useFactory: () => import('@xm-ngx/administration/dashboards-config-widget').then(m => m.DashboardsModule),
+    },
 ];
