@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { XmUiConfigService } from '@xm-ngx/core';
-import { Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
 import { FeedbackService } from './feedback.service';
@@ -15,23 +14,18 @@ export interface FeedbackConfig {
 @Component({
     selector: 'xm-feedback',
     template: `
-        <button *ngIf="showFeedback$ | async as config" (click)="create(config.feedback.url)" mat-icon-button>
+        <button *ngIf="config" (click)="create(config.feedback.url)" mat-icon-button>
             <mat-icon>feedback</mat-icon>
         </button>
     `,
 })
-export class FeedbackComponent implements OnInit {
+export class FeedbackComponent {
 
-    public showFeedback$: Observable<FeedbackConfig>;
+    public config: FeedbackConfig;
 
     constructor(protected uiConfigService: XmUiConfigService<FeedbackConfig>,
                 protected dialog: MatDialog,
                 protected feedbackService: FeedbackService) {
-    }
-
-    public ngOnInit(): void {
-        this.showFeedback$ = this.uiConfigService.config$().pipe(
-            filter((i) => Boolean(i && i.feedback)));
     }
 
     public create(url?: string): void {

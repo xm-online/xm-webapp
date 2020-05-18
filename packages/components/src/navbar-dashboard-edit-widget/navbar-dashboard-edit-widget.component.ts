@@ -70,5 +70,5 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy {
     providers: [],
 })
 export class NavbarDashboardEditWidgetModule {
-    public static entry: Type<NavbarDashboardEditWidgetComponent> = NavbarDashboardEditWidgetComponent;
+    public entry: Type<NavbarDashboardEditWidgetComponent> = NavbarDashboardEditWidgetComponent;
 }
