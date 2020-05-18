@@ -8,7 +8,7 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmEntityModule } from '@xm-ngx/entity';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmBalanceModule } from '@xm-ngx/xm-balance';
-import { XmRibbonModule } from '../modules/xm-ribbon/xm-ribbon.module';
+import { XmRibbonModule } from '@xm-ngx/components/xm-ribbon';
 import { XmSidebarModule } from '../modules/xm-sidebar';
 import { XmSidebarRightModule } from '../modules/xm-sidebar-right';
 import { XmMaintenanceViewModule } from '../shared/components/maintenance/xm-maintenance-view.module';

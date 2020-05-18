@@ -91,4 +91,8 @@ export const ADMIN_ELEMENTS = [
         provide: '@xm-ngx/components/feedback',
         useFactory: () => import('@xm-ngx/components/feedback').then(m => m.FeedbackModule),
     },
+    {
+        provide: '@xm-ngx/components/xm-ribbon',
+        useFactory: () => import('@xm-ngx/components/xm-ribbon').then(m => m.XmRibbonModule),
+    },
 ];
