@@ -49,5 +49,5 @@ import { WidgetEditComponent } from './widget-edit/widget-edit.component';
     ],
 })
 export class DashboardsModule {
-    public static entry: Type<any> = DashboardsConfigWidgetComponent;
+    public entry: Type<DashboardsConfigWidgetComponent> = DashboardsConfigWidgetComponent;
 }
