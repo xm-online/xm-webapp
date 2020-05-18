@@ -1,0 +1,68 @@
+<xm-loader [showLoader]="loading$ | async"></xm-loader>
+
+<table
+  #table
+  [dataSource]="widgetsList"
+  mat-table
+  matSort>
+
+  <!--  name -->
+  <ng-container matColumnDef="{{columns[0]}}">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> {{columns[0]}} </th>
+    <td *matCellDef="let element" mat-cell> {{ element[columns[0]] }} </td>
+  </ng-container>
+
+  <!--  selector -->
+  <ng-container matColumnDef="{{columns[1]}}">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> {{columns[1]}} </th>
+    <td *matCellDef="let element" mat-cell> {{ element[columns[1]] }} </td>
+  </ng-container>
+
+  <!--  config -->
+  <ng-container matColumnDef="{{columns[2]}}">
+    <th *matHeaderCellDef mat-header-cell mat-sort-header> {{columns[2]}} </th>
+    <td *matCellDef="let element" mat-cell>
+      <xm-bool [value]="element[columns[2]]"></xm-bool>
+    </td>
+  </ng-container>
+
+  <!-- Actions column -->
+  <ng-container [matColumnDef]="ACTIONS_COLUMN">
+
+    <th *matHeaderCellDef class="text-right" mat-header-cell>
+      <button (click)="onAdd()"
+              color="primary"
+              [matTooltip]="TRS.addWidget | translate"
+              mat-icon-button>
+        <mat-icon>add</mat-icon>
+      </button>
+    </th>
+
+    <td *matCellDef="let row" class="text-right" mat-cell>
+
+      <button (click)="onEdit(row); $event.stopPropagation()" mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
+
+    </td>
+
+  </ng-container>
+  <!-- ./ Actions column-->
+
+  <tr *matHeaderRowDef="columns" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: columns;"
+      [ngClass]="{ 'list-item-active': this.managerService.activeWidget?.id === row.id}"
+      mat-row></tr>
+
+</table>
+
+<div *ngIf="widgetsList?.data.length === 0" class="text-center">
+
+  <h6>{{ TRS.empty | translate }}</h6>
+
+  <button (click)="onAdd()" color="primary" mat-button>
+    <mat-icon>add</mat-icon>
+    {{ TRS.addWidget | translate }}
+  </button>
+
+</div>

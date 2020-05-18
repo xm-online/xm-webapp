@@ -1,0 +1,73 @@
+<form #form="ngForm" class="p-3 mb-0">
+
+  <xm-loader [showLoader]="loading$ | async"></xm-loader>
+
+  <div class="d-flex justify-content-between">
+
+    <button (click)="backToOrganisation()"
+            color="primary"
+            [matTooltip]="TRS.dashboard | translate"
+            mat-icon-button>
+      <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+
+    <h4 *ngIf="editType === EditType.Create" class="pt-2">{{ TRS.addWidget | translate }}</h4>
+    <h4 *ngIf="editType === EditType.Edit" class="pt-2">{{ TRS.editWidget | translate }}</h4>
+
+    <div class="d-flex flex-grow-1 pl-3">
+
+      <button (click)="onAdd()"
+              *ngIf="editType === EditType.Create"
+              [disabled]="!form.valid || disabled"
+              color="primary"
+              mat-flat-button>
+        <mat-icon>create</mat-icon>
+        {{ TRS.create | translate }}
+      </button>
+
+      <button (click)="onSave()"
+              *ngIf="editType === EditType.Edit"
+              [disabled]="!form.valid || disabled"
+              [matTooltip]="(TRS.save | translate) + ' Ctrl+S'"
+              color="primary"
+              mat-icon-button>
+        <mat-icon>save</mat-icon>
+      </button>
+
+      <button (click)="onDelete()"
+              *ngIf="editType === EditType.Edit"
+              [disabled]="!form.valid  || disabled"
+              [matTooltip]="TRS.delete | translate"
+              mat-icon-button>
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <button (click)="onCancel()"
+              [matTooltip]="TRS.cancel | translate"
+              class="ml-auto"
+              mat-icon-button>
+        <mat-icon>cancel</mat-icon>
+      </button>
+
+    </div>
+
+  </div>
+
+  <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="font-weight-bold">{{ value.id }}</span></div>
+
+  <xm-text-control [(ngModel)]="formGroup.name"
+                   [disabled]="disabled"
+                   [options]="{ title: TRS.name }" name="name"></xm-text-control>
+
+  <xm-text-control [(ngModel)]="formGroup.selector"
+                   [disabled]="disabled"
+                   [options]="{ title: TRS.selector }"
+                   name="selector"></xm-text-control>
+
+  <xm-ace-editor-control [(ngModel)]="formGroup.config"
+                         [disabled]="disabled"
+                         [options]="aceEditorOptions"
+                         name="layout">
+  </xm-ace-editor-control>
+
+</form>

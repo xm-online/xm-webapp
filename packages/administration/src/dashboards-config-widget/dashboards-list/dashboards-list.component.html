@@ -1,0 +1,137 @@
+<div class="my-3 d-flex justify-content-between">
+  <h4>{{ TRS.dashboards | translate }}</h4>
+
+  <div>
+    <button (click)="fileInput.click()"
+            [disabled]="dashboardsImportService.loading$ | async"
+            mat-button>
+      <input #fileInput (change)="onImport($event.target.files)" accept=".json" hidden type="file">
+      <mat-icon>vertical_align_top</mat-icon>
+      {{ TRS.import | translate }}</button>
+
+    <button (click)="onExport()"
+            [disabled]="dashboardsExportService.loading$ | async"
+            mat-button>
+      <mat-icon>vertical_align_bottom</mat-icon>
+      {{ TRS.export | translate }}</button>
+  </div>
+
+</div>
+
+<xm-text-control (valueChange)="onFilter($event)" [options]="{title: TRS.filter }"></xm-text-control>
+
+<!-- TODO: loader -->
+<!--<xm-loading [value]="loading$"></xm-loading>-->
+<!--<xm-loader [showLoader]="loading$ | async"></xm-loader>-->
+<div class="table-container mb-3">
+  <table
+    [dataSource]="dashboardList"
+    class="w-100"
+    mat-table
+
+    matSort
+    matSortActive="defaultDashboardOrder"
+    matSortDirection="asc"
+    matSortDisableClear
+    multiTemplateDataRows>
+
+    <!--  name -->
+    <ng-container matColumnDef="{{columns[0]}}">
+      <th *matHeaderCellDef disableClear mat-header-cell mat-sort-header> {{columns[0] | translate}} </th>
+      <td *matCellDef="let element" mat-cell> {{ element[columns[0]] }} </td>
+    </ng-container>
+
+    <!--  slug -->
+    <ng-container matColumnDef="{{columns[1]}}">
+      <th *matHeaderCellDef disableClear mat-header-cell mat-sort-header> {{columns[1] | translate}} </th>
+      <td *matCellDef="let element" mat-cell> {{ element?.config?.slug }}</td>
+    </ng-container>
+
+    <!--  config -->
+    <ng-container matColumnDef="{{columns[2]}}">
+      <th *matHeaderCellDef mat-header-cell> {{columns[2] | translate}}</th>
+      <td *matCellDef="let element" mat-cell>
+        <xm-bool [value]="!!element[columns[2]]"></xm-bool>
+      </td>
+    </ng-container>
+
+    <!--  layout -->
+    <ng-container matColumnDef="{{columns[3]}}">
+      <th *matHeaderCellDef mat-header-cell> {{columns[3] | translate}}</th>
+      <td *matCellDef="let element" mat-cell>
+        <xm-bool [value]="!!element[columns[3]]"></xm-bool>
+      </td>
+    </ng-container>
+
+    <!--  hidden -->
+    <ng-container matColumnDef="{{columns[4]}}">
+      <th *matHeaderCellDef mat-header-cell> {{columns[4] | translate}}</th>
+      <td *matCellDef="let element" mat-cell>
+        <xm-bool [value]="!!fromMap(element, columns[4])"></xm-bool>
+      </td>
+    </ng-container>
+
+    <!-- Actions column -->
+    <ng-container [matColumnDef]="ACTIONS_COLUMN">
+
+      <th *matHeaderCellDef class="text-right" mat-header-cell>
+        <button (click)="onAdd()"
+                [matTooltip]="TRS.createDashboard | translate"
+                color="primary"
+                mat-icon-button>
+          <mat-icon>add</mat-icon>
+        </button>
+      </th>
+
+      <td *matCellDef="let row" class="text-right" mat-cell>
+
+        <button (click)="onEdit(row); $event.stopPropagation()" mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <span [@indicatorRotate]="expandedElement?.id === row.id ? 'expanded' : 'collapsed'"
+              class="mat-expansion-indicator d-inline-block"></span>
+
+      </td>
+
+    </ng-container>
+    <!-- ./ Actions column-->
+
+    <!-- Expanded row -->
+    <ng-container [matColumnDef]="EXPANDED_DETAIL">
+      <td *matCellDef="let element" [attr.colspan]="columns.length" class="px-0" mat-cell>
+        <div [@expand]="element.id == expandedElement?.id ? 'expanded' : 'collapsed'"
+             class="example-element-detail">
+          <!--        TODO:  *ngIf="element == expandedElement" remove and fix 30 req to dsahboard -->
+          <xm-dashboards-list-expand *ngIf="element.id == expandedElement?.id"
+                                     [dashboardId]="element.id"></xm-dashboards-list-expand>
+        </div>
+      </td>
+    </ng-container>
+    <!-- Expanded row -->
+
+    <tr *matHeaderRowDef="columns; sticky: true" mat-header-row></tr>
+
+    <tr (click)="this.onEdit(element)"
+        *matRowDef="let element; columns: columns;"
+        [class.example-expanded-row]="expandedElement?.id === element.id"
+        [ngClass]="{ 'list-item-active': managerService.activeDashboard?.id === element.id}"
+        class="example-element-row"
+        mat-row>
+    </tr>
+
+    <tr *matRowDef="let row; columns: [EXPANDED_DETAIL]"
+        class="example-detail-row"
+        mat-row></tr>
+
+  </table>
+
+  <div class="w-100 py-3">
+    <button (click)="onAdd()" class="mx-auto d-block" color="primary" mat-flat-button>
+      <mat-icon>add</mat-icon>
+      {{ TRS.createDashboard | translate }}
+    </button>
+  </div>
+
+</div>
+
