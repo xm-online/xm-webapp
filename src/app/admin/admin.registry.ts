@@ -83,4 +83,8 @@ export const ADMIN_ELEMENTS = [
         provide: '@xm-ngx/administration/dashboards-config-widget',
         useFactory: () => import('@xm-ngx/administration/dashboards-config-widget').then(m => m.DashboardsModule),
     },
+    {
+        provide: '@xm-ngx/components/navbar-dashboard-edit-widget',
+        useFactory: () => import('@xm-ngx/components/navbar-dashboard-edit-widget').then(m => m.NavbarDashboardEditWidgetModule),
+    },
 ];
