@@ -87,4 +87,8 @@ export const ADMIN_ELEMENTS = [
         provide: '@xm-ngx/components/navbar-dashboard-edit-widget',
         useFactory: () => import('@xm-ngx/components/navbar-dashboard-edit-widget').then(m => m.NavbarDashboardEditWidgetModule),
     },
+    {
+        provide: '@xm-ngx/components/feedback',
+        useFactory: () => import('@xm-ngx/components/feedback').then(m => m.FeedbackModule),
+    },
 ];
