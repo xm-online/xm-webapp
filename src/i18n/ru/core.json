@@ -878,12 +878,12 @@
     "title": "Активность пользователей в реальном времени"
   },
   "translate-managment": {
-    "clear-cache-button": "",
-    "download-button": "",
-    "filter-by-key": "",
-    "filter-by-value": "",
-    "save-all-button": "",
-    "title": ""
+    "clear-cache-button": "Clear current translations cache",
+    "download-button": "Download translations",
+    "filter-by-key": "Filter by key",
+    "filter-by-value": "Filter by value",
+    "save-all-button": "Save all",
+    "title": "Translate management"
   },
   "userManagement": {
     "activated": "Активен",
