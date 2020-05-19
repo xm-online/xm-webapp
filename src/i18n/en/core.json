@@ -94,6 +94,12 @@
       "title": "Widgets"
     }
   },
+  "admin-webapp-ext": {
+    "common": {
+      "project": "",
+      "save": ""
+    }
+  },
   "audits": {
     "filter": {
       "from": "from",
@@ -143,6 +149,9 @@
     "scopes-add": "Add scopes",
     "search-by-client-id": "Search by client ID",
     "validityPeriod": "Validity period"
+  },
+  "commons": {
+    "required-field": ""
   },
   "dashboard-config-widget": {
     "add-widget": "Add widget",
@@ -878,6 +887,14 @@
       "userlogin": "User"
     },
     "title": "Real-time user activities"
+  },
+  "translate-managment": {
+    "clear-cache-button": "",
+    "download-button": "",
+    "filter-by-key": "",
+    "filter-by-value": "",
+    "save-all-button": "",
+    "title": ""
   },
   "userManagement": {
     "activated": "Activated",

@@ -94,6 +94,12 @@
       "title": "Віджети"
     }
   },
+  "admin-webapp-ext": {
+    "common": {
+      "project": "",
+      "save": ""
+    }
+  },
   "audits": {
     "filter": {
       "from": "від",
@@ -143,6 +149,9 @@
     "scopes-add": "Додати обсяги",
     "search-by-client-id": "Пошук за ID клієнта",
     "validityPeriod": "Термін дії"
+  },
+  "commons": {
+    "required-field": ""
   },
   "dashboard-config-widget": {
     "add-widget": "Додати віджет",
@@ -844,6 +853,14 @@
   },
   "swagger": {
     "select-component": "Оберiть компонент"
+  },
+  "translate-managment": {
+    "clear-cache-button": "",
+    "download-button": "",
+    "filter-by-key": "",
+    "filter-by-value": "",
+    "save-all-button": "",
+    "title": ""
   },
   "userManagement": {
     "activated": "Активовано",

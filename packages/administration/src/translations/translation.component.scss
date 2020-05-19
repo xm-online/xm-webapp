@@ -1,0 +1,25 @@
+.translate{
+    &__toggle-group {
+        margin-right: 20px;
+    }
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    &__header-toggle {
+
+    }
+
+    &__button-group {
+        display: flex;
+        margin: 10px 0;
+
+        & button:not(:last-child) {
+            margin-right: 10px;
+        }
+    }
+}

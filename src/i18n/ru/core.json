@@ -94,6 +94,12 @@
       "title": "Виджеты"
     }
   },
+  "admin-webapp-ext": {
+    "common": {
+      "project": "",
+      "save": ""
+    }
+  },
   "audits": {
     "filter": {
       "from": "от",
@@ -143,6 +149,9 @@
     "scopes-add": "Добавить области",
     "search-by-client-id": "Поиск по ID клиента",
     "validityPeriod": "Срок действия"
+  },
+  "commons": {
+    "required-field": ""
   },
   "dashboard-config-widget": {
     "add-widget": "Добавить виджет",
@@ -867,6 +876,14 @@
       "userlogin": "Пользователь"
     },
     "title": "Активность пользователей в реальном времени"
+  },
+  "translate-managment": {
+    "clear-cache-button": "",
+    "download-button": "",
+    "filter-by-key": "",
+    "filter-by-value": "",
+    "save-all-button": "",
+    "title": ""
   },
   "userManagement": {
     "activated": "Активен",
