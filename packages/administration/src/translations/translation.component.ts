@@ -24,15 +24,12 @@ export class TranslationComponent implements OnInit {
 
     public translations$: Observable<object> = this.getTranslations();
 
-    public isShowDownload: boolean = false;
-
     constructor(private translationKeysStoreService: TranslationStoreService,
                 private translationService: TranslationService) {
     }
 
     public ngOnInit(): void {
         this.initGetTranslations();
-        this.startListenStore();
     }
 
     private loadConfig(): Observable<Config> {
@@ -63,8 +60,11 @@ export class TranslationComponent implements OnInit {
     }
 
     public downloadAssets(): void {
-        const assets = this.translationKeysStoreService.getKeysWithChanges();
-        assets.forEach(([name, keys]) => {
+        this.getPath$().pipe(
+            switchMap((path) => this.translationKeysStoreService.getKeysFromStore(path).pipe(
+                map((res) => ({keys: res, name: path})),
+            )),
+        ).subscribe(({keys, name}) => {
             download(JSON.stringify(keys, null, 2), name, 'application/json');
         })
     }
@@ -104,10 +104,5 @@ export class TranslationComponent implements OnInit {
                 ) => prevExt === currExt && prevLang === currLang),
             map(([ext, lang]) => ext === 'core' ? `./i18n/${lang}/core.json` : `./i18n/ext/${lang}/${ext}.json`),
         )
-    }
-
-    private startListenStore(): void {
-        this.translationKeysStoreService.getKeysWithChanges$()
-            .subscribe((res) => this.isShowDownload = res.length > 0)
     }
 }

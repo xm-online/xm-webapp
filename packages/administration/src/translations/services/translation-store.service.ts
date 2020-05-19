@@ -54,24 +54,6 @@ export class TranslationStoreService {
         this.updateStore(keysName, newKeys, true);
     }
 
-    public getKeysWithChanges(): [string, {}][] {
-        const storeItems = this.store.getValue();
-
-        return Object.entries(storeItems)
-            .filter(([itemName, storeItem]) => storeItem.isChange)
-            .map(([itemName, storeItem]) => ([itemName, storeItem.keys]));
-    }
-
-    public getKeysWithChanges$(): Observable<[string, {}][]> {
-        return this.store.pipe(
-            map((storeItems) =>
-                Object.entries(storeItems)
-                    .filter(([itemName, storeItem]) => storeItem.isChange)
-                    .map(([itemName, storeItem]) => ([itemName, storeItem.keys])),
-            ),
-        )
-    }
-
     public isExist(keysName: string): StoreItem {
         return this.store.getValue()[keysName];
     }

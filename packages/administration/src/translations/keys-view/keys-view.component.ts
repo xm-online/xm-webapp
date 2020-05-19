@@ -7,9 +7,9 @@ import { flatten } from '../services/helpers';
     styleUrls: ['./keys-view.component.scss'],
 })
 export class KeysViewComponent {
-    public translationKeys: [string, string][];
-    public filterTranslationKeys: [string, string][];
-    public rawJson: {};
+    public translationKeys: [string, string][] = [];
+    public filterTranslationKeys: [string, string][] = [];
+    public rawJson: {} = {};
     public unSave: {[key: string]: string} = {};
 
     public filters: { byValue: string; byKey: string } = {
@@ -24,7 +24,7 @@ export class KeysViewComponent {
 
         this.rawJson = json;
         this.translationKeys = Object.entries(flatten(json));
-        this.unSave = {};
+        this.resetState();
     }
 
     @Output() public updateTranslate: EventEmitter<{key: string; value: string}> = new EventEmitter();
@@ -35,7 +35,7 @@ export class KeysViewComponent {
         delete this.unSave[key];
     }
 
-    public changeInput(key: string, value: any): void {
+    public changeInput(key: string, value: string): void {
         this.unSave[key] = value;
     }
 
@@ -51,9 +51,14 @@ export class KeysViewComponent {
         delete this.unSave[key];
     }
 
-    public changeFilter(strategy: 'byKey' | 'byValue'): void {
-        this.filterTranslationKeys = strategy === 'byKey'
-            ? this.translationKeys.filter(([key]) => key.includes(this.filters[strategy]))
-            : this.translationKeys.filter(([key, translate]) => translate.includes(this.filters[strategy]))
+    public changeFilter(): void {
+        this.filterTranslationKeys = this.translationKeys
+            .filter(([key]) => key.includes(this.filters.byKey))
+            .filter(([key, translate]) => translate.includes(this.filters.byValue))
+    }
+
+    private resetState(): void {
+        this.unSave = {};
+        this.changeFilter();
     }
 }

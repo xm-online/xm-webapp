@@ -10,14 +10,14 @@
                    [placeholder]="'translate-managment.filter-by-key' | translate"
                    [(ngModel)]="filters.byKey"
                    [ngModelOptions]="{standalone: true}"
-                   (ngModelChange)="changeFilter('byKey')">
+                   (ngModelChange)="changeFilter()">
         </div>
         <div class="keys-view__col">
             <input matInput
                    [placeholder]="'translate-managment.filter-by-value' | translate"
                    [(ngModel)]="filters.byValue"
                    [ngModelOptions]="{standalone: true}"
-                   (ngModelChange)="changeFilter('byValue')">
+                   (ngModelChange)="changeFilter()">
         </div>
     </header>
     <cdk-virtual-scroll-viewport itemSize="76" class="keys-view__virtual-scroll">
