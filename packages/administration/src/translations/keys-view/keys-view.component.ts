@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { flatten } from '../services/helpers';
+import { flattenObj } from '../services/helpers';
 
 @Component({
     selector: 'xm-keys-view',
@@ -23,7 +23,7 @@ export class KeysViewComponent {
         }
 
         this.rawJson = json;
-        this.translationKeys = Object.entries(flatten(json));
+        this.translationKeys = Object.entries(flattenObj(json));
         this.resetState();
     }
 

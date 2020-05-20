@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RequestCache, RequestCacheFactoryService } from '@xm-ngx/core';
 import { merge } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -17,25 +16,15 @@ export interface Config {
     providedIn: 'root',
 })
 export class TranslationService {
-    private configCache: RequestCache<Config>;
-
     constructor(
         private httpClient: HttpClient,
-        private requestCacheFactoryService: RequestCacheFactoryService,
-    ) {
-    }
+    ) { }
 
     public getFileWithTranslates(path: string): Observable<{}> {
         return this.httpClient.get<{}>(path);
     }
 
     public loadConfig(): Observable<Config> {
-        if (!this.configCache) {
-            this.configCache = this.requestCacheFactoryService.create<Config>({
-                request: () => this.httpClient.get<Config>('./i18n/settings.json'),
-            });
-        }
-
         return this.httpClient.get<Config>('./i18n/settings.json');
     }
 

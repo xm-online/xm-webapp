@@ -13,14 +13,14 @@ export function fromStringToObject(string: string, lastValue: {} = {}): { [p: st
     }, lastValue)
 }
 
-export function flatten(obj: {}, roots: any[] = [], sep: string = '.'): {} {
+export function flattenObj(obj: {}, roots: any[] = [], sep: string = '.'): {} {
     return Object
         .keys(obj)
         .reduce((memo, prop) => Object.assign(
             {},
             memo,
             Object.prototype.toString.call(obj[prop]) === '[object Object]'
-                ? flatten(obj[prop], roots.concat([prop]))
+                ? flattenObj(obj[prop], roots.concat([prop]))
                 : {[roots.concat([prop]).join(sep)]: obj[prop]},
         ), {})
 }
