@@ -1,19 +1,18 @@
 import {
-    Compiler,
     Directive,
     Injector,
     Input,
-    NgModuleFactory,
     NgModuleFactoryLoader,
     NgModuleRef,
     OnChanges,
-    Optional,
     Renderer2,
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
+import { CNgModuleFactory } from '@xm-ngx/components/dynamic/dynamic-components-base';
 import * as _ from 'lodash';
 import { from } from 'rxjs';
+import { ExtLoader } from './ext-loader';
 
 export interface IWidget<C = any, S = any> {
     config?: C;
@@ -38,10 +37,9 @@ export interface WidgetConfig<C = any, S = any> extends IWidget<C, S> {
 
 export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 
-export type LazyComponent = NgModuleFactory<any>;
-
 @Directive({
     selector: 'xm-dynamic-widget, [xm-dynamic-widget]',
+    providers: [ExtLoader],
 })
 export class DynamicWidgetDirective implements OnChanges {
 
@@ -52,8 +50,8 @@ export class DynamicWidgetDirective implements OnChanges {
 
     constructor(private loader: NgModuleFactoryLoader,
                 private injector: Injector,
+                private extLoader: ExtLoader,
                 private renderer: Renderer2,
-                @Optional() private compiler: Compiler,
                 private viewRef: ViewContainerRef) {
     }
 
@@ -79,20 +77,9 @@ export class DynamicWidgetDirective implements OnChanges {
     /** @deprecated Experimental */
     private async loadFromInjector(): Promise<void> {
         const moduleFac = this.injector.get(this._layout?.config?.name || this._layout.selector);
-        const module = await moduleFac;
-
-        let moduleFactory;
-        if (module instanceof NgModuleFactory) {
-            // For AOT
-            moduleFactory = module;
-        } else {
-            // For JIT
-            moduleFactory = await this.compiler.compileModuleAsync(module);
-        }
+        const moduleFactory = await this.extLoader.loadModuleFactory(moduleFac);
         const activeModule = moduleFactory.create(this.injector);
-
-        const entryComponent = activeModule.instance.entry;
-
+        const entryComponent = activeModule.instance.entry || (moduleFactory.moduleType as any).entry;
         this.createComponent(this._layout, activeModule, entryComponent);
     }
 
@@ -148,29 +135,19 @@ export class DynamicWidgetDirective implements OnChanges {
 
     private async createLazyComponent<T>(
         value: WidgetConfig,
-        lazy: Promise<LazyComponent>,
+        lazy: Promise<CNgModuleFactory<any>>,
         injector: Injector,
     ): Promise<void> {
-        const module = await lazy;
-
-        let moduleFactory;
-        if (module instanceof NgModuleFactory) {
-            // For AOT
-            moduleFactory = module;
-        } else {
-            // For JIT
-            moduleFactory = await this.compiler.compileModuleAsync(module);
-        }
-        const entryComponent = moduleFactory.moduleType.entry;
-
+        const moduleFactory = await this.extLoader.loadModuleFactory(lazy);
+        const activeModule = moduleFactory.create(injector);
+        const entryComponent = activeModule.instance.entry || (moduleFactory.moduleType as any).entry;
         if (!entryComponent) {
             // eslint-disable-next-line no-console
-            console.error(`ERROR: the "${value.module}" module expected to have a "static entry" filed!`
+            console.error(`ERROR: the "${value.module}" module expected to have a "entry" filed!`
                 + 'E.g. static entry = YourComponent;');
             return;
         }
 
-        const activeModule = moduleFactory.create(injector);
         this.createComponent(value, activeModule, entryComponent);
     }
 

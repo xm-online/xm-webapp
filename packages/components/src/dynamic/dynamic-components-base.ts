@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { NgModuleFactory, Type } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -6,6 +6,8 @@ export interface IDynamicModule<T> {
     entry?: Type<T>;
     resolve?: (key: string) => Promise<Type<T>>;
 }
+export type CNgModuleFactory<T = any> = NgModuleFactory<IDynamicModule<T>>;
+
 
 export interface IDynamicComponent<T = unknown> {
     selector?: string;
