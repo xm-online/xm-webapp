@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component } from '@angular/core';
 
 import { AuthServerProvider } from '@xm-ngx/core/auth';
+import { environment } from '@xm-ngx/core/environment';
 import SwaggerUI from 'swagger-ui';
 
 interface SwaggerResource {
@@ -52,7 +53,7 @@ export class JhiDocsComponent implements AfterViewInit {
             // eslint-disable-next-line @typescript-eslint/camelcase
             dom_id: '#swaggerHolder',
             supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
-            url: `${window.location.protocol}//${window.location.host}${resource}`,
+            url: `${environment.serverApiUrl}${resource}`,
             docExpansion: 'none',
             apisSorter: 'alpha',
             showRequestHeaders: false,
