@@ -2,13 +2,13 @@ import {
     Directive,
     Injector,
     Input,
-    NgModuleFactoryLoader,
     NgModuleRef,
     OnChanges,
     Renderer2,
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
+import { DynamicComponentsService } from '@xm-ngx/components/dynamic';
 import { CNgModuleFactory } from '@xm-ngx/components/dynamic/dynamic-components-base';
 import * as _ from 'lodash';
 import { from } from 'rxjs';
@@ -39,17 +39,16 @@ export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 
 @Directive({
     selector: 'xm-dynamic-widget, [xm-dynamic-widget]',
-    providers: [ExtLoader],
+    providers: [ExtLoader, DynamicComponentsService],
 })
 export class DynamicWidgetDirective implements OnChanges {
 
-    public commons: string[] = ['ext-common', 'ext-common-csp', 'ext-common-entity'];
     @Input() public class: string;
     @Input() public style: string;
     private _layout: WidgetConfig;
 
-    constructor(private loader: NgModuleFactoryLoader,
-                private injector: Injector,
+    constructor(private injector: Injector,
+                private dynamicComponentsService: DynamicComponentsService,
                 private extLoader: ExtLoader,
                 private renderer: Renderer2,
                 private viewRef: ViewContainerRef) {
@@ -89,8 +88,8 @@ export class DynamicWidgetDirective implements OnChanges {
             value.selector = value.selector.split('/')[1];
         }
 
-        const modulePath = this.resolveModulePath(value.module);
-        const moduleFactory = from(this.loader.load(modulePath));
+        const moduleFactoryRef = this.dynamicComponentsService.loadTenantModuleFactory(value.module);
+        const moduleFactory = from(moduleFactoryRef);
 
         moduleFactory.subscribe((factory) => {
             const module = factory.create(this.injector);
@@ -110,20 +109,6 @@ export class DynamicWidgetDirective implements OnChanges {
         });
     }
 
-    private resolveModulePath(module: string): string {
-        const rootClass = module.split('-').map((e) => e[0].toUpperCase() + e.slice(1)).join('');
-        const extName = module.split('-').reverse()[0];
-        const extRootClass = `${extName.charAt(0).toUpperCase() + extName.slice(1)}WebappExtModule`;
-        let modulePath: string;
-        // eslint-disable-next-line @typescript-eslint/prefer-includes
-        if (this.commons.indexOf(module) > -1) {
-            modulePath = `src/app/ext-commons/${module}/${module}.module#${rootClass}Module`;
-        } else {
-            modulePath = `src/app/ext/${extName}-webapp-ext/module/${extName}-webapp-ext.module#${extRootClass}`;
-        }
-
-        return modulePath;
-    }
 
     private async createLazyComponent<T>(
         value: WidgetConfig,
