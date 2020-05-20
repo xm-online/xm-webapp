@@ -1,0 +1,62 @@
+<button mat-raised-button
+        (click)="saveAll()"
+        *ngIf="(unSave | keyvalue)?.length > 1">
+    {{'translate-managment.save-all-button' | translate}}
+</button>
+<section class="keys-view__wrapper">
+    <header class="keys-view__header">
+        <div class="keys-view__col">
+            <input matInput
+                   [placeholder]="'translate-managment.filter-by-key' | translate"
+                   [(ngModel)]="filters.byKey"
+                   [ngModelOptions]="{standalone: true}"
+                   (ngModelChange)="changeFilter()">
+        </div>
+        <div class="keys-view__col">
+            <input matInput
+                   [placeholder]="'translate-managment.filter-by-value' | translate"
+                   [(ngModel)]="filters.byValue"
+                   [ngModelOptions]="{standalone: true}"
+                   (ngModelChange)="changeFilter()">
+        </div>
+    </header>
+    <cdk-virtual-scroll-viewport itemSize="76" class="keys-view__virtual-scroll">
+        <div class="keys-view__row" *cdkVirtualFor="let translationKey of filterTranslationKeys || translationKeys">
+            <div class="keys-view__col">{{translationKey[0]}}</div>
+            <div class="keys-view__col">
+                <mat-icon class="keys-view__warning-icon" *ngIf="!translationKey[1]" color="warn">warning</mat-icon>
+                <form (ngSubmit)="changeTranslate(translationKey[0])">
+                    <mat-form-field class="keys-view__input" [floatLabel]="'never'">
+                        <input #input="ngModel"
+                               matInput
+                               required
+                               [ngModel]="unSave[translationKey[0]] || translationKey[1]"
+                               [ngModelOptions]="{standalone: true}"
+                               (ngModelChange)="changeInput(translationKey[0], input.value)">
+                        <ng-container matSuffix>
+                            <button class="keys-view__button"
+                                    *ngIf="unSave[translationKey[0]]"
+                                    mat-button
+                                    mat-icon-button
+                                    type="button"
+                                    (click)="resetInput(translationKey[0])">
+                                <mat-icon>undo</mat-icon>
+                            </button>
+                            <button class="keys-view__button"
+                                    *ngIf="unSave[translationKey[0]]"
+                                    mat-button
+                                    mat-icon-button
+                                    type="submit"
+                                    [disabled]="input.invalid">
+                                <mat-icon>save</mat-icon>
+                            </button>
+                        </ng-container>
+                        <mat-error *ngIf="input.hasError('required')">
+                            {{'commons.required-field' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+            </div>
+        </div>
+    </cdk-virtual-scroll-viewport>
+</section>

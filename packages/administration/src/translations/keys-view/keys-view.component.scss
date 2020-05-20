@@ -1,0 +1,40 @@
+.keys-view {
+    &__wrapper {
+        margin-top: 20px;
+    }
+
+    &__header, &__row {
+        display: flex;
+        padding: 5px;
+        align-items: center;
+    }
+
+    &__row{
+        &--miss {
+            background-color: lightcoral;
+        }
+    }
+
+    &__header &__col {
+        font-size: 18px;
+        border-bottom: 1px solid;
+        display: flex;
+    }
+
+    &__col {
+        flex: 1;
+        font-size: 16px;
+        position: relative;
+    }
+
+    &__warning-icon {
+        position: absolute;
+        top: 50%;
+        left: -20px;
+        transform: translate(-50%, -50%);
+    }
+
+    &__virtual-scroll {
+        height: 65vh;
+    }
+}
