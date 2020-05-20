@@ -12,7 +12,7 @@ export type CNgModuleFactory<T = any> = NgModuleFactory<IDynamicModule<T>>;
 export interface IDynamicComponent<T = unknown> {
     selector?: string;
     componentRef?: Type<T>;
-    loadChildren?: () => Promise<Type<IDynamicModule<T>>>;
+    loadChildren?: () => Promise<CNgModuleFactory<T>>;
 }
 
 interface IDynamicComponentMap {
