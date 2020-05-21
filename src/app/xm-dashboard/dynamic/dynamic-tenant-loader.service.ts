@@ -13,6 +13,10 @@ export class DynamicTenantLoaderService {
     ) {
     }
 
+    public load<T>(selector: string): Promise<Type<T> | null> {
+        return this.loadTenantComponent(selector);
+    }
+
     public async loadTenantComponent<T>(
         selector: string,
         injector: Injector = this.moduleRef.injector,
