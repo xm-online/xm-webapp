@@ -1,0 +1,9 @@
+<div *ngIf="config.indent" class="w-100 indent"></div>
+
+<button class="mat-fab-button"
+        (click)="onClick()"
+        *permitted="config.permitted"
+        [color]="config.color"
+        mat-fab>
+  <mat-icon>{{config.icon}}</mat-icon>
+</button>
