@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import * as _ from 'lodash';
 import { from } from 'rxjs';
+import { DynamicTenantLoaderService } from './dynamic-tenant-loader.service';
 
 export interface IWidget<C = any, S = any> {
     config?: C;
@@ -45,13 +46,13 @@ export type LazyComponent = NgModuleFactory<any>;
 })
 export class DynamicWidgetDirective implements OnChanges {
 
-    public commons: string[] = ['ext-common', 'ext-common-csp', 'ext-common-entity'];
     @Input() public class: string;
     @Input() public style: string;
     private _layout: WidgetConfig;
 
     constructor(private loader: NgModuleFactoryLoader,
                 private injector: Injector,
+                private dynamicTenantLoaderService: DynamicTenantLoaderService,
                 private renderer: Renderer2,
                 @Optional() private compiler: Compiler,
                 private viewRef: ViewContainerRef) {
@@ -110,7 +111,7 @@ export class DynamicWidgetDirective implements OnChanges {
             value.selector = value.selector.split('/')[1];
         }
 
-        const modulePath = this.resolveModulePath(value.module);
+        const modulePath = this.dynamicTenantLoaderService.resolveTenantModulePath(value.module);
         const moduleFactory = from(this.loader.load(modulePath));
 
         moduleFactory.subscribe((factory) => {
@@ -129,21 +130,6 @@ export class DynamicWidgetDirective implements OnChanges {
                 this.createComponent(value, module, componentTypeOrLazyComponentType);
             }
         });
-    }
-
-    private resolveModulePath(module: string): string {
-        const rootClass = module.split('-').map((e) => e[0].toUpperCase() + e.slice(1)).join('');
-        const extName = module.split('-').reverse()[0];
-        const extRootClass = `${extName.charAt(0).toUpperCase() + extName.slice(1)}WebappExtModule`;
-        let modulePath: string;
-        // eslint-disable-next-line @typescript-eslint/prefer-includes
-        if (this.commons.indexOf(module) > -1) {
-            modulePath = `src/app/ext-commons/${module}/${module}.module#${rootClass}Module`;
-        } else {
-            modulePath = `src/app/ext/${extName}-webapp-ext/module/${extName}-webapp-ext.module#${extRootClass}`;
-        }
-
-        return modulePath;
     }
 
     private async createLazyComponent<T>(
