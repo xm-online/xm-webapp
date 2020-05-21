@@ -5,6 +5,7 @@ import {
     InjectionToken,
     Injector,
     Input,
+    NgModule,
     OnInit,
     Type,
     ViewContainerRef,
@@ -47,7 +48,7 @@ export class DynamicCellComponent<T> implements OnInit, DoCheck {
 
     public async load(): Promise<void> {
         this.viewContainerRef.clear();
-        const ref: Type<Component> = await this.loaderService.loadTenantComponent<Component>(this.column.selector);
+        const ref: Type<Component> = await this.loaderService.load<Component>(this.column.selector);
 
         if (!ref) {
             console.warn(`${this.column.selector} not exist!`);
@@ -81,4 +82,13 @@ export class DynamicCellComponent<T> implements OnInit, DoCheck {
         }
     }
 
+}
+
+@NgModule({
+    imports: [],
+    exports: [DynamicCellComponent],
+    declarations: [DynamicCellComponent],
+    providers: [],
+})
+export class DynamicCellModule {
 }

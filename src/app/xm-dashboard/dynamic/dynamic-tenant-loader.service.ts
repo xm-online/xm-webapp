@@ -1,6 +1,6 @@
-import { Injectable, Injector, NgModuleRef, Type } from '@angular/core';
+import { ComponentFactory, Injectable, Injector, NgModuleRef, Type } from '@angular/core';
 import { ELEMENT_NOT_FOUND } from '@xm-ngx/dynamic';
-import { DynamicLoaderService, DynamicNgModuleFactory } from './dynamic-loader.service';
+import { DynamicLoaderService, DynamicNgModuleFactory, IDynamicModule } from './dynamic-loader.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,14 +13,29 @@ export class DynamicTenantLoaderService {
     ) {
     }
 
-    public load<T>(selector: string): Promise<Type<T> | null> {
-        return this.loadTenantComponent(selector);
+    public async load<T>(selector: string): Promise<Type<T> | null> {
+        const moduleSelector = selector.split('/')[0];
+        const moduleRef = await this.loadTenantModuleRef(moduleSelector);
+        const componentSelector = selector.split('/')[1];
+        return await this.getComponentFromInjector(componentSelector, moduleRef.injector);
     }
 
-    public async loadTenantComponent<T>(
+    public async loadAndResolve<T>(selector: string): Promise<ComponentFactory<T> | null> {
+        const moduleSelector = selector.split('/')[0];
+        const moduleRef = await this.loadTenantModuleRef(moduleSelector);
+        const componentSelector = selector.split('/')[1];
+        const componentRef = await this.getComponentFromInjector<T>(componentSelector, moduleRef.injector);
+        return moduleRef.componentFactoryResolver.resolveComponentFactory(componentRef);
+    }
+
+    /**
+     * @param selector e.g. ext-entity
+     * @param injector
+     */
+    public async loadTenantModuleRef<T>(
         selector: string,
         injector: Injector = this.moduleRef.injector,
-    ): Promise<Type<T> | null> {
+    ): Promise<NgModuleRef<IDynamicModule<T>> | null> {
         if (!selector || typeof selector !== 'string') {
             return null;
         }
@@ -30,27 +45,38 @@ export class DynamicTenantLoaderService {
             return null;
         }
 
-        const moduleFactoryRef = await this.loadTenantModuleFactory(selector);
-        const module = moduleFactoryRef.create(injector);
-        const localSelector = selector.split('/')[1];
-        const componentTypeOrLazyComponentType = module.injector.get(localSelector, ELEMENT_NOT_FOUND);
+        const moduleFactoryRef = await this.loadTenantModuleFactory<T>(selector);
+        return moduleFactoryRef.create(injector);
+    }
+
+    /**
+     * @param selector e.g. my-example-widget
+     * @param injector
+     */
+    public async getComponentFromInjector<T>(
+        selector: string,
+        injector: Injector,
+    ): Promise<Type<T> | null> {
+        const componentTypeOrLazyComponentType = injector.get(selector, ELEMENT_NOT_FOUND);
         if (componentTypeOrLazyComponentType === ELEMENT_NOT_FOUND) {
             // eslint-disable-next-line no-console
-            console.error(`ERROR: The "${selector}" does not exist in the ${moduleFactoryRef} module!`);
+            console.error(`ERROR: The "${selector}" does not exist in the ${selector} module!`);
             return null;
         }
 
+        let componentRef: Type<T>;
         if (componentTypeOrLazyComponentType instanceof Promise) {
             const moduleFactoryRef = await this.loaderService.loadModuleFactory<T>(componentTypeOrLazyComponentType);
-            return this.loaderService.getComponent(moduleFactoryRef, module.injector);
+            componentRef = this.loaderService.getComponentFromModule(moduleFactoryRef, injector);
         } else {
-            return componentTypeOrLazyComponentType;
+            componentRef = componentTypeOrLazyComponentType;
         }
+
+        return componentRef;
     }
 
     public loadTenantModuleFactory<T>(selector: string): Promise<DynamicNgModuleFactory<T>> {
-        const module = selector.split('/')[0];
-        const modulePath = this.resolveTenantModulePath(module);
+        const modulePath = this.resolveTenantModulePath(selector);
         return this.loaderService.loadModuleFactory(modulePath);
     }
 

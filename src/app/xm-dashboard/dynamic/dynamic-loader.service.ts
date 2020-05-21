@@ -47,7 +47,7 @@ export class DynamicLoaderService {
         return elModuleFactory;
     }
 
-    public getComponent<T>(
+    public getComponentFromModule<T>(
         moduleFactory: DynamicNgModuleFactory<T>,
         injector: Injector = this.moduleRef.injector,
     ): Type<T> {
