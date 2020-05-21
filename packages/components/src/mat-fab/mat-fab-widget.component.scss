@@ -1,0 +1,18 @@
+@import 'src/styles/theme';
+
+$indent:                100px !default;
+$mat-fab-button-margin: 1rem * 2 !default;
+$mat-fab-button-zindex: $zindex-fixed !default;
+
+.indent {
+  height: $indent;
+}
+
+.mat-fab-button {
+  bottom:     0;
+  margin:     $mat-fab-button-margin;
+  position:   fixed;
+  right:      0;
+  text-align: center;
+  z-index:    $mat-fab-button-zindex;
+}
