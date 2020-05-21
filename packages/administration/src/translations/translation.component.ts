@@ -64,6 +64,7 @@ export class TranslationComponent implements OnInit {
             switchMap((path) => this.translationKeysStoreService.getKeysFromStore(path).pipe(
                 map((res) => ({keys: res, name: path})),
             )),
+            take(1),
         ).subscribe(({keys, name}) => {
             download(JSON.stringify(keys, null, 2), name, 'application/json');
         })
