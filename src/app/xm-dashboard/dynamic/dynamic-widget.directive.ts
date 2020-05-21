@@ -13,7 +13,7 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { from } from 'rxjs';
+import { DynamicLoaderService } from './dynamic-loader.service';
 import { DynamicTenantLoaderService } from './dynamic-tenant-loader.service';
 
 export interface IWidget<C = any, S = any> {
@@ -52,6 +52,7 @@ export class DynamicWidgetDirective implements OnChanges {
 
     constructor(private loader: NgModuleFactoryLoader,
                 private injector: Injector,
+                private dynamicLoaderService: DynamicLoaderService,
                 private dynamicTenantLoaderService: DynamicTenantLoaderService,
                 private renderer: Renderer2,
                 @Optional() private compiler: Compiler,
@@ -80,16 +81,8 @@ export class DynamicWidgetDirective implements OnChanges {
     /** @deprecated Experimental */
     private async loadFromInjector(): Promise<void> {
         const moduleFac = this.injector.get(this._layout?.config?.name || this._layout.selector);
-        const module = await moduleFac;
 
-        let moduleFactory;
-        if (module instanceof NgModuleFactory) {
-            // For AOT
-            moduleFactory = module;
-        } else {
-            // For JIT
-            moduleFactory = await this.compiler.compileModuleAsync(module);
-        }
+        const moduleFactory = await this.dynamicLoaderService.loadModuleFactory(moduleFac);
         const activeModule = moduleFactory.create(this.injector);
 
         const entryComponent = activeModule.instance.entry;
@@ -97,7 +90,7 @@ export class DynamicWidgetDirective implements OnChanges {
         this.createComponent(this._layout, activeModule, entryComponent);
     }
 
-    private loadComponent(): void {
+    private async loadComponent(): Promise<void> {
         const value = this._layout;
 
         // WARNING: Experimental
@@ -112,24 +105,22 @@ export class DynamicWidgetDirective implements OnChanges {
         }
 
         const modulePath = this.dynamicTenantLoaderService.resolveTenantModulePath(value.module);
-        const moduleFactory = from(this.loader.load(modulePath));
+        const factory = await this.loader.load(modulePath);
 
-        moduleFactory.subscribe((factory) => {
-            const module = factory.create(this.injector);
-            const componentTypeOrLazyComponentType = module.injector.get(value.selector || value.component, ELEMENT_NOT_FOUND);
+        const module = factory.create(this.injector);
+        const componentTypeOrLazyComponentType = module.injector.get(value.selector || value.component, ELEMENT_NOT_FOUND);
 
-            if (componentTypeOrLazyComponentType === ELEMENT_NOT_FOUND) {
-                // eslint-disable-next-line no-console
-                console.error(`ERROR: The "${value.component}" does not exist in the "${value.module}" module!`);
-                return;
-            }
+        if (componentTypeOrLazyComponentType === ELEMENT_NOT_FOUND) {
+            // eslint-disable-next-line no-console
+            console.error(`ERROR: The "${value.component}" does not exist in the "${value.module}" module!`);
+            return;
+        }
 
-            if (componentTypeOrLazyComponentType instanceof Promise) {
-                this.createLazyComponent(value, componentTypeOrLazyComponentType, module.injector);
-            } else {
-                this.createComponent(value, module, componentTypeOrLazyComponentType);
-            }
-        });
+        if (componentTypeOrLazyComponentType instanceof Promise) {
+            this.createLazyComponent(value, componentTypeOrLazyComponentType, module.injector);
+        } else {
+            this.createComponent(value, module, componentTypeOrLazyComponentType);
+        }
     }
 
     private async createLazyComponent<T>(
