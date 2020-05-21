@@ -1,13 +1,11 @@
 import {
-    Compiler,
+    ComponentFactory,
     Directive,
     Injector,
     Input,
     NgModuleFactory,
     NgModuleFactoryLoader,
-    NgModuleRef,
     OnChanges,
-    Optional,
     Renderer2,
     SimpleChanges,
     ViewContainerRef,
@@ -55,7 +53,6 @@ export class DynamicWidgetDirective implements OnChanges {
                 private dynamicLoaderService: DynamicLoaderService,
                 private dynamicTenantLoaderService: DynamicTenantLoaderService,
                 private renderer: Renderer2,
-                @Optional() private compiler: Compiler,
                 private viewRef: ViewContainerRef) {
     }
 
@@ -74,20 +71,8 @@ export class DynamicWidgetDirective implements OnChanges {
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.init && !_.isEqual(changes.init.currentValue, changes.init.previousValue)) {
-            this.loadComponent();
+            this.loadComponent().then();
         }
-    }
-
-    /** @deprecated Experimental */
-    private async loadFromInjector(): Promise<void> {
-        const moduleFac = this.injector.get(this._layout?.config?.name || this._layout.selector);
-
-        const moduleFactory = await this.dynamicLoaderService.loadModuleFactory(moduleFac);
-        const activeModule = moduleFactory.create(this.injector);
-
-        const entryComponent = activeModule.instance.entry;
-
-        this.createComponent(this._layout, activeModule, entryComponent);
     }
 
     private async loadComponent(): Promise<void> {
@@ -95,7 +80,8 @@ export class DynamicWidgetDirective implements OnChanges {
 
         // WARNING: Experimental
         if (value.module === '@xm-ngx' || value.selector && value.selector.startsWith('@xm-ngx')) {
-            this.loadFromInjector().then();
+            const componentFactory = await this.dynamicLoaderService.loadAndResolve(this._layout?.config?.name || this._layout.selector, this.injector);
+            this.createComponent(this._layout, componentFactory);
             return;
         }
 
@@ -119,7 +105,8 @@ export class DynamicWidgetDirective implements OnChanges {
         if (componentTypeOrLazyComponentType instanceof Promise) {
             this.createLazyComponent(value, componentTypeOrLazyComponentType, module.injector);
         } else {
-            this.createComponent(value, module, componentTypeOrLazyComponentType);
+            const componentFactory = module.componentFactoryResolver.resolveComponentFactory(componentTypeOrLazyComponentType);
+            this.createComponent(value, componentFactory);
         }
     }
 
@@ -128,31 +115,22 @@ export class DynamicWidgetDirective implements OnChanges {
         lazy: Promise<LazyComponent>,
         injector: Injector,
     ): Promise<void> {
-        const module = await lazy;
-
-        let moduleFactory;
-        if (module instanceof NgModuleFactory) {
-            // For AOT
-            moduleFactory = module;
-        } else {
-            // For JIT
-            moduleFactory = await this.compiler.compileModuleAsync(module);
-        }
+        const moduleFactory = await this.dynamicLoaderService.loadModuleFactory<T>(lazy);
         const activeModule = moduleFactory.create(injector);
-        const entryComponent = moduleFactory.moduleType.entry || activeModule.instance.entry;
+        const entryComponent = (moduleFactory.moduleType as any).entry || activeModule.instance.entry;
 
         if (!entryComponent) {
             // eslint-disable-next-line no-console
             console.error(`ERROR: the "${value.module}" module expected to have a "entry" filed!`
-                + 'E.g. static entry = YourComponent;');
+                + 'E.g. entry = YourComponent;');
             return;
         }
 
-        this.createComponent(value, activeModule, entryComponent);
+        const componentFactory = activeModule.componentFactoryResolver.resolveComponentFactory(entryComponent);
+        this.createComponent(value, componentFactory);
     }
 
-    private createComponent<T>(value: WidgetConfig, module: NgModuleRef<T>, entryComponentType: WidgetFn): void {
-        const componentFactory = module.componentFactoryResolver.resolveComponentFactory(entryComponentType);
+    private createComponent<T>(value: WidgetConfig, componentFactory: ComponentFactory<T>): void {
         const widget = this.viewRef.createComponent<IWidget>(componentFactory);
         widget.instance.config = value.config;
         widget.instance.spec = value.spec;

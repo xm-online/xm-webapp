@@ -1,5 +1,5 @@
 import {
-    Compiler,
+    Compiler, ComponentFactory,
     Injectable,
     Injector,
     NgModuleFactory,
@@ -25,6 +25,17 @@ export class DynamicLoaderService {
         private moduleRef: NgModuleRef<unknown>,
         private loader: NgModuleFactoryLoader,
     ) {
+    }
+
+    public async loadAndResolve<T>(
+        selector: string,
+        injector: Injector = this.moduleRef.injector,
+    ): Promise<ComponentFactory<T> | null> {
+        const moduleFac = injector.get(selector);
+        const moduleFactory = await this.loadModuleFactory<T>(moduleFac);
+        const moduleRef = moduleFactory.create(injector);
+        const componentRef = moduleRef.instance.entry;
+        return moduleRef.componentFactoryResolver.resolveComponentFactory(componentRef);
     }
 
     public async loadModuleFactory<T>(
