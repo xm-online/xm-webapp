@@ -95,4 +95,8 @@ export const ADMIN_ELEMENTS = [
         provide: '@xm-ngx/components/xm-ribbon',
         useFactory: () => import('@xm-ngx/components/xm-ribbon').then(m => m.XmRibbonModule),
     },
+    {
+        provide: '@xm-ngx/components/innerHTML',
+        useFactory: () => import('@xm-ngx/components/innerHTML').then(m => m.InnerHTMLModule),
+    },
 ];
