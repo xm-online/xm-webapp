@@ -162,7 +162,7 @@ export class DynamicWidgetDirective implements OnChanges {
             moduleFactory = await this.compiler.compileModuleAsync(module);
         }
         const activeModule = moduleFactory.create(injector);
-        const entryComponent = moduleFactory.moduleType.entry || activeModule.entry;
+        const entryComponent = moduleFactory.moduleType.entry || activeModule.instance.entry;
 
         if (!entryComponent) {
             // eslint-disable-next-line no-console
