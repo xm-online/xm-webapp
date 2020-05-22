@@ -5,7 +5,7 @@ on:
       - autotag-test
 
 jobs:
-  increment_version:
+  set_tags:
 
     runs-on: ubuntu-latest
 
