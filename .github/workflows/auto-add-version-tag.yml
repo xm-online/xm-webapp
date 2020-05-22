@@ -2,8 +2,7 @@ name: set tags project version
 on: 
   push:
     branches:
-      - autotag-test
-
+      - autotag-test2
 jobs:
   set_tags:
 
