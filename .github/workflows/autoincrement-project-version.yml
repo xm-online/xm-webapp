@@ -29,8 +29,9 @@ jobs:
       env:
         event: ${{ github.event.action }}
         event_label_name: ${{ github.event.label.name }}
+        currentVersion: $(npm run-script get-version | tail -n1)
+
       run: |
-        currentVersion = $(npm run-script get-version | tail -n1)
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         if [ "$event" == "opened" ] || ([ "$event" == "unlabeled" ] && [ "$event_label_name" == "do_not_increment_version" ])
