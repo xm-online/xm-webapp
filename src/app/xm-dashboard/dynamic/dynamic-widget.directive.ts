@@ -161,16 +161,16 @@ export class DynamicWidgetDirective implements OnChanges {
             // For JIT
             moduleFactory = await this.compiler.compileModuleAsync(module);
         }
-        const entryComponent = moduleFactory.moduleType.entry;
+        const activeModule = moduleFactory.create(injector);
+        const entryComponent = moduleFactory.moduleType.entry || activeModule.instance.entry;
 
         if (!entryComponent) {
             // eslint-disable-next-line no-console
-            console.error(`ERROR: the "${value.module}" module expected to have a "static entry" filed!`
+            console.error(`ERROR: the "${value.module}" module expected to have a "entry" filed!`
                 + 'E.g. static entry = YourComponent;');
             return;
         }
 
-        const activeModule = moduleFactory.create(injector);
         this.createComponent(value, activeModule, entryComponent);
     }
 
