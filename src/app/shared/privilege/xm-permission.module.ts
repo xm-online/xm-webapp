@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { PermissionDirective } from './permission.directive';
+import { PermissionDirective } from '../../modules/xm-core/src/permission/permission.directive';
 import { PermitDirective } from './privilege.directive';
 import { XmPrivilegeDirective } from './xmPrivilege.directive';
 
