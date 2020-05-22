@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
       with:
-        ref: autotag-test
+        ref: autotag-test2
 
     - name: Set up nodejs
       uses: actions/setup-node@v2-beta
@@ -26,7 +26,6 @@ jobs:
         version=`npm -s run-script get-version`
         for v in $(echo -n $version |  awk -F '.' '{printf $0" "$1"."$2" "$1}')
         do
-            echo $v
             if git tag -l | egrep -q "^v"$v"$"
             then
                 git tag -d "v"$v
@@ -38,6 +37,6 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: autotag-test
+        branch: autotag-test2
         tags: true
-
+        force: true
