@@ -35,7 +35,7 @@ jobs:
         done
 
     - name: Push changes
-      uses: ad-m/github-push-action@autotag-test
+      uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: autotag-test
