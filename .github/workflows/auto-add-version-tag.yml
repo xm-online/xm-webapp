@@ -1,10 +1,6 @@
-name: Autoincrement project version
+name: set tags project version
 on: 
   push:
-    branches:
-      - autotag-test
-  pull_request:
-    types: [closed]
     branches:
       - autotag-test
 
@@ -14,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@autotag-test
       with:
         ref: autotag-test
 
@@ -30,7 +26,8 @@ jobs:
         version=`npm -s run-script get-version`
         for v in $(echo -n $version |  awk -F '.' '{printf $0" "$1"."$2" "$1}')
         do
-            if git tag -l | egrep -q "^v$v$"
+            echo $v
+            if git tag -l | egrep -q "^v"$v"$"
             then
                 git tag -d "v"$v
             fi
@@ -38,7 +35,7 @@ jobs:
         done
 
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: ad-m/github-push-action@autotag-test
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: autotag-test
