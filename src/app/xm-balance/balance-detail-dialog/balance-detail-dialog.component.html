@@ -1,15 +1,15 @@
 <div mat-dialog-title>
- <h4 class="modal-title text-left" jhiTranslate="xm-balance.balance-detail-dialog.title">Balance detail</h4>
+ <h4 class="modal-title text-left">{{'xm-balance.balance-detail-dialog.title' | translate}}</h4>
 </div>
 <div mat-dialog-content>
   <div *ngIf="pockets?.length" class="table-responsive">
     <table class="table table-striped">
       <thead>
       <tr>
-        <th><span jhiTranslate="xm-balance.common.fields.label">Label</span></th>
-        <th><span jhiTranslate="xm-balance.common.fields.start-date">Start date</span></th>
-        <th><span jhiTranslate="xm-balance.common.fields.end-date">End date</span></th>
-        <th><span jhiTranslate="xm-balance.common.fields.amount">Amount</span></th>
+        <th><span>{{'xm-balance.common.fields.label' | translate}}</span></th>
+        <th><span>{{'xm-balance.common.fields.start-date' | translate}}</span></th>
+        <th><span>{{'xm-balance.common.fields.end-date' | translate}}</span></th>
+        <th><span>{{'xm-balance.common.fields.amount' | translate}}</span></th>
       </tr>
       </thead>
       <tbody>
@@ -39,6 +39,6 @@
           data-dismiss="modal"
           mat-button
           type="button">
-    <span jhiTranslate="xm-balance.common.cancel">Cancel</span>
+    <span>{{'xm-balance.common.cancel' | translate}}</span>
   </button>
 </div>

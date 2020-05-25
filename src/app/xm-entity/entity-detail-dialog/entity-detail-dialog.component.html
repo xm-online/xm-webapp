@@ -12,10 +12,10 @@
 
   <ng-template #hasNotHeaderConfig>
     <h4 *ngIf="!isEdit" class="modal-title text-left">
-      <span jhiTranslate="xm-entity.entity-detail-dialog.add.title">Add a new entity</span>
+      <span>{{'xm-entity.entity-detail-dialog.add.title' | translate}}</span>
     </h4>
     <h4 *ngIf="isEdit" class="modal-title text-left">
-      <span jhiTranslate="xm-entity.entity-detail-dialog.edit.title">Edit an entity</span> [<b>{{name}}</b>]
+      <span>{{'xm-entity.entity-detail-dialog.edit.title' | translate}}</span> [<b>{{name}}</b>]
     </h4>
   </ng-template>
 
@@ -24,7 +24,7 @@
 
     <div [hidden]="true" class="form-group">
       <label class="form-control-label" for="id">
-        <span jhiTranslate="xm-entity.common.fields.id">ID</span>
+        <span>{{"xm-entity.common.fields.id" | translate}}</span>
       </label>
       <input [(ngModel)]="xmEntity.id" class="form-control" id="id" name="id" readonly type="text"/>
     </div>
@@ -44,7 +44,7 @@
           </mat-option>
         </mat-select>
         <mat-error *ngIf="entityType.hasError('required')">
-          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+          <span>{{'xm-entity.common.validation.required' | translate}}</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -61,10 +61,10 @@
                required
                type="text">
         <mat-error *ngIf="entityName.hasError('required')">
-          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+          <span>{{'xm-entity.common.validation.required' | translate}}</span>
         </mat-error>
         <mat-error *ngIf="entityName.hasError('pattern')">
-          <span jhiTranslate="xm-entity.common.validation.pattern">This field does not match the rules</span>:&nbsp;&nbsp;<span
+          <span>{{'xm-entity.common.validation.pattern' | translate}}</span>:&nbsp;&nbsp;<span
           [innerHtml]="nameValidPattern"></span>
         </mat-error>
       </mat-form-field>
@@ -100,7 +100,7 @@
   <div *ngIf="!(jsfAttributes?.entity?.formDefaultFooterHide)" mat-dialog-actions>
     <button (click)="onCancel()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
       <span *ngIf="jsfAttributes?.entity?.cancelName">{{jsfAttributes.entity.cancelName | translate}}</span>
-      <span *ngIf="!jsfAttributes?.entity?.cancelName" jhiTranslate="xm-entity.common.cancel">Cancel</span>
+      <span *ngIf="!jsfAttributes?.entity?.cancelName">{{'xm-entity.common.cancel' | translate}}</span>
     </button>
 
     <button [disabled]="entityForm.form.invalid || showLoader || !isJsonFormValid"
@@ -109,7 +109,7 @@
             color="primary"
             type="submit">
       <span *ngIf="jsfAttributes?.entity?.saveName">{{jsfAttributes.entity.saveName | translate}}</span>
-      <span *ngIf="!jsfAttributes?.entity?.saveName" jhiTranslate="xm-entity.common.save">Save</span>
+      <span *ngIf="!jsfAttributes?.entity?.saveName">{{'xm-entity.common.save' | translate}}</span>
     </button>
   </div>
 </form>
