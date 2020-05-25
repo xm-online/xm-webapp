@@ -8,6 +8,7 @@ import {
 import { MaterialDesignFramework, MaterialDesignFrameworkModule } from '@ajsf/material';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { fixFlexLayout } from './fix-flex-layout';
 
 const _JsonSchemaFormModule = {
     ngModule: JsonSchemaFormModule,
@@ -19,6 +20,7 @@ const _JsonSchemaFormModule = {
     ],
 };
 
+fixFlexLayout();
 @NgModule({
     declarations: [],
     imports: [
