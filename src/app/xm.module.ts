@@ -14,11 +14,11 @@ import { HttpLoaderFactory, XmTranslationModule } from '@xm-ngx/translation';
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
-import { ADMIN_ELEMENTS } from './admin/admin.registry';
 import { XmMainComponent } from './layouts';
 import { LayoutModule } from './layouts/layout.module';
 import { XmCoreAuthModule } from './modules/xm-core-auth/src/xm-core-auth.module';
 import { XmRoutingModule } from './xm-routing.module';
+import { XM_ELEMENTS } from './xm.registry';
 
 export function appInitializerFn(appConfig: XmApplicationConfigService): () => Promise<any> {
     // tslint:disable-next-line
@@ -49,7 +49,7 @@ export function appInitializerFn(appConfig: XmApplicationConfigService): () => P
     ],
     providers: [
         proxyInterceptorFactory({url: environment.serverApiUrl, excludedUrls: ['http', 'i18n', 'assets']}),
-        ADMIN_ELEMENTS,
+        XM_ELEMENTS,
         XmApplicationConfigService,
         {
             provide: APP_INITIALIZER,
