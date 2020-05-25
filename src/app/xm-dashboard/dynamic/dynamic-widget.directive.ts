@@ -1,19 +1,18 @@
 import {
-    Compiler,
+    ComponentFactory,
     Directive,
     Injector,
     Input,
     NgModuleFactory,
     NgModuleFactoryLoader,
-    NgModuleRef,
     OnChanges,
-    Optional,
     Renderer2,
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { from } from 'rxjs';
+import { DynamicLoaderService } from './dynamic-loader.service';
+import { DynamicTenantLoaderService } from './dynamic-tenant-loader.service';
 
 export interface IWidget<C = any, S = any> {
     config?: C;
@@ -45,15 +44,15 @@ export type LazyComponent = NgModuleFactory<any>;
 })
 export class DynamicWidgetDirective implements OnChanges {
 
-    public commons: string[] = ['ext-common', 'ext-common-csp', 'ext-common-entity'];
     @Input() public class: string;
     @Input() public style: string;
     private _layout: WidgetConfig;
 
     constructor(private loader: NgModuleFactoryLoader,
                 private injector: Injector,
+                private dynamicLoaderService: DynamicLoaderService,
+                private dynamicTenantLoaderService: DynamicTenantLoaderService,
                 private renderer: Renderer2,
-                @Optional() private compiler: Compiler,
                 private viewRef: ViewContainerRef) {
     }
 
@@ -72,36 +71,17 @@ export class DynamicWidgetDirective implements OnChanges {
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.init && !_.isEqual(changes.init.currentValue, changes.init.previousValue)) {
-            this.loadComponent();
+            this.loadComponent().then();
         }
     }
 
-    /** @deprecated Experimental */
-    private async loadFromInjector(): Promise<void> {
-        const moduleFac = this.injector.get(this._layout?.config?.name || this._layout.selector);
-        const module = await moduleFac;
-
-        let moduleFactory;
-        if (module instanceof NgModuleFactory) {
-            // For AOT
-            moduleFactory = module;
-        } else {
-            // For JIT
-            moduleFactory = await this.compiler.compileModuleAsync(module);
-        }
-        const activeModule = moduleFactory.create(this.injector);
-
-        const entryComponent = activeModule.instance.entry;
-
-        this.createComponent(this._layout, activeModule, entryComponent);
-    }
-
-    private loadComponent(): void {
+    private async loadComponent(): Promise<void> {
         const value = this._layout;
 
         // WARNING: Experimental
         if (value.module === '@xm-ngx' || value.selector && value.selector.startsWith('@xm-ngx')) {
-            this.loadFromInjector().then();
+            const componentFactory = await this.dynamicLoaderService.loadAndResolve(this._layout?.config?.name || this._layout.selector, this.injector);
+            this.createComponent(this._layout, componentFactory);
             return;
         }
 
@@ -110,40 +90,24 @@ export class DynamicWidgetDirective implements OnChanges {
             value.selector = value.selector.split('/')[1];
         }
 
-        const modulePath = this.resolveModulePath(value.module);
-        const moduleFactory = from(this.loader.load(modulePath));
+        const modulePath = this.dynamicTenantLoaderService.resolveTenantModulePath(value.module);
+        const factory = await this.loader.load(modulePath);
 
-        moduleFactory.subscribe((factory) => {
-            const module = factory.create(this.injector);
-            const componentTypeOrLazyComponentType = module.injector.get(value.selector || value.component, ELEMENT_NOT_FOUND);
+        const module = factory.create(this.injector);
+        const componentTypeOrLazyComponentType = module.injector.get(value.selector || value.component, ELEMENT_NOT_FOUND);
 
-            if (componentTypeOrLazyComponentType === ELEMENT_NOT_FOUND) {
-                // eslint-disable-next-line no-console
-                console.error(`ERROR: The "${value.component}" does not exist in the "${value.module}" module!`);
-                return;
-            }
-
-            if (componentTypeOrLazyComponentType instanceof Promise) {
-                this.createLazyComponent(value, componentTypeOrLazyComponentType, module.injector);
-            } else {
-                this.createComponent(value, module, componentTypeOrLazyComponentType);
-            }
-        });
-    }
-
-    private resolveModulePath(module: string): string {
-        const rootClass = module.split('-').map((e) => e[0].toUpperCase() + e.slice(1)).join('');
-        const extName = module.split('-').reverse()[0];
-        const extRootClass = `${extName.charAt(0).toUpperCase() + extName.slice(1)}WebappExtModule`;
-        let modulePath: string;
-        // eslint-disable-next-line @typescript-eslint/prefer-includes
-        if (this.commons.indexOf(module) > -1) {
-            modulePath = `src/app/ext-commons/${module}/${module}.module#${rootClass}Module`;
-        } else {
-            modulePath = `src/app/ext/${extName}-webapp-ext/module/${extName}-webapp-ext.module#${extRootClass}`;
+        if (componentTypeOrLazyComponentType === ELEMENT_NOT_FOUND) {
+            // eslint-disable-next-line no-console
+            console.error(`ERROR: The "${value.component}" does not exist in the "${value.module}" module!`);
+            return;
         }
 
-        return modulePath;
+        if (componentTypeOrLazyComponentType instanceof Promise) {
+            this.createLazyComponent(value, componentTypeOrLazyComponentType, module.injector);
+        } else {
+            const componentFactory = module.componentFactoryResolver.resolveComponentFactory(componentTypeOrLazyComponentType);
+            this.createComponent(value, componentFactory);
+        }
     }
 
     private async createLazyComponent<T>(
@@ -151,31 +115,22 @@ export class DynamicWidgetDirective implements OnChanges {
         lazy: Promise<LazyComponent>,
         injector: Injector,
     ): Promise<void> {
-        const module = await lazy;
-
-        let moduleFactory;
-        if (module instanceof NgModuleFactory) {
-            // For AOT
-            moduleFactory = module;
-        } else {
-            // For JIT
-            moduleFactory = await this.compiler.compileModuleAsync(module);
-        }
+        const moduleFactory = await this.dynamicLoaderService.loadModuleFactory<T>(lazy);
         const activeModule = moduleFactory.create(injector);
-        const entryComponent = moduleFactory.moduleType.entry || activeModule.instance.entry;
+        const entryComponent = (moduleFactory.moduleType as any).entry || activeModule.instance.entry;
 
         if (!entryComponent) {
             // eslint-disable-next-line no-console
             console.error(`ERROR: the "${value.module}" module expected to have a "entry" filed!`
-                + 'E.g. static entry = YourComponent;');
+                + 'E.g. entry = YourComponent;');
             return;
         }
 
-        this.createComponent(value, activeModule, entryComponent);
+        const componentFactory = activeModule.componentFactoryResolver.resolveComponentFactory(entryComponent);
+        this.createComponent(value, componentFactory);
     }
 
-    private createComponent<T>(value: WidgetConfig, module: NgModuleRef<T>, entryComponentType: WidgetFn): void {
-        const componentFactory = module.componentFactoryResolver.resolveComponentFactory(entryComponentType);
+    private createComponent<T>(value: WidgetConfig, componentFactory: ComponentFactory<T>): void {
         const widget = this.viewRef.createComponent<IWidget>(componentFactory);
         widget.instance.config = value.config;
         widget.instance.spec = value.spec;
