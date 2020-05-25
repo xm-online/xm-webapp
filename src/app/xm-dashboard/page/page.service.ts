@@ -1,7 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { DashboardWrapperService, Widget } from '@xm-ngx/dynamic';
 import { Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { Widget } from '../shared/widget.model';
+import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
 
 export interface Page<C = unknown, L = unknown> {
     id?: number;

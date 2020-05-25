@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import * as _ from 'lodash';
 import { DynamicLoaderService } from './dynamic-loader.service';
-import { DynamicTenantLoaderService } from './dynamic-tenant-loader.service';
+import { DynamicTenantLoaderService, ELEMENT_NOT_FOUND } from './dynamic-tenant-loader.service';
 
 export interface IWidget<C = any, S = any> {
     config?: C;
@@ -34,8 +34,6 @@ export interface WidgetConfig<C = any, S = any> extends IWidget<C, S> {
     /** @deprecated spec will be removed, you should provide the spec locally */
     spec?: S;
 }
-
-export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 
 export type LazyComponent = NgModuleFactory<any>;
 
