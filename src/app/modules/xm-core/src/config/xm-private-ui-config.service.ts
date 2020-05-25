@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { XmPermissionService } from '@xm-ngx/core/permission';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { RequestCache } from '../cache/request-cache';
 import { RequestCacheFactoryService } from '../cache/request-cache-factory.service';
+import { XmPermissionService } from '../permission/xm-permission.service';
 import { XmCoreConfig } from '../xm-core-config';
 import { UIPrivateConfig } from './xm-ui-config-model';
 

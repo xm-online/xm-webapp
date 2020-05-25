@@ -9,9 +9,9 @@ import { JhiLanguageService } from 'ng-jhipster';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { JhiLanguageHelper } from '../../shared';
-import { Principal } from '../../shared/auth/principal.service';
-import { PermitDirective } from '../../shared/privilege/privilege.directive';
+import { JhiLanguageHelper } from '../index';
+import { Principal } from '../auth/principal.service';
+import { PermitDirective } from './privilege.directive';
 
 class Mock {
     public authenticationState: Subject<any> = new Subject<any>();
