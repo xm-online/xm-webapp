@@ -1,6 +1,8 @@
 import { ComponentFactory, Injectable, Injector, NgModuleRef, Type } from '@angular/core';
-import { ELEMENT_NOT_FOUND } from '@xm-ngx/dynamic';
+
 import { DynamicLoaderService, DynamicNgModuleFactory, IDynamicModule } from './dynamic-loader.service';
+
+export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 
 @Injectable({
     providedIn: 'root',

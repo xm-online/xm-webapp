@@ -17,7 +17,7 @@ const ROUTES: Routes = [
     {path: '', loadChildren: () => import('./account/account.module').then((m) => m.GateAccountModule)},
     {
         path: 'application',
-        loadChildren: () => import('./application/application.module').then((m) => m.ApplicationModule),
+        loadChildren: () => import('./application').then((m) => m.ApplicationModule),
     },
     {path: 'search', pathMatch: 'full', redirectTo: 'application/search'},
     {
