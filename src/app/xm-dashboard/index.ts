@@ -11,3 +11,4 @@ export { XmDashboardModule } from './xm-dashboard.module';
 export { XmDynamicModule } from './xm-dynamic.module';
 export { PageService, Page } from './page/page.service';
 export { ELEMENT_NOT_FOUND } from './dynamic/dynamic-tenant-loader.service';
+export { DynamicCellModule } from './dynamic/dynamic-cell.component';
