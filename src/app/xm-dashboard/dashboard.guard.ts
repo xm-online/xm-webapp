@@ -36,16 +36,16 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
             }));
     }
 
-    public isDashboardAvailable(idOrSlug: number | string): Observable<boolean> {
+    private isDashboardAvailable(idOrSlug: number | string): Observable<boolean> {
         return this.dashboardWrapperService.getByIdOrSlug(idOrSlug).pipe(map(Boolean));
     }
 
-    public getFirstAvailableDashboard(): Observable<UrlTree> {
+    private getFirstAvailableDashboard(): Observable<UrlTree> {
         return this.defaultDashboardService.getDefaultOrFirstAvailable().pipe(
             map((d) => {
-                const nUrl = d ? `/dashboard/${d.config?.slug || d.id}`: environment.notFoundUrl;
-                console.info(`DashboardGuard redirect to ${nUrl}`);
-                return this.router.parseUrl(nUrl);
+                const newUrl = d ? `/dashboard/${d.config?.slug || d.id}`: environment.notFoundUrl;
+                console.info(`DashboardGuard redirect to ${newUrl}`);
+                return this.router.parseUrl(newUrl);
             }),
         );
     }
