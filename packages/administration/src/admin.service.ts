@@ -16,7 +16,7 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     public page: any = 1;
     public previousPage: any;
     public reverse: any;
-    public predicate: any = 'lastModifiedDate';
+    public predicate: any = 'id';
     public itemsPerPage: any;
     public links: Link[];
     public totalItems: any;
