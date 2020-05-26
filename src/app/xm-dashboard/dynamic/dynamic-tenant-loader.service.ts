@@ -1,9 +1,8 @@
-import { ComponentFactory, Injectable, Injector, NgModuleRef, Type } from '@angular/core';
+import { ComponentFactory, Injectable, Injector, NgModuleFactory, NgModuleRef, Type } from '@angular/core';
 
-import { DynamicLoaderService } from './dynamic-loader.service';
+import { DynamicLoaderService, isComponentDef, isModuleDef } from './dynamic-loader.service';
 import { DynamicNgModuleFactory, IDynamicModule } from './dynamic.interfaces';
-
-export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
+import { DynamicSearcher } from './searcher/dynamic-searcher';
 
 @Injectable({
     providedIn: 'root',
@@ -12,6 +11,7 @@ export class DynamicTenantLoaderService {
 
     constructor(
         private loaderService: DynamicLoaderService,
+        private dynamicSearcher: DynamicSearcher,
         private moduleRef: NgModuleRef<unknown>,
     ) {
     }
@@ -60,22 +60,16 @@ export class DynamicTenantLoaderService {
         selector: string,
         injector: Injector,
     ): Promise<Type<T> | null> {
-        const componentTypeOrLazyComponentType = injector.get(selector, ELEMENT_NOT_FOUND);
-        if (componentTypeOrLazyComponentType === ELEMENT_NOT_FOUND) {
-            // eslint-disable-next-line no-console
-            console.error(`ERROR: The "${selector}" does not exist in the ${selector} module!`);
+        const moduleFac = await this.dynamicSearcher.search(selector, {injector});
+
+        if (moduleFac instanceof NgModuleFactory || isModuleDef(moduleFac)) {
+            const moduleFactory = await this.loaderService.loadModuleFactory<T>(moduleFac as DynamicNgModuleFactory<T>);
+            return this.loaderService.getComponentFromModule(moduleFactory, injector);
+        } else if (isComponentDef(moduleFac)) {
+            return moduleFac as Type<T>;
+        } else {
             return null;
         }
-
-        let componentRef: Type<T>;
-        if (componentTypeOrLazyComponentType instanceof Promise) {
-            const moduleFactoryRef = await this.loaderService.loadModuleFactory<T>(componentTypeOrLazyComponentType);
-            componentRef = this.loaderService.getComponentFromModule(moduleFactoryRef, injector);
-        } else {
-            componentRef = componentTypeOrLazyComponentType;
-        }
-
-        return componentRef;
     }
 
     public loadTenantModuleFactory<T>(selector: string): Promise<DynamicNgModuleFactory<T>> {
