@@ -8,12 +8,7 @@ import {
     Optional,
     Type,
 } from '@angular/core';
-
-export interface IDynamicModule<T> {
-    entry?: Type<T>;
-}
-
-export type DynamicNgModuleFactory<T> = NgModuleFactory<IDynamicModule<T>>;
+import { DynamicNgModuleFactory } from './dynamic.interfaces';
 
 @Injectable({
     providedIn: 'root',

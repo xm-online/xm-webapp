@@ -1,6 +1,7 @@
 import { ComponentFactory, Injectable, Injector, NgModuleRef, Type } from '@angular/core';
 
-import { DynamicLoaderService, DynamicNgModuleFactory, IDynamicModule } from './dynamic-loader.service';
+import { DynamicLoaderService } from './dynamic-loader.service';
+import { DynamicNgModuleFactory, IDynamicModule } from './dynamic.interfaces';
 
 export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 
