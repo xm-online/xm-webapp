@@ -1,4 +1,4 @@
-export const ADMIN_ELEMENTS = [
+export const XM_ELEMENTS = [
     {
         provide: '@xm-ngx/administration/audits',
         useFactory: () => import('@xm-ngx/administration/audits').then(m => m.AuditsModule),

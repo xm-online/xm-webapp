@@ -38,7 +38,7 @@ export function getWidgetComponent(widget: Widget = {}): Widget {
     }
     if (widget.selector.indexOf('/') > 0) {
         widget.module = widget.selector.split('/')[0];
-        widget.selector = widget.selector.split('/')[1];
+        widget.component = widget.selector.split('/')[1];
     }
     widget.config = widget.config || {};
     Object.assign(widget.config, {
@@ -59,7 +59,7 @@ export function getWidgetsComponent(widgets: Widget[]): Widget[] {
         }
         if (widget.selector.indexOf('/') > 0) {
             widget.module = widget.selector.split('/')[0];
-            widget.selector = widget.selector.split('/')[1];
+            widget.component = widget.selector.split('/')[1];
         }
         widget.config = widget.config || {};
         Object.assign(widget.config, {id: widget.id, name: widget.name});

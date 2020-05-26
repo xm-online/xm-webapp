@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from '../shared';
+import { DashboardGuard } from './dashboard.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
@@ -14,7 +15,7 @@ const routes: Routes = [
             },
             pageTitle: 'global.menu.admin.dashboard',
         },
-        canActivate: [UserRouteAccessService],
+        canActivate: [UserRouteAccessService, DashboardGuard],
     },
     {
         path: ':id',
@@ -25,7 +26,7 @@ const routes: Routes = [
             },
             pageTitle: 'global.menu.admin.dashboard',
         },
-        canActivate: [UserRouteAccessService],
+        canActivate: [UserRouteAccessService, DashboardGuard],
     },
 ];
 

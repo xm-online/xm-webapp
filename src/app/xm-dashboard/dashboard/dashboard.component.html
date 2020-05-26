@@ -23,7 +23,7 @@
 
   <ng-container *ngIf="item?.widget">
     <xm-dynamic-widget *ngIf="item.widget?.module && spec"
-                       [init]="{module: item.widget?.module, component: item.widget?.selector, config: item.widget?.config, spec: spec}">
+                       [init]="{module: item.widget?.module, selector: item.widget?.selector, component: item.widget?.component, config: item.widget?.config, spec: spec}">
     </xm-dynamic-widget>
   </ng-container>
 </ng-template>

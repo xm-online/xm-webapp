@@ -1,15 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { appearUp } from '@xm-ngx/components/animations';
-import { Principal } from '@xm-ngx/core/auth';
 
 import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
-import { takeUntilOnDestroyDestroy, takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
-import { XmConfigService } from '../../shared/spec/config.service';
 import { Page, PageService } from '../page/page.service';
-import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
 import { Dashboard } from '../shared/dashboard.model';
 import { Widget } from '../shared/widget.model';
 import { DashboardBase } from './dashboard-base';
@@ -39,12 +36,9 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
-                private dashboardWrapperService: DashboardWrapperService,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
-                private principal: Principal,
                 private pageService: PageService<Page<{ slug?: string }>>,
                 pageTitleService: PageTitleService,
-                private xmConfigService: XmConfigService,
     ) {
         super();
         pageTitleService.init();
@@ -64,7 +58,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
             .pipe(takeUntilOnDestroy(this))
             .subscribe((page) => {
                 if (!page) {
-                    this.rootRedirect();
+                    this.router.navigateByUrl(environment.notFoundUrl);
                     return;
                 }
                 this.loadDashboard(page);
@@ -73,39 +67,6 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
-    }
-
-    public rootRedirect(): void {
-        this.principal.identity()
-            .then(() => this.principal.hasPrivileges(['DASHBOARD.GET_LIST'])
-                .then((result) => {
-                    if (result) {
-                        this.xmConfigService.getUiConfig().subscribe((config) => {
-                            if ('defaultDashboard' in config && config.defaultDashboard.length) {
-                                if (typeof config.defaultDashboard === 'string') {
-                                    const slugs = [];
-                                    slugs.push(config.defaultDashboard);
-                                    this.checkAndRedirect(slugs);
-                                } else {
-                                    this.checkAndRedirect(config.defaultDashboard);
-                                }
-                            } else {
-                                if (!environment.production) {
-                                    console.info('rootRedirect');
-                                }
-                                this.dashboardWrapperService.dashboards().then((dashboards) => {
-                                        if (dashboards && dashboards.length && dashboards[0].id) {
-                                            const key = dashboards[0].config && dashboards[0].config.slug
-                                                ? dashboards[0].config.slug : dashboards[0].id;
-                                            this.router.navigate(['/dashboard', key]);
-                                        }
-                                    },
-                                );
-                            }
-                        });
-                    }
-                }),
-            );
     }
 
     public loadDashboard(page: Page): void {
@@ -170,35 +131,4 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
         };
     }
 
-    // Tslint:disable-next-line:cognitive-complexity
-    private checkAndRedirect(slugs: any[]): void {
-        const configSlugs = slugs instanceof Array ? slugs : [];
-        let slugToGo = null;
-        if (!environment.production) {
-            console.info('checkAndRedirect');
-        }
-        this.dashboardWrapperService.dashboards().then((dashboards) => {
-            configSlugs.forEach((slug) => {
-                if (dashboards && dashboards.length) {
-                    for (const d of dashboards) {
-                        const dSlug = d && d.config && d.config.slug ? d.config.slug : null;
-                        if (dSlug === slug) {
-                            slugToGo = slug;
-                            break;
-                        }
-                    }
-                }
-            });
-
-            if (slugToGo) {
-                this.router.navigate(['/dashboard', slugToGo]);
-            } else {
-                if (dashboards && dashboards.length && dashboards[0].id) {
-                    const key = dashboards[0].config && dashboards[0].config.slug
-                        ? dashboards[0].config.slug : dashboards[0].id;
-                    this.router.navigate(['/dashboard', key]);
-                }
-            }
-        });
-    }
 }
