@@ -29,7 +29,9 @@ jobs:
       env:
         event: ${{ github.event.action }}
         event_label_name: ${{ github.event.label.name }}
-        currentVersion: $(npm run-script get-version | tail -n 1)
+        majorVersion: $(npm run-script get-version | tail -n 1 | cut -d '.' -f 1)
+        minorVersion: $(npm run-script get-version | tail -n 1 | cut -d '.' -f 2)
+        patchVersion: $(npm run-script get-version | tail -n 1 | cut -d '.' -f 3)
 
       run: |
         git config --local user.email "action@github.com"
@@ -40,7 +42,9 @@ jobs:
           git commit -m "autoincrement project version" -a || echo "no changes"
         elif [ "$event" == "labeled" ] && [ "$event_label_name" == "do_not_increment_version" ]
         then
-          npm version $currentVersion --force
+          patchVersion=$((patchVersion - 1))
+          echo "Old version:" $patchVersion
+          npm version $majorVersion.$minorVersion.$patchVersion
           git commit -m "autodecrement project version" -a || echo "no changes"
         fi
     - name: Push changes
