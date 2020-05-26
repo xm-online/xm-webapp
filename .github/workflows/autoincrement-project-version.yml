@@ -40,7 +40,7 @@ jobs:
           git commit -m "autoincrement project version" -a || echo "no changes"
         elif [ "$event" == "labeled" ] && [ "$event_label_name" == "do_not_increment_version" ]
         then
-          npm version $currentVersion
+          npm version $currentVersion --force
           git commit -m "autodecrement project version" -a || echo "no changes"
         fi
     - name: Push changes
