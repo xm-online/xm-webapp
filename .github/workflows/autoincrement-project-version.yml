@@ -21,7 +21,6 @@ jobs:
     - name: Set up Node
       uses: actions/setup-node@v1 
       with:
-        java-version: 8
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
@@ -31,7 +30,7 @@ jobs:
         event_label_name: ${{ github.event.label.name }}
         majorVersion: $(npm run-script get-version | tail -n 1 | cut -d '.' -f 1)
         minorVersion: $(npm run-script get-version | tail -n 1 | cut -d '.' -f 2)
-        patchVersion: $(npm run-script get-version | tail -n 1 | cut -d '.' -f 3)
+        # patchVersion: $(npm run-script get-version | tail -n 1 | cut -d '.' -f 3)
 
       run: |
         git config --local user.email "action@github.com"
@@ -42,9 +41,9 @@ jobs:
           git commit -m "autoincrement project version" -a || echo "no changes"
         elif [ "$event" == "labeled" ] && [ "$event_label_name" == "do_not_increment_version" ]
         then
-          patchVersion=$((patchVersion - 1))
-          echo "Old version:" $patchVersion
-          npm version $majorVersion.$minorVersion.$patchVersion
+          # patchVersion=$((patchVersion - 1))
+          # echo "Old version:" $patchVersion
+          npm version $majorVersion.$minorVersion.0
           git commit -m "autodecrement project version" -a || echo "no changes"
         fi
     - name: Push changes
