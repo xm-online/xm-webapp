@@ -938,6 +938,11 @@
       }
     }
   },
+  "xm-bool-control": {
+    "cancel": "Отменить",
+    "false": "Нет",
+    "true": "Да"
+  },
   "xm-entity": {
     "attachment-card": {
       "delete": {

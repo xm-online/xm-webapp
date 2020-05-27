@@ -949,6 +949,11 @@
       }
     }
   },
+  "xm-bool-control": {
+    "cancel": "Cancel",
+    "false": "False",
+    "true": "True"
+  },
   "xm-entity": {
     "attachment-card": {
       "delete": {

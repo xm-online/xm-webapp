@@ -105,4 +105,12 @@ export const XM_ELEMENTS: DynamicComponents = [
         selector: '@xm-ngx/components/mat-fab',
         loadChildren: () => import('@xm-ngx/components/mat-fab').then(m => m.MatFabModule),
     },
+    {
+        selector: '@xm-ngx/components/xm-bool-view',
+        loadChildren: () => import('@xm-ngx/components/xm-bool-view').then(m => m.XmBoolViewModule),
+    },
+    {
+        selector: '@xm-ngx/components/xm-bool-control',
+        loadChildren: () => import('@xm-ngx/components/xm-bool-control').then(m => m.XmBoolControlModule),
+    },
 ];
