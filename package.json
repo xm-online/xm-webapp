@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "2.0.3",
+  "version": "2.0.2",
   "private": true,
   "description": "Xm-webapp",
   "homepage": "https://github.com/xm-online/xm-webapp",
@@ -40,7 +40,8 @@
     "get-unwraped-labels": "node ./scripts/get-unwraped-labels.js",
     "translations": "node ./scripts/translations.js",
     "report:bundle": "webpack-bundle-analyzer dist/stats.json",
-    "get-version": "printf $npm_package_version"
+    "get-version": "printf $npm_package_version",
+    "decrement-version": "sh scripts/version.sh"
   },
   "dependencies": {
     "@agm/core": "1.1.0",
