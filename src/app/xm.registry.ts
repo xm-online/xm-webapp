@@ -113,4 +113,12 @@ export const XM_ELEMENTS: DynamicComponents = [
         selector: '@xm-ngx/components/xm-bool-control',
         loadChildren: () => import('@xm-ngx/components/xm-bool-control').then(m => m.XmBoolControlModule),
     },
+    {
+        selector: '@xm-ngx/components/xm-enum-view',
+        loadChildren: () => import('@xm-ngx/components/xm-enum-view').then(m => m.XmEnumViewModule),
+    },
+    {
+        selector: '@xm-ngx/components/xm-enum-control',
+        loadChildren: () => import('@xm-ngx/components/xm-enum-control').then(m => m.XmEnumControlModule),
+    },
 ];
