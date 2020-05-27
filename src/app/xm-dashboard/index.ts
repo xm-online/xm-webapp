@@ -1,3 +1,4 @@
+export { DynamicComponents } from './dynamic/dynamic.interfaces';
 export { DashboardComponent } from './dashboard/dashboard.component';
 export * from './dynamic/dynamic-widget.directive';
 export * from './dynamic/dynamic-widget-layout.component';
@@ -8,7 +9,6 @@ export * from './shared/dashboard-wrapper.service';
 export * from './shared/widget.model';
 export * from './shared/widget.service';
 export { XmDashboardModule } from './xm-dashboard.module';
-export { XmDynamicModule } from './xm-dynamic.module';
+export { XmDynamicModule } from './dynamic/xm-dynamic.module';
 export { PageService, Page } from './page/page.service';
-export { ELEMENT_NOT_FOUND } from './dynamic/dynamic-tenant-loader.service';
 export { DynamicCellModule } from './dynamic/dynamic-cell.component';

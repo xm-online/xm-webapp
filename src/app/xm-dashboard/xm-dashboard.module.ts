@@ -9,7 +9,7 @@ import { DashboardWrapperService } from './shared/dashboard-wrapper.service';
 import { DashboardService } from './shared/dashboard.service';
 import { WidgetService } from './shared/widget.service';
 import { XmDashboardRoutingModule } from './xm-dashboard-routing.module';
-import { XmDynamicModule } from './xm-dynamic.module';
+import { XmDynamicModule } from './dynamic/xm-dynamic.module';
 
 @NgModule({
     imports: [
