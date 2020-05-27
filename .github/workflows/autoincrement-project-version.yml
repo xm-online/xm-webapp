@@ -28,9 +28,6 @@ jobs:
       env:
         event: ${{ github.event.action }}
         event_label_name: ${{ github.event.label.name }}
-        majorVersion: $(npm run-script get-version | tail -n 1 | cut -d '.' -f 1)
-        minorVersion: $(npm run-script get-version | tail -n 1 | cut -d '.' -f 2)
-        # patchVersion: $(npm run-script get-version | tail -n 1 | cut -d '.' -f 3)
 
       run: |
         git config --local user.email "action@github.com"
@@ -38,13 +35,9 @@ jobs:
         if [ "$event" == "opened" ] || ([ "$event" == "unlabeled" ] && [ "$event_label_name" == "do_not_increment_version" ])
         then 
           npm version patch 
-          git commit -m "autoincrement project version" -a || echo "no changes"
         elif [ "$event" == "labeled" ] && [ "$event_label_name" == "do_not_increment_version" ]
         then
-          # patchVersion=$((patchVersion - 1))
-          # echo "Old version:" $patchVersion
-          npm version $majorVersion.$minorVersion.0
-          git commit -m "autodecrement project version" -a || echo "no changes"
+          npm run-script decrement-version
         fi
     - name: Push changes
       uses: ad-m/github-push-action@master
