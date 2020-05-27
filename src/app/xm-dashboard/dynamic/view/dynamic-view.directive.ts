@@ -79,6 +79,10 @@ export class DynamicViewDirective<V, O> implements IComponent<V, O>, OnChanges, 
         this.instance.options = this.options;
     }
 
+    protected createInjector(): Injector {
+        return this.injector;
+    }
+
     protected async createInstance(): Promise<void> {
         if (!this.selector) {
             return;
@@ -88,7 +92,7 @@ export class DynamicViewDirective<V, O> implements IComponent<V, O>, OnChanges, 
         const cfr = this.cfr.resolveComponentFactory(ref);
 
         this.viewContainerRef.clear();
-        const c = this.viewContainerRef.createComponent(cfr, 0, this.injector);
+        const c = this.viewContainerRef.createComponent(cfr, 0, this.createInjector());
         this.instance = c.instance;
     }
 }
