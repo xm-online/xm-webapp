@@ -14,11 +14,11 @@ import { DynamicSearcher } from './searcher/dynamic-searcher';
 
 
 export function isComponentDef<T extends { ɵcmp: unknown }>(def: Type<T> | any): boolean {
-    return def && (def.ɵcmp || def.constructor.ɵcmp || def.prototype.ɵcmp);
+    return def && def.ɵcmp;
 }
 
 export function isModuleDef<T extends { ɵmod: unknown }>(def: Type<T> | any): boolean {
-    return def && (def.ɵmod || def.constructor.ɵmod || def.prototype.ɵmod);
+    return def && def.ɵmod;
 }
 
 @Injectable({
