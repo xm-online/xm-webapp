@@ -7,6 +7,7 @@ import { buildJsfAttributes, nullSafe } from '../../shared/jsf-extention/jsf-att
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
+import { MediaMarshaller } from "@angular/flex-layout";
 
 
 @Component({
@@ -26,11 +27,17 @@ export class EntityDataCardComponent implements OnInit {
 
     constructor(private xmEntityService: XmEntityService,
                 private toasterService: XmToasterService,
-                private eventManager: XmEventManager) {
+                private eventManager: XmEventManager,
+                private mediaMarshaller: MediaMarshaller) {
     }
 
     public ngOnInit(): void {
         this.load();
+        setTimeout(() => this.mediaMarshaller.updateStyles(), 0)
+    }
+
+    public onChangeForm(formValue: any): void {
+        setTimeout(() => this.mediaMarshaller.updateStyles(), 0)
     }
 
     public onSubmitForm(data: any): void {
