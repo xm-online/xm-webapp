@@ -11,7 +11,7 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { DynamicTenantLoaderService } from './dynamic-tenant-loader.service';
+import { DynamicLoader } from './loader/dynamic-loader';
 
 export const TABLE_ROW = new InjectionToken<string>('TABLE_ROW');
 export const TABLE_COLUMN = new InjectionToken<string>('TABLE_COLUMN');
@@ -38,7 +38,7 @@ export class DynamicCellComponent<T> implements OnInit, DoCheck {
 
     constructor(protected viewContainerRef: ViewContainerRef,
                 protected injector: Injector,
-                protected loaderService: DynamicTenantLoaderService,
+                protected loaderService: DynamicLoader,
                 protected cfr: ComponentFactoryResolver) {
     }
 
