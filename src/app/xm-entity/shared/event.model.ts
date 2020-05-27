@@ -1,5 +1,4 @@
 import { BaseEntity } from './base-entity';
-import { Calendar } from './calendar.model';
 import { XmEntity } from './xm-entity.model';
 
 export interface Event extends BaseEntity {
@@ -10,6 +9,6 @@ export interface Event extends BaseEntity {
     description?: string;
     startDate?: string | Date;
     endDate?: string | Date;
-    calendar?: Calendar;
+    calendar?: number;
     assigned?: XmEntity;
 }
