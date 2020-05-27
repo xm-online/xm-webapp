@@ -1,6 +1,10 @@
 {
   "name": "xm-webapp",
+<<<<<<< HEAD
   "version": "2.0.0",
+=======
+  "version": "2.0.7",
+>>>>>>> 5c6672ac1788278db39cecda634711b927fec89f
   "private": true,
   "description": "Xm-webapp",
   "homepage": "https://github.com/xm-online/xm-webapp",
