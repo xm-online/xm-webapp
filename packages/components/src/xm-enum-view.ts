@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation 
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
-type Titles = { [value: string]: Translate } | string[];
+type Titles = { [value: string]: Translate } | Translate[];
 
 export interface IEnumOptions {
     title?: Translate;
@@ -18,8 +18,8 @@ export interface IEnumOptions {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmEnumView implements IComponent<Translate, IEnumOptions> {
-    @Input() public value: Translate;
+export class XmEnumView implements IComponent<string, IEnumOptions> {
+    @Input() public value: string;
 
     public titles: Titles;
     private _options: IEnumOptions;
@@ -42,5 +42,5 @@ export class XmEnumView implements IComponent<Translate, IEnumOptions> {
     providers: [],
 })
 export class XmEnumViewModule {
-    public entry: IComponentFn<Translate, IEnumOptions> = XmEnumView;
+    public entry: IComponentFn<string, IEnumOptions> = XmEnumView;
 }

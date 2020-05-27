@@ -5,7 +5,7 @@ import { Layout } from '../../shared/layout.model';
 import { DynamicWidgetLayoutComponent } from '../dynamic-widget-layout.component';
 import { IComponent } from './dynamic-view.directive';
 
-interface ViewLayout<V = unknown, O = unknown> extends Layout, IComponent<V, O> {
+export interface ViewLayout<V = unknown, O = unknown> extends Layout, IComponent<V, O> {
 }
 
 /**
