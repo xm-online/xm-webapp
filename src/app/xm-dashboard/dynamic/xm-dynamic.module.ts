@@ -4,6 +4,8 @@ import { DynamicWidgetLayoutComponent } from './dynamic-widget-layout.component'
 import { DynamicWidgetDirective } from './dynamic-widget.directive';
 import { DYNAMIC_COMPONENTS } from './dynamic.injectors';
 import { DynamicComponents } from './dynamic.interfaces';
+import { DynamicLoader } from './loader/dynamic-loader';
+import { DynamicMultiLoaderService } from './loader/dynamic-multi-loader.service';
 import { DynamicMultiSearcherService } from './searcher/dynamic-multi-searcher.service';
 import { DynamicSearcher } from './searcher/dynamic-searcher';
 
@@ -23,6 +25,7 @@ export class XmDynamicModule {
             ngModule: XmDynamicModule,
             providers: [
                 dynamicModuleInitializer(components),
+                {provide: DynamicLoader, useClass: DynamicMultiLoaderService},
                 {provide: DynamicSearcher, useClass: DynamicMultiSearcherService},
             ],
         };
