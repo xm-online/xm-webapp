@@ -9,7 +9,7 @@ import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 import { XmApplicationConfigService, XmCoreModule } from '@xm-ngx/core';
 import { UserRouteAccessService } from '@xm-ngx/core/auth';
 import { environment } from '@xm-ngx/core/environment';
-import { XmDashboardModule } from '@xm-ngx/dynamic';
+import { XmDashboardModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { HttpLoaderFactory, XmTranslationModule } from '@xm-ngx/translation';
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
@@ -45,11 +45,11 @@ export function appInitializerFn(appConfig: XmApplicationConfigService): () => P
         XmTranslationModule.forRoot(),
         XmDashboardModule.forRoot(),
         MarkdownModule.forRoot(),
+        XmDynamicModule.forRoot(XM_ELEMENTS),
         LayoutModule,
     ],
     providers: [
         proxyInterceptorFactory({url: environment.serverApiUrl, excludedUrls: ['http', 'i18n', 'assets']}),
-        XM_ELEMENTS,
         XmApplicationConfigService,
         {
             provide: APP_INITIALIZER,
