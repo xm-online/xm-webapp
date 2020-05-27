@@ -45,6 +45,9 @@ export class DashboardWrapperService {
     }
 
     public getByIdOrSlug(idOrSlug: number | string): Observable<DashboardWithWidgets | null> {
+        if (!idOrSlug) {
+            return of(null);
+        }
         return this.dashboards$().pipe(
             map<Dashboard[] | null, Dashboard[]>((ds) => ds || []),
             map((ds) => ds.find((d) => (d.id === Number(idOrSlug)) || (d.config && d.config.slug === idOrSlug))),
