@@ -34,10 +34,12 @@ jobs:
         git config --local user.name "GitHub Action"
         if [ "$event" == "opened" ] || ([ "$event" == "unlabeled" ] && [ "$event_label_name" == "do_not_increment_version" ])
         then 
-          npm version patch 
+          npm version patch
+          git commit -m "Autoincrement project version" -a || echo "No changes"
         elif [ "$event" == "labeled" ] && [ "$event_label_name" == "do_not_increment_version" ]
         then
           npm run-script decrement-version
+          git commit -m "Autodecrement project version" -a || echo "No changes"
         fi
     - name: Push changes
       uses: ad-m/github-push-action@master
