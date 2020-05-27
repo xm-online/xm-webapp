@@ -1,5 +1,6 @@
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { XmSharedModule } from '@xm-ngx/shared';
+import { DynamicControlDirective } from './control/dynamic-control.directive';
 import { DynamicWidgetLayoutComponent } from './dynamic-widget-layout.component';
 import { DynamicWidgetDirective } from './dynamic-widget.directive';
 import { DYNAMIC_COMPONENTS } from './dynamic.injectors';
@@ -8,6 +9,8 @@ import { DynamicLoader } from './loader/dynamic-loader';
 import { DynamicMultiLoaderService } from './loader/dynamic-multi-loader.service';
 import { DynamicMultiSearcherService } from './searcher/dynamic-multi-searcher.service';
 import { DynamicSearcher } from './searcher/dynamic-searcher';
+import { DynamicViewLayoutComponent } from './view/dynamic-view-layout.component';
+import { DynamicViewDirective } from './view/dynamic-view.directive';
 
 export function dynamicModuleInitializer(components: DynamicComponents): Provider {
     return [{provide: DYNAMIC_COMPONENTS, multi: true, useValue: components}];
@@ -15,8 +18,20 @@ export function dynamicModuleInitializer(components: DynamicComponents): Provide
 
 @NgModule({
     imports: [XmSharedModule],
-    exports: [DynamicWidgetDirective, DynamicWidgetLayoutComponent],
-    declarations: [DynamicWidgetDirective, DynamicWidgetLayoutComponent],
+    exports: [
+        DynamicViewDirective,
+        DynamicControlDirective,
+        DynamicWidgetDirective,
+        DynamicWidgetLayoutComponent,
+        DynamicViewLayoutComponent,
+    ],
+    declarations: [
+        DynamicViewDirective,
+        DynamicControlDirective,
+        DynamicWidgetDirective,
+        DynamicWidgetLayoutComponent,
+        DynamicViewLayoutComponent,
+    ],
     providers: [],
 })
 export class XmDynamicModule {
