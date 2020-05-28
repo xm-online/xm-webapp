@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { create as createHeatmap, DataPoint, HeatmapConfiguration } from 'heatmap.js';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 
 @Injectable()
 export class HeatmapService {
@@ -59,26 +60,29 @@ export class HeatmapService {
             this.heatmap.removeData();
             this.heatmap.repaint();
         }
+
         this.subscription = this.dataPoints
             .pipe(
                 takeUntilOnDestroy(this),
+                throttleTime(300),
             )
-            .subscribe(val => {
-                if (this.heatmap) {
-                    this.heatmap.addData(val);
-                    localStorage.setItem(`heatmap-${route}`, JSON.stringify(this.heatmap.getData()));
-                    this.heatmap.repaint();
-                }
-            });
+            .subscribe(() => this.save(`heatmap-${route}`));
     }
 
-    public add(val: any): void {
+    public add(val: DataPoint): void {
+        this.heatmap.addData(val);
         this.dataPoints.next(val);
     }
 
     public toggleVisibility(): void {
         this.visibility$.next(!this.visibility$.value);
         this.heatmap.repaint();
+    }
+
+    protected save(name: string): void {
+        if (this.heatmap) {
+            localStorage.setItem(name, JSON.stringify(this.heatmap.getData()));
+        }
     }
 
     private overrideColorizeFunction(heatmap: any): void {
