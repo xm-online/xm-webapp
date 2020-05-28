@@ -10,6 +10,7 @@ import { HeatmapService } from './heatmap.service';
     template: `
         <button mat-icon-button
                 class="heatmap-icon"
+                [color]="active ? 'primary' : null"
                 (click)="toggleHeatmap()">
             <mat-icon>whatshot</mat-icon>
         </button>
@@ -18,6 +19,7 @@ import { HeatmapService } from './heatmap.service';
 })
 export class NavbarHeatmapWidgetComponent {
 
+    public active: boolean;
     constructor(
         private zone: NgZone,
         private heatmapService: HeatmapService,
@@ -32,6 +34,7 @@ export class NavbarHeatmapWidgetComponent {
         });
 
         this.heatmapService.$visibility().subscribe((state) => {
+            this.active = state;
             if (state) {
                 heatmapContainerElement.classList.remove('hidden-heatmap');
             } else {
