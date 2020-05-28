@@ -6,7 +6,7 @@ on:
   pull_request:
     types: [opened,labeled,unlabeled]
     branches:
-      - versioning_2
+      - master
 
 jobs:
   increment_version:
