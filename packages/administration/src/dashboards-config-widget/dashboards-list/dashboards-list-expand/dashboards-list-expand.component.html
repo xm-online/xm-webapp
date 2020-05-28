@@ -22,7 +22,7 @@
   <ng-container matColumnDef="{{columns[2]}}">
     <th *matHeaderCellDef mat-header-cell mat-sort-header> {{columns[2]}} </th>
     <td *matCellDef="let element" mat-cell>
-      <xm-bool [value]="element[columns[2]]"></xm-bool>
+      <xm-bool-view [value]="element[columns[2]]"></xm-bool-view>
     </td>
   </ng-container>
 
