@@ -4,8 +4,8 @@
 <xm-password-needed></xm-password-needed>
 <xm-maintenance-view [show]="isMaintenanceProgress$ | async"></xm-maintenance-view>
 
-<div class="heatmap-container-wrapper" (mousemove)="heatmapMouseMove($event)">
-  <div id="heatmapContainer" [ngClass]="{'hidden-heatmap': !(heatmapVisibility | async)}">
+<div class="heatmap-container-wrapper">
+  <div id="heatmapContainer" class="hidden-heatmap">
     <div [class.has-ackground]="guestBg"
          [class.xm-guest-layout]="isGuestLayout"
          class="wrapper">
