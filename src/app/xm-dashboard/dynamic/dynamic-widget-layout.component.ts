@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { appearUp } from '@xm-ngx/components/animations';
 import * as _ from 'lodash';
 import { Layout } from '../shared/layout.model';
-import { appearUp } from '@xm-ngx/components/animations';
 
-interface SanitizedLayout {
+export interface SanitizedLayout {
     layout: Layout;
     isCustomElement: boolean;
     customParams: unknown;
@@ -59,19 +59,15 @@ export class DynamicWidgetLayoutComponent implements OnChanges {
     }
 
     @Input()
-    public resolveCustomParams: (layout: Layout) => Layout = (layout: Layout) => {
+    public resolveCustomParams(layout: any): any {
         return layout;
-    };
+    }
 
     public ngOnChanges(changes: SimpleChanges): void {
         this.sanitizeLayouts();
     }
 
-    private sanitizeLayouts(): void {
-        this.sanitizedLayouts = _.map(this.layouts, (i) => this.sanitizeLayoutNode(i));
-    }
-
-    private sanitizeLayoutNode(node: Layout): SanitizedLayout {
+    protected sanitizeLayoutNode(node: Layout): SanitizedLayout {
         const obj: SanitizedLayout = {
             layout: node,
             isCustomElement: this.isCustomElement(node),
@@ -81,5 +77,9 @@ export class DynamicWidgetLayoutComponent implements OnChanges {
             obj.customParams = this.resolveCustomParams(node);
         }
         return obj;
+    }
+
+    private sanitizeLayouts(): void {
+        this.sanitizedLayouts = _.map(this.layouts, (i) => this.sanitizeLayoutNode(i));
     }
 }
