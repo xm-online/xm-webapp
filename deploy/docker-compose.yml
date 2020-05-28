@@ -1,5 +1,6 @@
 version: '3.3'
 services:
+    web-app:
         image: xmonline/xm-webapp:${IMAGE_TAG:-latest}
         networks:
             - xm2
