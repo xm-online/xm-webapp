@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { AceEditorControlModule } from '@xm-ngx/components/ace-editor-control';
-import { BoolModule } from '@xm-ngx/components/bool';
+import { XmBoolViewModule } from '@xm-ngx/components/xm-bool-view';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { TextModule } from '@xm-ngx/components/text';
 import { XmSharedModule } from '@xm-ngx/shared';
@@ -21,7 +21,7 @@ import { WidgetEditComponent } from './widget-edit/widget-edit.component';
         CommonModule,
         XmSharedModule,
         LoaderModule,
-        BoolModule,
+        XmBoolViewModule,
         AceEditorControlModule,
         TextModule,
     ],
