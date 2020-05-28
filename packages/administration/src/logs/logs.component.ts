@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { JhiOrderByPipe } from 'ng-jhipster';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { finalize, map, share } from 'rxjs/operators';
 
 import { JhiHealthService } from '../health/health.service';
@@ -8,33 +9,31 @@ import { Log } from './log.model';
 import { LogsService } from './logs.service';
 
 @Component({
-    providers: [JhiOrderByPipe],
     selector: 'xm-logs',
     styleUrls: ['./logs.component.scss'],
     templateUrl: './logs.component.html',
 })
 export class LogsComponent implements OnInit {
 
-    public loggers$: Observable<Log[]>;
-    public filter: string;
-    public orderProp: string;
-    public showLoader: boolean;
-    public reverse: boolean;
+    public loading: boolean = true;
+    public displayedColumns: string[] = ['name', 'actions'];
     public selectedService: string = '';
-    public services: any[];
+    public services: { name: string }[];
+    public dataSource: MatTableDataSource<Log> = new MatTableDataSource([]);
+
+    @ViewChild(MatPaginator, {static: true}) private paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) private sort: MatSort;
 
     constructor(
         private logsService: LogsService,
         private healthService: JhiHealthService,
-        private orderBy: JhiOrderByPipe,
     ) {
-        this.filter = '';
-        this.orderProp = 'name';
-        this.reverse = false;
-        this.showLoader = true;
     }
 
     public ngOnInit(): void {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
         this.healthService
             .getMonitoringServicesCollection()
             .subscribe((result) => {
@@ -47,23 +46,31 @@ export class LogsComponent implements OnInit {
     }
 
     public getLoggers(): void {
-        this.showLoader = true;
-        this.loggers$ = this.logsService
+        this.loading = true;
+        this.logsService
             .findByService(this.selectedService)
             .pipe(
                 share(),
                 map((resp) => resp.body),
-                map((body) => this.orderBy.transform(body, this.orderProp, this.reverse)),
-                finalize(() => this.showLoader = false),
+                finalize(() => this.loading = false),
                 share(),
-            );
+            ).subscribe((data) => this.dataSource.data = data);
     }
 
     public changeLevel(name: string, level: string): void {
-        this.showLoader = true;
+        this.loading = true;
         const log = {name, level};
         this.logsService
             .changeLevel(log, this.selectedService)
             .subscribe(() => this.getLoggers());
+    }
+
+    public applyFilter(event: Event): void {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+        }
     }
 }
