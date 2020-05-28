@@ -6,7 +6,7 @@ on:
   pull_request:
     types: [opened,labeled,unlabeled]
     branches:
-      - master
+      - versioning_2
 
 jobs:
   increment_version:
@@ -21,7 +21,6 @@ jobs:
     - name: Set up Node
       uses: actions/setup-node@v1 
       with:
-        java-version: 8
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
@@ -29,18 +28,18 @@ jobs:
       env:
         event: ${{ github.event.action }}
         event_label_name: ${{ github.event.label.name }}
+
       run: |
-        currentVersion = $(npm run-script get-version | tail -n1)
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         if [ "$event" == "opened" ] || ([ "$event" == "unlabeled" ] && [ "$event_label_name" == "do_not_increment_version" ])
         then 
-          npm version patch 
-          git commit -m "autoincrement project version" -a || echo "no changes"
+          npm version patch --no-git-tag-version
+          git commit -m "Autoincrement project version" -a || echo "No changes"
         elif [ "$event" == "labeled" ] && [ "$event_label_name" == "do_not_increment_version" ]
         then
-          npm version $currentVersion
-          git commit -m "autodecrement project version" -a || echo "no changes"
+          npm run-script decrement-version
+          git commit -m "Autodecrement project version" -a || echo "No changes"
         fi
     - name: Push changes
       uses: ad-m/github-push-action@master
