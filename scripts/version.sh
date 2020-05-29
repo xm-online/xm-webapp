@@ -1,8 +1,12 @@
 #!/bin/bash
-export majorVersion=$(npm run-script get-version | tail -n 1 | cut -d '.' -f 1)
-export minorVersion=$(npm run-script get-version | tail -n 1 | cut -d '.' -f 2)
-export patchVersion=$(npm run-script get-version | tail -n 1 | cut -d '.' -f 3)
+export version=$(npm --silent run-script get-version | tail -n 1)
+IFS='.'
+read -ra versionArr <<< "$version"
+
+export majorVersion=${versionArr[0]}
+export minorVersion=${versionArr[1]}
+export patchVersion=${versionArr[2]}
 
 patchVersion=$((patchVersion - 1))
-npm version $majorVersion.$minorVersion.$patchVersion --force --no-git-tag-version
+npm --silent version $majorVersion.$minorVersion.$patchVersion --force --no-git-tag-version
 echo "The version was decremented successfully:" $majorVersion.$minorVersion.$patchVersion
