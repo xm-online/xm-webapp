@@ -323,6 +323,18 @@ tag-input {
     align-items: center!important;
 }
 
+.array-item {
+  border-radius: 8px!important;
+  box-shadow: none!important;
+  padding: 6px;
+  border: thin solid #e8e7e7!important;
+  position: relative;
+  transition: none!important;
+  &:hover {
+    cursor: inherit!important;
+  }
+}
+
 @media (max-width: 768px) {
     .main-panel .main-content,
     .container-fluid {
