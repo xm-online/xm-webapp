@@ -41,7 +41,7 @@
     "translations": "node ./scripts/translations.js",
     "report:bundle": "webpack-bundle-analyzer dist/stats.json",
     "get-version": "printf $npm_package_version",
-    "decrement-version": "sh scripts/version.sh"
+    "decrement-version": "bash scripts/version.sh"
   },
   "dependencies": {
     "@agm/core": "1.1.0",
