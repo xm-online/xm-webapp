@@ -1,5 +1,5 @@
 #!/bin/bash
-export version=$(npm --silent run-script get-version | tail -n 1)
+export version=$(npm --silent run-script get-version)
 IFS='.'
 read -ra versionArr <<< "$version"
 
