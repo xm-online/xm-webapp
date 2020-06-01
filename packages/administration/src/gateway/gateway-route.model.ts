@@ -1,9 +1,7 @@
-export class GatewayRoute {
-    constructor(
-        public path: string,
-        public serviceId: string,
-        public serviceInstances: any[],
-        public serviceInstancesStatus: any,
-        public serviceMetadata: any,
-    ) { }
+export interface GatewayRoute {
+    path: string;
+    serviceId: string;
+    serviceInstances: any[];
+    serviceInstancesStatus: any;
+    serviceMetadata: any;
 }

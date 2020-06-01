@@ -1,68 +1,67 @@
-<div class="card logs-card">
-  <xm-loader [showLoader]="showLoader"></xm-loader>
+<mat-card>
+  <h4>{{'logs.title' | translate}}</h4>
 
-  <div class="card-header">
-    <h4 jhiTranslate="logs.title">Logs</h4>
+  <div class="d-md-flex">
+    <mat-form-field class="mr-3">
+      <mat-select (selectionChange)="getLoggers()"
+                  [(ngModel)]="selectedService"
+                  [placeholder]="'metrics.options.service-name' | translate">
+        <mat-option *ngFor="let s of services" [value]="s.name">
+          {{s.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-    <p [innerHTML]="'logs.nbloggers' | translate : {total: (loggers$ | async)?.length || '0'}"></p>
-
-    <div class="d-md-flex">
-      <mat-form-field class="mr-3">
-        <mat-select (selectionChange)="getLoggers()"
-                    [(ngModel)]="selectedService"
-                    placeholder="{{'metrics.options.service-name' | translate}}">
-          <mat-option *ngFor="let s of services" [value]="s.name">
-            {{s.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input [(ngModel)]="filter" matInput placeholder="{{'logs.filter' | translate}}" type="text">
-      </mat-form-field>
-    </div>
-
+    <mat-form-field>
+      <input (keyup)="applyFilter($event)" [placeholder]="'logs.filter' | translate" matInput type="text">
+    </mat-form-field>
   </div>
 
-  <div class="card-body table-responsive">
+  <table [dataSource]="dataSource" [matSortActive]="'name'" class="w-100" mat-table matSort>
 
-    <ng-container *ngIf="(loggers$ | async) as loggers">
-      <table class="table table-condensed table-striped table-bordered">
-
-        <thead>
-        <tr title="click to order">
-          <th (click)="orderProp = 'name'; reverse=!reverse"><span jhiTranslate="logs.table.name">Name</span></th>
-          <th (click)="orderProp = 'level'; reverse=!reverse"><span jhiTranslate="logs.table.level">Level</span></th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr *ngFor="let logger of loggers | pureFilter:filter:'name'">
-          <td class="text-left text-wrap text-break">{{logger.name}}</td>
-          <td class="text-center">
-            <button (click)="changeLevel(logger.name, 'TRACE')"
-                    [ngClass]="(logger.level=='TRACE') ? 'btn-danger' : 'btn-default'" class="btn btn-sm">TRACE
-            </button>
-            <button (click)="changeLevel(logger.name, 'DEBUG')"
-                    [ngClass]="(logger.level=='DEBUG') ? 'btn-warning' : 'btn-default'" class="btn btn-sm">DEBUG
-            </button>
-            <button (click)="changeLevel(logger.name, 'INFO')"
-                    [ngClass]="(logger.level=='INFO') ? 'btn-info' : 'btn-default'" class="btn btn-sm">INFO
-            </button>
-            <button (click)="changeLevel(logger.name, 'WARN')"
-                    [ngClass]="(logger.level=='WARN') ? 'btn-success' : 'btn-default'" class="btn btn-sm">WARN
-            </button>
-            <button (click)="changeLevel(logger.name, 'ERROR')"
-                    [ngClass]="(logger.level=='ERROR') ? 'btn-primary' : 'btn-default'" class="btn btn-sm">ERROR
-            </button>
-          </td>
-        </tr>
-        </tbody>
-
-      </table>
+    <!-- name Column -->
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'logs.table.name' | translate}}</th>
+      <td *matCellDef="let logger" class="text-left text-wrap text-break" mat-cell>{{logger.name}}</td>
     </ng-container>
 
-    <no-data [show]="!((loggers$ | async)?.length > 0) && !showLoader"></no-data>
-  </div>
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef mat-header-cell>{{'logs.table.level' | translate}}</th>
 
-</div>
+      <td *matCellDef="let logger" class="text-right" mat-cell>
+        <button (click)="changeLevel(logger.name, 'TRACE')"
+                [ngClass]="(logger.level=='TRACE') ? 'btn-danger' : 'btn-default'"
+                class="btn btn-sm">TRACE
+        </button>
+        <button (click)="changeLevel(logger.name, 'DEBUG')"
+                [ngClass]="(logger.level=='DEBUG') ? 'btn-warning' : 'btn-default'"
+                class="btn btn-sm">DEBUG
+        </button>
+        <button (click)="changeLevel(logger.name, 'INFO')"
+                [ngClass]="(logger.level=='INFO') ? 'btn-info' : 'btn-default'"
+                class="btn btn-sm">INFO
+        </button>
+        <button (click)="changeLevel(logger.name, 'WARN')"
+                [ngClass]="(logger.level=='WARN') ? 'btn-success' : 'btn-default'"
+                class="btn btn-sm">WARN
+        </button>
+        <button (click)="changeLevel(logger.name, 'ERROR')"
+                [ngClass]="(logger.level=='ERROR') ? 'btn-primary' : 'btn-default'"
+                class="btn btn-sm">ERROR
+        </button>
+      </td>
+
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+  </table>
+
+  <xm-loader [showLoader]="loading" absolute="true"></xm-loader>
+
+  <no-data [show]="dataSource.filteredData?.length === 0 && !loading"></no-data>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+</mat-card>

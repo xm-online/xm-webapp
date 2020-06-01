@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
@@ -15,8 +18,12 @@ import { GatewayRoutesService } from './gateway-routes.service';
 })
 export class JhiGatewayComponent implements OnInit {
 
-    public gatewayRoutes: GatewayRoute[];
-    public showLoader: boolean;
+    public loading: boolean;
+    public displayedColumns: string[] = ['url', 'service', 'servers'];
+    public dataSource: MatTableDataSource<GatewayRoute> = new MatTableDataSource([]);
+
+    @ViewChild(MatPaginator, {static: true}) private paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) private sort: MatSort;
 
     constructor(
         private gatewayRoutesService: GatewayRoutesService,
@@ -27,16 +34,19 @@ export class JhiGatewayComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
         this.refresh();
     }
 
     public refresh(): void {
-        this.showLoader = true;
+        this.loading = true;
         this.gatewayRoutesService
             .findAll()
-            .subscribe((gatewayRoutes) => this.gatewayRoutes = gatewayRoutes,
+            .subscribe((gatewayRoutes) => this.dataSource.data = gatewayRoutes,
                 (err) => console.warn(err),
-                () => this.showLoader = false);
+                () => this.loading = false);
     }
 
     public tenantConfigRefresh(): void {
@@ -73,12 +83,12 @@ export class JhiGatewayComponent implements OnInit {
     }
 
     private triggerUpdate(type: 'updateTenantConfig' | 'reindexTenantElastic' = 'updateTenantConfig'): void {
-        this.showLoader = true;
-        this.service[type]().pipe(finalize(() => this.showLoader = false)).subscribe(
+        this.loading = true;
+        this.service[type]().pipe(finalize(() => this.loading = false)).subscribe(
             (resp) => console.warn(resp),
             (err) => {
                 console.warn(err);
-                this.showLoader = false;
+                this.loading = false;
             },
             () => this.toasterService.success('global.actionPerformed'));
     }

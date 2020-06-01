@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
@@ -17,6 +21,10 @@ import { JhiGatewayComponent } from './gateway.component';
         CommonModule,
         NgJhipsterModule,
         XmPermissionModule,
+        MatCardModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatSortModule,
     ],
     exports: [JhiGatewayComponent],
     declarations: [JhiGatewayComponent],
