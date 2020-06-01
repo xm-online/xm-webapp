@@ -16,7 +16,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { XmMainComponent } from './layouts';
 import { LayoutModule } from './layouts/layout.module';
-import { XmCoreAuthModule } from './modules/xm-core-auth/src/xm-core-auth.module';
+import { XmCoreAuthModule } from '../../packages/core/src/auth/src/xm-core-auth.module';
 import { XmRoutingModule } from './xm-routing.module';
 import { XM_ELEMENTS } from './xm.registry';
 

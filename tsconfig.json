@@ -23,7 +23,7 @@
       "@xm-ngx/administration/*": ["packages/administration/src/*"],
       "@xm-ngx/components/*": ["packages/components/src/*"],
       "@xm-ngx/core": ["packages/core"],
-      "@xm-ngx/core/auth": ["src/app/modules/xm-core-auth"],
+      "@xm-ngx/core/auth": ["packages/core/auth"],
       "@xm-ngx/ext/*": ["src/app/ext/*"],
       "@xm-ngx/core/environment": ["src/environments"],
       "@xm-ngx/core/permission": ["src/app/shared/privilege"],
