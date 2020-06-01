@@ -2,7 +2,7 @@ import { Component, HostListener, Input } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
-import { DashboardWrapperService, PageService, Widget } from '@xm-ngx/dynamic';
+import { Widget } from '@xm-ngx/dynamic';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
@@ -37,8 +37,6 @@ export class WidgetEditComponent {
         protected readonly editorService: DashboardEditorService,
         protected readonly eventManager: XmEventManager,
         protected readonly alertService: XmAlertService,
-        protected readonly wrapperService: DashboardWrapperService,
-        protected readonly pageService: PageService,
         protected readonly principal: Principal,
         protected readonly toasterService: XmToasterService) {
         this.loading$ = this.widgetService.loading$.pipe(tap((i) => this.disabled = i));
@@ -77,19 +75,22 @@ export class WidgetEditComponent {
                 }).subscribe();
                 this.value = res;
                 this.editType = EditType.Edit;
-                this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.id, add: true});
+                this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.dashboard.id, add: true});
             }),
-        ).subscribe(() => this.updateView());
+        ).subscribe();
     }
 
     public onSave(): void {
         this.widgetService.update(this.formGroup).pipe(
-            tap((res) => this.toasterService.create({
-                type: 'success',
-                text: DASHBOARDS_TRANSLATES.updated,
-                textOptions: {value: res.name},
-            }).subscribe()),
-        ).subscribe(() => this.updateView());
+            tap((res) => {
+                this.toasterService.create({
+                    type: 'success',
+                    text: DASHBOARDS_TRANSLATES.updated,
+                    textOptions: {value: res.name},
+                }).subscribe();
+                this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.dashboard.id, add: true});
+            }),
+        ).subscribe();
     }
 
     public onDelete(): void {
@@ -103,9 +104,9 @@ export class WidgetEditComponent {
                     textOptions: {value: this.value.name},
                 }).subscribe();
                 this.editorService.close();
-                this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.id, delete: true});
+                this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.dashboard.id, delete: true});
             }),
-        ).subscribe(() => this.updateView());
+        ).subscribe();
     }
 
     @HostListener('keydown.control.s', ['$event'])
@@ -122,8 +123,4 @@ export class WidgetEditComponent {
         });
     }
 
-    private updateView(): void {
-        this.wrapperService.forceReload();
-        this.pageService.load(this.value.dashboard.id);
-    }
 }
