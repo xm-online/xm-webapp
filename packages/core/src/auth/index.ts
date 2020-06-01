@@ -1,2 +1,2 @@
 export { XmCoreAuthModule } from './src/xm-core-auth.module';
-export * from '../../shared/auth'
+export * from '../../../../src/app/shared/auth'

@@ -4,7 +4,7 @@ import { XmCoreConfig } from '@xm-ngx/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 
-import { SERVER_API_URL } from '../../../xm.constants';
+import { SERVER_API_URL } from '../../../../../src/app/xm.constants';
 
 const TOKEN_URL = 'uaa/oauth/token';
 
