@@ -49,7 +49,6 @@ export class NavbarHeatmapWidgetComponent {
     }
 
     public heatmapMouseMove(event: any): void {
-        event.preventDefault();
         this.heatmapService.add({
             x: event.x,
             y: event.y,
