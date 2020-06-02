@@ -74,33 +74,4 @@ export class DynamicLoaderService {
         return elModuleFactory;
     }
 
-    public getComponentFromModule<T>(
-        moduleFactory: DynamicNgModuleFactory<T>,
-        injector: Injector = this.moduleRef.injector,
-    ): Type<T> {
-        const elementModuleRef = moduleFactory.create(injector);
-
-        if (!elementModuleRef.instance.entry) {
-            throw new Error(`ERROR: the "${moduleFactory.moduleType}" module expected to have `
-                + 'a "entry" field!'
-                + 'E.g. class MyModule{ entry = YourComponent; }');
-        }
-
-        return elementModuleRef.instance.entry;
-    }
-
-    public getComponentFromModuleAndResolve<T>(
-        moduleFactory: DynamicNgModuleFactory<T>,
-        injector: Injector = this.moduleRef.injector,
-    ): ComponentFactory<T> {
-        const elementModuleRef = moduleFactory.create(injector);
-
-        if (!elementModuleRef.instance.entry) {
-            throw new Error(`ERROR: the "${moduleFactory.moduleType}" module expected to have `
-                + 'a "entry" field!'
-                + 'E.g. class MyModule{ entry = YourComponent; }');
-        }
-
-        return elementModuleRef.componentFactoryResolver.resolveComponentFactory(elementModuleRef.instance.entry);
-    }
 }

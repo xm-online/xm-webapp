@@ -11,6 +11,7 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
+import { DynamicLoader } from '../loader/dynamic-loader';
 import { DynamicLoaderService } from '../loader/dynamic-loader.service';
 import { DynamicTenantLoaderService } from '../loader/dynamic-tenant-loader.service';
 import { ELEMENT_NOT_FOUND } from '../searcher/dynamic-injector-searcher.service';
@@ -49,6 +50,7 @@ export class DynamicWidgetDirective implements OnChanges {
 
     constructor(private loader: NgModuleFactoryLoader,
                 private injector: Injector,
+                private dynamicLoader: DynamicLoader,
                 private dynamicLoaderService: DynamicLoaderService,
                 private dynamicTenantLoaderService: DynamicTenantLoaderService,
                 private renderer: Renderer2,
@@ -78,8 +80,8 @@ export class DynamicWidgetDirective implements OnChanges {
         const value = this._layout;
 
         // WARNING: Experimental
-        if (value.module === '@xm-ngx' || value.selector && value.selector.startsWith('@xm-ngx')) {
-            const componentFactory = await this.dynamicLoaderService.loadAndResolve(this._layout?.config?.name || this._layout.selector, this.injector);
+        const componentFactory = await this.dynamicLoader.loadAndResolve(this._layout.selector, {injector: this.injector});
+        if (componentFactory) {
             this.createComponent(this._layout, componentFactory);
             return;
         }
