@@ -2,7 +2,7 @@ import { Component, HostListener, Input } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
-import { Dashboard, DashboardWrapperService, PageService } from '@xm-ngx/dynamic';
+import { Dashboard } from '@xm-ngx/dynamic';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
@@ -41,8 +41,6 @@ export class DashboardEditComponent {
                 protected editorService: DashboardEditorService,
                 protected alertService: XmAlertService,
                 protected readonly eventManager: XmEventManager,
-                protected readonly wrapperService: DashboardWrapperService,
-                protected readonly pageService: PageService,
                 protected principal: Principal,
                 protected toasterService: XmToasterService) {
         this.loading$ = this.dashboardService.loading$.pipe(tap((i) => this.disabled = i));
@@ -86,7 +84,7 @@ export class DashboardEditComponent {
                 this.editType = EditType.Edit;
                 this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.id, add: true});
             }),
-        ).subscribe(() => this.updateView());
+        ).subscribe();
     }
 
     public onSave(): void {
@@ -101,7 +99,7 @@ export class DashboardEditComponent {
                     textOptions: {value: res.name},
                 }).subscribe();
             }),
-        ).subscribe(() => this.updateView());
+        ).subscribe();
     }
 
     public onDelete(): void {
@@ -117,7 +115,7 @@ export class DashboardEditComponent {
                 this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.id, delete: true});
             }),
             tap(() => this.editorService.close()),
-        ).subscribe(() => this.updateView());
+        ).subscribe();
     }
 
 
@@ -126,10 +124,5 @@ export class DashboardEditComponent {
         this.onSave();
         $event.preventDefault();
         return false;
-    }
-
-    private updateView(): void {
-        this.wrapperService.forceReload();
-        this.pageService.load(String(this.value.id));
     }
 }

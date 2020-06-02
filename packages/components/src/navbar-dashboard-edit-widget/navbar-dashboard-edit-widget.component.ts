@@ -7,8 +7,10 @@ import {
     DashboardsImportService,
     DashboardsManagerService,
     DashboardsModule,
+    EDIT_DASHBOARD_EVENT,
 } from '@xm-ngx/administration/dashboards-config-widget';
-import { Dashboard, PageService } from '@xm-ngx/dynamic';
+import { XmEventManager } from '@xm-ngx/core';
+import { Dashboard, DashboardWrapperService, PageService } from '@xm-ngx/dynamic';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
@@ -32,6 +34,8 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy {
     public isEditing: boolean;
 
     constructor(
+        protected readonly wrapperService: DashboardWrapperService,
+        protected readonly eventManager: XmEventManager,
         private pageService: PageService,
         private editorService: DashboardEditorService,
     ) {
@@ -45,6 +49,10 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy {
                 this.editorService.editDashboard(DashboardEditComponent, this.page);
             }
         });
+
+        this.eventManager.listenTo(EDIT_DASHBOARD_EVENT)
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(({id}) => this.updateView(id));
     }
 
     public onEdit(): void {
@@ -59,6 +67,13 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
+    }
+
+    private updateView(id: number): void {
+        if (this.isEditing) {
+            this.wrapperService.forceReload();
+            this.pageService.load(String(id));
+        }
     }
 
 }
