@@ -9,6 +9,7 @@ import { saveFile, saveFileFromUrl } from '../../shared/helpers/file-download-he
 import { AttachmentSpec } from '../shared/attachment-spec.model';
 import { Attachment } from '../shared/attachment.model';
 import { AttachmentService } from '../shared/attachment.service';
+import { Principal } from '../../shared/auth';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class AttachmentCardComponent implements OnInit {
     @Input() public attachment: Attachment;
     @Input() public attachmentSpec: AttachmentSpec;
     public imageSrc: string;
+    public canDownload: boolean;
     private availableFileTypeImages: string[] = [
         '3gp', 'av', 'divx', 'eps', 'html', 'js', 'php', 'rar', 'txt', '7z', 'bak', 'dll',
         'exe', 'ico', 'mov', 'png', 'svg', 'wav', 'ae', 'bmp', 'doc', 'flv', 'iso', 'mp3', 'ppt', 'swf', 'zip', 'ai',
@@ -31,6 +33,7 @@ export class AttachmentCardComponent implements OnInit {
     constructor(private attachmentService: AttachmentService,
                 private alertService: XmAlertService,
                 private toasterService: XmToasterService,
+                private principal: Principal,
                 private eventManager: XmEventManager,
                 private translateService: TranslateService) {
     }
@@ -39,6 +42,8 @@ export class AttachmentCardComponent implements OnInit {
         if (this.isImage()) {
             this.loadImage();
         }
+
+        this.principal.hasPrivileges(['ATTACHMENT.GET_LIST.ITEM']).then(res => this.canDownload = res);
     }
 
     public isImage(): boolean {
