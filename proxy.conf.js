@@ -43,7 +43,7 @@ const PROXY_CONFIG = [
             "/zendesk",
             "/zendesk/management"
         ],
-        target: "https://compass-int.cranecompass.com",
+        target: "http://xm.test.xm-online.com.ua",
         secure: false,
         changeOrigin: true,
         logLevel: "debug"
