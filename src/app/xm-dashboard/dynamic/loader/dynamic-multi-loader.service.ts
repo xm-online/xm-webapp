@@ -19,10 +19,7 @@ export class DynamicMultiLoaderService implements DynamicLoader {
     }
 
     public async loadAndResolve<T>(selector: string): Promise<ComponentFactory<T> | null> {
-        if (selector.startsWith('ext')) {
-            return await this.dynamicTenantLoaderService.loadAndResolve(selector);
-        } else {
-            return await this.dynamicLoaderService.loadAndResolve(selector);
-        }
+        return await this.dynamicLoaderService.loadAndResolve(selector)
+            || await this.dynamicTenantLoaderService.loadAndResolve(selector);
     }
 }
