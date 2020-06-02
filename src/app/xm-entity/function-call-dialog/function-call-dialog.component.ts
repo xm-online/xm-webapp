@@ -27,6 +27,8 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
     @Input() public dialogTitle: any;
     @Input() public buttonTitle: any;
     @Input() public onSuccess: any;
+    @Input() public onError: any;
+    @Input() public preSendHandler: any;
 
     public jsfAttributes: any;
     public formData: any = {};
@@ -59,6 +61,12 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
     }
 
     public onConfirmFunctionCall(): void {
+        if (this.preSendHandler) {
+            if (!this.preSendHandler()) {
+                return;
+            }
+        }
+
         this.showLoader$.next(true);
         // XXX think about this assignment
         this.formData.xmEntity = this.xmEntity;
@@ -90,7 +98,7 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
 
         merge(saveContent$, sendModifyEvent$, sentCallSuccessEvent$).pipe(
             finalize(() => this.cancelLoader()),
-            catchError(() => this.handleError()),
+            catchError((response) => this.handleError(response)),
         ).subscribe();
     }
 
@@ -102,8 +110,11 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
         this.formData = data;
     }
 
-    private handleError(): Observable<any> {
+    private handleError(response): Observable<any> {
         this.cancelLoader();
+        if (this.onError) {
+            this.onError(response);
+        }
         return of();
     }
 
