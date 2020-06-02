@@ -11,9 +11,9 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { DynamicLoaderService } from './dynamic-loader.service';
-import { DynamicTenantLoaderService } from './dynamic-tenant-loader.service';
-import { ELEMENT_NOT_FOUND } from './searcher/dynamic-injector-searcher.service';
+import { DynamicLoaderService } from '../loader/dynamic-loader.service';
+import { DynamicTenantLoaderService } from '../loader/dynamic-tenant-loader.service';
+import { ELEMENT_NOT_FOUND } from '../searcher/dynamic-injector-searcher.service';
 
 export interface IWidget<C = any, S = any> {
     config?: C;

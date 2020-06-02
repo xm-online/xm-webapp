@@ -12,8 +12,8 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { DynamicLoader } from './loader/dynamic-loader';
-import { DynamicViewDirective, IComponentFn } from './view/dynamic-view.directive';
+import { DynamicLoader } from '../loader/dynamic-loader';
+import { DynamicViewDirective, IComponentFn } from './dynamic-view.directive';
 
 export const TABLE_ROW = new InjectionToken<string>('TABLE_ROW');
 export const TABLE_COLUMN = new InjectionToken<string>('TABLE_COLUMN');

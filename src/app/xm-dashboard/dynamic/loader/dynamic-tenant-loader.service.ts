@@ -1,8 +1,8 @@
 import { ComponentFactory, Injectable, Injector, NgModuleFactory, NgModuleRef, Type } from '@angular/core';
 
 import { DynamicLoaderService, isComponentDef, isModuleDef } from './dynamic-loader.service';
-import { DynamicNgModuleFactory, IDynamicModule } from './dynamic.interfaces';
-import { DynamicSearcher } from './searcher/dynamic-searcher';
+import { DynamicNgModuleFactory, IDynamicModule } from '../dynamic.interfaces';
+import { DynamicSearcher } from '../searcher/dynamic-searcher';
 
 @Injectable({
     providedIn: 'root',

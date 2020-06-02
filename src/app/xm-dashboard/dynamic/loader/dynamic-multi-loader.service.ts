@@ -1,6 +1,6 @@
 import { Injectable, Type } from '@angular/core';
-import { DynamicLoaderService } from '../dynamic-loader.service';
-import { DynamicTenantLoaderService } from '../dynamic-tenant-loader.service';
+import { DynamicLoaderService } from './dynamic-loader.service';
+import { DynamicTenantLoaderService } from './dynamic-tenant-loader.service';
 import { DynamicLoader } from './dynamic-loader';
 
 @Injectable({
