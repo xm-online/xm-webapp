@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmSharedModule } from '../../shared/shared.module';
 import {
     ClockWidgetComponent,
@@ -23,6 +24,17 @@ import {
         CommonModule,
         XmSharedModule,
         HttpClientJsonpModule,
+        XmDynamicModule.forChild([
+            {selector: 'xm-widget-clock', loadChildren: () => ClockWidgetComponent},
+            {selector: 'xm-widget-exchange-calculator', loadChildren: () => ExchangeWidgetComponent},
+            {selector: 'xm-widget-iframe', loadChildren: () => IframeWidgetComponent},
+            {selector: 'xm-widget-md', loadChildren: () => MdWidgetComponent},
+            {selector: 'xm-widget-news', loadChildren: () => NewsWidgetComponent},
+            {selector: 'xm-widget-sign-in-up', loadChildren: () => SignInUpWidgetComponent},
+            {selector: 'xm-widget-twitter-timeline', loadChildren: () => TwitterTimelineWidgetComponent},
+            {selector: 'xm-widget-weather', loadChildren: () => WeatherWidgetComponent},
+            {selector: 'xm-widget-welcome', loadChildren: () => WelcomeWidgetComponent},
+        ]),
     ],
     declarations: [
         ClockWidgetComponent,
@@ -40,15 +52,6 @@ import {
         FinanceService,
         TwitterTimelineService,
         WeatherService,
-        {provide: 'xm-widget-clock', useValue: ClockWidgetComponent},
-        {provide: 'xm-widget-exchange-calculator', useValue: ExchangeWidgetComponent},
-        {provide: 'xm-widget-iframe', useValue: IframeWidgetComponent},
-        {provide: 'xm-widget-md', useValue: MdWidgetComponent},
-        {provide: 'xm-widget-news', useValue: NewsWidgetComponent},
-        {provide: 'xm-widget-sign-in-up', useValue: SignInUpWidgetComponent},
-        {provide: 'xm-widget-twitter-timeline', useValue: TwitterTimelineWidgetComponent},
-        {provide: 'xm-widget-weather', useValue: WeatherWidgetComponent},
-        {provide: 'xm-widget-welcome', useValue: WelcomeWidgetComponent},
     ],
 })
 export class ExtCommonModule {

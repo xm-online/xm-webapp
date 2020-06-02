@@ -39,11 +39,6 @@ export class DynamicTenantLoaderService {
             return null;
         }
 
-        if (!selector.startsWith('ext-')) {
-            console.warn('ERROR: The selector must starts with "ext-"');
-            return null;
-        }
-
         const moduleFactoryRef = await this.loadTenantModuleFactory<T>(selector);
         return moduleFactoryRef.create(injector);
     }
