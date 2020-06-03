@@ -217,7 +217,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "xm",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "xm"
