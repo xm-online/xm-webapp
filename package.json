@@ -51,7 +51,7 @@
     "merge-translations": "node ./scripts/merge-translations.js",
     "translations": "npm run get-translations && npm run merge-translations",
     "report:bundle": "webpack-bundle-analyzer dist/stats.json",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
+    "postinstall": "ngcc --properties esm5 browser module main"
   },
   "dependencies": {
     "@agm/core": "1.1.0",
