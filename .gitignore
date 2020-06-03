@@ -1,14 +1,11 @@
 .idea/
 *.iml
-.npmrc
 
 node_modules/
 dist/
 !src/swagger-ui/dist/
 out-tsc/
 .DS_Store
-#
-package-lock.json
 # local dev configuration
 local.proxy.conf.js
 .vscode/
