@@ -1,4 +1,4 @@
-import { Injectable, Injector, Type } from '@angular/core';
+import { ComponentFactory, Injectable, Injector, Type } from '@angular/core';
 
 @Injectable()
 export abstract class DynamicLoader {
@@ -6,4 +6,10 @@ export abstract class DynamicLoader {
         selector: string,
         options?: { injector?: Injector },
     ): Promise<Type<T> | null>;
+
+    abstract loadAndResolve<T>(
+        selector: string,
+        options?: { injector?: Injector },
+    ): Promise<ComponentFactory<T> | null> ;
+
 }

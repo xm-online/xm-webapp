@@ -1,7 +1,7 @@
-import { Injectable, Type } from '@angular/core';
-import { DynamicLoaderService } from '../dynamic-loader.service';
-import { DynamicTenantLoaderService } from '../dynamic-tenant-loader.service';
+import { ComponentFactory, Injectable, Type } from '@angular/core';
 import { DynamicLoader } from './dynamic-loader';
+import { DynamicLoaderService } from './dynamic-loader.service';
+import { DynamicTenantLoaderService } from './dynamic-tenant-loader.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,10 +15,11 @@ export class DynamicMultiLoaderService implements DynamicLoader {
     }
 
     public async load<T>(selector: string): Promise<Type<T> | null> {
-        if (selector.startsWith('ext')) {
-            return (await this.dynamicTenantLoaderService.loadAndResolve(selector)).componentType;
-        } else {
-            return (await this.dynamicLoaderService.loadAndResolve(selector)).componentType;
-        }
+        return (await this.loadAndResolve(selector)).componentType;
+    }
+
+    public async loadAndResolve<T>(selector: string): Promise<ComponentFactory<T> | null> {
+        return await this.dynamicLoaderService.loadAndResolve(selector)
+            || await this.dynamicTenantLoaderService.loadAndResolve(selector);
     }
 }

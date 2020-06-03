@@ -1,8 +1,8 @@
 import { ComponentFactory, Injectable, Injector, NgModuleFactory, NgModuleRef, Type } from '@angular/core';
+import { DynamicNgModuleFactory, IDynamicModule } from '../dynamic.interfaces';
+import { DynamicSearcher } from '../searcher/dynamic-searcher';
 
 import { DynamicLoaderService, isComponentDef, isModuleDef } from './dynamic-loader.service';
-import { DynamicNgModuleFactory, IDynamicModule } from './dynamic.interfaces';
-import { DynamicSearcher } from './searcher/dynamic-searcher';
 
 @Injectable({
     providedIn: 'root',
@@ -17,18 +17,14 @@ export class DynamicTenantLoaderService {
     }
 
     public async load<T>(selector: string): Promise<Type<T> | null> {
-        const moduleSelector = selector.split('/')[0];
-        const moduleRef = await this.loadTenantModuleRef(moduleSelector);
-        const componentSelector = selector.split('/')[1];
-        return await this.getComponentFromInjector(componentSelector, moduleRef.injector);
+        return (await this.loadAndResolve(selector)).componentType;
     }
 
     public async loadAndResolve<T>(selector: string): Promise<ComponentFactory<T> | null> {
         const moduleSelector = selector.split('/')[0];
-        const moduleRef = await this.loadTenantModuleRef(moduleSelector);
+        const moduleRef = await this.loadTenantModuleRef<T>(moduleSelector);
         const componentSelector = selector.split('/')[1];
-        const componentRef = await this.getComponentFromInjector<T>(componentSelector, moduleRef.injector);
-        return moduleRef.componentFactoryResolver.resolveComponentFactory(componentRef);
+        return await this.getComponentFromInjector<T>(componentSelector, moduleRef);
     }
 
     /**
@@ -43,33 +39,43 @@ export class DynamicTenantLoaderService {
             return null;
         }
 
-        if (!selector.startsWith('ext-')) {
-            console.warn('ERROR: The selector must starts with "ext-"');
-            return null;
-        }
-
         const moduleFactoryRef = await this.loadTenantModuleFactory<T>(selector);
         return moduleFactoryRef.create(injector);
     }
 
     /**
      * @param selector e.g. my-example-widget
-     * @param injector
+     * @param moduleRef
      */
     public async getComponentFromInjector<T>(
         selector: string,
-        injector: Injector,
-    ): Promise<Type<T> | null> {
-        const moduleFac = await this.dynamicSearcher.search(selector, {injector});
+        moduleRef: NgModuleRef<IDynamicModule<T>>,
+    ): Promise<ComponentFactory<T> | null> {
+        const moduleFac = await this.dynamicSearcher.search(selector, {injector: moduleRef.injector});
 
         if (moduleFac instanceof NgModuleFactory || isModuleDef(moduleFac)) {
             const moduleFactory = await this.loaderService.loadModuleFactory<T>(moduleFac as DynamicNgModuleFactory<T>);
-            return this.loaderService.getComponentFromModule(moduleFactory, injector);
+            return this.getComponentFromModuleAndResolve(moduleFactory, moduleRef.injector);
         } else if (isComponentDef(moduleFac)) {
-            return moduleFac as Type<T>;
+            return moduleRef.componentFactoryResolver.resolveComponentFactory(moduleFac as Type<T>);
         } else {
             return null;
         }
+    }
+
+    public getComponentFromModuleAndResolve<T>(
+        moduleFactory: DynamicNgModuleFactory<T>,
+        injector: Injector = this.moduleRef.injector,
+    ): ComponentFactory<T> {
+        const elementModuleRef = moduleFactory.create(injector);
+
+        if (!elementModuleRef.instance.entry) {
+            throw new Error(`ERROR: the "${moduleFactory.moduleType}" module expected to have `
+                + 'a "entry" field!'
+                + 'E.g. class MyModule{ entry = YourComponent; }');
+        }
+
+        return elementModuleRef.componentFactoryResolver.resolveComponentFactory(elementModuleRef.instance.entry);
     }
 
     public loadTenantModuleFactory<T>(selector: string): Promise<DynamicNgModuleFactory<T>> {

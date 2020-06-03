@@ -13,11 +13,11 @@ export * from './dynamic/view/dynamic-view-layout.component';
 
 export * from './dynamic/dynamic.injectors';
 export * from './dynamic/dynamic.interfaces';
-export * from './dynamic/dynamic-cell.directive'
-export * from './dynamic/dynamic-loader.service'
-export * from './dynamic/dynamic-tenant-loader.service'
-export * from './dynamic/dynamic-widget.directive';
-export * from './dynamic/dynamic-widget-layout.component';
+export * from './dynamic/view/dynamic-cell.directive'
+export * from './dynamic/loader/dynamic-loader.service'
+export * from './dynamic/loader/dynamic-tenant-loader.service'
+export * from './dynamic/view/dynamic-widget.directive';
+export * from './dynamic/view/dynamic-widget-layout.component';
 export * from './dynamic/xm-dynamic.module';
 
 export * from './shared/dashboard.model';
