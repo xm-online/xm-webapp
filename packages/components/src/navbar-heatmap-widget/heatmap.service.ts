@@ -70,6 +70,10 @@ export class HeatmapService {
     }
 
     public add(val: DataPoint): void {
+        if (!this.heatmap){
+            return;
+        }
+
         this.heatmap.addData(val);
         this.dataPoints.next(val);
     }
