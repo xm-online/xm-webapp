@@ -121,4 +121,8 @@ export const XM_ELEMENTS: DynamicComponents = [
         selector: '@xm-ngx/components/xm-enum-control',
         loadChildren: () => import('@xm-ngx/components/xm-enum-control').then(m => m.XmEnumControlModule),
     },
+    {
+        selector: '@xm-ngx/components/xm-text-view',
+        loadChildren: () => import('@xm-ngx/components/xm-text-view').then(m => m.XmTextViewModule),
+    },
 ];
