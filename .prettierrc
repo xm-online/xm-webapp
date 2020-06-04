@@ -1,0 +1,19 @@
+{
+  "trailingComma": "all",
+  "singleQuote": true,
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": "*.ts",
+      "options": {
+        "tabWidth": 4
+      }
+    },
+    {
+      "files": "*.js",
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ]
+}

@@ -5,7 +5,7 @@ module.exports = {
         tsconfigRootDir: __dirname,
         project: ['./tsconfig.json'],
         ecmaVersion: 2018,
-        sourceType: 'module'
+        sourceType: 'module',
     },
     plugins: ['@typescript-eslint'],
     extends: [
@@ -13,32 +13,39 @@ module.exports = {
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'prettier',
     ],
     rules: {
-        '@typescript-eslint/unbound-method': ['error', {'ignoreStatic': true}],
-        'no-console': ['error', {'allow': ['warn', 'info']}],
-        '@typescript-eslint/typedef': ['error', {arrayDestructuring: false, arrowParameter: false}],
+        '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
+        'no-console': ['error', { allow: ['warn', 'info'] }],
+        '@typescript-eslint/typedef': ['error', { arrayDestructuring: false, arrowParameter: false }],
         '@typescript-eslint/type-annotation-spacing': ['error'],
-        '@typescript-eslint/explicit-member-accessibility': ['error', {
-            overrides: {constructors: 'off', accessors: 'off'}
-        }],
-        '@typescript-eslint/no-inferrable-types': ['error', {
-            'ignoreParameters': true,
-            'ignoreProperties': true,
-        }],
+        '@typescript-eslint/explicit-member-accessibility': [
+            'error',
+            {
+                overrides: { constructors: 'off', accessors: 'off' },
+            },
+        ],
+        '@typescript-eslint/no-inferrable-types': [
+            'error',
+            {
+                ignoreParameters: true,
+                ignoreProperties: true,
+            },
+        ],
         // not fixed
         '@typescript-eslint/no-misused-promises': 'warn',
         '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
         'no-prototype-builtins': 'warn',
-        'max-len': ['warn', {'code': 120}],
-        'no-magic-numbers': ['warn', {'ignore': [1, -1, 0], 'ignoreArrayIndexes': true}],
-        'quotes': ['warn', 'single'],
+        'max-len': ['warn', { code: 120 }],
+        'no-magic-numbers': ['warn', { ignore: [1, -1, 0], ignoreArrayIndexes: true }],
+        quotes: ['warn', 'single'],
         'no-negated-condition': 'warn',
         'capitalized-comments': 'warn',
         'line-comment-position': 'warn',
         'class-methods-use-this': 'warn',
         'no-plusplus': 'warn',
-        'indent': ['warn', 4, {'SwitchCase': 1}],
+        indent: ['warn', 4, { SwitchCase: 1 }],
         'no-param-reassign': 'warn',
         'prefer-template': 'warn',
         'no-inline-comments': 'warn',
@@ -59,7 +66,7 @@ module.exports = {
         'no-nested-ternary': 'warn',
         'callback-return': 'warn',
         'no-eq-null': 'warn',
-        'eqeqeq': 'warn',
+        eqeqeq: 'warn',
         '@typescript-eslint/prefer-includes': 'warn',
         '@typescript-eslint/prefer-regexp-exec': 'warn',
         'consistent-this': 'warn',
@@ -76,18 +83,18 @@ module.exports = {
         // Code style
         'linebreak-style': ['warn'],
         'dot-location': ['warn', 'property'],
-        'max-statements-per-line': ['warn', {'max': 2}],
+        'max-statements-per-line': ['warn', { max: 2 }],
         'quote-props': ['warn', 'as-needed'],
         'space-before-function-paren': ['warn', 'never'],
         'comma-dangle': ['warn', 'always-multiline'],
-        'padded-blocks': ['warn', {'blocks': 'never'}, {'class': 'always'}],
+        'padded-blocks': ['warn', { blocks: 'never' }, { class: 'always' }],
         'block-spacing': 'warn',
-        'brace-style': ['warn', '1tbs', {'allowSingleLine': true}],
-        'object-property-newline': ['warn', {'allowAllPropertiesOnSameLine': true}],
+        'brace-style': ['warn', '1tbs', { allowSingleLine: true }],
+        'object-property-newline': ['warn', { allowAllPropertiesOnSameLine: true }],
         'array-bracket-newline': ['warn'],
         'array-bracket-spacing': ['warn'],
         // Disabled rules:
-        'array-element-newline': ['off', {'multiline': true}],
+        'array-element-newline': ['off', { multiline: true }],
         'lines-around-comment': 'off',
         '@typescript-eslint/interface-name-prefix': 'off',
         'object-curly-spacing': ['off', 'always'],
@@ -120,6 +127,6 @@ module.exports = {
         'newline-per-chained-call': 'off',
         'no-invalid-this': 'off',
         'no-lonely-if': 'off',
-        '@typescript-eslint/no-use-before-define': 'off'
-    }
+        '@typescript-eslint/no-use-before-define': 'off',
+    },
 };
