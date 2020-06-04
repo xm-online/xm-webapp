@@ -1,4 +1,4 @@
-import { ComponentFactory, Injectable, Type } from '@angular/core';
+import { ComponentFactory, Injectable, Injector, Type } from '@angular/core';
 import { DynamicLoader } from './dynamic-loader';
 import { DynamicLoaderService } from './dynamic-loader.service';
 import { DynamicTenantLoaderService } from './dynamic-tenant-loader.service';
@@ -14,12 +14,18 @@ export class DynamicMultiLoaderService implements DynamicLoader {
     ) {
     }
 
-    public async load<T>(selector: string): Promise<Type<T> | null> {
-        return (await this.loadAndResolve(selector)).componentType;
+    public async load<T>(
+        selector: string,
+        options?: { injector?: Injector },
+    ): Promise<Type<T> | null> {
+        return (await this.loadAndResolve(selector, options)).componentType;
     }
 
-    public async loadAndResolve<T>(selector: string): Promise<ComponentFactory<T> | null> {
-        return await this.dynamicLoaderService.loadAndResolve(selector)
-            || await this.dynamicTenantLoaderService.loadAndResolve(selector);
+    public async loadAndResolve<T>(
+        selector: string,
+        options?: { injector?: Injector },
+    ): Promise<ComponentFactory<T> | null> {
+        return await this.dynamicLoaderService.loadAndResolve(selector, options?.injector)
+            || await this.dynamicTenantLoaderService.loadAndResolve(selector, options?.injector);
     }
 }
