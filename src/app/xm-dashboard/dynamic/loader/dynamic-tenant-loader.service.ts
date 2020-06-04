@@ -20,9 +20,12 @@ export class DynamicTenantLoaderService {
         return (await this.loadAndResolve(selector)).componentType;
     }
 
-    public async loadAndResolve<T>(selector: string): Promise<ComponentFactory<T> | null> {
+    public async loadAndResolve<T>(
+        selector: string,
+        injector: Injector = this.moduleRef.injector,
+    ): Promise<ComponentFactory<T> | null> {
         const moduleSelector = selector.split('/')[0];
-        const moduleRef = await this.loadTenantModuleRef<T>(moduleSelector);
+        const moduleRef = await this.loadTenantModuleRef<T>(moduleSelector, injector);
         const componentSelector = selector.split('/')[1];
         return await this.getComponentFromInjector<T>(componentSelector, moduleRef);
     }
