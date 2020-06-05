@@ -7,7 +7,7 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output,
+    Output, Renderer2,
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
@@ -64,10 +64,11 @@ export class DynamicControlDirective<V, O>
     constructor(
         viewContainerRef: ViewContainerRef,
         injector: Injector,
+        renderer: Renderer2,
         loaderService: DynamicLoader,
         cfr: ComponentFactoryResolver,
     ) {
-        super(viewContainerRef, injector, loaderService, cfr);
+        super(viewContainerRef, injector, renderer, loaderService, cfr);
     }
 
     public ngOnInit(): void {

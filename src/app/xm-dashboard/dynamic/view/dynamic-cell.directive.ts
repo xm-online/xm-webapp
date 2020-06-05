@@ -8,6 +8,7 @@ import {
     NgModule,
     OnChanges,
     OnInit,
+    Renderer2,
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
@@ -51,10 +52,11 @@ export class DynamicCellDirective<V, O extends Column>
     constructor(
         viewContainerRef: ViewContainerRef,
         injector: Injector,
+        renderer: Renderer2,
         loaderService: DynamicLoader,
         cfr: ComponentFactoryResolver,
     ) {
-        super(viewContainerRef, injector, loaderService, cfr);
+        super(viewContainerRef, injector, renderer, loaderService, cfr);
     }
 
     public ngOnInit(): void {
@@ -78,8 +80,8 @@ export class DynamicCellDirective<V, O extends Column>
     public createInjector(): Injector {
         return Injector.create({
             providers: [
-                {provide: TABLE_ROW, useValue: this.row},
-                {provide: TABLE_COLUMN, useValue: this.column},
+                { provide: TABLE_ROW, useValue: this.row },
+                { provide: TABLE_COLUMN, useValue: this.column },
             ],
             parent: this.injector,
         });
