@@ -5,6 +5,7 @@ import {
     Input,
     OnChanges,
     OnInit,
+    Renderer2,
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
@@ -37,8 +38,12 @@ export class DynamicViewDirective<V, O> implements IComponent<V, O>, OnChanges, 
     /** Instance of created object */
     public instance: IComponent<V, O>;
 
+    @Input() public class: string;
+    @Input() public style: string;
+
     constructor(public viewContainerRef: ViewContainerRef,
                 public injector: Injector,
+                protected renderer: Renderer2,
                 protected loaderService: DynamicLoader,
                 protected cfr: ComponentFactoryResolver) {
     }
@@ -88,11 +93,23 @@ export class DynamicViewDirective<V, O> implements IComponent<V, O>, OnChanges, 
             return;
         }
 
-        const ref = await this.loaderService.load<IComponent<V, O>>(this.selector as string, {injector: this.injector});
+        const ref = await this.loaderService.load<IComponent<V, O>>(this.selector as string, { injector: this.injector });
         const cfr = this.cfr.resolveComponentFactory(ref);
 
         this.viewContainerRef.clear();
         const c = this.viewContainerRef.createComponent(cfr, 0, this.createInjector());
         this.instance = c.instance;
+
+        const el = c.location.nativeElement as HTMLElement;
+        this.updateStyles(el);
+    }
+
+    protected updateStyles(el: HTMLElement): void {
+        if (this.class) {
+            this.renderer.setAttribute(el, 'class', this.class);
+        }
+        if (this.style) {
+            this.renderer.setAttribute(el, 'style', this.style);
+        }
     }
 }
