@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { appearUp } from '@xm-ngx/components/animations';
 import { Layout } from '../../shared/layout.model';
 import { DynamicWidgetLayoutComponent } from './dynamic-widget-layout.component';
 import { IComponent } from './dynamic-view.directive';
@@ -19,7 +18,6 @@ export interface ViewLayout<V = unknown, O = unknown> extends Layout, IComponent
             <div [class]="item.layout.class"
                  [style]="item.layout.style"
                  xmDynamicViewLayout
-                 @appearUp
                  [resolveCustomParams]="resolveCustomParams"
                  [isCustomElement]="isCustomElement"
                  [layouts]="item.layout.content">
@@ -44,7 +42,6 @@ export interface ViewLayout<V = unknown, O = unknown> extends Layout, IComponent
             </ng-container>
         </ng-template>
     `,
-    animations: [appearUp],
 })
 export class DynamicViewLayoutComponent extends DynamicWidgetLayoutComponent implements OnChanges {
     @Input() public layouts: ViewLayout[];
