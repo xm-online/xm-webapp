@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
         </mat-card>
     `,
 })
-export class DashboardsConfigWidgetComponent {
+export class DashboardsConfigComponent {
 }

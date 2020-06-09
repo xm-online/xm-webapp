@@ -1,1 +1,1 @@
-export * from './high-level-architecture.component';
+export * from './architecture.component';

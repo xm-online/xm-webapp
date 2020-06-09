@@ -3,23 +3,23 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
 
-import { HighLevelArchitectureComponent } from './high-level-architecture.component';
+import { ArchitectureComponent } from './architecture.component';
 
 describe('HighLevelArchitectureWidgetComponent', () => {
-    let component: HighLevelArchitectureComponent;
-    let fixture: ComponentFixture<HighLevelArchitectureComponent>;
+    let component: ArchitectureComponent;
+    let fixture: ComponentFixture<ArchitectureComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [XmSharedTestingModule, HttpClientTestingModule],
-            declarations: [HighLevelArchitectureComponent],
+            declarations: [ArchitectureComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(HighLevelArchitectureComponent);
+        fixture = TestBed.createComponent(ArchitectureComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

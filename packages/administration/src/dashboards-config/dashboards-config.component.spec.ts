@@ -3,23 +3,23 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
 
-import { DashboardsConfigWidgetComponent } from './dashboards-config-widget.component';
+import { DashboardsConfigComponent } from './dashboards-config.component';
 
 describe('DashboardsConfigComponent', () => {
-    let component: DashboardsConfigWidgetComponent;
-    let fixture: ComponentFixture<DashboardsConfigWidgetComponent>;
+    let component: DashboardsConfigComponent;
+    let fixture: ComponentFixture<DashboardsConfigComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [XmSharedTestingModule, HttpClientTestingModule],
-            declarations: [DashboardsConfigWidgetComponent],
+            declarations: [DashboardsConfigComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(DashboardsConfigWidgetComponent);
+        fixture = TestBed.createComponent(DashboardsConfigComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

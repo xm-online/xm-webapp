@@ -22,8 +22,8 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/administration/health').then(m => m.HealthModule),
     },
     {
-        selector: '@xm-ngx/administration/high-level-architecture-widget',
-        loadChildren: () => import('@xm-ngx/administration/high-level-architecture-widget').then(m => m.HighLevelArchitectureWidgetModule),
+        selector: '@xm-ngx/administration/architecture',
+        loadChildren: () => import('@xm-ngx/administration/architecture').then(m => m.HighLevelArchitectureWidgetModule),
     },
     {
         selector: '@xm-ngx/administration/logs',
@@ -70,20 +70,12 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/administration/specification-management').then(m => m.SpecificationManagementModule),
     },
     {
-        selector: '@xm-ngx/administration/dashboard-mng/dashboard-list-card',
-        loadChildren: () => import('@xm-ngx/administration/dashboard-mng/dashboard-list-card').then(m => m.DashboardListCardModule),
-    },
-    {
-        selector: '@xm-ngx/administration/dashboard-mng/widget-list-card',
-        loadChildren: () => import('@xm-ngx/administration/dashboard-mng/widget-list-card').then(m => m.WidgetListCardModule),
-    },
-    {
         selector: '@xm-ngx/components/navbar-heatmap-widget',
         loadChildren: () => import('@xm-ngx/components/navbar-heatmap-widget').then(m => m.NavbarHeatmapWidgetModule),
     },
     {
         selector: '@xm-ngx/administration/dashboards-config-widget',
-        loadChildren: () => import('@xm-ngx/administration/dashboards-config-widget').then(m => m.DashboardsModule),
+        loadChildren: () => import('@xm-ngx/administration/dashboards-config').then(m => m.DashboardsModule),
     },
     {
         selector: '@xm-ngx/components/navbar-dashboard-edit-widget',
