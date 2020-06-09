@@ -4,12 +4,17 @@ $label-color:     $xm-text-light;
 $label-font-size: 0.75 * 100%;
 
 .xm-text-view--label {
-  color:     $label-color;
-  font-size: $label-font-size;
+  color:         $label-color;
+  font-size:     $label-font-size;
+  margin-bottom: 0;
 }
 
 :host.inline {
   display:         flex;
   justify-content: space-between;
   align-items:     baseline;
+}
+
+:host.inline .xm-text-view--value {
+  margin-bottom: 0.5rem;
 }
