@@ -1,12 +1,5 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    HostBinding,
-    Input,
-    NgModule,
-    OnChanges,
-    OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
+import { XmTextComponent } from './xm-text-component';
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
@@ -18,16 +11,17 @@ export interface ITextOptions {
 @Component({
     selector: 'xm-text-view',
     template: `
-        <label class="xm-text-view--label">{{options.title | translate}}</label>
-        <p class="xm-text-view--value">{{value}}</p>
+        <xm-text [styleInline]="styleInline">
+            <span xmLabel>{{options.title | translate}}</span>
+            <span xmValue>{{value}}</span>
+        </xm-text>
     `,
-    styleUrls: ['./xm-text-view.scss'],
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmTextView implements IComponent<string, ITextOptions>, OnInit, OnChanges {
     @Input() public value: string;
     @Input() public options: ITextOptions;
-    @HostBinding('class.inline') public styleInline: boolean;
+    public styleInline: boolean;
 
     public ngOnInit(): void {
         this.styleInline = Boolean(this.options?.style);
@@ -40,8 +34,8 @@ export class XmTextView implements IComponent<string, ITextOptions>, OnInit, OnC
 
 @NgModule({
     imports: [XmTranslationModule],
-    exports: [XmTextView],
-    declarations: [XmTextView],
+    exports: [XmTextView, XmTextComponent],
+    declarations: [XmTextView, XmTextComponent],
 })
 export class XmTextViewModule {
     public entry: IComponentFn<string, ITextOptions> = XmTextView;
