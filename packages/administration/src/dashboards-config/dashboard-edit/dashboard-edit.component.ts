@@ -10,6 +10,7 @@ import { filter, switchMap, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES, EDIT_DASHBOARD_EVENT } from '../const';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection } from '../injectors';
+import { TranslateService } from '@ngx-translate/core';
 
 export enum EditType {
     Create = 1,
@@ -42,6 +43,7 @@ export class DashboardEditComponent {
                 protected alertService: XmAlertService,
                 protected readonly eventManager: XmEventManager,
                 protected principal: Principal,
+                protected translateService: TranslateService,
                 protected toasterService: XmToasterService) {
         this.loading$ = this.dashboardService.loading$.pipe(tap((i) => this.disabled = i));
     }
@@ -100,6 +102,22 @@ export class DashboardEditComponent {
                 }).subscribe();
             }),
         ).subscribe();
+    }
+
+    public onDuplicate(): void {
+        const req: any = this.formGroup;
+
+        this.dashboardService.getById(req.id as number).subscribe((d) => {
+            req.id = null;
+            req.name = `${req.name} ${this.translateService.instant(DASHBOARDS_TRANSLATES.copy)}`;
+            req.widgets = d.widgets.map((w) => {
+                delete w.id;
+                delete w.dashboard;
+                return w;
+            });
+
+            this.onAdd();
+        });
     }
 
     public onDelete(): void {

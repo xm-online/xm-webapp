@@ -8,7 +8,7 @@ import { XmSharedModule } from '@xm-ngx/shared';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { DashboardEditComponent } from './dashboard-edit/dashboard-edit.component';
-import { DashboardsConfigWidgetComponent } from './dashboards-config-widget.component';
+import { DashboardsConfigComponent } from './dashboards-config.component';
 import { DashboardsListExpandComponent } from './dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
 import { DashboardsListComponent } from './dashboards-list/dashboards-list.component';
 
@@ -26,12 +26,12 @@ import { WidgetEditComponent } from './widget-edit/widget-edit.component';
         TextModule,
     ],
     exports: [
-        DashboardsConfigWidgetComponent,
+        DashboardsConfigComponent,
         DashboardEditComponent,
         WidgetEditComponent,
     ],
     declarations: [
-        DashboardsConfigWidgetComponent,
+        DashboardsConfigComponent,
         WidgetEditComponent,
         DashboardEditComponent,
         DashboardsListComponent,
@@ -39,7 +39,7 @@ import { WidgetEditComponent } from './widget-edit/widget-edit.component';
 
     ],
     entryComponents: [
-        DashboardsConfigWidgetComponent,
+        DashboardsConfigComponent,
         DashboardEditComponent,
         WidgetEditComponent,
     ],
@@ -49,5 +49,5 @@ import { WidgetEditComponent } from './widget-edit/widget-edit.component';
     ],
 })
 export class DashboardsModule {
-    public entry: Type<DashboardsConfigWidgetComponent> = DashboardsConfigWidgetComponent;
+    public entry: Type<DashboardsConfigComponent> = DashboardsConfigComponent;
 }

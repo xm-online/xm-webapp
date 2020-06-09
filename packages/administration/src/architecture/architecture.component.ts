@@ -12,11 +12,11 @@ interface ProjectSelectionChange {
 declare let skanaar: any;
 
 @Component({
-    selector: 'xm-high-level-architecture-widget',
-    templateUrl: './high-level-architecture-widget.component.html',
-    styleUrls: ['./high-level-architecture-widget.component.scss'],
+    selector: 'xm-architecture',
+    templateUrl: './architecture.component.html',
+    styleUrls: ['./architecture.component.scss'],
 })
-export class HighLevelArchitectureWidgetComponent implements OnInit {
+export class ArchitectureComponent implements OnInit {
 
     public config: {
         projects: unknown[];
@@ -155,11 +155,11 @@ export class HighLevelArchitectureWidgetComponent implements OnInit {
 
 @NgModule({
     imports: [CommonModule, XmSharedModule],
-    exports: [HighLevelArchitectureWidgetComponent],
-    declarations: [HighLevelArchitectureWidgetComponent],
-    entryComponents: [HighLevelArchitectureWidgetComponent],
+    exports: [ArchitectureComponent],
+    declarations: [ArchitectureComponent],
+    entryComponents: [ArchitectureComponent],
     providers: [],
 })
 export class HighLevelArchitectureWidgetModule {
-    public entry: Type<HighLevelArchitectureWidgetComponent> = HighLevelArchitectureWidgetComponent;
+    public entry: Type<ArchitectureComponent> = ArchitectureComponent;
 }

@@ -8,7 +8,7 @@ import {
     DashboardsManagerService,
     DashboardsModule,
     EDIT_DASHBOARD_EVENT,
-} from '@xm-ngx/administration/dashboards-config-widget';
+} from '@xm-ngx/administration/dashboards-config';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard, DashboardWrapperService, PageService } from '@xm-ngx/dynamic';
 import { XmSharedModule } from '@xm-ngx/shared';
