@@ -13,10 +13,10 @@ declare let skanaar: any;
 
 @Component({
     selector: 'xm-high-level-architecture-widget',
-    templateUrl: './high-level-architecture-widget.component.html',
+    templateUrl: './high-level-architecture.component.html',
     styleUrls: ['./high-level-architecture-widget.component.scss'],
 })
-export class HighLevelArchitectureWidgetComponent implements OnInit {
+export class HighLevelArchitectureComponent implements OnInit {
 
     public config: {
         projects: unknown[];
@@ -155,11 +155,11 @@ export class HighLevelArchitectureWidgetComponent implements OnInit {
 
 @NgModule({
     imports: [CommonModule, XmSharedModule],
-    exports: [HighLevelArchitectureWidgetComponent],
-    declarations: [HighLevelArchitectureWidgetComponent],
-    entryComponents: [HighLevelArchitectureWidgetComponent],
+    exports: [HighLevelArchitectureComponent],
+    declarations: [HighLevelArchitectureComponent],
+    entryComponents: [HighLevelArchitectureComponent],
     providers: [],
 })
 export class HighLevelArchitectureWidgetModule {
-    public entry: Type<HighLevelArchitectureWidgetComponent> = HighLevelArchitectureWidgetComponent;
+    public entry: Type<HighLevelArchitectureComponent> = HighLevelArchitectureComponent;
 }
