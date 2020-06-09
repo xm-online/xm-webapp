@@ -41,8 +41,12 @@ export class MdWidgetComponent implements OnInit {
             widget.config = widget.config || {};
             Object.assign(widget.config, {content: this.mdEditor.value()});
             Object.assign(widget, {dashboard: {id: Number(widget.dashboard)}}); // widget.dashboard must be an object
-            this.widgetService.update(widget).subscribe(() => this.onEditMode());
+            this.widgetService.update(widget).subscribe(() => {
+                this.isEditMode = false;
+                if (!this.mdEditor.isPreviewActive()) {
+                    this.mdEditor.togglePreview();
+                }
+            });
         });
     }
-
 }
