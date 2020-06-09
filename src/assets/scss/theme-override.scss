@@ -242,6 +242,10 @@ body > .col-xs-11.alert {
     z-index: 1000 !important;
 }
 
+.editor-toolbar.fullscreen, .CodeMirror-wrap.CodeMirror-fullscreen {
+    z-index: 1100 !important;
+}
+
 
 .modal-dialog {
     .modal-header {
