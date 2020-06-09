@@ -21,6 +21,8 @@ export const DASHBOARDS_TRANSLATES = {
     selector: `${dashboards}selector`,
     save: `${dashboards}save`,
     cancel: `${dashboards}cancel`,
+    copy: `${dashboards}copy`,
+    duplicate: `${dashboards}duplicate`,
     delete: `${dashboards}delete`,
     created: `${dashboards}created`,
     updated: `${dashboards}updated`,

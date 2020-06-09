@@ -27,6 +27,14 @@
         <mat-icon>save</mat-icon>
       </button>
 
+      <button (click)="onDuplicate()"
+              *ngIf="editType === EditType.Edit"
+              [disabled]="!form.valid || disabled"
+              [matTooltip]="TRS.duplicate | translate"
+              mat-icon-button>
+        <mat-icon>file_copy</mat-icon>
+      </button>
+
       <button (click)="onDelete()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!form.valid || disabled"
