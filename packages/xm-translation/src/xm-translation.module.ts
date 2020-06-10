@@ -5,10 +5,11 @@ import { Title } from '@angular/platform-browser';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { JhiLanguageService } from 'ng-jhipster';
 
-import { JhiLanguageHelper } from './language.helper';
-import { ModulesLanguageHelper } from './modules-language.helper';
 import { XmJhiLanguageService } from './jhiLanguage.service';
+import { JhiLanguageHelper } from './language.helper';
 import { LanguageService } from './language.service';
+import './locales';
+import { ModulesLanguageHelper } from './modules-language.helper';
 import { TranslateDirective } from './translate.directive';
 import { TranslatePipe } from './translate.pipe';
 
@@ -24,7 +25,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     providers: [
         TranslatePipe,
         JhiLanguageHelper,
-        {provide: JhiLanguageService, useClass: XmJhiLanguageService, deps: [LanguageService]},
+        { provide: JhiLanguageService, useClass: XmJhiLanguageService, deps: [LanguageService] },
         ModulesLanguageHelper,
     ],
     exports: [TranslatePipe, TranslateDirective],
@@ -34,9 +35,13 @@ export class XmTranslationModule {
         return {
             ngModule: XmTranslationModule,
             providers: [
-                {provide: JhiLanguageService, useClass: XmJhiLanguageService, deps: [LanguageService]},
+                { provide: JhiLanguageService, useClass: XmJhiLanguageService, deps: [LanguageService] },
                 Title,
-                {provide: LOCALE_ID, useValue: 'en'},
+                {
+                    provide: LOCALE_ID,
+                    deps: [LanguageService],
+                    useFactory: (LocaleService: LanguageService) => LocaleService.locale,
+                },
                 LanguageService,
             ],
         };
