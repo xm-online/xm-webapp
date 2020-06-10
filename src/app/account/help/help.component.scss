@@ -1,0 +1,12 @@
+$p: 20px;
+.xm-help-page {
+  .card {
+    padding: $p;
+    margin: 0;
+  }
+
+  h1 {
+    margin-bottom: $p;
+    font-size: 40px;
+  }
+}

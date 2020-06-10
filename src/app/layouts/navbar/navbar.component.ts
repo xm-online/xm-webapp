@@ -34,6 +34,7 @@ export class NavbarComponent implements OnInit, DoCheck {
     public titleContent: string;
     public tenantLogoUrl: '../assets/img/logo-xm-online.png';
     public searchMask: string = '';
+    public helpConfig: any;
     @ViewChild('navbar-cmp', {static: false}) public button: any;
     protected mobileMenuVisible: any = 0;
     private previousPath: string;
@@ -70,6 +71,7 @@ export class NavbarComponent implements OnInit, DoCheck {
             this.languageHelper.getAll().then((languages) => {
                 this.languages = (result && result.langs) ? result.langs : languages;
             });
+            this.helpConfig = result.helpConfig || null;
         });
 
         this.routeData = this.getRouteData(this.router.routerState.snapshot.root);
