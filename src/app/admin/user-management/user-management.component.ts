@@ -41,7 +41,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnInit 
         super(activatedRoute, alertService, eventManager, parseLinks, router);
         this.currentSearch = activatedRoute.snapshot.params.search || '';
     }
-
+    
     public ngOnInit(): void {
         this.principal.identity().then((account) => {
             this.registerChangeInList();
@@ -148,6 +148,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnInit 
 
     public searchByLogin(): void | null {
         if (!(this.login && this.login.trim())) {
+            if (this.predicate === 'logins') this.predicate = this.basePredicate;
             this.loadAll();
             return null;
         }

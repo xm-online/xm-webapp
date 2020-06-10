@@ -68,8 +68,14 @@
             <thead>
             <tr [(ascending)]="reverse" [(predicate)]="predicate" [callback]="transition.bind(this)" jhiSort>
               <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-              <th jhiSortBy="logins"><span jhiTranslate="userManagement.logins">Logins</span> <span
-                class="fa fa-sort"></span></th>
+              <ng-container *ngIf="login; then hasLoginSearch; else hasNotLoginSearch"></ng-container>
+              <ng-template #hasLoginSearch>
+                <th jhiSortBy="logins"><span jhiTranslate="userManagement.logins">Logins</span> <span
+                  class="fa fa-sort"></span></th>
+              </ng-template>
+              <ng-template #hasNotLoginSearch>
+                <th><span jhiTranslate="userManagement.logins">Logins</span></th>
+              </ng-template>
               <th></th>
               <th jhiSortBy="langKey"><span jhiTranslate="userManagement.langKey">Lang Key</span> <span
                 class="fa fa-sort"></span></th>
