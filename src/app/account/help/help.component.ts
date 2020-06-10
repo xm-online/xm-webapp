@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { XmConfigService } from "../../shared";
-import { JhiLanguageService } from "ng-jhipster";
-import { finalize, map } from "rxjs/operators";
+import { XmConfigService } from '../../shared';
+import { JhiLanguageService } from 'ng-jhipster';
+import { finalize, map } from 'rxjs/operators';
 
 export interface IHelpNavLink {
     url: string;
     icon?: string;
-    text?: string | object;
+    text?: string | any;
  }
 
 export interface IHelpConfig {
-    title?: string | object;
-    content: string | object;
+    title?: string | any;
+    content: string | any;
     navLink: IHelpNavLink;
 }
 

@@ -19,7 +19,7 @@ import {
     SocialRegisterComponent,
 } from './';
 import { accountState } from './account.route';
-import {MarkdownModule} from "ngx-markdown";
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
     imports: [
