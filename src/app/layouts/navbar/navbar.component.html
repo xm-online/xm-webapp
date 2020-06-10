@@ -52,6 +52,15 @@
           <xm-notifications *ngSwitchCase="true"></xm-notifications>
         </div>
 
+        <div *ngIf="helpConfig && !isAuthenticated()" class="navbar-container-part help-part show">
+          <a [routerLink]="helpConfig.navLink && helpConfig.navLink.url ? helpConfig.navLink.url : 'help'">
+            <span *ngIf="helpConfig.navLink && helpConfig.navLink.text">
+              {{helpConfig.navLink.text | translate}}
+            </span>
+            <mat-icon *ngIf="helpConfig.navLink && helpConfig.navLink.icon">{{helpConfig.navLink.icon}}</mat-icon>
+          </a>
+        </div>
+
         <div *ngSwitchCase="false" class="navbar-container-part langs-part">
           <ul class="navbar-nav navbar-right xm-langs-chooser">
             <li class="dropdown">

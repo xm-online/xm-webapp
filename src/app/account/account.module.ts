@@ -6,6 +6,7 @@ import { XmSharedModule } from '../shared/shared.module';
 import {
     Activate,
     ActivateComponent,
+    HelpComponent,
     Password,
     PasswordComponent,
     PasswordResetFinish,
@@ -18,11 +19,13 @@ import {
     SocialRegisterComponent,
 } from './';
 import { accountState } from './account.route';
+import {MarkdownModule} from "ngx-markdown";
 
 @NgModule({
     imports: [
         XmSharedModule,
         RouterModule.forChild(accountState),
+        MarkdownModule,
     ],
     declarations: [
         SocialRegisterComponent,
@@ -33,6 +36,7 @@ import { accountState } from './account.route';
         PasswordResetInitComponent,
         PasswordResetFinishComponent,
         SettingsComponent,
+        HelpComponent,
     ],
     providers: [
         Activate,
