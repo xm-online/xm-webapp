@@ -80,6 +80,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 
     }
 
+
     public isHideAll(typeKey: string): boolean {
         if (this.currentEntitiesUiConfig && this.currentEntitiesUiConfig.length) {
             const entityConfig = this.currentEntitiesUiConfig.find((e) => e && e.typeKey === typeKey) || {};
@@ -163,6 +164,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public onApplyFastSearch(entityOptions: EntityOptions, query: string): void {
+        console.log('suka');
         entityOptions.currentQuery = query;
         this.loadEntities(entityOptions).subscribe((result) => entityOptions.entities = result);
     }
@@ -368,6 +370,8 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             }),
             finalize(() => this.showLoader = false));
     }
+
+
 
     private getQueryOptions(entityOptions: EntityOptions): any {
         let options: any;
