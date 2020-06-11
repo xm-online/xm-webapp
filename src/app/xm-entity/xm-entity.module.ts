@@ -63,6 +63,7 @@ import { AttachmentListBaseComponent } from './attachment-list/attachment-list-b
 import { AttachmentListSimplifiedComponent } from './attachment-list/attachment-list-simplified.component';
 
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
+import { EntityListComponent } from './entity-list-card/entity-list/entity-list.component';
 
 const MODULES = [
     StatesManagementDialogModule,
@@ -118,6 +119,7 @@ const MODULES = [
         LocationCardNamePipe,
         AttachmentListSimplifiedComponent,
         AttachmentListBaseComponent,
+        EntityListComponent,
     ],
     entryComponents: [
         AttachmentDetailDialogComponent,
