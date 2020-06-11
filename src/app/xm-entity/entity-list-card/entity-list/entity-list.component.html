@@ -1,42 +1,3 @@
-<div *ngIf="!(options?.hideOptionsMenu)" class="dropdown xm-entity-list-actions">
-  <button [matMenuTriggerFor]="entityListActions" mat-icon-button>
-    <mat-icon>more_vert</mat-icon>
-  </button>
-
-  <mat-menu #entityListActions="matMenu">
-    <button (click)="onRefresh()" class="btn-sm" mat-menu-item>
-      {{'xm-entity.entity-list-card.refresh' | translate}}
-    </button>
-    <button (click)="isShowFilterArea = !isShowFilterArea" *ngIf="item.filter" class="btn-sm" mat-menu-item>
-      <ng-container *ngIf="isShowFilterArea">
-        {{'xm-entity.entity-list-card.filters-hide' | translate}}
-      </ng-container>
-      <ng-container *ngIf="!isShowFilterArea">
-        {{'xm-entity.entity-list-card.filters-show' | translate}}
-      </ng-container>
-    </button>
-    <ng-container *ngIf="item.xmEntitySpec?.functions && item.xmEntitySpec?.functions.length">
-      <xm-function-list-section [functionSpecs]="item.xmEntitySpec?.functions" [listView]="true">
-      </xm-function-list-section>
-    </ng-container>
-    <button *xmPermitted="['XMENTITY.EXPORT.FILE']"
-            [matMenuTriggerFor]="entityListActionDownloads"
-            class="btn-sm"
-            mat-menu-item>
-      {{'xm-entity.entity-list-card.export.action.downloads' | translate}}
-    </button>
-  </mat-menu>
-
-  <mat-menu #entityListActionDownloads="matMenu">
-    <button (click)="onFileExport(item, 'xlsx')" class="btn-sm" mat-menu-item>
-      {{'xm-entity.entity-list-card.export.action.xls' | translate}}
-    </button>
-    <button (click)="onFileExport(item, 'csv');" class="btn-sm" mat-menu-item>
-      {{'xm-entity.entity-list-card.export.action.csv' | translate}}
-    </button>
-  </mat-menu>
-</div>
-
 <div class="row">
   <!-- start fast search -->
   <div *xmPermitted="['XMENTITY.SEARCH.QUERY']" class="col-sm-8">
@@ -61,7 +22,7 @@
 </div>
 
 <!-- start filter area -->
-<div *ngIf="isShowFilterArea" class="row">
+<div *ngIf="true" class="row">
   <div class="col-sm">
     <json-schema-form (formLayout)="item.filterJsfAttributes.formLayout"
                       (onSubmit)="onApplyFilter(item, $event)"
@@ -106,8 +67,18 @@
         <td mat-cell *matCellDef="let xmEntity"><h6>{{ xmEntity.type?.name | translate }}</h6></td>
       </ng-container>
 
+      <ng-container *ngSwitchCase="'startDate'" mat-sort-header>
+        <td mat-header-cell *matHeaderCellDef></td>
+        <td mat-cell *matCellDef="let xmEntity">{{ xmEntity.startDate | xmDateTime }}</td>
+      </ng-container>
+
       <ng-container *ngSwitchCase="'name'">
-        <th mat-header-cell *matHeaderCellDef [mat-sort-header]="field.field">{{field.title | translate}}</th>
+        <ng-container *ngIf="field.useKeyword; else noSort">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{field.title | translate}}</th>
+        </ng-container>
+        <ng-template #noSort>
+          <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+        </ng-template>
         <td mat-cell *matCellDef="let xmEntity">
           <div
             *ngIf="(options?.noDeepLink || item?.noDeepLink); then entryHasNotLink else entryHasLink"></div>
@@ -121,7 +92,6 @@
           </ng-template>
         </td>
       </ng-container>
-
       <ng-container  *ngSwitchCase="'typeKey'">
         <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
         <td *matCellDef="let xmEntity">
@@ -131,20 +101,15 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'startDate'">
-        <th mat-header-cell *matHeaderCellDef [mat-sort-header]="field.field">{{field.title | translate}}</th>
+        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
         <td *matCellDef="let xmEntity">
           <div>
             {{xmEntity.startDate | xmDateTime}}
           </div>
       </ng-container>
 
-      <ng-container *ngSwitchCase="'description'">
-        <td mat-header-cell *matHeaderCellDef [mat-sort-header]="field.field">{{field.title | translate}}</td>
-        <td mat-cell *matCellDef="let xmEntity"><h6>{{ xmEntity.description }}</h6></td>
-      </ng-container>
-
       <ng-container *ngSwitchCase="'updateDate'">
-        <th mat-header-cell *matHeaderCellDef [mat-sort-header]="field.field">{{field.title | translate}}</th>
+        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
         <td *matCellDef="let xmEntity">
           <div>
             {{xmEntity.updateDate | xmDateTime}}
@@ -174,7 +139,7 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'stateKey'">
-        <th mat-header-cell *matHeaderCellDef [mat-sort-header]="field.field">{{field.title | translate}}</th>
+        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
         <td *matCellDef="let xmEntity">
           <div *ngIf="xmEntity.state" class="xm-state">
             <div [style.background]="xmEntity.state?.color" class="xm-state-icon">
@@ -185,7 +150,7 @@
         </td>
       </ng-container>
 
-      <ng-container *ngIf="field?.useKeyword && field?.sortable; else noSort">
+      <ng-container *ngIf="field?.useKeyword; else noSort">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{field.title | translate}}</th>
       </ng-container>
       <ng-template #noSort>
