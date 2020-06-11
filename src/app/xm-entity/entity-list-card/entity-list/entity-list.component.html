@@ -1,0 +1,189 @@
+<div class="row">
+  <!-- start fast search -->
+  <div *xmPermitted="['XMENTITY.SEARCH.QUERY']" class="col-sm-8">
+    <div *ngIf="item.fastSearch?.length > 1" class="btn-group">
+      <button (click)="onApplyFastSearch(item, getDefaultSearch(item))"
+              *ngIf="true"
+              [class.disabled]="item.currentQuery === getDefaultSearch(item)"
+              class="btn btn-primary btn-sm"
+              mat-button>
+        <span jhiTranslate="global.all">All</span>
+      </button>
+      <button (click)="onApplyFastSearch(item, fastSearch.query)"
+              *ngFor="let fastSearch of getFastSearches(item)"
+              [class.disabled]="item.currentQuery === fastSearch.query"
+              class="btn btn-primary btn-sm"
+              mat-button>
+        {{fastSearch.name | translate}}
+      </button>
+    </div>
+  </div>
+  <!-- end fast search -->
+</div>
+
+<!-- start filter area -->
+<div *ngIf="true" class="row">
+  <div class="col-sm">
+    <json-schema-form (formLayout)="item.filterJsfAttributes.formLayout"
+                      (onSubmit)="onApplyFilter(item, $event)"
+                      *ngIf="item.filterJsfAttributes?.schema"
+                      [data]="item.filterJsfAttributes.data"
+                      [form]="item.filterJsfAttributes.form | i18nJsf"
+                      [framework]="'material-design'"
+                      [layout]="item.filterJsfAttributes.layout | i18nJsf"
+                      [options]="item.filterJsfAttributes.options | i18nJsf"
+                      [schema]="item.filterJsfAttributes.schema"
+                      [widgets]="item.filterJsfAttributes.widgets">
+    </json-schema-form>
+  </div>
+</div>
+<!-- end filter area -->
+
+<div class="table-responsive" [ngClass]="{ 'sm-overflow': options.smOverflow }">
+  <table class="table"
+         style="width: 100%"
+         mat-table
+         matSort
+         [matSortDirection]="reverse ? 'asc' : 'desc'"
+         [matSortActive]="predicate"
+         [dataSource]="tableDataSource">
+
+    <ng-container matColumnDef="avatarUrl">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let xmEntity">
+        <div class="xm-avatar-img-container">
+          <img src="{{xmEntity.avatarUrl ? xmEntity.avatarUrl : './assets/img/placeholder.png'}}">
+          <i class="material-icons"
+             *ngIf="xmEntity.type?.icon && !xmEntity.avatarUrl">{{xmEntity.type?.icon}}</i>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container *ngFor="let field of item.fields"
+                  [matColumnDef]="field?.field" [ngSwitch]="field?.field">
+
+      <ng-container *ngSwitchCase="'typeKey'">
+        <td mat-header-cell *matHeaderCellDef></td>
+        <td mat-cell *matCellDef="let xmEntity"><h6>{{ xmEntity.type?.name | translate }}</h6></td>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'startDate'" mat-sort-header>
+        <td mat-header-cell *matHeaderCellDef></td>
+        <td mat-cell *matCellDef="let xmEntity">{{ xmEntity.startDate | xmDateTime }}</td>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'name'">
+        <ng-container *ngIf="field.useKeyword; else noSort">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{field.title | translate}}</th>
+        </ng-container>
+        <ng-template #noSort>
+          <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+        </ng-template>
+        <td mat-cell *matCellDef="let xmEntity">
+          <div
+            *ngIf="(options?.noDeepLink || item?.noDeepLink); then entryHasNotLink else entryHasLink"></div>
+          <ng-template #entryHasLink>
+            <a href="javascript: void(0);" (click)="onNavigate(item, xmEntity)">
+              {{ getFieldValue(xmEntity, field) }}
+            </a>
+          </ng-template>
+          <ng-template #entryHasNotLink>
+            {{ getFieldValue(xmEntity, field) }}
+          </ng-template>
+        </td>
+      </ng-container>
+      <ng-container  *ngSwitchCase="'typeKey'">
+        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+        <td *matCellDef="let xmEntity">
+          <div>
+            <h6>{{xmEntity.type?.name | translate}}</h6>
+          </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'startDate'">
+        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+        <td *matCellDef="let xmEntity">
+          <div>
+            {{xmEntity.startDate | xmDateTime}}
+          </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'updateDate'">
+        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+        <td *matCellDef="let xmEntity">
+          <div>
+            {{xmEntity.updateDate | xmDateTime}}
+          </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'actions'">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td *matCellDef="let xmEntity">
+          <div class="xm-table-options dropdown" *permitted="field.actionsListPrivileges">
+                      <span class="dropdown-toggle" data-toggle="dropdown" href="#pablo" aria-expanded="false">
+                        <i class="material-icons text_align-center visible-on-sidebar-regular">more_vert</i>
+                      </span>
+            <ul class="dropdown-menu" x-placement="bottom-start">
+              <ng-container *ngFor="let action of field.actions">
+                <ng-container *ngIf="!action.actionCondition || (action.actionCondition(xmEntity))">
+                  <li *permitted="action.privilege">
+                    <a (click)="onAction(item, xmEntity, action)">
+                      {{ action.name | translate }}
+                    </a>
+                  </li>
+                </ng-container>
+              </ng-container>
+            </ul>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'stateKey'">
+        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+        <td *matCellDef="let xmEntity">
+          <div *ngIf="xmEntity.state" class="xm-state">
+            <div [style.background]="xmEntity.state?.color" class="xm-state-icon">
+              <i class="material-icons">{{xmEntity.state?.icon}}</i>
+            </div>
+            {{xmEntity.state?.name | translate}}
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container *ngIf="field?.useKeyword; else noSort">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{field.title | translate}}</th>
+      </ng-container>
+      <ng-template #noSort>
+        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+      </ng-template>
+
+      <td mat-cell *matCellDef="let xmEntity">{{ getFieldValue(xmEntity, field) }}</td>
+
+    </ng-container>
+
+    <ng-container *ngIf="!(options?.hideDelete) && !(item?.hideDelete)" matColumnDef="deleteButton">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td *matCellDef="let xmEntity">
+        <a (click)="onRemove(xmEntity)" href="javascript: void(0);">
+          <i class="material-icons">close</i>
+        </a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="getColumnsToDisplay(item.fields)"></tr>
+    <tr mat-row *matRowDef="let row; columns: getColumnsToDisplay(item.fields);"></tr>
+  </table>
+</div>
+
+<div class="row align-items-center list-pagination">
+  <div class="col-auto mt-1 mb-1">
+    <xm-per-page [(itemsPerPage)]="pageSize" (onChange)="transition()"></xm-per-page>
+  </div>
+  <div class="col-sm"></div>
+  <div class="col-auto mt-1 mb-1">
+    <ng-container [class.hidden]="!item.entities || (pageSize > item.totalItems)">
+      <mat-paginator [pageSize]="pageSize" [length]="item.totalItems"></mat-paginator>
+    </ng-container>
+  </div>
+</div>
+<no-data [show]="!showLoader && !item?.entities"></no-data>

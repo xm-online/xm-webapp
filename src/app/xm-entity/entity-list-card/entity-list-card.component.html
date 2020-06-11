@@ -146,7 +146,8 @@
                 </td>
                 <td *ngFor="let field of item.fields" [ngSwitch]="field.field">
                   <div *ngSwitchCase="'name'">
-                    <div *ngIf="(options?.noDeepLink || item?.noDeepLink); then entryHasNotLink else entryHasLink"></div>
+                    <div
+                      *ngIf="(options?.noDeepLink || item?.noDeepLink); then entryHasNotLink else entryHasLink"></div>
                     <ng-template #entryHasLink>
                       <a (click)="onNavigate(item, xmEntity)" href="javascript: void(0);">
                         {{getFieldValue(xmEntity, field)}}
@@ -228,6 +229,16 @@
           </div>
         </div>
         <no-data [show]="!item.entities?.length" [text]="item.noData"></no-data>
+
+        <ng-container [class.hidden]="!item.entities">
+          <xm-entity-list [item]="item"
+                          [spec]="spec"
+                          [options]="options"
+                          [pageSize]="entitiesPerPage"
+                          [reverse]="reverse"
+                          [currentEntitiesUiConfig]="currentEntitiesUiConfig"
+                          [predicate]="predicate"></xm-entity-list>
+        </ng-container>
       </div>
     </div>
   </div>
