@@ -148,6 +148,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnInit 
 
     public searchByLogin(): void | null {
         if (!(this.login && this.login.trim())) {
+            if (this.predicate === 'logins') { this.predicate = this.basePredicate }
             this.loadAll();
             return null;
         }
