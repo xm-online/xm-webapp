@@ -93,8 +93,7 @@ export class DynamicViewDirective<V, O> implements IComponent<V, O>, OnChanges, 
             return;
         }
 
-        const ref = await this.loaderService.load<IComponent<V, O>>(this.selector as string, { injector: this.injector });
-        const cfr = this.cfr.resolveComponentFactory(ref);
+        const cfr = await this.loaderService.loadAndResolve<IComponent<V, O>>(this.selector as string, { injector: this.injector });
 
         this.viewContainerRef.clear();
         const c = this.viewContainerRef.createComponent(cfr, 0, this.createInjector());
