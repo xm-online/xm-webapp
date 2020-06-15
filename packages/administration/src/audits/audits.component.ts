@@ -1,11 +1,14 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
+
+import { Link } from '@xm-ngx/entity';
 
 import * as moment from 'moment';
 import { JhiOrderByPipe, JhiParseLinks } from 'ng-jhipster';
-
-import { Link } from '@xm-ngx/entity';
 import { Audit } from './audit.model';
 import { AuditsService } from './audits.service';
 
@@ -24,7 +27,12 @@ export class AuditsComponent implements OnInit {
     public reverse: boolean;
     public toDate: string;
     public totalItems: number;
-    public showLoader: boolean;
+    public loading: boolean;
+
+    public dataSource: MatTableDataSource<Audit> = new MatTableDataSource([]);
+    public displayedColumns: string[] = ['timestamp', 'principal', 'type', 'data.remoteAddress'];
+    @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
+    @ViewChild(MatSort, { static: true }) private sort: MatSort;
 
     constructor(
         private auditsService: AuditsService,
@@ -44,13 +52,16 @@ export class AuditsComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
         this.today();
         this.previousMonth();
         this.onChangeDate();
     }
 
     public onChangeDate(): void {
-        this.showLoader = true;
+        this.loading = true;
         this.auditsService
             .query({
                 page: this.page - 1,
@@ -62,9 +73,10 @@ export class AuditsComponent implements OnInit {
                     this.audits = res.body;
                     this.links = this.parseLinks.parse(res.headers.get('link'));
                     this.totalItems = +res.headers.get('X-Total-Count');
+                    this.dataSource.data = this.audits;
                 },
-                (err) => console.info(err), // tslint:disable-line
-                () => this.showLoader = false);
+                (err) => console.info(err),
+                () => this.loading = false);
     }
 
     public previousMonth(): void {
