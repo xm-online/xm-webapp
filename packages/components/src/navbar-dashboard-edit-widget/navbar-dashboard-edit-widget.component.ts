@@ -7,7 +7,7 @@ import {
     DashboardsImportService,
     DashboardsManagerService,
     DashboardsModule,
-    EDIT_DASHBOARD_EVENT,
+    EDIT_DASHBOARD_EVENT, EDIT_WIDGET_EVENT,
 } from '@xm-ngx/administration/dashboards-config';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard, DashboardWrapperService, PageService } from '@xm-ngx/dynamic';
@@ -53,6 +53,10 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy {
         this.eventManager.listenTo(EDIT_DASHBOARD_EVENT)
             .pipe(takeUntilOnDestroy(this))
             .subscribe(({id}) => this.updateView(id));
+
+        this.eventManager.listenTo(EDIT_WIDGET_EVENT)
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(({id}) => this.updateView(this.page.id));
     }
 
     public onEdit(): void {
