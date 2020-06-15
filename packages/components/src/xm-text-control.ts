@@ -11,10 +11,11 @@ import {
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { NgModelWrapper } from '@xm-ngx/components/ng-model-wrapper';
+import { IControl, IControlFn } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 
-type Primary = string | boolean | number;
+type Primitive = undefined | boolean | number | string | null;
 
 interface ITextControlOptions {
     title?: string;
@@ -49,14 +50,14 @@ const TRANSLATES = {
             <input matInput
                    (ngModelChange)="change($event)"
                    [(ngModel)]="value"
-                   [placeholder]="_options.placeholder | translate"
+                   [placeholder]="options.placeholder | translate"
                    #input="ngModel"
                    [disabled]="disabled"
-                   [attr.name]="_options.name"
-                   [attr.id]="_options.id"
-                   [attr.required]="_options.required"
-                   [attr.pattern]="_options.pattern"
-                   [attr.type]="_options.type">
+                   [attr.name]="options.name"
+                   [attr.id]="options.id"
+                   [attr.required]="options.required"
+                   [attr.pattern]="options.pattern"
+                   [attr.type]="options.type">
 
             <!-- //TODO: replace with dynamic validations -->
             <mat-error *ngIf="input.hasError('required')">{{ TRS.required | translate }}</mat-error>
@@ -64,19 +65,19 @@ const TRANSLATES = {
         </mat-form-field>
     `,
     styles: [''],
-    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => Text), multi: true}],
+    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmTextControl), multi: true}],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class Text extends NgModelWrapper<Primary> {
+export class XmTextControl extends NgModelWrapper<Primitive> implements IControl<Primitive, ITextControlOptions> {
     public TRS: typeof TRANSLATES = TRANSLATES;
 
-    @Input() public value: Primary;
+    @Input() public value: Primitive;
     @Input() public disabled: boolean;
 
-    @Output() public valueChange: EventEmitter<Primary> = new EventEmitter<Primary>();
+    @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
 
-    public _options: ITextControlOptions = {};
+    private _options: ITextControlOptions = {};
 
     public get options(): ITextControlOptions {
         return this._options;
@@ -87,12 +88,6 @@ export class Text extends NgModelWrapper<Primary> {
         this._options = _.defaults(value, DEFAULT_OPTIONS);
         this._options.placeholder = this._options.placeholder || this._options.title;
     }
-
-    public change(v: boolean): void {
-        this.value = v;
-        this._onChange(v);
-        this.valueChange.emit(v);
-    }
 }
 
 @NgModule({
@@ -101,11 +96,11 @@ export class Text extends NgModelWrapper<Primary> {
         FormsModule,
         XmTranslationModule,
     ],
-    exports: [Text],
-    declarations: [Text],
-    providers: [],
+    exports: [XmTextControl],
+    declarations: [XmTextControl],
 })
-export class TextModule {
+export class XmTextControlModule {
+    public readonly entry: IControlFn<Primitive, ITextControlOptions> = XmTextControl;
 }
 
 
