@@ -8,7 +8,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
-import { filter, finalize, map } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES, EDIT_DASHBOARD_EVENT } from '../const';
 import { DashboardEditComponent } from '../dashboard-edit/dashboard-edit.component';
 import { DashboardEditorService } from '../dashboard-editor.service';
@@ -50,6 +50,7 @@ export class DashboardsListComponent implements OnInit {
     public loading$: Observable<boolean>;
 
     public expandedElement: Dashboard;
+    public expanded: boolean = true;
 
     @ViewChild(MatSort, {static: true}) protected sort: MatSort;
 
@@ -69,7 +70,7 @@ export class DashboardsListComponent implements OnInit {
         this.dashboardList = new MatTableDataSource([]);
         this.dashboardList.sort = this.sort;
 
-        this.eventManager.observable.pipe(filter((f: any) => f.name === EDIT_DASHBOARD_EVENT)).subscribe((e) => {
+        this.eventManager.listenTo(EDIT_DASHBOARD_EVENT).subscribe((e) => {
             if (e.delete || e.add || e.edit) {
                 this.load();
             }
@@ -111,6 +112,10 @@ export class DashboardsListComponent implements OnInit {
         this.expandedElement = item;
         this.editorService.editDashboard(DashboardEditComponent, item);
         this.managerService.setActiveDashboard(item);
+    }
+
+    public toggleExpand(): void {
+        this.expanded = !this.expanded;
     }
 
     public onFilter(filterValue: string): void {

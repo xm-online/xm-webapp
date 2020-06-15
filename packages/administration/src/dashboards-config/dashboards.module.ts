@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { AceEditorControlModule } from '@xm-ngx/components/ace-editor-control';
 import { XmBoolViewModule } from '@xm-ngx/components/xm-bool-view';
 import { LoaderModule } from '@xm-ngx/components/loader';
@@ -24,6 +25,7 @@ import { WidgetEditComponent } from './widget-edit/widget-edit.component';
         XmBoolViewModule,
         AceEditorControlModule,
         TextModule,
+        RouterModule,
     ],
     exports: [
         DashboardsConfigComponent,

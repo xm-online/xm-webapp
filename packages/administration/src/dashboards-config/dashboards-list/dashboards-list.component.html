@@ -44,7 +44,13 @@
     <!--  slug -->
     <ng-container matColumnDef="{{columns[1]}}">
       <th *matHeaderCellDef disableClear mat-header-cell mat-sort-header> {{columns[1] | translate}} </th>
-      <td *matCellDef="let element" mat-cell> {{ element?.config?.slug }}</td>
+      <td *matCellDef="let element" mat-cell>
+        {{ element?.config?.slug }}
+        <mat-icon *ngIf="element?.config?.slug"
+                  class="cursor-pointer"
+                  color="primary"
+                  [routerLink]="['/dashboard', element?.config?.slug]">link</mat-icon>
+      </td>
     </ng-container>
 
     <!--  config -->
@@ -89,8 +95,9 @@
           <mat-icon>edit</mat-icon>
         </button>
 
-        <span [@indicatorRotate]="expandedElement?.id === row.id ? 'expanded' : 'collapsed'"
-              class="mat-expansion-indicator d-inline-block"></span>
+        <span (click)="toggleExpand()"
+              [@indicatorRotate]="expandedElement?.id === row.id && expanded ? 'expanded' : 'collapsed'"
+              class="cursor-pointer mat-expansion-indicator d-inline-block"></span>
 
       </td>
 
@@ -100,7 +107,7 @@
     <!-- Expanded row -->
     <ng-container [matColumnDef]="EXPANDED_DETAIL">
       <td *matCellDef="let element" [attr.colspan]="columns.length" class="px-0" mat-cell>
-        <div [@expand]="element.id == expandedElement?.id ? 'expanded' : 'collapsed'"
+        <div [@expand]="element.id == expandedElement?.id && expanded ? 'expanded' : 'collapsed'"
              class="example-element-detail">
           <!--        TODO:  *ngIf="element == expandedElement" remove and fix 30 req to dsahboard -->
           <xm-dashboards-list-expand *ngIf="element.id == expandedElement?.id"
