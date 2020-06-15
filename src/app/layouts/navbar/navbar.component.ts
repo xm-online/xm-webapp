@@ -43,6 +43,7 @@ export class NavbarComponent implements OnInit, OnDestroy, DoCheck {
     private backStep: number = 0;
     private toggleButton: any;
     private sidebarVisible: boolean;
+    private searchFullMatch: boolean;
 
     constructor(private languageHelper: JhiLanguageHelper,
                 private jhiLanguageService: JhiLanguageService,
@@ -64,6 +65,7 @@ export class NavbarComponent implements OnInit, OnDestroy, DoCheck {
     public ngOnInit(): void {
         this.xmConfigService.getUiConfig().subscribe((result) => {
             this.navbarLayout = result.navbar && result.navbar.layout ? result.navbar.layout : null;
+            this.searchFullMatch = result.search && result.search.fullMatch;
             this.tenantName = result.name ? result.name : 'XM^online';
             if (this.tenantName === 'XM^online') {
                 this.tenantName += ' ' + this.version;
@@ -112,7 +114,8 @@ export class NavbarComponent implements OnInit, OnDestroy, DoCheck {
 
     public search(term: string): void {
         if (term) {
-            this.router.navigate(['/search'], {queryParams: {query: term, dashboardId: this.getDashboardId()}});
+            const searchQuery = this.searchFullMatch ? `"${term}"` : term;
+            this.router.navigate(['/search'], {queryParams: {query: searchQuery, dashboardId: this.getDashboardId()}});
         }
     }
 
