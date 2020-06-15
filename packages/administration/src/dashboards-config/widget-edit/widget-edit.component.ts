@@ -6,10 +6,11 @@ import { Widget } from '@xm-ngx/dynamic';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { DASHBOARDS_TRANSLATES, EDIT_DASHBOARD_EVENT } from '../const';
+import { DASHBOARDS_TRANSLATES } from '../const';
 import { DashboardEditComponent, EditType } from '../dashboard-edit/dashboard-edit.component';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection, WidgetCollection } from '../injectors';
+export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
 @Component({
     selector: 'xm-widget-edit',
@@ -75,7 +76,7 @@ export class WidgetEditComponent {
                 }).subscribe();
                 this.value = res;
                 this.editType = EditType.Edit;
-                this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.dashboard.id, add: true});
+                this.eventManager.broadcast({name: EDIT_WIDGET_EVENT, id: this.value.dashboard.id, add: true});
             }),
         ).subscribe();
     }
@@ -88,7 +89,7 @@ export class WidgetEditComponent {
                     text: DASHBOARDS_TRANSLATES.updated,
                     textOptions: {value: res.name},
                 }).subscribe();
-                this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.dashboard.id, add: true});
+                this.eventManager.broadcast({name: EDIT_WIDGET_EVENT, id: this.value.dashboard.id, add: true});
             }),
         ).subscribe();
     }
@@ -104,7 +105,7 @@ export class WidgetEditComponent {
                     textOptions: {value: this.value.name},
                 }).subscribe();
                 this.editorService.close();
-                this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.dashboard.id, delete: true});
+                this.eventManager.broadcast({name: EDIT_WIDGET_EVENT, id: this.value.dashboard.id, delete: true});
             }),
         ).subscribe();
     }
