@@ -8,7 +8,7 @@
            class="nav-link" data-toggle="tab"
            role="tab">
           <i class="material-icons">{{type.icon}}</i>
-          <span jhiTranslate="admin-config.specification-mng.{{type.slug}}.title"></span>
+          <span translate="admin-config.specification-mng.{{type.slug}}.title"></span>
         </a>
       </li>
     </ul>
@@ -53,7 +53,7 @@
                    [text]="uiSpecificationIn"
                    style="overflow-x: auto; border: 1px solid lightgray;"
                    xmAceEditor>
-                <span jhiTranslate="admin-config.specification-mng.loading">loading specification...</span>
+                <span translate="admin-config.specification-mng.loading"></span>
               </div>
             </div>
           </div>
@@ -65,16 +65,14 @@
           <div class="card-body">
             <div class="text-center pb-3">
               <button (click)="validateTimelineConfig();" *ngIf="!isTimelineSpecValid" color="primary"
-                      jhiTranslate="admin-config.specification-mng.validate"
+                      translate="admin-config.specification-mng.validate"
                       mat-button
                       type="submit">
-                Validate
               </button>
               <button (click)="updateTimelineConfig();" *ngIf="isTimelineSpecValid" color="primary"
-                      jhiTranslate="admin-config.specification-mng.timeline.save"
+                      translate="admin-config.specification-mng.timeline.save"
                       mat-button
                       type="submit">
-                Save Timeline specification
               </button>
               <div class="text-center">
                 <div *ngIf="timelineValidation && !timelineValidation.valid"
@@ -94,7 +92,7 @@
                    [text]="timelineSpecificationIn"
                    style="overflow-x: auto; border: 1px solid lightgray;"
                    xmAceEditor>
-                <span jhiTranslate="admin-config.specification-mng.loading">loading specification...</span>
+                <span translate="admin-config.specification-mng.loading"></span>
               </div>
             </div>
           </div>
@@ -105,16 +103,14 @@
           <div class="card-body">
             <div class="text-center pb-3">
               <button (click)="validateLoginsSpecification();" *ngIf="!isUaaLoginSpecValid" color="primary"
-                      jhiTranslate="admin-config.specification-mng.validate"
+                      [translate]="'admin-config.specification-mng.validate'"
                       mat-button
                       type="submit">
-                Validate
               </button>
               <button (click)="updateLoginsSpecification();" *ngIf="isUaaLoginSpecValid" color="primary"
-                      jhiTranslate="admin-config.specification-mng.uaa-login.save"
+                      [translate]="'admin-config.specification-mng.uaa-login.save'"
                       mat-button
                       type="submit">
-                Save Login specification
               </button>
               <div class="text-center">
                 <div *ngIf="loginsValidation && !loginsValidation.valid" [innerHtml]="loginsValidation?.errorMessage"
@@ -133,7 +129,7 @@
                    [text]="loginsSpecificationIn"
                    style="overflow-x: auto; border: 1px solid lightgray;"
                    xmAceEditor>
-                <span jhiTranslate="admin-config.specification-mng.loading">loading specification...</span>
+                <span translate="admin-config.specification-mng.loading"></span>
               </div>
             </div>
           </div>
@@ -144,16 +140,14 @@
           <div class="card-body">
             <div class="text-center pb-3">
               <button (click)="validateUaaSpecification();" *ngIf="!isUaaSpecValid" color="primary"
-                      jhiTranslate="admin-config.specification-mng.validate"
+                      translate="admin-config.specification-mng.validate"
                       mat-button
                       type="submit">
-                Validate
               </button>
               <button (click)="updateUaaSpecification();" *ngIf="isUaaSpecValid" color="primary"
-                      jhiTranslate="admin-config.specification-mng.uaa.save"
+                      translate="admin-config.specification-mng.uaa.save"
                       mat-button
                       type="submit">
-                Save UAA specification
               </button>
               <div class="text-center">
                 <div *ngIf="uaaValidation && !uaaValidation.valid" [innerHtml]="uaaValidation?.errorMessage"
@@ -172,7 +166,7 @@
                    [text]="uaaSpecificationIn"
                    style="overflow-x: auto; border: 1px solid lightgray;"
                    xmAceEditor>
-                <span jhiTranslate="admin-config.specification-mng.loading">loading specification...</span>
+                <span translate="admin-config.specification-mng.loading"></span>
               </div>
             </div>
           </div>
@@ -216,7 +210,7 @@
                    [text]="tenantSpecificationIn"
                    style="overflow-x: auto; border: 1px solid lightgray;"
                    xmAceEditor>
-                <span jhiTranslate="admin-config.specification-mng.loading">loading specification...</span>
+                <span translate="admin-config.specification-mng.loading"></span>
               </div>
             </div>
           </div>
@@ -261,7 +255,7 @@
                    [text]="uiPrivateSpecificationIn"
                    style="overflow-x: auto; border: 1px solid lightgray;"
                    xmAceEditor>
-                <span jhiTranslate="admin-config.specification-mng.loading">loading specification...</span>
+                <span translate="admin-config.specification-mng.loading"></span>
               </div>
             </div>
           </div>
