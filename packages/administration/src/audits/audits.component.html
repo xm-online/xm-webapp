@@ -71,7 +71,7 @@
 
     <no-data [show]="dataSource.filteredData?.length === 0 && !loading"></no-data>
 
-    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    <mat-paginator [length]="totalItems" [pageSize]="30"></mat-paginator>
 
   </mat-card-content>
 
