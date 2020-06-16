@@ -117,4 +117,8 @@ export const XM_ELEMENTS: DynamicComponents = [
         selector: '@xm-ngx/components/xm-text-view',
         loadChildren: () => import('@xm-ngx/components/xm-text-view').then(m => m.XmTextViewModule),
     },
+    {
+        selector: '@xm-ngx/components/xm-text-control',
+        loadChildren: () => import('@xm-ngx/components/xm-text-control').then(m => m.XmTextControlModule),
+    },
 ];

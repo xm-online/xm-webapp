@@ -1,4 +1,4 @@
-import { Inject, Injectable, LOCALE_ID, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager, XmUiConfigService, XmUserService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -34,7 +34,7 @@ export const SESSION_LOCALE = 'currentLang';
 
 export type Locale = string | 'en' | 'ru' | 'uk';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class LanguageService implements OnDestroy, OnInitialize {
     public locale$: Observable<Locale | null>;
 
@@ -45,7 +45,6 @@ export class LanguageService implements OnDestroy, OnInitialize {
 
     constructor(
         protected eventManager: XmEventManager,
-        @Inject(LOCALE_ID) protected localeId: string,
         protected translate: TranslateService,
         protected userService: XmUserService,
         protected configService: XmUiConfigService<{ langs: string[] }>,
@@ -111,7 +110,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
 
     /** @description Get a default locale */
     public getDefaultLocale(): Locale {
-        return this.localeId;
+        return 'en';
     }
 
     public init(): void {
@@ -131,7 +130,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
         this.setLangHTMLAttr(locale);
 
         this.$locale.next(locale);
-        this.eventManager.broadcast({name: EVENT_CHANGE_LOCALE, content: locale});
+        this.eventManager.broadcast({ name: EVENT_CHANGE_LOCALE, content: locale });
     }
 
     protected onUserLocale(): void {

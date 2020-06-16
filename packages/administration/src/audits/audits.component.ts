@@ -1,11 +1,15 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { Link } from '@xm-ngx/entity';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 import * as moment from 'moment';
 import { JhiOrderByPipe, JhiParseLinks } from 'ng-jhipster';
-
-import { Link } from '@xm-ngx/entity';
+import { merge } from 'rxjs';
 import { Audit } from './audit.model';
 import { AuditsService } from './audits.service';
 
@@ -14,57 +18,53 @@ import { AuditsService } from './audits.service';
     templateUrl: './audits.component.html',
     providers: [JhiOrderByPipe],
 })
-export class AuditsComponent implements OnInit {
-    public audits: Audit[];
+export class AuditsComponent implements OnInit, OnDestroy {
     public fromDate: string;
-    public itemsPerPage: any;
-    public links: Link[];
-    public page: number;
-    public orderProp: string;
-    public reverse: boolean;
     public toDate: string;
+    public links: Link[];
     public totalItems: number;
-    public showLoader: boolean;
+    public loading: boolean;
+
+    public dataSource: MatTableDataSource<Audit> = new MatTableDataSource([]);
+    public displayedColumns: string[] = ['timestamp', 'principal', 'type', 'data.remoteAddress'];
+    @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
+    @ViewChild(MatSort, { static: true }) private sort: MatSort;
 
     constructor(
         private auditsService: AuditsService,
         private parseLinks: JhiParseLinks,
-        private orderByPipe: JhiOrderByPipe,
         private datePipe: DatePipe,
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
-        this.page = 1;
-        this.reverse = false;
-        this.orderProp = 'timestamp';
-    }
-
-    public loadPage(page: number): void {
-        this.page = page;
-        this.onChangeDate();
     }
 
     public ngOnInit(): void {
+        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+        merge(this.sort.sortChange, this.paginator.page)
+            .pipe(
+                takeUntilOnDestroy(this),
+            ).subscribe(() => this.onChangeDate());
+
         this.today();
         this.previousMonth();
         this.onChangeDate();
     }
 
     public onChangeDate(): void {
-        this.showLoader = true;
-        this.auditsService
-            .query({
-                page: this.page - 1,
-                size: this.itemsPerPage,
-                fromDate: moment(this.fromDate).format('YYYY-MM-DD'),
-                toDate: moment(this.toDate).format('YYYY-MM-DD'),
-            })
-            .subscribe((res) => {
-                    this.audits = res.body;
-                    this.links = this.parseLinks.parse(res.headers.get('link'));
-                    this.totalItems = +res.headers.get('X-Total-Count');
-                },
-                (err) => console.info(err), // tslint:disable-line
-                () => this.showLoader = false);
+        this.loading = true;
+        this.auditsService.query({
+            page: this.paginator.pageIndex,
+            size: this.paginator.pageSize,
+            fromDate: moment(this.fromDate).format('YYYY-MM-DD'),
+            toDate: moment(this.toDate).format('YYYY-MM-DD'),
+        }).subscribe(
+            (res) => {
+                this.links = this.parseLinks.parse(res.headers.get('link'));
+                this.totalItems = +res.headers.get('X-Total-Count');
+                this.dataSource.data = res.body;
+            },
+            (err) => console.info(err),
+            () => this.loading = false);
     }
 
     public previousMonth(): void {
@@ -89,8 +89,7 @@ export class AuditsComponent implements OnInit {
         this.toDate = this.datePipe.transform(date, dateFormat);
     }
 
-    public sortAudits(audits: Audit[], prop: string): any {
-        this.reverse = !this.reverse;
-        return this.orderByPipe.transform(audits, prop, this.reverse);
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
     }
 }
