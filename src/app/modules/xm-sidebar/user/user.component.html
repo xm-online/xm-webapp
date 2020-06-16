@@ -7,7 +7,7 @@
        class="user-title"
        role="button"
        tabindex="0">
-    <img [alt]="user.avatarUrl" [src]="user.avatarUrl" class="user-img">
+    <img onerror="this.src='./assets/img/anonymous.png'" [alt]="user.avatarUrl" [src]="user.avatarUrl" class="user-img">
     <span class="user-name">{{ user.username }}</span>
     <i [@indicatorRotate]="getState()"
        class="mat-expansion-indicator"></i>
