@@ -170,6 +170,8 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.userDescription$ = this.getUserDescription(sideBarMenuConfig);
                 }
                 this.loadData();
+            } else {
+                $('body').addClass('xm-public-screen');
             }
         });
     }

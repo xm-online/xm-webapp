@@ -57,7 +57,7 @@ export class LoginService {
     }
 
     private getUserIdentity(next: any, data: any): void {
-        this.principal.identity(true, true).then((account) => {
+        this.principal.identity(true, false).then((account) => {
             /*
              * After the login the language will be changed to
              * the language selected by the user during his registration
@@ -65,6 +65,12 @@ export class LoginService {
             if (account !== null && account.langKey) {
                 this.jhiLanguageService.changeLanguage(account.langKey);
             }
+
+            // In case no permissions to get account, no reason to continue with dashboards
+            if (!account) {
+                this.logout();
+            }
+
             if (next) {
                 next(data);
             }
