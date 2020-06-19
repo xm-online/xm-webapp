@@ -68,16 +68,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 
     public ngOnInit(): void {
         this.getEntitiesUIConfig();
-        this.entityListActionSuccessSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS,
-            () => {
-                this.load();
-            });
-        this.entityEntityListModificationSubscription =
-            this.eventManager.subscribe(XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
-                () => {
-                    this.load();
-                });
-
+        console.log(this)
     }
 
     public isHideAll(typeKey: string): boolean {
