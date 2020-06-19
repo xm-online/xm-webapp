@@ -106,18 +106,8 @@
         <td mat-cell *matCellDef="let xmEntity"><h6>{{ xmEntity.type?.name | translate }}</h6></td>
       </ng-container>
 
-      <ng-container *ngSwitchCase="'startDate'" mat-sort-header>
-        <td mat-header-cell *matHeaderCellDef></td>
-        <td mat-cell *matCellDef="let xmEntity">{{ xmEntity.startDate | xmDateTime }}</td>
-      </ng-container>
-
       <ng-container *ngSwitchCase="'name'">
-        <ng-container *ngIf="field.useKeyword; else noSort">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{field.title | translate}}</th>
-        </ng-container>
-        <ng-template #noSort>
-          <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
-        </ng-template>
+        <th mat-header-cell *matHeaderCellDef [mat-sort-header]="field.field">{{field.title | translate}}</th>
         <td mat-cell *matCellDef="let xmEntity">
           <div
             *ngIf="(options?.noDeepLink || item?.noDeepLink); then entryHasNotLink else entryHasLink"></div>
