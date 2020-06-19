@@ -3,7 +3,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { defaults } from 'lodash';
 import { JhiEventManager } from 'ng-jhipster';
-import { ErrorHandlerInterceptor } from './errorhandler.interceptor';
+import { ErrorHandlerInterceptor } from './error-handler.interceptor';
 import { XmPermissionService } from './permission/xm-permission.service';
 import { XmEventManagerService as XmEventManager } from './xm-event-manager.service';
 import { XmUiConfigService } from './config/xm-ui-config.service';
