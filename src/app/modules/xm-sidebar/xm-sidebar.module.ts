@@ -5,7 +5,6 @@ import { XmUiConfigService } from '@xm-ngx/core';
 
 import { XmSharedModule } from '../../shared/shared.module';
 
-import { LogoComponent } from './logo/logo.component';
 import { MenuLinkComponent } from './menu/menu-link.component';
 import { MenuComponent } from './menu/menu.component';
 import { SidebarComponent } from './sidebar.component';
@@ -16,7 +15,6 @@ export const SIDEBAR_KEY = 'xm-widget-sidebar';
 @NgModule({
     declarations: [
         SidebarComponent,
-        LogoComponent,
         MenuComponent,
         UserComponent,
         MenuLinkComponent,
