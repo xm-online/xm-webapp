@@ -1,16 +1,7 @@
-import {
-    ChangeDetectorRef,
-    Inject,
-    Injectable,
-    LOCALE_ID,
-    OnDestroy,
-    Optional,
-    Pipe,
-    PipeTransform,
-} from '@angular/core';
+import { ChangeDetectorRef, Injectable, OnDestroy, Optional, Pipe, PipeTransform } from '@angular/core';
 import { TranslatePipe as NgxTranslate, TranslateService } from '@ngx-translate/core';
 
-import { ITranslate, Translate } from './language.service';
+import { ITranslate, LanguageService, Translate } from './language.service';
 
 export interface ITrKeyTranslates {
     trKey: string;
@@ -24,7 +15,7 @@ export interface ITrKeyTranslates {
 export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDestroy {
 
     constructor(protected translateService: TranslateService,
-                @Inject(LOCALE_ID) protected localeId: string,
+                private languageService: LanguageService,
                 @Optional() cdr: ChangeDetectorRef) {
         super(translateService, cdr);
     }
@@ -52,8 +43,12 @@ export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDest
     }
 
     private processMap(map: ITranslate | ITrKeyTranslates, ...args: any[]): string | any {
-        return map.trKey
-            ? super.transform(map.trKey, ...args)
-            : (map[this.translateService.currentLang] || map[this.localeId]);
+        if (map.trKey) {
+            return super.transform(map.trKey, ...args);
+        } else {
+            return map[this.languageService.locale]
+                || map[this.languageService.getDefaultLocale()]
+                || map[Object.keys(map)[0]];
+        }
     }
 }
