@@ -50,7 +50,6 @@ export class JhiDocsComponent implements AfterViewInit {
     public updateSwagger(resource: string): void {
         const authToken = this.auth.getToken();
         SwaggerUI({
-            // eslint-disable-next-line @typescript-eslint/camelcase
             dom_id: '#swaggerHolder',
             supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
             url: `${environment.serverApiUrl}${resource}`,

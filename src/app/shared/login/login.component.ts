@@ -119,7 +119,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     public checkOtp(): void {
         const credentials = {
-            // eslint-disable-next-line @typescript-eslint/camelcase
             grant_type: 'tfa_otp_token',
             otp: this.otpValue,
             rememberMe: this.rememberMe,
@@ -152,7 +151,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.successRegistration = false;
         this.stateStorageService.resetAllStates();
         const credentials = {
-            // eslint-disable-next-line @typescript-eslint/camelcase
             grant_type: 'password',
             username: this.username ? this.username.toLowerCase().trim() : '',
             password: this.password ? this.password.trim() : '',
