@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    NgModule,
+    OnChanges,
+    OnInit,
+    SimpleChanges,
+    ViewEncapsulation,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
 
@@ -17,17 +26,32 @@ const ICONS: BoolOptions = {
 @Component({
     selector: 'xm-bool-view',
     template: `
-        <mat-icon>{{ getIcon(value) }}</mat-icon>
+        <mat-icon>{{ icon }}</mat-icon>
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class BoolViewComponent implements IComponent<BoolValue, BoolOptions> {
+export class BoolViewComponent implements OnInit, OnChanges, IComponent<BoolValue, BoolOptions> {
     @Input() public value: BoolValue;
     @Input() public options: BoolOptions = ICONS;
 
-    public getIcon(value: boolean | string): string {
-        return this.options[String(value)];
+    public icon: string;
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (!changes.value.firstChange) {
+            this.icon = this.getIcon(this.value);
+        }
+    }
+
+    public ngOnInit(): void {
+        this.icon = this.getIcon(this.value);
+    }
+
+    private getIcon(value: boolean | string): string {
+        if (value === 'false') {
+            value = false;
+        }
+        return this.options[String(Boolean(value))];
     }
 }
 

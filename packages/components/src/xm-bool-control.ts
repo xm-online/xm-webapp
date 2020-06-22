@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, forwardRef, Input, NgModule } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
@@ -13,10 +14,10 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
     selector: 'xm-bool-control',
     template: `
         <mat-form-field>
-            <mat-select [(ngModel)]="value"
+            <mat-select [value]="value"
                         [disabled]="disabled"
                         [placeholder]="options?.title | translate"
-                        (ngModelChange)="change($event)">
+                        (valueChange)="change($event)">
 
                 <mat-select-trigger>
                     <ng-container *ngIf="value === true">{{'xm-bool-control.true' | translate}}</ng-container>
@@ -57,6 +58,7 @@ export class XmBoolControl extends NgModelWrapper<boolean> implements IControl<b
         MatSelectModule,
         FormsModule,
         XmTranslationModule,
+        CommonModule,
     ],
     exports: [XmBoolControl],
     declarations: [XmBoolControl],
