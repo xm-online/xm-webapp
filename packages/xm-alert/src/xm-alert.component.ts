@@ -36,7 +36,6 @@ export class XmAlertComponent implements OnInit {
         }, {
             type,
             timer: 5000,
-            // eslint-disable-next-line @typescript-eslint/camelcase
             z_index: 2000,
             placement: {
                 from: 'top',
