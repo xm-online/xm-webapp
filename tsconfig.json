@@ -21,6 +21,7 @@
     "paths": {
       "@xm-ngx/styles": ["packages/styles"],
       "@xm-ngx/administration/*": ["packages/administration/src/*"],
+      "@xm-ngx/components/xm-bool-view": ["dist/components/xm-bool-view"],
       "@xm-ngx/components/*": ["packages/components/src/*"],
       "@xm-ngx/core": ["packages/core"],
       "@xm-ngx/core/auth": ["packages/core/src/auth"],

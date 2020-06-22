@@ -1,27 +1,17 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    Inject,
     Input,
-    NgModule,
     OnChanges,
     OnInit,
     SimpleChanges,
     ViewEncapsulation,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
+import { BoolOptions, XM_BOOL_VIEW_ICONS } from './xm-bool-view.injectors';
+// Import { IComponent } from '@xm-ngx/dynamic';
 
-type BoolValue = string | boolean;
-
-interface BoolOptions {
-    true: string;
-    false: string;
-}
-
-const ICONS: BoolOptions = {
-    true: 'done',
-    false: 'remove',
-};
+export type BoolValue = string | boolean;
 
 @Component({
     selector: 'xm-bool-view',
@@ -31,11 +21,14 @@ const ICONS: BoolOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class BoolViewComponent implements OnInit, OnChanges, IComponent<BoolValue, BoolOptions> {
+export class BoolViewComponent implements OnInit, OnChanges {
     @Input() public value: BoolValue;
-    @Input() public options: BoolOptions = ICONS;
-
+    @Input() public options: BoolOptions;
     public icon: string;
+
+    constructor(@Inject(XM_BOOL_VIEW_ICONS) icons: BoolOptions) {
+        this.options = icons;
+    }
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (!changes.value.firstChange) {
@@ -47,7 +40,7 @@ export class BoolViewComponent implements OnInit, OnChanges, IComponent<BoolValu
         this.icon = this.getIcon(this.value);
     }
 
-    private getIcon(value: boolean | string): string {
+    private getIcon(value: boolean | string | undefined): string {
         if (value === 'false') {
             value = false;
         }
@@ -55,12 +48,3 @@ export class BoolViewComponent implements OnInit, OnChanges, IComponent<BoolValu
     }
 }
 
-@NgModule({
-    imports: [MatIconModule],
-    exports: [BoolViewComponent],
-    declarations: [BoolViewComponent],
-    providers: [],
-})
-export class XmBoolViewModule {
-    public entry: IComponentFn<BoolValue, BoolOptions> = BoolViewComponent;
-}

@@ -211,8 +211,48 @@
           }
         }
       }
+    },
+    "components": {
+      "projectType": "library",
+      "root": "packages/components",
+      "sourceRoot": "packages/components/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "packages/components/tsconfig.lib.json",
+            "project": "packages/components/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/components/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "packages/components/src/test.ts",
+            "tsConfig": "packages/components/tsconfig.spec.json",
+            "karmaConfig": "packages/components/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "packages/components/tsconfig.lib.json",
+              "packages/components/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
-  },
+},
   "defaultProject": "xm-webapp",
   "schematics": {
     "@schematics/angular:component": {

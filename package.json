@@ -30,6 +30,7 @@
     "prebuild": "npm run mng-ext && npm run install-exts && npm run translations && npm run build-themes",
     "build": "ng build --stats-json",
     "prebuild:prod": "npm run mng-ext && npm run install-exts && npm run translations",
+    "build:components": "ng build components",
     "build:prod": "ng build --prod",
     "build-aot": "npm run prebuild && node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot=true",
     "build-no-aot": "npm run prebuild && ng build --prod --aot=false",
@@ -51,7 +52,7 @@
     "merge-translations": "node ./scripts/merge-translations.js",
     "translations": "npm run get-translations && npm run merge-translations",
     "report:bundle": "webpack-bundle-analyzer dist/stats.json",
-    "postinstall": "ngcc --properties esm5 browser module main"
+    "postinstall": "npm run build:components && ngcc --properties esm5 browser module main"
   },
   "dependencies": {
     "@agm/core": "1.1.0",
@@ -60,7 +61,9 @@
     "@ajsf/core": "0.1.4",
     "@ajsf/material": "0.1.4",
     "@angular/animations": "9.1.1",
-    "@angular/cdk": "9.2.0",
+    "@angular/cdk": "9.1.1",
+    "@angular-devkit/build-ng-packagr": "~0.900.4",
+    "ng-packagr": "^9.0.0",
     "@angular/common": "9.1.1",
     "@angular/compiler": "9.1.1",
     "@angular/core": "9.1.1",

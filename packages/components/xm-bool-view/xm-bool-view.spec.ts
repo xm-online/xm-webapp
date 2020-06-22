@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BoolViewComponent } from './xm-bool-view';
+import { BoolViewComponent } from './xm-bool-view.component';
 
 describe('BoolViewComponent', () => {
     let component: BoolViewComponent;
