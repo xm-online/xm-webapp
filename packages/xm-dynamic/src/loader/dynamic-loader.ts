@@ -1,6 +1,6 @@
 import { ComponentFactory, Injectable, Injector, Type } from '@angular/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export abstract class DynamicLoader {
     abstract load<T>(
         selector: string,

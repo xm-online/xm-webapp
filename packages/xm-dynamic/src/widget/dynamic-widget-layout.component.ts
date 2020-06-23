@@ -1,6 +1,6 @@
+import { animate, AnimationTriggerMetadata, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { appearUp } from '@xm-ngx/components/animations';
 import * as _ from 'lodash';
 
 import { Layout } from '../layout.model';
@@ -10,6 +10,13 @@ export interface SanitizedLayout {
     isCustomElement: boolean;
     customParams: unknown;
 }
+
+export const appearUp: AnimationTriggerMetadata = trigger('appearUp', [
+    transition(':enter', [
+        style({opacity: 0, transform: 'translateY(1rem)'}),
+        animate('300ms ease-out', style({opacity: 1, transform: 'translateY(0)'})),
+    ]),
+]);
 
 @Component({
     selector: 'xm-dynamic-widget-layout, [xm-dynamic-widget-layout]',

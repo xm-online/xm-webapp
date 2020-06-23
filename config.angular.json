@@ -211,6 +211,46 @@
           }
         }
       }
+    },
+    "xm-dynamic": {
+      "projectType": "library",
+      "root": "packages/xm-dynamic",
+      "sourceRoot": "packages/xm-dynamic/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "packages/xm-dynamic/tsconfig.lib.json",
+            "project": "packages/xm-dynamic/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/xm-dynamic/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "packages/xm-dynamic/src/test.ts",
+            "tsConfig": "packages/xm-dynamic/tsconfig.spec.json",
+            "karmaConfig": "packages/xm-dynamic/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "packages/xm-dynamic/tsconfig.lib.json",
+              "packages/xm-dynamic/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "xm-webapp",

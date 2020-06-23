@@ -1,4 +1,4 @@
-export * from '../../../packages/xm-dynamic/index';
+export * from '../../../packages/xm-dynamic';
 
 export * from './shared/dashboard.model';
 export * from './shared/dashboard.service';
