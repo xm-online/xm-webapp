@@ -39,6 +39,10 @@ export class Principal implements OnDestroy {
         takeUntilOnDestroyDestroy(this);
     }
 
+    public isSuperAdmin(): boolean {
+        return this.userIdentity && this.userIdentity.roleKey === SUPER_ADMIN;
+    }
+
     public identityUserKey(): string {
         return this.userIdentity && this.userIdentity.userKey;
     }
