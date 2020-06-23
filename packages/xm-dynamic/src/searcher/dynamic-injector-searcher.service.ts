@@ -1,4 +1,5 @@
 import { Injectable, Injector, NgModuleRef, Type } from '@angular/core';
+
 import { DynamicNgModuleFactory } from '../dynamic.interfaces';
 import { DynamicSearcher } from './dynamic-searcher';
 

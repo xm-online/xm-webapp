@@ -1,7 +1,7 @@
 import { ComponentFactory, Injectable, Injector, NgModuleFactory, NgModuleRef, Type } from '@angular/core';
+
 import { DynamicNgModuleFactory, IDynamicModule } from '../dynamic.interfaces';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
-
 import { DynamicLoaderService, isComponentDef, isModuleDef } from './dynamic-loader.service';
 
 @Injectable({

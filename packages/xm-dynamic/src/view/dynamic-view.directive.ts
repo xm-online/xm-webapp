@@ -9,6 +9,7 @@ import {
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
+
 import { DynamicLoader } from '../loader/dynamic-loader';
 
 export interface IComponent<V, O> {

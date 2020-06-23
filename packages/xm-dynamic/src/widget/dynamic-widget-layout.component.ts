@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { appearUp } from '@xm-ngx/components/animations';
 import * as _ from 'lodash';
+
 import { Layout } from '../layout.model';
 
 export interface SanitizedLayout {

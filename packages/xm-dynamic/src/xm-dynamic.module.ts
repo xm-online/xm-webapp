@@ -1,8 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
-import { XmSharedModule } from '@xm-ngx/shared';
 import { DynamicControlDirective } from './control/dynamic-control.directive';
-import { DynamicWidgetLayoutComponent } from './view/dynamic-widget-layout.component';
-import { DynamicWidgetDirective } from './view/dynamic-widget.directive';
+import { DynamicWidgetLayoutComponent } from './widget/dynamic-widget-layout.component';
+import { DynamicWidgetDirective } from './widget/dynamic-widget.directive';
 import { DYNAMIC_COMPONENTS } from './dynamic.injectors';
 import { DynamicComponents } from './dynamic.interfaces';
 import { DynamicLoader } from './loader/dynamic-loader';
@@ -17,7 +17,7 @@ export function dynamicModuleInitializer(components: DynamicComponents): Provide
 }
 
 @NgModule({
-    imports: [XmSharedModule],
+    imports: [CommonModule],
     exports: [
         DynamicViewDirective,
         DynamicControlDirective,

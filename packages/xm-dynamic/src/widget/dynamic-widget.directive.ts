@@ -9,6 +9,7 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
+
 import { DynamicLoader } from '../loader/dynamic-loader';
 
 export interface IWidget<C = any, S = any> {

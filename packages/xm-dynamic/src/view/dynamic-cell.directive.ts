@@ -12,6 +12,7 @@ import {
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
+
 import * as _ from 'lodash';
 import { DynamicLoader } from '../loader/dynamic-loader';
 import { DynamicViewDirective, IComponentFn } from './dynamic-view.directive';

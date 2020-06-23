@@ -9,6 +9,7 @@ import {
     Optional,
     Type,
 } from '@angular/core';
+
 import { DynamicNgModuleFactory } from '../dynamic.interfaces';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
 

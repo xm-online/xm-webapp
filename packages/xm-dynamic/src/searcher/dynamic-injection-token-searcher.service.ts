@@ -1,5 +1,6 @@
 import { Injectable, Injector, NgModuleRef, Type } from '@angular/core';
 import * as _ from 'lodash';
+
 import { DYNAMIC_COMPONENTS } from '../dynamic.injectors';
 import { DynamicComponents, DynamicNgModuleFactory } from '../dynamic.interfaces';
 import { DynamicSearcher } from './dynamic-searcher';

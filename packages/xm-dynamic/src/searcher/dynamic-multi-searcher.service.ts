@@ -1,4 +1,5 @@
 import { Injectable, Injector, NgModuleRef, Type } from '@angular/core';
+
 import { DynamicNgModuleFactory } from '../dynamic.interfaces';
 import { DynamicInjectionTokenSearcherService } from './dynamic-injection-token-searcher.service';
 import { DynamicInjectorSearcherService } from './dynamic-injector-searcher.service';

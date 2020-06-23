@@ -1,4 +1,5 @@
 import { Injectable, Injector, Type } from '@angular/core';
+
 import { DynamicNgModuleFactory } from '../dynamic.interfaces';
 
 @Injectable()
