@@ -16,7 +16,7 @@ import * as _ from 'lodash';
 import { Container } from './container';
 import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
 
-@Directive({selector: '[xmContainerOutlet]'})
+@Directive({ selector: '[xmContainerOutlet]' })
 export class ContainerOutlet {
     constructor(public viewContainerRef: ViewContainerRef) {
     }
@@ -28,12 +28,11 @@ export class ContainerOutlet {
 })
 export class XmSidebarRight implements OnInit, OnDestroy {
 
-    @ViewChild(ContainerOutlet, {static: true}) public xmContainerOutlet: ContainerOutlet;
+    @ViewChild(ContainerOutlet, { static: true }) public xmContainerOutlet: ContainerOutlet;
 
     @HostBinding('style.width') public width: string;
 
-    constructor(private sidebarRightService: SidebarRightService,
-                private componentFactoryResolver: ComponentFactoryResolver) {
+    constructor(private sidebarRightService: SidebarRightService) {
     }
 
     public ngOnInit(): void {
@@ -66,7 +65,8 @@ export class XmSidebarRight implements OnInit, OnDestroy {
 
     private loadComponent<T, D>(templateRef: Type<T>, config: SidebarRightConfig<D>): T {
         const viewContainerRef = this.xmContainerOutlet.viewContainerRef;
-        const cfr = this.componentFactoryResolver.resolveComponentFactory(templateRef);
+        const componentFactoryResolver = config.injector.get(ComponentFactoryResolver);
+        const cfr = componentFactoryResolver.resolveComponentFactory(templateRef);
         const c = viewContainerRef.createComponent<T>(cfr, null, config.injector);
         _.assign(c.instance, config.data);
 

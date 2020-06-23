@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -95,6 +96,7 @@ export class XmTextControl extends NgModelWrapper<Primitive> implements IControl
         MatInputModule,
         FormsModule,
         XmTranslationModule,
+        CommonModule,
     ],
     exports: [XmTextControl],
     declarations: [XmTextControl],
