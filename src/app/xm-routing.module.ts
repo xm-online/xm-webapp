@@ -24,12 +24,14 @@ const ROUTES: Routes = [
         path: 'dashboard',
         loadChildren: () => import('./xm-dashboard/xm-dashboard.module').then((m) => m.XmDashboardModule),
     },
+    {
+        path: 'public',
+        loadChildren: () => import('./xm-public/xm-public.module').then((m) => m.XmPublicModule),
+    },
 ];
 
 @NgModule({
-    imports: [
-        RouterModule.forRoot(ROUTES),
-    ],
+    imports: [RouterModule.forRoot(ROUTES)],
     exports: [RouterModule],
 })
 export class XmRoutingModule {
