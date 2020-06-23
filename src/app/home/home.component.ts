@@ -9,6 +9,7 @@ import { Account, AuthServerProvider, Principal } from '../shared';
 import { XmConfigService } from '../shared/spec/config.service';
 import { Widget } from '../xm-dashboard';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, XM_EVENT_LIST } from '../xm.constants';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'xm-home',
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 private eventManager: JhiEventManager,
                 private xmConfigService: XmConfigService,
                 private http: HttpClient,
+                private router: Router,
                 private authServerProvider: AuthServerProvider) {
     }
 
@@ -43,28 +45,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         this.registerAuthenticationSuccess();
 
-        this.getAccessToken().subscribe(() => {
-            this.xmConfigService.getUiConfig().subscribe((result) => {
-                if (result) {
-                    if (result.defaultLayout) {
-                        this.defaultLayout = result.defaultLayout.map((row) => {
-                            row.content = row.content.map((el) => {
-                                el.widget = this.getWidgetComponent(el.widget);
-                                return el;
-                            });
-                            return row;
-                        });
-                    } else {
-                        this.defaultWidget = this.getWidgetComponent(result.defaultWidget);
-                    }
-                } else {
-                    this.defaultWidget = this.getWidgetComponent();
-                }
-            }, (err) => {
-                console.warn(err);
-                this.defaultWidget = this.getWidgetComponent();
+        if (!this.isAuthenticated()) {
+            this.getAccessToken().subscribe(() => {
+                this.getConfigAndNavigate();
             });
-        });
+        } else if (this.isAuthenticated()) {
+            this.router.navigate(['dashboard'], { replaceUrl: true });
+        }
     }
 
     public ngOnDestroy(): void {
@@ -81,6 +68,29 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     public isAuthenticated(): boolean {
         return this.principal.isAuthenticated();
+    }
+
+    private getConfigAndNavigate(): void {
+        this.xmConfigService.getUiConfig().subscribe((result) => {
+            if (result) {
+                if (result.defaultLayout) {
+                    this.defaultLayout = result.defaultLayout.map((row) => {
+                        row.content = row.content.map((el) => {
+                            el.widget = this.getWidgetComponent(el.widget);
+                            return el;
+                        });
+                        return row;
+                    });
+                } else {
+                    this.defaultWidget = this.getWidgetComponent(result.defaultWidget);
+                }
+            } else {
+                this.defaultWidget = this.getWidgetComponent();
+            }
+        }, (err) => {
+            console.warn(err);
+            this.defaultWidget = this.getWidgetComponent();
+        });
     }
 
     private getAccessToken(): Observable<void> {

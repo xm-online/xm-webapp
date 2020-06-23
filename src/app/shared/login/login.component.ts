@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
             || ((/activate/).test(this.router.url))
             || this.router.url === '/finishReset'
             || this.router.url === '/requestReset') {
-            this.router.navigate(['']);
+            this.router.navigate([''], { replaceUrl: true });
         }
 
         this.eventManager.broadcast({
@@ -112,9 +112,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
         // since login is succesful, go to stored previousState and clear previousState
         const redirect = this.stateStorageService.getUrl();
         if (redirect) {
-            this.router.navigate([redirect]);
+            this.router.navigate([redirect], { replaceUrl: true });
         } else {
-            this.router.navigate(['dashboard']);
+            this.router.navigate(['dashboard'], { replaceUrl: true });
         }
     }
 
