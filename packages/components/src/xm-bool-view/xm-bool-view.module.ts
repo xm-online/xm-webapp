@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -10,7 +11,7 @@ const XM_BOOL_VIEW_ICONS_DEFAULT: BoolOptions = {
 };
 
 @NgModule({
-    imports: [MatIconModule],
+    imports: [MatIconModule, CommonModule],
     exports: [BoolViewComponent],
     declarations: [BoolViewComponent],
     providers: [{ provide: XM_BOOL_VIEW_ICONS, useValue: XM_BOOL_VIEW_ICONS_DEFAULT }],

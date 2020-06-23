@@ -22,11 +22,16 @@ export type BoolValue = string | boolean;
 })
 export class BoolViewComponent implements OnInit, OnChanges {
     @Input() public value: BoolValue;
-    @Input() public options: BoolOptions;
     public icon: string;
 
-    constructor(@Inject(XM_BOOL_VIEW_ICONS) icons: BoolOptions) {
-        this.options = icons;
+    constructor(@Inject(XM_BOOL_VIEW_ICONS) public icons: BoolOptions) {
+    }
+
+    @Input()
+    public set options(value: { icons: BoolOptions }) {
+        if (value.icons) {
+            this.icons = value.icons;
+        }
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -43,6 +48,6 @@ export class BoolViewComponent implements OnInit, OnChanges {
         if (value === 'false') {
             value = false;
         }
-        return this.options[String(Boolean(value))];
+        return this.icons[String(Boolean(value))];
     }
 }
