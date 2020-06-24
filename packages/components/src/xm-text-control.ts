@@ -66,7 +66,7 @@ const TRANSLATES = {
         </mat-form-field>
     `,
     styles: [''],
-    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmTextControl), multi: true}],
+    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmTextControl), multi: true }],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
@@ -86,7 +86,7 @@ export class XmTextControl extends NgModelWrapper<Primitive> implements IControl
 
     @Input()
     public set options(value: ITextControlOptions) {
-        this._options = _.defaults(value, DEFAULT_OPTIONS);
+        this._options = _.defaults({}, value, DEFAULT_OPTIONS);
         this._options.placeholder = this._options.placeholder || this._options.title;
     }
 }
