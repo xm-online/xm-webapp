@@ -18,9 +18,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 }
 
 @NgModule({
-    imports: [
-        CommonModule,
-    ],
+    imports: [CommonModule],
     declarations: [TranslatePipe, TranslateDirective],
     providers: [
         TranslatePipe,
@@ -31,7 +29,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     exports: [TranslatePipe, TranslateDirective],
 })
 export class XmTranslationModule {
-    public static forRoot(): ModuleWithProviders {
+    public static forRoot(): ModuleWithProviders<XmTranslationModule> {
         return {
             ngModule: XmTranslationModule,
             providers: [
@@ -47,7 +45,7 @@ export class XmTranslationModule {
         };
     }
 
-    public static forChild(): ModuleWithProviders {
+    public static forChild(): ModuleWithProviders<XmTranslationModule> {
         return {
             ngModule: XmTranslationModule,
             providers: [],

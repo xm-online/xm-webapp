@@ -12,7 +12,7 @@ import { AuthInterceptor } from './auth.interceptor';
     providers: [],
 })
 export class XmCoreAuthModule {
-    public static forRoot(): ModuleWithProviders{
+    public static forRoot(): ModuleWithProviders<XmCoreAuthModule> {
         return {
             providers: [
                 {
@@ -29,12 +29,10 @@ export class XmCoreAuthModule {
                     provide: HTTP_INTERCEPTORS,
                     useClass: AuthExpiredInterceptor,
                     multi: true,
-                    deps: [
-                        Injector,
-                    ],
+                    deps: [Injector],
                 },
             ],
-            ngModule: XmCoreAuthModule
-        }
+            ngModule: XmCoreAuthModule,
+        };
     }
 }
