@@ -46,7 +46,7 @@ export class DatetimePickerComponent implements OnInit {
         const value = event.value || null;
         const formatString = this.getFormat();
         this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
-        this.jsf.updateValue(this, moment(value).utc().format(DEF_FORMAT));
+        this.jsf.updateValue(this, moment(value).local().format(formatString));
     }
 
     private getFormat(): string {
