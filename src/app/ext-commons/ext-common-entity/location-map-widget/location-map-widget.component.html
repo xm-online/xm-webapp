@@ -15,10 +15,8 @@
         {{group.name}}
       </button>
     </div>
-    <xm-loader [showLoader]="loading$ | async"></xm-loader>
     <ng-template (gMapApiReady)="onAfterGMapApiInit()" xmGMapApiInit>
       <div [id]="mapId" class="map"></div>
     </ng-template>
-
   </div>
 </div>
