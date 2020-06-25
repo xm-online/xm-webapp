@@ -25,7 +25,7 @@ import { XmDynamicModule } from '../../../packages/xm-dynamic/src/xm-dynamic.mod
     providers: [WidgetService],
 })
 export class XmDashboardModule {
-    public static forRoot(): ModuleWithProviders {
+    public static forRoot(): ModuleWithProviders<XmDashboardModule> {
         return {
             ngModule: XmDashboardModule,
             providers: [
