@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 
 type Primitive = undefined | boolean | number | string | null;
 
-interface ITextControlOptions {
+export interface ITextControlOptions {
     title?: string;
     type?: string;
     placeholder?: string;
