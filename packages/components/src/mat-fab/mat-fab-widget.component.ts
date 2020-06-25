@@ -37,7 +37,7 @@ export class MatFabWidget implements IWidget<FabConfig> {
 
     @Input()
     public set config(value: FabConfig) {
-        this._config = _.defaults(value, DEFAULT_FAB_CONFIG);
+        this._config = _.defaults({}, value, DEFAULT_FAB_CONFIG);
     }
 
     public onClick(): void {

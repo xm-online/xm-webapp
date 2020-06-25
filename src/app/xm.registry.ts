@@ -91,7 +91,7 @@ export const XM_ELEMENTS: DynamicComponents = [
     },
     {
         selector: '@xm-ngx/components/innerHTML',
-        loadChildren: () => import('@xm-ngx/components/innerHTML').then(m => m.InnerHTMLModule),
+        loadChildren: () => import('@xm-ngx/components/xm-inner-html-widget.component').then(m => m.InnerHTMLModule),
     },
     {
         selector: '@xm-ngx/components/mat-fab',
