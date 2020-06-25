@@ -29,7 +29,6 @@
               "includePaths": ["src/styles", "src/app/ext"]
             },
             "scripts": [
-              "node_modules/hammerjs/hammer.min.js",
               "node_modules/jquery/dist/jquery.js",
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
@@ -135,7 +134,6 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "scripts": [
-              "node_modules/hammerjs/hammer.min.js",
               "node_modules/jquery/dist/jquery.js",
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
