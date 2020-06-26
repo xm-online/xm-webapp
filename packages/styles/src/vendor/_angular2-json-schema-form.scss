@@ -3,7 +3,7 @@
     * angular2-json-schema incorrectly override this class with ::ng-deep
     * restore default value
     */
-  json-schema-form mat-form-field.mat-form-field {
+  mat-form-field.mat-form-field {
     display:    initial;
     position:   initial;
     text-align: initial;
