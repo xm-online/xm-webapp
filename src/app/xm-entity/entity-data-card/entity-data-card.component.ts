@@ -7,7 +7,6 @@ import { buildJsfAttributes, nullSafe } from '../../shared/jsf-extention/jsf-att
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
-import { MediaMarshaller } from "@angular/flex-layout";
 
 
 @Component({
@@ -25,28 +24,24 @@ export class EntityDataCardComponent implements OnInit {
     public jsfAttributes: any;
     public showLoader: boolean;
 
-    constructor(private xmEntityService: XmEntityService,
-                private toasterService: XmToasterService,
-                private eventManager: XmEventManager,
-                private mediaMarshaller: MediaMarshaller) {
+    constructor(
+        private xmEntityService: XmEntityService,
+        private toasterService: XmToasterService,
+        private eventManager: XmEventManager,
+    ) {
     }
 
     public ngOnInit(): void {
         this.load();
-        setTimeout(() => this.mediaMarshaller.updateStyles(), 0)
-    }
-
-    public onChangeForm(formValue: any): void {
-        setTimeout(() => this.mediaMarshaller.updateStyles(), 0)
     }
 
     public onSubmitForm(data: any): void {
         this.showLoader = true;
-        this.xmEntity.data = Object.assign({}, data);
+        this.xmEntity.data = { ...data };
         this.xmEntityService.update(this.xmEntity).pipe(finalize(() => this.showLoader = false))
             .subscribe(
                 (res) => {
-                    this.eventManager.broadcast({name: 'xmEntityDetailModification', content: {entity: res.body}});
+                    this.eventManager.broadcast({ name: 'xmEntityDetailModification', content: { entity: res.body } });
                     this.xmEntity = Object.assign(this.xmEntity, res.body);
                     this.toasterService.success('xm-entity.entity-data-card.update-success');
                 },

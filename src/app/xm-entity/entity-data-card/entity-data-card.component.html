@@ -9,7 +9,6 @@
     <xm-loader [showLoader]="showLoader"></xm-loader>
     <json-schema-form (formLayout)="jsfAttributes.formLayout"
                       (onSubmit)="onSubmitForm($event)"
-                      (onChanges)="onChangeForm($event)"
                       *ngIf="jsfAttributes?.schema"
                       [data]="jsfAttributes.data"
                       [form]="jsfAttributes.form | i18nJsf"
