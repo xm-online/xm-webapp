@@ -32,67 +32,7 @@
            [class.active]="i == activeItemId"
            class="tab-pane"
            id="{{'wdt-entity-group-' + i}}">
-        <div *ngIf="!(options?.hideOptionsMenu)" class="dropdown xm-entity-list-actions">
-          <button [matMenuTriggerFor]="entityListActions" mat-icon-button>
-            <mat-icon>more_vert</mat-icon>
-          </button>
 
-          <mat-menu #entityListActions="matMenu">
-            <button (click)="onRefresh()" class="btn-sm" mat-menu-item>
-              {{'xm-entity.entity-list-card.refresh' | translate}}
-            </button>
-            <button (click)="isShowFilterArea = !isShowFilterArea" *ngIf="item.filter" class="btn-sm" mat-menu-item>
-              <ng-container *ngIf="isShowFilterArea">
-                {{'xm-entity.entity-list-card.filters-hide' | translate}}
-              </ng-container>
-              <ng-container *ngIf="!isShowFilterArea">
-                {{'xm-entity.entity-list-card.filters-show' | translate}}
-              </ng-container>
-            </button>
-            <ng-container *ngIf="item.xmEntitySpec?.functions && item.xmEntitySpec?.functions.length">
-              <xm-function-list-section [functionSpecs]="item.xmEntitySpec?.functions" [listView]="true">
-              </xm-function-list-section>
-            </ng-container>
-            <button *xmPermitted="['XMENTITY.EXPORT.FILE']"
-                    [matMenuTriggerFor]="entityListActionDownloads"
-                    class="btn-sm"
-                    mat-menu-item>
-              {{'xm-entity.entity-list-card.export.action.downloads' | translate}}
-            </button>
-          </mat-menu>
-
-          <mat-menu #entityListActionDownloads="matMenu">
-            <button (click)="onFileExport(item, 'xlsx')" class="btn-sm" mat-menu-item>
-              {{'xm-entity.entity-list-card.export.action.xls' | translate}}
-            </button>
-            <button (click)="onFileExport(item, 'csv');" class="btn-sm" mat-menu-item>
-              {{'xm-entity.entity-list-card.export.action.csv' | translate}}
-            </button>
-          </mat-menu>
-        </div>
-
-        <div class="row">
-          <!-- start fast search -->
-          <div *xmPermitted="['XMENTITY.SEARCH.QUERY']" class="col-sm-8">
-            <div *ngIf="item.fastSearch?.length > 1" class="btn-group">
-              <button (click)="onApplyFastSearch(item, getDefaultSearch(item))"
-                      *ngIf="!isHideAll(item.typeKey)"
-                      [class.disabled]="item.currentQuery === getDefaultSearch(item)"
-                      class="btn btn-primary btn-sm"
-                      mat-button>
-                <span jhiTranslate="global.all">All</span>
-              </button>
-              <button (click)="onApplyFastSearch(item, fastSearch.query)"
-                      *ngFor="let fastSearch of getFastSearches(item)"
-                      [class.disabled]="item.currentQuery === fastSearch.query"
-                      class="btn btn-primary btn-sm"
-                      mat-button>
-                {{fastSearch.name | translate}}
-              </button>
-            </div>
-          </div>
-          <!-- end fast search -->
-        </div>
 
         <!-- start filter area -->
         <div *ngIf="isShowFilterArea" class="row">

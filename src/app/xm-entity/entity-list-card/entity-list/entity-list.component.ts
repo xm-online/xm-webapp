@@ -44,7 +44,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
     @Input() public reverse: boolean;
     @Input() public pageSize: number;
     @Input() public spec: Spec;
-    @Output() public load: EventEmitter<any> = new EventEmitter();
+    @Output() public load = new EventEmitter();
 
     public showLoader: boolean;
     public currentEntitiesUiConfig: any[];
@@ -68,6 +68,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
                 private alertService: XmAlertService) { }
 
     public ngOnInit(): void {
+        console.log(this)
         this.tableDataSource = this.createDataSource(this.item.entities);
 
         this.entityListActionSuccessSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS)
@@ -76,7 +77,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
             .subscribe( () => this.loadEntitiesPaged({}));
 
         this.item.fields
-            .filter((f) => f?.field.includes('data.'))
+            .filter((f) => f.field && f.field.indexOf('data.') === 0)
             .map((f) => f.sortable = false);
         // this.item.currentQuery = this.item.currentQuery ? this.item.currentQuery : this.getDefaultSearch(this.item);
         if (this.item.filter) {
@@ -84,7 +85,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
         }
         if (this.item.fields) { // Workaroud: server sorting doesn't work atm for nested "data" fields
             this.item.fields
-                .filter((f) => f?.field.includes('data.'))
+                .filter((f) => f.field && f.field.indexOf('data.') === 0)
                 .map((f) => f.sortable = false);
         }
     }
@@ -127,6 +128,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
     }
 
     public onApplyFastSearch(entityOptions: EntityOptions, query: string): void {
+        console.log(entityOptions, query, this);
         entityOptions.currentQuery = query;
         this.paginator.pageIndex = 0;
         this.loadEntitiesPaged(entityOptions).subscribe((result) => this.tableDataSource.data = result);
@@ -155,6 +157,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
 
 
     protected loadEntitiesPaged(entityOptions: EntityOptions): Observable<XmEntity[]> {
+        console.log('on load', entityOptions);
         this.showLoader = true;
 
         const options: any = {
@@ -177,7 +180,6 @@ export class EntityListComponent implements OnInit, OnDestroy {
             map((xmEntities: HttpResponse<XmEntity[]>) => xmEntities.body),
             map((xmEntities: XmEntity[]) => xmEntities.map(e => this.enrichEntity(e))),
             catchError((err) => {
-                // eslint-disable-next-line no-console
                 console.log(err);
                 this.showLoader = false;
                 return of([]);
