@@ -71,7 +71,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
         console.log(this)
         this.tableDataSource = this.createDataSource(this.item.entities);
 
-        This.entityListActionSuccessSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS)
+        this.entityListActionSuccessSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS)
             .subscribe( () => this.loadEntitiesPaged({}));
         this.entityEntityListModificationSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION)
             .subscribe( () => this.loadEntitiesPaged({}));
@@ -79,6 +79,15 @@ export class EntityListComponent implements OnInit, OnDestroy {
         this.item.fields
             .filter((f) => f.field && f.field.indexOf('data.') === 0)
             .map((f) => f.sortable = false);
+        // this.item.currentQuery = this.item.currentQuery ? this.item.currentQuery : this.getDefaultSearch(this.item);
+        if (this.item.filter) {
+            this.item.filterJsfAttributes = buildJsfAttributes(this.item.filter.dataSpec, this.item.filter.dataForm);
+        }
+        if (this.item.fields) { // Workaroud: server sorting doesn't work atm for nested "data" fields
+            this.item.fields
+                .filter((f) => f.field && f.field.indexOf('data.') === 0)
+                .map((f) => f.sortable = false);
+        }
     }
 
 
