@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
 import { environment } from '@xm-ngx/core/environment';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { DEBUG_INFO_ENABLED } from '../../xm.constants';
 
@@ -9,7 +10,7 @@ import { DEBUG_INFO_ENABLED } from '../../xm.constants';
     selector: 'xm-navbar-logo-component',
     template: `
         <div class="xm-nav-logo">
-            <a [routerLink]="isSessionActive ? '/dashboard' : '/'"
+            <a [routerLink]="(isSessionActive$ | async) ? '/dashboard' : '/'"
                class="row flex-nowrap no-gutters align-items-center">
                 <span *ngIf="tenantLogoUrl" class="col"><img [src]="tenantLogoUrl" [alt]="tenantName"/></span>
                 <span class="col-auto"><strong class="logo-text">{{tenantName}}</strong></span>
@@ -21,7 +22,7 @@ import { DEBUG_INFO_ENABLED } from '../../xm.constants';
 export class XmNavbarLogoComponent implements OnInit, OnDestroy {
     public tenantLogoUrl: string = '../assets/img/logo-xm-online.png';
     public tenantName: string;
-    public isSessionActive: boolean;
+    public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
     private version: string;
 
     constructor(
@@ -36,10 +37,6 @@ export class XmNavbarLogoComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.xmSessionService.isActive()
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe((isActive) => this.isSessionActive = isActive);
-
         this.xmUiConfigService.config$().pipe(
             filter((i) => Boolean(i)),
             takeUntilOnDestroy(this),

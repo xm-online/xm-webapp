@@ -2,11 +2,12 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { LanguageService, Locale } from '@xm-ngx/translation';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'xm-navbar-language-menu-component',
     template: `
-        <div *ngIf="!isSessionActive" class="navbar-container-part langs-part">
+        <div *ngIf="(isSessionActive$ | async) === false" class="navbar-container-part langs-part">
             <ul class="navbar-nav navbar-right xm-langs-chooser">
                 <li class="dropdown">
                     <button aria-expanded="false"
@@ -33,7 +34,7 @@ import { LanguageService, Locale } from '@xm-ngx/translation';
 })
 export class XmNavbarLanguageMenuComponent implements OnInit {
     public languages: Locale[];
-    public isSessionActive: boolean;
+    public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
     constructor(
         private xmUiConfigService: XmUiConfigService,
@@ -43,10 +44,6 @@ export class XmNavbarLanguageMenuComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.xmSessionService.isActive()
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe((isActive) => this.isSessionActive = isActive);
-
         this.xmUiConfigService.config$().pipe(takeUntilOnDestroy(this)).subscribe((config) => {
             this.languages = (config && config.langs) ? config.langs : this.languageService.languages;
         });

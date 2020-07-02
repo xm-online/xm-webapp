@@ -10,7 +10,7 @@ import { filter, mergeMap, tap } from 'rxjs/operators';
 @Component({
     selector: 'xm-navbar-input-search',
     template: `
-        <div *ngIf="isShowSearchPanel && isSessionActive" class="navbar-container-part search-part">
+        <div *ngIf="isShowSearchPanel && isSessionActive$ | async" class="navbar-container-part search-part">
             <form class="navbar-form navbar-right" role="search">
                 <div class="input-group no-border">
                     <input #searchBox [regexp]="searchMask"
@@ -35,7 +35,7 @@ import { filter, mergeMap, tap } from 'rxjs/operators';
 export class XmNavbarInputSearchComponent implements OnInit {
     public searchMask: string = '';
     public isShowSearchPanel: boolean = true;
-    public isSessionActive: boolean;
+    public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
     constructor(
         private router: Router,
@@ -47,10 +47,6 @@ export class XmNavbarInputSearchComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.xmSessionService.isActive()
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe((isActive) => this.isSessionActive = isActive);
-
         this.uiConfigService.config$().pipe(
             filter((i) => Boolean(i)),
             takeUntilOnDestroy(this),
