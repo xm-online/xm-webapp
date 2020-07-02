@@ -1,6 +1,6 @@
 import { BaseEntity } from '@xm-ngx/entity';
 import { Translate } from '@xm-ngx/translation';
-import { Layout } from './layout.model';
+import { Layout } from '../../../../packages/xm-dynamic/src/layout.model';
 import { Widget } from './widget.model';
 
 export type JavascriptCode = string;

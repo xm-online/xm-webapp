@@ -40,7 +40,7 @@ const DEFAULT_OPTIONS: IAceEditorControlOptions = {
     `,
     // TODO: move to global
     styles: [
-            `
+        `
             .ace-editor-control {
                 width: 100%;
             }
@@ -62,7 +62,7 @@ export class AceEditorControlComponent extends NgModelWrapper<string | object> {
 
     @Input()
     public set options(value: IAceEditorControlOptions) {
-        this._options = _.defaults(value, DEFAULT_OPTIONS);
+        this._options = _.defaults({}, value, DEFAULT_OPTIONS);
     }
 
     public _value: string;

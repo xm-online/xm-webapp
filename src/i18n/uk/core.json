@@ -313,7 +313,7 @@
       "title": "Обмінний калькулятор"
     },
     "sign-in-up-widget": {
-      "sign-in": "Увійти",
+      "sign-in": "Вхід",
       "sign-up": "Зареєструватися"
     },
     "weather-widget": {
@@ -367,7 +367,7 @@
       "firstname": "Ім'я",
       "language": "Мова",
       "lastname": "Прізвище",
-      "login": "Увійти",
+      "login": "Логін",
       "newpassword": "Новий пароль",
       "oldpassword": "Старий пароль",
       "otp": "One Time Password",

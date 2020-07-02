@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Layout } from '../../shared/layout.model';
+import { Layout } from '../layout.model';
 import { DynamicWidgetLayoutComponent } from './dynamic-widget-layout.component';
 import { IComponent } from './dynamic-view.directive';
 

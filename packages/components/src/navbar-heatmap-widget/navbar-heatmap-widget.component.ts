@@ -1,15 +1,18 @@
-import { Component, NgModule, NgZone, Type } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { NavigationEnd, Router } from '@angular/router';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { HeatmapService } from './heatmap.service';
+import {Component, NgModule, NgZone, Type} from '@angular/core';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {NavigationEnd, Router} from '@angular/router';
+import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/shared/operators';
+import {HeatmapService} from './heatmap.service';
+import {CommonModule} from "@angular/common";
+import {Principal} from "../../../../src/app/shared/auth";
 
 @Component({
     selector: 'xm-navbar-dashboard-edit-widget',
     template: `
         <button mat-icon-button
                 class="heatmap-icon"
+                *ngIf="isSuperAdmin()"
                 [color]="active ? 'primary' : null"
                 (click)="toggleHeatmap()">
             <mat-icon>whatshot</mat-icon>
@@ -20,10 +23,12 @@ import { HeatmapService } from './heatmap.service';
 export class NavbarHeatmapWidgetComponent {
 
     public active: boolean;
+
     constructor(
         private zone: NgZone,
         private heatmapService: HeatmapService,
         private router: Router,
+        private principal: Principal,
     ) {
     }
 
@@ -46,6 +51,10 @@ export class NavbarHeatmapWidgetComponent {
                 this.heatmapService.initialize(heatmapContainerElement, val.url);
             }
         });
+    }
+
+    public isSuperAdmin(): boolean {
+        return this.principal.isSuperAdmin();
     }
 
     public heatmapMouseMove(event: any): void {
@@ -71,7 +80,7 @@ export class NavbarHeatmapWidgetComponent {
     exports: [NavbarHeatmapWidgetComponent],
     declarations: [NavbarHeatmapWidgetComponent],
     providers: [],
-    imports: [MatIconModule, MatButtonModule],
+    imports: [MatIconModule, MatButtonModule, CommonModule],
 })
 export class NavbarHeatmapWidgetModule {
     public entry: Type<NavbarHeatmapWidgetComponent> = NavbarHeatmapWidgetComponent;

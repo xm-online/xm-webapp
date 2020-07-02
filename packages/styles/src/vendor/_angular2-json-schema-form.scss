@@ -8,4 +8,11 @@
     position:   initial;
     text-align: initial;
   }
+
+  /**
+   * fix layout problem between material flex and ajsf
+   */
+  json-schema-form flex-layout-root-widget.form-flex-column div {
+    flex: 1 1 100% !important;
+  }
 }

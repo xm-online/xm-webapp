@@ -12,6 +12,7 @@ import { JhiHealthService } from './health.service';
 export class JhiHealthCheckComponent implements OnInit {
 
     public healthData: any;
+    public displayedColumns: string[] = ['service', 'status', 'details'];
     public showLoader: boolean;
     public allHealthChecks: any[];
     public services: any[];
@@ -75,8 +76,8 @@ export class JhiHealthCheckComponent implements OnInit {
         this.healthData = currentMetrics && currentMetrics.health
             ? this.healthService.transformHealthData(currentMetrics.health)
             : [];
-        this.selectedInstanceStatus =
-            currentMetrics
+        this.selectedInstanceStatus
+            = currentMetrics
             && currentMetrics.health
             && currentMetrics.health.status
                 ? currentMetrics.health.status : null;
@@ -95,7 +96,7 @@ export class JhiHealthCheckComponent implements OnInit {
     }
 
     public showHealth(health: any): void {
-        const modalRef = this.modalService.open(JhiHealthModalComponent, {width: '500px'});
+        const modalRef = this.modalService.open(JhiHealthModalComponent, { width: '500px' });
         modalRef.componentInstance.currentHealth = health;
     }
 

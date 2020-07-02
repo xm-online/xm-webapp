@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -17,7 +18,7 @@ import * as _ from 'lodash';
 
 type Primitive = undefined | boolean | number | string | null;
 
-interface ITextControlOptions {
+export interface ITextControlOptions {
     title?: string;
     type?: string;
     placeholder?: string;
@@ -54,7 +55,7 @@ const TRANSLATES = {
                    #input="ngModel"
                    [disabled]="disabled"
                    [attr.name]="options.name"
-                   [attr.id]="options.id"
+                   [id]="options.id"
                    [attr.required]="options.required"
                    [attr.pattern]="options.pattern"
                    [attr.type]="options.type">
@@ -65,7 +66,7 @@ const TRANSLATES = {
         </mat-form-field>
     `,
     styles: [''],
-    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmTextControl), multi: true}],
+    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmTextControl), multi: true }],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
@@ -85,7 +86,7 @@ export class XmTextControl extends NgModelWrapper<Primitive> implements IControl
 
     @Input()
     public set options(value: ITextControlOptions) {
-        this._options = _.defaults(value, DEFAULT_OPTIONS);
+        this._options = _.defaults({}, value, DEFAULT_OPTIONS);
         this._options.placeholder = this._options.placeholder || this._options.title;
     }
 }
@@ -95,6 +96,7 @@ export class XmTextControl extends NgModelWrapper<Primitive> implements IControl
         MatInputModule,
         FormsModule,
         XmTranslationModule,
+        CommonModule,
     ],
     exports: [XmTextControl],
     declarations: [XmTextControl],

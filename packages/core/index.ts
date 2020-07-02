@@ -1,3 +1,5 @@
+export * from './src/error-handler.interceptor';
+
 export { XmEventManagerService as XmEventManager } from './src/xm-event-manager.service';
 export { RequestCacheFactoryService } from './src/cache/request-cache-factory.service';
 export { RequestCache } from './src/cache/request-cache';

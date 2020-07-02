@@ -1,42 +1,31 @@
 import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
+import { IEnumValueOptions, XmEnumValueViewModule } from '@xm-ngx/components/xm-enum-value-view';
+import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
-type Titles = { [value: string]: Translate } | Translate[];
-
-export interface IEnumOptions {
+export interface IEnumOptions extends IEnumValueOptions {
     title?: Translate;
-    titles?: Titles;
 }
 
 @Component({
     selector: 'xm-enum-view',
     template: `
-        <span class="xm-enum-view--title">{{options.title | translate}}</span>
-        <span class="xm-enum-view--value">{{(titles[value] || value) | translate}}</span>
+        <xm-text>
+            <span xmLabel>{{options.title | translate}}</span>
+            <span xmValue><xm-enum-value-view [value]="value" [options]="options"></xm-enum-value-view></span>
+        </xm-text>
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmEnumView implements IComponent<string, IEnumOptions> {
     @Input() public value: string;
-
-    public titles: Titles;
-    private _options: IEnumOptions;
-
-    public get options(): IEnumOptions {
-        return this._options;
-    }
-
-    @Input()
-    public set options(value: IEnumOptions) {
-        this.titles = value && value.titles ? value.titles : [];
-        this._options = value;
-    }
+    @Input() public options: IEnumOptions;
 }
 
 @NgModule({
-    imports: [XmTranslationModule],
+    imports: [XmTranslationModule, XmTextViewModule, XmEnumValueViewModule],
     exports: [XmEnumView],
     declarations: [XmEnumView],
     providers: [],

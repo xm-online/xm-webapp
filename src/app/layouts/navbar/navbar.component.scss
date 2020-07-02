@@ -1,5 +1,3 @@
-@import 'navbar-toggler';
-
 @mixin flex() {
   display: -webkit-box;
   display: -moz-box;
@@ -58,8 +56,11 @@
 
 // TODO; redesign and remove ng-deep
 ::ng-deep {
+  @import 'navbar-toggler';
+
   .xm-navbar-container {
     @include flex();
+    @include flex-grow(1);
     @include flex-direction(row);
     @include flex-wrap(nowrap);
     align-items: center;
@@ -104,12 +105,13 @@
       margin-top:       6px;
       background-color: inherit;
       border:           0;
-      background:       center bottom no-repeat,center calc(100% - 1px);
+      background:       center bottom no-repeat, center calc(100% - 1px);
       background-size:  0 100%, 100% 100%;
       transition:       all ease-out 300ms;
     }
+
     .search-input:focus {
-      outline: none;
+      outline:         none;
       background-size: 100% 100%, 100% 100%;
     }
 
@@ -208,10 +210,6 @@
         margin-right: -5px;
       }
     }
-  }
-
-  .top-0 {
-    top: 0;
   }
 
   // @todo: refactor
