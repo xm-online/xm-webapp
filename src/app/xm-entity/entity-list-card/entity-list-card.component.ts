@@ -42,7 +42,6 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     public showPagination: boolean;
     private entitiesUiConfig: any[] = [];
     private currentEntitiesUiConfig: any[] = [];
-    private firstPage: number;
 
     private entityListActionSuccessSubscription: Subscription;
     private entityEntityListModificationSubscription: Subscription;
@@ -60,7 +59,6 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 private contextService: ContextService,
                 private principal: Principal) {
         this.entitiesPerPage = ITEMS_PER_PAGE;
-        this.firstPage = 1;
         this.activeItemId = 0;
         this.predicate = 'id';
         this.isShowFilterArea = false;
@@ -68,7 +66,6 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 
     public ngOnInit(): void {
         this.getEntitiesUIConfig();
-        console.log(this)
     }
 
     public isHideAll(typeKey: string): boolean {
