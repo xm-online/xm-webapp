@@ -1,11 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, NgModule, OnInit, Type } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { ActivationEnd, Router } from '@angular/router';
+import { XmMenuModule } from '@xm-ngx/components/menu';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 import * as _ from 'lodash';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, share, tap } from 'rxjs/operators';
-import { AccountService, User } from '../../../shared';
 import { MenuItem } from '../menu/menu-models';
+import { AccountService, User } from '../../../../src/app/shared';
 
 interface UserOptions {
     username: string;
@@ -35,7 +38,7 @@ const LOGOUT_CONTROL: MenuItem = {
     url: ['logout'],
     icon: 'logout',
     title: 'global.menu.account.logout',
-}
+};
 
 const DEFAULT: UserOptions = {
     username: '',
@@ -79,7 +82,8 @@ export class UserComponent implements OnInit {
 
     constructor(protected readonly accountService: AccountService,
                 protected readonly router: Router,
-    ) { }
+    ) {
+    }
 
     public ngOnInit(): void {
         this.user$ = this.accountService.get().pipe(
@@ -120,4 +124,18 @@ export class UserComponent implements OnInit {
     public ngOnDestroy(): void {
         this.subscriptions.forEach((i) => i.unsubscribe());
     }
+}
+
+@NgModule({
+    imports: [
+        CommonModule,
+        XmMenuModule,
+        XmPermissionModule,
+    ],
+    exports: [UserComponent],
+    declarations: [UserComponent],
+    providers: [],
+})
+export class XmUserModule {
+    public entry: Type<UserComponent> = UserComponent;
 }

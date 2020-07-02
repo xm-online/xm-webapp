@@ -8,8 +8,8 @@ import * as _ from 'lodash';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, share, shareReplay, take, tap } from 'rxjs/operators';
 
-import { ContextService, Principal } from '../../../shared';
-import { XmPublicUiConfigService } from '../../../../../packages/core/src/config/xm-public-ui-config.service';
+import { ContextService, Principal } from '../../../../src/app/shared';
+import { XmPublicUiConfigService } from '../../../core/src/config/xm-public-ui-config.service';
 import { DEFAULT_MENU_LIST } from './menu-const';
 import { MenuCategory, MenuItem } from './menu-models';
 

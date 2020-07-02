@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { XmSessionService, XmUIConfig, XmUiConfigService, ISession } from '@xm-ngx/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, NgModule, OnInit, Type } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ISession, XmSessionService, XmUIConfig, XmUiConfigService } from '@xm-ngx/core';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
@@ -55,4 +58,17 @@ export class LogoComponent implements OnInit {
         this.session$ = this.sessionService.get();
     }
 
+}
+
+@NgModule({
+    imports: [
+        RouterModule,
+        CommonModule,
+        XmTranslationModule,
+    ],
+    declarations: [LogoComponent],
+    exports: [LogoComponent],
+})
+export class XmLogoModule {
+    public entry: Type<LogoComponent> = LogoComponent;
 }
