@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Id } from '@xm-ngx/components/entity-collection';
-import { Widget } from '@xm-ngx/dynamic';
+import { Widget } from '@xm-ngx/dashboard';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -44,7 +44,7 @@ export class DashboardsListExpandComponent implements OnInit {
     public ngOnInit(): void {
         this.loading$ = this.dashboardService.loading$;
 
-        this.dashboardService.getById(this.dashboardId as number).pipe(
+        this.dashboardService.getById(this.dashboardId).pipe(
             map((i) => new MatTableDataSource(i.widgets)),
         ).subscribe((i) => {
             this.widgetsList = i;

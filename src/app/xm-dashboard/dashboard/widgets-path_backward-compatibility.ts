@@ -1,4 +1,4 @@
-import { Widget } from '@xm-ngx/dynamic';
+import { Widget } from '@xm-ngx/dashboard';
 
 /** @deprecated Back compatibility matrix */
 const MAP_WIDGETS: {[key: string]: string | any} = {

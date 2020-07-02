@@ -1,4 +1,4 @@
-import { Widget } from '@xm-ngx/dynamic';
+import { Widget } from '@xm-ngx/dashboard';
 
 type WidgetWithConfig = Widget<{ orderIndex?: number }>
 

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router } from '@angular/router';
-import { Dashboard, DashboardService, JavascriptCode } from '@xm-ngx/dynamic';
+import { Dashboard, DashboardService, JavascriptCode } from '@xm-ngx/dashboard';
 import { XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { transpilingForIE } from '@xm-ngx/json-scheme-form';
 import * as _ from 'lodash';
@@ -14,15 +14,14 @@ import { DEFAULT_MENU_LIST } from './menu-const';
 import { MenuCategory, MenuItem } from './menu-models';
 
 function checkCondition(item: { config?: { condition?: JavascriptCode } }, contextService: ContextService): boolean {
-
-    // if configurator do not provide configs, return true
+    // If configurator do not provide configs, return true
     if (!item.config || !item.config.condition) {
         return true;
     }
 
     try {
         const code = transpilingForIE(item.config.condition, contextService);
-        return !!(new Function('context', code))(contextService);
+        return Boolean((new Function('context', code))(contextService));
     } catch (e) {
         console.warn('RUNTIME JS:', e);
         return false;
@@ -64,25 +63,26 @@ function dashboardToCategory(dashboard: Dashboard): MenuCategory {
 }
 
 function applicationsToCategory(applications: XmEntitySpec[]): MenuCategory[] {
-
     const children: MenuItem[] = applications.map((i) => ({
         title: i.pluralName ? i.pluralName : i.name,
         url: ['application', i.key],
-        permission: 'APPLICATION.' + i.key,
+        permission: `APPLICATION.${  i.key}`,
         icon: i.icon,
         position: 0,
     }));
 
-    return [{
-        position: 0,
-        permission: 'XMENTITY_SPEC.GET',
-        url: null,
-        key: 'APPLICATION',
-        title: 'global.menu.applications.main',
-        isLink: false,
-        icon: 'apps',
-        children,
-    }];
+    return [
+        {
+            position: 0,
+            permission: 'XMENTITY_SPEC.GET',
+            url: null,
+            key: 'APPLICATION',
+            title: 'global.menu.applications.main',
+            isLink: false,
+            icon: 'apps',
+            children,
+        },
+    ];
 }
 
 function dashboardToMenuItem(dashboard: Dashboard): MenuItem {
@@ -100,11 +100,9 @@ function dashboardToMenuItem(dashboard: Dashboard): MenuItem {
 }
 
 function dashboardsToCategories(dashboards: Dashboard[]): MenuCategory[] {
-
     let categories: MenuCategory[] = [];
 
     _.forEach(dashboards, (dashboard) => {
-
         const menu = dashboard.config && dashboard.config.menu ? dashboard.config.menu : null;
         const _group = menu?.group || {};
         let groupKey = !menu ? 'DASHBOARD' : _group.key;
@@ -164,7 +162,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         const dashboards$ = this.dashboardService.query().pipe(
             map((i) => i.body),
             map((i) => filterByConditionDashboards(i, this.contextService)),
-            // map((i) => _.filter(i, (j) => !!(j.config && j.config.slug))),
+            // Map((i) => _.filter(i, (j) => !!(j.config && j.config.slug))),
             map(dashboardsToCategories),
         );
 
@@ -174,7 +172,7 @@ export class MenuComponent implements OnInit, OnDestroy {
                     spec = [];
                 }
                 let applications = spec.filter((t) => t.isApp);
-                applications = applications.filter((t) => this.principal.hasPrivilegesInline(['APPLICATION.' + t.key]));
+                applications = applications.filter((t) => this.principal.hasPrivilegesInline([`APPLICATION.${  t.key}`]));
                 return applications;
             }),
             map(applicationsToCategory),
@@ -198,7 +196,6 @@ export class MenuComponent implements OnInit, OnDestroy {
             map((i) => i[0]),
             tap(this.selectActiveCategory.bind(this)),
         ).subscribe());
-
     }
 
     public ngOnDestroy(): void {
@@ -217,7 +214,6 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
 
     public selectActiveCategory(categories: MenuCategory[]): void {
-
         const activateCategory = (i: MenuCategory, url: string[]) => {
             if (this.router.isActive(url.join('/'), false)) {
                 this.activeCategories = i;
@@ -225,7 +221,6 @@ export class MenuComponent implements OnInit, OnDestroy {
         };
 
         _.forEach(categories, (category) => {
-
             if (category.isLink) {
                 activateCategory(category, category.url);
             } else {
@@ -233,7 +228,6 @@ export class MenuComponent implements OnInit, OnDestroy {
                     activateCategory(category, item.url);
                 });
             }
-
         });
     }
 
