@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { I18nNamePipe, Principal, XmConfigService } from '../shared';
 import { LIST_DEFAULT_FIELDS } from '../shared/constants/default-lists-fields.constants';
-import { DashboardWrapperService } from '@xm-ngx/dynamic';
+import { DashboardWrapperService } from '@xm-ngx/dashboard';
 import { Link, Spec, XmEntitySpec, XmEntitySpecWrapperService } from '../xm-entity';
 import { EntityListCardOptions } from '../xm-entity/entity-list-card/entity-list-card-options.model';
 
@@ -64,7 +64,6 @@ export class ApplicationComponent implements OnInit, OnDestroy {
         this.searchQuery = activatedRoute.snapshot.params.search ? activatedRoute.snapshot.params.search : '';
     }
 
-    // tslint:disable-next-line:cognitive-complexity
     public ngOnInit(): void {
         if (!environment.production) {
             console.info('ApplicationComponent.ngOnInit');
@@ -88,7 +87,6 @@ export class ApplicationComponent implements OnInit, OnDestroy {
                             this.routeData.pageSubTitle = this.i18nNamePipe.transform(
                                 this.entityType.name,
                                 this.principal);
-
                         }
                     }
                 });
@@ -103,7 +101,6 @@ export class ApplicationComponent implements OnInit, OnDestroy {
                                 this.routeData.pageSubTitle = this.i18nNamePipe.transform(
                                     this.entityType.name,
                                     this.principal);
-
                             }
                         });
                     }
@@ -119,7 +116,6 @@ export class ApplicationComponent implements OnInit, OnDestroy {
                             });
 
                         this.routeData.pageSubTitle = `[${params.query}]`;
-
                     }
                 });
             });
@@ -150,12 +146,12 @@ export class ApplicationComponent implements OnInit, OnDestroy {
     }
 
     public transition(): void {
-        this.router.navigate([`/application`, this.typeKey], {
+        this.router.navigate(['/application', this.typeKey], {
             queryParams: {
                 page: this.page,
                 size: this.itemsPerPage,
                 search: this.searchQuery,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
+                sort: `${this.predicate  },${  this.reverse ? 'asc' : 'desc'}`,
             },
         }).then(() => this.load());
     }
@@ -166,7 +162,7 @@ export class ApplicationComponent implements OnInit, OnDestroy {
         this.router.navigate(['/application', this.typeKey], {
             queryParams: {
                 page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
+                sort: `${this.predicate  },${  this.reverse ? 'asc' : 'desc'}`,
             },
         }).then(() => this.load());
     }
@@ -183,7 +179,6 @@ export class ApplicationComponent implements OnInit, OnDestroy {
         }
     }
 
-    // tslint:disable-next-line:cognitive-complexity
     protected buildOptions(defaultFields: any): void {
         const config = this.getListConfig();
 
@@ -224,8 +219,8 @@ export class ApplicationComponent implements OnInit, OnDestroy {
         if (this.isSearch) {
             return this.getSearchPattern();
         } else {
-            const entitiesConfig = this.uiConfig.applications && this.uiConfig.applications.config &&
-                this.uiConfig.applications.config.entities;
+            const entitiesConfig = this.uiConfig.applications && this.uiConfig.applications.config
+                && this.uiConfig.applications.config.entities;
             if (entitiesConfig) {
                 return entitiesConfig.filter((c) => c.typeKey === this.typeKey).shift();
             }

@@ -35,7 +35,8 @@
       "@xm-ngx/translation": ["packages/xm-translation/src"],
       "@xm-ngx/entity": ["src/app/xm-entity/shared"],
       "@xm-ngx/entity/*": ["src/app/xm-entity/*"],
-      "@xm-ngx/dynamic": ["src/app/xm-dashboard"],
+      "@xm-ngx/dynamic": ["packages/xm-dynamic/public_api"],
+      "@xm-ngx/dashboard": ["src/app/xm-dashboard"],
       "@xm-ngx/xm-balance": ["src/app/xm-balance"],
       "@xm-ngx/components/language": ["src/app/shared/language"]
 

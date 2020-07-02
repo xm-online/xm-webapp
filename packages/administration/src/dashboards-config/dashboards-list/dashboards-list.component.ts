@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { expand } from '@xm-ngx/components/animations';
 import { XmEventManager } from '@xm-ngx/core';
-import { Dashboard } from '@xm-ngx/dynamic';
+import { Dashboard } from '@xm-ngx/dashboard';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -80,9 +80,7 @@ export class DashboardsListComponent implements OnInit {
     }
 
     public load(): void {
-        const sortDashboards = (dashboards: Dashboard[]): Dashboard[] => {
-            return _.sortBy(dashboards, ['config.menu.group.orderIndex', 'config.orderIndex']);
-        };
+        const sortDashboards = (dashboards: Dashboard[]): Dashboard[] => _.sortBy(dashboards, ['config.menu.group.orderIndex', 'config.orderIndex']);
 
         // TODO: after receiver the data scroll to last selected row
         this.dashboardService.getAll().pipe(

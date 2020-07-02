@@ -11,7 +11,7 @@ import {
     EDIT_WIDGET_EVENT,
 } from '@xm-ngx/administration/dashboards-config';
 import { XmEventManager } from '@xm-ngx/core';
-import { Dashboard, DashboardWrapperService, PageService } from '@xm-ngx/dynamic';
+import { Dashboard, DashboardWrapperService, PageService } from '@xm-ngx/dashboard';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 

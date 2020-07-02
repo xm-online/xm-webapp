@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DASHBOARDS_TRANSLATES } from '../const';
 import { XmAlertService } from '@xm-ngx/alert';
-import { DashboardService } from '@xm-ngx/dynamic';
+import { DashboardService } from '@xm-ngx/dashboard';
 import * as _ from 'lodash';
 import { BehaviorSubject, concat, Observable, of } from 'rxjs';
 import { concatAll, finalize, switchMap } from 'rxjs/operators';
@@ -28,7 +28,6 @@ export class DashboardsImportService {
 
         const delete$ = this.alertService.yesNo({text: DASHBOARDS_TRANSLATES.deleted}).pipe(
             switchMap((i) => {
-
                 if (i.dismiss) {
                     return of(true);
                 }
@@ -37,7 +36,6 @@ export class DashboardsImportService {
                     this.deleteAllWidgets(),
                     this.deleteAllDashboards(),
                 ]).pipe(concatAll());
-
             }),
         );
 
@@ -46,7 +44,6 @@ export class DashboardsImportService {
             concatAll(),
             finalize(() => this.loader.next(false)),
         );
-
     }
 
     public deleteAllWidgets(): Observable<any> {
@@ -79,13 +76,12 @@ export class DashboardsImportService {
     }
 
     protected loadFile(file: File): Observable<any> {
-
         const fileReader = new FileReader();
 
         fileReader.readAsText(file);
 
         return new Observable((observer) => {
-            // if success
+            // If success
             fileReader.onload = ((ev: ProgressEvent): void => {
                 const raw: string = fileReader.result as string;
                 const data = JSON.parse(raw);
