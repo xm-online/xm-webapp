@@ -1,22 +1,41 @@
-import { Component, DoCheck, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Translate } from '@xm-ngx/translation';
+import * as _ from 'lodash';
+import { filter } from 'rxjs/operators';
+
+interface RouteData {
+    pageTitle?: Translate;
+    pageSubTitle?: Translate;
+    pageSubSubTitle?: Translate;
+}
 
 @Component({
     selector: 'xm-navbar-title',
+    styles: [
+        `
+            .title-part {
+                font-size: 18px;
+                position: relative;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        `,
+    ],
     template: `
         <div *ngIf="routeData && title"
-             class="navbar-container-part title-part">
-      <span [innerHTML]="titleContent"
-            [title]="title"
-            class="d-none d-sm-block"></span>
+             class="title-part pt-2 px-3">
+            <span [innerHTML]="titleContent"
+                  [title]="title"
+                  class="d-none d-sm-block"></span>
         </div>
     `,
-    encapsulation: ViewEncapsulation.None,
 })
 
 export class XmNavbarTitleComponent implements OnInit, DoCheck {
-    public routeData: any = {};
+    public routeData: RouteData = {};
     public titleContent: string;
     public title: string;
 
@@ -33,14 +52,14 @@ export class XmNavbarTitleComponent implements OnInit, DoCheck {
     public ngOnInit(): void {
         this.routeData = this.getRouteData(this.router.routerState.snapshot.root);
 
-        this.router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd) {
+        this.router.events
+            .pipe(filter((e) => e instanceof NavigationEnd))
+            .subscribe(() => {
                 this.routeData = this.getRouteData(this.router.routerState.snapshot.root);
-            }
-        });
+            });
     }
 
-    private getRouteData(routeSnapshot: ActivatedRouteSnapshot): string {
+    private getRouteData(routeSnapshot: ActivatedRouteSnapshot): RouteData {
         let rData;
 
         if (routeSnapshot.data) {
@@ -54,27 +73,18 @@ export class XmNavbarTitleComponent implements OnInit, DoCheck {
         return rData;
     }
 
-    // TODO: refactor
-    private processTitle(routData: any): void {
-        let titlePart1 = this.translateOrEmpty(routData.pageTitle);
-        let titlePart2 = routData.pageSubTitle || routData.pageSubTitleTrans ? ' - ' : '';
-        let titlePart3 = routData.pageSubTitle ? routData.pageSubTitle : '';
-        let titlePart4 = this.translateOrEmpty(routData.pageSubTitleTrans);
-        let titlePart5 = routData.pageSubSubTitle || routData.pageSubSubTitleTrans ? ' - ' : '';
-        let titlePart6 = routData.pageSubSubTitle ? routData.pageSubSubTitle : '';
-        let titlePart7 = this.translateOrEmpty(routData.pageSubSubTitleTrans);
-        this.title = titlePart1 + titlePart2 + titlePart3 + titlePart4 + titlePart5 + titlePart6 + titlePart7;
-        titlePart1 = `<span class="title-part-1">${titlePart1}</span>`;
-        titlePart2 = `<span class="title-part-2">${titlePart2}</span>`;
-        titlePart3 = `<span class="title-part-3">${titlePart3}</span>`;
-        titlePart4 = `<span class="title-part-4">${titlePart4}</span>`;
-        titlePart5 = `<span class="title-part-5">${titlePart5}</span>`;
-        titlePart6 = `<span class="title-part-6">${titlePart6}</span>`;
-        titlePart7 = `<span class="title-part-7">${titlePart7}</span>`;
-        this.titleContent = titlePart1 + titlePart2 + titlePart3 + titlePart4 + titlePart5 + titlePart6 + titlePart7;
+    private processTitle(routData: RouteData): void {
+        const pageTitle = this.translateOrEmpty(routData.pageTitle);
+        const pageSubTitleTrans = this.translateOrEmpty(routData.pageSubTitle);
+        const pageSubSubTitleTrans = this.translateOrEmpty(routData.pageSubSubTitle);
+        const titles = _.compact([pageTitle, pageSubTitleTrans, pageSubSubTitleTrans]);
+        this.title = titles.join('-');
+        this.titleContent = titles
+            .map((title, ix) => `<span class="title-part-${ix + 1}">${title}</span>\n`)
+            .join('<span class="title-part">-</span>\n');
     }
 
-    private translateOrEmpty(item: string): string {
-        return item ? this.translateService.instant(item) : '';
+    private translateOrEmpty(item: Translate): string {
+        return item ? this.translateService.instant(item as string) : '';
     }
 }
