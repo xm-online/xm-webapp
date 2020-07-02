@@ -83,19 +83,6 @@
     }
 
     .navbar-container-part {
-      &.title-part {
-        box-sizing:    border-box;
-        @include flex-grow(1);
-        font-size:     18px;
-        line-height:   30px;
-        min-width:     0;
-        overflow:      hidden;
-        padding:       10px 15px;
-        position:      relative;
-        text-overflow: ellipsis;
-        white-space:   nowrap;
-      }
-
       &.search-part {
         min-width: 220px;
       }
