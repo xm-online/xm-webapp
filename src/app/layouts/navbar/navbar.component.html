@@ -9,7 +9,7 @@
 
     <div class="d-flex">
       <xm-navbar-input-search *ngIf="isNotMobileMenu()"></xm-navbar-input-search>
-      <xm-notifications *ngIf="isNotMobileMenu() && isSessionActive"></xm-notifications>
+      <xm-notifications *ngIf="isNotMobileMenu() && isSessionActive$ | async"></xm-notifications>
       <xm-navbar-language-menu-component></xm-navbar-language-menu-component>
       <xm-dynamic-widget-layout *ngIf="navbarLayout" [layouts]="navbarLayout"></xm-dynamic-widget-layout>
       <xm-navbar-toggle></xm-navbar-toggle>

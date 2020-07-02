@@ -1,13 +1,14 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'xm-navbar-arrow-back',
     template: `
         <button (click)="onBack()"
-                *ngIf="isSessionActive"
+                *ngIf="isSessionActive$ | async"
                 class="bg-white rounded-circle shadow-sm"
                 mat-icon-button>
             <mat-icon>arrow_back</mat-icon>
@@ -17,7 +18,8 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 })
 
 export class XmNavbarArrowBackComponent implements OnInit {
-    public isSessionActive: boolean;
+    public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
+
     private previousPath: string;
     private backStep: number = 0;
 
@@ -28,9 +30,6 @@ export class XmNavbarArrowBackComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.xmSessionService.isActive()
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe((isActive) => this.isSessionActive = isActive);
         this.registerPopState();
     }
 
