@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -23,13 +23,13 @@ export class FunctionService {
         return this.call(functionKey, copy);
     }
 
-    public call(functionKey: string, inputContext?: any): Observable<HttpResponse<any>> {
+    public call(functionKey: string, inputContext?: any, headers?: HttpHeaders): Observable<HttpResponse<any>> {
         const copy = this.convert(inputContext);
         const url = this.resourceUrl + '/' + functionKey;
         if (this.isExportFunction(functionKey)) {
             return this.callXmDownloadFunction(url, copy);
         }
-        return this.callXmFunction(url, copy);
+        return this.callXmFunction(url, copy, headers);
     }
 
     public callWithEntityId(xmEntityId: number,
@@ -57,9 +57,9 @@ export class FunctionService {
         return SERVER_API_URL + `entity/api/xm-entities/${id}/functions/${key}`;
     }
 
-    private callXmFunction(url: string, inputContext: any = {}): Observable<HttpResponse<any>> {
+    private callXmFunction(url: string, inputContext: any = {}, headers?: HttpHeaders): Observable<HttpResponse<any>> {
         return this.http
-            .post(url, inputContext, {observe: 'response', responseType: 'text'})
+            .post(url, inputContext, {observe: 'response', responseType: 'text', headers})
             .pipe(map((res: HttpResponse<any>) => this.convertResponse(res)));
     }
 
