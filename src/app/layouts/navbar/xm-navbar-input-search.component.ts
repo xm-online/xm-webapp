@@ -10,7 +10,7 @@ import { filter, mergeMap, tap } from 'rxjs/operators';
 @Component({
     selector: 'xm-navbar-input-search',
     template: `
-        <div *ngIf="isShowSearchPanel && isSessionActive$ | async" class="navbar-container-part search-part">
+        <div *ngIf="isShowSearchPanel && (isSessionActive$ | async)" class="navbar-container-part search-part">
             <form class="navbar-form navbar-right" role="search">
                 <div class="input-group no-border">
                     <input #searchBox [regexp]="searchMask"
