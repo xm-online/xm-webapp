@@ -1,4 +1,4 @@
-<div class="xm-maintenance-view" *ngIf="show">
+<div class="xm-maintenance-view" *ngIf="isMaintenanceProgress$ | async">
   <div class="container-fluid">
     <div class="row align-items-center">
       <div class="col text-center">

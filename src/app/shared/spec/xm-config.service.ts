@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MaintenanceService } from '@xm-ngx/components/maintenance/maintenance.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { VERSION } from '../../xm.constants';
 
@@ -15,14 +16,15 @@ const DEFAULT_THEME = `/assets/themes/${DEFAULT_THEME_NAME}.css`;
 export class XmApplicationConfigService {
 
     public resolved$: BehaviorSubject<boolean>;
-    public maintenance$: BehaviorSubject<boolean>;
     private configUrl: string = 'config/api/profile/webapp/settings-public.yml?toJson';
     private privateConfigUrl: string = 'config/api/profile/webapp/settings-private.yml?toJson';
     private appConfig: any;
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient,
+        private maintenanceService: MaintenanceService,
+    ) {
         this.resolved$ = new BehaviorSubject<boolean>(false);
-        this.maintenance$ = new BehaviorSubject<boolean>(false);
     }
 
     public loadAppConfig(): Promise<void> {
@@ -45,7 +47,7 @@ export class XmApplicationConfigService {
             }
         }, (err) => {
             console.warn(err);
-            this.setMaintenanceProgress(true);
+            this.maintenanceService.setMaintenanceProgress(true);
         });
     }
 
@@ -66,14 +68,6 @@ export class XmApplicationConfigService {
 
     public setResolved(newValue: boolean): void {
         this.resolved$.next(newValue);
-    }
-
-    public isMaintenanceProgress(): Observable<boolean> {
-        return this.maintenance$.asObservable();
-    }
-
-    public setMaintenanceProgress(newValue: boolean): void {
-        this.maintenance$.next(newValue);
     }
 
     public getAppConfig(): any {
