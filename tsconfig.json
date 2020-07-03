@@ -34,6 +34,7 @@
       "@xm-ngx/shared/operators": ["src/app/modules/xm-shared-operators"],
       "@xm-ngx/translation": ["packages/xm-translation/src"],
       "@xm-ngx/entity": ["src/app/xm-entity/shared"],
+      "@xm-ngx/account/*": ["packages/xm-account/src/*"],
       "@xm-ngx/entity/*": ["src/app/xm-entity/*"],
       "@xm-ngx/dynamic": ["packages/xm-dynamic/public_api"],
       "@xm-ngx/dashboard": ["src/app/xm-dashboard"],

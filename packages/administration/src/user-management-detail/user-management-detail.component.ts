@@ -3,10 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
 
-import { AccountService, User, UserService } from '../../../../src/app/shared';
+import { AccountService, User, UserLogin, UserService } from '../../../../src/app/shared';
 import { JhiLanguageHelper } from '@xm-ngx/components/language';
-import { UserLogin } from '../../../../src/app/shared/user/login/user-login.model';
-import { UserLoginService } from '../../../../src/app/shared/user/login/user-login.service';
+
+import { UserLoginService } from '../../../xm-account/src/xm-user-login-widget/login/user-login.service';
 
 @Component({
     selector: 'xm-user-mgmt-detail',
@@ -47,13 +47,13 @@ export class UserMgmtDetailComponent implements OnInit, OnDestroy {
         this.userService
             .find(userKey)
             .subscribe((user) => {
-                    this.user = user;
-                    this.userEmail = this.getEmail();
-                    this.routeData.pageSubSubTitle = user.userKey;
-                    this.jhiLanguageHelper.updateTitle();
-                },
-                (err) => console.info(err),
-                () => this.showLoader = false);
+                this.user = user;
+                this.userEmail = this.getEmail();
+                this.routeData.pageSubSubTitle = user.userKey;
+                this.jhiLanguageHelper.updateTitle();
+            },
+            (err) => console.info(err),
+            () => this.showLoader = false);
     }
 
     public ngOnDestroy(): void {

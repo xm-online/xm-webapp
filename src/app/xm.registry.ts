@@ -121,4 +121,8 @@ export const XM_ELEMENTS: DynamicComponents = [
         selector: '@xm-ngx/components/xm-text-control',
         loadChildren: () => import('@xm-ngx/components/xm-text-control').then(m => m.XmTextControlModule),
     },
+    {
+        selector: '@xm-ngx/account/xm-user-login-widget',
+        loadChildren: () => import('@xm-ngx/account/xm-user-login-widget').then(m => m.XmUserLoginWidgetModule),
+    },
 ];
