@@ -28,7 +28,7 @@ function checkCondition(item: { config?: { condition?: JavascriptCode } }, conte
     }
 }
 
-function filterByConditionDashboards(dashboards: Dashboard[], contextService: ContextService): Dashboard[] {
+export function filterByConditionDashboards(dashboards: Dashboard[], contextService: ContextService): Dashboard[] {
     return dashboards.filter((i) => checkCondition(i, contextService));
 }
 
@@ -37,7 +37,7 @@ function dashboardToCategory(dashboard: Dashboard): MenuCategory {
     const menu = config.menu || {};
     let group = menu.group || {};
 
-    let groupKey = Object.keys(menu).length > 0 ? menu.group.key : 'DASHBOARD';
+    let groupKey = Object.keys(menu).length > 0 ? group.key : 'DASHBOARD';
 
     if (Object.keys(menu).length === 0 && !menu.groupIsLink) {
         group = {
@@ -66,7 +66,7 @@ function applicationsToCategory(applications: XmEntitySpec[]): MenuCategory[] {
     const children: MenuItem[] = applications.map((i) => ({
         title: i.pluralName ? i.pluralName : i.name,
         url: ['application', i.key],
-        permission: `APPLICATION.${  i.key}`,
+        permission: `APPLICATION.${i.key}`,
         icon: i.icon,
         position: 0,
     }));
@@ -85,7 +85,7 @@ function applicationsToCategory(applications: XmEntitySpec[]): MenuCategory[] {
     ];
 }
 
-function dashboardToMenuItem(dashboard: Dashboard): MenuItem {
+export function dashboardToMenuItem(dashboard: Dashboard): MenuItem {
     const config = dashboard.config || {};
     const menu = config.menu || {};
 
@@ -99,7 +99,7 @@ function dashboardToMenuItem(dashboard: Dashboard): MenuItem {
     });
 }
 
-function dashboardsToCategories(dashboards: Dashboard[]): MenuCategory[] {
+export function dashboardsToCategories(dashboards: Dashboard[]): MenuCategory[] {
     let categories: MenuCategory[] = [];
 
     _.forEach(dashboards, (dashboard) => {
@@ -130,6 +130,10 @@ function dashboardsToCategories(dashboards: Dashboard[]): MenuCategory[] {
     return categories;
 }
 
+export function categoriesToMenuItems(categories: MenuCategory[]): MenuItem[] {
+    return _.flatMap(categories.map((c) => c.children));
+}
+
 @Component({
     selector: 'xm-menu',
     templateUrl: './menu.component.html',
@@ -150,19 +154,21 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     protected subscriptions: Subscription[] = [];
 
-    constructor(protected readonly dashboardService: DashboardService,
-                protected readonly router: Router,
-                protected readonly principal: Principal,
-                protected readonly uiConfigService: XmPublicUiConfigService<{ sidebar?: { hideAdminConsole?: boolean } }>,
-                protected readonly entityConfigService: XmEntitySpecWrapperService,
-                protected readonly contextService: ContextService) {
+    constructor(
+        protected readonly dashboardService: DashboardService,
+        protected readonly router: Router,
+        protected readonly principal: Principal,
+        protected readonly uiConfigService: XmPublicUiConfigService<{ sidebar?: { hideAdminConsole?: boolean } }>,
+        protected readonly entityConfigService: XmEntitySpecWrapperService,
+        protected readonly contextService: ContextService,
+    ) {
     }
 
     public ngOnInit(): void {
         const dashboards$ = this.dashboardService.query().pipe(
             map((i) => i.body),
             map((i) => filterByConditionDashboards(i, this.contextService)),
-            // Map((i) => _.filter(i, (j) => !!(j.config && j.config.slug))),
+            map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
             map(dashboardsToCategories),
         );
 
@@ -172,7 +178,7 @@ export class MenuComponent implements OnInit, OnDestroy {
                     spec = [];
                 }
                 let applications = spec.filter((t) => t.isApp);
-                applications = applications.filter((t) => this.principal.hasPrivilegesInline([`APPLICATION.${  t.key}`]));
+                applications = applications.filter((t) => this.principal.hasPrivilegesInline([`APPLICATION.${t.key}`]));
                 return applications;
             }),
             map(applicationsToCategory),

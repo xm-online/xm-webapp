@@ -14,6 +14,7 @@ export interface DashboardConfig {
     permission?: string;
     icon?: string;
     menu?: {
+        section?: string;
         name?: string;
         groupIsLink?: boolean;
         group?: {

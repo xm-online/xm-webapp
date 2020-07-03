@@ -3,17 +3,22 @@ import { ChangeDetectionStrategy, Component, NgModule, OnInit, Type } from '@ang
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { ActivationEnd, Router } from '@angular/router';
 import { XmMenuModule } from '@xm-ngx/components/menu';
+import {
+    categoriesToMenuItems,
+    dashboardsToCategories,
+    filterByConditionDashboards,
+} from '@xm-ngx/components/menu/menu.component';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { DashboardService } from '@xm-ngx/dashboard';
 import * as _ from 'lodash';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, share, tap } from 'rxjs/operators';
+import { filter, map, share, switchMap } from 'rxjs/operators';
+import { AccountService, ContextService, User } from '../../../../src/app/shared';
 import { MenuItem } from '../menu/menu-models';
-import { AccountService, User } from '../../../../src/app/shared';
 
 interface UserOptions {
     username: string;
     avatarUrl: string;
-    menu: MenuItem[];
 }
 
 const USER_MENU: MenuItem[] = [
@@ -43,7 +48,6 @@ const LOGOUT_CONTROL: MenuItem = {
 const DEFAULT: UserOptions = {
     username: '',
     avatarUrl: './assets/img/anonymous.png',
-    menu: USER_MENU,
 };
 
 function getUserName(user: User): string {
@@ -58,7 +62,6 @@ function userToOptions(user: User): UserOptions {
     const opts: UserOptions = {
         username: getUserName(user),
         avatarUrl: user.imageUrl || undefined,
-        menu: undefined,
     };
 
     return _.defaults(opts, DEFAULT);
@@ -77,15 +80,29 @@ function userToOptions(user: User): UserOptions {
 export class UserComponent implements OnInit {
     public logoutControl: MenuItem = LOGOUT_CONTROL;
     public user$: Observable<UserOptions>;
+    public menu$: Observable<MenuItem[]>;
     public active: boolean = false;
     protected subscriptions: Subscription[] = [];
 
-    constructor(protected readonly accountService: AccountService,
-                protected readonly router: Router,
+    constructor(
+        protected readonly dashboardService: DashboardService,
+        protected readonly accountService: AccountService,
+        protected readonly contextService: ContextService,
+        protected readonly router: Router,
     ) {
     }
 
     public ngOnInit(): void {
+        this.menu$ = this.dashboardService.query().pipe(
+            map((i) => i.body),
+            map((i) => filterByConditionDashboards(i, this.contextService)),
+            map((i) => _.filter(i, (j) => (j.config?.menu?.section === 'xm-user'))),
+            map(dashboardsToCategories),
+            map(categoriesToMenuItems),
+            map((arr) => arr?.length ? arr : USER_MENU),
+            share(),
+        );
+
         this.user$ = this.accountService.get().pipe(
             map((i) => i.body),
             map(userToOptions),
@@ -97,8 +114,8 @@ export class UserComponent implements OnInit {
             this.router.events.pipe(filter((e) => e instanceof ActivationEnd)),
         ]).pipe(
             map((i) => i[0]),
-            tap(this.selectActive.bind(this)),
-        ).subscribe());
+            switchMap(() => this.menu$),
+        ).subscribe((menu) => this.selectActive(menu)));
     }
 
     public getState(): string {
@@ -109,16 +126,14 @@ export class UserComponent implements OnInit {
         this.active = !this.active;
     }
 
-    public selectActive(options: UserOptions): void {
-
-        _.forEach(options.menu, (menu) => {
+    public selectActive(menu: MenuItem[]): void {
+        _.forEach(menu, (menu) => {
             if (this.router.isActive(menu.url.join('/'), false)) {
                 this.active = true;
                 return false;
             }
             return true;
         });
-
     }
 
     public ngOnDestroy(): void {
