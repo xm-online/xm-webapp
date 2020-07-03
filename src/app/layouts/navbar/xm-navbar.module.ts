@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { LanguageModule } from '@xm-ngx/components/language';
 import { XmNotificationsModule } from '@xm-ngx/components/xm-notifications';
@@ -27,6 +28,7 @@ import { XmNavbarToggleComponent } from './xm-navbar-toggle.component';
         XmDynamicModule,
         XmNotificationsModule,
         LanguageModule,
+        MatMenuModule,
     ],
     exports: [NavbarComponent],
     declarations: [

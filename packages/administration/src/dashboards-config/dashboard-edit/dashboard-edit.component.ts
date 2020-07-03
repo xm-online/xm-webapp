@@ -2,7 +2,7 @@ import { Component, HostListener, Input } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
-import { Dashboard } from '@xm-ngx/dynamic';
+import { Dashboard } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';

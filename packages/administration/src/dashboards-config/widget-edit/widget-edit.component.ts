@@ -2,7 +2,7 @@ import { Component, HostListener, Input } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
-import { Widget } from '@xm-ngx/dynamic';
+import { Widget } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';

@@ -1,10 +1,10 @@
 import { Injectable, Injector, OnDestroy, Type } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Id } from '@xm-ngx/components/entity-collection';
-import { Dashboard, Widget } from '@xm-ngx/dynamic';
+import { Dashboard, Widget } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Subject } from 'rxjs';
-import { SidebarRightService } from '../../../../src/app/modules/xm-sidebar-right';
+import { SidebarRightService } from '@xm-ngx/components/xm-sidebar-right';
 
 @Injectable()
 export class DashboardEditorService implements OnDestroy {

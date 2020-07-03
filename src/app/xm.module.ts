@@ -7,25 +7,21 @@ import { XmAlertModule } from '@xm-ngx/alert';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 
 import { XmApplicationConfigService, XmCoreModule } from '@xm-ngx/core';
-import { UserRouteAccessService } from '@xm-ngx/core/auth';
+import { UserRouteAccessService, XmCoreAuthModule } from '@xm-ngx/core/auth';
 import { environment } from '@xm-ngx/core/environment';
-import { XmDashboardModule, XmDynamicModule } from '@xm-ngx/dynamic';
+import { XmDashboardModule } from '@xm-ngx/dashboard';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { HttpLoaderFactory, XmTranslationModule } from '@xm-ngx/translation';
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { XmMainComponent } from './layouts';
 import { LayoutModule } from './layouts/layout.module';
-import { XmCoreAuthModule } from '../../packages/core/src/auth/src/xm-core-auth.module';
 import { XmRoutingModule } from './xm-routing.module';
 import { XM_ELEMENTS } from './xm.registry';
 
-export function appInitializerFn(appConfig: XmApplicationConfigService): () => Promise<any> {
-    // tslint:disable-next-line
-    const r = function (): Promise<void> {
-        return appConfig.loadAppConfig();
-    };
-    return r;
+export function appInitializerFn(appConfig: XmApplicationConfigService): () => Promise<void> {
+    return (): Promise<void> => appConfig.loadAppConfig();
 }
 
 @NgModule({
@@ -36,10 +32,10 @@ export function appInitializerFn(appConfig: XmApplicationConfigService): () => P
         XmRoutingModule,
         XmCoreModule.forRoot(),
         XmCoreAuthModule.forRoot(),
-        NgxWebstorageModule.forRoot({prefix: 'jhi', separator: '-'}),
+        NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
         TranslateModule.forRoot({
             isolate: false,
-            loader: {deps: [HttpClient], provide: TranslateLoader, useFactory: HttpLoaderFactory},
+            loader: { deps: [HttpClient], provide: TranslateLoader, useFactory: HttpLoaderFactory },
         }),
         XmAlertModule.forRoot(),
         XmTranslationModule.forRoot(),
@@ -49,7 +45,7 @@ export function appInitializerFn(appConfig: XmApplicationConfigService): () => P
         LayoutModule,
     ],
     providers: [
-        proxyInterceptorFactory({url: environment.serverApiUrl, excludedUrls: ['http', 'i18n', 'assets']}),
+        proxyInterceptorFactory({ url: environment.serverApiUrl, excludedUrls: ['http', 'i18n', 'assets'] }),
         XmApplicationConfigService,
         {
             provide: APP_INITIALIZER,

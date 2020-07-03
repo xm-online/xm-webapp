@@ -5,30 +5,22 @@ import { LanguageService, Locale } from '@xm-ngx/translation';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'xm-navbar-language-menu-component',
+    selector: 'xm-navbar-language-menu',
     template: `
-        <div *ngIf="(isSessionActive$ | async) === false" class="navbar-container-part langs-part">
-            <ul class="navbar-nav navbar-right xm-langs-chooser">
-                <li class="dropdown">
-                    <button aria-expanded="false"
-                            aria-haspopup="true"
-                            class="btn btn-icon btn-just-icon btn-link nav-link"
-                            data-toggle="dropdown"
-                            id="navbarLanguageMenuLink"
-                            mat-icon-button>
-                        <i class="material-icons">language</i>
-                    </button>
-                    <div aria-labelledby="navbarDropdownMenuLink"
-                         class="dropdown-menu dropdown-menu-right langs-drop-container">
-                        <ng-container *ngFor="let language of languages">
-                            <a (click)="changeLanguage(language);" class="dropdown-item" href="javascript: void(0);">
-                                {{language | findLanguageFromKey}}
-                            </a>
-                        </ng-container>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        <button *ngIf="!(isSessionActive$ | async)"
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                [attr.aria-label]="'xm-navbar-language-menu.choose-language' | translate">
+            <mat-icon>language</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item
+                    *ngFor="let language of languages"
+                    (click)="changeLanguage(language);">
+                <span>{{language | findLanguageFromKey}}</span>
+            </button>
+        </mat-menu>
     `,
     encapsulation: ViewEncapsulation.None,
 })

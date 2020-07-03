@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Dashboard, IWidget, Widget } from '@xm-ngx/dynamic';
+import { IWidget } from '@xm-ngx/dynamic';
+import { Dashboard, Widget } from '@xm-ngx/dashboard';
 
 @Injectable()
 export class DashboardsManagerService {

@@ -1,8 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
-import { XmSharedModule } from '@xm-ngx/shared';
 import { DynamicControlDirective } from './control/dynamic-control.directive';
-import { DynamicWidgetLayoutComponent } from './view/dynamic-widget-layout.component';
-import { DynamicWidgetDirective } from './view/dynamic-widget.directive';
 import { DYNAMIC_COMPONENTS } from './dynamic.injectors';
 import { DynamicComponents } from './dynamic.interfaces';
 import { DynamicLoader } from './loader/dynamic-loader';
@@ -11,13 +9,15 @@ import { DynamicMultiSearcherService } from './searcher/dynamic-multi-searcher.s
 import { DynamicSearcher } from './searcher/dynamic-searcher';
 import { DynamicViewLayoutComponent } from './view/dynamic-view-layout.component';
 import { DynamicViewDirective } from './view/dynamic-view.directive';
+import { DynamicWidgetLayoutComponent } from './widget/dynamic-widget-layout.component';
+import { DynamicWidgetDirective } from './widget/dynamic-widget.directive';
 
 export function dynamicModuleInitializer(components: DynamicComponents): Provider {
-    return [{provide: DYNAMIC_COMPONENTS, multi: true, useValue: components}];
+    return [{ provide: DYNAMIC_COMPONENTS, multi: true, useValue: components }];
 }
 
 @NgModule({
-    imports: [XmSharedModule],
+    imports: [CommonModule],
     exports: [
         DynamicViewDirective,
         DynamicControlDirective,
@@ -40,8 +40,8 @@ export class XmDynamicModule {
             ngModule: XmDynamicModule,
             providers: [
                 dynamicModuleInitializer(components),
-                {provide: DynamicLoader, useClass: DynamicMultiLoaderService},
-                {provide: DynamicSearcher, useClass: DynamicMultiSearcherService},
+                { provide: DynamicLoader, useClass: DynamicMultiLoaderService },
+                { provide: DynamicSearcher, useClass: DynamicMultiSearcherService },
             ],
         };
     }

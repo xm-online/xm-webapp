@@ -1,35 +1,34 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router } from '@angular/router';
-import { Dashboard, DashboardService, JavascriptCode } from '@xm-ngx/dynamic';
+import { Dashboard, DashboardService, JavascriptCode } from '@xm-ngx/dashboard';
 import { XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { transpilingForIE } from '@xm-ngx/json-scheme-form';
 import * as _ from 'lodash';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, share, shareReplay, take, tap } from 'rxjs/operators';
 
-import { ContextService, Principal } from '../../../shared';
-import { XmPublicUiConfigService } from '../../../../../packages/core/src/config/xm-public-ui-config.service';
+import { ContextService, Principal } from '../../../../src/app/shared';
+import { XmPublicUiConfigService } from '../../../core/src/config/xm-public-ui-config.service';
 import { DEFAULT_MENU_LIST } from './menu-const';
 import { MenuCategory, MenuItem } from './menu-models';
 
 function checkCondition(item: { config?: { condition?: JavascriptCode } }, contextService: ContextService): boolean {
-
-    // if configurator do not provide configs, return true
+    // If configurator do not provide configs, return true
     if (!item.config || !item.config.condition) {
         return true;
     }
 
     try {
         const code = transpilingForIE(item.config.condition, contextService);
-        return !!(new Function('context', code))(contextService);
+        return Boolean((new Function('context', code))(contextService));
     } catch (e) {
         console.warn('RUNTIME JS:', e);
         return false;
     }
 }
 
-function filterByConditionDashboards(dashboards: Dashboard[], contextService: ContextService): Dashboard[] {
+export function filterByConditionDashboards(dashboards: Dashboard[], contextService: ContextService): Dashboard[] {
     return dashboards.filter((i) => checkCondition(i, contextService));
 }
 
@@ -38,7 +37,7 @@ function dashboardToCategory(dashboard: Dashboard): MenuCategory {
     const menu = config.menu || {};
     let group = menu.group || {};
 
-    let groupKey = Object.keys(menu).length > 0 ? menu.group.key : 'DASHBOARD';
+    let groupKey = Object.keys(menu).length > 0 ? group.key : 'DASHBOARD';
 
     if (Object.keys(menu).length === 0 && !menu.groupIsLink) {
         group = {
@@ -64,28 +63,29 @@ function dashboardToCategory(dashboard: Dashboard): MenuCategory {
 }
 
 function applicationsToCategory(applications: XmEntitySpec[]): MenuCategory[] {
-
     const children: MenuItem[] = applications.map((i) => ({
         title: i.pluralName ? i.pluralName : i.name,
         url: ['application', i.key],
-        permission: 'APPLICATION.' + i.key,
+        permission: `APPLICATION.${i.key}`,
         icon: i.icon,
         position: 0,
     }));
 
-    return [{
-        position: 0,
-        permission: 'XMENTITY_SPEC.GET',
-        url: null,
-        key: 'APPLICATION',
-        title: 'global.menu.applications.main',
-        isLink: false,
-        icon: 'apps',
-        children,
-    }];
+    return [
+        {
+            position: 0,
+            permission: 'XMENTITY_SPEC.GET',
+            url: null,
+            key: 'APPLICATION',
+            title: 'global.menu.applications.main',
+            isLink: false,
+            icon: 'apps',
+            children,
+        },
+    ];
 }
 
-function dashboardToMenuItem(dashboard: Dashboard): MenuItem {
+export function dashboardToMenuItem(dashboard: Dashboard): MenuItem {
     const config = dashboard.config || {};
     const menu = config.menu || {};
 
@@ -99,12 +99,10 @@ function dashboardToMenuItem(dashboard: Dashboard): MenuItem {
     });
 }
 
-function dashboardsToCategories(dashboards: Dashboard[]): MenuCategory[] {
-
+export function dashboardsToCategories(dashboards: Dashboard[]): MenuCategory[] {
     let categories: MenuCategory[] = [];
 
     _.forEach(dashboards, (dashboard) => {
-
         const menu = dashboard.config && dashboard.config.menu ? dashboard.config.menu : null;
         const _group = menu?.group || {};
         let groupKey = !menu ? 'DASHBOARD' : _group.key;
@@ -132,6 +130,10 @@ function dashboardsToCategories(dashboards: Dashboard[]): MenuCategory[] {
     return categories;
 }
 
+export function categoriesToMenuItems(categories: MenuCategory[]): MenuItem[] {
+    return _.flatMap(categories.map((c) => c.children));
+}
+
 @Component({
     selector: 'xm-menu',
     templateUrl: './menu.component.html',
@@ -152,19 +154,21 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     protected subscriptions: Subscription[] = [];
 
-    constructor(protected readonly dashboardService: DashboardService,
-                protected readonly router: Router,
-                protected readonly principal: Principal,
-                protected readonly uiConfigService: XmPublicUiConfigService<{ sidebar?: { hideAdminConsole?: boolean } }>,
-                protected readonly entityConfigService: XmEntitySpecWrapperService,
-                protected readonly contextService: ContextService) {
+    constructor(
+        protected readonly dashboardService: DashboardService,
+        protected readonly router: Router,
+        protected readonly principal: Principal,
+        protected readonly uiConfigService: XmPublicUiConfigService<{ sidebar?: { hideAdminConsole?: boolean } }>,
+        protected readonly entityConfigService: XmEntitySpecWrapperService,
+        protected readonly contextService: ContextService,
+    ) {
     }
 
     public ngOnInit(): void {
         const dashboards$ = this.dashboardService.query().pipe(
             map((i) => i.body),
             map((i) => filterByConditionDashboards(i, this.contextService)),
-            // map((i) => _.filter(i, (j) => !!(j.config && j.config.slug))),
+            map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
             map(dashboardsToCategories),
         );
 
@@ -174,7 +178,7 @@ export class MenuComponent implements OnInit, OnDestroy {
                     spec = [];
                 }
                 let applications = spec.filter((t) => t.isApp);
-                applications = applications.filter((t) => this.principal.hasPrivilegesInline(['APPLICATION.' + t.key]));
+                applications = applications.filter((t) => this.principal.hasPrivilegesInline([`APPLICATION.${t.key}`]));
                 return applications;
             }),
             map(applicationsToCategory),
@@ -198,7 +202,6 @@ export class MenuComponent implements OnInit, OnDestroy {
             map((i) => i[0]),
             tap(this.selectActiveCategory.bind(this)),
         ).subscribe());
-
     }
 
     public ngOnDestroy(): void {
@@ -217,7 +220,6 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
 
     public selectActiveCategory(categories: MenuCategory[]): void {
-
         const activateCategory = (i: MenuCategory, url: string[]) => {
             if (this.router.isActive(url.join('/'), false)) {
                 this.activeCategories = i;
@@ -225,7 +227,6 @@ export class MenuComponent implements OnInit, OnDestroy {
         };
 
         _.forEach(categories, (category) => {
-
             if (category.isLink) {
                 activateCategory(category, category.url);
             } else {
@@ -233,7 +234,6 @@ export class MenuComponent implements OnInit, OnDestroy {
                     activateCategory(category, item.url);
                 });
             }
-
         });
     }
 
