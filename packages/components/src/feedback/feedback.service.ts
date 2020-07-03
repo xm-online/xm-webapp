@@ -14,8 +14,7 @@ export class FeedbackService {
 
     constructor(private httpClient: HttpClient) { }
 
-    /** @todo: url should be passed from configs */
-    public create(attributes: IFeedbackRequest, url: string = '/entity/api/functions/FEEDBACK'): Observable<unknown> {
+    public create(attributes: IFeedbackRequest, url: string): Observable<unknown> {
         return this.httpClient.post(url, {attributes});
     }
 }

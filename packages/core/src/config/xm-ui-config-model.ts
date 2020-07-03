@@ -48,7 +48,6 @@ export interface UIPublicConfig {
         icon?: { style?: string; class?: string };
     }[];
     defaultLayout?: ILayout[];
-    layoutSidebar?: IWidget;
 }
 
 export interface UIPrivateConfig {

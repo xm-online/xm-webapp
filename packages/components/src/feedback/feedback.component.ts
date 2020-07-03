@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { XmUiConfigService } from '@xm-ngx/core';
 import { filter, switchMap } from 'rxjs/operators';
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
 import { FeedbackService } from './feedback.service';
@@ -23,9 +22,10 @@ export class FeedbackComponent {
 
     public config: FeedbackConfig;
 
-    constructor(protected uiConfigService: XmUiConfigService<FeedbackConfig>,
-                protected dialog: MatDialog,
-                protected feedbackService: FeedbackService) {
+    constructor(
+        protected dialog: MatDialog,
+        protected feedbackService: FeedbackService,
+    ) {
     }
 
     public create(url?: string): void {
