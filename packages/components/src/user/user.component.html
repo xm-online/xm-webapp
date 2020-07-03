@@ -7,17 +7,19 @@
        class="user-title"
        role="button"
        tabindex="0">
-    <img onerror="this.src='./assets/img/anonymous.png'" [alt]="user.avatarUrl" [src]="user.avatarUrl" class="user-img">
+    <img [alt]="user.avatarUrl" [src]="user.avatarUrl" class="user-img" onerror="this.src='./assets/img/anonymous.png'">
     <span class="user-name">{{ user.username }}</span>
     <i [@indicatorRotate]="getState()"
        class="mat-expansion-indicator"></i>
   </div>
+</ng-container>
 
+<ng-container *ngIf="menu$ | async as menu">
   <!-- menu -->
   <ul [@bodyExpansion]="getState()"
       [ngClass]="getState()"
       class="menu-list">
-    <ng-container *ngFor="let item of user.menu">
+    <ng-container *ngFor="let item of menu">
       <li
         *permitted="item.permission"
         [item]="item"
@@ -33,7 +35,6 @@
     </li>
   </ul>
   <!-- ./menu -->
-
 </ng-container>
 
 
