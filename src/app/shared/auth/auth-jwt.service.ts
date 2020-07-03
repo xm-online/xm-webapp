@@ -15,7 +15,7 @@ const TOKEN_STORAGE_KEY = 'WALLET-TOKEN';
 
 const DEFAULT_HEADERS = {
     'Content-Type': DEFAULT_CONTENT_TYPE,
-    'Authorization': DEFAULT_AUTH_TOKEN,
+    Authorization: DEFAULT_AUTH_TOKEN,
 };
 
 const REFRESH_TOKEN = 'refresh_token';
@@ -60,9 +60,9 @@ export class AuthServerProvider {
 
     public acceptTermsAndConditions(tocOneTimeToken: string): Observable<any> {
         const headers = {
-            'Authorization': DEFAULT_AUTH_TOKEN,
+            Authorization: DEFAULT_AUTH_TOKEN,
             'Content-Type': DEFAULT_CONTENT_TYPE,
-            'Accept': 'application/json',
+            Accept: 'application/json',
         };
         return this.http
             .post(`/uaa/api/users/accept-terms-of-conditions/${tocOneTimeToken}`, {}, {headers});
@@ -160,7 +160,7 @@ export class AuthServerProvider {
                 this.refreshTokens(rememberMe);
             }, timeout);
         } else {
-            console.info('Expected to get %s but got undefined', REFRESH_TOKEN); // tslint:disable-line
+            console.info('Expected to get %s but got undefined', REFRESH_TOKEN);
         }
     }
 
@@ -191,15 +191,14 @@ export class AuthServerProvider {
             }
 
             return accessToken;
-
         }));
     }
 
     private refreshTokens(rememberMe: boolean): void {
         const headers = {
-            'Authorization': DEFAULT_AUTH_TOKEN,
+            Authorization: DEFAULT_AUTH_TOKEN,
             'Content-Type': DEFAULT_CONTENT_TYPE,
-            'Accept': 'application/json',
+            Accept: 'application/json',
         };
 
         const body = new HttpParams()
@@ -213,13 +212,12 @@ export class AuthServerProvider {
                 this.storeRT(data, rememberMe);
                 this.sessionService.update();
             }, (error) => {
-                console.info('Refresh token fails: %o', error); // tslint:disable-line
+                console.info('Refresh token fails: %o', error);
                 this.logout().subscribe();
                 this.principal.logout();
                 this.router.navigate(['']);
                 this.sessionService.clear();
             });
-
     }
 
     private setAutoRefreshTokens(rememberMe: boolean): void {
@@ -235,7 +233,6 @@ export class AuthServerProvider {
                         this.refreshTokens(rememberMe);
                     }
                 }, timeout);
-                this.sessionService.create();
             } else {
                 this.refreshTokens(rememberMe);
             }
