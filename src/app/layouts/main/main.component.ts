@@ -26,7 +26,6 @@ export class XmMainComponent implements OnInit, OnDestroy {
     public isGuestLayout: boolean = true;
     public guestBg: string;
     public authSucessSubscription: Subscription;
-    public isMaintenanceProgress$: BehaviorSubject<boolean>;
     public userAutoLogoutEnabled: boolean;
     public userAutoLogoutSeconds: number;
     public idle: Idle;
@@ -41,9 +40,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
                 protected titleService: TitleService,
                 private eventManager: XmEventManager) {
         this.resolved$ = new BehaviorSubject<boolean>(false);
-        this.isMaintenanceProgress$ = new BehaviorSubject<boolean>(false);
         this.xmConfigService.isResolved().subscribe((res: boolean) => this.resolved$.next(res));
-        this.xmConfigService.isMaintenanceProgress().subscribe((res: boolean) => this.isMaintenanceProgress$.next(res));
     }
 
     public ngOnInit(): void {
@@ -57,15 +54,15 @@ export class XmMainComponent implements OnInit, OnDestroy {
 
         // TODO: const envType = environment.production ? 'PROD' : 'TEST';
         const body = document.getElementsByTagName('body')[0];
-        const isWindows = navigator.platform.indexOf('Win') > -1;
+        const isWindows = navigator.platform.includes('Win');
 
-        // if we are on windows OS we activate the perfectScrollbar function
+        // If we are on windows OS we activate the perfectScrollbar function
         body.classList.add(`perfect-scrollbar-${isWindows ? 'on' : 'off'}`);
 
         this.router.events.subscribe((event) => {
             this.setBackground();
             if (event instanceof NavigationStart) {
-                this.showSidebar = this.excludePathsForViewSidebar.indexOf(event.url) === -1;
+                this.showSidebar = !this.excludePathsForViewSidebar.includes(event.url);
             }
             if (event instanceof NavigationEnd) {
                 this.idleLogoutInit();
@@ -75,10 +72,10 @@ export class XmMainComponent implements OnInit, OnDestroy {
         });
 
         // TODO #14219. workaround for dynamic expand height of textarea
-        $('body').on('keyup', '.textarea-auto-height textarea', function (this: HTMLElement) {
+        $('body').on('keyup', '.textarea-auto-height textarea', function(this: HTMLElement) {
             this.style.overflow = 'hidden';
             this.style.height = '52px';
-            this.style.height = this.scrollHeight + 'px';
+            this.style.height = `${this.scrollHeight  }px`;
         });
 
         $(window).resize(() => {
@@ -110,9 +107,9 @@ export class XmMainComponent implements OnInit, OnDestroy {
                             break;
                         }
 
-                        result[i] = i === 0 ? result[i] + '"' : result[i];
-                        result[i] = i === arr.length - 1 ? '"' + result[i] : result[i];
-                        result[i] = i > 0 && i < arr.length - 1 ? '"' + result[i] + '"' : result[i];
+                        result[i] = i === 0 ? `${result[i]  }"` : result[i];
+                        result[i] = i === arr.length - 1 ? `"${  result[i]}` : result[i];
+                        result[i] = i > 0 && i < arr.length - 1 ? `"${  result[i]  }"` : result[i];
                     }
                     console.info(`["${result}"]`);
                     return result;
@@ -120,8 +117,10 @@ export class XmMainComponent implements OnInit, OnDestroy {
             };
         }
 
-        // using in json form dataSpec interpolation
-        // for avoid break dataSpec json
+        /*
+         * Using in json form dataSpec interpolation
+         * for avoid break dataSpec json
+         */
         if (!$.safe) {
             $.safe = (str) => {
                 if (typeof str !== 'string') {
@@ -197,7 +196,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
 
     private idleAction(time: any): void {
         if (!environment.production) {
-            console.info('>>> init idle logout in ' + time);
+            console.info(`>>> init idle logout in ${  time}`);
         }
         this.isIdleEnabled = true;
         this.idle = new Idle()
@@ -228,7 +227,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
         if (this.config && this.config.loginScreenBg) {
             const currentRoute = this.router.url;
             if (currentRoute === '/') {
-                this.guestBg = 'url(' + this.config.loginScreenBg + ')';
+                this.guestBg = `url(${  this.config.loginScreenBg  })`;
             } else {
                 this.guestBg = null;
             }

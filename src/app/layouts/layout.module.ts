@@ -12,7 +12,7 @@ import { XmSharedModule } from '@xm-ngx/shared';
 import { XmBalanceModule } from '@xm-ngx/xm-balance';
 import { XmSidebarModule } from '../modules/xm-sidebar';
 import { XmSidebarRightModule } from '../../../packages/components/src/xm-sidebar-right';
-import { XmMaintenanceViewModule } from '../shared/components/maintenance/xm-maintenance-view.module';
+import { XmMaintenanceViewModule } from '../../../packages/components/src/maintenance/xm-maintenance-view.module';
 import { InputModule } from '../shared/directives/input.module';
 import { XmTimelineModule } from '../xm-timeline/xm-timeline.module';
 import { FooterComponent } from './footer/footer.component';
