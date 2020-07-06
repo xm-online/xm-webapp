@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RequestCache } from './cache/request-cache';
-import { RequestCacheFactoryService } from './cache/request-cache-factory.service';
-import { XmCoreConfig } from './xm-core-config';
-import { XmSessionService } from './xm-session.service';
+import { RequestCache } from '../cache/request-cache';
+import { RequestCacheFactoryService } from '../cache/request-cache-factory.service';
+import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS } from '../error-handler.interceptor';
+import { XmCoreConfig } from '../xm-core-config';
+import { XmSessionService } from '../xm-session.service';
 import { XmUser } from './xm-user-model';
 
 @Injectable({
@@ -39,6 +40,11 @@ export class XmUserService<T = XmUser> implements OnDestroy {
         this.requestCache.ngOnDestroy();
     }
 
-    private getUser: () => Observable<T> = () => this.httpClient.get<T>(this.xmCoreConfig.USER_URL);
 
+    private getUser(): Observable<T> {
+        return this.httpClient.get<T>(
+            this.xmCoreConfig.USER_URL,
+            { headers: SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS },
+        );
+    }
 }
