@@ -1404,6 +1404,9 @@
       "type-tag": "додати тег ..."
     }
   },
+  "xm-navbar-language-menu": {
+    "choose-language": "Виберіть мову"
+  },
   "xm-notifications": {
     "showAll": "Смотреть все"
   },

@@ -3,9 +3,9 @@ import { XmEventManager } from '@xm-ngx/core';
 import { JhiLanguageService } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
-import { XM_EVENT_LIST } from '../../../xm.constants';
+import { XM_EVENT_LIST } from '../../../../../src/app/xm.constants';
 import { Principal } from '@xm-ngx/core/auth';
-import { XmConfigService } from '../../spec/config.service';
+import { XmConfigService } from '../../../../../src/app/shared/spec/config.service';
 import { UserLogin } from './user-login.model';
 
 @Injectable()

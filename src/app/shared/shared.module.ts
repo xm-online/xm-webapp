@@ -6,6 +6,7 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MarkdownModule } from 'ngx-markdown';
+import { XmUserLoginWidgetModule } from '../../../packages/xm-account/src/xm-user-login-widget/xm-user-login-widget.module';
 
 import { MatModule } from '../mat.module';
 import {
@@ -27,7 +28,6 @@ import {
     RegisterComponent,
     RegisterService,
     StateStorageService,
-    UserLoginFormComponent,
     UserLoginService,
     UserService,
     XmConfigService,
@@ -61,13 +61,12 @@ import { PasswordStrengthBarComponent } from './password-strength-bar/password-s
 import { RoleService } from './role/role.service';
 import { GateSharedLibsModule } from './shared-libs.module';
 
-const PIPES = [
-    XmEntityIconPipe,
-];
+const PIPES = [XmEntityIconPipe];
 
 @NgModule({
     imports: [
         XmJsonSchemeFormModule,
+        XmUserLoginWidgetModule,
         GateSharedLibsModule,
         ReCaptchaModule,
         MarkdownModule.forChild(),
@@ -86,7 +85,6 @@ const PIPES = [
         XmCondition,
         XmEntityStateSpecPipe,
         XmDateTimePipe,
-        UserLoginFormComponent,
         FocusDirective,
         InputPreventPasteDirective,
         DigitOnlyDirective,
@@ -140,7 +138,6 @@ const PIPES = [
         GateSharedLibsModule,
         JhiSocialComponent,
         LoginComponent,
-        UserLoginFormComponent,
         RegisterComponent,
         HasAnyAuthorityDirective,
         DatePipe,
@@ -172,6 +169,7 @@ const PIPES = [
         FileUploadComponent,
         GooglePlaceModule,
         PIPES,
+        XmUserLoginWidgetModule,
         XmJsonSchemeFormModule,
     ],
 

@@ -1,0 +1,28 @@
+<div *ngIf="success" [innerHTML]="'settings.messages.logins.success' | translate" class="alert alert-success"></div>
+
+<form #editForm="ngForm" (ngSubmit)="save()" class="m-0" name="editForm" novalidate>
+  <div *ngFor="let login of userLogins" class="form-group">
+    <mat-form-field>
+      <input [(ngModel)]="login.value"
+             id="{{login.key}}"
+             matInput
+             name="{{login.key}}"
+             placeholder="{{login.name}}"
+             type="text">
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="!isCreate" class="text-right">
+    <button (click)="clear()" *ngIf="isUser" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
+      <span>{{'entity.action.cancel' | translate}}</span>
+    </button>
+
+    <button *xmPermitted="['ACCOUNT.LOGIN.UPDATE']"
+            [disabled]="!isSubmitValid(editForm)"
+            class="btn"
+            color="primary"
+            mat-button>
+      <span>{{'entity.action.save' | translate}}</span>
+    </button>
+  </div>
+</form>

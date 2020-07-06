@@ -4,12 +4,11 @@
                        [init]="{module: defaultWidget.module, selector: defaultWidget.selector, component: defaultWidget.component, config: defaultWidget.config}">
     </xm-dynamic-widget>
   </div>
+
   <div class="col-md-6 default-right-col">
     <xm-dynamic-widget *ngIf="signWidget?.module"
                        [init]="{module: signWidget.module, selector: signWidget.selector, component: signWidget.component, config: signWidget.config}">
     </xm-dynamic-widget>
-<!-- TODO: remove or implement -->
-<!--    <dynamic-widget [widgetData]="{component: signWidget.component, inputs: {config: signWidget.config || {}}}"></dynamic-widget>-->
   </div>
 </div>
 

@@ -3,11 +3,11 @@ import { NgForm } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 
-import { XM_EVENT_LIST } from '../../../../app/xm.constants';
-import { AccountService } from '../../auth/account.service';
-import { Principal } from '../../auth/principal.service';
-import { User } from '../user.model';
-import { UserService } from '../user.service';
+import { XM_EVENT_LIST } from '../../../../../src/app/xm.constants';
+import { AccountService } from '../../../../../src/app/shared/auth/account.service';
+import { Principal } from '../../../../../src/app/shared/auth/principal.service';
+import { User } from '../../../../../src/app/shared/user/user.model';
+import { UserService } from '../../../../../src/app/shared/user/user.service';
 import { UserLoginService } from './user-login.service';
 
 @Component({

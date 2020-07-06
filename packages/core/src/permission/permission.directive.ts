@@ -1,5 +1,7 @@
-import { Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { Directive, EmbeddedViewRef, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { ReplaySubject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { PermissionCheckStrategy, XmPermissionService } from './xm-permission.service';
 
 export interface PermissionContext {
@@ -48,7 +50,7 @@ function permissionContextFactory(): PermissionContext {
 @Directive({
     selector: '[xmPermission]',
 })
-export class PermissionDirective {
+export class PermissionDirective implements OnInit, OnDestroy {
 
     @Input() public strategy: PermissionCheckStrategy = PermissionCheckStrategy.ALL;
     private context: PermissionContext | null = permissionContextFactory();
@@ -56,6 +58,7 @@ export class PermissionDirective {
     private elseTemplateRef: TemplateRef<PermissionContext> | null = null;
     private thenViewRef: EmbeddedViewRef<PermissionContext> | null = null;
     private elseViewRef: EmbeddedViewRef<PermissionContext> | null = null;
+    private update$: ReplaySubject<void> = new ReplaySubject(1);
 
     constructor(
         private viewContainer: ViewContainerRef,
@@ -99,18 +102,22 @@ export class PermissionDirective {
         this.validatePermissions();
     }
 
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
+    public ngOnInit(): void {
+        this.update$.pipe(
+            takeUntilOnDestroy(this),
+            switchMap(() => this.permissionService.hasPrivilegesBy(this.context.$implicit, this.strategy)),
+        ).subscribe((allow: boolean) => {
+            this.context.allow = allow;
+            this.updateView();
+        });
+    }
+
     private validatePermissions(): void {
-        /*
-         * TODO:
-         *  1. Possible parallel requests;
-         *  2. does not listen permissionService changes.
-         */
-        this.permissionService.hasPrivilegesBy(this.context.$implicit, this.strategy)
-            .pipe(take(1))
-            .subscribe((allow: boolean): void => {
-                this.context.allow = allow;
-                this.updateView();
-            });
+        this.update$.next();
     }
 
     private updateView(): void {
@@ -132,6 +139,5 @@ export class PermissionDirective {
             }
         }
     }
-
 
 }

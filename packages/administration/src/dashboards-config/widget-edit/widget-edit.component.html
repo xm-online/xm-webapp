@@ -1,12 +1,12 @@
-<form #form="ngForm" class="p-3 mb-0">
+<form #form="ngForm" class="p-3 mb-0 h-100">
 
   <xm-loader [showLoader]="loading$ | async"></xm-loader>
 
   <div class="d-flex justify-content-between">
 
     <button (click)="backToOrganisation()"
-            color="primary"
             [matTooltip]="TRS.dashboard | translate"
+            color="primary"
             mat-icon-button>
       <mat-icon>keyboard_backspace</mat-icon>
     </button>
@@ -53,21 +53,23 @@
 
   </div>
 
-  <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="font-weight-bold">{{ value.id }}</span></div>
+  <div class="section-scroll">
+    <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="font-weight-bold">{{ value.id }}</span></div>
 
-  <xm-text-control [(ngModel)]="formGroup.name"
-                   [disabled]="disabled"
-                   [options]="{ title: TRS.name }" name="name"></xm-text-control>
+    <xm-text-control [(ngModel)]="formGroup.name"
+                     [disabled]="disabled"
+                     [options]="{ title: TRS.name }" name="name"></xm-text-control>
 
-  <xm-text-control [(ngModel)]="formGroup.selector"
-                   [disabled]="disabled"
-                   [options]="{ title: TRS.selector }"
-                   name="selector"></xm-text-control>
+    <xm-text-control [(ngModel)]="formGroup.selector"
+                     [disabled]="disabled"
+                     [options]="{ title: TRS.selector }"
+                     name="selector"></xm-text-control>
 
-  <xm-ace-editor-control [(ngModel)]="formGroup.config"
-                         [disabled]="disabled"
-                         [options]="aceEditorOptions"
-                         name="layout">
-  </xm-ace-editor-control>
-
+    <xm-ace-editor-control [(ngModel)]="formGroup.config"
+                           [disabled]="disabled"
+                           [options]="aceEditorOptions"
+                           class="mh-"
+                           name="layout">
+    </xm-ace-editor-control>
+  </div>
 </form>

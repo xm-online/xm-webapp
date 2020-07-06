@@ -29,6 +29,8 @@ export interface XmUser {
     lastName?: string;
     activated?: boolean;
     autoLogoutEnabled?: boolean;
+    autoLogoutTime?: number;
+    timeZoneOffset?: string;
     autoLogoutTimeoutSeconds?: number;
     langKey?: string;
     permissions?: XmUserPermission[];
