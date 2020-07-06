@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { XmUser, XmUserPermission } from '../auth/xm-user-model';
-import { XmUserService } from '../auth/xm-user.service';
+import { XmUser, XmUserService } from "@xm-ngx/core";
+import { XmUserPermission } from "../auth/xm-user-model";
 
 function getPrivileges(permissions: XmUserPermission[]): string[] {
     return _.reduce(permissions, (result, el) => {
