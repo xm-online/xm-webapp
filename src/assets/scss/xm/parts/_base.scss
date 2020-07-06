@@ -210,14 +210,6 @@ xm-per-page {
         transition: none;
     }
 
-    &.has-ackground {
-        .navbar.navbar-transparent {
-            background: #fff !important;
-            box-shadow: 0 2px 2px 0 rgba(0,0,0, .1);
-            border-radius: 0;
-        }
-    }
-
     .xm-nav-logo {
         display: block;
         padding-right: 15px;

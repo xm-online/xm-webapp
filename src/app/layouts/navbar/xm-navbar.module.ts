@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { LanguageModule } from '@xm-ngx/components/language';
+import { NavbarGuestBackgroundModule } from '@xm-ngx/components/navbar-guest-background/navbar-guest-background.module';
 import { XmNotificationsModule } from '@xm-ngx/components/xm-notifications';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDynamicModule } from '../../../../packages/xm-dynamic/src/xm-dynamic.module';
@@ -29,6 +30,7 @@ import { XmNavbarToggleComponent } from './xm-navbar-toggle.component';
         XmNotificationsModule,
         LanguageModule,
         MatMenuModule,
+        NavbarGuestBackgroundModule,
     ],
     exports: [NavbarComponent],
     declarations: [

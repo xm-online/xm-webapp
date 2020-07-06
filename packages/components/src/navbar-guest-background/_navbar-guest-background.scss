@@ -1,0 +1,6 @@
+@import 'theme';
+
+.xmGuestBackground-active {
+  background: $xm-surface;
+  @include xm-shadow-xs();
+}
