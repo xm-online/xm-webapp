@@ -1438,6 +1438,9 @@
       "type-tag": "type tag ..."
     }
   },
+  "xm-navbar-language-menu": {
+    "choose-language": "Choose a language"
+  },
   "xm-notifications": {
     "showAll": "View all"
   },
