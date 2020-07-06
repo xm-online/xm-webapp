@@ -133,4 +133,8 @@ export const XM_ELEMENTS: DynamicComponents = [
         selector: '@xm-ngx/account/xm-user-settings-widget',
         loadChildren: () => import('@xm-ngx/account/xm-user-settings-widget').then(m => m.XmUserSettingsWidgetModule),
     },
+    {
+        selector: '@xm-ngx/account/xm-user-password-widget',
+        loadChildren: () => import('@xm-ngx/account/xm-user-password-widget').then(m => m.XmUserPasswordWidgetModule),
+    },
 ];
