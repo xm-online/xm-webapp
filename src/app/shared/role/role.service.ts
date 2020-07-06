@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Role, RoleMatrix } from './role.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class RoleService {
     private resourceUrl: string = 'uaa/api/roles';
 
@@ -14,16 +14,24 @@ export class RoleService {
     }
 
     public create(role: Role): Observable<any> {
-        const copy: Role = Object.assign({}, role);
-        if (copy.createdDate) {copy.createdDate = this.dateUtils.toDate(copy.createdDate); }
-        if (copy.updatedDate) {copy.updatedDate = this.dateUtils.toDate(copy.updatedDate); }
+        const copy: Role = { ...role};
+        if (copy.createdDate) {
+            copy.createdDate = this.dateUtils.toDate(copy.createdDate);
+        }
+        if (copy.updatedDate) {
+            copy.updatedDate = this.dateUtils.toDate(copy.updatedDate);
+        }
         return this.http.post(this.resourceUrl, role);
     }
 
     public update(role: Role): Observable<any> {
-        const copy: Role = Object.assign({}, role);
-        if (copy.createdDate) {copy.createdDate = this.dateUtils.toDate(copy.createdDate); }
-        if (copy.updatedDate) {copy.updatedDate = this.dateUtils.toDate(copy.updatedDate); }
+        const copy: Role = { ...role};
+        if (copy.createdDate) {
+            copy.createdDate = this.dateUtils.toDate(copy.createdDate);
+        }
+        if (copy.updatedDate) {
+            copy.updatedDate = this.dateUtils.toDate(copy.updatedDate);
+        }
         return this.http.put(this.resourceUrl, role);
     }
 

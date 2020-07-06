@@ -11,7 +11,7 @@ import { XM_CORE_EXTERNAL_CONFIG, XmCoreConfig } from './xm-core-config';
 import { XmEventManagerService } from './xm-event-manager.service';
 
 import { XmSessionService } from './xm-session.service';
-import { XmUserService } from './xm-user.service';
+import { XmUserService } from './auth/xm-user.service';
 
 export function xmCoreConfigFactory(externalConfig?: XmCoreConfig): XmCoreConfig {
     return defaults(externalConfig, new XmCoreConfig());
