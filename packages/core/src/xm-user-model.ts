@@ -30,6 +30,7 @@ export interface XmUser {
     activated?: boolean;
     autoLogoutEnabled?: boolean;
     autoLogoutTime?: number;
+    timeZoneOffset?: string;
     autoLogoutTimeoutSeconds?: number;
     langKey?: string;
     permissions?: XmUserPermission[];

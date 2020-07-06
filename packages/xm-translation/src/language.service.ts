@@ -4,12 +4,14 @@ import { XmEventManager, XmUiConfigService, XmUserService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { SessionStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { getBrowserLocale } from './getBrowserLocale';
 import { LANGUAGES } from './language.constants';
 import { OnInitialize } from './title.service';
 
-/** @description Translates as json
+/**
+ * @description Translates as json
  * @example:
  *  {en: 'Hi', ru: 'хай'}
  */
@@ -21,7 +23,8 @@ export interface ITranslate {
     [locale: string]: string;
 }
 
-/** @description Translate for a translate pipe.
+/**
+ * @description Translate for a translate pipe.
  * @example:
  * {en: 'Hi', ru: 'хай'}
  * @example:
@@ -47,7 +50,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
         protected eventManager: XmEventManager,
         protected translate: TranslateService,
         protected userService: XmUserService,
-        protected configService: XmUiConfigService<{ langs: string[] }>,
+        protected configService: XmUiConfigService<{ langs: Locale[] }>,
         protected sessionStorage: SessionStorageService,
     ) {
         this.$locale = new BehaviorSubject<Locale | null>(null);
@@ -71,9 +74,16 @@ export class LanguageService implements OnDestroy, OnInitialize {
         console.info('TRANSLATION Locale changed:', value);
     }
 
-    /** @description Get languages list */
+    /** @description Get default languages list */
     public get languages(): Locale[] {
         return LANGUAGES;
+    }
+
+    /** @description Get languages list from config or default */
+    public languages$(): Observable<Locale[]> {
+        return this.configService.config$().pipe(
+            map((c) => c?.langs ? c.langs : this.languages),
+        );
     }
 
     public ngOnDestroy(): void {
@@ -81,7 +91,8 @@ export class LanguageService implements OnDestroy, OnInitialize {
         takeUntilOnDestroyDestroy(this);
     }
 
-    /** @description Set html lang
+    /**
+     * @description Set html lang
      *  @example <html lang="en">
      */
     public setLangHTMLAttr(locale: Locale): void {
