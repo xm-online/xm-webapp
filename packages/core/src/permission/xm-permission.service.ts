@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable, of } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
-import { SUPER_ADMIN } from '../../../../src/app/shared/auth';
+import { filter, first, map, switchMap } from 'rxjs/operators';
 import { XmUser, XmUserPermission } from '../auth/xm-user-model';
 import { XmUserService } from '../auth/xm-user.service';
+
+export const SUPER_ADMIN = 'SUPER-ADMIN';
 
 function getPrivileges(permissions: XmUserPermission[]): string[] {
     return _.reduce(permissions, (result, el) => {
@@ -85,8 +86,9 @@ export class XmPermissionService {
 
     private isSuperAdmin(res: Observable<boolean>): Observable<boolean> {
         return this.userService.user$().pipe(
+            filter((u) => Boolean(u)),
             first(),
             switchMap((user) => user.roleKey === SUPER_ADMIN ? of(true) : res),
-        )
+        );
     }
 }

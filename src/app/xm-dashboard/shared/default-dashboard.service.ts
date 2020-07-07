@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { XmUiConfigService } from '@xm-ngx/core';
-import { DashboardWrapperService } from './dashboard-wrapper.service';
-import { Dashboard } from './dashboard.model';
 import * as _ from 'lodash';
 import { Observable, zip } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
+import { DashboardWrapperService } from './dashboard-wrapper.service';
+import { Dashboard } from './dashboard.model';
 
 function getWithConfig(idOrSlug: number | string | null, dashboards: Dashboard[]): Dashboard | null {
     if (!idOrSlug || !dashboards) {
@@ -13,7 +13,7 @@ function getWithConfig(idOrSlug: number | string | null, dashboards: Dashboard[]
     return dashboards.find((d) => (d.config && d.config.slug === idOrSlug));
 }
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class DefaultDashboardService {
 
     constructor(
@@ -54,7 +54,10 @@ export class DefaultDashboardService {
             take(1),
             map(c => c && c.defaultDashboard ? c.defaultDashboard : null),
         );
-        const dashboards$ = this.dashboardWrapperService.dashboards$().pipe(take(1));
+        const dashboards$ = this.dashboardWrapperService.dashboards$().pipe(
+            filter((ds) => Boolean(ds)),
+            take(1),
+        );
 
         return zip(config$, dashboards$);
     }
