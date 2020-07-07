@@ -9,10 +9,11 @@ import {
     filterByConditionDashboards,
 } from '@xm-ngx/components/menu/menu.component';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { DashboardService } from '@xm-ngx/dashboard';
+import { DashboardWrapperService } from '@xm-ngx/dashboard';
+import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, share, switchMap } from 'rxjs/operators';
+import { filter, map, share, shareReplay, switchMap } from 'rxjs/operators';
 import { AccountService, ContextService, User } from '../../../../src/app/shared';
 import { MenuItem } from '../menu/menu-models';
 
@@ -85,7 +86,7 @@ export class UserComponent implements OnInit {
     protected subscriptions: Subscription[] = [];
 
     constructor(
-        protected readonly dashboardService: DashboardService,
+        protected readonly dashboardService: DashboardWrapperService,
         protected readonly accountService: AccountService,
         protected readonly contextService: ContextService,
         protected readonly router: Router,
@@ -93,14 +94,15 @@ export class UserComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.menu$ = this.dashboardService.query().pipe(
-            map((i) => i.body),
+        this.menu$ = this.dashboardService.dashboards$().pipe(
+            takeUntilOnDestroy(this),
+            filter((dashboards) => Boolean(dashboards)),
             map((i) => filterByConditionDashboards(i, this.contextService)),
             map((i) => _.filter(i, (j) => (j.config?.menu?.section === 'xm-user'))),
             map(dashboardsToCategories),
             map(categoriesToMenuItems),
             map((arr) => arr?.length ? arr : USER_MENU),
-            share(),
+            shareReplay(1),
         );
 
         this.user$ = this.accountService.get().pipe(
