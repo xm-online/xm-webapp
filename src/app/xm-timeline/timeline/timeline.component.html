@@ -1,7 +1,7 @@
 <div *ngIf="timelinePage && timelinePage.timelines?.length > 0" class="container-fluid">
 
   <div *ngIf="showTimelineHeader" class="header text-center">
-    <h3 class="title text-muted" jhiTranslate="xm-timeline.timeline.title">Timeline</h3>
+    <h3 class="title text-muted">{{'xm-timeline.timeline.title' | translate}}</h3>
   </div>
 
   <div>
@@ -76,7 +76,7 @@
             [disabled]="showLoader"
             class="btn btn-primary rounded-circle"
             type="submit">
-      <span jhiTranslate="xm-timeline.timeline.more">more timeline events...</span>
+      <span>{{'xm-timeline.timeline.more' | translate}}</span>
     </button>
 
   </div>
