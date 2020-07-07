@@ -29,43 +29,62 @@
     </div>
 
     <div *ngIf="mode == 'list'" class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th></th>
-          <th *ngFor="let field of fields">
-            <span>{{field.title | translate}}</span>
-          </th>
-          <th *ngIf="!isBackLink"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let link of links">
-          <td>
+      <table class="table"
+             mat-table matSort
+             [dataSource]="links">
+
+        <ng-container matColumnDef="avatar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td *matCellDef="let link">
             <div class="xm-avatar-img-container">
               <img src="{{link.target.avatarUrl ? link.target.avatarUrl : './assets/img/placeholder.png'}}">
               <i *ngIf="linkSpec.model.icon && !link.target.avatarUrl"
                  class="material-icons">{{linkSpec.model.icon}}</i>
             </div>
           </td>
-          <td *ngFor="let field of fields">
-            <a *ngIf="field.field =='name'; else barePropertyText"
-               routerLink="/application/{{link.target.typeKey}}/{{link.target.id}}"
-               title="{{link.target.key}}">
-              {{ getFieldValue(link.target, field) }}
-            </a>
-            <ng-template #barePropertyText>
-              {{ getFieldValue(link.target, field) }}
-            </ng-template>
-          </td>
+        </ng-container>
 
-          <td *ngIf="!isBackLink">
+        <ng-container *ngFor="let field of fields" [ngSwitch]="field?.field" [matColumnDef]="field?.field">
+
+          <ng-container *ngSwitchCase="'name'">
+            <th mat-header-cell *matHeaderCellDef [mat-sort-header]="field.field">{{field.title | translate}}</th>
+            <td mat-cell *matCellDef="let link">
+              <a href="javascript: void(0);" routerLink="/application/{{link.target.typeKey}}/{{link.target.id}}">
+                {{ getFieldValue(link?.target, field) }}
+              </a>
+            </td>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'description'">
+            <th mat-header-cell *matHeaderCellDef [mat-sort-header]="field.field">{{field.title | translate}}</th>
+            <td mat-cell *matCellDef="let link"><h6>{{ link.description }}</h6></td>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <ng-container *ngIf="field?.useKeyword && field?.sortable; else noSort">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>{{field.title | translate}}</th>
+            </ng-container>
+            <ng-template #noSort>
+              <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+            </ng-template>
+
+            <td mat-cell *matCellDef="let xmEntity">{{ getFieldValue(xmEntity, field) }}</td>
+          </ng-container>
+
+        </ng-container>
+
+        <ng-container matColumnDef="delete" *ngIf="!isBackLink">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let link">
             <a (click)="onRemove(link)" *permitted="'LINK.DELETE'" class="text-muted" role="button">
               <i class="material-icons">close</i>
             </a>
           </td>
-        </tr>
-        </tbody>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+
       </table>
     </div>
 
