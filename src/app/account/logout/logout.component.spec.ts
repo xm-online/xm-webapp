@@ -1,6 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { XmAlertService } from '@xm-ngx/alert';
+import { XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { of } from 'rxjs';
 import { LoginService } from '../../shared';
 
 import { LogoutComponent } from './logout.component';
@@ -13,7 +18,14 @@ describe('LogoutComponent', () => {
         TestBed.configureTestingModule({
             imports: [XmSharedTestingModule, HttpClientTestingModule],
             declarations: [LogoutComponent],
-            providers: [{provide: LoginService, useValue: {}}],
+            providers: [
+                { provide: LoginService, useValue: {} },
+                { provide: XmEntitySpecWrapperService, useValue: {} },
+                { provide: TranslateService, useValue: {} },
+                { provide: XmAlertService, useValue: { open: () => of({}) } },
+                { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => '' } } } },
+                { provide: Router, useValue: {} },
+            ],
         })
             .compileComponents();
     }));
