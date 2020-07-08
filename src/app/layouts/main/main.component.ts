@@ -24,7 +24,6 @@ export class XmMainComponent implements OnInit, OnDestroy {
     public resolved$: BehaviorSubject<boolean>;
     public isIdleEnabled: boolean;
     public isGuestLayout: boolean = true;
-    public guestBg: string;
     public authSucessSubscription: Subscription;
     public userAutoLogoutEnabled: boolean;
     public userAutoLogoutSeconds: number;
@@ -60,7 +59,6 @@ export class XmMainComponent implements OnInit, OnDestroy {
         body.classList.add(`perfect-scrollbar-${isWindows ? 'on' : 'off'}`);
 
         this.router.events.subscribe((event) => {
-            this.setBackground();
             if (event instanceof NavigationStart) {
                 this.showSidebar = !this.excludePathsForViewSidebar.includes(event.url);
             }
@@ -196,7 +194,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
 
     private idleAction(time: any): void {
         if (!environment.production) {
-            console.info(`>>> init idle logout in ${  time}`);
+            console.info(`>>> init idle logout in ${time}`);
         }
         this.isIdleEnabled = true;
         this.idle = new Idle()
@@ -223,14 +221,4 @@ export class XmMainComponent implements OnInit, OnDestroy {
         });
     }
 
-    private setBackground(): void {
-        if (this.config && this.config.loginScreenBg) {
-            const currentRoute = this.router.url;
-            if (currentRoute === '/') {
-                this.guestBg = `url(${  this.config.loginScreenBg  })`;
-            } else {
-                this.guestBg = null;
-            }
-        }
-    }
 }

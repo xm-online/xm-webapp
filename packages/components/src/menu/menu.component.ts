@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router } from '@angular/router';
-import { Dashboard, DashboardService, JavascriptCode } from '@xm-ngx/dashboard';
+import { Dashboard, DashboardWrapperService, JavascriptCode } from '@xm-ngx/dashboard';
 import { XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { transpilingForIE } from '@xm-ngx/json-scheme-form';
+import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, share, shareReplay, take, tap } from 'rxjs/operators';
+import { filter, map, shareReplay, take, tap } from 'rxjs/operators';
 
 import { ContextService, Principal } from '../../../../src/app/shared';
 import { XmPublicUiConfigService } from '../../../core/src/config/xm-public-ui-config.service';
@@ -155,7 +156,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     protected subscriptions: Subscription[] = [];
 
     constructor(
-        protected readonly dashboardService: DashboardService,
+        protected readonly dashboardService: DashboardWrapperService,
         protected readonly router: Router,
         protected readonly principal: Principal,
         protected readonly uiConfigService: XmPublicUiConfigService<{ sidebar?: { hideAdminConsole?: boolean } }>,
@@ -165,8 +166,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        const dashboards$ = this.dashboardService.query().pipe(
-            map((i) => i.body),
+        const dashboards$ = this.dashboardService.dashboards$().pipe(
+            takeUntilOnDestroy(this),
+            filter((dashboards) => Boolean(dashboards)),
             map((i) => filterByConditionDashboards(i, this.contextService)),
             map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
             map(dashboardsToCategories),
@@ -192,7 +194,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
         this.categories$ = combineLatest([dashboards$, applications$, default$]).pipe(
             map(([a, b, c]) => [...a, ...b, ...c]),
-            share(),
+            shareReplay(1),
         );
 
         this.subscriptions.push(combineLatest([
