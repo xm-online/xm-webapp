@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { buildJsfAttributes } from '@xm-ngx/json-scheme-form';
@@ -17,7 +17,7 @@ import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-lis
     templateUrl: './entity-list-card.component.html',
     styleUrls: ['./entity-list-card.component.scss'],
 })
-export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
+export class EntityListCardComponent implements OnInit, OnChanges {
 
     @Input() public spec: Spec;
     @Input() public options: EntityListCardOptions;
@@ -65,9 +65,6 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             this.reverse = false;
             this.load();
         }
-    }
-
-    public ngOnDestroy(): void {
     }
 
     public onRefresh(): void {
