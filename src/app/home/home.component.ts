@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 import { Observable, Subscription } from 'rxjs';
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 private eventManager: JhiEventManager,
                 private xmConfigService: XmConfigService,
                 private http: HttpClient,
+                private router: Router,
                 private authServerProvider: AuthServerProvider) {
     }
 
@@ -43,28 +45,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         this.registerAuthenticationSuccess();
 
-        this.getAccessToken().subscribe(() => {
-            this.xmConfigService.getUiConfig().subscribe((result) => {
-                if (result) {
-                    if (result.defaultLayout) {
-                        this.defaultLayout = result.defaultLayout.map((row) => {
-                            row.content = row.content.map((el) => {
-                                el.widget = this.getWidgetComponent(el.widget);
-                                return el;
-                            });
-                            return row;
-                        });
-                    } else {
-                        this.defaultWidget = this.getWidgetComponent(result.defaultWidget);
-                    }
-                } else {
-                    this.defaultWidget = this.getWidgetComponent();
-                }
-            }, (err) => {
-                console.warn(err);
-                this.defaultWidget = this.getWidgetComponent();
+        if (!this.isAuthenticated()) {
+            this.getAccessToken().subscribe(() => {
+                this.getConfigAndNavigate();
             });
-        });
+        } else if (this.isAuthenticated()) {
+            this.router.navigate(['dashboard'], { replaceUrl: true });
+        }
     }
 
     public ngOnDestroy(): void {
@@ -81,6 +68,29 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     public isAuthenticated(): boolean {
         return this.principal.isAuthenticated();
+    }
+
+    private getConfigAndNavigate(): void {
+        this.xmConfigService.getUiConfig().subscribe((result) => {
+            if (result) {
+                if (result.defaultLayout) {
+                    this.defaultLayout = result.defaultLayout.map((row) => {
+                        row.content = row.content.map((el) => {
+                            el.widget = this.getWidgetComponent(el.widget);
+                            return el;
+                        });
+                        return row;
+                    });
+                } else {
+                    this.defaultWidget = this.getWidgetComponent(result.defaultWidget);
+                }
+            } else {
+                this.defaultWidget = this.getWidgetComponent();
+            }
+        }, (err) => {
+            console.warn(err);
+            this.defaultWidget = this.getWidgetComponent();
+        });
     }
 
     private getAccessToken(): Observable<void> {
