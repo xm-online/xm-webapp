@@ -1,24 +1,15 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { XmAlertService } from '@xm-ngx/alert';
-import { XmEventManager } from '@xm-ngx/core';
 import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
-import { buildJsfAttributes, transpilingForIE } from '@xm-ngx/json-scheme-form';
-import { XmToasterService } from '@xm-ngx/toaster';
+import { buildJsfAttributes } from '@xm-ngx/json-scheme-form';
 import * as _ from 'lodash';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 
-import { ContextService, ITEMS_PER_PAGE, Principal, XmConfigService } from '../../shared';
+import { ContextService, ITEMS_PER_PAGE, XmConfigService } from '../../shared';
 import { getFieldValue } from '../../shared/helpers/entity-list-helper';
-import { saveFile } from '../../shared/helpers/file-download-helper';
-import { I18nNamePipe } from '@xm-ngx/components/language';
-import { XM_EVENT_LIST } from '../../xm.constants';
-import { FunctionCallDialogComponent } from '../function-call-dialog/function-call-dialog.component';
-import { ActionOptions, EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
+import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
 
 
 @Component({
@@ -26,7 +17,7 @@ import { ActionOptions, EntityListCardOptions, EntityOptions, FieldOptions } fro
     templateUrl: './entity-list-card.component.html',
     styleUrls: ['./entity-list-card.component.scss'],
 })
-export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
+export class EntityListCardComponent implements OnInit, OnChanges {
 
     @Input() public spec: Spec;
     @Input() public options: EntityListCardOptions;
@@ -43,21 +34,12 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     private entitiesUiConfig: any[] = [];
     private currentEntitiesUiConfig: any[] = [];
 
-    private entityListActionSuccessSubscription: Subscription;
-    private entityEntityListModificationSubscription: Subscription;
 
     constructor(private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private xmEntityService: XmEntityService,
-                private eventManager: XmEventManager,
-                private modalService: MatDialog,
                 private xmConfigService: XmConfigService,
-                private translateService: TranslateService,
-                private toasterService: XmToasterService,
-                private alertService: XmAlertService,
-                private i18nNamePipe: I18nNamePipe,
                 private router: Router,
-                private contextService: ContextService,
-                private principal: Principal) {
+                private contextService: ContextService) {
         this.entitiesPerPage = ITEMS_PER_PAGE;
         this.activeItemId = 0;
         this.predicate = 'id';
@@ -67,6 +49,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     public ngOnInit(): void {
         this.getEntitiesUIConfig();
     }
+
 
     public isHideAll(typeKey: string): boolean {
         if (this.currentEntitiesUiConfig && this.currentEntitiesUiConfig.length) {
@@ -82,11 +65,6 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             this.reverse = false;
             this.load();
         }
-    }
-
-    public ngOnDestroy(): void {
-        this.eventManager.destroy(this.entityListActionSuccessSubscription);
-        this.eventManager.destroy(this.entityEntityListModificationSubscription);
     }
 
     public onRefresh(): void {
@@ -106,6 +84,19 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
+    public getDefaultSearch(entityOptions: EntityOptions): string {
+        if (!entityOptions.fastSearch) {
+            return null;
+        }
+        let fastSearchWithoutName: any;
+        if (this.isHideAll(entityOptions.typeKey)) {
+            fastSearchWithoutName = entityOptions.fastSearch[0];
+        } else {
+            fastSearchWithoutName = entityOptions.fastSearch.filter((s) => !s.name).shift();
+        }
+        return !fastSearchWithoutName ? null : fastSearchWithoutName.query;
+    }
+
     public setActiveTab(i: number): void {
         this.activeItemId = i;
         const entityOptions = this.list[i];
@@ -121,113 +112,11 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.load();
     }
 
-    public onLoadPage(event: any,  entityOptions: EntityOptions): void {
-        entityOptions.page = event;
-        this.loadEntities(entityOptions).subscribe((result) => entityOptions.entities = result);
-    }
-
     public onNavigate(entityOptions: EntityOptions, xmEntity: XmEntity): void {
         this.getRouterLink(entityOptions, xmEntity)
             .pipe(
                 finalize(() => this.contextService.put('xmEntityId', xmEntity.id)),
             ).subscribe((commands) => this.router.navigate(commands));
-    }
-
-    public getFastSearches(entityOptions: EntityOptions): any {
-        return entityOptions.fastSearch ? entityOptions.fastSearch.filter((s) => !!s.name) : null;
-    }
-
-    public getDefaultSearch(entityOptions: EntityOptions): string {
-        if (!entityOptions.fastSearch) {
-            return null;
-        }
-        let fastSearchWithoutName: any;
-        if (this.isHideAll(entityOptions.typeKey)) {
-            fastSearchWithoutName = entityOptions.fastSearch[0];
-        } else {
-            fastSearchWithoutName = entityOptions.fastSearch.filter((s) => !s.name).shift();
-        }
-        return !fastSearchWithoutName ? null : fastSearchWithoutName.query;
-    }
-
-    public onApplyFastSearch(entityOptions: EntityOptions, query: string): void {
-        entityOptions.currentQuery = query;
-        this.loadEntities(entityOptions).subscribe((result) => entityOptions.entities = result);
-    }
-
-    public onApplyFilter(entityOptions: EntityOptions, data: any): void {
-        const copy = Object.assign({}, entityOptions);
-        let funcValue;
-        try {
-            funcValue = new Function('return `' + entityOptions.filter.template + '`;').call(data);
-        } catch (e) {
-            funcValue = transpilingForIE(entityOptions.filter.template, data);
-        }
-        copy.currentQuery = (copy.currentQuery ? copy.currentQuery : '') + ' ' + funcValue;
-        entityOptions.currentQuery = copy.currentQuery;
-        entityOptions.page = this.firstPage;
-        this.loadEntities(entityOptions).subscribe((resp) => this.list[this.activeItemId].entities = resp);
-    }
-
-    public onAction(entityOptions: EntityOptions, xmEntity: XmEntity, action: ActionOptions): MatDialogRef<any> | null {
-        if (action.handler) {
-            action.handler(xmEntity);
-            return null;
-        }
-
-        const modalRef = this.modalService.open(FunctionCallDialogComponent, {width: '500px'});
-        this.translateService.get('xm-entity.entity-list-card.action-dialog.question', {
-            action: this.i18nNamePipe.transform(action.name, this.principal),
-            name: xmEntity.name,
-        }).subscribe((result) => {
-            modalRef.componentInstance.dialogTitle = result;
-        });
-        modalRef.componentInstance.buttonTitle = action.name;
-        modalRef.componentInstance.xmEntity = xmEntity;
-        modalRef.componentInstance.functionSpec = entityOptions.xmEntitySpec.functions
-            ? entityOptions.xmEntitySpec.functions
-                .filter((f) => f.key === action.functionKey)
-                .shift() : {key: action.functionKey};
-        return modalRef;
-    }
-
-    public onFileExport(entityOptions: EntityOptions, exportType: string): void {
-        this.showLoader = true;
-        this.xmEntityService.fileExport(exportType, entityOptions.typeKey).pipe(
-            // TODO: file name extract from the headers
-            tap((resp: Blob) => saveFile(resp, `${entityOptions.typeKey}.` + exportType, 'text/csv')),
-            finalize(() => this.showLoader = false),
-        ).subscribe(
-            () => {console.info(`Exported ${entityOptions.typeKey}`);}, // tslint:disable-line
-            (err) => {
-                console.info(err);
-                this.showLoader = false;
-            } // tslint:disable-line
-        );
-    }
-
-    public onRemove(xmEntity: XmEntity): void {
-        this.alertService.open({
-            title: 'xm-entity.entity-list-card.delete.title',
-            showCancelButton: true,
-            buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
-            confirmButtonText: 'xm-entity.entity-list-card.delete.button',
-            cancelButtonText: this.translateService.instant('xm-entity.entity-list-card.delete.button-cancel'),
-        }).subscribe((result) => {
-            if (result.value) {
-                this.xmEntityService.delete(xmEntity.id).subscribe(
-                    () => {
-                        this.eventManager.broadcast({
-                            name: XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
-                        });
-                        this.toasterService.success('xm-entity.entity-list-card.delete.remove-success');
-                    },
-                    () => this.toasterService.error('xm-entity.entity-list-card.delete.remove-error'),
-                );
-            }
-        });
     }
 
     private getEntitiesUIConfig(): void {
@@ -256,17 +145,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         //  Will options ever change after component initialization?
         if (this.options.entities) {
             this.list = this.options.entities.map((e: any) => {
-                e.page = this.firstPage;
                 e.xmEntitySpec = this.spec.types.filter((t) => t.key === e.typeKey).shift();
-                e.currentQuery = e.currentQuery ? e.currentQuery : this.getDefaultSearch(e);
-                if (e.filter) {
-                    e.filterJsfAttributes = buildJsfAttributes(e.filter.dataSpec, e.filter.dataForm);
-                }
-                if (e.fields) { // Workaroud: server sorting doesn't work atm for nested "data" fields
-                    e.fields
-                        .filter((f) => f.field && f.field.indexOf('data.') === 0)
-                        .map((f) => f.sortable = false);
-                }
                 return e;
             });
             if (!this.list.length) {
@@ -280,7 +159,6 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 if (activeItem.query) {
                     activeItem.currentQuery = activeItem.query;
                 }
-                this.loadEntities(activeItem).subscribe((resp) => activeItem.entities = resp);
             }
         }
     }
@@ -356,6 +234,8 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             }),
             finalize(() => this.showLoader = false));
     }
+
+
 
     private getQueryOptions(entityOptions: EntityOptions): any {
         let options: any;
