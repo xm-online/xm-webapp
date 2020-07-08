@@ -3,6 +3,7 @@
   <h4 class="modal-title text-left" jhiTranslate="global.shared.privacy-and-terms-dialog.title">Privacy and Terms</h4>
 </div>
 <div class="modal-body">
+  <xm-loader [showLoader]="showLoader"></xm-loader>
   <div class="xm-terms-viewer">
     <markdown [src]="config?.privacyAndTerms[lang ? lang : 'en']"></markdown>
     <div class="form-group checkbox accept-terms">
@@ -23,7 +24,7 @@
           type="button"
           class="btn btn-primary"
           data-dismiss="modal"
-          [disabled]="!iAgree" (click)="onAccept()">
+          [disabled]="!iAgree || showLoader" (click)="onAccept()">
     <span jhiTranslate="global.common.accept">Accept</span>
   </button>
 </div>

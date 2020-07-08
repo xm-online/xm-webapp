@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
 import { AuthServerProvider } from '../../auth/auth-jwt.service';
+import { finalize } from "rxjs/operators";
 
 @Component({
     selector: 'xm-privacy-and-terms-dialog',
@@ -14,6 +15,7 @@ export class PrivacyAndTermsDialogComponent {
     public iAgree: boolean = false;
     public lang: string;
     public termsToken: string;
+    public showLoader: boolean;
 
     constructor(private activeModal: NgbActiveModal,
                 private authServerProvider: AuthServerProvider,
@@ -33,12 +35,13 @@ export class PrivacyAndTermsDialogComponent {
         } else {
             this.acceptTerms(this.termsToken);
         }
-
     }
 
     private acceptTerms(token: string): void {
+        this.showLoader = true;
         this.authServerProvider
             .acceptTermsAndConditions(token)
+            .pipe(finalize(() => this.showLoader = false))
             .subscribe(() => this.activeModal.close('accept'), () => this.onCancel());
     }
 }
