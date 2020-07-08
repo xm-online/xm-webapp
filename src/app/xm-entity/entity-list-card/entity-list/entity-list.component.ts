@@ -1,53 +1,59 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import {
     ActionOptions,
     EntityListCardOptions,
     EntityOptions,
-    FieldOptions
-} from "@xm-ngx/entity/entity-list-card/entity-list-card-options.model";
+    FieldOptions,
+} from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
 import { getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
-import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from "@xm-ngx/entity";
-import { MatTableDataSource } from "@angular/material/table";
-import { catchError, finalize, map, startWith, switchMap, tap } from "rxjs/operators";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { FunctionCallDialogComponent } from "@xm-ngx/entity/function-call-dialog/function-call-dialog.component";
-import { TranslatePipe } from "@xm-ngx/translation";
-import { TranslateService } from "@ngx-translate/core";
-import { Router } from "@angular/router";
-import { ContextService } from "../../../shared";
-import { merge, Observable, of, Subscription } from "rxjs";
-import { XM_EVENT_LIST } from "../../../xm.constants";
-import { XmToasterService } from "@xm-ngx/toaster";
-import { XmEventManager } from "@xm-ngx/core";
-import { XmAlertService } from "@xm-ngx/alert";
-import { MatSort } from "@angular/material/sort";
-import { MatPaginator } from "@angular/material/paginator";
-import { takeUntilOnDestroy } from "@xm-ngx/shared/operators";
-import { HttpResponse } from "@angular/common/http";
-import { buildJsfAttributes, transpilingForIE } from "@xm-ngx/json-scheme-form";
+import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
+import { MatTableDataSource } from '@angular/material/table';
+import { catchError, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FunctionCallDialogComponent } from '@xm-ngx/entity/function-call-dialog/function-call-dialog.component';
+import { TranslatePipe } from '@xm-ngx/translation';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { ContextService } from '../../../shared';
+import { merge, Observable, of, Subscription } from 'rxjs';
+import { XM_EVENT_LIST } from '../../../xm.constants';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { XmEventManager } from '@xm-ngx/core';
+import { XmAlertService } from '@xm-ngx/alert';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { HttpResponse } from '@angular/common/http';
+import { buildJsfAttributes, transpilingForIE } from '@xm-ngx/json-scheme-form';
+import { saveFile } from "../../../shared/helpers/file-download-helper";
 
 @Component({
     selector: 'xm-entity-list',
     templateUrl: './entity-list.component.html',
-    styleUrls: ['./entity-list.component.scss']
+    styleUrls: ['./entity-list.component.scss'],
 })
-export class EntityListComponent implements OnInit {
+export class EntityListComponent implements OnInit, OnDestroy {
 
     @ViewChild(MatSort) public sort: MatSort;
     @ViewChild(MatPaginator) public paginator: MatPaginator;
 
     @Input() public options: EntityListCardOptions;
-    @Input() public currentEntitiesUiConfig: any[];
+    @Input() public entitiesUiConfig: any[];
     @Input() public item: EntityOptions;
     @Input() public predicate: string;
     @Input() public reverse: boolean;
     @Input() public pageSize: number;
     @Input() public spec: Spec;
-    @Output() public load = new EventEmitter();
+    @Output() public load: EventEmitter<any> = new EventEmitter();
 
     public showLoader: boolean;
+    public currentEntitiesUiConfig: any[];
+    public isShowFilterArea: boolean;
     public totalItems: number;
     public tableDataSource: MatTableDataSource<XmEntity>;
+
+    private entityListActionSuccessSubscription: Subscription;
+    private entityEntityListModificationSubscription: Subscription;
 
 
     constructor(public translate: TranslatePipe,
@@ -59,20 +65,28 @@ export class EntityListComponent implements OnInit {
                 private toasterService: XmToasterService,
                 private eventManager: XmEventManager,
                 private xmEntityService: XmEntityService,
-                private alertService: XmAlertService,) { }
+                private alertService: XmAlertService) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.tableDataSource = this.createDataSource(this.item.entities);
 
-        // this.entityListActionSuccessSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS,
-        //     () => {
-        //         this.load();
-        //     });
-        // this.entityEntityListModificationSubscription =
-        //     this.eventManager.subscribe(XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
-        //         () => {
-        //             this.load();
-        //         });
+        this.entityListActionSuccessSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS)
+            .subscribe( () => this.loadEntitiesPaged({}));
+        this.entityEntityListModificationSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION)
+            .subscribe( () => this.loadEntitiesPaged({}));
+
+        this.item.fields
+            .filter((f) => f?.field.includes('data.'))
+            .map((f) => f.sortable = false);
+        // this.item.currentQuery = this.item.currentQuery ? this.item.currentQuery : this.getDefaultSearch(this.item);
+        if (this.item.filter) {
+            this.item.filterJsfAttributes = buildJsfAttributes(this.item.filter.dataSpec, this.item.filter.dataForm);
+        }
+        if (this.item.fields) { // Workaroud: server sorting doesn't work atm for nested "data" fields
+            this.item.fields
+                .filter((f) => f?.field.includes('data.'))
+                .map((f) => f.sortable = false);
+        }
     }
 
 
@@ -84,13 +98,19 @@ export class EntityListComponent implements OnInit {
                 return this.loadEntitiesPaged({})
             }),
             takeUntilOnDestroy(this),
-        ).subscribe(list => this.tableDataSource = new MatTableDataSource<XmEntity>(list))
+        ).subscribe((list: Array<XmEntity>) => this.tableDataSource = new MatTableDataSource(list))
 
         this.sort.sortChange.pipe(takeUntilOnDestroy(this)).subscribe(() => this.paginator.pageIndex = 0);
     }
 
     public getFastSearches(entityOptions: EntityOptions): any {
-        return entityOptions.fastSearch ? entityOptions.fastSearch.filter((s) => !!s.name) : null;
+        return entityOptions.fastSearch ? entityOptions.fastSearch.filter((s) => Boolean(s.name)) : null;
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroy(this);
+        this.entityListActionSuccessSubscription.unsubscribe();
+        this.entityEntityListModificationSubscription.unsubscribe();
     }
 
     public getDefaultSearch(entityOptions: EntityOptions): string {
@@ -107,7 +127,6 @@ export class EntityListComponent implements OnInit {
     }
 
     public onApplyFastSearch(entityOptions: EntityOptions, query: string): void {
-        console.log(entityOptions, query, this);
         entityOptions.currentQuery = query;
         this.paginator.pageIndex = 0;
         this.loadEntitiesPaged(entityOptions).subscribe((result) => this.tableDataSource.data = result);
@@ -121,14 +140,14 @@ export class EntityListComponent implements OnInit {
     }
 
     public onApplyFilter(entityOptions: EntityOptions, data: any): void {
-        const copy = Object.assign({}, entityOptions);
+        const copy = { ...entityOptions};
         let funcValue;
         try {
-            funcValue = new Function('return `' + entityOptions.filter.template + '`;').call(data);
+            funcValue = new Function(`return \`${  entityOptions.filter.template  }\`;`).call(data);
         } catch (e) {
             funcValue = transpilingForIE(entityOptions.filter.template, data);
         }
-        copy.currentQuery = (copy.currentQuery ? copy.currentQuery : '') + ' ' + funcValue;
+        copy.currentQuery = `${copy.currentQuery ? copy.currentQuery : ''  } ${  funcValue}`;
         entityOptions.currentQuery = copy.currentQuery;
         entityOptions.page = 0;
         this.loadEntitiesPaged(entityOptions).subscribe((resp) => this.tableDataSource.data = resp);
@@ -136,7 +155,6 @@ export class EntityListComponent implements OnInit {
 
 
     protected loadEntitiesPaged(entityOptions: EntityOptions): Observable<XmEntity[]> {
-        console.log('on load', entityOptions);
         this.showLoader = true;
 
         const options: any = {
@@ -159,6 +177,7 @@ export class EntityListComponent implements OnInit {
             map((xmEntities: HttpResponse<XmEntity[]>) => xmEntities.body),
             map((xmEntities: XmEntity[]) => xmEntities.map(e => this.enrichEntity(e))),
             catchError((err) => {
+                // eslint-disable-next-line no-console
                 console.log(err);
                 this.showLoader = false;
                 return of([]);
@@ -212,8 +231,53 @@ export class EntityListComponent implements OnInit {
         return modalRef;
     }
 
-    private getRouterLink(entityOptions: EntityOptions, xmEntity: XmEntity): Observable<any[]> {
+    public onFileExport(entityOptions: EntityOptions, exportType: string): void {
+        this.showLoader = true;
+        this.xmEntityService.fileExport(exportType, entityOptions.typeKey).pipe(
+            // TODO: file name extract from the headers
+            tap((resp: Blob) => saveFile(resp, `${entityOptions.typeKey}.` + exportType, 'text/csv')),
+            finalize(() => this.showLoader = false),
+        ).subscribe(
+            () => {console.info(`Exported ${entityOptions.typeKey}`);}, // tslint:disable-line
+            (err) => {
+                console.info(err);
+                this.showLoader = false;
+            } // tslint:disable-line
+        );
+    }
 
+
+    public onRefresh(): void {
+        this.filtersReset(this.item);
+        this.getCurrentEntitiesConfig();
+        this.paginator.pageIndex = 0;
+        this.loadEntitiesPaged(this.item).subscribe((result) => {
+            this.tableDataSource.data = result;
+        });
+    }
+
+
+    public filtersReset(activeList: any): void {
+        const filter = activeList.filter || null;
+        if (filter) {
+            activeList.filterJsfAttributes = buildJsfAttributes(filter.dataSpec, filter.dataForm);
+            activeList.currentQuery = null;
+            activeList.currentQuery = this.getDefaultSearch(activeList);
+        }
+    }
+
+
+    private getCurrentEntitiesConfig(): void {
+        this.currentEntitiesUiConfig = [];
+        if (this.entitiesUiConfig && this.entitiesUiConfig.length) {
+            this.options.entities.forEach((entity) => {
+                this.currentEntitiesUiConfig.push(
+                    this.entitiesUiConfig.filter((e) => e.typeKey === entity.typeKey).shift());
+            });
+        }
+    }
+
+    private getRouterLink(entityOptions: EntityOptions, xmEntity: XmEntity): Observable<any[]> {
         if (entityOptions && entityOptions.routerLink) {
             const result = [];
             for (const l of entityOptions.routerLink) {
@@ -230,11 +294,9 @@ export class EntityListComponent implements OnInit {
             map((xmSpec) => this.processXmSpec(xmSpec, xmEntity)),
             catchError(() => []),
         );
-
     }
 
     private getSpec(entityOptions: EntityOptions, xmEntity: XmEntity): Observable<XmEntitySpec> {
-
         if (entityOptions && entityOptions.xmEntitySpec) {
             return of(entityOptions.xmEntitySpec);
         }
@@ -247,7 +309,7 @@ export class EntityListComponent implements OnInit {
             return this.xmEntitySpecWrapperService.xmSpecByKey(xmEntity.typeKey);
         }
 
-        console.info(`No spec found by options=${entityOptions} or entity=${xmEntity}`); // tslint:disable-line
+        console.info(`No spec found by options=${entityOptions} or entity=${xmEntity}`); // Tslint:disable-line
 
         throw new Error('No spec found');
     }
