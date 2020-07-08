@@ -12,6 +12,8 @@ import {
 } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfigService } from '../spec/config.service';
 import { LoginService } from './login.service';
+import { Principal } from '../auth/principal.service.js';
+import { XmEntitySpecWrapperService } from '../../xm-entity/shared/xm-entity-spec-wrapper.service';
 
 declare let $: any;
 
@@ -53,6 +55,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
         protected router: Router,
         protected alertService: JhiAlertService,
         protected modalService: NgbModal,
+        protected principal: Principal,
+        protected xmEntitySpecWrapperService: XmEntitySpecWrapperService,
     ) {
         this.checkOTP = false;
         this.credentials = {};
@@ -109,14 +113,68 @@ export class LoginComponent implements OnInit, AfterViewInit {
             content: 'Sending Authentication Success',
         });
 
-        // previousState was set in the authExpiredInterceptor before being redirected to login modal.
-        // since login is succesful, go to stored previousState and clear previousState
+        /*
+         * PreviousState was set in the authExpiredInterceptor before being redirected to login modal.
+         * since login is succesful, go to stored previousState and clear previousState
+         */
         const redirect = this.stateStorageService.getUrl();
         if (redirect) {
             this.router.navigate([redirect], { replaceUrl: true });
         } else {
-            this.router.navigate(['dashboard'], { replaceUrl: true });
+            this.checkAvailableUrlsAndNavigate();
         }
+    }
+
+
+    private checkAvailableUrlsAndNavigate(): void {
+        const canSeeDash = this.principal
+            .hasPrivileges(['DASHBOARD.GET_LIST', 'DASHBOARD.GET_LIST.ITEM']);
+        const canSeeApps = this.principal
+            .hasPrivileges(['XMENTITY_SPEC.GET', 'XMENTITY.GET_LIST']);
+
+        Promise.all([canSeeDash, canSeeApps])
+            .then((results: any[]) => {
+                const privileges = results.map((p, i) => ({index: i, value: p})).filter(p => p.value === true);
+                console.warn(privileges);
+                const currentPrivilege = privileges && privileges.length > 0 && privileges[0].index;
+                switch (currentPrivilege) {
+                    case 0: {
+                        this.router.navigate(['dashboard'], { replaceUrl: true });
+                        break;
+                    }
+                    case 1: {
+                        this.getAppUrlAndNavigate();
+                        break;
+                    }
+                    default: {
+                        // Case if has no privileges - logout
+                        // eslint-disable-next-line max-len
+                        // @TODO: maybe more valid case would be redirect on some page as "no permitted routes" or such
+                        this.loginService.logout();
+                    }
+                }
+            });
+    }
+
+    private getAppUrlAndNavigate(): void {
+        this.principal.hasPrivileges(['XMENTITY_SPEC.GET'])
+            .then((result) => {
+                if (result) {
+                    this.xmEntitySpecWrapperService.spec(true).then((spec) => {
+                        const applications = spec.types.filter((t) => t.isApp)
+                            .filter((t) => this.principal
+                                .hasPrivilegesInline([`APPLICATION.${  t.key}`]));
+                        if (applications.length > 0) {
+                            this.router.navigate([`application/${  applications[0].key}`], { replaceUrl: true });
+                        } else {
+                            // Case if has no privileges - logout
+                            // eslint-disable-next-line max-len
+                            // @TODO: maybe more valid case would be redirect on some page as "no permitted routes" or such
+                            this.loginService.logout();
+                        }
+                    });
+                }
+            });
     }
 
     public checkOtp(): void {
@@ -136,7 +194,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
             this.isDisabled = false;
             this.backToLogin();
         });
-
     }
 
     public backToLogin(): void {
@@ -199,7 +256,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
                     this.floatLabel = true;
                 }
             } catch (e) {
-                // empty block
+                // Empty block
             }
         }, 500);
     }
