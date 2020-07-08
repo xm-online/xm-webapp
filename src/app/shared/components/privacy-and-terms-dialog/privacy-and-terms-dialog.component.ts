@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { JhiLanguageService } from 'ng-jhipster';
 import { AuthServerProvider } from '../../auth/auth-jwt.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'xm-privacy-and-terms-dialog',
@@ -15,6 +16,7 @@ export class PrivacyAndTermsDialogComponent {
     public iAgree: boolean = false;
     public lang: string;
     public termsToken: string;
+    public showLoader: boolean;
 
     constructor(private activeModal: MatDialogRef<PrivacyAndTermsDialogComponent>,
                 private authServerProvider: AuthServerProvider,
@@ -38,8 +40,10 @@ export class PrivacyAndTermsDialogComponent {
     }
 
     private acceptTerms(token: string): void {
+        this.showLoader = true;
         this.authServerProvider
             .acceptTermsAndConditions(token)
+            .pipe(finalize(() => this.showLoader = false))
             .subscribe(() => this.activeModal.close('accept'), () => this.onCancel());
     }
 }

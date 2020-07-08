@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     @Input() public config: any;
 
     public isShowPassword: boolean = false;
+    public isTermsShown: boolean = false;
     public isDisabled: boolean;
     public authenticationError: boolean;
     public password: string;
@@ -144,7 +145,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.username = '';
     }
 
-    public login(): void {
+    public login(): void | null {
         this.sendingLogin = true;
         this.isDisabled = true;
         this.authenticationError = false;
@@ -159,6 +160,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
         this.loginService.login(credentials).then((data) => {
             this.isDisabled = false;
+            this.isTermsShown = false;
             this.sendingLogin = false;
             if (data === 'otpConfirmation') {
                 this.checkOTP = true;
@@ -170,7 +172,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
             const errObj = err.error || null;
             const termsErr = errObj && errObj.error === TERMS_ERROR;
             const termsToken = errObj.oneTimeToken || null;
-            if (termsErr && termsToken) {
+            if (termsErr && termsToken && !this.isTermsShown) {
                 this.pushTermsAccepting(termsToken);
             }
             this.authenticationError = !termsErr;
@@ -208,12 +210,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
 
     private pushTermsAccepting(token: string): void {
+        this.isTermsShown = true;
         const modalRef = this.modalService.open(PrivacyAndTermsDialogComponent, {width: '500px'});
         modalRef.componentInstance.config = this.config;
         modalRef.componentInstance.termsToken = token;
         modalRef.afterClosed().subscribe((r) => {
             if (r === 'accept') {
                 this.login();
+            } else {
+                this.isTermsShown = false;
             }
         });
     }
