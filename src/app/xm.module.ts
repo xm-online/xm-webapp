@@ -12,10 +12,11 @@ import { environment } from '@xm-ngx/core/environment';
 import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardModule } from '@xm-ngx/dashboard';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
-import { HttpLoaderFactory, XmTranslationModule } from '@xm-ngx/translation';
+import { HttpLoaderFactory, LanguageService, TitleService, XmTranslationModule } from '@xm-ngx/translation';
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
+import { IdleLogoutService } from './account/logout/idle-logout.service';
 import { XmMainComponent } from './layouts';
 import { LayoutModule } from './layouts/layout.module';
 import { XmApplicationConfigService } from './shared/spec';
@@ -52,4 +53,13 @@ import { XM_ELEMENTS } from './xm.registry';
     bootstrap: [XmMainComponent],
 })
 export class XmModule {
+    constructor(
+        languageService: LanguageService,
+        idleLogoutService: IdleLogoutService,
+        titleService: TitleService,
+    ) {
+        idleLogoutService.init();
+        languageService.init();
+        titleService.init();
+    }
 }
