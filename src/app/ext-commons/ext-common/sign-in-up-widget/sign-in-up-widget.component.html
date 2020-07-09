@@ -1,12 +1,12 @@
 <div class="card">
   <div [hidden]="!isLoginFormView" class="card-header card-header-primary card-header-icon">
-    <h4 class="card-title" jhiTranslate="ext-common.sign-in-up-widget.sign-in">
-      Sign in
+    <h4 class="card-title">
+      {{'ext-common.sign-in-up-widget.sign-in' | translate}}
     </h4>
   </div>
   <div [hidden]="isLoginFormView" class="card-header card-header-primary card-header-icon">
-    <h4 class="card-title" jhiTranslate="ext-common.sign-in-up-widget.sign-up">
-      Sign up
+    <h4 class="card-title">
+      {{'ext-common.sign-in-up-widget.sign-up' | translate}}
     </h4>
   </div>
   <div class="card-body">
@@ -18,14 +18,14 @@
                 mat-button
                 color="primary"
                 type="button">
-          <span jhiTranslate="ext-common.sign-in-up-widget.sign-in">Sign in</span>
+          <span>{{'ext-common.sign-in-up-widget.sign-in' | translate}}</span>
         </button>
         <button (click)="changeMode()"
                 [disabled]="!isLoginFormView"
                 mat-button
                 color="primary"
                 type="button">
-          <span jhiTranslate="ext-common.sign-in-up-widget.sign-up">Sign up</span>
+          <span>{{'ext-common.sign-in-up-widget.sign-up' | translate}}</span>
         </button>
       </div>
     </div>
