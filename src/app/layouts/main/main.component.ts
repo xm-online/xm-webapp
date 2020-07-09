@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { XmApplicationConfigService, XmEventManager } from '@xm-ngx/core';
+import { XmEventManager } from '@xm-ngx/core';
 import { LoginService, Principal } from '@xm-ngx/core/auth';
 
 import { environment } from '@xm-ngx/core/environment';
@@ -9,6 +9,7 @@ import { LanguageService, TitleService } from '@xm-ngx/translation';
 import { Idle } from 'idlejs/dist';
 import { Observable } from 'rxjs';
 import { XmConfigService } from '../../shared';
+import { XmApplicationConfigService } from '../../shared/spec';
 import { XM_EVENT_LIST } from '../../xm.constants';
 
 declare const $: any;
@@ -70,27 +71,12 @@ export class XmMainComponent implements OnInit, OnDestroy {
     }
 
     private registerAuthenticationSuccess(): void {
-        this.principal.getAuthenticationState().subscribe((auth) => {
-            if (auth) {
-                this.loadPrivateConfig();
-            }
-        });
-
         this.eventManager.listenTo(XM_EVENT_LIST.XM_SUCCESS_AUTH)
             .pipe(takeUntilOnDestroy(this))
             .subscribe(() => {
                 this.principal.identity();
                 this.isGuestLayout = false;
-                this.loadPrivateConfig();
             });
-    }
-
-    private loadPrivateConfig() {
-        this.principal.hasPrivileges(['CONFIG.CLIENT.WEBAPP.GET_LIST.ITEM']).then((allowToRead) => {
-            if (allowToRead) {
-                this.xmConfigService.loadPrivateConfig();
-            }
-        });
     }
 
     private idleLogoutInit(): void {
