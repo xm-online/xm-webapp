@@ -27,11 +27,11 @@ export class GuestBackgroundDirective implements OnInit, OnDestroy {
             this.config.config$(),
         ])
             .pipe(takeUntilOnDestroy(this))
-            .subscribe(([active, e, c]) => {
-                if (!active) {
-                    this.updateBackground(e as NavigationEnd, c);
-                } else {
+            .subscribe(([active, event, config]) => {
+                if (active) {
                     this.background = null;
+                } else {
+                    this.updateBackground(event as NavigationEnd, config);
                 }
             });
     }
@@ -40,12 +40,12 @@ export class GuestBackgroundDirective implements OnInit, OnDestroy {
         takeUntilOnDestroyDestroy(this);
     }
 
-    private updateBackground(e: NavigationEnd, config: { loginScreenBg: string }): void {
+    private updateBackground(event: NavigationEnd, config: { loginScreenBg: string }): void {
         if (!config?.loginScreenBg) {
             return;
         }
 
-        if (e.url === '/') {
+        if (event.url === '/') {
             this.background = `url(${config.loginScreenBg})`;
         } else {
             this.background = null;
