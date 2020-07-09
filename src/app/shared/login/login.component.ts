@@ -127,33 +127,35 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
 
     private checkAvailableUrlsAndNavigate(): void {
-        const canSeeDash = this.principal
-            .hasPrivileges(['DASHBOARD.GET_LIST', 'DASHBOARD.GET_LIST.ITEM']);
+        // const canSeeDash = this.principal
+        //     .hasPrivileges(['DASHBOARD.GET_LIST', 'DASHBOARD.GET_LIST.ITEM']);
         const canSeeApps = this.principal
-            .hasPrivileges(['XMENTITY_SPEC.GET', 'XMENTITY.GET_LIST']);
+            .hasPrivileges(['XMENTITY_SPEC.GET', 'XMENTITY.GET_LIST'], 'OR', 'login');
 
-        Promise.all([canSeeDash, canSeeApps])
-            .then((results: any[]) => {
-                const privileges = results.map((p, i) => ({index: i, value: p})).filter(p => p.value === true);
-                console.warn(privileges);
-                const currentPrivilege = privileges && privileges.length > 0 && privileges[0].index;
-                switch (currentPrivilege) {
-                    case 0: {
-                        this.router.navigate(['dashboard'], { replaceUrl: true });
-                        break;
-                    }
-                    case 1: {
-                        this.getAppUrlAndNavigate();
-                        break;
-                    }
-                    default: {
-                        // Case if has no privileges - logout
-                        // eslint-disable-next-line max-len
-                        // @TODO: maybe more valid case would be redirect on some page as "no permitted routes" or such
-                        this.loginService.logout();
-                    }
-                }
-            });
+        canSeeApps.then((w) => console.warn(w));
+
+        // Promise.all([canSeeDash, canSeeApps])
+        //     .then((results: any[]) => {
+        //         const privileges = results.map((p, i) => ({index: i, value: p})).filter(p => p.value === true);
+        //         console.warn(privileges);
+        //         const currentPrivilege = privileges && privileges.length > 0 && privileges[0].index;
+        //         switch (currentPrivilege) {
+        //             case 0: {
+        //                 this.router.navigate(['dashboard'], { replaceUrl: true });
+        //                 break;
+        //             }
+        //             case 1: {
+        //                 this.getAppUrlAndNavigate();
+        //                 break;
+        //             }
+        //             default: {
+        //                 // Case if has no privileges - logout
+        //                 // eslint-disable-next-line max-len
+        //                 // @TODO: maybe more valid case would be redirect on some page as "no permitted routes" or such
+        //                 this.loginService.logout();
+        //             }
+        //         }
+        //     });
     }
 
     private getAppUrlAndNavigate(): void {
@@ -231,7 +233,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         }).catch((err) => {
             const errObj = err.error || null;
             const termsErr = errObj && errObj.error === TERMS_ERROR;
-            const termsToken = errObj.oneTimeToken || null;
+            const termsToken = (errObj && errObj.oneTimeToken) || null;
             if (termsErr && termsToken && !this.isTermsShown) { this.pushTermsAccepting(termsToken); }
             this.authenticationError = !termsErr;
             this.successRegistration = false;

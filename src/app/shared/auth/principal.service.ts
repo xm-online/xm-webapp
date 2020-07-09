@@ -47,20 +47,31 @@ export class Principal {
         return Promise.resolve(true);
     }
 
-    public hasPrivilegesInline(privileges: string[] = [], privilegesOperation: string = 'OR'): any {
+    public hasPrivilegesInline(privileges: string[] = [], privilegesOperation: string = 'OR', from?: string): any {
+
+
+
+        if (from === 'login') {
+            console.warn(privileges)
+            console.warn(this.userIdentity.privileges)
+        }
+
+
         if (!this.authenticated || !this.userIdentity || !this.userIdentity.privileges) {
             return false;
         }
-
         if (SUPER_ADMIN === this.userIdentity.roleKey) {
             return true;
         }
-
         if (privilegesOperation === 'OR') {
             for (let i = privileges.length; i--;) {
                 if (this.userIdentity.privileges.indexOf(privileges[i]) !== -1) {
                     return true;
                 }
+            }
+            if (from === 'login') {
+                console.warn(privileges)
+                console.warn(this.userIdentity.privileges)
             }
             return false;
         } else if (privilegesOperation === 'AND') {
@@ -71,8 +82,8 @@ export class Principal {
         }
     }
 
-    public hasPrivileges(privileges: string[] = [], privilegesOperation: string = 'OR'): Promise<any> {
-        return Promise.resolve(this.hasPrivilegesInline(privileges, privilegesOperation));
+    public hasPrivileges(privileges: string[] = [], privilegesOperation: string = 'OR', from?: string): Promise<any> {
+        return Promise.resolve(this.hasPrivilegesInline(privileges, privilegesOperation, from));
     }
 
     public hasAuthority(authority: string): Promise<boolean> {
