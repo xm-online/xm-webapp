@@ -2,9 +2,9 @@ import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
+import { JhiLanguageHelper } from '@xm-ngx/components/language';
 
 import { AccountService, User, UserLogin, UserService } from '../../../../src/app/shared';
-import { JhiLanguageHelper } from '@xm-ngx/components/language';
 
 import { UserLoginService } from '../../../xm-account/src/xm-user-login-widget/login/user-login.service';
 
@@ -44,9 +44,8 @@ export class UserMgmtDetailComponent implements OnInit, OnDestroy {
 
     public load(userKey: string): void {
         this.showLoader = true;
-        this.userService
-            .find(userKey)
-            .subscribe((user) => {
+        this.userService.find(userKey).subscribe(
+            (user) => {
                 this.user = user;
                 this.userEmail = this.getEmail();
                 this.routeData.pageSubSubTitle = user.userKey;
