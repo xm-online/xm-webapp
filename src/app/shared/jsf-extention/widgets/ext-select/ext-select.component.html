@@ -1,11 +1,22 @@
 <div [class]="options?.htmlClass || ''">
   <mat-form-field>
+    <mat-icon class="deep-link"
+              [style.color]="selectLinkOptions?.iconColor"
+              [class.disabled]="!(this.elementCtrl?.object?.id)"
+              [class.hidden]="!(selectLinkOptions)"
+              matSuffix
+              *permitted="selectLinkOptions?.privileges"
+              (click)="onNavigate($event)">
+      {{this.selectLinkOptions?.iconName}}
+    </mat-icon>
+
     <mat-select [(ngModel)]="elementCtrl"
                 (selectionChange)="updateValue($event)"
                 [placeholder]="placeholder | async"
                 [disabled]="(disabled$ | async) || options['readonly']"
                 [required]="options?.required"
                 #singleSelect>
+
       <ngx-mat-select-search [formControl]="elementFilterCtrl"
                              placeholderLabel="{{'global.rest-select-placeholder-search.simple' | translate}}"
                              noEntriesFoundLabel="{{'global.rest-select-placeholder-noresults' | translate}}"></ngx-mat-select-search>
