@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager, XmUiConfigService, XmUserService } from '@xm-ngx/core';
+import { OnInitialize } from '@xm-ngx/shared/interfaces/on-initialize';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { SessionStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -8,7 +9,6 @@ import { map } from 'rxjs/operators';
 
 import { getBrowserLocale } from './getBrowserLocale';
 import { LANGUAGES } from './language.constants';
-import { OnInitialize } from './title.service';
 
 /**
  * @description Translates as json
