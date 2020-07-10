@@ -69,7 +69,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
         const entityObj = this.elementCtrl && this.elementCtrl['object'];
         const navigationId = entityObj && entityObj.id;
         const typeKey = entityObj && entityObj.typeKey;
-        if (navigationId) {
+        if (navigationId && typeKey) {
             this.router.navigate([`application/${typeKey}/${navigationId}`]);
         }
     }
