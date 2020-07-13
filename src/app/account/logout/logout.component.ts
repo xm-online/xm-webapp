@@ -42,13 +42,9 @@ export class LogoutComponent implements OnInit {
     }
 
     public logout(): void {
-        this.loginService.logout();
-        this.router.navigate(['']);
-        /** TODO: transform below as a listener of auth state */
-        const body = document.querySelector('body');
-        /** TODO: mobile view backdrop form the sidebar not hidden */
-        body.classList.remove('nav-open');
-        body.classList.add('xm-public-screen');
+        this.loginService.logout$().subscribe(() => {
+            this.router.navigate(['']);
+        });
     }
 
 }
