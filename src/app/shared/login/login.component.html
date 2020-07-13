@@ -43,11 +43,11 @@
       <span class="form-control-addon" (click)="isShowPassword = !isShowPassword">
         <span class="xm-tooltip direction-left" *ngIf="!isShowPassword">
           <i class="material-icons">visibility</i>
-          <span jhiTranslate="login.form.show-password">Show password</span>
+          <span>{{'login.form.show-password' | translate}}</span>
         </span>
         <span class="xm-tooltip direction-left" *ngIf="isShowPassword">
           <i class="material-icons">visibility_off</i>
-          <span jhiTranslate="login.form.hide-password">Hide password</span>
+          <span>{{'login.form.hide-password' | translate}}</span>
         </span>
       </span>
     </mat-form-field>
@@ -56,18 +56,18 @@
   <div class="row align-items-center">
     <div class="col-xs-12 col-md-6">
       <div class="form-group" *ngIf="!(hideRememberMe)">
-          <mat-checkbox class="remember-me" color="primary" [(ngModel)]="rememberMe"
-                        name="rememberMe"
-                        [disabled]="isFormDisabled()">
-            <span jhiTranslate="login.form.rememberMe">Remember me</span>
-          </mat-checkbox>
+        <mat-checkbox class="remember-me" color="primary" [(ngModel)]="rememberMe"
+                      name="rememberMe"
+                      [disabled]="isFormDisabled()">
+          <span>{{'login.form.rememberMe' | translate}}</span>
+        </mat-checkbox>
       </div>
     </div>
 
     <div class="col-xs-12 col-md-6" *ngIf="!checkOTP && !hideResetPasswordLink">
       <div class="form-group text-right">
-        <a class="forgot-link" href="javascript: void(0);" (click)="requestResetPassword()" jhiTranslate="login.password.forgot">
-          Did you forget your password?
+        <a class="forgot-link" href="javascript: void(0);" (click)="requestResetPassword()">
+          {{'login.password.forgot' | translate}}
         </a>
       </div>
     </div>
@@ -77,9 +77,10 @@
     <button mat-button
             type="submit"
             color="primary"
+            class="btn btn-primary display-block"
             [ngClass]="{'loading' : sendingLogin}"
             [disabled]="isFormDisabled()">
-      <span jhiTranslate="login.form.button">Sign in</span>
+      <span>{{'login.form.button' | translate}}</span>
     </button>
   </div>
 </form>
@@ -103,14 +104,14 @@
             class="btn mr-1 ml-auto"
             [disabled]="isFormDisabled()"
             (click)="backToLogin()">
-      <span jhiTranslate="login.form.otpValidateCancel">Cancel</span>
+      <span>{{'login.form.otpValidateCancel' | translate}}</span>
     </button>
     <button mat-button
             type="submit"
             color="primary"
             [disabled]="isFormDisabled()">
-      <span jhiTranslate="login.form.otpValidateButton">
-        Validate OTP
+      <span>
+{{'login.form.otpValidateButton' | translate}}
       </span>
     </button>
   </div>

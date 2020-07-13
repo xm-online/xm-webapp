@@ -67,3 +67,10 @@
         }
     }
 }
+
+form {
+  button, [type="submit"], .btn .btn-primary {
+    width: 100%;
+    padding: 8px 24px;
+  }
+}
