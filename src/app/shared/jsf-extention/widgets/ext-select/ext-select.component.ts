@@ -31,7 +31,6 @@ interface Element {
     selector: 'xm-ext-select-widget',
     templateUrl: 'ext-select.component.html',
     styleUrls: ['./ext-select.component.scss'],
-
 })
 export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     public options: ExtSelectOptions;

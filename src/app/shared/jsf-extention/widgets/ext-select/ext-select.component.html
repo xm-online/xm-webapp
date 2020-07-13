@@ -2,7 +2,7 @@
    <mat-form-field>
     <mat-icon class="deep-link"
               [style.color]="selectLinkOptions?.iconColor"
-              [class.disabled]="!(this.elementCtrl?.object?.id)"
+              [class.disabled]="!(elementCtrl && elementCtrl['object'] && elementCtrl['object'].id)"
               [class.hidden]="!canSeeLink"
               matSuffix
               (click)="onNavigate($event)">
