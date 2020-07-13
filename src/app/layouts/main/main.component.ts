@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { XmEventManager } from '@xm-ngx/core';
+import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
@@ -17,13 +17,14 @@ export class XmMainComponent implements OnInit, OnDestroy {
 
     constructor(
         private xmConfigService: XmApplicationConfigService,
+        private sessionService: XmSessionService,
         private principal: Principal,
         private eventManager: XmEventManager,
     ) {
     }
 
     public ngOnInit(): void {
-        this.principal.getAuthenticationState().subscribe(
+        this.sessionService.isActive().subscribe(
             (auth) => this.isGuestLayout = !auth,
             () => this.isGuestLayout = false,
         );
