@@ -14,8 +14,9 @@
       <div *ngIf="config?.signUpEnabled" class="btn-group">
         <button (click)="changeMode()"
                 [disabled]="isLoginFormView"
-                class="btn btn-sm rounded-circle"
+                class="btn btn-round btn-sm"
                 mat-button
+                mat-raised-button
                 color="primary"
                 type="button">
           <span>{{'ext-common.sign-in-up-widget.sign-in' | translate}}</span>
@@ -23,6 +24,8 @@
         <button (click)="changeMode()"
                 [disabled]="!isLoginFormView"
                 mat-button
+                mat-raised-button
+                class="btn btn-round btn-sm"
                 color="primary"
                 type="button">
           <span>{{'ext-common.sign-in-up-widget.sign-up' | translate}}</span>
