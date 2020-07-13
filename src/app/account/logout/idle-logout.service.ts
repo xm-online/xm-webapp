@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { XmSessionService, XmUiConfigService, XmUser, XmUserService } from '@xm-ngx/core';
+import { OnInitialize } from '@xm-ngx/shared/interfaces/on-initialize';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { OnInitialize } from '@xm-ngx/translation';
 import { Idle } from 'idlejs/dist';
 import { combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
