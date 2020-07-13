@@ -13,6 +13,7 @@ import { RegisterService } from './register.service';
 
 @Component({
     selector: 'xm-register',
+    styles: ['form button, [type="submit"], .btn .btn-primary { width: 100%; padding: 8px 24px;}'],
     templateUrl: './register.component.html',
 })
 export class RegisterComponent implements OnInit {
