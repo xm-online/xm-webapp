@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
 import { Widget } from '@xm-ngx/dashboard';
 import { Layout } from '@xm-ngx/dynamic';
@@ -13,6 +14,7 @@ import { DashboardBase } from '../xm-dashboard/dashboard/dashboard-base';
 })
 export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
 
+    public hide: boolean = true;
     public defaultWidget: Widget;
     public defaultLayout: Layout;
     public signWidget: Widget = this.getWidgetComponent({ selector: 'ext-common/xm-widget-sign-in-up' });
@@ -20,6 +22,7 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
     constructor(
         private xmConfigService: XmUiConfigService,
         private sessionService: XmSessionService,
+        private router: Router,
     ) {
         super();
     }
@@ -33,9 +36,11 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
         ).subscribe(
             ([config, active]) => {
                 if (active === true) {
+                    this.hide = true;
+                    this.router.navigate(['/dashboard']);
                     return;
                 }
-
+                this.hide = false;
                 if (config && config.defaultLayout) {
                     this.defaultLayout = config.defaultLayout.map((row) => {
                         row.content = row.content.map((el) => {
