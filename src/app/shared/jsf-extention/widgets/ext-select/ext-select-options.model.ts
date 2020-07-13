@@ -1,7 +1,6 @@
 export interface ISelectDeepLinkOptions {
     iconName: string;
     iconColor: string;
-    newTab: boolean;
     privileges: string[];
 }
 

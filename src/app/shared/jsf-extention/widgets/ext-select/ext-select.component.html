@@ -1,11 +1,10 @@
 <div [class]="options?.htmlClass || ''">
-  <mat-form-field>
+   <mat-form-field>
     <mat-icon class="deep-link"
               [style.color]="selectLinkOptions?.iconColor"
               [class.disabled]="!(this.elementCtrl?.object?.id)"
-              [class.hidden]="!(selectLinkOptions)"
+              [class.hidden]="!canSeeLink"
               matSuffix
-              *permitted="selectLinkOptions?.privileges"
               (click)="onNavigate($event)">
       {{this.selectLinkOptions?.iconName}}
     </mat-icon>

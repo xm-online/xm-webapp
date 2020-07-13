@@ -44,6 +44,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     public elementFilterCtrl: FormControl = new FormControl();
     public filteredElements: ReplaySubject<Element[]> = new ReplaySubject<Element[]>(1);
     public placeholder: BehaviorSubject<string>;
+    public canSeeLink: boolean;
 
     @ViewChild('singleSelect', {static: false}) protected singleSelect: MatSelect;
     @Input() private layoutNode: any;
@@ -77,6 +78,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     public ngOnInit(): void {
         this.options = this.layoutNode.options || {};
         this.selectLinkOptions = this.options.link || null;
+        this.setCanSeeLink();
         if (!environment.production) {
             console.info('[dbg] initial -> %o', this.options);
         }
@@ -245,5 +247,17 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private fetchOptions(options: any): Observable<any[]> {
         return this.selectService.fetchData(options);
+    }
+
+    private setCanSeeLink(): void {
+        const privileges = this.selectLinkOptions &&
+            this.selectLinkOptions.privileges &&
+            this.selectLinkOptions.privileges.length > 0;
+        if (privileges) {
+            this.principal.hasPrivileges(this.selectLinkOptions.privileges)
+                .then(result => this.canSeeLink = result);
+        } else {
+            this.canSeeLink = this.selectLinkOptions && typeof this.selectLinkOptions === 'object';
+        }
     }
 }
