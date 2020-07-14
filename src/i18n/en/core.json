@@ -956,6 +956,17 @@
     "false": "False",
     "true": "True"
   },
+  "xm-control-errors": {
+    "validators": {
+      "email": "Your email address is incorrect.",
+      "max": "The maximum value is {{min}}.",
+      "maxlength": "Cannot exceed {{requiredLength}} characters.",
+      "min": "The minimum value is {{min}}.",
+      "minlength": "Must be at least {{requiredLength}} characters.",
+      "pattern": "Field filled incorrectly.",
+      "required": "The field is required."
+    }
+  },
   "xm-entity": {
     "attachment-card": {
       "delete": {
