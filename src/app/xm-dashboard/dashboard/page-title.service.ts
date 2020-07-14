@@ -11,11 +11,13 @@ import { Page, PageService } from '../page/page.service';
 @Injectable()
 export class PageTitleService implements OnDestroy {
 
-    constructor(private titleService: TitleService,
-                private i18nNamePipe: I18nNamePipe,
-                private principal: Principal,
-                private route: ActivatedRoute,
-                public pageService: PageService) {
+    constructor(
+        private titleService: TitleService,
+        private i18nNamePipe: I18nNamePipe,
+        private principal: Principal,
+        private route: ActivatedRoute,
+        public pageService: PageService,
+    ) {
     }
 
     public init(): void {
@@ -28,7 +30,7 @@ export class PageTitleService implements OnDestroy {
     public updateTitle(page: Page): void {
         const title = this.processDashboardName(page);
         // Support navbar
-        this.route.snapshot.data.pageSubSubTitle =  title;
+        this.route.snapshot.data.pageSubSubTitle = title;
         this.titleService.set(title);
     }
 

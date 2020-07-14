@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { JhiLanguageService } from 'ng-jhipster';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthServerProvider } from './auth-jwt.service';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
@@ -17,13 +19,10 @@ export class LoginService {
     }
 
     public login(credentials: any, callback?: any): Promise<unknown> {
-
         const cb = callback || (() => undefined);
 
         return new Promise((resolve, reject) => {
-
             this.authServerProvider.login(credentials).subscribe((data) => {
-
                 if (this.stateStorageService.getDestinationState()
                     && this.stateStorageService.getDestinationState().destination) {
                     const state = this.stateStorageService.getDestinationState().destination;
@@ -50,10 +49,18 @@ export class LoginService {
         return this.authServerProvider.loginWithToken(jwt, rememberMe);
     }
 
+    /** @deprecated use logout$*/
     public logout(): void {
         this.authServerProvider.logout().subscribe();
         this.principal.logout();
         this.router.navigate(['']);
+    }
+
+    public logout$(): Observable<void> {
+        return this.authServerProvider.logout().pipe(
+            // TODO: replace with session subscription
+            map(() => this.principal.logout()),
+        );
     }
 
     private getUserIdentity(next: any, data: any): void {

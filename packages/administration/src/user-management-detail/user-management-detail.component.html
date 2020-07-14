@@ -1,69 +1,37 @@
 <xm-loader [showLoader]="showLoader"></xm-loader>
 
-<div *ngIf="user" class="row">
-  <div class="col-md-5 col-xm-12">
-    <div class="card">
-      <div class="card-header card-header-icon card-header-primary">
-        <h4 class="card-title" jhiTranslate="xm-entity.entity-data-card.title">Data</h4>
-      </div>
-      <div class="card-body">
-        <div class="form-horizontal">
-          <label class="control-label">ID: </label>
-          <p class="form-control-static">{{user.id}}</p>
-          <label class="control-label">UserKey:</label>
-          <p class="form-control-static">{{user.userKey}}</p>
-          <label class="control-label">Email:</label>
-          <p class="form-control-static">
-            {{userEmail}}
-          </p>
-          <label class="control-label">Status:</label>
-          <p class="form-control-static">
-                        <span *ngIf="!user.activated" class="badge badge-danger"
-                              jhiTranslate="userManagement.deactivated">Deactivated</span>
-            <span *ngIf="user.activated" class="badge badge-success"
-                  jhiTranslate="userManagement.activated">Activated</span>
-          </p>
-        </div>
-        <div class="text-left">
-          <button (click)="initPasswordReset()"
-                  [disabled]="pwdResetDisabled()"
-                  class="btn btn-info" routerLink="/administration/user-management">
-            <span>{{'reset.request.form.button' | translate}}</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-7 col-xm-12">
-    <div class="card">
-      <div class="card-header card-header-icon card-header-primary">
-        <h4 class="card-title" jhiTranslate="xm-entity.entity-data-card.title">Data</h4>
-      </div>
-      <div class="card-body">
-        <div class="form-horizontal">
-          <label class="control-label">First Name: </label>
-          <p class="form-control-static">{{user.firstName}}</p>
-          <label class="control-label">Last Name:</label>
-          <p class="form-control-static">{{user.lastName}}</p>
-          <label class="control-label">Created By:</label>
-          <p class="form-control-static">{{user.createdBy}} {{user.createdDate}}</p>
-          <label class="control-label">Modified By:</label>
-          <p class="form-control-static">{{user.lastModifiedBy}} {{user.lastModifiedDate}}</p>
-          <label class="form-control-label">Prefered Language:</label>
-          <p class="form-control-static">{{user.langKey}}</p>
-          <label class="control-label">Role:</label>
-          <p class="form-control-static">{{user.roleKey}}</p>
-        </div>
-        <div class="text-left">
-          <button (click)="onBack()"
-                  class="btn btn-info"
-                  type="submit">
-            <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <no-data [show]="!user"></no-data>
+
+<mat-card *ngIf="user">
+
+  <mat-card-title>{{'xm-entity.entity-data-card.title' | translate}}</mat-card-title>
+
+  <mat-card-content>
+    <xm-text-view [options]="{title: 'First Name:'}" [value]="user.firstName"></xm-text-view>
+    <xm-text-view [options]="{title: 'Last Name:'}" [value]="user.lastName"></xm-text-view>
+    <xm-text-view [options]="{title: 'Created By:'}" [value]="user.createdBy + ' ' + (user.createdDate | date)"></xm-text-view>
+    <xm-text-view [options]="{title: 'Modified By:'}"
+                  [value]="user.lastModifiedBy + ' ' + (user.lastModifiedDate | date)"></xm-text-view>
+    <xm-text-view [options]="{title: 'Preferred Language:'}" [value]="user.langKey"></xm-text-view>
+    <xm-text-view [options]="{title: 'Role:'}" [value]="user.roleKey"></xm-text-view>
+    <xm-text-view [options]="{title: 'ID:'}" [value]="user.id"></xm-text-view>
+    <xm-text-view [options]="{title: 'UserKey:'}" [value]="user.userKey"></xm-text-view>
+    <xm-text-view [options]="{title: 'Email:'}" [value]="userEmail"></xm-text-view>
+
+    <xm-text>
+      <div xmLabel>{{'Status:' | translate}}</div>
+      <div xmValue>
+        <span *ngIf="!user.activated" class="badge badge-danger">{{'userManagement.deactivated' | translate}}</span>
+        <span *ngIf="user.activated" class="badge badge-danger">{{'userManagement.activated' | translate}}</span>
+      </div>
+    </xm-text>
+
+  </mat-card-content>
+
+  <button (click)="initPasswordReset()"
+          [disabled]="pwdResetDisabled()"
+          mat-button>
+    <span>{{'reset.request.form.button' | translate}}</span>
+  </button>
+
+</mat-card>

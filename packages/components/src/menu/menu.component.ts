@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router } from '@angular/router';
-import { Dashboard, DashboardWrapperService, JavascriptCode } from '@xm-ngx/dashboard';
+import { Dashboard, DashboardWrapperService } from '@xm-ngx/dashboard';
 import { XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { transpilingForIE } from '@xm-ngx/json-scheme-form';
+import { JavascriptCode } from '@xm-ngx/shared/interfaces/javascript-code';
 import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { combineLatest, Observable, Subscription } from 'rxjs';

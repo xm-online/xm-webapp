@@ -1,6 +1,6 @@
 import { OnDestroy } from '@angular/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { of, ReplaySubject, Subscription } from 'rxjs';
+import { of, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 
 export interface IRequestCache<T> extends OnDestroy {
@@ -16,24 +16,44 @@ export interface IRequestCache<T> extends OnDestroy {
 
 export class RequestCache<T> implements IRequestCache<T> {
 
-    private _cache$: ReplaySubject<T | null>;
-    private _subscription: Subscription;
+    protected cache: Subject<T | null>;
+    protected cacheObservable: Observable<T | null>;
+    protected subscription: Subscription;
 
-    constructor(public request: () => Observable<T> = (): Observable<null> => of(null)) {
+    constructor(
+        public request: () => Observable<T> = (): Observable<null> => of(null),
+    ) {
+    }
+
+    public cacheFactory(): Subject<T> {
+        return new ReplaySubject<T>(1);
+    }
+
+    public cacheObservableFactory(): Observable<T> {
+        return this.cache.asObservable();
+    }
+
+    public getCache(): Subject<T | null> {
+        return this.cache;
     }
 
     public get(): Observable<T | null> {
-        if (!this._cache$) {
+        if (this.cacheObservable) {
+            return this.cacheObservable;
+        }
+
+        if (!this.cache) {
             this.initialize();
             this.updateData();
         }
-        return this._cache$.asObservable();
+        return this.cacheObservable = this.cacheObservableFactory();
     }
 
     public ngOnDestroy(): void {
-        if (this._cache$) {
-            this._cache$.complete();
+        if (this.cache) {
+            this.cache.complete();
         }
+        delete this.cacheObservable;
         takeUntilOnDestroyDestroy(this);
     }
 
@@ -43,40 +63,40 @@ export class RequestCache<T> implements IRequestCache<T> {
     }
 
     public forceReload(): void {
-        if (!this._cache$) {
+        if (!this.cache) {
             this.initialize();
         }
         this.updateData();
     }
 
     public clear(): void {
-        if (!this._cache$) {
+        if (!this.cache) {
             return;
         }
 
-        this._cache$.next(null);
+        this.cache.next(null);
     }
 
     public next(value: T): void {
-        if (!this._cache$) {
-            this._cache$ = new ReplaySubject<T>(1);
+        if (!this.cache) {
+            this.initialize();
         }
 
-        this._cache$.next(value);
+        this.cache.next(value);
     }
 
     private initialize(): void {
-        this._cache$ = new ReplaySubject<T>(1);
+        this.cache = this.cacheFactory();
     }
 
     private updateData(): void {
-        if (this._subscription) {
-            this._subscription.unsubscribe();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
         }
 
-        this._subscription = this.request().subscribe({
-            next: this._cache$.next.bind(this._cache$),
-            error: this._cache$.error.bind(this._cache$),
+        this.subscription = this.request().subscribe({
+            next: (data) => this.cache.next(data),
+            error: (err) => this.cache.error(err),
         });
     }
 }

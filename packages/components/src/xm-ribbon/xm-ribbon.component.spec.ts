@@ -1,25 +1,28 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { XmRibbonComponent } from './xm-ribbon.component';
 
 describe('XmRibbonComponent', () => {
-  let component: XmRibbonComponent;
-  let fixture: ComponentFixture<XmRibbonComponent>;
+    let component: XmRibbonComponent;
+    let fixture: ComponentFixture<XmRibbonComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ XmRibbonComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [XmRibbonComponent],
+            schemas: [NO_ERRORS_SCHEMA],
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(XmRibbonComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        })
+            .compileComponents();
+    }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(XmRibbonComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

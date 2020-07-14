@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../xm.constants';
 import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
@@ -32,7 +32,7 @@ const WIDGET_DATA = 'widget:data';
 export const TOKEN_URL = _TOKEN_URL;
 export const CONFIG_SETTINGS_API = _CONFIG_SETTINGS_API;
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthServerProvider {
 
     private updateTokenTimer: any;
@@ -46,6 +46,9 @@ export class AuthServerProvider {
         private stateStorageService: StateStorageService,
         private router: Router,
     ) {
+    }
+
+    public init(): void {
         const isRememberMe = this.$localStorage.retrieve(REFRESH_TOKEN) != null;
         this.setAutoRefreshTokens(isRememberMe);
     }
@@ -65,11 +68,11 @@ export class AuthServerProvider {
             Accept: 'application/json',
         };
         return this.http
-            .post(`/uaa/api/users/accept-terms-of-conditions/${tocOneTimeToken}`, {}, {headers});
+            .post(`/uaa/api/users/accept-terms-of-conditions/${tocOneTimeToken}`, {}, { headers });
     }
 
     public login(credentials: any): Observable<any> {
-        let data = new HttpParams({encoder: new CustomUriEncoder()});
+        let data = new HttpParams({ encoder: new CustomUriEncoder() });
         this.$sessionStorage.clear(WIDGET_DATA);
 
         if (credentials && !credentials.grant_type) {
@@ -136,7 +139,27 @@ export class AuthServerProvider {
             observer.next();
             observer.complete();
         }).pipe(
-            tap(() => this.sessionService.clear()),
+            switchMap(() => {
+                this.sessionService.clear();
+                return this.getGuestAccessToken();
+            }),
+        );
+    }
+
+    private getGuestAccessToken(): Observable<void> {
+        const data = new HttpParams().set('grant_type', 'client_credentials');
+        const headers = {
+            'Content-Type': DEFAULT_CONTENT_TYPE,
+            Authorization: DEFAULT_AUTH_TOKEN,
+        };
+        return this.http.post<{ access_token: string }>(
+            'uaa/oauth/token',
+            data,
+            { headers, observe: 'response' },
+        ).pipe(
+            map((resp) => {
+                this.loginWithToken(resp.body.access_token, false);
+            }),
         );
     }
 
@@ -165,7 +188,7 @@ export class AuthServerProvider {
     }
 
     private getAccessToken(data: any, headers: any, rememberMe: boolean): Observable<any> {
-        return this.http.post<any>(TOKEN_URL, data, {headers, observe: 'response'}).pipe(map((resp) => {
+        return this.http.post<any>(TOKEN_URL, data, { headers, observe: 'response' }).pipe(map((resp) => {
             this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
             const result = resp.body;
             let accessToken;
@@ -178,10 +201,10 @@ export class AuthServerProvider {
                 this.stateStorageService.storeDestinationState(
                     {
                         name: 'otpConfirmation',
-                        data: {tfaVerificationKey: result.tfaVerificationKey, tfaChannel},
+                        data: { tfaVerificationKey: result.tfaVerificationKey, tfaChannel },
                     },
                     {},
-                    {name: 'login'});
+                    { name: 'login' });
 
                 accessToken = this.storeAT(result, rememberMe);
             } else {
@@ -205,7 +228,7 @@ export class AuthServerProvider {
             .set('grant_type', 'refresh_token')
             .set('refresh_token', this.getRefreshToken());
 
-        this.http.post<any>(TOKEN_URL, body, {headers, observe: 'response'})
+        this.http.post<any>(TOKEN_URL, body, { headers, observe: 'response' })
             .pipe(map((resp) => resp.body))
             .subscribe((data) => {
                 this.storeAT(data, rememberMe);
@@ -222,6 +245,7 @@ export class AuthServerProvider {
 
     private setAutoRefreshTokens(rememberMe: boolean): void {
         if (this.getRefreshToken()) {
+            this.sessionService.create();
             const currentDate = new Date().setSeconds(0);
             const expiresdate = this.$sessionStorage.retrieve(EXPIRES_DATE_FIELD);
             if (currentDate < expiresdate) {
@@ -236,6 +260,9 @@ export class AuthServerProvider {
             } else {
                 this.refreshTokens(rememberMe);
             }
+        } else {
+            // TODO: move to interceptor
+            this.getGuestAccessToken().subscribe(() => this.sessionService.create({ active: false }));
         }
     }
 

@@ -3,6 +3,7 @@
 <xm-alert-error></xm-alert-error>
 <xm-password-needed></xm-password-needed>
 <xm-maintenance-view></xm-maintenance-view>
+<xm-loader [absolute]="true" routerLoading></xm-loader>
 
 <div class="heatmap-container-wrapper">
   <div id="heatmapContainer" class="hidden-heatmap">
@@ -10,8 +11,6 @@
          class="wrapper">
 
       <div xmGuestBackground></div>
-
-      <xm-loader [absolute]="true" [showLoader]="!(resolved$ | async)"></xm-loader>
 
       <div *ngIf="!isGuestLayout" class="sidebar">
         <xm-sidebar></xm-sidebar>
