@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { XmEventManager, XmSessionService } from '@xm-ngx/core';
-import { Principal } from '@xm-ngx/core/auth';
+import { XmSessionService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 import { XmApplicationConfigService } from '../../shared/spec';
-import { XM_EVENT_LIST } from '../../xm.constants';
 
 @Component({
     selector: 'xm-main',
@@ -18,29 +16,17 @@ export class XmMainComponent implements OnInit, OnDestroy {
     constructor(
         private xmConfigService: XmApplicationConfigService,
         private sessionService: XmSessionService,
-        private principal: Principal,
-        private eventManager: XmEventManager,
     ) {
     }
 
     public ngOnInit(): void {
-        this.sessionService.isActive().subscribe(
+        this.sessionService.isActive().pipe(takeUntilOnDestroy(this)).subscribe(
             (auth) => this.isGuestLayout = !auth,
-            () => this.isGuestLayout = false,
+            () => this.isGuestLayout = true,
         );
-        this.registerAuthenticationSuccess();
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
-    }
-
-    private registerAuthenticationSuccess(): void {
-        this.eventManager.listenTo(XM_EVENT_LIST.XM_SUCCESS_AUTH)
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe(() => {
-                this.principal.identity();
-                this.isGuestLayout = false;
-            });
     }
 }
