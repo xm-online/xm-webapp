@@ -64,6 +64,8 @@
     @include flex-direction(row);
     @include flex-wrap(nowrap);
     align-items: center;
+    max-width:   100%;
+    overflow:    hidden;
 
     .navbar-brand,
     .navbar-header {
