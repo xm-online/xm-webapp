@@ -945,6 +945,17 @@
     "false": "Нет",
     "true": "Да"
   },
+  "xm-control-errors": {
+    "validators": {
+      "email": "Ваш электронный адрес некорректный.",
+      "max": "Максимальное значение {{min}}.",
+      "maxlength": "Не может превышать {{requiredLength}} символов.",
+      "min": "Минимальное значение {{min}}.",
+      "minlength": "Должна состоять не менее {{requiredLength}} символов.",
+      "pattern": "Поле заполнено некорректно.",
+      "required": "Поле обязательное для заполнения."
+    }
+  },
   "xm-entity": {
     "attachment-card": {
       "delete": {

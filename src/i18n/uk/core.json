@@ -922,6 +922,17 @@
     "false": "Ні",
     "true": "Так"
   },
+  "xm-control-errors": {
+    "validators": {
+      "email": "Ваша електронна адреса некоректна.",
+      "max": "Максимальне значення {{min}}.",
+      "maxlength": "Не може перевищувати {{requiredLength}} символів.",
+      "min": "Мінімальне значення {{min}}.",
+      "minlength": "Повинна містити принаймні {{requiredLength}} символів.",
+      "pattern": "Поле заповнено некоректно.",
+      "required": "Поле обов'язкове для заповнення."
+    }
+  },
   "xm-entity": {
     "attachment-card": {
       "delete": {
