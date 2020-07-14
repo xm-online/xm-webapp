@@ -4,6 +4,7 @@ import { FeedbackModule } from '@xm-ngx/components/feedback';
 import { GuestBackgroundModule } from '@xm-ngx/components/guest-background/guest-background.module';
 import { LanguageModule } from '@xm-ngx/components/language';
 import { LoaderModule } from '@xm-ngx/components/loader';
+import { RouteLoadingDirectiveModule } from '@xm-ngx/components/route-loading.directive';
 import { XmNotificationsModule } from '@xm-ngx/components/xm-notifications';
 import { XmPasswordNeededModule } from '@xm-ngx/components/xm-password-needed';
 import { XmRibbonModule } from '@xm-ngx/components/xm-ribbon';
@@ -41,6 +42,7 @@ import { PageRibbonComponent } from './profiles/page-ribbon.component';
         FeedbackModule,
         XmNavbarModule,
         GuestBackgroundModule,
+        RouteLoadingDirectiveModule,
     ],
     exports: [XmMainComponent],
     declarations: [
