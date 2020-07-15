@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { RouteChangeAnimationModule } from '@xm-ngx/components/animations/route-change-animation';
 import { FeedbackModule } from '@xm-ngx/components/feedback';
 import { GuestBackgroundModule } from '@xm-ngx/components/guest-background/guest-background.module';
 import { LanguageModule } from '@xm-ngx/components/language';
@@ -43,6 +44,7 @@ import { PageRibbonComponent } from './profiles/page-ribbon.component';
         XmNavbarModule,
         GuestBackgroundModule,
         RouteLoadingDirectiveModule,
+        RouteChangeAnimationModule,
     ],
     exports: [XmMainComponent],
     declarations: [

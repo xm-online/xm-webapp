@@ -20,7 +20,9 @@
 
         <xm-navbar></xm-navbar>
 
-        <div [ngClass]="isGuestLayout ? 'container' : 'container-fluid'" class="main-content xm-main-content">
+        <div [ngClass]="isGuestLayout ? 'container' : 'container-fluid'"
+             xmRouteChangeAnimation
+             class="main-content xm-main-content">
           <router-outlet></router-outlet>
         </div>
 
