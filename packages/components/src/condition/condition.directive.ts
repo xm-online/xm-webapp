@@ -1,13 +1,14 @@
-import { Directive, EmbeddedViewRef, Input, OnChanges, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, EmbeddedViewRef, Input, OnChanges, TemplateRef, ViewContainerRef } from '@angular/core';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces/javascript-code';
+import { keys, values } from 'lodash';
 
 @Directive({
     selector: '[xmCondition]',
 })
-export class ConditionDirective implements OnInit, OnChanges {
+export class ConditionDirective implements OnChanges {
 
     @Input('xmCondition') public condition: JavascriptCode;
-    @Input('xmConditionArguments') public arguments: unknown;
+    @Input('xmConditionArguments') public arguments: { [key: string]: unknown };
 
     private thenViewRef: EmbeddedViewRef<undefined> | null = null;
 
@@ -17,19 +18,15 @@ export class ConditionDirective implements OnInit, OnChanges {
     ) {
     }
 
-    public static checkCondition(condition: string, args: unknown[]): boolean {
+    public static checkCondition(condition: string, args: { [key: string]: unknown }): boolean {
         if (!condition || !args) {
             return false;
         }
 
-        return (new Function('entity', `return ${condition};`))(...args);
+        return new Function(...keys(args), `return ${condition};`)(...values(args));
     }
 
     public ngOnChanges(): void {
-        this.updateView();
-    }
-
-    public ngOnInit(): void {
         this.updateView();
     }
 
@@ -39,12 +36,10 @@ export class ConditionDirective implements OnInit, OnChanges {
             return;
         }
 
-        const args = Array.isArray(this.arguments) ? this.arguments : [this.arguments];
-
-        if (ConditionDirective.checkCondition(this.condition, args)) {
-            this.hide();
-        } else {
+        if (ConditionDirective.checkCondition(this.condition, this.arguments)) {
             this.show();
+        } else {
+            this.hide();
         }
     }
 
