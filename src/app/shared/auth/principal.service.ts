@@ -70,6 +70,7 @@ export class Principal {
                 }
             }
             if (from === 'login') {
+                console.warn('asasass');
                 console.warn(privileges)
                 console.warn(this.userIdentity.privileges)
             }

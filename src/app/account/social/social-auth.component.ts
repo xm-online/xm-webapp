@@ -27,7 +27,7 @@ export class SocialAuthComponent extends LoginComponent implements OnInit {
                 protected alertService: JhiAlertService,
                 protected modalService: NgbModal,
                 protected authService: AuthService,
-                protected principal: Principal,
+                readonly principal: Principal,
                 protected xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 protected cookieService: CookieService) {
         super(
