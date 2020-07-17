@@ -36,6 +36,11 @@ export class EntitySpecManagementComponent implements OnInit {
         });
     }
 
+    public onApplyChanges(event: string): void {
+        this.entitySpecificationIn = event;
+        this.onEntitySpecificationChange(event);
+    }
+
     public onEntitySpecificationChange(textChanged: string): void {
         this.isXmEntitySpecValid = false;
         this.entityValidation = null;

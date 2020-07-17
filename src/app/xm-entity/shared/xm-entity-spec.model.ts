@@ -29,7 +29,7 @@ export interface XmEntitySpec extends BaseSpec {
     states?: StateSpec[];
     tags?: TagSpec[];
     comments?: CommentSpec[];
-    pluralName?: string;
+    pluralName?: any;
     nameValidationPattern?: string;
     descriptionPattern?: string;
 }

@@ -1,0 +1,87 @@
+<div class="row pt-2">
+  <div class="col-md-6">
+    <h3>{{'admin-config.specification-mng.editor.states' | translate}}</h3>
+  </div>
+  <div class="col-md-6 text-right">
+    <button (click)="onAddStateSpec(entitySpec)"
+            [matTooltip]="('admin-config.specification-mng.editor.add-state-spec' | translate)"
+            color="primary"
+            mat-icon-button>
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+<mat-accordion class="headers-align">
+  <mat-expansion-panel (opened)="openedStateSpec = index"
+                       *ngFor="let state of entitySpec.states; let index = index">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{state.name | translate}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{state.key}}
+
+        <mat-icon [style.color]="state.color">{{state.icon}}</mat-icon>
+
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div *ngIf="openedStateSpec === index">
+      <mat-form-field>
+        <input matInput
+               type="text"
+               [placeholder]="('admin-config.specification-mng.editor.key' | translate)"
+               [(ngModel)]="state.key">
+      </mat-form-field>
+
+      <xm-multilanguage-control
+        [value]="toMultiLanguageDataModel(state.name)"
+        [options]="{title: ('admin-config.specification-mng.editor.name' | translate)}"
+        (onValueChange)="fromMultiLanguageDataModel(state.name, $event)"
+      ></xm-multilanguage-control>
+
+      <div class="row">
+        <div class="col-4">
+        </div>
+        <div class="col-4">
+          <mat-form-field>
+            <input matInput
+                   type="text"
+                   [placeholder]="('admin-config.specification-mng.editor.color' | translate)"
+                   [(ngModel)]="state.color">
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field>
+            <mat-select [placeholder]="('admin-config.specification-mng.editor.icon' | translate)"
+                        [(ngModel)]="state.icon">
+              <mat-select-trigger>
+                {{state.icon}}
+              </mat-select-trigger>
+              <mat-option *ngFor="let icon of icons" [value]="icon">
+                <mat-icon>{{icon}}</mat-icon>
+                {{icon}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <label>{{'admin-config.specification-mng.editor.next' | translate}}</label>
+      <mat-selection-list (selectionChange)="onNextStateChange(state,$event)">
+        <mat-list-option [selected]="isNextStateSelected(state, next)"
+                         [value]="next"
+                         *ngFor="let next of entitySpec.states">
+          {{next.name | translate}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+
+    <mat-action-row>
+      <button mat-button color="primary"
+              (click)="onDeleteStateSpec(entitySpec, state)">
+        {{'admin-config.specification-mng.editor.delete' | translate}}
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
