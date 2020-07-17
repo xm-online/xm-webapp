@@ -25,8 +25,8 @@ export interface ITextControlOptions {
     pattern?: string;
     id?: string;
     name?: string;
-    // TODO: replace with dynamic validations
     required?: boolean;
+    disabled?: boolean;
 }
 
 const DEFAULT_OPTIONS: ITextControlOptions = {
@@ -34,9 +34,10 @@ const DEFAULT_OPTIONS: ITextControlOptions = {
     placeholder: '',
     type: 'text',
     pattern: '',
-    id: 'text',
+    id: null,
     name: 'text',
     required: true,
+    disabled: false,
 };
 
 const TRANSLATES = {
@@ -47,16 +48,16 @@ const TRANSLATES = {
     selector: 'xm-text-control',
     template: `
         <mat-form-field>
-
+            <mat-label>{{options.title|translate}}</mat-label>
             <input matInput
                    (ngModelChange)="change($event)"
                    [(ngModel)]="value"
                    [placeholder]="options.placeholder | translate"
                    #input="ngModel"
-                   [disabled]="disabled"
+                   [disabled]="disabled || options.disabled"
                    [attr.name]="options.name"
                    [id]="options.id"
-                   [attr.required]="options.required"
+                   [required]="options.required"
                    [attr.pattern]="options.pattern"
                    [attr.type]="options.type">
 
@@ -104,5 +105,3 @@ export class XmTextControl extends NgModelWrapper<Primitive> implements IControl
 export class XmTextControlModule {
     public readonly entry: IControlFn<Primitive, ITextControlOptions> = XmTextControl;
 }
-
-
