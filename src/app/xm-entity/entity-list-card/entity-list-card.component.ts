@@ -88,6 +88,13 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         } else { return false; }
     }
 
+    public isHideDownload(typeKey: string): boolean {
+        if (this.currentEntitiesUiConfig && this.currentEntitiesUiConfig.length) {
+            const entityConfig = this.currentEntitiesUiConfig.find((e) => e && e.typeKey === typeKey) || {};
+            return entityConfig && entityConfig.hideDownloadButton;
+        } else { return false; }
+    }
+
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.options && !_.isEqual(changes.options.previousValue, changes.options.currentValue)) {
             this.getCurrentEntitiesConfig();
