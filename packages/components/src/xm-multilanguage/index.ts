@@ -1,1 +1,1 @@
-export { XmUserModule } from './user.component';
+export { MultiLanguageComponent } from './xm-multi-language.component';

@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ITranslate, Locale, Translate } from '@xm-ngx/translation';
 import { propEq } from 'lodash/fp';
@@ -85,7 +85,6 @@ interface IComponent<V, O> extends IValue<V>, IOptions<O> {
         </ng-container>
     `,
     styles: ['mat-button-toggle-group{margin-bottom: 10px;} mat-label{display:block}'],
-    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MultiLanguageComponent), multi: true}],
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MultiLanguageComponent implements IComponent<MultiLanguageDataModel, MultiLanguageOptions> {
