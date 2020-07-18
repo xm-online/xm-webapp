@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { IComponent } from '@xm-ngx/ext/common-webapp-ext/elements/i-component';
-import { NgModelWrapper } from '@xm-ngx/ext/common-webapp-ext/utils/ng-model-wrapper';
 import { ITranslate, Locale, Translate } from '@xm-ngx/translation';
 import { propEq } from 'lodash/fp';
 import { XmApplicationConfigService } from '../../../../src/app/shared/spec';
@@ -17,6 +15,19 @@ export interface MultiLanguageOptions {
     title?: Translate | ITranslate;
     feedback?: string;
     language?: LanguageOptions;
+}
+
+interface IValue<V> {
+    value: V;
+}
+
+interface IOptions<O> {
+    options: O;
+}
+
+interface IComponent<V, O> extends IValue<V>, IOptions<O> {
+    value: V;
+    options: O;
 }
 
 @Component({
@@ -77,9 +88,7 @@ export interface MultiLanguageOptions {
     providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MultiLanguageComponent), multi: true}],
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class MultiLanguageComponent
-    extends NgModelWrapper<MultiLanguageDataModel>
-    implements IComponent<MultiLanguageDataModel, MultiLanguageOptions> {
+export class MultiLanguageComponent implements IComponent<MultiLanguageDataModel, MultiLanguageOptions> {
 
     @Input() public value: MultiLanguageDataModel = [];
     @Input() public disabled: boolean;
@@ -111,7 +120,6 @@ export class MultiLanguageComponent
     public languages: string[] = [];
 
     constructor(private xmConfigService: XmApplicationConfigService<{ langs: Locale[] }>) {
-        super();
     }
 
     public ngOnInit(): void {
@@ -139,7 +147,6 @@ export class MultiLanguageComponent
             this.value = [...(this.value || []), lngValue];
         }
         this.onValueChange.emit(this.value);
-        this.change(this.value);
         if (this.control) {
             this.control.setValue(this.value);
             this.control.markAsTouched();
