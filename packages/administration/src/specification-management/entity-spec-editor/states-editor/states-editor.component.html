@@ -34,11 +34,11 @@
                [(ngModel)]="state.key">
       </mat-form-field>
 
-      <xm-multilanguage-control
+      <xm-multi-language-control
         [value]="toMultiLanguageDataModel(state.name)"
         [options]="{title: ('admin-config.specification-mng.editor.name' | translate)}"
         (onValueChange)="fromMultiLanguageDataModel(state.name, $event)"
-      ></xm-multilanguage-control>
+      ></xm-multi-language-control>
 
       <div class="row">
         <div class="col-4">

@@ -1,15 +1,12 @@
-type MultiLanguageDataModel = {
-    languageKey: string;
-    name: string;
-}[];
+import { MultiLanguageDataModel } from '@xm-ngx/components/xm-multilanguage/xm-multi-language.component';
 
 export class EditorUtils {
 
-    public toMultiLanguageDataModel(name: any): MultiLanguageDataModel {
+    public toMultiLanguageDataModel(name: unknown): MultiLanguageDataModel {
         return name ? Object.keys(name).map((k) => ({languageKey: k, name: name[k]})) : null;
     }
 
-    public fromMultiLanguageDataModel(name: any, value: MultiLanguageDataModel): void {
+    public fromMultiLanguageDataModel(name: unknown, value: MultiLanguageDataModel): void {
         value.forEach((i) => {
             name[i.languageKey] = i.name;
         });

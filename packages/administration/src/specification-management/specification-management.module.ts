@@ -11,7 +11,6 @@ import { SpecificationManagementComponent } from './specification-management.com
 import { EntitySpecManagementComponent } from './entity-spec-management/entity-spec-management.component';
 import { ConfigVisualizerDialogComponent } from './config-visualizer-dialog/config-visualizer-dialog.component';
 import { EntitySpecEditorComponent } from './entity-spec-editor/entity-spec-editor.component';
-import { ElementsModule } from '@xm-ngx/ext/common-webapp-ext/elements/elements.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +22,7 @@ import { EntitySpecYamlService } from '@xm-ngx/administration/specification-mana
 import { MatDividerModule } from '@angular/material/divider';
 import { StatesEditorComponent } from './entity-spec-editor/states-editor/states-editor.component';
 import { MatListModule } from '@angular/material/list';
+import { MultiLanguageModuleModule } from '@xm-ngx/components/xm-multilanguage/xm-multi-language.module';
 
 @NgModule({
     imports: [
@@ -44,7 +44,7 @@ import { MatListModule } from '@angular/material/list';
         MatDividerModule,
         MatListModule,
         StatesManagementDialogModule,
-        ElementsModule,
+        MultiLanguageModuleModule,
     ],
     exports: [SpecificationManagementComponent],
     declarations: [

@@ -37,17 +37,17 @@
                [(ngModel)]="entitySpec.key">
       </mat-form-field>
 
-      <xm-multilanguage-control
+      <xm-multi-language-control
         [value]="toMultiLanguageDataModel(entitySpec.name)"
         [options]="{title: ('admin-config.specification-mng.editor.name' | translate)}"
         (onValueChange)="fromMultiLanguageDataModel(entitySpec.name, $event)"
-      ></xm-multilanguage-control>
+      ></xm-multi-language-control>
 
-      <xm-multilanguage-control
+      <xm-multi-language-control
         [value]="toMultiLanguageDataModel(entitySpec.pluralName)"
         [options]="{title: ('admin-config.specification-mng.editor.plural-name' | translate)}"
         (onValueChange)="fromMultiLanguageDataModel(entitySpec.pluralName, $event)"
-      ></xm-multilanguage-control>
+      ></xm-multi-language-control>
 
       <div class="row">
         <div class="col-4">
@@ -104,7 +104,6 @@
       <mat-divider></mat-divider>
       <div class="row pt-2">
         <div class="col-md-6">
-          <h3>Links</h3>
           <h3>{{'admin-config.specification-mng.editor.links' | translate}}</h3>
         </div>
         <div class="col-md-6 text-right">

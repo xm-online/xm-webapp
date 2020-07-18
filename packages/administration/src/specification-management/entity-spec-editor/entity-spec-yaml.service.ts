@@ -8,7 +8,7 @@ export class EntitySpecYamlService {
     private toJsonFields: string[] = ['name', 'pluralName'];
     private toJsonTextFields: string[] = ['dataSpec', 'dataForm', 'inputSpec', 'inputForm'];
 
-    private static getType(object: any): string {
+    private static getType(object: unknown): string {
         const type = typeof object;
         if (object instanceof Array) {
             return 'array';
@@ -31,18 +31,18 @@ export class EntitySpecYamlService {
         return ret.join('\n');
     }
 
-    private convert(object: any, ret: string[]): void {
+    private convert(object: unknown, ret: string[]): void {
         const type = EntitySpecYamlService.getType(object);
 
         switch (type) {
             case 'array':
-                this.convertArray(object, ret);
+                this.convertArray(object as unknown[], ret);
                 break;
             case 'hash':
                 this.convertHash(object, ret);
                 break;
             case 'string':
-                ret.push(object);
+                ret.push(object as string);
                 break;
             case 'null':
                 ret.push('null');
@@ -56,7 +56,7 @@ export class EntitySpecYamlService {
         }
     }
 
-    private convertArray(object: any, ret: string[]): void {
+    private convertArray(object: unknown[], ret: string[]): void {
         if (object.length === 0) {
             ret.push('[]');
         }
@@ -71,7 +71,7 @@ export class EntitySpecYamlService {
         }
     }
 
-    private convertHash(object: any, ret: string[]): void {
+    private convertHash(object: unknown, ret: string[]): void {
         Object.keys(object).forEach((k) => {
             const recurse = [];
             const ele = object[k];
