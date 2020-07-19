@@ -1,4 +1,5 @@
 {
+  "Status:": "",
   "Unauthorized": "Потрібна авторизація!",
   "activate": {
     "messages": {
@@ -49,6 +50,29 @@
       "title": "Панелі"
     },
     "specification-mng": {
+      "editor": {
+        "add-entity-spec": "Додайте специфікацію об'єкта",
+        "add-state-spec": "Додайте специфікацію стану",
+        "apply-changes": "Застосувати зміни",
+        "attachments": "Вкладення",
+        "color": "Колір",
+        "coming-soon": "Незабаром...",
+        "comments": "Коментарі",
+        "data-spec": "Специфікація даних",
+        "delete": "Видалити",
+        "form-spec": "Специфікація форми",
+        "functions": "Функції",
+        "icon": "Іконка",
+        "is-abstract": "Абстрактний?",
+        "is-application": "Додаток?",
+        "key": "Ключ",
+        "links": "Зв'язки",
+        "locations": "Місцеположення",
+        "name": "Назва",
+        "next": "Наступні",
+        "plural-name": "Множинна назва",
+        "states": "Стани"
+      },
       "entity": {
         "save": "Оновити специфікацію Моделі",
         "title": "Модель"

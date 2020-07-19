@@ -1,3 +1,10 @@
+<div class="pt-4" *ngIf="entitySpecificationIn">
+  <xm-entity-spec-editor
+    [in]="entitySpecificationIn"
+    (out)="onApplyChanges($event)"
+  ></xm-entity-spec-editor>
+</div>
+
 <div class="card">
   <div class="card-body">
     <div class="text-center pb-3">
