@@ -1,0 +1,12 @@
+.deep-link {
+  vertical-align: middle;
+
+  &.disabled {
+    opacity: .2;
+    cursor: not-allowed;
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
