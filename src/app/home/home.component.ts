@@ -1,12 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Account, AuthServerProvider, Principal } from '../shared';
+import { Account, AuthServerProvider, LoginService, Principal } from '../shared';
 import { XmConfigService } from '../shared/spec/config.service';
 import { Widget } from '../xm-dashboard';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, XM_EVENT_LIST } from '../xm.constants';
@@ -28,7 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 private eventManager: JhiEventManager,
                 private xmConfigService: XmConfigService,
                 private http: HttpClient,
-                private router: Router,
+                protected loginService: LoginService,
                 private authServerProvider: AuthServerProvider) {
     }
 
@@ -50,7 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.getConfigAndNavigate();
             });
         } else if (this.isAuthenticated()) {
-            this.router.navigate(['dashboard'], { replaceUrl: true });
+            this.loginService.checkAvailableUrlsAndNavigate();
         }
     }
 

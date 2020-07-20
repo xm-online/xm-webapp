@@ -8,7 +8,6 @@ import { AuthService, LoginComponent, LoginService, Principal } from '../../shar
 import { StateStorageService } from '../../shared/auth/state-storage.service';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { XM_EVENT_LIST } from '../../xm.constants';
-import { XmEntitySpecWrapperService } from '../../xm-entity/shared/xm-entity-spec-wrapper.service';
 
 const SOCIAL_AUTH = 'social-authentication';
 
@@ -28,7 +27,6 @@ export class SocialAuthComponent extends LoginComponent implements OnInit {
                 protected modalService: NgbModal,
                 protected authService: AuthService,
                 readonly principal: Principal,
-                protected xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 protected cookieService: CookieService) {
         super(
             eventManager,
@@ -40,7 +38,6 @@ export class SocialAuthComponent extends LoginComponent implements OnInit {
             alertService,
             modalService,
             principal,
-            xmEntitySpecWrapperService,
         );
     }
 
@@ -53,7 +50,7 @@ export class SocialAuthComponent extends LoginComponent implements OnInit {
                     .then(
                         () => {
                             this.eventManager.broadcast({name: XM_EVENT_LIST.XM_SUCCESS_AUTH});
-                            this.router.navigate(['dashboard']);
+                            this.loginService.checkAvailableUrlsAndNavigate();
                         },
                         () => this.router.navigate(['']),
                     );

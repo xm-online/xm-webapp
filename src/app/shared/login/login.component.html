@@ -15,9 +15,7 @@
      [innerHTML]="'register.messages.success' | translate">
 </div>
 
-<xm-loader [showLoader]="isLoginSuccess"></xm-loader>
-
-<form class="form" role="form" (ngSubmit)="login()" *ngIf="!checkOTP && !isLoginSuccess" autocomplete="off">
+<form class="form" role="form" (ngSubmit)="login()" *ngIf="!checkOTP" autocomplete="off">
   <div class="form-group" id="userNameContainer">
     <mat-form-field [floatLabel]="floatLabel ? 'always' : 'auto'">
       <input matInput

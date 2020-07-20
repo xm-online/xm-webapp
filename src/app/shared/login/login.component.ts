@@ -13,7 +13,6 @@ import {
 import { XmConfigService } from '../spec/config.service';
 import { LoginService } from './login.service';
 import { Principal } from '../auth/principal.service.js';
-import { XmEntitySpecWrapperService } from '../../xm-entity/shared/xm-entity-spec-wrapper.service';
 
 declare let $: any;
 
@@ -43,7 +42,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     public floatLabel: boolean;
     public sendingLogin: boolean;
     public socialConfig: [];
-    public isLoginSuccess: boolean;
 
     public checkTermsOfConditions: boolean;
 
@@ -56,8 +54,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         protected router: Router,
         protected alertService: JhiAlertService,
         protected modalService: NgbModal,
-        readonly principal: Principal,
-        protected xmEntitySpecWrapperService: XmEntitySpecWrapperService,
+        readonly principal: Principal
     ) {
         this.checkOTP = false;
         this.credentials = {};
@@ -68,7 +65,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     public ngOnInit(): void {
         $('body').addClass('xm-public-screen');
         this.isDisabled = false;
-        this.isLoginSuccess = false;
 
         this.getConfigs()
             .pipe(
@@ -101,7 +97,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
 
     public loginSuccess(): void {
-        this.isLoginSuccess = true;
         $('body').removeClass('xm-public-screen');
         if (this.router.url === '/register'
             // eslint-disable-next-line @typescript-eslint/prefer-includes
@@ -122,58 +117,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
          */
         const redirect = this.stateStorageService.getUrl();
         if (redirect) {
-
             this.router.navigate([redirect], { replaceUrl: true });
         } else {
-            this.checkAvailableUrlsAndNavigate();
+            this.loginService.checkAvailableUrlsAndNavigate();
         }
-    }
-
-
-    private checkAvailableUrlsAndNavigate(): void {
-        this.principal.identity().then((identity) => {
-            const canSeeDash = this.principal
-                .hasPrivileges(['DASHBOARD.GET_LIST', 'DASHBOARD.GET_LIST.ITEM']);
-            const canSeeApps = this.principal
-                .hasPrivileges(['XMENTITY.GET_LIST']);
-
-            Promise.all([canSeeDash, canSeeApps])
-                .then((results: any[]) => {
-                    const privileges = results.map((p, i) => ({index: i, value: p})).filter(p => p.value === true);
-                    const currentPrivilege = privileges && privileges.length > 0 && privileges[0].index;
-                    switch (currentPrivilege) {
-                        case 0: {
-                            this.router.navigate(['dashboard'], { replaceUrl: true });
-                            break;
-                        }
-                        case 1: {
-                            this.getAppUrlAndNavigate();
-                            break;
-                        }
-                        default: {
-                            this.router.navigate(['home'], { replaceUrl: true });
-                        }
-                    }
-                });
-        });
-    }
-
-    private getAppUrlAndNavigate(): void {
-        this.principal.hasPrivileges(['XMENTITY_SPEC.GET'])
-            .then((result) => {
-                if (result) {
-                    this.xmEntitySpecWrapperService.spec(true).then((spec) => {
-                        const applications = spec.types.filter((t) => t.isApp)
-                            .filter((t) => this.principal
-                                .hasPrivilegesInline([`APPLICATION.${  t.key}`]));
-                        if (applications.length > 0) {
-                            this.router.navigate([`application/${  applications[0].key}`], { replaceUrl: true });
-                        } else {
-                            this.router.navigate(['home'], { replaceUrl: true });
-                        }
-                    });
-                }
-            });
     }
 
     public checkOtp(): void {
