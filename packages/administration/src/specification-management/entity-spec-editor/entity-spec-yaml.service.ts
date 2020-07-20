@@ -5,7 +5,7 @@ import { Spec } from '@xm-ngx/entity';
 export class EntitySpecYamlService {
 
     private spacing: string = '  ';
-    private toJsonFields: string[] = ['name', 'pluralName'];
+    private toJsonFields: string[] = ['name', 'pluralName', 'actionName'];
     private toJsonTextFields: string[] = ['dataSpec', 'dataForm', 'inputSpec', 'inputForm'];
 
     private static getType(object: unknown): string {
@@ -42,7 +42,11 @@ export class EntitySpecYamlService {
                 this.convertHash(object, ret);
                 break;
             case 'string':
-                ret.push(object as string);
+                if (object.toString().startsWith('#')) {
+                    ret.push(`'${object.toString()}'`);
+                } else {
+                    ret.push(object.toString());
+                }
                 break;
             case 'null':
                 ret.push('null');
