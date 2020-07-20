@@ -5,7 +5,7 @@ import { JhiLanguageService } from 'ng-jhipster';
 import { AuthServerProvider } from '../auth/auth-jwt.service';
 import { Principal } from '../auth/principal.service';
 import { StateStorageService } from '../auth/state-storage.service';
-import { XmEntitySpecWrapperService } from "../../xm-entity/shared/xm-entity-spec-wrapper.service";
+import { XmEntitySpecWrapperService } from '../../xm-entity/shared/xm-entity-spec-wrapper.service';
 
 @Injectable()
 export class LoginService {

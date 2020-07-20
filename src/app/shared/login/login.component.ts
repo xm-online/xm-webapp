@@ -12,7 +12,7 @@ import {
 } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfigService } from '../spec/config.service';
 import { LoginService } from './login.service';
-import { Principal } from '../auth/principal.service.js';
+import { Principal } from '../auth/principal.service';
 
 declare let $: any;
 
