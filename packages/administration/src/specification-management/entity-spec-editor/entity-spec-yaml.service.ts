@@ -42,10 +42,10 @@ export class EntitySpecYamlService {
                 this.convertHash(object, ret);
                 break;
             case 'string':
-                if (object.toString().startsWith('#')) {
-                    ret.push(`'${object.toString()}'`);
+                if ((object as string).startsWith('#')) {
+                    ret.push(`'${object}'`);
                 } else {
-                    ret.push(object.toString());
+                    ret.push(object as string);
                 }
                 break;
             case 'null':
