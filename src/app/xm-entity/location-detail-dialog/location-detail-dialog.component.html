@@ -2,8 +2,8 @@
   <form (ngSubmit)="onConfirmSave()" *ngIf="xmEntity" [formGroup]="form">
     <div mat-dialog-title>
       <h4 class="modal-title text-left">
-        <span jhiTranslate="{{form.value.id ? 'xm-entity.location-detail-dialog.edit.title' : 'xm-entity.location-detail-dialog.add.title'}}">
-          {{ form.value.id ? 'Edit a location for the' : 'Add a new location for the' }}
+        <span>
+          {{form.value.id ? 'xm-entity.location-detail-dialog.edit.title' : 'xm-entity.location-detail-dialog.add.title' | translate}}
         </span>
 
         [<b>{{xmEntity.name}}</b>]
@@ -168,10 +168,10 @@
     </div>
     <div mat-dialog-actions>
       <button (click)="onCancel()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
-        <span jhiTranslate="xm-entity.common.cancel">Cancel</span>
+        <span>{{'xm-entity.common.cancel' | translate}}</span>
       </button>
       <button [disabled]="!form.valid || showLoader" color="primary" mat-button type="submit">
-        <span jhiTranslate="xm-entity.common.save">Save</span>
+        <span>{{'xm-entity.common.save' | translate}}</span>
       </button>
     </div>
   </form>
