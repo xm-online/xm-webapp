@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { Principal } from '../../shared/auth/principal.service';
 
-export interface IHOmePageOptions {
+export interface IHomePageOptions {
     icon?: string;
     iconColor?: string;
     message?: string;
@@ -16,7 +16,7 @@ export interface IHOmePageOptions {
 })
 export class HomeDefaultComponent implements OnInit {
 
-    public homePageOptions: IHOmePageOptions;
+    public homePageOptions: IHomePageOptions;
 
     constructor(private xmConfigService: XmConfigService,
                 private router: Router,

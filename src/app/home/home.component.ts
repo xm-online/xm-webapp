@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { Account, AuthServerProvider, LoginService, Principal } from '../shared';
 import { XmConfigService } from '../shared/spec/config.service';
@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     public defaultLayout: any;
     public signWidget: Widget;
     private eventAuthSubscriber: Subscription;
+    private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
     constructor(private principal: Principal,
                 private eventManager: JhiEventManager,
@@ -55,6 +56,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.eventManager.destroy(this.eventAuthSubscriber);
+        this.destroyed$.next(true);
+        this.destroyed$.complete();
     }
 
     public registerAuthenticationSuccess(): void {
@@ -70,26 +73,28 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     private getConfigAndNavigate(): void {
-        this.xmConfigService.getUiConfig().subscribe((result) => {
-            if (result) {
-                if (result.defaultLayout) {
-                    this.defaultLayout = result.defaultLayout.map((row) => {
-                        row.content = row.content.map((el) => {
-                            el.widget = this.getWidgetComponent(el.widget);
-                            return el;
+        this.xmConfigService.getUiConfig()
+            .pipe(takeUntil(this.destroyed$))
+            .subscribe((result) => {
+                if (result) {
+                    if (result.defaultLayout) {
+                        this.defaultLayout = result.defaultLayout.map((row) => {
+                            row.content = row.content.map((el) => {
+                                el.widget = this.getWidgetComponent(el.widget);
+                                return el;
+                            });
+                            return row;
                         });
-                        return row;
-                    });
+                    } else {
+                        this.defaultWidget = this.getWidgetComponent(result.defaultWidget);
+                    }
                 } else {
-                    this.defaultWidget = this.getWidgetComponent(result.defaultWidget);
+                    this.defaultWidget = this.getWidgetComponent();
                 }
-            } else {
+            }, (err) => {
+                console.warn(err);
                 this.defaultWidget = this.getWidgetComponent();
-            }
-        }, (err) => {
-            console.warn(err);
-            this.defaultWidget = this.getWidgetComponent();
-        });
+            });
     }
 
     private getAccessToken(): Observable<void> {

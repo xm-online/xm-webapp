@@ -47,16 +47,7 @@ export class Principal {
         return Promise.resolve(true);
     }
 
-    public hasPrivilegesInline(privileges: string[] = [], privilegesOperation: string = 'OR', from?: string): any {
-
-
-
-        if (from === 'login') {
-            console.warn(privileges)
-            console.warn(this.userIdentity.privileges)
-        }
-
-
+    public hasPrivilegesInline(privileges: string[] = [], privilegesOperation: string = 'OR'): any {
         if (!this.authenticated || !this.userIdentity || !this.userIdentity.privileges) {
             return false;
         }
@@ -69,11 +60,6 @@ export class Principal {
                     return true;
                 }
             }
-            if (from === 'login') {
-                console.warn('asasass');
-                console.warn(privileges)
-                console.warn(this.userIdentity.privileges)
-            }
             return false;
         } else if (privilegesOperation === 'AND') {
             return privileges.filter((el) => this.userIdentity.privileges.indexOf(el) === -1);
@@ -83,8 +69,8 @@ export class Principal {
         }
     }
 
-    public hasPrivileges(privileges: string[] = [], privilegesOperation: string = 'OR', from?: string): Promise<any> {
-        return Promise.resolve(this.hasPrivilegesInline(privileges, privilegesOperation, from));
+    public hasPrivileges(privileges: string[] = [], privilegesOperation: string = 'OR'): Promise<any> {
+        return Promise.resolve(this.hasPrivilegesInline(privileges, privilegesOperation));
     }
 
     public hasAuthority(authority: string): Promise<boolean> {
