@@ -12,6 +12,7 @@ import {
 } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfigService } from '../spec/config.service';
 import { LoginService } from './login.service';
+import { Principal } from '../auth/principal.service';
 
 declare let $: any;
 
@@ -53,6 +54,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         protected router: Router,
         protected alertService: JhiAlertService,
         protected modalService: NgbModal,
+        readonly principal: Principal
     ) {
         this.checkOTP = false;
         this.credentials = {};
@@ -101,7 +103,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
             || ((/activate/).test(this.router.url))
             || this.router.url === '/finishReset'
             || this.router.url === '/requestReset') {
-            this.router.navigate(['']);
+            this.router.navigate([''], { replaceUrl: true });
         }
 
         this.eventManager.broadcast({
@@ -109,13 +111,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
             content: 'Sending Authentication Success',
         });
 
-        // previousState was set in the authExpiredInterceptor before being redirected to login modal.
-        // since login is succesful, go to stored previousState and clear previousState
+        /*
+         * PreviousState was set in the authExpiredInterceptor before being redirected to login modal.
+         * since login is succesful, go to stored previousState and clear previousState
+         */
         const redirect = this.stateStorageService.getUrl();
         if (redirect) {
-            this.router.navigate([redirect]);
+            this.router.navigate([redirect], { replaceUrl: true });
         } else {
-            this.router.navigate(['dashboard']);
+            this.loginService.checkAvailableUrlsAndNavigate();
         }
     }
 
@@ -136,7 +140,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
             this.isDisabled = false;
             this.backToLogin();
         });
-
     }
 
     public backToLogin(): void {
@@ -174,7 +177,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         }).catch((err) => {
             const errObj = err.error || null;
             const termsErr = errObj && errObj.error === TERMS_ERROR;
-            const termsToken = errObj.oneTimeToken || null;
+            const termsToken = (errObj && errObj.oneTimeToken) || null;
             if (termsErr && termsToken && !this.isTermsShown) { this.pushTermsAccepting(termsToken); }
             this.authenticationError = !termsErr;
             this.successRegistration = false;
@@ -199,7 +202,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
                     this.floatLabel = true;
                 }
             } catch (e) {
-                // empty block
+                // Empty block
             }
         }, 500);
     }

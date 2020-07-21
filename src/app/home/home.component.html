@@ -1,4 +1,4 @@
-<div *ngIf="defaultWidget" class="row default-row">
+<div *ngIf="defaultWidget && !account" class="row default-row">
   <div class="col-md-6 default-lef-col">
     <xm-dynamic-widget *ngIf="defaultWidget.module"
                        [init]="{module: defaultWidget.module, component: defaultWidget.selector, config: defaultWidget.config}">
@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div *ngIf="defaultLayout">
+<div *ngIf="defaultLayout && !account">
   <div *ngFor="let row of defaultLayout" [className]="row.class">
     <div *ngFor="let item of row?.content" [className]="item.class">
       <xm-dynamic-widget *ngIf="item.widget?.module"

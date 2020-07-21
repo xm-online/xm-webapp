@@ -170,6 +170,8 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.userDescription$ = this.getUserDescription(sideBarMenuConfig);
                 }
                 this.loadData();
+            } else {
+                $('body').addClass('xm-public-screen');
             }
         });
     }
@@ -200,7 +202,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
             this.applications = null;
             this.dashboards = null;
             this.userDescription$ = null;
-            this.router.navigate(['']);
+            this.router.navigate([''], {replaceUrl: true});
             this.xmEntitySpecWrapperService.clear();
             $('body').addClass('xm-public-screen');
         };
