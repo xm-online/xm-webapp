@@ -1,22 +1,21 @@
-user  nginx;
-worker_processes  4;
+user nginx;
+worker_processes 4;
 
-pid        /var/run/nginx.pid;
-
+pid /var/run/nginx.pid;
 
 events {
-    worker_connections  1024;
+    worker_connections 1024;
 }
 
-
 http {
-    include       /etc/nginx/mime.types;
-    default_type  application/octet-stream;
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
     client_max_body_size 8096m;
     charset utf-8;
     sendfile on;
     keepalive_timeout 65;
     types_hash_max_size 8048;
+
     gzip on;
     gzip_vary on;
     gzip_static on;
@@ -48,44 +47,30 @@ http {
     resolver 127.0.0.1;
 
     server {
-	    listen 80;
-	    server_name localhost;
-	    server_tokens off;
-	    access_log /dev/stdout;
-	    error_log /dev/stdout;
+	      listen 80;
+	      server_name localhost;
+	      server_tokens off;
+	      access_log /dev/stdout;
+	      error_log /dev/stdout;
 
-	    location / {
-	        rewrite ^/$ /index.html break;
-	        rewrite ^/login/$ /login/index.html break;
-	        rewrite ^/login$ /login/index.html break;
-	        index index.html;
-	        root /var/www/;
-	        expires 1d;
-	        try_files $uri /index.html;
-	    }
+	      root /var/www;
+        index index.html;
 
-	    location ~ ^/({{be_endpoints}}) {
-	        proxy_pass      http://{{be_host}}:{{be_port}}$request_uri;
-	        proxy_redirect off;
-	        include /etc/nginx/proxy_params;
-	    }
+	      location / {
+	          add_header Cache-Control no-cache;
+            expires 0;
+	          try_files $uri $uri/ /index.html;
+	      }
 
-	    location ^~ /config/api/private {
-	        return 404;
-	    }
+	      location ~ ^/({{be_endpoints}}) {
+	          proxy_pass http://{{be_host}}:{{be_port}}$request_uri;
+	          proxy_redirect off;
+	          include /etc/nginx/proxy_params;
+	      }
+
+	      location ^~ /config/api/private {
+	          return 404;
+	      }
     }
-    
-    server{
-        listen 19999;
-        charset utf-8;
-        server_name stats;
-        server_tokens off;
-        access_log off;
-        error_log off;
 
-        location / {
-          stub_status on;
-          access_log   off;
-        }
-    }
 }
