@@ -5,7 +5,7 @@
         <div [attr.data-background-color]="item.color" class="card-icon">
           <i class="material-icons">{{item.icon}}</i>
         </div>
-        <p class="card-category">{{item.name}}</p>
+        <p class="card-category">{{item.name | translate}}</p>
         <h3 class="card-title">{{item.value | async}}</h3>
       </div>
       <div class="card-footer"></div>

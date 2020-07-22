@@ -1,11 +1,11 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { FunctionService, XmEntity, XmEntityService } from '@xm-ngx/entity';
 
 import * as _ from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-
-import { FunctionService, XmEntity, XmEntityService } from '../../../xm-entity/';
 
 interface IStatFunction {
     type: 'query' | 'function';
@@ -31,7 +31,7 @@ interface IStat {
 })
 export class StatsWidgetComponent implements OnInit {
 
-    public config: any;
+    @Input() public config: { stats: IStat[] };
     public stats: IStat[] = [];
 
     constructor(
@@ -42,13 +42,13 @@ export class StatsWidgetComponent implements OnInit {
     public ngOnInit(): void {
         this.stats = this.config.stats.map((el) => {
             if (el.function) {
-                el.value = new BehaviorSubject(el.function.defaultValue ? el.function.defaultValue : '?');
+                el.value = new BehaviorSubject<string | number>(el.function.defaultValue ? el.function.defaultValue : '?');
                 this.callFunction(el.function).subscribe(el.value);
             } else if (el.query) {
-                el.value = new BehaviorSubject('?');
-                this.callFunction({type: 'query', query: el.query, errorValue: '?'}).subscribe(el.value);
+                el.value = new BehaviorSubject<string | number>('?');
+                this.callFunction({ type: 'query', query: el.query, errorValue: '?' }).subscribe(el.value);
             } else {
-                el.value = new BehaviorSubject('?');
+                el.value = new BehaviorSubject<string | number>('?');
             }
             return el;
         });
@@ -84,9 +84,13 @@ export class StatsWidgetComponent implements OnInit {
         );
     }
 
-    private getWidgetValue(data: any, iFunction: IStatFunction): any {
-        if (_.has(data, 'data.widget.value')) { return _.get(data, 'data.widget.value'); }
-        if (_.has(data, 'data.amount')) { return _.get(data, 'data.amount'); }
+    private getWidgetValue(data: unknown, iFunction: IStatFunction): string {
+        if (_.has(data, 'data.widget.value')) {
+            return _.get(data, 'data.widget.value');
+        }
+        if (_.has(data, 'data.amount')) {
+            return _.get(data, 'data.amount');
+        }
         return iFunction.defaultValue;
     }
 
