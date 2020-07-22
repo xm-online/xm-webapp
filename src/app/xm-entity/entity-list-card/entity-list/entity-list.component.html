@@ -61,7 +61,7 @@
 </div>
 
 <!-- start filter area -->
-<div *ngIf="true" class="row">
+<div *ngIf="isShowFilterArea" class="row">
   <div class="col-sm">
     <json-schema-form (formLayout)="item.filterJsfAttributes.formLayout"
                       (onSubmit)="onApplyFilter(item, $event)"
