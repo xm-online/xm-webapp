@@ -1,0 +1,23 @@
+:host::ng-deep {
+  table.mat-table {
+    thead {
+      tr {
+        &.mat-header-row {
+          height: auto;
+        }
+        th, td {
+          border-top: none;
+          border-bottom: 2px solid #dee2e6;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}

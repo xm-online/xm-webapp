@@ -28,6 +28,7 @@ export interface EntityOptions {
     queryCount?: any;
     routerLink?: string[];
     filter?: FilterOptions;
+    filterJsfAttributes?: any;
 }
 
 export interface FieldOptions {
