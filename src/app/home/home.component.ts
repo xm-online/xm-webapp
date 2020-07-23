@@ -4,8 +4,29 @@ import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
 import { Widget } from '@xm-ngx/dashboard';
 import { Layout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { combineLatest } from 'rxjs';
+import { cloneDeep } from 'lodash';
+import { combineLatest, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { DashboardBase } from '../xm-dashboard/dashboard/dashboard-base';
+
+interface HomeLayout extends Layout {
+    content?: HomeLayout[];
+    config?: unknown;
+}
+
+interface HomeRootLayouts extends Layout {
+    domain: string | string[];
+}
+
+interface HomeConfig {
+    root?: {
+        layouts: HomeRootLayouts[];
+    };
+    /** @deprecated use root instead */
+    defaultLayout: Widget[];
+    /** @deprecated use root instead */
+    defaultWidget: Widget;
+}
 
 @Component({
     selector: 'xm-home',
@@ -14,13 +35,10 @@ import { DashboardBase } from '../xm-dashboard/dashboard/dashboard-base';
 })
 export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
 
-    public hide: boolean = true;
-    public defaultWidget: Widget;
-    public defaultLayout: Layout;
-    public signWidget: Widget = this.getWidgetComponent({ selector: 'ext-common/xm-widget-sign-in-up' });
+    public layouts$: Observable<HomeLayout[]>;
 
     constructor(
-        private xmConfigService: XmUiConfigService,
+        private xmConfigService: XmUiConfigService<HomeConfig>,
         private sessionService: XmSessionService,
         private router: Router,
     ) {
@@ -28,36 +46,81 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        combineLatest([
+        this.layouts$ = combineLatest([
             this.xmConfigService.config$(),
             this.sessionService.isActive(),
         ]).pipe(
             takeUntilOnDestroy(this),
-        ).subscribe(
-            ([config, active]) => {
-                if (active === true) {
-                    this.hide = true;
-                    this.router.navigate(['/dashboard']);
-                    return;
-                }
-                this.hide = false;
-                if (config && config.defaultLayout) {
-                    this.defaultLayout = config.defaultLayout.map((row) => {
-                        row.content = row.content.map((el) => {
-                            el.widget = this.getWidgetComponent(el.widget);
-                            return el;
-                        });
-                        return row;
-                    });
-                } else {
-                    this.defaultWidget = this.getWidgetComponent(config?.defaultWidget);
-                }
-            },
-            () => this.defaultWidget = this.getWidgetComponent());
+            map(
+                ([config, active]) => {
+                    if (active === true) {
+                        this.router.navigate(['/dashboard']);
+                        return [];
+                    }
+
+                    if (config?.root?.layouts) {
+                        return this.getFromConfigRootLayouts(config.root.layouts);
+                    }
+                    if (config?.defaultLayout) {
+                        return this.getFromConfigDefaultLayout(config.defaultLayout);
+                    } else {
+                        return this.getFromConfigDefaultWidget(config);
+                    }
+                }),
+            catchError(() => of(this.getFromConfigDefaultWidget())),
+        );
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
 
+    protected getFromConfigRootLayouts(layouts: HomeRootLayouts[]): HomeLayout[] {
+        return cloneDeep(layouts.filter(l => this.hasCurrentDomain(l.domain)));
+    }
+
+    protected getFromConfigDefaultLayout(defaultLayout: HomeLayout[]): HomeLayout[] {
+        return cloneDeep(defaultLayout.map((row) => ({
+            selector: row.selector || 'div',
+            class: row.class,
+            config: row.config,
+            content: row.content.map((el) => {
+                const widget = this.getWidgetComponent((el as any).widget);
+                return {
+                    selector: el.selector || 'div',
+                    class: el.class,
+                    config: row.config,
+                    content: [{ selector: widget.selector, config: widget.confi }],
+                };
+            }),
+        })));
+    }
+
+    protected getFromConfigDefaultWidget(config?: HomeConfig): HomeLayout[] {
+        const dLeft = this.getWidgetComponent(config?.defaultWidget);
+        const dRight = this.getWidgetComponent({ selector: 'ext-common/xm-widget-sign-in-up' });
+        return ([
+            {
+                selector: 'div',
+                class: 'row default-row',
+                content: [
+                    {
+                        selector: 'div',
+                        class: 'col-md-6 default-lef-col',
+                        content: [{ selector: dLeft.selector, config: dLeft.config }],
+                    },
+                    {
+                        selector: 'div',
+                        content: [{ selector: dRight.selector, config: dRight.config }],
+                        class: 'col-md-6 default-right-col',
+                    },
+                ],
+            },
+        ]);
+    }
+
+    private hasCurrentDomain(domain: string | string[]): boolean {
+        const domains: string[] = Array.isArray(domain) ? domain : [domain];
+        return domains.includes(window.location.hostname);
+    }
 }
