@@ -120,6 +120,10 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
     }
 
     private hasCurrentDomain(domain: string | string[]): boolean {
+        if (!domain || domain.length === 0) {
+            return true;
+        }
+
         const domains: string[] = Array.isArray(domain) ? domain : [domain];
         return domains.includes(window.location.hostname);
     }
