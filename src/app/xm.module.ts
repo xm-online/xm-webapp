@@ -7,7 +7,7 @@ import { XmAlertModule } from '@xm-ngx/alert';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 
 import { XmCoreModule } from '@xm-ngx/core';
-import { AuthServerProvider, UserRouteAccessService, XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { AuthServerProvider, Principal, UserRouteAccessService, XmCoreAuthModule } from '@xm-ngx/core/auth';
 import { environment } from '@xm-ngx/core/environment';
 import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardModule } from '@xm-ngx/dashboard';
@@ -58,7 +58,9 @@ export class XmModule {
         idleLogoutService: IdleLogoutService,
         titleService: TitleService,
         authServerProvider: AuthServerProvider,
+        principal: Principal,
     ) {
+        principal.init();
         authServerProvider.init();
         idleLogoutService.init();
         languageService.init();
