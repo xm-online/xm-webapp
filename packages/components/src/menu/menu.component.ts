@@ -5,10 +5,10 @@ import { Dashboard, DashboardWrapperService } from '@xm-ngx/dashboard';
 import { XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { transpilingForIE } from '@xm-ngx/json-scheme-form';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces/javascript-code';
-import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, shareReplay, take, tap } from 'rxjs/operators';
+import { combineLatest, from, Observable } from 'rxjs';
+import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 
 import { ContextService, Principal } from '../../../../src/app/shared';
 import { XmPublicUiConfigService } from '../../../core/src/config/xm-public-ui-config.service';
@@ -154,8 +154,6 @@ export class MenuComponent implements OnInit, OnDestroy {
     public categories$: Observable<MenuCategory[]>;
     public activeCategories: MenuCategory;
 
-    protected subscriptions: Subscription[] = [];
-
     constructor(
         protected readonly dashboardService: DashboardWrapperService,
         protected readonly router: Router,
@@ -175,7 +173,8 @@ export class MenuComponent implements OnInit, OnDestroy {
             map(dashboardsToCategories),
         );
 
-        const applications$ = this.entityConfigService.entitySpec$().pipe(
+        const applications$ = from(this.principal.identity()).pipe(
+            switchMap(() => this.entityConfigService.entitySpec$()),
             map((spec) => {
                 if (!spec) {
                     spec = [];
@@ -194,21 +193,23 @@ export class MenuComponent implements OnInit, OnDestroy {
         );
 
         this.categories$ = combineLatest([dashboards$, applications$, default$]).pipe(
+            takeUntilOnDestroy(this),
             map(([a, b, c]) => [...a, ...b, ...c]),
             shareReplay(1),
         );
 
-        this.subscriptions.push(combineLatest([
+        combineLatest([
             this.categories$,
             this.router.events.pipe(filter((e) => e instanceof NavigationEnd)),
         ]).pipe(
+            takeUntilOnDestroy(this),
             map((i) => i[0]),
             tap(this.selectActiveCategory.bind(this)),
-        ).subscribe());
+        ).subscribe();
     }
 
     public ngOnDestroy(): void {
-        this.subscriptions.forEach((i) => i.unsubscribe());
+        takeUntilOnDestroyDestroy(this);
     }
 
     public toggleMenu(category: MenuCategory): void {

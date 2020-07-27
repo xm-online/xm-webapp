@@ -1,5 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
+import { OnInitialize } from '@xm-ngx/shared/interfaces/on-initialize';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { LanguageService } from '@xm-ngx/translation';
@@ -17,8 +18,8 @@ const CACHE_SIZE = 1;
 const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
 
 
-@Injectable({providedIn: 'root'})
-export class Principal implements OnDestroy {
+@Injectable({ providedIn: 'root' })
+export class Principal implements OnDestroy, OnInitialize {
     private userIdentity: any;
     private authenticated: boolean = false;
     private authenticationState: Subject<any> = new Subject<any>();
@@ -33,6 +34,9 @@ export class Principal implements OnDestroy {
                 private languageService: LanguageService,
                 private $sessionStorage: SessionStorageService,
     ) {
+    }
+
+    public init(): void {
         this.checkTokenAndForceIdentity();
         this.onLanguageChange();
     }
@@ -83,7 +87,7 @@ export class Principal implements OnDestroy {
         } else if (privilegesOperation === 'AND') {
             return privileges.filter((el) => this.userIdentity.privileges.indexOf(el) === -1);
         } else {
-            this.alertService.warning('error.privilegeOperationWrong', {name: privilegesOperation});
+            this.alertService.warning('error.privilegeOperationWrong', { name: privilegesOperation });
             return false;
         }
     }
