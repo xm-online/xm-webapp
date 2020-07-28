@@ -49,7 +49,7 @@ export class EntitySpecEditorComponent extends EditorUtils implements OnInit {
 
     public onApplyChanges(): void {
         this.buffer.forEach((bi) => {
-            const entitySpec = this.spec.types.find((t) => t === bi.entitySpec);
+            const entitySpec = this.spec.types.find((t) => t.key === bi.entitySpec.key);
             if (entitySpec) {
                 entitySpec.dataSpec = bi.dataSpec;
                 entitySpec.dataForm = bi.dataForm;
