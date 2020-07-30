@@ -23,7 +23,8 @@ export class RequestCacheFactoryService {
     }
 
     public create<T>(params: RequestCacheFactoryParams<T>): RequestCache<T> {
-        let storage: RequestCache<T> = new RequestCache<T>(params.request);
+        let storage: RequestCache<T> = new RequestCache<T>();
+        storage.request = params.request;
         storage = this.requestTimeOutHandle(storage, params);
         storage = this.reloadIntervalHandle(storage, params);
         storage = this.onlyWithUserSessionHandle(storage, params);

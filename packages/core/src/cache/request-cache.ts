@@ -1,4 +1,4 @@
-import { OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { of, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
@@ -14,16 +14,14 @@ export interface IRequestCache<T> extends OnDestroy {
     clear(): void;
 }
 
+@Injectable()
 export class RequestCache<T> implements IRequestCache<T> {
 
     protected cache: Subject<T | null>;
     protected cacheObservable: Observable<T | null>;
     protected subscription: Subscription;
 
-    constructor(
-        public request: () => Observable<T> = (): Observable<null> => of(null),
-    ) {
-    }
+    public request: () => Observable<T | null> = (): Observable<null> => of(null);
 
     public cacheFactory(): Subject<T> {
         return new ReplaySubject<T>(1);
