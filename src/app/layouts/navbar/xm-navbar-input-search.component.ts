@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
+import { XmSessionService, XmUIConfig, XmUiConfigService } from '@xm-ngx/core';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { iif, Observable, of } from 'rxjs';
@@ -36,10 +36,11 @@ export class XmNavbarInputSearchComponent implements OnInit {
     public searchMask: string = '';
     public isShowSearchPanel: boolean = true;
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
+    private searchFullMatch: boolean = false;
 
     constructor(
         private router: Router,
-        private uiConfigService: XmUiConfigService<{ searchPanel: boolean }>,
+        private uiConfigService: XmUiConfigService<XmUIConfig>,
         private dashboardWrapperService: DashboardWrapperService,
         private location: Location,
         private xmSessionService: XmSessionService,
@@ -51,7 +52,8 @@ export class XmNavbarInputSearchComponent implements OnInit {
             filter((i) => Boolean(i)),
             takeUntilOnDestroy(this),
         ).subscribe((res) => {
-            this.isShowSearchPanel = Object.prototype.hasOwnProperty.call(res, 'searchPanel') ? res.searchPanel : true;
+            this.searchFullMatch = res?.search?.searchFullMatch;
+            this.isShowSearchPanel = Object.prototype.hasOwnProperty.call(res.search, 'searchPanel') ? res.search.searchPanel : true;
         });
 
         this.router.events.pipe(takeUntilOnDestroy(this)).subscribe((event) => {
@@ -71,7 +73,8 @@ export class XmNavbarInputSearchComponent implements OnInit {
 
     public search(term: string): void {
         if (term) {
-            this.router.navigate(['/search'], { queryParams: { query: term, dashboardId: this.getDashboardId() } });
+            const searchQuery = this.searchFullMatch ? `"${term}"` : term;
+            this.router.navigate(['/search'], { queryParams: { query: searchQuery, dashboardId: this.getDashboardId() } });
         }
     }
 

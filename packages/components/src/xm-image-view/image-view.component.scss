@@ -1,0 +1,7 @@
+$xm-image-view-height: 40px !default;
+$xm-image-view-width:  100px !default;
+
+img {
+  max-height: $xm-image-view-height;
+  max-width:  $xm-image-view-width;
+}

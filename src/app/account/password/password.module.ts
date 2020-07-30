@@ -6,11 +6,12 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
 import { XmSharedModule } from '../../shared/shared.module';
 import { PasswordComponent } from './password.component';
+import { Password } from './password.service';
 
 @NgModule({
     exports: [PasswordComponent],
     declarations: [PasswordComponent],
-    providers: [],
+    providers: [Password],
     imports: [
         FormsModule,
         MatInputModule,

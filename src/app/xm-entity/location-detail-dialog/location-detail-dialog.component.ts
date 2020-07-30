@@ -87,7 +87,7 @@ export class LocationDetailDialogComponent implements OnInit {
             );
 
         this.xmConfigService.getUiConfig().subscribe((result) => {
-            if (!result.entity && !result.entity.location) {return; }
+            if (!result?.entity?.location) { return; }
 
             const defaultSetting = result.entity.location;
 

@@ -1,4 +1,5 @@
 {
+  "Status:": "",
   "Unauthorized": "Нужна авторизация!",
   "activate": {
     "messages": {
@@ -49,6 +50,29 @@
       "title": "Панели"
     },
     "specification-mng": {
+      "editor": {
+        "add-entity-spec": "Добавить спецификацию объекта",
+        "add-state-spec": "Добавить спецификацию состояния",
+        "apply-changes": "Применять изменения",
+        "attachments": "Вложения",
+        "color": "Цвет",
+        "coming-soon": "Скоро будет...",
+        "comments": "Комментарии",
+        "data-spec": "Спецификация данных",
+        "delete": "Удалить",
+        "form-spec": "Спецификация формы",
+        "functions": "Функции",
+        "icon": "Иконка",
+        "is-abstract": "Абстрактный?",
+        "is-application": "Приложение?",
+        "key": "Ключ",
+        "links": "Связи",
+        "locations": "Местоположения",
+        "name": "Название",
+        "next": "Следующие",
+        "plural-name": "Множественное название",
+        "states": "Состояния"
+      },
       "entity": {
         "save": "Обновить спецификацию Модели",
         "title": "Модель"
@@ -944,6 +968,17 @@
     "cancel": "Отменить",
     "false": "Нет",
     "true": "Да"
+  },
+  "xm-control-errors": {
+    "validators": {
+      "email": "Ваш электронный адрес некорректный.",
+      "max": "Максимальное значение {{min}}.",
+      "maxlength": "Не может превышать {{requiredLength}} символов.",
+      "min": "Минимальное значение {{min}}.",
+      "minlength": "Должна состоять не менее {{requiredLength}} символов.",
+      "pattern": "Поле заполнено некорректно.",
+      "required": "Поле обязательное для заполнения."
+    }
   },
   "xm-entity": {
     "attachment-card": {

@@ -30,11 +30,10 @@ const MAP_WIDGETS: {[key: string]: string | any} = {
 /** @deprecated Back compatibility */
 export function getWidgetComponent(widget: Widget = {}): Widget {
     widget.selector = widget.selector ? widget.selector : 'ext-common/xm-widget-welcome';
-    const mapComponents = MAP_WIDGETS;
-    if (typeof mapComponents[widget.selector] === 'string' || mapComponents[widget.selector] instanceof String) {
-        widget.selector = mapComponents[widget.selector];
+    if (typeof MAP_WIDGETS[widget.selector] === 'string' || MAP_WIDGETS[widget.selector] instanceof String) {
+        widget.selector = MAP_WIDGETS[widget.selector];
     } else {
-        widget.component = mapComponents[widget.selector];
+        widget.component = MAP_WIDGETS[widget.selector];
     }
     if (widget.selector.indexOf('/') > 0) {
         widget.module = widget.selector.split('/')[0];

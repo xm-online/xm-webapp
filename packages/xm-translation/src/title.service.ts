@@ -4,15 +4,12 @@ import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { OnInitialize } from '@xm-ngx/shared/interfaces/on-initialize';
 
 import { LanguageService, Translate } from './language.service';
 
 export interface IRouteDate {
     pageTitle?: Translate;
-}
-
-export interface OnInitialize {
-    init(): void;
 }
 
 export const DEFAULT_TITLE = 'Title';

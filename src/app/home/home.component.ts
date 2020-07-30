@@ -1,15 +1,32 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
 import { Widget } from '@xm-ngx/dashboard';
 import { Layout } from '@xm-ngx/dynamic';
-import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-import { AuthServerProvider } from '../shared';
-import { XmConfigService } from '../shared/spec/config.service';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { cloneDeep } from 'lodash';
+import { combineLatest, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { DashboardBase } from '../xm-dashboard/dashboard/dashboard-base';
-import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../xm.constants';
+
+interface HomeLayout extends Layout {
+    content?: HomeLayout[];
+    config?: unknown;
+}
+
+interface HomeRootLayouts extends Layout {
+    domain: string | string[];
+}
+
+interface HomeConfig {
+    root?: {
+        layouts: HomeRootLayouts[];
+    };
+    /** @deprecated use root instead */
+    defaultLayout: Widget[];
+    /** @deprecated use root instead */
+    defaultWidget: Widget;
+}
 
 @Component({
     selector: 'xm-home',
@@ -18,57 +35,96 @@ import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../xm.constants';
 })
 export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
 
-    public defaultWidget: Widget;
-    public defaultLayout: Layout;
-    public signWidget: Widget = this.getWidgetComponent({ selector: 'ext-common/xm-widget-sign-in-up' });
+    public layouts$: Observable<HomeLayout[]>;
 
     constructor(
-        private xmConfigService: XmConfigService,
-        private http: HttpClient,
-        private authServerProvider: AuthServerProvider,
+        private xmConfigService: XmUiConfigService<HomeConfig>,
+        private sessionService: XmSessionService,
+        private router: Router,
     ) {
         super();
     }
 
     public ngOnInit(): void {
-        this.getAccessToken().subscribe(() => {
-            this.xmConfigService.getUiConfig().subscribe((result) => {
-                if (result) {
-                    if (result.defaultLayout) {
-                        this.defaultLayout = result.defaultLayout.map((row) => {
-                            row.content = row.content.map((el) => {
-                                el.widget = this.getWidgetComponent(el.widget);
-                                return el;
-                            });
-                            return row;
-                        });
-                    } else {
-                        this.defaultWidget = this.getWidgetComponent(result.defaultWidget);
+        this.layouts$ = combineLatest([
+            this.xmConfigService.config$(),
+            this.sessionService.isActive(),
+        ]).pipe(
+            takeUntilOnDestroy(this),
+            map(
+                ([config, active]) => {
+                    if (active === true) {
+                        this.router.navigate(['/dashboard']);
+                        return [];
                     }
-                } else {
-                    this.defaultWidget = this.getWidgetComponent();
-                }
-            }, (err) => {
-                console.warn(err);
-                this.defaultWidget = this.getWidgetComponent();
-            });
-        });
+
+                    if (config?.root?.layouts) {
+                        return this.getFromConfigRootLayouts(config.root.layouts);
+                    }
+                    if (config?.defaultLayout) {
+                        return this.getFromConfigDefaultLayout(config.defaultLayout);
+                    } else {
+                        return this.getFromConfigDefaultWidget(config);
+                    }
+                }),
+            catchError(() => of(this.getFromConfigDefaultWidget())),
+        );
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
 
-    private getAccessToken(): Observable<void> {
-        const data = new HttpParams().set('grant_type', 'client_credentials');
-        const headers = {
-            'Content-Type': DEFAULT_CONTENT_TYPE,
-            Authorization: DEFAULT_AUTH_TOKEN,
-        };
-        return this.http.post<any>('uaa/oauth/token', data, { headers, observe: 'response' })
-            .pipe(map((resp) => {
-                this.authServerProvider.loginWithToken(resp.body.access_token, false);
-            }));
+    protected getFromConfigRootLayouts(layouts: HomeRootLayouts[]): HomeLayout[] {
+        return cloneDeep(layouts.filter(l => this.hasCurrentDomain(l.domain)));
     }
 
+    protected getFromConfigDefaultLayout(defaultLayout: HomeLayout[]): HomeLayout[] {
+        return cloneDeep(defaultLayout.map((row) => ({
+            selector: row.selector || 'div',
+            class: row.class,
+            config: row.config,
+            content: row.content.map((el) => {
+                const widget = this.getWidgetComponent((el as any).widget);
+                return {
+                    selector: el.selector || 'div',
+                    class: el.class,
+                    config: row.config,
+                    content: [{ selector: widget.selector, config: widget.confi }],
+                };
+            }),
+        })));
+    }
+
+    protected getFromConfigDefaultWidget(config?: HomeConfig): HomeLayout[] {
+        const dLeft = this.getWidgetComponent(config?.defaultWidget);
+        const dRight = this.getWidgetComponent({ selector: 'ext-common/xm-widget-sign-in-up' });
+        return ([
+            {
+                selector: 'div',
+                class: 'row default-row',
+                content: [
+                    {
+                        selector: 'div',
+                        class: 'col-md-6 default-lef-col',
+                        content: [{ selector: dLeft.selector, config: dLeft.config }],
+                    },
+                    {
+                        selector: 'div',
+                        content: [{ selector: dRight.selector, config: dRight.config }],
+                        class: 'col-md-6 default-right-col',
+                    },
+                ],
+            },
+        ]);
+    }
+
+    private hasCurrentDomain(domain: string | string[]): boolean {
+        if (!domain || domain.length === 0) {
+            return true;
+        }
+
+        const domains: string[] = Array.isArray(domain) ? domain : [domain];
+        return domains.includes(window.location.hostname);
+    }
 }
