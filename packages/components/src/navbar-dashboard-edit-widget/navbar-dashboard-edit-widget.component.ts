@@ -8,9 +8,10 @@ import {
     DashboardsManagerService,
     DashboardsModule,
     EDIT_DASHBOARD_EVENT,
+    EDIT_WIDGET_EVENT,
 } from '@xm-ngx/administration/dashboards-config';
 import { XmEventManager } from '@xm-ngx/core';
-import { Dashboard, DashboardWrapperService, PageService } from '@xm-ngx/dynamic';
+import { Dashboard, DashboardWrapperService, PageService } from '@xm-ngx/dashboard';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
@@ -25,7 +26,12 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
             <mat-icon>edit</mat-icon>
         </button>
     `,
-    providers: [DashboardEditorService, DashboardsExportService, DashboardsImportService, DashboardsManagerService],
+    providers: [
+        DashboardEditorService,
+        DashboardsExportService,
+        DashboardsImportService,
+        { provide: DashboardsManagerService, useValue: { setActiveWidget: () => null } },
+    ],
 })
 export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
@@ -52,7 +58,11 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy {
 
         this.eventManager.listenTo(EDIT_DASHBOARD_EVENT)
             .pipe(takeUntilOnDestroy(this))
-            .subscribe(({id}) => this.updateView(id));
+            .subscribe(({ id }) => this.updateView(id));
+
+        this.eventManager.listenTo(EDIT_WIDGET_EVENT)
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(({ id }) => this.updateView(this.page.id));
     }
 
     public onEdit(): void {

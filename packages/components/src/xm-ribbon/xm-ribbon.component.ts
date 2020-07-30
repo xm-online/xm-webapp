@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { environment, getServerEnvironment, IEnvironment } from '@xm-ngx/core/environment';
+import { environment, IEnvironment } from '@xm-ngx/core/environment';
+import { Observable } from 'rxjs';
+import { filter, shareReplay } from 'rxjs/operators';
+import { getServerEnvironment } from './get-current-env';
 
 @Component({
     selector: 'xm-ribbon',
@@ -10,5 +13,5 @@ export class XmRibbonComponent {
     @Input() public environment: IEnvironment = environment;
     @Input() public config: { hidden?: boolean };
 
-    public serverEnv: string = getServerEnvironment();
+    public serverEnv$: Observable<string> = getServerEnvironment().pipe(filter((r) => Boolean(r)), shareReplay(1));
 }

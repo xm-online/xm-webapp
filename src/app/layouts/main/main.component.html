@@ -2,23 +2,21 @@
 <xm-alerts></xm-alerts>
 <xm-alert-error></xm-alert-error>
 <xm-password-needed></xm-password-needed>
-<xm-maintenance-view [show]="isMaintenanceProgress$ | async"></xm-maintenance-view>
+<xm-maintenance-view></xm-maintenance-view>
+<xm-loader [absolute]="true" routerLoading></xm-loader>
 
 <div class="heatmap-container-wrapper">
   <div id="heatmapContainer" class="hidden-heatmap">
-    <div [class.has-ackground]="guestBg"
-         [class.xm-guest-layout]="isGuestLayout"
+    <div [class.xm-guest-layout]="isGuestLayout"
          class="wrapper">
 
-      <div *ngIf="isGuestLayout" [style.backgroundImage]="guestBg" class="main--custom-bg"></div>
-
-      <xm-loader [absolute]="true" [showLoader]="!(resolved$ | async)"></xm-loader>
+      <div xmGuestBackground></div>
 
       <div *ngIf="!isGuestLayout" class="sidebar">
         <xm-sidebar></xm-sidebar>
       </div>
 
-      <div *ngIf="resolved$ | async" id="main" class="main-panel xm-main-panel">
+      <div *ngIf="resolved$ | async" class="main-panel xm-main-panel" id="main">
 
         <xm-navbar></xm-navbar>
 

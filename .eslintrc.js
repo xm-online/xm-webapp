@@ -27,6 +27,8 @@ module.exports = {
             'ignoreProperties': true,
         }],
         // not fixed
+        '@typescript-eslint/camelcase': 'warn',
+        '@typescript-eslint/ban-ts-ignore': 'warn',
         '@typescript-eslint/no-misused-promises': 'warn',
         '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
         'no-prototype-builtins': 'warn',

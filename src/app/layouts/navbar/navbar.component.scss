@@ -1,5 +1,3 @@
-@import 'navbar-toggler';
-
 @mixin flex() {
   display: -webkit-box;
   display: -moz-box;
@@ -58,11 +56,16 @@
 
 // TODO; redesign and remove ng-deep
 ::ng-deep {
+  @import 'navbar-toggler';
+
   .xm-navbar-container {
     @include flex();
+    @include flex-grow(1);
     @include flex-direction(row);
     @include flex-wrap(nowrap);
     align-items: center;
+    max-width:   100%;
+    overflow:    hidden;
 
     .navbar-brand,
     .navbar-header {
@@ -82,19 +85,6 @@
     }
 
     .navbar-container-part {
-      &.title-part {
-        box-sizing:    border-box;
-        @include flex-grow(1);
-        font-size:     18px;
-        line-height:   30px;
-        min-width:     0;
-        overflow:      hidden;
-        padding:       10px 15px;
-        position:      relative;
-        text-overflow: ellipsis;
-        white-space:   nowrap;
-      }
-
       &.search-part {
         min-width: 220px;
       }
@@ -104,12 +94,13 @@
       margin-top:       6px;
       background-color: inherit;
       border:           0;
-      background:       center bottom no-repeat,center calc(100% - 1px);
+      background:       center bottom no-repeat, center calc(100% - 1px);
       background-size:  0 100%, 100% 100%;
       transition:       all ease-out 300ms;
     }
+
     .search-input:focus {
-      outline: none;
+      outline:         none;
       background-size: 100% 100%, 100% 100%;
     }
 
@@ -208,17 +199,6 @@
         margin-right: -5px;
       }
     }
-  }
-
-  .top-0 {
-    top: 0;
-  }
-
-  // @todo: refactor
-  .xm-guest-layout .navbar.navbar-transparent {
-    background:    #fff !important;
-    border-radius: 0;
-    box-shadow:    0 2px 2px 0 rgba(0, 0, 0, .1);
   }
 
   // @todo: refactor

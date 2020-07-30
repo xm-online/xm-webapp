@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { Subscription } from 'rxjs';
 import { Principal } from '@xm-ngx/core/auth';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { XM_EVENT_LIST } from '../../xm.constants';
 import { ProfileInfo } from './profile-info.model';
 import { ProfileService } from './profile.service';
@@ -9,11 +10,10 @@ import { ProfileService } from './profile.service';
 @Component({
     selector: 'xm-page-ribbon',
     template: `
-        <div class="ribbon" *ngIf="ribbonEnv"><a href="" jhiTranslate="global.ribbon.{{ribbonEnv}}">{{ribbonEnv}}</a>
+        <div class="ribbon" *ngIf="ribbonEnv">
+            <a href="" jhiTranslate="global.ribbon.{{ribbonEnv}}">{{ribbonEnv}}</a>
         </div>`,
-    styleUrls: [
-        'page-ribbon.css',
-    ],
+    styleUrls: ['page-ribbon.css'],
     providers: [ProfileService],
 })
 export class PageRibbonComponent implements OnInit, OnDestroy {
@@ -31,11 +31,10 @@ export class PageRibbonComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-
         this.principal.hasAnyAuthority(['ROLE_ADMIN'])
             .then((value) => {
                 if (value) {
-                    this.principal.getAuthenticationState().subscribe((state) => {
+                    this.principal.getAuthenticationState().pipe(take(1)).subscribe((state) => {
                         if (state) {
                             this.principal.identity()
                                 .then(() => {
@@ -49,7 +48,6 @@ export class PageRibbonComponent implements OnInit, OnDestroy {
                 }
             })
             .catch((error) => console.info('PageRibbonComponent %o', error));
-
     }
 
     public ngOnDestroy(): void {

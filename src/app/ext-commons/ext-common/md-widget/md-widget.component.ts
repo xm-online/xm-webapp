@@ -1,7 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
-import {Widget, WidgetService} from '@xm-ngx/dynamic';
+import {Widget, WidgetService} from '@xm-ngx/dashboard';
 
 declare let $: any;
 declare let SimpleMDE: any;

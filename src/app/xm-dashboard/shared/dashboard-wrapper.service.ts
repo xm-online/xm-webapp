@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RequestCache, RequestCacheFactoryService } from '@xm-ngx/core';
 import * as _ from 'lodash';
 import { MonoTypeOperatorFunction, Observable, of, throwError } from 'rxjs';
-import { catchError, map, pluck, shareReplay, switchMap, take } from 'rxjs/operators';
+import { catchError, filter, map, pluck, shareReplay, switchMap, take } from 'rxjs/operators';
 import { Dashboard, DashboardWithWidgets } from './dashboard.model';
 import { DashboardService } from './dashboard.service';
 
@@ -49,7 +49,7 @@ export class DashboardWrapperService {
             return of(null);
         }
         return this.dashboards$().pipe(
-            map<Dashboard[] | null, Dashboard[]>((ds) => ds || []),
+            filter((data)=> Boolean(data)),
             map((ds) => ds.find((d) => (d.id === Number(idOrSlug)) || (d.config && d.config.slug === idOrSlug))),
             this.getFromCacheOrLoad(),
         );

@@ -18,10 +18,13 @@ $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 
 // Components
 @import '~@xm-ngx/styles/src/_loader-placeholder.scss';
+@import 'packages/components/src/loader/loader.component';
+@import 'packages/components/src/loading/loading';
+@include xm-loading-theme($xm-theme);
 
 @import 'src/app/layouts/main/main-theme';
 @import 'src/app/modules/xm-sidebar/sidebar-theme';
-@import 'src/app/modules/xm-sidebar-right/sidebar-right-theme';
+@import 'packages/components/src/xm-sidebar-right/sidebar-right-theme';
 @import 'src/app/layouts/navbar/_navbar-theme.scss';
 // increase css priority with xm-body class
 .xm-body {

@@ -48,18 +48,8 @@ $breakpoint-tablet:     991px !default;
       @include transform(translate3d($xm-sidebar-width, 0, 0));
     }
 
-    .nav-open .sidebar {
+    .nav-open .wrapper:not(.xm-guest-layout) .sidebar {
       @include transform(translate3d(0, 0, 0));
-    }
-  }
-
-  // utils
-  // @todo:
-  .perfect-scrollbar-on {
-    .sidebar,
-    .main-panel {
-      height:     100%;
-      max-height: 100%;
     }
   }
 
@@ -83,7 +73,7 @@ $breakpoint-tablet:     991px !default;
       margin-left: 0;
     }
 
-    .nav-open .main-panel {
+    .nav-open .wrapper:not(.xm-guest-layout) .main-panel {
       left: 0;
       @include transform(translate3d(-$xm-sidebar-width, 0, 0));
     }

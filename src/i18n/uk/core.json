@@ -1,4 +1,5 @@
 {
+  "Status:": "",
   "Unauthorized": "Потрібна авторизація!",
   "activate": {
     "messages": {
@@ -49,6 +50,29 @@
       "title": "Панелі"
     },
     "specification-mng": {
+      "editor": {
+        "add-entity-spec": "Додайте специфікацію об'єкта",
+        "add-state-spec": "Додайте специфікацію стану",
+        "apply-changes": "Застосувати зміни",
+        "attachments": "Вкладення",
+        "color": "Колір",
+        "coming-soon": "Незабаром...",
+        "comments": "Коментарі",
+        "data-spec": "Специфікація даних",
+        "delete": "Видалити",
+        "form-spec": "Специфікація форми",
+        "functions": "Функції",
+        "icon": "Іконка",
+        "is-abstract": "Абстрактний?",
+        "is-application": "Додаток?",
+        "key": "Ключ",
+        "links": "Зв'язки",
+        "locations": "Місцеположення",
+        "name": "Назва",
+        "next": "Наступні",
+        "plural-name": "Множинна назва",
+        "states": "Стани"
+      },
       "entity": {
         "save": "Оновити специфікацію Моделі",
         "title": "Модель"
@@ -313,7 +337,7 @@
       "title": "Обмінний калькулятор"
     },
     "sign-in-up-widget": {
-      "sign-in": "Увійти",
+      "sign-in": "Вхід",
       "sign-up": "Зареєструватися"
     },
     "weather-widget": {
@@ -367,7 +391,7 @@
       "firstname": "Ім'я",
       "language": "Мова",
       "lastname": "Прізвище",
-      "login": "Увійти",
+      "login": "Логін",
       "newpassword": "Новий пароль",
       "oldpassword": "Старий пароль",
       "otp": "One Time Password",
@@ -922,6 +946,17 @@
     "false": "Ні",
     "true": "Так"
   },
+  "xm-control-errors": {
+    "validators": {
+      "email": "Ваша електронна адреса некоректна.",
+      "max": "Максимальне значення {{min}}.",
+      "maxlength": "Не може перевищувати {{requiredLength}} символів.",
+      "min": "Мінімальне значення {{min}}.",
+      "minlength": "Повинна містити принаймні {{requiredLength}} символів.",
+      "pattern": "Поле заповнено некоректно.",
+      "required": "Поле обов'язкове для заповнення."
+    }
+  },
   "xm-entity": {
     "attachment-card": {
       "delete": {
@@ -1403,6 +1438,9 @@
       "remove-error": "Тег не видалений. Спробуй ще раз.",
       "type-tag": "додати тег ..."
     }
+  },
+  "xm-navbar-language-menu": {
+    "choose-language": "Виберіть мову"
   },
   "xm-notifications": {
     "showAll": "Смотреть все"

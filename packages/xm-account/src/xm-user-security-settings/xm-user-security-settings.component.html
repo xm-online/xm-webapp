@@ -1,0 +1,45 @@
+<mat-card *xmPermission="['ACCOUNT.TFA.DISABLE']" class="mb-3">
+  <mat-card-title>{{'settings.security.name' | translate}}</mat-card-title>
+
+  <mat-card-content>
+    <form #settingsForm="ngForm" (ngSubmit)="updateSecuritySettings()" name="securityCfgForm" novalidate
+          role="form">
+
+      <div *ngIf="securityChanged" [innerHTML]="'settings.messages.success' | translate"
+           class="alert alert-success"></div>
+
+      <div class="form-group">
+        <mat-checkbox [(ngModel)]="tfaEnabled" color="primary"
+                      name="twoFAStatus">
+          {{'settings.security.twoFAStatus' | translate}}
+        </mat-checkbox>
+      </div>
+      <div class="form-group">
+        <mat-checkbox [(ngModel)]="autoLogoutEnabled"
+                      color="primary"
+                      name="autoLogout">
+          {{'settings.security.autoLogout' | translate}}
+        </mat-checkbox>
+
+        <mat-form-field>
+          <input [(ngModel)]="autoLogoutTime"
+                 [disabled]="!autoLogoutEnabled"
+                 [placeholder]="'settings.security.seconds' | translate"
+                 id="autoLogoutTime"
+                 matInput
+                 name="autoLogoutTime"
+                 type="number">
+        </mat-form-field>
+      </div>
+
+      <div class="text-right">
+        <button [disabled]="settingsForm.form.invalid" class="btn" color="primary" mat-button type="submit">
+          <span>{{'settings.form.button' | translate}}</span>
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+
+</mat-card>
+
+

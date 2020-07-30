@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
-import { combineLatest, Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { catchError, map, startWith } from 'rxjs/operators';
 import { XmPrivateUiConfigService } from './xm-private-ui-config.service';
 import { XmPublicUiConfigService } from './xm-public-ui-config.service';
 
@@ -17,7 +17,7 @@ export class XmUiConfigService<T extends XmUIConfig = XmUIConfig> {
     public config$(): Observable<T> {
         return combineLatest([
             this.publicUiConfigService.config$(),
-            this.privateUiConfigService.config$().pipe(startWith(null)),
+            this.privateUiConfigService.config$().pipe(startWith(null), catchError(() => of(null))),
         ]).pipe(
             map((res) => _.merge.apply(null, res)),
         );

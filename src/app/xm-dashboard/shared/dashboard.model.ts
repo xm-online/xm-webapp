@@ -1,9 +1,8 @@
 import { BaseEntity } from '@xm-ngx/entity';
+import { JavascriptCode } from '@xm-ngx/shared/interfaces/javascript-code';
 import { Translate } from '@xm-ngx/translation';
-import { Layout } from './layout.model';
+import { Layout } from '../../../../packages/xm-dynamic/src/layout.model';
 import { Widget } from './widget.model';
-
-export type JavascriptCode = string;
 
 export interface DashboardConfig {
     slug?: string;
@@ -14,6 +13,7 @@ export interface DashboardConfig {
     permission?: string;
     icon?: string;
     menu?: {
+        section?: string;
         name?: string;
         groupIsLink?: boolean;
         group?: {

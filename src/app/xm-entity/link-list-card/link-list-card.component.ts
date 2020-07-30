@@ -26,6 +26,7 @@ export class LinkListCardComponent implements OnInit, OnChanges {
 
     public mode: string = 'list';
     public treeRootLinks: Link[];
+    public columnsToDisplay: string[] = ['avatar', 'name', 'description', 'delete'];
 
     public fields: FieldOptions[] = [
         {

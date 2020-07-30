@@ -41,11 +41,15 @@ export class AttachmentDetailDialogComponent implements OnInit {
 
     public get acceptedFileTypes(): string[] | '' {
         const attachmentSpec = this.attachmentSpecs.filter((att: any) => att.key === this.attachment.typeKey).shift();
-        return (attachmentSpec && attachmentSpec.contentTypes) ?
-            attachmentSpec.contentTypes : '';
+        return (attachmentSpec && attachmentSpec.contentTypes)
+            ? attachmentSpec.contentTypes : '';
     }
 
     public ngOnInit(): void {
+        if (!this.attachmentSpecs || !this.attachmentSpecs.length) {
+            return;
+        }
+
         this.attachment.typeKey = this.attachmentSpecs[0].key;
         this.attachment.content = {};
         this.attachment.name = this.attachmentSpecs[0].defaultFileName ? this.attachmentSpecs[0].defaultFileName : '';
@@ -63,7 +67,7 @@ export class AttachmentDetailDialogComponent implements OnInit {
             if (attachmentSpec
                 && attachmentSpec.contentTypes
                 && attachmentSpec.contentTypes.filter((type: string) => type === file.type).length <= 0) {
-                console.warn('Not allowed content type ' + file.type);
+                console.warn(`Not allowed content type ${file.type}`);
                 this.wrongFileType = file.type;
                 return;
             }
@@ -87,7 +91,7 @@ export class AttachmentDetailDialogComponent implements OnInit {
     }
 
     public byteSize(field: any, size: any): string {
-        return !field ? size + ' ' + this.translateService.instant('xm-entity.attachment-card.volume.bytes')
+        return !field ? `${size} ${this.translateService.instant('xm-entity.attachment-card.volume.bytes')}`
             : this.dataUtils.byteSize(field);
     }
 
@@ -102,7 +106,6 @@ export class AttachmentDetailDialogComponent implements OnInit {
             // TODO: error processing
             (err) => console.warn(err),
             () => this.showLoader = false);
-
     }
 
     public onCancel(): void {
@@ -112,7 +115,7 @@ export class AttachmentDetailDialogComponent implements OnInit {
     private onSaveSuccess(): void {
         // TODO: use constant for the broadcast and analyse listeners
         console.info('Fire %s', ATTACHMENT_EVENT);
-        this.eventManager.broadcast({name: ATTACHMENT_EVENT});
+        this.eventManager.broadcast({ name: ATTACHMENT_EVENT });
         this.activeModal.close(true);
         this.toasterService.success('xm-entity.attachment-detail-dialog.add.success');
     }

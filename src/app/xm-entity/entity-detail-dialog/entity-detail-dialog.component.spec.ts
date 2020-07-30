@@ -45,7 +45,7 @@ describe('Entity detail dialog Component', () => {
             providers: [
                 MatDialog,
                 {provide: MatDialogRef, useValue: {}},
-                XmEntityService,
+                {provide: XmEntityService, useValue: {}},
                 I18nJsfPipe,
                 I18nNamePipe,
                 HttpClient,
@@ -61,9 +61,7 @@ describe('Entity detail dialog Component', () => {
                 },
                 JhiModuleConfig,
             ],
-            schemas: [
-                NO_ERRORS_SCHEMA,
-            ],
+            schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
 
         fixture = TestBed.createComponent(EntityDetailDialogComponent);
@@ -103,7 +101,6 @@ describe('Entity detail dialog Component', () => {
         element = fixture.debugElement.query(By.css('#field_name'));
         const classArr = element.nativeElement.classList;
         let result;
-        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < classArr.length; i++) {
             result = classArr[i] === 'ng-invalid';
         }

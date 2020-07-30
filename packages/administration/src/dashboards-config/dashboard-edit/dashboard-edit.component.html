@@ -1,4 +1,4 @@
-<form #form="ngForm" class="p-3 mb-0">
+<form #form="ngForm" class="p-3 mb-0 h-100">
 
   <xm-loader [showLoader]="loading$ | async"></xm-loader>
 
@@ -54,43 +54,45 @@
 
   </div>
 
-  <div class="pb-3">
-    <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="font-weight-bold">{{ value.id }}</span></div>
-    <div *ngIf="value.owner">{{ TRS.owner | translate }}: <span class="font-weight-bold">{{ value.owner }}</span></div>
+  <div class="section-scroll">
+    <div class="pb-3">
+      <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="font-weight-bold">{{ value.id }}</span></div>
+      <div *ngIf="value.owner">{{ TRS.owner | translate }}: <span class="font-weight-bold">{{ value.owner }}</span>
+      </div>
+    </div>
+
+    <xm-text-control [(ngModel)]="formGroup.name"
+                     [disabled]="disabled"
+                     [options]="{ title: TRS.name }"
+                     name="name"></xm-text-control>
+
+    <xm-text-control [(ngModel)]="formGroup.typeKey"
+                     [disabled]="disabled"
+                     [options]="{ title: TRS.typeKey }"
+                     name="typeKey"></xm-text-control>
+
+    <mat-tab-group>
+
+      <mat-tab [label]="TRS.widgets | translate">
+        <xm-dashboards-list-expand *ngIf="value.id" [dashboardId]="value.id"></xm-dashboards-list-expand>
+      </mat-tab>
+
+      <mat-tab [label]="TRS.config | translate">
+        <xm-ace-editor-control [(ngModel)]="formGroup.config"
+                               [disabled]="disabled"
+                               [options]="aceEditorOptions"
+                               name="config">
+        </xm-ace-editor-control>
+      </mat-tab>
+
+      <mat-tab [label]="TRS.layout | translate">
+        <xm-ace-editor-control [(ngModel)]="formGroup.layout"
+                               [disabled]="disabled"
+                               [options]="aceEditorOptions"
+                               name="layout">
+        </xm-ace-editor-control>
+      </mat-tab>
+
+    </mat-tab-group>
   </div>
-
-  <xm-text-control [(ngModel)]="formGroup.name"
-                   [disabled]="disabled"
-                   [options]="{ title: TRS.name }"
-                   name="name"></xm-text-control>
-
-  <xm-text-control [(ngModel)]="formGroup.typeKey"
-                   [disabled]="disabled"
-                   [options]="{ title: TRS.typeKey }"
-                   name="typeKey"></xm-text-control>
-
-  <mat-tab-group>
-
-    <mat-tab [label]="TRS.widgets | translate">
-      <xm-dashboards-list-expand *ngIf="value.id" [dashboardId]="value.id"></xm-dashboards-list-expand>
-    </mat-tab>
-
-    <mat-tab [label]="TRS.config | translate">
-      <xm-ace-editor-control [(ngModel)]="formGroup.config"
-                             [disabled]="disabled"
-                             [options]="aceEditorOptions"
-                             name="config">
-      </xm-ace-editor-control>
-    </mat-tab>
-
-    <mat-tab [label]="TRS.layout | translate">
-      <xm-ace-editor-control [(ngModel)]="formGroup.layout"
-                             [disabled]="disabled"
-                             [options]="aceEditorOptions"
-                             name="layout">
-      </xm-ace-editor-control>
-    </mat-tab>
-
-  </mat-tab-group>
-
 </form>

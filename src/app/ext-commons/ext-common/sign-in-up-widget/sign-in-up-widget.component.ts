@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 
-import { ModulesLanguageHelper } from '@xm-ngx/components/language';
 import { XM_EVENT_LIST } from '../../../xm.constants';
+import { LanguageService } from "@xm-ngx/translation";
 
 @Component({
     selector: 'xm-sign-in-up-widget',
@@ -22,16 +22,17 @@ export class SignInUpWidgetComponent implements OnInit, OnDestroy {
 
     constructor(
         private eventManager: XmEventManager,
-        private modulesLangHelper: ModulesLanguageHelper,
+        private languageService: LanguageService,
         private route: ActivatedRoute,
         private router: Router) {
     }
 
     public ngOnInit(): void {
-        this.registrationSuccessSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_REGISTRATION, () => {
-            this.isLoginFormView = true;
-            this.successRegistration = true;
-        });
+        this.registrationSuccessSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_REGISTRATION)
+            .subscribe(() => {
+                this.isLoginFormView = true;
+                this.successRegistration = true;
+            });
 
         this.changeLanguageSubscriber = this.eventManager.subscribe(XM_EVENT_LIST.XM_CHANGE_LANGUAGE, (event) => {
             if (this.config && this.config.loginLabel) {
@@ -64,7 +65,7 @@ export class SignInUpWidgetComponent implements OnInit, OnDestroy {
     }
 
     private updateLabels(label: any, currentLang?: string): void {
-        const lang = currentLang ? currentLang : this.modulesLangHelper.getLangKey();
+        const lang = currentLang ? currentLang : this.languageService.locale;
         this.loginLabel = label[lang] || label;
     }
 }

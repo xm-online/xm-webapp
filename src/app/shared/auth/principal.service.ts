@@ -1,4 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { XmSessionService } from '@xm-ngx/core';
+import { OnInitialize } from '@xm-ngx/shared/interfaces/on-initialize';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { LanguageService } from '@xm-ngx/translation';
@@ -16,8 +18,8 @@ const CACHE_SIZE = 1;
 const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
 
 
-@Injectable({providedIn: 'root'})
-export class Principal implements OnDestroy {
+@Injectable({ providedIn: 'root' })
+export class Principal implements OnDestroy, OnInitialize {
     private userIdentity: any;
     private authenticated: boolean = false;
     private authenticationState: Subject<any> = new Subject<any>();
@@ -28,15 +30,23 @@ export class Principal implements OnDestroy {
     constructor(private account: AccountService,
                 private alertService: XmToasterService,
                 private $localStorage: LocalStorageService,
+                private sessionService: XmSessionService,
                 private languageService: LanguageService,
                 private $sessionStorage: SessionStorageService,
     ) {
+    }
+
+    public init(): void {
         this.checkTokenAndForceIdentity();
         this.onLanguageChange();
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
+    }
+
+    public isSuperAdmin(): boolean {
+        return this.userIdentity && this.userIdentity.roleKey === SUPER_ADMIN;
     }
 
     public identityUserKey(): string {
@@ -77,7 +87,7 @@ export class Principal implements OnDestroy {
         } else if (privilegesOperation === 'AND') {
             return privileges.filter((el) => this.userIdentity.privileges.indexOf(el) === -1);
         } else {
-            this.alertService.warning('error.privilegeOperationWrong', {name: privilegesOperation});
+            this.alertService.warning('error.privilegeOperationWrong', { name: privilegesOperation });
             return false;
         }
     }
@@ -91,14 +101,9 @@ export class Principal implements OnDestroy {
             return Promise.resolve(false);
         }
 
-        return this.identity().then((result) => {
-            return Promise.resolve(result.roleKey && result.roleKey === authority);
-        }, () => {
-            return Promise.resolve(false);
-        });
+        return this.identity().then((result) => Promise.resolve(result.roleKey && result.roleKey === authority), () => Promise.resolve(false));
     }
 
-    // tslint:disable-next-line:cognitive-complexity
     public identity(force: boolean = false, mockUser: boolean = false): Promise<any> {
         if (!force && this.promise) {
             return this.promise;
@@ -109,15 +114,17 @@ export class Principal implements OnDestroy {
                     this.userIdentity = undefined;
                 }
 
-                // check and see if we have retrieved the userIdentity data from the server.
-                // if we have, reuse it by immediately resolving
+                /*
+                 * Check and see if we have retrieved the userIdentity data from the server.
+                 * if we have, reuse it by immediately resolving
+                 */
                 if (this.userIdentity) {
                     this.promise = null;
                     resolve(this.userIdentity);
                     return;
                 }
 
-                // retrieve the userIdentity data from the server, update the identity object, and then resolve.
+                // Retrieve the userIdentity data from the server, update the identity object, and then resolve.
                 this.account
                     .get()
                     .toPromise()
@@ -134,10 +141,12 @@ export class Principal implements OnDestroy {
                                     return result;
                                 }, []);
                             }
+                            this.sessionService.create();
                             this.userIdentity = account;
                             this.authenticated = true;
                             account.timeZoneOffset = this.setTimezoneOffset();
                         } else {
+                            this.sessionService.clear();
                             this.userIdentity = null;
                             this.authenticated = false;
                         }
@@ -157,6 +166,7 @@ export class Principal implements OnDestroy {
                             this.authenticationState.next(this.userIdentity);
                             resolve(this.userIdentity);
                         } else {
+                            this.sessionService.clear();
                             this.userIdentity = null;
                             this.authenticated = false;
                             this.authenticationState.next(this.userIdentity);
@@ -253,8 +263,8 @@ export class Principal implements OnDestroy {
 
     private checkTokenAndForceIdentity(): void {
         /* This method forcing identity on page load when user has token but identity does not inits */
-        const tokeExDate = this.$localStorage.retrieve(EXPIRES_DATE_FIELD) ||
-            this.$sessionStorage.retrieve(EXPIRES_DATE_FIELD);
+        const tokeExDate = this.$localStorage.retrieve(EXPIRES_DATE_FIELD)
+            || this.$sessionStorage.retrieve(EXPIRES_DATE_FIELD);
         const now = new Date();
         if (tokeExDate > now) {
             this.identity();

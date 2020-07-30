@@ -1,4 +1,4 @@
-import { Widget } from '@xm-ngx/dynamic';
+import { Widget } from '@xm-ngx/dashboard';
 import { getWidgetComponent, getWidgetsComponent } from './widgets-path_backward-compatibility';
 
 export class DashboardBase {

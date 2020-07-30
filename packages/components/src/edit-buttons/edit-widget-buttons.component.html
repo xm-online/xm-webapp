@@ -1,0 +1,29 @@
+<div [style.visibility]="isHidden ? 'hidden' : 'visible'">
+
+  <button (click)="onEdit()"
+          *ngIf="!isEdit"
+          [disabled]="disabled"
+          class="btn"
+          mat-icon-button
+          type="button">
+    <mat-icon>edit</mat-icon>
+  </button>
+
+  <button (click)="onSave()"
+          *ngIf="isEdit"
+          [disabled]="disabled || disableSubmit"
+          color="primary"
+          mat-icon-button
+          type="button">
+    <mat-icon>check</mat-icon>
+  </button>
+
+  <button (click)="onCancel()"
+          [disabled]="disabled"
+          *ngIf="isEdit"
+          mat-icon-button
+          type="button">
+    <mat-icon>close</mat-icon>
+  </button>
+
+</div>

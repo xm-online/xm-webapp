@@ -7,10 +7,10 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TERMS_ERROR, XM_EVENT_LIST } from '../../xm.constants';
+import { LoginService } from '../auth/login.service';
 import { StateStorageService } from '../auth/state-storage.service';
 import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfigService } from '../spec/config.service';
-import { LoginService } from '../auth/login.service';
 
 declare let $: any;
 
@@ -64,9 +64,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
         this.getConfigs()
             .pipe(
-                map((c) => {
-                    return {ui: c[0], uaa: c[1] ? c[1] : null};
-                }),
+                map((c) => ({ ui: c[0], uaa: c[1] ? c[1] : null })),
             )
             .subscribe((config) => {
                 const uiConfig = config && config.ui;
@@ -107,8 +105,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
             content: 'Sending Authentication Success',
         });
 
-        // previousState was set in the authExpiredInterceptor before being redirected to login modal.
-        // since login is succesful, go to stored previousState and clear previousState
+        /*
+         * PreviousState was set in the authExpiredInterceptor before being redirected to login modal.
+         * since login is succesful, go to stored previousState and clear previousState
+         */
         const redirect = this.stateStorageService.getUrl();
         if (redirect) {
             this.router.navigateByUrl(redirect);
@@ -119,7 +119,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     public checkOtp(): void {
         const credentials = {
-            // eslint-disable-next-line @typescript-eslint/camelcase
             grant_type: 'tfa_otp_token',
             otp: this.otpValue,
             rememberMe: this.rememberMe,
@@ -134,7 +133,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
             this.isDisabled = false;
             this.backToLogin();
         });
-
     }
 
     public backToLogin(): void {
@@ -152,7 +150,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.successRegistration = false;
         this.stateStorageService.resetAllStates();
         const credentials = {
-            // eslint-disable-next-line @typescript-eslint/camelcase
             grant_type: 'password',
             username: this.username ? this.username.toLowerCase().trim() : '',
             password: this.password ? this.password.trim() : '',
@@ -198,7 +195,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
                     this.floatLabel = true;
                 }
             } catch (e) {
-                // empty block
+                // Empty block
             }
         }, 500);
     }
@@ -210,7 +207,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
 
     private pushTermsAccepting(token: string): void {
-        const modalRef = this.modalService.open(PrivacyAndTermsDialogComponent, {width: '500px'});
+        const modalRef = this.modalService.open(PrivacyAndTermsDialogComponent, { width: '500px' });
         modalRef.componentInstance.config = this.config;
         modalRef.componentInstance.termsToken = token;
         modalRef.afterClosed().subscribe((r) => {

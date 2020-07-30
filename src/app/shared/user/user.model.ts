@@ -1,5 +1,5 @@
 /* tslint:disable:bool-param-default */
-import { UserLogin } from './login/user-login.model';
+import { UserLogin } from '../../../../packages/xm-account/src/xm-user-login-widget/login/user-login.model';
 
 export class User {
     public id?: any;

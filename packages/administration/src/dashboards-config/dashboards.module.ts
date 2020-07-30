@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
-import { AceEditorControlModule } from '@xm-ngx/components/ace-editor-control';
+import { RouterModule } from '@angular/router';
+import { AceEditorControlModule } from '@xm-ngx/components/xm-ace-editor-control';
 import { XmBoolViewModule } from '@xm-ngx/components/xm-bool-view';
 import { LoaderModule } from '@xm-ngx/components/loader';
-import { TextModule } from '@xm-ngx/components/text';
+import { XmTextControlModule } from '@xm-ngx/components/xm-text-control';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
@@ -23,7 +24,8 @@ import { WidgetEditComponent } from './widget-edit/widget-edit.component';
         LoaderModule,
         XmBoolViewModule,
         AceEditorControlModule,
-        TextModule,
+        XmTextControlModule,
+        RouterModule,
     ],
     exports: [
         DashboardsConfigComponent,

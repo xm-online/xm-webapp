@@ -5,6 +5,10 @@
     }
 }
 
+.mat-dialog-content {
+  max-height: 80vh;
+}
+
 :host {
     .location-detail-dialog {
         &__map {

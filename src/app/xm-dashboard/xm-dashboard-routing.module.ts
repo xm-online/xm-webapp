@@ -13,7 +13,6 @@ const routes: Routes = [
             privileges: {
                 value: ['DASHBOARD.GET_LIST'],
             },
-            pageTitle: 'global.menu.admin.dashboard',
         },
         canActivate: [UserRouteAccessService, DashboardGuard],
     },
@@ -24,7 +23,6 @@ const routes: Routes = [
             privileges: {
                 value: ['DASHBOARD.GET_LIST.ITEM'],
             },
-            pageTitle: 'global.menu.admin.dashboard',
         },
         canActivate: [UserRouteAccessService, DashboardGuard],
     },

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { Dashboard, Widget } from '@xm-ngx/dynamic';
+import { Dashboard, Widget } from '@xm-ngx/dashboard';
 import { download } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { BehaviorSubject, Observable, zip } from 'rxjs';

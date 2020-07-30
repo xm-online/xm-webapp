@@ -4,12 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 const ROUTES: Routes = [
     {
         path: 'error',
-        loadChildren: () => import('@xm-ngx/components/error').then((m) => m.ErrorModule),
+        loadChildren: () => import('@xm-ngx/components/xm-error').then((m) => m.ErrorModule),
         data: {authorities: [], pageTitle: 'error.title'},
     },
     {
         path: 'accessdenied',
-        loadChildren: () => import('@xm-ngx/components/error').then((m) => m.ErrorModule),
+        loadChildren: () => import('@xm-ngx/components/xm-error').then((m) => m.ErrorModule),
         data: {authorities: [], pageTitle: 'error.title', error403: true},
     },
     {path: 'administration', loadChildren: () => import('./admin/admin.module').then((m) => m.XmAdminModule)},
@@ -24,12 +24,14 @@ const ROUTES: Routes = [
         path: 'dashboard',
         loadChildren: () => import('./xm-dashboard/xm-dashboard.module').then((m) => m.XmDashboardModule),
     },
+    {
+        path: 'public',
+        loadChildren: () => import('./xm-public/xm-public.module').then((m) => m.XmPublicModule),
+    },
 ];
 
 @NgModule({
-    imports: [
-        RouterModule.forRoot(ROUTES),
-    ],
+    imports: [RouterModule.forRoot(ROUTES)],
     exports: [RouterModule],
 })
 export class XmRoutingModule {

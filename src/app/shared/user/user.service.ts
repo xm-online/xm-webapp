@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 
 import { User } from './user.model';
@@ -7,7 +8,7 @@ import { User } from './user.model';
 @Injectable()
 export class UserService {
     private resourceUrl: string = 'uaa/api/users';
-    private resurceUrlByLogin: string = this.resourceUrl + '/logins-contains';
+    private resurceUrlByLogin: string = `${this.resourceUrl  }/logins-contains`;
 
     constructor(private http: HttpClient) { }
 
@@ -56,7 +57,7 @@ export class UserService {
     }
 
     public findPublic(userKey: string): Observable<any> {
-        return this.http.get<any>(`${this.resourceUrl}/${userKey}/public`);
+        return this.http.get<any>(`${this.resourceUrl}/${userKey}/public`, {headers: SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS});
     }
 
     public findByLogin(login: string): Observable<HttpResponse<any>> {

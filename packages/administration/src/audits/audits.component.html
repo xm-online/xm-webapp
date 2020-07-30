@@ -1,99 +1,78 @@
-<div *ngIf="audits" class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header card-header-icon">
-        <h4 jhiTranslate="audits.title">Audits</h4>
+<mat-card>
+  <mat-card-title>{{ 'audits.title' | translate }}</mat-card-title>
+  <mat-card-content>
+
+    <h6>{{ 'audits.filter.title' | translate }}</h6>
+    <div class="row">
+      <div class="col-sm-2">
+        <mat-form-field>
+          <input (ngModelChange)="onChangeDate()"
+                 [(ngModel)]="fromDate"
+                 [matDatepicker]="fromDatePicker"
+                 matInput
+                 placeholder="{{'audits.filter.from' | translate}}"
+                 required>
+          <mat-datepicker-toggle [for]="fromDatePicker" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #fromDatePicker></mat-datepicker>
+        </mat-form-field>
       </div>
-
-      <div class="card-body">
-        <xm-loader [showLoader]="showLoader"></xm-loader>
-        <legend jhiTranslate="audits.filter.title">Filter by date</legend>
-        <div class="row">
-          <div class="col-sm-2">
-            <mat-form-field>
-              <input (ngModelChange)="onChangeDate()"
-                     [(ngModel)]="fromDate"
-                     [matDatepicker]="fromDatePicker"
-                     matInput
-                     placeholder="{{'audits.filter.from' | translate}}"
-                     required>
-              <mat-datepicker-toggle [for]="fromDatePicker" matSuffix></mat-datepicker-toggle>
-              <mat-datepicker #fromDatePicker></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div class="col-sm-2">
-            <mat-form-field>
-              <input (ngModelChange)="onChangeDate()"
-                     [(ngModel)]="toDate"
-                     [matDatepicker]="toDatePicker"
-                     matInput
-                     placeholder="{{'audits.filter.to' | translate}}"
-                     required>
-              <mat-datepicker-toggle [for]="toDatePicker" matSuffix></mat-datepicker-toggle>
-              <mat-datepicker #toDatePicker></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <ng-container *ngIf="audits?.length > 0">
-          <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-              <thead>
-              <tr>
-                <th (click)="sortAudits(audits, 'timestamp')">
-                  <span jhiTranslate="audits.table.header.date">Date</span>
-                </th>
-                <th (click)="sortAudits(audits, 'principal')">
-                  <span jhiTranslate="audits.table.header.principal">User</span>
-                </th>
-                <th (click)="sortAudits(audits, 'type')">
-                  <span jhiTranslate="audits.table.header.status">State</span>
-                </th>
-                <th (click)="sortAudits(audits, 'data.remoteAddress')">
-                  <span jhiTranslate="audits.table.header.data">Extra data</span>
-                </th>
-              </tr>
-              </thead>
-              <tr *ngFor="let audit of audits">
-                <td><span>{{audit.timestamp| date:'medium'}}</span></td>
-                <td>
-                  <small>{{audit.principal}}</small>
-                </td>
-                <td>{{audit.type}}</td>
-                <td>
-                  <span *ngIf="audit.data">{{audit.data.message}}</span>
-                  <span *ngIf="audit.data">
-                    <span jhiTranslate="audits.table.data.remoteAddress">Remote Address</span>
-                    {{audit.data.remoteAddress}}
-                  </span>
-                </td>
-              </tr>
-            </table>
-          </div>
-
-          <div *ngIf="audits?.length" class="row align-items-center list-pagination">
-            <div class="col-auto">
-              <xm-per-page (onChange)="onChangeDate()" [(itemsPerPage)]="itemsPerPage"></xm-per-page>
-            </div>
-            <div class="col-auto">
-              <jhi-item-count [itemsPerPage]="itemsPerPage" [page]="page" [total]="totalItems"></jhi-item-count>
-            </div>
-            <div class="col-sm"></div>
-            <div class="col-auto">
-              <ngb-pagination (pageChange)="loadPage($event)"
-                              [(page)]="page"
-                              [collectionSize]="totalItems"
-                              [maxSize]="5"
-                              [pageSize]="itemsPerPage">
-
-              </ngb-pagination>
-            </div>
-          </div>
-        </ng-container>
-
-
-        <no-data [show]="!audits?.length"></no-data>
+      <div class="col-sm-2">
+        <mat-form-field>
+          <input (ngModelChange)="onChangeDate()"
+                 [(ngModel)]="toDate"
+                 [matDatepicker]="toDatePicker"
+                 matInput
+                 placeholder="{{'audits.filter.to' | translate}}"
+                 required>
+          <mat-datepicker-toggle [for]="toDatePicker" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #toDatePicker></mat-datepicker>
+        </mat-form-field>
       </div>
     </div>
-  </div>
-</div>
+
+    <table [dataSource]="dataSource" [matSortActive]="'name'" class="w-100" mat-table matSort>
+
+      <!-- timestamp Column -->
+      <ng-container matColumnDef="timestamp">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'audits.table.header.date' | translate}}</th>
+        <td *matCellDef="let row" class="text-left text-wrap text-break" mat-cell>{{row.timestamp| date:'medium'}}</td>
+      </ng-container>
+
+      <!-- principal Column -->
+      <ng-container matColumnDef="principal">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'audits.table.header.principal' | translate}}</th>
+        <td *matCellDef="let row" class="text-left text-wrap text-break" mat-cell>{{row.principal}}</td>
+      </ng-container>
+
+      <!-- type Column -->
+      <ng-container matColumnDef="type">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'audits.table.header.status' | translate}}</th>
+        <td *matCellDef="let row" class="text-left text-wrap text-break" mat-cell>{{row.type}}</td>
+      </ng-container>
+
+      <!-- data.remoteAddress Column -->
+      <ng-container matColumnDef="data.remoteAddress">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'audits.table.header.data' | translate}}</th>
+        <td *matCellDef="let row" class="text-left text-wrap text-break" mat-cell>
+          <span *ngIf="row.data">{{row.data.message}}</span>
+          <ng-container *ngIf="row.data">
+            <span>{{'audits.table.data.remoteAddress' | translate}}</span>
+            {{row.data.remoteAddress}}
+          </ng-container>
+        </td>
+      </ng-container>
+
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+    </table>
+
+    <xm-loader [showLoader]="loading" absolute="true"></xm-loader>
+
+    <no-data [show]="dataSource.filteredData?.length === 0 && !loading"></no-data>
+
+    <mat-paginator [length]="totalItems" [pageSize]="30"></mat-paginator>
+
+  </mat-card-content>
+
+</mat-card>

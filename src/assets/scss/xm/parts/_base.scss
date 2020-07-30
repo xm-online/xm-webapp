@@ -200,7 +200,7 @@ xm-per-page {
     }
 }
 
-.xm-guest-layout {
+.xmNavbarGuestBackground {
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
@@ -208,14 +208,6 @@ xm-per-page {
     .main-panel {
         width: 100%;
         transition: none;
-    }
-
-    &.has-ackground {
-        .navbar.navbar-transparent {
-            background: #fff !important;
-            box-shadow: 0 2px 2px 0 rgba(0,0,0, .1);
-            border-radius: 0;
-        }
     }
 
     .xm-nav-logo {

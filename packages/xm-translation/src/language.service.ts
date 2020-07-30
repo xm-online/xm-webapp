@@ -1,15 +1,17 @@
-import { Inject, Injectable, LOCALE_ID, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager, XmUiConfigService, XmUserService } from '@xm-ngx/core';
+import { OnInitialize } from '@xm-ngx/shared/interfaces/on-initialize';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { SessionStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { getBrowserLocale } from './getBrowserLocale';
 import { LANGUAGES } from './language.constants';
-import { OnInitialize } from './title.service';
 
-/** @description Translates as json
+/**
+ * @description Translates as json
  * @example:
  *  {en: 'Hi', ru: 'хай'}
  */
@@ -21,7 +23,8 @@ export interface ITranslate {
     [locale: string]: string;
 }
 
-/** @description Translate for a translate pipe.
+/**
+ * @description Translate for a translate pipe.
  * @example:
  * {en: 'Hi', ru: 'хай'}
  * @example:
@@ -34,7 +37,7 @@ export const SESSION_LOCALE = 'currentLang';
 
 export type Locale = string | 'en' | 'ru' | 'uk';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class LanguageService implements OnDestroy, OnInitialize {
     public locale$: Observable<Locale | null>;
 
@@ -45,10 +48,9 @@ export class LanguageService implements OnDestroy, OnInitialize {
 
     constructor(
         protected eventManager: XmEventManager,
-        @Inject(LOCALE_ID) protected localeId: string,
         protected translate: TranslateService,
         protected userService: XmUserService,
-        protected configService: XmUiConfigService<{ langs: string[] }>,
+        protected configService: XmUiConfigService<{ langs: Locale[] }>,
         protected sessionStorage: SessionStorageService,
     ) {
         this.$locale = new BehaviorSubject<Locale | null>(null);
@@ -72,9 +74,16 @@ export class LanguageService implements OnDestroy, OnInitialize {
         console.info('TRANSLATION Locale changed:', value);
     }
 
-    /** @description Get languages list */
+    /** @description Get default languages list */
     public get languages(): Locale[] {
         return LANGUAGES;
+    }
+
+    /** @description Get languages list from config or default */
+    public languages$(): Observable<Locale[]> {
+        return this.configService.config$().pipe(
+            map((c) => c?.langs ? c.langs : this.languages),
+        );
     }
 
     public ngOnDestroy(): void {
@@ -82,7 +91,8 @@ export class LanguageService implements OnDestroy, OnInitialize {
         takeUntilOnDestroyDestroy(this);
     }
 
-    /** @description Set html lang
+    /**
+     * @description Set html lang
      *  @example <html lang="en">
      */
     public setLangHTMLAttr(locale: Locale): void {
@@ -111,7 +121,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
 
     /** @description Get a default locale */
     public getDefaultLocale(): Locale {
-        return this.localeId;
+        return 'en';
     }
 
     public init(): void {
@@ -131,7 +141,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
         this.setLangHTMLAttr(locale);
 
         this.$locale.next(locale);
-        this.eventManager.broadcast({name: EVENT_CHANGE_LOCALE, content: locale});
+        this.eventManager.broadcast({ name: EVENT_CHANGE_LOCALE, content: locale });
     }
 
     protected onUserLocale(): void {

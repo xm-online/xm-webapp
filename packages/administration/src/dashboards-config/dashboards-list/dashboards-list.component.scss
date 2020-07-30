@@ -18,28 +18,28 @@
   }
 
   .example-table-container {
-    position:   relative;
     max-height: 400px;
     overflow:   auto;
+    position:   relative;
   }
 
   .example-element-detail {
-    overflow: hidden;
     display:  flex;
+    overflow: hidden;
   }
 
   .example-element-diagram {
-    min-width:   80px;
     border:      2px solid black;
-    padding:     8px;
     font-weight: lighter;
-    margin:      8px 0;
     height:      104px;
+    margin:      8px 0;
+    min-width:   80px;
+    padding:     8px;
   }
 
   .example-element-symbol {
-    font-weight: bold;
     font-size:   40px;
+    font-weight: bold;
     line-height: normal;
   }
 
@@ -66,11 +66,15 @@
   }
 
   .table-container {
-    overflow: auto;
     height:   calc(100vh - 250px);
+    overflow: auto;
   }
 
   .mat-table-sticky {
     border-bottom: 1px solid #e0e0e0;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
   }
 }
