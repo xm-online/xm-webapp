@@ -10,7 +10,7 @@ describe('PageService', () => {
         TestBed.configureTestingModule({
             providers: [{ provide: DashboardWrapperService, useValue: {} }],
         });
-        service = TestBed.inject(PageService);
+        service = TestBed.inject<PageService>(PageService);
     });
 
     it('should be created', () => {
