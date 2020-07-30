@@ -1,10 +1,12 @@
 <div [ngClass]="{'wdt-md-edit': isEditMode}" class="card wdt-md">
-  <a (click)="onSave()" *ngIf="isEditMode" class="header-action" href="javascript: void(0);">
-    <i class="material-icons">save</i>
-  </a>
-  <a (click)="onEditMode()" *ngIf="!isEditMode" class="header-action" href="javascript: void(0);">
-    <i class="material-icons">edit</i>
-  </a>
+  <ng-container *permitted="['WIDGET.UPDATE']">
+    <a (click)="onSave()" *ngIf="isEditMode" class="header-action" href="javascript: void(0);">
+      <i class="material-icons">save</i>
+    </a>
+    <a (click)="onEditMode()" *ngIf="!isEditMode" class="header-action" href="javascript: void(0);">
+      <i class="material-icons">edit</i>
+    </a>
+  </ng-container>
   <div class="card-header card-header-icon card-header-primary">
     <h4 class="card-title">
       {{name}}

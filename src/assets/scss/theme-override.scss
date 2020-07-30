@@ -243,6 +243,10 @@ tag-input {
     align-items: center!important;
 }
 
+.editor-toolbar.fullscreen, .CodeMirror-wrap.CodeMirror-fullscreen {
+  z-index: 1100 !important;
+}
+
 @media (max-width: 768px) {
     .main-panel .main-content,
     .container-fluid {
