@@ -25,6 +25,7 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
     public isHidden: boolean = false;
     @Input() public isEdit: boolean = false;
     @Input() public disableSubmit: boolean = false;
+    @Input() public disabled: boolean = false;
 
     @Output() public isEditChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() public edit: EventEmitter<void> = new EventEmitter<void>();
