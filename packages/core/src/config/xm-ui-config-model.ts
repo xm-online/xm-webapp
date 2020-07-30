@@ -47,6 +47,10 @@ export interface UIPublicConfig {
         scope?: string;
         icon?: { style?: string; class?: string };
     }[];
+    search?: {
+        fullMatch?: boolean;
+        searchPanel?: boolean;
+    };
     defaultLayout?: ILayout[];
 }
 
