@@ -36,10 +36,11 @@ export class XmNavbarInputSearchComponent implements OnInit {
     public searchMask: string = '';
     public isShowSearchPanel: boolean = true;
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
+    private searchFullMatch: boolean;
 
     constructor(
         private router: Router,
-        private uiConfigService: XmUiConfigService<{ searchPanel: boolean }>,
+        private uiConfigService: XmUiConfigService<{ searchPanel: boolean, searchFullMatch: boolean }>,
         private dashboardWrapperService: DashboardWrapperService,
         private location: Location,
         private xmSessionService: XmSessionService,
@@ -51,6 +52,7 @@ export class XmNavbarInputSearchComponent implements OnInit {
             filter((i) => Boolean(i)),
             takeUntilOnDestroy(this),
         ).subscribe((res) => {
+            this.searchFullMatch = res.searchFullMatch;
             this.isShowSearchPanel = Object.prototype.hasOwnProperty.call(res, 'searchPanel') ? res.searchPanel : true;
         });
 
@@ -71,7 +73,8 @@ export class XmNavbarInputSearchComponent implements OnInit {
 
     public search(term: string): void {
         if (term) {
-            this.router.navigate(['/search'], { queryParams: { query: term, dashboardId: this.getDashboardId() } });
+            const searchQuery = this.searchFullMatch ? `"${term}"` : term;
+            this.router.navigate(['/search'], { queryParams: { query: searchQuery, dashboardId: this.getDashboardId() } });
         }
     }
 
