@@ -57,6 +57,7 @@ export class RouteChangeAnimationDirective implements OnInit, OnDestroy {
 
         if (this.player) {
             this.player.destroy();
+            delete this.player;
         }
 
         const metadata = RouteChangeAnimationDirective.fadeIn();
@@ -64,6 +65,12 @@ export class RouteChangeAnimationDirective implements OnInit, OnDestroy {
         const player = factory.create(this.el.nativeElement);
         player.play();
         this.complete = false;
-        player.onDone(() => this.complete = true);
+        player.onDone(() => {
+            this.complete = true;
+            if (this.player) {
+                this.player.destroy();
+                delete this.player;
+            }
+        });
     }
 }
