@@ -1,14 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ThemePalette } from '@angular/material/core/common-behaviors/color';
 import { IWidget } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 
 interface FabConfig {
-    navigateTo: string;
+    navigateTo: string | string[];
     icon?: string;
     indent?: boolean;
-    color?: string;
+    color?: ThemePalette;
     permitted?: string | string[];
+    permittedByDashboardSlug?: string;
 }
 
 const DEFAULT_FAB_CONFIG: FabConfig = {
@@ -26,9 +27,6 @@ const DEFAULT_FAB_CONFIG: FabConfig = {
     styleUrls: ['./mat-fab-widget.component.scss'],
 })
 export class MatFabWidget implements IWidget<FabConfig> {
-    constructor(private router: Router) {
-    }
-
     private _config: FabConfig;
 
     public get config(): FabConfig {
@@ -38,10 +36,6 @@ export class MatFabWidget implements IWidget<FabConfig> {
     @Input()
     public set config(value: FabConfig) {
         this._config = _.defaults({}, value, DEFAULT_FAB_CONFIG);
-    }
-
-    public onClick(): void {
-        this.router.navigate([this.config.navigateTo]);
     }
 
 }

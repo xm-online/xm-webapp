@@ -1,9 +1,13 @@
-<div *ngIf="config.indent" class="w-100 indent"></div>
+<ng-container *permitted="config.permitted">
+  <ng-container *xmIfDashboardSlug="config.permittedByDashboardSlug">
+    <div *ngIf="config.indent" class="w-100 indent"></div>
 
-<button class="mat-fab-button"
-        (click)="onClick()"
-        *permitted="config.permitted"
-        [color]="config.color"
-        mat-fab>
-  <mat-icon>{{config.icon}}</mat-icon>
-</button>
+    <button [color]="config.color"
+            [routerLink]="this.config.navigateTo"
+            class="mat-fab-button"
+            mat-fab
+            routerLinkActive="active">
+      <mat-icon>{{config.icon}}</mat-icon>
+    </button>
+  </ng-container>
+</ng-container>
