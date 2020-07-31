@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { XmSharedModule } from '@xm-ngx/shared';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { NoDataComponent } from './no-data.component';
 
 @NgModule({
     declarations: [NoDataComponent],
     exports: [NoDataComponent],
     imports: [
-        XmSharedModule,
         CommonModule,
+        XmTranslationModule,
     ],
 })
 export class NoDataModule {

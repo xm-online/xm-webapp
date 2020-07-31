@@ -1,31 +1,13 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Principal} from '@xm-ngx/core/auth';
+import { Component, Input } from '@angular/core';
+import { Translate } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-no-data, no-data',
     templateUrl: './no-data.component.html',
-    styles: [`
-        :host-context {
-            display: block;
-            text-align: center;
-        }
-        p {
-            margin: 20px 0 0;
-        }
-    `],
+    styleUrls: ['./no-data.component.scss'],
 })
-export class NoDataComponent implements OnChanges {
-
-    @Input() public show: any;
-    @Input() public text: any;
+export class NoDataComponent {
+    @Input() public show: boolean;
+    @Input() public text: Translate;
     @Input() public hideImage: boolean = false;
-
-    constructor(protected principal: Principal) { }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (!changes.text || !changes.text.currentValue) {
-            this.text = 'global.noData';
-        }
-    }
-
 }
