@@ -51,22 +51,21 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
             this.sessionService.isActive(),
         ]).pipe(
             takeUntilOnDestroy(this),
-            map(
-                ([config, active]) => {
-                    if (active === true) {
-                        this.router.navigate(['/dashboard']);
-                        return [];
-                    }
+            map(([config, active]) => {
+                if (active === true) {
+                    this.router.navigate(['/dashboard']);
+                    return [];
+                }
 
-                    if (config?.root?.layouts) {
-                        return this.getFromConfigRootLayouts(config.root.layouts);
-                    }
-                    if (config?.defaultLayout) {
-                        return this.getFromConfigDefaultLayout(config.defaultLayout);
-                    } else {
-                        return this.getFromConfigDefaultWidget(config);
-                    }
-                }),
+                if (config?.root?.layouts) {
+                    return this.getFromConfigRootLayouts(config.root.layouts);
+                }
+                if (config?.defaultLayout) {
+                    return this.getFromConfigDefaultLayout(config.defaultLayout);
+                } else {
+                    return this.getFromConfigDefaultWidget(config);
+                }
+            }),
             catchError(() => of(this.getFromConfigDefaultWidget())),
         );
     }
@@ -125,6 +124,7 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
         }
 
         const domains: string[] = Array.isArray(domain) ? domain : [domain];
-        return domains.includes(window.location.hostname);
+        const matched = domains.find((domain) => new RegExp(domain).test(window.location.hostname));
+        return Boolean(matched);
     }
 }
