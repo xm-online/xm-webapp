@@ -1,7 +1,8 @@
-import { animate, AnimationBuilder, AnimationMetadata, AnimationPlayer, query, style } from '@angular/animations';
+import { animate, AnimationBuilder, AnimationMetadata, AnimationPlayer, style } from '@angular/animations';
 import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 @Directive({
     selector: '[xmRouteChangeAnimation]',
@@ -20,34 +21,35 @@ export class RouteChangeAnimationDirective implements OnInit, OnDestroy {
 
     private static fadeIn(): AnimationMetadata[] {
         return [
-            style({ overflow: 'hidden' }),
-            query(':scope > *', [
-                style({ opacity: 0, transform: 'translateY(1rem)' }),
-                animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
-            ]),
-            animate('300ms ease-out', style({  })),
+            style({ opacity: 0 }),
+            animate('300ms ease-out', style({ opacity: 1 })),
+            style({}),
         ];
     }
 
     public ngOnInit(): void {
-        this.router.events.pipe(takeUntilOnDestroy(this)).subscribe((event) => {
-            switch (true) {
-                case event instanceof NavigationStart: {
-                    break;
-                }
-                case event instanceof NavigationEnd:
-                case event instanceof NavigationCancel:
-                case event instanceof NavigationError:
-                default: {
-                    this.play();
-                }
-            }
-        });
+        this.router.events.pipe(
+            takeUntilOnDestroy(this),
+            filter(event => event instanceof NavigationEnd),
+            map(() => this.getCurrentActiveRoute()),
+            filter(route => route.outlet === 'primary'),
+            map(route => route.snapshot.url.join('')),
+            distinctUntilChanged(),
+        ).subscribe(() => this.play());
+
         this.play();
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
+    }
+
+    private getCurrentActiveRoute(): ActivatedRoute {
+        let route = this.router.routerState.root;
+        while (route.firstChild) {
+            route = route.firstChild;
+        }
+        return route;
     }
 
     private play(): void {
