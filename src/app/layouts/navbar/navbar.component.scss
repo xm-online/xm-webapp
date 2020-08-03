@@ -54,6 +54,10 @@
   flex-wrap:         $value;
 }
 
+xm-navbar {
+  overflow: hidden;
+}
+
 // TODO; redesign and remove ng-deep
 ::ng-deep {
   @import 'navbar-toggler';
@@ -65,7 +69,6 @@
     @include flex-wrap(nowrap);
     align-items: center;
     max-width:   100%;
-    overflow:    hidden;
 
     .navbar-brand,
     .navbar-header {

@@ -4,11 +4,21 @@ import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 import { NotificationsComponent } from './notifications/notifications.component';
 import { NotificationsService } from './shared/notifications.service';
+import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatBadgeModule } from "@angular/material/badge";
+import { MatButtonModule } from "@angular/material/button";
+import { XmTranslationModule } from "@xm-ngx/translation";
 
 @NgModule({
     imports: [
         CommonModule,
         XmPermissionModule,
+        MatIconModule,
+        MatMenuModule,
+        MatBadgeModule,
+        MatButtonModule,
+        XmTranslationModule,
     ],
     declarations: [NotificationsComponent],
     exports: [NotificationsComponent],
