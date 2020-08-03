@@ -1,12 +1,13 @@
-import { Id, IEntityCollection, IId, QueryParams } from './i-entity-collection';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Id, IEntityCollection, IId, QueryParams } from './i-entity-collection';
 
 export class EntityCollectionBase<T extends IId = unknown> {
     public loading$: Observable<boolean>;
+    protected collection: IEntityCollection<T>;
 
-    constructor(private readonly collection: IEntityCollection<T>) {
-        this.loading$ = collection.loading$;
+    constructor(collection: IEntityCollection<T>) {
+        this.setCollection(collection);
     }
 
     public create(entity: T, params?: QueryParams): Observable<T> {
@@ -42,5 +43,10 @@ export class EntityCollectionBase<T extends IId = unknown> {
     public upsert(entity: T, params?: QueryParams): Observable<T> {
         return this.collection.upsert(entity, params)
             .pipe(map((res) => res.body));
+    }
+
+    protected setCollection(collection: IEntityCollection<T>): void {
+        this.collection = collection;
+        this.loading$ = collection.loading$;
     }
 }
