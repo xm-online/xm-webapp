@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Type } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Id } from '@xm-ngx/components/entity-collection';
 import { Widget } from '@xm-ngx/dashboard';
@@ -31,6 +31,7 @@ export class DashboardsListExpandComponent implements OnInit {
     public loading$: Observable<boolean>;
 
     @Input() public dashboardId: Id;
+    @Input() public widgetEditComponentType: Type<unknown> = WidgetEditComponent;
 
     public widgetsList: MatTableDataSource<Widget>;
 
@@ -53,12 +54,12 @@ export class DashboardsListExpandComponent implements OnInit {
     }
 
     public onAdd(): void {
-        this.editorService.addWidget(WidgetEditComponent, {dashboard: {id: this.dashboardId}});
+        this.editorService.addWidget(this.widgetEditComponentType, {dashboard: {id: this.dashboardId}});
         this.managerService.setActiveWidget(null);
     }
 
     public onEdit(item: Widget): void {
-        this.editorService.editWidget(WidgetEditComponent, _.assign(item, {dashboard: {id: this.dashboardId}}));
+        this.editorService.editWidget(this.widgetEditComponentType, _.assign(item, {dashboard: {id: this.dashboardId}}));
         this.managerService.setActiveWidget(item);
     }
 
