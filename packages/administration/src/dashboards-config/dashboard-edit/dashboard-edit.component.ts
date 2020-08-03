@@ -1,4 +1,5 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener, Input, Type } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
@@ -7,10 +8,9 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { DASHBOARDS_TRANSLATES, EDIT_DASHBOARD_EVENT } from '../const';
+import { DASHBOARDS_TRANSLATES } from '../const';
 import { DashboardEditorService } from '../dashboard-editor.service';
-import { DashboardCollection } from '../injectors';
-import { TranslateService } from '@ngx-translate/core';
+import { DashboardCollection, DashboardConfig } from '../injectors';
 
 export enum EditType {
     Create = 1,
@@ -33,14 +33,17 @@ export class DashboardEditComponent {
     };
     public loading$: Observable<boolean>;
     public disabled: boolean;
+    public EDIT_EVENT: string = this.dashboardConfig.EDIT_DASHBOARD_EVENT;
 
-    public aceEditorOptions: { title: string; height: string } = {title: '', height: 'calc(100vh - 350px)'};
+    public aceEditorOptions: { title: string; height: string } = { title: '', height: 'calc(100vh - 350px)' };
 
     public editType: EditType;
+    public widgetEditComponentType: Type<unknown> = this.dashboardConfig.widgetRef;
 
     constructor(protected dashboardService: DashboardCollection,
                 protected editorService: DashboardEditorService,
                 protected alertService: XmAlertService,
+                protected readonly dashboardConfig: DashboardConfig,
                 protected readonly eventManager: XmEventManager,
                 protected principal: Principal,
                 protected translateService: TranslateService,
@@ -48,7 +51,7 @@ export class DashboardEditComponent {
         this.loading$ = this.dashboardService.loading$.pipe(tap((i) => this.disabled = i));
     }
 
-    private _value: Dashboard;
+    protected _value: Dashboard;
 
     public get value(): Dashboard {
         return this._value;
@@ -80,11 +83,11 @@ export class DashboardEditComponent {
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.created,
-                    textOptions: {value: res.name},
+                    textOptions: { value: res.name },
                 }).subscribe();
                 this.value = res;
                 this.editType = EditType.Edit;
-                this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.id, add: true});
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, add: true });
             }),
         ).subscribe();
     }
@@ -94,11 +97,11 @@ export class DashboardEditComponent {
         delete this._value.widgets;
         this.dashboardService.update(this._value).pipe(
             tap((res) => {
-                this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.id, edit: true});
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, edit: true });
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.updated,
-                    textOptions: {value: res.name},
+                    textOptions: { value: res.name },
                 }).subscribe();
             }),
         ).subscribe();
@@ -121,16 +124,16 @@ export class DashboardEditComponent {
     }
 
     public onDelete(): void {
-        this.alertService.delete({textOptions: {value: this.value.name}}).pipe(
+        this.alertService.delete({ textOptions: { value: this.value.name } }).pipe(
             filter((i) => i.value),
             switchMap(() => this.dashboardService.delete(this.value.id)),
             tap((res) => {
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.deleted,
-                    textOptions: {value: this.value.name},
+                    textOptions: { value: this.value.name },
                 }).subscribe();
-                this.eventManager.broadcast({name: EDIT_DASHBOARD_EVENT, id: this.value.id, delete: true});
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, delete: true });
             }),
             tap(() => this.editorService.close()),
         ).subscribe();
