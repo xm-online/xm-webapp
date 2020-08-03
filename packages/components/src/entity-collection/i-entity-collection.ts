@@ -2,10 +2,10 @@ import { HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface IId {
-    id?: number;
+    id?: number | string;
 }
 
-export type Id = number;
+export type Id = number | string;
 
 export type QueryParams = HttpParams | {
     [param: string]: (string | string[] | number) | any;

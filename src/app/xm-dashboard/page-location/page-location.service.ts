@@ -1,17 +1,15 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Params, Router } from '@angular/router';
+import { IId } from '@xm-ngx/components/entity-collection';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-type Id = number;
-
-interface PageEntityParams extends Params {
-    id?: Id;
+interface PageEntityParams extends Params, IId {
 }
 
-function getId(queryParams: { id?: string }): PageEntityParams | null {
-    return queryParams.id ? { id: Number(queryParams.id) } : null;
+function getId(queryParams: IId): PageEntityParams | null {
+    return queryParams.id ? { id: queryParams.id } : null;
 }
 
 @Injectable({
