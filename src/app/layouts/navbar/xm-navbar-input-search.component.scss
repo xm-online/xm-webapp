@@ -1,0 +1,14 @@
+
+.search-input {
+  margin-top:       6px;
+  background-color: inherit;
+  border:           0;
+  background:       center bottom no-repeat, center calc(100% - 1px);
+  background-size:  0 100%, 100% 100%;
+  transition:       all ease-out 300ms;
+}
+
+.search-input:focus {
+  outline:         none;
+  background-size: 100% 100%, 100% 100%;
+}
