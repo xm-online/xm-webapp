@@ -5,6 +5,7 @@ import { DynamicWidgetLayoutComponent } from '../widget/dynamic-widget-layout.co
 import { IComponent } from './dynamic-view.directive';
 
 export interface ViewLayout<V = unknown, O = unknown> extends Layout, IComponent<V, O> {
+    content?: ViewLayout[];
 }
 
 /**
@@ -51,12 +52,12 @@ export class DynamicViewLayoutComponent extends DynamicWidgetLayoutComponent imp
     }
 
     @Input()
-    public isCustomElement(layout: Layout): boolean {
+    public isCustomElement(layout: ViewLayout): boolean {
         return layout.selector !== 'div';
     }
 
     @Input()
-    public resolveCustomParams: (layout: Layout) => Layout = (layout: Layout) => layout;
+    public resolveCustomParams: (layout: ViewLayout) => ViewLayout = (layout: ViewLayout) => layout;
 
     public ngOnChanges(changes: SimpleChanges): void {
         super.ngOnChanges(changes);
