@@ -1,14 +1,12 @@
-import { Injectable, Injector, OnDestroy, Type } from '@angular/core';
+import { Injectable, Injector, Type } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Id } from '@xm-ngx/components/entity-collection';
+import { SidebarRightService } from '@xm-ngx/components/xm-sidebar-right';
 import { Dashboard, Widget } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { Subject } from 'rxjs';
-import { SidebarRightService } from '@xm-ngx/components/xm-sidebar-right';
 
 @Injectable()
-export class DashboardEditorService implements OnDestroy {
-    public readonly close$: Subject<void> = new Subject<void>();
+export class DashboardEditorService {
 
     constructor(public layoutService: SidebarRightService,
                 protected router: Router,
@@ -17,13 +15,8 @@ export class DashboardEditorService implements OnDestroy {
                 public injector: Injector) {
     }
 
-    public ngOnDestroy(): void {
-        this.close$.complete();
-    }
-
     public close(): void {
         this.layoutService.close();
-        this.close$.next();
     }
 
     public editDashboard<T>(ref: Type<T>, item: Dashboard): void {

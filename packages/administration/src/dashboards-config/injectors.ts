@@ -1,7 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { EntityCollectionBase, EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
 import { Dashboard, Widget } from '@xm-ngx/dashboard';
 import { DASHBOARD_API_URL, DASHBOARD_WIDGET_API_URL } from './const';
+
+export class DashboardConfig {
+    public dashboardRef: Type<unknown>;
+    public widgetRef: Type<unknown>;
+    public EDIT_DASHBOARD_EVENT: string;
+    public EDIT_WIDGET_EVENT: string;
+}
 
 @Injectable()
 export class DashboardCollection extends EntityCollectionBase<Dashboard> {

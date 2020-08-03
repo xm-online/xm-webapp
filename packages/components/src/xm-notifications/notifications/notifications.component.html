@@ -1,78 +1,39 @@
-<div class="xm-notifications" *ngIf="config">
-
-  <ng-container *ngIf="false">
-    <ul *permitted="privileges" class="navbar-nav navbar-right xm-notifications-container">
-      <li class="nav-item dropdown">
-        <a [attr.aria-expanded]="notificationsCount ? 'false' : null"
-           [attr.aria-haspopup]="notificationsCount ? 'true' : null"
-           [attr.data-toggle]="notificationsCount ? 'dropdown' : null"
-           class="nav-link"
-           href="javascript: void(0);"
-           id="navbarDropdownMenuLink"
-        >
-          <i class="material-icons">notifications</i>
-          <span *ngIf="notificationsCount" class="notification">{{ notificationsCount }}</span>
-        </a>
-        <div *ngIf="notificationsCount"
-             aria-labelledby="navbarDropdownMenuLink"
-             class="dropdown-menu dropdown-menu-right xm-notifications">
-          <ng-container *ngFor="let item of notifications; let i = index">
-            <a (click)="onNavigate(item, $event)"
-               *ngIf="i <= showCount"
-               [ngClass]="{'hasDate' : item.updateDate}"
-               class="dropdown-item notification-item">
-              <span *ngIf="!config.showAsHtml">{{ item.label }}</span>
-              <div *ngIf="config.showAsHtml" [innerHTML]="item.label"></div>
-              <span *ngIf="item.updateDate" class="update-date">{{ item.updateDate | date}}</span>
-              <span (click)="onRemoveItem($event, item);" class="close-notification material-icons">close</span>
-            </a>
-          </ng-container>
-
-          <div class="notifications-actions text-right">
-            <a class="show-all" href="javascript: void(0);"><span (click)="viewAll(redirectUrl)"
-                                                                  *ngIf="redirectUrl"
-                                                                  class="text-primary"
-                                                                  jhiTranslate="xm-notifications.showAll">View all</span></a>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </ng-container>
-
-
-  <button class="notifications-bell"
-          [disabled]="!notificationsCount"
-          mat-icon-button
-          *permitted="privileges"
-          [matMenuTriggerFor]="menu">
+<ng-container *ngIf="isSessionActive$ | async">
+  <div class="xm-notifications" *ngIf="config">
+    <button class="notifications-bell"
+            [disabled]="!notificationsCount"
+            mat-icon-button
+            *permitted="privileges"
+            [matMenuTriggerFor]="menu">
       <mat-icon [matBadge]="notificationsCount"
                 matBadgeColor="warn"
                 [matBadgeHidden]="!notificationsCount">
-          notifications
+        notifications
       </mat-icon>
-  </button>
-
-  <mat-menu class="xm-notification-menu" #menu="matMenu">
-    <ng-container *ngFor="let item of notifications; let i = index">
-      <button class="xm-notification-item"
-              (click)="onNavigate(item, $event)"
-              [class.custom-menu-item]="config.showAsHtml"
-              [class.hasDate]="item.updateDate"
-              mat-menu-item
-              *ngIf="i <= showCount">
-        <span *ngIf="!config.showAsHtml">{{ item.label }}</span>
-        <span *ngIf="config.showAsHtml" [innerHTML]="item.label"></span>
-        <span *ngIf="item.updateDate" class="update-date">{{ item.updateDate | date}}</span>
-        <mat-icon class="close-btn" (click)="onRemoveItem($event, item);">close</mat-icon>
-      </button>
-    </ng-container>
-
-    <button mat-menu-item
-            [class.empty-list]="!(notifications && notifications.length > 0)"
-            (click)="viewAll(redirectUrl)"
-            *ngIf="redirectUrl"
-            class="xm-notification-item show-all-link">
-      {{'xm-notifications.showAll' | translate}}
     </button>
-  </mat-menu>
-</div>
+
+    <mat-menu class="xm-notification-menu" #menu="matMenu">
+      <ng-container *ngFor="let item of notifications; let i = index">
+        <button class="xm-notification-item"
+                (click)="onNavigate(item, $event)"
+                [class.custom-menu-item]="config.showAsHtml"
+                [class.hasDate]="item.updateDate"
+                mat-menu-item
+                *ngIf="i <= showCount">
+          <span *ngIf="!config.showAsHtml">{{ item.label }}</span>
+          <span *ngIf="config.showAsHtml" [innerHTML]="item.label"></span>
+          <span *ngIf="item.updateDate" class="update-date">{{ item.updateDate | date}}</span>
+          <mat-icon class="close-btn" (click)="onRemoveItem($event, item);">close</mat-icon>
+        </button>
+      </ng-container>
+
+      <button mat-menu-item
+              [class.empty-list]="!(notifications && notifications.length > 0)"
+              (click)="viewAll(redirectUrl)"
+              *ngIf="redirectUrl"
+              class="xm-notification-item show-all-link">
+        {{'xm-notifications.showAll' | translate}}
+      </button>
+    </mat-menu>
+  </div>
+</ng-container>

@@ -1,4 +1,4 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener, Input, Type } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
@@ -7,9 +7,10 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../const';
-import { DashboardEditComponent, EditType } from '../dashboard-edit/dashboard-edit.component';
+import { EditType } from '../dashboard-edit/dashboard-edit.component';
 import { DashboardEditorService } from '../dashboard-editor.service';
-import { DashboardCollection, WidgetCollection } from '../injectors';
+import { DashboardCollection, DashboardConfig, WidgetCollection } from '../injectors';
+
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
 @Component({
@@ -27,8 +28,10 @@ export class WidgetEditComponent {
     };
     public loading$: Observable<boolean>;
     public disabled: boolean;
+    public dashboardEditComponentType: Type<unknown> = this.dashboardConfig.dashboardRef;
+    public EDIT_EVENT: string = this.dashboardConfig.EDIT_WIDGET_EVENT;
 
-    public aceEditorOptions: { title: string; height: string } = {title: '', height: 'calc(100vh - 280px)'};
+    public aceEditorOptions: { title: string; height: string } = { title: '', height: 'calc(100vh - 280px)' };
 
     public editType: EditType;
 
@@ -37,6 +40,7 @@ export class WidgetEditComponent {
         protected dashboardService: DashboardCollection,
         protected readonly editorService: DashboardEditorService,
         protected readonly eventManager: XmEventManager,
+        protected readonly dashboardConfig: DashboardConfig,
         protected readonly alertService: XmAlertService,
         protected readonly principal: Principal,
         protected readonly toasterService: XmToasterService) {
@@ -72,11 +76,11 @@ export class WidgetEditComponent {
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.created,
-                    textOptions: {value: res.name},
+                    textOptions: { value: res.name },
                 }).subscribe();
                 this.value = res;
                 this.editType = EditType.Edit;
-                this.eventManager.broadcast({name: EDIT_WIDGET_EVENT, id: this.value.dashboard.id, add: true});
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.dashboard.id, add: true });
             }),
         ).subscribe();
     }
@@ -87,25 +91,25 @@ export class WidgetEditComponent {
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.updated,
-                    textOptions: {value: res.name},
+                    textOptions: { value: res.name },
                 }).subscribe();
-                this.eventManager.broadcast({name: EDIT_WIDGET_EVENT, id: this.value.dashboard.id, add: true});
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.dashboard.id, add: true });
             }),
         ).subscribe();
     }
 
     public onDelete(): void {
-        this.alertService.delete({textOptions: {value: this.value.name}}).pipe(
+        this.alertService.delete({ textOptions: { value: this.value.name } }).pipe(
             filter((i) => i.value),
             switchMap(() => this.widgetService.delete(this.value.id)),
             tap(() => {
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.deleted,
-                    textOptions: {value: this.value.name},
+                    textOptions: { value: this.value.name },
                 }).subscribe();
                 this.editorService.close();
-                this.eventManager.broadcast({name: EDIT_WIDGET_EVENT, id: this.value.dashboard.id, delete: true});
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.dashboard.id, delete: true });
             }),
         ).subscribe();
     }
@@ -120,7 +124,7 @@ export class WidgetEditComponent {
     public backToOrganisation(): void {
         const id = this.value.dashboard.id;
         this.dashboardService.getById(id).subscribe((i) => {
-            this.editorService.editDashboard(DashboardEditComponent, i);
+            this.editorService.editDashboard(this.dashboardEditComponentType, i);
         });
     }
 

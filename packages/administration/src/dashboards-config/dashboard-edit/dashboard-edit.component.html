@@ -74,7 +74,7 @@
     <mat-tab-group>
 
       <mat-tab [label]="TRS.widgets | translate">
-        <xm-dashboards-list-expand *ngIf="value.id" [dashboardId]="value.id"></xm-dashboards-list-expand>
+        <xm-dashboards-list-expand *ngIf="value.id" [dashboardId]="value.id" [widgetEditComponentType]="widgetEditComponentType"></xm-dashboards-list-expand>
       </mat-tab>
 
       <mat-tab [label]="TRS.config | translate">
