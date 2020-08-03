@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { XmSessionService, XmUIConfig, XmUiConfigService } from '@xm-ngx/core';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
@@ -10,26 +10,27 @@ import { filter, mergeMap, tap } from 'rxjs/operators';
 @Component({
     selector: 'xm-navbar-input-search',
     template: `
-        <div *ngIf="isShowSearchPanel && (isSessionActive$ | async)" class="navbar-container-part search-part d-none d-md-block">
-            <form class="navbar-form navbar-right" role="search">
-                <div class="input-group no-border">
-                    <input #searchBox [regexp]="searchMask"
-                           class="search-input"
-                           placeholder="{{ 'navbar.search' | translate }}"
-                           type="text"
-                           xmInputPattern>
-                    <button (click)="search(searchBox.value)"
-                            class="bg-white rounded-circle shadow-sm mr-2"
-                            mat-icon-button
-                            type="submit">
-                        <i class="material-icons">search</i>
-                        <div class="ripple-container"></div>
-                    </button>
-                </div>
-            </form>
-        </div>
+        <form *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
+              class="d-none d-md-block"
+              role="search">
+
+            <input #searchBox
+                   [regexp]="searchMask"
+                   class="search-input"
+                   [placeholder]="'navbar.search' | translate"
+                   type="text"
+                   xmInputPattern>
+
+            <button (click)="search(searchBox.value)"
+                    class="bg-white rounded-circle shadow-sm mr-2"
+                    mat-icon-button
+                    type="submit">
+                <mat-icon>search</mat-icon>
+            </button>
+
+        </form>
     `,
-    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./xm-navbar-input-search.component.scss'],
 })
 
 export class XmNavbarInputSearchComponent implements OnInit {
@@ -53,7 +54,7 @@ export class XmNavbarInputSearchComponent implements OnInit {
             takeUntilOnDestroy(this),
         ).subscribe((res) => {
             this.searchFullMatch = res?.search?.searchFullMatch;
-            this.isShowSearchPanel = Object.prototype.hasOwnProperty.call(res.search, 'searchPanel') ? res.search.searchPanel : true;
+            this.isShowSearchPanel = res?.search?.searchPanel || true;
         });
 
         this.router.events.pipe(takeUntilOnDestroy(this)).subscribe((event) => {
@@ -74,7 +75,12 @@ export class XmNavbarInputSearchComponent implements OnInit {
     public search(term: string): void {
         if (term) {
             const searchQuery = this.searchFullMatch ? `"${term}"` : term;
-            this.router.navigate(['/search'], { queryParams: { query: searchQuery, dashboardId: this.getDashboardId() } });
+            this.router.navigate(['/search'], {
+                queryParams: {
+                    query: searchQuery,
+                    dashboardId: this.getDashboardId(),
+                },
+            });
         }
     }
 
