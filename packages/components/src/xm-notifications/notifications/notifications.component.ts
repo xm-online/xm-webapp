@@ -2,10 +2,10 @@ import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular
 
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { XmEventManager } from '@xm-ngx/core';
+import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 
 import * as _ from 'lodash';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
 import { XmConfigService } from '../../../../../src/app/shared/spec/config.service';
@@ -32,6 +32,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public updateInterval: number;
     private entityListModifications: Subscription;
     private entityEntityStateChange: Subscription;
+    public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
     constructor(
         private xmConfigService: XmConfigService,
@@ -40,6 +41,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         private sanitized: DomSanitizer,
         private eRef: ElementRef,
         private principal: Principal,
+        private xmSessionService: XmSessionService,
         private notificationsService: NotificationsService) {
         this.isOpened = false;
         this.notifications = [];

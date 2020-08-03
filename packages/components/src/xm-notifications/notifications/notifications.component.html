@@ -1,38 +1,42 @@
-<ng-container *ngIf="config">
-  <ul *permitted="privileges" class="navbar-nav navbar-right xm-notifications-container">
-    <li class="nav-item dropdown">
-      <a [attr.aria-expanded]="notificationsCount ? 'false' : null"
-         [attr.aria-haspopup]="notificationsCount ? 'true' : null"
-         [attr.data-toggle]="notificationsCount ? 'dropdown' : null"
-         class="nav-link"
-         href="javascript: void(0);"
-         id="navbarDropdownMenuLink"
-      >
-        <i class="material-icons">notifications</i>
-        <span *ngIf="notificationsCount" class="notification">{{ notificationsCount }}</span>
-      </a>
-      <div *ngIf="notificationsCount"
-           aria-labelledby="navbarDropdownMenuLink"
-           class="dropdown-menu dropdown-menu-right xm-notifications">
-        <ng-container *ngFor="let item of notifications; let i = index">
-          <a (click)="onNavigate(item, $event)"
-             *ngIf="i <= showCount"
-             [ngClass]="{'hasDate' : item.updateDate}"
-             class="dropdown-item notification-item">
-            <span *ngIf="!config.showAsHtml">{{ item.label }}</span>
-            <div *ngIf="config.showAsHtml" [innerHTML]="item.label"></div>
-            <span *ngIf="item.updateDate" class="update-date">{{ item.updateDate | date}}</span>
-            <span (click)="onRemoveItem($event, item);" class="close-notification material-icons">close</span>
-          </a>
-        </ng-container>
+<ng-container *ngIf="isSessionActive$ | async">
+  <ng-container *ngIf="config">
+    <ul *permitted="privileges" class="d-none d-md-block navbar-nav navbar-right xm-notifications-container">
+      <li class="nav-item dropdown">
+        <a [attr.aria-expanded]="notificationsCount ? 'false' : null"
+           [attr.aria-haspopup]="notificationsCount ? 'true' : null"
+           [attr.data-toggle]="notificationsCount ? 'dropdown' : null"
+           class="nav-link"
+           href="javascript: void(0);"
+           id="navbarDropdownMenuLink"
+        >
+          <i class="material-icons">notifications</i>
+          <span *ngIf="notificationsCount" class="notification">{{ notificationsCount }}</span>
+        </a>
+        <div *ngIf="notificationsCount"
+             aria-labelledby="navbarDropdownMenuLink"
+             class="dropdown-menu dropdown-menu-right xm-notifications">
+          <ng-container *ngFor="let item of notifications; let i = index">
+            <a (click)="onNavigate(item, $event)"
+               *ngIf="i <= showCount"
+               [ngClass]="{'hasDate' : item.updateDate}"
+               class="dropdown-item notification-item">
+              <span *ngIf="!config.showAsHtml">{{ item.label }}</span>
+              <div *ngIf="config.showAsHtml" [innerHTML]="item.label"></div>
+              <span *ngIf="item.updateDate" class="update-date">{{ item.updateDate | date}}</span>
+              <span (click)="onRemoveItem($event, item);" class="close-notification material-icons">close</span>
+            </a>
+          </ng-container>
 
-        <div class="notifications-actions text-right">
-          <a class="show-all" href="javascript: void(0);"><span (click)="viewAll(redirectUrl)"
-                                                                *ngIf="redirectUrl"
-                                                                class="text-primary"
-                                                                jhiTranslate="xm-notifications.showAll">View all</span></a>
+          <div class="notifications-actions text-right">
+            <a class="show-all" href="javascript: void(0);">
+              <span (click)="viewAll(redirectUrl)"
+                    *ngIf="redirectUrl"
+                    class="text-primary">{{'xm-notifications.showAll' | translate}}
+              </span>
+            </a>
+          </div>
         </div>
-      </div>
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </ng-container>
 </ng-container>
