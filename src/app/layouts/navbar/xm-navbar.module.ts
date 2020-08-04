@@ -12,6 +12,7 @@ import { XmDynamicModule } from '../../../../packages/xm-dynamic/src/xm-dynamic.
 import { InputModule } from '../../shared/directives/input.module';
 import { NavbarComponent } from './navbar.component';
 import { XmNavbarArrowBackComponent } from './xm-navbar-arrow-back.component';
+import { XmNavbarHelpLink } from './xm-navbar-help-link';
 import { XmNavbarInputSearchComponent } from './xm-navbar-input-search.component';
 import { XmNavbarLanguageMenuComponent } from './xm-navbar-language-menu.component';
 import { XmNavbarLogoComponent } from './xm-navbar-logo.component';
@@ -36,6 +37,7 @@ import { XmNavbarToggleComponent } from './xm-navbar-toggle.component';
     declarations: [
         NavbarComponent,
         XmNavbarArrowBackComponent,
+        XmNavbarHelpLink,
         XmNavbarLanguageMenuComponent,
         XmNavbarInputSearchComponent,
         XmNavbarLogoComponent,

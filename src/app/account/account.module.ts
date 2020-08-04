@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LanguageModule } from '@xm-ngx/components/language';
+import { MarkdownModule } from 'ngx-markdown';
+
 import { XmUserLoginWidgetModule } from '../../../packages/xm-account/src/xm-user-login-widget/xm-user-login-widget.module';
 import { XmUserSecuritySettingsModule } from '../../../packages/xm-account/src/xm-user-security-settings/xm-user-security-settings.module';
 import { XmUserSettingsWidgetModule } from '../../../packages/xm-account/src/xm-user-settings-widget/xm-user-settings-widget.module';
@@ -9,6 +11,7 @@ import { XmSharedModule } from '../shared/shared.module';
 import {
     Activate,
     ActivateComponent,
+    HelpComponent,
     Password,
     PasswordResetFinish,
     PasswordResetFinishComponent,
@@ -23,6 +26,7 @@ import { accountState } from './account.route';
 import { LogoutComponent } from './logout/logout.component';
 import { PasswordModule } from './password/password.module';
 
+
 @NgModule({
     imports: [
         PasswordModule,
@@ -32,6 +36,7 @@ import { PasswordModule } from './password/password.module';
         XmUserSettingsWidgetModule,
         XmUserSecuritySettingsModule,
         XmUserLoginWidgetModule,
+        MarkdownModule,
     ],
     declarations: [
         SocialRegisterComponent,
@@ -42,6 +47,7 @@ import { PasswordModule } from './password/password.module';
         PasswordResetFinishComponent,
         SettingsComponent,
         LogoutComponent,
+        HelpComponent,
     ],
     providers: [
         Activate,

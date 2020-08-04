@@ -400,6 +400,8 @@
     "item-count": "Показано {{first}} - {{second}} із {{total}} елементів.",
     "menu": {
       "account": {
+        "help": "Допомога",
+        "help-not-provided": "Контент для сторінки допомоги не задано!",
         "logout": "Вийти",
         "mini": {
           "password": "П",

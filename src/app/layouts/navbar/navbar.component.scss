@@ -215,4 +215,16 @@
       }
     }
   }
+
+  .xm-nav-help-link {
+    a {
+      @include flex();
+      @include flex-wrap();
+      align-items: center;
+
+      > span {
+        padding: 0 5px;
+      }
+    }
+  }
 }
