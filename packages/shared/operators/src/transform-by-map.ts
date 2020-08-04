@@ -6,10 +6,10 @@ import { get } from 'lodash';
  * @param optionsMap
  * @return new value
  * @example
- *  entityMap({name: 'Rex'}, {value: {map:{'oldName': 'name'}}} );
+ *  entityMap({name: 'Rex'}, {'oldName': 'name'});
  *  // result: {oldName: 'Rex'}
  */
-export function transformByMap<T, R>(value: T, optionsMap: { [key in keyof R]: string }): R {
+export function transformByMap<T, R>(value: T, optionsMap: { [key in keyof R]: unknown }): R {
     const result = {} as R;
     for (const optionKey in optionsMap) {
         if (Object.prototype.hasOwnProperty.call(optionsMap, optionKey)) {

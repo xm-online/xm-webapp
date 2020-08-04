@@ -60,10 +60,10 @@
                      [disabled]="disabled"
                      [options]="{ title: TRS.name }" name="name"></xm-text-control>
 
-    <xm-text-control [(ngModel)]="formGroup.selector"
-                     [disabled]="disabled"
-                     [options]="{ title: TRS.selector }"
-                     name="selector"></xm-text-control>
+    <xm-selector-text-control [(ngModel)]="formGroup.selector"
+                              [disabled]="disabled"
+                              [options]="{ title: TRS.selector }"
+                              name="selector"></xm-selector-text-control>
 
     <xm-ace-editor-control [(ngModel)]="formGroup.config"
                            [disabled]="disabled"

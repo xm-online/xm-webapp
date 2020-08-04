@@ -16,6 +16,7 @@ import { DashboardsListComponent } from './dashboards-list/dashboards-list.compo
 
 import { DashboardCollection, DashboardConfig, WidgetCollection } from './injectors';
 import { EDIT_WIDGET_EVENT, WidgetEditComponent } from './widget-edit/widget-edit.component';
+import { SelectorTextControlComponent } from './widget-edit/selector-text-control/selector-text-control.component';
 
 @NgModule({
     imports: [
@@ -39,7 +40,7 @@ import { EDIT_WIDGET_EVENT, WidgetEditComponent } from './widget-edit/widget-edi
         DashboardEditComponent,
         DashboardsListComponent,
         DashboardsListExpandComponent,
-
+        SelectorTextControlComponent,
     ],
     entryComponents: [
         DashboardsConfigComponent,
