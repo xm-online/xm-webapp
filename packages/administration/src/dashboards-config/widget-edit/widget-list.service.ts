@@ -4,7 +4,7 @@ import { DYNAMIC_COMPONENTS, DynamicTenantLoaderService, IDynamicComponent } fro
 import * as _ from 'lodash';
 import { from, Observable, Subject } from 'rxjs';
 
-interface ExtendedDynamicComponents extends IDynamicComponent {
+export interface ExtendedDynamicComponents extends IDynamicComponent {
     globalSelector: string;
 }
 

@@ -1,0 +1,21 @@
+<mat-form-field>
+  <mat-label>{{options.title | translate}}</mat-label>
+  <input (ngModelChange)="change($event)"
+         [formControl]="control"
+         [attr.name]="options.name"
+         [attr.pattern]="options.pattern"
+         [attr.type]="options.type"
+         [disabled]="disabled || options.disabled"
+         [id]="options.id"
+         [matAutocomplete]="auto"
+         [placeholder]="options.placeholder | translate"
+         [required]="options.required"
+         matInput>
+
+  <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.globalSelector">
+      {{option.globalSelector}}
+    </mat-option>
+  </mat-autocomplete>
+
+</mat-form-field>
