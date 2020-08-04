@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
+import { IHelpNavLink } from '../../account';
 
 @Component({
     selector: 'xm-navbar-help-link',
@@ -20,7 +21,9 @@ import { Observable } from 'rxjs';
 })
 export class XmNavbarHelpLink implements OnInit {
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
-    public helpConfig: any;
+    public helpConfig: {
+        navLink: IHelpNavLink;
+    };
 
     constructor(
         private xmUiConfigService: XmUiConfigService,

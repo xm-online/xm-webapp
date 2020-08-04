@@ -3,16 +3,17 @@ import { JhiLanguageService } from 'ng-jhipster';
 import { finalize, map } from 'rxjs/operators';
 
 import { XmConfigService } from '../../shared';
+import { Translate } from '@xm-ngx/translation';
 
 export interface IHelpNavLink {
     url: string;
     icon?: string;
-    text?: string | any;
+    text?: string | Translate;
 }
 
 export interface IHelpConfig {
-    title?: string | any;
-    content: string | any;
+    title?: string | Translate;
+    content: string | unknown;
     navLink: IHelpNavLink;
 }
 
