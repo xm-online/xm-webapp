@@ -4,23 +4,23 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
 
-import { UserComponent } from './user.component';
+import { SidebarUserComponent } from './sidebar-user.component';
 
-describe('UserComponent', () => {
-    let component: UserComponent;
-    let fixture: ComponentFixture<UserComponent>;
+describe('SidebarUserComponent', () => {
+    let component: SidebarUserComponent;
+    let fixture: ComponentFixture<SidebarUserComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
             imports: [XmSharedTestingModule, HttpClientTestingModule, RouterTestingModule],
-            declarations: [UserComponent],
+            declarations: [SidebarUserComponent],
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(UserComponent);
+        fixture = TestBed.createComponent(SidebarUserComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
