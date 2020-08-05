@@ -3,11 +3,22 @@ import { ValidationErrors } from '@angular/forms';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { Translate, TranslatePipe } from '@xm-ngx/translation';
 import * as _ from 'lodash';
+import { clone } from 'lodash';
 
 interface ControlErrorsContext<T = unknown> {
     error: T;
     message: string;
 }
+
+export const XM_CONTROL_ERRORS_TRANSLATES: { [errorKey: string]: Translate } = {
+    min: marker('xm-control-errors.validators.min'),
+    max: marker('xm-control-errors.validators.max'),
+    required: marker('xm-control-errors.validators.required'),
+    email: marker('xm-control-errors.validators.email'),
+    minlength: marker('xm-control-errors.validators.minlength'),
+    maxlength: marker('xm-control-errors.validators.maxlength'),
+    pattern: marker('xm-control-errors.validators.pattern'),
+};
 
 /**
  * @example
@@ -22,15 +33,7 @@ interface ControlErrorsContext<T = unknown> {
 export class ControlErrorsDirective implements OnChanges {
 
     @Input() public xmControlErrors: ValidationErrors | null;
-    @Input() public xmControlErrorsTranslates: { [errorKey: string]: Translate } = {
-        min: marker('xm-control-errors.validators.min'),
-        max: marker('xm-control-errors.validators.max'),
-        required: marker('xm-control-errors.validators.required'),
-        email: marker('xm-control-errors.validators.email'),
-        minlength: marker('xm-control-errors.validators.minlength'),
-        maxlength: marker('xm-control-errors.validators.maxlength'),
-        pattern: marker('xm-control-errors.validators.pattern'),
-    };
+    @Input() public xmControlErrorsTranslates: { [errorKey: string]: Translate } = clone(XM_CONTROL_ERRORS_TRANSLATES);
 
     private thenTemplateRef: TemplateRef<ControlErrorsContext>;
 
