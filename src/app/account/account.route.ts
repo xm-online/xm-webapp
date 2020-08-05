@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import {
     activateRoute,
+    helpRoute,
     passwordResetFinishRoute,
     passwordResetInitRoute,
     passwordRoute,
@@ -17,6 +18,7 @@ export const accountState: Routes = [{
     path: '',
     children: [
         activateRoute,
+        helpRoute,
         passwordRoute,
         passwordResetFinishRoute,
         passwordSetupRoute,

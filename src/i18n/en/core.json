@@ -410,6 +410,8 @@
     "item-count": "Showing {{first}} - {{second}} of {{total}} items.",
     "menu": {
       "account": {
+        "help": "Help",
+        "help-not-provided": "Help page content not provided!",
         "logout": "Sign out",
         "mini": {
           "password": "P",

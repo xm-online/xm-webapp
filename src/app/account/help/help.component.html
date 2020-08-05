@@ -1,0 +1,10 @@
+<xm-loader [showLoader]="showLoader"></xm-loader>
+<div class="xm-help-page">
+  <div class="card" *ngIf="config">
+    <h1 *ngIf="config?.title">{{config.title | translate}}</h1>
+    <markdown *ngIf="config?.content" [src]="config?.content[lang ? lang : 'en']"></markdown>
+  </div>
+  <div class="card" *ngIf="!config?.content && !showLoader">
+    {{'global.menu.account.help-not-provided' | translate}}
+  </div>
+</div>
