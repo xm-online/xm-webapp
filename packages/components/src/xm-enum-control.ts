@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, forwardRef, Input, NgModule, ViewEncapsulation } from '@angular/core';
-import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { NgModelWrapper } from '@xm-ngx/components/ng-model-wrapper';
+import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
+import { NgControlAccessor } from '@xm-ngx/components/ng-control-accessor';
 import { IControl, IControlFn } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
@@ -28,13 +29,14 @@ export interface IEnumFilterList {
                     {{s.title | translate}}
                 </mat-option>
             </mat-select>
+
+            <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
         </mat-form-field>
     `,
-    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmEnumControl), multi: true}],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmEnumControl extends NgModelWrapper<string> implements IControl<string, IEnumFilterList> {
+export class XmEnumControl extends NgControlAccessor<string> implements IControl<string, IEnumFilterList> {
     @Input() public disabled: boolean;
     @Input() public options: IEnumFilterList;
 
@@ -43,7 +45,7 @@ export class XmEnumControl extends NgModelWrapper<string> implements IControl<st
     @Input()
     public set list(value: string[] | IEnumFilterList[]) {
         if (value && typeof value[0] === 'string') {
-            this._list = _.map<string, IEnumFilterList>(value as string[], (i: string) => ({title: i, value: i}));
+            this._list = _.map<string, IEnumFilterList>(value as string[], (i: string) => ({ title: i, value: i }));
         } else {
             this._list = value as IEnumFilterList[];
         }
@@ -51,7 +53,14 @@ export class XmEnumControl extends NgModelWrapper<string> implements IControl<st
 }
 
 @NgModule({
-    imports: [XmTranslationModule, MatFormFieldModule, MatSelectModule, FormsModule, MatIconModule, CommonModule],
+    imports: [
+        XmTranslationModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule,
+        MatIconModule,
+        CommonModule,
+        ControlErrorModule],
     exports: [XmEnumControl],
     declarations: [XmEnumControl],
     providers: [],
