@@ -1,5 +1,10 @@
-<div mat-dialog-title>
-  <h4 class="modal-title text-left" jhiTranslate="global.shared.privacy-and-terms-dialog.title">Privacy and Terms</h4>
+<div mat-dialog-title class="xm-terms-modal-header">
+  <h4 class="modal-title text-left">
+    {{'global.shared.privacy-and-terms-dialog.title' | translate}}
+  </h4>
+  <button class="modal-close" mat-icon-button (click)="onCancel()">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
 
 <div mat-dialog-content>
@@ -7,25 +12,24 @@
   <div class="xm-terms-viewer">
     <markdown [src]="config?.privacyAndTerms[lang ? lang : 'en']"></markdown>
     <div class="form-group checkbox accept-terms">
-      <label>
-        <input id="iAgree" name="iAgree" type="checkbox" [(ngModel)]="iAgree">
-      </label>
-      <label for="iAgree">
-        {{(config.privacyAndTermsAcceptLabel ? config.privacyAndTermsAcceptLabel : 'global.shared.privacy-and-terms-dialog.i-agree') | translate}}
-      </label>
+      <mat-checkbox color="primary"
+                    name="iAgree"
+                    [(ngModel)]="iAgree">
+        {{ agreeLabel | translate}}
+      </mat-checkbox>
     </div>
   </div>
 </div>
 
 <div mat-dialog-actions>
-  <button mat-button type="button" class="btn mr-1 ml-auto" data-dismiss="modal" (click)="onCancel()">
-    <span jhiTranslate="global.common.cancel">Cancel</span>
+  <button mat-button type="button" class="btn mr-1 ml-auto" (click)="onCancel()">
+    {{'global.common.cancel' | translate}}
   </button>
   <button mat-button
           type="button"
           color="primary"
           data-dismiss="modal"
           [disabled]="!iAgree || showLoader" (click)="onAccept()">
-    <span jhiTranslate="global.common.accept">Accept</span>
+    {{'global.common.accept' | translate}}
   </button>
 </div>

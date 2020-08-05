@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     public floatLabel: boolean;
     public sendingLogin: boolean;
     public socialConfig: [];
-
     public checkTermsOfConditions: boolean;
 
     constructor(
@@ -209,8 +208,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
 
     private pushTermsAccepting(token: string): void {
+        const TERMS_MODAL_CFG: MatDialogConfig = { width: '800px', disableClose: true, autoFocus: false };
         this.isTermsShown = true;
-        const modalRef = this.modalService.open(PrivacyAndTermsDialogComponent, { width: '500px' });
+        const modalRef = this.modalService.open(PrivacyAndTermsDialogComponent, TERMS_MODAL_CFG);
         modalRef.componentInstance.config = this.config;
         modalRef.componentInstance.termsToken = token;
         modalRef.afterClosed().subscribe((r) => {

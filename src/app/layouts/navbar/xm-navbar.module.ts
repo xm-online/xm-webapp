@@ -17,6 +17,7 @@ import { XmNavbarLanguageMenuComponent } from './xm-navbar-language-menu.compone
 import { XmNavbarLogoComponent } from './xm-navbar-logo.component';
 import { XmNavbarTitleComponent } from './xm-navbar-title.component';
 import { XmNavbarToggleComponent } from './xm-navbar-toggle.component';
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @NgModule({
     imports: [
@@ -31,6 +32,7 @@ import { XmNavbarToggleComponent } from './xm-navbar-toggle.component';
         LanguageModule,
         MatMenuModule,
         NavbarGuestBackgroundModule,
+        MatFormFieldModule,
     ],
     exports: [NavbarComponent],
     declarations: [
