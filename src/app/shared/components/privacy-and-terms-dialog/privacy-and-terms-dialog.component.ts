@@ -1,29 +1,48 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-
-import { JhiLanguageService } from 'ng-jhipster';
-import { AuthServerProvider } from '../../auth/auth-jwt.service';
 import { finalize } from 'rxjs/operators';
+import { ITranslate, LanguageService } from "@xm-ngx/translation";
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from "@xm-ngx/shared/operators";
+
+import { AuthServerProvider } from '../../auth/auth-jwt.service';
+
+export interface PrivacyPolicyConfig {
+    privacyAndTermsAcceptLabel?: string | ITranslate;
+    privacyAndTerms?: string | ITranslate;
+}
 
 @Component({
     selector: 'xm-privacy-and-terms-dialog',
     templateUrl: './privacy-and-terms-dialog.component.html',
     styleUrls: ['./privacy-and-terms-dialog.component.scss'],
 })
-export class PrivacyAndTermsDialogComponent {
+export class PrivacyAndTermsDialogComponent implements OnInit, OnDestroy {
 
-    @Input() public config: any;
+    @Input() public config: PrivacyPolicyConfig;
     public iAgree: boolean = false;
+    public agreeLabel: string | ITranslate = 'global.shared.privacy-and-terms-dialog.i-agree';
     public lang: string;
     public termsToken: string;
     public showLoader: boolean;
 
     constructor(private activeModal: MatDialogRef<PrivacyAndTermsDialogComponent>,
                 private authServerProvider: AuthServerProvider,
-                private languageService: JhiLanguageService) {
-        this.languageService.getCurrent().then((lang) => {
-            this.lang = lang;
-        });
+                private languageService: LanguageService) {
+        this.languageService.locale$
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((lang) => {
+                this.lang = lang;
+            });
+    }
+
+    public ngOnInit(): void {
+        if (this.config && this.config.privacyAndTermsAcceptLabel) {
+            this.agreeLabel = this.config.privacyAndTermsAcceptLabel;
+        }
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
     }
 
     public onCancel(): void {

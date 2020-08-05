@@ -84,12 +84,12 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
             class: row.class,
             config: row.config,
             content: row.content.map((el) => {
-                const widget = this.getWidgetComponent((el as any).widget);
+                const widget: Widget = this.getWidgetComponent((el as any).widget);
                 return {
                     selector: el.selector || 'div',
                     class: el.class,
                     config: row.config,
-                    content: [{ selector: widget.selector, config: widget.confi }],
+                    content: [{ selector: widget.selector, config: widget.config }],
                 };
             }),
         })));
