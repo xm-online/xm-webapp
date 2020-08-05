@@ -69,16 +69,16 @@ function userToOptions(user: User): UserOptions {
 }
 
 @Component({
-    selector: 'xm-user',
-    templateUrl: './user.component.html',
-    styleUrls: ['./user.component.scss'],
+    selector: 'xm-sidebar-user',
+    templateUrl: './sidebar-user.component.html',
+    styleUrls: ['./sidebar-user.component.scss'],
     changeDetection: ChangeDetectionStrategy.Default,
     animations: [
         matExpansionAnimations.bodyExpansion,
         matExpansionAnimations.indicatorRotate,
     ],
 })
-export class UserComponent implements OnInit {
+export class SidebarUserComponent implements OnInit {
     public logoutControl: MenuItem = LOGOUT_CONTROL;
     public user$: Observable<UserOptions>;
     public menu$: Observable<MenuItem[]>;
@@ -149,10 +149,10 @@ export class UserComponent implements OnInit {
         XmMenuModule,
         XmPermissionModule,
     ],
-    exports: [UserComponent],
-    declarations: [UserComponent],
+    exports: [SidebarUserComponent],
+    declarations: [SidebarUserComponent],
     providers: [],
 })
-export class XmUserModule {
-    public entry: Type<UserComponent> = UserComponent;
+export class XmSidebarUserModule {
+    public entry: Type<SidebarUserComponent> = SidebarUserComponent;
 }

@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { XmLogoModule } from '@xm-ngx/components/logo';
 import { XmMenuModule } from '@xm-ngx/components/menu';
-import { XmUserModule } from '@xm-ngx/components/user';
 import { XmPoweredByModule } from '@xm-ngx/components/xm-powered-by';
+import { XmSidebarUserModule } from '@xm-ngx/components/sidebar-user';
 import { XmUiConfigService } from '@xm-ngx/core';
 
 import { XmSharedModule } from '../../shared/shared.module';
@@ -22,7 +22,7 @@ export const SIDEBAR_KEY = 'xm-widget-sidebar';
         RouterModule,
         CommonModule,
         XmLogoModule,
-        XmUserModule,
+        XmSidebarUserModule,
         XmMenuModule,
         XmPoweredByModule,
     ],
