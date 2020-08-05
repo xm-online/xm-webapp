@@ -36,7 +36,6 @@ export class PrivacyAndTermsDialogComponent {
         } else {
             this.acceptTerms(this.termsToken);
         }
-
     }
 
     private acceptTerms(token: string): void {
