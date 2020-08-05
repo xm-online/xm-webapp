@@ -29,6 +29,10 @@ export abstract class NgModelWrapper<T> implements ControlValueAccessor {
         this.valueChange.next(v);
     }
 
+    public touche(v?: T): void {
+        this._onTouched(v);
+    }
+
     protected _onChange: (v: T) => void = () => undefined;
 
     protected _onTouched: (v: T) => void = () => undefined;
