@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Input, NgModule } from '@angular/core';
-import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { NgModelWrapper } from '@xm-ngx/components/ng-model-wrapper';
+import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
+import { NgControlAccessor } from '@xm-ngx/components/ng-control-accessor';
 import { IComponentFn, IControl } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
@@ -39,12 +41,12 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
                 </mat-option>
 
             </mat-select>
+            <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
         </mat-form-field>
     `,
-    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmBoolControl), multi: true}],
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmBoolControl extends NgModelWrapper<boolean> implements IControl<boolean, { title?: Translate }> {
+export class XmBoolControl extends NgControlAccessor<boolean> implements IControl<boolean, { title?: Translate }> {
     @Input() public value: boolean;
     @Input() public options: { title?: string };
 }
@@ -57,6 +59,8 @@ export class XmBoolControl extends NgModelWrapper<boolean> implements IControl<b
         MatSelectModule,
         FormsModule,
         XmTranslationModule,
+        ControlErrorModule,
+        CommonModule,
     ],
     exports: [XmBoolControl],
     declarations: [XmBoolControl],

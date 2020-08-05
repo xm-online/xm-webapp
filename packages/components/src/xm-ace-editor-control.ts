@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, forwardRef, Input, NgModule, ViewEncapsulation } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
+import { NgControlAccessor } from '@xm-ngx/components/ng-control-accessor';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { AceEditorModule } from '../../../src/app/shared/directives/ace-editor.directive';
-import { NgModelWrapper } from './ng-model-wrapper';
 
 interface IAceEditorControlOptions {
+    id?: string;
     title?: string;
     name?: string;
     mode?: string | 'json';
@@ -25,32 +27,25 @@ const DEFAULT_OPTIONS: IAceEditorControlOptions = {
     template: `
         <div class="form-group">
             <label class="control-label">{{ _options.title | translate }}</label>
-            <div class="ace-editor-control border"
+            <div class="ace-editor-control w-100 border"
                  [ngClass]="{ 'border-danger': error}"
                  (textChanged)="change($event)"
                  [autoUpdateContent]="true"
                  [mode]="_options.mode"
                  [readOnly]="disabled"
                  [text]="_value"
+                 [attr.id]="_options.id"
                  [attr.name]="_options.name"
                  [style.height]="_options.height"
                  xmAceEditor>
             </div>
+            <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
         </div>
     `,
-    // TODO: move to global
-    styles: [
-        `
-            .ace-editor-control {
-                width: 100%;
-            }
-        `,
-    ],
-    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => AceEditorControlComponent), multi: true}],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class AceEditorControlComponent extends NgModelWrapper<string | object> {
+export class AceEditorControlComponent extends NgControlAccessor<string | object> {
     @Input() public disabled: boolean;
 
     public error: boolean = false;
@@ -104,6 +99,8 @@ export class AceEditorControlComponent extends NgModelWrapper<string | object> {
         XmTranslationModule,
         AceEditorModule,
         CommonModule,
+        MatFormFieldModule,
+        ControlErrorModule,
     ],
     exports: [AceEditorControlComponent],
     declarations: [AceEditorControlComponent],
