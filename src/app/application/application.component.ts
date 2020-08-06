@@ -106,6 +106,7 @@ export class ApplicationComponent implements OnInit, OnDestroy {
                     }
                 });
                 this.routeQueryParamsSubscription = this.activatedRoute.queryParams.subscribe((params) => {
+                    this.isSearch = false;
                     if (params.query) {
                         this.isSearch = true;
                         this.searchQuery = params.query;
@@ -132,7 +133,7 @@ export class ApplicationComponent implements OnInit, OnDestroy {
         this.translateService.get(this.defaultFieldsKeys).subscribe(() => {
             const defaultFields = this.buildDefaultFields();
             // eslint-disable-next-line no-unused-expressions
-            this.searchParams && this.searchParams.fields
+            this.searchParams && this.searchParams.fields && this.isSearch
                 ? this.buildOptions(this.searchParams.fields)
                 : this.buildOptions(defaultFields);
         });

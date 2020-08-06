@@ -10,24 +10,24 @@ import { filter, mergeMap, tap } from 'rxjs/operators';
 @Component({
     selector: 'xm-navbar-input-search',
     template: `
-        <form *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
-              class="d-none d-md-block"
+        <form (submit)="search($event, searchBox.value)" *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
+              class="d-none d-md-block xm-search-global"
               role="search">
 
-            <input #searchBox
-                   [regexp]="searchMask"
-                   class="search-input"
-                   [placeholder]="'navbar.search' | translate"
-                   type="text"
-                   xmInputPattern>
+            <mat-form-field floatLabel="never">
+                <input #searchBox
+                       matInput
+                       [regexp]="searchMask"
+                       class="search-input"
+                       [placeholder]="'navbar.search' | translate"
+                       type="text"
+                       xmInputPattern>
+            </mat-form-field>
 
-            <button (click)="search(searchBox.value)"
-                    class="bg-white rounded-circle shadow-sm mr-2"
-                    mat-icon-button
-                    type="submit">
+            <button class="search-btn bg-white rounded-circle shadow-sm mr-2"
+                    mat-icon-button>
                 <mat-icon>search</mat-icon>
             </button>
-
         </form>
     `,
     styleUrls: ['./xm-navbar-input-search.component.scss'],
@@ -72,7 +72,8 @@ export class XmNavbarInputSearchComponent implements OnInit {
         takeUntilOnDestroyDestroy(this);
     }
 
-    public search(term: string): void {
+    public search(e: Event, term: string): void {
+        e.preventDefault();
         if (term) {
             const searchQuery = this.searchFullMatch ? `"${term}"` : term;
             this.router.navigate(['/search'], {
