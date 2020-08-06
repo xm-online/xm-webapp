@@ -1,3 +1,9 @@
+export interface SelectDeepLinkOptions {
+    iconName: string;
+    iconColor: string;
+    privileges: string[];
+}
+
 export interface ExtSelectOptions {
     placeholder?: string;
     title?: string;
@@ -12,4 +18,5 @@ export interface ExtSelectOptions {
     htmlClass?: any;
     required?: boolean;
     emptyPlaceholder?: string;
+    link?: SelectDeepLinkOptions;
 }
