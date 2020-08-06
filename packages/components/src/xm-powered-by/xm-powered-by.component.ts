@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmUiConfigService } from '@xm-ngx/core';
-
-import { Principal } from '../../../../src/app/shared/auth';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 export interface PoweredBy {
     text?: string;
@@ -14,7 +12,7 @@ export interface PoweredBy {
 @Component({
     selector: 'xm-powered-by',
     template: `
-        <div class="xm-powered-by">
+        <div class="xm-powered-by" *ngIf="config">
             <div class="powered-by-text" *ngIf="config.text">
                 <span class="truncate">{{config.text | translate}}</span>
             </div>
@@ -31,18 +29,19 @@ export interface PoweredBy {
 })
 export class XmPoweredBy implements OnInit, OnDestroy {
 
-    public config: PoweredBy;
+    public config: PoweredBy | undefined;
 
     constructor(
-        public principal: Principal,
-        private xmUiConfigService: XmUiConfigService,
+        private xmUiConfigService: XmUiConfigService<{ poweredBy: PoweredBy }>,
     ) {
     }
 
     public ngOnInit(): void {
-        this.xmUiConfigService.config$().pipe(takeUntilOnDestroy(this)).subscribe((config) => {
-            this.config = (config && config.poweredBy) ? config.poweredBy : null;
-        });
+        this.xmUiConfigService.config$()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((config) => {
+                this.config = (config && config.poweredBy) ? config.poweredBy : null;
+            });
     }
 
     public ngOnDestroy(): void {
@@ -50,7 +49,9 @@ export class XmPoweredBy implements OnInit, OnDestroy {
     }
 
     public redirect(url: string): void | null {
-        if (!url) { return null }
+        if (!url) {
+            return null;
+        }
         window.open(url);
     }
 
