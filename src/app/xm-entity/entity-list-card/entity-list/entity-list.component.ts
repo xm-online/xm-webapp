@@ -70,9 +70,9 @@ export class EntityListComponent implements OnInit, OnDestroy {
         this.tableDataSource = this.createDataSource(this.item.entities);
 
         this.entityListActionSuccessSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS)
-            .subscribe( () => this.loadEntitiesPaged({}));
+            .subscribe( () => this.loadEntitiesPaged(this.item));
         this.entityEntityListModificationSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION)
-            .subscribe( () => this.loadEntitiesPaged({}));
+            .subscribe( () => this.loadEntitiesPaged(this.item));
 
         this.item.fields
             .filter((f) => f.field && f.field.startsWith('data.'))
@@ -94,7 +94,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
             startWith({}),
             switchMap(() => {
                 this.showLoader = true;
-                return this.loadEntitiesPaged({})
+                return this.loadEntitiesPaged(this.item)
             }),
             takeUntilOnDestroy(this),
         ).subscribe((list: Array<XmEntity>) => this.tableDataSource = new MatTableDataSource(list))
@@ -155,7 +155,6 @@ export class EntityListComponent implements OnInit, OnDestroy {
 
     protected loadEntitiesPaged(entityOptions: EntityOptions): Observable<XmEntity[]> {
         this.showLoader = true;
-
         const options: any = {
             typeKey: this.item.typeKey,
             page: this.paginator.pageIndex,

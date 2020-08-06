@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { LanguageModule } from '@xm-ngx/components/language';
@@ -19,6 +20,7 @@ import { XmNavbarLogoComponent } from './xm-navbar-logo.component';
 import { XmNavbarTitleComponent } from './xm-navbar-title.component';
 import { XmNavbarToggleComponent } from './xm-navbar-toggle.component';
 
+
 @NgModule({
     imports: [
         MatIconModule,
@@ -32,6 +34,7 @@ import { XmNavbarToggleComponent } from './xm-navbar-toggle.component';
         LanguageModule,
         MatMenuModule,
         NavbarGuestBackgroundModule,
+        MatInputModule,
     ],
     exports: [NavbarComponent],
     declarations: [
