@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
-import { XmJsonSchemeFormModule } from '@xm-ngx/json-scheme-form';
+import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
 import { ReCaptchaModule } from 'angular2-recaptcha';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
@@ -64,7 +64,7 @@ const PIPES = [XmEntityIconPipe];
 
 @NgModule({
     imports: [
-        XmJsonSchemeFormModule,
+        XmJsonSchemaFormModule,
         XmUserLoginWidgetModule,
         GateSharedLibsModule,
         ReCaptchaModule,
@@ -167,7 +167,7 @@ const PIPES = [XmEntityIconPipe];
         GooglePlaceModule,
         PIPES,
         XmUserLoginWidgetModule,
-        XmJsonSchemeFormModule,
+        XmJsonSchemaFormModule,
     ],
 
 })

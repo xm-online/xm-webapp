@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { LanguageModule } from '@xm-ngx/components/language';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmJsonSchemeFormModule } from '@xm-ngx/json-scheme-form';
+import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { UUID } from 'angular2-uuid';
@@ -164,7 +164,7 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
         MatFormFieldModule,
         MatSelectModule,
         CommonModule,
-        XmJsonSchemeFormModule,
+        XmJsonSchemaFormModule,
         MatButtonModule,
         LanguageModule,
         MatInputModule,

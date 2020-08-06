@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { JsonSchemaFormService } from '@ajsf/core';
+import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import { DatetimeUtcOptionsModel } from './datetime-utc-options.model';
 
 declare let moment: any;

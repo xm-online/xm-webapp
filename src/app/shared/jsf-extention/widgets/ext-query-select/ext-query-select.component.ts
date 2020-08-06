@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { JsonSchemaFormService } from '@ajsf/core';
+import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import * as _ from 'lodash';
 import { BehaviorSubject, iif, merge, Observable, of, ReplaySubject } from 'rxjs';
 import { catchError, debounceTime, filter, finalize, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';

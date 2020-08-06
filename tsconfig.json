@@ -30,6 +30,7 @@
       "@xm-ngx/core/permission": ["src/app/shared/privilege"],
       "@xm-ngx/alert": ["packages/xm-alert"],
       "@xm-ngx/json-scheme-form": ["src/app/shared/jsf-extention"],
+      "@xm-ngx/json-schema-form/*": ["packages/json-schema-form/*"],
       "@xm-ngx/toaster": ["src/app/shared/toaster"],
       "@xm-ngx/shared": ["src/app/modules/xm-shared"],
       "@xm-ngx/shared/interfaces/*": ["packages/shared/interfaces/src/*"],

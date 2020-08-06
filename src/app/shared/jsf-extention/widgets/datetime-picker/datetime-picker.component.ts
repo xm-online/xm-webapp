@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { JsonSchemaFormService } from '@ajsf/core';
+import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import { DateTimeAdapter, OwlDateTimeIntl } from 'ng-pick-datetime';
 
 import { ModulesLanguageHelper } from '@xm-ngx/components/language';

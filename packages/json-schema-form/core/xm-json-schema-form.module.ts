@@ -21,8 +21,8 @@ const _JsonSchemaFormModule = {
 };
 
 fixFlexLayout();
+
 @NgModule({
-    declarations: [],
     imports: [
         CommonModule,
         MaterialDesignFrameworkModule,
@@ -33,5 +33,4 @@ fixFlexLayout();
         JsonSchemaFormModule,
     ],
 })
-export class XmJsonSchemeFormModule {
-}
+export class XmJsonSchemaFormModule { }
