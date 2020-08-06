@@ -9,6 +9,7 @@ import {
     OnInit,
     ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { JsonSchemaFormComponent, JsonSchemaFormService } from '@ajsf/core';
@@ -18,7 +19,7 @@ import { filter, finalize, map, mergeMap, takeUntil, tap } from 'rxjs/operators'
 import { environment } from '@xm-ngx/core/environment';
 import { Principal } from '@xm-ngx/core/auth';
 import { I18nNamePipe } from '@xm-ngx/components/language';
-import { ExtSelectOptions } from './ext-select-options.model';
+import { ExtSelectOptions, SelectDeepLinkOptions } from './ext-select-options.model';
 import { ExtSelectService } from './ext-select-service';
 
 interface Element {
@@ -29,10 +30,28 @@ interface Element {
 @Component({
     selector: 'xm-ext-select-widget',
     templateUrl: 'ext-select.component.html',
+    styles: [
+            `
+            :host .deep-link {
+                vertical-align: middle;
+            }
+
+            :host .deep-link.disabled {
+                opacity: .2;
+                cursor:  not-allowed;
+            }
+
+            :host .deep-link.hidden {
+                display: none;
+            }
+        `,
+    ],
 })
 export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
-    public options: ExtSelectOptions;
 
+    public options: ExtSelectOptions;
+    public selectLinkOptions: SelectDeepLinkOptions;
+    public canSeeLink: boolean;
     public elements: any = [];
     public disabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public cacheOptionsUrl: string | null;
@@ -52,6 +71,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
         @Inject(forwardRef(() => JsonSchemaFormComponent)) private _parent: JsonSchemaFormComponent,
         private jsf: JsonSchemaFormService,
         private selectService: ExtSelectService,
+        private router: Router,
         private i18nNamePipe: I18nNamePipe,
         private changeDetectorRef: ChangeDetectorRef,
         private principal: Principal,
@@ -60,6 +80,8 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public ngOnInit(): void {
         this.options = this.layoutNode.options || {};
+        this.selectLinkOptions = this.options.link || null;
+        this.setCanSeeLink();
         if (!environment.production) {
             console.info('[dbg] initial -> %o', this.options);
         }
@@ -167,6 +189,16 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
         this.controlValue = event.value.value;
     }
 
+    public onNavigate(e: Event): void {
+        e.stopPropagation();
+        const entityObj = this.elementCtrl && this.elementCtrl['object'];
+        const navigationId = entityObj && entityObj.id;
+        const typeKey = entityObj && entityObj.typeKey;
+        if (navigationId && typeKey) {
+            this.router.navigate([`application/${typeKey}/${navigationId}`]);
+        }
+    }
+
     private filterElements(): void {
         if (!this.elements) {
             return;
@@ -229,5 +261,17 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private fetchOptions(options: any): Observable<any[]> {
         return this.selectService.fetchData(options);
+    }
+
+    private setCanSeeLink(): void {
+        const privileges = this.selectLinkOptions &&
+            this.selectLinkOptions.privileges &&
+            this.selectLinkOptions.privileges.length > 0;
+        if (privileges) {
+            this.principal.hasPrivileges(this.selectLinkOptions.privileges)
+                .then(result => this.canSeeLink = result);
+        } else {
+            this.canSeeLink = this.selectLinkOptions && typeof this.selectLinkOptions === 'object';
+        }
     }
 }
