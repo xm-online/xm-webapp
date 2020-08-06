@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { LanguageModule } from '@xm-ngx/components/language';
-import { XmJsonSchemeFormModule } from '@xm-ngx/json-scheme-form';
+import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { AceEditorModule } from '../../../../src/app/shared/directives/ace-editor.directive';
@@ -21,7 +21,7 @@ import { FormPlaygroundComponent } from './form-playground.component';
         CommonModule,
         MatCardModule,
         LanguageModule,
-        XmJsonSchemeFormModule,
+        XmJsonSchemaFormModule,
         ReactiveFormsModule,
         AceEditorModule,
     ],

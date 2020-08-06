@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { XmEventManager } from '@xm-ngx/core';
-import { JsonSchemaFormService } from '@ajsf/core';
+import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import { fromEvent as observableFromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CurrentLocationOptions } from './validation-component.model';
