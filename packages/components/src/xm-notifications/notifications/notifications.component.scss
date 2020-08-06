@@ -1,66 +1,81 @@
 @mixin transition($property: all, $duration: 0.3s, $ease: linear) {
-    -webkit-transition: $property $duration $ease;
-    -moz-transition:    $property $duration $ease;
-    -o-transition:      $property $duration $ease;
-    transition:         $property $duration $ease;
-}
-
-.xm-notifications-container {
-    margin-right: 0;
+  -webkit-transition: $property $duration $ease;
+  -moz-transition: $property $duration $ease;
+  -o-transition: $property $duration $ease;
+  transition: $property $duration $ease;
 }
 
 .xm-notifications {
-    width:    350px;
-    position: absolute !important;
+  .notifications-bell {
+    color: rgb(85, 85, 85);
+  }
+}
 
-    .notification-item {
-        position:      relative;
-        padding-right: 30px;
-        white-space:   normal;
+::ng-deep.xm-notification-menu {
+  min-width: 280px !important;
+  max-width: 340px !important;
+}
 
-        .close-notification {
-            position:      absolute;
-            right:         0;
-            top:           0;
-            width:         20px;
-            height:        20px;
-            line-height:   20px;
-            font-size:     20px;
-            text-align:    center;
-            margin:        9px 10px 0 0;
-            border-radius: 2px;
-            cursor:        pointer;
-            background:    transparent;
-            @include transition(background, 0.3s, ease-in);
+.xm-notification-item {
+  padding: 10px 30px 10px 16px;
+  height: auto;
+  line-height: 1.5;
+  white-space: normal;
 
-            &:hover {
-                background: rgba(#000, 0.1);
-            }
-        }
-    }
+  &.hasDate {
+    padding-bottom: 30px;
 
     .update-date {
-        font-size: 9px;
-        display:   block;
-        margin:    4px 0 0;
+      position: absolute;
+      left: 0;
+      bottom: 8px;
+      text-align: right;
+      width: 100%;
+      padding: 0 30px;
+      height: 20px;
+      line-height: 20px;
+      white-space: nowrap;
+      overflow: hidden;
     }
+  }
 
-    .notifications-actions {
-        border-top: 1px solid #ccc;
-        margin:     5px 0 -5px;
-        padding:    10px 5px;
+  &.show-all-link {
+    color: #555555;
+    font-size: 16px;
+    margin: 8px 0 0 0;
+    font-weight: normal;
+    border-top: 1px solid #ccc;
+    text-align: right;
+
+    &.empty-list{
+      margin: 0 0 0 0;
+      border-top: none;
     }
+  }
 
-    .show-all {
-        color:       #555555;
-        font-size:   16px;
-        margin:      5px 10px 0 0;
-        background:  none;
-        font-weight: normal;
+  .update-date {
+    font-size: 9px;
+    display: block;
+    margin: 4px 0 0;
+  }
 
-        &:hover, &:focus {
-            background: none;
-            box-shadow: none;
-        }
+  .close-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 20px;
+    text-align: center;
+    margin: 9px 10px 0 0;
+    border-radius: 2px;
+    cursor: pointer;
+    background: transparent;
+    @include transition(background, 0.3s, ease-in);
+
+    &:hover {
+      background: rgba(#000, 0.1);
     }
+  }
 }

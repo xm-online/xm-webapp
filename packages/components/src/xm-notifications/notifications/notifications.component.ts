@@ -14,6 +14,7 @@ import { Notification, NotificationUiConfig } from '../shared/notification.model
 import { NotificationsService } from '../shared/notifications.service';
 
 const DEFAULT_PRIVILEGES = ['XMENTITY.SEARCH', 'XMENTITY.SEARCH.QUERY', 'XMENTITY.SEARCH.TEMPLATE'];
+const DEF_NOTIFY_COUNT = 5;
 
 @Component({
     selector: 'xm-notifications',
@@ -82,7 +83,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             }
             if (this.config && this.config.autoUpdate && !this.autoUpdateEnabled && initAutoUpdate) {
                 this.autoUpdateEnabled = true;
-                // @TODO should be redone with webocets
+                // @TODO should be redone with web sockets
                 this.updateInterval = window.setInterval(() => {
                     if (this.principal.isAuthenticated()) {
                         this.getNotifications(this.config);
@@ -107,7 +108,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             .subscribe((resp) => {
                 this.notifications = resp;
                 this.redirectUrl = config.redirectUrl;
-                this.showCount = config.max ? config.max - 1 : 5;
+                this.showCount = config.max ? config.max - 1 : DEF_NOTIFY_COUNT;
             });
     }
 
