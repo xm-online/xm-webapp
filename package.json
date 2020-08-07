@@ -134,6 +134,7 @@
     "ngx-google-places-autocomplete": "2.0.4",
     "ngx-img-cropper": "8.0.1",
     "ngx-markdown": "8.2.1",
+    "ngx-mask": "9.1.2",
     "ngx-mat-select-search": "2.1.2",
     "ngx-papaparse": "4.0.4",
     "ngx-webstorage": "5.0.0",
