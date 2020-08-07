@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Spec, XmEntitySpec } from '@xm-ngx/entity';
-import { MATERIAL_ICONS } from '@xm-ngx/administration/specification-management/entity-spec-editor/material-icons';
-import { EntitySpecYamlService } from '@xm-ngx/administration/specification-management/entity-spec-editor/entity-spec-yaml.service';
 import { EditorUtils } from '@xm-ngx/administration/specification-management/entity-spec-editor/editor-utils';
+import { EntitySpecYamlService } from '@xm-ngx/administration/specification-management/entity-spec-editor/entity-spec-yaml.service';
+import { MATERIAL_ICONS } from '@xm-ngx/administration/specification-management/entity-spec-editor/material-icons';
+import { Spec, XmEntitySpec } from '@xm-ngx/entity';
 
 declare let YAML: any;
 
@@ -16,6 +16,7 @@ type Buffer = {
     selector: 'xm-entity-spec-editor',
     templateUrl: './entity-spec-editor.component.html',
     styleUrls: ['./entity-spec-editor.component.scss'],
+    providers: [EntitySpecYamlService],
 })
 export class EntitySpecEditorComponent extends EditorUtils implements OnInit {
 
@@ -74,7 +75,7 @@ export class EntitySpecEditorComponent extends EditorUtils implements OnInit {
     public onDataSpecChanged(entitySpec: XmEntitySpec, json: string): void {
         let bufferItem = this.buffer.find((bi) => bi.entitySpec === entitySpec);
         if (!bufferItem) {
-            bufferItem = {entitySpec};
+            bufferItem = { entitySpec };
             this.buffer.push(bufferItem);
         }
 
@@ -84,7 +85,7 @@ export class EntitySpecEditorComponent extends EditorUtils implements OnInit {
     public onDataFormChanged(entitySpec: XmEntitySpec, json: string): void {
         let bufferItem = this.buffer.find((bi) => bi.entitySpec === entitySpec);
         if (!bufferItem) {
-            bufferItem = {entitySpec};
+            bufferItem = { entitySpec };
             this.buffer.push(bufferItem);
         }
 
