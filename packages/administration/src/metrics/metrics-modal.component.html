@@ -1,6 +1,6 @@
 <!-- Modal used to display the threads dump -->
 <div mat-dialog-title>
-  <h3 class="modal-title text-left mt-0" jhiTranslate="metrics.jvm.threads.dump.title">Threads dump</h3>
+  <h3 class="modal-title text-left mt-0">{{'metrics.jvm.threads.dump.title'|translate}}</h3>
 </div>
 <div mat-dialog-content>
   <div class="row align-items-center no-gutters flex-nowrap mb-3">
@@ -70,8 +70,8 @@
       </div>
       <div class="col-auto">
         <a (click)="entry.show = !entry.show" href="javascript:void(0);">
-          <span [hidden]="entry.show" jhiTranslate="metrics.jvm.threads.dump.show">Show StackTrace</span>
-          <span [hidden]="!entry.show" jhiTranslate="metrics.jvm.threads.dump.hide">Hide StackTrace</span>
+          <span [hidden]="entry.show">{{'metrics.jvm.threads.dump.show'|translate}}</span>
+          <span [hidden]="!entry.show">{{'metrics.jvm.threads.dump.hide'|translate}}</span>
         </a>
       </div>
     </div>
@@ -88,11 +88,11 @@
       <table class="table table-sm">
         <thead>
         <tr>
-          <th class="text-right" jhiTranslate="metrics.jvm.threads.dump.blockedtime">Blocked Time</th>
-          <th class="text-right" jhiTranslate="metrics.jvm.threads.dump.blockedcount">Blocked Count</th>
-          <th class="text-right" jhiTranslate="metrics.jvm.threads.dump.waitedtime">Waited Time</th>
-          <th class="text-right" jhiTranslate="metrics.jvm.threads.dump.waitedcount">Waited Count</th>
-          <th jhiTranslate="metrics.jvm.threads.dump.lockname">Lock Name</th>
+          <th class="text-right">{{'metrics.jvm.threads.dump.blockedtime'|translate}}</th>
+          <th class="text-right">{{'metrics.jvm.threads.dump.blockedcount'|translate}}</th>
+          <th class="text-right">{{'metrics.jvm.threads.dump.waitedtime'|translate}}</th>
+          <th class="text-right">{{'metrics.jvm.threads.dump.waitedcount'|translate}}</th>
+          <th>{{'metrics.jvm.threads.dump.lockname'|translate}}</th>
         </tr>
         </thead>
         <tbody>

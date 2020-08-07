@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
-        <h4 class="card-title" jhiTranslate="userManagement.home.title">Users</h4>
+        <h4 class="card-title">{{'userManagement.home.title'|translate}}</h4>
       </div>
 
       <div class="card-body">
@@ -12,7 +12,7 @@
                   [class.disabled]="!currentSearch"
                   class="btn btn-primary btn-sm"
                   mat-button>
-            <span jhiTranslate="global.all">All</span>
+            <span>{{'global.all'|translate}}</span>
           </button>
           <button (click)="applySearchByRole(authority)"
                   *ngFor="let authority of authorities"
@@ -64,19 +64,19 @@
                  width="100%">
             <thead>
             <tr [(ascending)]="reverse" [(predicate)]="predicate" [callback]="transition.bind(this)" jhiSort>
-              <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-              <th jhiSortBy="logins"><span jhiTranslate="userManagement.logins">Logins</span> <span
+              <th jhiSortBy="id"><span>{{'global.field.id'|translate}}</span> <span class="fa fa-sort"></span></th>
+              <th jhiSortBy="logins"><span>{{'userManagement.logins'|translate}}</span> <span
                 class="fa fa-sort"></span></th>
               <th></th>
-              <th jhiSortBy="langKey"><span jhiTranslate="userManagement.langKey">Lang Key</span> <span
+              <th jhiSortBy="langKey"><span>{{'userManagement.langKey'|translate}}</span> <span
                 class="fa fa-sort"></span></th>
-              <th><span jhiTranslate="userManagement.role">Role</span></th>
-              <th jhiSortBy="createdDate"><span jhiTranslate="userManagement.createdDate">Created Date</span> <span
+              <th><span>{{'userManagement.role'|translate}}</span></th>
+              <th jhiSortBy="createdDate"><span>{{'userManagement.createdDate'|translate}}</span> <span
                 class="fa fa-sort"></span></th>
-              <th jhiSortBy="lastModifiedBy"><span jhiTranslate="userManagement.lastModifiedBy">Last Modified By</span>
+              <th jhiSortBy="lastModifiedBy"><span>{{'userManagement.lastModifiedBy'|translate}}</span>
                 <span class="fa fa-sort"></span></th>
               <th jhiSortBy="lastModifiedDate"><span
-                jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</span> <span
+               >{{'userManagement.lastModifiedDate'|translate}}</span> <span
                 class="fa fa-sort"></span></th>
               <th></th>
             </tr>

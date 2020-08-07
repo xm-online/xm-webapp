@@ -1,6 +1,6 @@
 <div mat-dialog-title>
   <h4 class="modal-title text-left">
-    <span jhiTranslate="xm-entity.attachment-detail-dialog.title">Add new attachment for the</span>
+    <span>{{'xm-entity.attachment-detail-dialog.title'|translate}}</span>
     [<b>{{xmEntity.name}}</b>]
   </h4>
 </div>
@@ -23,7 +23,7 @@
           </mat-option>
         </mat-select>
         <mat-error *ngIf="attachmentType.hasError('required')">
-          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+          <span>{{'xm-entity.common.validation.required'|translate}}</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -40,7 +40,7 @@
                required
                type="text">
         <mat-error *ngIf="attachmentName.hasError('required')">
-          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+          <span>{{'xm-entity.common.validation.required'|translate}}</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -60,7 +60,7 @@
 
     <div class="form-group text-center upload-area">
       <div *ngIf="!attachment.valueContentType">
-        <span jhiTranslate="xm-entity.attachment-detail-dialog.upload">Click to upload or drop file here</span>
+        <span>{{'xm-entity.attachment-detail-dialog.upload'|translate}}</span>
         <input (change)="setFileData($event, nameCtrl)" [accept]="acceptedFileTypes" id="uploadFile" type="file">
         <input [(ngModel)]="attachment.content.value" class="form-control" id="field_value" name="value" required
                type="hidden"/>
@@ -71,7 +71,7 @@
                type="hidden"/>
         <div [hidden]="!(attachmentForm.controls.value?.dirty && attachmentForm.controls.value?.invalid)">
           <small [hidden]="!attachmentForm.controls.value?.errors?.required" class="form-text text-danger">
-            <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+            <span>{{'xm-entity.common.validation.required'|translate}}</span>
           </small>
         </div>
       </div>
@@ -99,7 +99,7 @@
           data-dismiss="modal"
           mat-button
           type="button">
-    <span jhiTranslate="xm-entity.common.cancel">Cancel</span>
+    <span>{{'xm-entity.common.cancel'|translate}}</span>
   </button>
   <button [disabled]="attachmentForm.form.invalid || showLoader"
           class="btn"
@@ -107,6 +107,6 @@
           (click)="onConfirmSave()"
           mat-button
           type="submit">
-    <span jhiTranslate="xm-entity.common.save">Save</span>
+    <span>{{'xm-entity.common.save'|translate}}</span>
   </button>
 </div>

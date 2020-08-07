@@ -1,7 +1,6 @@
 <form class="m-0" name="editForm" role="form" novalidate action="" #editForm="ngForm">
   <div mat-dialog-title>
-    <h4 class="modal-title text-left" id="myUserLabel" jhiTranslate="clientManagement.home.createOrEditLabel">
-      Create or edit a Client</h4>
+    <h4 class="modal-title text-left" id="myUserLabel">{{'clientManagement.home.createOrEditLabel'|translate}}</h4>
   </div>
 
   <div mat-dialog-content>
@@ -19,10 +18,10 @@
                [disabled]="client.id"
                required>
         <mat-error *ngIf="clientClientId.hasError('required')">
-          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+          <span>{{'xm-entity.common.validation.required'|translate}}</span>
         </mat-error>
         <mat-error *ngIf="clientClientId.hasError('pattern')">
-          <span jhiTranslate="xm-entity.common.validation.pattern">This field does not match the rules</span>:&nbsp;&nbsp;<span
+          <span>{{'xm-entity.common.validation.pattern'|translate}}</span>:&nbsp;&nbsp;<span
           [innerHtml]="'^\s*[\w|\d]+\s*$'"></span>
         </mat-error>
         <mat-error *ngIf="clientClientId.invalid && clientIdNotUnique">
@@ -54,7 +53,7 @@
           </mat-option>
         </mat-select>
         <mat-error *ngIf="clientAuthority.hasError('required')">
-          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+          <span>{{'xm-entity.common.validation.required'|translate}}</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -70,9 +69,7 @@
                maxlength="9"
                placeholder="{{'clientManagement.validityPeriod' | translate}}">
         <mat-error *ngIf="clientValidityPeriod.hasError('pattern')">
-              <span jhiTranslate="xm-entity.common.validation.pattern">
-                This field does not match the rules
-              </span>:
+              <span>{{'xm-entity.common.validation.pattern'|translate}}</span>:
                      &nbsp;&nbsp;
           <span [innerHtml]="'^\d+$'"></span>
         </mat-error>
@@ -121,8 +118,7 @@
 
   <div mat-dialog-actions>
     <button mat-button type="button" class="btn mr-1 ml-auto" data-dismiss="modal" (click)="clear()">
-      <span class="fa fa-ban"></span>&nbsp;<span
-      jhiTranslate="entity.action.cancel">Cancel</span>
+      <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
     </button>
 
     <button mat-button
@@ -130,7 +126,7 @@
             type="submit"
             (click)="save()"
             [disabled]="editForm.form.invalid || showLoader">
-      <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+      <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
     </button>
   </div>
 </form>

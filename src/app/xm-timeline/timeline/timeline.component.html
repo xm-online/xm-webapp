@@ -1,7 +1,7 @@
 <div *ngIf="timelinePage && timelinePage.timelines?.length > 0" class="container-fluid">
 
   <div *ngIf="showTimelineHeader" class="header text-center">
-    <h3 class="title text-muted" jhiTranslate="xm-timeline.timeline.title">Timeline</h3>
+    <h3 class="title text-muted">{{'xm-timeline.timeline.title'|translate}}</h3>
   </div>
 
   <div>
@@ -14,7 +14,7 @@
                 [class.disabled]="!currentSearch"
                 class="btn btn-primary btn-sm"
                 mat-button>
-          <span jhiTranslate="global.all">All</span>
+          <span>{{'global.all'|translate}}</span>
         </button>
 
         <button (click)="applyFastSearch(item.state)"
@@ -40,17 +40,13 @@
           <div class="timeline-heading">
             <h6>
               {{tl.operationName}} {{timeAgo(tl.startDate)}}
-              <span jhiTranslate="xm-timeline.timeline.by">by</span>
+              <span>{{'xm-timeline.timeline.by'|translate}}</span>
               {{tl.login}}
             </h6>
             <span *ngIf="tl.httpStatusCode < 300" class="badge badge-success"
-                  jhiTranslate="xm-timeline.timeline.success">
-              SUCCESS
-            </span>
+                 >{{'xm-timeline.timeline.success'|translate}}</span>
             <span *ngIf="tl.httpStatusCode >= 300" class="badge badge-danger"
-                  jhiTranslate="xm-timeline.timeline.error">
-              ERROR
-            </span>&nbsp;
+                 >{{'xm-timeline.timeline.error'|translate}}</span>&nbsp;
             <span class="badge badge-primary">{{tl.startDate | date:'dd/MM/yy HH:mm'}}</span>&nbsp;
             <span class="badge badge-primary">{{tl.browser}}</span>&nbsp;
             <span class="badge badge-primary">{{tl.opSystem}}</span>&nbsp;
@@ -76,7 +72,7 @@
             [disabled]="showLoader"
             class="btn btn-primary rounded-circle"
             type="submit">
-      <span jhiTranslate="xm-timeline.timeline.more">more timeline events...</span>
+      <span>{{'xm-timeline.timeline.more'|translate}}</span>
     </button>
 
   </div>

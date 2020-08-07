@@ -20,8 +20,8 @@
       <thead>
       <tr>
         <th></th>
-        <th><span jhiTranslate="xm-entity.common.fields.name">Name</span></th>
-        <th><span jhiTranslate="xm-entity.common.fields.description">Description</span></th>
+        <th><span>{{'xm-entity.common.fields.name'|translate}}</span></th>
+        <th><span>{{'xm-entity.common.fields.description'|translate}}</span></th>
         <th></th>
       </tr>
       </thead>
@@ -38,7 +38,7 @@
         <td>{{xmEntity.description}}</td>
         <td>
           <button (click)="onAdd(xmEntity)" class="btn btn-primary rounded-circle btn-sm">
-            <span jhiTranslate="xm-entity.link-detail-dialog.add-link">add</span>
+            <span>{{'xm-entity.link-detail-dialog.add-link'|translate}}</span>
           </button>
         </td>
       </tr>
@@ -50,7 +50,7 @@
     <div class="col-sm-12 text-center">
       <button (click)="onShowMore()" *ngIf="searchXmEntities?.length < total" [disabled]="showLoader" class="btn btn-primary rounded-circle"
               mat-button>
-        <span jhiTranslate="xm-entity.link-detail-dialog.show-more">Show more</span>
+        <span>{{'xm-entity.link-detail-dialog.show-more'|translate}}</span>
       </button>
     </div>
   </div>
@@ -58,6 +58,6 @@
 
 <div mat-dialog-actions>
   <button (click)="onCancel()" class="btn ml-auto" data-dismiss="modal" mat-button type="button">
-    <span jhiTranslate="xm-entity.common.cancel">Cancel</span>
+    <span>{{'xm-entity.common.cancel'|translate}}</span>
   </button>
 </div>
