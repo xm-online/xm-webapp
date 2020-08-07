@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
-        <h4 class="card-title" jhiTranslate="clientManagement.home.title">Clients</h4>
+        <h4 class="card-title">{{'clientManagement.home.title'|translate}}</h4>
       </div>
 
       <div class="card-body">
@@ -47,21 +47,19 @@
                  style="width:100%">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-              <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-              <th jhiSortBy="clientId"><span jhiTranslate="clientManagement.clientId">Client Id</span> <span
+              <th jhiSortBy="id"><span>{{'global.field.id'|translate}}</span> <span class="fa fa-sort"></span></th>
+              <th jhiSortBy="clientId"><span>{{'clientManagement.clientId'|translate}}</span> <span
                 class="fa fa-sort"></span></th>
-              <th jhiSortBy="roleKey"><span jhiTranslate="clientManagement.roleKey">Role Key</span> <span
+              <th jhiSortBy="roleKey"><span>{{'clientManagement.roleKey'|translate}}</span> <span
                 class="fa fa-sort"></span></th>
-              <th><span jhiTranslate="clientManagement.description">Description</span></th>
-              <th jhiSortBy="createdBy"><span jhiTranslate="clientManagement.createdBy">Created By</span> <span
+              <th><span>{{'clientManagement.description'|translate}}</span></th>
+              <th jhiSortBy="createdBy"><span>{{'clientManagement.createdBy'|translate}}</span> <span
                 class="fa fa-sort"></span></th>
-              <th jhiSortBy="createdDate"><span jhiTranslate="clientManagement.createdDate">Created Date</span> <span
+              <th jhiSortBy="createdDate"><span>{{'clientManagement.createdDate'|translate}}</span> <span
                 class="fa fa-sort"></span></th>
-              <th jhiSortBy="lastModifiedBy"><span
-                jhiTranslate="clientManagement.lastModifiedBy">Last Modified By</span> <span class="fa fa-sort"></span>
+              <th jhiSortBy="lastModifiedBy"><span>{{'clientManagement.lastModifiedBy'|translate}}</span> <span class="fa fa-sort"></span>
               </th>
-              <th jhiSortBy="lastModifiedDate"><span
-                jhiTranslate="clientManagement.lastModifiedDate">Last Modified Date</span> <span
+              <th jhiSortBy="lastModifiedDate"><span>{{'clientManagement.lastModifiedDate'|translate}}</span> <span
                 class="fa fa-sort"></span></th>
               <th></th>
             </tr>

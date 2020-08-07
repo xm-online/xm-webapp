@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
-        <h4 class="card-title" jhiTranslate="rolesManagement.matrix.title">Role Matrix</h4>
+        <h4 class="card-title">{{'rolesManagement.matrix.title'|translate}}</h4>
       </div>
 
       <div class="card-body">
@@ -43,7 +43,7 @@
                             [(ngModel)]="sortBy.permitted_filter"
                             placeholder="{{'rolesManagement.permission.privilegeKey' | translate}}">
                   <mat-option *ngFor="let item of permittedFilter" [value]="item.value">
-                    <span *ngIf="item.trans" jhiTranslate="rolesManagement.permission.{{item.trans}}"></span>
+                    <span *ngIf="item.trans">{{'rolesManagement.permission.'+item.trans|translate}}</span>
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -58,14 +58,14 @@
                     [disabled]="!hasChanges"
                     class="btn btn-sm mat-button mr-1"
                     type="button">
-              <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+              <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
             </button>
             <button (click)="onSave()"
                     *permitted="'DASHBOARD.UPDATE'"
                     [disabled]="!hasChanges"
                     class="btn btn-primary btn-sm mat-button"
                     type="button">
-              <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+              <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
             </button>
           </div>
         </div>
@@ -88,10 +88,10 @@
             <thead>
             <tr [(ascending)]="reverse" [(predicate)]="predicate" [callback]="onTransition.bind(this, page)" jhiSort>
               <th jhiSortBy="privilegeKey">
-                <span jhiTranslate="rolesManagement.permission.privilegeKey">Privilege key</span>
+                <span>{{'rolesManagement.permission.privilegeKey'|translate}}</span>
                 <span class="fa fa-sort"></span></th>
               <th>{{'rolesManagement.permission.desc' | translate}}</th>
-              <th jhiSortBy="msName"><span jhiTranslate="rolesManagement.permission.msName">MS name</span>
+              <th jhiSortBy="msName"><span>{{'rolesManagement.permission.msName'|translate}}</span>
                 <span class="fa fa-sort"></span></th>
               <th *ngFor="let item of matrix?.roles; index as i" [ngClass]="'col-' + i" class="text-center">
                 <a (click)="onHideRole(item, i)"
@@ -150,14 +150,14 @@
                     [disabled]="!hasChanges"
                     class="btn btn-default btn-sm mat-button mr-1"
                     type="button">
-              <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+              <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
             </button>
             <button (click)="onSave()"
                     *permitted="'DASHBOARD.UPDATE'"
                     [disabled]="!hasChanges"
                     class="btn btn-primary btn-sm mat-button"
                     type="button">
-              <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+              <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
             </button>
           </div>
         </div>

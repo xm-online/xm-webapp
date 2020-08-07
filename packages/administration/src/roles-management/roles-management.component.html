@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
-        <h4 jhiTranslate="rolesManagement.home.title">Roles</h4>
+        <h4>{{'rolesManagement.home.title'|translate}}</h4>
       </div>
 
       <div class="card-body">
@@ -13,16 +13,16 @@
                    style="width:100%" width="100%">
               <thead>
               <tr [(ascending)]="reverse" [(predicate)]="predicate" [callback]="onTransition.bind(this)" jhiSort>
-                <th jhiSortBy="roleKey"><span jhiTranslate="rolesManagement.key">Key</span> <span
+                <th jhiSortBy="roleKey"><span>{{'rolesManagement.key'|translate}}</span> <span
                   class="fa fa-sort"></span></th>
-                <th><span jhiTranslate="rolesManagement.description">Description</span></th>
-                <th jhiSortBy="createdBy"><span jhiTranslate="rolesManagement.createdBy">Created by</span> <span
+                <th><span>{{'rolesManagement.description'|translate}}</span></th>
+                <th jhiSortBy="createdBy"><span>{{'rolesManagement.createdBy'|translate}}</span> <span
                   class="fa fa-sort"></span></th>
-                <th jhiSortBy="createdDate"><span jhiTranslate="rolesManagement.createdDate">Created Date</span> <span
+                <th jhiSortBy="createdDate"><span>{{'rolesManagement.createdDate'|translate}}</span> <span
                   class="fa fa-sort"></span></th>
-                <th jhiSortBy="updatedBy"><span jhiTranslate="rolesManagement.lastModifiedBy">Modified By</span> <span
+                <th jhiSortBy="updatedBy"><span>{{'rolesManagement.lastModifiedBy'|translate}}</span> <span
                   class="fa fa-sort"></span></th>
-                <th jhiSortBy="updatedDate"><span jhiTranslate="rolesManagement.lastModifiedDate">Modified Date</span>
+                <th jhiSortBy="updatedDate"><span>{{'rolesManagement.lastModifiedDate'|translate}}</span>
                   <span class="fa fa-sort"></span></th>
                 <th></th>
               </tr>

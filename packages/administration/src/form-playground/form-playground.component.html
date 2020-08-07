@@ -2,7 +2,7 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
-        <h4 class="card-title" jhiTranslate="formPlayground.definition">Definition</h4>
+        <h4 class="card-title">{{'formPlayground.definition'|translate}}</h4>
       </div>
       <div class="card-body">
         <div class="form-group">
@@ -77,7 +77,7 @@
                [autoUpdateContent]="true"
                (textChanged)="generateForm($event)"
                style="width:100%; overflow: auto; border: 1px solid lightgray;">
-            <span jhiTranslate="formPlayground.loading">(loading form specification...)</span>
+            <span>{{'formPlayground.loading'|translate}}</span>
           </div>
         </div>
 
@@ -87,7 +87,7 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
-        <h4 class="card-title" jhiTranslate="formPlayground.result"></h4>
+        <h4 class="card-title" >{{'formPlayground.result'|translate}}</h4>
       </div>
       <div class="card-body">
         <div *ngIf="!formActive">{{jsonFormStatusMessage}}</div>
@@ -113,23 +113,22 @@
     </div>
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
-        <h4 class="card-title" jhiTranslate="formPlayground.output"></h4>
+        <h4 class="card-title" >{{'formPlayground.output'|translate}}</h4>
       </div>
       <div class="card-body">
         <div>
-          <span jhiTranslate="formPlayground.valid">Valid?:</span>
+          <span>{{'formPlayground.valid'|translate}}</span>
           <strong *ngIf="formIsValid || prettyValidationErrors"
                   [class.text-success]="formIsValid"
                   [class.text-danger]="!formIsValid">
             {{formIsValid ? 'Yes' : 'No'}}
           </strong>
-          <span *ngIf="!formIsValid && !prettyValidationErrors" jhiTranslate="formPlayground.na">n/a</span>
-          <span *ngIf="prettyValidationErrors"
-                jhiTranslate="formPlayground.errors">— errors from validationErrors():</span>
+          <span *ngIf="!formIsValid && !prettyValidationErrors">{{'formPlayground.na'|translate}}</span>
+          <span *ngIf="prettyValidationErrors">{{'formPlayground.errors'|translate}}</span>
           <pre *ngIf="prettyValidationErrors" class="bg-danger">{{prettyValidationErrors}}</pre>
         </div>
         <div>
-          <span jhiTranslate="formPlayground.liveData">Live data — from onChanges():</span>
+          <span>{{'formPlayground.liveData'|translate}}</span>
           <pre
             [class.data-good]="!prettyValidationErrors && prettyLiveFormData !== '{}'"
             [class.data-bad]="prettyValidationErrors">{{prettyLiveFormData}}</pre>

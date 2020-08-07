@@ -4,7 +4,7 @@
 
     <div [hidden]="true" class="form-group">
       <label class="form-control-label" for="id">
-        <span jhiTranslate="xm-entity.common.fields.id">ID</span>
+        <span>{{'xm-entity.common.fields.id'|translate}}</span>
       </label>
       <input [(ngModel)]="xmEntity.id" class="form-control" id="id" name="id" readonly type="text"/>
     </div>
@@ -24,7 +24,7 @@
           </mat-option>
         </mat-select>
         <mat-error *ngIf="entityType.hasError('required')">
-          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+          <span>{{'xm-entity.common.validation.required'|translate}}</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -40,7 +40,7 @@
                required
                type="text">
         <mat-error *ngIf="entityName.hasError('required')">
-          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+          <span>{{'xm-entity.common.validation.required'|translate}}</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -72,13 +72,13 @@
   </div>
   <div mat-dialog-actions>
     <button (click)="onCancel()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
-      <span jhiTranslate="xm-entity.common.cancel">Cancel</span>
+      <span>{{'xm-entity.common.cancel'|translate}}</span>
     </button>
     <button [disabled]="entityForm.form.invalid || showLoader || !isJsonFormValid"
             color="primary"
             mat-button
             type="submit">
-      <span jhiTranslate="xm-entity.common.save">Save</span>
+      <span>{{'xm-entity.common.save'|translate}}</span>
     </button>
   </div>
 </form>

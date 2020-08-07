@@ -1,7 +1,7 @@
 <div>
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <h1 jhiTranslate="activate.title">Activation</h1>
+      <h1>{{'activate.title'|translate}}</h1>
 
       <div class="alert alert-success" *ngIf="success">
         <span [innerHTML]="'activate.messages.success' | translate"></span>
@@ -10,7 +10,7 @@
 
       <div class="alert alert-danger" *ngIf="error">
         <span [innerHTML]="'activate.messages.error' | translate"></span>&nbsp;
-        <a class="alert-link" (click)="register()" jhiTranslate="activate.messages.register">Register</a>.
+        <a class="alert-link" (click)="register()">{{'activate.messages.register'|translate}}</a>.
       </div>
 
     </div>

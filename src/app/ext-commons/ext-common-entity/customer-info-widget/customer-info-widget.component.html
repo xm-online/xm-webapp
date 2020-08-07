@@ -1,11 +1,11 @@
 <div class="card mb-5">
   <div class="card-header card-header-icon card-header-primary">
     <h4 class="card-title">
-      <span jhiTranslate="nemondo.widget.customerInfo.title"></span>
+      <span>{{'nemondo.widget.customerInfo.title'|translate}}</span>
       <span [ngSwitch]="state">
-        <span *ngSwitchCase="'ON-REVIEW'" jhiTranslate="nemondo.state.ON-REVIEW"></span>
-        <span *ngSwitchCase="'VIDEO-VERIFIED'" jhiTranslate="nemondo.state.VIDEO-VERIFIED"></span>
-        <span *ngSwitchCase="'UPDATE-NEEDED'" jhiTranslate="nemondo.state.UPDATE-NEEDED"></span>
+        <span *ngSwitchCase="'ON-REVIEW'">{{'nemondo.state.ON-REVIEW'|translate}}</span>
+        <span *ngSwitchCase="'VIDEO-VERIFIED'">{{'nemondo.state.VIDEO-VERIFIED'|translate}}</span>
+        <span *ngSwitchCase="'UPDATE-NEEDED'">{{'nemondo.state.UPDATE-NEEDED'|translate}}</span>
         <span *ngSwitchDefault></span>
       </span>
     </h4>
@@ -14,7 +14,7 @@
     <form (submit)="submitForm()" [formGroup]="form" name="customerInfoForm" novalidate>
       <div class="row">
         <div class="form-group col-md-4">
-          <label class="mb-0" for="firstName" jhiTranslate="global.form.firstname"></label>
+          <label class="mb-0" for="firstName">{{'global.form.firstname'|translate}}</label>
           <mat-form-field>
             <input formControlName="firstName"
                    id="firstName"
@@ -27,7 +27,7 @@
           </mat-form-field>
         </div>
         <div class="form-group col-md-4">
-          <label class="mb-0" for="lastName" jhiTranslate="global.form.lastname"></label>
+          <label class="mb-0" for="lastName">{{'global.form.lastname'|translate}}</label>
           <mat-form-field>
             <input formControlName="lastName"
                    id="lastName"
@@ -42,7 +42,7 @@
       </div>
       <div class="row">
         <div class="form-group col-md-4">
-          <label class="mb-0" for="countryCode" jhiTranslate="nemondo.countryCode"></label>
+          <label class="mb-0" for="countryCode">{{'nemondo.countryCode'|translate}}</label>
           <mat-form-field>
             <mat-select formControlName="countryCode"
                         id="countryCode"
@@ -58,7 +58,7 @@
           </mat-form-field>
         </div>
         <div class="form-group col-md-4">
-          <label class="mb-0" for="locality" jhiTranslate="nemondo.locality"></label>
+          <label class="mb-0" for="locality">{{'nemondo.locality'|translate}}</label>
           <mat-form-field>
             <input formControlName="locality"
                    id="locality"
@@ -71,7 +71,7 @@
           </mat-form-field>
         </div>
         <div class="form-group col-md-2">
-          <label class="mb-0" for="zip" jhiTranslate="nemondo.zip"></label>
+          <label class="mb-0" for="zip">{{'nemondo.zip'|translate}}</label>
           <mat-form-field>
             <input formControlName="zip"
                    id="zip"
@@ -87,7 +87,7 @@
       <div class="row">
         <div class="col-md-8">
           <div class="form-group">
-            <label for="address1" jhiTranslate="nemondo.address1"></label>
+            <label for="address1">{{'nemondo.address1'|translate}}</label>
             <mat-form-field>
               <input formControlName="address1"
                      id="address1"
@@ -100,7 +100,7 @@
             </mat-form-field>
           </div>
           <div class="form-group">
-            <label for="address2" jhiTranslate="nemondo.address2"></label>
+            <label for="address2">{{'nemondo.address2'|translate}}</label>
             <mat-form-field>
               <input formControlName="address2"
                      id="address2"
@@ -111,7 +111,7 @@
         </div>
         <div class="col-md-4">
           <div class="form-group">
-            <label for="phone" jhiTranslate="nemondo.phone"></label>
+            <label for="phone">{{'nemondo.phone'|translate}}</label>
             <mat-form-field>
               <input formControlName="phone"
                      id="phone"
@@ -123,7 +123,7 @@
             </mat-form-field>
           </div>
           <div *ngIf="showCurrencies" class="form-group">
-            <label for="localCurrency" jhiTranslate="nemondo.localCurrency"></label>
+            <label for="localCurrency">{{'nemondo.localCurrency'|translate}}</label>
             <mat-form-field>
               <mat-select formControlName="localCurrency"
                           id="localCurrency"
@@ -158,8 +158,8 @@
 <div *ngIf="uploadFileEnabled" class="card">
   <div class="card-header card-header-icon card-header-primary">
     <h4 class="card-title">
-      <span jhiTranslate="tsg.tsgAttachments"></span>
-      <small jhiTranslate="tsg.tsgAddAttachmentsDescription"></small>
+      <span>{{'tsg.tsgAttachments'|translate}}</span>
+      <small>{{'tsg.tsgAddAttachmentsDescription'|translate}}</small>
     </h4>
   </div>
   <div class="card-body">

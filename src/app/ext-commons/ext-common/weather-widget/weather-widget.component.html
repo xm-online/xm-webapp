@@ -66,11 +66,11 @@
 
         <div class="weather-condition">
           {{weather.atmosphere?.humidity}}%
-          <span class="weather-caption" jhiTranslate="ext-common.weather-widget.humidity">Humidity</span>
+          <span class="weather-caption">{{'ext-common.weather-widget.humidity'|translate}}</span>
         </div>
         <div class="weather-condition">{{weather.wind?.speed}}
-          <span jhiTranslate="ext-common.weather-widget.ms">m/s</span>
-          <span class="weather-caption" jhiTranslate="ext-common.weather-widget.wind-speed">Wind speed</span>
+          <span>>{{'ext-common.weather-widget.ms'|translate}}<</span>
+          <span class="weather-caption">{{'ext-common.weather-widget.wind-speed'|translate}}</span>
         </div>
       </div>
     </div>

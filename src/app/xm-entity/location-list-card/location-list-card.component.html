@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header card-header-icon card-header-primary">
-    <h4 class="card-title" jhiTranslate="xm-entity.location-list-card.title">Locations</h4>
+    <h4 class="card-title">{{'xm-entity.location-list-card.title'|translate}}</h4>
   </div>
   <div class="card-body">
     <div *ngIf="locations.length; else emptyTemplate"
@@ -15,8 +15,7 @@
              data-parent="#accordion"
              data-toggle="collapse"
              href="{{'#collapse-' + location.id}}"
-             role="button"
-          >
+             role="button">
             <h4 class="panel-title">
               <span class="row">
                 <span class="col">
@@ -40,8 +39,7 @@
         <div [attr.aria-labelledby]="'heading-' + location.id"
              class="collapse"
              id="{{'collapse-' + location.id}}"
-             role="tabpanel"
-        >
+             role="tabpanel">
           <h5 *ngIf="location" class="mt-4">{{getPrintAddress(location)}}</h5>
 
           <ng-container *ngIf="locationMaps.hasOwnProperty(location.id)">

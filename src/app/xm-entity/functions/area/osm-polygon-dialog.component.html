@@ -21,7 +21,7 @@
     <table class="table table-striped">
       <thead>
       <tr>
-        <th><span jhiTranslate="xm.xmEntity.name">Name</span></th>
+        <th><span>{{'xm.xmEntity.name'|translate}}</span></th>
         <th></th>
       </tr>
       </thead>
@@ -33,7 +33,7 @@
         </td>
         <td>
           <button (click)="addPolygon(rel)" class="btn btn-primary rounded-circle btn-sm">
-            <span jhiTranslate="xm-entity.common.add">Add</span>
+            <span>{{'xm-entity.common.add'|translate}}</span>
           </button>
         </td>
       </tr>
@@ -44,6 +44,6 @@
 
 <div mat-dialog-actions>
   <button (click)="clear()" class="btn ml-auto" data-dismiss="modal" mat-button type="button">
-    <span jhiTranslate="xm-entity.common.cancel">Cancel</span>
+    <span>{{'xm-entity.common.cancel'|translate}}</span>
   </button>
 </div>

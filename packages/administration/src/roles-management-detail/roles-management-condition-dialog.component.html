@@ -1,13 +1,13 @@
 <div mat-dialog-title>
   <h4 class="modal-title text-left">
-    <span *ngIf="isAddMode" jhiTranslate="rolesManagement.permission.createCondition">Create Condition</span>
-    <span *ngIf="!isAddMode" jhiTranslate="rolesManagement.permission.editCondition">Edit Condition</span>
+    <span *ngIf="isAddMode">{{'rolesManagement.permission.createCondition'|translate}}</span>
+    <span *ngIf="!isAddMode">{{'rolesManagement.permission.editCondition'|translate}}</span>
   </h4>
 </div>
 
 <div mat-dialog-content>
   <form #editForm="ngForm" (ngSubmit)="onSave()" class="m-0" name="deleteForm" novalidate>
-    <p jhiTranslate="{{transInfo}}"></p>
+    <p>{{transInfo|translate}}</p>
 
     <div class="form-group">
       <mat-form-field>
@@ -33,7 +33,7 @@
 
     <div>
       <label>
-        <span jhiTranslate="rolesManagement.variables">Variable(s)</span>:
+        <span>{{'rolesManagement.variables'|translate}}</span>:
         <span *ngFor="let item of variables; last as last">{{item}}<span *ngIf="!last">, </span></span>
       </label>
     </div>
@@ -42,9 +42,9 @@
 
 <div mat-dialog-actions>
   <button (click)="onCancel()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
-    <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+    <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
   </button>
   <button color="primary" (click)="onSave()" mat-button type="submit">
-    <i class="material-icons">done</i>&nbsp;<span jhiTranslate="rolesManagement.ok">Ok</span>
+    <i class="material-icons">done</i>&nbsp;<span>{{'rolesManagement.ok'|translate}}</span>
   </button>
 </div>

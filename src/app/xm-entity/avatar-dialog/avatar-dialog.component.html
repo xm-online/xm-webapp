@@ -1,5 +1,5 @@
 <div mat-dialog-title>
-  <h4 class="modal-title text-left" jhiTranslate="xm-entity.common.change-avatar">Change Avatar</h4>
+  <h4 class="modal-title text-left">{{'xm-entity.common.change-avatar'|translate}}</h4>
 </div>
 
 <div mat-dialog-content>
@@ -7,8 +7,8 @@
     <div class="fileinput fileinput-new text-center" data-provides="fileinput">
       <div>
         <span class="btn mat-button btn-primary rounded-circle btn-file">
-            <span class="fileinput-new" jhiTranslate="xm-entity.common.add-avatar">Add Avatar</span>
-            <span class="fileinput-exists" jhiTranslate="xm-entity.common.change-avatar">Change Avatar</span>
+            <span class="fileinput-new">{{'xm-entity.common.add-avatar'|translate}}</span>
+            <span class="fileinput-exists">{{'xm-entity.common.change-avatar'|translate}}</span>
             <input (change)="onFileChange($event)" name="..." type="file"/>
         </span>
       </div>
@@ -23,7 +23,7 @@
   <button (click)="onCancel()"
           class="btn mr-1 ml-auto"
           data-dismiss="modal" mat-button type="button">
-    <span jhiTranslate="xm-entity.common.cancel">Cancel</span>
+    <span>{{'xm-entity.common.cancel'|translate}}</span>
   </button>
 
   <button (click)="onSave()"
@@ -31,6 +31,6 @@
           color="primary"
           mat-button
           type="submit">
-    <span jhiTranslate="xm-entity.common.save">Save</span>
+    <span>{{'xm-entity.common.save'|translate}}</span>
   </button>
 </div>

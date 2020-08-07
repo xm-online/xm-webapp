@@ -27,7 +27,7 @@
             mat-button
             type="button">
       <span *ngIf="jsfAttributes?.entity?.closeName">{{jsfAttributes.entity.closeName | translate}}</span>
-      <span *ngIf="!jsfAttributes?.entity?.closeName" jhiTranslate="xm-entity.common.close">Close</span>
+      <span *ngIf="!jsfAttributes?.entity?.closeName">{{'xm-entity.common.close'|translate}}</span>
     </button>
   </div>
 
@@ -39,7 +39,7 @@
               mat-button
               type="button">
         <span *ngIf="jsfAttributes?.entity?.cancelName">{{jsfAttributes.entity.cancelName | translate}}</span>
-        <span *ngIf="!jsfAttributes?.entity?.cancelName" jhiTranslate="xm-entity.common.cancel">Cancel</span>
+        <span *ngIf="!jsfAttributes?.entity?.cancelName">{{'xm-entity.common.cancel'|translate}}</span>
       </button>
       <button [disabled]="(showLoader$ | async) || !isJsonFormValid"
               class="btn"

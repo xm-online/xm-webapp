@@ -1,6 +1,6 @@
 <div mat-dialog-title>
   <h4 class="modal-title text-left">
-    <span jhiTranslate="xm-entity.link-detail-dialog.add.title">Add new Link for the</span> [<b>{{xmEntity.name}}</b>]
+    <span>{{'xm-entity.link-detail-dialog.add.title'|translate}}</span> [<b>{{xmEntity.name}}</b>]
   </h4>
 </div>
 
@@ -12,14 +12,14 @@
               class="btn btn-primary btn-sm rounded-circle"
               mat-button
               type="button">
-        <span jhiTranslate="xm-entity.link-detail-dialog.add.build-type-new">New</span>
+        <span>{{'xm-entity.link-detail-dialog.add.build-type-new'|translate}}</span>
       </button>
       <button (click)="mode = 'SEARCH';"
               [disabled]="mode === 'SEARCH'"
               class="btn btn-primary btn-sm rounded-circle"
               mat-button
               type="button">
-        <span jhiTranslate="xm-entity.link-detail-dialog.add.build-type-search">Search</span>
+        <span>{{'xm-entity.link-detail-dialog.add.build-type-search'|translate}}</span>
       </button>
     </div>
   </div>
