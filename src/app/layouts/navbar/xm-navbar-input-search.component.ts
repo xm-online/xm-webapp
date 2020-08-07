@@ -1,16 +1,24 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { XmSessionService, XmUIConfig, XmUiConfigService } from '@xm-ngx/core';
+import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { iif, Observable, of } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
 
+interface SearchConfig {
+    search: {
+        searchFullMatch: boolean;
+        searchPanel: boolean;
+    }
+}
+
 @Component({
     selector: 'xm-navbar-input-search',
     template: `
-        <form (submit)="search($event, searchBox.value)" *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
+        <form (submit)="search($event, searchBox.value)"
+              *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
               class="d-none d-md-block xm-search-global"
               role="search">
 
@@ -35,13 +43,13 @@ import { filter, mergeMap, tap } from 'rxjs/operators';
 
 export class XmNavbarInputSearchComponent implements OnInit {
     public searchMask: string = '';
-    public isShowSearchPanel: boolean = true;
+    public isShowSearchPanel: boolean;
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
     private searchFullMatch: boolean = false;
 
     constructor(
         private router: Router,
-        private uiConfigService: XmUiConfigService<XmUIConfig>,
+        private uiConfigService: XmUiConfigService<SearchConfig>,
         private dashboardWrapperService: DashboardWrapperService,
         private location: Location,
         private xmSessionService: XmSessionService,
@@ -53,8 +61,12 @@ export class XmNavbarInputSearchComponent implements OnInit {
             filter((i) => Boolean(i)),
             takeUntilOnDestroy(this),
         ).subscribe((res) => {
-            this.searchFullMatch = res?.search?.searchFullMatch;
-            this.isShowSearchPanel = res?.search?.searchPanel || true;
+            if (!res.search) {
+                this.isShowSearchPanel = true;
+            } else {
+                this.searchFullMatch = res.search.searchFullMatch;
+                this.isShowSearchPanel = res.search.searchPanel;
+            }
         });
 
         this.router.events.pipe(takeUntilOnDestroy(this)).subscribe((event) => {

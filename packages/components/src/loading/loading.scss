@@ -21,13 +21,24 @@ $xm-loading-size:         1em !default;
   position:      absolute;
   width:         $xm-loading-size;
   height:        $xm-loading-size;
-  left:          50%;
   top:           50%;
   transform:     translate(-50%, -50%);
   border-radius: 50%;
   border-width:  $xm-loading-border-width;
   border-style:  solid;
   animation:     xm-loading-rotate-360 700ms linear infinite;
+}
+
+.xm-loading.xm-loading-start:after {
+  left: $xm-loading-size / 2;
+}
+
+.xm-loading.xm-loading-center:after {
+  left: 50%;
+}
+
+.xm-loading.xm-loading-end:after {
+  left: -$xm-loading-size / 2;
 }
 
 @mixin xm-loading-border-color($theme, $prop) {
@@ -40,11 +51,11 @@ $xm-loading-size:         1em !default;
 @mixin xm-loading-theme($theme) {
 
   .xm-loading-active {
-    @include xm-loading-border-color($theme, surface);
+    @include xm-loading-border-color($theme, on-surface);
   }
 
   .xm-loading-active.mat-unthemed {
-    @include xm-loading-border-color($theme, surface);
+    @include xm-loading-border-color($theme, on-surface);
   }
 
   .xm-loading-active.mat-primary {
