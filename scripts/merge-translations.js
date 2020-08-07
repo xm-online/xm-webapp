@@ -49,7 +49,6 @@ function moveCustomTranslationsToCoreFolder(pathMask) {
 }
 
 (function loadTranslates() {
-
     helpers.LANGUAGES.forEach(lang => {
         moveCustomTranslationsToCoreFolder(customPathMask(lang));
 
@@ -57,7 +56,9 @@ function moveCustomTranslationsToCoreFolder(pathMask) {
         const customTranslations = getTranslations(customPathMask(lang));
 
         const savePath = distPathMask(lang);
-        saveJson(savePath, _.merge(coreTranslations, customTranslations));
+        saveJson(savePath, _.mergeWith({}, coreTranslations, customTranslations, (a, b) => {
+            return (b === null || b === '') ? a : undefined
+        }));
         console.info('Updated: ', savePath);
     });
 })();
