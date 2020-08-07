@@ -21,6 +21,9 @@ import { WordAutocompleteModule } from '../../../../src/app/shared';
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
 import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
 import { RolesMgmtComponent } from './roles-management.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
     imports: [
@@ -43,6 +46,9 @@ import { RolesMgmtComponent } from './roles-management.component';
         MatCheckboxModule,
         MatTooltipModule,
         WordAutocompleteModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
     ],
     exports: [RolesMgmtComponent],
     declarations: [

@@ -1,88 +1,73 @@
-<div class="row mb-5">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header card-header-icon card-header-primary">
-        <h4 jhiTranslate="rolesManagement.home.title">Roles</h4>
-      </div>
+<div class="card mb-5">
+  <div class="card-header card-header-icon card-header-primary">
+    <h4>{{'rolesManagement.home.title' | translate}}</h4>
+  </div>
 
-      <div class="card-body">
-        <xm-loader [showLoader]="showLoader"></xm-loader>
-        <div *ngIf="roles?.length">
-          <div class="material-datatables table-responsive">
-            <table cellspacing="0" class="table table-striped table-no-bordered table-hover" id="datatables"
-                   style="width:100%" width="100%">
-              <thead>
-              <tr [(ascending)]="reverse" [(predicate)]="predicate" [callback]="onTransition.bind(this)" jhiSort>
-                <th jhiSortBy="roleKey"><span jhiTranslate="rolesManagement.key">Key</span> <span
-                  class="fa fa-sort"></span></th>
-                <th><span jhiTranslate="rolesManagement.description">Description</span></th>
-                <th jhiSortBy="createdBy"><span jhiTranslate="rolesManagement.createdBy">Created by</span> <span
-                  class="fa fa-sort"></span></th>
-                <th jhiSortBy="createdDate"><span jhiTranslate="rolesManagement.createdDate">Created Date</span> <span
-                  class="fa fa-sort"></span></th>
-                <th jhiSortBy="updatedBy"><span jhiTranslate="rolesManagement.lastModifiedBy">Modified By</span> <span
-                  class="fa fa-sort"></span></th>
-                <th jhiSortBy="updatedDate"><span jhiTranslate="rolesManagement.lastModifiedDate">Modified Date</span>
-                  <span class="fa fa-sort"></span></th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let item of roles">
-                <td><a [routerLink]="['/administration/role-management', item.roleKey]">{{item.roleKey}}</a></td>
-                <td>{{item.description}}</td>
-                <td>{{item.createdBy}}</td>
-                <td>{{item.createdDate | date}}</td>
-                <td>{{item.updatedBy}}</td>
-                <td>{{item.updatedDate | date}}</td>
-                <td class="text-right nowrap">
-                  <a (click)="onEdit(item)"
-                     *permitted="'ROLE.UPDATE'"
-                     href="javascript: void(0);">
-                    <i class="material-icons">edit</i>
-                  </a>
-                  <a (click)="onDelete(item)" *permitted="'ROLE.DELETE'"
-                     class="ml-1"
-                     href="javascript: void(0);">
-                    <i class="material-icons">close</i>
-                  </a>
-                  <!--<a [routerLink]="[{ outlets: { popup: 'role-management/'+ item.roleKey + '/edit'} }]"-->
-                  <!--replaceUrl="true" *permitted="'ROLE.UPDATE'">-->
-                  <!--<i class="material-icons">edit</i>-->
-                  <!--</a>-->
-                  <!--<a class="ml-1" [routerLink]="[{ outlets: { popup: 'role-management/'+ item.roleKey + '/delete'} }]"-->
-                  <!--replaceUrl="true" *permitted="'ROLE.DELETE'">-->
-                  <!--<i class="material-icons">close</i>-->
-                  <!--</a>-->
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="row align-items-center list-pagination">
-            <div class="col-auto mt-1 mb-1">
-              <xm-per-page (onChange)="onChangePerPage()" [(itemsPerPage)]="itemsPerPage"></xm-per-page>
+  <div class="card-body">
+    <xm-loader [showLoader]="showLoader"></xm-loader>
+    <div class="table-responsive">
+      <table [matSortDirection]="reverse ? 'asc' : 'desc'"
+             [matSortActive]="predicate"
+             [dataSource]="dataSource"
+             mat-table
+             matSort
+             class="table table-striped table-no-bordered table-hover">
+        <ng-container matColumnDef="roleKey">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'rolesManagement.key' | translate}}</th>
+          <td mat-cell *matCellDef="let role">
+            <a [routerLink]="['/administration/role-management', role.roleKey]">{{role.roleKey}}</a>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>{{'rolesManagement.description' | translate}}</th>
+          <td mat-cell *matCellDef="let role">
+            <div class="role-description">
+              {{role.description}}
             </div>
-            <div class="col-auto mt-1 mb-1">
-              <jhi-item-count [itemsPerPage]="itemsPerPage" [page]="page" [total]="totalItems"></jhi-item-count>
-            </div>
-            <div class="col-sm"></div>
-            <div class="col-auto mt-1 mb-1">
-              <ngb-pagination (pageChange)="onLoadPage($event)"
-                              [(page)]="page"
-                              [collectionSize]="totalItems"
-                              [maxSize]="5"
-                              [pageSize]="itemsPerPage">
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="createdBy">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'rolesManagement.createdBy' | translate}}</th>
+          <td mat-cell *matCellDef="let role"> {{role.createdBy}} </td>
+        </ng-container>
+        <ng-container matColumnDef="createdDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'rolesManagement.createdDate' | translate}}</th>
+          <td mat-cell *matCellDef="let role"> {{role.createdDate | date}} </td>
+        </ng-container>
+        <ng-container matColumnDef="updatedBy">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'rolesManagement.lastModifiedBy' | translate}}</th>
+          <td mat-cell *matCellDef="let role"> {{role.updatedBy}} </td>
+        </ng-container>
+        <ng-container matColumnDef="updatedDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'rolesManagement.lastModifiedDate' | translate}}</th>
+          <td mat-cell *matCellDef="let role"> {{role.updatedDate | date}} </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let role">
+            <div class="d-flex flex-nowrap align-items-center">
+              <button mat-icon-button
+                      *permitted="'ROLE.UPDATE'"
+                      (click)="onEdit(role)">
+                <mat-icon>edit</mat-icon>
+              </button>
 
-              </ngb-pagination>
+              <button mat-icon-button
+                      *permitted="'ROLE.DELETE'"
+                      (click)="onDelete(role)">
+                <mat-icon>close</mat-icon>
+              </button>
             </div>
-          </div>
-        </div>
+          </td>
+        </ng-container>
 
-        <no-data [show]="!roles?.length"></no-data>
-      </div>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSize]="itemsPerPage" [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
     </div>
+
+    <no-data [show]="!dataSource?.data.length > 0 && !showLoader"></no-data>
   </div>
 </div>
 
@@ -91,6 +76,6 @@
           *permitted="'ROLE.CREATE'"
           class="btn btn-primary btn-icon btn-just-icon rounded-circle btn-lg"
           mat-button>
-    <i class="material-icons">add</i>
+    <mat-icon>add</mat-icon>
   </button>
 </div>

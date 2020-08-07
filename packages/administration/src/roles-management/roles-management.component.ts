@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -11,32 +11,46 @@ import { Role } from '../../../../src/app/shared/role/role.model';
 import { RoleService } from '../../../../src/app/shared/role/role.service';
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
 import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
+import { MatTableDataSource } from "@angular/material/table";
+import { MatSort } from "@angular/material/sort";
+import { MatPaginator } from "@angular/material/paginator";
 
 @Component({
     selector: 'xm-roles-mgmt',
     templateUrl: './roles-management.component.html',
     providers: [JhiOrderByPipe],
+    styles: [`
+        :host .role-description {
+            max-width: 300px;
+            min-width: 300px;
+        }
+    `]
 })
 export class RolesMgmtComponent implements OnInit, OnDestroy {
 
-    public roles: Role[];
-    public rolesAll: Role[];
-    public totalItems: any;
-    public queryCount: any;
-    public itemsPerPage: any;
-    public previousPage: any;
-    public page: any = 1;
-    public predicate: any = 'roleKey';
+    public itemsPerPage: 10 | 20 | 50;
+    public predicate: string = 'roleKey';
     public reverse: boolean = true;
     public showLoader: boolean;
     private eventSubscriber: Subscription;
+    public displayedColumns: string[] = [
+        'roleKey',
+        'description',
+        'createdBy',
+        'createdDate',
+        'updatedBy',
+        'updatedDate',
+        'actions',
+    ];
+    public dataSource: MatTableDataSource<Role> = new MatTableDataSource<Role>([]);
+    @ViewChild(MatSort, {static: true}) public sort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
 
     constructor(
         private roleService: RoleService,
         private alertService: XmToasterService,
         private principal: Principal,
         private eventManager: XmEventManager,
-        private orderByPipe: JhiOrderByPipe,
         private modalService: MatDialog,
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -45,6 +59,8 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.principal.identity().then(() => {
+            this.dataSource.sort = this.sort;
+            this.dataSource.paginator = this.paginator;
             this.loadAll();
         });
     }
@@ -58,41 +74,11 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         this.roleService.getRoles()
             .subscribe(
                 (result) => {
-                    this.rolesAll = this.orderByPipe.transform(result, this.predicate, !this.reverse);
-                    this.queryCount = this.totalItems = result.length;
-                    if (this.page > 1) {
-                        const length = parseInt(this.queryCount / this.itemsPerPage + '', 10)
-                            + (this.queryCount % this.itemsPerPage ? 1 : 0);
-                        if (this.page > length) {
-                            this.page = length;
-                            this.previousPage = null;
-                        }
-                    }
-                    this.roles = this.getItemsByPage(this.page);
+                    this.dataSource.data = result;
                 },
                 (res: Response) => this.onError(res),
                 () => this.showLoader = false,
             );
-    }
-
-    public onLoadPage(page: number): void {
-        this.page = page;
-        if (page !== this.previousPage) {
-            this.previousPage = page;
-            this.roles = this.getItemsByPage(page);
-            // TODO:
-            //  this.transition();
-        }
-    }
-
-    public onTransition(): void {
-        this.rolesAll = this.orderByPipe.transform(this.rolesAll, this.predicate, !this.reverse);
-        this.roles = this.getItemsByPage(this.page);
-    }
-
-    public onChangePerPage(): void {
-        this.previousPage = null;
-        this.onLoadPage(this.page);
     }
 
     public onAdd(): void {
@@ -111,12 +97,6 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
 
     private registerChangeInRoles(): void {
         this.eventSubscriber = this.eventManager.subscribe('roleListModification', () => this.loadAll());
-    }
-
-    private getItemsByPage(page: number): Role[] {
-        const startPos = (page - 1) * this.itemsPerPage;
-        const endPos = startPos + this.itemsPerPage;
-        return this.rolesAll.slice(startPos, endPos);
     }
 
     private onError(resp: any): void {
