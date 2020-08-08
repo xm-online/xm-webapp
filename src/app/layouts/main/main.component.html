@@ -6,7 +6,7 @@
 <xm-loader [absolute]="true" routerLoading></xm-loader>
 
 <div class="heatmap-container-wrapper">
-  <div id="heatmapContainer" class="hidden-heatmap">
+  <div class="hidden-heatmap" id="heatmapContainer">
     <div [class.xm-guest-layout]="isGuestLayout"
          class="wrapper">
 
@@ -18,11 +18,11 @@
 
       <div *ngIf="resolved$ | async" class="main-panel xm-main-panel" id="main">
 
-        <xm-navbar></xm-navbar>
+        <xm-navbar class="mb-3"></xm-navbar>
 
         <div [ngClass]="isGuestLayout ? 'container' : 'container-fluid'"
-             xmRouteChangeAnimation
-             class="main-content xm-main-content">
+             class="main-content xm-main-content"
+             xmRouteChangeAnimation>
           <router-outlet></router-outlet>
         </div>
 

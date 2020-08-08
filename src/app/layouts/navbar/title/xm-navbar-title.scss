@@ -1,0 +1,13 @@
+@import 'theme';
+
+:host {
+  display:     flex;
+  align-items: center;
+}
+
+.title-part {
+  display:   inline-block;
+  font-size: map-get($xm-title, font-size);
+  position:  relative;
+  @include truncate(300px);
+}

@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
-import { IHelpNavLink } from '../../account';
+import { IHelpNavLink } from '../../../account';
 
 @Component({
     selector: 'xm-navbar-help-link',
@@ -17,7 +17,7 @@ import { IHelpNavLink } from '../../account';
             </a>
         </div>
     `,
-    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./xm-navbar-help-link.scss'],
 })
 export class XmNavbarHelpLink implements OnInit {
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
@@ -32,7 +32,9 @@ export class XmNavbarHelpLink implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.xmUiConfigService.config$().pipe(takeUntilOnDestroy(this)).subscribe((config) => {
+        this.xmUiConfigService.config$()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((config) => {
             this.helpConfig = config.helpConfig || null;
         });
     }

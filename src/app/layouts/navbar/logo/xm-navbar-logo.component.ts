@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
 import { environment } from '@xm-ngx/core/environment';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { DEBUG_INFO_ENABLED } from '../../xm.constants';
+import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 
 @Component({
     selector: 'xm-navbar-logo-component',
@@ -12,12 +12,12 @@ import { DEBUG_INFO_ENABLED } from '../../xm.constants';
         <div class="xm-nav-logo">
             <a [routerLink]="(isSessionActive$ | async) ? '/dashboard' : '/'"
                class="row flex-nowrap no-gutters align-items-center">
-                <span *ngIf="tenantLogoUrl" class="col"><img [src]="tenantLogoUrl" [alt]="tenantName"/></span>
-                <span class="col-auto"><strong class="logo-text">{{tenantName}}</strong></span>
+                <span *ngIf="tenantLogoUrl" class="col"><img class="logo-img" [src]="tenantLogoUrl" [alt]="tenantName"/></span>
+                <span class="col-auto"><h5 class="logo-text d-none d-md-inline mx-2 my-0">{{tenantName}}</h5></span>
             </a>
         </div>
     `,
-    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./xm-nav-logo.scss'],
 })
 export class XmNavbarLogoComponent implements OnInit, OnDestroy {
     public tenantLogoUrl: string = '../assets/img/logo-xm-online.png';

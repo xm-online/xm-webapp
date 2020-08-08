@@ -1,11 +1,11 @@
 $xm-logo-font-weight:     400 !default;
-$xm-logo-icon-size:       42px !default;
+$xm-logo-icon-size:       40px !default;
 $xm-logo-icon-size-x:     $xm-logo-icon-size !default;
 $xm-logo-icon-size-y:     $xm-logo-icon-size !default;
 $xm-logo-title-font-size: 18px !default;
 $xm-logo-sidebar-color:   inherit !default;
 $xm-logo-padding-x:       12px !default;
-$xm-logo-padding-y:       15px !default;
+$xm-logo-padding-y:       0.75rem !default;
 
 :host {
   display:        flex;

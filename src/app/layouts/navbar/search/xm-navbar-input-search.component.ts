@@ -19,7 +19,7 @@ interface SearchConfig {
     template: `
         <form (submit)="search($event, searchBox.value)"
               *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
-              class="d-none d-md-block xm-search-global"
+              class="d-none d-md-flex flex-row xm-search-global"
               role="search">
 
             <mat-form-field floatLabel="never">
