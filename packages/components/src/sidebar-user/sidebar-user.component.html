@@ -14,27 +14,25 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="menu$ | async as menu">
-  <!-- menu -->
-  <ul [@bodyExpansion]="getState()"
-      [ngClass]="getState()"
-      class="menu-list">
-    <ng-container *ngFor="let item of menu">
-      <li
-        *permitted="item.permission"
-        [item]="item"
-        class="menu-item"
-        xm-menu-link>
-      </li>
-    </ng-container>
-    <!--  logout available for all users -->
+<!-- menu -->
+<ul [@bodyExpansion]="getState()"
+    [ngClass]="getState()"
+    class="menu-list">
+  <ng-container *ngFor="let item of menu$ | async as menu">
     <li
-      [item]="logoutControl"
+      *permitted="item.permission"
+      [item]="item"
       class="menu-item"
       xm-menu-link>
     </li>
-  </ul>
-  <!-- ./menu -->
-</ng-container>
+  </ng-container>
+  <!--  logout is available for all users -->
+  <li
+    [item]="logoutControl"
+    class="menu-item"
+    xm-menu-link>
+  </li>
+</ul>
+<!-- ./menu -->
 
 
