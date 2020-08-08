@@ -12,13 +12,13 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDynamicModule } from '../../../../packages/xm-dynamic/src/xm-dynamic.module';
 import { InputModule } from '../../shared/directives/input.module';
 import { NavbarComponent } from './navbar.component';
-import { XmNavbarArrowBackComponent } from './xm-navbar-arrow-back.component';
-import { XmNavbarHelpLink } from './xm-navbar-help-link';
-import { XmNavbarInputSearchComponent } from './xm-navbar-input-search.component';
-import { XmNavbarLanguageMenuComponent } from './xm-navbar-language-menu.component';
-import { XmNavbarLogoComponent } from './xm-navbar-logo.component';
-import { XmNavbarTitleComponent } from './xm-navbar-title.component';
-import { XmNavbarToggleComponent } from './xm-navbar-toggle.component';
+import { XmNavbarArrowBackComponent } from './back/xm-navbar-arrow-back.component';
+import { XmNavbarHelpLink } from './help/xm-navbar-help-link';
+import { XmNavbarInputSearchComponent } from './search/xm-navbar-input-search.component';
+import { XmNavbarLanguageMenuComponent } from './language/xm-navbar-language-menu.component';
+import { XmNavbarLogoComponent } from './logo/xm-navbar-logo.component';
+import { XmNavbarTitleComponent } from './title/xm-navbar-title.component';
+import { XmNavbarToggleComponent } from './toggle/xm-navbar-toggle.component';
 
 
 @NgModule({
