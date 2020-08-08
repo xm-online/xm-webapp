@@ -1,4 +1,4 @@
-<div *ngIf="jsfAttributes?.schema" class="card">
+<mat-card *ngIf="jsfAttributes?.schema" class="card">
   <div *ngIf="jsfAttributes?.entity?.formHeaderTitle &&
               jsfAttributes?.entity?.formHeaderIconName; then
               hasHeaderConfig else
@@ -19,7 +19,7 @@
                       [widgets]="jsfAttributes.widgets">
     </json-schema-form>
   </div>
-</div>
+</mat-card>
 
 <ng-template #hasHeaderConfig>
   <div class="card-header card-header-icon card-header-primary">

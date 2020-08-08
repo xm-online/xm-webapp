@@ -2,6 +2,7 @@ import { NgModule, Type } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,25 +21,26 @@ import { ClientMgmtDialogComponent } from './client-management-dialog.component'
 import { ClientMgmtComponent } from './client-management.component';
 
 @NgModule({
-    imports: [
-        MatFormFieldModule,
-        FormsModule,
-        MatButtonModule,
-        MatInputModule,
-        XmTranslationModule,
-        LoaderModule,
-        NgbPaginationModule,
-        NoDataModule,
-        NgJhipsterModule,
-        PerPageModule,
-        MatIconModule,
-        MatDialogModule,
-        MatSelectModule,
-        MatChipsModule,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        XmPermissionModule,
-    ],
+  imports: [
+    MatFormFieldModule,
+    FormsModule,
+    MatButtonModule,
+    MatInputModule,
+    XmTranslationModule,
+    LoaderModule,
+    NgbPaginationModule,
+    NoDataModule,
+    NgJhipsterModule,
+    PerPageModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatChipsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    XmPermissionModule,
+    MatCardModule,
+  ],
     exports: [ClientMgmtComponent],
     declarations: [ClientMgmtComponent, ClientMgmtDeleteDialogComponent, ClientMgmtDialogComponent],
     providers: [],

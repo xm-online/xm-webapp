@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
@@ -25,27 +26,28 @@ import { MatListModule } from '@angular/material/list';
 import { MultiLanguageModuleModule } from '@xm-ngx/components/xm-multilanguage/xm-multi-language.module';
 
 @NgModule({
-    imports: [
-        XmTranslationModule,
-        RouterModule,
-        CommonModule,
-        AceEditorModule,
-        MatButtonModule,
-        MatIconModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatTooltipModule,
-        MatFormFieldModule,
-        MatExpansionModule,
-        MatMenuModule,
-        MatSelectModule,
-        MatCheckboxModule,
-        MatDividerModule,
-        MatListModule,
-        StatesManagementDialogModule,
-        MultiLanguageModuleModule,
-    ],
+  imports: [
+    XmTranslationModule,
+    RouterModule,
+    CommonModule,
+    AceEditorModule,
+    MatButtonModule,
+    MatIconModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatExpansionModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatDividerModule,
+    MatListModule,
+    StatesManagementDialogModule,
+    MultiLanguageModuleModule,
+    MatCardModule,
+  ],
     exports: [SpecificationManagementComponent],
     declarations: [
         SpecificationManagementComponent,

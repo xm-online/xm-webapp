@@ -1,4 +1,4 @@
-<div [ngSwitch]="list?.length === 1" class="card has-refresh-button">
+<mat-card [ngSwitch]="list?.length === 1" class="card has-refresh-button">
   <!-- start header for the multi entities types -->
   <div *ngSwitchCase="false" class="card-header card-header-tabs card-header-primary">
     <ul [class.xm-disabled]="showLoader" class="nav nav-tabs" data-tabs="tabs">
@@ -45,4 +45,4 @@
       </div>
     </div>
   </div>
-</div>
+</mat-card>

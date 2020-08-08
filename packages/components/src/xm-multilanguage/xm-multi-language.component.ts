@@ -38,7 +38,7 @@ interface IComponent<V, O> extends IValue<V>, IOptions<O> {
             <mat-icon *ngIf="options.feedback" [matTooltip]="options.feedback | translate">help</mat-icon>
         </mat-label>
 
-        <mat-button-toggle-group appearance="legacy" [(ngModel)]="selectedLng">
+        <mat-button-toggle-group [(ngModel)]="selectedLng">
             <mat-button-toggle *ngFor="let k of languages" [value]="k">{{k}}</mat-button-toggle>
         </mat-button-toggle-group>
 

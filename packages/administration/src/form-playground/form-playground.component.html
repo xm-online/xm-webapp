@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-6">
-    <div class="card">
+    <mat-card class="card">
       <div class="card-header card-header-icon card-header-primary">
         <h4 class="card-title">{{'formPlayground.definition'|translate}}</h4>
       </div>
@@ -82,10 +82,11 @@
         </div>
 
       </div>
-    </div>
+    </mat-card>
   </div>
+
   <div class="col-md-6">
-    <div class="card">
+    <mat-card class="card">
       <div class="card-header card-header-icon card-header-primary">
         <h4 class="card-title" >{{'formPlayground.result'|translate}}</h4>
       </div>
@@ -110,8 +111,8 @@
           </json-schema-form>
         </div>
       </div>
-    </div>
-    <div class="card">
+    </mat-card>
+    <mat-card class="card">
       <div class="card-header card-header-icon card-header-primary">
         <h4 class="card-title" >{{'formPlayground.output'|translate}}</h4>
       </div>
@@ -134,7 +135,7 @@
             [class.data-bad]="prettyValidationErrors">{{prettyLiveFormData}}</pre>
         </div>
       </div>
-    </div>
+    </mat-card>
   </div>
 </div>
 
