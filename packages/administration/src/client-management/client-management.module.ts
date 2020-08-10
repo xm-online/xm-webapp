@@ -18,6 +18,9 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dialog.component';
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';
 import { ClientMgmtComponent } from './client-management.component';
+import { MatTableModule } from "@angular/material/table";
+import { MatSortModule } from "@angular/material/sort";
+import { MatPaginatorModule } from "@angular/material/paginator";
 
 @NgModule({
     imports: [
@@ -38,6 +41,9 @@ import { ClientMgmtComponent } from './client-management.component';
         ReactiveFormsModule,
         MatAutocompleteModule,
         XmPermissionModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
     ],
     exports: [ClientMgmtComponent],
     declarations: [ClientMgmtComponent, ClientMgmtDeleteDialogComponent, ClientMgmtDialogComponent],
