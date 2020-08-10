@@ -51,7 +51,7 @@ $xm-menu-icon-color:        #a9afbb !default;
 
   .menu-list {
     list-style-type: none;
-
+    overflow:        hidden;
     // TODO: override default ul styles
     padding-left:    $xm-menu-list-padding-left;
     margin-bottom:   0;
