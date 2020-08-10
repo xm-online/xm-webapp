@@ -67,7 +67,7 @@
       <mat-paginator [pageSize]="itemsPerPage" [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
     </div>
 
-    <no-data [show]="!dataSource?.data.length > 0 && !showLoader"></no-data>
+    <no-data [show]="!(dataSource?.data.length > 0) && !showLoader"></no-data>
   </div>
 </mat-card>
 

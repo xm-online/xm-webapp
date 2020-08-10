@@ -101,7 +101,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
-      <no-data [show]="!dataSource?.data.length > 0 && !showLoader"></no-data>
+      <no-data [show]="!(dataSource?.data.length > 0) && !showLoader"></no-data>
 
       <mat-paginator [length]="totalItems"
                      [pageSize]="itemsPerPage"
