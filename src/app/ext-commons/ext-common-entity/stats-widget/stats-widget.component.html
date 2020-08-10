@@ -1,6 +1,6 @@
 <div class="row">
   <div *ngFor="let item of stats" class="col-lg-3 col-md-6 col-sm-6">
-    <div class="card card-stats">
+    <mat-card class="card card-stats">
       <div class="card-header card-header-secondary card-header-icon">
         <div [attr.data-background-color]="item.color" class="card-icon">
           <i class="material-icons">{{item.icon}}</i>
@@ -9,6 +9,6 @@
         <h3 class="card-title">{{item.value | async}}</h3>
       </div>
       <div class="card-footer"></div>
-    </div>
+    </mat-card>
   </div>
 </div>

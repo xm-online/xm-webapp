@@ -1,6 +1,7 @@
 import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,27 +24,28 @@ import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
 import { RolesMgmtComponent } from './roles-management.component';
 
 @NgModule({
-    imports: [
-        LoaderModule,
-        XmTranslationModule,
-        NgJhipsterModule,
-        RouterModule,
-        NgbPaginationModule,
-        PerPageModule,
-        NoDataModule,
-        MatButtonModule,
-        XmPermissionModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormsModule,
-        MatSelectModule,
-        MatSlideToggleModule,
-        MatIconModule,
-        MatCheckboxModule,
-        MatTooltipModule,
-        WordAutocompleteModule,
-    ],
+  imports: [
+    LoaderModule,
+    XmTranslationModule,
+    NgJhipsterModule,
+    RouterModule,
+    NgbPaginationModule,
+    PerPageModule,
+    NoDataModule,
+    MatButtonModule,
+    XmPermissionModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    WordAutocompleteModule,
+    MatCardModule,
+  ],
     exports: [RolesMgmtComponent],
     declarations: [
         RolesMgmtComponent,

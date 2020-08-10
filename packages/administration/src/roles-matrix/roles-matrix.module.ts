@@ -1,5 +1,6 @@
 import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,22 +17,23 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { RolesMatrixComponent } from './roles-matrix.component';
 
 @NgModule({
-    imports: [
-        LoaderModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        FormsModule,
-        XmTranslationModule,
-        MatInputModule,
-        NgJhipsterModule,
-        MatSlideToggleModule,
-        MatCheckboxModule,
-        MatIconModule,
-        NgbPaginationModule,
-        PerPageModule,
-        MatTooltipModule,
-        XmPermissionModule,
-    ],
+  imports: [
+    LoaderModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    XmTranslationModule,
+    MatInputModule,
+    NgJhipsterModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    MatIconModule,
+    NgbPaginationModule,
+    PerPageModule,
+    MatTooltipModule,
+    XmPermissionModule,
+    MatCardModule,
+  ],
     exports: [RolesMatrixComponent],
     declarations: [RolesMatrixComponent],
     providers: [],
