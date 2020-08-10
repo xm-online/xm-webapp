@@ -11,7 +11,7 @@ import { ProfileService } from './profile.service';
     selector: 'xm-page-ribbon',
     template: `
         <div class="ribbon" *ngIf="ribbonEnv">
-            <a href="" jhiTranslate="global.ribbon.{{ribbonEnv}}">{{ribbonEnv}}</a>
+            <a href="">{{'global.ribbon.'+ribbonEnv|translate}}</a>
         </div>`,
     styleUrls: ['page-ribbon.css'],
     providers: [ProfileService],

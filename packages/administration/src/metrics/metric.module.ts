@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,20 +17,21 @@ import { JhiMetricsMonitoringComponent } from './metrics.component';
 import { JhiMetricsService } from './metrics.service';
 
 @NgModule({
-    imports: [
-        XmTranslationModule,
-        MatFormFieldModule,
-        FormsModule,
-        MatSelectModule,
-        NoDataModule,
-        LoaderModule,
-        NgbProgressbarModule,
-        CommonModule,
-        MatButtonModule,
-        MatDialogModule,
-        NgJhipsterModule,
-        MatIconModule,
-    ],
+  imports: [
+    XmTranslationModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatSelectModule,
+    NoDataModule,
+    LoaderModule,
+    NgbProgressbarModule,
+    CommonModule,
+    MatButtonModule,
+    MatDialogModule,
+    NgJhipsterModule,
+    MatIconModule,
+    MatCardModule,
+  ],
     exports: [JhiMetricsMonitoringComponent],
     declarations: [JhiMetricsMonitoringComponent, JhiMetricsMonitoringModalComponent],
     providers: [JhiMetricsService],

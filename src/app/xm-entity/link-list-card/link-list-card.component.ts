@@ -27,7 +27,6 @@ export class LinkListCardComponent implements OnInit, OnChanges {
     public mode: string = 'list';
     public treeRootLinks: Link[];
     public columnsToDisplay: string[] = ['avatar', 'name', 'description', 'delete'];
-
     public fields: FieldOptions[] = [
         {
             title: {trKey: 'xm-entity.common.fields.name'},
@@ -49,6 +48,10 @@ export class LinkListCardComponent implements OnInit, OnChanges {
     public ngOnInit(): void {
         if (this.linkSpec.interface && this.linkSpec.interface.fields) {
             this.fields = this.linkSpec.interface.fields;
+        }
+
+        if (this.isBackLink) {
+            this.columnsToDisplay = this.columnsToDisplay.filter((c) => c !== 'delete');
         }
     }
 

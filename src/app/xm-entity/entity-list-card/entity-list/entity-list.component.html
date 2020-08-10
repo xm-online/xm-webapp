@@ -46,7 +46,7 @@
               [class.disabled]="item.currentQuery === getDefaultSearch(item)"
               class="btn btn-primary btn-sm"
               mat-button>
-        <span jhiTranslate="global.all">All</span>
+        <span>{{'global.all'|translate}}</span>
       </button>
       <button (click)="onApplyFastSearch(item, fastSearch.query)"
               *ngFor="let fastSearch of getFastSearches(item)"

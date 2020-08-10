@@ -151,34 +151,6 @@
   </div>
 </mat-card>
 
-<div class="row mb-5" *ngIf="false">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header card-header-icon card-header-primary">
-        <h4 class="card-title" jhiTranslate="userManagement.home.title">Users</h4>
-      </div>
-
-      <div class="card-body">
-        <div *ngIf="list?.length" class="row align-items-center list-pagination">
-          <div class="col-auto">
-            <jhi-item-count [itemsPerPage]="itemsPerPage" [page]="page" [total]="totalItems"></jhi-item-count>
-          </div>
-          <div class="col-sm"></div>
-          <div class="col-auto">
-            <ngb-pagination (pageChange)="loadPage($event)"
-                            [(page)]="page"
-                            [collectionSize]="totalItems" [maxSize]="5"
-                            [pageSize]="itemsPerPage">
-
-            </ngb-pagination>
-          </div>
-        </div>
-        <no-data [show]="!list?.length"></no-data>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="xm-fab">
   <button (click)="onAdd()" *permitted="'USER.CREATE'"
           class="btn btn-icon btn-just-icon rounded-circle btn-lg"

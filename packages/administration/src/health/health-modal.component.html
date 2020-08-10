@@ -7,13 +7,13 @@
 
 <div mat-dialog-content>
   <div *ngIf="currentHealth?.details">
-    <h5 jhiTranslate="health.details.properties">Properties</h5>
+    <h5>{{'health.details.properties'| translate}}</h5>
     <pre [innerHTML]="editorValue">
     </pre>
     <no-data [show]="!editorValue"></no-data>
   </div>
   <div *ngIf="currentHealth.error">
-    <h4 jhiTranslate="health.details.error">Error</h4>
+    <h4>{{'health.details.error'|translate}}</h4>
     <pre>{{currentHealth.error}}</pre>
   </div>
 </div>

@@ -1,0 +1,23 @@
+<mat-form-field>
+
+  <mat-label>{{ options.title | translate}}</mat-label>
+
+  <input (focusout)="touche(value)"
+         (ngModelChange)="change($event)"
+         [id]="options.id"
+         [mask]="options.mask"
+         [ngModel]="inputValue"
+         [disabled]="ngControl?.disabled || disabled"
+         [pattern]="options.pattern"
+         [placeHolderCharacter]="options.placeHolderCharacter"
+         [showMaskTyped]="true"
+         autocomplete="tel"
+         matInput
+         name="phoneNumber"
+         [required]="options.required"
+         type="tel">
+
+  <span matPrefix>{{options.defaultPrefix}}</span>
+  <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
+
+</mat-form-field>

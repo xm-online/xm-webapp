@@ -1,0 +1,20 @@
+@import 'theme';
+
+$navbar-logo-image-size: 40px !default;
+
+.xm-nav-logo {
+  // @todo: refactor, implement with .ts
+  display: none;
+
+  .logo-img {
+    display:    block;
+    margin:     0 auto;
+    max-height: $navbar-logo-image-size;
+    max-width:  $navbar-logo-image-size;
+  }
+
+  .logo-text {
+    color:       $xm-text-on-surface;
+    white-space: nowrap;
+  }
+}

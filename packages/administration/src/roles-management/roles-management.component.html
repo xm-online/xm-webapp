@@ -1,4 +1,4 @@
-<div class="card mb-5">
+<mat-card class="card mb-5">
   <div class="card-header card-header-icon card-header-primary">
     <h4>{{'rolesManagement.home.title' | translate}}</h4>
   </div>
@@ -69,7 +69,7 @@
 
     <no-data [show]="!dataSource?.data.length > 0 && !showLoader"></no-data>
   </div>
-</div>
+</mat-card>
 
 <div class="xm-fab">
   <button (click)="onAdd()"

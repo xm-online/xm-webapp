@@ -49,7 +49,7 @@ export class DashboardWrapperService {
             return of(null);
         }
         return this.dashboards$().pipe(
-            filter((data)=> Boolean(data)),
+            filter((data) => Boolean(data)),
             map((ds) => ds.find((d) => (d.id === Number(idOrSlug)) || (d.config && d.config.slug === idOrSlug))),
             this.getFromCacheOrLoad(),
         );
@@ -104,6 +104,9 @@ export class DashboardWrapperService {
 
     private loadDashboards(): Observable<Dashboard[]> {
         this.dashboardsWithWidgetsCache = {};
-        return this.dashboardService.query().pipe(pluck('body'));
+        return this.dashboardService.query().pipe(
+            pluck('body'),
+            catchError(() => []),
+        );
     }
 }

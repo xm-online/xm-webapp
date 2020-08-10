@@ -33,9 +33,8 @@
                     [class.badge-default]="selectedInstanceStatus === 'OUT_OF_SERVICE'"
                     [class.badge-success]="selectedInstanceStatus === 'UP'"
                     [class.badge-warning]="selectedInstanceStatus === 'UNKNOWN'"
-                    class="badge"
-                    jhiTranslate="health.status.{{selectedInstanceStatus}}">
-                {{selectedInstanceStatus}}
+                    class="badge">
+                {{'health.status.'+selectedInstanceStatus|translate}}
               </span>
         </div>
       </div>
@@ -60,9 +59,8 @@
                      [class.badge-default]="health.status === 'OUT_OF_SERVICE'"
                      [class.badge-success]="health.status === 'UP'"
                      [class.badge-warning]="health.status === 'UNKNOWN'"
-                     class="badge"
-                     jhiTranslate="health.status.{{health.status}}">
-                    {{health.status}}
+                     class="badge">
+                    {{'health.status.'+health.status|translate}}
                   </span>
         </td>
       </ng-container>

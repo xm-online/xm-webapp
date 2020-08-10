@@ -1,6 +1,6 @@
 <div *ngIf="currency?.rates" class="card">
   <div class="card-header card-header-icon card-header-primary">
-    <h4 class="card-title" jhiTranslate="ext-common.exchange-widget.title">Exchange calculator</h4>
+    <h4 class="card-title">{{'ext-common.exchange-widget.title'|translate}}</h4>
   </div>
   <div class="card-body">
     <div class="row">
@@ -13,15 +13,14 @@
       </div>
       <div class="wdt-exchange-units col-xs-4 col-sm-6">
         <span class="wdt-exchange-value">1</span>
-        <span class="wdt-exchange-label" jhiTranslate="ext-common.exchange-widget.number-units">Number of
-          units</span>
+        <span class="wdt-exchange-label">{{'ext-common.exchange-widget.number-units'|translate}}</span>
       </div>
     </div>
     <table class="table">
       <thead class="text-gray">
       <tr>
-        <th><span jhiTranslate="ext-common.exchange-widget.code">Code</span></th>
-        <th><span jhiTranslate="ext-common.exchange-widget.course">Official course</span></th>
+        <th><span>{{'ext-common.exchange-widget.code'|translate}}</span></th>
+        <th><span>{{'ext-common.exchange-widget.course'|translate}}</span></th>
       </tr>
       </thead>
       <tbody>
@@ -35,7 +34,7 @@
       <button (click)="isShowCalc = !isShowCalc;" class="btn btn-primary rounded-circle">
         <i *ngIf="!isShowCalc" class="material-icons">arrow_drop_down</i>
         <i *ngIf="isShowCalc" class="material-icons">arrow_drop_up</i>
-        <span jhiTranslate="ext-common.exchange-widget.title">Exchange calculator</span>
+        <span>{{'ext-common.exchange-widget.title'|translate}}</span>
       </button>
     </div>
     <form #calcForm="ngForm" [ngClass]="{show: isShowCalc}" [style.display]="isShowCalc ? 'block' : 'none'"
@@ -52,7 +51,7 @@
         </div>
         <div class="col-xs-12 col-sm-6">
           <div class="form-group label-floating">
-            <label class="control-label" jhiTranslate="ext-common.exchange-widget.from">From</label>
+            <label class="control-label">{{'ext-common.exchange-widget.from'|translate}}</label>
             <input (ngModelChange)="onChangeCalc()" [(ngModel)]="calc.fromValue" class="form-control" name="fromValue"
                    type="number">
           </div>

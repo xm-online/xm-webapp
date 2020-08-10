@@ -15,7 +15,7 @@
                 color="primary"
                 mat-flat-button
                 type="button">
-          <span jhiTranslate="xm-entity.link-list-card.list-view">List view</span>
+          <span>{{'xm-entity.link-list-card.list-view'|translate}}</span>
         </button>
         <button (click)="mode = 'tree';"
                 [disabled]="mode === 'tree'"
@@ -23,14 +23,15 @@
                 mat-flat-button
                 color="primary"
                 type="button">
-          <span jhiTranslate="xm-entity.link-list-card.tree-view">Tree view</span>
+          <span>{{'xm-entity.link-list-card.tree-view'|translate}}</span>
         </button>
       </div>
     </div>
 
     <div *ngIf="mode == 'list'" class="table-responsive">
       <table class="table"
-             mat-table matSort
+             mat-table
+             matSort
              [dataSource]="links">
 
         <ng-container matColumnDef="avatar">
@@ -75,17 +76,18 @@
 
         <ng-container matColumnDef="delete" *ngIf="!isBackLink">
           <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let link">
-            <a (click)="onRemove(link)" *permitted="'LINK.DELETE'" class="text-muted" role="button">
-              <i class="material-icons">close</i>
-            </a>
+          <td class="text-right" mat-cell *matCellDef="let link">
+            <button *permitted="'LINK.DELETE'" (click)="onRemove(link)" mat-icon-button>
+              <mat-icon>close</mat-icon>
+            </button>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-
       </table>
+
+      <no-data [show]="!(links && links.length > 0)" hideImage="true"></no-data>
     </div>
 
     <div *ngIf="mode === 'tree'" class="row">

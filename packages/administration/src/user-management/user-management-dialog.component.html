@@ -1,7 +1,6 @@
 <form #editForm="ngForm" (ngSubmit)="save()" class="m-0" name="editForm" novalidate role="form">
   <div mat-dialog-title>
-    <h4 class="modal-title text-left" id="myUserLabel" jhiTranslate="userManagement.home.createOrEditLabel">
-      Create or edit a User</h4>
+    <h4 class="modal-title text-left" id="myUserLabel">{{'userManagement.home.createOrEditLabel'|translate}}</h4>
   </div>
   <div mat-dialog-content>
     <xm-loader [showLoader]="showLoader"></xm-loader>
@@ -42,9 +41,7 @@
                placeholder="{{'userManagement.firstName' | translate}}"
                type="text">
         <mat-error *ngIf="firstNameInput.hasError('maxlength')">
-              <span jhiTranslate="entity.validation.maxlength">
-                This field cannot be longer than 50 characters.
-              </span>
+              <span>{{'entity.validation.maxlength'|translate}}</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -59,9 +56,7 @@
                placeholder="{{'userManagement.lastName' | translate}}"
                type="text">
         <mat-error *ngIf="lastNameInput.hasError('maxlength')">
-              <span jhiTranslate="entity.validation.maxlength">
-                This field cannot be longer than 50 characters.
-              </span>
+              <span>{{'entity.validation.maxlength'|translate}}</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -71,7 +66,7 @@
           <mat-checkbox [(ngModel)]="user.activated" [disabled]="user.id === null"
                         color="primary"
                         name="activated">
-            <span jhiTranslate="userManagement.activated">Activated</span>
+            <span>{{'userManagement.activated'|translate}}</span>
           </mat-checkbox>
         </div>
       </div>
@@ -80,7 +75,7 @@
           <mat-checkbox [(ngModel)]="user.autoLogoutEnabled" [disabled]="user.id === null || !(user.activated)"
                         color="primary"
                         name="autoLogout">
-            <span jhiTranslate="userManagement.autoLogout">Auto Logout</span>
+            <span>{{'userManagement.autoLogout'|translate}}</span>
           </mat-checkbox>
         </div>
       </div>
@@ -113,10 +108,10 @@
   <div mat-dialog-actions>
     <button (click)="clear()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
       <span class="fa fa-ban"></span>&nbsp;<span
-      jhiTranslate="entity.action.cancel">Cancel</span>
+     >{{'entity.action.cancel'|translate}}</span>
     </button>
     <button [disabled]="editForm.form.invalid || showLoader" color="primary" mat-button type="submit">
-      <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+      <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
     </button>
   </div>
 </form>

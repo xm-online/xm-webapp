@@ -9,7 +9,7 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
                 <div class="card-icon">
                     <i class="material-icons">{{'attach_file'}}</i>
                 </div>
-                <h4 class="card-title" jhiTranslate="xm-entity.attachment-card.title"></h4>
+                <h4 class="card-title">{{'xm-entity.attachment-card.title'|translate}}</h4>
             </div>
 
             <div class="card-body">
@@ -36,8 +36,8 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
                             <thead>
                             <tr>
                                 <th></th>
-                                <th><span jhiTranslate="xm-entity.common.fields.name">Name</span></th>
-                                <th><span jhiTranslate="xm-entity.common.fields.description">Description</span></th>
+                                <th><span>{{'xm-entity.common.fields.name'|translate}}</span></th>
+                                <th><span>{{'xm-entity.common.fields.description'|translate}}</span></th>
                                 <th></th>
                                 <th></th>
                             </tr>

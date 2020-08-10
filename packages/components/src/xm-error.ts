@@ -11,15 +11,14 @@ import { XmSharedModule } from '@xm-ngx/shared';
                     <span class="hipster img-fluid img-rounded"></span>
                 </div>
                 <div class="col-md-8">
-                    <h1 jhiTranslate="error.title">Error Page!</h1>
+                    <h1>{{'error.title'|translate}}</h1>
 
                     <div [hidden]="!errorMessage">
                         <div class="alert alert-danger">{{errorMessage}}
                         </div>
                     </div>
-                    <div [hidden]="!error403" class="alert alert-danger" jhiTranslate="error.403">You are not authorized
-                        to access the
-                        page.
+                    <div [hidden]="!error403" class="alert alert-danger">
+                        {{'error.403'|translate}}
                     </div>
                 </div>
             </div>

@@ -1,14 +1,12 @@
 <form (ngSubmit)="confirmDelete(client.id)" class="m-0" name="deleteForm">
 
   <div mat-dialog-title>
-    <h4 class="modal-title text-left" jhiTranslate="entity.delete.title">Confirm delete operation</h4>
+    <h4 class="modal-title text-left">{{'entity.delete.title'|translate}}</h4>
   </div>
 
   <div mat-dialog-content>
     <xm-loader [showLoader]="showLoader"></xm-loader>
-    <p jhiTranslate="clientManagement.delete.question"
-       translateValues="{id: '{{client.id}}'}">Are you sure you want to
-                                               delete this Client?</p>
+    <p>{{'clientManagement.delete.question'|translate:{id: client.id} }}</p>
   </div>
 
   <div mat-dialog-actions>
@@ -17,14 +15,10 @@
             data-dismiss="modal"
             mat-button
             type="button">
-      <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+      <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
     </button>
-
-    <button [disabled]="showLoader"
-            color="warn"
-            mat-raised-button
-            type="submit">
-      {{'entity.action.delete' | translate}}
+    <button [disabled]="showLoader" class="btn btn-danger" mat-button type="submit">
+      <span class="fa fa-trash"></span>&nbsp;<span>{{'entity.action.delete' | translate}}</span>
     </button>
   </div>
 

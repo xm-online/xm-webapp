@@ -13,23 +13,13 @@ interface RouteData {
 
 @Component({
     selector: 'xm-navbar-title',
-    styles: [
-        `
-            .title-part {
-                font-size: 18px;
-                position: relative;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-            }
-        `,
-    ],
+    styleUrls: ['./xm-navbar-title.scss'],
     template: `
         <div *ngIf="routeData && title"
-             class="title-part pt-2 px-3">
+             class="title-part px-3">
             <span [innerHTML]="titleContent"
                   [title]="title"
-                  class="d-none d-sm-block"></span>
+                  class="d-none d-sm-inline"></span>
         </div>
     `,
 })

@@ -26,7 +26,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { merge, Observable } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 
 @Component({
     selector: 'xm-user-mgmt',
@@ -37,6 +37,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
     public currentAccount: any;
     public list: User[];
     public eventModify: string = XM_EVENT_LIST.XM_USER_LIST_MODIFICATION;
+    public eventSubscriber: Subscription;
     public navigateUrl: string = 'administration/user-management';
     public basePredicate: string = 'id';
     public login: string;
@@ -75,8 +76,24 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         this.currentSearch = activatedRoute.snapshot.params.search || '';
     }
 
+    public registerChangeInList(): void {
+        this.eventSubscriber = this.eventManager.listenTo(this.eventModify)
+            .pipe(
+                takeUntilOnDestroy(this),
+            ).subscribe(() => {
+                this.showLoader = true;
+                this.loadAll()
+                    .pipe(
+                        takeUntilOnDestroy(this),
+                    ).subscribe((list: Array<Client>) => {
+                        this.dataSource = new MatTableDataSource(list);
+                    });
+            });
+    }
+
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
+        this.eventManager.destroy(this.eventSubscriber);
     }
 
     public ngAfterViewInit(): void {

@@ -70,9 +70,13 @@ export class EntityListComponent implements OnInit, OnDestroy {
         this.tableDataSource = this.createDataSource(this.item.entities);
 
         this.entityListActionSuccessSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS)
-            .subscribe( () => this.loadEntitiesPaged(this.item));
+            .subscribe( () => {
+                this.onRefresh();
+            });
         this.entityEntityListModificationSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION)
-            .subscribe( () => this.loadEntitiesPaged(this.item));
+            .subscribe( () => {
+               this.onRefresh();
+            });
 
         this.item.fields
             .filter((f) => f.field && f.field.startsWith('data.'))

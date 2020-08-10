@@ -1,4 +1,4 @@
-<div *ngIf="xmEntity && xmEntitySpec" [ngSwitch]="isAvatarEnabled" class="card">
+<mat-card *ngIf="xmEntity && xmEntitySpec" [ngSwitch]="isAvatarEnabled" class="card">
   <div class="card-header card-header-icon card-header-primary text-left">
     <ng-container *ngSwitchCase="false">
       <div *ngIf="xmEntitySpec.icon" class="card-icon">
@@ -68,4 +68,4 @@
       [xmEntity]="xmEntity">
     </xm-function-list-section>
   </div>
-</div>
+</mat-card>

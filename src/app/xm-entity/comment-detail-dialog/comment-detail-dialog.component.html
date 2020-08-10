@@ -1,7 +1,7 @@
 <form #commentForm="ngForm" (ngSubmit)="onConfirmSave()" class="m-0" name="commentForm" novalidate role="form">
   <div mat-dialog-title>
     <h4 class="modal-title text-left">
-      <span jhiTranslate="xm-entity.comment-detail-dialog.title">Add new comment for the</span>
+      <span>{{'xm-entity.comment-detail-dialog.title'|translate}}</span>
       [<b>{{xmEntity.name}}</b>]
     </h4>
   </div>
@@ -32,7 +32,7 @@
                   rows="4">
         </textarea>
         <mat-error *ngIf="commentBody.hasError('required')">
-          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+          <span>{{'xm-entity.common.validation.required'|translate}}</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -43,14 +43,14 @@
             data-dismiss="modal"
             mat-button
             type="button">
-      <span jhiTranslate="xm-entity.common.cancel">Cancel</span>
+      <span>{{'xm-entity.common.cancel'|translate}}</span>
     </button>
 
     <button [disabled]="commentForm.form.invalid || showLoader"
             color="primary"
             mat-button
             type="submit">
-      <span jhiTranslate="xm-entity.common.save">Save</span>
+      <span>{{'xm-entity.common.save'|translate}}</span>
     </button>
   </div>
 </form>

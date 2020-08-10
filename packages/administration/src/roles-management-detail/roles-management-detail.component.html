@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-header card-header-icon card-header-primary">
         <h4 class="card-title">{{role?.roleKey}} - <span
-          jhiTranslate="rolesManagement.detail.permissions">permissions</span></h4>
+         >{{'rolesManagement.detail.permissions'|translate}}</span></h4>
       </div>
 
       <div class="card-body">
@@ -42,7 +42,7 @@
                               [(ngModel)]="sortBy.enabled"
                               placeholder="{{'rolesManagement.permission.permit' | translate}}">
                     <mat-option *ngFor="let item of permits" [value]="item.value">
-                      <span *ngIf="item.trans" jhiTranslate="rolesManagement.permission.{{item.trans}}"></span>
+                      <span *ngIf="item.trans">{{'rolesManagement.permission.'+item.trans|translate}}</span>
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -56,7 +56,7 @@
                               [(ngModel)]="sortBy.condition"
                               placeholder="{{'rolesManagement.permission.resourceCondition' | translate}}">
                     <mat-option *ngFor="let item of resourceConditions" [value]="item.value">
-                      <span *ngIf="item.trans" jhiTranslate="rolesManagement.permission.{{item.trans}}"></span>
+                      <span *ngIf="item.trans">{{'rolesManagement.permission.'+item.trans|translate}}</span>
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -66,7 +66,7 @@
             <div class="col"></div>
             <div class="col-auto">
               <button (click)="onSave()" class="btn btn-sm mat-button btn-primary" type="button">
-                <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
               </button>
             </div>
           </div>
@@ -86,18 +86,18 @@
               <thead>
               <tr [(ascending)]="reverse" [(predicate)]="predicate" [callback]="onTransition.bind(this, page)" jhiSort>
                 <th jhiSortBy="privilegeKey"><span
-                  jhiTranslate="rolesManagement.permission.privilegeKey">Privilege key</span> <span
+                 >{{'rolesManagement.permission.privilegeKey'|translate}}</span> <span
                   class="fa fa-sort"></span></th>
                 <th>{{'rolesManagement.permission.desc' | translate}}</th>
-                <th jhiSortBy="msName"><span jhiTranslate="rolesManagement.permission.msName">MS name</span> <span
+                <th jhiSortBy="msName"><span>{{'rolesManagement.permission.msName'|translate}}</span> <span
                   class="fa fa-sort"></span></th>
-                <th><span jhiTranslate="rolesManagement.permission.permit">Permit</span></th>
-                <th><span jhiTranslate="rolesManagement.permission.onForbid">On Forbid</span></th>
+                <th><span>{{'rolesManagement.permission.permit'|translate}}</span></th>
+                <th><span>{{'rolesManagement.permission.onForbid'|translate}}</span></th>
                 <th class="text-right">
-                  <span jhiTranslate="rolesManagement.permission.resourceCondition">Resource Condition</span>
+                  <span>{{'rolesManagement.permission.resourceCondition'|translate}}</span>
                 </th>
                 <th class="text-right">
-                  <span jhiTranslate="rolesManagement.permission.envCondition">Environment Condition</span>
+                  <span>{{'rolesManagement.permission.envCondition'|translate}}</span>
                 </th>
               </tr>
               </thead>
@@ -152,7 +152,7 @@
             <div class="col-sm"></div>
             <div class="col-auto">
               <button (click)="onSave()" class="btn btn-sm mat-button btn-primary" type="button">
-                <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
               </button>
             </div>
           </div>

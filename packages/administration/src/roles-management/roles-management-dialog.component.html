@@ -1,8 +1,8 @@
 <form #editForm="ngForm" (ngSubmit)="onSave()" *ngIf="role" class="m-0" name="editForm" novalidate role="form">
   <div mat-dialog-title>
     <h4 class="modal-title text-left">
-      <span *ngIf="isAddMode" jhiTranslate="rolesManagement.home.labelCreate">Create new Role</span>
-      <span *ngIf="!isAddMode" jhiTranslate="rolesManagement.home.labelEdit">Edit a Role</span>
+      <span *ngIf="isAddMode">{{'rolesManagement.home.labelCreate'|translate}}</span>
+      <span *ngIf="!isAddMode">{{'rolesManagement.home.labelEdit'|translate}}</span>
     </h4>
   </div>
 
@@ -21,10 +21,10 @@
                required
                type="text">
         <mat-error *ngIf="fieldRoleKey.hasError('required')">
-          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+          <span>{{'xm-entity.common.validation.required'|translate}}</span>
         </mat-error>
         <mat-error *ngIf="fieldRoleKey.hasError('pattern')">
-          <span jhiTranslate="xm-entity.common.validation.pattern">This field does not match the rules</span>:&nbsp;&nbsp;<span
+          <span>{{'xm-entity.common.validation.pattern'|translate}}</span>:&nbsp;&nbsp;<span
           [innerHtml]="'^\s*[\w|\d]+\s*$'"></span>
         </mat-error>
       </mat-form-field>
@@ -57,13 +57,13 @@
   <div mat-dialog-actions>
     <button (click)="onClose()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
       <span class="fa fa-ban"></span>&nbsp;<span
-      jhiTranslate="entity.action.cancel">Cancel</span>
+     >{{'entity.action.cancel'|translate}}</span>
     </button>
     <button [disabled]="editForm.form.invalid || showLoader"
             color="primary"
             mat-button
             type="submit">
-      <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+      <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
     </button>
   </div>
 </form>
