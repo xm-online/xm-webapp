@@ -117,7 +117,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
          */
         const redirect = this.stateStorageService.getUrl();
         if (redirect) {
-            this.router.navigate([redirect], { replaceUrl: true });
+            this.router.navigateByUrl(redirect, { replaceUrl: true });
         } else {
             this.loginService.checkAvailableUrlsAndNavigate();
         }
