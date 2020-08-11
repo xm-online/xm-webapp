@@ -5,6 +5,10 @@
         display: none;
       }
     }
+
+    .CodeMirror-fullscreen, .fullscreen {
+      z-index: 931;
+    }
   }
 
   .header-action {

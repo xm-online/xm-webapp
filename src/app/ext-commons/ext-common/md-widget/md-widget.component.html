@@ -8,11 +8,16 @@
     </a>
   </ng-container>
   <div class="card-header card-header-icon card-header-primary">
-    <h4 class="card-title">
-      {{name}}
+    <h4 class="card-title mb-0">
+      {{config?.name}}
     </h4>
   </div>
   <div class="card-body">
-    <textarea id="xm-widget-md" rows="10"></textarea>
+    <td-text-editor
+      [value]="widgetConfig.content"
+      [options]="editorOptions"
+      *ngIf="widgetConfig"
+      #mdEditor>
+    </td-text-editor>
   </div>
 </div>

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { CovalentTextEditorModule } from '@covalent/text-editor';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmSharedModule } from '../../shared/shared.module';
 import {
@@ -35,6 +36,7 @@ import {
             {selector: 'xm-widget-weather', loadChildren: () => WeatherWidgetComponent},
             {selector: 'xm-widget-welcome', loadChildren: () => WelcomeWidgetComponent},
         ]),
+        CovalentTextEditorModule,
     ],
     declarations: [
         ClockWidgetComponent,
