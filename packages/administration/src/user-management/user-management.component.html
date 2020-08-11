@@ -119,13 +119,7 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let user">
           <div class="d-flex align-items-center justify-content-end flex-nowrap">
-            <button mat-icon-button color="warn" (click)="changeState(user)" *ngIf="!user.activated">
-              <mat-icon>lock_outline</mat-icon>
-            </button>
-
-            <button mat-icon-button color="accent" (click)="changeState(user)" *ngIf="user.activated" style="color: #4caf50">
-              <mat-icon>lock_open</mat-icon>
-            </button>
+            <xm-unblock-lock-user [user]="user"></xm-unblock-lock-user>
 
             <button mat-icon-button (click)="onEdit(user)" *permitted="'USER.UPDATE'">
               <mat-icon>edit</mat-icon>

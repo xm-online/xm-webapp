@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
+import { UnblockLockUserModule } from '@xm-ngx/administration/user-management/unblock-lock-user/unblock-lock-user.module';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgJhipsterModule } from 'ng-jhipster';
@@ -15,6 +16,7 @@ import { UserMgmtComponent } from './user-management.component';
 
 @NgModule({
     imports: [
+        UnblockLockUserModule,
         LoaderModule,
         XmTranslationModule,
         MatButtonModule,
