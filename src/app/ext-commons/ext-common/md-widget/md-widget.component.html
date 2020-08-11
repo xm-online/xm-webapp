@@ -1,11 +1,11 @@
-<div [ngClass]="{'wdt-md-edit': isEditMode}" class="xm-md-edit card wdt-md">
-  <ng-container *permitted="['WIDGET.UPDATE']">
-    <a (click)="onSave()" *ngIf="isEditMode" class="header-action" href="javascript: void(0);">
-      <i class="material-icons">save</i>
-    </a>
-    <a (click)="onEditMode()" *ngIf="!isEditMode" class="header-action" href="javascript: void(0);">
-      <i class="material-icons">edit</i>
-    </a>
+<mat-card class="card xm-md-edit">
+  <ng-container *permitted="'WIDGET.UPDATE'">
+    <button class="header-action" color="primary" mat-icon-button (click)="onSave()" *ngIf="isEditMode">
+      <mat-icon>save</mat-icon>
+    </button>
+    <button class="header-action" color="primary" mat-icon-button (click)="onEditMode()" *ngIf="!isEditMode">
+      <mat-icon>edit</mat-icon>
+    </button>
   </ng-container>
   <div class="card-header card-header-icon card-header-primary">
     <h4 class="card-title mb-0">
@@ -20,4 +20,4 @@
       #mdEditor>
     </td-text-editor>
   </div>
-</div>
+</mat-card>
