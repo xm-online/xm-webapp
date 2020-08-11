@@ -64,6 +64,7 @@ $breakpoint-tablet:     991px !default;
   .main-panel {
     position:    relative;
     margin-left: $xm-sidebar-width;
+    z-index: 931;
 
     @include transition($xm-sidebar-transition);
   }

@@ -1,4 +1,13 @@
-.header-action {
+.xm-md-edit {
+  ::ng-deep {
+    .editor-toolbar {
+      &.disabled-for-preview {
+        display: none;
+      }
+    }
+  }
+
+  .header-action {
     position:    absolute;
     right:       10px;
     top:         8px;
@@ -8,10 +17,11 @@
     line-height: 30px;
     z-index:     5;
     display:     inline-block;
-}
+  }
 
-.wtd-md-action {
+  .wtd-md-action {
     position: absolute;
     top:      0;
     right:    20px;
+  }
 }
