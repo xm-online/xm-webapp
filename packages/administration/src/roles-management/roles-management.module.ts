@@ -10,6 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
@@ -24,28 +27,31 @@ import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
 import { RolesMgmtComponent } from './roles-management.component';
 
 @NgModule({
-  imports: [
-    LoaderModule,
-    XmTranslationModule,
-    NgJhipsterModule,
-    RouterModule,
-    NgbPaginationModule,
-    PerPageModule,
-    NoDataModule,
-    MatButtonModule,
-    XmPermissionModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatIconModule,
-    MatCheckboxModule,
-    MatTooltipModule,
-    WordAutocompleteModule,
-    MatCardModule,
-  ],
+    imports: [
+        LoaderModule,
+        XmTranslationModule,
+        NgJhipsterModule,
+        RouterModule,
+        NgbPaginationModule,
+        PerPageModule,
+        NoDataModule,
+        MatButtonModule,
+        XmPermissionModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatTooltipModule,
+        WordAutocompleteModule,
+        MatCardModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+    ],
     exports: [RolesMgmtComponent],
     declarations: [
         RolesMgmtComponent,

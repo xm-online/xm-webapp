@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
@@ -6,30 +6,60 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { JhiParseLinks } from 'ng-jhipster';
-import { finalize } from 'rxjs/operators';
+import { finalize, map, startWith, switchMap } from 'rxjs/operators';
 
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
-import { Principal, RoleService, User, UserLogin, UserLoginService, UserService } from '../../../../src/app/shared';
+import {
+    Client,
+    Principal,
+    RoleService,
+    User,
+    UserLogin,
+    UserLoginService,
+    UserService
+} from '../../../../src/app/shared';
 import { BaseAdminListComponent } from '../admin.service';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
 import { UserMgmtDialogComponent } from './user-management-dialog.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { merge, Observable, Subscription } from 'rxjs';
 
 @Component({
     selector: 'xm-user-mgmt',
     templateUrl: './user-management.component.html',
 })
-export class UserMgmtComponent extends BaseAdminListComponent implements OnInit {
+export class UserMgmtComponent extends BaseAdminListComponent implements OnDestroy {
 
     public currentAccount: any;
     public list: User[];
     public eventModify: string = XM_EVENT_LIST.XM_USER_LIST_MODIFICATION;
+    public eventSubscriber: Subscription;
     public navigateUrl: string = 'administration/user-management';
     public basePredicate: string = 'id';
     public login: string;
     public authorities: any[];
     public currentSearch: string;
     public onlineUsers: number = 0;
+
+    public dataSource: MatTableDataSource<User> = new MatTableDataSource<User>([]);
+    @ViewChild(MatSort, {static: true}) public matSort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
+
+    public displayedColumns: string[] = [
+        'id',
+        'logins',
+        '2FA',
+        'langKey',
+        'roleKey',
+        'createdDate',
+        'lastModifiedBy',
+        'lastModifiedDate',
+        'actions',
+    ];
 
     constructor(protected activatedRoute: ActivatedRoute,
                 protected toasterService: XmToasterService,
@@ -46,15 +76,51 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnInit 
         this.currentSearch = activatedRoute.snapshot.params.search || '';
     }
 
-    public ngOnInit(): void {
+    public registerChangeInList(): void {
+        this.eventSubscriber = this.eventManager.listenTo(this.eventModify)
+            .pipe(
+                takeUntilOnDestroy(this),
+            ).subscribe(() => {
+                this.showLoader = true;
+                this.loadAll()
+                    .pipe(
+                        takeUntilOnDestroy(this),
+                    ).subscribe((list: Array<Client>) => {
+                        this.dataSource = new MatTableDataSource(list);
+                    });
+            });
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+        this.eventManager.destroy(this.eventSubscriber);
+    }
+
+    public ngAfterViewInit(): void {
         this.principal.identity().then((account) => {
             this.registerChangeInList();
             this.currentAccount = account;
             this.roleService.getRoles()
+                .pipe(takeUntilOnDestroy(this))
                 .subscribe((roles) => this.authorities = roles.map((role) => role.roleKey).sort());
             this.userService.getOnlineUsers()
+                .pipe(takeUntilOnDestroy(this))
                 .subscribe((result) => this.onlineUsers = result.body);
-            this.loadAll();
+
+            this.matSort.sortChange.pipe(takeUntilOnDestroy(this)).subscribe(() => this.paginator.pageIndex = 0);
+            merge(this.matSort.sortChange, this.paginator.page).pipe(
+                startWith({}),
+                switchMap(() => {
+                    return this.loadAll();
+                }),
+                takeUntilOnDestroy(this),
+            ).subscribe((list: Array<Client>) => {
+                    this.dataSource = new MatTableDataSource(list);
+                },
+                (err) => {
+                    this.onError(err);
+                    this.showLoader = false;
+                });
         });
     }
 
@@ -123,20 +189,30 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnInit 
             console.info('Cancel'));
     }
 
-    public loadAll(): void {
-        this.showLoader = true;
-        this.userService.query({
-            page: this.page - 1,
-            size: this.itemsPerPage,
-            sort: this.sort(),
+    public loadUsers(): Observable<User[]> {
+        return this.userService.query({
+            page: this.paginator.pageIndex,
+            size: this.paginator.pageSize,
+            sort: [`${this.matSort.active},${this.matSort.direction}`],
             roleKey: this.currentSearch,
-        }).subscribe((res) => this.list = this.onSuccess(res.body, res.headers),
-            (err) => console.info(err),
-            () => this.showLoader = false);
+        }).pipe(
+            map(res => this.onSuccess(res.body, res.headers)),
+            finalize(() => this.showLoader = false),
+        );
     }
 
-    public trackIdentity(_index: number, item: User): any {
-        return item.id;
+    public loadFilteredUsers(): Observable<User[]> {
+        return this.userService.loginContains({
+            page: this.paginator.pageIndex,
+            size: this.paginator.pageSize,
+            sort: [`${this.matSort.active},${this.matSort.direction}`],
+            roleKey: this.currentSearch,
+            login: this.login,
+        })
+            .pipe(
+                map(res => this.onSuccess(res.body, res.headers)),
+                finalize(() => this.showLoader = false),
+            );
     }
 
     public getLogin(login: UserLogin): string {
@@ -145,42 +221,27 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnInit 
 
     public applySearchByRole(roleKey: string): void {
         this.login = null;
-        this.page = 1;
-        this.previousPage = null;
+        this.paginator.pageIndex = 0;
         this.currentSearch = roleKey;
-        this.transition();
+        this.loadAll()
+            .pipe(
+                takeUntilOnDestroy(this),
+                finalize(() => this.showLoader = false),
+            )
+            .subscribe((list: Array<User>) => {
+                this.dataSource = new MatTableDataSource(list)
+            });
     }
 
     public searchByLogin(): void | null {
-        if (!(this.login && this.login.trim())) {
-            this.loadAll();
-            return null;
-        }
-        this.page = 1;
+        this.matSort.active = this.basePredicate;
+        this.paginator.pageIndex = 0;
         this.currentSearch = null;
-        this.loadFilteredUsers();
-    }
-
-    public loadFilteredUsers(): void {
-        this.showLoader = true;
-        this.userService.loginContains({
-            page: this.page - 1,
-            size: this.itemsPerPage,
-            sort: this.sort(),
-            roleKey: this.currentSearch,
-            login: this.login,
-        })
-            .pipe(finalize(() => this.showLoader = false))
-            .subscribe(
-                (res) => {
-                    this.list = [];
-                    this.previousPage = null;
-                    this.list = this.onSuccess(res.body, res.headers);
-                },
-                (err) => {
-                    console.info(err);
-                    this.list = [];
-                });
+        this.loadAll()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((list: Array<User>) => {
+                this.dataSource = new MatTableDataSource(list)
+            });
     }
 
     public onAdd(): void {
@@ -202,11 +263,12 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnInit 
         modalRef.componentInstance.user = user;
     }
 
-    public transition(): void {
-        if (this.login) {
-            this.loadFilteredUsers();
+    public loadAll(): Observable<User[]> {
+        this.showLoader = true;
+        if (this.login && this.login.trim()){
+            return this.loadFilteredUsers();
         } else {
-            this.loadAll();
+            return this.loadUsers();
         }
     }
 

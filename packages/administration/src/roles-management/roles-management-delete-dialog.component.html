@@ -1,12 +1,12 @@
 <form (ngSubmit)="onConfirmDelete(role.roleKey)" *ngIf="role" class="m-0" name="deleteForm">
   <div mat-dialog-title>
-    <h4 class="modal-title text-left">{{'entity.delete.title'|translate}}</h4>
+    <h4 class="modal-title text-left">{{'entity.delete.title' | translate}}</h4>
   </div>
 
   <div mat-dialog-content>
     <xm-loader [noDisableParent]="true" [showLoader]="showLoader"></xm-loader>
 
-    <p class="word-break">{{'rolesManagement.delete.question'|translate:{roleKey: role.roleKey} }}</p>
+    <p class="word-break">{{'rolesManagement.delete.question' | translate:{roleKey: role.roleKey} }}</p>
   </div>
 
   <div mat-dialog-actions>
