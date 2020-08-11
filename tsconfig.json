@@ -33,6 +33,7 @@
       "@xm-ngx/json-schema-form/*": ["packages/json-schema-form/*"],
       "@xm-ngx/toaster": ["src/app/shared/toaster"],
       "@xm-ngx/shared": ["src/app/modules/xm-shared"],
+      "@xm-ngx/shared/validators/*": ["packages/shared/validators/src/*"],
       "@xm-ngx/shared/interfaces/*": ["packages/shared/interfaces/src/*"],
       "@xm-ngx/shared/operators/*": ["packages/shared/operators/src/*"],
       "@xm-ngx/shared/operators": ["packages/shared/operators/index.ts"],
