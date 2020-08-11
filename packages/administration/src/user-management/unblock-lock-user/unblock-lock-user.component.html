@@ -1,0 +1,13 @@
+<button (click)="changeState(user)"
+        *ngIf="!user.activated"
+        color="warn"
+        mat-icon-button>
+  <mat-icon>lock_outline</mat-icon>
+</button>
+
+<button (click)="changeState(user)" *ngIf="user.activated"
+        color="accent"
+        mat-icon-button
+        style="color: #4caf50">
+  <mat-icon>lock_open</mat-icon>
+</button>
