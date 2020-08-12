@@ -7,8 +7,16 @@ const fadeInUp = [
 ];
 
 const fadeOutDown = [
-    style({ opacity: 1 }),
-    animate('150ms ease-out', style({ opacity: 0, position: 'fixed' })),
+    style({
+        opacity: 1,
+        position: 'absolute',
+        transform: 'translateY(0)',
+    }),
+    animate('150ms ease-out', style({
+        opacity: 0,
+        position: 'absolute',
+        transform: 'translateY(1rem)',
+    })),
 ];
 
 export const fadeInUpOutDown: AnimationTriggerMetadata = trigger('fadeInUpOutDown', [
