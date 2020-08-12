@@ -15,11 +15,9 @@ export interface MdEditorOptions {
 }
 
 export interface MdWidgetConfig {
-    config: {
-        contenct: string;
-        content: string;
-        isEditable: boolean;
-    } | null;
+    contenct: string;
+    content: string;
+    isEditable: boolean;
 }
 
 @Component({
