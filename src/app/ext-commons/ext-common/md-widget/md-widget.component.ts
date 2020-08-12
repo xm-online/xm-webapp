@@ -14,6 +14,14 @@ export interface MdEditorOptions {
     showIcons?: string[];
 }
 
+export interface MdWidgetConfig {
+    config: {
+        contenct: string;
+        content: string;
+        isEditable: boolean;
+    } | null;
+}
+
 @Component({
     selector: 'xm-md-widget',
     templateUrl: './md-widget.component.html',
@@ -22,7 +30,7 @@ export interface MdEditorOptions {
 export class MdWidgetComponent implements AfterViewInit, OnDestroy {
 
     public config: { id: number, name: string | ITranslate };
-    public widgetConfig: unknown;
+    public widgetConfig: MdWidgetConfig;
     public isEditMode: boolean;
     public editorOptions: MdEditorOptions = {
         autofocus: false,
@@ -42,6 +50,7 @@ export class MdWidgetComponent implements AfterViewInit, OnDestroy {
             .pipe(takeUntilOnDestroy(this))
             .subscribe((result: HttpResponse<Widget>) => {
                 const w: Widget = result && result.body;
+                console.warn(w.config);
                 this.widgetConfig = w.config || null;
                 setTimeout(() => {
                     if (!this._textEditor.isPreviewActive()) {
