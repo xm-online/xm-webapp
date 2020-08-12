@@ -1,6 +1,7 @@
 <form #editForm="ngForm" (ngSubmit)="save()" class="m-0" name="editForm" novalidate role="form">
   <div mat-dialog-title>
     <h4 class="modal-title text-left" id="myUserLabel">{{'userManagement.home.createOrEditLabel'|translate}}</h4>
+    <xm-modal-close mat-dialog-close></xm-modal-close>
   </div>
   <div mat-dialog-content>
     <xm-loader [showLoader]="showLoader"></xm-loader>
@@ -106,11 +107,11 @@
     </div>
   </div>
   <div mat-dialog-actions>
-    <button (click)="clear()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
+    <button class="mr-1 ml-auto" mat-flat-button data-dismiss="modal" type="button" (click)="clear()">
       <span class="fa fa-ban"></span>&nbsp;<span
      >{{'entity.action.cancel'|translate}}</span>
     </button>
-    <button [disabled]="editForm.form.invalid || showLoader" color="primary" mat-button type="submit">
+    <button [disabled]="editForm.form.invalid || showLoader" mat-flat-button color="primary" type="submit">
       <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
     </button>
   </div>

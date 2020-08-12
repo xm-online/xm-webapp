@@ -1,6 +1,7 @@
 <!-- Modal used to display the threads dump -->
 <div mat-dialog-title>
   <h3 class="modal-title text-left mt-0">{{'metrics.jvm.threads.dump.title'|translate}}</h3>
+  <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 <div mat-dialog-content>
   <div class="row align-items-center no-gutters flex-nowrap mb-3">
@@ -110,7 +111,8 @@
   </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-button
+  <button class="ml-auto"
+          mat-flat-button
           type="button"
           color="primary"
           data-dismiss="modal"

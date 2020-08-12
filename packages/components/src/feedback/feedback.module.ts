@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
 import { FeedbackComponent } from './feedback.component';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import { FeedbackComponent } from './feedback.component';
         MatButtonModule,
         MatIconModule,
         CommonModule,
+        ModalCloseModule,
     ],
     exports: [FeedbackComponent],
     declarations: [FeedbackComponent, FeedbackDialogComponent],

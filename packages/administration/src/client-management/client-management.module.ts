@@ -22,6 +22,7 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dialog.component';
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';
 import { ClientMgmtComponent } from './client-management.component';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @NgModule({
     imports: [
@@ -46,6 +47,7 @@ import { ClientMgmtComponent } from './client-management.component';
         MatTableModule,
         MatSortModule,
         MatPaginatorModule,
+        ModalCloseModule,
     ],
     exports: [ClientMgmtComponent],
     declarations: [ClientMgmtComponent, ClientMgmtDeleteDialogComponent, ClientMgmtDialogComponent],

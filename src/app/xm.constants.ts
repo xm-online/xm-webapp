@@ -48,7 +48,7 @@ export const XM_MAT_DIALOG_DEFAULT_OPTIONS = {
     role: 'dialog',
     panelClass: 'xm-mat-dialog',
     hasBackdrop: true,
-    backdropClass: 'xm-mat-dialog-backdrop',
+    backdropClass: '',
     disableClose: true,
     minWidth: '680px',
     minHeight: '50px',

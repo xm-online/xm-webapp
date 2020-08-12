@@ -25,6 +25,7 @@ import { WordAutocompleteModule } from '../../../../src/app/shared';
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
 import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
 import { RolesMgmtComponent } from './roles-management.component';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @NgModule({
     imports: [
@@ -51,6 +52,7 @@ import { RolesMgmtComponent } from './roles-management.component';
         MatTableModule,
         MatSortModule,
         MatPaginatorModule,
+        ModalCloseModule,
     ],
     exports: [RolesMgmtComponent],
     declarations: [

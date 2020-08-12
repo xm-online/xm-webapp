@@ -1,5 +1,6 @@
 <div mat-dialog-title>
  <h4 class="modal-title text-left">{{'xm-balance.balance-detail-dialog.title' | translate}}</h4>
+  <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 <div mat-dialog-content>
   <div *ngIf="pockets?.length" class="table-responsive">
@@ -34,11 +35,11 @@
   <no-data [show]="!pockets?.length"></no-data>
 </div>
 <div mat-dialog-actions>
-  <button (click)="onCancel()"
-          class="btn ml-auto"
+  <button class="ml-auto"
+          mat-flat-button
           data-dismiss="modal"
-          mat-button
-          type="button">
-    <span>{{'xm-balance.common.cancel' | translate}}</span>
+          type="button"
+          (click)="onCancel()">
+    {{'xm-balance.common.cancel' | translate}}
   </button>
 </div>

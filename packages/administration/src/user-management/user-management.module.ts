@@ -13,20 +13,22 @@ import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.com
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
 import { UserMgmtDialogComponent } from './user-management-dialog.component';
 import { UserMgmtComponent } from './user-management.component';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @NgModule({
-    imports: [
-        UnblockLockUserModule,
-        LoaderModule,
-        XmTranslationModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        FormsModule,
-        MatInputModule,
-        NgJhipsterModule,
-        RouterModule,
-        XmSharedModule,
-    ],
+  imports: [
+    UnblockLockUserModule,
+    LoaderModule,
+    XmTranslationModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    NgJhipsterModule,
+    RouterModule,
+    XmSharedModule,
+    ModalCloseModule,
+  ],
     exports: [UserMgmtComponent],
     declarations: [
         UserMgmtComponent,

@@ -4,6 +4,7 @@
       <span *ngIf="isAddMode">{{'rolesManagement.home.labelCreate'|translate}}</span>
       <span *ngIf="!isAddMode">{{'rolesManagement.home.labelEdit'|translate}}</span>
     </h4>
+    <xm-modal-close mat-dialog-close></xm-modal-close>
   </div>
 
   <div mat-dialog-content>
@@ -55,13 +56,13 @@
   </div>
 
   <div mat-dialog-actions>
-    <button (click)="onClose()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
+    <button class="mr-1 ml-auto" (click)="onClose()" data-dismiss="modal" mat-flat-button type="button">
       <span class="fa fa-ban"></span>&nbsp;<span
      >{{'entity.action.cancel'|translate}}</span>
     </button>
     <button [disabled]="editForm.form.invalid || showLoader"
             color="primary"
-            mat-button
+            mat-flat-button
             type="submit">
       <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
     </button>

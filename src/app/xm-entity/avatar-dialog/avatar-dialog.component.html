@@ -1,5 +1,6 @@
 <div mat-dialog-title>
   <h4 class="modal-title text-left">{{'xm-entity.common.change-avatar'|translate}}</h4>
+  <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 
 <div mat-dialog-content>
@@ -20,17 +21,18 @@
 </div>
 
 <div mat-dialog-actions>
-  <button (click)="onCancel()"
-          class="btn mr-1 ml-auto"
-          data-dismiss="modal" mat-button type="button">
-    <span>{{'xm-entity.common.cancel'|translate}}</span>
+  <button class="mr-1 ml-auto"
+          mat-flat-button
+          type="button"
+          data-dismiss="modal"
+          (click)="onCancel()">
+    {{'xm-entity.common.cancel'|translate}}
   </button>
-
-  <button (click)="onSave()"
-          [disabled]="showLoader || !data.image"
+  <button [disabled]="showLoader || !data.image"
+          mat-flat-button
           color="primary"
-          mat-button
-          type="submit">
-    <span>{{'xm-entity.common.save'|translate}}</span>
+          type="submit"
+          (click)="onSave()">
+    {{'xm-entity.common.save'|translate}}
   </button>
 </div>
