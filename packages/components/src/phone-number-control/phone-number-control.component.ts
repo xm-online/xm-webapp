@@ -31,7 +31,7 @@ const DEFAULT = {
 export class PhoneNumberControlComponent extends NgControlAccessor<string> {
     public inputValue: string;
 
-    private _options: PhoneNumberControlOptions;
+    private _options: PhoneNumberControlOptions = assign({}, DEFAULT);
 
     public get options(): PhoneNumberControlOptions {
         return this._options;

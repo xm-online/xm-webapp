@@ -62,6 +62,10 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/administration/user-management').then(m => m.UserManagementModule),
     },
     {
+        selector: '@xm-ngx/administration/user-management/unblock-lock-user',
+        loadChildren: () => import('@xm-ngx/administration/user-management/unblock-lock-user/unblock-lock-user.module').then(m => m.UnblockLockUserModule),
+    },
+    {
         selector: '@xm-ngx/administration/user-management-detail',
         loadChildren: () => import('@xm-ngx/administration/user-management-detail').then(m => m.UserManagementDetailModule),
     },

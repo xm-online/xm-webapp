@@ -124,19 +124,6 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         });
     }
 
-    public changeState(user: User): void {
-        this.alertService.open({
-            title: user.activated ? `Block user?` : `Unblock user?`,
-            showCancelButton: true,
-            buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
-            confirmButtonText: 'Yes',
-        }).subscribe((result) => result.value ?
-            this.changeUserState(user) :
-            console.info('Cancel'));
-    }
-
     public getRegistrationEmail(user: User): string {
         if (!user || !user.logins) {
             return '';
@@ -272,14 +259,4 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         }
     }
 
-    private changeUserState(user: User): void {
-        user.activated = !user.activated;
-        this.userService.update(user).subscribe(() => {
-            this.toasterService.success('userManagement.success');
-        }, (err) => {
-            console.info(err);
-            this.toasterService.error('userManagement.error');
-            user.activated = !user.activated;
-        });
-    }
 }
