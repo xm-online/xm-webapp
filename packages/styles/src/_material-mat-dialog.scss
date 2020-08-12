@@ -1,0 +1,25 @@
+$xm-mat-dialog-padding:           20px !default;
+$xm-mat-dialog-close-color:       $xm-text-light !default;
+$xm-mat-dialog-close-color-hover: $xm-text !default;
+
+@mixin xm-mat-dialog($theme) {
+  .mat-dialog-title {
+    position: relative;
+    padding:  0 $xm-mat-dialog-padding 0 0;
+
+    .mat-dialog-close {
+      position: absolute;
+      right:    -$xm-mat-dialog-padding;
+      top:      -$xm-mat-dialog-padding;
+      color:    $xm-mat-dialog-close-color;
+
+      &:hover, &:active {
+        color: $xm-mat-dialog-close-color-hover;
+      }
+    }
+  }
+
+  .mat-dialog-actions {
+    margin-bottom: -$xm-mat-dialog-padding / 2 !important;
+  }
+}

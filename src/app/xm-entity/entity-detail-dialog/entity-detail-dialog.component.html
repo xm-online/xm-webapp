@@ -4,6 +4,9 @@
                 hasHeaderConfig else
                 hasNotHeaderConfig;">
     </div>
+    <button class="mat-dialog-close" type="button" tabindex="-1" mat-icon-button (click)="onCancel()">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
 
   <ng-template #hasHeaderConfig>
@@ -98,14 +101,13 @@
   </div>
 
   <div *ngIf="!(jsfAttributes?.entity?.formDefaultFooterHide)" mat-dialog-actions>
-    <button (click)="onCancel()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
+    <button (click)="onCancel()" class="mr-1 ml-auto" data-dismiss="modal" mat-flat-button type="button">
       <span *ngIf="jsfAttributes?.entity?.cancelName">{{jsfAttributes.entity.cancelName | translate}}</span>
       <span *ngIf="!jsfAttributes?.entity?.cancelName">{{'xm-entity.common.cancel' | translate}}</span>
     </button>
 
     <button [disabled]="entityForm.form.invalid || showLoader || !isJsonFormValid"
-            class="btn"
-            mat-button
+            mat-flat-button
             color="primary"
             type="submit">
       <span *ngIf="jsfAttributes?.entity?.saveName">{{jsfAttributes.entity.saveName | translate}}</span>
