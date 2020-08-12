@@ -4,6 +4,7 @@
                 hasHeaderConfig else
                 hasNotHeaderConfig;">
     </div>
+    <xm-modal-close mat-dialog-close></xm-modal-close>
   </div>
 
   <ng-template #hasHeaderConfig>
@@ -12,10 +13,10 @@
 
   <ng-template #hasNotHeaderConfig>
     <h4 *ngIf="!isEdit" class="modal-title text-left">
-      <span>{{'xm-entity.entity-detail-dialog.add.title' | translate}}</span>
+      {{'xm-entity.entity-detail-dialog.add.title' | translate}}
     </h4>
     <h4 *ngIf="isEdit" class="modal-title text-left">
-      <span>{{'xm-entity.entity-detail-dialog.edit.title' | translate}}</span> [<b>{{name}}</b>]
+      {{'xm-entity.entity-detail-dialog.edit.title' | translate}} [<b>{{name}}</b>]
     </h4>
   </ng-template>
 
@@ -98,14 +99,13 @@
   </div>
 
   <div *ngIf="!(jsfAttributes?.entity?.formDefaultFooterHide)" mat-dialog-actions>
-    <button (click)="onCancel()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
+    <button (click)="onCancel()" class="mr-1 ml-auto" data-dismiss="modal" mat-flat-button type="button">
       <span *ngIf="jsfAttributes?.entity?.cancelName">{{jsfAttributes.entity.cancelName | translate}}</span>
       <span *ngIf="!jsfAttributes?.entity?.cancelName">{{'xm-entity.common.cancel' | translate}}</span>
     </button>
 
     <button [disabled]="entityForm.form.invalid || showLoader || !isJsonFormValid"
-            class="btn"
-            mat-button
+            mat-flat-button
             color="primary"
             type="submit">
       <span *ngIf="jsfAttributes?.entity?.saveName">{{jsfAttributes.entity.saveName | translate}}</span>

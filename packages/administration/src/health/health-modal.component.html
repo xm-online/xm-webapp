@@ -3,6 +3,7 @@
     {{'health.indicator.' + baseName(currentHealth.name) | translate}}
     {{subSystemName(currentHealth.name)}}
   </h3>
+  <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 
 <div mat-dialog-content>
@@ -19,7 +20,7 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-button
+  <button mat-flat-button
           data-dismiss="modal"
           class="ml-auto"
           color="primary"

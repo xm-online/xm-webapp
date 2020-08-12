@@ -64,6 +64,7 @@ import { AttachmentListSimplifiedComponent } from './attachment-list/attachment-
 
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { EntityListComponent } from './entity-list-card/entity-list/entity-list.component';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 const MODULES = [
     StatesManagementDialogModule,
@@ -80,6 +81,7 @@ const MODULES = [
         RatingModule,
         TagInputModule,
         MODULES,
+        ModalCloseModule,
     ],
     declarations: [
         AreaComponent,

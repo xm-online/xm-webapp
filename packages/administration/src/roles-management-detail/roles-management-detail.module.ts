@@ -18,6 +18,7 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { PerPageModule, WordAutocompleteModule } from '../../../../src/app/shared';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
 import { RoleMgmtDetailComponent } from './roles-management-detail.component';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @NgModule({
     declarations: [RoleMgmtDetailComponent, RoleConditionDialogComponent],
@@ -41,6 +42,7 @@ import { RoleMgmtDetailComponent } from './roles-management-detail.component';
         NgJhipsterModule,
         MatTooltipModule,
         MatSlideToggleModule,
+        ModalCloseModule,
     ],
 })
 export class RolesManagementDetailModule {

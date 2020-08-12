@@ -4,6 +4,7 @@
       <span>{{'xm-entity.comment-detail-dialog.title'|translate}}</span>
       [<b>{{xmEntity.name}}</b>]
     </h4>
+    <xm-modal-close mat-dialog-close></xm-modal-close>
   </div>
   <div mat-dialog-content>
     <xm-loader [showLoader]="showLoader"></xm-loader>
@@ -38,19 +39,18 @@
     </div>
   </div>
   <div mat-dialog-actions>
-    <button (click)="onCancel()"
-            class="btn mr-1 ml-auto"
+    <button class="mr-1 ml-auto"
+            mat-flat-button
+            type="button"
             data-dismiss="modal"
-            mat-button
-            type="button">
-      <span>{{'xm-entity.common.cancel'|translate}}</span>
+            (click)="onCancel()">
+      {{'xm-entity.common.cancel'|translate}}
     </button>
-
     <button [disabled]="commentForm.form.invalid || showLoader"
+            mat-flat-button
             color="primary"
-            mat-button
             type="submit">
-      <span>{{'xm-entity.common.save'|translate}}</span>
+      {{'xm-entity.common.save'|translate}}
     </button>
   </div>
 </form>

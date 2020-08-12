@@ -1,5 +1,6 @@
 <div mat-dialog-title>
   {{'xm-entity.common.search' | translate}}
+  <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 
 <div mat-dialog-content>
@@ -43,7 +44,7 @@
 </div>
 
 <div mat-dialog-actions>
-  <button (click)="clear()" class="btn ml-auto" data-dismiss="modal" mat-button type="button">
-    <span>{{'xm-entity.common.cancel'|translate}}</span>
+  <button class="ml-auto" mat-flat-button data-dismiss="modal" type="button" (click)="clear()">
+    {{'xm-entity.common.cancel'|translate}}
   </button>
 </div>

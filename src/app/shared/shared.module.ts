@@ -59,6 +59,7 @@ import { ValidationComponent } from './jsf-extention/widgets/validation-componen
 import { PasswordStrengthBarComponent } from './password-strength-bar/password-strength-bar.component';
 import { RoleService } from './role/role.service';
 import { GateSharedLibsModule } from './shared-libs.module';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 const PIPES = [XmEntityIconPipe];
 
@@ -74,6 +75,7 @@ const PIPES = [XmEntityIconPipe];
         OwlDateTimeModule,
         GooglePlaceModule,
         OwlNativeDateTimeModule,
+        ModalCloseModule,
     ],
     declarations: [
         JhiSocialComponent,

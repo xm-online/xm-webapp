@@ -8,6 +8,7 @@
 
         [<b>{{xmEntity.name}}</b>]
       </h4>
+      <xm-modal-close mat-dialog-close></xm-modal-close>
     </div>
 
     <div mat-dialog-content>
@@ -167,11 +168,11 @@
       </div>
     </div>
     <div mat-dialog-actions>
-      <button (click)="onCancel()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
-        <span>{{'xm-entity.common.cancel' | translate}}</span>
+      <button class="mr-1 ml-auto" mat-flat-button data-dismiss="modal" type="button" (click)="onCancel()">
+        {{'xm-entity.common.cancel' | translate}}
       </button>
-      <button [disabled]="!form.valid || showLoader" color="primary" mat-button type="submit">
-        <span>{{'xm-entity.common.save' | translate}}</span>
+      <button [disabled]="!form.valid || showLoader" mat-flat-button color="primary" type="submit">
+        {{'xm-entity.common.save' | translate}}
       </button>
     </div>
   </form>

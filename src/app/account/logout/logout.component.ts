@@ -34,6 +34,7 @@ export class LogoutComponent implements OnInit {
             title: 'global.common.are-you-sure',
             showCancelButton: true,
             buttonsStyling: false,
+            showCloseButton: false,
             confirmButtonClass: 'btn mat-button btn-primary',
             cancelButtonClass: 'btn mat-button',
             confirmButtonText: 'global.common.yes-exit',

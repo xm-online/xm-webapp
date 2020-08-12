@@ -2,6 +2,7 @@
   <h4 class="modal-title text-left">
     <span>{{'xm-entity.calendar-event-dialog.title'|translate}}</span> [<b>{{xmEntity.name}}</b>]
   </h4>
+  <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 
 <div mat-dialog-content>
@@ -100,20 +101,18 @@
 </div>
 
 <div mat-dialog-actions>
-  <button (click)="onCancel()"
-          class="btn mr-1 ml-auto"
+  <button class="mr-1 ml-auto"
+          mat-flat-button
+          type="button"
           data-dismiss="modal"
-          mat-button
-          type="button">
-    <span>{{'xm-entity.common.cancel'|translate}}</span>
+          (click)="onCancel()">
+    {{'xm-entity.common.cancel'|translate}}
   </button>
-
   <button [disabled]="eventForm.form.invalid || showLoader"
-          class="btn"
-          (click)="onConfirmSave()"
-          mat-button
+          mat-flat-button
           color="primary"
-          type="submit">
-    <span>{{'xm-entity.common.save'|translate}}</span>
+          type="submit"
+          (click)="onConfirmSave()">
+    {{'xm-entity.common.save'|translate}}
   </button>
 </div>

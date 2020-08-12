@@ -42,3 +42,21 @@ export const DEFAULT_AUTH_TOKEN = _DEFAULT_AUTH_TOKEN;
 
 /** @deprecated use environment.serverApiUrl or provide it with @xm-ngx/components/proxy-interceptor */
 export const SERVER_API_URL = '';
+
+/** Default settings for mat-dialogs */
+export const XM_MAT_DIALOG_DEFAULT_OPTIONS = {
+    role: 'dialog',
+    panelClass: 'xm-mat-dialog',
+    hasBackdrop: true,
+    backdropClass: '',
+    disableClose: true,
+    minWidth: '680px',
+    minHeight: '50px',
+    width: '680px',
+    maxWidth: '80vw',
+    data: null,
+    direction: 'ltr',
+    ariaDescribedBy: null,
+    ariaLabel: null,
+    autoFocus: true,
+};

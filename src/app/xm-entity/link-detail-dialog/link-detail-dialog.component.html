@@ -2,24 +2,24 @@
   <h4 class="modal-title text-left">
     <span>{{'xm-entity.link-detail-dialog.add.title'|translate}}</span> [<b>{{xmEntity.name}}</b>]
   </h4>
+  <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 
 <div mat-dialog-content>
   <div *ngIf="linkSpec.builderType === 'NEW-OR-SEARCH'" class="raw col-sm-12 text-center">
     <div class="btn-group">
-      <button (click)="mode = 'NEW';"
-              [disabled]="mode === 'NEW'"
-              class="btn btn-primary btn-sm rounded-circle"
-              mat-button
-              type="button">
-        <span>{{'xm-entity.link-detail-dialog.add.build-type-new'|translate}}</span>
+      <button [disabled]="mode === 'NEW'"
+              mat-flat-button
+              color="primary"
+              type="button"
+              (click)="mode = 'NEW';">
+        {{'xm-entity.link-detail-dialog.add.build-type-new'|translate}}
       </button>
-      <button (click)="mode = 'SEARCH';"
-              [disabled]="mode === 'SEARCH'"
-              class="btn btn-primary btn-sm rounded-circle"
-              mat-button
-              type="button">
-        <span>{{'xm-entity.link-detail-dialog.add.build-type-search'|translate}}</span>
+      <button [disabled]="mode === 'SEARCH'"
+              mat-flat-button
+              type="button"
+              (click)="mode = 'SEARCH';">
+        {{'xm-entity.link-detail-dialog.add.build-type-search'|translate}}
       </button>
     </div>
   </div>

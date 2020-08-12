@@ -22,6 +22,8 @@ import { LayoutModule } from './layouts/layout.module';
 import { XmApplicationConfigService } from './shared/spec';
 import { XmRoutingModule } from './xm-routing.module';
 import { XM_ELEMENTS } from './xm.registry';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from './xm.constants';
 
 @NgModule({
     imports: [
@@ -49,6 +51,7 @@ import { XM_ELEMENTS } from './xm.registry';
         XmApplicationConfigService,
         UserRouteAccessService,
         CookieService,
+        {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: XM_MAT_DIALOG_DEFAULT_OPTIONS}
     ],
     bootstrap: [XmMainComponent],
 })

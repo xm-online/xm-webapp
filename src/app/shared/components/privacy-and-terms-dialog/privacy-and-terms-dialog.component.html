@@ -1,10 +1,6 @@
 <div mat-dialog-title class="xm-terms-modal-header">
-  <h4 class="modal-title text-left">
-    {{'global.shared.privacy-and-terms-dialog.title' | translate}}
-  </h4>
-  <button class="modal-close" mat-icon-button (click)="onCancel()">
-    <mat-icon>close</mat-icon>
-  </button>
+  <h4 class="modal-title text-left">{{'global.shared.privacy-and-terms-dialog.title' | translate}}</h4>
+  <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 
 <div mat-dialog-content>
@@ -22,10 +18,10 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-button type="button" class="btn mr-1 ml-auto" (click)="onCancel()">
+  <button class="mr-1 ml-auto" mat-flat-button type="button" (click)="onCancel()">
     {{'global.common.cancel' | translate}}
   </button>
-  <button mat-button
+  <button mat-flat-button
           type="button"
           color="primary"
           data-dismiss="modal"

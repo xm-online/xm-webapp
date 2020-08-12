@@ -15,23 +15,25 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { JhiMetricsMonitoringModalComponent } from './metrics-modal.component';
 import { JhiMetricsMonitoringComponent } from './metrics.component';
 import { JhiMetricsService } from './metrics.service';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @NgModule({
-  imports: [
-    XmTranslationModule,
-    MatFormFieldModule,
-    FormsModule,
-    MatSelectModule,
-    NoDataModule,
-    LoaderModule,
-    NgbProgressbarModule,
-    CommonModule,
-    MatButtonModule,
-    MatDialogModule,
-    NgJhipsterModule,
-    MatIconModule,
-    MatCardModule,
-  ],
+    imports: [
+        XmTranslationModule,
+        MatFormFieldModule,
+        FormsModule,
+        MatSelectModule,
+        NoDataModule,
+        LoaderModule,
+        NgbProgressbarModule,
+        CommonModule,
+        MatButtonModule,
+        MatDialogModule,
+        NgJhipsterModule,
+        MatIconModule,
+        MatCardModule,
+        ModalCloseModule,
+    ],
     exports: [JhiMetricsMonitoringComponent],
     declarations: [JhiMetricsMonitoringComponent, JhiMetricsMonitoringModalComponent],
     providers: [JhiMetricsService],

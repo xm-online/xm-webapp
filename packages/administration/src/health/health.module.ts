@@ -14,6 +14,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { JhiHealthModalComponent } from './health-modal.component';
 import { JhiHealthCheckComponent } from './health.component';
 import { JhiHealthService } from './health.service';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @NgModule({
     imports: [
@@ -29,6 +30,7 @@ import { JhiHealthService } from './health.service';
         CommonModule,
         MatTableModule,
         MatCardModule,
+        ModalCloseModule,
     ],
     exports: [JhiHealthCheckComponent],
     declarations: [JhiHealthCheckComponent, JhiHealthModalComponent],

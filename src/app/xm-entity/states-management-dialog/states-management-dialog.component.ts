@@ -10,6 +10,7 @@ import { Observable, Subject } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { NextSpec, XmEntitySpec } from '..';
 import { XmEntitySpecWrapperService } from '../shared/xm-entity-spec-wrapper.service';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @Component({
     selector: 'xm-states-management-dialog',
@@ -100,7 +101,7 @@ export class StatesManagementDialogComponent implements OnInit {
 }
 
 @NgModule({
-    imports: [XmSharedModule, NoDataModule, EntityStateModule],
+  imports: [XmSharedModule, NoDataModule, EntityStateModule, ModalCloseModule],
     exports: [StatesManagementDialogComponent],
     declarations: [StatesManagementDialogComponent],
     entryComponents: [StatesManagementDialogComponent],

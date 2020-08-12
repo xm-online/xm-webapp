@@ -3,6 +3,7 @@
     <span *ngIf="isAddMode">{{'rolesManagement.permission.createCondition'|translate}}</span>
     <span *ngIf="!isAddMode">{{'rolesManagement.permission.editCondition'|translate}}</span>
   </h4>
+  <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 
 <div mat-dialog-content>
@@ -41,10 +42,10 @@
 </div>
 
 <div mat-dialog-actions>
-  <button (click)="onCancel()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
+  <button class="mr-1 ml-auto" mat-flat-button data-dismiss="modal" type="button" (click)="onCancel()">
     <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
   </button>
-  <button color="primary" (click)="onSave()" mat-button type="submit">
+  <button mat-flat-button color="primary" type="submit" (click)="onSave()">
     <i class="material-icons">done</i>&nbsp;<span>{{'rolesManagement.ok'|translate}}</span>
   </button>
 </div>

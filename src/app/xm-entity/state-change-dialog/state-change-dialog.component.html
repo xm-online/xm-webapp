@@ -1,6 +1,7 @@
 <form (ngSubmit)="onChangeState()" class="m-0" name="changeStateForm">
   <div mat-dialog-title>
     <h4 [innerHTML]="dialogTitle | translate" class="modal-title text-left"></h4>
+    <xm-modal-close mat-dialog-close></xm-modal-close>
   </div>
   <div mat-dialog-content>
     <xm-loader [showLoader]="showLoader"></xm-loader>
@@ -19,11 +20,11 @@
     </json-schema-form>
   </div>
   <div mat-dialog-actions>
-    <button (click)="onCancel()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
-      <span>{{'xm-entity.common.cancel'|translate}}</span>
+    <button class="mr-1 ml-auto" mat-flat-button data-dismiss="modal" type="button" (click)="onCancel()">
+      {{'xm-entity.common.cancel'|translate}}
     </button>
-    <button [disabled]="showLoader || !isJsonFormValid" color="primary" mat-button type="submit">
-      <span>{{buttonTitle | translate}}</span>
+    <button [disabled]="showLoader || !isJsonFormValid" mat-flat-button color="primary" type="submit">
+      {{buttonTitle | translate}}
     </button>
   </div>
 </form>

@@ -1,7 +1,9 @@
-<h1 mat-dialog-title>{{TRS.feedback | translate}}</h1>
+<h1 mat-dialog-title>
+  {{TRS.feedback | translate}}
+  <xm-modal-close mat-dialog-close></xm-modal-close>
+</h1>
 
 <div mat-dialog-content>
-
   <p>{{TRS.feedbackDetails | translate}}</p>
 
   <mat-form-field>
@@ -24,14 +26,14 @@
               required></textarea>
     <mat-hint align="end">{{message.value.length}} / 500</mat-hint>
   </mat-form-field>
-
 </div>
 
 <div mat-dialog-actions>
-  <button (click)="submit()"
-          class="ml-auto"
+  <button class="ml-auto"
+          mat-flat-button
           color="primary"
-          mat-button>{{ TRS.send | translate }}</button>
+          (click)="submit()">{{ TRS.send | translate }}
+  </button>
 
-  <button mat-button (click)="dialogRef.close(false)">{{ TRS.cancel | translate }}</button>
+  <button mat-flat-button (click)="dialogRef.close(false)">{{ TRS.cancel | translate }}</button>
 </div>

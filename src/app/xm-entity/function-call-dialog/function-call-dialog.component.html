@@ -1,6 +1,7 @@
 <form (ngSubmit)="onConfirmFunctionCall()" class="m-0" name="functionCallForm">
   <div mat-dialog-title>
     <h4 [innerHTML]="dialogTitle | translate" class="modal-title text-left"></h4>
+    <xm-modal-close mat-dialog-close></xm-modal-close>
   </div>
 
   <div mat-dialog-content>
@@ -33,17 +34,16 @@
 
   <ng-template #firstStep>
     <div mat-dialog-actions>
-      <button (click)="onCancel()"
-              class="btn mr-1 ml-auto"
+      <button class="mr-1 ml-auto"
+              mat-flat-button
+              type="button"
               data-dismiss="modal"
-              mat-button
-              type="button">
+              (click)="onCancel()">
         <span *ngIf="jsfAttributes?.entity?.cancelName">{{jsfAttributes.entity.cancelName | translate}}</span>
         <span *ngIf="!jsfAttributes?.entity?.cancelName">{{'xm-entity.common.cancel'|translate}}</span>
       </button>
       <button [disabled]="(showLoader$ | async) || !isJsonFormValid"
-              class="btn"
-              mat-button
+              mat-flat-button
               color="primary"
               type="submit">
         <span *ngIf="jsfAttributes?.entity?.saveName">{{jsfAttributes.entity.saveName | translate}}</span>

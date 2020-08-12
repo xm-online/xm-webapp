@@ -2,6 +2,7 @@
 
   <div mat-dialog-title>
     <h4 class="modal-title text-left">{{'entity.delete.title'|translate}}</h4>
+    <xm-modal-close mat-dialog-close></xm-modal-close>
   </div>
 
   <div mat-dialog-content>
@@ -11,13 +12,13 @@
 
   <div mat-dialog-actions>
     <button (click)="clear()"
-            class="btn mr-1 ml-auto"
+            class="mr-1 ml-auto"
             data-dismiss="modal"
-            mat-button
+            mat-flat-button
             type="button">
       <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
     </button>
-    <button [disabled]="showLoader" class="btn btn-danger" mat-button type="submit">
+    <button [disabled]="showLoader" color="warn" mat-flat-button type="submit">
       <span class="fa fa-trash"></span>&nbsp;<span>{{'entity.action.delete' | translate}}</span>
     </button>
   </div>

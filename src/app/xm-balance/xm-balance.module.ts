@@ -11,13 +11,15 @@ import { BalanceSpecService } from './shared/balance-spec.service';
 import { BalanceService } from './shared/balance.service';
 import { MetricService } from './shared/metric.service';
 import { PocketService } from './shared/pocket.service';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        NoDataModule,
-        XmSharedModule,
-    ],
+  imports: [
+    CommonModule,
+    NoDataModule,
+    XmSharedModule,
+    ModalCloseModule,
+  ],
     declarations: [
         BalanceListCardComponent,
         BalanceDetailDialogComponent,
