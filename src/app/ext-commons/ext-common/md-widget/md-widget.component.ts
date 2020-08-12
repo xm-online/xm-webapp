@@ -50,7 +50,6 @@ export class MdWidgetComponent implements AfterViewInit, OnDestroy {
             .pipe(takeUntilOnDestroy(this))
             .subscribe((result: HttpResponse<Widget>) => {
                 const w: Widget = result && result.body;
-                console.warn(w.config);
                 this.widgetConfig = w.config || null;
                 setTimeout(() => {
                     if (!this._textEditor.isPreviewActive()) {
