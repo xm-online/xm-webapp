@@ -11,7 +11,7 @@
       <div *ngIf="modes.length > 1" class="btn-group">
         <button (click)="mode = 'list';"
                 [disabled]="mode === 'list'"
-                class="btn rounded-circle"
+                class="btn-sm"
                 color="primary"
                 mat-flat-button
                 type="button">
@@ -19,8 +19,8 @@
         </button>
         <button (click)="mode = 'tree';"
                 [disabled]="mode === 'tree'"
-                class="btn rounded-circle"
                 mat-flat-button
+                class="btn-sm"
                 color="primary"
                 type="button">
           <span>{{'xm-entity.link-list-card.tree-view'|translate}}</span>
