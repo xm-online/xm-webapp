@@ -4,9 +4,7 @@
                 hasHeaderConfig else
                 hasNotHeaderConfig;">
     </div>
-    <button class="mat-dialog-close" type="button" tabindex="-1" mat-icon-button (click)="onCancel()">
-      <mat-icon>close</mat-icon>
-    </button>
+    <xm-modal-close mat-dialog-close></xm-modal-close>
   </div>
 
   <ng-template #hasHeaderConfig>
@@ -15,10 +13,10 @@
 
   <ng-template #hasNotHeaderConfig>
     <h4 *ngIf="!isEdit" class="modal-title text-left">
-      <span>{{'xm-entity.entity-detail-dialog.add.title' | translate}}</span>
+      {{'xm-entity.entity-detail-dialog.add.title' | translate}}
     </h4>
     <h4 *ngIf="isEdit" class="modal-title text-left">
-      <span>{{'xm-entity.entity-detail-dialog.edit.title' | translate}}</span> [<b>{{name}}</b>]
+      {{'xm-entity.entity-detail-dialog.edit.title' | translate}} [<b>{{name}}</b>]
     </h4>
   </ng-template>
 

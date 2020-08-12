@@ -23,6 +23,7 @@ import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 import { MatIconModule } from '@angular/material/icon';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @Component({
     selector: 'xm-entity-detail-dialog',
@@ -171,6 +172,7 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
         MatInputModule,
         XmTranslationModule,
         MatIconModule,
+        ModalCloseModule,
     ],
     exports: [EntityDetailDialogComponent],
     declarations: [EntityDetailDialogComponent],
