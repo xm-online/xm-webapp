@@ -22,4 +22,6 @@ export interface RoleMatrixPermission {
     privilegeKey?: string;
     roles?: any[];
     description?: string;
+    data?: any;
+    allChecked?: boolean;
 }

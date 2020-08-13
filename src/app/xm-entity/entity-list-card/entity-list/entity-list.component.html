@@ -200,7 +200,7 @@
   <no-data [show]="!showLoader && !tableDataSource?.data"></no-data>
 
   <div class="d-flex flex-nowrap align-items-center justify-content-end">
-    <ng-container class="ml-auto" [class.hidden]="!item.entities || (pageSize > item.totalItems)">
+    <ng-container [class.hidden]="!item.entities || (pageSize > item.totalItems)">
       <mat-paginator
         [pageSizeOptions]="itemsPerPageOptions"
         [pageSize]="pageSize"
