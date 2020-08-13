@@ -28,8 +28,26 @@ export class StringHandlerDirective extends NgModelWrapper<string> {
     @HostListener('focusout')
     public applyHandlers(): void {
         const value = this.elementRef.nativeElement.value;
-        if (!value) return;
-        this.elementRef.nativeElement.value = this.proceed(value);
+        if (value) {
+            this.elementRef.nativeElement.value = this.proceed(value);
+        }
         this.change(this.elementRef.nativeElement.value);
     }
+
+
+    @HostListener('input')
+    public inputValue(): void {
+        this.change(this.elementRef.nativeElement.value);
+    }
+
+    @HostListener('blur')
+    public applyFocusOut(): void {
+        this.touche(this.elementRef.nativeElement.value);
+    }
+
+    public writeValue(obj: string): void {
+        this.elementRef.nativeElement.value = obj;
+        super.writeValue(obj);
+    }
+
 }
