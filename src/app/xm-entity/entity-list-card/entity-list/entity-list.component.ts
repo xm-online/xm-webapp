@@ -16,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ContextService } from '../../../shared';
 import { merge, Observable, of, Subscription } from 'rxjs';
-import { XM_EVENT_LIST } from '../../../xm.constants';
+import { XM_EVENT_LIST, XM_PAGE_SIZE_OPTIONS } from '../../../xm.constants';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmAlertService } from '@xm-ngx/alert';
@@ -49,6 +49,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
     public currentEntitiesUiConfig: any[];
     public isShowFilterArea: boolean;
     public totalItems: number;
+    public itemsPerPageOptions: number[] = XM_PAGE_SIZE_OPTIONS;
     public tableDataSource: MatTableDataSource<XmEntity>;
 
     private entityListActionSuccessSubscription: Subscription;
@@ -162,7 +163,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
         const options: any = {
             typeKey: this.item.typeKey,
             page: this.paginator.pageIndex,
-            size: this.pageSize,
+            size: this.paginator.pageSize,
             sort: [`${this.sort.active},${this.sort.direction}`],
         };
 

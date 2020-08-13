@@ -60,3 +60,5 @@ export const XM_MAT_DIALOG_DEFAULT_OPTIONS = {
     ariaLabel: null,
     autoFocus: true,
 };
+
+export const  XM_PAGE_SIZE_OPTIONS = [10, 20, 50];
