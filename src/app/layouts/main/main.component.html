@@ -16,13 +16,13 @@
         <xm-sidebar></xm-sidebar>
       </div>
 
-      <div *ngIf="resolved$ | async" [@fadeInUpOutDown]="outlet?.activatedRouteData" class="main-panel xm-main-panel" id="main">
+      <div *ngIf="resolved$ | async" class="main-panel xm-main-panel" id="main">
 
         <xm-navbar class="mb-3"></xm-navbar>
 
         <div [ngClass]="isGuestLayout ? 'container' : 'container-fluid'"
              class="main-content xm-main-content">
-          <router-outlet #outlet="outlet"></router-outlet>
+          <router-outlet></router-outlet>
         </div>
 
         <router-outlet name="popup"></router-outlet>
