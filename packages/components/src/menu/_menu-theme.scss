@@ -86,7 +86,9 @@ $xm-menu-icon-color:        #a9afbb !default;
     }
 
     & > span {
-      padding-left: $sidebar-padding-x;
+      padding-left:  $sidebar-padding-x;
+      overflow:      hidden;
+      text-overflow: ellipsis;
     }
 
     @include menu-link($theme);

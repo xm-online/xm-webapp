@@ -10,7 +10,7 @@ import { MenuItem } from './menu-models';
            class="menu-link"
            routerLinkActive="active">
             <mat-icon class="menu-icon">{{item.icon}}</mat-icon>
-            <span>{{item.title | translate}}</span>
+            <span [title]="item.title | translate">{{item.title | translate}}</span>
             <ng-content></ng-content>
         </a>
     `,
