@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
+import { XmUiConfigService } from '@xm-ngx/core';
 import { Layout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { filter } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 interface Config {
     favicon: string;
@@ -20,11 +19,9 @@ declare const $: any;
 export class NavbarComponent implements OnInit, OnDestroy {
 
     public navbarLayout: Layout[];
-    public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
     constructor(
         private uiConfigService: XmUiConfigService<Config>,
-        private xmSessionService: XmSessionService,
     ) {
     }
 

@@ -1,4 +1,4 @@
-<div class="xm-notifications" *ngIf="config">
+<div class="xm-notifications" *ngIf="config && (isSessionActive$ | async)">
   <button class="notifications-bell"
           [disabled]="!notificationsCount"
           mat-icon-button
