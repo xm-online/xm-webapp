@@ -3,7 +3,6 @@
 <xm-alert-error></xm-alert-error>
 <xm-password-needed></xm-password-needed>
 <xm-maintenance-view></xm-maintenance-view>
-<xm-loader [absolute]="true" routerLoading></xm-loader>
 
 <div class="heatmap-container-wrapper">
   <div class="hidden-heatmap" id="heatmapContainer">
@@ -16,7 +15,12 @@
         <xm-sidebar></xm-sidebar>
       </div>
 
-      <div *ngIf="resolved$ | async" [@fadeInUpOutDown]="outlet?.activatedRouteData" class="main-panel xm-main-panel" id="main">
+      <div *ngIf="resolved$ | async"
+           [@fadeInUpOutDown]="outlet?.activatedRouteData"
+           class="main-panel xm-main-panel"
+           id="main">
+
+        <xm-loader [absolute]="true" routerLoading></xm-loader>
 
         <xm-navbar class="mb-3"></xm-navbar>
 
