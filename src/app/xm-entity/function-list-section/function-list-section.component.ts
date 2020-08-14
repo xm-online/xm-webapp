@@ -19,6 +19,7 @@ import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 import { StateChangeDialogComponent } from '../state-change-dialog/state-change-dialog.component';
+import { XM_EVENT_LIST } from '../../xm.constants';
 
 @Component({
     selector: 'xm-function-list-section',
@@ -84,16 +85,18 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
         modalRef.componentInstance.nextSpec = nextSpec;
         modalRef.componentInstance.dialogTitle = title;
         modalRef.componentInstance.buttonTitle = title;
-        modalRef.afterClosed().subscribe((result) => {
-            console.info(result);
-        }, (reason) => {
-            console.info(reason);
-            if (reason === 'OK') {
-                this.eventManager.broadcast({
-                    name: 'xmEntityDetailModification',
-                });
-            }
-        });
+        modalRef
+            .afterClosed()
+            .pipe(takeUntil(this.destroyed$))
+            .subscribe((result) => {
+                if (result === 'OK') {
+                    this.pushUpdateEvent();
+                }
+            }, (reason) => {
+                if (reason === 'OK') {
+                    this.pushUpdateEvent();
+                }
+            });
 
     }
 
@@ -185,5 +188,11 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
     private hasPrivilege(spec: FunctionSpec): boolean {
         const priv = spec.withEntityId ? 'XMENTITY.FUNCTION.EXECUTE' : 'FUNCTION.CALL';
         return this.principal.hasPrivilegesInline([priv, `${priv}.${spec.key}`]);
+    }
+
+    private pushUpdateEvent(): void {
+        this.eventManager.broadcast({
+            name: XM_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION,
+        });
     }
 }
