@@ -19,3 +19,9 @@
         display: block;
     }
 }
+
+.xm-state {
+  &.act-as-button {
+    color: #fff;
+  }
+}
