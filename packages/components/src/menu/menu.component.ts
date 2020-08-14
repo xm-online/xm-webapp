@@ -158,7 +158,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         protected readonly dashboardService: DashboardWrapperService,
         protected readonly router: Router,
         protected readonly principal: Principal,
-        protected readonly uiConfigService: XmPublicUiConfigService<{ sidebar?: { hideAdminConsole?: boolean } }>,
+        protected readonly uiConfigService: XmPublicUiConfigService<{ sidebar?: { hideAdminConsole?: boolean; hideApplication?: boolean; } }>,
         protected readonly entityConfigService: XmEntitySpecWrapperService,
         protected readonly contextService: ContextService,
     ) {
@@ -175,6 +175,9 @@ export class MenuComponent implements OnInit, OnDestroy {
 
         const applications$ = from(this.principal.identity()).pipe(
             switchMap(() => this.entityConfigService.entitySpec$()),
+            switchMap((spec) => this.uiConfigService.config$().pipe(
+                map((c) => c.sidebar?.hideApplication ? [] : spec)),
+            ),
             map((spec) => {
                 if (!spec) {
                     spec = [];
