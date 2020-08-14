@@ -182,7 +182,6 @@
       </ng-template>
 
       <td mat-cell *matCellDef="let xmEntity">{{ getFieldValue(xmEntity, field) }}</td>
-
     </ng-container>
 
     <ng-container *ngIf="!(options?.hideDelete) && !(item?.hideDelete)" matColumnDef="deleteButton">
@@ -197,17 +196,16 @@
     <tr mat-header-row *matHeaderRowDef="getColumnsToDisplay(item.fields)"></tr>
     <tr mat-row *matRowDef="let row; columns: getColumnsToDisplay(item.fields);"></tr>
   </table>
-</div>
 
-<div class="row align-items-center list-pagination">
-  <div class="col-auto mt-1 mb-1">
-    <xm-per-page [(itemsPerPage)]="pageSize" (onChange)="transition()"></xm-per-page>
-  </div>
-  <div class="col-sm"></div>
-  <div class="col-auto mt-1 mb-1">
-    <ng-container [class.hidden]="!item.entities || (pageSize > item.totalItems)">
-      <mat-paginator [pageSize]="pageSize" [length]="item.totalItems"></mat-paginator>
+  <no-data [show]="!showLoader && !tableDataSource?.data"></no-data>
+
+  <div class="d-flex flex-nowrap align-items-center justify-content-end">
+    <ng-container class="ml-auto" [class.hidden]="!item.entities || (pageSize > item.totalItems)">
+      <mat-paginator
+        [pageSizeOptions]="itemsPerPageOptions"
+        [pageSize]="pageSize"
+        [length]="item.totalItems">
+      </mat-paginator>
     </ng-container>
   </div>
 </div>
-<no-data [show]="!showLoader && !tableDataSource?.data"></no-data>
