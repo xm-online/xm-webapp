@@ -40,14 +40,14 @@
     </div>
   </div>
   <div *ngIf="profile.experience?.past?.length">
-    <h4>{{'xm-entity.functions.linkedin-profile..experience-past'|translate}}</h4>
+    <h4>{{'xm-entity.functions.linkedin-profile.experience-past'|translate}}</h4>
     <div *ngFor="let dataItem of profile.experience.past">
       <xm-linkedin-data-item [dataItem]="dataItem"></xm-linkedin-data-item>
       <hr/>
     </div>
   </div>
   <div *ngIf="profile.volunteering && profile.volunteering.length">
-    <h4>{{'xxm-entity.functions.linkedin-profile.volunteer'|translate}}</h4>
+    <h4>{{'xm-entity.functions.linkedin-profile.volunteer'|translate}}</h4>
     <div *ngFor="let dataItem of profile.volunteering">
       <xm-linkedin-data-item [dataItem]="dataItem"></xm-linkedin-data-item>
       <hr/>

@@ -395,6 +395,7 @@
       "newpassword": "Новый пароль",
       "oldpassword": "Старый пароль",
       "otp": "One Time Password",
+      "show-password": "Show password",
       "signin": "войти в систему"
     },
     "item-count": "Отображено {{first}} - {{second}} из {{total}} элементов.",
@@ -1137,6 +1138,8 @@
         "certifications": "Сертификаты",
         "current": "Текущий",
         "education": "Образование",
+        "experience-current": "Current experience",
+        "experience-past": "Past experience",
         "experienceCurrent": "Текущий опыт",
         "experiencePast": "Прошлый опыт",
         "interests": "Интересы",
