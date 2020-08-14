@@ -1,5 +1,5 @@
 <form #entityForm="ngForm" (ngSubmit)="onConfirmSave()" class="m-0" name="entityForm" novalidate role="form">
-  <div class="modal-body modal-btn-group">
+  <div mat-dialog-content>
     <xm-loader [showLoader]="showLoader"></xm-loader>
 
     <div [hidden]="true" class="form-group">
@@ -70,15 +70,16 @@
                       class="json-form-hide-submit">
     </json-schema-form>
   </div>
+
   <div mat-dialog-actions>
-    <button (click)="onCancel()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
-      <span>{{'xm-entity.common.cancel'|translate}}</span>
+    <button class="mr-1 ml-auto" mat-flat-button data-dismiss="modal" type="button" (click)="onCancel()">
+      {{'xm-entity.common.cancel'|translate}}
     </button>
     <button [disabled]="entityForm.form.invalid || showLoader || !isJsonFormValid"
+            mat-flat-button
             color="primary"
-            mat-button
             type="submit">
-      <span>{{'xm-entity.common.save'|translate}}</span>
+      {{'xm-entity.common.save'|translate}}
     </button>
   </div>
 </form>
