@@ -8,7 +8,7 @@ import {
 import { getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
 import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { MatTableDataSource } from '@angular/material/table';
-import { catchError, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FunctionCallDialogComponent } from '@xm-ngx/entity/function-call-dialog/function-call-dialog.component';
 import { TranslatePipe } from '@xm-ngx/translation';
@@ -91,8 +91,8 @@ export class EntityListComponent implements OnInit, OnDestroy {
     public ngAfterViewInit(): void {
         merge(this.sort.sortChange, this.paginator.page).pipe(
             startWith({}),
+            delay(0),
             switchMap(() => {
-                this.showLoader = true;
                 return this.loadEntitiesPaged(this.item)
             }),
             takeUntilOnDestroy(this),
