@@ -1,11 +1,11 @@
 <mat-card class="card">
+  <xm-loader [showLoader]="showLoader"></xm-loader>
+
   <div class="card-header card-header-icon card-header-primary">
     <h4 class="card-title">{{'rolesManagement.matrix.title'|translate}}</h4>
   </div>
 
   <div class="card-body">
-    <xm-loader [showLoader]="showLoader"></xm-loader>
-
     <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
       <div class="d-flex flex-grow-1 flex-wrap align-items-center mb-2">
         <mat-form-field class="mr-4">
@@ -24,8 +24,7 @@
                  matInput
                  name="search"
                  placeholder="{{'rolesManagement.permission.privilegeKey' | translate}}"
-                 type="text"
-          >
+                 type="text">
         </mat-form-field>
 
         <mat-form-field class="mr-4">
@@ -61,7 +60,7 @@
       </div>
     </div>
 
-    <div class="material-datatables table-responsive role-matrix-table">
+    <div class="material-datatables table-responsive xm-role-matrix-table">
       <div class="d-flex flex-wrap mb-4">
         <mat-chip-list>
           <mat-chip *ngFor="let item of hiddenRoles"
@@ -112,13 +111,13 @@
                     </mat-chip>
                   </mat-chip-list>
                   <div class="mt-2 mb-2">
-                    <mat-slide-toggle (change)="isChanged(role, $event, true);" [checked]="isAllChecked(role)">
+                    <mat-slide-toggle (change)="onAllChanged(role, $event);" [checked]="isAllChecked(role)">
                       {{'rolesManagement.permission.checkAll' | translate}}
                     </mat-slide-toggle>
                   </div>
                 </th>
                 <td mat-cell *matCellDef="let permission" class="text-center">
-                  <mat-checkbox (change)="isChanged(role, $event)"
+                  <mat-checkbox (change)="onPermissionChanged(permission, role, $event)"
                                 [checked]="permission.data[role].checked"
                                 class="no-label-margin"></mat-checkbox>
                 </td>
@@ -135,7 +134,7 @@
 
       <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
         <ng-container class="mr-auto flex-grow-1 flex-nowrap"
-                      [class.hidden]="!permissions || (itemsPerPage > totalItems)">
+                      [class.hidden]="!(dataSource?.data.length > 0) || (itemsPerPage > totalItems)">
           <mat-paginator
             [pageSizeOptions]="itemsPerPageOptions"
             [pageSize]="itemsPerPage"
@@ -162,75 +161,6 @@
           </button>
         </div>
       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <table cellspacing="0"
-             class="table table-striped table-no-bordered table-hover"
-             id="datatables"
-             style="width:100% ; display: none;"
-             width="100%">
-        <thead>
-        <tr [(ascending)]="reverse" [(predicate)]="predicate" [callback]="onTransition.bind(this, page)" jhiSort>
-          <th jhiSortBy="privilegeKey">
-            <span>{{'rolesManagement.permission.privilegeKey'|translate}}</span>
-            <span class="fa fa-sort"></span></th>
-          <th>{{'rolesManagement.permission.desc' | translate}}</th>
-          <th jhiSortBy="msName"><span>{{'rolesManagement.permission.msName'|translate}}</span>
-            <span class="fa fa-sort"></span></th>
-          <th *ngFor="let item of matrix?.roles; index as i" [ngClass]="'col-' + i" class="text-center">
-            <a (click)="onHideRole(item, i)"
-               class="remove-from-table"
-               href="javascript: void(0);">
-              {{item}}
-              <span class="material-icons">close</span>
-            </a>
-            <div class="text-center">
-              <mat-slide-toggle (change)="onCheckAll(i); isChanged(permissions);" [(ngModel)]="checkAll[i]">
-                {{'rolesManagement.permission.checkAll' | translate}}
-              </mat-slide-toggle>
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let item of permissions">
-          <td>{{item.privilegeKey}}</td>
-          <td class="text-center text-muted">
-            <mat-icon *ngIf="item?.description" [matTooltip]="item.description">
-              info
-            </mat-icon>
-          </td>
-          <td>{{item.msName}}</td>
-          <td *ngFor="let role of item.roles; index as i" [ngClass]="'col-' + i" class="text-center align-middle">
-            <mat-checkbox (change)="isChanged(permissions)"
-                          [(ngModel)]="role.value"
-                          class="no-label-margin"></mat-checkbox>
-          </td>
-        </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </mat-card>
