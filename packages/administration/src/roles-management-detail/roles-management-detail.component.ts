@@ -1,36 +1,41 @@
 import { ComponentType } from '@angular/cdk/overlay';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { JhiOrderByPipe } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
-import { instanceDestroyed } from '../../../../src/app/shared/helpers/instance-destroyed';
 import { JhiLanguageHelper } from '@xm-ngx/components/language';
 import { Permission } from '../../../../src/app/shared/role/permission.model';
 import { Role } from '../../../../src/app/shared/role/role.model';
 import { RoleService } from '../../../../src/app/shared/role/role.service';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { XM_PAGE_SIZE_OPTIONS } from '../../../../src/app/xm.constants';
 
 @Component({
     selector: 'xm-role-mgmt-datail',
     templateUrl: './roles-management-detail.component.html',
-    providers: [JhiOrderByPipe],
+    styles: [`
+        :host .role-details-table ::ng-deep th {
+            padding: 4px 10px;
+            white-space: nowrap;
+        }
+    `]
 })
 export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
 
     public role: Role;
     public permissions: Permission[];
     public permissionsSort: Permission[];
-    public totalItems: any;
-    public queryCount: any;
-    public itemsPerPage: typeof ITEMS_PER_PAGE = ITEMS_PER_PAGE;
-    public previousPage: any;
-    public page: any = 1;
-    public predicate: any = 'privilegeKey';
+    public totalItems: number;
+    public itemsPerPage: number = ITEMS_PER_PAGE;
+    public predicate: string = 'privilegeKey';
     public reverse: boolean = true;
     public routeData: any;
     public forbids: string[] = ['', 'EXCEPTION', 'SKIP'];
@@ -49,18 +54,24 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
     public hasEnv: boolean;
     public entities: string[];
     public checkAll: boolean;
-    private isSort: boolean;
     private routeParamsSubscription: Subscription;
     private routeDataSubscription: Subscription;
+
+
+    public itemsPerPageOptions: number[] = XM_PAGE_SIZE_OPTIONS;
+    public displayedColumns: string[];
+    public dataSource: MatTableDataSource<Permission> =
+        new MatTableDataSource<Permission>([]);
+    @ViewChild(MatSort, {static: true}) public sort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
+
 
     constructor(private jhiLanguageHelper: JhiLanguageHelper,
                 private roleService: RoleService,
                 private alertService: XmToasterService,
                 private activatedRoute: ActivatedRoute,
-                private orderByPipe: JhiOrderByPipe,
                 private modalService: MatDialog) {
         this.routeDataSubscription = this.activatedRoute.data
-            .pipe(takeUntil(instanceDestroyed(this)))
             .subscribe((data) => this.routeData = data);
     }
 
@@ -69,81 +80,76 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
             const roleKey = params.roleKey;
             if (roleKey) {
                 this.routeData.pageSubSubTitle = roleKey;
-                this.load(roleKey);
                 this.jhiLanguageHelper.updateTitle();
+
+                this.buildColumns();
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+                this.load(roleKey);
             }
         });
+    }
+
+    public buildColumns(): void {
+        this.displayedColumns = [
+            'privilegeKey',
+            'permissionDescription',
+            'msName',
+            'permit',
+            'onForbid',
+            'resourceCondition',
+            'envCondition',
+        ];
     }
 
     public ngOnDestroy(): void {
         this.routeParamsSubscription.unsubscribe();
         this.routeDataSubscription.unsubscribe();
+        takeUntilOnDestroyDestroy(this);
     }
 
     public load(roleKey: string): void {
         this.showLoader = true;
         this.roleService.getRole(roleKey)
+            .pipe(
+                takeUntilOnDestroy(this),
+                finalize(() => this.showLoader = false)
+            )
             .subscribe(
                 (result: Role) => {
                     result.permissions = result.permissions || [];
                     this.role = result;
                     this.hasEnv = !!(result.env && result.env.length);
                     this.entities = this.getEntities(result.permissions);
-                    this.queryCount = this.totalItems = result.permissions.length;
-                    this.onTransition(this.page);
+                    this.totalItems = this.role.permissions.length;
+                    this.dataSource.data = [...this.role.permissions];
                 },
                 (resp: Response) => this.onError(resp),
-                () => this.showLoader = false,
             );
     }
 
-    public onLoadPage(page: number): void {
-        this.page = page;
-        if (page !== this.previousPage) {
-            this.previousPage = page;
-            this.permissions = this.getItemsByPage(page);
-            // TODO:
-            //  this.transition();
-        }
-    }
-
-    public onTransition(page: number): void {
-        if (this.isSort) {
-            this.permissionsSort = this.orderByPipe.transform(this.permissionsSort, this.predicate, !this.reverse);
-        } else {
-            this.role.permissions = this.orderByPipe.transform(this.role.permissions, this.predicate, !this.reverse);
-        }
-        this.permissions = this.getItemsByPage(page);
-    }
-
     public onChangeSort(): void {
+        this.paginator.pageIndex = 0;
         const booleanCompare = (obj) => typeof obj === 'boolean';
         if (this.sortBy.msName || this.sortBy.query
             || booleanCompare(this.sortBy.enabled)
             || booleanCompare(this.sortBy.condition)) {
-            this.isSort = true;
-            this.permissionsSort = this.groupByItem(this.role.permissions);
-            this.queryCount = this.totalItems = this.permissionsSort.length;
-        } else {
-            this.isSort = false;
-            this.queryCount = this.totalItems = this.role.permissions.length;
-        }
-        this.page = 1;
-        this.onTransition(this.page);
-    }
+            this.dataSource.data = this.groupByItem(this.role.permissions);
 
-    public onChangePerPage(): void {
-        this.previousPage = null;
-        this.onLoadPage(this.page);
+        } else {
+            this.dataSource.data = this.role.permissions;
+        }
     }
 
     public onCheckAll(): void {
-        (this.isSort ? this.permissionsSort : this.role.permissions).forEach((el) => el.enabled = this.checkAll);
+        this.dataSource.data.forEach((el) => el.enabled = this.checkAll);
     }
 
     public onEditResource(item: Permission): void {
         this.openDialog(RoleConditionDialogComponent, item, item.resourceCondition,
-            item.resources, 'rolesManagement.permission.conditionResourceInfo').afterClosed().subscribe(
+            item.resources, 'rolesManagement.permission.conditionResourceInfo')
+            .afterClosed()
+            .subscribe(
             (result) => {
                 item.resourceCondition = result || '';
             });
@@ -159,16 +165,14 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
     public onSave(): void {
         this.showLoader = true;
         this.role.updatedDate = new Date().toJSON();
-        this.roleService.update(this.role)
+        this.roleService
+            .update(this.role)
+            .pipe(
+                finalize(() => this.showLoader = false),
+                takeUntilOnDestroy(this),
+            )
             .subscribe((resp: Response) => this.onError(resp),
-                (err) => console.warn(err),
-                () => this.showLoader = false);
-    }
-
-    private getItemsByPage(page: any): Permission[] {
-        const startPos = (page - 1) * this.itemsPerPage;
-        const endPos = startPos + this.itemsPerPage;
-        return (this.isSort ? this.permissionsSort : this.role.permissions).slice(startPos, endPos);
+                (err) => console.warn(err));
     }
 
     private getEntities(list: Permission[] = []): string[] {
