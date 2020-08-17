@@ -79,8 +79,8 @@
 <!-- end filter area -->
 
 <div class="table-responsive" [ngClass]="{ 'sm-overflow': options.smOverflow }">
-  <table class="table"
-         style="width: 100%"
+  <xm-loader [showLoader]="showLoader"></xm-loader>
+  <table class="table w-100"
          mat-table
          matSort
          [matSortDirection]="reverse ? 'asc' : 'desc'"
@@ -102,7 +102,11 @@
                   [matColumnDef]="field?.field" [ngSwitch]="field?.field">
 
       <ng-container *ngSwitchCase="'name'">
-        <th mat-header-cell *matHeaderCellDef [mat-sort-header]="field.field">{{field.title | translate}}</th>
+        <th mat-header-cell *matHeaderCellDef
+            [disabled]="field.sortable === false"
+            [mat-sort-header]="field?.field">
+          {{field.title | translate}}
+        </th>
         <td mat-cell *matCellDef="let xmEntity">
           <div
             *ngIf="(options?.noDeepLink || item?.noDeepLink); then entryHasNotLink else entryHasLink"></div>
@@ -116,8 +120,12 @@
           </ng-template>
         </td>
       </ng-container>
+
       <ng-container  *ngSwitchCase="'typeKey'">
-        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+        <th mat-header-cell
+            *matHeaderCellDef
+            [disabled]="field.sortable === false"
+            [mat-sort-header]="field?.field">{{field.title | translate}}</th>
         <td *matCellDef="let xmEntity">
           <div>
             <h6>{{xmEntity.type?.name | translate}}</h6>
@@ -125,7 +133,10 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'startDate'">
-        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+        <th mat-header-cell
+            *matHeaderCellDef
+            [disabled]="field.sortable === false"
+            [mat-sort-header]="field?.field">{{field.title | translate}}</th>
         <td *matCellDef="let xmEntity">
           <div>
             {{xmEntity.startDate | xmDateTime}}
@@ -133,7 +144,10 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'updateDate'">
-        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+        <th mat-header-cell
+            *matHeaderCellDef
+            [disabled]="field.sortable === false"
+            [mat-sort-header]="field?.field">{{field.title | translate}}</th>
         <td *matCellDef="let xmEntity">
           <div>
             {{xmEntity.updateDate | xmDateTime}}
@@ -163,7 +177,10 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'stateKey'">
-        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
+        <th mat-header-cell
+            *matHeaderCellDef
+            [disabled]="field.sortable === false"
+            [mat-sort-header]="field?.field">{{field.title | translate}}</th>
         <td *matCellDef="let xmEntity">
           <div *ngIf="xmEntity.state" class="xm-state">
             <div [style.background]="xmEntity.state?.color" class="xm-state-icon">
@@ -174,15 +191,15 @@
         </td>
       </ng-container>
 
-      <ng-container *ngIf="field?.useKeyword; else noSort">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{field.title | translate}}</th>
+      <ng-container *ngSwitchDefault>
+        <th mat-header-cell
+            *matHeaderCellDef
+            [disabled]="field.sortable === false"
+            [mat-sort-header]="field.useKeyword ? field.field + '.keyword' : field.field">
+          {{field.title | translate}}
+        </th>
+        <td mat-cell *matCellDef="let xmEntity">{{ getFieldValue(xmEntity, field) }}</td>
       </ng-container>
-      <ng-template #noSort>
-        <th mat-header-cell *matHeaderCellDef>{{field.title | translate}}</th>
-      </ng-template>
-
-      <td mat-cell *matCellDef="let xmEntity">{{ getFieldValue(xmEntity, field) }}</td>
-
     </ng-container>
 
     <ng-container *ngIf="!(options?.hideDelete) && !(item?.hideDelete)" matColumnDef="deleteButton">
@@ -198,7 +215,7 @@
     <tr mat-row *matRowDef="let row; columns: getColumnsToDisplay(item.fields);"></tr>
   </table>
 
-  <no-data [show]="!showLoader && !tableDataSource?.data"></no-data>
+  <no-data [show]="!showLoader && !(tableDataSource?.data?.length > 0)"></no-data>
 
   <div class="d-flex flex-nowrap align-items-center justify-content-end">
     <ng-container [class.hidden]="!item.entities || (pageSize > item.totalItems)">

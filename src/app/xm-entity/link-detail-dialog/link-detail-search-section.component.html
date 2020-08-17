@@ -1,4 +1,4 @@
-<div class="modal-body modal-btn-group">
+<div mat-dialog-content>
   <xm-loader [showLoader]="showLoader"></xm-loader>
 
   <div class="form-group">
@@ -37,8 +37,8 @@
         <td>{{xmEntity.name}}</td>
         <td>{{xmEntity.description}}</td>
         <td>
-          <button (click)="onAdd(xmEntity)" class="btn btn-primary rounded-circle btn-sm">
-            <span>{{'xm-entity.link-detail-dialog.add-link'|translate}}</span>
+          <button mat-flat-button color="primary" (click)="onAdd(xmEntity)">
+            {{'xm-entity.link-detail-dialog.add-link'|translate}}
           </button>
         </td>
       </tr>
@@ -48,16 +48,15 @@
 
   <div class="row">
     <div class="col-sm-12 text-center">
-      <button (click)="onShowMore()" *ngIf="searchXmEntities?.length < total" [disabled]="showLoader" class="btn btn-primary rounded-circle"
-              mat-button>
-        <span>{{'xm-entity.link-detail-dialog.show-more'|translate}}</span>
+      <button mat-flat-button color="primary" (click)="onShowMore()" *ngIf="searchXmEntities?.length < total" [disabled]="showLoader">
+        {{'xm-entity.link-detail-dialog.show-more'|translate}}
       </button>
     </div>
   </div>
 </div>
 
 <div mat-dialog-actions>
-  <button (click)="onCancel()" class="btn ml-auto" data-dismiss="modal" mat-button type="button">
-    <span>{{'xm-entity.common.cancel'|translate}}</span>
+  <button class="ml-auto" mat-flat-button data-dismiss="modal" type="button" (click)="onCancel()">
+    {{'xm-entity.common.cancel'|translate}}
   </button>
 </div>

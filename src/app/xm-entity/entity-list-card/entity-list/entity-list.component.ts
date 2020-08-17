@@ -8,7 +8,7 @@ import {
 import { getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
 import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { MatTableDataSource } from '@angular/material/table';
-import { catchError, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FunctionCallDialogComponent } from '@xm-ngx/entity/function-call-dialog/function-call-dialog.component';
 import { TranslatePipe } from '@xm-ngx/translation';
@@ -69,7 +69,6 @@ export class EntityListComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.tableDataSource = this.createDataSource(this.item.entities);
-
         this.entityListActionSuccessSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS)
             .subscribe( () => {
                 this.onRefresh();
@@ -78,15 +77,10 @@ export class EntityListComponent implements OnInit, OnDestroy {
             .subscribe( () => {
                this.onRefresh();
             });
-
-        this.item.fields
-            .filter((f) => f.field && f.field.startsWith('data.'))
-            .map((f) => f.sortable = false);
-        // this.item.currentQuery = this.item.currentQuery ? this.item.currentQuery : this.getDefaultSearch(this.item);
         if (this.item.filter) {
             this.item.filterJsfAttributes = buildJsfAttributes(this.item.filter.dataSpec, this.item.filter.dataForm);
         }
-        if (this.item.fields) { // Workaroud: server sorting doesn't work atm for nested "data" fields
+        if (this.item.fields) { // Workaround: server sorting doesn't work atm for nested "data" fields
             this.item.fields
                 .filter((f) => f.field && f.field.startsWith('data.'))
                 .map((f) => f.sortable = false);
@@ -97,8 +91,8 @@ export class EntityListComponent implements OnInit, OnDestroy {
     public ngAfterViewInit(): void {
         merge(this.sort.sortChange, this.paginator.page).pipe(
             startWith({}),
+            delay(0),
             switchMap(() => {
-                this.showLoader = true;
                 return this.loadEntitiesPaged(this.item)
             }),
             takeUntilOnDestroy(this),
