@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 export interface TableDisplayColumn {
     key: string,
@@ -79,7 +79,9 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
 
     public load(): void {
         this.showLoader = true;
-        this.roleService.getMatrix().subscribe(
+        this.roleService.getMatrix()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(
             (result: RoleMatrix) => {
                 if (result.roles && result.roles.length && result.permissions && result.permissions.length) {
                     result.permissions.forEach((item) => {
@@ -174,7 +176,11 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
             return item;
         });
 
-        this.roleService.updateMatrix(matrix).pipe(finalize(() => this.showLoader = false))
+        this.roleService.updateMatrix(matrix)
+            .pipe(
+                finalize(() => this.showLoader = false),
+                takeUntilOnDestroy(this),
+            )
             .subscribe(
                 () => {
                     this.matrix.permissions.forEach((item) => item.roles.forEach((el) => el.valueOrg = el.value));
