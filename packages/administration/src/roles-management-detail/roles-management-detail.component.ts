@@ -123,9 +123,21 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
                     this.entities = this.getEntities(result.permissions);
                     this.totalItems = this.role.permissions.length;
                     this.dataSource.data = [...this.role.permissions];
+                    this.isAllChecked();
                 },
                 (resp: Response) => this.onError(resp),
             );
+    }
+
+    public isAllChecked(): void {
+        if (this.role && this.role.permissions) {
+            const totalLength = this.role.permissions.length;
+            const totalCheckedLength = this.role.permissions
+                .filter((p: Permission) => p.enabled).length;
+            this.checkAll =  totalLength === totalCheckedLength;
+        } else {
+            this.checkAll = false;
+        }
     }
 
     public onChangeSort(): void {
