@@ -1,0 +1,36 @@
+<mat-card *xmCondition="options.condition; arguments {entity: entity}"
+          class="mb-3">
+
+  <mat-card-title class="d-flex justify-content-between">
+
+    <span>{{options.title | translate}}</span>
+
+    <div *ngIf="!options.readonly && entity?.id" class="flex-nowrap d-flex">
+
+      <xm-edit-widget-buttons (cancel)="cancel.emit($event)"
+                              (isEditChange)="isEditChange.emit($event)"
+                              (save)="save.emit($event)"
+                              *xmCondition="options.editCondition; arguments {entity: entity}"
+                              [(isEdit)]="isEdit">
+      </xm-edit-widget-buttons>
+
+      <button (click)="contentHidden=!contentHidden"
+              *ngIf="options?.collapsableContent"
+              mat-icon-button>
+        <mat-icon>{{contentHidden ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}</mat-icon>
+      </button>
+
+    </div>
+
+  </mat-card-title>
+
+  <mat-card-content *ngIf="entity"
+                    [@bodyExpansion]="contentHidden ? 'collapsed' : 'expanded'"
+                    class="overflow-hidden">
+
+    <ng-content select="[xmContent]"></ng-content>
+
+  </mat-card-content>
+
+</mat-card>
+
