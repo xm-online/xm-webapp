@@ -1,11 +1,11 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
     selector: 'xm-loader',
     templateUrl: './loader.component.html',
     styleUrls: ['./loader.component.scss'],
 })
-export class LoaderComponent implements OnInit {
+export class LoaderComponent implements OnInit, OnDestroy {
 
     @Input() public className?: string;
     @Input() public noDisableParent?: boolean;
@@ -13,7 +13,7 @@ export class LoaderComponent implements OnInit {
     public show: boolean;
 
     constructor(
-        private elementRef: ElementRef,
+        private elementRef: ElementRef<HTMLElement>,
     ) {
     }
 
@@ -29,5 +29,10 @@ export class LoaderComponent implements OnInit {
         if (this.className) {
             this.elementRef.nativeElement.className += ` ${this.className.trim()}`;
         }
+    }
+
+    public ngOnDestroy(): void {
+        this.elementRef.nativeElement
+            .parentElement.classList.remove('xm-disabled');
     }
 }
