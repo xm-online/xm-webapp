@@ -1,14 +1,14 @@
 <div class="row mb-3">
-  <div *ngFor="let item of stats" class="col-lg-3 col-md-6 col-sm-6">
-    <mat-card class="card card-stats">
-      <div class="card-header card-header-secondary card-header-icon">
-        <div [attr.data-background-color]="item.color" class="card-icon">
-          <i class="material-icons">{{item.icon}}</i>
+  <div *ngFor="let item of stats" class="col-lg-3 col-md-6 col-sm-6 mt-3 mb-3">
+    <mat-card class="card p-0 card-stats xm-stat-widget">
+      <div class="card-header card-header-icon text-right">
+        <div [style.background-color]="item.color" class="card-icon mat-elevation-z6">
+          <mat-icon>{{item.icon}}</mat-icon>
         </div>
-        <p class="card-category">{{item.name | translate}}</p>
+        <p class="card-category pt-2 mb-1">{{item.name | translate}}</p>
         <h3 class="card-title">{{item.value | async}}</h3>
       </div>
-      <div class="card-footer"></div>
+      <mat-divider></mat-divider>
     </mat-card>
   </div>
 </div>
