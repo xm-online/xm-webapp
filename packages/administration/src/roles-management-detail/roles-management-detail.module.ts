@@ -19,6 +19,10 @@ import { PerPageModule, WordAutocompleteModule } from '../../../../src/app/share
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
 import { RoleMgmtDetailComponent } from './roles-management-detail.component';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
+import { MatCardModule } from '@angular/material/card';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
     declarations: [RoleMgmtDetailComponent, RoleConditionDialogComponent],
@@ -43,6 +47,10 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
         MatTooltipModule,
         MatSlideToggleModule,
         ModalCloseModule,
+        MatCardModule,
+        MatSortModule,
+        MatTableModule,
+        MatPaginatorModule,
     ],
 })
 export class RolesManagementDetailModule {
