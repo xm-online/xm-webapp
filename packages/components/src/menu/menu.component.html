@@ -21,7 +21,7 @@
            role="button"
            tabindex="0">
         <mat-icon class="menu-icon">{{category.icon}}</mat-icon>
-        <span>{{category.title | translate}}</span>
+        <span [title]="category.title | translate">{{category.title | translate}}</span>
         <i [@indicatorRotate]="getCategoryState(category)"
            class="mat-expansion-indicator"></i>
       </div>
