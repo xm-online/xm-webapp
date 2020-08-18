@@ -12,6 +12,7 @@ import { XmConfigService } from '../../../../../src/app/shared/spec/config.servi
 import { Notification, NotificationUiConfig } from '../shared/notification.model';
 
 import { NotificationsService } from '../shared/notifications.service';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 const DEFAULT_PRIVILEGES = ['XMENTITY.SEARCH', 'XMENTITY.SEARCH.QUERY', 'XMENTITY.SEARCH.TEMPLATE'];
 const DEF_NOTIFY_COUNT = 5;
@@ -65,17 +66,27 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             () => this.load());
         this.entityEntityStateChange = this.eventManager.subscribe('xmEntityDetailModification',
             () => this.load());
-        this.load(true);
+        this.isSessionActive$
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((res: boolean) => {
+                if (res) {
+                    this.load()
+                }
+            });
     }
 
     public ngOnDestroy(): void {
         this.eventManager.destroy(this.entityListModifications);
         this.eventManager.destroy(this.entityEntityStateChange);
         clearInterval(this.updateInterval);
+        takeUntilOnDestroyDestroy(this);
     }
 
     public load(initAutoUpdate: boolean = false): void {
-        this.xmConfigService.getUiConfig().subscribe((config) => {
+        this.xmConfigService
+            .getUiConfig()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((config) => {
             this.config = config.notifications as NotificationUiConfig;
             this.mapPrviliges(this.config);
             if (this.config) {
@@ -96,15 +107,19 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
 
     public getNotifications(config: NotificationUiConfig): void {
-        this.notificationsService.getNotifications(config).pipe(
-            map((notifications: any) => {
-                notifications.forEach((notification) => {
-                    if (config.showAsHtml) {
-                        notification.label = this.sanitized.bypassSecurityTrustHtml(notification.label);
-                    }
-                });
-                return notifications;
-            }))
+        this.notificationsService
+            .getNotifications(config)
+            .pipe(
+                map((notifications: any) => {
+                    notifications.forEach((notification) => {
+                        if (config.showAsHtml) {
+                            notification.label = this.sanitized.bypassSecurityTrustHtml(notification.label);
+                        }
+                    });
+                    return notifications;
+                }),
+                takeUntilOnDestroy(this),
+            )
             .subscribe((resp) => {
                 this.notifications = resp;
                 this.redirectUrl = config.redirectUrl;
@@ -115,9 +130,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public onRemoveItem(event: any, item: any): void {
         event.stopPropagation();
         if (this.config && this.config.changeStateName) {
-            this.notificationsService.markRead(item.id, this.config).subscribe(() => {
-                this.notifications = this.notifications.filter((i) => i !== item);
-            });
+            this.notificationsService
+                .markRead(item.id, this.config)
+                .pipe(takeUntilOnDestroy(this))
+                .subscribe(() => {
+                    this.notifications = this.notifications.filter((i) => i !== item);
+                });
         }
     }
 

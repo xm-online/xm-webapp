@@ -21,6 +21,43 @@
   height: auto;
   line-height: 1.5;
   white-space: normal;
+  outline: none;
+
+  ::ng-deep {
+    .alert-status {
+      margin-top: 3px;
+      margin-bottom: 3px;
+      display: flex;
+      padding: 0 0 0 30px;
+      position: relative;
+    }
+
+    .alert-status-icon {
+      width: 24px;
+      height: 24px;
+      display: block;
+      line-height: 24px;
+      text-align: center;
+      border-radius: 24px;
+      box-shadow: 0 0 0 1px #fff;
+      position: absolute;
+      left: 0;
+      top: 0;
+
+      i.material-icons {
+        font-size: 14px;
+        color: #fff;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
 
   &.hasDate {
     padding-bottom: 30px;
