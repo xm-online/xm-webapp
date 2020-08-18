@@ -1,0 +1,11 @@
+.xm-disabled {
+  user-select:    none !important;
+  pointer-events: none !important;
+  opacity:        0.5 !important;
+  color:          rgba(0, 0, 0, 0.26) !important;
+  cursor:         not-allowed !important;
+
+  > xm-loader {
+    opacity: 1 !important;
+  }
+}

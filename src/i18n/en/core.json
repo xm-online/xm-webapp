@@ -405,7 +405,6 @@
       "newpassword": "New password",
       "oldpassword": "Old password",
       "otp": "One Time Password",
-      "show-password": "Show password",
       "signin": "sign in"
     },
     "item-count": "Showing {{first}} - {{second}} of {{total}} items.",
@@ -1149,8 +1148,6 @@
         "certifications": "Certifications",
         "current": "Current",
         "education": "Education",
-        "experience-current": "Current experience",
-        "experience-past": "Past Experience",
         "experienceCurrent": "Current Experience",
         "experiencePast": "Past Experience",
         "interests": "Interests",

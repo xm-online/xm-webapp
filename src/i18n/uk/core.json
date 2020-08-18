@@ -395,7 +395,6 @@
       "newpassword": "Новий пароль",
       "oldpassword": "Старий пароль",
       "otp": "One Time Password",
-      "show-password": "Show password",
       "signin": "увійти"
     },
     "item-count": "Показано {{first}} - {{second}} із {{total}} елементів.",
@@ -1115,8 +1114,6 @@
         "certifications": "Сертифікати",
         "current": "Струм",
         "education": "Освіта",
-        "experience-current": "Current experience",
-        "experience-past": "Past experience",
         "experienceCurrent": "Поточний досвід",
         "experiencePast": "Минулий досвід",
         "interests": "Інтереси",

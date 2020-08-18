@@ -1,162 +1,165 @@
 <mat-card class="card">
+  <xm-loader [showLoader]="showLoader"></xm-loader>
+
   <div class="card-header card-header-icon card-header-primary">
     <h4 class="card-title">{{'rolesManagement.matrix.title'|translate}}</h4>
   </div>
 
   <div class="card-body">
-    <xm-loader [showLoader]="showLoader"></xm-loader>
-    <div class="row align-items-center">
-      <div class="col-sm-4 col-md-2">
-        <div class="form-group">
-          <mat-form-field>
-            <mat-select (selectionChange)="onChangeSort()"
-                        [(ngModel)]="sortBy.msName"
-                        placeholder="{{'rolesManagement.permission.msName' | translate}}">
-              <mat-option *ngFor="let item of entities" [value]="item">
-                {{item}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div class="col-sm-4 col-md-2">
-        <div class="form-group">
-          <mat-form-field>
-            <input (change)="onChangeSort()"
-                   [(ngModel)]="sortBy.query"
-                   matInput
-                   name="search"
-                   placeholder="{{'rolesManagement.permission.privilegeKey' | translate}}"
-                   type="text"
-            >
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div class="col-sm-4 col-md-2">
-        <div class="form-group">
-          <mat-form-field>
-            <mat-select (selectionChange)="onChangeSort()"
-                        [(ngModel)]="sortBy.permitted_filter"
-                        placeholder="{{'rolesManagement.permission.privilegeKey' | translate}}">
-              <mat-option *ngFor="let item of permittedFilter" [value]="item.value">
-                <span *ngIf="item.trans">{{'rolesManagement.permission.' + item.trans|translate}}</span>
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div class="col"></div>
-
-      <div class="col-auto">
-        <button (click)="onCancel()"
-                *permitted="'DASHBOARD.UPDATE'"
-                [disabled]="!hasChanges"
-                class="btn btn-sm mat-button mr-1"
-                type="button">
-          <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
-        </button>
-        <button (click)="onSave()"
-                *permitted="'DASHBOARD.UPDATE'"
-                [disabled]="!hasChanges"
-                class="btn btn-primary btn-sm mat-button"
-                type="button">
-          <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
-        </button>
-      </div>
-    </div>
-
-    <div #table class="material-datatables table-responsive role-matrix-table">
-      <div class="inline-container">
-        <div *ngFor="let item of hiddenRoles">
-          <a (click)="onViewRole(item)" class="remove-from-table" href="javascript: void(0);">
-            {{item.role}}
-            <span class="material-icons">close</span>
-          </a>
-        </div>
-      </div>
-
-      <table cellspacing="0"
-             class="table table-striped table-no-bordered table-hover"
-             id="datatables"
-             style="width:100%"
-             width="100%">
-        <thead>
-        <tr [(ascending)]="reverse" [(predicate)]="predicate" [callback]="onTransition.bind(this, page)" jhiSort>
-          <th jhiSortBy="privilegeKey">
-            <span>{{'rolesManagement.permission.privilegeKey'|translate}}</span>
-            <span class="fa fa-sort"></span></th>
-          <th>{{'rolesManagement.permission.desc' | translate}}</th>
-          <th jhiSortBy="msName"><span>{{'rolesManagement.permission.msName'|translate}}</span>
-            <span class="fa fa-sort"></span></th>
-          <th *ngFor="let item of matrix?.roles; index as i" [ngClass]="'col-' + i" class="text-center">
-            <a (click)="onHideRole(item, i)"
-               class="remove-from-table"
-               href="javascript: void(0);">
+    <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
+      <div class="d-flex flex-grow-1 flex-wrap align-items-center mb-2">
+        <mat-form-field class="mr-4">
+          <mat-select (selectionChange)="onChangeSort()"
+                      [(ngModel)]="sortBy.msName"
+                      placeholder="{{'rolesManagement.permission.msName' | translate}}">
+            <mat-option *ngFor="let item of entities" [value]="item">
               {{item}}
-              <span class="material-icons">close</span>
-            </a>
-            <div class="text-center">
-              <mat-slide-toggle (change)="onCheckAll(i); isChanged(permissions);" [(ngModel)]="checkAll[i]">
-                {{'rolesManagement.permission.checkAll' | translate}}
-              </mat-slide-toggle>
-            </div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let item of permissions">
-          <td>{{item.privilegeKey}}</td>
-          <td class="text-center text-muted">
-            <mat-icon *ngIf="item?.description" [matTooltip]="item.description">
-              info
-            </mat-icon>
-          </td>
-          <td>{{item.msName}}</td>
-          <td *ngFor="let role of item.roles; index as i" [ngClass]="'col-' + i" class="text-center align-middle">
-            <mat-checkbox (change)="isChanged(permissions)"
-                          [(ngModel)]="role.value"
-                          class="no-label-margin"></mat-checkbox>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <div class="row align-items-center list-pagination">
-      <div class="col-auto mt-1 mb-1">
-        <xm-per-page (onChange)="onChangePerPage()" [(itemsPerPage)]="itemsPerPage"></xm-per-page>
-      </div>
-      <div class="col-auto mt-1 mb-1">
-        <jhi-item-count [itemsPerPage]="itemsPerPage" [page]="page" [total]="totalItems"></jhi-item-count>
-      </div>
-      <div class="col-auto mt-1 mb-1">
-        <ngb-pagination (pageChange)="onLoadPage($event)"
-                        [(page)]="page"
-                        [collectionSize]="totalItems"
-                        [maxSize]="5"
-                        [pageSize]="itemsPerPage">
+        <mat-form-field class="mr-4">
+          <input (change)="onChangeSort()"
+                 [(ngModel)]="sortBy.query"
+                 matInput
+                 name="search"
+                 placeholder="{{'rolesManagement.permission.privilegeKey' | translate}}"
+                 type="text">
+        </mat-form-field>
 
-        </ngb-pagination>
+        <mat-form-field class="mr-4">
+          <mat-select (selectionChange)="onChangeSort()"
+                      [(ngModel)]="sortBy.permitted_filter"
+                      placeholder="{{'rolesManagement.permission.privilegeKey' | translate}}">
+            <mat-option *ngFor="let item of permittedFilter" [value]="item.value">
+              <span *ngIf="item.trans">{{'rolesManagement.permission.' + item.trans|translate}}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="col-sm"></div>
-      <div class="col-auto">
+
+
+      <div class="d-flex flex-nowrap align-items-center justify-content-end ml-auto mb-2">
         <button (click)="onCancel()"
                 *permitted="'DASHBOARD.UPDATE'"
                 [disabled]="!hasChanges"
-                class="btn btn-default btn-sm mat-button mr-1"
+                mat-flat-button
+                class="mr-1"
                 type="button">
           <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
         </button>
+
         <button (click)="onSave()"
                 *permitted="'DASHBOARD.UPDATE'"
                 [disabled]="!hasChanges"
-                class="btn btn-primary btn-sm mat-button"
+                mat-flat-button
+                color="primary"
                 type="button">
           <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
         </button>
+      </div>
+    </div>
+
+    <div class="material-datatables table-responsive xm-role-matrix-table">
+      <div class="d-flex flex-wrap mb-4">
+        <mat-chip-list>
+          <mat-chip *ngFor="let item of hiddenRoles"
+                    [removable]="true"
+                    (removed)="onViewRole(item)">
+            {{item.role}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+
+      <div class="table-responsive">
+        <table [matSortDirection]="reverse ? 'asc' : 'desc'"
+               [matSortActive]="predicate"
+               [dataSource]="dataSource"
+               mat-table
+               matSort
+               class="table table-striped table-no-bordered table-hover">
+          <ng-container matColumnDef="privilegeKey">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{'rolesManagement.permission.privilegeKey'|translate}}
+            </th>
+            <td mat-cell *matCellDef="let permission">{{permission?.privilegeKey}}</td>
+          </ng-container>
+          <ng-container matColumnDef="permissionDescription">
+            <th mat-header-cell *matHeaderCellDef>{{'rolesManagement.permission.desc' | translate}}</th>
+            <td mat-cell *matCellDef="let permission" class="text-center">
+              <mat-icon *ngIf="permission?.description" [matTooltip]="permission.description">info</mat-icon>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="msName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{'rolesManagement.permission.msName' | translate}}
+            </th>
+            <td mat-cell *matCellDef="let permission" class="text-center">
+              {{permission?.msName}}
+            </td>
+          </ng-container>
+
+          <ng-container *ngIf="matrix?.roles.length > 0">
+            <ng-container *ngFor="let role of matrix?.roles; index as i">
+              <ng-container [matColumnDef]="role">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-chip-list class="mt-2 mb-2 d-block">
+                    <mat-chip removable (removed)="onHideRole(role, i)">
+                      {{role}}
+                      <mat-icon matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+                  </mat-chip-list>
+                  <div class="mt-2 mb-2">
+                    <mat-slide-toggle (change)="onAllChanged(role, $event);" [checked]="isAllChecked(role)">
+                      {{'rolesManagement.permission.checkAll' | translate}}
+                    </mat-slide-toggle>
+                  </div>
+                </th>
+                <td mat-cell *matCellDef="let permission" class="text-center">
+                  <mat-checkbox (change)="onPermissionChanged(permission, role, $event)"
+                                [checked]="permission.data[role].checked"
+                                class="no-label-margin"></mat-checkbox>
+                </td>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+
+      <no-data [show]="!(dataSource?.data.length > 0)"></no-data>
+
+      <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
+        <ng-container class="mr-auto flex-grow-1 flex-nowrap"
+                      [class.hidden]="!(dataSource?.data.length > 0) || (itemsPerPage > totalItems)">
+          <mat-paginator
+            [pageSizeOptions]="itemsPerPageOptions"
+            [pageSize]="itemsPerPage"
+            [length]="totalItems">
+          </mat-paginator>
+        </ng-container>
+
+        <div class="ml-auto">
+          <button (click)="onCancel()"
+                  *permitted="'DASHBOARD.UPDATE'"
+                  [disabled]="!hasChanges"
+                  mat-flat-button
+                  class="mr-1"
+                  type="button">
+            <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
+          </button>
+          <button (click)="onSave()"
+                  *permitted="'DASHBOARD.UPDATE'"
+                  [disabled]="!hasChanges"
+                  mat-flat-button
+                  color="primary"
+                  type="button">
+            <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
