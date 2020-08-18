@@ -56,7 +56,7 @@ export class MultilingualInputComponent implements OnInit {
                 name: this.text,
             });
         }
-        this.updateFormArrayComponent(this.controlValue);
+        this.updateFormArrayComponent(this.controlValue.filter(ctrl => ctrl.languageKey));
     }
 
     // TODO: move it into the util class
