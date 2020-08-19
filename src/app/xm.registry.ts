@@ -114,6 +114,10 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/xm-enum-view').then(m => m.XmEnumViewModule),
     },
     {
+        selector: '@xm-ngx/components/links-group-widget',
+        loadChildren: () => import('@xm-ngx/components/links-group-widget').then(m => m.LinksGroupWidgetModule),
+    },
+    {
         selector: '@xm-ngx/components/xm-enum-control',
         loadChildren: () => import('@xm-ngx/components/xm-enum-control').then(m => m.XmEnumControlModule),
     },
