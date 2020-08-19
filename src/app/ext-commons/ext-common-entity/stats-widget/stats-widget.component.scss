@@ -1,3 +1,48 @@
-.category-fix {
-    display: flex;
+@import "theme";
+
+$stat-icon-height:      56px;
+$stat-icon-font-size:   36px;
+$stat-card-mesure-unit: 20px;
+
+.xm-stat-widget {
+  min-height:    100%;
+  margin-bottom: $stat-card-mesure-unit * 2;
+
+  mat-divider {
+    bottom: $stat-card-mesure-unit;
+  }
+
+  .card-header {
+    margin:   0 $stat-card-mesure-unit / 2;
+    padding:  0;
+    position: relative;
+  }
+
+  .card-icon {
+    border-radius: $border-radius;
+    padding:       15px;
+    margin-top:    -$stat-card-mesure-unit;
+    margin-right:  15px;
+    float:         left;
+  }
+
+  .card-category {
+    color:       #999;
+    font-size:   $xm-font-size-sm;
+    font-weight: lighter;
+  }
+
+  .card-title {
+    margin:      0;
+    color:       $dark-primary-text;
+    font-weight: normal;
+  }
+
+  mat-icon {
+    width:       $stat-icon-height;
+    height:      $stat-icon-height;
+    line-height: $stat-icon-height;
+    font-size:   $stat-icon-font-size;
+    text-align:  center;
+  }
 }
