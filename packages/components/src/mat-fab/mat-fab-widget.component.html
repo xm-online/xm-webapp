@@ -2,12 +2,13 @@
   <ng-container *xmIfDashboardSlug="config.permittedByDashboardSlug">
     <div *ngIf="config.indent" class="w-100 indent"></div>
 
-    <button [color]="config.color"
-            [routerLink]="this.config.navigateTo"
-            class="mat-fab-button"
-            mat-fab
-            routerLinkActive="active">
+    <a [color]="config.color"
+       [routerLink]="this.config.navigateTo"
+       class="mat-fab-button"
+       mat-fab
+       [matTooltip]="config.tooltip | translate"
+       routerLinkActive="active">
       <mat-icon>{{config.icon}}</mat-icon>
-    </button>
+    </a>
   </ng-container>
 </ng-container>
