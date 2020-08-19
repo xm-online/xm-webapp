@@ -1,63 +1,69 @@
-import { Directive, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, NgModule, OnDestroy, Output } from '@angular/core';
+import * as ace from 'brace';
+import { Editor } from 'brace';
 
 import 'brace';
+import 'brace/ext/searchbox';
+import 'brace/mode/javascript';
 import 'brace/mode/json';
 import 'brace/mode/yaml';
 import 'brace/theme/chrome';
-import 'brace/ext/searchbox';
-import { Editor } from 'brace';
 
-declare const ace: any;
 
 @Directive({
     selector: '[xmAceEditor]',
 })
-export class AceEditorDirective implements OnDestroy{
+export class AceEditorDirective<O = unknown> implements OnDestroy {
 
     public _highlightActiveLine: boolean = true;
     public _showGutter: boolean = true;
     public editor: Editor;
-    public oldText: any;
-    @Output('textChanged') public textChanged: EventEmitter<any> = new EventEmitter();
-    public _options: any = {};
-    public _readOnly: boolean = false;
-    public _theme: string = 'chrome';
-    public _mode: string = 'json';
-    public _autoUpdateContent: boolean = true;
+    public oldText: string;
+    @Output('textChanged') public textChanged: EventEmitter<string> = new EventEmitter<string>();
 
     constructor(elementRef: ElementRef) {
-        const el = elementRef.nativeElement;
-        ace.config.set('basePath', '/node_modules/brace');
-        this.editor = ace.edit(el);
+        this.editor = ace.edit(elementRef.nativeElement);
         this.init();
         this.initEvents();
     }
 
-    @Input() public set options(options: any) {
+    public _options: O;
+
+    @Input()
+    public set options(options: O) {
         this._options = options;
         this.editor.setOptions(options || {});
     }
 
-    @Input() public set readOnly(readOnly: any) {
+    public _readOnly: boolean = false;
+
+    @Input()
+    public set readOnly(readOnly: boolean) {
         this._readOnly = readOnly;
         this.editor.setReadOnly(readOnly);
     }
 
-    @Input() set theme(theme: any) {
+    public _theme: string = 'chrome';
+
+    @Input() set theme(theme: string) {
         this._theme = theme;
         this.editor.setTheme(`ace/theme/${theme}`);
     }
 
-    @Input() set mode(mode: any) {
+    public _mode: string = 'json';
+
+    @Input() set mode(mode: string) {
         this._mode = mode;
         this.editor.getSession().setMode(`ace/mode/${mode}`);
     }
 
-    @Input() set autoUpdateContent(status: any) {
+    public _autoUpdateContent: boolean = true;
+
+    @Input() set autoUpdateContent(status: boolean) {
         this._autoUpdateContent = status;
     }
 
-    @Input() set text(text: any) {
+    @Input() set text(text: string) {
         if (!text) {
             text = '';
         }
@@ -79,8 +85,7 @@ export class AceEditorDirective implements OnDestroy{
     }
 
     public init(): void {
-        this.editor.getSession().setUseWorker(false);
-        this.editor.setOptions(this._options);
+        this.editor.setOptions(this._options || {});
         this.editor.setTheme(`ace/theme/${this._theme}`);
         this.editor.getSession().setMode(`ace/mode/${this._mode}`);
         this.editor.setHighlightActiveLine(this._highlightActiveLine);
@@ -90,18 +95,16 @@ export class AceEditorDirective implements OnDestroy{
     }
 
     public initEvents(): void {
-        this.editor.on('change', (e) => {
-            this.updateValue(e);
-        });
-        this.editor.on('keypress', (e) => {
-            this.updateValue(e);
-        });
-        this.editor.on('paste', (e) => {
-            this.updateValue(e);
-        });
+        this.editor.on('change', () => this.updateValue());
+        this.editor.on('keypress', () => this.updateValue());
+        this.editor.on('paste', () => this.updateValue());
     }
 
-    private updateValue(_e: any): void {
+    public ngOnDestroy(): void {
+        this.editor.destroy();
+    }
+
+    private updateValue(): void {
         const newVal = this.editor.getValue();
         if (newVal === this.oldText) {
             return;
@@ -112,19 +115,11 @@ export class AceEditorDirective implements OnDestroy{
         this.oldText = newVal;
     }
 
-    public ngOnDestroy(): void {
-        this.editor.destroy();
-    }
-
 }
 
-import { NgModule } from '@angular/core';
-
 @NgModule({
-    imports: [],
     exports: [AceEditorDirective],
     declarations: [AceEditorDirective],
-    providers: [],
 })
 export class AceEditorModule {
 }

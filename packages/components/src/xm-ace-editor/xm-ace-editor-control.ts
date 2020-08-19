@@ -5,9 +5,9 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error/control-err
 import { NgControlAccessor } from '@xm-ngx/components/ng-control-accessor';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { AceEditorModule } from '../../../src/app/shared/directives/ace-editor.directive';
+import { AceEditorModule } from './ace-editor.directive';
 
-interface IAceEditorControlOptions {
+export interface AceEditorControlOptions {
     id?: string;
     title?: string;
     name?: string;
@@ -15,7 +15,7 @@ interface IAceEditorControlOptions {
     height?: string;
 }
 
-const DEFAULT_OPTIONS: IAceEditorControlOptions = {
+const DEFAULT_OPTIONS: AceEditorControlOptions = {
     title: '',
     name: 'text',
     mode: 'json',
@@ -49,14 +49,14 @@ export class AceEditorControlComponent extends NgControlAccessor<string | object
     @Input() public disabled: boolean;
 
     public error: boolean = false;
-    public _options: IAceEditorControlOptions = DEFAULT_OPTIONS;
+    public _options: AceEditorControlOptions = DEFAULT_OPTIONS;
 
-    public get options(): IAceEditorControlOptions {
+    public get options(): AceEditorControlOptions {
         return this._options;
     }
 
     @Input()
-    public set options(value: IAceEditorControlOptions) {
+    public set options(value: AceEditorControlOptions) {
         this._options = _.defaults({}, value, DEFAULT_OPTIONS);
     }
 
