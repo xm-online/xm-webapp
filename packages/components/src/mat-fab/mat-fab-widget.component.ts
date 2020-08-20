@@ -1,11 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { ThemePalette } from '@angular/material/core/common-behaviors/color';
 import { IWidget } from '@xm-ngx/dynamic';
+import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 
 interface FabConfig {
     navigateTo: string | string[];
     icon?: string;
+    tooltip?: Translate;
     indent?: boolean;
     color?: ThemePalette;
     permitted?: string | string[];
@@ -15,6 +17,7 @@ interface FabConfig {
 const DEFAULT_FAB_CONFIG: FabConfig = {
     navigateTo: '',
     icon: 'add',
+    tooltip: 'dashboard-config-widget.create',
     indent: true,
     color: 'primary',
     // ACCOUNT.ACTIVATE is default permission available for all authed users
