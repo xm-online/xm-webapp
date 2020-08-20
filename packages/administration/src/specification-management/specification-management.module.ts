@@ -7,7 +7,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 import { StatesManagementDialogModule } from '@xm-ngx/entity/states-management-dialog';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { AceEditorModule } from '../../../../src/app/shared/directives/ace-editor.directive';
+import { AceEditorModule } from '@xm-ngx/components/xm-ace-editor/ace-editor.directive';
 import { SpecificationManagementComponent } from './specification-management.component';
 import { EntitySpecManagementComponent } from './entity-spec-management/entity-spec-management.component';
 import { ConfigVisualizerDialogComponent } from './config-visualizer-dialog/config-visualizer-dialog.component';
