@@ -30,7 +30,7 @@ export class XmMatCardComponent implements OnInit, OnChanges {
     @Output() public cancel: EventEmitter<void> = new EventEmitter<void>();
     @Output() public isEditChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    public isEdit: boolean = false;
+    @Input() public isEdit: boolean = false;
     public contentHidden: boolean;
 
     public ngOnInit(): void {
