@@ -21,7 +21,7 @@ export interface XmUserPermission {
 }
 
 
-export interface XmUser {
+export interface XmUser<D = any> {
     id?: Id;
     userKey?: string;
     logins?: XmUserLogin[];
@@ -42,4 +42,5 @@ export interface XmUser {
     password?: string;
     tfaEnabled?: boolean;
     imageUrl?: string;
+    data?: D;
 }
