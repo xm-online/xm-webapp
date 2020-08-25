@@ -145,6 +145,13 @@ export class Principal implements OnDestroy, OnInitialize {
                             this.userIdentity = account;
                             this.authenticated = true;
                             account.timeZoneOffset = this.setTimezoneOffset();
+                            /*
+                             * After the login the language will be changed to
+                             * the language selected by the user during his registration
+                             */
+                            if (account.langKey) {
+                                this.languageService.locale = account.langKey;
+                            }
                         } else {
                             this.sessionService.clear();
                             this.userIdentity = null;
