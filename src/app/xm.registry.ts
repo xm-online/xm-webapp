@@ -74,6 +74,10 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/administration/specification-management').then(m => m.SpecificationManagementModule),
     },
     {
+        selector: '@xm-ngx/administration/widget-view',
+        loadChildren: () => import('@xm-ngx/administration/widget-view').then(m => m.WidgetViewModule),
+    },
+    {
         selector: '@xm-ngx/components/navbar-heatmap-widget',
         loadChildren: () => import('@xm-ngx/components/navbar-heatmap-widget').then(m => m.NavbarHeatmapWidgetModule),
     },

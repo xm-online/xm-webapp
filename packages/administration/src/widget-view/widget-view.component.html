@@ -1,0 +1,14 @@
+<xm-selector-text-control [formControl]="formGroup.controls.selector"
+                          [options]="{ title: TRS.selector }">
+</xm-selector-text-control>
+
+<xm-ace-editor-control [formControl]="formGroup.controls.config"
+                       [options]="{ title: TRS.config }">
+</xm-ace-editor-control>
+
+<button mat-flat-button
+        class="mb-3"
+        color="primary"
+        (click)="updateValue()">{{ TRS.create | translate }}</button>
+
+<xm-dynamic-widget *ngIf="widgetConfig" [init]="widgetConfig"></xm-dynamic-widget>

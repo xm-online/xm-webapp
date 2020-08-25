@@ -84,6 +84,7 @@ export class DynamicWidgetDirective implements OnChanges {
     }
 
     private createComponent<T>(value: WidgetConfig, componentFactory: ComponentFactory<T>): void {
+        this.viewRef.clear();
         const widget = this.viewRef.createComponent<IWidget>(componentFactory);
         widget.instance.config = value.config;
         widget.instance.spec = value.spec;

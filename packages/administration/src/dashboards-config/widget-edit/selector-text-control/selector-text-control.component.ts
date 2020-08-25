@@ -1,5 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import {
     ExtendedDynamicComponents,
     WidgetListService,
@@ -7,6 +11,7 @@ import {
 import { NgModelWrapper } from '@xm-ngx/components/ng-model-wrapper';
 import { ITextControlOptions } from '@xm-ngx/components/xm-text-control';
 import { IControl } from '@xm-ngx/dynamic';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
 
@@ -58,4 +63,21 @@ export class SelectorTextControlComponent
         const filterValue = value.toLowerCase();
         return arr.filter(option => option.globalSelector?.toLowerCase().includes(filterValue));
     }
+}
+
+import { NgModule } from '@angular/core';
+
+@NgModule({
+    imports: [
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        CommonModule,
+        XmTranslationModule,
+        MatInputModule,
+    ],
+    exports: [SelectorTextControlComponent],
+    declarations: [SelectorTextControlComponent],
+})
+export class WidgetSelectorTextControlModule {
 }
