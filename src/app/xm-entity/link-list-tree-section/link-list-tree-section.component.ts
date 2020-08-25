@@ -18,6 +18,7 @@ export class LinkListTreeSectionComponent implements OnInit {
 
     @Input() public links: Link[];
     @Input() public linkSpec: LinkSpec;
+    @Input() public isRootTree: boolean;
 
     constructor(private xmEntityService: XmEntityService,
                 private translateService: TranslateService) {
