@@ -38,7 +38,7 @@
     "build-prod-v2": "npm run prebuild && node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot=true --build-optimizer=true --vendor-chunk=true --common-chunk=true",
     "build-prod-v2-stat": "npm run prebuild && node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot=true --build-optimizer=true --vendor-chunk=true --common-chunk=true --statsJson",
     "test": "ng test --source-map=false",
-    "test:prod": "ng test --source-map=false --watch=false",
+    "test:prod": "ng test --source-map=false --watch=false --browsers=ChromeHeadlessNoSandbox",
     "e2e": "ng e2e",
     "lint": "npm run lint:js",
     "lint:js": "eslint . --ext .ts --quiet",
