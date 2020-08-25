@@ -1,73 +1,101 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { QueryParams } from '@xm-ngx/components/entity-collection';
 import { JhiDateUtils } from 'ng-jhipster';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { SERVER_API_URL } from '../../xm.constants';
-import { Link } from './link.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
 
+import { Link } from './link.model';
 import { createRequestOption } from './request-util';
 import { XmEntity } from './xm-entity.model';
+
+export interface ElasticQueryParams {
+    page?: number;
+    query?: string;
+    size?: number;
+    sort?: string | string[];
+    typeKey?: string;
+}
+
+export type Extra = { xTotalCount?: number };
+
+export const X_TOTAL_HEADER = 'X-Total-Count';
 
 @Injectable()
 export class XmEntityService {
 
-    private v2ResourceUrl: string = `${SERVER_API_URL}entity/api/v2/xm-entities`;
-    private resourceUrl: string = `${SERVER_API_URL}entity/api/xm-entities`;
-    private resourceSearchUrl: string = `${SERVER_API_URL}entity/api/_search/xm-entities`;
-    private resourceAvatarUrl: string = `${SERVER_API_URL}entity/api/storage/objects`;
-    private resourceProfileUrl: string = `${SERVER_API_URL}entity/api/profile`;
-    private resourceSearchTemplateUrl: string = `${SERVER_API_URL}entity/api/_search-with-template/xm-entities`;
-    private getEntitiesByIdUrl: string = 'entity/api/xm-entities-by-ids';
+    public readonly loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
+    private v2ResourceUrl: string = `/entity/api/v2/xm-entities`;
+    private resourceUrl: string = `/entity/api/xm-entities`;
+    private resourceSearchUrl: string = `/entity/api/_search/xm-entities`;
+    private resourceAvatarUrl: string = `/entity/api/storage/objects`;
+    private resourceProfileUrl: string = `/entity/api/profile`;
+    private resourceSearchTemplateUrl: string = `/entity/api/_search-with-template/xm-entities`;
+    private getEntitiesByIdUrl: string = '/entity/api/xm-entities-by-ids';
+
+    constructor(
+        private http: HttpClient,
+        private dateUtils: JhiDateUtils,
+    ) {
     }
 
-    public create(xmEntity: XmEntity): Observable<HttpResponse<XmEntity>> {
+    public create<T extends XmEntity>(xmEntity: T): Observable<HttpResponse<T>> {
         const copy = this.convert(xmEntity);
-        return this.http.post<XmEntity>(this.resourceUrl, copy, { observe: 'response' }).pipe(
-            map((res: HttpResponse<XmEntity>) => this.convertResponse(res)));
+        return this.handle(this.http.post<T>(this.resourceUrl, copy, { observe: 'response' }).pipe(
+            map((res) => this.convertResponse(res))));
     }
 
-    public update(xmEntity: XmEntity): Observable<HttpResponse<XmEntity>> {
+    public update<T extends XmEntity>(xmEntity: T): Observable<HttpResponse<T>> {
         const copy = this.convert(xmEntity);
-        return this.http.put<XmEntity>(this.resourceUrl, copy, { observe: 'response' }).pipe(
-            map((res: HttpResponse<XmEntity>) => this.convertResponse(res)));
+        return this.handle(this.http.put<T>(this.resourceUrl, copy, { observe: 'response' }).pipe(
+            map((res) => this.convertResponse(res))));
     }
 
-    public find(id: number, req?: any): Observable<HttpResponse<XmEntity>> {
+    public find<T extends XmEntity>(id: number | string, req?: QueryParams): Observable<HttpResponse<T>> {
         const options = createRequestOption(req);
-        return this.http.get<XmEntity>(`${this.resourceUrl}/${id}`, { params: options, observe: 'response' }).pipe(
-            map((res: HttpResponse<XmEntity>) => this.convertResponse(res)));
+        return this.handle(this.http.get<T>(`${this.resourceUrl}/${id}`, { params: options, observe: 'response' }).pipe(
+            map((res) => this.convertResponse(res))));
     }
 
-    public getEntitiesByIds(req?: any): Observable<HttpResponse<XmEntity[]>> {
+    public getById<T extends XmEntity>(key: number | string, params: { embed: string } & QueryParams = { embed: 'data' }): Observable<T> {
+        return this.handle(this.http.get<T>(`${this.resourceUrl}/${key}`, { params }).pipe(
+            map((res) => this.convertItemFromServer(res)),
+        ));
+    }
+
+    public getEntitiesByIds<T extends XmEntity>(req?: QueryParams): Observable<HttpResponse<T[]>> {
         const options = createRequestOption(req);
-        return this.http.get<XmEntity[]>(this.getEntitiesByIdUrl, { params: options, observe: 'response' }).pipe(
-            map((res: HttpResponse<XmEntity[]>) => this.convertArrayResponse(res)));
+        return this.handle(this.http.get<T[]>(this.getEntitiesByIdUrl, { params: options, observe: 'response' }).pipe(
+            map((res) => this.convertArrayResponse<T>(res))));
     }
 
-    public query(req?: any): Observable<HttpResponse<XmEntity[]>> {
+    public query<T extends XmEntity>(req?: QueryParams): Observable<HttpResponse<T[]>> {
         const options = createRequestOption(req);
-        return this.http.get<XmEntity[]>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
-            map((res: HttpResponse<XmEntity[]>) => this.convertArrayResponse(res)));
+        return this.handle(this.http.get<T[]>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
+            map((res) => this.convertArrayResponse<T>(res))));
     }
 
-    public delete(id: number): Observable<HttpResponse<any>> {
-        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    public delete<T>(id: number | string): Observable<HttpResponse<T>> {
+        return this.handle(this.http.delete<T>(`${this.resourceUrl}/${id}`, { observe: 'response' }));
     }
 
-    public search(req?: any): Observable<HttpResponse<XmEntity[]>> {
+    public search<T extends XmEntity, R extends ElasticQueryParams & QueryParams>(req?: ElasticQueryParams): Observable<HttpResponse<T[] & Extra>> {
         const options = createRequestOption(req);
-        return this.http.get<XmEntity[]>(this.resourceSearchUrl, { params: options, observe: 'response' }).pipe(
-            map((res: HttpResponse<XmEntity[]>) => this.convertArrayResponse(res)));
+        return this.handle(this.http.get<T[]>(this.resourceSearchUrl, { params: options, observe: 'response' }).pipe(
+            map((res) => {
+                const copy: HttpResponse<T[] & Extra> = this.convertArrayResponse<T>(res);
+                copy.body.xTotalCount = parseInt(res.headers.get(X_TOTAL_HEADER), 10);
+                return copy;
+            }),
+        ));
     }
 
     /**
      *  Template  (sting) - a template identifier from the search-templates.yml.
      *  templateParams ([]|{}) - a named parameters for the template.
      */
-    public searchByTemplate(req?: any): Observable<HttpResponse<XmEntity[]>> {
+    public searchByTemplate<T extends XmEntity>(req?: any): Observable<HttpResponse<XmEntity[]>> {
         const options = createRequestOption(req);
         return this.http.get<XmEntity[]>(this.resourceSearchTemplateUrl, { params: options, observe: 'response' }).pipe(
             map((res: HttpResponse<XmEntity[]>) => this.convertArrayResponse(res)));
@@ -117,8 +145,8 @@ export class XmEntityService {
     }
 
     public findLinkSourcesInverted(idOrKey: string,
-        linkTypeKey: string[],
-        req?: any): Observable<HttpResponse<Link[]>> {
+                                   linkTypeKey: string[],
+                                   req?: any): Observable<HttpResponse<Link[]>> {
         const options = createRequestOption(req);
         return this.http.get<Link[]>(`${this.v2ResourceUrl}/${idOrKey}/links/sources?typeKeys=${linkTypeKey}`,
             { params: options, observe: 'response' });
@@ -134,36 +162,36 @@ export class XmEntityService {
         });
     }
 
-    private convertResponse(res: HttpResponse<XmEntity>): HttpResponse<XmEntity> {
-        const body: XmEntity = this.convertItemFromServer(res.body);
-        return res.clone({ body });
+    private convertResponse<T>(res: HttpResponse<T>): HttpResponse<T> {
+        const body: T = this.convertItemFromServer(res.body);
+        return res.clone<T>({ body });
     }
 
-    private convertArrayResponse(res: HttpResponse<XmEntity[]>): HttpResponse<XmEntity[]> {
-        const jsonResponse: XmEntity[] = res.body || [];
-        const body: XmEntity[] = [];
+    private convertArrayResponse<T>(res: HttpResponse<T[]>): HttpResponse<T[]> {
+        const jsonResponse: T[] = res.body || [];
+        const body: T[] = [];
 
         for (const i of jsonResponse) {
-            body.push(this.convertItemFromServer(i));
+            body.push(this.convertItemFromServer<T>(i));
         }
-        return res.clone({ body });
+        return res.clone<T[]>({ body });
     }
 
     /**
      * Convert a returned JSON object to XmEntity.
      */
-    private convertItemFromServer(xmEntity: XmEntity): XmEntity {
+    private convertItemFromServer<T extends XmEntity>(xmEntity: T): T {
         if (!xmEntity) {
-            xmEntity = {};
+            xmEntity = {} as T;
         }
-        const copy: XmEntity = { ...xmEntity};
+        const copy: XmEntity = { ...xmEntity };
         copy.startDate = this.dateUtils
             .convertDateTimeFromServer(xmEntity.startDate);
         copy.updateDate = this.dateUtils
             .convertDateTimeFromServer(xmEntity.updateDate);
         copy.endDate = this.dateUtils
             .convertDateTimeFromServer(xmEntity.endDate);
-        return copy;
+        return copy as T;
     }
 
     /**
@@ -173,7 +201,7 @@ export class XmEntityService {
         if (!xmEntity) {
             xmEntity = {};
         }
-        const copy: XmEntity = { ...xmEntity};
+        const copy: XmEntity = { ...xmEntity };
 
         copy.startDate = xmEntity.startDate instanceof Date
             ? xmEntity.startDate
@@ -191,7 +219,15 @@ export class XmEntityService {
      * Convert a InputContext to a JSON which can be sent to the server.
      */
     private convertFormData(inputContext: any): any {
-        return { ...inputContext};
+        return { ...inputContext };
     }
 
+    private handle<T>(obs: Observable<T>): Observable<T> {
+        return this.handleLoading(obs);
+    }
+
+    private handleLoading<T>(obs: Observable<T>): Observable<T> {
+        this.loading$.next(true);
+        return obs.pipe(finalize(() => this.loading$.next(false)));
+    }
 }
