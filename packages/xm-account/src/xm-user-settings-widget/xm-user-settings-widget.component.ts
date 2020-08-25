@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmUser } from '@xm-ngx/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -16,6 +16,7 @@ import { AccountService, Principal } from '../../../../src/app/shared/auth';
 export class XmUserSettingsWidgetComponent implements OnInit {
     public languages$: Observable<Locale[]> = this.languageService.languages$();
 
+    @Input() public config: {hideDates: boolean}
     public timeZoneOffset: string;
     public settingsAccount: XmUser;
     public error: string;
