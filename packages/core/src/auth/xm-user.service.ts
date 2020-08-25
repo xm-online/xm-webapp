@@ -40,6 +40,9 @@ export class XmUserService<T = XmUser> implements OnDestroy {
         this.requestCache.ngOnDestroy();
     }
 
+    public forceReload(): void {
+        this.requestCache.forceReload();
+    }
 
     private getUser(): Observable<T> {
         return this.httpClient.get<T>(

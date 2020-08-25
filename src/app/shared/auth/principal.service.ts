@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { XmSessionService } from '@xm-ngx/core';
+import { XmSessionService, XmUserService } from '@xm-ngx/core';
 import { OnInitialize } from '@xm-ngx/shared/interfaces/on-initialize';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -31,6 +31,7 @@ export class Principal implements OnDestroy, OnInitialize {
                 private alertService: XmToasterService,
                 private $localStorage: LocalStorageService,
                 private sessionService: XmSessionService,
+                private userService: XmUserService,
                 private languageService: LanguageService,
                 private $sessionStorage: SessionStorageService,
     ) {
@@ -110,6 +111,7 @@ export class Principal implements OnDestroy, OnInitialize {
         } else {
             return this.promise = new Promise((resolve, reject) => {
                 if (force === true) {
+                    this.userService.forceReload();
                     this.authenticated = false;
                     this.userIdentity = undefined;
                 }
