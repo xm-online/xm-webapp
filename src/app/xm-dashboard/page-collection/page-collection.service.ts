@@ -26,7 +26,7 @@ export class PageCollectionService<T extends IId = unknown> extends EntityCollec
         this.pageService.active$().pipe(
             takeUntilOnDestroy(this),
         ).subscribe((res) => {
-            const resourceUrl = res.config?.resourceUrl || this.collectionConfig.defaultResourceUrl;
+            const resourceUrl = res?.config?.resourceUrl || this.collectionConfig.defaultResourceUrl;
             const collection = this.factoryService.create<T>(resourceUrl);
             this.setCollection(collection);
         });
