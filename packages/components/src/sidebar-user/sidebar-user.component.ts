@@ -8,13 +8,14 @@ import {
     dashboardsToCategories,
     filterByConditionDashboards,
 } from '@xm-ngx/components/menu/menu.component';
+import { XmUser, XmUserService } from '@xm-ngx/core';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
-import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, share, shareReplay, switchMap } from 'rxjs/operators';
-import { AccountService, ContextService, User } from '../../../../src/app/shared';
+import { ContextService } from '../../../../src/app/shared';
 import { MenuItem } from '../menu/menu-models';
 
 interface UserOptions {
@@ -51,7 +52,7 @@ const DEFAULT: UserOptions = {
     avatarUrl: './assets/img/anonymous.png',
 };
 
-function getUserName(user: User): string {
+function getUserName(user: XmUser): string {
     if (user.firstName || user.lastName) {
         return `${user.firstName || ''} ${user.lastName || ''}`;
     } else {
@@ -59,7 +60,7 @@ function getUserName(user: User): string {
     }
 }
 
-function userToOptions(user: User): UserOptions {
+function userToOptions(user: XmUser): UserOptions {
     const opts: UserOptions = {
         username: getUserName(user),
         avatarUrl: user.imageUrl || undefined,
@@ -83,11 +84,10 @@ export class SidebarUserComponent implements OnInit {
     public user$: Observable<UserOptions>;
     public menu$: Observable<MenuItem[]>;
     public active: boolean = false;
-    protected subscriptions: Subscription[] = [];
 
     constructor(
         protected readonly dashboardService: DashboardWrapperService,
-        protected readonly accountService: AccountService,
+        protected readonly userService: XmUserService,
         protected readonly contextService: ContextService,
         protected readonly router: Router,
     ) {
@@ -105,19 +105,21 @@ export class SidebarUserComponent implements OnInit {
             shareReplay(1),
         );
 
-        this.user$ = this.accountService.get().pipe(
-            map((i) => i.body),
+        this.user$ = this.userService.user$().pipe(
+            takeUntilOnDestroy(this),
+            filter((u) => !!u),
             map(userToOptions),
             share(),
         );
 
-        this.subscriptions.push(combineLatest([
+        combineLatest([
             this.user$,
             this.router.events.pipe(filter((e) => e instanceof ActivationEnd)),
         ]).pipe(
             map((i) => i[0]),
             switchMap(() => this.menu$),
-        ).subscribe((menu) => this.selectActive(menu)));
+            takeUntilOnDestroy(this),
+        ).subscribe((menu) => this.selectActive(menu));
     }
 
     public getState(): string {
@@ -139,7 +141,7 @@ export class SidebarUserComponent implements OnInit {
     }
 
     public ngOnDestroy(): void {
-        this.subscriptions.forEach((i) => i.unsubscribe());
+        takeUntilOnDestroyDestroy(this);
     }
 }
 

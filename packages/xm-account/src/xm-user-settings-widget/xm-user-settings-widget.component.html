@@ -64,7 +64,7 @@
       </mat-form-field>
 
       <ng-container *ngIf="clock$ | async as clock">
-        <div class="form-group">
+        <div class="form-group" *ngIf="!config?.hideDates">
           <div>
             <b>{{'settings.form.utc-time' | translate}}</b>
             {{clock | date: 'full' : '+00:00'}}
