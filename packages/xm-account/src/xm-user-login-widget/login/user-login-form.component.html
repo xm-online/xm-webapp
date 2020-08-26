@@ -19,9 +19,8 @@
 
     <button *xmPermitted="['ACCOUNT.LOGIN.UPDATE']"
             [disabled]="!isSubmitValid(editForm)"
-            class="btn"
             color="primary"
-            mat-button>
+            mat-flat-button>
       <span>{{'entity.action.save' | translate}}</span>
     </button>
   </div>
