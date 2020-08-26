@@ -1,3 +1,4 @@
+import { MatDialogConfig } from '@angular/material/dialog/dialog-config';
 import { version } from '../../package.json';
 
 const _VERSION = version;
@@ -44,13 +45,13 @@ export const DEFAULT_AUTH_TOKEN = _DEFAULT_AUTH_TOKEN;
 export const SERVER_API_URL = '';
 
 /** Default settings for mat-dialogs */
-export const XM_MAT_DIALOG_DEFAULT_OPTIONS = {
+export const XM_MAT_DIALOG_DEFAULT_OPTIONS: MatDialogConfig = {
     role: 'dialog',
     panelClass: 'xm-mat-dialog',
     hasBackdrop: true,
     backdropClass: '',
     disableClose: true,
-    minWidth: '680px',
+    minWidth: '120px',
     minHeight: '50px',
     width: '680px',
     maxWidth: '80vw',
