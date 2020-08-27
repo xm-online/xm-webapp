@@ -21,8 +21,6 @@ export * from './function-list-section-compact/function-list-section-compact.com
 export * from './functions/area/area.component';
 export * from './functions/area/osm-polygon-dialog.component';
 export * from './functions/area/overpass-api.service';
-export * from './functions/linkedin-profile/linkedin-profile.component';
-export * from './functions/linkedin-profile/linkedin-data-item.component';
 export * from './link-detail-dialog/link-detail-dialog.component';
 export * from './link-detail-dialog/link-detail-new-section.component';
 export * from './link-detail-dialog/link-detail-search-section.component';

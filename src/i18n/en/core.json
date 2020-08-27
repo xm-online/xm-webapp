@@ -1141,26 +1141,6 @@
       "other-functions": "Another functions:",
       "title": "Functions"
     },
-    "functions": {
-      "linkedin-profile": {
-        "awards": "Awards",
-        "button": "Extract LinkedIn profile",
-        "certifications": "Certifications",
-        "current": "Current",
-        "education": "Education",
-        "experienceCurrent": "Current Experience",
-        "experiencePast": "Past Experience",
-        "interests": "Interests",
-        "languages": "Languages",
-        "location": "Location",
-        "projects": "Projects",
-        "recommendations": "Recommendations",
-        "skills": "Skills",
-        "summary": "Summary",
-        "title": "Title",
-        "volunteer": "Volunteer Causes"
-      }
-    },
     "link-detail-dialog": {
       "add-link": "Add",
       "add": {

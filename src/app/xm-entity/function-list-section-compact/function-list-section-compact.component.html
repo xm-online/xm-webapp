@@ -16,10 +16,6 @@
           <xm-area *ngIf="initMap" [functionContext]="getFunctionContext(f)" [xmEntity]="xmEntity">
           </xm-area>
         </div>
-        <div *ngIf="f.key === 'EXTRACT-LINKEDIN-PROFILE' || f.key === 'ACCOUNT.EXTRACT-LINKEDIN-PROFILE'">
-          <xm-linkedin-profile [functionContext]="getFunctionContext(f)" [xmEntity]="xmEntity">
-          </xm-linkedin-profile>
-        </div>
       </mat-tab>
     </mat-tab-group>
   </ng-container>
