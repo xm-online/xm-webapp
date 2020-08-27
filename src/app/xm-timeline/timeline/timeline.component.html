@@ -1,57 +1,56 @@
-<div *ngIf="timelinePage && timelinePage.timelines?.length > 0" class="container-fluid">
-
+<div *ngIf="timelinePage && timelinePage.timelines?.length > 0" class="container-fluid mb-4">
+  <xm-loader [showLoader]="showLoader"></xm-loader>
   <div *ngIf="showTimelineHeader" class="header text-center">
-    <h3 class="title text-muted">{{'xm-timeline.timeline.title'|translate}}</h3>
+    <h3 class="title text-muted mb-4">{{'xm-timeline.timeline.title'|translate}}</h3>
+  </div>
+  <div class="d-flex justify-content-center mb-2" *ngIf="filter?.states?.length">
+    <div class="btn-group empty-style">
+      <button (click)="applyFastSearch('')"
+              [class.disabled]="!currentSearch"
+              class="btn btn-primary btn-sm"
+              mat-button>
+        <span>{{'global.all'|translate}}</span>
+      </button>
+      <button (click)="applyFastSearch(item.state)"
+              *ngFor="let item of filter.states"
+              [class.disabled]="currentSearch === item.state"
+              class="btn btn-primary btn-sm"
+              mat-button>
+        {{item.name}}
+      </button>
+    </div>
   </div>
 
-  <div>
-
-    <xm-loader [showLoader]="showLoader"></xm-loader>
-
-    <div style="display: flex; flex-direction: row; align-items: center;">
-      <div *ngIf="filter?.states?.length" class="btn-group empty-style" style="margin-right: 20px">
-        <button (click)="applyFastSearch('')"
-                [class.disabled]="!currentSearch"
-                class="btn btn-primary btn-sm"
-                mat-button>
-          <span>{{'global.all'|translate}}</span>
-        </button>
-
-        <button (click)="applyFastSearch(item.state)"
-                *ngFor="let item of filter.states"
-                [class.disabled]="currentSearch === item.state"
-                class="btn btn-primary btn-sm"
-                mat-button>
-          {{item.name}}
+  <div class="xm-timeline">
+    <div class="row flex-nowrap mb-5" *ngFor="let tl of timelinePage.timelines">
+      <div class="col-auto">
+        <button class="timeline-point" mat-fab color="primary">
+          <mat-icon>history</mat-icon>
         </button>
       </div>
-    </div>
 
-    <ul class="timeline timeline-simple">
-      <li *ngFor="let tl of timelinePage.timelines"
-          class="timeline-inverted">
+      <div class="col pl-4">
+        <mat-card class="history-item">
+          <h6 class="mb-3">
+            {{tl.operationName}} {{timeAgo(tl.startDate)}}
+            <span>{{'xm-timeline.timeline.by'|translate}}</span>
+            {{tl.login}}
+          </h6>
 
-        <div class="timeline-badge primary">
-          <i class="material-icons">history</i>
-        </div>
-
-        <div class="timeline-panel">
-
-          <div class="timeline-heading">
-            <h6>
-              {{tl.operationName}} {{timeAgo(tl.startDate)}}
-              <span>{{'xm-timeline.timeline.by'|translate}}</span>
-              {{tl.login}}
-            </h6>
-            <span *ngIf="tl.httpStatusCode < 300" class="badge badge-success"
-                 >{{'xm-timeline.timeline.success'|translate}}</span>
-            <span *ngIf="tl.httpStatusCode >= 300" class="badge badge-danger"
-                 >{{'xm-timeline.timeline.error'|translate}}</span>&nbsp;
-            <span class="badge badge-primary">{{tl.startDate | date:'dd/MM/yy HH:mm'}}</span>&nbsp;
-            <span class="badge badge-primary">{{tl.browser}}</span>&nbsp;
-            <span class="badge badge-primary">{{tl.opSystem}}</span>&nbsp;
-            <span class="badge badge-primary">{{tl.requestHeaders['x-forwarded-for']}}</span>&nbsp;
-          </div>
+          <mat-chip-list class="timeline-chips-list">
+            <mat-chip class="success" *ngIf="tl.httpStatusCode < 300">
+              {{'xm-timeline.timeline.success'|translate}}
+            </mat-chip>
+            <mat-chip class="danger" *ngIf="tl.httpStatusCode >= 300">
+              {{'xm-timeline.timeline.error'|translate}}
+            </mat-chip>
+            <mat-chip *ngIf="tl.startDate">{{tl.startDate | date:'dd/MM/yy HH:mm'}}</mat-chip>
+            <mat-chip *ngIf="tl.browser">{{tl.browser}}</mat-chip>
+            <mat-chip *ngIf="tl.opSystem">{{tl.opSystem}}</mat-chip>
+            <mat-chip *ngIf="tl.requestHeaders['x-forwarded-for']">
+              {{tl.requestHeaders['x-forwarded-for']}}
+            </mat-chip>
+          </mat-chip-list>
 
           <div *ngIf="!template && (tl.requestBody || tl.responseBody)" class="timeline-body">
             <span>{{tl.requestBody}}</span>&nbsp;
@@ -61,20 +60,17 @@
           <div *ngIf="template" [innerHTML]="template(tl)"
                class="timeline-body">
           </div>
-
-        </div>
-
-      </li>
-    </ul>
+        </mat-card>
+      </div>
+    </div>
 
     <button (click)="onNextPage(timelinePage.next)"
             *ngIf="timelinePage.next"
             [disabled]="showLoader"
-            class="btn btn-primary rounded-circle"
+            mat-raised-button
+            color="primary"
             type="submit">
       <span>{{'xm-timeline.timeline.more'|translate}}</span>
     </button>
-
   </div>
-
 </div>
