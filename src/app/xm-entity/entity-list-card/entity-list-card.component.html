@@ -1,21 +1,5 @@
-<mat-card [ngSwitch]="list?.length === 1" class="card p-0 has-refresh-button">
-  <!-- start header for the multi entities types -->
-  <div *ngSwitchCase="false" class="card-header card-header-tabs card-header-primary">
-    <ul [class.xm-disabled]="showLoader" class="nav nav-tabs" data-tabs="tabs">
-      <li *ngFor="let item of list; index as i; first as isFirst" class="nav-item">
-        <a (click)="setActiveTab(i)"
-           [class.active]="i == activeItemId"
-           class="nav-link"
-           data-toggle="tab"
-           href="{{'#wdt-entity-group-' + i}}">
-          <i class="material-icons">{{ item.xmEntitySpec?.icon ? item.xmEntitySpec?.icon : 'view_list'}}</i>
-          {{item.name | translate}}
-        </a>
-      </li>
-    </ul>
-  </div>
-  <!-- end header for the multi entities types  -->
-
+<mat-card [ngSwitch]="list?.length === 1" class="p-0 mb-4">
+  <xm-loader [showLoader]="showLoader"></xm-loader>
   <!-- start header for the one entity type  -->
   <div *ngSwitchCase="true" class="card-header card-header-icon card-header-primary">
     <div class="card-icon">
@@ -25,15 +9,15 @@
   </div>
   <!-- end header for the one entity type  -->
 
-  <xm-loader [showLoader]="showLoader"></xm-loader>
-  <div class="card-body">
-    <div [class.xm-disabled]="showLoader" class="tab-content">
-      <div *ngFor="let item of list; index as i; first as isFirst"
-           [class.active]="i == activeItemId"
-           class="tab-pane"
-           id="{{'wdt-entity-group-' + i}}">
-
-
+  <mat-tab-group>
+    <mat-tab [label]="item.name | translate"
+             (change)="setActiveTab(i)"
+             *ngFor="let item of list; index as i; first as isFirst">
+      <ng-template mat-tab-label *ngIf="list?.length > 0">
+        <mat-icon>item.xmEntitySpec?.icon ? item.xmEntitySpec?.icon : 'view_list'</mat-icon>
+        {{item.name | translate}}
+      </ng-template>
+      <ng-template matTabContent>
         <ng-container [class.hidden]="!item.entities">
           <xm-entity-list [item]="item"
                           [spec]="spec"
@@ -42,7 +26,7 @@
                           [reverse]="reverse"
                           [predicate]="predicate"></xm-entity-list>
         </ng-container>
-      </div>
-    </div>
-  </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 </mat-card>
