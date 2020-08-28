@@ -1,4 +1,4 @@
-<mat-card [ngSwitch]="list?.length === 1" class="p-0 mb-4">
+<mat-card [ngSwitch]="list?.length === 1" class="mb-4">
   <xm-loader [showLoader]="showLoader"></xm-loader>
   <!-- start header for the one entity type  -->
   <div *ngSwitchCase="true" class="card-header card-header-icon card-header-primary">
@@ -9,15 +9,28 @@
   </div>
   <!-- end header for the one entity type  -->
 
-  <mat-tab-group>
-    <mat-tab [label]="item.name | translate"
-             (change)="setActiveTab(i)"
-             *ngFor="let item of list; index as i; first as isFirst">
-      <ng-template mat-tab-label *ngIf="list?.length > 0">
-        <mat-icon>item.xmEntitySpec?.icon ? item.xmEntitySpec?.icon : 'view_list'</mat-icon>
-        {{item.name | translate}}
-      </ng-template>
-      <ng-template matTabContent>
+  <ng-container *ngSwitchCase="true">
+    <ng-container *ngFor="let item of list; index as i; first as isFirst">
+      <ng-container [class.hidden]="!item.entities">
+        <xm-entity-list [item]="item"
+                        [spec]="spec"
+                        [options]="options"
+                        [pageSize]="entitiesPerPage"
+                        [reverse]="reverse"
+                        [predicate]="predicate"></xm-entity-list>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="false">
+    <mat-tab-group animationDuration="0" class="xm-tabs-lists" >
+      <mat-tab [label]="item.name | translate"
+               (change)="setActiveTab(i)"
+               *ngFor="let item of list; index as i; first as isFirst">
+        <ng-template mat-tab-label>
+          <mat-icon>{{item.xmEntitySpec?.icon ? item.xmEntitySpec?.icon : 'view_list'}}</mat-icon>
+          {{item.name | translate}}
+        </ng-template>
         <ng-container [class.hidden]="!item.entities">
           <xm-entity-list [item]="item"
                           [spec]="spec"
@@ -26,7 +39,7 @@
                           [reverse]="reverse"
                           [predicate]="predicate"></xm-entity-list>
         </ng-container>
-      </ng-template>
-    </mat-tab>
-  </mat-tab-group>
+      </mat-tab>
+    </mat-tab-group>
+  </ng-container>
 </mat-card>
