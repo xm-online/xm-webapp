@@ -1,0 +1,33 @@
+/**
+ * XM button-group
+ * @todo: create and move to the xm-button-group component
+ */
+
+@mixin xm-button-group($theme) {
+  .xm-button-group {
+    > button {
+      border-radius:  0;
+      font-weight:    300;
+      text-transform: uppercase;
+      min-width:      20px;
+
+      &.size-sm {
+        font-size:   12px;
+        line-height: 28px;
+        padding:     0 10px;
+      }
+
+      &:first-child {
+        border-radius: $xm-radius-pill 0 0 $xm-radius-pill;
+      }
+
+      &:last-child {
+        border-radius: 0 $xm-radius-pill $xm-radius-pill 0;
+      }
+
+      &.active {
+        opacity: 0.65;
+      }
+    }
+  }
+}
