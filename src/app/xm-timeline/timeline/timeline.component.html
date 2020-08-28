@@ -9,19 +9,21 @@
     <xm-loader [showLoader]="showLoader"></xm-loader>
 
     <div style="display: flex; flex-direction: row; align-items: center;">
-      <div *ngIf="filter?.states?.length" class="btn-group empty-style" style="margin-right: 20px">
+      <div *ngIf="filter?.states?.length" class="xm-button-group mb-3" style="margin-right: 20px">
         <button (click)="applyFastSearch('')"
-                [class.disabled]="!currentSearch"
-                class="btn btn-primary btn-sm"
-                mat-button>
-          <span>{{'global.all'|translate}}</span>
+                [class.active]="!currentSearch"
+                class="size-sm"
+                color="primary"
+                mat-flat-button>
+          {{'global.all'|translate}}
         </button>
 
         <button (click)="applyFastSearch(item.state)"
                 *ngFor="let item of filter.states"
-                [class.disabled]="currentSearch === item.state"
-                class="btn btn-primary btn-sm"
-                mat-button>
+                [class.active]="currentSearch === item.state"
+                class="size-sm"
+                color="primary"
+                mat-flat-button>
           {{item.name}}
         </button>
       </div>

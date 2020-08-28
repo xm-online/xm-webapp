@@ -3,12 +3,13 @@
     <h4 class="card-title">{{name}}</h4>
   </div>
   <div class="card-body">
-    <div *ngIf="groups?.length > 1" class="btn-group">
+    <div *ngIf="groups?.length > 1" class="xm-button-group mb-3">
       <button (click)="showGroup(group)"
               *ngFor="let group of groups"
-              [class.disabled]="currentGroup === group"
-              class="btn btn-primary btn-sm"
-              mat-button>
+              [class.active]="currentGroup === group"
+              class="size-sm"
+              color="primary"
+              mat-flat-button>
         {{group.name}}
       </button>
     </div>

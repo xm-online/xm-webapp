@@ -8,10 +8,10 @@
 
   <div class="card-body">
     <div class="text-center">
-      <div *ngIf="modes.length > 1" class="btn-group">
+      <div *ngIf="modes.length > 1" class="xm-button-group mb-3">
         <button (click)="mode = 'list';"
                 [disabled]="mode === 'list'"
-                class="btn-sm"
+                class="size-sm"
                 color="primary"
                 mat-flat-button
                 type="button">
@@ -19,9 +19,9 @@
         </button>
         <button (click)="mode = 'tree';"
                 [disabled]="mode === 'tree'"
-                mat-flat-button
-                class="btn-sm"
+                class="size-sm"
                 color="primary"
+                mat-flat-button
                 type="button">
           <span>{{'xm-entity.link-list-card.tree-view'|translate}}</span>
         </button>

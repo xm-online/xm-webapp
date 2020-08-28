@@ -11,19 +11,19 @@
   </div>
   <div class="card-body">
     <div class="text-center">
-      <div *ngIf="config?.signUpEnabled" class="btn-group">
+      <div *ngIf="config?.signUpEnabled" class="xm-button-group">
         <button (click)="changeMode()"
                 [disabled]="isLoginFormView"
-                class="btn btn-round btn-sm"
-                mat-raised-button
+                class="size-sm"
+                mat-flat-button
                 color="primary"
                 type="button">
           <span>{{'ext-common.sign-in-up-widget.sign-in' | translate}}</span>
         </button>
         <button (click)="changeMode()"
                 [disabled]="!isLoginFormView"
-                mat-raised-button
-                class="btn btn-round btn-sm"
+                class="size-sm"
+                mat-flat-button
                 color="primary"
                 type="button">
           <span>{{'ext-common.sign-in-up-widget.sign-up' | translate}}</span>
