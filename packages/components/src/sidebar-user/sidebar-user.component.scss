@@ -32,4 +32,7 @@ $user-padding-x:         12px !default;
     white-space:   nowrap;
   }
 
+  .sidebar-user-subtitles {
+    padding-left: $user-padding-x;
+  }
 }

@@ -1130,26 +1130,6 @@
       "other-functions": "Другие Функции:",
       "title": "Функции"
     },
-    "functions": {
-      "linkedin-profile": {
-        "awards": "Награды",
-        "button": "Извлечь профиль LinkedIn",
-        "certifications": "Сертификаты",
-        "current": "Текущий",
-        "education": "Образование",
-        "experienceCurrent": "Текущий опыт",
-        "experiencePast": "Прошлый опыт",
-        "interests": "Интересы",
-        "languages": "Языки",
-        "location": "Место нахождения",
-        "projects": "Проекты",
-        "recommendations": "Рекомендации",
-        "skills": "Навыки",
-        "summary": "Резюме",
-        "title": "Название",
-        "volunteer": "Волонтерские причины"
-      }
-    },
     "link-detail-dialog": {
       "add-link": "Добавить",
       "add": {
