@@ -8,7 +8,7 @@ request.debug = true;
 const xmurl = args.xmurl || process.env.npm_config_xmurl || process.env.xmurl || '';
 const xmgrant = args.xmgrant || process.env.npm_config_xmgrant || process.env.xmgrant || '';
 const xmauth = args.xmauth || process.env.npm_config_xmauth || process.env.xmauth || '';
-const target = args.dist || process.env.npm_config_target || process.env.target || 'dist/dashboards.json';
+const target = args.target || process.env.npm_config_target || process.env.target || 'dist/dashboards.json';
 const _deleteFile = args.deleteFile || process.env.npm_config_deleteFile || process.env.deleteFile || false;
 
 function deleteFile(target) {
