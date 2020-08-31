@@ -53,7 +53,7 @@ export class EntityCardComponent implements OnInit {
     }
 
     public onAvatarChangeClick(): void {
-        const modalRef = this.modalService.open(AvatarDialogComponent, {width: '500px'});
+        const modalRef = this.modalService.open(AvatarDialogComponent, {autoFocus: false});
         modalRef.componentInstance.xmEntity = this.xmEntity;
     }
 
