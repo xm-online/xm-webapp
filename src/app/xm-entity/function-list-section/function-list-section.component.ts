@@ -11,7 +11,6 @@ import { Principal } from '@xm-ngx/core/auth';
 import { ContextService } from '../../shared/context/context.service';
 import { FunctionCallDialogComponent } from '../function-call-dialog/function-call-dialog.component';
 import { AreaComponent } from '../functions/area/area.component';
-import { LinkedinProfileComponent } from '../functions/linkedin-profile/linkedin-profile.component';
 import { FunctionContext } from '../shared/function-context.model';
 import { FunctionSpec } from '../shared/function-spec.model';
 import { NextSpec, StateSpec } from '../shared/state-spec.model';
@@ -41,8 +40,6 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
     public customFunctions$: Observable<FunctionSpec[]>;
     public customFunctions: any = {
         'AREA': AreaComponent,
-        'EXTRACT-LINKEDIN-PROFILE': LinkedinProfileComponent,
-        'ACCOUNT.EXTRACT-LINKEDIN-PROFILE': LinkedinProfileComponent,
     };
     private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 

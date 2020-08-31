@@ -1107,26 +1107,6 @@
       "other-functions": "Інші Функції:",
       "title": "Функції"
     },
-    "functions": {
-      "linkedin-profile": {
-        "awards": "Нагороди",
-        "button": "Витягнути профіль LinkedIn",
-        "certifications": "Сертифікати",
-        "current": "Струм",
-        "education": "Освіта",
-        "experienceCurrent": "Поточний досвід",
-        "experiencePast": "Минулий досвід",
-        "interests": "Інтереси",
-        "languages": "Мови",
-        "location": "Місцезнаходження",
-        "projects": "Проекти",
-        "recommendations": "Рекомендації",
-        "skills": "Навички",
-        "summary": "Резюме",
-        "title": "Назва",
-        "volunteer": "Волонтерська причина"
-      }
-    },
     "link-detail-dialog": {
       "add-link": "Додати",
       "add": {
