@@ -7,7 +7,7 @@
 
 <div mat-dialog-content>
   <div *ngIf="linkSpec.builderType === 'NEW-OR-SEARCH'" class="raw col-sm-12 text-center">
-    <div class="btn-group">
+    <div class="xm-button-group mb-3">
       <button [disabled]="mode === 'NEW'"
               mat-flat-button
               color="primary"
@@ -17,6 +17,7 @@
       </button>
       <button [disabled]="mode === 'SEARCH'"
               mat-flat-button
+              color="primary"
               type="button"
               (click)="mode = 'SEARCH';">
         {{'xm-entity.link-detail-dialog.add.build-type-search'|translate}}

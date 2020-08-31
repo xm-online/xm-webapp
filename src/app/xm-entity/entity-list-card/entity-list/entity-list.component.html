@@ -40,19 +40,21 @@
 <div class="row">
   <!-- start fast search -->
   <div *xmPermitted="['XMENTITY.SEARCH.QUERY']" class="col-sm-8">
-    <div *ngIf="item.fastSearch?.length > 1" class="btn-group">
+    <div *ngIf="item.fastSearch?.length > 1" class="xm-button-group mb-3">
       <button (click)="onApplyFastSearch(item, getDefaultSearch(item))"
               *ngIf="true"
-              [class.disabled]="item.currentQuery === getDefaultSearch(item)"
-              class="btn btn-primary btn-sm"
-              mat-button>
+              [class.active]="item.currentQuery == getDefaultSearch(item)"
+              class="size-sm"
+              color="primary"
+              mat-flat-button>
         <span>{{'global.all'|translate}}</span>
       </button>
       <button (click)="onApplyFastSearch(item, fastSearch.query)"
               *ngFor="let fastSearch of getFastSearches(item)"
-              [class.disabled]="item.currentQuery === fastSearch.query"
-              class="btn btn-primary btn-sm"
-              mat-button>
+              [class.active]="item.currentQuery === fastSearch.query"
+              class="size-sm"
+              color="primary"
+              mat-flat-button>
         {{fastSearch.name | translate}}
       </button>
     </div>

@@ -10,6 +10,7 @@
 @import './src/card-entity-list-actions';
 @import './src/card-header';
 @import './src/fab';
+@import './src/button-group';
 @import './src/state';
 @import './src/word-autocomplete';
 @import './src/material-mat-dialog';
@@ -23,6 +24,7 @@
   @include xm-entity-list-actions($theme);
   @include xm-card-header($theme);
   @include xm-fab($theme);
+  @include xm-button-group($theme);
   @include xm-state($theme);
   @include xm-word($theme);
   @include xm-mat-dialog($theme);

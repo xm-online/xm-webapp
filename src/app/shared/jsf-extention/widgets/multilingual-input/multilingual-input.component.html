@@ -1,8 +1,9 @@
-<div class="btn-group" *ngIf="languages">
-  <button mat-button
-          class="btn btn-primary btn-sm"
+<div class="xm-button-group mb-3" *ngIf="languages">
+  <button mat-flat-button
+          color="primary"
+          class="size-sm"
           type="button"
-          [class.disabled]="currentLanguage === lang"
+          [class.active]="currentLanguage === lang"
           (click)="onChangeLanguage(lang)"
           *ngFor="let lang of languages">
     {{lang}}

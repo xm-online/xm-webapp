@@ -4,20 +4,24 @@
   </div>
   <xm-loader [showLoader]="showLoader"></xm-loader>
 
-  <div *ngIf="authorities" class="btn-group flex-wrap">
+  <div *ngIf="authorities" class="xm-button-group mb-3">
     <button (click)="applySearchByRole(null)"
-            [class.disabled]="!currentSearch"
-            class="btn btn-primary btn-sm"
-            mat-button>
-      <span jhiTranslate="global.all">All</span>
+            [class.active]="!currentSearch"
+            class="size-sm"
+            color="primary"
+            mat-flat-button>
+      {{'global.all' | translate}}
     </button>
     <button (click)="applySearchByRole(authority)"
             *ngFor="let authority of authorities"
-            [class.disabled]="currentSearch === authority"
-            class="btn btn-primary btn-sm"
-            mat-button>{{ authority | translate }}
+            [class.active]="currentSearch === authority"
+            class="size-sm"
+            color="primary"
+            mat-flat-button>
+      {{authority | translate}}
     </button>
   </div>
+
   <div class="row align-items-center mt2 mb-2">
     <div class="col-xs-12 col-sm-3">
       <form (ngSubmit)="searchByLogin()" action="" novalidate>
