@@ -92,7 +92,10 @@
 
     <div *ngIf="mode === 'tree'" class="row">
       <div class="col-md-12">
-        <xm-link-list-tree-section [linkSpec]="linkSpec.model" [links]="treeRootLinks" class="tree">
+        <xm-link-list-tree-section
+          [linkSpec]="linkSpec.model"
+          [links]="treeRootLinks"
+          [isRootTree]="true">
         </xm-link-list-tree-section>
       </div>
     </div>

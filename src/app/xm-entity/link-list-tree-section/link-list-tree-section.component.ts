@@ -18,18 +18,17 @@ export class LinkListTreeSectionComponent implements OnInit {
 
     @Input() public links: Link[];
     @Input() public linkSpec: LinkSpec;
+    @Input() public isRootTree: boolean;
 
     constructor(private xmEntityService: XmEntityService,
                 private translateService: TranslateService) {
     }
 
     public ngOnInit(): void {
-        $('.tree li:has(ul)').addClass('parent_li').find(' > span')
+        $('.xm-link-tree li:has(ul)').addClass('parent_li').find(' > span')
             .attr('title', this.translateService.instant('xm-entity.link-list-tree-section.collapse'));
-        $('.tree ul > li.parent_li > span').on('click', function(this: HTMLElement, e: any): void {
-            console.info('click');
+        $('.xm-link-tree ul > li.parent_li > span').on('click', function(this: HTMLElement, e: any): void {
             const children = $(this).parent('li.parent_li').find(' > xm-link-list-tree-section > ul > li');
-            console.info(children);
             if (children.is(':visible')) {
                 children.hide('fast');
             } else {
