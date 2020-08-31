@@ -20,14 +20,14 @@
               [class.loading]="uiSpecificationProgress"
               [disabled]="uiSpecificationProgress"
               color="primary"
-              mat-button
+              mat-flat-button
               type="button">
         {{'admin-config.specification-mng.ui.save' | translate}}
       </button>
       <button (click)="validateUiSpecification();"
               *ngIf="!isUiSpecValid"
               color="primary"
-              mat-button
+              mat-flat-button
               type="button">
         {{'admin-config.specification-mng.validate' | translate}}
       </button>
@@ -60,12 +60,12 @@
   <ng-container *ngSwitchCase="'timeline'">
     <div class="text-center pb-3">
       <button (click)="validateTimelineConfig();" *ngIf="!isTimelineSpecValid" color="primary"
-              mat-button
+              mat-flat-button
               translate="admin-config.specification-mng.validate"
               type="submit">
       </button>
       <button (click)="updateTimelineConfig();" *ngIf="isTimelineSpecValid" color="primary"
-              mat-button
+              mat-flat-button
               translate="admin-config.specification-mng.timeline.save"
               type="submit">
       </button>
@@ -98,14 +98,14 @@
               *ngIf="!isUaaLoginSpecValid"
               [translate]="'admin-config.specification-mng.validate'"
               color="primary"
-              mat-button
+              mat-flat-button
               type="submit">
       </button>
       <button (click)="updateLoginsSpecification();"
               *ngIf="isUaaLoginSpecValid"
               [translate]="'admin-config.specification-mng.uaa-login.save'"
               color="primary"
-              mat-button
+              mat-flat-button
               type="submit">
       </button>
       <div class="text-center">
@@ -133,12 +133,12 @@
   <ng-container *ngSwitchCase="'uaa'">
     <div class="text-center pb-3">
       <button (click)="validateUaaSpecification();" *ngIf="!isUaaSpecValid" color="primary"
-              mat-button
+              mat-flat-button
               translate="admin-config.specification-mng.validate"
               type="submit">
       </button>
       <button (click)="updateUaaSpecification();" *ngIf="isUaaSpecValid" color="primary"
-              mat-button
+              mat-flat-button
               translate="admin-config.specification-mng.uaa.save"
               type="submit">
       </button>
@@ -171,14 +171,14 @@
               [class.loading]="tenantSpecificationProgress"
               [disabled]="tenantSpecificationProgress"
               color="primary"
-              mat-button
+              mat-flat-button
               type="button">
         {{'admin-config.specification-mng.tenant.save' | translate}}
       </button>
       <button (click)="validateTenantSpecification();"
               *ngIf="!isTenantSpecValid"
               color="primary"
-              mat-button
+              mat-flat-button
               type="button">
         {{'admin-config.specification-mng.validate' | translate}}
       </button>
@@ -212,14 +212,14 @@
               [class.loading]="uiPrivateSpecificationProgress"
               [disabled]="uiPrivateSpecificationProgress"
               color="primary"
-              mat-button
+              mat-flat-button
               type="button">
         {{'admin-config.specification-mng.privateui.save' | translate}}
       </button>
       <button (click)="validatePrivateUiSpecification();"
               *ngIf="!isUiPrivateSpecValid"
               color="primary"
-              mat-button
+              mat-flat-button
               type="button">
         {{'admin-config.specification-mng.validate' | translate}}
       </button>

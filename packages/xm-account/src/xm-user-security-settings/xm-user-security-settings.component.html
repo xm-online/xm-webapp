@@ -33,7 +33,10 @@
       </div>
 
       <div class="text-right">
-        <button [disabled]="settingsForm.form.invalid" class="btn" color="primary" mat-button type="submit">
+        <button [disabled]="settingsForm.form.invalid"
+                color="primary"
+                mat-flat-button
+                type="submit">
           <span>{{'settings.form.button' | translate}}</span>
         </button>
       </div>
