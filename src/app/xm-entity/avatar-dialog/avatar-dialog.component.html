@@ -4,15 +4,13 @@
 </div>
 
 <div mat-dialog-content>
-  <div class="text-center">
+  <div class="text-center xm-avatar-dialog">
     <div class="fileinput fileinput-new text-center" data-provides="fileinput">
-      <div>
-        <span class="btn mat-button btn-primary rounded-circle btn-file">
-            <span class="fileinput-new">{{'xm-entity.common.add-avatar'|translate}}</span>
-            <span class="fileinput-exists">{{'xm-entity.common.change-avatar'|translate}}</span>
-            <input (change)="onFileChange($event)" name="..." type="file"/>
-        </span>
-      </div>
+      <button tabindex="0" class="btn-file mb-2" color="primary" mat-flat-button>
+        <span class="fileinput-new">{{'xm-entity.common.add-avatar'|translate}}</span>
+        <span class="fileinput-exists">{{'xm-entity.common.change-avatar'|translate}}</span>
+        <input (change)="onFileChange($event)" name="..." type="file"/>
+      </button>
       <div class="fileinput-exists">
         <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
       </div>

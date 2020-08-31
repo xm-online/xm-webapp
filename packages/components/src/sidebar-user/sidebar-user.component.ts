@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule, OnInit, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit, Type } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { ActivationEnd, Router } from '@angular/router';
 import { XmMenuModule } from '@xm-ngx/components/menu';
@@ -12,15 +12,19 @@ import { XmUser, XmUserService } from '@xm-ngx/core';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
+import { get } from 'lodash';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, share, shareReplay, switchMap } from 'rxjs/operators';
+import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { ContextService } from '../../../../src/app/shared';
 import { MenuItem } from '../menu/menu-models';
 
 interface UserOptions {
+    roleKey: string;
     username: string;
     avatarUrl: string;
+    user: XmUser;
 }
 
 const USER_MENU: MenuItem[] = [
@@ -49,7 +53,9 @@ const LOGOUT_CONTROL: MenuItem = {
 
 const DEFAULT: UserOptions = {
     username: '',
+    roleKey: '',
     avatarUrl: './assets/img/anonymous.png',
+    user: null,
 };
 
 function getUserName(user: XmUser): string {
@@ -62,6 +68,8 @@ function getUserName(user: XmUser): string {
 
 function userToOptions(user: XmUser): UserOptions {
     const opts: UserOptions = {
+        user: user,
+        roleKey: user.roleKey,
         username: getUserName(user),
         avatarUrl: user.imageUrl || undefined,
     };
@@ -81,9 +89,13 @@ function userToOptions(user: XmUser): UserOptions {
 })
 export class SidebarUserComponent implements OnInit {
     public logoutControl: MenuItem = LOGOUT_CONTROL;
-    public user$: Observable<UserOptions>;
+    public user: UserOptions;
     public menu$: Observable<MenuItem[]>;
     public active: boolean = false;
+
+    @Input() public config: {
+        subtitles: { label: Translate, role: string, field: string }[]
+    };
 
     constructor(
         protected readonly dashboardService: DashboardWrapperService,
@@ -91,6 +103,10 @@ export class SidebarUserComponent implements OnInit {
         protected readonly contextService: ContextService,
         protected readonly router: Router,
     ) {
+    }
+
+    public get(user: XmUser, field: string): string {
+        return get(user, field);
     }
 
     public ngOnInit(): void {
@@ -105,15 +121,15 @@ export class SidebarUserComponent implements OnInit {
             shareReplay(1),
         );
 
-        this.user$ = this.userService.user$().pipe(
+        const user$ = this.userService.user$().pipe(
             takeUntilOnDestroy(this),
             filter((u) => !!u),
             map(userToOptions),
-            share(),
+            tap((user) => this.user = user),
         );
 
         combineLatest([
-            this.user$,
+            user$,
             this.router.events.pipe(filter((e) => e instanceof ActivationEnd)),
         ]).pipe(
             map((i) => i[0]),
@@ -150,6 +166,7 @@ export class SidebarUserComponent implements OnInit {
         CommonModule,
         XmMenuModule,
         XmPermissionModule,
+        XmTranslationModule,
     ],
     exports: [SidebarUserComponent],
     declarations: [SidebarUserComponent],

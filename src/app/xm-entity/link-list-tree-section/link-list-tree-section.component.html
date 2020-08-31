@@ -1,4 +1,4 @@
-<ul>
+<ul [class.xm-link-tree]="isRootTree">
   <li *ngFor="let link of links">
     <span (click)="toggle(link)">
       <div *ngIf="link.target.avatarUrl" class="xm-avatar-img-container">
