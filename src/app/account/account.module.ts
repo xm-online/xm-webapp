@@ -25,6 +25,7 @@ import {
 import { accountState } from './account.route';
 import { LogoutComponent } from './logout/logout.component';
 import { PasswordModule } from './password/password.module';
+import { PasswordSettingsComponent } from './password-settings/password-settings.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { PasswordModule } from './password/password.module';
         SettingsComponent,
         LogoutComponent,
         HelpComponent,
+        PasswordSettingsComponent,
     ],
     providers: [
         Activate,
