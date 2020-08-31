@@ -1,4 +1,4 @@
-<ng-container *ngIf="user$ | async as user">
+<ng-container *ngIf="user">
 
   <!-- title -->
   <div (click)="toggle()"
@@ -8,7 +8,17 @@
        role="button"
        tabindex="0">
     <img [alt]="user.avatarUrl" [src]="user.avatarUrl" class="user-img" onerror="this.src='./assets/img/anonymous.png'">
-    <span class="user-name">{{ user.username }}</span>
+    <div>
+      <div class="user-name">{{ user.username }}</div>
+
+      <div *ngFor="let subtitle of config?.subtitles" class="sidebar-user-subtitles">
+        <ng-container *ngIf="!subtitle?.role || (subtitle?.role === user.roleKey)">
+          <span class="sidebar-user-subtitle-label">{{subtitle.label | translate}}</span>
+          <span class="sidebar-user-subtitle-value">{{get(user, subtitle.field)}}</span>
+        </ng-container>
+      </div>
+
+    </div>
     <i [@indicatorRotate]="getState()"
        class="mat-expansion-indicator"></i>
   </div>
