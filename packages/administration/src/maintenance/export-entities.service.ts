@@ -15,12 +15,14 @@ export interface ExportDataItem {
 export class ExportEntityItemNode {
     public children: ExportEntityItemNode[];
     public item: string;
+    public parent?: string;
 }
 
 export class ExportEntityFlatNode {
     public item: string;
     public level: number;
     public expandable: boolean;
+    public parent?: string
 }
 
 @Injectable({
@@ -32,10 +34,6 @@ export class ExportEntitiesService {
         = new BehaviorSubject<ExportEntityItemNode[]>([]);
 
     get data(): ExportEntityItemNode[] { return this.dataChange.value; }
-
-    constructor() {
-        // this.initialize();
-    }
 
     public initialize(treeDta: any): void {
         // Build the tree nodes from Json object. The result is a list of `ExportEntityItemNode` with nested
@@ -50,15 +48,18 @@ export class ExportEntitiesService {
      * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
      * The return value is the list of `ExportEntityItemNode`.
      */
-    public buildFileTree(obj: {[key: string]: any}, level: number): ExportEntityItemNode[] {
+    public buildFileTree(obj: {[key: string]: any}, level: number, parent?: string): ExportEntityItemNode[] {
         return Object.keys(obj).reduce<ExportEntityItemNode[]>((accumulator, key) => {
             const value = obj[key];
             const node = new ExportEntityItemNode();
             node.item = key;
+            if (parent) {
+                node.parent = parent
+            }
 
             if (value != null) {
                 if (typeof value === 'object') {
-                    node.children = this.buildFileTree(value, level + 1);
+                    node.children = this.buildFileTree(value, level + 1, key);
                 } else {
                     node.item = value;
                 }
@@ -73,7 +74,7 @@ export class ExportEntitiesService {
         Object.keys(spec).forEach((key: string) => {
             switch (key) {
                 case 'calendars': {
-                    treeData = {...treeData, calendars: ['TEST-KEY']}
+                    treeData = {...treeData, calendars: this.getCalendars(spec[key])}
                     break;
                 }
                 case 'comments': {
@@ -85,7 +86,7 @@ export class ExportEntitiesService {
                     break;
                 }
                 case 'links': {
-                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key], 'typeKey')}
+                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key])}
                     break;
                 }
                 case 'locations': {
@@ -106,6 +107,17 @@ export class ExportEntitiesService {
             }
         });
         return treeData;
+    }
+
+    private getCalendars(values: any[]): any {
+        // const events = event.values[]
+
+        // RESOURCE.CHARGING-STATION
+        // const calendars = {};
+        values.forEach(() => {
+
+        });
+        return
     }
 
     private getByValuesKey(values: any[], prop: string = 'key'): any {

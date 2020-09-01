@@ -30,9 +30,6 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
     /** A selected parent node to be inserted */
     public selectedParent: ExportEntityFlatNode | null = null;
 
-    /** The new item's name */
-    public newItemName: string = '';
-
     public treeControl: FlatTreeControl<ExportEntityFlatNode>;
 
     public treeFlattener: MatTreeFlattener<ExportEntityItemNode, ExportEntityFlatNode>;
@@ -114,6 +111,7 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
             : new ExportEntityFlatNode();
         flatNode.item = node.item;
         flatNode.level = level;
+
         flatNode.expandable = !!node.children?.length;
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
@@ -135,7 +133,7 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
     }
 
 
-    public todoItemSelectionToggle(node: ExportEntityFlatNode): void {
+    public itemSelectionToggle(node: ExportEntityFlatNode): void {
         this.checklistSelection.toggle(node);
         const descendants = this.treeControl.getDescendants(node);
         this.checklistSelection.isSelected(node)
@@ -145,11 +143,15 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
         // Force update for the parent
         descendants.forEach(child => this.checklistSelection.isSelected(child));
         this.checkAllParentsSelection(node);
+
+        console.warn(this.checklistSelection.selected);
     }
 
-    public todoLeafItemSelectionToggle(node: ExportEntityFlatNode): void {
+    public leafItemSelectionToggle(node: ExportEntityFlatNode): void {
         this.checklistSelection.toggle(node);
         this.checkAllParentsSelection(node);
+
+        console.warn(this.checklistSelection.selected);
     }
 
     public checkAllParentsSelection(node: ExportEntityFlatNode): void {
