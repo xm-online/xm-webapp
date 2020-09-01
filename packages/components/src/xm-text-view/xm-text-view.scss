@@ -1,7 +1,7 @@
 @import 'theme';
 
-$label-color:     $xm-text-light;
-$label-font-size: 0.75 * 100%;
+$label-color:     $xm-text-light !default;
+$label-font-size: 0.75 * 100% !default;
 
 .xm-text-view--label {
   color:         $label-color;
@@ -13,6 +13,11 @@ $label-font-size: 0.75 * 100%;
   display:         flex;
   justify-content: space-between;
   align-items:     baseline;
+
+  .xm-text-view--label {
+    font-size:    $xm-font-size-sm;
+    margin-right: 1rem;
+  }
 }
 
 :host.inline .xm-text-view--value {
