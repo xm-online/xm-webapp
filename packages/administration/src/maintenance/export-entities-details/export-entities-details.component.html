@@ -1,0 +1,78 @@
+<div class="xm-entity-export-dialog">
+  <xm-loader [showLoader]="showLoader"></xm-loader>
+  <div class="mb-0" mat-dialog-title>
+    <h4>{{'xm.export-entities.details-title' | translate}}</h4>
+    <xm-modal-close mat-dialog-close></xm-modal-close>
+  </div>
+
+  <div class="mb-2" *ngIf="config">
+    <div class="row flex-nowrap">
+      <div class="col">
+        <div class="export-col-title mb-3">
+          <button class="mat-elevation-z0 mr-2" type="button" color="primary" mat-mini-fab>1</button>
+          {{'xm.export-entities.step-1' | translate}}:
+        </div>
+      </div>
+      <div class="col">
+        <div class="export-col-title mb-3">
+          <button class="mat-elevation-z0 mr-2" type="button" color="primary" mat-mini-fab>2</button>
+          {{'xm.export-entities.step-2' | translate}}:
+        </div>
+      </div>
+    </div>
+
+    <div class="row flex-nowrap pl-3 pr-3">
+      <div class="col selector-col mr-3">
+        <div class="selector-bg" mat-dialog-content>
+          <mat-selection-list [(ngModel)]="selectedTypeKey" (selectionChange)="onSelectionChange()" [multiple]="false">
+            <mat-list-option [value]="type.key" checkboxPosition="before" *ngFor="let type of config">
+              <div class="d-flex align-items-center flex-nowrap">
+                <mat-checkbox
+                  (change)="checkType(type, $event)"
+                  [checked]="type.selected">
+                </mat-checkbox>
+                <div>{{type.key}}</div>
+              </div>
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </div>
+
+      <div class="col selector-col ml-3">
+        <div class="selector-bg pt-2" mat-dialog-content>
+          <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+              <button mat-icon-button disabled></button>
+              <mat-checkbox class="checklist-leaf-node"
+                            [checked]="checklistSelection.isSelected(node)"
+                            (change)="todoLeafItemSelectionToggle(node)">{{node.item}}</mat-checkbox>
+            </mat-tree-node>
+
+            <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+              <button mat-icon-button matTreeNodeToggle
+                      [attr.aria-label]="'toggle ' + node.filename">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                </mat-icon>
+              </button>
+              <mat-checkbox [checked]="descendantsAllSelected(node)"
+                            [indeterminate]="descendantsPartiallySelected(node)"
+                            (change)="todoItemSelectionToggle(node)">{{node.item}}</mat-checkbox>
+            </mat-tree-node>
+          </mat-tree>
+        </div>
+      </div>
+    </div>
+
+    <div class="selector-selected mt-3" *ngIf="(config | exportSelectedEntities) as selected">
+      <span class="p-2 mr-3" *ngFor="let type of selected">{{type.key}}</span>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <div class="d-flex justify-content-end align-items-center w-100">
+      <button mat-flat-button>{{'xm.export-entities.btn-cancel' | translate}}</button>
+      <button mat-flat-button color="primary">{{'xm.export-entities.btn-export' | translate}}</button>
+    </div>
+  </div>
+</div>

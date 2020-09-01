@@ -376,7 +376,12 @@
       "delete": "Видалити",
       "delete-message": "Видалити {{value}}?",
       "maintenance-description": "Зазвичай це займає кілька хвилин, в іншому випадку зверніться до системного адміністратром.",
+      "maintenance-export-entities": "Експорт сутності",
+      "maintenance-import-entities": "Імпорт сутності",
       "maintenance-message": "Технічні роботи... <br> Будь ласка, спробуйте пізніше.",
+      "maintenance-reindex-elastic": "Reindex elastic",
+      "maintenance-update-tenant-configuration": "Оновити конфігурацію тенанту",
+      "maintenance-update-tenants-configuration": "Оновити конфігурацію тенантів",
       "no": "Ні",
       "set": "Задати",
       "yes": "Так",
@@ -395,6 +400,7 @@
       "newpassword": "Новий пароль",
       "oldpassword": "Старий пароль",
       "otp": "One Time Password",
+      "show-password": "Показати пароль",
       "signin": "увійти"
     },
     "item-count": "Показано {{first}} - {{second}} із {{total}} елементів.",
@@ -1477,6 +1483,24 @@
     },
     "delete": {
       "question": "Ви впевнені, що хочете видалити [ <b>{{name}}</b> ]?"
+    },
+    "export-entities": {
+      "btn-cancel": "Скасувати",
+      "btn-export": "Експорт",
+      "details-title": "Експортувати сутність",
+      "message-error": "Помилка експорту!",
+      "message-success": "Експортовано успішно!",
+      "step-1": "Виберіть тип сутності",
+      "step-2": "Виберіть необхідні параметри"
+    },
+    "import-entities": {
+      "btn-cancel": "Скасувати",
+      "btn-import": "Імпорт",
+      "details-title": "Імпортувати сутність",
+      "file-process-error": "Файл пошкоджений або має інше розширення ніж .json!",
+      "message-error": "Не вдалося імпортувати!",
+      "message-success": "Імпортовано успішно!",
+      "upload-btn-text": "Завантажити з файлу JSON"
     },
     "xmEntity": {
       "add": {

@@ -1,0 +1,40 @@
+<div class="xm-entity-import-dialog">
+  <xm-loader [showLoader]="showLoader"></xm-loader>
+  <div class="mb-0" mat-dialog-title>
+    <h4>{{'xm.import-entities.details-title' | translate}}</h4>
+    <xm-modal-close mat-dialog-close></xm-modal-close>
+  </div>
+
+  <div class="mb-2">
+    <div class="text-center">
+      <button tabindex="0" class="spec-load-btn mb-2" color="primary" mat-flat-button>
+        <input (change)="onFileChange($event)" name="..." type="file"/>
+        {{'xm.import-entities.upload-btn-text' | translate}}
+      </button>
+    </div>
+  </div>
+
+  <div mat-dialog-content class="mb-2">
+    <div class="spec-viewer" *ngIf="importedJson && !parseError">
+      <pre>{{importedJson | json}}</pre>
+    </div>
+
+    <div class="text-center text-danger" *ngIf="!importedJson && parseError">
+      {{'xm.import-entities.file-process-error' | translate}}
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <div class="d-flex justify-content-end align-items-center w-100">
+      <button mat-flat-button mat-dialog-close>
+        {{'xm.import-entities.btn-cancel' | translate}}
+      </button>
+      <button mat-flat-button
+              (click)="onImport()"
+              color="primary"
+              [disabled]="!importedJson">
+        {{'xm.import-entities.btn-import' | translate}}
+      </button>
+    </div>
+  </div>
+</div>

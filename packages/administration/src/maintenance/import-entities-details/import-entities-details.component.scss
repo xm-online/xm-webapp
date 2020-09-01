@@ -1,0 +1,15 @@
+.xm-entity-import-dialog {
+  .spec-load-btn {
+    position: relative;
+
+    input {
+      display: block;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
+}
