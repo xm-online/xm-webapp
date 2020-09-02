@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { ExportSelectedEntitiesPipe } from './export-selected-entities.pipe';
 import { ImportEntitiesDetailsComponent } from './import-entities-details/import-entities-details.component';
+import { ExportTreeComponent } from './export-entities-details/export-tree/export-tree.component';
 
 @NgModule({
     imports: [
@@ -38,7 +39,7 @@ import { ImportEntitiesDetailsComponent } from './import-entities-details/import
         FormsModule,
     ],
     exports: [MaintenanceComponent],
-    declarations: [MaintenanceComponent, ExportEntitiesDetailsComponent, ExportSelectedEntitiesPipe, ImportEntitiesDetailsComponent],
+    declarations: [MaintenanceComponent, ExportEntitiesDetailsComponent, ExportSelectedEntitiesPipe, ImportEntitiesDetailsComponent, ExportTreeComponent],
     providers: [],
 })
 export class MaintenanceModule {

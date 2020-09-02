@@ -8,7 +8,6 @@ $xm-config-selector-icon-fab-height: 37px;
 
   .selector-bg {
     min-height: 200px;
-    padding: 0 20px 10px 20px;
   }
 
   .export-col-title {
@@ -30,6 +29,11 @@ $xm-config-selector-icon-fab-height: 37px;
   }
 
   ::ng-deep {
+    .mat-dialog-content {
+      margin: 0;
+      padding: 10px;
+    }
+
     .mat-list-text {
       overflow: visible !important;
       padding: 0 !important;

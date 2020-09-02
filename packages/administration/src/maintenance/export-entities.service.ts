@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
+const API_EXPORT_ENTITIES = '/entity/api/export/xm-entities';
 
 export interface ExportDataItem {
     attachmentTypeKeys?: string[];
@@ -7,7 +10,7 @@ export interface ExportDataItem {
     locationTypeKeys?: string[];
     ratingTypeKeys?: string[];
     tagTypeKeys?: string[];
-    calendars?: [{eventTypeKeys: string[], typeKey: string}];
+    calendars?: {eventTypeKeys?: string[], typeKey?: string}[];
     comments?: boolean | string[];
     typeKey: string;
 }
@@ -15,14 +18,12 @@ export interface ExportDataItem {
 export class ExportEntityItemNode {
     public children: ExportEntityItemNode[];
     public item: string;
-    public parent?: string;
 }
 
 export class ExportEntityFlatNode {
     public item: string;
     public level: number;
     public expandable: boolean;
-    public parent?: string
 }
 
 @Injectable({
@@ -32,12 +33,16 @@ export class ExportEntitiesService {
 
     public dataChange: BehaviorSubject<ExportEntityItemNode[]>
         = new BehaviorSubject<ExportEntityItemNode[]>([]);
+    constructor(private http: HttpClient) {
+    }
 
     get data(): ExportEntityItemNode[] { return this.dataChange.value; }
 
     public initialize(treeDta: any): void {
         // Build the tree nodes from Json object. The result is a list of `ExportEntityItemNode` with nested
         // file node as children.
+        this.dataChange.next([]);
+
         const data = this.buildFileTree(treeDta, 0);
 
         // Notify the change.
@@ -53,9 +58,6 @@ export class ExportEntitiesService {
             const value = obj[key];
             const node = new ExportEntityItemNode();
             node.item = key;
-            if (parent) {
-                node.parent = parent
-            }
 
             if (value != null) {
                 if (typeof value === 'object') {
@@ -69,7 +71,7 @@ export class ExportEntitiesService {
         }, []);
     }
 
-    public getInitialTreeData(spec: any): any {
+    public getInitialTreeModel(spec: any): any {
         let treeData = {};
         Object.keys(spec).forEach((key: string) => {
             switch (key) {
@@ -109,15 +111,93 @@ export class ExportEntitiesService {
         return treeData;
     }
 
-    private getCalendars(values: any[]): any {
-        // const events = event.values[]
+    public getExportJson(data: ExportDataItem[]): Observable<any> {
+        return this.http.post(API_EXPORT_ENTITIES, data);
+    }
 
-        // RESOURCE.CHARGING-STATION
-        // const calendars = {};
-        values.forEach(() => {
+    public mapPayload(selections: any): ExportDataItem[] {
+        const payload: ExportDataItem[] = [];
 
+        selections.forEach((spec) => {
+            const newSelection = {
+                attachmentTypeKeys: [],
+                linkTypeKeys: [],
+                locationTypeKeys: [],
+                ratingTypeKeys: [],
+                tagTypeKeys: [],
+                calendars: [],
+                comments: false,
+                typeKey: spec.key,
+            }
+
+            const exportParams = [];
+            const calendarEvents = [];
+
+            spec.selection.forEach(s => {
+                if (s.level && s.level === 1) {
+                    exportParams.push(s);
+                }
+                if (s.level && s.level === 2) {
+                    calendarEvents.push(s);
+                }
+            });
+            exportParams.forEach((p) => {
+                const parentKey = p.parent.item;
+                const key = p.item;
+                switch(parentKey) {
+                    case 'attachments': {
+                        newSelection.attachmentTypeKeys.push(key);
+                        break;
+                    }
+                    case 'links': {
+                        newSelection.linkTypeKeys.push(key);
+                        break;
+                    }
+                    case 'locations': {
+                        newSelection.locationTypeKeys.push(key);
+                        break;
+                    }
+                    case 'ratings': {
+                        newSelection.ratingTypeKeys.push(key);
+                        break;
+                    }
+                    case 'tags': {
+                        newSelection.tagTypeKeys.push(key);
+                        break;
+                    }
+                    case 'calendars': {
+                        newSelection.calendars.push({
+                            eventTypeKeys: [],
+                            typeKey: key,
+                        });
+                        break;
+                    }
+                    case 'comments': {
+                        newSelection.comments = true;
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            });
+            calendarEvents.forEach(event => {
+                const parentKey = event.parent.item;
+                const key = event.item;
+                const hasCalendar = newSelection.calendars.filter(c => c.typeKey === parentKey);
+
+                if (hasCalendar && hasCalendar.length > 0) {
+                    hasCalendar[0].eventTypeKeys.push(key);
+                } else {
+                    newSelection.calendars.push({
+                        eventTypeKeys: [key],
+                        typeKey: parentKey,
+                    });
+                }
+            });
+            payload.push(newSelection);
         });
-        return
+        return payload;
     }
 
     private getByValuesKey(values: any[], prop: string = 'key'): any {
@@ -126,5 +206,25 @@ export class ExportEntitiesService {
             Object.assign(obj, {[s[prop]]: null})
         });
         return obj;
+    }
+
+    private getCalendars(calendars: any[]): any {
+        const calendarsNode = {};
+        calendars.forEach((c) => {
+            Object.assign(calendarsNode, {[c.key]: this.getCalendarsEvents(c)})
+        })
+        return calendarsNode;
+    }
+
+    private getCalendarsEvents(calendar: any): any {
+        if (calendar.events && calendar.events.length > 0) {
+            const calendarEventsNode = {};
+            calendar.events.forEach((e) => {
+                Object.assign(calendarEventsNode, {[e.key]: null});
+            });
+            return calendarEventsNode;
+        } else {
+            return null;
+        }
     }
 }

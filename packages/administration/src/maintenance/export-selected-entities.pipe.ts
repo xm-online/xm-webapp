@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ExportSelectedEntitiesPipe implements PipeTransform {
 
     public transform(types: any[], ...args: unknown[]): unknown {
-        const selected = types.filter(t => t.selected) || [];
+        const selected = types ? types.filter(t => t.selected) : [];
         return selected;
     }
 
