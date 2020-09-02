@@ -1,1 +1,1 @@
-export { XmSidebarUserModule } from './sidebar-user.component';
+export { XmSidebarUserModule } from './sidebar-user.module';
