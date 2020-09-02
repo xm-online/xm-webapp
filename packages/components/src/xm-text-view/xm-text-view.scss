@@ -1,25 +1,29 @@
 @import 'theme';
 
-$label-color:     $xm-text-light !default;
-$label-font-size: 0.75 * 100% !default;
+$xm-text-label-color:     $xm-text-light !default;
+$xm-text-label-font-size: $xm-font-size-xm !default;
+
+$xm-text-value-color:     $xm-text !default;
 
 .xm-text-view--label {
-  color:         $label-color;
-  font-size:     $label-font-size;
+  color:         $xm-text-label-color;
+  font-size:     $xm-text-label-font-size;
+  margin-right:  0.5rem;
   margin-bottom: 0;
 }
 
-:host.inline {
-  display:         flex;
-  justify-content: space-between;
-  align-items:     baseline;
-
-  .xm-text-view--label {
-    font-size:    $xm-font-size-sm;
-    margin-right: 0.5rem;
-  }
+.xm-text-view--value {
+  color:         $xm-text-value-color;
+  margin-bottom: 0;
 }
 
-:host.inline .xm-text-view--value {
-  margin-bottom: 0.5rem;
+:host {
+  display:       block;
+  margin-bottom: .75rem;
+}
+
+:host.inline {
+  .xm-text-view--label, .xm-text-view--value {
+    display: inline-block;
+  }
 }
