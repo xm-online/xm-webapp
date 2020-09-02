@@ -13,7 +13,7 @@ const customPathMask = (lang) => custom + lang + '/*.json';
 const distPathMask = (lang) => core + lang + '.json';
 
 function saveJson(path, data) {
-    fs.writeFileSync(path, JSON.stringify(data, null, 2), {encoding: 'utf8'});
+    fs.writeFileSync(path, JSON.stringify(data, null, 2) + '\r\n', {encoding: 'utf8'});
 }
 
 function readJson(file) {

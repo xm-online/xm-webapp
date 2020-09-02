@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-const TRAGET_THEME = 'src/styles/_theme.scss';
-const TRAGET_STYLES = 'src/styles.scss';
+const TARGET_THEME = 'src/styles/_theme.scss';
+const TARGET_STYLES = 'src/styles.scss';
 
 const terminalArgs = process.argv.slice(2);
 
@@ -14,10 +14,10 @@ function replaceFile(sourcePath, targetPath) {
 function replace(command, value) {
     switch (command) {
         case 'theme':
-            replaceFile(value, TRAGET_THEME);
+            replaceFile(value, TARGET_THEME);
             break;
         case 'styles':
-            replaceFile(value, TRAGET_STYLES);
+            replaceFile(value, TARGET_STYLES);
             break;
         default:
             console.warn(`Sorry, the argument ${command} is unknown command.`);

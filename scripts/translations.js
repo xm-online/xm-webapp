@@ -5,7 +5,7 @@ const I_18_N = 'src/i18n/';
 
 /** Adds all the elements in the
  * specified arrays to this array. */
-Array.prototype.addAll = function () {
+Array.prototype.addAll = function() {
     for (let a = 0; a < arguments.length; a++) {
         let arr = arguments[a];
         if (!arr) {
@@ -31,7 +31,7 @@ function getTrKeys(htmlFile) {
 
             trKeys.push({
                 key: trKey,
-                defaultValue: defValue
+                defaultValue: defValue,
             });
             if (!/^[\.\w\{\}ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ]+$/.test(trKeysResults[1])) {
                 let error = `Can not parse translation key: ${trKeysResults[1]}`;
@@ -71,7 +71,7 @@ function detectLangFiles(jsFile) {
 
 function scanTsFilesToLangFiles() {
     let templateLangFiles = {};
-    for (let file of glob('**/*.ts', {sync: true})) {
+    for (let file of glob('**/*.ts', { sync: true })) {
         if (!file.startsWith('src/')) {
             continue;
         }
@@ -93,7 +93,7 @@ function scanTsFilesToLangFiles() {
 
 function scanInlineComponentHtmlToTranslations() {
     let translationKeys = {};
-    for (let file of glob('**/*.ts', {sync: true})) {
+    for (let file of glob('**/*.ts', { sync: true })) {
         if (!file.startsWith('src/')) {
             continue;
         }
@@ -112,7 +112,7 @@ function scanInlineComponentHtmlToTranslations() {
 function scanTypeScriptToTranslations() {
     let translationKeys = {};
 
-    let processRegexp = function (inlineTranslateRegexp, jsFile) {
+    let processRegexp = function(inlineTranslateRegexp, jsFile) {
         let trKeys = [];
         let trKeysResults;
         while ((trKeysResults = inlineTranslateRegexp.exec(jsFile))) {
@@ -120,13 +120,13 @@ function scanTypeScriptToTranslations() {
 
             trKeys.push({
                 key: trKey,
-                defaultValue: ''
+                defaultValue: '',
             });
         }
         return trKeys;
     };
 
-    for (let file of glob('**/*.ts', {sync: true})) {
+    for (let file of glob('**/*.ts', { sync: true })) {
         if (!file.startsWith('src/')) {
             continue;
         }
@@ -148,7 +148,7 @@ function scanTypeScriptToTranslations() {
 
 function scanTypeScriptToUsedTranslation() {
     let trKeys = [];
-    for (let file of glob('**/*.ts', {sync: true})) {
+    for (let file of glob('**/*.ts', { sync: true })) {
         if (!file.startsWith('src/')) {
             continue;
         }
@@ -170,7 +170,7 @@ function scanTypeScriptToUsedTranslation() {
 
 function scanComponentHtmlFileToTranslations() {
     let translationKeys = {};
-    for (let file of glob('**/*.html', {sync: true})) {
+    for (let file of glob('**/*.html', { sync: true })) {
         if (!file.startsWith('src/')) {
             continue;
         }
@@ -205,8 +205,7 @@ function toPropertyList(translations, path) {
     for (let trKey in translations) {
         if (typeof translations[trKey] === 'object') {
             toPropertyList(translations[trKey], path + '.' + trKey).forEach(i => properties.push(i));
-        }
-        else {
+        } else {
             properties.push(path.substring(1) + '.' + trKey);
         }
     }
@@ -237,8 +236,7 @@ function checkProperty(trKey, translations, usedTranslations) {
         let property;
         if (property = hasOwnProperty(currentTranslationSubTree, trKey, passedPath)) {
             currentTranslationSubTree = currentTranslationSubTree[property];
-        }
-        else {
+        } else {
             return false;
         }
         passedPath = passedPath + property + '.';
@@ -276,7 +274,7 @@ function usedTranslation(usedTranlsation, key) {
 
 function localTranslationsFile(lang) {
     let translations = {};
-    for (let file of glob(I_18_N + lang + '/**/*.json', {sync: true})) {
+    for (let file of glob(I_18_N + lang + '/**/*.json', { sync: true })) {
         let fileName = file;
         if (file.lastIndexOf('/') >= 0) {
             fileName = file.substring(file.lastIndexOf('/') + 1, file.length - '.json'.length);
@@ -289,9 +287,8 @@ function localTranslationsFile(lang) {
 function isTranslationExists(trKey, usedTranslations, langFiles, translations, lang) {
     for (let langFile of langFiles) {
         if (!translations[langFile]) {
-            console.log(`Translation file ${langFile} not found for ${lang}`);
-        }
-        else if (checkProperty(trKey, translations[langFile], usedTranslation(usedTranslations, langFile))) {
+            console.warn(`Translation file ${langFile} not found for ${lang}`);
+        } else if (checkProperty(trKey, translations[langFile], usedTranslation(usedTranslations, langFile))) {
             return true;
         }
     }
@@ -305,8 +302,7 @@ function merge(objects) {
             if (result[field]) {
                 let v = object[field] ? object[field] : [];
                 result[field].addAll();
-            }
-            else {
+            } else {
                 result[field] = object[field];
             }
         }
@@ -323,7 +319,7 @@ let translationKeys = {};
 translationKeys = merge([
     scanInlineComponentHtmlToTranslations(),
     scanComponentHtmlFileToTranslations(),
-    scanTypeScriptToTranslations()
+    scanTypeScriptToTranslations(),
 ]);
 
 let langs = [];
@@ -337,7 +333,7 @@ for (let file in translationKeys) {
     }
 }
 
-for (let langFolder of glob(I_18_N + '*', {sync: true})) {
+for (let langFolder of glob(I_18_N + '*', { sync: true })) {
     let lang = langFolder.substring(I_18_N.length);
     if (lang.length > 2) {
         continue;
@@ -353,7 +349,7 @@ for (let langFolder of glob(I_18_N + '*', {sync: true})) {
                 missedTranslations.push({
                     key: trKey,
                     langFiles: templateLangFiles[file],
-                    defaultValue: trObject.defaultValue
+                    defaultValue: trObject.defaultValue,
                 });
                 console.log(`${trKey} from ${file} for ${lang} translation not found in ${templateLangFiles[file]} and global`);
                 for (let translationFile in translations) {
@@ -393,12 +389,12 @@ for (let langFolder of glob(I_18_N + '*', {sync: true})) {
 
 }
 
-fs.writeFileSync(I_18_N + 'missedTranslations.json', JSON.stringify(missedTranslations, null, 4), {encoding: 'utf8'});
+fs.writeFileSync(I_18_N + 'missedTranslations.json', JSON.stringify(missedTranslations, null, 4) + '\r\n', { encoding: 'utf8' });
 
 fs.writeFileSync(I_18_N + 'settings.json', JSON.stringify({
     langs: langs,
-    locations: translationFiles.filter((v, i, a) => a.indexOf(v) === i)
-}, null, 4), {encoding: 'utf8'});
+    locations: translationFiles.filter((v, i, a) => a.indexOf(v) === i),
+}, null, 4) + '\r\n', { encoding: 'utf8' });
 
 
 if (filesWithoutLangFile.length > 0) {
@@ -408,7 +404,6 @@ if (filesWithoutLangFile.length > 0) {
     console.log('If component use only global translations please add @UseGlobalTranslations() for avoid this warning.');
     console.log(filesWithoutLangFile);
     console.log('==================================================================================================\n\n');
-}
-else {
-    console.log('Clear translation locations: OK.');
+} else {
+    console.info('Clear translation locations: OK.');
 }
