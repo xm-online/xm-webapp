@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
+import { Component, Input, NgModule, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IId } from '@xm-ngx/components/entity-collection';
 import { IComponent } from '@xm-ngx/dynamic';
@@ -30,20 +30,20 @@ export const LINK_DEFAULT_OPTIONS: LinkOptions = {
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class LinkComponent implements IComponent<IId, LinkOptions> {
+export class LinkComponent implements IComponent<IId, LinkOptions>, OnInit, OnChanges {
     @Input() public value: IId;
-    @Input() public options: LinkOptions = clone(LINK_DEFAULT_OPTIONS);
-
+    @Input() public options: LinkOptions;
     public fieldValue: unknown;
     public queryParams: { [key: string]: unknown };
+    protected defaultOptions: LinkOptions = clone(LINK_DEFAULT_OPTIONS);
 
     public update(): void {
         if (!this.value) {
             return;
         }
 
-        this.fieldValue = get(this.value, this.options?.valueField || LINK_DEFAULT_OPTIONS.valueField, '');
-        this.queryParams = transformByMap(this.value, this.options?.queryParamsFromEntityFields || LINK_DEFAULT_OPTIONS.queryParamsFromEntityFields);
+        this.fieldValue = get(this.value, this.options?.valueField || this.defaultOptions.valueField, '');
+        this.queryParams = transformByMap(this.value, this.options?.queryParamsFromEntityFields || this.defaultOptions.queryParamsFromEntityFields);
     }
 
     public ngOnChanges(): void {
