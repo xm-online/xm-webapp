@@ -134,6 +134,10 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/xm-link-view').then(m => m.XmLinkViewModule),
     },
     {
+        selector: '@xm-ngx/components/by-entity-id',
+        loadChildren: () => import('@xm-ngx/components/by-entity-id').then(m => m.ByEntityIdModule),
+    },
+    {
         selector: '@xm-ngx/account/xm-user-login-widget',
         loadChildren: () => import('@xm-ngx/account/xm-user-login-widget').then(m => m.XmUserLoginWidgetModule),
     },

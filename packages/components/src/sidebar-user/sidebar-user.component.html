@@ -12,10 +12,7 @@
       <div class="user-name">{{ user.username }}</div>
 
       <div *ngFor="let subtitle of config?.subtitles" class="sidebar-user-subtitles">
-        <ng-container *ngIf="!subtitle?.role || (subtitle?.role === user.roleKey)">
-          <span class="sidebar-user-subtitle-label">{{subtitle.label | translate}}</span>
-          <span class="sidebar-user-subtitle-value">{{get(user, subtitle.field)}}</span>
-        </ng-container>
+        <sidebar-user-subtitle [options]="subtitle" [value]="user.user"></sidebar-user-subtitle>
       </div>
 
     </div>

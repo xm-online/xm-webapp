@@ -1,20 +1,16 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, NgModule, OnInit, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { ActivationEnd, Router } from '@angular/router';
-import { XmMenuModule } from '@xm-ngx/components/menu';
 import {
     categoriesToMenuItems,
     dashboardsToCategories,
     filterByConditionDashboards,
 } from '@xm-ngx/components/menu/menu.component';
+import { SidebarUserSubtitleOptions } from '@xm-ngx/components/sidebar-user/sidebar-user-subtitle';
 import { XmUser, XmUserService } from '@xm-ngx/core';
-import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { get } from 'lodash';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { ContextService } from '../../../../src/app/shared';
@@ -94,7 +90,7 @@ export class SidebarUserComponent implements OnInit {
     public active: boolean = false;
 
     @Input() public config: {
-        subtitles: { label: Translate, role: string, field: string }[]
+        subtitles: SidebarUserSubtitleOptions[]
     };
 
     constructor(
@@ -103,10 +99,6 @@ export class SidebarUserComponent implements OnInit {
         protected readonly contextService: ContextService,
         protected readonly router: Router,
     ) {
-    }
-
-    public get(user: XmUser, field: string): string {
-        return get(user, field);
     }
 
     public ngOnInit(): void {
@@ -161,17 +153,3 @@ export class SidebarUserComponent implements OnInit {
     }
 }
 
-@NgModule({
-    imports: [
-        CommonModule,
-        XmMenuModule,
-        XmPermissionModule,
-        XmTranslationModule,
-    ],
-    exports: [SidebarUserComponent],
-    declarations: [SidebarUserComponent],
-    providers: [],
-})
-export class XmSidebarUserModule {
-    public entry: Type<SidebarUserComponent> = SidebarUserComponent;
-}
