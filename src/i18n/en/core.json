@@ -1520,6 +1520,7 @@
       "details-title": "Export entity",
       "message-error": "Export failed!",
       "message-success": "Exported successfully!",
+      "no-params-required": "No required parameters!",
       "step-1": "Choose typeKey of entity",
       "step-2": "Choose required parameters"
     },
