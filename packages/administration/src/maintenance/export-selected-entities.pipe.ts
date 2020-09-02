@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { ExportConfig } from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
 
 @Pipe({
     name: 'exportSelectedEntities'
 })
 export class ExportSelectedEntitiesPipe implements PipeTransform {
 
-    public transform(types: any[], ...args: unknown[]): unknown {
-        const selected = types ? types.filter(t => t.selected) : [];
-        return selected;
+    public transform(types: ExportConfig[], ...args: unknown[]): unknown {
+        return types ? types.filter(t => t.selected) : [];
     }
 
 }

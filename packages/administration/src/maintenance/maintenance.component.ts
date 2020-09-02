@@ -101,7 +101,8 @@ export class MaintenanceComponent {
                     type: 'success',
                     showCloseButton: false,
                     confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    width: '500px'
                 }).subscribe();
             }
             if (res && res !== 'success') {
@@ -110,7 +111,8 @@ export class MaintenanceComponent {
                     type: 'error',
                     showCloseButton: false,
                     confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    width: '500px'
                 }).subscribe();
             }
         });
@@ -126,7 +128,8 @@ export class MaintenanceComponent {
                     type: 'success',
                     showCloseButton: false,
                     confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    width: '500px'
                 }).subscribe();
             }
             if (res && res !== 'success') {
@@ -135,7 +138,8 @@ export class MaintenanceComponent {
                     type: 'error',
                     showCloseButton: false,
                     confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'Ok',
+                    width: '500px'
                 }).subscribe();
             }
         });

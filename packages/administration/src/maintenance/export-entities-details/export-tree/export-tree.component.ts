@@ -6,6 +6,7 @@ import {
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ExportConfig } from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
 
 @Component({
     selector: 'xm-export-tree',
@@ -15,16 +16,15 @@ import { SelectionModel } from '@angular/cdk/collections';
 })
 export class ExportTreeComponent implements OnDestroy {
 
-    @Input() public set selectedSpec(spec: any) {
+    @Input() public set selectedSpec(spec: ExportConfig) {
         this.currentSpec = spec;
         if (spec && spec.treeModel) {
             this.exportEntitiesService.initialize(spec.treeModel);
         }
     }
+    @Output() public onNodesSelected: EventEmitter<unknown> = new EventEmitter<unknown>();
 
-    @Output() public onNodesSelected: EventEmitter<any> = new EventEmitter<any>();
-
-    public currentSpec: any;
+    public currentSpec: ExportConfig;
 
     /** Map from flat node to nested node. This helps us finding the nested node to be modified */
     public flatNodeMap: Map<ExportEntityFlatNode, ExportEntityItemNode> =
@@ -36,11 +36,8 @@ export class ExportTreeComponent implements OnDestroy {
 
     /** A selected parent node to be inserted */
     public selectedParent: ExportEntityFlatNode | null = null;
-
     public treeControl: FlatTreeControl<ExportEntityFlatNode>;
-
     public treeFlattener: MatTreeFlattener<ExportEntityItemNode, ExportEntityFlatNode>;
-
     public dataSource: MatTreeFlatDataSource<ExportEntityItemNode, ExportEntityFlatNode>;
 
     /** The selection for checklist */
@@ -58,17 +55,12 @@ export class ExportTreeComponent implements OnDestroy {
         });
     }
 
-    public getLevel: any = (node: ExportEntityFlatNode) => node.level;
-
-    public isExpandable: any = (node: ExportEntityFlatNode) => node.expandable;
-
-    public getChildren: any = (node: ExportEntityItemNode): ExportEntityItemNode[] => node.children;
-
-    public hasChild: any = (_: number, _nodeData: ExportEntityFlatNode) => _nodeData.expandable;
-
-    public hasNoContent: any = (_: number, _nodeData: ExportEntityFlatNode) => _nodeData.item === '';
-
-    public transformer: any = (node: ExportEntityItemNode, level: number) => {
+    public getLevel: (node: ExportEntityFlatNode) => number  = (node: ExportEntityFlatNode) => node.level;
+    public isExpandable: (node: ExportEntityFlatNode) => boolean = (node: ExportEntityFlatNode) => node.expandable;
+    public getChildren: (node: ExportEntityItemNode) => ExportEntityItemNode[] = (node: ExportEntityItemNode): ExportEntityItemNode[] => node.children;
+    public hasChild: (_: number, _nodeData: ExportEntityFlatNode) => boolean = (_: number, _nodeData: ExportEntityFlatNode) => _nodeData.expandable;
+    public hasNoContent: (_: number, _nodeData: ExportEntityFlatNode) => boolean = (_: number, _nodeData: ExportEntityFlatNode) => _nodeData.item === '';
+    public transformer: (node: ExportEntityItemNode, level: number) => ExportEntityFlatNode = (node: ExportEntityItemNode, level: number) => {
         const existingNode = this.nestedNodeMap.get(node);
         const flatNode = existingNode && existingNode.item === node.item
             ? existingNode
@@ -162,9 +154,9 @@ export class ExportTreeComponent implements OnDestroy {
 
     private triggerSelectionChange(): void {
         const specKey = this.currentSpec.key;
-        const selection = [];
+        const selection: ExportEntityFlatNode[] = [];
         this.checklistSelection.selected.forEach(s => {
-            let selected: any = {...s}
+            let selected = {...s}
             const parent = this.getParentNode(s);
             if (parent) {
                 selected = {...selected, parent}

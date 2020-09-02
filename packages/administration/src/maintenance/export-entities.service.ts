@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ExportConfig } from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
 
 const API_EXPORT_ENTITIES = '/entity/api/export/xm-entities';
 
@@ -24,6 +25,7 @@ export class ExportEntityFlatNode {
     public item: string;
     public level: number;
     public expandable: boolean;
+    public parent?: ExportEntityFlatNode;
 }
 
 @Injectable({
@@ -38,7 +40,7 @@ export class ExportEntitiesService {
 
     get data(): ExportEntityItemNode[] { return this.dataChange.value; }
 
-    public initialize(treeDta: any): void {
+    public initialize(treeDta: unknown): void {
         // Build the tree nodes from Json object. The result is a list of `ExportEntityItemNode` with nested
         // file node as children.
         this.dataChange.next([]);
@@ -71,8 +73,9 @@ export class ExportEntitiesService {
         }, []);
     }
 
-    public getInitialTreeModel(spec: any): any {
+    public getInitialTreeModel(spec: ExportConfig): unknown {
         let treeData = {};
+        // has to be this way in order to get only things that api support
         Object.keys(spec).forEach((key: string) => {
             switch (key) {
                 case 'calendars': {
@@ -111,11 +114,11 @@ export class ExportEntitiesService {
         return treeData;
     }
 
-    public getExportJson(data: ExportDataItem[]): Observable<any> {
+    public getExportJson(data: ExportDataItem[]): Observable<unknown> {
         return this.http.post(API_EXPORT_ENTITIES, data);
     }
 
-    public mapPayload(selections: any): ExportDataItem[] {
+    public mapPayload(selections: any[]): ExportDataItem[] {
         const payload: ExportDataItem[] = [];
 
         selections.forEach((spec) => {
@@ -200,7 +203,7 @@ export class ExportEntitiesService {
         return payload;
     }
 
-    private getByValuesKey(values: any[], prop: string = 'key'): any {
+    private getByValuesKey(values: unknown[], prop: string = 'key'): unknown {
         const obj = {}
         values.map(s => {
             Object.assign(obj, {[s[prop]]: null})
@@ -208,7 +211,7 @@ export class ExportEntitiesService {
         return obj;
     }
 
-    private getCalendars(calendars: any[]): any {
+    private getCalendars(calendars: ExportConfig[]): unknown {
         const calendarsNode = {};
         calendars.forEach((c) => {
             Object.assign(calendarsNode, {[c.key]: this.getCalendarsEvents(c)})
@@ -216,10 +219,10 @@ export class ExportEntitiesService {
         return calendarsNode;
     }
 
-    private getCalendarsEvents(calendar: any): any {
+    private getCalendarsEvents(calendar: ExportConfig): unknown {
         if (calendar.events && calendar.events.length > 0) {
             const calendarEventsNode = {};
-            calendar.events.forEach((e) => {
+            calendar.events.forEach((e: ExportConfig) => {
                 Object.assign(calendarEventsNode, {[e.key]: null});
             });
             return calendarEventsNode;

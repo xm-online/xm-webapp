@@ -12,7 +12,7 @@ export class ImportEntitiesService {
     constructor(private http: HttpClient) {
     }
 
-    public importEntities(importDto: any): Observable<any> {
+    public importEntities(importDto: unknown): Observable<unknown> {
         return this.http.post(API_IMPORT_ENTITIES, importDto);
     }
 }

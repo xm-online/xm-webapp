@@ -3,6 +3,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ImportEntitiesService } from '@xm-ngx/administration/maintenance/import-entities.service';
 import { finalize } from 'rxjs/operators';
 
+interface HTMLInputEvent extends Event {
+    target: HTMLInputElement & EventTarget;
+}
+
 @Component({
     selector: 'xm-import-entities-details',
     templateUrl: './import-entities-details.component.html',
@@ -11,7 +15,7 @@ import { finalize } from 'rxjs/operators';
 export class ImportEntitiesDetailsComponent {
 
     public showLoader: boolean;
-    public importedJson: any;
+    public importedJson: string;
     public parseError: boolean;
 
     constructor(
@@ -20,15 +24,15 @@ export class ImportEntitiesDetailsComponent {
         ) {
     }
 
-    public onFileChange(e: any): void {
+    public onFileChange(e: HTMLInputEvent): void {
         this.importedJson = null;
 
         if (e.target && e.target.files) {
             const file = e.target.files[0];
             const myReader = new FileReader();
-            myReader.onloadend = (loadEvent: any) => {
+            myReader.onloadend = (loadEvent: ProgressEvent<FileReader>) => {
                 try {
-                    this.importedJson = JSON.parse(loadEvent.target.result);
+                    this.importedJson = JSON.parse(loadEvent.target.result as string);
                     this.parseError = false;
                 } catch (e) {
                     this.parseError = true
