@@ -52,7 +52,7 @@ export class XmLinkViewCopyComponent extends XmLinkViewComponent implements ICom
     public update(): void {
         super.update();
         this.copyValue = this.value;
-        this.copyOptions = assign({}, this.options.copy , this.defaultOptions.copy);
+        this.copyOptions = assign({}, this.defaultOptions.copy, this.options.copy);
     }
 
     public ngOnChanges(): void {
