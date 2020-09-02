@@ -1506,11 +1506,11 @@
     "export-entities": {
       "btn-cancel": "Отмена",
       "btn-export": "Экспорт",
-      "details-title": "экспортировать сущность",
+      "details-title": "Экспортировать сущность",
       "message-error": "Ошибка экспорта!",
       "message-success": "Экспортирован успешно!",
       "step-1": "Выберите тип сущности",
-      "step-2": "Choose required parameters"
+      "step-2": "Выберите необходимые параметры"
     },
     "import-entities": {
       "btn-cancel": "Отмена",
