@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, Type, ViewEncapsulation } from '@angular/core';
+import { Component, Input, NgModule, OnChanges, OnInit, Type, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LINK_DEFAULT_OPTIONS, LinkComponent, LinkOptions } from '@xm-ngx/components/xm-link-view/link';
 import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
+import { IComponent } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-import { clone, assign } from 'lodash';
+import { assign, clone } from 'lodash';
 import { IId } from '../entity-collection';
 
 export interface LinkViewOptions extends LinkOptions {
@@ -12,7 +13,14 @@ export interface LinkViewOptions extends LinkOptions {
     styleInline: boolean;
 }
 
-export const LINK_VIEW_DEFAULT_OPTIONS: LinkViewOptions = assign({}, LINK_DEFAULT_OPTIONS, { styleInline: false, title: '' });
+export const LINK_VIEW_DEFAULT_OPTIONS: LinkViewOptions = assign(
+    {},
+    LINK_DEFAULT_OPTIONS,
+    {
+        styleInline: false,
+        title: '',
+    },
+);
 
 @Component({
     selector: 'xm-link-view',
@@ -30,9 +38,18 @@ export const LINK_VIEW_DEFAULT_OPTIONS: LinkViewOptions = assign({}, LINK_DEFAUL
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class XmLinkViewComponent extends LinkComponent {
+export class XmLinkViewComponent extends LinkComponent implements IComponent<IId, LinkViewOptions>, OnInit, OnChanges {
     @Input() public value: IId;
-    @Input() public options: LinkViewOptions = clone(LINK_VIEW_DEFAULT_OPTIONS);
+    @Input() public options: LinkViewOptions;
+    protected defaultOptions: LinkViewOptions = clone(LINK_VIEW_DEFAULT_OPTIONS);
+
+    public ngOnChanges(): void {
+        super.ngOnChanges();
+    }
+
+    public ngOnInit(): void {
+        super.ngOnInit();
+    }
 }
 
 @NgModule({
