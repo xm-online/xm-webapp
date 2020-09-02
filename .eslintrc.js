@@ -1,5 +1,12 @@
 module.exports = {
     root: true,
+    env: {
+        'browser': true,
+        'node': true,
+        "es6": true,
+    },
+    parserOptions: { "ecmaVersion": 2020 },
+    'extends': 'eslint:recommended',
     overrides: [
         {
             files: ['src/**/*.ts', 'packages/**/*.ts'],
@@ -33,7 +40,7 @@ module.exports = {
                 '@typescript-eslint/unbound-method': ['warn', { 'ignoreStatic': true }],
                 // Error
                 'no-console': ['error', { 'allow': ['warn', 'info'] }],
-                '@typescript-eslint/typedef': ['error', {arrayDestructuring: false, arrowParameter: false}],
+                '@typescript-eslint/typedef': ['error', { arrayDestructuring: false, arrowParameter: false }],
                 '@typescript-eslint/no-inferrable-types': ['error', {
                     'ignoreParameters': true,
                     'ignoreProperties': true,
