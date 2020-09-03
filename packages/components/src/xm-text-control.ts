@@ -13,10 +13,9 @@ import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
 import { NgControlAccessor } from '@xm-ngx/components/ng-control-accessor';
 import { IControl, IControlFn } from '@xm-ngx/dynamic';
+import { Primitive } from '@xm-ngx/shared/interfaces/primitive';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
-
-type Primitive = undefined | boolean | number | string | null;
 
 export interface ITextControlOptions {
     title?: string;

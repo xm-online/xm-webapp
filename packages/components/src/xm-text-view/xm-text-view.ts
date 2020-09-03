@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
+import { Primitive } from '@xm-ngx/shared/interfaces/primitive';
 import { XmTextComponent } from './xm-text-component';
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
@@ -18,8 +19,8 @@ export interface ITextOptions {
     `,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmTextView implements IComponent<string, ITextOptions>, OnInit, OnChanges {
-    @Input() public value: string;
+export class XmTextView implements IComponent<Primitive, ITextOptions>, OnInit, OnChanges {
+    @Input() public value: Primitive;
     @Input() public options: ITextOptions;
     public styleInline: boolean;
 
@@ -38,5 +39,5 @@ export class XmTextView implements IComponent<string, ITextOptions>, OnInit, OnC
     declarations: [XmTextView, XmTextComponent],
 })
 export class XmTextViewModule {
-    public entry: IComponentFn<string, ITextOptions> = XmTextView;
+    public entry: IComponentFn<Primitive, ITextOptions> = XmTextView;
 }
