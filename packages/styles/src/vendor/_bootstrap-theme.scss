@@ -14,21 +14,21 @@ $body-bg:                $xm-background;
 $body-color:             $xm-text;
 
 
-$theme-colors: () !default;
-$theme-colors: map-merge(
-                   (
-                     "primary":    $primary,
-                     "secondary":  $secondary,
-                     "surface":    $surface,
-                     "success":    $success,
-                     "info":       $info,
-                     "warning":    $warning,
-                     "danger":     $danger,
-                     "light":      $light,
-                     "dark":       $dark
-                   ),
-                   $theme-colors
-               );
+$theme-colors:           () !default;
+$theme-colors:           map-merge(
+                             (
+                               'primary': $primary,
+                               'secondary': $secondary,
+                               'surface': $surface,
+                               'success': $success,
+                               'info': $info,
+                               'warning': $warning,
+                               'danger': $danger,
+                               'light': $light,
+                               'dark': $dark
+                             ),
+                             $theme-colors
+                         );
 
 // Card
 $card-bg:                $surface;
@@ -41,6 +41,8 @@ $enable-rounded:         $xm-enable-rounded;
  * Override
  */
 $link-hover-decoration:  none;
+
+$border-color:           $xm-divider;
 
 // Typography
 $font-size-base:         1rem * 0.875;

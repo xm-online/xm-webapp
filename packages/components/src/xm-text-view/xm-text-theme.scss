@@ -1,0 +1,7 @@
+@mixin xm-text-theme($theme) {
+  $label-color: map-get($theme, text-light);
+
+  .xm-text-view--label {
+    color: $label-color;
+  }
+}

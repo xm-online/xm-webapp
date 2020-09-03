@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
 import { from, Observable } from 'rxjs';
-import swal, { SweetAlertOptions, SweetAlertResult, SweetAlertType } from 'sweetalert2';
+import swal from 'sweetalert2/dist/sweetalert2';
+import { SweetAlertOptions, SweetAlertResult, SweetAlertType } from 'sweetalert2';
 import { XmAlertConfigService } from './xm-alert-config.service';
 
 export interface XmAlertOptions extends Partial<SweetAlertOptions> {

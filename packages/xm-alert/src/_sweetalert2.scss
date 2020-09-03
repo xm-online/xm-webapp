@@ -1,5 +1,8 @@
 $swal2-fade-filter:                     blur(5px) !default;
 
+$swal2-background:                      $xm-surface;
+$swal2-title-color:                     $xm-text;
+$swal2-content-color:                   $xm-text;
 $swal2-success:                         $xm-success;
 $swal2-success-border:                  rgba($xm-success, .3);
 $swal2-error:                           $xm-error;
@@ -7,15 +10,8 @@ $swal2-warning:                         $xm-warn;
 $swal2-info:                            $xm-hint;
 $swal2-question:                        $xm-secondary;
 
-$swal2-confirm-button-background-color: $xm-success;
-$swal2-confirm-button-font-size:        $xm-font-size-sm;
-$swal2-cancel-button-font-size:         $xm-font-size-sm;
-
-$swal2-confirm-button-border-radius:    $xm-radius-sm;
-$swal2-cancel-button-border-radius:     $xm-radius-sm;
-
-
 // Confirm button
+$swal2-confirm-button-font-size:        $xm-font-size-sm;
 $swal2-confirm-button-border-radius:    $xm-radius-sm;
 $swal2-confirm-button-background-color: $xm-primary;
 $swal2-confirm-button-color:            $xm-text-on-primary;
