@@ -32,7 +32,7 @@ interface SearchConfig {
                        xmInputPattern>
             </mat-form-field>
 
-            <button class="search-btn bg-white rounded-circle shadow-sm mr-2"
+            <button class="search-btn bg-surface rounded-circle shadow-sm mr-2"
                     mat-icon-button>
                 <mat-icon>search</mat-icon>
             </button>
