@@ -22,8 +22,9 @@ export class XmThemeService {
         return this.currentTheme;
     }
 
-    public set(theme: string, strategy: THEME_STRATEGY): Observable<void> {
+    public set(theme: string | null, strategy: THEME_STRATEGY): Observable<void> {
         if (!theme) {
+            this.styleManager.remove('theme');
             this.applicationConfigServiceBC();
             return of(undefined);
         }
