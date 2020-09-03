@@ -17,7 +17,7 @@ const getJsonFile = async (file) => {
 
 const writeJsonFile = async (json, file) => {
     return new Promise((res, rej) => {
-        fs.writeFile(file, JSON.stringify(json, null, 2), 'utf8', (err) => {
+        fs.writeFile(file, JSON.stringify(json, null, 2) + '\r\n', 'utf8', (err) => {
             err ? rej(err) : res();
         });
     })

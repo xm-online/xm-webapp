@@ -9,19 +9,19 @@ export function debug<T>(key: string | number, isDebugger: boolean = true): Mono
             if (isDebugger) {
                 debugger
             }
-            console.log(`NEXT: ${key} `, data);
+            console.info(`NEXT: ${key} `, data);
         },
         error: (err) => {
             if (isDebugger) {
                 debugger
             }
-            console.log(`ERROR: ${key} `, err);
+            console.info(`ERROR: ${key} `, err);
         },
         complete: () => {
             if (isDebugger) {
                 debugger
             }
-            console.log(`COMPLETE: ${key} `);
+            console.info(`COMPLETE: ${key} `);
         },
     });
 }

@@ -11,7 +11,7 @@ const ANGULAR_CONFIG_LAZY_MODULES_JSON_PATH = 'projects.xm-webapp.architect.buil
 const EXT_ASSETS_PATH = 'src/app/ext/*/assets';
 
 function saveAsJson(path, data) {
-    fs.writeFileSync(path, JSON.stringify(data, null, 2), {encoding: 'utf8'});
+    fs.writeFileSync(path, JSON.stringify(data, null, 2)  + '\r\n', {encoding: 'utf8'});
 }
 
 function readAsJson(file) {

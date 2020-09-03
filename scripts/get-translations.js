@@ -35,7 +35,7 @@ function getCoreTranslates() {
 }
 
 function execCommand(command) {
-    exec(command, (err, stdout, stderr) => console.log(err, stdout, stderr));
+    exec(command, (err, stdout, stderr) => console.info(err, stdout, stderr));
 }
 
 async function writeConfigFile() {

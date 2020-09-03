@@ -8,7 +8,7 @@ const THEMES_PATH = 'src/styles/prebuild-themes/*.scss';
 const DEST_PATH = 'src/assets/themes';
 
 (() => {
-    console.log('Building custom theme scss files.');
+    console.info('Building custom theme scss files.');
 
     const files = glob(THEMES_PATH, {sync: true});
     for (const file of files) {
@@ -26,8 +26,8 @@ const DEST_PATH = 'src/assets/themes';
 
         fs.writeFileSync(outFile, res.css);
 
-        console.log(`Building: ${outFile}`);
+        console.info(`Building: ${outFile}`);
     }
 
-    console.log('Finished building CSS.');
+    console.info('Finished building CSS.');
 })();

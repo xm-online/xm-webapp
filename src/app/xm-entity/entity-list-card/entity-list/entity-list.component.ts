@@ -174,8 +174,6 @@ export class EntityListComponent implements OnInit, OnDestroy {
             map((xmEntities: HttpResponse<XmEntity[]>) => xmEntities.body),
             map((xmEntities: XmEntity[]) => xmEntities.map(e => this.enrichEntity(e))),
             catchError((err) => {
-                // eslint-disable-next-line no-console
-                console.log(err);
                 this.showLoader = false;
                 return of([]);
             }),
