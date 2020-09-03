@@ -1,4 +1,4 @@
-$xm-config-selector-bg:              #FAF7F7;
+$xm-config-selector-bg:              #FAF7F7 !default;
 $xm-config-selector-icon-fab-height: 37px;
 
 .xm-entity-export-dialog {
@@ -30,13 +30,13 @@ $xm-config-selector-icon-fab-height: 37px;
 
   ::ng-deep {
     .mat-dialog-content {
-      margin: 0;
-      padding: 10px;
+      margin:  0;
+      padding: 10px 0;
     }
 
     .mat-list-text {
       overflow: visible !important;
-      padding: 0 !important;
+      padding:  0 !important;
 
       label {
         margin: 0 10px 4px 0 !important;
