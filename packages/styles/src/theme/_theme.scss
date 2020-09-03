@@ -3,6 +3,9 @@
  */
 @import 'mat-palette';
 
+// Dark mode
+$xm-is-dark-mode:             false !default;
+
 // Palette setup
 $xm-set-palette-default:      500 !default;
 $xm-set-palette-text-default: 500 !default;
