@@ -90,6 +90,10 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/feedback').then(m => m.FeedbackModule),
     },
     {
+        selector: '@xm-ngx/components/switch-theme-widget',
+        loadChildren: () => import('@xm-ngx/components/switch-theme-widget').then(m => m.SwitchThemeWidgetModule),
+    },
+    {
         selector: '@xm-ngx/components/xm-ribbon',
         loadChildren: () => import('@xm-ngx/components/xm-ribbon').then(m => m.XmRibbonModule),
     },
