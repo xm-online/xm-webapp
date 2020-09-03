@@ -59,7 +59,12 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
                        $xm-mat-secondary-text);
   $xm-mat-warn:    mat-palette($warn);
 
-  $xm-mat-theme:   mat-light-theme($xm-mat-primary, $xm-mat-accent, $xm-mat-warn);
+  $xm-mat-theme:   null !default;
+  @if ($xm-is-dark-mode == true) {
+    $xm-mat-theme: mat-dark-theme($xm-mat-primary, $xm-mat-accent, $xm-mat-warn);
+  } @else {
+    $xm-mat-theme: mat-light-theme($xm-mat-primary, $xm-mat-accent, $xm-mat-warn);
+  }
 
   @include angular-material-theme($xm-mat-theme);
 }

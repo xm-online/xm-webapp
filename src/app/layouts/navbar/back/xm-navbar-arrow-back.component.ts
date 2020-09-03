@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
     template: `
         <button (click)="onBack()"
                 *ngIf="isSessionActive$ | async"
-                class="bg-white rounded-circle shadow-sm"
+                class="bg-surface rounded-circle shadow-sm"
                 mat-icon-button>
             <mat-icon>arrow_back</mat-icon>
         </button>

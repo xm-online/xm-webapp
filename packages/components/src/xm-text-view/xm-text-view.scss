@@ -1,19 +1,14 @@
 @import 'theme';
 
-$xm-text-label-color:     $xm-text-light !default;
 $xm-text-label-font-size: $xm-font-size-xm !default;
 
-$xm-text-value-color:     $xm-text !default;
-
 .xm-text-view--label {
-  color:         $xm-text-label-color;
   font-size:     $xm-text-label-font-size;
   margin-right:  0.5rem;
   margin-bottom: 0;
 }
 
 .xm-text-view--value {
-  color:         $xm-text-value-color;
   margin-bottom: 0;
 }
 

@@ -3,6 +3,9 @@
  */
 @import 'mat-palette';
 
+// Dark mode
+$xm-is-dark-mode:             false !default;
+
 // Palette setup
 $xm-set-palette-default:      500 !default;
 $xm-set-palette-text-default: 500 !default;
@@ -17,7 +20,7 @@ $xm-text-dark:                rgba(black, 0.87) !default;
 $xm-text-light:               rgba(black, 0.6) !default;
 
 // Divider
-$xm-divider:                  rgba(black, 0.87) !default;
+$xm-divider:                  rgba(black, 0.2) !default;
 
 /*
  * Primary
@@ -104,4 +107,5 @@ $xm-theme:                    (
                                 // Background
                                 background: $xm-background,
                                 text: $xm-text,
+                                text-light: $xm-text-light,
                               ) !default;
