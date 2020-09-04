@@ -376,7 +376,12 @@
       "delete": "Удалить",
       "delete-message": "Удалить {{value}}?",
       "maintenance-description": "Обычно это занимает несколько минут, в противном случае свяжитесь с системным администратром.",
+      "maintenance-export-entities": "Експорт сущности",
+      "maintenance-import-entities": "Импорт сущности",
       "maintenance-message": "Технические работы в процессе ... <br> Пожалуйста, попробуйте позже.",
+      "maintenance-reindex-elastic": "Reindex elastic",
+      "maintenance-update-tenant-configuration": "Обновить конфигурацию тенанта",
+      "maintenance-update-tenants-configuration": "Обновить конфигурацию тенантов",
       "no": "Нет",
       "set": "Задать",
       "yes": "Да",
@@ -395,6 +400,7 @@
       "newpassword": "Новый пароль",
       "oldpassword": "Старый пароль",
       "otp": "One Time Password",
+      "show-password": "Показать пароль",
       "signin": "войти в систему"
     },
     "item-count": "Отображено {{first}} - {{second}} из {{total}} элементов.",
@@ -1496,6 +1502,25 @@
     },
     "delete": {
       "question": "Вы уверены что хотите удалить [ <b>{{name}}</b> ]?"
+    },
+    "export-entities": {
+      "btn-cancel": "Отмена",
+      "btn-export": "Экспорт",
+      "details-title": "Экспортировать сущность",
+      "message-error": "Ошибка экспорта!",
+      "message-success": "Экспортирован успешно!",
+      "no-params-required": "Нет необходимых параметров!",
+      "step-1": "Выберите тип сущности",
+      "step-2": "Выберите необходимые параметры"
+    },
+    "import-entities": {
+      "btn-cancel": "Отмена",
+      "btn-import": "Импортировать",
+      "details-title": "Импортировать сущность",
+      "file-process-error": "Файл поврежден или имеет расширение отличное от .json!",
+      "message-error": "Ошибка импорта!",
+      "message-success": "Импортирован успешно!",
+      "upload-btn-text": "Загрузить из файла JSON"
     },
     "profile": {
       "created": "Новый Profile создан с идентификатором {{ param }}",

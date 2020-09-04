@@ -3,6 +3,11 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
+import { MatDialog } from '@angular/material/dialog';
+import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from '../../../../src/app/xm.constants';
+import { ExportEntitiesDetailsComponent } from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
+import { MatDialogConfig } from '@angular/material/dialog/dialog-config';
+import { ImportEntitiesDetailsComponent } from '@xm-ngx/administration/maintenance/import-entities-details/import-entities-details.component';
 
 @Component({
     selector: 'xm-maintenance',
@@ -17,6 +22,7 @@ export class MaintenanceComponent {
         private service: XmConfigService,
         private alertService: XmAlertService,
         private toasterService: XmToasterService,
+        private dialog: MatDialog,
     ) {
     }
 
@@ -40,7 +46,6 @@ export class MaintenanceComponent {
     }
 
     public updateTenantsConfiguration(): void {
-
         this.alertService.open({
             title: 'Reload configuration for ALL tenants?',
             showCancelButton: true,
@@ -82,6 +87,60 @@ export class MaintenanceComponent {
                         this.toasterService.success('global.actionPerformed');
                         window.location.reload();
                     });
+            }
+        });
+    }
+
+    public exportEntities(): void {
+        const options: MatDialogConfig = {...XM_MAT_DIALOG_DEFAULT_OPTIONS, width: '960px'};
+        const exportDialog = this.dialog.open(ExportEntitiesDetailsComponent, options);
+        exportDialog.afterClosed().subscribe((res) => {
+            if (res && res === 'success') {
+                this.alertService.open({
+                    title: 'xm.export-entities.message-success',
+                    type: 'success',
+                    showCloseButton: false,
+                    confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
+                    confirmButtonText: 'Ok',
+                    width: '500px'
+                }).subscribe();
+            }
+            if (res && res !== 'success') {
+                this.alertService.open({
+                    title: 'xm.export-entities.message-error',
+                    type: 'error',
+                    showCloseButton: false,
+                    confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
+                    confirmButtonText: 'Ok',
+                    width: '500px'
+                }).subscribe();
+            }
+        });
+    }
+
+    public importEntities(): void {
+        const options: MatDialogConfig = {...XM_MAT_DIALOG_DEFAULT_OPTIONS, autoFocus: false};
+        const exportDialog = this.dialog.open(ImportEntitiesDetailsComponent, options);
+        exportDialog.afterClosed().subscribe((res) => {
+            if (res && res === 'success') {
+                this.alertService.open({
+                    title: 'xm.import-entities.message-success',
+                    type: 'success',
+                    showCloseButton: false,
+                    confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
+                    confirmButtonText: 'Ok',
+                    width: '500px'
+                }).subscribe();
+            }
+            if (res && res !== 'success') {
+                this.alertService.open({
+                    title: 'xm.import-entities.message-error',
+                    type: 'error',
+                    showCloseButton: false,
+                    confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
+                    confirmButtonText: 'Ok',
+                    width: '500px'
+                }).subscribe();
             }
         });
     }

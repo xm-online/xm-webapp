@@ -1,26 +1,34 @@
-<mat-card class="text-center">
+<mat-card>
+  <div class="d-flex justify-content-center align-items-center mb-2">
+    <button mat-button
+            color="primary"
+            (click)="reindexElastic()"
+            *xmPermitted="['ELASTICSEARCH.INDEX']">
+      {{'global.common.maintenance-reindex-elastic' | translate}}
+    </button>
+    <button mat-button
+            color="primary"
+            (click)="updateTenantsConfiguration()"
+            *xmPermitted="['CONFIG.ADMIN.REFRESH']">
+      <mat-icon>warning</mat-icon>
+      {{'global.common.maintenance-update-tenants-configuration' | translate}}
+    </button>
+    <button mat-button
+            color="primary"
+            (click)="updateTenantConfiguration()"
+            [ngClass]="{'loading' : isTenantCfgUpdating}"
+            *xmPermitted="['CONFIG.CLIENT.REFRESH']">
+      {{'global.common.maintenance-update-tenant-configuration' | translate}}
+    </button>
+  </div>
 
-  <button mat-button
-          color="primary"
-          (click)="reindexElastic()"
-          *xmPermitted="['ELASTICSEARCH.INDEX']">
-    Reindex elastic
-  </button>
+  <div class="d-flex justify-content-center align-items-center">
+    <button color="primary" mat-button (click)="importEntities()">
+      {{'global.common.maintenance-import-entities' | translate}}
+    </button>
 
-  <button mat-button
-          color="primary"
-          (click)="updateTenantsConfiguration()"
-          *xmPermitted="['CONFIG.ADMIN.REFRESH']">
-    <mat-icon>warning</mat-icon>
-    Update tenants configuration
-  </button>
-
-  <button mat-button
-          color="primary"
-          (click)="updateTenantConfiguration()"
-          [ngClass]="{'loading' : isTenantCfgUpdating}"
-          *xmPermitted="['CONFIG.CLIENT.REFRESH']">
-    Update tenant configuration
-  </button>
-
+    <button color="primary" mat-button (click)="exportEntities()">
+      {{'global.common.maintenance-export-entities' | translate}}
+    </button>
+  </div>
 </mat-card>

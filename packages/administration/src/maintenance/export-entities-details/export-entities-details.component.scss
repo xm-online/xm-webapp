@@ -1,0 +1,56 @@
+$xm-config-selector-bg:              #FAF7F7 !default;
+$xm-config-selector-icon-fab-height: 37px;
+
+.xm-entity-export-dialog {
+  .selector-col {
+    background-color: $xm-config-selector-bg;
+  }
+
+  .selector-bg {
+    min-height: 200px;
+  }
+
+  .export-col-title {
+    font-size: 14px;
+
+    button {
+      pointer-events: none !important;
+      width:          $xm-config-selector-icon-fab-height;
+      height:         $xm-config-selector-icon-fab-height;
+      line-height:    $xm-config-selector-icon-fab-height;
+    }
+  }
+
+  .selector-selected {
+    > span {
+      display:          inline-block;
+      background-color: $xm-config-selector-bg;
+    }
+  }
+
+  ::ng-deep {
+    .mat-dialog-content {
+      margin:  0;
+      padding: 10px 0;
+    }
+
+    .mat-list-text {
+      overflow: visible !important;
+      padding:  0 !important;
+
+      label {
+        margin: 0 10px 4px 0 !important;
+      }
+    }
+
+    mat-tree {
+      background: transparent !important;
+    }
+
+    mat-tree-node {
+      label {
+        margin: 0;
+      }
+    }
+  }
+}

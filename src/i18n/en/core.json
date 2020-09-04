@@ -386,7 +386,12 @@
       "delete": "Delete",
       "delete-message": "Remove the {{value}}?",
       "maintenance-description": "It usually takes a few minutes, otherwise contact your system administrator.",
+      "maintenance-export-entities": "Export of entity",
+      "maintenance-import-entities": "Import of entity",
       "maintenance-message": "Technical work in progress...<br>Please, try again later.",
+      "maintenance-reindex-elastic": "Reindex elastic",
+      "maintenance-update-tenant-configuration": "Update tenant configuration",
+      "maintenance-update-tenants-configuration": "Update tenants configuration",
       "no": "No",
       "set": "Set",
       "yes": "Yes",
@@ -405,6 +410,7 @@
       "newpassword": "New password",
       "oldpassword": "Old password",
       "otp": "One Time Password",
+      "show-password": "Show password",
       "signin": "sign in"
     },
     "item-count": "Showing {{first}} - {{second}} of {{total}} items.",
@@ -1507,6 +1513,25 @@
     },
     "delete": {
       "question": "Are you sure you want to delete [ <b>{{name}}</b> ]?"
+    },
+    "export-entities": {
+      "btn-cancel": "Cancel",
+      "btn-export": "Export",
+      "details-title": "Export entity",
+      "message-error": "Export failed!",
+      "message-success": "Exported successfully!",
+      "no-params-required": "No required parameters!",
+      "step-1": "Choose typeKey of entity",
+      "step-2": "Choose required parameters"
+    },
+    "import-entities": {
+      "btn-cancel": "Cancel",
+      "btn-import": "Import",
+      "details-title": "Import entity",
+      "file-process-error": "File corrupted or has other the .json extension!",
+      "message-error": "Import failed!",
+      "message-success": "Imported successfully!",
+      "upload-btn-text": "Load from JSON file"
     },
     "profile": {
       "created": "A new Profile is created with identifier {{ param }}",
