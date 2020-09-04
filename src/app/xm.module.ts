@@ -24,6 +24,7 @@ import { XmRoutingModule } from './xm-routing.module';
 import { XM_ELEMENTS } from './xm.registry';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from './xm.constants';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
     imports: [
@@ -44,6 +45,7 @@ import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from './xm.constants';
         MarkdownModule.forRoot(),
         XmDynamicModule.forRoot(XM_ELEMENTS),
         LayoutModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],
     providers: [
         themeInitializerFactory(),

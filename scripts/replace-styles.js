@@ -2,6 +2,7 @@ const fs = require('fs');
 
 const TARGET_THEME = 'src/styles/_theme.scss';
 const TARGET_STYLES = 'src/styles.scss';
+const TARGET_WEBMANIFEST = 'src/manifest.webmanifest';
 
 const terminalArgs = process.argv.slice(2);
 
@@ -18,6 +19,9 @@ function replace(command, value) {
             break;
         case 'styles':
             replaceFile(value, TARGET_STYLES);
+            break;
+        case 'webmanifest':
+            replaceFile(value, TARGET_WEBMANIFEST);
             break;
         default:
             console.warn(`Sorry, the argument ${command} is unknown command.`);

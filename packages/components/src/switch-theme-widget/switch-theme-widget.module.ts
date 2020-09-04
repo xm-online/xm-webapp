@@ -12,6 +12,7 @@ import { finalize } from 'rxjs/operators';
 interface SwitchThemeOptionsTheme {
     theme: string,
     icon: string,
+    color: string,
     tooltip: Translate
 }
 
@@ -50,7 +51,7 @@ export class SwitchThemeWidget implements OnInit {
             return;
         }
         this.loading = true;
-        this.themeService.set(theme.theme, 'THEME')
+        this.themeService.set(theme.theme, { themeColor: theme.color, themeStrategy: 'THEME' })
             .pipe(
                 finalize(() => this.loading = false),
             ).subscribe(() => {

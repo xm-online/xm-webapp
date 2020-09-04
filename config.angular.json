@@ -17,6 +17,7 @@
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "assets": [
+              "src/manifest.webmanifest",
               "src/assets",
               "src/i18n",
               "src/swagger-ui",
@@ -100,7 +101,9 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json"
             }
           }
         },
@@ -173,6 +176,7 @@
               "src/styles.scss"
             ],
             "assets": [
+              "src/manifest.webmanifest",
               "src/assets",
               "src/i18n",
               "src/swagger-ui",
