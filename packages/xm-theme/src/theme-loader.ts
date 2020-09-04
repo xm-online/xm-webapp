@@ -3,7 +3,7 @@ import { MaintenanceService } from '@xm-ngx/components/maintenance';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { XmPublicUiConfigService } from '../../core/src/config/xm-public-ui-config.service';
-import { THEME_STRATEGY, XmThemeService } from './xm-theme.service';
+import { ThemeOptions, XmThemeService } from './xm-theme.service';
 
 export function themeInitializer(
     config: XmPublicUiConfigService,
@@ -27,7 +27,7 @@ export function themeInitializerFactory(): Provider[] {
 @Injectable()
 export class ThemeLoader {
     constructor(
-        private configService: XmPublicUiConfigService<{ theme?: string; themeStrategy?: THEME_STRATEGY }>,
+        private configService: XmPublicUiConfigService<ThemeOptions>,
         private themeService: XmThemeService,
         private maintenanceService: MaintenanceService,
     ) {
@@ -35,7 +35,7 @@ export class ThemeLoader {
 
     public loadThemeFromConfig(): Promise<void> {
         return this.configService.config$().pipe(
-            switchMap((c) => this.loadTheme(c.theme, c.themeStrategy)),
+            switchMap((c) => this.loadTheme(c)),
             take(1),
             catchError((err) => {
                 this.maintenanceService.setMaintenanceProgress(true);
@@ -44,7 +44,13 @@ export class ThemeLoader {
         ).toPromise();
     }
 
-    private loadTheme(theme?: string, strategy?: THEME_STRATEGY): Observable<void> {
-        return this.themeService.set(theme, strategy);
+    private loadTheme(rawOptions: ThemeOptions): Observable<void> {
+        const options: ThemeOptions = {
+            theme: rawOptions.theme,
+            themeColor: rawOptions.themeColor,
+            themeStrategy: rawOptions.themeStrategy,
+            themeDark: rawOptions.themeDark,
+        };
+        return this.themeService.set(rawOptions.theme, options);
     }
 }
