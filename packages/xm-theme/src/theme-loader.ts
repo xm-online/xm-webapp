@@ -48,8 +48,9 @@ export class ThemeLoader {
         const options: ThemeOptions = {
             theme: rawOptions.theme,
             themeColor: rawOptions.themeColor,
+            themeScheme: rawOptions.themeScheme,
+            colorScheme: rawOptions.colorScheme,
             themeStrategy: rawOptions.themeStrategy,
-            themeDark: rawOptions.themeDark,
         };
         return this.themeService.set(rawOptions.theme, options);
     }

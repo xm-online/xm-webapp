@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { compact } from 'lodash';
 
 @Injectable({ providedIn: 'root' })
 export class ColorSchemeService {
@@ -10,11 +9,7 @@ export class ColorSchemeService {
         }
     }
 
-    public set(dark: boolean, light: boolean): void {
-        const value = compact([
-            dark ? 'dark' : '',
-            light ? 'light' : '',
-        ]).join(' ');
+    public set(value: 'normal' | 'dark light'): void {
         getColorSchemeElementForKey().setAttribute('content', value);
     }
 }

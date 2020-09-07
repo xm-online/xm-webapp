@@ -5,13 +5,15 @@ import { XmApplicationConfigService } from '../../../src/app/shared/spec';
 import { ColorSchemeService } from './color-scheme.service';
 import { StyleManagerService } from './style-manager.service';
 import { ThemeColorService } from './theme-color.service';
+import { ThemeSchemeService } from './theme-scheme.service';
 
 export type THEME_STRATEGY = 'THEME' | 'TENANT_ONLY';
 
 export interface ThemeOptions {
     theme?: string,
     themeColor?: string,
-    themeDark?: string,
+    themeScheme?: 'dark' | 'light',
+    colorScheme?: 'normal' | 'dark light',
     themeStrategy?: THEME_STRATEGY
 }
 
@@ -23,6 +25,7 @@ export class XmThemeService {
 
     constructor(
         private styleManager: StyleManagerService,
+        private themeSchemeService: ThemeSchemeService,
         private colorSchemeService: ColorSchemeService,
         private themeColorService: ThemeColorService,
         private applicationConfigService: XmApplicationConfigService,
@@ -30,7 +33,7 @@ export class XmThemeService {
     }
 
     public getTheme(): string | null {
-        return this.currentTheme;
+        return this.currentTheme || null;
     }
 
     public set(theme: string | null, options?: ThemeOptions): Observable<void> {
@@ -38,6 +41,7 @@ export class XmThemeService {
             this.styleManager.remove('theme');
             this.colorSchemeService.remove();
             this.themeColorService.remove();
+            this.themeSchemeService.reset();
             this.applicationConfigServiceBC();
             return of(undefined);
         }
@@ -48,7 +52,13 @@ export class XmThemeService {
             this.themeColorService.set(options.themeColor);
         }
 
-        this.colorSchemeService.set(Boolean(options.themeDark), true);
+        if (options?.colorScheme) {
+            this.colorSchemeService.set(options.colorScheme);
+        }
+
+        if (options?.themeScheme) {
+            this.themeSchemeService.set(options.themeScheme);
+        }
 
         if (options?.themeStrategy === 'TENANT_ONLY') {
             return this.styleManager.setAsync('theme', `assets/css/${theme}.css`)
