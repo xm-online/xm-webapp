@@ -1,50 +1,48 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { XmEventManager } from '@xm-ngx/core';
-import { JhiAlertService } from 'ng-jhipster';
-import { Subscription } from 'rxjs';
 import { I18nNamePipe } from '@xm-ngx/components/language';
-import { XmConfigService } from '../../../src/app/shared/spec/config.service';
-import { DEBUG_INFO_ENABLED } from '../../../src/app/xm.constants';
+import { ErrorHandlerEventPayload, XmEventManager } from '@xm-ngx/core';
+import * as _ from 'lodash';
+import { JhiAlert, JhiAlertService } from 'ng-jhipster';
+import { Subscription } from 'rxjs';
+import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
+import { XmAlertService } from '../xm-alert.service';
 import { ResponseConfig, ResponseConfigItem, ResponseContext } from './response-config.model';
-import { XmAlertService } from './xm-alert.service';
 
-declare let $: any;
+declare const $: any;
+
+interface ErrorHandlerEventPayloadProcessed extends ErrorHandlerEventPayload {
+    content: HttpErrorResponse | any;
+}
 
 @Component({
     selector: 'xm-alert-error',
     templateUrl: './alert-error.component.html',
+    styleUrls: ['./alert-error.component.scss'],
 })
 export class JhiAlertErrorComponent implements OnDestroy {
 
-    public alerts: any[];
-    public cleanHttpErrorListener: Subscription;
-    public rc: ResponseContext;
-    public responseConfig: ResponseConfig;
+    public alerts: JhiAlert[] = [];
+    private cleanHttpErrorListener: Subscription;
+    private rc: ResponseContext;
+    private responseConfig: ResponseConfig;
 
-    /* tslint:disable */
-    constructor(private toasterService: JhiAlertService,
-                private alertService: XmAlertService,
-                private eventManager: XmEventManager,
-                protected router: Router,
-                private i18nNamePipe: I18nNamePipe,
-                private translateService: TranslateService,
-                private specService: XmConfigService) {
-        /* tslint:enable */
-        this.alerts = [];
+    constructor(
+        private toasterService: JhiAlertService,
+        private alertService: XmAlertService,
+        private eventManager: XmEventManager,
+        protected router: Router,
+        private i18nNamePipe: I18nNamePipe,
+        private translateService: TranslateService,
+        private specService: XmConfigService) {
 
         this.cleanHttpErrorListener = eventManager.subscribe('xm.httpError', (resp) => {
-            const response = this.processResponse(resp);
-            if (DEBUG_INFO_ENABLED) {
-                console.info(`Error xm.httpError - ${response}`);
-            }
+            const response = this.processResponse(resp as any);
             this.specService.getUiConfig().subscribe((result) => {
-                if (result &&
-                    result.responseConfig &&
-                    result.responseConfig.responses &&
-                    result.responseConfig.responses.length) {
-                    this.rc = new ResponseContext(response.content, response.request);
+                if (result?.responseConfig?.responses?.length) {
+                    this.rc = { response: response.content, request: response.request };
                     this.responseConfig = new ResponseConfig(result.responseConfig.responses.map((e) => {
                         return new ResponseConfigItem(
                             e.code,
@@ -71,8 +69,13 @@ export class JhiAlertErrorComponent implements OnDestroy {
         });
     }
 
-    // tslint:disable-next-line:cognitive-complexity
-    public configAndSendError(config: ResponseConfigItem, response: any, params?: any): void {
+    public ngOnDestroy(): void {
+        if (this.cleanHttpErrorListener !== undefined && this.cleanHttpErrorListener !== null) {
+            this.eventManager.destroy(this.cleanHttpErrorListener);
+        }
+    }
+
+    private configAndSendError(config: ResponseConfigItem, response: ErrorHandlerEventPayloadProcessed, params?: any): void {
         const title = this.processMessage(config.outputMessage ?
             config.outputMessage :
             null, response);
@@ -99,13 +102,15 @@ export class JhiAlertErrorComponent implements OnDestroy {
             case 'validation': {
 
                 const errors = new Function('rc', config.validationFieldsExtractor)(this.rc);
-                // tslint:disable-next-line:forin
                 for (const key in errors) {
                     errors[key] = this.processMessage(errors[key] ? errors[key] : null, response);
                 }
                 this.eventManager.broadcast({
                     name: 'xm.ValidationError',
-                    content: config, rc: this.rc, title, errors,
+                    content: config,
+                    rc: this.rc,
+                    title,
+                    errors,
                 });
                 break;
             }
@@ -124,23 +129,18 @@ export class JhiAlertErrorComponent implements OnDestroy {
         }
     }
 
-    public ngOnDestroy(): void {
-        if (this.cleanHttpErrorListener !== undefined && this.cleanHttpErrorListener !== null) {
-            this.eventManager.destroy(this.cleanHttpErrorListener);
-            this.alerts = [];
-        }
-    }
-
-    // tslint:disable-next-line:cognitive-complexity
-    public sendDefaultError(response: any): void {
-        let i;
-        const httpErrorResponse = response.content;
+    private sendDefaultError(res: ErrorHandlerEventPayloadProcessed): void {
+        const httpErrorResponse = res.content;
         switch (httpErrorResponse.status) {
-            // connection refused, server not reachable
-            case 0:
+            case 0: {
+                // connection refused, server not reachable
                 this.addErrorAlert('Server not reachable', 'error.server.not.reachable');
                 break;
-
+            }
+            case 404: {
+                this.addErrorAlert('Not found', 'errors.url.not.found');
+                break;
+            }
             case 400: {
                 const arr = httpErrorResponse.headers.keys();
                 let errorHeader = null;
@@ -153,49 +153,21 @@ export class JhiAlertErrorComponent implements OnDestroy {
                     }
                 });
                 if (errorHeader) {
-                    const entityName = this.translateService.instant('global.menu.entities.' + entityKey);
-                    this.addErrorAlert(errorHeader, errorHeader, {entityName});
-                } else if (httpErrorResponse.error !== '' && httpErrorResponse.error.fieldErrors) {
-                    const fieldErrors = httpErrorResponse.error.fieldErrors;
-                    for (i = 0; i < fieldErrors.length; i++) {
-                        const fieldError = fieldErrors[i];
-                        // convert 'something[14].other[4].id' to 'something[].other[].id'
-                        // so translations can be written to it
-                        const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
-                        const fieldName = this.translateService.instant(
-                            'jhipsterSampleApplicationApp.' + fieldError.objectName + '.' + convertedField,
-                        );
-                        this.addErrorAlert('Error on field "' + fieldName + '"', 'errors.' + fieldError.message,
-                            {fieldName});
-                    }
-                } else if (httpErrorResponse.error !== '' && httpErrorResponse.error.error) {
-                    console.info(this.translateService.instant('errors.' + httpErrorResponse.error.error));
-                    this.addErrorAlert(
-                        'errors.' + httpErrorResponse.error.error_description,
-                        'errors.' + httpErrorResponse.error.error,
-                        httpErrorResponse.error.params,
-                    );
+                    const entityName = this.translateService.instant(`global.menu.entities.${entityKey}`);
+                    this.addErrorAlert(errorHeader, errorHeader, { entityName });
                 } else {
-                    this.addErrorAlert('errors.' + httpErrorResponse.error);
+                    this.defaultErrorHandler(httpErrorResponse);
                 }
                 break;
             }
-            case 404: {
-                this.addErrorAlert('Not found', 'errors.url.not.found');
-                break;
+            default: {
+                this.defaultErrorHandler(httpErrorResponse);
             }
-
-            default:
-                if (httpErrorResponse.error !== '' && httpErrorResponse.error.error) {
-                    this.addErrorAlert('errors.' + httpErrorResponse.error.error);
-                } else {
-                    this.addErrorAlert('errors.' + httpErrorResponse.error);
-                }
         }
     }
 
-    public addErrorAlert(message: any, key?: any, data?: any): void {
-        key = key && key !== null ? key : message;
+    private addErrorAlert(message: string, key?: string | null, data?: unknown): void {
+        key = key ? key : message;
         this.alerts.push(
             this.toasterService.addAlert(
                 {
@@ -211,7 +183,35 @@ export class JhiAlertErrorComponent implements OnDestroy {
         );
     }
 
-    private processMessage(config: any, response: any): string | null | any {
+    private defaultErrorHandler(res: HttpErrorResponse | any): void {
+        if (res?.error?.fieldErrors) {
+            const fieldErrors: { field: string, objectName: string, message: string }[] = res.error.fieldErrors;
+            for (let i = 0; i < fieldErrors.length; i++) {
+                const fieldError = fieldErrors[i];
+                // convert 'something[14].other[4].id' to 'something[].other[].id'
+                // so translations can be written to it
+                const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
+                const fieldName = this.translateService.instant(
+                    `jhipsterSampleApplicationApp.${fieldError.objectName}.${convertedField}`,
+                );
+                this.addErrorAlert(null, `errors.${fieldError.message}`, { fieldName });
+            }
+        } else if (res?.error?.error && res?.error?.error_description) {
+            this.addErrorAlert(
+                `errors.${res.error.error_description}`,
+                `errors.${res.error.error}`,
+                res.error.params,
+            );
+        } else if (res?.error?.error) {
+            this.addErrorAlert(`errors.${res.error.error}`);
+        } else if (res?.error?.detail) {
+            this.addErrorAlert(res.error.detail);
+        } else if (res?.title) {
+            this.addErrorAlert(res.title);
+        }
+    }
+
+    private processMessage(config: any, response: ErrorHandlerEventPayloadProcessed): string | null | any {
         if (!config) {
             return null;
         }
@@ -222,11 +222,11 @@ export class JhiAlertErrorComponent implements OnDestroy {
             }
             case 'TRANSLATION_KEY_PATH': {
                 return this.translateService.instant(
-                    'errors.' + this.getFromPath(this.rc.response, config.value),
+                    `errors.${_.get(this.rc.response, config.value)}`,
                     this.interpolationParams(response, this.rc));
             }
             case 'MESSAGE_PATH': {
-                return this.getFromPath(this.rc.response.error, config.value);
+                return _.get(this.rc.response.error, config.value);
             }
             case 'MESSAGE_OBJECT': {
                 return this.i18nNamePipe.transform(config.value);
@@ -234,22 +234,22 @@ export class JhiAlertErrorComponent implements OnDestroy {
             default: {
                 console.warn('Wrong responseConfigItem outputMessage type - returning default message');
                 if (response.content.error !== '' && response.content.error.error) {
-                    return this.translateService.instant('errors.' + response.content.error.error);
+                    return this.translateService.instant(`errors.${response.content.error.error}`);
                 } else {
-                    return this.translateService.instant('errors.' + response.content.error);
+                    return this.translateService.instant(`errors.${response.content.error}`);
                 }
             }
         }
     }
 
-    private interpolationParams(response: any, other: any): { rc: any } | any {
+    private interpolationParams(response: ErrorHandlerEventPayloadProcessed, other: any): { rc: any } | any {
         if (response && response.content && response.content.error && response.content.error.params) {
             return Object.assign({}, response.content.error.params);
         }
-        return {rc: other};
+        return { rc: other };
     }
 
-    private processResponse(resp: any): any {
+    private processResponse(resp: ErrorHandlerEventPayloadProcessed): ErrorHandlerEventPayloadProcessed {
         const requestType = resp.request.responseType;
         const respType = resp.content.headers.get('content-type');
         if (requestType === 'arraybuffer' && respType === 'application/json;charset=UTF-8') {
@@ -263,7 +263,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
             }
         }
         try {
-            const errorType = this.getVarType(resp.content.error);
+            const errorType = typeof resp.content.error;
             if (errorType && errorType === 'string') {
                 resp.content.error = JSON.parse(resp.content.error);
             }
@@ -271,23 +271,5 @@ export class JhiAlertErrorComponent implements OnDestroy {
             console.warn(e);
         }
         return resp;
-    }
-
-    private getVarType(variable: any): any {
-        return typeof variable;
-    }
-
-    private getFromPath(obj: any, path: any): any | undefined {
-        const paths = path.split('.');
-        let current = obj;
-        let i;
-        for (i = 0; i < paths.length; ++i) {
-            if (!current[paths[i]]) {
-                return undefined;
-            } else {
-                current = current[paths[i]];
-            }
-        }
-        return current;
     }
 }

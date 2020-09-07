@@ -9,7 +9,6 @@ export class ResponseConfig {
     }
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class ResponseConfigItem {
     constructor(public code?: string,
                 public codePath?: string,
@@ -60,9 +59,7 @@ export class ResponseConfigItem {
     }
 }
 
-// tslint:disable-next-line:max-classes-per-file
-export class ResponseContext {
-    constructor(public response?: any,
-                public request?: any) {
-    }
+export interface ResponseContext {
+    response?: any;
+    request?: any;
 }
