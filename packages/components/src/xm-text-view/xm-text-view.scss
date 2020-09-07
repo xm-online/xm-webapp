@@ -14,10 +14,12 @@ $xm-text-label-font-size: $xm-font-size-xm !default;
 
 :host {
   display:       block;
-  margin-bottom: .75rem;
+  margin-bottom: .5rem;
 }
 
 :host.inline {
+  margin-bottom: 0;
+
   .xm-text-view--label, .xm-text-view--value {
     display: inline-block;
   }
