@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
 import { NgControlAccessor } from '@xm-ngx/components/ng-control-accessor';
+import { AceEditorThemeSchemeAdapterModule } from '@xm-ngx/components/xm-ace-editor/ace-editor-theme-scheme-adapter.directive';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { AceEditorModule } from './ace-editor.directive';
@@ -13,6 +14,8 @@ export interface AceEditorControlOptions {
     name?: string;
     mode?: string | 'json';
     height?: string;
+    theme?: string;
+    darkTheme?: string;
 }
 
 const DEFAULT_OPTIONS: AceEditorControlOptions = {
@@ -20,6 +23,8 @@ const DEFAULT_OPTIONS: AceEditorControlOptions = {
     name: 'text',
     mode: 'json',
     height: '200px',
+    theme: 'chrome',
+    darkTheme: 'tomorrow_night',
 };
 
 @Component({
@@ -37,6 +42,9 @@ const DEFAULT_OPTIONS: AceEditorControlOptions = {
                  [attr.id]="_options.id"
                  [attr.name]="_options.name"
                  [style.height]="_options.height"
+                 [onLightTheme]="options.theme"
+                 [onDarkTheme]="options.darkTheme"
+                 AceEditorThemeSchemeAdapter
                  xmAceEditor>
             </div>
             <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
@@ -101,6 +109,7 @@ export class AceEditorControlComponent extends NgControlAccessor<string | object
         CommonModule,
         MatFormFieldModule,
         ControlErrorModule,
+        AceEditorThemeSchemeAdapterModule,
     ],
     exports: [AceEditorControlComponent],
     declarations: [AceEditorControlComponent],
