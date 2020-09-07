@@ -13,7 +13,7 @@ const DEST_PATH = 'src/assets/themes';
 
     const files = _.flatten(_.map(THEMES_PATHS, (themePath) => glob(themePath, { sync: true })));
     for (const file of files) {
-        const name = path.basename(file).match(/^_?([a-zA-Z-]+).scss$/)[1];
+        const name = path.basename(file).match(/^_?([a-zA-Z-0-9]+).scss$/)[1];
         const outFile = `${DEST_PATH}/${name}.css`;
 
         const res = sass.renderSync({
