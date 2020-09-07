@@ -16,7 +16,7 @@ export class XmAlertComponent implements OnInit {
     @Input() public dismissible: boolean;
     @Input() public type: string;
     @Input() public message: string;
-    @Output() public close: EventEmitter<any> = new EventEmitter();
+    @Output() public close: EventEmitter<void> = new EventEmitter();
 
     constructor(config: NgbAlertConfig) {
         this.dismissible = config.dismissible;

@@ -17,6 +17,13 @@ export const SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS = new HttpHeaders().set(
     '',
 );
 
+export interface ErrorHandlerEventPayload {
+    content: HttpErrorResponse,
+    request: HttpRequest<unknown>
+}
+
+export const ErrorHandlerEventName = 'xm.httpError';
+
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
 
@@ -29,16 +36,16 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
             return next.handle(request.clone({ headers }));
         } else {
             return next.handle(request).pipe(tap({
-                error: (err: unknown) => this.handleError(err, request),
+                error: (err: HttpErrorResponse) => this.handleError(err, request),
             }));
         }
     }
 
-    private handleError(err: unknown, request: HttpRequest<unknown>): void {
+    private handleError(err: HttpErrorResponse, request: HttpRequest<unknown>): void {
         if (err instanceof HttpErrorResponse
             && !(err.status === 401 &&
                 (err.message === '' || (err.url && err.url.includes('/api/account'))))) {
-            this.eventManager.broadcast({ name: 'xm.httpError', content: err, request });
+            this.eventManager.broadcast({ name: ErrorHandlerEventName, content: err, request });
         }
     }
 }
