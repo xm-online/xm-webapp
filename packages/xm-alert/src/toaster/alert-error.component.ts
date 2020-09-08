@@ -11,8 +11,6 @@ import { XmConfigService } from '../../../../src/app/shared/spec/config.service'
 import { XmAlertService } from '../xm-alert.service';
 import { ResponseConfig, ResponseConfigItem, ResponseContext } from './response-config.model';
 
-declare const $: any;
-
 interface ErrorHandlerEventPayloadProcessed extends ErrorHandlerEventPayload {
     content: HttpErrorResponse | any;
 }
@@ -115,11 +113,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 break;
             }
             case 'alert': {
-                $.notify({
-                    message: title,
-                }, {
-                    type: messageSettings[1],
-                });
+                this.addErrorAlert(title);
                 break;
             }
             default: {
