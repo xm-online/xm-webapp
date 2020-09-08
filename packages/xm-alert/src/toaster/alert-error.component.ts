@@ -196,7 +196,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 `errors.${res.error.error}`,
                 res.error.params,
             );
-        } else if (res?.error?.error) {
+        } else if (res?.error?.error && typeof res?.error?.error === 'string') {
             this.addErrorAlert(`errors.${res.error.error}`);
         } else if (res?.error?.detail) {
             this.addErrorAlert(res.error.detail);
