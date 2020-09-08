@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
-
-declare const $: any;
 
 /**
  * Alerts can be used to provide feedback messages.
@@ -18,7 +17,10 @@ export class XmAlertComponent implements OnInit {
     @Input() public message: string;
     @Output() public close: EventEmitter<void> = new EventEmitter();
 
-    constructor(config: NgbAlertConfig) {
+    constructor(
+        config: NgbAlertConfig,
+        private snackBar: MatSnackBar,
+    ) {
         this.dismissible = config.dismissible;
         this.type = config.type;
     }
@@ -30,17 +32,6 @@ export class XmAlertComponent implements OnInit {
     }
 
     public showAlert(type: any, message: any): void {
-        $.notify({
-            icon: 'add',
-            message,
-        }, {
-            type,
-            timer: 5000,
-            z_index: 2000,
-            placement: {
-                from: 'top',
-                align: 'right',
-            },
-        });
+        this.snackBar.open(message, 'x', { duration: 5000, verticalPosition: 'top', horizontalPosition: 'right' });
     }
 }
