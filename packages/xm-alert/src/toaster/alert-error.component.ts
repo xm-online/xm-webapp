@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nNamePipe } from '@xm-ngx/components/language';
 import { ErrorHandlerEventPayload, XmEventManager } from '@xm-ngx/core';
+import { TranslatePipe } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { JhiAlert, JhiAlertService } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
 import { XmAlertService } from '../xm-alert.service';
@@ -22,15 +23,15 @@ interface ErrorHandlerEventPayloadProcessed extends ErrorHandlerEventPayload {
 })
 export class JhiAlertErrorComponent implements OnDestroy {
 
-    public alerts: JhiAlert[] = [];
     private cleanHttpErrorListener: Subscription;
     private rc: ResponseContext;
     private responseConfig: ResponseConfig;
 
     constructor(
-        private toasterService: JhiAlertService,
+        private translatePipe: TranslatePipe,
         private alertService: XmAlertService,
         private eventManager: XmEventManager,
+        private snackBar: MatSnackBar,
         protected router: Router,
         private i18nNamePipe: I18nNamePipe,
         private translateService: TranslateService,
@@ -160,21 +161,10 @@ export class JhiAlertErrorComponent implements OnDestroy {
         }
     }
 
-    private addErrorAlert(message: string, key?: string | null, data?: unknown): void {
-        key = key ? key : message;
-        this.alerts.push(
-            this.toasterService.addAlert(
-                {
-                    type: 'danger',
-                    msg: key,
-                    params: data,
-                    timeout: 5000,
-                    toast: true,
-                    scoped: true,
-                },
-                this.alerts,
-            ),
-        );
+    private addErrorAlert(rawMessage: string, key?: string | null, data?: unknown): void {
+        key = key ? key : rawMessage;
+        const message: string = this.translatePipe.transform(key, data);
+        this.snackBar.open(message, 'x', { duration: 5000, verticalPosition: 'top', horizontalPosition: 'right' });
     }
 
     private defaultErrorHandler(res: HttpErrorResponse | any): void {
