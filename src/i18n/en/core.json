@@ -195,6 +195,11 @@
     "edit-widget": "Edit widget",
     "empty": "Empty",
     "export": "Export",
+    "feedback": {
+      "error": "Not sent. Try again later",
+      "success": "Successfully sent feedback",
+      "tooltip": "Sent feedback"
+    },
     "filter": "Filter",
     "id": "Id",
     "import": "Import",
