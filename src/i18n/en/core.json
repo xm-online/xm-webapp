@@ -230,13 +230,14 @@
     }
   },
   "error": {
-    "500": "Internal Server Error.",
     "403": "You are not authorized to access the page.",
+    "500": "Internal Server Error.",
     "NotNull": "Field {{ fieldName }} cannot be empty!",
     "Size": "Field {{ fieldName }} does not meet min/max size requirements!",
     "accessDenied": "Access denied",
     "access_denied": "Access denied",
     "business": "Forwarding error",
+    "concurrencyFailure": "Parallel request error.",
     "emailexists": "Email is already in use!",
     "idexists": "A new {{ entityName }} cannot already have an ID",
     "insufficient_scope": "Insufficient scope",
