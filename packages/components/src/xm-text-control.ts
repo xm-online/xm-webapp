@@ -62,7 +62,7 @@ const DEFAULT_OPTIONS: ITextControlOptions = {
                    #input="ngModel"
                    [attr.type]="options.type">
 
-            <mat-error *xmControlErrors="input?.errors; translates options?.errors; message as message">{{message}}</mat-error>
+            <mat-error *xmControlErrors="input?.errors || ngControl?.errors; translates options?.errors; message as message">{{message}}</mat-error>
 
         </mat-form-field>
     `,
