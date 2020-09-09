@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nNamePipe } from '@xm-ngx/components/language';
 import { ErrorHandlerEventPayload, XmEventManager } from '@xm-ngx/core';
+import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
@@ -30,8 +30,8 @@ export class JhiAlertErrorComponent implements OnDestroy {
     constructor(
         private translatePipe: TranslatePipe,
         private alertService: XmAlertService,
+        private toasterService: XmToasterService,
         private eventManager: XmEventManager,
-        private snackBar: MatSnackBar,
         protected router: Router,
         private i18nNamePipe: I18nNamePipe,
         private translateService: TranslateService,
@@ -164,7 +164,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
     private addErrorAlert(rawMessage: string, key?: string | null, data?: unknown): void {
         key = key ? key : rawMessage;
         const message: string = this.translatePipe.transform(key, data);
-        this.snackBar.open(message, 'x', { duration: 5000, verticalPosition: 'top', horizontalPosition: 'right' });
+        this.toasterService.create({ text: message });
     }
 
     private defaultErrorHandler(res: HttpErrorResponse | any): void {

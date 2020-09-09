@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
-import { JhiAlert, JhiAlertService } from 'ng-jhipster';
+import { JhiAlert } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 
 export interface ToasterConfig extends Partial<JhiAlert> {
@@ -20,7 +21,7 @@ export interface ToasterConfig extends Partial<JhiAlert> {
 export class XmToasterService {
 
     constructor(protected translateService: TranslateService,
-                protected alertService: JhiAlertService) {
+                protected alertService: MatSnackBar) {
     }
 
     public create(params: ToasterConfig): Observable<ToasterConfig[]> {
@@ -31,35 +32,30 @@ export class XmToasterService {
 
         if (params.msg) {
             const opts = params.textOptions || {};
-            _.defaults(opts, {value: ''});
+            _.defaults(opts, { value: '' });
 
             params.msg = this.translateService.instant(params.msg, opts);
         }
 
-        return new Observable((observer) => {
-
-            if (params.close) {
-                params.close = (args) => {
-                    params.close(args);
-                    observer.next(args);
-                    observer.complete();
-                };
-            } else {
-                params.close = close;
-            }
-
-            this.alertService.addAlert(params as JhiAlert, []);
+        const snackbar = this.alertService.open(params.msg, 'x', {
+            duration: 5000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+            panelClass: 'alert-' + params.type
         });
+
+        // TODO: hotfix: join ToasterConfig[] with MatSnackBarDismiss
+        return snackbar.afterDismissed() as any;
     }
 
     /** @deprecated use create instead */
     public success(text: string, params?: any, position?: string): void {
-        this.create({type: 'success', text, params, position}).subscribe();
+        this.create({ type: 'success', text, params, position }).subscribe();
     }
 
     /** @deprecated use create instead */
     public danger(text: string, params?: any, position?: string): void {
-        this.create({type: 'danger', text, params, position}).subscribe();
+        this.create({ type: 'danger', text, params, position }).subscribe();
     }
 
     /** @deprecated use danger instead */
@@ -69,12 +65,12 @@ export class XmToasterService {
 
     /** @deprecated use create instead */
     public warning(text: string, params?: any, position?: string): void {
-        this.create({type: 'warning', text, params, position}).subscribe();
+        this.create({ type: 'warning', text, params, position }).subscribe();
     }
 
     /** @deprecated use create instead */
     public info(text: string, params?: any, position?: string): void {
-        this.create({type: 'info', text, params, position}).subscribe();
+        this.create({ type: 'info', text, params, position }).subscribe();
     }
 
 }
