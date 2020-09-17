@@ -150,6 +150,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.username = '';
     }
 
+    public onLogin() {
+        requestAnimationFrame(() => this.login());
+    }
+
     public login(): void | null {
         this.sendingLogin = true;
         this.isDisabled = true;
