@@ -10,7 +10,7 @@ import { DashboardConfig } from '@xm-ngx/administration/dashboards-config/inject
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard, DashboardWrapperService, PageService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { skip } from 'rxjs/operators';
+import { skip, take } from 'rxjs/operators';
 
 export const NAVBAR_EDIT_DASHBOARD_EVENT = 'NAVBAR_EDIT_DASHBOARD_EVENT';
 export const NAVBAR_EDIT_WIDGET_EVENT = 'NAVBAR_EDIT_WIDGET_EVENT';
@@ -82,7 +82,7 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy {
     private updateView(id: number): void {
         if (this.isEditing) {
             this.wrapperService.forceReload();
-            this.wrapperService.dashboards$().pipe(skip(1)).subscribe(() => {
+            this.wrapperService.dashboards$().pipe(skip(1), take(1)).subscribe(() => {
                 this.pageService.load(String(id));
             });
         }
