@@ -3,11 +3,8 @@
 
   <div class="form-group">
     <mat-form-field>
-      <input (change)="onSearch()"
-             [(ngModel)]="searchQuery"
-             id="field_search"
+      <input #searchField
              matInput
-             name="search"
              placeholder="{{'xm-entity.link-detail-dialog.add.build-type-search' | translate}}"
              type="text">
     </mat-form-field>
