@@ -74,6 +74,7 @@
         },
         "calendar-event-dialog": {
             "title": "Add new event for the",
+            "titleEdit": "Edit event for the",
             "choose-type": "Choose event type",
             "add": {
                 "success": "Event added successfully."

@@ -14,7 +14,7 @@ import { Event } from '../shared/event.model';
 import { EventService } from '../shared/event.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
-import { LanguageService } from "../../modules/xm-translation/language.service";
+import { LanguageService } from '../../modules/xm-translation/language.service';
 
 declare const $: any;
 declare const swal: any;
@@ -50,7 +50,7 @@ export class CalendarCardComponent implements OnChanges {
         }
     }
 
-    public onRemove(event: Event, calendarTypeKey: string): void {
+    public onRemove(event: Event, calendarTypeKey: string, callback?: () => void): void {
         swal({
             title: this.translateService.instant('xm-entity.calendar-card.delete.title'),
             showCancelButton: true,
@@ -63,6 +63,7 @@ export class CalendarCardComponent implements OnChanges {
             if (result.value) {
                 this.eventService.delete(event.id).subscribe(
                     () => {
+                        (typeof callback === 'function') && callback();
                         this.alert('success', 'xm-entity.calendar-card.delete.remove-success');
                         this.calendarElements[calendarTypeKey].fullCalendar('removeEvents', [event.id]);
                     },
@@ -114,6 +115,34 @@ export class CalendarCardComponent implements OnChanges {
             });
     }
 
+    private onShowEventDialog(start: any, end: any, calendar: Calendar, event: Event) {
+        const self = this;
+        const calendarSpec = this.calendarSpecs.filter((c) => c.key === calendar.typeKey).shift();
+        const modalRef = this.modalService.open(CalendarEventDialogComponent, {backdrop: 'static'});
+        modalRef.componentInstance.xmEntity = self.xmEntity;
+        modalRef.componentInstance.event = event;
+        modalRef.componentInstance.calendar = calendar /* self.currentCalendar */;
+        modalRef.componentInstance.startDate = `${start.format('YYYY-MM-DD')}T${start.format('HH:mm:ss')}`;
+        modalRef.componentInstance.endDate = `${end.format('YYYY-MM-DD')}T${end.format('HH:mm:ss')}`;
+        modalRef.componentInstance.calendarSpec = calendarSpec;
+        modalRef.componentInstance.onAddEvent = (event: Event, isEdit?: boolean) => {
+            self.currentCalendar.events = this.currentCalendar.events ? this.currentCalendar.events : [];
+            if (isEdit) {
+                const item = self.currentCalendar.events.find((el) => el.id === event.id);
+                Object.assign(item, event);
+                this.calendarElements[calendar.typeKey].fullCalendar('removeEvents', [event.id]);
+            } else {
+                self.currentCalendar.events.push(event);
+            }
+            self.calendarElements[calendar.typeKey]
+                .fullCalendar('renderEvent', self.mapEvent(calendarSpec, event), true);
+            self.calendarElements[calendar.typeKey].fullCalendar('unselect');
+        };
+        modalRef.componentInstance.onRemoveEvent = (event: Event, calendarTypeKey: string, callback?: () => void) =>  {
+            self.onRemove(event, calendarTypeKey, callback);
+        }
+    }
+
     private initCalendar(calendar: Calendar): void {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const self = this;
@@ -151,19 +180,7 @@ export class CalendarCardComponent implements OnChanges {
                 },
             },
             select: (start: any, end: any) => {
-                const modalRef = self.modalService.open(CalendarEventDialogComponent, {backdrop: 'static'});
-                modalRef.componentInstance.xmEntity = self.xmEntity;
-                modalRef.componentInstance.calendar = self.currentCalendar;
-                modalRef.componentInstance.startDate = start.format('YYYY-MM-DD') + 'T' + start.format('HH:mm:ss');
-                modalRef.componentInstance.endDate = end.format('YYYY-MM-DD') + 'T' + end.format('HH:mm:ss');
-                modalRef.componentInstance.calendarSpec = calendarSpec;
-                modalRef.componentInstance.onAddEvent = (event: Event) => {
-                    self.currentCalendar.events = self.currentCalendar.events ? self.currentCalendar.events : [];
-                    self.currentCalendar.events.push(event);
-                    self.calendarElements[calendar.typeKey].fullCalendar('renderEvent',
-                        self.mapEvent(calendarSpec, event), true);
-                    self.calendarElements[calendar.typeKey].fullCalendar('unselect');
-                };
+                self.onShowEventDialog(start, end, calendar, <Event> {});
             },
             editable: false,
             eventLimit: true,
@@ -179,7 +196,8 @@ export class CalendarCardComponent implements OnChanges {
                 }
             },
             eventClick: (event: any) => {
-                self.onRemove(event.originEvent, calendar.typeKey);
+                // self.onRemove(event.originEvent, calendar.typeKey);
+                self.onShowEventDialog(event.start, event.end, calendar, event.originEvent);
             },
         });
     }
