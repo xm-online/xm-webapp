@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslateService } from '@ngx-translate/core';
+import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { JhiAlert } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 
 export interface ToasterConfig extends Partial<JhiAlert> {
-    text?: string;
+    text?: Translate;
     textOptions?: {
-        value?: string;
+        value?: string | object;
         [value: string]: string | object;
     };
     /** @deprecated msg use text instead */
@@ -20,28 +20,28 @@ export interface ToasterConfig extends Partial<JhiAlert> {
 })
 export class XmToasterService {
 
-    constructor(protected translateService: TranslateService,
+    constructor(protected translateService: XmTranslateService,
                 protected alertService: MatSnackBar) {
     }
 
     public create(params: ToasterConfig): Observable<ToasterConfig[]> {
 
         if (params.text) {
-            params.msg = params.text;
+            params.msg = params.text as string;
         }
 
         if (params.msg) {
             const opts = params.textOptions || {};
             _.defaults(opts, { value: '' });
 
-            params.msg = this.translateService.instant(params.msg, opts);
+            params.msg = this.translateService.translate(params.msg, opts);
         }
 
         const snackbar = this.alertService.open(params.msg, 'x', {
             duration: 5000,
             verticalPosition: 'top',
             horizontalPosition: 'right',
-            panelClass: 'alert-' + params.type
+            panelClass: 'alert-' + params.type,
         });
 
         // TODO: hotfix: join ToasterConfig[] with MatSnackBarDismiss
