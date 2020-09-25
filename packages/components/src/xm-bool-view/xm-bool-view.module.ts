@@ -7,7 +7,7 @@ import { BoolOptions, XM_BOOL_VIEW_ICONS } from './xm-bool-view.injectors';
 
 const XM_BOOL_VIEW_ICONS_DEFAULT: BoolOptions = {
     true: 'done',
-    false: 'remove',
+    false: 'remove_circle_outline',
 };
 
 @NgModule({
