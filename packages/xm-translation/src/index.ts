@@ -6,4 +6,5 @@ export * from './modules-language.helper';
 export * from './title.service';
 export * from './translate.directive';
 export * from './translate.pipe';
+export * from './xm-translate-service';
 export * from './xm-translation.module';
