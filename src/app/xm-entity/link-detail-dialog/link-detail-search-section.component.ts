@@ -1,31 +1,34 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { JhiEventManager } from 'ng-jhipster';
-import { filter, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, finalize, map, takeUntil, tap } from 'rxjs/operators';
 
-import { XmConfigService } from '../../shared';
 import { XmEntitySpec } from '../index';
 import { LinkSpec } from '../shared/link-spec.model';
 import { Link } from '../shared/link.model';
 import { LinkService } from '../shared/link.service';
 import { Spec } from '../shared/spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { fromEvent, ReplaySubject } from 'rxjs';
+import { XmConfigService } from '../../shared';
 
 declare let swal: any;
+
+const DEBOUNCE_DELAY = 500;
 
 @Component({
     selector: 'xm-link-detail-search-section',
     templateUrl: './link-detail-search-section.component.html',
     styleUrls: ['./link-detail-search-section.component.scss'],
 })
-export class LinkDetailSearchSectionComponent implements OnInit {
+export class LinkDetailSearchSectionComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @Input() public linkSpec: LinkSpec;
     @Input() public sourceXmEntity: XmEntity;
     @Input() public spec: Spec;
+    @ViewChild('searchField', {static: false}) public searchField: ElementRef;
 
     public xmEntity: XmEntity = {};
     public searchQuery: string;
@@ -34,9 +37,9 @@ export class LinkDetailSearchSectionComponent implements OnInit {
     public showLoader: boolean;
     private page: number;
     private linkSpecQuery: any;
+    private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
     constructor(private activeModal: NgbActiveModal,
-                private xmEntityService: XmEntityService,
                 private linkService: LinkService,
                 private eventManager: JhiEventManager,
                 private translateService: TranslateService,
@@ -46,6 +49,26 @@ export class LinkDetailSearchSectionComponent implements OnInit {
     public ngOnInit(): void {
         this.getLinkSpecConfig().subscribe((res) => this.linkSpecQuery = res || null);
         this.onSearch();
+    }
+
+    public ngAfterViewInit(): void {
+        fromEvent(this.searchField.nativeElement,'keyup')
+            .pipe(
+                filter(Boolean),
+                debounceTime(DEBOUNCE_DELAY),
+                distinctUntilChanged<any>(),
+                takeUntil(this.destroyed$),
+                tap(() => {
+                    this.searchQuery = this.searchField.nativeElement.value;
+                    this.onSearch();
+                }),
+            )
+            .subscribe();
+    }
+
+    public ngOnDestroy(): void {
+        this.destroyed$.next(true);
+        this.destroyed$.complete();
     }
 
     public getEntitySpec(typeKey: string): XmEntitySpec {
@@ -87,18 +110,22 @@ export class LinkDetailSearchSectionComponent implements OnInit {
 
     private load(): void {
         this.showLoader = true;
-        this.xmEntityService.search({
-            query: `(typeKey:${this.linkSpec.typeKey}* OR typeKey:${this.linkSpec.typeKey})`
-                + (this.linkSpecQuery ? ` AND ${this.linkSpecQuery}` : '')
-                + (this.searchQuery ? ` AND ${this.searchQuery}` : ''),
+        const options = {
+            query: this.getLinkSearchQuery(),
             size: 5,
             page: this.page,
-        }).subscribe((xmEntities: HttpResponse<XmEntity[]>) => {
-                this.total = parseInt(xmEntities.headers.get('X-Total-Count'), 10);
-                this.searchXmEntities.push(...xmEntities.body);
-            },
-            (err) => console.info(err), // tslint:disable-line
-            () => this.showLoader = false);
+        };
+        this.linkService
+            .searchLinks(this.sourceXmEntity.typeKey, this.sourceXmEntity.id, this.linkSpec.key, options)
+            .pipe(
+                takeUntil(this.destroyed$),
+                finalize(() => this.showLoader = false),
+            )
+            .subscribe((res: HttpResponse<Link[]>) => {
+                const xmEntities = (res && res.body) || [];
+                this.total = parseInt(res.headers.get('X-Total-Count'), 10);
+                this.searchXmEntities.push(...xmEntities);
+            }, (err) => console.info(err)); // tslint:disable-line;
     }
 
     private getLinkSpecConfig(): any {
@@ -108,6 +135,12 @@ export class LinkDetailSearchSectionComponent implements OnInit {
             filter((entity) => entity.hasOwnProperty('links')),
             map((entity) => entity.links.find((link) => link.key === this.linkSpec.key).filterQuery),
         );
+    }
+
+    private getLinkSearchQuery(): string {
+        return `(typeKey:${this.linkSpec.typeKey}* OR typeKey:${this.linkSpec.typeKey})`
+            + (this.linkSpecQuery ? ` AND ${this.linkSpecQuery}` : '')
+            + (this.searchQuery ? ` AND ${this.searchQuery}` : '');
     }
 
     private alert(type: string, key: string): void {
