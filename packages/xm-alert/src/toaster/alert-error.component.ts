@@ -7,6 +7,7 @@ import { ErrorHandlerEventPayload, XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
 import * as _ from 'lodash';
+import { JhiAlertService } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
 import { XmAlertService } from '../xm-alert.service';
@@ -28,6 +29,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
     private responseConfig: ResponseConfig;
 
     constructor(
+        public jhiAlertService: JhiAlertService,
         private translatePipe: TranslatePipe,
         private alertService: XmAlertService,
         private toasterService: XmToasterService,
@@ -164,7 +166,12 @@ export class JhiAlertErrorComponent implements OnDestroy {
     private addErrorAlert(rawMessage: string, key?: string | null, data?: unknown): void {
         key = key ? key : rawMessage;
         const message: string = this.translatePipe.transform(key, data);
-        this.toasterService.create({ text: message });
+        setTimeout(() => this.toasterService.create({
+            type: 'danger',
+            params: data,
+            timeout: 5000,
+            text: message,
+        }).subscribe());
     }
 
     private defaultErrorHandler(res: HttpErrorResponse | any): void {
