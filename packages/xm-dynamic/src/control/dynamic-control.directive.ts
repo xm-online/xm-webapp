@@ -7,13 +7,14 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output, Renderer2,
+    Output,
+    Renderer2,
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DynamicViewDirective, IComponent } from '../view/dynamic-view.directive';
 import { DynamicLoader } from '../loader/dynamic-loader';
+import { DynamicViewDirective, IComponent } from '../view/dynamic-view.directive';
 
 export interface IControl<V, O> extends IComponent<V, O>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
@@ -140,7 +141,7 @@ export class DynamicControlDirective<V, O>
     }
 
     protected updateRegisterOnChange(): void {
-        if (!this.instance) {
+        if (!this.instance || typeof this.instance.registerOnChange !== 'function') {
             return;
         }
         this.instance.registerOnChange((args) => {
