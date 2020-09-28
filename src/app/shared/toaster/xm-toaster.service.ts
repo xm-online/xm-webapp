@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarDismiss } from '@angular/material/snack-bar/snack-bar-ref';
 import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { JhiAlert } from 'ng-jhipster';
+import { JhiAlert, JhiAlertService } from 'ng-jhipster';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { XmPublicUiConfigService } from '../../../../packages/core/src/config/xm-public-ui-config.service';
 
 export interface ToasterConfig extends Partial<JhiAlert> {
     text?: Translate;
@@ -19,13 +22,18 @@ export interface ToasterConfig extends Partial<JhiAlert> {
     providedIn: 'root',
 })
 export class XmToasterService {
+    protected useMatSnackbars: boolean = false;
 
     constructor(protected translateService: XmTranslateService,
-                protected alertService: MatSnackBar) {
+                private userService: XmPublicUiConfigService<{ toaster: { handle: 'mat-snackbar' | 'jhi-alerts' } }>,
+                protected matSnackBar: MatSnackBar,
+                protected jhiAlertService: JhiAlertService) {
+        this.userService.config$()
+            .pipe(filter(u => u?.toaster?.handle === 'mat-snackbar'))
+            .subscribe(() => this.useMatSnackbars = true);
     }
 
     public create(params: ToasterConfig): Observable<ToasterConfig[]> {
-
         if (params.text) {
             params.msg = params.text as string;
         }
@@ -37,15 +45,12 @@ export class XmToasterService {
             params.msg = this.translateService.translate(params.msg, opts);
         }
 
-        const snackbar = this.alertService.open(params.msg, 'x', {
-            duration: 5000,
-            verticalPosition: 'top',
-            horizontalPosition: 'right',
-            panelClass: 'alert-' + params.type,
-        });
-
-        // TODO: hotfix: join ToasterConfig[] with MatSnackBarDismiss
-        return snackbar.afterDismissed() as any;
+        if (this.useMatSnackbars) {
+            // TODO: hotfix: join ToasterConfig[] with MatSnackBarDismiss
+            return this.matAlert(params) as any;
+        } else {
+            return this.jhiAlert(params);
+        }
     }
 
     /** @deprecated use create instead */
@@ -73,4 +78,31 @@ export class XmToasterService {
         this.create({ type: 'info', text, params, position }).subscribe();
     }
 
+    protected jhiAlert(params: ToasterConfig): Observable<JhiAlert[]> {
+        return new Observable((observer) => {
+
+            if (params.close) {
+                params.close = (args) => {
+                    params.close(args);
+                    observer.next(args);
+                    observer.complete();
+                };
+            } else {
+                params.close = close;
+            }
+
+            this.jhiAlertService.addAlert(params as JhiAlert, []);
+        });
+    }
+
+    protected matAlert(params: ToasterConfig): Observable<MatSnackBarDismiss> {
+        const snackbar = this.matSnackBar.open(params.msg, 'x', {
+            duration: 5000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+            panelClass: 'alert-' + params.type,
+        });
+
+        return snackbar.afterDismissed();
+    }
 }
