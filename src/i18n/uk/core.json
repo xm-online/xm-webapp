@@ -540,7 +540,11 @@
     "perPage": "елементів на сторінці",
     "rest-select-none-option": "Нічого",
     "rest-select-placeholder-noresults": "Нічого не знайдено",
-    "rest-select-placeholder-search": "",
+    "rest-select-placeholder-search": {
+      "prefix": "",
+      "simple": "Пошук",
+      "suffix": ""
+    },
     "rest-select-search-more": "Доступні ще результати. Уточніть пошуковий запит!",
     "ribbon": {
       "dev": "Розвиток"

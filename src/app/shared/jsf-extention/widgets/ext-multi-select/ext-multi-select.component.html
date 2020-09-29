@@ -1,17 +1,20 @@
 <div [class]="options?.htmlClass || ''">
   <mat-form-field>
     <mat-select [multiple]="true"
-                [placeholder]="options['title'] ? options['title'] : ''"
-                [(ngModel)]="elementMultiCtrl"
-                (selectionChange)="updateValue($event)"
-                [disabled]="options['readonly']"
-                #multiSelect>
-      <ngx-mat-select-search [formControl]="elementMultiFilterCtrl"
-                             placeholderLabel="{{'global.rest-select-placeholder-search.simple' | translate}}"
-                             noEntriesFoundLabel="{{'global.rest-select-placeholder-noresults' | translate}}"></ngx-mat-select-search>
+      [placeholder]="options['title'] ? options['title'] : ''"
+      [(ngModel)]="elementMultiCtrl"
+      (selectionChange)="updateValue($event)"
+      [disabled]="options['readonly']"
+      #multiSelect
+    >
+      <mat-option>
+        <ngx-mat-select-search [formControl]="elementMultiFilterCtrl"
+          placeholderLabel="{{'global.rest-select-placeholder-search.simple' | translate}}"
+          noEntriesFoundLabel="{{'global.rest-select-placeholder-noresults' | translate}}"
+        ></ngx-mat-select-search>
+      </mat-option>
       <mat-option disabled *ngIf="options?.placeholder">{{options?.placeholder | translate}}</mat-option>
-      <mat-option *ngFor="let element of filteredElementsMulti | async"
-                  [value]="element">
+      <mat-option *ngFor="let element of filteredElementsMulti | async" [value]="element">
         {{element.label}}
       </mat-option>
     </mat-select>

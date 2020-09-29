@@ -1,26 +1,30 @@
 <div [class]="options?.htmlClass || ''">
   <mat-form-field>
     <mat-icon class="deep-link"
-              [style.color]="selectLinkOptions?.iconColor"
-              [class.disabled]="!(elementCtrl && elementCtrl['object'] && elementCtrl['object'].id)"
-              [class.hidden]="!canSeeLink"
-              matSuffix
-              (click)="onNavigate($event)">
+      [style.color]="selectLinkOptions?.iconColor"
+      [class.disabled]="!(elementCtrl && elementCtrl['object'] && elementCtrl['object'].id)"
+      [class.hidden]="!canSeeLink"
+      matSuffix
+      (click)="onNavigate($event)"
+    >
       {{this.selectLinkOptions?.iconName}}
     </mat-icon>
     <mat-select [(ngModel)]="elementCtrl"
-                (selectionChange)="updateValue($event)"
-                [placeholder]="placeholder | async"
-                [disabled]="(disabled$ | async) || options['readonly']"
-                [required]="options?.required"
-                #singleSelect>
-      <ngx-mat-select-search [formControl]="elementFilterCtrl"
-                             placeholderLabel="{{'global.rest-select-placeholder-search.simple' | translate}}"
-                             noEntriesFoundLabel="{{'global.rest-select-placeholder-noresults' | translate}}"></ngx-mat-select-search>
+      (selectionChange)="updateValue($event)"
+      [placeholder]="placeholder | async"
+      [disabled]="(disabled$ | async) || options['readonly']"
+      [required]="options?.required"
+      #singleSelect
+    >
+      <mat-option>
+        <ngx-mat-select-search [formControl]="elementFilterCtrl"
+          placeholderLabel="{{'global.rest-select-placeholder-search.simple' | translate}}"
+          noEntriesFoundLabel="{{'global.rest-select-placeholder-noresults' | translate}}"
+        ></ngx-mat-select-search>
+      </mat-option>
       <mat-option disabled *ngIf="options?.placeholder">{{options?.placeholder | translate}}</mat-option>
       <mat-option [value]="{value: ''}">{{'global.rest-select-none-option' | translate}}</mat-option>
-      <mat-option *ngFor="let element of filteredElements | async"
-                  [value]="element">
+      <mat-option *ngFor="let element of filteredElements | async" [value]="element">
         {{element.label}}
       </mat-option>
     </mat-select>

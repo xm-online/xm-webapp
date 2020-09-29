@@ -5,11 +5,13 @@
     [disabled]="settings.readonly"
     [required]="layoutNode.options?.required"
   >
-    <ngx-mat-select-search
-      [formControl]="queryCtrl"
-      placeholderLabel="{{'global.rest-select-placeholder-search.prefix' | translate}} {{settings.minQueryLength + 1}} {{'global.rest-select-placeholder-search.suffix' | translate}}"
-      noEntriesFoundLabel="{{'global.rest-select-placeholder-noresults' | translate}}"
-    ></ngx-mat-select-search>
+    <mat-option>
+      <ngx-mat-select-search
+        [formControl]="queryCtrl"
+        placeholderLabel="{{'global.rest-select-placeholder-search.prefix' | translate}} {{settings.minQueryLength + 1}} {{'global.rest-select-placeholder-search.suffix' | translate}}"
+        noEntriesFoundLabel="{{'global.rest-select-placeholder-noresults' | translate}}"
+      ></ngx-mat-select-search>
+    </mat-option>
 
     <ng-container *ngIf="(options$ | async) as options; else emptyOption">
       <ng-container *ngIf="options.length; else emptyOption">

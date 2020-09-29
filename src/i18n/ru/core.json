@@ -540,7 +540,11 @@
     "perPage": "элементов на странице",
     "rest-select-none-option": "Ничего",
     "rest-select-placeholder-noresults": "Ничего не найдено",
-    "rest-select-placeholder-search": "",
+    "rest-select-placeholder-search": {
+      "prefix": "",
+      "simple": "Поиск",
+      "suffix": ""
+    },
     "rest-select-search-more": "Доступны еще результаты. Уточните поисковый запрос!",
     "ribbon": {
       "dev": "Development"
