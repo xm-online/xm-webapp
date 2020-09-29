@@ -126,6 +126,28 @@ export class AuthServerProvider {
         );
     }
 
+
+    public updateTokens(data: any, rememberMe: boolean = this.storeService.isRememberMe()): void{
+        this.storeAT(data, rememberMe);
+        this.storeRT(data, rememberMe);
+        this.sessionService.update();
+    }
+
+    public refreshToken(): Observable<any> {
+        const headers = {
+            Authorization: DEFAULT_AUTH_TOKEN,
+            'Content-Type': DEFAULT_CONTENT_TYPE,
+            Accept: 'application/json',
+        };
+
+        const body = new HttpParams()
+            .set('grant_type', 'refresh_token')
+            .set('refresh_token', this.getRefreshToken());
+
+        return this.http.post<any>(TOKEN_URL, body, { headers, observe: 'response' })
+            .pipe(map((resp) => resp.body));
+    }
+
     private getGuestAccessToken(): Observable<void> {
         const data = new HttpParams().set('grant_type', 'client_credentials');
         const headers = {
@@ -191,18 +213,8 @@ export class AuthServerProvider {
         }));
     }
 
-    private refreshTokens(rememberMe: boolean): void {
-        const headers = {
-            Authorization: DEFAULT_AUTH_TOKEN,
-            'Content-Type': DEFAULT_CONTENT_TYPE,
-            Accept: 'application/json',
-        };
-
-        const body = new HttpParams()
-            .set('grant_type', 'refresh_token')
-            .set('refresh_token', this.getRefreshToken());
-
-        this.http.post<any>(TOKEN_URL, body, { headers, observe: 'response' })
+    public refreshTokens(rememberMe: boolean = this.storeService.isRememberMe()): void {
+        this.refreshToken()
             .pipe(map((resp) => resp.body))
             .subscribe((data) => {
                 this.storeAT(data, rememberMe);
