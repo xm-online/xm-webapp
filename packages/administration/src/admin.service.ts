@@ -1,26 +1,28 @@
+import { HttpHeaders } from "@angular/common/http";
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
 
 import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { XmEventManager } from '@xm-ngx/core';
+import { Link } from '@xm-ngx/entity';
 import { XmToasterService } from '@xm-ngx/toaster';
+import * as _ from 'lodash';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
-import { Link } from '@xm-ngx/entity';
 
 @Injectable()
 export class BaseAdminListComponent implements OnInit, OnDestroy {
 
     public list: any[];
-    public page: any = 1;
-    public previousPage: any;
-    public reverse: any;
-    public predicate: any = 'id';
-    public itemsPerPage: any;
+    public page: number = 1;
+    public previousPage: number;
+    public reverse: boolean;
+    public predicate: string = 'id';
+    public itemsPerPage: number;
     public links: Link[];
-    public totalItems: any;
-    public queryCount: any;
+    public totalItems: number;
+    public queryCount: number;
     public eventModify: string;
     public navigateUrl: string;
     public basePredicate: string;
@@ -38,11 +40,11 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
-            this.itemsPerPage = data.pagingParams.size;
-            this.page = data.pagingParams.page;
-            this.previousPage = data.pagingParams.page;
-            this.reverse = data.pagingParams.ascending;
-            this.predicate = data.pagingParams.predicate;
+            this.itemsPerPage = data?.pagingParams?.size;
+            this.page = data?.pagingParams?.page;
+            this.previousPage = data?.pagingParams?.page;
+            this.reverse = data?.pagingParams?.ascending;
+            this.predicate = data?.pagingParams?.predicate;
         });
     }
 
@@ -99,11 +101,12 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         });
     }
 
-    public onSuccess(data: any, headers: any): any {
+    public onSuccess(data: Array<{id: number}>, headers: HttpHeaders): Array<{id: number}> {
+        const uniqueData = _.uniqBy(data, (e) => e.id);
         this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = headers.get('X-Total-Count');
+        this.totalItems = uniqueData.length;
         this.queryCount = this.totalItems;
-        return data;
+        return uniqueData;
     }
 
     public onError(error: any): void {
