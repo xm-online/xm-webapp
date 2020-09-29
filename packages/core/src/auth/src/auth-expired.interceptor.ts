@@ -16,18 +16,26 @@ export class AuthExpiredInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(tap({
             error: (err: any) => {
                 if (err instanceof HttpErrorResponse && err.status === 401) {
-                    const router: Router = this.injector.get(Router);
-                    const stripedPath = (router.parseUrl(router.url)
-                        .root?.children?.primary?.segments || [])
-                        .map((it) => it.path)
-                        .join('/');
-                    // When user is anonymous he get 401 when request account, and can't reset password
-                    if (stripedPath !== 'password/setup' && stripedPath !== 'reset/finish') {
-                        const loginService: LoginService = this.injector.get(LoginService);
-                        loginService.logout();
+                    if (!this.isPublicPage()) {
+                        this.logout();
                     }
                 }
             },
         }));
+    }
+
+    private logout(): Observable<void> {
+        const loginService: LoginService = this.injector.get(LoginService);
+        return loginService.logout$();
+    }
+
+    private isPublicPage(): boolean {
+        const router: Router = this.injector.get(Router);
+        const stripedPath = (router.parseUrl(router.url)
+            .root?.children?.primary?.segments || [])
+            .map((it) => it.path)
+            .join('/');
+        // When user is anonymous he get 401 when request account, and can't reset password
+        return (stripedPath === 'password/setup' || stripedPath === 'reset/finish');
     }
 }
