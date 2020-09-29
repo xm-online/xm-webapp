@@ -13,6 +13,7 @@ export class LinkService {
 
     private resourceUrl: string = SERVER_API_URL + 'entity/api/links';
     private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/links';
+    private resourceLinksSearch: string = SERVER_API_URL + 'entity/api/xm-entities';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
@@ -48,6 +49,19 @@ export class LinkService {
         const options = createRequestOption(req);
         return this.http.get<Link[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
             map((res: HttpResponse<Link[]>) => this.convertArrayResponse(res)));
+    }
+
+    public searchLinks(
+        entityTypeKey: string,
+        idOrKey: string | number,
+        linkTypeKey: string,
+        req?: any,
+    ): Observable<HttpResponse<Link[]>> {
+        const options = createRequestOption(req);
+        const api = `${this.resourceLinksSearch}/${entityTypeKey}/${idOrKey}/links/${linkTypeKey}/search`;
+
+        return this.http.get<Link[]>(api, { params: options, observe: 'response' })
+            .pipe(map((res: HttpResponse<Link[]>) => this.convertArrayResponse(res)));
     }
 
     private convertResponse(res: HttpResponse<Link>): HttpResponse<Link> {
