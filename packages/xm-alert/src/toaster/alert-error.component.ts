@@ -164,6 +164,9 @@ export class JhiAlertErrorComponent implements OnDestroy {
     }
 
     private addErrorAlert(rawMessage: string, key?: string | null, data?: unknown): void {
+        // TODO: At the BE exists 2 types of the errors with the error. and without,
+        //  it should be removed after the BE provides the error standard
+        key = key.startsWith('error.') ? key : 'error.' + key;
         key = key ? key : rawMessage;
         const message: string = this.translatePipe.transform(key, data);
         setTimeout(() => this.toasterService.create({
@@ -185,12 +188,12 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 const fieldName = this.translateService.instant(
                     `jhipsterSampleApplicationApp.${fieldError.objectName}.${convertedField}`,
                 );
-                this.addErrorAlert(null, `errors.${fieldError.message}`, { fieldName });
+                this.addErrorAlert(null, `${fieldError.message}`, { fieldName });
             }
         } else if (res?.error?.error && res?.error?.error_description) {
             this.addErrorAlert(
                 `errors.${res.error.error_description}`,
-                `errors.${res.error.error}`,
+                `${res.error.error}`,
                 res.error.params,
             );
         } else if (res?.error?.error && typeof res?.error?.error === 'string') {
