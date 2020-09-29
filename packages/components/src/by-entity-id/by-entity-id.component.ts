@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import {
     BY_ENTITY_ID_CELL_OPTIONS,
     ByEntityIdCellComponent,
@@ -26,7 +26,7 @@ const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
         </xm-text>
     `,
 })
-export class ByEntityIdComponent extends ByEntityIdCellComponent implements OnInit, OnChanges {
+export class ByEntityIdComponent extends ByEntityIdCellComponent implements OnChanges {
     @Input() public options: ByEntityIdOptions;
     @Input() public value: Id;
     public fieldValue: unknown;
@@ -36,13 +36,5 @@ export class ByEntityIdComponent extends ByEntityIdCellComponent implements OnIn
         protected factoryService: EntityCollectionFactoryService,
     ) {
         super(factoryService);
-    }
-
-    public ngOnChanges(): void {
-        super.ngOnChanges();
-    }
-
-    public ngOnInit(): void {
-        super.ngOnInit();
     }
 }

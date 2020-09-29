@@ -1,18 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, OnInit, Type } from '@angular/core';
+import { Component, Input, NgModule, OnChanges, Type } from '@angular/core';
 import { EntityCollectionFactoryService, Id } from '@xm-ngx/components/entity-collection';
 import { get } from 'lodash';
 import { clone } from 'lodash/fp';
 
 export interface ByEntityIdCellOptions {
-    fieldWithId: string;
     entityField: string;
     resourceUrl: string;
     styleInline: boolean;
 }
 
 export const BY_ENTITY_ID_CELL_OPTIONS: ByEntityIdCellOptions = {
-    fieldWithId: 'id',
     entityField: 'name',
     styleInline: false,
     resourceUrl: '/entity/api/xm-entities',
@@ -24,7 +22,7 @@ export const BY_ENTITY_ID_CELL_OPTIONS: ByEntityIdCellOptions = {
         <span>{{fieldValue}}</span>
     `,
 })
-export class ByEntityIdCellComponent implements OnInit, OnChanges {
+export class ByEntityIdCellComponent implements OnChanges {
 
     @Input() public options: ByEntityIdCellOptions;
     @Input() public value: Id;
@@ -40,16 +38,14 @@ export class ByEntityIdCellComponent implements OnInit, OnChanges {
         this.update();
     }
 
-    public ngOnInit(): void {
-        this.update();
-    }
-
     protected update(): void {
         if (this.value) {
             const resourceUrl = this.options?.resourceUrl || this.defaultOptions.resourceUrl;
             const collection = this.factoryService.create<unknown>(resourceUrl);
             collection.getById(this.value)
                 .subscribe((res) => this.fieldValue = get(res.body, this.options?.entityField || this.defaultOptions.entityField));
+        } else {
+            this.fieldValue = '';
         }
     }
 }

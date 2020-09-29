@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
 
 declare const $: any;
@@ -16,7 +16,6 @@ export class XmAlertComponent implements OnInit {
     @Input() public dismissible: boolean;
     @Input() public type: string;
     @Input() public message: string;
-    @Output() public close: EventEmitter<void> = new EventEmitter();
 
     constructor(config: NgbAlertConfig) {
         this.dismissible = config.dismissible;

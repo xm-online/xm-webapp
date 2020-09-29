@@ -14,7 +14,7 @@ export interface FeedbackConfig {
 @Component({
     selector: 'xm-feedback',
     template: `
-        <button *ngIf="config"
+        <button *ngIf="config.feedback?.url"
                 (click)="create(config.feedback.url)"
                 [matTooltip]="'dashboard-config-widget.feedback.tooltip' | translate"
                 mat-icon-button>
