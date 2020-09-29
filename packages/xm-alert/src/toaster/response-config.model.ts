@@ -60,6 +60,6 @@ export class ResponseConfigItem {
 }
 
 export interface ResponseContext {
-    response?: any;
+    response?: { status: string; error: any };
     request?: any;
 }
