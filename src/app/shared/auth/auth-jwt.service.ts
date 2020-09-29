@@ -5,6 +5,7 @@ import { XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { AuthRefreshTokenService } from '../../../../packages/core/src/auth/src/auth-refresh-token.service';
 import { XmAuthenticationStoreService } from '../../../../packages/core/src/auth/src/xm-authentication-store.service';
 
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../xm.constants';
@@ -12,22 +13,17 @@ import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
 
-const TOKEN_STORAGE_KEY = 'WALLET-TOKEN';
-
 const DEFAULT_HEADERS = {
     'Content-Type': DEFAULT_CONTENT_TYPE,
     Authorization: DEFAULT_AUTH_TOKEN,
 };
 
-const REFRESH_TOKEN = 'refresh_token';
-const ACCESS_TOKEN = 'access_token';
-
 const _TOKEN_URL = 'uaa/oauth/token';
 const _CONFIG_SETTINGS_API = 'config/api/profile/webapp/settings-public.yml?toJson';
-
-const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
-
+const TOKEN_STORAGE_KEY = 'WALLET-TOKEN';
 const WIDGET_DATA = 'widget:data';
+export const ACCESS_TOKEN = 'access_token';
+export const REFRESH_TOKEN = 'refresh_token';
 
 export const TOKEN_URL = _TOKEN_URL;
 export const CONFIG_SETTINGS_API = _CONFIG_SETTINGS_API;
@@ -35,13 +31,12 @@ export const CONFIG_SETTINGS_API = _CONFIG_SETTINGS_API;
 @Injectable({ providedIn: 'root' })
 export class AuthServerProvider {
 
-    private updateTokenTimer: any;
-
     constructor(
         private principal: Principal,
         private http: HttpClient,
         private sessionService: XmSessionService,
         private storeService: XmAuthenticationStoreService,
+        private refreshTokenService: AuthRefreshTokenService,
         private $sessionStorage: SessionStorageService,
         private stateStorageService: StateStorageService,
         private router: Router,
@@ -118,10 +113,9 @@ export class AuthServerProvider {
     public logout(): Observable<any> {
         return new Observable((observer) => {
             this.storeService.clear();
+            this.refreshTokenService.clear();
             this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
-            this.$sessionStorage.clear(EXPIRES_DATE_FIELD);
             this.$sessionStorage.clear(WIDGET_DATA);
-            clearTimeout(this.updateTokenTimer);
             observer.next();
             observer.complete();
         }).pipe(
@@ -160,14 +154,8 @@ export class AuthServerProvider {
     private storeRT(resp: any, rememberMe: boolean): void {
         const refreshToken = resp[REFRESH_TOKEN];
         if (refreshToken) {
-            const authenticationTokenexpiresDate = new Date().setSeconds(resp.expires_in);
-            this.$sessionStorage.store(EXPIRES_DATE_FIELD, authenticationTokenexpiresDate);
+            this.refreshTokenService.start(resp.expires_in, () => this.refreshTokens(rememberMe));
             this.storeRefreshToken(refreshToken, rememberMe);
-            let timeout = (resp.expires_in - 60) * 1000;
-            timeout = this.updateTimoutToMaxValue(timeout);
-            this.updateTokenTimer = setTimeout(() => {
-                this.refreshTokens(rememberMe);
-            }, timeout);
         } else {
             console.info('Expected to get %s but got undefined', REFRESH_TOKEN);
         }
@@ -232,32 +220,14 @@ export class AuthServerProvider {
     private setAutoRefreshTokens(rememberMe: boolean): void {
         if (this.getRefreshToken()) {
             this.sessionService.create();
-            const currentDate = new Date().setSeconds(0);
-            const expiresdate = this.$sessionStorage.retrieve(EXPIRES_DATE_FIELD);
-            if (currentDate < expiresdate) {
-                const expiresIn = (expiresdate - currentDate) / 1000 - 30;
-                let timeout = expiresIn * 1000;
-                timeout = this.updateTimoutToMaxValue(timeout);
-                this.updateTokenTimer = setTimeout(() => {
-                    if (this.getRefreshToken()) {
-                        this.refreshTokens(rememberMe);
-                    }
-                }, timeout);
-            } else {
-                this.refreshTokens(rememberMe);
-            }
+            this.refreshTokenService.start(null, () => {
+                if (this.getRefreshToken()) {
+                    this.refreshTokens(rememberMe);
+                }
+            });
         } else {
             // TODO: move to interceptor
             this.getGuestAccessToken().subscribe(() => this.sessionService.create({ active: false }));
         }
-    }
-
-    private updateTimoutToMaxValue(timeout: number): number {
-        const intMaxValue = Math.pow(2, 31) - 1;
-        // WARNING! setTimeout - timeout max 2^31-1 otherwise function will run immediately
-        if (timeout > intMaxValue) {
-            timeout = intMaxValue;
-        }
-        return timeout;
     }
 }
