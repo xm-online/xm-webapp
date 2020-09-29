@@ -558,7 +558,11 @@
     "perPage": "items per page",
     "rest-select-none-option": "None",
     "rest-select-placeholder-noresults": "No results found",
-    "rest-select-placeholder-search": "",
+    "rest-select-placeholder-search": {
+      "prefix": "",
+      "simple": "Search",
+      "suffix": ""
+    },
     "rest-select-search-more": "More results are available. Refine your search query!",
     "ribbon": {
       "dev": "Development"

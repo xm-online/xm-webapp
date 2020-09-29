@@ -55,12 +55,13 @@
               formControlName="countryKey"
               placeholder="{{'xm-entity.location-detail-dialog.choose-country' | translate}}"
             >
-              <ngx-mat-select-search
-                [formControl]="formCountrySearch"
-                [noEntriesFoundLabel]="'global.rest-select-placeholder-noresults' | translate"
-                [placeholderLabel]="'global.rest-select-placeholder-search' | translate"
-              ></ngx-mat-select-search>
-
+              <mat-option>
+                <ngx-mat-select-search
+                  [formControl]="formCountrySearch"
+                  [noEntriesFoundLabel]="'global.rest-select-placeholder-noresults' | translate"
+                  [placeholderLabel]="'global.rest-select-placeholder-search.simple' | translate"
+                ></ngx-mat-select-search>
+              </mat-option>
               <mat-option *ngFor="let option of filteredCountryOptions | async" [value]="option.key">
                 {{ option.name }}
               </mat-option>

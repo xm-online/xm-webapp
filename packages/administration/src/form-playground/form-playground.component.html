@@ -31,12 +31,13 @@
                   [(ngModel)]="selectedSpec"
                   placeholder="{{'xm-entity.states-management-dialog.choose-state' | translate}}"
                 >
-                  <ngx-mat-select-search
-                    [formControl]="formSpecSearch"
-                    [placeholderLabel]="'global.rest-select-placeholder-search' | translate"
-                    [noEntriesFoundLabel]="'global.rest-select-placeholder-noresults' | translate"
-                  ></ngx-mat-select-search>
-
+                  <mat-option>
+                    <ngx-mat-select-search
+                      [formControl]="formSpecSearch"
+                      [placeholderLabel]="'global.rest-select-placeholder-search.simple' | translate"
+                      [noEntriesFoundLabel]="'global.rest-select-placeholder-noresults' | translate"
+                    ></ngx-mat-select-search>
+                  </mat-option>
                   <mat-option *ngFor="let option of filteredSpecOptions$ | async" [value]="option.key">
                     {{ option.key }}
                   </mat-option>
