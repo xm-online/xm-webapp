@@ -2,9 +2,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
-import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
+import { SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { XmAuthenticationStoreService } from '../../../../packages/core/src/auth/src/xm-authentication-store.service';
 
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../xm.constants';
 import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
@@ -19,7 +20,6 @@ const DEFAULT_HEADERS = {
 };
 
 const REFRESH_TOKEN = 'refresh_token';
-const AUTH_TOKEN = 'authenticationToken';
 const ACCESS_TOKEN = 'access_token';
 
 const _TOKEN_URL = 'uaa/oauth/token';
@@ -41,7 +41,7 @@ export class AuthServerProvider {
         private principal: Principal,
         private http: HttpClient,
         private sessionService: XmSessionService,
-        private $localStorage: LocalStorageService,
+        private storeService: XmAuthenticationStoreService,
         private $sessionStorage: SessionStorageService,
         private stateStorageService: StateStorageService,
         private router: Router,
@@ -49,16 +49,16 @@ export class AuthServerProvider {
     }
 
     public init(): void {
-        const isRememberMe = this.$localStorage.retrieve(REFRESH_TOKEN) != null;
+        const isRememberMe = this.storeService.isRememberMe();
         this.setAutoRefreshTokens(isRememberMe);
     }
 
-    public getToken(): any {
-        return this.$localStorage.retrieve(AUTH_TOKEN) || this.$sessionStorage.retrieve(AUTH_TOKEN);
+    public getToken(): string {
+        return this.storeService.getAuthenticationToken();
     }
 
-    public getRefreshToken(): any {
-        return this.$localStorage.retrieve(REFRESH_TOKEN) || this.$sessionStorage.retrieve(REFRESH_TOKEN);
+    public getRefreshToken(): string {
+        return this.storeService.getRefreshToken();
     }
 
     public acceptTermsAndConditions(tocOneTimeToken: string): Observable<any> {
@@ -108,31 +108,17 @@ export class AuthServerProvider {
     }
 
     public storeAuthenticationToken(jwt: string, rememberMe: boolean): void {
-        if (rememberMe) {
-            this.$localStorage.store(AUTH_TOKEN, jwt);
-            this.$sessionStorage.store(AUTH_TOKEN, jwt);
-        } else {
-            this.$sessionStorage.store(AUTH_TOKEN, jwt);
-        }
+        this.storeService.storeAuthenticationToken(jwt, rememberMe);
     }
 
     public storeRefreshToken(jwt: string, rememberMe: boolean): void {
-        if (rememberMe) {
-            this.$localStorage.store(REFRESH_TOKEN, jwt);
-            this.$sessionStorage.store(REFRESH_TOKEN, jwt);
-        } else {
-            this.$sessionStorage.store(REFRESH_TOKEN, jwt);
-        }
+        this.storeService.storeRefreshToken(jwt, rememberMe);
     }
 
     public logout(): Observable<any> {
         return new Observable((observer) => {
-            this.$localStorage.clear(AUTH_TOKEN);
-            this.$sessionStorage.clear(AUTH_TOKEN);
-            this.$localStorage.clear(REFRESH_TOKEN);
-            this.$sessionStorage.clear(REFRESH_TOKEN);
+            this.storeService.clear();
             this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
-            this.$localStorage.clear(EXPIRES_DATE_FIELD);
             this.$sessionStorage.clear(EXPIRES_DATE_FIELD);
             this.$sessionStorage.clear(WIDGET_DATA);
             clearTimeout(this.updateTokenTimer);
