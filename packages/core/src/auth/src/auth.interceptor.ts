@@ -17,7 +17,7 @@ import { XmAuthenticationStoreService } from './xm-authentication-store.service'
 import { XmAuthenticationService } from './xm-authentication.service';
 
 @Injectable()
-export class AuthExpiredInterceptor implements HttpInterceptor {
+export class AuthInterceptor implements HttpInterceptor {
     private refreshInProgress: boolean = false;
     private refreshSubject: Subject<boolean> = new Subject<boolean>();
 
