@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { DynamicControlDirective } from './control/dynamic-control.directive';
+import { DynamicFormControlDirective } from './control/dynamic-form-control.directive';
 import { DYNAMIC_COMPONENTS } from './dynamic.injectors';
 import { DynamicComponents } from './dynamic.interfaces';
 import { DynamicLoader } from './loader/dynamic-loader';
@@ -24,6 +25,7 @@ export function dynamicModuleInitializer(components: DynamicComponents): Provide
         DynamicWidgetDirective,
         DynamicWidgetLayoutComponent,
         DynamicViewLayoutComponent,
+        DynamicFormControlDirective,
     ],
     declarations: [
         DynamicViewDirective,
@@ -31,6 +33,7 @@ export function dynamicModuleInitializer(components: DynamicComponents): Provide
         DynamicWidgetDirective,
         DynamicWidgetLayoutComponent,
         DynamicViewLayoutComponent,
+        DynamicFormControlDirective,
     ],
     providers: [],
 })
