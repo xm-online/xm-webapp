@@ -28,9 +28,9 @@
 
   </mat-card-content>
 
-  <button (click)="initPasswordReset()"
+  <button (click)="resetPassword()"
           [disabled]="pwdResetDisabled()"
-          mat-button>
+          mat-stroked-button>
     <span>{{'reset.request.form.button' | translate}}</span>
   </button>
 

@@ -68,7 +68,7 @@ export class UserMgmtDetailComponent implements OnInit, OnDestroy {
         this.location.back();
     }
 
-    public initPasswordReset(): void {
+    public resetPassword(): void {
         this.alertService.open({
             title: `Initiate password reset for ${this.userEmail}?`,
             showCancelButton: true,
@@ -76,9 +76,14 @@ export class UserMgmtDetailComponent implements OnInit, OnDestroy {
             confirmButtonClass: 'btn mat-button btn-primary',
             cancelButtonClass: 'btn mat-button',
             confirmButtonText: 'Yes, reset!',
-        }).subscribe((result) => result.value
-            ? this.pwsResetService.resetPassword(this.userEmail).subscribe()
-            : console.info('Cancel'));
+        }).subscribe((result) => {
+            if (result.value) {
+                this.pwsResetService.resetPasswordV2(
+                    this.user.logins[0].login,
+                    this.user.logins[0].typeKey,
+                ).subscribe();
+            }
+        });
     }
 
     public pwdResetDisabled(): boolean {

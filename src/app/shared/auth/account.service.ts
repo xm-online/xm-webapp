@@ -56,6 +56,10 @@ export class AccountService {
         return this.http.post('uaa/api/account/reset_password/init', mail);
     }
 
+    public resetPasswordV2(login: string, loginType: string): Observable<any> {
+        return this.http.post('uaa/api/account/reset_password/init', { login, loginType, resetType: 'EMAIL' });
+    }
+
     private convertResponse(res: HttpResponse<XmEntity>): HttpResponse<XmEntity> {
         const body: XmEntity = this.convertItemFromServer(res.body);
         return res.clone({body});
