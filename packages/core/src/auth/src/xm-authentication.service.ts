@@ -16,7 +16,7 @@ export class XmAuthenticationService {
     ) {
     }
 
-    public verifyRefreshToken(req: HttpRequest<any>): boolean {
+    public verifyRefreshToken(req: HttpRequest<unknown>): boolean {
         return req.url.endsWith(TOKEN_URL);
     }
 
@@ -24,7 +24,7 @@ export class XmAuthenticationService {
         return response.status === 401;
     }
 
-    public refreshToken(): Observable<any> {
+    public refreshToken(): Observable<unknown> {
         return this.serverProvider.refreshToken().pipe(
             tap((res) => this.serverProvider.updateTokens(res)),
             catchError(() => this.loginService.logout$()),

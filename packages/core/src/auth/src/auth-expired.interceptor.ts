@@ -9,8 +9,10 @@ import {
 import { Injectable, Injector } from '@angular/core';
 
 import { Router } from '@angular/router';
+import { XmCoreConfig } from '@xm-ngx/core';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, first, map, switchMap } from 'rxjs/operators';
+import { SERVER_API_URL } from '../../../../../src/app/xm.constants';
 import { XmAuthenticationStoreService } from './xm-authentication-store.service';
 import { XmAuthenticationService } from './xm-authentication.service';
 
@@ -54,7 +56,10 @@ export class AuthExpiredInterceptor implements HttpInterceptor {
 
     private skipRequest(req: HttpRequest<unknown>): boolean {
         const authService: XmAuthenticationService = this.injector.get(XmAuthenticationService);
-        return this.isPublicPage() || authService.verifyRefreshToken(req);
+        return this.isPublicPage()
+            || authService.verifyRefreshToken(req)
+            || this.isExternalUrl(req)
+            || this.isPublicConfig(req);
     }
 
     private responseError(
@@ -134,5 +139,14 @@ export class AuthExpiredInterceptor implements HttpInterceptor {
             .join('/');
         // When user is anonymous he get 401 when request account, and can't reset password
         return (stripedPath === 'password/setup' || stripedPath === 'reset/finish');
+    }
+
+    private isExternalUrl(req: HttpRequest<unknown>): boolean {
+        return (/^http/).test(req.url) && !(SERVER_API_URL && req.url.startsWith(SERVER_API_URL));
+    }
+
+    private isPublicConfig(req: HttpRequest<unknown>): boolean {
+        const coreConfig: XmCoreConfig = this.injector.get(XmCoreConfig);
+        return coreConfig.UI_PUBLIC_CONFIG_URL === req.url;
     }
 }
