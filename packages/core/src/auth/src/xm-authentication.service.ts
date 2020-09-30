@@ -1,7 +1,8 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { XmSessionService } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap, take } from 'rxjs/operators';
 import { AuthServerProvider, LoginService } from '../../../../../src/app/shared/auth';
 
 export const ERROR_CODE_UNAUTHORIZED = 401;
@@ -13,6 +14,7 @@ export class XmAuthenticationService {
     constructor(
         private loginService: LoginService,
         private serverProvider: AuthServerProvider,
+        private sessionService: XmSessionService,
     ) {
     }
 
@@ -25,7 +27,14 @@ export class XmAuthenticationService {
     }
 
     public refreshToken(): Observable<unknown> {
-        return this.serverProvider.refreshToken().pipe(
+        return this.sessionService.isActive().pipe(
+            take(1),
+            switchMap((active) => {
+                if (active) {
+                    return this.serverProvider.refreshToken();
+                }
+                return this.serverProvider.refreshGuestAccessToken();
+            }),
             tap((res) => this.serverProvider.updateTokens(res)),
             catchError(() => this.loginService.logout$()),
         );

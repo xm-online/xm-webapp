@@ -28,6 +28,15 @@ export const REFRESH_TOKEN = 'refresh_token';
 export const TOKEN_URL = _TOKEN_URL;
 export const CONFIG_SETTINGS_API = _CONFIG_SETTINGS_API;
 
+interface GuestTokenResponse {
+    access_token?: string;
+}
+
+interface AuthTokenResponse extends GuestTokenResponse {
+    refresh_token?: string;
+    expires_in?: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthServerProvider {
 
@@ -127,13 +136,15 @@ export class AuthServerProvider {
     }
 
 
-    public updateTokens(data: any, rememberMe: boolean = this.storeService.isRememberMe()): void{
+    public updateTokens(data: AuthTokenResponse, rememberMe: boolean = this.storeService.isRememberMe()): void {
         this.storeAT(data, rememberMe);
         this.storeRT(data, rememberMe);
-        this.sessionService.update();
+        if (data.refresh_token) {
+            this.sessionService.update();
+        }
     }
 
-    public refreshToken(): Observable<any> {
+    public refreshToken(): Observable<AuthTokenResponse> {
         const headers = {
             Authorization: DEFAULT_AUTH_TOKEN,
             'Content-Type': DEFAULT_CONTENT_TYPE,
@@ -144,28 +155,45 @@ export class AuthServerProvider {
             .set('grant_type', 'refresh_token')
             .set('refresh_token', this.getRefreshToken());
 
-        return this.http.post<any>(TOKEN_URL, body, { headers, observe: 'response' })
-            .pipe(map((resp) => resp.body));
+        return this.http.post<AuthTokenResponse>(TOKEN_URL, body, { headers });
     }
 
-    private getGuestAccessToken(): Observable<void> {
+    public refreshGuestAccessToken(): Observable<GuestTokenResponse> {
         const data = new HttpParams().set('grant_type', 'client_credentials');
         const headers = {
             'Content-Type': DEFAULT_CONTENT_TYPE,
             Authorization: DEFAULT_AUTH_TOKEN,
         };
-        return this.http.post<{ access_token: string }>(
+        return this.http.post<GuestTokenResponse>(
             'uaa/oauth/token',
             data,
-            { headers, observe: 'response' },
-        ).pipe(
-            map((resp) => {
-                this.loginWithToken(resp.body.access_token, false);
+            { headers },
+        );
+    }
+
+    public refreshTokens(rememberMe: boolean = this.storeService.isRememberMe()): void {
+        this.refreshToken().subscribe((data) => {
+            this.storeAT(data, rememberMe);
+            this.storeRT(data, rememberMe);
+            this.sessionService.update();
+        }, (error) => {
+            console.info('Refresh token fails: %o', error);
+            this.logout().subscribe();
+            this.principal.logout();
+            this.router.navigate(['']);
+            this.sessionService.clear();
+        });
+    }
+
+    private getGuestAccessToken(): Observable<void> {
+        return this.refreshGuestAccessToken().pipe(
+            map((res) => {
+                this.loginWithToken(res.access_token, false);
             }),
         );
     }
 
-    private storeAT(resp: any, rememberMe: boolean): string {
+    private storeAT(resp: AuthTokenResponse, rememberMe: boolean): string {
         const accessToken = resp[ACCESS_TOKEN];
         if (accessToken) {
             this.storeAuthenticationToken(accessToken, rememberMe);
@@ -173,13 +201,11 @@ export class AuthServerProvider {
         return accessToken;
     }
 
-    private storeRT(resp: any, rememberMe: boolean): void {
+    private storeRT(resp: AuthTokenResponse, rememberMe: boolean): void {
         const refreshToken = resp[REFRESH_TOKEN];
         if (refreshToken) {
             this.refreshTokenService.start(resp.expires_in, () => this.refreshTokens(rememberMe));
             this.storeRefreshToken(refreshToken, rememberMe);
-        } else {
-            console.info('Expected to get %s but got undefined', REFRESH_TOKEN);
         }
     }
 
@@ -211,22 +237,6 @@ export class AuthServerProvider {
 
             return accessToken;
         }));
-    }
-
-    public refreshTokens(rememberMe: boolean = this.storeService.isRememberMe()): void {
-        this.refreshToken()
-            .pipe(map((resp) => resp.body))
-            .subscribe((data) => {
-                this.storeAT(data, rememberMe);
-                this.storeRT(data, rememberMe);
-                this.sessionService.update();
-            }, (error) => {
-                console.info('Refresh token fails: %o', error);
-                this.logout().subscribe();
-                this.principal.logout();
-                this.router.navigate(['']);
-                this.sessionService.clear();
-            });
     }
 
     private setAutoRefreshTokens(rememberMe: boolean): void {
