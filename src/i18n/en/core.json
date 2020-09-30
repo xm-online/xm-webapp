@@ -1093,6 +1093,7 @@
       "save": "Save",
       "search": "Search",
       "validation": {
+        "coordinates": "This field does not match the format of latitude and longitude.",
         "date-time": "This field should be a date and time.",
         "pattern": "This field does not match the rules",
         "required": "This field is required."
