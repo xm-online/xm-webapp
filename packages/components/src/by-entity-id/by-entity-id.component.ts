@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {
     BY_ENTITY_ID_CELL_OPTIONS,
     ByEntityIdCellComponent,
@@ -14,7 +14,7 @@ interface ByEntityIdOptions extends ByEntityIdCellOptions {
 
 const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
     title: '',
-    ...BY_ENTITY_ID_CELL_OPTIONS
+    ...BY_ENTITY_ID_CELL_OPTIONS,
 };
 
 @Component({
@@ -26,7 +26,7 @@ const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
         </xm-text>
     `,
 })
-export class ByEntityIdComponent extends ByEntityIdCellComponent implements OnChanges {
+export class ByEntityIdComponent extends ByEntityIdCellComponent implements OnInit, OnChanges {
     @Input() public options: ByEntityIdOptions;
     @Input() public value: Id;
     public fieldValue: unknown;
