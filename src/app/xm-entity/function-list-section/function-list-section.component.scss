@@ -1,11 +1,3 @@
-.limetedWidth {
-    max-width: 160px;
-
-    @media screen and (max-width: 420px) {
-        max-width: 100%;
-    }
-}
-
 .no-wrap {
     white-space:   nowrap;
     max-width:     100%;
