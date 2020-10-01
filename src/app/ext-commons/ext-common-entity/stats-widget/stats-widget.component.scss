@@ -8,10 +8,6 @@ $stat-card-mesure-unit: 20px;
   min-height:    100%;
   margin-bottom: $stat-card-mesure-unit * 2;
 
-  mat-divider {
-    bottom: $stat-card-mesure-unit;
-  }
-
   .card-header {
     margin:   0 $stat-card-mesure-unit / 2;
     padding:  0;
