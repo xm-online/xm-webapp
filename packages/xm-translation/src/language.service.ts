@@ -5,7 +5,7 @@ import { OnInitialize } from '@xm-ngx/shared/interfaces/on-initialize';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { SessionStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 
 import { getBrowserLocale } from './getBrowserLocale';
 import { LANGUAGES } from './language.constants';
@@ -125,9 +125,23 @@ export class LanguageService implements OnDestroy, OnInitialize {
     }
 
     public init(): void {
-        const locale = this.locale;
-        this.translate.setDefaultLang(locale);
-        this.update(locale);
+        if (!this.getSessionLocale()) {
+            this.configService.config$()
+                .pipe(
+                    filter((c) => Boolean(c)),
+                    first(),
+                )
+                .subscribe((c) => {
+                    const locale = c && c.langs && c.langs[0] ? c.langs[0] : null;
+                    this.translate.setDefaultLang(locale);
+                    this.update(locale);
+                });
+        } else {
+            const locale = this.locale;
+            this.translate.setDefaultLang(locale);
+            this.update(locale);
+        }
+
     }
 
     protected update(locale: string): void {
