@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
         <button *ngIf="!(isSessionActive$ | async)"
                 mat-icon-button
                 [matMenuTriggerFor]="menu"
+                [matTooltip]="'xm-navbar-language-menu.choose-language' | translate"
                 [attr.aria-label]="'xm-navbar-language-menu.choose-language' | translate">
             <mat-icon>language</mat-icon>
         </button>

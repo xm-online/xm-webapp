@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { LanguageModule } from '@xm-ngx/components/language';
 import { NavbarGuestBackgroundModule } from '@xm-ngx/components/navbar-guest-background/navbar-guest-background.module';
@@ -22,20 +23,21 @@ import { XmNavbarToggleComponent } from './toggle/xm-navbar-toggle.component';
 
 
 @NgModule({
-    imports: [
-        MatIconModule,
-        MatButtonModule,
-        RouterModule,
-        CommonModule,
-        InputModule,
-        XmTranslationModule,
-        XmDynamicModule,
-        XmNotificationsModule,
-        LanguageModule,
-        MatMenuModule,
-        NavbarGuestBackgroundModule,
-        MatInputModule,
-    ],
+  imports: [
+    MatIconModule,
+    MatButtonModule,
+    RouterModule,
+    CommonModule,
+    InputModule,
+    XmTranslationModule,
+    XmDynamicModule,
+    XmNotificationsModule,
+    LanguageModule,
+    MatMenuModule,
+    NavbarGuestBackgroundModule,
+    MatInputModule,
+    MatTooltipModule,
+  ],
     exports: [NavbarComponent],
     declarations: [
         NavbarComponent,
