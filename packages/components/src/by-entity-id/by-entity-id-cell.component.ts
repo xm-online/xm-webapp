@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, Type } from '@angular/core';
+import { Component, Input, NgModule, OnChanges, OnInit, Type } from '@angular/core';
 import { EntityCollectionFactoryService, Id } from '@xm-ngx/components/entity-collection';
 import { get } from 'lodash';
 import { clone } from 'lodash/fp';
@@ -22,7 +22,7 @@ export const BY_ENTITY_ID_CELL_OPTIONS: ByEntityIdCellOptions = {
         <span>{{fieldValue}}</span>
     `,
 })
-export class ByEntityIdCellComponent implements OnChanges {
+export class ByEntityIdCellComponent implements OnInit, OnChanges {
 
     @Input() public options: ByEntityIdCellOptions;
     @Input() public value: Id;
@@ -35,6 +35,10 @@ export class ByEntityIdCellComponent implements OnChanges {
     }
 
     public ngOnChanges(): void {
+        this.update();
+    }
+
+    public ngOnInit(): void {
         this.update();
     }
 
