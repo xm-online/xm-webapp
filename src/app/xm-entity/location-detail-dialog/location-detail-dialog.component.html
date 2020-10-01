@@ -27,6 +27,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <mat-select
+              required
               formControlName="typeKey"
               placeholder="{{'xm-entity.location-detail-dialog.choose-type' | translate}}"
             >
@@ -34,6 +35,9 @@
                 {{(locationSpec.name | translate | uppercase)}}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="form.controls['typeKey'].hasError('required')">
+              <span>{{'xm-entity.common.validation.required' | translate}}</span>
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-md-6">
@@ -41,9 +45,13 @@
             <input
               formControlName="name"
               matInput
+              required
               placeholder="{{'xm-entity.common.fields.name' | translate}}"
               type="text"
             >
+            <mat-error *ngIf="form.controls['name'].hasError('required')">
+              <span>{{'xm-entity.common.validation.required' | translate}}</span>
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -52,6 +60,7 @@
         <div class="col-md-6">
           <mat-form-field>
             <mat-select
+              required
               formControlName="countryKey"
               placeholder="{{'xm-entity.location-detail-dialog.choose-country' | translate}}"
             >
@@ -66,6 +75,9 @@
                 {{ option.name }}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="form.controls['countryKey'].hasError('required')">
+              <span>{{'xm-entity.common.validation.required' | translate}}</span>
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-md-6">
@@ -132,9 +144,16 @@
             <input
               formControlName="latitude"
               matInput
+              required
               placeholder="{{'xm-entity.common.fields.latitude' | translate}}"
               type="text"
             >
+            <mat-error *ngIf="form.controls['latitude'].hasError('required')">
+              <span>{{'xm-entity.common.validation.required' | translate}}</span>
+            </mat-error>
+            <mat-error *ngIf="form.controls['latitude'].hasError('pattern')">
+              <span>{{'xm-entity.common.validation.coordinates' | translate}}</span>
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-md">
@@ -142,9 +161,16 @@
             <input
               formControlName="longitude"
               matInput
+              required
               placeholder="{{'xm-entity.common.fields.longitude' | translate}}"
               type="text"
             >
+            <mat-error *ngIf="form.controls['longitude'].hasError('required')">
+              <span>{{'xm-entity.common.validation.required' | translate}}</span>
+            </mat-error>
+            <mat-error *ngIf="form.controls['longitude'].hasError('pattern')">
+              <span>{{'xm-entity.common.validation.coordinates' | translate}}</span>
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-md-auto">
