@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable, of } from 'rxjs';
 import { filter, first, map, switchMap } from 'rxjs/operators';
-import { XmUser, XmUserPermission } from '../auth/src/xm-user-model';
-import { XmUserService } from '../auth/src/xm-user.service';
+import { XmUser, XmUserPermission } from '../../auth/src/xm-user-model';
+import { XmUserService } from '../../auth/src/xm-user.service';
 
 export const SUPER_ADMIN = 'SUPER-ADMIN';
 
