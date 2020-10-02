@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { catchError, switchMap, tap, take } from 'rxjs/operators';
-import { AuthServerProvider, LoginService } from '../../../../../src/app/shared/auth';
+import { AuthServerProvider, LoginService } from '../../../../src/app/shared/auth';
 
 export const ERROR_CODE_UNAUTHORIZED = 401;
 export const TOKEN_URL = 'uaa/oauth/token';

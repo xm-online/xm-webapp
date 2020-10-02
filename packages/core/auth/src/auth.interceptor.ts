@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import { XmCoreConfig } from '@xm-ngx/core';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, first, map, switchMap } from 'rxjs/operators';
-import { SERVER_API_URL } from '../../../../../src/app/xm.constants';
+import { SERVER_API_URL } from '../../../../src/app/xm.constants';
 import { XmAuthenticationStoreService } from './xm-authentication-store.service';
 import { XmAuthenticationService } from './xm-authentication.service';
 
