@@ -4,9 +4,7 @@ import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 export const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
 export const DEFAULT_TIMEOUT = Math.pow(2, 31) - 1;
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class AuthRefreshTokenService implements OnDestroy {
 
     private defaultTimeout: number = DEFAULT_TIMEOUT;

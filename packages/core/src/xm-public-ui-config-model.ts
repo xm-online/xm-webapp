@@ -1,3 +1,4 @@
+// TODO: sync with widget
 interface IWidget<C = any, S = any> {
     selector: string;
     module?: string;
@@ -53,12 +54,3 @@ export interface UIPublicConfig {
     };
     defaultLayout?: ILayout[];
 }
-
-export interface UIPrivateConfig {
-    favicon?: string;
-}
-
-interface IUIConfig extends UIPublicConfig, UIPrivateConfig {
-}
-
-export type XmUIConfig = IUIConfig | any;

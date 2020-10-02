@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import {
+    RequestCache,
+    RequestCacheFactoryService,
+    SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS,
+    XmCoreConfig,
+    XmSessionService,
+} from '@xm-ngx/core';
 import { Observable } from 'rxjs';
-import { RequestCache } from '../../src/cache/request-cache';
-import { RequestCacheFactoryService } from '../../src/cache/request-cache-factory.service';
-import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS } from '../../src/error-handler.interceptor';
-import { XmCoreConfig } from '../../src/xm-core-config';
-import { XmSessionService } from '../../src/xm-session.service';
 import { XmUser } from './xm-user-model';
 
 @Injectable({

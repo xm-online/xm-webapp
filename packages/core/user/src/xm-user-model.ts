@@ -1,3 +1,4 @@
+// TODO: move to entity
 type Id = string | number;
 
 export interface XmUserLogin {

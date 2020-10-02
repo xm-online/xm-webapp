@@ -1,10 +1,15 @@
-export * from './src/error-handler.interceptor';
-
+export {
+    SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS,
+    ErrorHandlerEventName,
+    ErrorHandlerEventPayload,
+    ErrorHandlerInterceptor,
+    SKIP_ERROR_HANDLER_INTERCEPTOR_HEADER_KEY,
+} from './src/error-handler.interceptor';
 export { XmEventManagerService as XmEventManager } from './src/xm-event-manager.service';
 export { RequestCacheFactoryService } from './src/cache/request-cache-factory.service';
 export { RequestCache } from './src/cache/request-cache';
+export { XmPublicUiConfigService } from './src/xm-public-ui-config.service';
+export { UIPublicConfig } from './src/xm-public-ui-config-model';
 export { XmSessionService, ISession } from './src/xm-session.service';
 export { XmCoreModule } from './src/xm-core.module';
-export { XmUiConfigService } from './src/config/xm-ui-config.service';
-export { XmUIConfig } from './src/config/xm-ui-config-model';
-export * from './src/xm-core-config';
+export { XM_CORE_EXTERNAL_CONFIG, XmCoreConfig } from './src/xm-core-config';

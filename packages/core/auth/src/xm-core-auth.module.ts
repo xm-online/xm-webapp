@@ -1,14 +1,11 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injector, ModuleWithProviders, NgModule } from '@angular/core';
-import { XmUserService } from './xm-user.service';
+import { AuthRefreshTokenService } from './auth-refresh-token.service';
 import { AuthInterceptor } from './auth.interceptor';
+import { XmAuthenticationStoreService } from './xm-authentication-store.service';
+import { XmAuthenticationService } from './xm-authentication.service';
 
-@NgModule({
-    imports: [],
-    exports: [],
-    declarations: [],
-    providers: [],
-})
+@NgModule()
 export class XmCoreAuthModule {
     public static forRoot(): ModuleWithProviders<XmCoreAuthModule> {
         return {
@@ -19,7 +16,9 @@ export class XmCoreAuthModule {
                     multi: true,
                     deps: [Injector],
                 },
-                XmUserService,
+                AuthRefreshTokenService,
+                XmAuthenticationService,
+                XmAuthenticationStoreService,
             ],
             ngModule: XmCoreAuthModule,
         };
