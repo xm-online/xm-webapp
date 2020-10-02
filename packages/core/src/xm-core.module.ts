@@ -4,9 +4,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { defaults } from 'lodash';
 import { JhiEventManager } from 'ng-jhipster';
 import { ErrorHandlerInterceptor } from './error-handler.interceptor';
-import { XmPermissionService } from './permission/xm-permission.service';
 import { XmEventManagerService as XmEventManager } from './xm-event-manager.service';
-import { XmUiConfigService } from './config/xm-ui-config.service';
 import { XM_CORE_EXTERNAL_CONFIG, XmCoreConfig } from './xm-core-config';
 import { XmEventManagerService } from './xm-event-manager.service';
 
@@ -27,8 +25,6 @@ export class XmCoreModule {
                 XmEventManagerService,
                 {provide: JhiEventManager, useExisting: XmEventManagerService},
                 XmSessionService,
-                XmUiConfigService,
-                XmPermissionService,
                 {provide: XM_CORE_EXTERNAL_CONFIG, useValue: externalConfig},
                 {provide: XmCoreConfig, useFactory: xmCoreConfigFactory, deps: [XM_CORE_EXTERNAL_CONFIG]},
                 {

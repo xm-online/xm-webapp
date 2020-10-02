@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
+import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmPrivateUiConfigService } from './xm-private-ui-config.service';
-import { XmPublicUiConfigService } from './xm-public-ui-config.service';
 
 import { XmUIConfig } from './xm-ui-config-model';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class XmUiConfigService<T extends XmUIConfig = XmUIConfig> {
 
     constructor(private privateUiConfigService: XmPrivateUiConfigService,

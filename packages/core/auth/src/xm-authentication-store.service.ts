@@ -4,7 +4,7 @@ import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 export const REFRESH_TOKEN = 'refresh_token';
 export const AUTH_TOKEN = 'authenticationToken';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class XmAuthenticationStoreService {
 
     constructor(

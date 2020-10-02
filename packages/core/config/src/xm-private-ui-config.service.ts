@@ -1,16 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import { RequestCache, RequestCacheFactoryService, XmCoreConfig } from '@xm-ngx/core';
+import { XmPermissionService } from '@xm-ngx/core/permisson';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { RequestCache } from '../cache/request-cache';
-import { RequestCacheFactoryService } from '../cache/request-cache-factory.service';
-import { XmPermissionService } from '../permission/xm-permission.service';
-import { XmCoreConfig } from '../xm-core-config';
 import { UIPrivateConfig } from './xm-ui-config-model';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class XmPrivateUiConfigService<T = UIPrivateConfig> implements OnDestroy {
     public readonly UI_PRIVATE_CONFIG_URL: string;
     public readonly UI_PRIVATE_CONFIG_PERMISSION: string;

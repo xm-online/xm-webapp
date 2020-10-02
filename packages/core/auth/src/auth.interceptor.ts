@@ -7,12 +7,11 @@ import {
     HttpRequest,
 } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-
 import { Router } from '@angular/router';
 import { XmCoreConfig } from '@xm-ngx/core';
 import { Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, first, map, switchMap } from 'rxjs/operators';
-import { SERVER_API_URL } from '../../../../src/app/xm.constants';
+
 import { XmAuthenticationStoreService } from './xm-authentication-store.service';
 import { XmAuthenticationService } from './xm-authentication.service';
 
@@ -142,7 +141,8 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     private isExternalUrl(req: HttpRequest<unknown>): boolean {
-        return (/^http/).test(req.url) && !(SERVER_API_URL && req.url.startsWith(SERVER_API_URL));
+        const coreConfig: XmCoreConfig = this.injector.get(XmCoreConfig);
+        return (/^http/).test(req.url) && !(coreConfig.SERVER_API_URL && req.url.startsWith(coreConfig.SERVER_API_URL));
     }
 
     private isPublicConfig(req: HttpRequest<unknown>): boolean {
