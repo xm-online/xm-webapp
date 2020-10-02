@@ -51,7 +51,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ],
     providers: [
         themeInitializerFactory(),
-        proxyInterceptorFactory({ url: environment.serverApiUrl, excludedUrls: ['http', 'i18n', 'assets'] }),
+        proxyInterceptorFactory({ url: environment.serverApiUrl, excludedUrls: ['http', 'i18n', 'assets', 'docs'] }),
         XmApplicationConfigService,
         UserRouteAccessService,
         CookieService,

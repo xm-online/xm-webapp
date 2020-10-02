@@ -19,6 +19,7 @@
             "assets": [
               "src/manifest.webmanifest",
               "src/assets",
+              "src/docs",
               "src/i18n",
               "src/swagger-ui",
               "src/robots.txt"
@@ -178,6 +179,7 @@
             "assets": [
               "src/manifest.webmanifest",
               "src/assets",
+              "src/docs",
               "src/i18n",
               "src/swagger-ui",
               "src/robots.txt"

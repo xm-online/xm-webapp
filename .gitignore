@@ -3,6 +3,7 @@
 
 node_modules/
 dist/
+etc/
 !src/swagger-ui/dist/
 out-tsc/
 .DS_Store
