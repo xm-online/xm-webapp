@@ -140,6 +140,10 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/links-group-widget').then(m => m.LinksGroupWidgetModule),
     },
     {
+        selector: '@xm-ngx/components/docs-view',
+        loadChildren: () => import('@xm-ngx/components/docs-view').then(m => m.DocsViewModule),
+    },
+    {
         selector: '@xm-ngx/components/links-group-button-widget',
         loadChildren: () => import('@xm-ngx/components/links-group-widget').then(m => m.LinksGroupButtonWidgetModule),
     },
