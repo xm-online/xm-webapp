@@ -5,14 +5,17 @@
 
 @mixin xm-button-group($theme) {
   .xm-button-group {
+    font-size: 0;
+
     > button {
       border-radius:  0;
-      font-weight:    300;
+      font-weight:    400;
+      font-size:      $xm-font-size-md;
       text-transform: uppercase;
       min-width:      20px;
 
       &.size-sm {
-        font-size:   12px;
+        font-size:   $xm-font-size-sm;
         line-height: 28px;
         height:      28px;
         padding:     0 10px;
