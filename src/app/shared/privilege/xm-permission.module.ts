@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
-import { PermissionDirective } from '../../../../packages/core/src/permission/permission.directive';
+import { XmPermissionModule as XmPermissionModuleV2 } from '../../../../packages/core/permisson/src/xm-permission.module';
 import { PermitDirective } from './privilege.directive';
 import { XmPrivilegeDirective } from './xmPrivilege.directive';
 
 @NgModule({
-    declarations: [PermissionDirective, PermitDirective, XmPrivilegeDirective],
-    exports: [PermissionDirective, PermitDirective, XmPrivilegeDirective],
+    declarations: [PermitDirective, XmPrivilegeDirective],
+    exports: [XmPermissionModuleV2, PermitDirective, XmPrivilegeDirective],
     imports: [
+        XmPermissionModuleV2,
         CommonModule,
     ],
 })

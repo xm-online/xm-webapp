@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
+import { XmSessionService } from '@xm-ngx/core';
+import { XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { iif, Observable, of } from 'rxjs';

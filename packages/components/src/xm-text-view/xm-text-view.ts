@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
-import { Primitive } from '@xm-ngx/shared/interfaces/primitive';
+import { Primitive } from '@xm-ngx/shared/interfaces';
 import { XmTextComponent } from './xm-text-component';
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';

@@ -1,5 +1,5 @@
 import { Directive, EmbeddedViewRef, Input, OnChanges, TemplateRef, ViewContainerRef } from '@angular/core';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces/javascript-code';
+import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { keys, values } from 'lodash';
 
 @Directive({

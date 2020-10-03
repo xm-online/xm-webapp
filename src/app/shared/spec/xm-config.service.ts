@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { XmUiConfigService } from '@xm-ngx/core';
+import { XmUiConfigService } from '@xm-ngx/core/config';
 
 @Injectable()
 export class XmApplicationConfigService<T = unknown> implements OnDestroy {

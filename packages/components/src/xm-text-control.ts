@@ -16,7 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
 import { NgControlAccessor } from '@xm-ngx/components/ng-control-accessor';
 import { IControl, IControlFn } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces/primitive';
+import { Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
 import { XM_CONTROL_ERRORS_TRANSLATES } from "@xm-ngx/components/control-error";

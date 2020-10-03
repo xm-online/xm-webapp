@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { XmUser } from '@xm-ngx/core';
+import { XmUser } from '@xm-ngx/core/user';
 import { Translate } from '@xm-ngx/translation';
 import { get } from 'lodash';
 

@@ -5,8 +5,8 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 import * as _ from 'lodash';
 import { Observable, zip } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
-import { XmPublicUiConfigService } from '../../../packages/core/src/config/xm-public-ui-config.service';
-import { Layout } from '../../../packages/xm-dynamic/src/layout.model';
+import { XmPublicUiConfigService } from '@xm-ngx/core';
+import { Layout } from '@xm-ngx/dynamic';
 
 interface PublicSlugLayout {
     slug: string;

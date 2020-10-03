@@ -2,7 +2,7 @@ import { APP_INITIALIZER, Injectable, Provider, StaticProvider } from '@angular/
 import { MaintenanceService } from '@xm-ngx/components/maintenance';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
-import { XmPublicUiConfigService } from '../../core/src/config/xm-public-ui-config.service';
+import { XmPublicUiConfigService } from '../../core/src/xm-public-ui-config.service';
 import { ThemeOptions, XmThemeService } from './xm-theme.service';
 
 export function themeInitializer(

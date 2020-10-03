@@ -4,14 +4,14 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Dashboard, DashboardWrapperService } from '@xm-ngx/dashboard';
 import { XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { transpilingForIE } from '@xm-ngx/json-scheme-form';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces/javascript-code';
+import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { combineLatest, from, Observable } from 'rxjs';
 import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 
 import { ContextService, Principal } from '../../../../src/app/shared';
-import { XmPublicUiConfigService } from '../../../core/src/config/xm-public-ui-config.service';
+import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { DEFAULT_MENU_LIST } from './menu-const';
 import { MenuCategory, MenuItem } from './menu-models';
 

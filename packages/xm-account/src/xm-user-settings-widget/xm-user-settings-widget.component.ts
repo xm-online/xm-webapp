@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { XmUser } from '@xm-ngx/core';
+import { XmUser } from '@xm-ngx/core/user';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { LanguageService, Locale, TitleService } from '@xm-ngx/translation';
 import * as _ from 'lodash';

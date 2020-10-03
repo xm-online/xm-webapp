@@ -4,7 +4,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { OnInitialize } from '@xm-ngx/shared/interfaces/on-initialize';
+import { OnInitialize } from '@xm-ngx/shared/interfaces';
 
 import { LanguageService, Translate } from './language.service';
 

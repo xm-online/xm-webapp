@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { IId } from '@xm-ngx/components/entity-collection';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces/javascript-code';
+import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 
 export interface XmMatCardOptions {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { XmUiConfigService } from '@xm-ngx/core';
+import { XmUiConfigService } from '@xm-ngx/core/config';
 import * as _ from 'lodash';
 import { Observable, zip } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';

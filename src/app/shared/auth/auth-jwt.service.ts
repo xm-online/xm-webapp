@@ -5,9 +5,7 @@ import { XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { AuthRefreshTokenService } from './auth-refresh-token.service';
-import { XmAuthenticationStoreService } from './xm-authentication-store.service';
-
+import { AuthRefreshTokenService, XmAuthenticationStoreService } from '../../../../packages/core/auth';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../xm.constants';
 import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
 import { Principal } from './principal.service';

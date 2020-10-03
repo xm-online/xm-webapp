@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { RequestCache, RequestCacheFactoryService, XmCoreConfig } from '@xm-ngx/core';
-import { XmPermissionService } from '@xm-ngx/core/permisson';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
+import { XmPermissionService } from '../../permisson';
 import { UIPrivateConfig } from './xm-ui-config-model';
 
 @Injectable()

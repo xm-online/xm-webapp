@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, NgModule, OnInit, Type } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ISession, XmSessionService, XmUIConfig, XmUiConfigService } from '@xm-ngx/core';
+import { ISession, XmSessionService } from '@xm-ngx/core';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
