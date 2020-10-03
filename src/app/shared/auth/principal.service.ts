@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { XmSessionService, XmUserService } from '@xm-ngx/core';
-import { OnInitialize } from '@xm-ngx/shared/interfaces/on-initialize';
+import { XmSessionService } from '@xm-ngx/core';
+import { XmUserService } from '@xm-ngx/core/user';
+import { OnInitialize } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { LanguageService } from '@xm-ngx/translation';

@@ -1,3 +1,4 @@
+export * from 'packages/core/auth';
 export { LoginService } from './login.service';
 export { AccountService } from './account.service';
 export * from './auth.constants';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { XmUser } from '@xm-ngx/core';
+import { XmUser } from '@xm-ngx/core/user';
 import * as _ from 'lodash';
 import { AccountService, Principal } from '../../../../src/app/shared/auth';
 

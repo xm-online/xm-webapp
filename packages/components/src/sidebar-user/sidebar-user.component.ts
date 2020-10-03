@@ -7,7 +7,7 @@ import {
     filterByConditionDashboards,
 } from '@xm-ngx/components/menu/menu.component';
 import { SidebarUserSubtitleOptions } from '@xm-ngx/components/sidebar-user/sidebar-user-subtitle';
-import { XmUser, XmUserService } from '@xm-ngx/core';
+import { XmUser, XmUserService } from '@xm-ngx/core/user';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';

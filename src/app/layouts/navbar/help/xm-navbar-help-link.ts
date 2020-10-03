@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
+import { XmSessionService } from '@xm-ngx/core';
+import { XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 import { IHelpNavLink } from '../../../account';

@@ -3,7 +3,7 @@ import { Component, Input, NgModule, OnChanges, OnInit, ViewEncapsulation } from
 import { RouterModule } from '@angular/router';
 import { IId } from '@xm-ngx/components/entity-collection';
 import { IComponent } from '@xm-ngx/dynamic';
-import { transformByMap } from '@xm-ngx/shared/operators/transform-by-map';
+import { transformByMap } from '@xm-ngx/shared/operators';
 import { clone, get } from 'lodash';
 
 export interface LinkOptions {

@@ -16,6 +16,7 @@ import { HttpLoaderFactory, LanguageService, TitleService, XmTranslationModule }
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
+import { XmCoreConfigModule } from '../../packages/core/config';
 import { IdleLogoutService } from './account/logout/idle-logout.service';
 import { XmMainComponent } from './layouts';
 import { LayoutModule } from './layouts/layout.module';
@@ -33,6 +34,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         BrowserAnimationsModule,
         XmRoutingModule,
         XmCoreModule.forRoot(),
+        XmCoreConfigModule,
         XmCoreAuthModule.forRoot(),
         NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
         TranslateModule.forRoot({

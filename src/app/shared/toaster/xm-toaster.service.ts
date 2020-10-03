@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import { JhiAlert, JhiAlertService } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { XmPublicUiConfigService } from '../../../../packages/core/src/config/xm-public-ui-config.service';
+import { XmPublicUiConfigService } from '../../../../packages/core/src/xm-public-ui-config.service';
 
 export interface ToasterConfig extends Partial<JhiAlert> {
     text?: Translate;

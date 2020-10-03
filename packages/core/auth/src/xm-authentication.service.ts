@@ -4,7 +4,8 @@ import { XmSessionService } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { catchError, switchMap, tap, take } from 'rxjs/operators';
 // TODO: remove external deps
-import { AuthServerProvider, LoginService } from '../../../../src/app/shared/auth';
+import { AuthServerProvider } from '../../../../src/app/shared/auth/auth-jwt.service';
+import { LoginService } from '../../../../src/app/shared/auth/login.service';
 
 export const ERROR_CODE_UNAUTHORIZED = 401;
 export const TOKEN_URL = 'uaa/oauth/token';

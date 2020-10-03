@@ -5,7 +5,7 @@ import { XmLogoModule } from '@xm-ngx/components/logo';
 import { XmMenuModule } from '@xm-ngx/components/menu';
 import { XmPoweredByModule } from '@xm-ngx/components/xm-powered-by';
 import { XmSidebarUserModule } from '@xm-ngx/components/sidebar-user';
-import { XmUiConfigService } from '@xm-ngx/core';
+import { XmUiConfigService } from '@xm-ngx/core/config';
 
 import { XmSharedModule } from '../../shared/shared.module';
 

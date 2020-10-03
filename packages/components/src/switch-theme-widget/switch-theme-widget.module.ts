@@ -7,7 +7,7 @@ import { ConditionModule } from '@xm-ngx/components/condition';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { ThemeOptions, XmThemeService } from '@xm-ngx/core/theme';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces/javascript-code';
+import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';

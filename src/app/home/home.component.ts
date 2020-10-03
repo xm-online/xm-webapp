@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
+import { XmSessionService } from '@xm-ngx/core';
+import { XmUiConfigService } from '@xm-ngx/core/config';
 import { Widget } from '@xm-ngx/dashboard';
 import { Layout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';

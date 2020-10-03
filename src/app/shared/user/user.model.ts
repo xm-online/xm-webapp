@@ -1,5 +1,5 @@
 /* tslint:disable:bool-param-default */
-import { XmUser } from '@xm-ngx/core';
+import { XmUser } from '@xm-ngx/core/user';
 import { UserLogin } from '../../../../packages/xm-account/src/xm-user-login-widget/login/user-login.model';
 
 export class User implements XmUser {

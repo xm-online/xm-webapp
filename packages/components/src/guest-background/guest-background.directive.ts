@@ -1,6 +1,7 @@
 import { Directive, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
-import { XmSessionService, XmUiConfigService } from '@xm-ngx/core';
+import { XmSessionService } from '@xm-ngx/core';
+import { XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { combineLatest } from 'rxjs';
 import { filter, startWith } from 'rxjs/operators';

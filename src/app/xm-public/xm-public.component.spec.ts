@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
-import { XmPublicUiConfigService } from '../../../packages/core/src/config/xm-public-ui-config.service';
+import { XmPublicUiConfigService } from '@xm-ngx/core';
 
 import { XmPublicComponent } from './xm-public.component';
 
