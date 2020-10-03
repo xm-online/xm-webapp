@@ -5,3 +5,4 @@
 - `core-config` is used to cache private config
 - `core-user` is used for user cache
 - `core-permission` manage user permissions, and permissions utils.
+- `dynamic` is used to dynamically render widgets, controls and views.

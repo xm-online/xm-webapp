@@ -1,7 +1,7 @@
 import { BaseEntity } from '@xm-ngx/entity';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
-import { Layout } from '../../../../packages/xm-dynamic/src/layout.model';
+import { Layout } from '@xm-ngx/dynamic';
 import { Widget } from './widget.model';
 
 export interface DashboardConfig {
