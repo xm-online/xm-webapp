@@ -10,7 +10,7 @@ import { LanguageModule } from '@xm-ngx/components/language';
 import { NavbarGuestBackgroundModule } from '@xm-ngx/components/navbar-guest-background/navbar-guest-background.module';
 import { XmNotificationsModule } from '@xm-ngx/components/xm-notifications';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { XmDynamicModule } from '../../../../packages/xm-dynamic/src/xm-dynamic.module';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { InputModule } from '../../shared/directives/input.module';
 import { NavbarComponent } from './navbar.component';
 import { XmNavbarArrowBackComponent } from './back/xm-navbar-arrow-back.component';

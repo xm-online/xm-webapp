@@ -1,7 +1,6 @@
 import { Directive, forwardRef, Input } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { DynamicControlDirective, } from "@xm-ngx/dynamic";
-import { IControl } from './dynamic-control.directive';
+import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { DynamicControlDirective, IControl } from './dynamic-control.directive';
 
 export interface IFormControl<V, O> extends IControl<V, O> {
     formControl: FormControl;
@@ -12,7 +11,7 @@ export interface IFormControl<V, O> extends IControl<V, O> {
     providers: [{
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => DynamicFormControlDirective),
-        multi: true
+        multi: true,
     }],
 })
 export class DynamicFormControlDirective<V, O> extends DynamicControlDirective<V, O> {
