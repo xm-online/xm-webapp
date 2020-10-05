@@ -11,6 +11,7 @@ import { CalendarEventDialogComponent } from '../calendar-event-dialog/calendar-
 import { CalendarSpec } from '../shared/calendar-spec.model';
 import { Calendar } from '../shared/calendar.model';
 import { Event } from '../shared/event.model';
+import { CalendarService } from '../shared/calendar.service';
 import { EventService } from '../shared/event.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
@@ -35,6 +36,7 @@ export class CalendarCardComponent implements OnChanges {
     public calendarElements: any = {};
 
     constructor(private xmEntityService: XmEntityService,
+                private calendarService: CalendarService,
                 private eventService: EventService,
                 private dateUtils: JhiDateUtils,
                 private i18nNamePipe: I18nNamePipe,
@@ -87,7 +89,7 @@ export class CalendarCardComponent implements OnChanges {
             return;
         }
 
-        this.xmEntityService.find(this.xmEntityId, {embed: 'calendars.events'})
+        this.xmEntityService.find(this.xmEntityId, {embed: 'calendars'})
             .subscribe((xmEntity: HttpResponse<XmEntity>) => {
                 this.xmEntity = xmEntity.body;
                 if (xmEntity.body.calendars) {
@@ -184,7 +186,7 @@ export class CalendarCardComponent implements OnChanges {
             },
             editable: false,
             eventLimit: true,
-            events: calendar.events ? calendar.events.map((e) => this.mapEvent(calendarSpec, e)) : [],
+            // events: calendar.events ? calendar.events.map((e) => this.mapEvent(calendarSpec, e)) : [],
             timeFormat: 'H(:mm)',
             renderEvent: (event: any, element: any) => {
                 const content = $(element).find('.fc-content');
@@ -194,6 +196,16 @@ export class CalendarCardComponent implements OnChanges {
                     $(description).text(event.description);
                     content.append(description);
                 }
+            },
+            events: (start, end, timezone, callback) => {
+                this.calendarService.getEvents(calendar.id, {
+                    'dateFrom.eq': start.format('YYYY-MM-DD'),
+                    'dateTo.eq': end.format('YYYY-MM-DD'),
+                })
+                    .subscribe(
+                        res => callback((res || []).map((e) => this.mapEvent(calendarSpec, e))),
+                        () => callback([]),
+                    );
             },
             eventClick: (event: any) => {
                 // self.onRemove(event.originEvent, calendar.typeKey);
