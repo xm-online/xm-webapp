@@ -1,16 +1,26 @@
 /* @TODO: maybe move to global styles... or maybe make ? */
 @import 'theme';
 
-.btn-group {
+.xm-button-group {
   .mat-flat-button {
-    border-radius: 0;
-
     &:first-child {
-      border-radius: $xm-radius-sm 0 0 $xm-radius-sm;
+      border-radius: $xm-radius-pill 0 0 $xm-radius-pill;
     }
 
     &:last-child {
-      border-radius: 0 $xm-radius-sm $xm-radius-sm 0;
+      border-radius: 0 $xm-radius-pill $xm-radius-pill 0;
+    }
+  }
+}
+
+.table-responsive {
+  table.mat-table {
+    tr {
+      height: 32px;
+    }
+
+    th {
+      border-top: none;
     }
   }
 }
