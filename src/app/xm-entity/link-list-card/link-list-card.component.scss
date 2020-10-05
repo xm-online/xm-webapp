@@ -1,18 +1,6 @@
 /* @TODO: maybe move to global styles... or maybe make ? */
 @import 'theme';
 
-.xm-button-group {
-  .mat-flat-button {
-    &:first-child {
-      border-radius: $xm-radius-pill 0 0 $xm-radius-pill;
-    }
-
-    &:last-child {
-      border-radius: 0 $xm-radius-pill $xm-radius-pill 0;
-    }
-  }
-}
-
 .table-responsive {
   table.mat-table {
     tr {
