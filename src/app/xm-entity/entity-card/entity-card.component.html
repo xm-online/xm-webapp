@@ -14,6 +14,10 @@
     </button>
 
     <mat-menu #actionItems="matMenu" xPosition="before">
+      <button *xmPermitted="['CONFIG.CLIENT.REFRESH']" (click)="onUpdateTenantCfg($event)" class="btn-sm" mat-menu-item>
+        <mat-icon>bug_report</mat-icon>
+        <span>DEV: update tenant cfg</span>
+      </button>
       <button (click)="onRefresh($event)" class="btn-sm" mat-menu-item>
         <mat-icon>refresh</mat-icon>
         <span>{{'xm-entity.entity-list-card.refresh' | translate}}</span>
