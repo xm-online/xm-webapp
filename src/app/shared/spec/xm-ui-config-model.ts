@@ -29,8 +29,6 @@ export type CalendarView = 'month' | 'week' | 'day';
 
 export type EntityDetailLayout = 'DEFAULT' | 'ALL-IN-ROW' | 'COMPACT';
 
-export type CalendarView = 'month' | 'week' | 'day';
-
 export interface EntityUiConfig {
     typeKey: string;
     detailLayoutType: EntityDetailLayout;

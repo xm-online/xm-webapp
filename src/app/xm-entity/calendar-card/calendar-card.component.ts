@@ -18,6 +18,7 @@ import { EventService } from '../shared/event.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 import { LanguageService } from '../../modules/xm-translation/language.service';
+import { EntityCalendarUiConfig, EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
 
 declare const $: any;
 declare const swal: any;
@@ -36,7 +37,7 @@ export class CalendarCardComponent implements OnChanges {
     public currentCalendar: Calendar;
     public calendars: Calendar[] = [];
     public calendarElements: any = {};
-    private calendarConfig: any[] = [];
+    private calendarConfig: EntityCalendarUiConfig[] = [];
 
     constructor(private xmEntityService: XmEntityService,
                 private xmConfigService: XmConfigService,
@@ -100,7 +101,7 @@ export class CalendarCardComponent implements OnChanges {
                     return this.xmConfigService.getUiConfig();
                 }),
                 tap((res) => {
-                    const entity = (res.applications.config.entities || [])
+                    const entity: EntityUiConfig = (res.applications.config.entities || [])
                         .find((el => el.typeKey === this.xmEntity.typeKey)) || {};
                     this.calendarConfig = (entity.calendars && entity.calendars.items) || [];
                 }),
@@ -164,7 +165,8 @@ export class CalendarCardComponent implements OnChanges {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const self = this;
         const calendarSpec = this.calendarSpecs.filter((c) => c.key === calendar.typeKey).shift();
-        const calendarConfig = this.calendarConfig.find((el) => el.typeKey === calendar.typeKey) || {};
+        const calendarConfig: EntityCalendarUiConfig = this.calendarConfig
+            .find((el) => el.typeKey === calendar.typeKey) || {} as EntityCalendarUiConfig;
         this.calendarElements[calendar.typeKey] = $('#xm-calendar-' + calendar.id);
         this.calendarElements[calendar.typeKey].fullCalendar({
             header: {
