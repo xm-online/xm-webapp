@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { createRequestOption } from '../../shared/model/request-util';
 import { SERVER_API_URL } from '../../xm.constants';
 import { Calendar } from './calendar.model';
+import { Event } from './event.model';
 
 @Injectable()
 export class CalendarService {
@@ -48,6 +49,11 @@ export class CalendarService {
         const options = createRequestOption(req);
         return this.http.get<Calendar[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
             map((res: HttpResponse<Calendar[]>) => this.convertArrayResponse(res)));
+    }
+
+    public getEvents(id: number, req?: any): Observable<Event[]> {
+        const options = createRequestOption(req);
+        return this.http.get<Event[]>(`${this.resourceUrl}/${id}/events`, {params: options, observe: 'body'});
     }
 
     private convertResponse(res: HttpResponse<Calendar>): HttpResponse<Calendar> {

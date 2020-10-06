@@ -75,6 +75,7 @@
         },
         "calendar-event-dialog": {
             "title": "Додати нову подію для",
+            "titleEdit": "Редагувати подію для",
             "choose-type": "Виберіть тип події",
             "add": {
                 "success": "Подію додано успішно."

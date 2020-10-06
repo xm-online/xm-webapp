@@ -2,7 +2,15 @@
   <div class="modal-header">
     <a (click)="onCancel()" class="modal-close material-icons" href="javascript: void(0);">close</a>
     <h4 class="modal-title text-left">
-      <span jhiTranslate="xm-entity.calendar-event-dialog.title">Add new event for the</span> [<b>{{xmEntity.name}}</b>]
+      <ng-container *ngIf="event?.id; else tmplTitle">
+        <span jhiTranslate="xm-entity.calendar-event-dialog.titleEdit">Edit event for the</span>
+      </ng-container>
+
+      <ng-template #tmplTitle>
+        <span jhiTranslate="xm-entity.calendar-event-dialog.title">Add new event for the</span>
+      </ng-template>
+
+      [<b>{{xmEntity.name}}</b>]
     </h4>
   </div>
   <div class="modal-body">
@@ -97,13 +105,39 @@
         </textarea>
       </mat-form-field>
     </div>
+
+    <div *ngIf="jsfAttributes?.schema" class="form-group min-height">
+      <json-schema-form (formLayout)="jsfAttributes.formLayout"
+                        *ngIf="jsfAttributes?.schema"
+                        [data]="jsfAttributes.data"
+                        [form]="jsfAttributes.form | i18nJsf :principal"
+                        [framework]="'material-design'"
+                        [layout]="jsfAttributes.layout | i18nJsf :principal"
+                        [options]="jsfAttributes.options | i18nJsf :principal"
+                        [schema]="jsfAttributes.schema"
+                        [widgets]="jsfAttributes.widgets"
+                        (onChanges)="onChangeSchemaForm($event)"
+                        class="json-form-hide-submit"
+      >
+      </json-schema-form>
+    </div>
+
   </div>
-  <div class="modal-footer">
-    <button (click)="onCancel()" class="btn mr-1" data-dismiss="modal" mat-raised-button type="button">
-      <span jhiTranslate="xm-entity.common.cancel">Cancel</span>
+
+  <div class="modal-footer event-dialog-footer">
+    <button *ngIf="event.id; else tmplDelete" (click)="onRemove()" class="btn btn-primary" data-dismiss="modal" mat-raised-button type="button">
+      <span jhiTranslate="entity.action.delete">Delete</span>
     </button>
-    <button [disabled]="eventForm.form.invalid || showLoader" class="btn btn-primary" mat-raised-button type="submit">
-      <span jhiTranslate="xm-entity.common.save">Save</span>
-    </button>
+    <ng-template #tmplDelete><div></div></ng-template>
+
+    <div>
+      <button (click)="onCancel()" class="btn mr-1" data-dismiss="modal" mat-raised-button type="button">
+        <span jhiTranslate="xm-entity.common.cancel">Cancel</span>
+      </button>
+
+      <button [disabled]="eventForm.form.invalid || showLoader" class="btn btn-primary" mat-raised-button type="submit">
+        <span jhiTranslate="xm-entity.common.save">Save</span>
+      </button>
+    </div>
   </div>
 </form>

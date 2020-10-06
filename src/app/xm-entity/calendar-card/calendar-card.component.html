@@ -1,6 +1,6 @@
 <div *ngIf="calendars?.length > 0" class="card">
   <div class="card-body ps-child">
-    <div class="row">
+    <div class="row" *ngIf="calendars.length > 1">
       <div class="col">
         <div class="form-group">
           <mat-form-field>
