@@ -134,36 +134,33 @@ export class CalendarCardComponent implements OnChanges {
     }
 
     private onShowEventDialog(start: any, end: any, calendar: Calendar, event: Event) {
-        const self = this;
         const calendarSpec = this.calendarSpecs.filter((c) => c.key === calendar.typeKey).shift();
         const modalRef = this.modalService.open(CalendarEventDialogComponent, {backdrop: 'static'});
-        modalRef.componentInstance.xmEntity = self.xmEntity;
+        modalRef.componentInstance.xmEntity = this.xmEntity;
         modalRef.componentInstance.event = event;
         modalRef.componentInstance.calendar = calendar /* self.currentCalendar */;
         modalRef.componentInstance.startDate = `${start.format('YYYY-MM-DD')}T${start.format('HH:mm:ss')}`;
         modalRef.componentInstance.endDate = `${end.format('YYYY-MM-DD')}T${end.format('HH:mm:ss')}`;
         modalRef.componentInstance.calendarSpec = calendarSpec;
         modalRef.componentInstance.onAddEvent = (event: Event, isEdit?: boolean) => {
-            self.currentCalendar.events = this.currentCalendar.events ? this.currentCalendar.events : [];
+            this.currentCalendar.events = this.currentCalendar.events ? this.currentCalendar.events : [];
             if (isEdit) {
-                const item = self.currentCalendar.events.find((el) => el.id === event.id);
+                const item = this.currentCalendar.events.find((el) => el.id === event.id);
                 Object.assign(item, event);
                 this.calendarElements[calendar.typeKey].fullCalendar('removeEvents', [event.id]);
             } else {
-                self.currentCalendar.events.push(event);
+                this.currentCalendar.events.push(event);
             }
-            self.calendarElements[calendar.typeKey]
-                .fullCalendar('renderEvent', self.mapEvent(calendarSpec, event), true);
-            self.calendarElements[calendar.typeKey].fullCalendar('unselect');
+            this.calendarElements[calendar.typeKey]
+                .fullCalendar('renderEvent', this.mapEvent(calendarSpec, event), true);
+            this.calendarElements[calendar.typeKey].fullCalendar('unselect');
         };
         modalRef.componentInstance.onRemoveEvent = (event: Event, calendarTypeKey: string, callback?: () => void) =>  {
-            self.onRemove(event, calendarTypeKey, callback);
+            this.onRemove(event, calendarTypeKey, callback);
         }
     }
 
     private initCalendar(calendar: Calendar): void {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        const self = this;
         const calendarSpec = this.calendarSpecs.filter((c) => c.key === calendar.typeKey).shift();
         const calendarConfig: EntityCalendarUiConfig = this.calendarConfig
             .find((el) => el.typeKey === calendar.typeKey) || {} as EntityCalendarUiConfig;
@@ -201,7 +198,7 @@ export class CalendarCardComponent implements OnChanges {
                 },
             },
             select: (start: any, end: any) => {
-                self.onShowEventDialog(start, end, calendar, <Event> {});
+                this.onShowEventDialog(start, end, calendar, {} as Event);
             },
             editable: false,
             eventLimit: true,
@@ -227,8 +224,7 @@ export class CalendarCardComponent implements OnChanges {
                     );
             },
             eventClick: (event: any) => {
-                // self.onRemove(event.originEvent, calendar.typeKey);
-                self.onShowEventDialog(event.start, event.end, calendar, event.originEvent);
+                this.onShowEventDialog(event.start, event.end, calendar, event.originEvent);
             },
         });
     }
