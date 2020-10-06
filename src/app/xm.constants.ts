@@ -29,6 +29,7 @@ enum _XM_EVENT_LIST {
     XM_REFRESH_TIMELINE = XM_ENTITY_DETAIL_MODIFICATION,
     XM_ATTACHMENT_LIST_MODIFICATION = 'attachmentListModification',
     XM_ENTITY_LIST_MODIFICATION = 'xmEntityListModification',
+    XM_TENANT_CONFIGURATION_UPDATE = 'xmTenantConfigurationUpdate'
 }
 
 export const VERSION = _VERSION;

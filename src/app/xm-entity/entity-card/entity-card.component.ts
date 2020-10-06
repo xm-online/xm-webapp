@@ -107,4 +107,7 @@ export class EntityCardComponent implements OnInit {
         return this.principal.hasPrivilegesInline([priv, `${priv}.${spec.key}`]);
     }
 
+    onUpdateTenantCfg($event: MouseEvent) {
+        this.eventManager.broadcast({name: XM_EVENT_LIST.XM_TENANT_CONFIGURATION_UPDATE});
+    }
 }
