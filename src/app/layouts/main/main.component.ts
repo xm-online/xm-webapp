@@ -62,7 +62,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
         });
 
         this.updateConfigurationEvent = this.eventManager.subscribe(XM_EVENT_LIST.XM_TENANT_CONFIGURATION_UPDATE, (message) => {
-            isDevMode() && console.log(`DBG: %o`, message);
+            isDevMode() && console.info(`DBG: %o`, message); // tslint:disable-line
             this.reloadTenantConfiguration();
         });
 

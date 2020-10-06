@@ -1,4 +1,4 @@
-import { Component, Input, isDevMode, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { JhiEventManager } from 'ng-jhipster';
@@ -20,7 +20,6 @@ export class EntityCardComponent implements OnInit {
     @Input() public xmEntitySpec: XmEntitySpec;
 
     public isAvatarEnabled: boolean;
-    public isDeveloperMode = false;
 
     constructor(
         protected modalService: NgbModal,
@@ -47,7 +46,6 @@ export class EntityCardComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.isDeveloperMode = isDevMode();
         this.isAvatarEnabled = this.xmEntitySpec.isAvatarEnabled ? this.xmEntitySpec.isAvatarEnabled : false;
     }
 
