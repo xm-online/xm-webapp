@@ -20,6 +20,13 @@ export interface EntityLinkUiConfig {
     fields: FieldOptions[];
 }
 
+export interface EntityCalendarUiConfig {
+    typeKey: string;
+    view: CalendarView;
+}
+
+export type CalendarView = 'month' | 'week' | 'day';
+
 export type EntityDetailLayout = 'DEFAULT' | 'ALL-IN-ROW' | 'COMPACT';
 
 export type CalendarView = 'month' | 'week' | 'day';
@@ -31,5 +38,6 @@ export interface EntityUiConfig {
     attachments?: EntityAttachmentsUiConfig;
     locations?: EntityLocationsUiConfig;
     links?: { items: EntityLinkUiConfig[] };
+    calendars?: { items: EntityCalendarUiConfig[] };
     noData?: TranslationSet;
 }
