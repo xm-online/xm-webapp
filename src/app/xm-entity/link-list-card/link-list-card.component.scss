@@ -1,16 +1,14 @@
 /* @TODO: maybe move to global styles... or maybe make ? */
 @import 'theme';
 
-.btn-group {
-  .mat-flat-button {
-    border-radius: 0;
-
-    &:first-child {
-      border-radius: $xm-radius-sm 0 0 $xm-radius-sm;
+.table-responsive {
+  table.mat-table {
+    tr {
+      height: 32px;
     }
 
-    &:last-child {
-      border-radius: 0 $xm-radius-sm $xm-radius-sm 0;
+    th {
+      border-top: none;
     }
   }
 }
