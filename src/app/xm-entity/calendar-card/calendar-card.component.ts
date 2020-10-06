@@ -3,10 +3,12 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { JhiDateUtils } from 'ng-jhipster';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { Principal } from '../../shared/auth/principal.service';
+import { XmConfigService } from '../../shared';
 import { I18nNamePipe } from '../../shared/language/i18n-name.pipe';
-import { DEBUG_INFO_ENABLED } from '../../xm.constants';
+import { DEBUG_INFO_ENABLED, DEFAULT_CALENDAR_VIEW, CALENDAR_VIEW } from '../../xm.constants';
 import { CalendarEventDialogComponent } from '../calendar-event-dialog/calendar-event-dialog.component';
 import { CalendarSpec } from '../shared/calendar-spec.model';
 import { Calendar } from '../shared/calendar.model';
@@ -34,8 +36,10 @@ export class CalendarCardComponent implements OnChanges {
     public currentCalendar: Calendar;
     public calendars: Calendar[] = [];
     public calendarElements: any = {};
+    private calendarConfig: any[] = [];
 
     constructor(private xmEntityService: XmEntityService,
+                private xmConfigService: XmConfigService,
                 private calendarService: CalendarService,
                 private eventService: EventService,
                 private dateUtils: JhiDateUtils,
@@ -90,10 +94,21 @@ export class CalendarCardComponent implements OnChanges {
         }
 
         this.xmEntityService.find(this.xmEntityId, {embed: 'calendars'})
-            .subscribe((xmEntity: HttpResponse<XmEntity>) => {
-                this.xmEntity = xmEntity.body;
-                if (xmEntity.body.calendars) {
-                    this.calendars = [...xmEntity.body.calendars];
+            .pipe(
+                switchMap((xmEntity: HttpResponse<XmEntity>) => {
+                    this.xmEntity = xmEntity.body;
+                    return this.xmConfigService.getUiConfig();
+                }),
+                tap((res) => {
+                    const entity = (res.applications.config.entities || [])
+                        .find((el => el.typeKey === this.xmEntity.typeKey)) || {};
+                    this.calendarConfig = (entity.calendars && entity.calendars.items) || [];
+                }),
+            )
+            .subscribe(() => {
+                const xmEntity = this.xmEntity;
+                if (xmEntity.calendars) {
+                    this.calendars = [...xmEntity.calendars];
                 }
 
                 const notIncludedSpecs = this.calendarSpecs.filter((cs) => this.calendars
@@ -149,6 +164,7 @@ export class CalendarCardComponent implements OnChanges {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const self = this;
         const calendarSpec = this.calendarSpecs.filter((c) => c.key === calendar.typeKey).shift();
+        const calendarConfig = this.calendarConfig.find((el) => el.typeKey === calendar.typeKey) || {};
         this.calendarElements[calendar.typeKey] = $('#xm-calendar-' + calendar.id);
         this.calendarElements[calendar.typeKey].fullCalendar({
             header: {
@@ -160,6 +176,7 @@ export class CalendarCardComponent implements OnChanges {
             defaultDate: new Date(),
             selectable: true,
             selectHelper: true,
+            defaultView: calendarConfig.view ? CALENDAR_VIEW[calendarConfig.view] : DEFAULT_CALENDAR_VIEW,
             views: {
                 month: {
                     titleFormat: 'MMMM YYYY',
