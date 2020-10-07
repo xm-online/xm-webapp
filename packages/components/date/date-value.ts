@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
-import { IEnumValueOptions, XmEnumValue } from '@xm-ngx/components/enum';
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
 
 export interface IDateValueOptions {
@@ -28,5 +27,5 @@ export class DateValueComponent implements IComponent<DateValue, IDateValueOptio
     imports: [CommonModule],
 })
 export class XmDateValueModule {
-    public entry: IComponentFn<string, IEnumValueOptions> = XmEnumValue;
+    public entry: IComponentFn<DateValue, IDateValueOptions> = DateValueComponent;
 }

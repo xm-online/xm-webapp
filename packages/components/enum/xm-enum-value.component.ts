@@ -9,12 +9,12 @@ export interface IEnumValueOptions {
 }
 
 @Component({
-    selector: 'xm-enum-value-view',
+    selector: 'xm-enum-value',
     template: `{{(titles[value] || value) | translate}}`,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmEnumValueView implements IComponent<string, IEnumValueOptions> {
+export class XmEnumValue implements IComponent<string, IEnumValueOptions> {
     @Input() public value: string;
 
     public titles: Titles;
@@ -25,18 +25,17 @@ export class XmEnumValueView implements IComponent<string, IEnumValueOptions> {
     }
 
     @Input()
-    public set options(value: IEnumValueOptions) {
-        this.titles = value && value.titles ? value.titles : [];
-        this._options = value;
+    public set options(options: IEnumValueOptions) {
+        this.titles = options?.titles ? options.titles : [];
+        this._options = options;
     }
 }
 
 @NgModule({
     imports: [XmTranslationModule],
-    exports: [XmEnumValueView],
-    declarations: [XmEnumValueView],
-    providers: [],
+    exports: [XmEnumValue],
+    declarations: [XmEnumValue],
 })
-export class XmEnumValueViewModule {
-    public entry: IComponentFn<string, IEnumValueOptions> = XmEnumValueView;
+export class XmEnumValueModule {
+    public entry: IComponentFn<string, IEnumValueOptions> = XmEnumValue;
 }

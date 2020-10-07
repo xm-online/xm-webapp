@@ -1,1 +1,5 @@
-export { XmDateValueModule, DateValueComponent, IDateValueOptions } from './date-value';
+export {
+    XmDateValueModule,
+    DateValueComponent,
+    IDateValueOptions,
+} from './date-value';
