@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { EntityCollectionBase, EntityCollectionFactoryService, IId } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionBase, EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
 import { Page, PageService } from '@xm-ngx/dashboard';
+import { IId } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { PageCollectionConfig } from './page-collection-config';
 

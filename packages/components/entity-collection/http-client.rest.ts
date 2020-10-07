@@ -1,7 +1,8 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { Id, IEntityCollection, IId, QueryParams } from './i-entity-collection';
+import { IEntityCollection, QueryParams } from './i-entity-collection';
 
 export class HttpClientRest<T extends IId = unknown> implements IEntityCollection<T> {
 

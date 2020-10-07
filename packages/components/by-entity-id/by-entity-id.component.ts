@@ -4,7 +4,8 @@ import {
     ByEntityIdCellComponent,
     ByEntityIdCellOptions,
 } from '@xm-ngx/components/by-entity-id/by-entity-id-cell.component';
-import { EntityCollectionFactoryService, Id } from '@xm-ngx/components/entity-collection';
+ import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { Id } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone } from 'lodash/fp';
 

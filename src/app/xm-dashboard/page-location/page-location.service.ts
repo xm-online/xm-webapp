@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Params, Router } from '@angular/router';
-import { IId } from '@xm-ngx/components/entity-collection';
+import { IId } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
