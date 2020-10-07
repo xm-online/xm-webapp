@@ -12,7 +12,6 @@ export {
     DynamicCellDirective,
     DynamicCellModule,
     Column,
-    Component,
     TABLE_COLUMN,
     TABLE_ROW,
 } from './src/view/dynamic-cell.directive';

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { IComponent } from '@xm-ngx/dynamic';
 import { ITranslate, Locale, Translate } from '@xm-ngx/translation';
 import { propEq } from 'lodash/fp';
 import { XmApplicationConfigService } from '../../../src/app/shared/spec';
@@ -15,19 +16,6 @@ export interface MultiLanguageOptions {
     title?: Translate | ITranslate;
     feedback?: string;
     language?: LanguageOptions;
-}
-
-interface IValue<V> {
-    value: V;
-}
-
-interface IOptions<O> {
-    options: O;
-}
-
-interface IComponent<V, O> extends IValue<V>, IOptions<O> {
-    value: V;
-    options: O;
 }
 
 @Component({
