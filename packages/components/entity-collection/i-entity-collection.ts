@@ -1,11 +1,6 @@
 import { HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface IId {
-    id?: number | string;
-}
-
-export type Id = number | string;
+import { IId, Id } from '@xm-ngx/shared/interfaces';
 
 export type QueryParams = HttpParams | {
     [param: string]: (string | string[] | number) | any;
