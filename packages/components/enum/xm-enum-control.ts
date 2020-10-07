@@ -1,20 +1,32 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { IControl, IControlFn } from '@xm-ngx/dynamic';
-import { XmTranslationModule } from '@xm-ngx/translation';
+
 import * as _ from 'lodash';
 
-export interface IEnumFilterList {
-    title: string;
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+
+export interface EnumControlOptions {
+    title?: Translate;
+    enum: EnumOption[]
+}
+
+export interface EnumOption {
+    title: Translate;
     value: string;
     icon?: string;
 }
+
+const DEFAULT: EnumControlOptions = {
+    title: '',
+    enum: [],
+};
 
 @Component({
     selector: 'xm-enum-control',
@@ -25,7 +37,7 @@ export interface IEnumFilterList {
                         (ngModelChange)="change($event)"
                         [placeholder]="options?.title | translate">
                 <mat-option *ngFor="let s of _list" [value]="s.value">
-                    <mat-icon [hidden]="!s.icon"> {{s.icon}}</mat-icon>
+                    <mat-icon *ngIf="s.icon">{{s.icon}}</mat-icon>
                     {{s.title | translate}}
                 </mat-option>
             </mat-select>
@@ -36,19 +48,21 @@ export interface IEnumFilterList {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmEnumControl extends NgControlAccessor<string> implements IControl<string, IEnumFilterList> {
+export class XmEnumControl extends NgControlAccessor<string> implements IControl<string, EnumControlOptions> {
     @Input() public disabled: boolean;
-    @Input() public options: IEnumFilterList;
 
-    public _list: IEnumFilterList[];
+    public _list: EnumOption[];
+    public _options: EnumControlOptions;
+
+    public get options(): EnumControlOptions {
+        return this._options;
+    }
 
     @Input()
-    public set list(value: string[] | IEnumFilterList[]) {
-        if (value && typeof value[0] === 'string') {
-            this._list = _.map<string, IEnumFilterList>(value as string[], (i: string) => ({ title: i, value: i }));
-        } else {
-            this._list = value as IEnumFilterList[];
-        }
+    public set options(value: EnumControlOptions) {
+        this._options = _.defaults({}, value, DEFAULT);
+
+        this._list = this._options.enum;
     }
 }
 
@@ -60,11 +74,12 @@ export class XmEnumControl extends NgControlAccessor<string> implements IControl
         FormsModule,
         MatIconModule,
         CommonModule,
-        ControlErrorModule],
+        ControlErrorModule,
+    ],
     exports: [XmEnumControl],
     declarations: [XmEnumControl],
     providers: [],
 })
 export class XmEnumControlModule {
-    public entry: IControlFn<string, IEnumFilterList> = XmEnumControl;
+    public entry: IControlFn<string, EnumControlOptions> = XmEnumControl;
 }
