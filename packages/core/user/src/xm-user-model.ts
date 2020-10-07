@@ -1,5 +1,4 @@
-// TODO: move to entity
-type Id = string | number;
+import { Id } from '@xm-ngx/shared/interfaces';
 
 export interface XmUserLogin {
     id?: Id;
