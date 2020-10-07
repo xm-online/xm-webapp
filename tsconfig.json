@@ -21,7 +21,7 @@
     "paths": {
       "@xm-ngx/styles": ["packages/styles"],
       "@xm-ngx/administration/*": ["packages/administration/src/*"],
-      "@xm-ngx/components/*": ["packages/components/src/*"],
+      "@xm-ngx/components/*": ["packages/components/*"],
       "@xm-ngx/core": ["packages/core"],
       "@xm-ngx/core/auth": ["src/app/shared/auth"],
       "@xm-ngx/core/config": ["packages/core/config"],

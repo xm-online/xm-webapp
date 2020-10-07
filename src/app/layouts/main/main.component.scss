@@ -1,6 +1,6 @@
 :host ::ng-deep {
-  @import 'packages/components/src/guest-background/guest-background';
-  @import 'packages/components/src/navbar-guest-background/navbar-guest-background';
+  @import 'packages/components/guest-background/guest-background';
+  @import 'packages/components/navbar-guest-background/navbar-guest-background';
 }
 
 .xm-main-panel {

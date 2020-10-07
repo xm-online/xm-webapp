@@ -4,7 +4,7 @@ import {
     ExtendedDynamicComponents,
     WidgetListService,
 } from '@xm-ngx/administration/dashboards-config/widget-edit/widget-list.service';
-import { NgModelWrapper } from '@xm-ngx/components/ng-model-wrapper';
+import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { ITextControlOptions } from '@xm-ngx/components/xm-text-control';
 import { IControl } from '@xm-ngx/dynamic';
 import { combineLatest, Observable } from 'rxjs';
