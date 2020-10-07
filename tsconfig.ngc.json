@@ -30,7 +30,8 @@
       "@xm-ngx/shared/*": ["dist/packages/shared/*"],
       "@xm-ngx/core": ["dist/packages/core"],
       "@xm-ngx/core/*": ["dist/packages/core/*"],
-      "@xm-ngx/dynamic": ["dist/packages/dynamic"]
+      "@xm-ngx/dynamic": ["dist/packages/dynamic"],
+      "@xm-ngx/components/*": ["dist/packages/components/*"]
     }
   },
   "exclude": ["node_modules", "dist", "**/*.ngfactory.ts", "**/*.shim.ts", "**/*.spec.ts"],

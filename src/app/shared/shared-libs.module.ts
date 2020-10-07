@@ -7,7 +7,7 @@ import { XmPasswordNeededModule } from '@xm-ngx/components/xm-password-needed';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { JhiConfigService, NgJhipsterModule } from 'ng-jhipster';
-import { XmMaintenanceViewModule } from '../../../packages/components/src/maintenance/xm-maintenance-view.module';
+import { XmMaintenanceViewModule } from '@xm-ngx/components/maintenance';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { PerPageModule } from '@xm-ngx/components/xm-per-page';
 import { AceEditorModule } from '@xm-ngx/components/xm-ace-editor/ace-editor.directive';

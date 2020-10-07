@@ -99,7 +99,7 @@ export const XM_ELEMENTS: DynamicComponents = [
     },
     {
         selector: '@xm-ngx/components/innerHTML',
-        loadChildren: () => import('@xm-ngx/components/xm-inner-html-widget.component').then(m => m.InnerHTMLModule),
+        loadChildren: () => import('@xm-ngx/components/xm-inner-html-widget').then(m => m.InnerHTMLModule),
     },
     {
         selector: '@xm-ngx/components/mat-fab',
@@ -111,11 +111,11 @@ export const XM_ELEMENTS: DynamicComponents = [
     },
     {
         selector: '@xm-ngx/components/xm-bool-control',
-        loadChildren: () => import('@xm-ngx/components/xm-bool-control').then(m => m.XmBoolControlModule),
+        loadChildren: () => import('@xm-ngx/components/bool').then(m => m.XmBoolControlModule),
     },
     {
         selector: '@xm-ngx/components/xm-enum-view',
-        loadChildren: () => import('@xm-ngx/components/xm-enum-view').then(m => m.XmEnumViewModule),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumViewModule),
     },
     {
         selector: '@xm-ngx/components/links-group-widget',
@@ -123,7 +123,7 @@ export const XM_ELEMENTS: DynamicComponents = [
     },
     {
         selector: '@xm-ngx/components/xm-enum-control',
-        loadChildren: () => import('@xm-ngx/components/xm-enum-control').then(m => m.XmEnumControlModule),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlModule),
     },
     {
         selector: '@xm-ngx/components/xm-text-view',

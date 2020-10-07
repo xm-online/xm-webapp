@@ -42,12 +42,12 @@ export * from './g-map/xmGMapApiInit.directive';
 
 export * from './services/parse-by-path.service';
 
-export * from '../../../packages/components/src/loader/loader.component';
+export * from '../../../packages/components/loader/loader.component';
 export * from '@xm-ngx/components/xm-per-page';
-export * from '../../../packages/components/src/no-data/no-data.component';
-export * from '../../../packages/components/src/maintenance/maintenance.component';
+export * from '../../../packages/components/no-data/no-data.component';
+export * from '../../../packages/components/maintenance/maintenance.component';
 export * from './components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
-export * from '../../../packages/components/src/xm-password-needed/xm-password-needed.component';
+export * from '../../../packages/components/xm-password-needed/xm-password-needed.component';
 export * from './components/xm-confirmation-dialog/xm-confirm-dialog.component';
 
 export * from './password-strength-bar/password-strength-bar.component';

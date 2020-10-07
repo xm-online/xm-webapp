@@ -3,3 +3,4 @@ const child_process = require('child_process');
 child_process.exec('ng-packagr -p ./packages/shared -c tsconfig.ngc.json');
 child_process.exec('ng-packagr -p ./packages/dynamic -c tsconfig.ngc.json');
 child_process.exec('ng-packagr -p ./packages/core -c tsconfig.ngc.json');
+child_process.exec('ng-packagr -p ./packages/components -c tsconfig.ngc.json');
