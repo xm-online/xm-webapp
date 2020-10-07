@@ -110,6 +110,10 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/copy').then(m => m.CopyIconModule),
     },
     {
+        selector: '@xm-ngx/components/currency',
+        loadChildren: () => import('@xm-ngx/components/currency').then(m => m.XmCurrencyValueModule),
+    },
+    {
         selector: '@xm-ngx/components/xm-bool-view',
         loadChildren: () => import('@xm-ngx/components/xm-bool-view').then(m => m.XmBoolViewModule),
     },
