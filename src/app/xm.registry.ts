@@ -130,6 +130,10 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumViewModule),
     },
     {
+        selector: '@xm-ngx/components/enum-value',
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumValueModule),
+    },
+    {
         selector: '@xm-ngx/components/links-group-widget',
         loadChildren: () => import('@xm-ngx/components/links-group-widget').then(m => m.LinksGroupWidgetModule),
     },
@@ -138,7 +142,7 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlModule),
     },
     {
-        selector: '@xm-ngx/components/xm-text-value',
+        selector: '@xm-ngx/components/text-value',
         loadChildren: () => import('@xm-ngx/components/xm-text-view').then(m => m.TextValueModule),
     },
     {
