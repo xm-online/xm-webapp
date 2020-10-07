@@ -9,9 +9,10 @@ import {
 } from '@xm-ngx/components/xm-link-view/link-view';
 import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
 import { IComponent } from '@xm-ngx/dynamic';
+import { IId } from '@xm-ngx/shared/interfaces';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { assign, clone } from 'lodash';
-import { IId } from '../entity-collection';
+
 
 export interface LinkViewCopyOptions extends LinkViewOptions {
     copy: CopyIconOptions;

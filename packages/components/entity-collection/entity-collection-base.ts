@@ -1,6 +1,7 @@
+import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Id, IEntityCollection, IId, QueryParams } from './i-entity-collection';
+import { IEntityCollection, QueryParams } from './i-entity-collection';
 
 export class EntityCollectionBase<T extends IId = unknown> {
     public loading$: Observable<boolean>;

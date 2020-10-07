@@ -4,9 +4,9 @@ import { RouterModule } from '@angular/router';
 import { LINK_DEFAULT_OPTIONS, LinkComponent, LinkOptions } from '@xm-ngx/components/xm-link-view/link';
 import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
 import { IComponent } from '@xm-ngx/dynamic';
+import { IId } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { assign, clone } from 'lodash';
-import { IId } from '../entity-collection';
 
 export interface LinkViewOptions extends LinkOptions {
     title: Translate;

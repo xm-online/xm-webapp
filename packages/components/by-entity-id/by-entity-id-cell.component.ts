@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, OnInit, Type } from '@angular/core';
-import { EntityCollectionFactoryService, Id } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { Id } from '@xm-ngx/shared/interfaces';
 import { get } from 'lodash';
 import { clone } from 'lodash/fp';
 

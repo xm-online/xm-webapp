@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IId } from '@xm-ngx/components/entity-collection';
 import { IComponent } from '@xm-ngx/dynamic';
+import { IId } from '@xm-ngx/shared/interfaces';
 import { transformByMap } from '@xm-ngx/shared/operators';
 import { clone, get } from 'lodash';
 
