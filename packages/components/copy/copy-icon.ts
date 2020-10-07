@@ -1,6 +1,6 @@
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, NgModule, OnChanges, OnInit, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -75,4 +75,5 @@ export class CopyIconComponent implements IComponent<unknown, CopyIconOptions>, 
     declarations: [CopyIconComponent],
 })
 export class CopyIconModule {
+    public entry: Type<CopyIconComponent> = CopyIconComponent;
 }
