@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Widget } from '../shared/widget.model';
+import { DashboardWidget } from '../shared/widget.model';
 import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
 
 export interface Page<C = unknown, L = unknown> {
@@ -12,7 +12,7 @@ export interface Page<C = unknown, L = unknown> {
     layout?: L;
     config?: C;
     isPublic?: boolean;
-    widgets?: Widget[];
+    widgets?: DashboardWidget[];
 }
 
 @Injectable({

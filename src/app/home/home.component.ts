@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
-import { Widget } from '@xm-ngx/dashboard';
+import { DashboardWidget } from '@xm-ngx/dashboard';
 import { Layout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { cloneDeep } from 'lodash';
@@ -24,9 +24,9 @@ interface HomeConfig {
         layouts: HomeRootLayouts[];
     };
     /** @deprecated use root instead */
-    defaultLayout: Widget[];
+    defaultLayout: DashboardWidget[];
     /** @deprecated use root instead */
-    defaultWidget: Widget;
+    defaultWidget: DashboardWidget;
 }
 
 @Component({
@@ -85,7 +85,7 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
             class: row.class,
             config: row.config,
             content: row.content.map((el) => {
-                const widget: Widget = this.getWidgetComponent((el as any).widget);
+                const widget: DashboardWidget = this.getWidgetComponent((el as any).widget);
                 return {
                     selector: el.selector || 'div',
                     class: el.class,

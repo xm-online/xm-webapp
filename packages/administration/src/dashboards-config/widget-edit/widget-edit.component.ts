@@ -2,7 +2,7 @@ import { Component, HostListener, Input, Type } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
-import { Widget } from '@xm-ngx/dashboard';
+import { DashboardWidget } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
@@ -21,7 +21,7 @@ export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 export class WidgetEditComponent {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
     public EditType: typeof EditType = EditType;
-    public formGroup: Widget = {
+    public formGroup: DashboardWidget = {
         name: '',
         selector: '',
         config: '',
@@ -47,14 +47,14 @@ export class WidgetEditComponent {
         this.loading$ = this.widgetService.loading$.pipe(tap((i) => this.disabled = i));
     }
 
-    private _value: Widget;
+    private _value: DashboardWidget;
 
-    public get value(): Widget {
+    public get value(): DashboardWidget {
         return this._value;
     }
 
     @Input()
-    public set value(value: Widget) {
+    public set value(value: DashboardWidget) {
         this.formGroup = this._value = value as any;
 
         if (value && value.id) {

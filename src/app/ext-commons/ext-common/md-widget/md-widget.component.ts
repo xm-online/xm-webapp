@@ -1,7 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 
-import { Widget, WidgetService } from '@xm-ngx/dashboard';
+import { DashboardWidget, WidgetService } from '@xm-ngx/dashboard';
 import { TdTextEditorComponent } from '@covalent/text-editor';
 import { ITranslate } from '@xm-ngx/translation';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -46,8 +46,8 @@ export class MdWidgetComponent implements AfterViewInit, OnDestroy {
         this.widgetService
             .find(this.config.id)
             .pipe(takeUntilOnDestroy(this))
-            .subscribe((result: HttpResponse<Widget>) => {
-                const w: Widget = result && result.body;
+            .subscribe((result: HttpResponse<DashboardWidget>) => {
+                const w: DashboardWidget = result && result.body;
                 this.widgetConfig = w.config || null;
                 setTimeout(() => {
                     if (!this._textEditor.isPreviewActive()) {
@@ -70,8 +70,8 @@ export class MdWidgetComponent implements AfterViewInit, OnDestroy {
         this.widgetService
             .find(this.config.id)
             .pipe(takeUntilOnDestroy(this))
-            .subscribe((result: HttpResponse<Widget>) => {
-            const widget: Widget = result.body;
+            .subscribe((result: HttpResponse<DashboardWidget>) => {
+            const widget: DashboardWidget = result.body;
             widget.config = widget.config || {};
             Object.assign(widget.config, {content: this._textEditor.value});
             Object.assign(widget, {dashboard: {id: Number(widget.dashboard)}}); // widget.dashboard must be an object

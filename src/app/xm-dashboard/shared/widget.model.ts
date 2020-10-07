@@ -1,6 +1,6 @@
 import { BaseEntity } from '@xm-ngx/entity';
 
-export interface Widget<C = any> extends BaseEntity {
+export interface DashboardWidget<C = any> extends BaseEntity {
     id?: number;
     config?: C;
     dashboard?: number

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { Dashboard, Widget } from '@xm-ngx/dashboard';
+import { Dashboard, DashboardWidget } from '@xm-ngx/dashboard';
 import { download } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { BehaviorSubject, Observable, zip } from 'rxjs';
@@ -9,10 +9,10 @@ import { DashboardCollection, WidgetCollection } from '../injectors';
 
 export interface DashboardsExport {
     dashboards: Dashboard[];
-    widgets: Widget[];
+    widgets: DashboardWidget[];
 }
 
-function replaceIdWithName([dashboards, widgets]: [Dashboard[], Widget[]]): void {
+function replaceIdWithName([dashboards, widgets]: [Dashboard[], DashboardWidget[]]): void {
     _.forEach(dashboards, (dashboard) => {
         if (!dashboard.layout) {
             return;
