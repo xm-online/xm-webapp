@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, Type } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Id } from '@xm-ngx/components/entity-collection';
-import { Widget } from '@xm-ngx/dashboard';
+
+import { DashboardWidget } from '@xm-ngx/dashboard';
+import { Id } from '@xm-ngx/shared/interfaces';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -33,7 +34,7 @@ export class DashboardsListExpandComponent implements OnInit {
     @Input() public dashboardId: Id;
     @Input() public widgetEditComponentType: Type<unknown> = WidgetEditComponent;
 
-    public widgetsList: MatTableDataSource<Widget>;
+    public widgetsList: MatTableDataSource<DashboardWidget>;
 
     constructor(protected dashboardService: DashboardCollection,
                 protected widgetService: WidgetCollection,
@@ -58,7 +59,7 @@ export class DashboardsListExpandComponent implements OnInit {
         this.managerService.setActiveWidget(null);
     }
 
-    public onEdit(item: Widget): void {
+    public onEdit(item: DashboardWidget): void {
         this.editorService.editWidget(this.widgetEditComponentType, _.assign(item, {dashboard: {id: this.dashboardId}}));
         this.managerService.setActiveWidget(item);
     }

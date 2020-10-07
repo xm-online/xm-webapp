@@ -1,4 +1,4 @@
-import { Widget } from '@xm-ngx/dashboard';
+import { DashboardWidget } from '@xm-ngx/dashboard';
 
 /** @deprecated Back compatibility matrix */
 const MAP_WIDGETS: {[key: string]: string | any} = {
@@ -28,7 +28,7 @@ const MAP_WIDGETS: {[key: string]: string | any} = {
 };
 
 /** @deprecated Back compatibility */
-export function getWidgetComponent(widget: Widget = {}): Widget {
+export function getWidgetComponent(widget: DashboardWidget = {}): DashboardWidget {
     widget.selector = widget.selector ? widget.selector : 'ext-common/xm-widget-welcome';
     if (typeof MAP_WIDGETS[widget.selector] === 'string' || MAP_WIDGETS[widget.selector] instanceof String) {
         widget.selector = MAP_WIDGETS[widget.selector];
@@ -48,7 +48,7 @@ export function getWidgetComponent(widget: Widget = {}): Widget {
 }
 
 /** @deprecated Back compatibility */
-export function getWidgetsComponent(widgets: Widget[]): Widget[] {
+export function getWidgetsComponent(widgets: DashboardWidget[]): DashboardWidget[] {
     return widgets.map((widget) => {
         if (typeof MAP_WIDGETS[widget.selector] === 'string'
             || MAP_WIDGETS[widget.selector] instanceof String) {

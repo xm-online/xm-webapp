@@ -1,8 +1,8 @@
-import { Widget } from '@xm-ngx/dashboard';
+import { DashboardWidget } from '@xm-ngx/dashboard';
 
-type WidgetWithConfig = Widget<{ orderIndex?: number }>
+type WidgetWithConfig = DashboardWidget<{ orderIndex?: number }>
 
-export function sortByOrderIndex(arr: Widget[]): Widget[] {
+export function sortByOrderIndex(arr: DashboardWidget[]): DashboardWidget[] {
     return arr.sort((a, b) => swapByOrderIndex(a, b));
 }
 

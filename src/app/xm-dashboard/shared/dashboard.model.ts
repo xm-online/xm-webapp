@@ -2,7 +2,7 @@ import { BaseEntity } from '@xm-ngx/entity';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { Layout } from '@xm-ngx/dynamic';
-import { Widget } from './widget.model';
+import { DashboardWidget } from './widget.model';
 
 export interface DashboardConfig {
     slug?: string;
@@ -52,9 +52,9 @@ export interface Dashboard<C = DashboardConfig, L = DashboardLayout> extends Bas
      * Backward compatibility, @deprecated, use DashboardWithWidgets instead
      * @todo: Backend, improve dashboard-microservice
      */
-    widgets?: Widget[];
+    widgets?: DashboardWidget[];
 }
 
 export interface DashboardWithWidgets<C = DashboardConfig, L = DashboardLayout> extends Dashboard<C, L> {
-    widgets?: Widget[];
+    widgets?: DashboardWidget[];
 }

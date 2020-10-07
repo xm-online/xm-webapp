@@ -1,8 +1,8 @@
 import { Injectable, Injector, Type } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Id } from '@xm-ngx/components/entity-collection';
 import { SidebarRightService } from '@xm-ngx/components/xm-sidebar-right';
-import { Dashboard, Widget } from '@xm-ngx/dashboard';
+import { Dashboard, DashboardWidget } from '@xm-ngx/dashboard';
+import { IId } from '@xm-ngx/shared/interfaces';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 @Injectable()
@@ -23,11 +23,11 @@ export class DashboardEditorService {
         this.openSidebar(ref, { value: item });
     }
 
-    public editWidget<T>(ref: Type<T>, item: Widget): void {
+    public editWidget<T>(ref: Type<T>, item: DashboardWidget): void {
         this.openSidebar(ref, { value: item });
     }
 
-    public addWidget<T>(ref: Type<T>, value: { dashboard: { id: Id } }): void {
+    public addWidget<T>(ref: Type<T>, value: { dashboard: IId }): void {
         this.openSidebar(ref, { value });
     }
 

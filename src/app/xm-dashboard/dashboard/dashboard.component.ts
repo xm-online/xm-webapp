@@ -7,13 +7,13 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 import * as _ from 'lodash';
 import { Page, PageService } from '../page/page.service';
 import { Dashboard } from '../shared/dashboard.model';
-import { Widget } from '../shared/widget.model';
+import { DashboardWidget } from '../shared/widget.model';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';
 import { sortByOrderIndex } from './sortByOrderIndex';
 
 interface DashboardLayout {
-    widget?: number | string | Widget;
+    widget?: number | string | DashboardWidget;
     widgetName?: string;
 
     [key: string]: DashboardLayout | any;
@@ -101,7 +101,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
         };
     }
 
-    private findAndEnrichWidget(layout: DashboardLayout, widgets: Widget[]): void {
+    private findAndEnrichWidget(layout: DashboardLayout, widgets: DashboardWidget[]): void {
         Object.keys(layout).forEach((k) => {
             if (k === 'widget') {
                 layout.widget = widgets.find((w) => w.id === layout[k]);
@@ -117,7 +117,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
         });
     }
 
-    private defaultGrid(el: Widget): { class: string; content: Array<{ widget: Widget; class: string }> } {
+    private defaultGrid(el: DashboardWidget): { class: string; content: Array<{ widget: DashboardWidget; class: string }> } {
         return {
             class: 'row mx-md-0',
             content: [
