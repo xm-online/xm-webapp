@@ -11,7 +11,16 @@ import {
 } from '@angular/core';
 import { DynamicLoader } from '../loader/dynamic-loader';
 
-export interface IComponent<V, O> {
+
+interface IValue<V> {
+    value: V;
+}
+
+interface IOptions<O> {
+    options: O;
+}
+
+export interface IComponent<V, O> extends IValue<V>, IOptions<O> {
     value: V;
     options: O;
 }

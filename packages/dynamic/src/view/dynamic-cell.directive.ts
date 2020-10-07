@@ -23,11 +23,6 @@ export interface Column {
     field: string;
 }
 
-export interface Component {
-    value: unknown;
-    options: unknown;
-}
-
 /**
  * DynamicCellDirective creates a component from the DynamicLoader
  * @example
@@ -73,6 +68,7 @@ export class DynamicCellDirective<V, O extends Column>
         }
     }
 
+    @Input()
     public getCellValue(): V {
         return _.get(this.row, this.column.field);
     }
@@ -110,10 +106,8 @@ export class DynamicCellDirective<V, O extends Column>
 }
 
 @NgModule({
-    imports: [],
     exports: [DynamicCellDirective],
     declarations: [DynamicCellDirective],
-    providers: [],
 })
 export class DynamicCellModule {
 }
