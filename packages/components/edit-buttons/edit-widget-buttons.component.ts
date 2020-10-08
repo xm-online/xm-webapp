@@ -51,18 +51,18 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
     }
 
     public onEdit(): void {
-        this.edit.emit();
         this.changeIsEdit(EditWidgetButtonsEventType.EDIT);
+        this.edit.emit();
     }
 
     public onSave(): void {
-        this.save.emit();
         this.changeIsEdit(EditWidgetButtonsEventType.SAVE);
+        this.save.emit();
     }
 
     public onCancel(): void {
-        this.cancel.emit();
         this.changeIsEdit(EditWidgetButtonsEventType.CANCEL);
+        this.cancel.emit();
     }
 
     private changeIsEdit(event: EditWidgetButtonsEventType): void {
