@@ -15,7 +15,8 @@ export {
     TABLE_COLUMN,
     TABLE_ROW,
 } from './src/view/dynamic-cell.directive';
-export { DynamicViewDirective, IComponent, IComponentFn } from './src/view/dynamic-view.directive';
+export { DynamicViewDirective } from './src/view/dynamic-view.directive';
+export { IComponent, IComponentFn } from './src/view/dynamic-base';
 export { DynamicViewLayoutComponent, ViewLayout } from './src/view/dynamic-view-layout.component';
 export { DynamicWidgetDirective, IWidget, WidgetConfig, WidgetFn } from './src/widget/dynamic-widget.directive';
 export { DynamicWidgetLayoutComponent, SanitizedLayout } from './src/widget/dynamic-widget-layout.component';

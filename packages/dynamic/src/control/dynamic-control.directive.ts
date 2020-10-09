@@ -14,7 +14,8 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DynamicLoader } from '../loader/dynamic-loader';
-import { DynamicViewDirective, IComponent } from '../view/dynamic-view.directive';
+import { IComponent } from '../view/dynamic-base';
+import { DynamicViewDirective } from '../view/dynamic-view.directive';
 
 export interface IControl<V, O> extends IComponent<V, O>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
