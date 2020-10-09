@@ -15,9 +15,8 @@ import { TableColumnsManager } from '@xm-ngx/components/table/column/table-colum
 import { Column, DynamicCellModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
-interface TableColumn extends Column {
+export interface TableColumn<O = unknown> extends Column<O> {
     sortable: boolean;
-    selector: string;
     title: Translate;
 }
 
@@ -34,14 +33,13 @@ interface TableColumn extends Column {
             <td mat-cell *matCellDef="let value">
                 <ng-container xmDynamicCell
                               [row]="value"
-                              [column]="column"
-                              [selector]="column.selector"></ng-container>
+                              [column]="column"></ng-container>
             </td>
         </ng-container>
     `,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class TableColumnDynamicCell<T> implements OnDestroy, OnInit {
+export class TableColumnDynamicCell implements OnDestroy, OnInit {
     @ViewChild(MatCellDef, { static: true }) public cell: MatCellDef;
     @ViewChild(MatColumnDef, { static: true }) public columnDef: MatColumnDef;
     @ViewChild(MatHeaderCellDef, { static: true }) public headerCell: MatHeaderCellDef;
