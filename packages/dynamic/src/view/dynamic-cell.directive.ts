@@ -1,5 +1,4 @@
 import {
-    ComponentFactoryResolver,
     Directive,
     DoCheck,
     InjectionToken,
@@ -8,99 +7,85 @@ import {
     NgModule,
     OnChanges,
     OnInit,
-    Renderer2,
     SimpleChanges,
-    ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { DynamicLoader } from '../loader/dynamic-loader';
-import { DynamicViewDirective, IComponentFn } from './dynamic-view.directive';
+import { DynamicBase } from './dynamic-base';
 
 export const TABLE_ROW = new InjectionToken<string>('TABLE_ROW');
 export const TABLE_COLUMN = new InjectionToken<string>('TABLE_COLUMN');
 
-export interface Column {
+export interface Column<O = unknown> {
     field: string;
+    selector: string;
+    options: O;
 }
 
 /**
  * DynamicCellDirective creates a component from the DynamicLoader
  * @example
  * <xm-dynamic-cell [row]="{c: true}"
- *                  [column]="{field: 'c'}"
- *                  [selector]="'@xm-ngx/components/xm-bool-view'"></xm-dynamic-cell>
+ *                  [column]="{field: 'c', selector='@xm-ngx/components/xm-bool-view'}"></xm-dynamic-cell>
  */
 @Directive({
     selector: 'xm-dynamic-cell, [xmDynamicCell]',
 })
-export class DynamicCellDirective<V, O extends Column>
-    extends DynamicViewDirective<V, O>
+export class DynamicCellDirective<V, O extends Column<O>>
+    extends DynamicBase<V, O>
     implements OnInit, OnChanges, DoCheck {
 
     /** Component row value */
     @Input() public row: unknown;
-    /** Component Column options */
-    @Input() public column: O;
-    /** Component ref */
-    @Input() public selector: IComponentFn<V, O> | string;
 
-    constructor(
-        viewContainerRef: ViewContainerRef,
-        injector: Injector,
-        renderer: Renderer2,
-        loaderService: DynamicLoader,
-        cfr: ComponentFactoryResolver,
-    ) {
-        super(viewContainerRef, injector, renderer, loaderService, cfr);
+    private _column: O;
+
+    public get column(): O {
+        return this._column;
     }
 
-    public ngOnInit(): void {
-        super.ngOnInit();
+    /** Component Column options */
+    @Input()
+    public set column(value: O) {
+        this._column = value;
+        this.selector = value?.selector;
+        this.options = value?.options;
+    }
+
+    @Input()
+    public getCellValue(): V | null {
+        return _.get(this.row, this._column.field, null);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
         super.ngOnChanges(changes);
         if (changes.row) {
+            this.value = this.getCellValue();
             this.updateValue();
         }
         if (changes.column) {
             this.updateOptions();
+            this.value = this.getCellValue();
+            this.updateValue();
         }
-    }
-
-    @Input()
-    public getCellValue(): V {
-        return _.get(this.row, this.column.field);
     }
 
     public createInjector(): Injector {
         return Injector.create({
             providers: [
                 { provide: TABLE_ROW, useValue: this.row },
-                { provide: TABLE_COLUMN, useValue: this.column },
+                { provide: TABLE_COLUMN, useValue: this._column },
             ],
             parent: this.injector,
         });
     }
 
     public ngDoCheck(): void {
-        if (this.value !== this.getCellValue()) {
+        const newValue = this.getCellValue();
+
+        if (this.value !== newValue) {
+            this.value = newValue;
             this.updateValue();
         }
-    }
-
-    protected updateValue(): void {
-        if (!this.instance) {
-            return;
-        }
-        this.instance.value = this.value = this.getCellValue();
-    }
-
-    protected updateOptions(): void {
-        if (!this.instance) {
-            return;
-        }
-        this.instance.options = this.options = this.column;
     }
 
 }
