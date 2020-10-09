@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Layout } from '../layout.model';
 import { DynamicWidgetLayoutComponent } from '../widget/dynamic-widget-layout.component';
-import { IComponent } from './dynamic-view.directive';
+import { IComponent } from './dynamic-base';
 
 export interface ViewLayout<V = unknown, O = unknown> extends Layout, IComponent<V, O> {
     content?: ViewLayout[];
