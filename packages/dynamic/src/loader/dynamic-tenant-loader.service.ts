@@ -2,7 +2,9 @@ import { ComponentFactory, Injectable, Injector, NgModuleFactory, NgModuleRef, T
 import { DynamicNgModuleFactory, IDynamicModule } from '../dynamic.interfaces';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
 
-import { DynamicLoaderService, isComponentDef, isModuleDef } from './dynamic-loader.service';
+import { isComponentDef, isModuleDef } from './dynamic-loader.service';
+import { ModuleLoader } from './module-loader';
+import { TenantModuleLoaderService } from './tenant-module-loader.service';
 
 @Injectable({
     providedIn: 'root',
@@ -10,8 +12,9 @@ import { DynamicLoaderService, isComponentDef, isModuleDef } from './dynamic-loa
 export class DynamicTenantLoaderService {
 
     constructor(
-        private loaderService: DynamicLoaderService,
         private dynamicSearcher: DynamicSearcher,
+        private moduleLoaderService: ModuleLoader,
+        private tenantModuleLoaderService: TenantModuleLoaderService,
         private moduleRef: NgModuleRef<unknown>,
     ) {
     }
@@ -42,7 +45,7 @@ export class DynamicTenantLoaderService {
             return null;
         }
 
-        const moduleFactoryRef = await this.loadTenantModuleFactory<T>(selector);
+        const moduleFactoryRef = await this.tenantModuleLoaderService.loadTenantModuleFactory<T>(selector);
         return moduleFactoryRef.create(injector);
     }
 
@@ -54,10 +57,10 @@ export class DynamicTenantLoaderService {
         selector: string,
         moduleRef: NgModuleRef<IDynamicModule<T>>,
     ): Promise<ComponentFactory<T> | null> {
-        const moduleFac = await this.dynamicSearcher.search(selector, {injector: moduleRef.injector});
+        const moduleFac = await this.dynamicSearcher.search(selector, { injector: moduleRef.injector });
 
         if (moduleFac instanceof NgModuleFactory || isModuleDef(moduleFac)) {
-            const moduleFactory = await this.loaderService.loadModuleFactory<T>(moduleFac as DynamicNgModuleFactory<T>);
+            const moduleFactory = await this.moduleLoaderService.loadModuleFactory<T>(moduleFac as DynamicNgModuleFactory<T>);
             return this.getComponentFromModuleAndResolve(moduleFactory, moduleRef.injector);
         } else if (isComponentDef(moduleFac)) {
             return moduleRef.componentFactoryResolver.resolveComponentFactory(moduleFac as Type<T>);
@@ -79,27 +82,6 @@ export class DynamicTenantLoaderService {
         }
 
         return elementModuleRef.componentFactoryResolver.resolveComponentFactory(elementModuleRef.instance.entry);
-    }
-
-    public loadTenantModuleFactory<T>(selector: string): Promise<DynamicNgModuleFactory<T>> {
-        const modulePath = this.resolveTenantModulePath(selector);
-        return this.loaderService.loadModuleFactory(modulePath);
-    }
-
-    public resolveTenantModulePath(module: string): string {
-        const commons: string[] = ['ext-common', 'ext-common-csp', 'ext-common-entity'];
-
-        const rootClass = module.split('-').map((e) => e[0].toUpperCase() + e.slice(1)).join('');
-        const extName = module.split('-').reverse()[0];
-        const extRootClass = `${extName.charAt(0).toUpperCase() + extName.slice(1)}WebappExtModule`;
-        let modulePath: string;
-        if (commons.includes(module)) {
-            modulePath = `src/app/ext-commons/${module}/${module}.module#${rootClass}Module`;
-        } else {
-            modulePath = `src/app/ext/${extName}-webapp-ext/module/${extName}-webapp-ext.module#${extRootClass}`;
-        }
-
-        return modulePath;
     }
 
 }

@@ -1,16 +1,7 @@
-import {
-    Compiler,
-    ComponentFactory,
-    Injectable,
-    Injector,
-    NgModuleFactory,
-    NgModuleFactoryLoader,
-    NgModuleRef,
-    Optional,
-    Type,
-} from '@angular/core';
+import { ComponentFactory, Injectable, Injector, NgModuleFactory, NgModuleRef, Type } from '@angular/core';
 import { DynamicNgModuleFactory } from '../dynamic.interfaces';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
+import { ModuleLoader } from './module-loader';
 
 
 export function isComponentDef<T extends { ɵcmp: unknown }>(def: Type<T> | any): boolean {
@@ -27,10 +18,9 @@ export function isModuleDef<T extends { ɵmod: unknown }>(def: Type<T> | any): b
 export class DynamicLoaderService {
 
     constructor(
-        @Optional() private compiler: Compiler,
         private moduleRef: NgModuleRef<unknown>,
         private dynamicSearcher: DynamicSearcher,
-        private loader: NgModuleFactoryLoader,
+        private moduleLoaderService: ModuleLoader,
     ) {
     }
 
@@ -38,10 +28,10 @@ export class DynamicLoaderService {
         selector: string,
         injector: Injector = this.moduleRef.injector,
     ): Promise<ComponentFactory<T> | null> {
-        const moduleFac = await this.dynamicSearcher.search(selector, {injector});
+        const moduleFac = await this.dynamicSearcher.search(selector, { injector });
 
         if (moduleFac instanceof NgModuleFactory || isModuleDef(moduleFac)) {
-            const moduleFactory = await this.loadModuleFactory<T>(moduleFac as DynamicNgModuleFactory<T>);
+            const moduleFactory = await this.moduleLoaderService.loadModuleFactory<T>(moduleFac as DynamicNgModuleFactory<T>);
             const moduleRef = moduleFactory.create(injector);
             const componentRef = moduleRef.instance.entry;
             return moduleRef.componentFactoryResolver.resolveComponentFactory(componentRef);
@@ -50,28 +40,6 @@ export class DynamicLoaderService {
         } else {
             return null;
         }
-    }
-
-    public async loadModuleFactory<T>(
-        moduleImport: Promise<DynamicNgModuleFactory<T>> | DynamicNgModuleFactory<T> | string,
-    ): Promise<DynamicNgModuleFactory<T>> {
-        let elementModuleOrFactory: DynamicNgModuleFactory<T>;
-        if (typeof moduleImport === 'string') {
-            elementModuleOrFactory = await this.loader.load(moduleImport);
-        } else if (moduleImport instanceof Promise) {
-            elementModuleOrFactory = await moduleImport;
-        } else {
-            elementModuleOrFactory = moduleImport;
-        }
-
-        let elModuleFactory: DynamicNgModuleFactory<T>;
-        if (elementModuleOrFactory instanceof NgModuleFactory) {
-            elModuleFactory = elementModuleOrFactory;
-        } else {
-            elModuleFactory = await this.compiler.compileModuleAsync(elementModuleOrFactory) as DynamicNgModuleFactory<T>;
-        }
-
-        return elModuleFactory;
     }
 
 }

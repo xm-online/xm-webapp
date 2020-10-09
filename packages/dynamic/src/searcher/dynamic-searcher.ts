@@ -5,6 +5,6 @@ import { DynamicNgModuleFactory } from '../dynamic.interfaces';
 export abstract class DynamicSearcher {
     public abstract search<T>(
         selector: string,
-        options: { injector?: Injector },
+        options?: { injector?: Injector },
     ): Promise<DynamicNgModuleFactory<T> | Type<T> | null>;
 }
