@@ -32,11 +32,11 @@ export class XmAuthenticationStoreService {
     }
 
     public getAuthenticationToken(): string {
-        return this.localStorage.retrieve(AUTH_TOKEN) || this.sessionStorage.retrieve(AUTH_TOKEN);
+        return this.sessionStorage.retrieve(AUTH_TOKEN) || this.localStorage.retrieve(AUTH_TOKEN);
     }
 
     public getRefreshToken(): string {
-        return this.localStorage.retrieve(REFRESH_TOKEN) || this.sessionStorage.retrieve(REFRESH_TOKEN);
+        return this.sessionStorage.retrieve(REFRESH_TOKEN) || this.localStorage.retrieve(REFRESH_TOKEN);
     }
 
     public clear(): void {
