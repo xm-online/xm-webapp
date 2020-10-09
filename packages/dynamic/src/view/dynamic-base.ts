@@ -1,5 +1,5 @@
 import {
-    ComponentFactoryResolver,
+    ComponentFactoryResolver, Directive,
     Injector,
     OnChanges,
     OnInit,
@@ -27,6 +27,7 @@ export interface IComponentFn<V, O> {
     new(...args: any): IComponent<V, O>;
 }
 
+@Directive()
 export class DynamicBase<V, O> implements IComponent<V, O>, OnChanges, OnInit {
     /** Component value */
     public value: V;
