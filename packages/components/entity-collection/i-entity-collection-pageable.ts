@@ -1,13 +1,21 @@
-import { HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { Observable } from 'rxjs';
+import { IEntityCollection, QueryParams } from './i-entity-collection';
 
-export type QueryParams = HttpParams | {
-    [param: string]: (string | string[] | number) | any;
-};
+export interface Pageable {
+    /** The <total> is the number of items that match the request. */
+    total?: number;
+    /** The <page> is the number of the requested page. */
+    page?: number;
+    /** The <size> is the number of items on the requested page. */
+    size?: number;
+}
 
-export interface IEntityCollection<T extends IId = unknown> {
-    loading$: Observable<boolean>;
+export type QueryParamsPageable = QueryParams & Pageable;
+
+export interface IEntityCollectionPageable<T extends IId = unknown, Extra extends Pageable = Pageable>
+    extends IEntityCollection<IId> {
 
     /** POST request. Use to create an entity. */
     create(entity: T, params?: QueryParams): Observable<HttpResponse<T>>;
@@ -16,13 +24,13 @@ export interface IEntityCollection<T extends IId = unknown> {
     delete(id: Id, params?: QueryParams): Observable<HttpResponse<unknown>>;
 
     /** GET request. Use to get all entities. */
-    getAll(params?: QueryParams): Observable<HttpResponse<T[]>>;
+    getAll(params?: QueryParamsPageable): Observable<HttpResponse<T[] & Extra>>;
 
     /** GET request. Use to get an entity by id. */
     getById(id: Id, params?: QueryParams): Observable<HttpResponse<T>>;
 
     /** GET request. Use to get specific entities matched by request params. */
-    query(params: QueryParams): Observable<HttpResponse<T[]>>;
+    query(params: QueryParamsPageable): Observable<HttpResponse<T[] & Extra>>;
 
     /** PUT request. Use to replace or delete entity data. */
     update(update: Partial<T>, params?: QueryParams): Observable<HttpResponse<T>>;
