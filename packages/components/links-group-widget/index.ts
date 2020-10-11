@@ -1,1 +1,4 @@
-export { LinksGroupWidgetModule } from './links-group-widget.module';
+export {
+    LinksGroupWidgetModule,
+    LinksGroupWidgetComponent,
+} from './links-group-widget.component';
