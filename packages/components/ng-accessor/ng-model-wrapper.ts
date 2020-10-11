@@ -11,11 +11,11 @@ export abstract class NgModelWrapper<T> implements ControlValueAccessor {
         this.value = obj;
     }
 
-    public registerOnChange(fn: any): void {
+    public registerOnChange(fn: () => void): void {
         this._onChange = fn;
     }
 
-    public registerOnTouched(fn: any): void {
+    public registerOnTouched(fn: () => void): void {
         this._onTouched = fn;
     }
 
