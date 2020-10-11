@@ -96,7 +96,7 @@ export function dashboardToMenuItem(dashboard: Dashboard): MenuItem {
         class: config.hidden ? 'd-none' : '',
         permission: config.permission || 'DASHBOARD.GET_LIST',
         url: ['dashboard', (config.slug || String(dashboard.id))],
-        title: config.name || menu.name || dashboard.name || '',
+        title: menu.name || config.name || dashboard.name || '',
         icon: config.icon || '',
     });
 }
