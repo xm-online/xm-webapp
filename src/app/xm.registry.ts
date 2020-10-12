@@ -118,6 +118,14 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/date').then(m => m.XmDateValueModule),
     },
     {
+        selector: '@xm-ngx/components/date-control',
+        loadChildren: () => import('@xm-ngx/components/date').then(m => m.DateControlModule),
+    },
+    {
+        selector: '@xm-ngx/components/date-range-control',
+        loadChildren: () => import('@xm-ngx/components/date').then(m => m.DateRangeControlModule),
+    },
+    {
         selector: '@xm-ngx/components/xm-bool-view',
         loadChildren: () => import('@xm-ngx/components/xm-bool-view').then(m => m.XmBoolViewModule),
     },

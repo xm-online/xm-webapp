@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IEntityCollection } from './i-entity-collection';
 import { HttpClientRest } from './http-client.rest';
+import { IEntityCollection } from './i-entity-collection';
 
 @Injectable({
     providedIn: 'root',
@@ -16,4 +16,3 @@ export class EntityCollectionFactoryService {
         return new HttpClientRest<T>(plural, this.httpClient);
     }
 }
-

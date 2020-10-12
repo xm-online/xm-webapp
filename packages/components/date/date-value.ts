@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
+import * as _ from 'lodash';
 
 export interface IDateValueOptions {
     format?: string;
@@ -12,13 +13,23 @@ type DateValue = string | Date;
 
 @Component({
     selector: 'xm-date',
-    template: `{{ value | date:options.format:options.timezone:options.locale }}`,
+    template: `{{ value | date:_options.format:_options.timezone:_options.locale }}`,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class DateValueComponent implements IComponent<DateValue, IDateValueOptions> {
     @Input() public value: DateValue;
-    @Input() public options: IDateValueOptions;
+
+    public _options: IDateValueOptions = {};
+
+    public get options(): IDateValueOptions {
+        return this._options;
+    }
+
+    @Input()
+    public set options(value: IDateValueOptions) {
+        this._options = _.defaults(value, {});
+    }
 }
 
 @NgModule({

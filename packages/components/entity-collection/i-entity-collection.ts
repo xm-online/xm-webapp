@@ -1,6 +1,6 @@
 import { HttpParams, HttpResponse } from '@angular/common/http';
+import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { Observable } from 'rxjs';
-import { IId, Id } from '@xm-ngx/shared/interfaces';
 
 export type QueryParams = HttpParams | {
     [param: string]: (string | string[] | number) | any;
