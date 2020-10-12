@@ -53,6 +53,7 @@ const DEFAULT_OPTIONS: ITextControlOptions = {
             <input matInput
                    (ngModelChange)="change($event)"
                    [formControl]="formControl"
+                   [ngModel]="value"
                    [placeholder]="options.placeholder | translate"
                    [disabled]="disabled || options.disabled"
                    [attr.name]="options.name"
