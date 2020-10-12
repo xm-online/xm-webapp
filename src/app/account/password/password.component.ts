@@ -42,6 +42,20 @@ export class PasswordComponent implements OnInit {
         });
     }
 
+    public getUsername(account: any): string | null {
+        if (account.firstName) {
+            return account.firstName + ' ' + (account.lastName ? account.lastName : '');
+        }
+
+        for (const login of account.logins) {
+            if (login.login && !login.removed) {
+                return login.login;
+            }
+        }
+
+        return null;
+    }
+
     public changePassword(): void {
         if (this.password.newPassword !== this.password.confirmNewPassword) {
             this.error = null;
