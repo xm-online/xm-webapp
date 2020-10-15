@@ -1,23 +1,28 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import {
-    BY_ENTITY_ID_CELL_OPTIONS,
-    ByEntityIdCellComponent,
-    ByEntityIdCellOptions,
-} from '@xm-ngx/components/by-entity-id/by-entity-id-cell.component';
- import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
 import { Id } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone } from 'lodash/fp';
+import {
+    BY_ENTITY_ID_VALUE_OPTIONS,
+    ByEntityIdValueComponent,
+    ByEntityIdValueOptions,
+} from './by-entity-id-value.component';
 
-interface ByEntityIdOptions extends ByEntityIdCellOptions {
+/** {@inheritDoc ByEntityIdValueOptions} */
+export interface ByEntityIdOptions extends ByEntityIdValueOptions {
     title: Translate;
+    styleInline: boolean;
 }
 
-const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
+/** {@inheritDoc BY_ENTITY_ID_VALUE_OPTIONS} */
+export const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
     title: '',
-    ...BY_ENTITY_ID_CELL_OPTIONS,
+    styleInline: false,
+    ...BY_ENTITY_ID_VALUE_OPTIONS,
 };
 
+/** {@inheritDoc ByEntityIdValueComponent} */
 @Component({
     selector: 'xm-by-entity-id',
     template: `
@@ -27,10 +32,15 @@ const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
         </xm-text>
     `,
 })
-export class ByEntityIdComponent extends ByEntityIdCellComponent implements OnInit, OnChanges {
+export class ByEntityIdComponent extends ByEntityIdValueComponent implements OnInit, OnChanges {
+
+    /** {@inheritDoc IComponent.options} */
     @Input() public options: ByEntityIdOptions;
+
+    /** {@inheritDoc IComponent.value} */
     @Input() public value: Id;
-    public fieldValue: unknown;
+
+    /** {@inheritDoc ByEntityIdValueComponent.defaultOptions} */
     protected defaultOptions: ByEntityIdOptions = clone(BY_ENTITY_ID_OPTIONS);
 
     constructor(
