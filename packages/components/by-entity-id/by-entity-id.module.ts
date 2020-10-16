@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
-import { ByEntityIdCellModule } from '@xm-ngx/components/by-entity-id/by-entity-id-cell.component';
-import { ByEntityIdComponent } from '@xm-ngx/components/by-entity-id/by-entity-id.component';
+import { ByEntityIdValueModule } from './by-entity-id-value.component';
+import { ByEntityIdComponent } from './by-entity-id.component';
 import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
@@ -11,7 +11,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
     exports: [ByEntityIdComponent],
     imports: [
         CommonModule,
-        ByEntityIdCellModule,
+        ByEntityIdValueModule,
         XmTranslationModule,
         XmTextViewModule,
     ],

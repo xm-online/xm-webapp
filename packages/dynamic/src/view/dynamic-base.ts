@@ -10,16 +10,27 @@ import {
 import { DynamicLoader } from '../loader/dynamic-loader';
 
 
+/** Determines input(control) value. */
 interface IValue<V> {
+    /** Input value. */
     value: V;
 }
 
+/** Determines input(control) options. */
 interface IOptions<O> {
+    /** Input options. */
     options: O;
 }
 
+/**
+ * Determines inputs for the dynamic components.
+ *
+ * @public
+ */
 export interface IComponent<V, O> extends IValue<V>, IOptions<O> {
+    /** {@inheritDoc IValue}. */
     value: V;
+    /** {@inheritDoc IOptions.value}. */
     options: O;
 }
 

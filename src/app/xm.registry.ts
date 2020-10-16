@@ -171,7 +171,7 @@ export const XM_ELEMENTS: DynamicComponents = [
     },
     {
         selector: '@xm-ngx/components/by-entity-id-cell',
-        loadChildren: () => import('@xm-ngx/components/by-entity-id/by-entity-id-cell.component').then(m => m.ByEntityIdCellModule),
+        loadChildren: () => import('@xm-ngx/components/by-entity-id/by-entity-id-value.component').then(m => m.ByEntityIdValueModule),
     },
     {
         selector: '@xm-ngx/components/xm-link-copy',
