@@ -23,6 +23,8 @@ import { EntityCalendarUiConfig, EntityUiConfig } from '../../shared/spec/xm-ui-
 declare const $: any;
 declare const swal: any;
 
+export const DEFAULT_CALENDAR_EVENT_FETCH_SIZE = 50;
+
 @Component({
     selector: 'xm-calendar-card',
     templateUrl: './calendar-card.component.html',
@@ -202,7 +204,7 @@ export class CalendarCardComponent implements OnChanges {
             },
             editable: false,
             eventLimit: true,
-            // events: calendar.events ? calendar.events.map((e) => this.mapEvent(calendarSpec, e)) : [],
+            // Events: calendar.events ? calendar.events.map((e) => this.mapEvent(calendarSpec, e)) : [],
             timeFormat: 'H(:mm)',
             renderEvent: (event: any, element: any) => {
                 const content = $(element).find('.fc-content');
@@ -217,6 +219,7 @@ export class CalendarCardComponent implements OnChanges {
                 this.calendarService.getEvents(calendar.id, {
                     'dateFrom.eq': start.format('YYYY-MM-DD'),
                     'dateTo.eq': end.format('YYYY-MM-DD'),
+                    'size': calendarConfig.queryPageSize ? calendarConfig.queryPageSize : DEFAULT_CALENDAR_EVENT_FETCH_SIZE
                 })
                     .subscribe(
                         res => callback((res || []).map((e) => this.mapEvent(calendarSpec, e))),
