@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { XmSessionService } from './xm-session.service';
+import { SessionService } from './session.service';
 
-describe('XmSessionService', () => {
+describe('SessionService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: XmSessionService = TestBed.inject<XmSessionService>(XmSessionService);
+    const service: SessionService = TestBed.get(SessionService);
     expect(service).toBeTruthy();
   });
 });
