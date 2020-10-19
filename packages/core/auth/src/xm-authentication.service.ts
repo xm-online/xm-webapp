@@ -1,11 +1,11 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { XmSessionService } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
-import { catchError, switchMap, tap, take } from 'rxjs/operators';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 // TODO: remove external deps
 import { AuthServerProvider } from '../../../../src/app/shared/auth/auth-jwt.service';
 import { LoginService } from '../../../../src/app/shared/auth/login.service';
+import { UserSessionService } from './user-session.service';
 
 export const ERROR_CODE_UNAUTHORIZED = 401;
 export const TOKEN_URL = 'uaa/oauth/token';
@@ -16,7 +16,7 @@ export class XmAuthenticationService {
     constructor(
         private loginService: LoginService,
         private serverProvider: AuthServerProvider,
-        private sessionService: XmSessionService,
+        private sessionService: UserSessionService,
     ) {
     }
 
@@ -25,7 +25,7 @@ export class XmAuthenticationService {
     }
 
     public refreshShouldHappen(response: HttpErrorResponse): boolean {
-        return response.status === 401;
+        return response.status === ERROR_CODE_UNAUTHORIZED;
     }
 
     public refreshToken(): Observable<unknown> {

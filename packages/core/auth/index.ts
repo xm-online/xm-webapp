@@ -1,3 +1,4 @@
+export { UserSessionService, IUserSession } from './src/user-session.service';
 export { AuthInterceptor } from './src/auth.interceptor';
 export { AuthRefreshTokenService } from './src/auth-refresh-token.service';
 export { XmAuthenticationService } from './src/xm-authentication.service';

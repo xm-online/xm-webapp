@@ -2,17 +2,17 @@ import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular
 
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { XmEventManager, XmSessionService } from '@xm-ngx/core';
+import { XmEventManager } from '@xm-ngx/core';
+import { Principal, UserSessionService } from '@xm-ngx/core/auth';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 import * as _ from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Principal } from '@xm-ngx/core/auth';
 import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
 import { Notification, NotificationUiConfig } from '../shared/notification.model';
 
 import { NotificationsService } from '../shared/notifications.service';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 const DEFAULT_PRIVILEGES = ['XMENTITY.SEARCH', 'XMENTITY.SEARCH.QUERY', 'XMENTITY.SEARCH.TEMPLATE'];
 const DEF_NOTIFY_COUNT = 5;
@@ -32,9 +32,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public autoUpdateEnabled: boolean = null;
     public privileges: string[];
     public updateInterval: number;
+    public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
     private entityListModifications: Subscription;
     private entityEntityStateChange: Subscription;
-    public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
     constructor(
         private xmConfigService: XmConfigService,
@@ -43,7 +43,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         private sanitized: DomSanitizer,
         private eRef: ElementRef,
         private principal: Principal,
-        private xmSessionService: XmSessionService,
+        private xmSessionService: UserSessionService,
         private notificationsService: NotificationsService) {
         this.isOpened = false;
         this.notifications = [];
@@ -70,7 +70,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             .pipe(takeUntilOnDestroy(this))
             .subscribe((res: boolean) => {
                 if (res) {
-                    this.load()
+                    this.load();
                 }
             });
     }
@@ -87,23 +87,23 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             .getUiConfig()
             .pipe(takeUntilOnDestroy(this))
             .subscribe((config) => {
-            this.config = config.notifications as NotificationUiConfig;
-            this.mapPrviliges(this.config);
-            if (this.config) {
-                this.getNotifications(this.config);
-            }
-            if (this.config && this.config.autoUpdate && !this.autoUpdateEnabled && initAutoUpdate) {
-                this.autoUpdateEnabled = true;
-                // TODO: should be redone with web sockets
-                this.updateInterval = window.setInterval(() => {
-                    if (this.principal.isAuthenticated()) {
-                        this.getNotifications(this.config);
-                    } else {
-                        clearInterval(this.updateInterval);
-                    }
-                }, this.config.autoUpdate);
-            }
-        });
+                this.config = config.notifications as NotificationUiConfig;
+                this.mapPrviliges(this.config);
+                if (this.config) {
+                    this.getNotifications(this.config);
+                }
+                if (this.config && this.config.autoUpdate && !this.autoUpdateEnabled && initAutoUpdate) {
+                    this.autoUpdateEnabled = true;
+                    // TODO: should be redone with web sockets
+                    this.updateInterval = window.setInterval(() => {
+                        if (this.principal.isAuthenticated()) {
+                            this.getNotifications(this.config);
+                        } else {
+                            clearInterval(this.updateInterval);
+                        }
+                    }, this.config.autoUpdate);
+                }
+            });
     }
 
     public getNotifications(config: NotificationUiConfig): void {
