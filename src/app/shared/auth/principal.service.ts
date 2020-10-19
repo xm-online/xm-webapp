@@ -1,5 +1,4 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { XmSessionService } from '@xm-ngx/core';
 import { XmUserService } from '@xm-ngx/core/user';
 import { OnInitialize } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -30,7 +29,7 @@ export class Principal implements OnDestroy, OnInitialize {
     constructor(private account: AccountService,
                 private alertService: XmToasterService,
                 private authRefreshTokenService: AuthRefreshTokenService,
-                private sessionService: XmSessionService,
+                private sessionService: UserSessionService,
                 private userService: XmUserService,
                 private languageService: LanguageService,
     ) {
@@ -155,7 +154,7 @@ export class Principal implements OnDestroy, OnInitialize {
                                 this.languageService.locale = account.langKey;
                             }
                         } else {
-                            this.sessionService.clear();
+                            this.sessionService.destory();
                             this.userIdentity = null;
                             this.authenticated = false;
                         }
@@ -175,7 +174,7 @@ export class Principal implements OnDestroy, OnInitialize {
                             this.authenticationState.next(this.userIdentity);
                             resolve(this.userIdentity);
                         } else {
-                            this.sessionService.clear();
+                            this.sessionService.destory();
                             this.userIdentity = null;
                             this.authenticated = false;
                             this.authenticationState.next(this.userIdentity);

@@ -1,12 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { iif, Observable, of } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
+import { UserSessionService } from '@xm-ngx/core/auth';
 
 interface SearchConfig {
     search: {
@@ -53,7 +53,7 @@ export class XmNavbarInputSearchComponent implements OnInit {
         private uiConfigService: XmUiConfigService<SearchConfig>,
         private dashboardWrapperService: DashboardWrapperService,
         private location: Location,
-        private xmSessionService: XmSessionService,
+        private xmSessionService: UserSessionService,
     ) {
     }
 
