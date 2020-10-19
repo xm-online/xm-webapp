@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { XmSessionService } from '@xm-ngx/core';
+import { UserSessionService } from '@xm-ngx/core/auth';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 import { XmApplicationConfigService } from '../../shared/spec';
@@ -15,7 +15,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
 
     constructor(
         private xmConfigService: XmApplicationConfigService,
-        private sessionService: XmSessionService,
+        private sessionService: UserSessionService,
     ) {
     }
 

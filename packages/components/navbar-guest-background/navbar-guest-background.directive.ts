@@ -1,5 +1,5 @@
 import { Directive, HostBinding } from '@angular/core';
-import { XmSessionService } from '@xm-ngx/core';
+import { UserSessionService } from '@xm-ngx/core/auth';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { combineLatest } from 'rxjs';
@@ -13,7 +13,7 @@ export class NavbarGuestBackgroundDirective {
     @HostBinding('class.xmGuestBackground-active') public background: boolean;
 
     constructor(
-        private sessionService: XmSessionService,
+        private sessionService: UserSessionService,
         private config: XmUiConfigService<{ loginScreenBg: string }>,
     ) {
     }

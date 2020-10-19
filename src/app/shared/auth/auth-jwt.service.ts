@@ -43,7 +43,7 @@ export class AuthServerProvider {
     constructor(
         private principal: Principal,
         private http: HttpClient,
-        private sessionService: XmSessionService,
+        private sessionService: UserSessionService,
         private storeService: XmAuthenticationStoreService,
         private refreshTokenService: AuthRefreshTokenService,
         private $sessionStorage: SessionStorageService,
@@ -155,7 +155,7 @@ export class AuthServerProvider {
             observer.complete();
         }).pipe(
             switchMap(() => {
-                this.sessionService.clear();
+                this.sessionService.destory();
                 return this.getGuestAccessToken();
             }),
         );
@@ -207,7 +207,7 @@ export class AuthServerProvider {
             this.logout().subscribe();
             this.principal.logout();
             this.router.navigate(['']);
-            this.sessionService.clear();
+            this.sessionService.destory();
         });
     }
 

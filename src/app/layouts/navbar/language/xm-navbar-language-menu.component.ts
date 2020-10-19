@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { LanguageService, Locale } from '@xm-ngx/translation';
 import { Observable } from 'rxjs';
+import { UserSessionService } from '@xm-ngx/core/auth';
 
 @Component({
     selector: 'xm-navbar-language-menu',

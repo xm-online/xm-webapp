@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { XmSessionService } from '@xm-ngx/core';
+import { UserSessionService } from '@xm-ngx/core/auth';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 
@@ -25,7 +25,7 @@ export class XmNavbarArrowBackComponent implements OnInit {
 
     constructor(
         private location: Location,
-        private xmSessionService: XmSessionService,
+        private xmSessionService: UserSessionService,
     ) {
     }
 

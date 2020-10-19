@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { XmSessionService } from '@xm-ngx/core';
+import { UserSessionService } from '@xm-ngx/core/auth';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -29,7 +29,7 @@ export class XmNavbarLogoComponent implements OnInit, OnDestroy {
 
     constructor(
         private xmUiConfigService: XmUiConfigService,
-        private xmSessionService: XmSessionService,
+        private xmSessionService: UserSessionService,
     ) {
     }
 

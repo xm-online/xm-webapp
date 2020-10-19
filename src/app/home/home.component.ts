@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { XmSessionService } from '@xm-ngx/core';
+import { UserSessionService } from '@xm-ngx/core/auth';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardWidget } from '@xm-ngx/dashboard';
 import { XmLayout } from '@xm-ngx/dynamic';
@@ -40,7 +40,7 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
 
     constructor(
         private xmConfigService: XmUiConfigService<HomeConfig>,
-        private sessionService: XmSessionService,
+        private sessionService: UserSessionService,
         private router: Router,
     ) {
         super();
