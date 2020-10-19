@@ -5,9 +5,9 @@ import {
     RequestCacheFactoryService,
     SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS,
     XmCoreConfig,
-    XmSessionService,
 } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
+import { UserSessionService } from '@xm-ngx/core/auth';
 import { XmUser } from './xm-user-model';
 
 @Injectable({
@@ -21,7 +21,7 @@ export class XmUserService<T = XmUser> implements OnDestroy {
         protected httpClient: HttpClient,
         private cacheFactoryService: RequestCacheFactoryService,
         protected xmCoreConfig: XmCoreConfig,
-        protected sessionService: XmSessionService,
+        protected sessionService: UserSessionService,
     ) {
         this.requestCache = this.cacheFactoryService.create<T>({
             request: () => this.getUser(),

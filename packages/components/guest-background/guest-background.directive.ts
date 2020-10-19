@@ -1,10 +1,10 @@
 import { Directive, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
-import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { combineLatest } from 'rxjs';
 import { filter, startWith } from 'rxjs/operators';
+import { UserSessionService } from '@xm-ngx/core/auth';
 
 @Directive({
     selector: '[xmGuestBackground]',
@@ -15,7 +15,7 @@ export class GuestBackgroundDirective implements OnInit, OnDestroy {
     @HostBinding('style.backgroundImage') public background: string;
 
     constructor(
-        private sessionService: XmSessionService,
+        private sessionService: UserSessionService,
         private router: Router,
         private config: XmUiConfigService<{ loginScreenBg: string }>,
     ) {

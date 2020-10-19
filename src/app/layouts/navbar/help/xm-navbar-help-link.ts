@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
+import { UserSessionService } from '@xm-ngx/core/auth';
 import { IHelpNavLink } from '../../../account';
 
 @Component({
@@ -28,7 +28,7 @@ export class XmNavbarHelpLink implements OnInit {
 
     constructor(
         private xmUiConfigService: XmUiConfigService,
-        private xmSessionService: XmSessionService,
+        private xmSessionService: UserSessionService,
     ) {
     }
 
@@ -36,8 +36,8 @@ export class XmNavbarHelpLink implements OnInit {
         this.xmUiConfigService.config$()
             .pipe(takeUntilOnDestroy(this))
             .subscribe((config) => {
-            this.helpConfig = config.helpConfig || null;
-        });
+                this.helpConfig = config.helpConfig || null;
+            });
     }
 
     public ngOnDestroy(): void {
