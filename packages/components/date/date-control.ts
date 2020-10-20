@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
+import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 export interface DateControlOptions {
@@ -16,20 +16,19 @@ export interface DateControlOptions {
     template: `
         <mat-form-field>
             <mat-label>{{options?.title | translate}}</mat-label>
-            <input [formControl]="formControl"
+            <input [formControl]="control"
                    [matDatepicker]="picker"
                    [name]="options?.name"
                    (click)="picker.open()"
-                   (focus)="formControl.markAsTouched()"
                    matInput>
             <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
     `,
 })
-export class DateControl extends NgControlAccessor<string> {
+export class DateControl extends NgFormAccessor<string> {
     @Input() public options: DateControlOptions;
-    @Input() public formControl: FormControl = new FormControl();
+    @Input() public control: FormControl = new FormControl();
 }
 
 @NgModule({

@@ -3,7 +3,7 @@ import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DynamicControlDirective, IControl } from './dynamic-control.directive';
 
 export interface IFormControl<V, O> extends IControl<V, O> {
-    formControl: FormControl;
+    control: FormControl;
 }
 
 @Directive({
@@ -17,7 +17,7 @@ export interface IFormControl<V, O> extends IControl<V, O> {
 export class DynamicFormControlDirective<V, O> extends DynamicControlDirective<V, O> {
 
     /** Component value */
-    @Input() public formControl: FormControl;
+    @Input() public control: FormControl;
 
     /** Returns instance of created object */
     public instance: IFormControl<V, O>;
@@ -32,7 +32,7 @@ export class DynamicFormControlDirective<V, O> extends DynamicControlDirective<V
         if (!this.instance) {
             return;
         }
-        this.instance.formControl = this.formControl;
+        this.instance.control = this.control;
     }
 
 }
