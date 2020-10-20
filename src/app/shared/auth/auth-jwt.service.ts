@@ -96,7 +96,12 @@ export class AuthServerProvider {
         }
 
         return this.getAccessToken(data, DEFAULT_HEADERS, credentials.rememberMe).pipe(
-            tap(() => this.sessionService.create()),
+            tap(() => this.sessionService.create({
+                active: true,
+                useAutoRefreshToken: credentials.rememberMe,
+                accessToken: this.storeService.getAuthenticationToken(),
+                refreshToken: this.storeService.getRefreshToken(),
+            })),
         );
     }
 
@@ -166,7 +171,12 @@ export class AuthServerProvider {
         this.storeAT(data, rememberMe);
         this.storeRT(data, rememberMe);
         if (data.refresh_token) {
-            this.sessionService.update();
+            this.sessionService.update({
+                active: true,
+                useAutoRefreshToken: rememberMe,
+                accessToken: this.storeService.getAuthenticationToken(),
+                refreshToken: this.storeService.getRefreshToken(),
+            });
         }
     }
 
