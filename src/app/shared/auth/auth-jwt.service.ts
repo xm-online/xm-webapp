@@ -155,7 +155,7 @@ export class AuthServerProvider {
             observer.complete();
         }).pipe(
             switchMap(() => {
-                this.sessionService.destory();
+                this.sessionService.destroy();
                 return this.getGuestAccessToken();
             }),
         );
@@ -207,7 +207,7 @@ export class AuthServerProvider {
             this.logout().subscribe();
             this.principal.logout();
             this.router.navigate(['']);
-            this.sessionService.destory();
+            this.sessionService.destroy();
         });
     }
 

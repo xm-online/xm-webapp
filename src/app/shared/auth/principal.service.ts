@@ -154,7 +154,7 @@ export class Principal implements OnDestroy, OnInitialize {
                                 this.languageService.locale = account.langKey;
                             }
                         } else {
-                            this.sessionService.destory();
+                            this.sessionService.destroy();
                             this.userIdentity = null;
                             this.authenticated = false;
                         }
@@ -174,7 +174,7 @@ export class Principal implements OnDestroy, OnInitialize {
                             this.authenticationState.next(this.userIdentity);
                             resolve(this.userIdentity);
                         } else {
-                            this.sessionService.destory();
+                            this.sessionService.destroy();
                             this.userIdentity = null;
                             this.authenticated = false;
                             this.authenticationState.next(this.userIdentity);
