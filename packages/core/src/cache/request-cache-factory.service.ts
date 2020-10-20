@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { interval, Observable, of } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
-import { XmSessionService } from '../xm-session.service';
+import { UserSessionService } from '@xm-ngx/core/auth';
 import { RequestCache } from './request-cache';
 
 interface RequestCacheFactoryParams<T> {
@@ -16,10 +16,10 @@ interface RequestCacheFactoryParams<T> {
     requestTimeOut?: number;
 }
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class RequestCacheFactoryService {
 
-    constructor(private sessionService: XmSessionService) {
+    constructor(private sessionService: UserSessionService) {
     }
 
     public create<T>(params: RequestCacheFactoryParams<T>): RequestCache<T> {
