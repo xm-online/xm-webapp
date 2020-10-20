@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
+import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { IControl, IControlFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
@@ -31,9 +31,7 @@ const DEFAULT: EnumControlOptions = {
     selector: 'xm-enum-control',
     template: `
         <mat-form-field>
-            <mat-select [formControl]="formControl"
-                        [disabled]="disabled"
-                        (ngModelChange)="change($event)"
+            <mat-select [formControl]="control"
                         [placeholder]="options?.title | translate">
                 <mat-option *ngFor="let s of _list" [value]="s.value">
                     <mat-icon *ngIf="s.icon">{{s.icon}}</mat-icon>
@@ -41,15 +39,14 @@ const DEFAULT: EnumControlOptions = {
                 </mat-option>
             </mat-select>
 
-            <mat-error *xmControlErrors="formControl?.errors; message as message">{{message}}</mat-error>
+            <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
         </mat-form-field>
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmEnumControl extends NgControlAccessor<string> implements IControl<string, EnumControlOptions> {
-    @Input() public disabled: boolean;
-    @Input() public formControl: FormControl = new FormControl();
+export class XmEnumControl extends NgFormAccessor<string> implements IControl<string, EnumControlOptions> {
+    @Input() public control: FormControl = new FormControl();
 
     public _list: EnumOption[];
     private _options: EnumControlOptions;

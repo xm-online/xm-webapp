@@ -11,11 +11,11 @@ import {
     Self,
     ViewEncapsulation,
 } from '@angular/core';
-import { FormControl, FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
-import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
+import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { IControl, IControlFn } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
@@ -51,9 +51,7 @@ const DEFAULT_OPTIONS: ITextControlOptions = {
             <mat-label>{{options.title | translate}}</mat-label>
 
             <input matInput
-                   (ngModelChange)="change($event)"
-                   [formControl]="formControl"
-                   [ngModel]="value"
+                   [formControl]="control"
                    [placeholder]="options.placeholder | translate"
                    [disabled]="disabled || options.disabled"
                    [attr.name]="options.name"
@@ -62,17 +60,17 @@ const DEFAULT_OPTIONS: ITextControlOptions = {
                    [pattern]="options.pattern"
                    [attr.type]="options.type">
 
-            <mat-error *xmControlErrors="formControl.errors; translates options?.errors; message as message">{{message}}</mat-error>
+            <mat-error *xmControlErrors="control.errors; translates options?.errors; message as message">{{message}}</mat-error>
 
         </mat-form-field>
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmTextControl extends NgControlAccessor<Primitive> implements IControl<Primitive, ITextControlOptions> {
+export class XmTextControl extends NgFormAccessor<Primitive> implements IControl<Primitive, ITextControlOptions> {
     @Input() public value: Primitive;
     @Input() public disabled: boolean;
-    @Input() public formControl: FormControl = new FormControl();
+    @Input() public control: FormControl = new FormControl();
     @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
 
     constructor(@Optional() @Self() public ngControl: NgControl | null,
@@ -97,7 +95,6 @@ export class XmTextControl extends NgControlAccessor<Primitive> implements ICont
 @NgModule({
     imports: [
         MatInputModule,
-        FormsModule,
         XmTranslationModule,
         CommonModule,
         ControlErrorModule,
