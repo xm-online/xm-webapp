@@ -172,6 +172,7 @@ import { StateChangeDialogComponent } from './state-change-dialog/state-change-d
         RatingListSectionComponent,
         TagListSectionComponent,
         StatesManagementDialogComponent,
+        FunctionCallDialogComponent,
     ],
     providers: [
         AttachmentService,

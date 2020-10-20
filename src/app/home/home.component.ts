@@ -2,10 +2,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
-import { Account, AuthServerProvider, Principal } from '../shared';
+import { Account, AuthServerProvider, LoginService, Principal } from '../shared';
 import { XmConfigService } from '../shared/spec/config.service';
 import { Widget } from '../xm-dashboard';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, XM_EVENT_LIST } from '../xm.constants';
@@ -22,11 +22,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     public defaultLayout: any;
     public signWidget: Widget;
     private eventAuthSubscriber: Subscription;
+    private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
     constructor(private principal: Principal,
                 private eventManager: JhiEventManager,
                 private xmConfigService: XmConfigService,
                 private http: HttpClient,
+                protected loginService: LoginService,
                 private authServerProvider: AuthServerProvider) {
     }
 
@@ -43,8 +45,37 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         this.registerAuthenticationSuccess();
 
-        this.getAccessToken().subscribe(() => {
-            this.xmConfigService.getUiConfig().subscribe((result) => {
+        if (!this.isAuthenticated()) {
+            this.getAccessToken().subscribe(() => {
+                this.getConfigAndNavigate();
+            });
+        } else if (this.isAuthenticated()) {
+            this.loginService.checkAvailableUrlsAndNavigate();
+        }
+    }
+
+    public ngOnDestroy(): void {
+        this.eventManager.destroy(this.eventAuthSubscriber);
+        this.destroyed$.next(true);
+        this.destroyed$.complete();
+    }
+
+    public registerAuthenticationSuccess(): void {
+        this.eventAuthSubscriber = this.eventManager.subscribe(XM_EVENT_LIST.XM_SUCCESS_AUTH, () => {
+            this.principal.identity().then((account) => {
+                this.account = account;
+            });
+        });
+    }
+
+    public isAuthenticated(): boolean {
+        return this.principal.isAuthenticated();
+    }
+
+    private getConfigAndNavigate(): void {
+        this.xmConfigService.getUiConfig()
+            .pipe(takeUntil(this.destroyed$))
+            .subscribe((result) => {
                 if (result) {
                     if (result.defaultLayout) {
                         this.defaultLayout = result.defaultLayout.map((row) => {
@@ -64,23 +95,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                 console.warn(err);
                 this.defaultWidget = this.getWidgetComponent();
             });
-        });
-    }
-
-    public ngOnDestroy(): void {
-        this.eventManager.destroy(this.eventAuthSubscriber);
-    }
-
-    public registerAuthenticationSuccess(): void {
-        this.eventAuthSubscriber = this.eventManager.subscribe(XM_EVENT_LIST.XM_SUCCESS_AUTH, () => {
-            this.principal.identity().then((account) => {
-                this.account = account;
-            });
-        });
-    }
-
-    public isAuthenticated(): boolean {
-        return this.principal.isAuthenticated();
     }
 
     private getAccessToken(): Observable<void> {

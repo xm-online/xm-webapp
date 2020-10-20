@@ -109,6 +109,8 @@
                 },
                 "settings": "Settings",
                 "password": "Password",
+                "help": "Help",
+                "help-not-provided": "Help page content not provided!",
                 "passwordSetup": "Invitation to the system",
                 "logout": "Sign out",
                 "profile": "Profile"

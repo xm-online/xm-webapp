@@ -242,6 +242,10 @@ body > .col-xs-11.alert {
     z-index: 1000 !important;
 }
 
+.editor-toolbar.fullscreen, .CodeMirror-wrap.CodeMirror-fullscreen {
+    z-index: 1100 !important;
+}
+
 
 .modal-dialog {
     .modal-header {
@@ -321,6 +325,18 @@ tag-input {
 
 .array-item flex-layout-section-widget flex-layout-root-widget {
     align-items: center!important;
+}
+
+.array-item {
+  border-radius: 8px!important;
+  box-shadow: none!important;
+  padding: 6px;
+  border: thin solid #e8e7e7!important;
+  position: relative;
+  transition: none!important;
+  &:hover {
+    cursor: inherit!important;
+  }
 }
 
 @media (max-width: 768px) {

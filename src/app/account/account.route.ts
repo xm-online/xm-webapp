@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import {
     activateRoute,
+    helpRoute,
     passwordResetFinishRoute,
     passwordResetInitRoute,
     passwordRoute,
@@ -14,6 +15,7 @@ import {
 
 const ACCOUNT_ROUTES = [
     activateRoute,
+    helpRoute,
     passwordRoute,
     passwordResetFinishRoute,
     passwordSetupRoute,

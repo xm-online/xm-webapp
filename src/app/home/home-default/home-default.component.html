@@ -1,0 +1,8 @@
+<div class="xm-home-defaults">
+  <div *ngIf="!homePageOptions?.icon" class="default-img"></div>
+  <mat-icon [style.color]="homePageOptions?.iconColor || 'inherit'" *ngIf="homePageOptions?.icon">
+    {{homePageOptions?.icon}}
+  </mat-icon>
+  <div class="message">{{(homePageOptions?.message || 'home-default.message') | translate}}</div>
+</div>
+

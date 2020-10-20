@@ -44,7 +44,7 @@ export class UserService {
             params = params.set('size', req.size);
             if (req.sort) {
                 req.sort.forEach((val) => {
-                    params = params.append('sort', val);
+                    params = params.append('sort', req.login ? 'user.' + val : val);
                 });
             }
             if (req.login) {

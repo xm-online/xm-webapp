@@ -17,8 +17,18 @@ export interface EntityLocationsUiConfig {
 
 export interface EntityLinkUiConfig {
     typeKey: string;
+    hideIfEmpty: boolean;
+    noData: TranslationSet;
     fields: FieldOptions[];
 }
+
+export interface EntityCalendarUiConfig {
+    typeKey: string;
+    queryPageSize: number;
+    view: CalendarView;
+}
+
+export type CalendarView = 'month' | 'week' | 'day';
 
 export type EntityDetailLayout = 'DEFAULT' | 'ALL-IN-ROW' | 'COMPACT';
 
@@ -29,5 +39,6 @@ export interface EntityUiConfig {
     attachments?: EntityAttachmentsUiConfig;
     locations?: EntityLocationsUiConfig;
     links?: { items: EntityLinkUiConfig[] };
+    calendars?: { items: EntityCalendarUiConfig[] };
     noData?: TranslationSet;
 }

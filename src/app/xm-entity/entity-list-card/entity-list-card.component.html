@@ -53,12 +53,14 @@
               <xm-function-list-section [functionSpecs]="item.xmEntitySpec?.functions" [listView]="true">
               </xm-function-list-section>
             </ng-container>
-            <button *xmPermitted="['XMENTITY.EXPORT.FILE']"
-                    [matMenuTriggerFor]="entityListActionDownloads"
-                    class="btn-sm"
-                    mat-menu-item>
-              {{'xm-entity.entity-list-card.export.action.downloads' | translate}}
-            </button>
+            <ng-container *ngIf="!isHideDownload(item.typeKey)">
+              <button *xmPermitted="['XMENTITY.EXPORT.FILE']"
+                      [matMenuTriggerFor]="entityListActionDownloads"
+                      class="btn-sm"
+                      mat-menu-item>
+                {{'xm-entity.entity-list-card.export.action.downloads' | translate}}
+              </button>
+            </ng-container>
           </mat-menu>
 
           <mat-menu #entityListActionDownloads="matMenu">

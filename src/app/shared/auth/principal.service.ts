@@ -51,11 +51,9 @@ export class Principal {
         if (!this.authenticated || !this.userIdentity || !this.userIdentity.privileges) {
             return false;
         }
-
         if (SUPER_ADMIN === this.userIdentity.roleKey) {
             return true;
         }
-
         if (privilegesOperation === 'OR') {
             for (let i = privileges.length; i--;) {
                 if (this.userIdentity.privileges.indexOf(privileges[i]) !== -1) {

@@ -9,6 +9,7 @@ import {
     OnInit,
     ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material';
 import { JsonSchemaFormComponent, JsonSchemaFormService } from 'angular2-json-schema-form';
@@ -18,7 +19,7 @@ import { filter, finalize, map, mergeMap, takeUntil, tap } from 'rxjs/operators'
 import { environment } from '../../../../../environments/environment';
 import { Principal } from '../../../auth/principal.service';
 import { I18nNamePipe } from '../../../language/i18n-name.pipe';
-import { ExtSelectOptions } from './ext-select-options.model';
+import { ExtSelectOptions, ISelectDeepLinkOptions } from './ext-select-options.model';
 import { ExtSelectService } from './ext-select-service';
 
 interface Element {
@@ -29,9 +30,11 @@ interface Element {
 @Component({
     selector: 'xm-ext-select-widget',
     templateUrl: 'ext-select.component.html',
+    styleUrls: ['./ext-select.component.scss'],
 })
 export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     public options: ExtSelectOptions;
+    public selectLinkOptions: ISelectDeepLinkOptions;
 
     public elements: any = [];
     public disabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -40,6 +43,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     public elementFilterCtrl: FormControl = new FormControl();
     public filteredElements: ReplaySubject<Element[]> = new ReplaySubject<Element[]>(1);
     public placeholder: BehaviorSubject<string>;
+    public canSeeLink: boolean;
 
     @ViewChild('singleSelect', {static: false}) protected singleSelect: MatSelect;
     @Input() private layoutNode: any;
@@ -52,14 +56,28 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
         @Inject(forwardRef(() => JsonSchemaFormComponent)) private _parent: JsonSchemaFormComponent,
         private jsf: JsonSchemaFormService,
         private selectService: ExtSelectService,
+        private router: Router,
         private i18nNamePipe: I18nNamePipe,
         private changeDetectorRef: ChangeDetectorRef,
         public principal: Principal,
     ) {
+
+    }
+
+    public onNavigate(e: Event): void {
+        e.stopPropagation();
+        const entityObj = this.elementCtrl && this.elementCtrl['object'];
+        const navigationId = entityObj && entityObj.id;
+        const typeKey = entityObj && entityObj.typeKey;
+        if (navigationId && typeKey) {
+            this.router.navigate([`application/${typeKey}/${navigationId}`]);
+        }
     }
 
     public ngOnInit(): void {
         this.options = this.layoutNode.options || {};
+        this.selectLinkOptions = this.options.link || null;
+        this.setCanSeeLink();
         if (!environment.production) {
             console.info('[dbg] initial -> %o', this.options);
         }
@@ -211,7 +229,6 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
             if (!this.options.url && !this.regTemplateLiteral.test(this.options.url)) {
                 return;
             }
-
             this.fetchOptions(options).pipe(
                 tap((items) => !environment.production && console.info('[dbg] ext-select -> ', items)),
                 tap((items) => this.elements = items),
@@ -229,5 +246,17 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private fetchOptions(options: any): Observable<any[]> {
         return this.selectService.fetchData(options);
+    }
+
+    private setCanSeeLink(): void {
+        const privileges = this.selectLinkOptions &&
+            this.selectLinkOptions.privileges &&
+            this.selectLinkOptions.privileges.length > 0;
+        if (privileges) {
+            this.principal.hasPrivileges(this.selectLinkOptions.privileges)
+                .then(result => this.canSeeLink = result);
+        } else {
+            this.canSeeLink = this.selectLinkOptions && typeof this.selectLinkOptions === 'object';
+        }
     }
 }

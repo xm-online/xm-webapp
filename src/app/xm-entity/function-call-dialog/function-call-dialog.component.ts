@@ -29,6 +29,8 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
     @Input() public dialogTitle: any;
     @Input() public buttonTitle: any;
     @Input() public onSuccess: any;
+    @Input() public onError: any;
+    @Input() public preSendHandler: any;
 
     public jsfAttributes: any;
     public formData: any = {};
@@ -64,6 +66,12 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
     }
 
     public onConfirmFunctionCall(): void {
+        if (this.preSendHandler) {
+            if (!this.preSendHandler()) {
+                return;
+            }
+        }
+
         this.showLoader$.next(true);
         // XXX think about this assignment
         this.formData.xmEntity = this.xmEntity;
@@ -74,19 +82,19 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
 
         const isSaveContent = (r) => r.actionType && r.actionType === 'download';
 
-        // save attachment
+        // Save attachment
         const saveContent$ = apiCall$.pipe(
             filter((response) => isSaveContent(response)),
             tap((response) => this.saveAsFile(response)),
         );
 
-        // if !download xmEntity function, emit XM_ENTITY_DETAIL_MODIFICATION notification
+        // If !download xmEntity function, emit XM_ENTITY_DETAIL_MODIFICATION notification
         const sendModifyEvent$ = apiCall$.pipe(
             filter((response) => !isSaveContent(response) && !!eId),
             tap(() => this.eventManager.broadcast({name: XM_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION})),
         );
 
-        // if !download proceed with on success scenario and emit XM_FUNCTION_CALL_SUCCESS
+        // If !download proceed with on success scenario and emit XM_FUNCTION_CALL_SUCCESS
         const sentCallSuccessEvent$ = apiCall$.pipe(
             filter((response) => !isSaveContent(response)),
             tap((response) => this.onSuccessFunctionCall(response)),
@@ -95,7 +103,7 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
 
         merge(saveContent$, sendModifyEvent$, sentCallSuccessEvent$).pipe(
             finalize(() => this.cancelLoader()),
-            catchError(() => this.handleError()),
+            catchError((response) => this.handleError(response)),
         ).subscribe();
     }
 
@@ -107,8 +115,11 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
         this.formData = data;
     }
 
-    private handleError(): Observable<any> {
+    private handleError(response: any): Observable<any> {
         this.cancelLoader();
+        if (this.onError) {
+            this.onError(response);
+        }
         return of();
     }
 
@@ -118,11 +129,11 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
 
     private onSuccessFunctionCall(r: any): void {
         const data = r.body && r.body.data;
-        // if onSuccess handler passes, close popup and pass processing to function
+        // If onSuccess handler passes, close popup and pass processing to function
         if (this.onSuccess) {
             this.activeModal.dismiss(true);
             this.onSuccess(data, this.formData);
-            // if response should be shown but there are no form provided
+            // If response should be shown but there are no form provided
         } else if (data && this.functionSpec.showResponse && !this.functionSpec.contextDataForm) {
             this.activeModal.dismiss(true);
             swal({
@@ -137,13 +148,13 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
                 this.functionSpec.contextDataSpec ? this.functionSpec.contextDataSpec : {},
                 this.functionSpec.contextDataForm ? this.functionSpec.contextDataForm : {});
             this.jsfAttributes.data = data;
-            // if contains a location header, go to location specified
+            // If contains a location header, go to location specified
         } else if (r.headers.get('location')) {
             this.activeModal.dismiss(true);
-            this.router.navigate(
-                [r.headers.get('location')],
-                {queryParams: data},
-            );
+            const location = r.headers.get('location');
+            if ('/api/function-contexts/' !== location) {
+                this.router.navigate([location], {queryParams: data});
+            }
         } else {
             this.activeModal.dismiss(true);
         }

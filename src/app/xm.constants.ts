@@ -9,6 +9,7 @@ const _DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded';
 const _DEFAULT_AUTH_TOKEN = 'Basic d2ViYXBwOndlYmFwcA==';
 
 const _DEFAULT_LANG = 'en';
+const _DEFAULT_CALENDAR_VIEW = 'month';
 const _TERMS_ERROR = 'needAcceptTermsOfConditions';
 
 /**
@@ -29,7 +30,20 @@ enum _XM_EVENT_LIST {
     XM_REFRESH_TIMELINE = XM_ENTITY_DETAIL_MODIFICATION,
     XM_ATTACHMENT_LIST_MODIFICATION = 'attachmentListModification',
     XM_ENTITY_LIST_MODIFICATION = 'xmEntityListModification',
+    XM_TENANT_CONFIGURATION_UPDATE = 'xmTenantConfigurationUpdate'
 }
+
+export const XM_CALENDAR_VIEW = {
+    MONTH: 'month',
+    WEEK: 'week',
+    DAY: 'day',
+};
+
+export const CALENDAR_VIEW = {
+    [XM_CALENDAR_VIEW.MONTH]: _DEFAULT_CALENDAR_VIEW,
+    [XM_CALENDAR_VIEW.WEEK]: 'agendaWeek',
+    [XM_CALENDAR_VIEW.DAY]: 'agendaDay',
+};
 
 export const VERSION = _VERSION;
 export const DEBUG_INFO_ENABLED = _DEBUG_INFO_ENABLED;
@@ -41,6 +55,7 @@ export const XM_EVENT_LIST = _XM_EVENT_LIST;
 
 export const DEFAULT_CONTENT_TYPE = _DEFAULT_CONTENT_TYPE;
 export const DEFAULT_AUTH_TOKEN = _DEFAULT_AUTH_TOKEN;
+export const DEFAULT_CALENDAR_VIEW = _DEFAULT_CALENDAR_VIEW;
 
 // TODO: process.env.SERVER_API_URL as alternative from webpack
 export const SERVER_API_URL = '';

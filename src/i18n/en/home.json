@@ -2,5 +2,10 @@
     "home": {
         "title": "Welcome!",
         "subtitle": "This is your homepage"
+    },
+    "home-default": {
+        "title": "Welcome!",
+        "subtitle": "This is default access page!",
+        "message": "Welcome to xm-online!"
     }
 }

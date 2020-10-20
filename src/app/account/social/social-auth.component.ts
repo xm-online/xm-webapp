@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'angular2-cookie/core';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 
-import { AuthService, LoginComponent, LoginService } from '../../shared';
+import { AuthService, LoginComponent, LoginService, Principal } from '../../shared';
 import { StateStorageService } from '../../shared/auth/state-storage.service';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { XM_EVENT_LIST } from '../../xm.constants';
@@ -26,6 +26,7 @@ export class SocialAuthComponent extends LoginComponent implements OnInit {
                 protected alertService: JhiAlertService,
                 protected modalService: NgbModal,
                 protected authService: AuthService,
+                readonly principal: Principal,
                 protected cookieService: CookieService) {
         super(
             eventManager,
@@ -36,6 +37,7 @@ export class SocialAuthComponent extends LoginComponent implements OnInit {
             router,
             alertService,
             modalService,
+            principal,
         );
     }
 
@@ -48,7 +50,7 @@ export class SocialAuthComponent extends LoginComponent implements OnInit {
                     .then(
                         () => {
                             this.eventManager.broadcast({name: XM_EVENT_LIST.XM_SUCCESS_AUTH});
-                            this.router.navigate(['dashboard']);
+                            this.loginService.checkAvailableUrlsAndNavigate();
                         },
                         () => this.router.navigate(['']),
                     );

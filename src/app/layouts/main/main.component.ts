@@ -1,5 +1,5 @@
 /* tslint:disable:typedef */
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, isDevMode, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Idle } from 'idlejs/dist';
 import { JhiEventManager } from 'ng-jhipster';
@@ -13,6 +13,7 @@ import { LoginService } from '../../shared/login/login.service';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { XmApplicationConfigService } from '../../shared/spec/xm-config.service';
 import { XM_EVENT_LIST } from '../../xm.constants';
+import { finalize } from "rxjs/operators";
 
 declare let $: any;
 
@@ -21,13 +22,15 @@ declare let $: any;
     templateUrl: './main.component.html',
 })
 export class XmMainComponent implements OnInit, OnDestroy {
+
     public showSidebar: boolean = true;
     public config: any;
     public resolved$: BehaviorSubject<boolean>;
     public isIdleEnabled: boolean;
     public isGuestLayout: boolean;
     public guestBg: string;
-    public authSucessSubscription: Subscription;
+    public authSuccessSubscription: Subscription;
+    public updateConfigurationEvent: Subscription;
     public isMaintenanceProgress$: BehaviorSubject<boolean>;
     public userAutoLogoutEnabled: boolean;
     public userAutoLogoutSeconds: number;
@@ -56,6 +59,11 @@ export class XmMainComponent implements OnInit, OnDestroy {
             this.config = config ? config : null;
             this.prepareLayout();
             this.registerAuthenticationSuccess();
+        });
+
+        this.updateConfigurationEvent = this.eventManager.subscribe(XM_EVENT_LIST.XM_TENANT_CONFIGURATION_UPDATE, (message) => {
+            isDevMode() && console.info(`DBG: %o`, message); // tslint:disable-line
+            this.reloadTenantConfiguration();
         });
 
         // TODO: const envType = environment.production ? 'PROD' : 'TEST';
@@ -143,10 +151,16 @@ export class XmMainComponent implements OnInit, OnDestroy {
         }
     }
 
+    private reloadTenantConfiguration() {
+        this.configService.updateTenantConfig().pipe(
+            finalize(() => window.location.reload())
+        ).subscribe();
+    }
+
     public ngOnDestroy(): void {
-        // eslint-disable-next-line no-unused-expressions
-        this.authSucessSubscription
-            ? this.authSucessSubscription.unsubscribe()
+        this.updateConfigurationEvent.unsubscribe();
+        this.authSuccessSubscription
+            ? this.authSuccessSubscription.unsubscribe()
             : console.info('No authSucessSubscription');
     }
 
@@ -157,7 +171,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.authSucessSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_SUCCESS_AUTH, (message) => {
+        this.authSuccessSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_SUCCESS_AUTH, (message) => {
             this.principal.identity();
             this.isGuestLayout = false;
             this.loadPrivateConfig();
