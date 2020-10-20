@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import * as _ from 'lodash';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
 
 
 /**
@@ -7,16 +9,18 @@ import { Observable, ReplaySubject } from 'rxjs';
  * Broadcast session changes.
  */
 @Injectable({ providedIn: 'root' })
-export class SessionService<T = unknown> {
+export class SessionService {
 
-    protected session$: ReplaySubject<T | null> = new ReplaySubject<T>(1);
+    protected session$: BehaviorSubject<unknown | null> = new BehaviorSubject<unknown | null>(null);
 
-    public get(): Observable<T> {
-        return this.session$.asObservable();
+    public get<T = unknown>(key?: string): Observable<T> {
+        return this.session$.asObservable().pipe(pluck(key));
     }
 
-    public store(data: T): void {
-        return this.session$.next(data);
+    public store<T = unknown>(key: string, data: T): void {
+        const prevValue = this.session$.getValue();
+        const newValue = _.merge(prevValue, { [key]: data });
+        return this.session$.next(newValue);
     }
 
     public clear(): void {
