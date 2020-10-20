@@ -33,7 +33,7 @@ export class UserSessionService {
         this.sessionService.store(this.sessionKey, session);
     }
 
-    public update(session: IUserSession): void {
+    public update(session: Partial<IUserSession>): void {
         this.sessionService.store(this.sessionKey, session);
     }
 

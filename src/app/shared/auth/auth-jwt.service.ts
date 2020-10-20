@@ -201,7 +201,12 @@ export class AuthServerProvider {
         this.refreshToken().subscribe((data) => {
             this.storeAT(data, rememberMe);
             this.storeRT(data, rememberMe);
-            this.sessionService.update();
+            this.sessionService.update({
+                active: true,
+                refreshToken: data.refresh_token,
+                accessToken: data.access_token,
+                useAutoRefreshToken: rememberMe,
+            });
         }, (error) => {
             console.info('Refresh token fails: %o', error);
             this.logout().subscribe();
@@ -266,7 +271,12 @@ export class AuthServerProvider {
 
     private setAutoRefreshTokens(rememberMe: boolean, expiresIn: number = null): void {
         if (this.getRefreshToken()) {
-            this.sessionService.create();
+            this.sessionService.create({
+                active: true,
+                useAutoRefreshToken: rememberMe,
+                accessToken: this.storeService.getAuthenticationToken(),
+                refreshToken: this.storeService.getRefreshToken(),
+            });
             this.refreshTokenService.start(expiresIn, () => {
                 if (this.getRefreshToken()) {
                     this.refreshTokens(rememberMe);
@@ -274,7 +284,12 @@ export class AuthServerProvider {
             });
         } else {
             // TODO: move to interceptor
-            this.getGuestAccessToken().subscribe(() => this.sessionService.create({ active: false }));
+            this.getGuestAccessToken().subscribe(() => this.sessionService.create({
+                active: false,
+                useAutoRefreshToken: rememberMe,
+                accessToken: this.storeService.getAuthenticationToken(),
+                refreshToken: null,
+            }));
         }
     }
 }
