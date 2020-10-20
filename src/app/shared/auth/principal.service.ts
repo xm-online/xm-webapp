@@ -142,7 +142,6 @@ export class Principal implements OnDestroy, OnInitialize {
                                     return result;
                                 }, []);
                             }
-                            this.sessionService.create();
                             this.userIdentity = account;
                             this.authenticated = true;
                             account.timeZoneOffset = this.setTimezoneOffset();
@@ -154,7 +153,6 @@ export class Principal implements OnDestroy, OnInitialize {
                                 this.languageService.locale = account.langKey;
                             }
                         } else {
-                            this.sessionService.destroy();
                             this.userIdentity = null;
                             this.authenticated = false;
                         }
