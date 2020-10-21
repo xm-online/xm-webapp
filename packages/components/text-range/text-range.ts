@@ -10,6 +10,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 export interface TextRangeOptions {
     title?: string;
     placeholder?: string;
+    required?: boolean;
     id?: string;
     rows?: string;
 }
@@ -22,6 +23,7 @@ export interface TextRangeOptions {
 
             <textarea [placeholder]="options.placeholder | translate"
                       [id]="options.id"
+                      [required]="options.required"
                       [rows]="options.rows || 4"
                       [formControl]="control"
                       matInput>

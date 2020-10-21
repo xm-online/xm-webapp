@@ -12,7 +12,9 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 
 export interface EnumControlOptions {
+    id?: string;
     title?: Translate;
+    required?: boolean;
     enum: EnumOption[]
 }
 
@@ -24,6 +26,7 @@ export interface EnumOption {
 
 const DEFAULT: EnumControlOptions = {
     title: '',
+    required: false,
     enum: [],
 };
 
@@ -32,6 +35,8 @@ const DEFAULT: EnumControlOptions = {
     template: `
         <mat-form-field>
             <mat-select [formControl]="control"
+                        [required]="options.required"
+                        [id]="options.id"
                         [placeholder]="options?.title | translate">
                 <mat-option *ngFor="let s of _list" [value]="s.value">
                     <mat-icon *ngIf="s.icon">{{s.icon}}</mat-icon>
