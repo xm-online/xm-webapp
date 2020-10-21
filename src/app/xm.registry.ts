@@ -178,6 +178,10 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/xm-link-view').then(m => m.XmLinkViewCopyModule),
     },
     {
+        selector: '@xm-ngx/components/text-range',
+        loadChildren: () => import('@xm-ngx/components/text-range').then(m => m.XmTextRangeModule),
+    },
+    {
         selector: '@xm-ngx/account/xm-user-login-widget',
         loadChildren: () => import('@xm-ngx/account/xm-user-login-widget').then(m => m.XmUserLoginWidgetModule),
     },

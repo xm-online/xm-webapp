@@ -75,7 +75,6 @@ export class XmEnumControl extends NgFormAccessor<string> implements IControl<st
     ],
     exports: [XmEnumControl],
     declarations: [XmEnumControl],
-    providers: [],
 })
 export class XmEnumControlModule {
     public entry: IControlFn<string, EnumControlOptions> = XmEnumControl;
