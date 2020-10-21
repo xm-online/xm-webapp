@@ -1,6 +1,11 @@
 <div mat-dialog-title>
   <h4 class="modal-title text-left">
-    <span>{{'xm-entity.calendar-event-dialog.title'|translate}}</span> [<b>{{xmEntity.name}}</b>]
+    <ng-container *ngIf="event?.id; else tmplTitle">
+      <span>{{'xm-entity.calendar-event-dialog.titleEdit'|translate}}</span> [<b>{{xmEntity.name}}</b>]
+    </ng-container>
+    <ng-template #tmplTitle>
+      <span>{{'xm-entity.calendar-event-dialog.title'|translate}}</span> [<b>{{xmEntity.name}}</b>]
+    </ng-template>
   </h4>
   <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
@@ -102,10 +107,10 @@
       <json-schema-form (formLayout)="jsfAttributes.formLayout"
                         *ngIf="jsfAttributes?.schema"
                         [data]="jsfAttributes.data"
-                        [form]="jsfAttributes.form | i18nJsf :principal"
+                        [form]="jsfAttributes.form | i18nJsf"
                         [framework]="'material-design'"
-                        [layout]="jsfAttributes.layout | i18nJsf :principal"
-                        [options]="jsfAttributes.options | i18nJsf :principal"
+                        [layout]="jsfAttributes.layout | i18nJsf"
+                        [options]="jsfAttributes.options | i18nJsf"
                         [schema]="jsfAttributes.schema"
                         [widgets]="jsfAttributes.widgets"
                         (onChanges)="onChangeSchemaForm($event)"
