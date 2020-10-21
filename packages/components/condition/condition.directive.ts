@@ -1,4 +1,13 @@
-import { Directive, EmbeddedViewRef, Input, OnChanges, TemplateRef, ViewContainerRef } from '@angular/core';
+import {
+    Directive,
+    EmbeddedViewRef,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    TemplateRef,
+    ViewContainerRef,
+} from '@angular/core';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { keys, values } from 'lodash';
 
@@ -9,6 +18,7 @@ export class ConditionDirective implements OnChanges {
 
     @Input('xmCondition') public condition: JavascriptCode;
     @Input('xmConditionArguments') public arguments: { [key: string]: unknown };
+    @Output() public conditionCheck: EventEmitter<boolean> = new EventEmitter();
 
     private thenViewRef: EmbeddedViewRef<undefined> | null = null;
 
@@ -36,11 +46,13 @@ export class ConditionDirective implements OnChanges {
             return;
         }
 
-        if (ConditionDirective.checkCondition(this.condition, this.arguments)) {
+        const isShow = ConditionDirective.checkCondition(this.condition, this.arguments);
+        if (isShow) {
             this.show();
         } else {
             this.hide();
         }
+        this.conditionCheck.emit(isShow);
     }
 
     private show(): void {
