@@ -11,4 +11,5 @@ export interface Event extends BaseEntity {
     endDate?: string | Date;
     calendar?: number;
     assigned?: XmEntity;
+    eventDataRef?: XmEntity;
 }
