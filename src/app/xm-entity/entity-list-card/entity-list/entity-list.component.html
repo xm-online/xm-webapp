@@ -93,7 +93,7 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let xmEntity">
         <div class="xm-avatar-img-container">
-          <img src="{{xmEntity.avatarUrl ? xmEntity.avatarUrl : './assets/img/placeholder.png'}}">
+          <img src="{{xmEntity.avatarUrl ? xmEntity.avatarUrl : './assets/img/placeholder.png'}}" alt="{{xmEntity.typeKey}}">
           <i class="material-icons"
              *ngIf="xmEntity.type?.icon && !xmEntity.avatarUrl">{{xmEntity.type?.icon}}</i>
         </div>
@@ -204,7 +204,7 @@
       </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="!(options?.hideDelete) && !(item?.hideDelete)" matColumnDef="deleteButton">
+    <ng-container *ngIf="!hideDelete" matColumnDef="deleteButton">
       <th mat-header-cell *matHeaderCellDef></th>
       <td *matCellDef="let xmEntity">
         <a (click)="onRemove(xmEntity)" href="javascript: void(0);">
@@ -213,8 +213,8 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="getColumnsToDisplay(item.fields)"></tr>
-    <tr mat-row *matRowDef="let row; columns: getColumnsToDisplay(item.fields);"></tr>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
   </table>
 
   <no-data [show]="!showLoader && !(tableDataSource?.data?.length > 0)"></no-data>

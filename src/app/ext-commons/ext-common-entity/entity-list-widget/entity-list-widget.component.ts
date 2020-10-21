@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, isDevMode, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { LIST_DEFAULT_FIELDS } from '../../../shared/constants/default-lists-fields.constants';
-import { Spec } from '../../../xm-entity';
+import { Spec } from '@xm-ngx/entity';
 
 @Component({
     selector: 'xm-entity-list-widget',
@@ -25,6 +25,7 @@ export class EntityListWidgetComponent implements OnInit {
 
     public ngOnInit(): void {
         if (this.config && this.config.entities) {
+            isDevMode() && console.info("dbg: this.config.entities.size = %o", this.config.entities);
             for (const entityOptions of this.config.entities) {
                 if (!entityOptions.fields) {
                     this.translateService.get(this.defaultFieldsKeys).subscribe(() => {

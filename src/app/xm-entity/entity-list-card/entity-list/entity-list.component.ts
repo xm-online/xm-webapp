@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {Component, Input, isDevMode, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
     ActionOptions,
     EntityListCardOptions,
@@ -27,6 +27,8 @@ import { HttpResponse } from '@angular/common/http';
 import { buildJsfAttributes, transpilingForIE } from '@xm-ngx/json-scheme-form';
 import { saveFile } from "../../../shared/helpers/file-download-helper";
 
+import * as _ from 'lodash';
+
 @Component({
     selector: 'xm-entity-list',
     templateUrl: './entity-list.component.html',
@@ -46,11 +48,13 @@ export class EntityListComponent implements OnInit, OnDestroy {
     @Input() public spec: Spec;
 
     public showLoader: boolean;
+    public hideDelete: boolean = true;
     public currentEntitiesUiConfig: any[];
     public isShowFilterArea: boolean;
     public totalItems: number;
     public itemsPerPageOptions: number[] = XM_PAGE_SIZE_OPTIONS;
     public tableDataSource: MatTableDataSource<XmEntity>;
+    public columnsToDisplay: string[];
 
     private entityListActionSuccessSubscription: Subscription;
     private entityEntityListModificationSubscription: Subscription;
@@ -85,6 +89,9 @@ export class EntityListComponent implements OnInit, OnDestroy {
                 .filter((f) => f.field && f.field.startsWith('data.'))
                 .map((f) => f.sortable = false);
         }
+        this.hideDelete = _.get(this.options, 'hideDelete', false) || _.get(this.item, 'hideDelete', false);
+        isDevMode() && console.info(`dbg: typeKey=${this.item.typeKey} hideDelete=${this.hideDelete}`);
+        this.columnsToDisplay = this.getColumnsToDisplay(this.item.fields, this.hideDelete);
     }
 
 
@@ -193,8 +200,12 @@ export class EntityListComponent implements OnInit, OnDestroy {
         return new MatTableDataSource<XmEntity>(data)
     }
 
-    public getColumnsToDisplay(fields: Array<FieldOptions>) {
-        return ['avatarUrl', ...fields?.map(i => i.field), 'deleteButton'];
+    public getColumnsToDisplay(fields: Array<FieldOptions>, hideDelete: boolean = true) {
+        const columns = ['avatarUrl', ...fields?.map(i => i.field)];
+        if (!hideDelete) {
+            columns.push('deleteButton');
+        }
+        return columns;
     }
 
     public onNavigate(entityOptions: EntityOptions, xmEntity: XmEntity): void {
