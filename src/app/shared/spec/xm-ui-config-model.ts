@@ -17,6 +17,8 @@ export interface EntityLocationsUiConfig {
 
 export interface EntityLinkUiConfig {
     typeKey: string;
+    hideIfEmpty: boolean;
+    noData: TranslationSet;
     fields: FieldOptions[];
 }
 
