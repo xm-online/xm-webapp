@@ -24,6 +24,8 @@ export class LinkListCardComponent implements OnInit, OnChanges {
     @Input() public modes: string[] = ['list'];
     @Input() public isBackLink: boolean = false;
 
+    public isCardVisible: boolean = false;
+
     public mode: string = 'list';
     public treeRootLinks: Link[];
     public columnsToDisplay: string[] = ['avatar', 'name', 'description', 'delete'];
@@ -46,6 +48,12 @@ export class LinkListCardComponent implements OnInit, OnChanges {
     }
 
     public ngOnInit(): void {
+
+        const itemsPresent = Boolean(this.links.length);
+        const hideEmptyCard = Boolean(this.linkSpec.interface) && Boolean(this.linkSpec.interface.hideIfEmpty);
+        //Hide card only if (hideIfEmpty = true and no elements present in list)
+        this.isCardVisible = itemsPresent || (!itemsPresent && !hideEmptyCard);
+
         if (this.linkSpec.interface && this.linkSpec.interface.fields) {
             this.fields = this.linkSpec.interface.fields;
             this.columnsToDisplay = this.fields.map(field => field.field);
@@ -87,7 +95,6 @@ export class LinkListCardComponent implements OnInit, OnChanges {
     }
 
     public getFieldValue(xmEntity: any = {}, field: FieldOptions): any {
-        console.log(field.field)
         return getFieldValue(xmEntity, field);
     }
 
