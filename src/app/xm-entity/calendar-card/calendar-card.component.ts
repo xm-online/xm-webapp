@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, isDevMode, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -236,6 +236,7 @@ export class CalendarCardComponent implements OnChanges {
         modalRef.componentInstance.calendarSpec = calendarSpec;
         modalRef.componentInstance.onAddEvent = (event: Event, isEdit?: boolean) => {
             this.currentCalendar.events = this.currentCalendar.events ? this.currentCalendar.events : [];
+            isDevMode() && console.info("dbg: isEdit=%s event=%o", isEdit, event);
             if (isEdit) {
                 const item = this.currentCalendar.events.find((el) => el.id === event.id);
                 Object.assign(item, event);
