@@ -175,7 +175,9 @@ export class LocationDetailDialogComponent implements OnInit {
     }
 
     private createForm(): void {
-        const regCoordinate = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/;
+        const regCoordinateLat = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/;
+        //todo fix this regexp to verify longitude in range (-180  180)
+        //const regCoordinateLong = /^[-+]?([1-9]?\d(\.\d+)?|90(\.0+)?)$/;
 
         this.form = this.fb.group({
             id: [null],
@@ -187,8 +189,8 @@ export class LocationDetailDialogComponent implements OnInit {
             city: [null],
             addressLine1: [null],
             addressLine2: [null],
-            latitude: [null, [Validators.required, Validators.pattern(regCoordinate)]],
-            longitude: [null, [Validators.required, Validators.pattern(regCoordinate)]],
+            latitude: [null, [Validators.required, Validators.pattern(regCoordinateLat)]],
+            longitude: [null, [Validators.required, /*Validators.pattern(regCoordinateLong)*/]],
             xmEntity: this.fb.group({}),
         });
     }
