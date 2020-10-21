@@ -48,6 +48,7 @@ export class LinkListCardComponent implements OnInit, OnChanges {
     public ngOnInit(): void {
         if (this.linkSpec.interface && this.linkSpec.interface.fields) {
             this.fields = this.linkSpec.interface.fields;
+            this.columnsToDisplay = this.fields.map(field => field.field);
         }
 
         if (this.isBackLink) {
@@ -86,6 +87,7 @@ export class LinkListCardComponent implements OnInit, OnChanges {
     }
 
     public getFieldValue(xmEntity: any = {}, field: FieldOptions): any {
+        console.log(field.field)
         return getFieldValue(xmEntity, field);
     }
 
