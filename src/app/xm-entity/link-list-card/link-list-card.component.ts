@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {Component, Input, isDevMode, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
@@ -53,6 +53,7 @@ export class LinkListCardComponent implements OnInit, OnChanges {
         const hideEmptyCard = Boolean(this.linkSpec.interface) && Boolean(this.linkSpec.interface.hideIfEmpty);
         //Hide card only if (hideIfEmpty = true and no elements present in list)
         this.isCardVisible = itemsPresent || (!itemsPresent && !hideEmptyCard);
+        isDevMode() && console.info("dbg: linkCard [%s] hasLinks=%s hideIfEmpty=%s visibility=%s", this.linkSpec.model.key, itemsPresent, hideEmptyCard, this.isCardVisible);
 
         if (this.linkSpec.interface && this.linkSpec.interface.fields) {
             this.fields = this.linkSpec.interface.fields;
