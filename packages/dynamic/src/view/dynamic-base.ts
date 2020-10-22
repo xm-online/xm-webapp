@@ -1,5 +1,6 @@
 import {
-    ComponentFactoryResolver, Directive,
+    ComponentFactoryResolver,
+    Directive,
     Injector,
     OnChanges,
     OnInit,
@@ -27,14 +28,14 @@ interface IOptions<O> {
  *
  * @public
  */
-export interface IComponent<V, O> extends IValue<V>, IOptions<O> {
+export interface IComponent<V = unknown, O = unknown> extends IValue<V>, IOptions<O> {
     /** {@inheritDoc IValue}. */
     value: V;
     /** {@inheritDoc IOptions.value}. */
     options: O;
 }
 
-export interface IComponentFn<V, O> {
+export interface IComponentFn<V = unknown, O = unknown> {
     new(...args: any): IComponent<V, O>;
 }
 
