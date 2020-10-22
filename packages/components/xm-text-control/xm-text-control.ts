@@ -53,7 +53,6 @@ const DEFAULT_OPTIONS: ITextControlOptions = {
             <input matInput
                    [formControl]="control"
                    [placeholder]="options.placeholder | translate"
-                   [disabled]="disabled || options.disabled"
                    [attr.name]="options.name"
                    [id]="options.id"
                    [required]="options.required"
@@ -68,8 +67,6 @@ const DEFAULT_OPTIONS: ITextControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmTextControl extends NgFormAccessor<Primitive> implements IControl<Primitive, ITextControlOptions> {
-    @Input() public value: Primitive;
-    @Input() public disabled: boolean;
     @Input() public control: FormControl = new FormControl();
     @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
 
@@ -88,6 +85,10 @@ export class XmTextControl extends NgFormAccessor<Primitive> implements IControl
     public set options(value: ITextControlOptions) {
         this._options = defaults({}, value, { ...DEFAULT_OPTIONS, errors: this.xmControlErrorsTranslates });
         this._options.placeholder = this._options.placeholder || this._options.title;
+
+        if (value.disabled) {
+            this.disabled = value.disabled;
+        }
     }
 
 }

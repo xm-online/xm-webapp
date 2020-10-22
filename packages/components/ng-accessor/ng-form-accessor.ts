@@ -1,4 +1,4 @@
-import { OnChanges, OnDestroy, OnInit, SimpleChanges, Directive } from '@angular/core';
+import { Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NgControlAccessor } from './ng-control-accessor';
@@ -7,6 +7,28 @@ import { NgControlAccessor } from './ng-control-accessor';
 export abstract class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, OnChanges, OnDestroy {
     public control: FormControl = new FormControl();
     private valueSubscription: Subscription;
+
+    public get value(): T {
+        return this.control.value;
+    }
+
+    @Input()
+    public set value(value: T) {
+        this.control.patchValue(value, { emitEvent: false });
+    }
+
+    public get disabled(): boolean {
+        return this.control.disabled;
+    }
+
+    @Input()
+    public set disabled(value: boolean) {
+        if (value) {
+            this.control.disable();
+        } else {
+            this.control.enable();
+        }
+    }
 
     public ngOnInit(): void {
         this.initControlChangeListeners();
@@ -21,13 +43,6 @@ export abstract class NgFormAccessor<T> extends NgControlAccessor<T> implements 
 
     public setDisabledState(isDisabled: boolean): void {
         this.disabled = isDisabled;
-        if (this.control) {
-            if (this.disabled) {
-                this.control.disable();
-            } else {
-                this.control.enable();
-            }
-        }
     }
 
     public ngOnDestroy(): void {
@@ -43,7 +58,6 @@ export abstract class NgFormAccessor<T> extends NgControlAccessor<T> implements 
     protected initControlChangeListeners(): void {
         this.valueSubscription?.unsubscribe();
         if (this.control) {
-            this.change(this.control.value);
             this.valueSubscription = this.control.valueChanges
                 .subscribe((value) => this.change(value));
         }
