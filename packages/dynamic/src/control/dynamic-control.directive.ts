@@ -17,12 +17,12 @@ import { DynamicLoader } from '../loader/dynamic-loader';
 import { IComponent } from '../view/dynamic-base';
 import { DynamicViewDirective } from '../view/dynamic-view.directive';
 
-export interface IControl<V, O> extends IComponent<V, O>, ControlValueAccessor {
+export interface IControl<V = unknown, O = unknown> extends IComponent<V, O>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
     disabled: boolean;
 }
 
-export interface IControlFn<V, O> {
+export interface IControlFn<V = unknown, O = unknown> {
     new(...args: any): IControl<V, O>;
 }
 
@@ -39,7 +39,7 @@ export interface IControlFn<V, O> {
  */
 @Directive({
     selector: '[xmDynamicControl]',
-    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => DynamicControlDirective), multi: true}],
+    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => DynamicControlDirective), multi: true }],
 })
 export class DynamicControlDirective<V, O>
     extends DynamicViewDirective<V, O>
