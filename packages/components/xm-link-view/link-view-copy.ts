@@ -34,7 +34,8 @@ export const LINK_VIEW_COPY_DEFAULT_OPTIONS: LinkViewCopyOptions = assign(
             <div xmValue>
                 <a [queryParams]="queryParams"
                    [routerLink]="options?.routerLink">
-                    <span>{{fieldValue}}</span>
+                    <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
+                    <span *ngIf="fieldValue">{{fieldValue}}</span>
                 </a>
                 <copy-icon [value]="copyValue"
                            [options]="copyOptions"></copy-icon>
