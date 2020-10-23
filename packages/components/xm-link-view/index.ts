@@ -1,3 +1,3 @@
-export * from './link';
-export * from './link-view';
-export * from './link-view-copy';
+export { LinkValueModule } from './link-value';
+export { XmLinkViewModule } from './link-view';
+export { XmLinkViewCopyModule } from './link-view-copy';
