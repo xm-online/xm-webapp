@@ -31,7 +31,8 @@ export const LINK_VIEW_DEFAULT_OPTIONS: LinkViewOptions = assign(
             <div xmValue>
                 <a [queryParams]="queryParams"
                    [routerLink]="options?.routerLink">
-                    <span>{{fieldValue}}</span>
+                    <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
+                    <span *ngIf="fieldValue">{{fieldValue}}</span>
                 </a>
             </div>
         </xm-text>

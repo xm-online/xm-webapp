@@ -31,7 +31,7 @@ export const LINK_DEFAULT_OPTIONS: LinkOptions = {
         <a [queryParams]="queryParams"
            [routerLink]="options?.routerLink">
             <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
-            <span>{{fieldValue}}</span>
+            <span *ngIf="fieldValue">{{fieldValue}}</span>
         </a>
     `,
     encapsulation: ViewEncapsulation.None,
@@ -48,7 +48,7 @@ export class LinkValue implements IComponent<IId, LinkOptions>, OnInit, OnChange
         if (!this.value) {
             return;
         }
-        this.fieldValue = get(this.value, this.options?.valueField || this.defaultOptions.valueField, '');
+        this.fieldValue = get(this.value, this.options?.valueField || this.defaultOptions.valueField, null);
         this.fieldTitle = this.options?.valueTitle;
         this.queryParams = transformByMap(this.value, this.options?.queryParamsFromEntityFields || this.defaultOptions.queryParamsFromEntityFields);
     }
