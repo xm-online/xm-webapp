@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, OnInit, Type, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { LINK_DEFAULT_OPTIONS, LinkComponent, LinkOptions } from '@xm-ngx/components/xm-link-view/link';
+import { LINK_DEFAULT_OPTIONS, LinkValue, LinkOptions } from '@xm-ngx/components/xm-link-view/link-value';
 import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
 import { IComponent } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/shared/interfaces';
@@ -38,7 +38,7 @@ export const LINK_VIEW_DEFAULT_OPTIONS: LinkViewOptions = assign(
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class XmLinkViewComponent extends LinkComponent implements IComponent<IId, LinkViewOptions>, OnInit, OnChanges {
+export class XmLinkViewComponent extends LinkValue implements IComponent<IId, LinkViewOptions>, OnInit, OnChanges {
     @Input() public value: IId;
     @Input() public options: LinkViewOptions;
     protected defaultOptions: LinkViewOptions = clone(LINK_VIEW_DEFAULT_OPTIONS);

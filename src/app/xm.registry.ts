@@ -162,16 +162,20 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/xm-text-control').then(m => m.XmTextControlModule),
     },
     {
-        selector: '@xm-ngx/components/xm-link-view',
-        loadChildren: () => import('@xm-ngx/components/xm-link-view').then(m => m.XmLinkViewModule),
-    },
-    {
         selector: '@xm-ngx/components/by-entity-id',
         loadChildren: () => import('@xm-ngx/components/by-entity-id').then(m => m.ByEntityIdModule),
     },
     {
         selector: '@xm-ngx/components/by-entity-id-cell',
         loadChildren: () => import('@xm-ngx/components/by-entity-id/by-entity-id-value.component').then(m => m.ByEntityIdValueModule),
+    },
+    {
+        selector: '@xm-ngx/components/link-value',
+        loadChildren: () => import('@xm-ngx/components/xm-link-view').then(m => m.LinkValueModule),
+    },
+    {
+        selector: '@xm-ngx/components/xm-link-view',
+        loadChildren: () => import('@xm-ngx/components/xm-link-view').then(m => m.XmLinkViewModule),
     },
     {
         selector: '@xm-ngx/components/xm-link-copy',

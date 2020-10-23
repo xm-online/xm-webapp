@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, NgModule, OnChanges, OnInit, Type, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IComponent } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { transformByMap } from '@xm-ngx/shared/operators';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, get } from 'lodash';
 
 export interface LinkOptions {
@@ -11,6 +12,9 @@ export interface LinkOptions {
     queryParamsFromEntityFields?: { [key: string]: string };
     /** string is field path or regular url */
     routerLink: string[];
+    /** Set field text from configuration */
+    valueTitle: Translate;
+    /** Set field text from entity */
     valueField: string;
 }
 
@@ -18,6 +22,7 @@ export const LINK_DEFAULT_OPTIONS: LinkOptions = {
     queryParamsFromEntityFields: { 'id': 'id' },
     routerLink: [],
     valueField: 'id',
+    valueTitle: null,
 };
 
 @Component({
@@ -25,14 +30,16 @@ export const LINK_DEFAULT_OPTIONS: LinkOptions = {
     template: `
         <a [queryParams]="queryParams"
            [routerLink]="options?.routerLink">
+            <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
             <span>{{fieldValue}}</span>
         </a>
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class LinkComponent implements IComponent<IId, LinkOptions>, OnInit, OnChanges {
+export class LinkValue implements IComponent<IId, LinkOptions>, OnInit, OnChanges {
     @Input() public value: IId;
     @Input() public options: LinkOptions;
+    public fieldTitle: Translate;
     public fieldValue: unknown;
     public queryParams: { [key: string]: unknown };
     protected defaultOptions: LinkOptions = clone(LINK_DEFAULT_OPTIONS);
@@ -41,8 +48,8 @@ export class LinkComponent implements IComponent<IId, LinkOptions>, OnInit, OnCh
         if (!this.value) {
             return;
         }
-
         this.fieldValue = get(this.value, this.options?.valueField || this.defaultOptions.valueField, '');
+        this.fieldTitle = this.options?.valueTitle;
         this.queryParams = transformByMap(this.value, this.options?.queryParamsFromEntityFields || this.defaultOptions.queryParamsFromEntityFields);
     }
 
@@ -56,12 +63,14 @@ export class LinkComponent implements IComponent<IId, LinkOptions>, OnInit, OnCh
 }
 
 @NgModule({
-    declarations: [LinkComponent],
-    exports: [LinkComponent],
+    declarations: [LinkValue],
+    exports: [LinkValue],
     imports: [
         CommonModule,
         RouterModule,
+        XmTranslationModule,
     ],
 })
-export class LinkModule {
+export class LinkValueModule {
+    public entry: Type<LinkValue> = LinkValue;
 }
