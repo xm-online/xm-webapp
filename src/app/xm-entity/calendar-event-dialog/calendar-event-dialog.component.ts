@@ -2,7 +2,6 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { JhiDateUtils } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
 
 import { XmEntitySpecWrapperService } from '../../xm-entity/shared/xm-entity-spec-wrapper.service';
@@ -15,6 +14,7 @@ import { EventService } from '../shared/event.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { buildJsfAttributes, nullSafe } from '../../shared/jsf-extention';
 import { UUID } from 'angular2-uuid';
+import * as moment from 'moment';
 
 declare let swal: any;
 
@@ -34,7 +34,6 @@ export class CalendarEventDialogComponent implements OnInit {
     @Input() public onAddEvent: (arg: Event, isEdit?: boolean) => void;
     @Input() public onRemoveEvent: (arg: Event, calendarTypeKey: string, callback: () => void) => void;
 
-    // public event: Event = {};
     public showLoader: boolean;
     public jsfAttributes: any;
     private eventSpec: any;
@@ -43,7 +42,6 @@ export class CalendarEventDialogComponent implements OnInit {
                 private activeModal: NgbActiveModal,
                 private eventService: EventService,
                 private calendarService: CalendarService,
-                private dateUtils: JhiDateUtils,
                 private translateService: TranslateService,
                 public principal: Principal) {
     }
@@ -76,16 +74,13 @@ export class CalendarEventDialogComponent implements OnInit {
     public onConfirmSave(): void {
         this.showLoader = true;
         if (this.calendar.id) {
-            this.processCalendarEvent(this.calendar, this.event);
+            this.processCalendarEvent(this.calendar, this.processEventBeforeSave(this.event));
         } else {
-            const copy: Event = Object.assign({}, this.event);
-            copy.startDate = this.dateUtils.toDate(this.event.startDate);
-            copy.endDate = this.dateUtils.toDate(this.event.endDate);
             this.calendarService.create(this.calendar).pipe(finalize(() => this.showLoader = false))
                 .subscribe(
                     (calendarResp: HttpResponse<Calendar>) => {
                         const newCalendar = calendarResp.body;
-                        this.processCalendarEvent(newCalendar, this.event);
+                        this.processCalendarEvent(newCalendar, this.processEventBeforeSave(this.event));
                     },
                     (err) => console.info(err),
                     () => this.showLoader = false);
@@ -139,4 +134,11 @@ export class CalendarEventDialogComponent implements OnInit {
         });
     }
 
+    private processEventBeforeSave(event: Event): Event {
+        return {
+            ...event,
+            startDate: moment(event.startDate).format(),
+            endDate: moment(event.endDate).format(),
+        };
+    }
 }

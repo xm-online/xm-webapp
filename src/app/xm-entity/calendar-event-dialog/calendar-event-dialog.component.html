@@ -23,14 +23,14 @@
                     name="typeKey"
                     placeholder="{{'xm-entity.calendar-event-dialog.choose-type' | translate}}"
                     required>
-          <mat-option *ngFor="let eventSpec of calendarSpec.events"
+          <mat-option *ngFor="let eventSpec of calendarSpec?.events"
                       [selected]="event && eventSpec.key == event.typeKey ? true : null"
                       [value]="eventSpec.key">
             <span [style.borderColor]="eventSpec.color">{{eventSpec?.name | i18nName: principal | uppercase}}</span>
           </mat-option>
         </mat-select>
         <mat-error *ngIf="eventType.hasError('required')">
-          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+          {{'xm-entity.common.validation.required' | translate}}
         </mat-error>
       </mat-form-field>
     </div>
@@ -38,15 +38,26 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <mat-form-field>
+          <mat-form-field class="xm-datetime-picker">
+            <div class="to-display">{{event?.startDate | date: 'short'}}</div>
             <input #eventStartDate="ngModel"
+                   class="abs"
                    [(ngModel)]="event.startDate"
-                   id="field_startDate"
+                   [owlDateTimeTrigger]="dtStartDate"
+                   [owlDateTime]="dtStartDate"
                    matInput
                    name="startDate"
                    placeholder="{{'xm-entity.common.fields.start-date' | translate}}"
-                   required
-                   type="datetime-local">
+                   required>
+            <button mat-button
+                    type="button"
+                    class="btn btn-sm btn-link btn-icon btn-just-icon picker-trigger"
+                    [owlDateTimeTrigger]="dtStartDate"
+                    matSuffix>
+              <mat-icon>event</mat-icon>
+            </button>
+            <owl-date-time pickerType="both"
+                           #dtStartDate></owl-date-time>
             <mat-error *ngIf="eventStartDate.hasError('required')">
               <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
             </mat-error>
@@ -58,15 +69,26 @@
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <mat-form-field>
+          <mat-form-field class="xm-datetime-picker">
+            <div class="to-display">{{event?.endDate | date: 'short'}}</div>
             <input #eventEndDate="ngModel"
+                   class="abs"
                    [(ngModel)]="event.endDate"
-                   id="field_endDate"
+                   [owlDateTimeTrigger]="dtEndDate"
+                   [owlDateTime]="dtEndDate"
                    matInput
                    name="endDate"
                    placeholder="{{'xm-entity.common.fields.end-date' | translate}}"
-                   required
-                   type="datetime-local">
+                   required>
+            <button mat-button
+                    type="button"
+                    class="btn btn-sm btn-link btn-icon btn-just-icon picker-trigger"
+                    [owlDateTimeTrigger]="dtEndDate"
+                    matSuffix>
+              <mat-icon>event</mat-icon>
+            </button>
+            <owl-date-time pickerType="both"
+                           #dtEndDate></owl-date-time>
             <mat-error *ngIf="eventEndDate.hasError('required')">
               <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
             </mat-error>

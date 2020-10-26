@@ -19,6 +19,7 @@ import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 import { LanguageService } from '../../modules/xm-translation/language.service';
 import { EntityCalendarUiConfig, EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
+import * as moment from 'moment';
 
 declare const $: any;
 declare const swal: any;
@@ -128,6 +129,8 @@ export class CalendarCardComponent implements OnChanges {
                     this.calendars.push(calendar);
                 });
 
+                console.warn(this.calendars);
+
                 this.currentCalendar = this.calendars[0];
                 for (const calendar of this.calendars) {
                     setTimeout(() => this.initCalendar(calendar), 50);
@@ -135,14 +138,14 @@ export class CalendarCardComponent implements OnChanges {
             });
     }
 
-    private onShowEventDialog(start: any, end: any, calendar: Calendar, event: Event) {
+    private onShowEventDialog(start: string, end: string, calendar: Calendar, event: Event) {
         const calendarSpec = this.calendarSpecs.filter((c) => c.key === calendar.typeKey).shift();
         const modalRef = this.modalService.open(CalendarEventDialogComponent, {backdrop: 'static'});
         modalRef.componentInstance.xmEntity = this.xmEntity;
         modalRef.componentInstance.event = event;
         modalRef.componentInstance.calendar = calendar /* self.currentCalendar */;
-        modalRef.componentInstance.startDate = `${start.format('YYYY-MM-DD')}T${start.format('HH:mm:ss')}`;
-        modalRef.componentInstance.endDate = `${end.format('YYYY-MM-DD')}T${end.format('HH:mm:ss')}`;
+        modalRef.componentInstance.startDate = moment(start).format();
+        modalRef.componentInstance.endDate = moment(end).format();
         modalRef.componentInstance.calendarSpec = calendarSpec;
         modalRef.componentInstance.onAddEvent = (event: Event, isEdit?: boolean) => {
             this.currentCalendar.events = this.currentCalendar.events ? this.currentCalendar.events : [];
@@ -234,11 +237,12 @@ export class CalendarCardComponent implements OnChanges {
 
     private mapEvent(calendarSpec: CalendarSpec, event: Event): any {
         const eventSpec = calendarSpec.events.filter((e) => e.key === event.typeKey).shift();
+        console.warn(this.dateUtils.convertDateTimeFromServer(event.startDate))
         return {
             id: event.id,
             title: event.title + '\n (' + this.i18nNamePipe.transform(eventSpec.name, this.principal) + ')',
-            start: this.dateUtils.convertDateTimeFromServer(event.startDate),
-            end: this.dateUtils.convertDateTimeFromServer(event.endDate),
+            start: moment(event.startDate).utc(),
+            end: moment(event.endDate).utc(),
             description: event.description,
             color: eventSpec.color,
             originEvent: event,
