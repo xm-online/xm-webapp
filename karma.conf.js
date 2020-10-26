@@ -3,6 +3,7 @@
 
 module.exports = function (config) {
     config.set({
+        execArgv: ['--max_old_space_size=4096'],
         basePath: '',
         frameworks: ['jasmine', '@angular-devkit/build-angular'],
         plugins: [
@@ -17,7 +18,7 @@ module.exports = function (config) {
         },
         coverageIstanbulReporter: {
             dir: require('path').join(__dirname, './coverage'),
-            reports: ['html', 'lcovonly', 'text-summary'],
+            reports: ['html', 'lcovpassport-matchonly', 'text-summary'],
             fixWebpackSourcePaths: true
         },
         reporters: ['progress', 'kjhtml'],
@@ -30,6 +31,10 @@ module.exports = function (config) {
             ChromeHeadlessNoSandbox: {
                 base: 'ChromeHeadless',
                 flags: ['--no-sandbox','--disable-setuid-sandbox']
+            },
+            ChromeWithoutSecurity: {
+                base: 'Chrome',
+                flags: ['--disable-web-security', '--disable-site-isolation-trials']
             }
         },
         singleRun: false,
