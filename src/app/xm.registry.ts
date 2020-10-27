@@ -201,4 +201,12 @@ export const XM_ELEMENTS: DynamicComponents = [
         selector: '@xm-ngx/account/xm-user-password-widget',
         loadChildren: () => import('@xm-ngx/account/xm-user-password-widget').then(m => m.XmUserPasswordWidgetModule),
     },
+    {
+        selector: '@xm-ngx/components/number-control',
+        loadChildren: () => import('@xm-ngx/components/number-control').then(m => m.XmNumberControlModule),
+    },
+    {
+        selector: '@xm-ngx/components/checkbox-control',
+        loadChildren: () => import('@xm-ngx/components/checkbox-control').then(m => m.XmCheckboxControlModule),
+    }
 ];
