@@ -6,3 +6,5 @@ dist
 coverage
 # don't lint assets
 assets
+# skip test
+test.ts
