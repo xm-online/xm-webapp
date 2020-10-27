@@ -5,18 +5,18 @@ import { IEntityCollection, QueryParams } from './i-entity-collection';
 
 export interface Sortable {
     /** Sort by the fields. */
-    by?: string[];
+    sortBy?: string[];
     /** Sort order. */
-    order?: 'asc' | 'desc';
+    sortOrder?: 'asc' | 'desc';
 }
 
 export interface Pageable {
     /** The <total> is the number of items that match the request. */
     total?: number;
-    /** The <page> is the number of the requested page. */
-    page?: number;
-    /** The <size> is the number of items on the requested page. */
-    size?: number;
+    /** The <pageIndex> is the number of the requested page. */
+    pageIndex?: number;
+    /** The <pageSize> is the number of items on the requested page. */
+    pageSize?: number;
 }
 
 export type QueryParamsPageable = QueryParams & Pageable & Sortable;
