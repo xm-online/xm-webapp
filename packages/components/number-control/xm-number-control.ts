@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule } from "@angular/common";
 import {
     ChangeDetectionStrategy,
     Component,
@@ -9,47 +9,45 @@ import {
     Optional,
     Output,
     Self,
-    ViewEncapsulation,
-} from '@angular/core';
-import { FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
-import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
-import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { IControl, IControlFn } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-import { defaults } from 'lodash';
+    ViewEncapsulation
+} from "@angular/core";
+import { FormControl, NgControl, ReactiveFormsModule } from "@angular/forms";
+import { MatInputModule } from "@angular/material/input";
+import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from "@xm-ngx/components/control-error";
+import { NgFormAccessor } from "@xm-ngx/components/ng-accessor";
 
-export interface ITextControlOptions {
+import { ITextControlOptions } from "@xm-ngx/components/xm-text-control/xm-text-control";
+import { IControl, IControlFn } from "@xm-ngx/dynamic";
+import { Primitive } from "@xm-ngx/shared/interfaces";
+import { Translate, XmTranslationModule } from "@xm-ngx/translation";
+import { defaults } from "lodash";
+
+
+export interface INumberControlOptions {
     title?: string;
-    type?: string;
     placeholder?: string;
     pattern?: string;
     id?: string;
     name?: string;
     required?: boolean;
     disabled?: boolean;
+    max?: number;
+    min?: number;
     errors?: { [errorKey: string]: Translate };
-    maxLength?: number;
-    minLength?: number;
 }
 
-const DEFAULT_OPTIONS: ITextControlOptions = {
+const DEFAULT_OPTIONS: INumberControlOptions = {
     title: '',
     placeholder: '',
-    type: 'text',
     pattern: '',
     id: null,
-    name: 'text',
+    name: 'number',
     required: true,
     disabled: false,
-    maxLength: null,
-    minLength: null,
 };
 
 @Component({
-    selector: 'xm-text-control',
+    selector: 'xm-number-control',
     template: `
         <mat-form-field>
             <mat-label>{{options.title | translate}}</mat-label>
@@ -57,13 +55,11 @@ const DEFAULT_OPTIONS: ITextControlOptions = {
             <input matInput
                    [formControl]="control"
                    [placeholder]="options.placeholder | translate"
-                   [attr.name]="options.name"
+                   [name]="options.name"
                    [id]="options.id"
                    [required]="options.required"
                    [pattern]="options.pattern"
-                   [attr.maxlength]="options.maxLength"
-                   [attr.minlength]="options.minLength"
-                   [attr.type]="options.type">
+                   type="number">
 
             <mat-error
                 *xmControlErrors="control.errors; translates options?.errors; message as message">{{message}}</mat-error>
@@ -73,23 +69,23 @@ const DEFAULT_OPTIONS: ITextControlOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmTextControl extends NgFormAccessor<Primitive> implements IControl<Primitive, ITextControlOptions> {
+export class XmNumberControl extends NgFormAccessor<Primitive> implements IControl<Primitive, ITextControlOptions> {
     @Input() public control: FormControl = new FormControl();
     @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
 
     constructor(@Optional() @Self() public ngControl: NgControl | null,
-                @Inject(XM_CONTROL_ERRORS_TRANSLATES) private xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
+                @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
         super(ngControl);
     }
 
-    private _options: ITextControlOptions = {};
+    private _options: INumberControlOptions = {};
 
-    public get options(): ITextControlOptions {
+    public get options(): INumberControlOptions {
         return this._options;
     }
 
     @Input()
-    public set options(value: ITextControlOptions) {
+    public set options(value: INumberControlOptions) {
         this._options = defaults({}, value, { ...DEFAULT_OPTIONS, errors: this.xmControlErrorsTranslates });
         this._options.placeholder = this._options.placeholder || this._options.title;
 
@@ -97,7 +93,6 @@ export class XmTextControl extends NgFormAccessor<Primitive> implements IControl
             this.disabled = value.disabled;
         }
     }
-
 }
 
 @NgModule({
@@ -108,9 +103,9 @@ export class XmTextControl extends NgFormAccessor<Primitive> implements IControl
         ControlErrorModule,
         ReactiveFormsModule,
     ],
-    exports: [XmTextControl],
-    declarations: [XmTextControl],
+    exports: [XmNumberControl],
+    declarations: [XmNumberControl],
 })
-export class XmTextControlModule {
-    public readonly entry: IControlFn<Primitive, ITextControlOptions> = XmTextControl;
+export class XmNumberControlModule {
+    public readonly entry: IControlFn<Primitive, INumberControlOptions> = XmNumberControl;
 }
