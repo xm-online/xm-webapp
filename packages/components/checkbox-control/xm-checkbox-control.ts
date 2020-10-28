@@ -5,13 +5,11 @@ import {
     EventEmitter,
     Input,
     NgModule,
-    Optional,
     Output,
-    Self,
     ViewEncapsulation,
 } from '@angular/core';
-import { FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxModule } from "@angular/material/checkbox";
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { IControl, IControlFn } from '@xm-ngx/dynamic';
@@ -22,13 +20,11 @@ import { defaults } from 'lodash';
 export interface ICheckboxControlOptions {
     title?: Translate;
     id?: string;
-    disabled?: boolean;
 }
 
 const DEFAULT_OPTIONS: ICheckboxControlOptions = {
     title: '',
     id: null,
-    disabled: false,
 };
 
 @Component({
@@ -36,8 +32,7 @@ const DEFAULT_OPTIONS: ICheckboxControlOptions = {
     template: `
         <mat-checkbox [formControl]="control"
                       [id]="options.id"
-                      [checked]="value"
-                      [disabled]="options.disabled">
+                      [checked]="value">
             {{options?.title | translate}}
         </mat-checkbox>
     `,
@@ -48,11 +43,7 @@ export class CheckboxControl extends NgFormAccessor<Primitive> implements IContr
     @Input() public control: FormControl = new FormControl();
     @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
 
-    constructor(@Optional() @Self() public ngControl: NgControl | null) {
-        super(ngControl);
-    }
-
-    private _options: ICheckboxControlOptions = {};
+    private _options: ICheckboxControlOptions = DEFAULT_OPTIONS;
 
     public get options(): ICheckboxControlOptions {
         return this._options;
@@ -61,10 +52,6 @@ export class CheckboxControl extends NgFormAccessor<Primitive> implements IContr
     @Input()
     public set options(value: ICheckboxControlOptions) {
         this._options = defaults({}, value, DEFAULT_OPTIONS);
-
-        if (value.disabled) {
-            this.disabled = value.disabled;
-        }
     }
 }
 
