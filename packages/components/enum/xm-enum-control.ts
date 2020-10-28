@@ -10,6 +10,7 @@ import { IControl, IControlFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 import * as _ from 'lodash';
+import { XmPermissionModule } from "@xm-ngx/core/permission";
 
 export interface EnumControlOptions {
     id?: string;
@@ -22,6 +23,7 @@ export interface EnumOption {
     title: Translate;
     value: string;
     icon?: string;
+    permissions?: string[];
 }
 
 const DEFAULT: EnumControlOptions = {
@@ -38,10 +40,12 @@ const DEFAULT: EnumControlOptions = {
                         [required]="options.required"
                         [id]="options.id"
                         [placeholder]="options?.title | translate">
-                <mat-option *ngFor="let s of _list" [value]="s.value">
-                    <mat-icon *ngIf="s.icon">{{s.icon}}</mat-icon>
-                    {{s.title | translate}}
-                </mat-option>
+                <ng-template ngFor [ngForOf]="_list" let-item>
+                    <mat-option [value]="item.value" *xmPermission="item.permissions || []">
+                        <mat-icon *ngIf="item.icon">{{item.icon}}</mat-icon>
+                        {{item.title | translate}}
+                    </mat-option>
+                </ng-template>
             </mat-select>
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
@@ -77,6 +81,7 @@ export class XmEnumControl extends NgFormAccessor<string> implements IControl<st
         CommonModule,
         ControlErrorModule,
         ReactiveFormsModule,
+        XmPermissionModule,
     ],
     exports: [XmEnumControl],
     declarations: [XmEnumControl],
