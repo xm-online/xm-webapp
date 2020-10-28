@@ -8,7 +8,7 @@ describe('XmAlertService', () => {
     beforeEach(() => TestBed.configureTestingModule({imports: [XmSharedTestingModule, HttpClientTestingModule]}));
 
     it('should be created', () => {
-        const service: XmAlertService = TestBed.get(XmAlertService);
+        const service: XmAlertService = TestBed.inject(XmAlertService);
         expect(service).toBeTruthy();
     });
 });

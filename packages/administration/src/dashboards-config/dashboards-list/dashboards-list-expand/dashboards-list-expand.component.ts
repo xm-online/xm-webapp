@@ -5,7 +5,7 @@ import { DashboardWidget } from '@xm-ngx/dashboard';
 import { Id } from '@xm-ngx/shared/interfaces';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES } from '../../const';
 import { DashboardEditorService } from '../../dashboard-editor.service';
 import { DashboardsManagerService } from '../../dashboards-manager.service';
@@ -44,7 +44,7 @@ export class DashboardsListExpandComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.loading$ = this.dashboardService.loading$;
+        this.loading$ = this.dashboardService.loading$.pipe(delay(0));
 
         this.dashboardService.getById(this.dashboardId).pipe(
             map((i) => new MatTableDataSource(i.widgets)),

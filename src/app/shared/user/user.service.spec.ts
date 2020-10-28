@@ -17,8 +17,8 @@ describe('UserService', () => {
                 UserService,
             ],
         });
-        httpTestingController = TestBed.get(HttpTestingController);
-        service = TestBed.get(UserService);
+        httpTestingController = TestBed.inject(HttpTestingController);
+        service = TestBed.inject(UserService);
     });
 
     describe('create()', () => {

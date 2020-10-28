@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
+import { MockDashboardStore } from '../shared/testing/mock-dashboard-store';
 
 import { PageService } from './page.service';
 
@@ -8,7 +9,7 @@ describe('PageService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [{ provide: DashboardWrapperService, useValue: {} }],
+            providers: [{ provide: DashboardWrapperService, useClass: MockDashboardStore }],
         });
         service = TestBed.inject<PageService>(PageService);
     });

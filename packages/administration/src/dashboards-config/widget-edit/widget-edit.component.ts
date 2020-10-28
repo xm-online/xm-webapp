@@ -1,7 +1,6 @@
 import { Component, HostListener, Input, Type } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
-import { Principal } from '@xm-ngx/core/auth';
 import { DashboardWidget } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Observable } from 'rxjs';
@@ -42,7 +41,6 @@ export class WidgetEditComponent {
         protected readonly eventManager: XmEventManager,
         protected readonly dashboardConfig: DashboardConfig,
         protected readonly alertService: XmAlertService,
-        protected readonly principal: Principal,
         protected readonly toasterService: XmToasterService) {
         this.loading$ = this.widgetService.loading$.pipe(tap((i) => this.disabled = i));
     }

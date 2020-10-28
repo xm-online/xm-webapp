@@ -6,7 +6,7 @@ describe('XmAuthenticationStoreService', () => {
     beforeEach(() => TestBed.configureTestingModule({}));
 
     it('should be created', () => {
-        const service: XmAuthenticationStoreService = TestBed.get(XmAuthenticationStoreService);
+        const service: XmAuthenticationStoreService = TestBed.inject(XmAuthenticationStoreService);
         expect(service).toBeTruthy();
     });
 });
