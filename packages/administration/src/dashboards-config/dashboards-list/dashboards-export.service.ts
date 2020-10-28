@@ -4,7 +4,7 @@ import { Dashboard, DashboardWidget } from '@xm-ngx/dashboard';
 import { download } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { BehaviorSubject, Observable, zip } from 'rxjs';
-import { finalize, map, take, tap } from 'rxjs/operators';
+import { delay, finalize, map, take, tap } from 'rxjs/operators';
 import { DashboardCollection, WidgetCollection } from '../injectors';
 
 export interface DashboardsExport {
@@ -44,7 +44,7 @@ export class DashboardsExportService {
         protected readonly widgetService: WidgetCollection,
         protected readonly datePipe: DatePipe,
     ) {
-        this.loading$ = this.loader.asObservable();
+        this.loading$ = this.loader.asObservable().pipe(delay(0));
     }
 
     public export(): Observable<string> {

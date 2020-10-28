@@ -13,7 +13,7 @@ describe('XmThemeService', () => {
     }));
 
     it('should be created', () => {
-        const service: XmThemeService = TestBed.get(XmThemeService);
+        const service: XmThemeService = TestBed.inject(XmThemeService);
         expect(service).toBeTruthy();
     });
 });

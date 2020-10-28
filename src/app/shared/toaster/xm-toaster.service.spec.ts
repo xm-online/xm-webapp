@@ -7,7 +7,7 @@ describe('XmToasterService', () => {
     beforeEach(() => TestBed.configureTestingModule({imports: [XmSharedTestingModule]}));
 
     it('should be created', () => {
-        const service: XmToasterService = TestBed.get(XmToasterService);
+        const service: XmToasterService = TestBed.inject(XmToasterService);
         expect(service).toBeTruthy();
     });
 });

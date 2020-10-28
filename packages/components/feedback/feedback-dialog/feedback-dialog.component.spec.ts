@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
 
 import { FeedbackDialogComponent } from './feedback-dialog.component';
@@ -13,8 +14,8 @@ describe('FeedbackDialogComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [XmSharedTestingModule, HttpClientTestingModule],
-            providers: [{provide: MatDialogRef, useValue: {}}],
+            imports: [XmSharedTestingModule, HttpClientTestingModule, NoopAnimationsModule],
+            providers: [{ provide: MatDialogRef, useValue: {} }],
             declarations: [FeedbackDialogComponent],
         })
             .compileComponents();

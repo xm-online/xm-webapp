@@ -6,7 +6,7 @@ describe('XmSessionService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: XmSessionService = TestBed.get(XmSessionService);
+    const service: XmSessionService = TestBed.inject(XmSessionService);
     expect(service).toBeTruthy();
   });
 });

@@ -47,6 +47,9 @@ export class EntityCollectionBase<T extends IId = unknown> {
     }
 
     protected setCollection(collection: IEntityCollection<T>): void {
+        if (!collection) {
+            return;
+        }
         this.collection = collection;
         this.loading$ = collection.loading$;
     }

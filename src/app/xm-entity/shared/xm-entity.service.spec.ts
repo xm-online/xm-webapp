@@ -23,8 +23,8 @@ describe('XmEntityService', () => {
                 { provide: JhiDateUtils, useValue: { toDate: r => r, convertDateTimeFromServer: r => r } },
             ],
         });
-        httpTestingController = TestBed.get(HttpTestingController);
-        service = TestBed.get(XmEntityService);
+        httpTestingController = TestBed.inject(HttpTestingController);
+        service = TestBed.inject(XmEntityService);
     });
 
     afterEach(() => {

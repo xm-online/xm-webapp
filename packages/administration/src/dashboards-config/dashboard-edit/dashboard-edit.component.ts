@@ -8,7 +8,7 @@ import { Dashboard } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { delay, filter, switchMap, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../const';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig } from '../injectors';
@@ -41,15 +41,15 @@ export class DashboardEditComponent {
     public editType: EditType;
     public widgetEditComponentType: Type<unknown> = this.dashboardConfig.widgetRef;
 
-    constructor(protected dashboardService: DashboardCollection,
-                protected editorService: DashboardEditorService,
-                protected alertService: XmAlertService,
+    constructor(protected readonly dashboardService: DashboardCollection,
+                protected readonly editorService: DashboardEditorService,
+                protected readonly alertService: XmAlertService,
                 protected readonly dashboardConfig: DashboardConfig,
                 protected readonly eventManager: XmEventManager,
-                protected principal: Principal,
-                protected translateService: TranslateService,
-                protected toasterService: XmToasterService) {
-        this.loading$ = this.dashboardService.loading$.pipe(tap((i) => this.disabled = i));
+                protected readonly principal: Principal,
+                protected readonly translateService: TranslateService,
+                protected readonly toasterService: XmToasterService) {
+        this.loading$ = this.dashboardService.loading$.pipe(delay(0), tap((i) => this.disabled = i));
     }
 
     protected _value: Dashboard;

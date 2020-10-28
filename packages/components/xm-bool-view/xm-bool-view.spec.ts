@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { XM_BOOL_VIEW_ICONS } from './xm-bool-view.injectors';
 import { BoolViewComponent } from './xm-bool-view.component';
 
 describe('BoolViewComponent', () => {
@@ -10,9 +11,9 @@ describe('BoolViewComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [BoolViewComponent],
+            providers: [{ provide: XM_BOOL_VIEW_ICONS, useValue: { true: 'true', false: 'false' } }],
             schemas: [NO_ERRORS_SCHEMA],
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
 
     beforeEach(() => {
@@ -23,7 +24,7 @@ describe('BoolViewComponent', () => {
 
     it('should create', () => {
         expect(component).toBeDefined();
-        expect(icon.textContent).toEqual('false');
+        expect(icon.textContent).toEqual('');
     });
 
     it('set value true return true', () => {

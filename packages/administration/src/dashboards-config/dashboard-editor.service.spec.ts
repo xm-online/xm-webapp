@@ -1,18 +1,25 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SidebarRightService } from '@xm-ngx/components/xm-sidebar-right';
+import { XmToasterService } from '@xm-ngx/toaster';
 
 import { DashboardEditorService } from './dashboard-editor.service';
 
 describe('DashboardEditorService', () => {
     beforeEach(() => TestBed.configureTestingModule({
-        imports: [XmSharedTestingModule, HttpClientTestingModule],
-        schemas: [NO_ERRORS_SCHEMA],
+        providers: [
+            { provide: SidebarRightService, useValue: null },
+            { provide: Router, useValue: null },
+            { provide: ActivatedRoute, useValue: null },
+            { provide: XmToasterService, useValue: null },
+            { provide: Injector, useValue: null },
+            DashboardEditorService
+        ],
     }));
 
     it('should be created', () => {
-        const service: DashboardEditorService = TestBed.get(DashboardEditorService);
+        const service: DashboardEditorService = TestBed.inject(DashboardEditorService);
         expect(service).toBeTruthy();
     });
 });
