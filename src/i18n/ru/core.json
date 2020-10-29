@@ -273,50 +273,14 @@
       }
     },
     "userexists": "Имя пользователя уже используется!",
-    "validation": "Неверные входящие параметры"
-  },
-  "errors": {
+    "validation": "Неверные входящие параметры",
     "NotBlank": "Не пустой",
-    "NotNull": "Поле {{fieldName}} не может быть пустым!",
-    "Size": "Поле {{fieldName}} не отвечает требованиям мин/макс.го размера!",
     "Unauthorized": "Нужна авторизация!",
-    "accessDenied": "Доступ запрещен",
-    "access_denied": "Доступ закрыт",
-    "emailexists": "Эл. почта уже используется!!",
     "error": {
       "accessDenied": "Access denied",
       "business": "Ошибка переадресации",
       "internalServerError": "Внутренняя ошибка сервера"
-    },
-    "idexists": "Новый {{entityName}} не может иметь данный ID",
-    "insufficient_scope": "Недостаточный охват",
-    "internalServerError": "Внутренняя ошибка сервера",
-    "invalid_client": "Недопустимый клиент",
-    "invalid_grant": "Недействительный грант",
-    "invalid_request": "Неверный запрос",
-    "invalid_scope": "Недопустимая область",
-    "invalid_token": "Недопустимый токен",
-    "notfound": "Запрашиваемый ресурс не найден",
-    "privilegeInsufficient": "недостаточно привилегий '{{ name }}'!",
-    "privilegeOperationWrong": "Операция не поддерживается '{{ name }}'!",
-    "redirect_uri_mismatch": "Неверный URL перенаправления",
-    "server": {
-      "not": {
-        "reachable": "Сервер не доступен"
-      }
-    },
-    "session_expired": "Сессия истекла. Пожалуйста, войдите.",
-    "unauthorized": "Необходима авторизация",
-    "unauthorized_client": "Неавторизованный клиент",
-    "unsupported_grant_type": "Неподдерживаемый тип прав",
-    "unsupported_response_type": "Неподдерживаемый тип ответа",
-    "url": {
-      "not": {
-        "found": "Не найдено"
-      }
-    },
-    "userexists": "Имя пользователя уже используется!",
-    "validation": "Неверные входящие параметры"
+    }
   },
   "ext-common-entity": {
     "available-offerings-widget": {

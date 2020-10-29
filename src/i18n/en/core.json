@@ -235,57 +235,6 @@
     }
   },
   "error": {
-    "403": "You are not authorized to access the page.",
-    "500": "Internal Server Error.",
-    "NotNull": "Field {{ fieldName }} cannot be empty!",
-    "Size": "Field {{ fieldName }} does not meet min/max size requirements!",
-    "accessDenied": "Access denied",
-    "access_denied": "Access denied",
-    "business": "Forwarding error",
-    "concurrencyFailure": "Parallel request error.",
-    "emailexists": "Email is already in use!",
-    "idexists": "A new {{ entityName }} cannot already have an ID",
-    "insufficient_scope": "Insufficient scope",
-    "internalServerError": "Internal server error",
-    "invalid_client": "Invalid client",
-    "invalid_grant": "Invalid grant",
-    "invalid_request": "Invalid request",
-    "invalid_scope": "Invalid scope",
-    "invalid_token": "Invalid token",
-    "not": {
-      "enough": {
-        "credits": "Not enough credits!"
-      }
-    },
-    "notfound": "Resource not found",
-    "privilegeInsufficient": "Insufficient privileges '{{ name }}'!",
-    "privilegeOperationWrong": "Operation not supported '{{ name }}'!",
-    "redirect_uri_mismatch": "Redirect uri mismatch",
-    "server": {
-      "not": {
-        "reachable": "Server not reachable"
-      }
-    },
-    "session_expired": "Session expired. Please login.",
-    "title": "Error page!",
-    "unauthorized": "Unauthorized",
-    "unauthorized_client": "Unauthorized client",
-    "unsupported_grant_type": "Unsupported grant type",
-    "unsupported_response_type": "Unsupported response type",
-    "url": {
-      "not": {
-        "found": "Not found"
-      }
-    },
-    "userexists": "Login name already used!",
-    "validation": "Input parameters error",
-    "wallet": {
-      "not": {
-        "active": "Wallet not active!"
-      }
-    }
-  },
-  "errors": {
     "NotBlank": "Not blank",
     "NotNull": "Field {{ fieldName }} cannot be empty!",
     "Size": "Field {{ fieldName }} does not meet min/max size requirements!",
@@ -325,8 +274,23 @@
         "found": "Not found"
       }
     },
+    "403": "You are not authorized to access the page.",
+    "500": "Internal Server Error.",
+    "business": "Forwarding error",
+    "concurrencyFailure": "Parallel request error.",
+    "not": {
+      "enough": {
+        "credits": "Not enough credits!"
+      }
+    },
+    "title": "Error page!",
     "userexists": "Login name already used!",
-    "validation": "Input parameters error"
+    "validation": "Input parameters error",
+    "wallet": {
+      "not": {
+        "active": "Wallet not active!"
+      }
+    }
   },
   "ext-common-entity": {
     "available-offerings-widget": {

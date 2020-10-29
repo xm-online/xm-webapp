@@ -135,7 +135,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 break;
             }
             case 404: {
-                this.addErrorAlert('Not found', 'errors.url.not.found');
+                this.addErrorAlert('Not found', 'error.url.not.found');
                 break;
             }
             case 400: {
@@ -166,6 +166,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
     private addErrorAlert(rawMessage: string, key?: string | null, data?: unknown): void {
         // TODO: At the BE exists 2 types of the errors with the error. and without,
         //  it should be removed after the BE provides the error standard
+        key = key.replace(/errors\./, 'error.');
         key = key.startsWith('error.') ? key : 'error.' + key;
         key = key ? key : rawMessage;
         const message: string = this.translatePipe.transform(key, data);
