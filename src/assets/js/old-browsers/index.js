@@ -90,7 +90,7 @@
 
         var wrapper = document.createElement('div');
         wrapper.style.cssText = 'vertical-align: middle; display: table-cell;';
-        popup.append(wrapper);
+        popup.appendChild(wrapper)
 
         var content = document.createElement('div');
         content.style.cssText = 'margin: auto;' +
@@ -100,7 +100,7 @@
             '  border: 2px solid #f00;' +
             '  font-size: 1.2em;' +
             '  font-weight: 400;';
-        wrapper.append(content);
+        wrapper.appendChild(content);
 
         var contentTags = getTranslatedContentTags(window.navigator.language);
 
