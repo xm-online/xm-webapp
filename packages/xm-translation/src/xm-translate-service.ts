@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import * as _ from 'lodash';
+import { Interpolate, interpolate } from '@xm-ngx/shared/operators';
 import { LanguageService, Translate } from './language.service';
 
 @Injectable({ providedIn: 'root' })
@@ -11,8 +11,8 @@ export class XmTranslateService {
     ) {
     }
 
-    public interpolate(text: string, interpolateParams: object): string {
-        return _.template(text, { interpolate: /{{([\s\S]+?)}}/g })(interpolateParams);
+    public interpolate(text: Interpolate, interpolateParams: object): string {
+        return interpolate(text, interpolateParams);
     }
 
     /**
