@@ -29,10 +29,10 @@ export class XmTranslateService {
         if (typeof text === 'object' && text !== null) {
             const str = text[this.languageService.locale];
             const interpolated = this.interpolate(str, interpolateParams);
-            return this.translateService.instant(interpolated, interpolateParams);
+            return interpolated ? this.translateService.instant(interpolated, interpolateParams) : '';
         } else if (typeof text === 'string') {
             const interpolated = this.interpolate(text, interpolateParams);
-            return this.translateService.instant(interpolated, interpolateParams);
+            return interpolated ? this.translateService.instant(interpolated, interpolateParams) : '';
         } else {
             return null;
         }
