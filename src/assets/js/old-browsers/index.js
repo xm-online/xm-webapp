@@ -115,7 +115,7 @@
         var lang;
         switch (browserLang) {
             case 'uk-UA': lang = 'uk-UA'; break;
-            case 'ru-RU': lang = 'uk-UA'; break;
+            case 'ru-RU': lang = 'ru-RU'; break;
             default: lang = 'en-US';
         }
 
