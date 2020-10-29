@@ -273,50 +273,14 @@
       }
     },
     "userexists": "Ім&#39;я входу вже використовується!",
-    "validation": "Помилка вхідних параметрів"
-  },
-  "errors": {
+    "validation": "Помилка вхідних параметрів",
     "NotBlank": "Не пустий",
-    "NotNull": "Поле {{fieldName}} не може бути порожнім!",
-    "Size": "Поле {{fieldName}} не відповідає мінімальному / максовому розміру!",
     "Unauthorized": "Потрібна авторизація!",
-    "accessDenied": "Доступ заборонено",
-    "access_denied": "Доступ заборонено",
-    "emailexists": "Електронна пошта вже використовується!",
     "error": {
       "accessDenied": "Access denied",
       "business": "Помилка переадресації",
       "internalServerError": "Внутрішня помилка сервера"
-    },
-    "idexists": "Новий {{entityName}} не може вже мати ідентифікатор",
-    "insufficient_scope": "Недостатній обсяг",
-    "internalServerError": "Внутрішня помилка сервера",
-    "invalid_client": "Недійсний клієнт",
-    "invalid_grant": "Недійсний грант",
-    "invalid_request": "Невірний запит",
-    "invalid_scope": "Неправильний обсяг",
-    "invalid_token": "Неприпустимий маркер",
-    "notfound": "Ресурс не знайдено",
-    "privilegeInsufficient": "Недостатньо привілеїв '{{ name }}'!",
-    "privilegeOperationWrong": "Операція не підтримується '{{ name }}'!",
-    "redirect_uri_mismatch": "Переспрямовувати uri невідповідність",
-    "server": {
-      "not": {
-        "reachable": "Сервер недоступний"
-      }
-    },
-    "session_expired": "Сесія закінчилася. Будь ласка, увійдіть",
-    "unauthorized": "Необхідна авторизація",
-    "unauthorized_client": "Неавторизований клієнт",
-    "unsupported_grant_type": "Непідтримуваний тип гранту",
-    "unsupported_response_type": "Непідтримуваний тип відповіді",
-    "url": {
-      "not": {
-        "found": "Не знайдено"
-      }
-    },
-    "userexists": "Ім&#39;я входу вже використовується!",
-    "validation": "Помилка вхідних параметрів"
+    }
   },
   "ext-common-entity": {
     "available-offerings-widget": {
