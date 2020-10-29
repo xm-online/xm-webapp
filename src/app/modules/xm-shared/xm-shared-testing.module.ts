@@ -10,16 +10,16 @@ import { XmSharedModule } from './xm-shared.module';
 
 @Injectable()
 @Pipe({ name: 'translate' })
-export class TranslatePipeMock {
+export class MockTranslatePipe {
     public transform: (args: string) => Observable<string> = (arg) => of(arg);
 }
 
-export class TranslateServiceMock {
+export class MockTranslateService {
     public get: (i: string) => Observable<string> = (arg) => of(arg);
 }
 
 @NgModule({
-    declarations: [TranslatePipeMock],
+    declarations: [MockTranslatePipe],
     imports: [
         XmSharedModule,
         HttpClientTestingModule,
@@ -29,11 +29,11 @@ export class TranslateServiceMock {
         XmSharedModule,
         HttpClientTestingModule,
         RouterTestingModule,
-        TranslatePipeMock,
+        MockTranslatePipe,
     ],
     providers: [
-        { provide: TranslatePipe, useValue: TranslatePipeMock },
-        { provide: TranslateService, useClass: TranslateServiceMock },
+        { provide: TranslatePipe, useClass: MockTranslatePipe },
+        { provide: TranslateService, useClass: MockTranslateService },
         { provide: MatDialogRef, useValue: {} },
     ],
 })
