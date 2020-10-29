@@ -52,10 +52,10 @@
             inSupport[key].version > parseInt(currentBrowser.version)
         ) {
             // run all actions only if old browser detected
-            var wrapper = document.getElementById('xm-old-browsers-popup');
-            var supportedList = wrapper.querySelector('.supported');
-            var closeButton = wrapper.querySelector('button');
-            var currentAgent = wrapper.querySelector('.current-agent');
+            var popup = createPopupMarkup(document.getElementById('xm-old-browsers-popup'));
+            var supportedList = popup.querySelector('ul');
+            var closeButton = popup.querySelector('.close-btn');
+            var currentAgent = popup.querySelector('.current-agent');
 
             for (var listKey in inSupport) {
                 if (inSupport.hasOwnProperty(listKey) && inSupport[listKey].show) {
@@ -68,12 +68,87 @@
 
             closeButton.addEventListener('click', function(e) {
                 e.stopPropagation();
-                wrapper.style.display = 'none';
+                popup.style.display = 'none';
             });
 
             currentAgent.innerHTML = currentBrowser.name + ', v' + currentBrowser.version;
 
-            wrapper.style.display = 'block';
+            popup.style.display = 'table';
         }
+    }
+
+    function createPopupMarkup(popup) {
+        popup.style.cssText = 'display: table;' +
+            '  table-layout: fixed;' +
+            '  position: fixed;' +
+            '  top: 0;' +
+            '  left: 0;' +
+            '  width: 100%;' +
+            '  height: 100%;' +
+            '  background-color: rgba(255, 255, 255, .75);' +
+            '  z-index: 10000;';
+
+        var wrapper = document.createElement('div');
+        wrapper.style.cssText = 'vertical-align: middle; display: table-cell;';
+        popup.append(wrapper);
+
+        var content = document.createElement('div');
+        content.style.cssText = 'margin: auto;' +
+            '  max-width: 850px;' +
+            '  padding: 30px 30px 0;' +
+            '  background-color: #fff;' +
+            '  border: 2px solid #f00;' +
+            '  font-size: 1.2em;' +
+            '  font-weight: 400;';
+        wrapper.append(content);
+
+        var contentTags = getTranslatedContentTags(window.navigator.language);
+
+        for (var i = 0; i < contentTags.length; i++) {
+            content.insertAdjacentHTML('beforeend', contentTags[i]);
+        }
+
+        return popup;
+    }
+
+    function getTranslatedContentTags(browserLang) {
+        var lang;
+        switch (browserLang) {
+            case 'uk-UA': lang = 'uk-UA'; break;
+            case 'ru-RU': lang = 'uk-UA'; break;
+            default: lang = 'en-US';
+        }
+
+        var i18n = {
+            'en-US': {
+                warn: 'Warning: ',
+                outdated: 'Current browser version is outdated or not supported by application and may not work properly.',
+                request: 'Please update your browser version to the following minimal versions:',
+                current: 'Your current version is: ',
+                close: 'Close',
+            },
+            'uk-UA': {
+                warn: 'Увага: ',
+                outdated: 'Поточна версія браузера застаріла або не підтримується додатком, і, можливо, вона не працюватиме належним чином.',
+                request: 'Будь ласка, оновіть версію вашого браузера до однієї з наступних підтримуваних версій:',
+                current: 'Ваша поточна версія: ',
+                close: 'Закрити',
+            },
+            'ru-RU': {
+                warn: 'Предупреждение: ',
+                outdated: 'Текущая версия браузера устарела или не поддерживается приложением и может работать некорректно.',
+                request: 'Пожалуйста, обновите версию вашего браузера до одной из следующих минимальных версий:',
+                current: 'Ваша текущая версия:',
+                close: 'Закрыть',
+            },
+        }
+
+        return [
+            '<p><strong>' + i18n[lang].warn + '</strong>' + i18n[lang].outdated + '</p>',
+            '<p>' + i18n[lang].request + '</p>',
+            '<ul></ul>',
+            i18n[lang].current + '<span class="current-agent" style="text-decoration: underline;"></span>',
+            '<button class="btn btn-primary close-btn" style="display: block; margin: 10px auto 30px;">' + i18n[lang].close + '</button>'
+        ];
     }
 }());
