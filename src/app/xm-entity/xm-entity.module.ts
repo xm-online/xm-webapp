@@ -72,6 +72,7 @@ import { AttachmentListBaseComponent } from './attachment-list/attachment-list-b
 import { AttachmentListSimplifiedComponent } from './attachment-list/attachment-list-simplified.component';
 
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
+import { OwlDateTimeModule } from 'ng-pick-datetime';
 
 @NgModule({
     imports: [
@@ -91,6 +92,7 @@ import { StateChangeDialogComponent } from './state-change-dialog/state-change-d
         ImageCropperModule,
         RatingModule,
         TagInputModule,
+        OwlDateTimeModule,
     ],
     declarations: [
         AreaComponent,

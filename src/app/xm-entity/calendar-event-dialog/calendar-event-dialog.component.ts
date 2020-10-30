@@ -2,7 +2,6 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { JhiDateUtils } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
 
 import { XmEntitySpecWrapperService } from '../../xm-entity/shared/xm-entity-spec-wrapper.service';
@@ -15,6 +14,8 @@ import { EventService } from '../shared/event.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { buildJsfAttributes, nullSafe } from '../../shared/jsf-extention';
 import { UUID } from 'angular2-uuid';
+import * as moment from 'moment-timezone';
+import { EventSpec, XmEntitySpec } from '..';
 
 declare let swal: any;
 
@@ -29,21 +30,24 @@ export class CalendarEventDialogComponent implements OnInit {
     @Input() public event: Event;
     @Input() public calendar: Calendar;
     @Input() public calendarSpec: CalendarSpec;
-    @Input() public startDate: any;
-    @Input() public endDate: any;
+    @Input() public startDate: string | Date;
+    @Input() public endDate: string | Date;
     @Input() public onAddEvent: (arg: Event, isEdit?: boolean) => void;
     @Input() public onRemoveEvent: (arg: Event, calendarTypeKey: string, callback: () => void) => void;
-
-    // public event: Event = {};
+    @Input() public set eventSpec(spec: EventSpec) {
+        if (spec) {
+            console.warn(spec);
+        }
+    }
+    public timeZones: string[] = moment.tz.names();
     public showLoader: boolean;
     public jsfAttributes: any;
-    private eventSpec: any;
+    private eventEntitySpec: XmEntitySpec;
 
     constructor(private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private activeModal: NgbActiveModal,
                 private eventService: EventService,
                 private calendarService: CalendarService,
-                private dateUtils: JhiDateUtils,
                 private translateService: TranslateService,
                 public principal: Principal) {
     }
@@ -52,9 +56,9 @@ export class CalendarEventDialogComponent implements OnInit {
         const event: any = (this.calendarSpec.events.length && this.calendarSpec.events[0]) || {};
         event.dataTypeKey && this.xmEntitySpecWrapperService
             .xmSpecByKey(event.dataTypeKey)
-            .subscribe((spec) => {
+            .subscribe((spec: XmEntitySpec) => {
                 if (spec) {
-                    this.eventSpec = spec;
+                    this.eventEntitySpec = spec;
                     this.loadJSFAttributes();
                 }
             });
@@ -66,7 +70,7 @@ export class CalendarEventDialogComponent implements OnInit {
 
     onChangeSchemaForm(data: any) {
         this.event.eventDataRef = this.event.eventDataRef || {
-            typeKey: this.eventSpec.key,
+            typeKey: this.eventEntitySpec.key,
             key: UUID.UUID(),
             name: 'Event eventDataRef',
         } as XmEntity;
@@ -76,16 +80,13 @@ export class CalendarEventDialogComponent implements OnInit {
     public onConfirmSave(): void {
         this.showLoader = true;
         if (this.calendar.id) {
-            this.processCalendarEvent(this.calendar, this.event);
+            this.processCalendarEvent(this.calendar, this.processEventBeforeSave(this.event));
         } else {
-            const copy: Event = Object.assign({}, this.event);
-            copy.startDate = this.dateUtils.toDate(this.event.startDate);
-            copy.endDate = this.dateUtils.toDate(this.event.endDate);
             this.calendarService.create(this.calendar).pipe(finalize(() => this.showLoader = false))
                 .subscribe(
                     (calendarResp: HttpResponse<Calendar>) => {
                         const newCalendar = calendarResp.body;
-                        this.processCalendarEvent(newCalendar, this.event);
+                        this.processCalendarEvent(newCalendar, this.processEventBeforeSave(this.event));
                     },
                     (err) => console.info(err),
                     () => this.showLoader = false);
@@ -93,8 +94,8 @@ export class CalendarEventDialogComponent implements OnInit {
     }
 
     private loadJSFAttributes(): void {
-        if (this.eventSpec && this.eventSpec.dataSpec) {
-            this.jsfAttributes = buildJsfAttributes(this.eventSpec.dataSpec, this.eventSpec.dataForm);
+        if (this.eventEntitySpec && this.eventEntitySpec.dataSpec) {
+            this.jsfAttributes = buildJsfAttributes(this.eventEntitySpec.dataSpec, this.eventEntitySpec.dataForm);
             this.jsfAttributes.data = Object.assign(
                 nullSafe(this.jsfAttributes.data),
                 nullSafe((this.event.eventDataRef && this.event.eventDataRef.data) || {}),
@@ -109,7 +110,9 @@ export class CalendarEventDialogComponent implements OnInit {
             this.eventService[event.id ? 'update' : 'create'](event)
                 .pipe(finalize(() => this.showLoader = false))
                 .subscribe(
-                    (eventResp: HttpResponse<Event>) => this.onSaveSuccess(calendarId, eventResp.body, !!event.id),
+                    (eventResp: HttpResponse<Event>) => {
+                        this.onSaveSuccess(calendarId, eventResp.body, Boolean(event.id))
+                    },
                     (err) => console.info(err),
                     () => this.showLoader = false);
         }
@@ -139,4 +142,11 @@ export class CalendarEventDialogComponent implements OnInit {
         });
     }
 
+    private processEventBeforeSave(event: Event): Event {
+        return {
+            ...event,
+            startDate: moment(event.startDate).utc().format(),
+            endDate: moment(event.endDate).utc().format(),
+        };
+    }
 }

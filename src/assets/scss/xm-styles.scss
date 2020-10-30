@@ -452,3 +452,29 @@ xm-available-offerings-widget {
         }
     }
 }
+
+.xm-datetime-picker {
+  position: relative;
+
+  .to-display {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin: -7px 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+  }
+
+  .abs {
+    z-index: 2;
+    opacity: 0;
+  }
+
+  .picker-trigger {
+    height: 28px !important;
+    width: 28px !important;
+    min-width: 28px !important;
+    margin: 0 !important;
+  }
+}
