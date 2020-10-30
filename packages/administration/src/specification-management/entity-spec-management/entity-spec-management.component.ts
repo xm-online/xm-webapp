@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { StatesManagementDialogComponent } from '@xm-ngx/entity/states-management-dialog';
 import { ConfigVisualizerDialogComponent } from '../config-visualizer-dialog/config-visualizer-dialog.component';
@@ -12,6 +12,8 @@ import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
     styleUrls: ['./entity-spec-management.component.scss'],
 })
 export class EntitySpecManagementComponent implements OnInit {
+
+    @Input() public readOnlyMode: boolean;
 
     public entityValidation: any;
     public isXmEntitySpecValid: boolean;

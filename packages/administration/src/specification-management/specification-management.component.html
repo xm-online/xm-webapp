@@ -18,7 +18,7 @@
       <button (click)="updateUiConfig();"
               *ngIf="isUiSpecValid"
               [class.loading]="uiSpecificationProgress"
-              [disabled]="uiSpecificationProgress"
+              [disabled]="uiSpecificationProgress || readOnlyMode"
               color="primary"
               mat-flat-button
               type="button">
@@ -28,7 +28,8 @@
               *ngIf="!isUiSpecValid"
               color="primary"
               mat-flat-button
-              type="button">
+              type="button"
+              [disabled]="readOnlyMode">
         {{'admin-config.specification-mng.validate' | translate}}
       </button>
 
@@ -55,19 +56,25 @@
     </div>
   </ng-container>
 
-  <xm-entity-spec-mng *ngSwitchCase="'entity'"></xm-entity-spec-mng>
+  <xm-entity-spec-mng *ngSwitchCase="'entity'" [readOnlyMode]="readOnlyMode"></xm-entity-spec-mng>
 
   <ng-container *ngSwitchCase="'timeline'">
     <div class="text-center pb-3">
-      <button (click)="validateTimelineConfig();" *ngIf="!isTimelineSpecValid" color="primary"
+      <button (click)="validateTimelineConfig();"
+              *ngIf="!isTimelineSpecValid"
+              color="primary"
               mat-flat-button
               translate="admin-config.specification-mng.validate"
-              type="submit">
+              type="submit"
+              [disabled]="readOnlyMode">
       </button>
-      <button (click)="updateTimelineConfig();" *ngIf="isTimelineSpecValid" color="primary"
+      <button (click)="updateTimelineConfig();"
+              *ngIf="isTimelineSpecValid"
+              color="primary"
               mat-flat-button
               translate="admin-config.specification-mng.timeline.save"
-              type="submit">
+              type="submit"
+              [disabled]="readOnlyMode">
       </button>
       <div class="text-center">
         <div *ngIf="timelineValidation && !timelineValidation.valid"
@@ -99,14 +106,16 @@
               [translate]="'admin-config.specification-mng.validate'"
               color="primary"
               mat-flat-button
-              type="submit">
+              type="submit"
+              [disabled]="readOnlyMode">
       </button>
       <button (click)="updateLoginsSpecification();"
               *ngIf="isUaaLoginSpecValid"
               [translate]="'admin-config.specification-mng.uaa-login.save'"
               color="primary"
               mat-flat-button
-              type="submit">
+              type="submit"
+              [disabled]="readOnlyMode">
       </button>
       <div class="text-center">
         <div *ngIf="loginsValidation && !loginsValidation.valid" [innerHtml]="loginsValidation?.errorMessage"
@@ -132,15 +141,21 @@
 
   <ng-container *ngSwitchCase="'uaa'">
     <div class="text-center pb-3">
-      <button (click)="validateUaaSpecification();" *ngIf="!isUaaSpecValid" color="primary"
+      <button (click)="validateUaaSpecification();"
+              *ngIf="!isUaaSpecValid"
+              color="primary"
               mat-flat-button
               translate="admin-config.specification-mng.validate"
-              type="submit">
+              type="submit"
+              [disabled]="readOnlyMode">
       </button>
-      <button (click)="updateUaaSpecification();" *ngIf="isUaaSpecValid" color="primary"
+      <button (click)="updateUaaSpecification();"
+              *ngIf="isUaaSpecValid"
+              color="primary"
               mat-flat-button
               translate="admin-config.specification-mng.uaa.save"
-              type="submit">
+              type="submit"
+              [disabled]="readOnlyMode">
       </button>
       <div class="text-center">
         <div *ngIf="uaaValidation && !uaaValidation.valid" [innerHtml]="uaaValidation?.errorMessage"
@@ -169,7 +184,7 @@
       <button (click)="updateTenantConfig();"
               *ngIf="isTenantSpecValid"
               [class.loading]="tenantSpecificationProgress"
-              [disabled]="tenantSpecificationProgress"
+              [disabled]="tenantSpecificationProgress || readOnlyMode"
               color="primary"
               mat-flat-button
               type="button">
@@ -179,7 +194,8 @@
               *ngIf="!isTenantSpecValid"
               color="primary"
               mat-flat-button
-              type="button">
+              type="button"
+              [disabled]="readOnlyMode">
         {{'admin-config.specification-mng.validate' | translate}}
       </button>
 
@@ -210,7 +226,7 @@
       <button (click)="updatePrivateUiConfig();"
               *ngIf="isUiPrivateSpecValid"
               [class.loading]="uiPrivateSpecificationProgress"
-              [disabled]="uiPrivateSpecificationProgress"
+              [disabled]="uiPrivateSpecificationProgress || readOnlyMode"
               color="primary"
               mat-flat-button
               type="button">
@@ -220,7 +236,8 @@
               *ngIf="!isUiPrivateSpecValid"
               color="primary"
               mat-flat-button
-              type="button">
+              type="button"
+              [disabled]="readOnlyMode">
         {{'admin-config.specification-mng.validate' | translate}}
       </button>
 

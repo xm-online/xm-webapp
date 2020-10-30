@@ -14,6 +14,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { XmConfigService } from "../../../../src/app/shared";
 
 export interface TableDisplayColumn {
     key: string,
@@ -53,6 +54,8 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
     public displayedColumns: string[];
     public dataSource: MatTableDataSource<RoleMatrixPermission> =
         new MatTableDataSource<RoleMatrixPermission>([]);
+    public readOnlyMode: boolean;
+
     @ViewChild(MatSort, {static: true}) public sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
 
@@ -61,6 +64,7 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
         private roleService: RoleService,
         private alertService: XmToasterService,
         private orderByPipe: JhiOrderByPipe,
+        private configService: XmConfigService,
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
     }
@@ -70,6 +74,10 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.load();
+        });
+
+        this.configService.getUiConfig().subscribe(result => {
+            this.readOnlyMode = result.readOnlyConfig;
         });
     }
 

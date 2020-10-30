@@ -2,20 +2,23 @@
   <button (click)="onAddEntitySpec()"
           [matTooltip]="('admin-config.specification-mng.editor.add-entity-spec' | translate)"
           color="primary"
-          mat-icon-button>
+          mat-icon-button
+          [disabled]="readOnlyMode">
     <mat-icon>add</mat-icon>
   </button>
   <button (click)="onApplyChanges()"
           [matTooltip]="('admin-config.specification-mng.editor.apply-changes' | translate)"
           color="primary"
-          mat-icon-button>
+          mat-icon-button
+          [disabled]="readOnlyMode">
     <mat-icon>save_alt</mat-icon>
   </button>
 </div>
 
 <mat-accordion class="headers-align">
   <mat-expansion-panel (opened)="openedEntitySpec = index"
-                       *ngFor="let entitySpec of spec?.types; let index = index" >
+                       *ngFor="let entitySpec of spec?.types; let index = index"
+                       [disabled]="readOnlyMode">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{entitySpec.name | translate}}

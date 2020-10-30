@@ -42,7 +42,7 @@
       <div class="d-flex flex-nowrap align-items-center justify-content-end ml-auto mb-2">
         <button (click)="onCancel()"
                 *permitted="'DASHBOARD.UPDATE'"
-                [disabled]="!hasChanges"
+                [disabled]="readOnlyMode || !hasChanges"
                 mat-flat-button
                 class="mr-1"
                 type="button">
@@ -51,7 +51,7 @@
 
         <button (click)="onSave()"
                 *permitted="'DASHBOARD.UPDATE'"
-                [disabled]="!hasChanges"
+                [disabled]="readOnlyMode || !hasChanges"
                 mat-flat-button
                 color="primary"
                 type="button">
@@ -111,7 +111,7 @@
                     </mat-chip>
                   </mat-chip-list>
                   <div class="mt-2 mb-2">
-                    <mat-slide-toggle (change)="onAllChanged(role, $event);" [checked]="isAllChecked(role)">
+                    <mat-slide-toggle (change)="onAllChanged(role, $event);" [checked]="isAllChecked(role)" [disabled]="readOnlyMode">
                       {{'rolesManagement.permission.checkAll' | translate}}
                     </mat-slide-toggle>
                   </div>
@@ -119,7 +119,9 @@
                 <td mat-cell *matCellDef="let permission" class="text-center">
                   <mat-checkbox (change)="onPermissionChanged(permission, role, $event)"
                                 [checked]="permission.data[role].checked"
-                                class="no-label-margin"></mat-checkbox>
+                                class="no-label-margin"
+                                [disabled]="readOnlyMode">
+                  </mat-checkbox>
                 </td>
               </ng-container>
             </ng-container>

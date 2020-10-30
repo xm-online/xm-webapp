@@ -14,6 +14,7 @@ import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
+import { XmConfigService } from "../../../../src/app/shared";
 
 @Component({
     selector: 'xm-roles-mgmt',
@@ -43,6 +44,8 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         'actions',
     ];
     public dataSource: MatTableDataSource<Role> = new MatTableDataSource<Role>([]);
+    public readOnlyMode: boolean;
+
     @ViewChild(MatSort, {static: true}) public sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
 
@@ -52,6 +55,7 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private eventManager: XmEventManager,
         private modalService: MatDialog,
+        private configService: XmConfigService,
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.registerChangeInRoles();
@@ -62,6 +66,10 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
             this.dataSource.sort = this.sort;
             this.dataSource.paginator = this.paginator;
             this.loadAll();
+        });
+
+        this.configService.getUiConfig().subscribe(result => {
+            this.readOnlyMode = result.readOnlyConfig;
         });
     }
 
