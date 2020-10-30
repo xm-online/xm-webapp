@@ -39,15 +39,16 @@
       <div class="col-md-6">
         <div class="form-group">
           <mat-form-field class="xm-datetime-picker">
-            <div class="to-display">{{event?.startDate | date: 'short'}}</div>
+            <div class="to-display">{{event?.startDate}}</div>
             <input #eventStartDate="ngModel"
                    class="abs"
                    [(ngModel)]="event.startDate"
                    [owlDateTimeTrigger]="dtStartDate"
                    [owlDateTime]="dtStartDate"
+                   [max]="event.endDate"
                    matInput
                    name="startDate"
-                   placeholder="{{'xm-entity.common.fields.start-date' | translate}}"
+                   placeholder="{{'xm-entity.common.fields.start-date' | translate}} {{event.timeZoneId && '('+event.timeZoneId+')'}}"
                    required>
             <button mat-button
                     type="button"
@@ -70,15 +71,16 @@
       <div class="col-md-6">
         <div class="form-group">
           <mat-form-field class="xm-datetime-picker">
-            <div class="to-display">{{event?.endDate | date: 'short'}}</div>
+            <div class="to-display">{{event?.endDate}}</div>
             <input #eventEndDate="ngModel"
                    class="abs"
                    [(ngModel)]="event.endDate"
                    [owlDateTimeTrigger]="dtEndDate"
                    [owlDateTime]="dtEndDate"
+                   [min]="event.startDate"
                    matInput
                    name="endDate"
-                   placeholder="{{'xm-entity.common.fields.end-date' | translate}}"
+                   placeholder="{{'xm-entity.common.fields.end-date' | translate}} {{event.timeZoneId && '('+event.timeZoneId+')'}}"
                    required>
             <button mat-button
                     type="button"

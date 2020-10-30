@@ -2,7 +2,6 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { JhiDateUtils } from 'ng-jhipster';
 import { switchMap, tap } from 'rxjs/operators';
 
 import { Principal } from '../../shared/auth/principal.service';
@@ -19,7 +18,8 @@ import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 import { LanguageService } from '../../modules/xm-translation/language.service';
 import { EntityCalendarUiConfig, EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
-import * as moment from 'moment';
+import { EventSpec } from '..';
+import * as moment from 'moment-timezone';
 
 declare const $: any;
 declare const swal: any;
@@ -46,7 +46,6 @@ export class CalendarCardComponent implements OnChanges {
                 private xmConfigService: XmConfigService,
                 private calendarService: CalendarService,
                 private eventService: EventService,
-                private dateUtils: JhiDateUtils,
                 private i18nNamePipe: I18nNamePipe,
                 private translateService: TranslateService,
                 private languageService: LanguageService,
@@ -129,8 +128,6 @@ export class CalendarCardComponent implements OnChanges {
                     this.calendars.push(calendar);
                 });
 
-                console.warn(this.calendars);
-
                 this.currentCalendar = this.calendars[0];
                 for (const calendar of this.calendars) {
                     setTimeout(() => this.initCalendar(calendar), 50);
@@ -138,20 +135,22 @@ export class CalendarCardComponent implements OnChanges {
             });
     }
 
-    private onShowEventDialog(start: string, end: string, calendar: Calendar, event: Event) {
+    private onShowEventDialog(start: string | Date, end: string | Date, calendar: Calendar, event: Event) {
         const calendarSpec = this.calendarSpecs.filter((c) => c.key === calendar.typeKey).shift();
+        const eventSpec = calendarSpec.events.filter((e) => e.key === event.typeKey).shift();
         const modalRef = this.modalService.open(CalendarEventDialogComponent, {backdrop: 'static'});
+        const startDate = moment(start).format();
+        const endDate = moment(end).format();
         modalRef.componentInstance.xmEntity = this.xmEntity;
         modalRef.componentInstance.event = event;
-        modalRef.componentInstance.calendar = calendar /* self.currentCalendar */;
-        modalRef.componentInstance.startDate = moment(start).format();
-        modalRef.componentInstance.endDate = moment(end).format();
+        modalRef.componentInstance.eventSpec = eventSpec;
+        modalRef.componentInstance.calendar = calendar;
+        modalRef.componentInstance.startDate = startDate;
+        modalRef.componentInstance.endDate = endDate;
         modalRef.componentInstance.calendarSpec = calendarSpec;
         modalRef.componentInstance.onAddEvent = (event: Event, isEdit?: boolean) => {
             this.currentCalendar.events = this.currentCalendar.events ? this.currentCalendar.events : [];
             if (isEdit) {
-                const item = this.currentCalendar.events.find((el) => el.id === event.id);
-                Object.assign(item, event);
                 this.calendarElements[calendar.typeKey].fullCalendar('removeEvents', [event.id]);
             } else {
                 this.currentCalendar.events.push(event);
@@ -222,7 +221,7 @@ export class CalendarCardComponent implements OnChanges {
                 this.calendarService.getEvents(calendar.id, {
                     'dateFrom.eq': start.format('YYYY-MM-DD'),
                     'dateTo.eq': end.format('YYYY-MM-DD'),
-                    'size': calendarConfig.queryPageSize ? calendarConfig.queryPageSize : DEFAULT_CALENDAR_EVENT_FETCH_SIZE
+                    'size': calendarConfig.queryPageSize ? calendarConfig.queryPageSize : DEFAULT_CALENDAR_EVENT_FETCH_SIZE,
                 })
                     .subscribe(
                         res => callback((res || []).map((e) => this.mapEvent(calendarSpec, e))),
@@ -237,12 +236,14 @@ export class CalendarCardComponent implements OnChanges {
 
     private mapEvent(calendarSpec: CalendarSpec, event: Event): any {
         const eventSpec = calendarSpec.events.filter((e) => e.key === event.typeKey).shift();
-        console.warn(this.dateUtils.convertDateTimeFromServer(event.startDate))
+        const start = this.eventService.getDateDependingOnStrategy(event.startDate, event.timeZoneId);
+        const end = this.eventService.getDateDependingOnStrategy(event.endDate, event.timeZoneId);
+
         return {
             id: event.id,
-            title: event.title + '\n (' + this.i18nNamePipe.transform(eventSpec.name, this.principal) + ')',
-            start: moment(event.startDate).utc(),
-            end: moment(event.endDate).utc(),
+            title: this.buildEventTitle(event, eventSpec),
+            start,
+            end,
             description: event.description,
             color: eventSpec.color,
             originEvent: event,
@@ -258,4 +259,8 @@ export class CalendarCardComponent implements OnChanges {
         });
     }
 
+    private buildEventTitle(event: Event, eventSpec: EventSpec): string {
+        const title = event.title + '\n (' + this.i18nNamePipe.transform(eventSpec.name, this.principal) + ')';
+        return title
+    }
 }

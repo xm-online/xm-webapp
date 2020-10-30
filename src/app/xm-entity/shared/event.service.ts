@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { createRequestOption } from '../../shared/model/request-util';
 import { SERVER_API_URL } from '../../xm.constants';
 import { Event } from './event.model';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class EventService {
@@ -15,6 +16,10 @@ export class EventService {
     private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/events';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
+    }
+
+    public getDateDependingOnStrategy(date: string | Date, timeZoneId: string): string {
+        return timeZoneId ? moment(date).tz(timeZoneId).format() : moment(date).format();
     }
 
     public create(event: Event): Observable<HttpResponse<Event>> {
