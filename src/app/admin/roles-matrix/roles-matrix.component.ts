@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { JhiAlertService, JhiOrderByPipe } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
-import { Principal } from '../../shared';
+import { Principal, XmConfigService } from '../../shared';
 
 import { ITEMS_PER_PAGE } from '../../shared/constants/pagination.constants';
 import { RoleMatrix, RoleMatrixPermission } from '../../shared/role/role.model';
@@ -40,18 +40,24 @@ export class RolesMatrixComponent implements OnInit {
     ];
     private permissionsSort: RoleMatrixPermission[];
     private isSort: boolean;
+    public readOnlyMode: boolean;
 
     constructor(
         private principal: Principal,
         private roleService: RoleService,
         private alertService: JhiAlertService,
         private orderByPipe: JhiOrderByPipe,
+        private configService: XmConfigService,
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
     }
 
     public ngOnInit(): void {
         this.principal.identity().then(() => this.load());
+
+        this.configService.getUiConfig().subscribe(result => {
+            this.readOnlyMode = result.readOnlyConfig;
+        })
     }
 
     public load(): void {

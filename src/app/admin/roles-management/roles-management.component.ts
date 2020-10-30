@@ -9,6 +9,7 @@ import { Role } from '../../shared/role/role.model';
 import { RoleService } from '../../shared/role/role.service';
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
 import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
+import { XmConfigService } from '../../shared';
 
 @Component({
     selector: 'xm-roles-mgmt',
@@ -28,6 +29,7 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     public reverse: boolean = true;
     public showLoader: boolean;
     private eventSubscriber: Subscription;
+    public readOnlyMode: boolean;
 
     constructor(
         private roleService: RoleService,
@@ -36,6 +38,7 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private orderByPipe: JhiOrderByPipe,
         private modalService: NgbModal,
+        private configService: XmConfigService,
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.registerChangeInRoles();
@@ -44,6 +47,10 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.principal.identity().then(() => {
             this.loadAll();
+        });
+
+        this.configService.getUiConfig().subscribe(result => {
+            this.readOnlyMode = result.readOnlyConfig;
         });
     }
 
@@ -97,12 +104,12 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         this.modalService.open(RoleMgmtDialogComponent, {backdrop: 'static'});
     }
 
-    public onEdit(role: string): void {
+    public onEdit(role: Role): void {
         const modalRef = this.modalService.open(RoleMgmtDialogComponent, {backdrop: 'static'});
         modalRef.componentInstance.selectedRole = role;
     }
 
-    public onDelete(role: string): void {
+    public onDelete(role: Role): void {
         const modalRef = this.modalService.open(RoleMgmtDeleteDialogComponent, {backdrop: 'static'});
         modalRef.componentInstance.selectedRole = role;
     }

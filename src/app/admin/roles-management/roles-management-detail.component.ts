@@ -12,6 +12,7 @@ import { Permission } from '../../shared/role/permission.model';
 import { Role } from '../../shared/role/role.model';
 import { RoleService } from '../../shared/role/role.service';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
+import { XmConfigService } from "../../shared";
 
 @Component({
     selector: 'xm-role-mgmt-datail',
@@ -50,13 +51,16 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
     private isSort: boolean;
     private routeParamsSubscription: Subscription;
     private routeDataSubscription: Subscription;
+    public readOnlyMode: boolean;
 
     constructor(private jhiLanguageHelper: JhiLanguageHelper,
                 private roleService: RoleService,
                 private alertService: JhiAlertService,
                 private activatedRoute: ActivatedRoute,
                 private orderByPipe: JhiOrderByPipe,
-                private modalService: NgbModal) {
+                private modalService: NgbModal,
+                private configService: XmConfigService,
+    ) {
         this.routeDataSubscription = this.activatedRoute.data
             .pipe(takeUntil(instanceDestroyed(this)))
             .subscribe((data) => this.routeData = data);
@@ -70,6 +74,10 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
                 this.load(roleKey);
                 this.jhiLanguageHelper.updateTitle();
             }
+        });
+
+        this.configService.getUiConfig().subscribe(result => {
+            this.readOnlyMode = result.readOnlyConfig;
         });
     }
 

@@ -11,7 +11,6 @@ import { ConfigVisualizerDialogComponent } from './config-visualizer-dialog/conf
 import { Principal } from '../../shared';
 
 const TENANT_SPEC_PATH = '/tenant-config.yml';
-declare const YAML: any;
 
 @Component({
     selector: 'xm-specification-mng',
@@ -89,7 +88,7 @@ export class SpecificationMngComponent implements OnInit {
     public uaaSpecificationOut: string;
     public uaaValidation: any;
 
-    public readOnlyConfig: boolean;
+    public readOnlyMode: boolean;
 
     constructor(private activatedRoute: ActivatedRoute,
                 private modalService: NgbModal,
@@ -124,10 +123,6 @@ export class SpecificationMngComponent implements OnInit {
         this.service.getConfig('/webapp/settings-public.yml').subscribe((result) => {
             this.uiSpecificationIn = result;
             this.uiSpecificationOut = result;
-
-            if (YAML.parse(result).readOnlyConfig) {
-                this.readOnlyConfig = true;
-            }
         });
         this.service.getConfig(TENANT_SPEC_PATH).subscribe((result) => {
             this.tenantSpecificationIn = result;
@@ -142,6 +137,9 @@ export class SpecificationMngComponent implements OnInit {
                 this.uiPrivateSpecificationIn = result;
                 this.uiPrivateSpecificationOut = result;
             });
+        });
+        this.service.getUiConfig().subscribe(result => {
+            this.readOnlyMode = result.readOnlyConfig;
         });
     }
 

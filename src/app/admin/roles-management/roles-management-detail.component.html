@@ -68,7 +68,7 @@
 
             <div class="col"></div>
             <div class="col-auto">
-              <button (click)="onSave()" class="btn btn-sm mat-raised-button btn-primary" type="button">
+              <button (click)="onSave()" class="btn btn-sm mat-raised-button btn-primary" type="button" [disabled]="readOnlyMode">
                 <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
               </button>
             </div>
@@ -77,7 +77,8 @@
           <div class="row">
             <div class="col">
               <mat-slide-toggle (change)="onCheckAll()"
-                                [(ngModel)]="checkAll">
+                                [(ngModel)]="checkAll"
+                                [disabled]="readOnlyMode">
                 {{'rolesManagement.permission.checkAll' | translate}}
               </mat-slide-toggle>
             </div>
@@ -114,11 +115,11 @@
                 </td>
                 <td>{{item.msName}}</td>
                 <td>
-                  <mat-checkbox [(ngModel)]="item.enabled" color="primary"></mat-checkbox>
+                  <mat-checkbox [(ngModel)]="item.enabled" color="primary" [disabled]="readOnlyMode"></mat-checkbox>
                 </td>
                 <td>
                   <mat-form-field class="slim-select">
-                    <mat-select [(ngModel)]="item.reactionStrategy">
+                    <mat-select [(ngModel)]="item.reactionStrategy" [disabled]="readOnlyMode">
                       <mat-option *ngFor="let value of forbids" [value]="value">
                         {{value}}
                       </mat-option>
@@ -127,18 +128,29 @@
                 </td>
                 <td>
                   <span>{{item.resourceCondition}}</span>
-                  <a (click)="onEditResource(item)"
-                     *ngIf="item.resources?.length"
-                     class="pull-right"
-                     href="javascript: void(0);">
-                    <i class="material-icons">edit</i>
-                  </a>
+                  <button
+                    mat-icon-button
+                    color="primary"
+                    (click)="onEditResource(item)"
+                    *ngIf="item.resources?.length"
+                    class="pull-right"
+                    [disabled]="readOnlyMode"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
                 </td>
                 <td>
                   <span>{{item.envCondition}}</span>
-                  <a (click)="onEditEnv(item)" *ngIf="hasEnv" class="pull-right" href="javascript: void(0);">
-                    <i class="material-icons">edit</i>
-                  </a>
+                  <button
+                    mat-icon-button
+                    color="primary"
+                    (click)="onEditEnv(item)"
+                    *ngIf="hasEnv"
+                    class="pull-right"
+                    [disabled]="readOnlyMode"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
                 </td>
               </tr>
               </tbody>
@@ -154,7 +166,7 @@
             </div>
             <div class="col-sm"></div>
             <div class="col-auto">
-              <button (click)="onSave()" class="btn btn-sm mat-raised-button btn-primary" type="button">
+              <button (click)="onSave()" class="btn btn-sm mat-raised-button btn-primary" type="button" [disabled]="readOnlyMode">
                 <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
               </button>
             </div>

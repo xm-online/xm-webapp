@@ -65,7 +65,7 @@
             </button>
             <button (click)="onSave()"
                     *permitted="'DASHBOARD.UPDATE'"
-                    [disabled]="!hasChanges"
+                    [disabled]="readOnlyMode || !hasChanges"
                     class="btn btn-primary btn-sm mat-raised-button"
                     type="button">
               <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
@@ -104,7 +104,7 @@
                   <span class="material-icons">close</span>
                 </a>
                 <div class="text-center">
-                  <mat-slide-toggle (change)="onCheckAll(i); isChanged(permissions);" [(ngModel)]="checkAll[i]">
+                  <mat-slide-toggle (change)="onCheckAll(i); isChanged(permissions);" [(ngModel)]="checkAll[i]" [disabled]="readOnlyMode">
                     {{'rolesManagement.permission.checkAll' | translate}}
                   </mat-slide-toggle>
                 </div>
@@ -123,7 +123,9 @@
               <td *ngFor="let role of item.roles; index as i" [ngClass]="'col-' + i" class="text-center align-middle">
                 <mat-checkbox (change)="isChanged(permissions)"
                               [(ngModel)]="role.value"
-                              class="no-label-margin"></mat-checkbox>
+                              class="no-label-margin"
+                              [disabled]="readOnlyMode"
+                ></mat-checkbox>
               </td>
             </tr>
             </tbody>
@@ -157,7 +159,7 @@
             </button>
             <button (click)="onSave()"
                     *permitted="'DASHBOARD.UPDATE'"
-                    [disabled]="!hasChanges"
+                    [disabled]="readOnlyMode || !hasChanges"
                     class="btn btn-primary btn-sm mat-raised-button"
                     type="button">
               <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
