@@ -5,7 +5,11 @@ import { XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { AuthRefreshTokenService, XmAuthenticationStoreService } from '../../../../packages/core/auth';
+import {
+    AuthRefreshTokenService,
+    XmAuthenticationService,
+    XmAuthenticationStoreService,
+} from '../../../../packages/core/auth';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../xm.constants';
 import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
 import { Principal } from './principal.service';
@@ -46,6 +50,7 @@ export class AuthServerProvider {
         private refreshTokenService: AuthRefreshTokenService,
         private $sessionStorage: SessionStorageService,
         private stateStorageService: StateStorageService,
+        private authenticationService: XmAuthenticationService,
         private router: Router,
     ) {
     }
@@ -53,6 +58,7 @@ export class AuthServerProvider {
     public init(): void {
         const isRememberMe = this.storeService.isRememberMe();
         this.setAutoRefreshTokens(isRememberMe);
+        this.authenticationService.logout$().pipe(switchMap(() => this.logout())).subscribe();
     }
 
     public getToken(): string {
@@ -117,23 +123,6 @@ export class AuthServerProvider {
         this.storeService.storeRefreshToken(jwt, rememberMe);
     }
 
-    public logout(): Observable<any> {
-        return new Observable((observer) => {
-            this.storeService.clear();
-            this.refreshTokenService.clear();
-            this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
-            this.$sessionStorage.clear(WIDGET_DATA);
-            observer.next();
-            observer.complete();
-        }).pipe(
-            switchMap(() => {
-                this.sessionService.clear();
-                return this.getGuestAccessToken();
-            }),
-        );
-    }
-
-
     public updateTokens(data: AuthTokenResponse, rememberMe: boolean = this.storeService.isRememberMe()): void {
         this.storeAT(data, rememberMe);
         this.storeRT(data, rememberMe);
@@ -181,6 +170,26 @@ export class AuthServerProvider {
             this.router.navigate(['']);
             this.sessionService.clear();
         });
+    }
+
+    protected logout(): Observable<any> {
+        return new Observable((observer) => {
+            this.storeService.clear();
+            this.refreshTokenService.clear();
+            this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
+            this.$sessionStorage.clear(WIDGET_DATA);
+            observer.next();
+            observer.complete();
+        }).pipe(
+            switchMap(() => {
+                this.sessionService.clear();
+                return this.getGuestAccessToken();
+            }),
+            tap(() => {
+                this.principal.logout();
+                this.router.navigate(['']);
+            }),
+        );
     }
 
     private getGuestAccessToken(): Observable<void> {

@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { XmAuthenticationService } from '../../../../packages/core/auth';
 import { AuthServerProvider } from './auth-jwt.service';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
@@ -10,7 +8,7 @@ import { StateStorageService } from './state-storage.service';
 export class LoginService {
 
     constructor(private principal: Principal,
-                private router: Router,
+                private authenticationService: XmAuthenticationService,
                 private authServerProvider: AuthServerProvider,
                 private stateStorageService: StateStorageService) {
     }
@@ -35,7 +33,7 @@ export class LoginService {
                 return cb();
             }, (err) => {
                 console.info('service-error %o', err);
-                this.logout();
+                this.authenticationService.logout();
                 reject(err);
                 return cb(err);
             });
@@ -46,19 +44,11 @@ export class LoginService {
         return this.authServerProvider.loginWithToken(jwt, rememberMe);
     }
 
-    /** @deprecated use logout$*/
+    /** @deprecated use XmAuthenticationService.logout() $*/
     public logout(): void {
-        this.authServerProvider.logout().subscribe();
-        this.principal.logout();
-        this.router.navigate(['']);
+        this.authenticationService.logout();
     }
 
-    public logout$(): Observable<void> {
-        return this.authServerProvider.logout().pipe(
-            // TODO: replace with session subscription
-            map(() => this.principal.logout()),
-        );
-    }
 
     private getUserIdentity(next: any, data: any): void {
         this.principal.identity(true, true).then((account) => {

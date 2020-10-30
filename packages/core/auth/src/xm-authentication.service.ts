@@ -1,11 +1,10 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
-import { Observable } from 'rxjs';
-import { catchError, switchMap, tap, take } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 // TODO: remove external deps
 import { AuthServerProvider } from '../../../../src/app/shared/auth/auth-jwt.service';
-import { LoginService } from '../../../../src/app/shared/auth/login.service';
 
 export const ERROR_CODE_UNAUTHORIZED = 401;
 export const TOKEN_URL = 'uaa/oauth/token';
@@ -13,11 +12,21 @@ export const TOKEN_URL = 'uaa/oauth/token';
 @Injectable()
 export class XmAuthenticationService {
 
+    /**
+     * @todo: the logout should be connected to the session service
+     *   and emmited when the active session becomes false
+     * @private
+     */
+    private _logout$: Subject<void> = new Subject();
+
     constructor(
-        private loginService: LoginService,
         private serverProvider: AuthServerProvider,
         private sessionService: XmSessionService,
     ) {
+    }
+
+    public logout$(): Observable<void> {
+        return this._logout$.asObservable();
     }
 
     public verifyRefreshToken(req: HttpRequest<unknown>): boolean {
@@ -25,7 +34,7 @@ export class XmAuthenticationService {
     }
 
     public refreshShouldHappen(response: HttpErrorResponse): boolean {
-        return response.status === 401;
+        return response.status === ERROR_CODE_UNAUTHORIZED;
     }
 
     public refreshToken(): Observable<unknown> {
@@ -38,13 +47,18 @@ export class XmAuthenticationService {
                 return this.serverProvider.refreshGuestAccessToken();
             }),
             tap((res) => this.serverProvider.updateTokens(res)),
-            catchError(() => this.loginService.logout$()),
+            catchError(() => {
+                this.logout();
+                return of(null);
+            }),
         );
     }
 
     public getHeaders(token: string): { [name: string]: string | string[] } {
         return { Authorization: `Bearer ${token}` };
     }
+
+    public logout(): void {
+        this._logout$.next();
+    }
 }
-
-
