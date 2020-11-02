@@ -19,8 +19,9 @@ interface Config {
 @Component({
     selector: 'xm-links-group-widget',
     template: `
-        <div *ngIf="config?.list" class="text-center pb-3">
+        <div *ngIf="config?.list" class="text-center mb-3 btn-group-container">
             <div [ngClass]="isMobile ? 'btn-group-vertical' : 'btn-group'"
+                 class="mb-0"
                  role="group">
                 <ng-container *ngFor="let item of config.list">
                     <a [routerLink]="item.routerLink"
@@ -34,8 +35,8 @@ interface Config {
             </div>
         </div>
     `,
+    styleUrls: ['./links-group-widget.component.scss'],
 })
-
 export class LinksGroupWidgetComponent implements OnInit, OnDestroy {
     @Input()
     public config: Config;
