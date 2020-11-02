@@ -5,7 +5,7 @@
         edge: { name: 'Edge', version: 18, show: true, showVersion: 44 }, // Edge 44 equals Edge/18.18363 in userAgent
         msie2: { name: 'MSIE', version: 11, show: true },
         msie: { name: 'IE', version: 11, show: false },
-        chrome: { name: 'Chrome', version: 87, show: true },
+        chrome: { name: 'Chrome', version: 83, show: true },
         opera: { name: 'Opera', version: 66, show: true },
         firefox: { name: 'Firefox', version: 78, show: true },
         safari: { name: 'Safari', version: 13, show: true },
