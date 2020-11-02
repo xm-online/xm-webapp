@@ -19,7 +19,7 @@
               <button (click)="updateUiConfig();"
                       *ngIf="isUiSpecValid"
                       [class.loading]="uiSpecificationProgress"
-                      [disabled]="uiSpecificationProgress"
+                      [disabled]="uiSpecificationProgress || readOnlyMode"
                       class="btn btn-primary"
                       type="button">
                 {{'admin-config.specification-mng.ui.save' | translate}}
@@ -27,7 +27,8 @@
               <button (click)="validateUiSpecification();"
                       *ngIf="!isUiSpecValid"
                       class="btn btn-primary"
-                      type="button">
+                      type="button"
+                      [disabled]="readOnlyMode">
                 {{'admin-config.specification-mng.validate' | translate}}
               </button>
 
@@ -61,12 +62,14 @@
             <div class="text-center pb-3">
               <button (click)="validateXmEntitySpec();" *ngIf="!isXmEntitySpecValid" class="btn btn-primary mr-2"
                       jhiTranslate="admin-config.specification-mng.validate"
-                      type="submit">
+                      type="submit"
+                      [disabled]="readOnlyMode">
                 Validate
               </button>
               <button (click)="updateEntityConfig();" *ngIf="isXmEntitySpecValid" class="btn btn-primary mr-2"
                       jhiTranslate="admin-config.specification-mng.entity.save"
-                      type="submit">
+                      type="submit"
+                      [disabled]="readOnlyMode">
                 Update Entity specification
               </button>
 
@@ -111,12 +114,14 @@
             <div class="text-center pb-3">
               <button (click)="validateTimelineConfig();" *ngIf="!isTimelineSpecValid" class="btn btn-primary"
                       jhiTranslate="admin-config.specification-mng.validate"
-                      type="submit">
+                      type="submit"
+                      [disabled]="readOnlyMode">
                 Validate
               </button>
               <button (click)="updateTimelineConfig();" *ngIf="isTimelineSpecValid" class="btn btn-primary"
                       jhiTranslate="admin-config.specification-mng.timeline.save"
-                      type="submit">
+                      type="submit"
+                      [disabled]="readOnlyMode">
                 Save Timeline specification
               </button>
               <div class="text-center">
@@ -148,12 +153,14 @@
             <div class="text-center pb-3">
               <button (click)="validateLoginsSpecification();" *ngIf="!isUaaLoginSpecValid" class="btn btn-primary"
                       jhiTranslate="admin-config.specification-mng.validate"
-                      type="submit">
+                      type="submit"
+                      [disabled]="readOnlyMode">
                 Validate
               </button>
               <button (click)="updateLoginsSpecification();" *ngIf="isUaaLoginSpecValid" class="btn btn-primary"
                       jhiTranslate="admin-config.specification-mng.uaa-login.save"
-                      type="submit">
+                      type="submit"
+                      [disabled]="readOnlyMode">
                 Save Login specification
               </button>
               <div class="text-center">
@@ -185,12 +192,14 @@
             <div class="text-center pb-3">
               <button (click)="validateUaaSpecification();" *ngIf="!isUaaSpecValid" class="btn btn-primary"
                       jhiTranslate="admin-config.specification-mng.validate"
-                      type="submit">
+                      type="submit"
+                      [disabled]="readOnlyMode">
                 Validate
               </button>
               <button (click)="updateUaaSpecification();" *ngIf="isUaaSpecValid" class="btn btn-primary"
                       jhiTranslate="admin-config.specification-mng.uaa.save"
-                      type="submit">
+                      type="submit"
+                      [disabled]="readOnlyMode">
                 Save UAA specification
               </button>
               <div class="text-center">
@@ -223,7 +232,7 @@
               <button (click)="updateTenantConfig();"
                       *ngIf="isTenantSpecValid"
                       [class.loading]="tenantSpecificationProgress"
-                      [disabled]="tenantSpecificationProgress"
+                      [disabled]="tenantSpecificationProgress || readOnlyMode"
                       class="btn btn-primary"
                       type="button">
                 {{'admin-config.specification-mng.tenant.save' | translate}}
@@ -231,7 +240,8 @@
               <button (click)="validateTenantSpecification();"
                       *ngIf="!isTenantSpecValid"
                       class="btn btn-primary"
-                      type="button">
+                      type="button"
+                      [disabled]="readOnlyMode">
                 {{'admin-config.specification-mng.validate' | translate}}
               </button>
 
@@ -265,7 +275,7 @@
               <button (click)="updatePrivateUiConfig();"
                       *ngIf="isUiPrivateSpecValid"
                       [class.loading]="uiPrivateSpecificationProgress"
-                      [disabled]="uiPrivateSpecificationProgress"
+                      [disabled]="uiPrivateSpecificationProgress || readOnlyMode"
                       class="btn btn-primary"
                       type="button">
                 {{'admin-config.specification-mng.privateui.save' | translate}}
@@ -273,7 +283,8 @@
               <button (click)="validatePrivateUiSpecification();"
                       *ngIf="!isUiPrivateSpecValid"
                       class="btn btn-primary"
-                      type="button">
+                      type="button"
+                      [disabled]="readOnlyMode">
                 {{'admin-config.specification-mng.validate' | translate}}
               </button>
 

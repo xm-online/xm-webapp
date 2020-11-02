@@ -88,6 +88,8 @@ export class SpecificationMngComponent implements OnInit {
     public uaaSpecificationOut: string;
     public uaaValidation: any;
 
+    public readOnlyMode: boolean;
+
     constructor(private activatedRoute: ActivatedRoute,
                 private modalService: NgbModal,
                 private principal: Principal,
@@ -135,6 +137,9 @@ export class SpecificationMngComponent implements OnInit {
                 this.uiPrivateSpecificationIn = result;
                 this.uiPrivateSpecificationOut = result;
             });
+        });
+        this.service.getUiConfig().subscribe(result => {
+            this.readOnlyMode = result.readOnlyConfig;
         });
     }
 

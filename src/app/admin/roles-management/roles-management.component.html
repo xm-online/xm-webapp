@@ -39,16 +39,26 @@
                 <td>{{item.updatedBy}}</td>
                 <td>{{item.updatedDate | xmDateTime}}</td>
                 <td class="text-right nowrap">
-                  <a (click)="onEdit(item)"
-                     *permitted="'ROLE.UPDATE'"
-                     href="javascript: void(0);">
-                    <i class="material-icons">edit</i>
-                  </a>
-                  <a (click)="onDelete(item)" *permitted="'ROLE.DELETE'"
-                     class="ml-1"
-                     href="javascript: void(0);">
-                    <i class="material-icons">close</i>
-                  </a>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    (click)="onEdit(item)"
+                    *permitted="'ROLE.UPDATE'"
+                    [disabled]="readOnlyMode"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    type="button"
+                    mat-icon-button
+                    color="primary"
+                    (click)="onDelete(item)"
+                    *permitted="'ROLE.DELETE'"
+                    [disabled]="readOnlyMode"
+                  >
+                    <mat-icon>close</mat-icon>
+                  </button>
                   <!--<a [routerLink]="[{ outlets: { popup: 'role-management/'+ item.roleKey + '/edit'} }]"-->
                   <!--replaceUrl="true" *permitted="'ROLE.UPDATE'">-->
                   <!--<i class="material-icons">edit</i>-->
@@ -77,7 +87,6 @@
                               [collectionSize]="totalItems"
                               [maxSize]="5"
                               [pageSize]="itemsPerPage">
-
               </ngb-pagination>
             </div>
           </div>
@@ -93,7 +102,8 @@
   <button (click)="onAdd()"
           *permitted="'ROLE.CREATE'"
           class="btn btn-primary btn-icon btn-just-icon btn-round btn-lg"
-          mat-raised-button>
+          mat-raised-button
+          [disabled]="readOnlyMode">
     <i class="material-icons">add</i>
   </button>
 </div>
