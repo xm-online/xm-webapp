@@ -127,7 +127,7 @@ export const XM_ELEMENTS: DynamicComponents = [
     },
     {
         selector: '@xm-ngx/components/xm-bool-view',
-        loadChildren: () => import('@xm-ngx/components/xm-bool-view').then(m => m.XmBoolViewModule),
+        loadChildren: () => import('@xm-ngx/components/bool').then(m => m.BoolValueModule),
     },
     {
         selector: '@xm-ngx/components/xm-bool-control',

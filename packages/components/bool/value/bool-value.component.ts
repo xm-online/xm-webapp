@@ -8,19 +8,19 @@ import {
     SimpleChanges,
     ViewEncapsulation,
 } from '@angular/core';
-import { BoolOptions, XM_BOOL_VIEW_ICONS } from './xm-bool-view.injectors';
+import { BoolOptions, XM_BOOL_VIEW_ICONS } from './bool-value.injectors';
 
 export type BoolValue = string | boolean;
 
 @Component({
-    selector: 'xm-bool-view',
+    selector: 'xm-bool-view, bool-value',
     template: `
         <mat-icon>{{ icon }}</mat-icon>
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class BoolViewComponent implements OnInit, OnChanges {
+export class BoolValueComponent implements OnInit, OnChanges {
     @Input() public value: BoolValue;
     public icon: string;
 
