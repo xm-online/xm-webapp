@@ -1,23 +1,23 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { XM_BOOL_VIEW_ICONS } from './xm-bool-view.injectors';
-import { BoolViewComponent } from './xm-bool-view.component';
+import { XM_BOOL_VIEW_ICONS } from './bool-value.injectors';
+import { BoolValueComponent } from './bool-value.component';
 
-describe('BoolViewComponent', () => {
-    let component: BoolViewComponent;
-    let fixture: ComponentFixture<BoolViewComponent>;
+describe('BoolValueComponent', () => {
+    let component: BoolValueComponent;
+    let fixture: ComponentFixture<BoolValueComponent>;
     let icon: HTMLElement;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [BoolViewComponent],
+            declarations: [BoolValueComponent],
             providers: [{ provide: XM_BOOL_VIEW_ICONS, useValue: { true: 'true', false: 'false' } }],
             schemas: [NO_ERRORS_SCHEMA],
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(BoolViewComponent);
+        fixture = TestBed.createComponent(BoolValueComponent);
         component = fixture.componentInstance;
         icon = fixture.nativeElement.querySelector('mat-icon');
     });

@@ -57,7 +57,7 @@
     <ng-container matColumnDef="{{columns[2]}}">
       <th *matHeaderCellDef mat-header-cell> {{columns[2] | translate}}</th>
       <td *matCellDef="let element" mat-cell>
-        <xm-bool-view [value]="!!element[columns[2]]"></xm-bool-view>
+        <bool-value [value]="!!element[columns[2]]"></bool-value>
       </td>
     </ng-container>
 
@@ -65,7 +65,7 @@
     <ng-container matColumnDef="{{columns[3]}}">
       <th *matHeaderCellDef mat-header-cell> {{columns[3] | translate}}</th>
       <td *matCellDef="let element" mat-cell>
-        <xm-bool-view [value]="!!element[columns[3]]"></xm-bool-view>
+        <bool-value [value]="!!element[columns[3]]"></bool-value>
       </td>
     </ng-container>
 
@@ -73,7 +73,7 @@
     <ng-container matColumnDef="{{columns[4]}}">
       <th *matHeaderCellDef mat-header-cell> {{columns[4] | translate}}</th>
       <td *matCellDef="let element" mat-cell>
-        <xm-bool-view [value]="!!fromMap(element, columns[4])"></xm-bool-view>
+        <bool-value [value]="!!fromMap(element, columns[4])"></bool-value>
       </td>
     </ng-container>
 
