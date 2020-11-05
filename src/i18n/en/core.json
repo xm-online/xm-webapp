@@ -247,6 +247,11 @@
       "business": "Forwarding error",
       "internalServerError": "Internal server error"
     },
+    "esim": {
+      "insufficient": {
+        "amount": "Insufficient amount of free sim cards"
+      }
+    },
     "idexists": "A new {{ entityName }} cannot already have an ID",
     "insufficient_scope": "Insufficient scope",
     "internalServerError": "Internal server error",

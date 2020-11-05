@@ -244,6 +244,11 @@
     "business": "Ошибка переадресации",
     "concurrencyFailure": "Ошибка параллельного запроса.",
     "emailexists": "Эл. почта уже используется!!",
+    "esim": {
+      "insufficient": {
+        "amount": "Недостаточное количество свободных симкарт."
+      }
+    },
     "idexists": "Новый {{entityName}} не может иметь данный ID",
     "insufficient_scope": "Insufficient scope",
     "internalServerError": "Внутренняя ошибка сервера",
