@@ -1,33 +1,39 @@
 <mat-card>
   <div class="d-flex justify-content-center align-items-center mb-2">
-    <button mat-button
+
+    <ng-container *ngIf="config.showReindex">
+      <button (click)="reindexElastic()"
+              *xmPermitted="['ELASTICSEARCH.INDEX']"
+              color="primary"
+              mat-button>
+        {{'global.common.maintenance-reindex-elastic' | translate}}
+      </button>
+    </ng-container>
+
+    <button (click)="updateTenantsConfiguration()"
+            *xmPermitted="['CONFIG.ADMIN.REFRESH']"
             color="primary"
-            (click)="reindexElastic()"
-            *xmPermitted="['ELASTICSEARCH.INDEX']">
-      {{'global.common.maintenance-reindex-elastic' | translate}}
-    </button>
-    <button mat-button
-            color="primary"
-            (click)="updateTenantsConfiguration()"
-            *xmPermitted="['CONFIG.ADMIN.REFRESH']">
+            mat-button>
       <mat-icon>warning</mat-icon>
       {{'global.common.maintenance-update-tenants-configuration' | translate}}
     </button>
-    <button mat-button
-            color="primary"
-            (click)="updateTenantConfiguration()"
+
+    <button (click)="updateTenantConfiguration()"
+            *xmPermitted="['CONFIG.CLIENT.REFRESH']"
             [ngClass]="{'loading' : isTenantCfgUpdating}"
-            *xmPermitted="['CONFIG.CLIENT.REFRESH']">
+            color="primary"
+            mat-button>
       {{'global.common.maintenance-update-tenant-configuration' | translate}}
     </button>
+
   </div>
 
   <div class="d-flex justify-content-center align-items-center">
-    <button color="primary" mat-button (click)="importEntities()">
+    <button (click)="importEntities()" color="primary" mat-button>
       {{'global.common.maintenance-import-entities' | translate}}
     </button>
 
-    <button color="primary" mat-button (click)="exportEntities()">
+    <button (click)="exportEntities()" color="primary" mat-button>
       {{'global.common.maintenance-export-entities' | translate}}
     </button>
   </div>
