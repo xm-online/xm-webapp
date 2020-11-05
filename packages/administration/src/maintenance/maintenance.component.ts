@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogConfig } from '@angular/material/dialog/dialog-config';
+import { ExportEntitiesDetailsComponent } from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
+import { ImportEntitiesDetailsComponent } from '@xm-ngx/administration/maintenance/import-entities-details/import-entities-details.component';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
-import { MatDialog } from '@angular/material/dialog';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from '../../../../src/app/xm.constants';
-import { ExportEntitiesDetailsComponent } from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
-import { MatDialogConfig } from '@angular/material/dialog/dialog-config';
-import { ImportEntitiesDetailsComponent } from '@xm-ngx/administration/maintenance/import-entities-details/import-entities-details.component';
 
 @Component({
     selector: 'xm-maintenance',
@@ -17,6 +17,8 @@ import { ImportEntitiesDetailsComponent } from '@xm-ngx/administration/maintenan
 export class MaintenanceComponent {
 
     public isTenantCfgUpdating: boolean;
+
+    @Input() public config: { showReindex: boolean } = { showReindex: true };
 
     constructor(
         private service: XmConfigService,
@@ -92,7 +94,7 @@ export class MaintenanceComponent {
     }
 
     public exportEntities(): void {
-        const options: MatDialogConfig = {...XM_MAT_DIALOG_DEFAULT_OPTIONS, width: '960px'};
+        const options: MatDialogConfig = { ...XM_MAT_DIALOG_DEFAULT_OPTIONS, width: '960px' };
         const exportDialog = this.dialog.open(ExportEntitiesDetailsComponent, options);
         exportDialog.afterClosed().subscribe((res) => {
             if (res && res === 'success') {
@@ -102,7 +104,7 @@ export class MaintenanceComponent {
                     showCloseButton: false,
                     confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
                     confirmButtonText: 'Ok',
-                    width: '500px'
+                    width: '500px',
                 }).subscribe();
             }
             if (res && res !== 'success') {
@@ -112,14 +114,14 @@ export class MaintenanceComponent {
                     showCloseButton: false,
                     confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
                     confirmButtonText: 'Ok',
-                    width: '500px'
+                    width: '500px',
                 }).subscribe();
             }
         });
     }
 
     public importEntities(): void {
-        const options: MatDialogConfig = {...XM_MAT_DIALOG_DEFAULT_OPTIONS, autoFocus: false};
+        const options: MatDialogConfig = { ...XM_MAT_DIALOG_DEFAULT_OPTIONS, autoFocus: false };
         const exportDialog = this.dialog.open(ImportEntitiesDetailsComponent, options);
         exportDialog.afterClosed().subscribe((res) => {
             if (res && res === 'success') {
@@ -129,7 +131,7 @@ export class MaintenanceComponent {
                     showCloseButton: false,
                     confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
                     confirmButtonText: 'Ok',
-                    width: '500px'
+                    width: '500px',
                 }).subscribe();
             }
             if (res && res !== 'success') {
@@ -139,7 +141,7 @@ export class MaintenanceComponent {
                     showCloseButton: false,
                     confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
                     confirmButtonText: 'Ok',
-                    width: '500px'
+                    width: '500px',
                 }).subscribe();
             }
         });
