@@ -3,7 +3,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
+import { IControl, IDynamicModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 export interface DateRangeControlOptions {
@@ -12,12 +14,17 @@ export interface DateRangeControlOptions {
     toName?: string;
 }
 
+export interface DateRangeControlValue {
+    from: string,
+    to: string
+}
+
 @Component({
     selector: 'date-range-control',
     template: `
         <mat-form-field>
             <mat-label>{{options?.title | translate}}</mat-label>
-            <mat-date-range-input [formGroup]="formGroup"
+            <mat-date-range-input [formGroup]="group"
                                   [rangePicker]="picker">
                 <input matStartDate
                        [name]="options?.fromName"
@@ -28,12 +35,13 @@ export interface DateRangeControlOptions {
             </mat-date-range-input>
             <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
+            <mat-error *xmControlErrors="group?.errors; message as message">{{message}}</mat-error>
         </mat-form-field>
     `,
 })
-export class DateRangeControl extends NgControlAccessor<{ from: string, to: string }> {
+export class DateRangeControl extends NgControlAccessor<DateRangeControlValue> {
     @Input() public options: DateRangeControlOptions;
-    @Input() public formGroup: FormGroup = new FormGroup({
+    @Input() public group: FormGroup = new FormGroup({
         from: new FormControl(),
         to: new FormControl(),
     });
@@ -46,10 +54,11 @@ export class DateRangeControl extends NgControlAccessor<{ from: string, to: stri
         MatDatepickerModule,
         MatInputModule,
         XmTranslationModule,
+        ControlErrorModule,
     ],
     exports: [DateRangeControl],
     declarations: [DateRangeControl],
 })
-export class DateRangeControlModule {
+export class DateRangeControlModule implements IDynamicModule<IControl<DateRangeControlValue, DateRangeControlOptions>> {
     public entry: Type<DateRangeControl> = DateRangeControl;
 }
