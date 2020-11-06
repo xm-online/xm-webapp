@@ -25,7 +25,7 @@ export const LINK_VIEW_COPY_DEFAULT_OPTIONS: LinkViewCopyOptions = assign(
 );
 
 @Component({
-    selector: 'xm-link-view',
+    selector: 'xm-link-view-copy',
     template: `
         <xm-text [hidden]="!fieldValue"
                  [styleInline]="options?.styleInline">
