@@ -34,7 +34,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
         private alertService: XmAlertService,
         private toasterService: XmToasterService,
         private eventManager: XmEventManager,
-        protected router: Router,
+        private router: Router,
         private i18nNamePipe: I18nNamePipe,
         private translateService: TranslateService,
         private specService: XmConfigService) {
@@ -71,9 +71,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        if (this.cleanHttpErrorListener !== undefined && this.cleanHttpErrorListener !== null) {
-            this.eventManager.destroy(this.cleanHttpErrorListener);
-        }
+        this.cleanHttpErrorListener?.unsubscribe();
     }
 
     private configAndSendError(config: ResponseConfigItem, response: ErrorHandlerEventPayloadProcessed, params?: any): void {
@@ -116,7 +114,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 break;
             }
             case 'alert': {
-                this.addErrorAlert(title);
+                this.showError(title);
                 break;
             }
             default: {
@@ -127,59 +125,65 @@ export class JhiAlertErrorComponent implements OnDestroy {
     }
 
     private sendDefaultError(res: ErrorHandlerEventPayloadProcessed): void {
-        const httpErrorResponse = res.content;
-        switch (httpErrorResponse.status) {
+        const content = res.content;
+        switch (content.status) {
             case 0: {
-                // connection refused, server not reachable
-                this.addErrorAlert('Server not reachable', 'error.server.not.reachable');
+                this.showError(null, 'error.server.not.reachable');
                 break;
             }
             case 404: {
-                this.addErrorAlert('Not found', 'error.url.not.found');
+                this.showError(null, 'error.url.not.found');
                 break;
             }
             case 400: {
-                const arr = httpErrorResponse.headers.keys();
+                const arr = content.headers.keys();
                 let errorHeader = null;
                 let entityKey = null;
                 arr.forEach((entry) => {
                     if (entry.endsWith('app-error')) {
-                        errorHeader = httpErrorResponse.headers.get(entry);
+                        errorHeader = content.headers.get(entry);
                     } else if (entry.endsWith('app-params')) {
-                        entityKey = httpErrorResponse.headers.get(entry);
+                        entityKey = content.headers.get(entry);
                     }
                 });
                 if (errorHeader) {
                     const entityName = this.translateService.instant(`global.menu.entities.${entityKey}`);
-                    this.addErrorAlert(errorHeader, errorHeader, { entityName });
+                    this.showError(errorHeader, errorHeader, { entityName });
                 } else {
-                    this.defaultErrorHandler(httpErrorResponse);
+                    this.defaultErrorHandler(content);
                 }
                 break;
             }
             default: {
-                this.defaultErrorHandler(httpErrorResponse);
+                this.defaultErrorHandler(content);
             }
         }
     }
 
-    private addErrorAlert(rawMessage: string, key?: string | null, data?: unknown): void {
-        // TODO: At the BE exists 2 types of the errors with the error. and without,
-        //  it should be removed after the BE provides the error standard
-        key = key.replace(/errors\./, 'error.');
-        key = key.startsWith('error.') ? key : 'error.' + key;
-        key = key ? key : rawMessage;
-        const message: string = this.translatePipe.transform(key, data);
+    private showError(rawMessage: string, key?: string | null, data?: unknown): void {
+        let message: string;
+        if (key) {
+            // TODO: At the BE exists 2 types of the errors with the error. and without,
+            //  it should be removed after the BE provides the error standard
+            message = key.replace(/errors\./, 'error.');
+            message = message.startsWith('error.') ? message : 'error.' + message;
+        } else {
+            message = rawMessage;
+        }
+        const text: string = this.translatePipe.transform(message, data);
         setTimeout(() => this.toasterService.create({
             type: 'danger',
             params: data,
             timeout: 5000,
-            text: message,
+            text,
         }).subscribe());
     }
 
     private defaultErrorHandler(res: HttpErrorResponse | any): void {
-        if (res?.error?.fieldErrors) {
+        if (!res) {
+            return;
+        }
+        if (res.error?.fieldErrors) {
             const fieldErrors: { field: string, objectName: string, message: string }[] = res.error.fieldErrors;
             for (let i = 0; i < fieldErrors.length; i++) {
                 const fieldError = fieldErrors[i];
@@ -189,20 +193,20 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 const fieldName = this.translateService.instant(
                     `jhipsterSampleApplicationApp.${fieldError.objectName}.${convertedField}`,
                 );
-                this.addErrorAlert(null, `${fieldError.message}`, { fieldName });
+                this.showError(null, `${fieldError.message}`, { fieldName });
             }
-        } else if (res?.error?.error && res?.error?.error_description) {
-            this.addErrorAlert(
-                `errors.${res.error.error_description}`,
-                `${res.error.error}`,
+        } else if (res.error?.error && res.error?.error_description) {
+            this.showError(
+                res.error.error_description,
+                res.error.error,
                 res.error.params,
             );
-        } else if (res?.error?.error && typeof res?.error?.error === 'string') {
-            this.addErrorAlert(`errors.${res.error.error}`);
-        } else if (res?.error?.detail) {
-            this.addErrorAlert(res.error.detail);
-        } else if (res?.title) {
-            this.addErrorAlert(res.title);
+        } else if (res.error?.error && typeof res.error?.error === 'string') {
+            this.showError(res.error.error);
+        } else if (res.error?.detail) {
+            this.showError(res.error.detail);
+        } else if (res.title) {
+            this.showError(res.title);
         }
     }
 
