@@ -33,14 +33,14 @@ export const LINK_VIEW_DEFAULT_OPTIONS: LinkViewOptions = assign(
 @Component({
     selector: 'xm-link-view',
     template: `
-        <xm-text [styleInline]="options?.styleInline">
+        <xm-text [hidden]="!fieldValue" [styleInline]="options?.styleInline">
             <span xmLabel>{{options?.title | translate}}</span>
 
             <div xmValue>
                 <a [queryParams]="queryParams"
                    [routerLink]="options?.routerLink">
                     <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
-                    <span *ngIf="fieldValue">{{fieldValue}}</span>
+                    <span *ngIf="options?.valueField">{{fieldValue}}</span>
                     <mat-icon *ngIf="options?.icon">{{options.icon}}</mat-icon>
                 </a>
             </div>
