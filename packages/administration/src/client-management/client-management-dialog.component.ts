@@ -21,11 +21,11 @@ export class ClientMgmtDialogComponent implements OnInit {
 
     @Input() public selectedClient: Client;
 
-    @ViewChild('editForm', {static: false}) public editForm: NgForm;
+    @ViewChild('editForm', { static: false }) public editForm: NgForm;
     public client: Client;
-    @ViewChild('scopeInput', {static: false})
+    @ViewChild('scopeInput', { static: false })
     public scopeInput: ElementRef<HTMLInputElement>;
-    @ViewChild('auto', {static: false})
+    @ViewChild('auto', { static: false })
     public matAutocomplete: MatAutocomplete;
 
     public languages: any[];
@@ -77,28 +77,23 @@ export class ClientMgmtDialogComponent implements OnInit {
         this.scopeCtrl.setValue(null);
     }
 
-    private _filter(value: string): string[] {
-        const filterValue = value.toLowerCase();
-        return this.scopesVariants.filter(scope => scope.toLowerCase().indexOf(filterValue) >= 0);
-    }
-
     public ngOnInit(): void {
         if (this.selectedClient) {
-            this.client = new Client(
-                this.selectedClient.id,
-                this.selectedClient.clientId,
-                this.selectedClient.clientSecret,
-                this.selectedClient.roleKey,
-                this.selectedClient.description,
-                this.selectedClient.createdBy,
-                this.selectedClient.createdDate,
-                this.selectedClient.lastModifiedBy,
-                this.selectedClient.lastModifiedDate,
-                this.selectedClient.accessTokenValiditySeconds,
-                this.selectedClient.scopes || [],
-            );
+            this.client = {
+                id: this.selectedClient.id,
+                clientId: this.selectedClient.clientId,
+                clientSecret: this.selectedClient.clientSecret,
+                roleKey: this.selectedClient.roleKey,
+                description: this.selectedClient.description,
+                createdBy: this.selectedClient.createdBy,
+                createdDate: this.selectedClient.createdDate,
+                lastModifiedBy: this.selectedClient.lastModifiedBy,
+                lastModifiedDate: this.selectedClient.lastModifiedDate,
+                accessTokenValiditySeconds: this.selectedClient.accessTokenValiditySeconds,
+                scopes: this.selectedClient.scopes || [],
+            };
         } else {
-            this.client = new Client();
+            this.client = {};
         }
         this.roleService.getRoles().subscribe((roles) => {
             this.authorities = roles.map((role) => role.roleKey).sort();
@@ -129,12 +124,17 @@ export class ClientMgmtDialogComponent implements OnInit {
         this.clientService[this.client.id ? 'update' : 'create'](this.client)
             .pipe(finalize(() => this.showLoader = false))
             .subscribe(
-            (response) => this.onSaveSuccess(response),
-            (err) => this.checkErrorForClientId(err));
+                (response) => this.onSaveSuccess(response),
+                (err) => this.checkErrorForClientId(err));
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.scopesVariants.filter(scope => scope.toLowerCase().indexOf(filterValue) >= 0);
     }
 
     private onSaveSuccess(result: any): void {
-        this.eventManager.broadcast({name: 'clientListModification', content: 'OK'});
+        this.eventManager.broadcast({ name: 'clientListModification', content: 'OK' });
         this.activeModal.close(result);
     }
 
@@ -143,7 +143,7 @@ export class ClientMgmtDialogComponent implements OnInit {
         const ctrlKey = 'clientId';
         if (this.clientIdNotUnique) {
             const ctrl = this.editForm.form.controls[ctrlKey];
-            ctrl.setErrors(['valueNotUnique'],{emitEvent: true});
+            ctrl.setErrors(['valueNotUnique'], { emitEvent: true });
         }
     }
 

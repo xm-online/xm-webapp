@@ -23,7 +23,7 @@ export class ClientMgmtDeleteDialogComponent implements OnInit {
 
     public ngOnInit(): void {
         if (this.selectedClient) {
-            this.client = new Client(this.selectedClient.id);
+            this.client = { id: this.selectedClient.id };
         }
     }
 
@@ -37,7 +37,7 @@ export class ClientMgmtDeleteDialogComponent implements OnInit {
             () => {
                 this.eventManager.broadcast({
                     name: 'clientListModification',
-                    content: {id: 'delete', msg: 'Deleted a client'},
+                    content: { id: 'delete', msg: 'Deleted a client' },
                 });
                 this.activeModal.close(true);
             },
