@@ -21,6 +21,7 @@ type Buffer = {
 export class EntitySpecEditorComponent extends EditorUtils implements OnInit {
 
     @Input() public in: string;
+    @Input() public readOnlyMode: boolean;
     @Output() public out: EventEmitter<string> = new EventEmitter<string>();
 
     public openedEntitySpec: number;

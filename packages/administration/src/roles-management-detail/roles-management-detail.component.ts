@@ -17,6 +17,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XM_PAGE_SIZE_OPTIONS } from '../../../../src/app/xm.constants';
+import { XmConfigService } from "../../../../src/app/shared";
 
 @Component({
     selector: 'xm-role-mgmt-datail',
@@ -62,6 +63,8 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
     public displayedColumns: string[];
     public dataSource: MatTableDataSource<Permission> =
         new MatTableDataSource<Permission>([]);
+    public readOnlyMode: boolean;
+
     @ViewChild(MatSort, {static: true}) public sort: MatSort;
     @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
 
@@ -70,7 +73,9 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
                 private roleService: RoleService,
                 private alertService: XmToasterService,
                 private activatedRoute: ActivatedRoute,
-                private modalService: MatDialog) {
+                private modalService: MatDialog,
+                private configService: XmConfigService,
+    ) {
         this.routeDataSubscription = this.activatedRoute.data
             .subscribe((data) => this.routeData = data);
     }
@@ -87,6 +92,10 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
                 this.dataSource.sort = this.sort;
                 this.load(roleKey);
             }
+        });
+
+        this.configService.getUiConfig().subscribe(result => {
+            this.readOnlyMode = result.readOnlyConfig;
         });
     }
 

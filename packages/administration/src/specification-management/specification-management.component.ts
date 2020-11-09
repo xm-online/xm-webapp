@@ -66,6 +66,8 @@ export class SpecificationManagementComponent implements OnInit {
     public uaaSpecificationOut: string;
     public uaaValidation: any;
 
+    public readOnlyMode: boolean;
+
     constructor(private activatedRoute: ActivatedRoute,
                 private principal: Principal,
                 private service: XmConfigService) {
@@ -108,6 +110,9 @@ export class SpecificationManagementComponent implements OnInit {
                 this.uiPrivateSpecificationIn = result;
                 this.uiPrivateSpecificationOut = result;
             });
+        });
+        this.service.getUiConfig().subscribe(result => {
+            this.readOnlyMode = result.readOnlyConfig;
         });
     }
 
