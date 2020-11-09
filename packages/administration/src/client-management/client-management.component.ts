@@ -1,21 +1,21 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
+import { merge, Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith, switchMap } from 'rxjs/operators';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
 
 import { Client, ClientService, ITEMS_PER_PAGE } from '../../../../src/app/shared';
 import { BaseAdminListComponent } from '../admin.service';
 import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dialog.component';
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';
-import { merge, Observable, Subscription } from 'rxjs';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 
 @Component({
@@ -29,12 +29,9 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
     public navigateUrl: string = 'administration/client-management';
     public basePredicate: string = 'lastModifiedDate';
     public clientId: string;
-    private eventSubscriber: Subscription;
-
     public dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>([]);
-    @ViewChild(MatSort, {static: true}) public matSort: MatSort;
-    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
-
+    @ViewChild(MatSort, { static: true }) public matSort: MatSort;
+    @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
     public displayedColumns: string[] = [
         'id',
         'clientId',
@@ -46,6 +43,7 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
         'lastModifiedDate',
         'actions',
     ];
+    private eventSubscriber: Subscription;
 
     constructor(
         protected clientService: ClientService,
@@ -79,13 +77,14 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
             takeUntilOnDestroy(this),
         ).subscribe((list: Array<Client>) => {
                 this.dataSource = new MatTableDataSource(list);
-        },
+            },
             (err) => {
                 this.onError(err);
                 this.showLoader = false;
             });
 
     }
+
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
         this.eventManager.destroy(this.eventSubscriber);
@@ -111,22 +110,22 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
             .pipe(
                 takeUntilOnDestroy(this),
             ).subscribe((list: Array<Client>) => {
-                this.dataSource = new MatTableDataSource(list);
-            });
+            this.dataSource = new MatTableDataSource(list);
+        });
     }
 
     public onDelete(client: Client): void {
-        const modalRef = this.modalService.open(ClientMgmtDeleteDialogComponent, {width: '500px'});
+        const modalRef = this.modalService.open(ClientMgmtDeleteDialogComponent, { width: '500px' });
         modalRef.componentInstance.selectedClient = client;
     }
 
     public onEdit(client: Client): void {
-        const modalRef = this.modalService.open(ClientMgmtDialogComponent, {width: '500px'});
+        const modalRef = this.modalService.open(ClientMgmtDialogComponent, { width: '500px' });
         modalRef.componentInstance.selectedClient = client;
     }
 
     public onAdd(): void {
-        this.modalService.open(ClientMgmtDialogComponent, {width: '500px'});
+        this.modalService.open(ClientMgmtDialogComponent, { width: '500px' });
     }
 
     private loadClients(): Observable<Client[]> {

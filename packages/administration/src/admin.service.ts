@@ -10,6 +10,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
+import { Client } from 'src/app/shared';
 
 @Injectable()
 export class BaseAdminListComponent implements OnInit, OnDestroy {
@@ -103,11 +104,11 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         });
     }
 
-    public onSuccess(data: Array<{id: number}>, headers: HttpHeaders): Array<{id: number}> {
+    public onSuccess(data: Array<Client>, headers: HttpHeaders): Array<Client> {
         const uniqueData = _.uniqBy(data, (e) => e.id);
         this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = uniqueData.length;
-        this.queryCount = this.totalItems;
+        this.totalItems = +headers.get('x-total-count') || uniqueData.length;
+        this.queryCount = uniqueData.length;
         return uniqueData;
     }
 
