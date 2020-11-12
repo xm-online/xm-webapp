@@ -78,7 +78,9 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 () => {
                     this.load();
                 });
-
+        if (this.options) {
+            this.isShowFilterArea = !!this.options.isShowFilterArea;
+        }
     }
 
     public isHideAll(typeKey: string): boolean {
@@ -159,7 +161,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 
     public getDefaultSearch(entityOptions: EntityOptions): string {
         if (!entityOptions.fastSearch) {
-            return null;
+            return entityOptions.query;
         }
         let fastSearchWithoutName: any;
         if (this.isHideAll(entityOptions.typeKey)) {
@@ -185,6 +187,9 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         }
         copy.currentQuery = (copy.currentQuery ? copy.currentQuery : '') + ' ' + funcValue;
         entityOptions.currentQuery = copy.currentQuery;
+        if (entityOptions.overrideCurrentQuery) {
+            entityOptions.currentQuery = funcValue;
+        }
         entityOptions.page = this.firstPage;
         this.loadEntities(entityOptions).subscribe((resp) => this.list[this.activeItemId].entities = resp);
     }
