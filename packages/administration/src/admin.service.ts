@@ -1,4 +1,4 @@
-import { HttpHeaders } from "@angular/common/http";
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
@@ -11,16 +11,26 @@ import * as _ from 'lodash';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { Client } from 'src/app/shared';
+import { XM_PAGE_SIZE_OPTIONS } from '../../../src/app/xm.constants';
 
 @Injectable()
 export class BaseAdminListComponent implements OnInit, OnDestroy {
 
+    public options: {
+        pageSizeOptions: number[],
+        pageSize: number,
+        sortDirection: 'asc' | 'desc',
+        sortBy: string
+    } = {
+        pageSizeOptions: XM_PAGE_SIZE_OPTIONS,
+        pageSize: ITEMS_PER_PAGE,
+        sortDirection: 'desc',
+        sortBy: 'id',
+    };
+
     public list: any[];
     public page: number = 1;
     public previousPage: number;
-    public reverse: boolean;
-    public predicate: string = 'id';
-    public itemsPerPage: number;
     public links: Link[];
     public totalItems: number;
     public queryCount: number;
@@ -39,14 +49,13 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         protected parseLinks: JhiParseLinks,
         protected router: Router,
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
-            if(data?.pagingParams){
-                this.itemsPerPage = data.pagingParams.size;
+            if (data?.pagingParams) {
+                this.options.pageSize = data.pagingParams.size || ITEMS_PER_PAGE;
                 this.page = data.pagingParams.page;
                 this.previousPage = data.pagingParams.page;
-                this.reverse = data.pagingParams.ascending;
-                this.predicate = data.pagingParams.predicate;
+                this.options.sortDirection = data.pagingParams.ascending ? 'asc' : 'desc';
+                this.options.sortBy = data.pagingParams.predicate || 'id';
             }
         });
     }
@@ -70,8 +79,8 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     }
 
     public sort(): string[] {
-        const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== this.basePredicate) {
+        const result = [this.options.sortBy + ',' + this.options.sortDirection];
+        if (this.options.sortBy !== this.basePredicate) {
             result.push(this.basePredicate);
         }
         return result;
@@ -81,9 +90,9 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         this.router.navigate([this.navigateUrl], {
             queryParams:
                 {
-                    size: this.itemsPerPage,
+                    size: this.options.pageSize,
                     page: this.page,
-                    sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
+                    sort: this.options.sortBy + ',' + this.options.sortDirection,
                 },
         });
         this.loadAll();
@@ -130,8 +139,8 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     protected getPageAfterRemove(result: any): any {
         if (result && result.content && result.content.id === 'delete' && this.page > 1) {
             this.queryCount--;
-            const length = parseInt((this.queryCount / this.itemsPerPage) + '', 10)
-                + (this.queryCount % this.itemsPerPage ? 1 : 0);
+            const length = parseInt((this.queryCount / this.options.pageSize) + '', 10)
+                + (this.queryCount % this.options.pageSize ? 1 : 0);
             if (this.page > length) {
                 this.previousPage = null;
                 return length;

@@ -1,20 +1,20 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
+import { Principal } from '@xm-ngx/core/auth';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiOrderByPipe } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
-import { Principal } from '@xm-ngx/core/auth';
-
-import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
+import { XmConfigService } from '../../../../src/app/shared';
 import { RoleMatrix, RoleMatrixPermission } from '../../../../src/app/shared/role/role.model';
 import { RoleService } from '../../../../src/app/shared/role/role.service';
 import { XM_PAGE_SIZE_OPTIONS } from '../../../../src/app/xm.constants';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { XmConfigService } from "../../../../src/app/shared";
 
 export interface TableDisplayColumn {
     key: string,
@@ -29,26 +29,33 @@ export interface TableDisplayColumn {
 })
 export class RolesMatrixComponent implements OnInit, OnDestroy {
 
-    @ViewChild('table', {static: false}) public table: ElementRef;
+    @ViewChild('table', { static: false }) public table: ElementRef;
+
+    public options: {
+        pageSizeOptions: number[],
+        pageSize: number,
+        sortDirection: 'asc' | 'desc',
+        sortBy: string
+    } = {
+        pageSizeOptions: XM_PAGE_SIZE_OPTIONS,
+        pageSize: ITEMS_PER_PAGE,
+        sortDirection: 'desc',
+        sortBy: 'privilegeKey',
+    };
 
     public matrix: RoleMatrix;
-    public totalItems: any;
-    public itemsPerPage: any;
-    public predicate: any = 'privilegeKey';
-    public reverse: boolean = true;
+    public totalItems: number;
     public showLoader: boolean;
     public sortBy: any = {};
     public entities: string[];
     public hiddenRoles: any[] = [];
-    public checkAll: boolean[] = [];
     public hasChanges: boolean;
     public permittedFilter: any[] = [
         {},
-        {trans: 'permitted', value: 'allset'},
-        {trans: 'notPermitted', value: 'notset'},
-        {trans: 'permittedAny', value: 'anyset'},
+        { trans: 'permitted', value: 'allset' },
+        { trans: 'notPermitted', value: 'notset' },
+        { trans: 'permittedAny', value: 'anyset' },
     ];
-    public itemsPerPageOptions: number[] = XM_PAGE_SIZE_OPTIONS;
     public originalColumns: TableDisplayColumn[];
 
     public displayedColumns: string[];
@@ -56,8 +63,8 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
         new MatTableDataSource<RoleMatrixPermission>([]);
     public readOnlyMode: boolean;
 
-    @ViewChild(MatSort, {static: true}) public sort: MatSort;
-    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
+    @ViewChild(MatSort, { static: true }) public sort: MatSort;
+    @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
 
     constructor(
         private principal: Principal,
@@ -66,7 +73,6 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
         private orderByPipe: JhiOrderByPipe,
         private configService: XmConfigService,
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
     }
 
     public ngOnInit(): void {
@@ -90,38 +96,38 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
         this.roleService.getMatrix()
             .pipe(takeUntilOnDestroy(this))
             .subscribe(
-            (result: RoleMatrix) => {
-                if (result.roles && result.roles.length && result.permissions && result.permissions.length) {
-                    result.permissions.forEach((item) => {
-                        item.roles = item.roles || [];
-                        item.roles = result.roles.map((el) => {
-                            // eslint-disable-next-line @typescript-eslint/prefer-includes
-                            const value = item.roles.indexOf(el) !== -1;
-                            item.data = {...item.data, [el]: {checked: value, valueOrg: value}};
-                            return {value, valueOrg: value};
+                (result: RoleMatrix) => {
+                    if (result.roles && result.roles.length && result.permissions && result.permissions.length) {
+                        result.permissions.forEach((item) => {
+                            item.roles = item.roles || [];
+                            item.roles = result.roles.map((el) => {
+                                // eslint-disable-next-line @typescript-eslint/prefer-includes
+                                const value = item.roles.indexOf(el) !== -1;
+                                item.data = { ...item.data, [el]: { checked: value, valueOrg: value } };
+                                return { value, valueOrg: value };
+                            });
                         });
-                    });
-                    result.permissions = this.orderByPipe.transform(result.permissions, this.predicate, !this.reverse);
-                }
-                this.hiddenRoles = [];
-                this.matrix = {...result};
-                this.originalColumns = [
-                    {key: 'privilegeKey', hidden: false},
-                    {key: 'permissionDescription', hidden: false},
-                    {key: 'msName', hidden: false},
-                    ...this.matrix.roles.map(r => ({
-                        key: r,
-                        hidden: false
-                    }))
-                ];
-                this.dataSource.data = [...this.matrix.permissions];
-                this.entities = this.getEntities(result.permissions);
+                        result.permissions = this.orderByPipe.transform(result.permissions, this.options.sortBy, this.options.sortDirection === 'asc');
+                    }
+                    this.hiddenRoles = [];
+                    this.matrix = { ...result };
+                    this.originalColumns = [
+                        { key: 'privilegeKey', hidden: false },
+                        { key: 'permissionDescription', hidden: false },
+                        { key: 'msName', hidden: false },
+                        ...this.matrix.roles.map(r => ({
+                            key: r,
+                            hidden: false,
+                        })),
+                    ];
+                    this.dataSource.data = [...this.matrix.permissions];
+                    this.entities = this.getEntities(result.permissions);
 
-                this.buildColumns(this.originalColumns);
-            },
-            (resp) => this.onError(resp),
-            () => this.showLoader = false,
-        );
+                    this.buildColumns(this.originalColumns);
+                },
+                (resp) => this.onError(resp),
+                () => this.showLoader = false,
+            );
     }
 
     public getValue(p: RoleMatrixPermission): RoleMatrixPermission {
@@ -142,10 +148,10 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
     }
 
     public onHideRole(role: string, indx: number): void {
-        this.hiddenRoles.push({role, indx});
+        this.hiddenRoles.push({ role, indx });
         this.originalColumns.map(c => {
             if (c.key === role) {
-                c.hidden = true
+                c.hidden = true;
             }
         });
         this.buildColumns(this.originalColumns);
@@ -170,7 +176,7 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
     public onSave(): void {
         this.showLoader = true;
         const permissions = this.dataSource.data;
-        const matrix: RoleMatrix = {...Object.assign({}, this.matrix), permissions};
+        const matrix: RoleMatrix = { ...Object.assign({}, this.matrix), permissions };
         matrix.permissions = matrix.permissions.map((perm, index) => {
             const item = Object.assign({}, perm);
             const newRoles: string[] = [];
@@ -202,7 +208,7 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
             );
     }
 
-    public onPermissionChanged(p: RoleMatrixPermission, role: string, e?: MatCheckboxChange | MatSlideToggleChange,): void {
+    public onPermissionChanged(p: RoleMatrixPermission, role: string, e?: MatCheckboxChange | MatSlideToggleChange): void {
         p.data[role].checked = e.checked;
         this.hasChanges = true;
     }

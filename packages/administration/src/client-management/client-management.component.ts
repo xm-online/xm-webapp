@@ -12,7 +12,7 @@ import { JhiParseLinks } from 'ng-jhipster';
 import { merge, Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith, switchMap } from 'rxjs/operators';
 
-import { Client, ClientService, ITEMS_PER_PAGE } from '../../../../src/app/shared';
+import { Client, ClientService } from '../../../../src/app/shared';
 import { BaseAdminListComponent } from '../admin.service';
 import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dialog.component';
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';
@@ -56,7 +56,6 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
         protected router: Router,
     ) {
         super(activatedRoute, toasterService, alertService, eventManager, parseLinks, router);
-        this.itemsPerPage = ITEMS_PER_PAGE;
         this.showLoader = true;
         this.registerChangeInClients();
     }

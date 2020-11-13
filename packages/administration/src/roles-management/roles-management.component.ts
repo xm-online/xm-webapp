@@ -1,39 +1,46 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { JhiOrderByPipe } from 'ng-jhipster';
-import { Subscription } from 'rxjs';
 
 import { Principal } from '@xm-ngx/core/auth';
-import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { Subscription } from 'rxjs';
+import { XmConfigService } from '../../../../src/app/shared';
 import { Role } from '../../../../src/app/shared/role/role.model';
 import { RoleService } from '../../../../src/app/shared/role/role.service';
+import { XM_PAGE_SIZE_OPTIONS } from '../../../../src/app/xm.constants';
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
 import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
-import { MatTableDataSource } from "@angular/material/table";
-import { MatSort } from "@angular/material/sort";
-import { MatPaginator } from "@angular/material/paginator";
-import { XmConfigService } from "../../../../src/app/shared";
 
 @Component({
     selector: 'xm-roles-mgmt',
     templateUrl: './roles-management.component.html',
-    providers: [JhiOrderByPipe],
     styles: [`
         :host .role-description {
             max-width: 300px;
             min-width: 300px;
         }
-    `]
+    `],
 })
 export class RolesMgmtComponent implements OnInit, OnDestroy {
 
-    public itemsPerPage: 10 | 20 | 50;
-    public predicate: string = 'roleKey';
-    public reverse: boolean = true;
+    public options: {
+        pageSizeOptions: number[],
+        pageSize: number,
+        sortDirection: 'asc' | 'desc',
+        sortBy: string
+    } = {
+        pageSizeOptions: XM_PAGE_SIZE_OPTIONS,
+        pageSize: ITEMS_PER_PAGE,
+        sortDirection: 'desc',
+        sortBy: 'roleKey',
+    };
+
     public showLoader: boolean;
-    private eventSubscriber: Subscription;
     public displayedColumns: string[] = [
         'roleKey',
         'description',
@@ -45,9 +52,9 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     ];
     public dataSource: MatTableDataSource<Role> = new MatTableDataSource<Role>([]);
     public readOnlyMode: boolean;
-
-    @ViewChild(MatSort, {static: true}) public sort: MatSort;
-    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
+    @ViewChild(MatSort, { static: true }) public sort: MatSort;
+    @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
+    private eventSubscriber: Subscription;
 
     constructor(
         private roleService: RoleService,
@@ -57,7 +64,6 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         private modalService: MatDialog,
         private configService: XmConfigService,
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
         this.registerChangeInRoles();
     }
 
@@ -90,16 +96,16 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     }
 
     public onAdd(): void {
-        this.modalService.open(RoleMgmtDialogComponent, {width: '500px'});
+        this.modalService.open(RoleMgmtDialogComponent, { width: '500px' });
     }
 
     public onEdit(role: Role): void {
-        const modalRef = this.modalService.open(RoleMgmtDialogComponent, {width: '500px'});
+        const modalRef = this.modalService.open(RoleMgmtDialogComponent, { width: '500px' });
         modalRef.componentInstance.selectedRole = role;
     }
 
     public onDelete(role: Role): void {
-        const modalRef = this.modalService.open(RoleMgmtDeleteDialogComponent, {width: '500px'});
+        const modalRef = this.modalService.open(RoleMgmtDeleteDialogComponent, { width: '500px' });
         modalRef.componentInstance.selectedRole = role;
     }
 
