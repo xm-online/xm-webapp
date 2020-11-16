@@ -1,22 +1,20 @@
 <mat-card class="mb-5">
-  <div class="card-header card-header-icon card-header-primary">
-    <h4 class="card-title">{{'userManagement.home.title' | translate}}</h4>
-  </div>
   <xm-loader [showLoader]="showLoader"></xm-loader>
 
-  <div *ngIf="authorities" class="xm-button-group mb-3">
+  <h4 mat-card-title>{{'userManagement.home.title' | translate}}</h4>
+
+  <div *ngIf="authorities" class="xm-button-group mb-3 overflow-x-auto">
     <button (click)="applySearchByRole(null)"
-            [class.active]="!currentSearch"
             class="size-sm"
-            color="primary"
+            [color]="!currentSearch ? 'primary': null"
             mat-flat-button>
       {{'global.all' | translate}}
     </button>
     <button (click)="applySearchByRole(authority)"
             *ngFor="let authority of authorities"
-            [class.active]="currentSearch === authority"
             class="size-sm"
             color="primary"
+            [color]="currentSearch === authority ? 'primary': null"
             mat-flat-button>
       {{authority | translate}}
     </button>
@@ -45,7 +43,7 @@
               </button>
             </mat-form-field>
           </div>
-          <button mat-icon-button class="mb-1">
+          <button class="mb-1" mat-icon-button>
             <mat-icon>search</mat-icon>
           </button>
         </div>
@@ -58,96 +56,107 @@
   </div>
 
   <div class="table-responsive">
-    <table [matSortDirection]="reverse ? 'asc' : 'desc'"
-           [matSortActive]="predicate"
-           [dataSource]="dataSource"
+    <table [dataSource]="dataSource"
+           [matSortActive]="options.sortBy"
+           [matSortDirection]="options.sortDirection"
+           class="w-100 table-striped"
            mat-table
-           matSort
-           class="table table-striped table-no-bordered table-hover">
+           matSort>
+
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'global.field.id' | translate}}</th>
-        <td mat-cell *matCellDef="let user">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'global.field.id' | translate}}</th>
+        <td *matCellDef="let user" mat-cell>
           <a [routerLink]="['/administration/user-management', user.userKey]">{{user.id}}</a>
         </td>
       </ng-container>
+
       <ng-container matColumnDef="logins">
-        <th mat-header-cell *matHeaderCellDef>{{'userManagement.logins' | translate}}</th>
-        <td mat-cell *matCellDef="let user">
-          <div class="d-flex flex-nowrap align-items-center" *ngIf="user.logins">
+        <th *matHeaderCellDef mat-header-cell>{{'userManagement.logins' | translate}}</th>
+        <td *matCellDef="let user" mat-cell>
+          <div *ngIf="user.logins" class="d-flex flex-nowrap align-items-center">
             <div class="flex-grow-1">
               <div *ngFor="let login of user.logins">
                 {{getLogin(login)}}
               </div>
             </div>
-            <button mat-icon-button (click)="onLoginEdit(user)">
+            <button (click)="onLoginEdit(user)" mat-icon-button>
               <mat-icon>perm_identity</mat-icon>
             </button>
           </div>
         </td>
       </ng-container>
+
       <ng-container matColumnDef="2FA">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let user">
+        <th *matHeaderCellDef mat-header-cell></th>
+        <td *matCellDef="let user" mat-cell>
           <div class="d-flex flex-nowrap align-items-center justify-content-end">
-            <button mat-icon-button (click)="enable2FA(user)" *ngIf="!user.tfaEnabled">
+            <button (click)="enable2FA(user)" *ngIf="!user.tfaEnabled" mat-icon-button>
               <mat-icon>verified_user</mat-icon>
             </button>
 
-            <button color="primary" mat-icon-button (click)="disable2FA(user)" *ngIf="user.tfaEnabled">
+            <button (click)="disable2FA(user)" *ngIf="user.tfaEnabled" color="primary" mat-icon-button>
               <mat-icon>verified_user</mat-icon>
             </button>
           </div>
         </td>
       </ng-container>
+
       <ng-container matColumnDef="langKey">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'userManagement.langKey' | translate}}</th>
-        <td mat-cell *matCellDef="let user">{{user.langKey}}</td>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'userManagement.langKey' | translate}}</th>
+        <td *matCellDef="let user" mat-cell>{{user.langKey}}</td>
       </ng-container>
+
       <ng-container matColumnDef="roleKey">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'userManagement.role' | translate}}</th>
-        <td mat-cell *matCellDef="let user">{{user.roleKey}}</td>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'userManagement.role' | translate}}</th>
+        <td *matCellDef="let user" mat-cell>{{user.roleKey}}</td>
       </ng-container>
+
       <ng-container matColumnDef="createdDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'userManagement.createdDate' | translate}}</th>
-        <td mat-cell *matCellDef="let user">{{user.createdDate | xmDateTime}}</td>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'userManagement.createdDate' | translate}}</th>
+        <td *matCellDef="let user" mat-cell>{{user.createdDate | xmDateTime}}</td>
       </ng-container>
+
       <ng-container matColumnDef="lastModifiedBy">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'userManagement.lastModifiedBy' | translate}}</th>
-        <td mat-cell *matCellDef="let user">{{user.lastModifiedBy}}</td>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'userManagement.lastModifiedBy' | translate}}</th>
+        <td *matCellDef="let user" mat-cell>{{user.lastModifiedBy}}</td>
       </ng-container>
+
       <ng-container matColumnDef="lastModifiedDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'userManagement.lastModifiedDate' | translate}}</th>
-        <td mat-cell *matCellDef="let user">{{user.lastModifiedDate | xmDateTime}}</td>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'userManagement.lastModifiedDate' | translate}}</th>
+        <td *matCellDef="let user" mat-cell>{{user.lastModifiedDate | xmDateTime}}</td>
       </ng-container>
+
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let user">
+        <th *matHeaderCellDef mat-header-cell></th>
+        <td *matCellDef="let user" mat-cell>
           <div class="d-flex align-items-center justify-content-end flex-nowrap">
             <xm-unblock-lock-user [user]="user"></xm-unblock-lock-user>
 
-            <button mat-icon-button (click)="onEdit(user)" *permitted="'USER.UPDATE'">
+            <button (click)="onEdit(user)" *permitted="'USER.UPDATE'" mat-icon-button>
               <mat-icon>edit</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="onDelete(user)" *permitted="'USER.DELETE'">
+            <button (click)="onDelete(user)" *permitted="'USER.DELETE'" mat-icon-button>
               <mat-icon>delete_outline</mat-icon>
             </button>
           </div>
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
     </table>
 
     <no-data [show]="!(dataSource?.data.length > 0) && !showLoader"></no-data>
 
     <mat-paginator [length]="totalItems"
-                   [pageSize]="itemsPerPage"
-                   [pageSizeOptions]="[10, 20, 50]">
+                   [pageSizeOptions]="options.pageSizeOptions"
+                   [pageSize]="options.pageSize">
     </mat-paginator>
   </div>
 </mat-card>
+
+<div style="height: 100px; width: 100%"></div>
 
 <div class="xm-fab">
   <button (click)="onAdd()" *permitted="'USER.CREATE'"

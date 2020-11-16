@@ -1,121 +1,128 @@
-<mat-card class="card mb-5">
-  <div class="card-header card-header-icon card-header-primary">
-    <h4 class="card-title">{{'clientManagement.home.title' | translate}}</h4>
-  </div>
+<mat-card>
 
-  <div class="card-body">
-    <div class="row align-items-center mt2 mb-2">
-      <div class="col-xs-12 col-sm-3">
-        <form action="" novalidate (ngSubmit)="filterByClientId()">
-          <div class="d-flex flex-nowrap align-items-center">
-            <div class="pr-1">
-              <mat-form-field>
-                <input
-                  matInput
-                  name="client-id"
-                  type="text"
-                  placeholder="{{'clientManagement.search-by-client-id' | translate}}"
-                  [(ngModel)]="clientId">
-                <button
-                  mat-button
-                  class="mb-1"
-                  type="button"
-                  *ngIf="clientId"
-                  matSuffix
-                  mat-icon-button
-                  (click)="clientId=''; filterByClientId()">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
-            </div>
-            <button mat-icon-button>
-              <mat-icon>search</mat-icon>
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="col"></div>
-    </div>
+  <xm-loader [showLoader]="showLoader"></xm-loader>
 
-    <xm-loader [showLoader]="showLoader"></xm-loader>
+  <h4 mat-card-title>{{'clientManagement.home.title' | translate}}</h4>
+
+  <div mat-card-content>
+
+    <form (ngSubmit)="filterByClientId()"
+          action=""
+          class="col-12 px-0 col-md-3 d-flex flex-nowrap align-items-center"
+          novalidate>
+      <mat-form-field>
+        <input
+          [(ngModel)]="clientId"
+          matInput
+          name="client-id"
+          placeholder="{{'clientManagement.search-by-client-id' | translate}}"
+          type="text">
+        <button
+          (click)="clientId=''; filterByClientId()"
+          *ngIf="clientId"
+          class="mb-1"
+          mat-button
+          mat-icon-button
+          matSuffix
+          type="button">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-icon-button>
+        <mat-icon>search</mat-icon>
+      </button>
+    </form>
+
 
     <div class="table-responsive">
-      <table [matSortDirection]="reverse ? 'asc' : 'desc'"
-             [matSortActive]="predicate"
-             [dataSource]="dataSource"
+      <table [dataSource]="dataSource"
+             [matSortActive]="options.sortBy"
+             [matSortDirection]="options.sortDirection"
+             class="w-100 table-striped"
              mat-table
-             matSort
-             class="table table-striped table-no-bordered table-hover">
+             matSort>
+
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'global.field.id' | translate}}</th>
-          <td mat-cell *matCellDef="let client"> {{client.id}} </td>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'global.field.id' | translate}}</th>
+          <td *matCellDef="let client" mat-cell> {{client.id}} </td>
         </ng-container>
+
         <ng-container matColumnDef="clientId">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'clientManagement.clientId' | translate}}</th>
-          <td mat-cell *matCellDef="let client"> {{client.clientId}} </td>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.clientId' | translate}}</th>
+          <td *matCellDef="let client" mat-cell> {{client.clientId}} </td>
         </ng-container>
+
         <ng-container matColumnDef="roleKey">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'clientManagement.roleKey' | translate}}</th>
-          <td mat-cell *matCellDef="let client"> {{client.roleKey}} </td>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.roleKey' | translate}}</th>
+          <td *matCellDef="let client" mat-cell> {{client.roleKey}} </td>
         </ng-container>
+
         <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef>{{'clientManagement.description' | translate}}</th>
-          <td mat-cell *matCellDef="let client"> {{client.description}} </td>
+          <th *matHeaderCellDef mat-header-cell>{{'clientManagement.description' | translate}}</th>
+          <td *matCellDef="let client" mat-cell> {{client.description}} </td>
         </ng-container>
+
         <ng-container matColumnDef="createdBy">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'clientManagement.createdBy' | translate}}</th>
-          <td mat-cell *matCellDef="let client"> {{client.createdBy}} </td>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.createdBy' | translate}}</th>
+          <td *matCellDef="let client" mat-cell> {{client.createdBy}} </td>
         </ng-container>
+
         <ng-container matColumnDef="createdDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'clientManagement.createdDate' | translate}}</th>
-          <td mat-cell *matCellDef="let client"> {{client.createdDate | date}} </td>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.createdDate' | translate}}</th>
+          <td *matCellDef="let client" mat-cell> {{client.createdDate | date}} </td>
         </ng-container>
+
         <ng-container matColumnDef="lastModifiedBy">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'clientManagement.lastModifiedBy' | translate}}</th>
-          <td mat-cell *matCellDef="let client"> {{client.lastModifiedBy}} </td>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.lastModifiedBy' | translate}}</th>
+          <td *matCellDef="let client" mat-cell> {{client.lastModifiedBy}} </td>
         </ng-container>
+
         <ng-container matColumnDef="lastModifiedDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'clientManagement.lastModifiedDate' | translate}}</th>
-          <td mat-cell *matCellDef="let client"> {{client.lastModifiedDate | date}} </td>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.lastModifiedDate' | translate}}</th>
+          <td *matCellDef="let client" mat-cell> {{client.lastModifiedDate | date}} </td>
         </ng-container>
+
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let client">
+          <th *matHeaderCellDef mat-header-cell></th>
+          <td *matCellDef="let client" mat-cell>
             <div class="d-flex flex-nowrap align-items-center justify-content-end">
-              <button mat-icon-button
-                      (click)="onEdit(client)"
-                      *xmPermitted="['CLIENT.UPDATE']">
+              <button (click)="onEdit(client)"
+                      *xmPermitted="['CLIENT.UPDATE']"
+                      mat-icon-button>
                 <mat-icon>edit</mat-icon>
               </button>
 
-              <button mat-icon-button
-                      (click)="onDelete(client)"
-                      *xmPermitted="['CLIENT.DELETE']">
-                <mat-icon>close</mat-icon>
+              <button (click)="onDelete(client)"
+                      *xmPermitted="['CLIENT.DELETE']"
+                      mat-icon-button>
+                <mat-icon>delete_outline</mat-icon>
               </button>
             </div>
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
       </table>
 
       <no-data [show]="!(dataSource?.data.length > 0) && !showLoader"></no-data>
 
       <mat-paginator [length]="totalItems"
-                     [pageSize]="itemsPerPage"
-                     [pageSizeOptions]="[10, 20, 50]">
+                     [pageSizeOptions]="options.pageSizeOptions"
+                     [pageSize]="options.pageSize">
       </mat-paginator>
     </div>
   </div>
 </mat-card>
 
+<div style="height: 100px; width: 100%"></div>
+
 <div class="xm-fab">
-  <button mat-button
+  <button (click)="onAdd()"
+          *xmPermitted="['CLIENT.CREATE']"
           class="btn btn-primary btn-icon btn-just-icon rounded-circle btn-lg"
-          (click)="onAdd()"
-          *xmPermitted="['CLIENT.CREATE']">
+          mat-button>
     <i class="material-icons">add</i>
   </button>
 </div>

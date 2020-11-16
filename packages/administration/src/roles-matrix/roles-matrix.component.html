@@ -1,11 +1,10 @@
-<mat-card class="card">
+<mat-card>
+
   <xm-loader [showLoader]="showLoader"></xm-loader>
 
-  <div class="card-header card-header-icon card-header-primary">
-    <h4 class="card-title">{{'rolesManagement.matrix.title'|translate}}</h4>
-  </div>
+  <h4 mat-card-title>{{'rolesManagement.matrix.title'|translate}}</h4>
 
-  <div class="card-body">
+  <div mat-card-content>
     <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
       <div class="d-flex flex-grow-1 flex-wrap align-items-center mb-2">
         <mat-form-field class="mr-4">
@@ -38,13 +37,12 @@
         </mat-form-field>
       </div>
 
-
       <div class="d-flex flex-nowrap align-items-center justify-content-end ml-auto mb-2">
         <button (click)="onCancel()"
                 *permitted="'DASHBOARD.UPDATE'"
                 [disabled]="readOnlyMode || !hasChanges"
-                mat-flat-button
                 class="mr-1"
+                mat-flat-button
                 type="button">
           <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
         </button>
@@ -52,8 +50,8 @@
         <button (click)="onSave()"
                 *permitted="'DASHBOARD.UPDATE'"
                 [disabled]="readOnlyMode || !hasChanges"
-                mat-flat-button
                 color="primary"
+                mat-flat-button
                 type="button">
           <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
         </button>
@@ -61,11 +59,12 @@
     </div>
 
     <div class="material-datatables table-responsive xm-role-matrix-table">
-      <div class="d-flex flex-wrap mb-4">
+
+      <div *ngIf="hiddenRoles" class="d-flex flex-wrap mb-4">
         <mat-chip-list>
-          <mat-chip *ngFor="let item of hiddenRoles"
-                    [removable]="true"
-                    (removed)="onViewRole(item)">
+          <mat-chip (removed)="onViewRole(item)"
+                    *ngFor="let item of hiddenRoles"
+                    [removable]="true">
             {{item.role}}
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
@@ -73,29 +72,32 @@
       </div>
 
       <div class="table-responsive">
-        <table [matSortDirection]="reverse ? 'asc' : 'desc'"
-               [matSortActive]="predicate"
-               [dataSource]="dataSource"
+        <table [dataSource]="dataSource"
+               [matSortActive]="options.sortBy"
+               [matSortDirection]="options.sortDirection"
+               class="w-100 table-striped"
                mat-table
-               matSort
-               class="table table-striped table-no-bordered table-hover">
+               matSort>
+
           <ng-container matColumnDef="privilegeKey">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>
               {{'rolesManagement.permission.privilegeKey'|translate}}
             </th>
-            <td mat-cell *matCellDef="let permission">{{permission?.privilegeKey}}</td>
+            <td *matCellDef="let permission" mat-cell>{{permission?.privilegeKey}}</td>
           </ng-container>
+
           <ng-container matColumnDef="permissionDescription">
-            <th mat-header-cell *matHeaderCellDef>{{'rolesManagement.permission.desc' | translate}}</th>
-            <td mat-cell *matCellDef="let permission" class="text-center">
+            <th *matHeaderCellDef mat-header-cell>{{'rolesManagement.permission.desc' | translate}}</th>
+            <td *matCellDef="let permission" class="text-center" mat-cell>
               <mat-icon *ngIf="permission?.description" [matTooltip]="permission.description">info</mat-icon>
             </td>
           </ng-container>
+
           <ng-container matColumnDef="msName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>
               {{'rolesManagement.permission.msName' | translate}}
             </th>
-            <td mat-cell *matCellDef="let permission" class="text-center">
+            <td *matCellDef="let permission" class="text-center" mat-cell>
               {{permission?.msName}}
             </td>
           </ng-container>
@@ -103,44 +105,46 @@
           <ng-container *ngIf="matrix?.roles.length > 0">
             <ng-container *ngFor="let role of matrix?.roles; index as i">
               <ng-container [matColumnDef]="role">
-                <th mat-header-cell *matHeaderCellDef>
+                <th *matHeaderCellDef mat-header-cell>
                   <mat-chip-list class="mt-2 mb-2 d-block">
-                    <mat-chip removable (removed)="onHideRole(role, i)">
+                    <mat-chip (removed)="onHideRole(role, i)" removable>
                       {{role}}
                       <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
                   </mat-chip-list>
                   <div class="mt-2 mb-2">
-                    <mat-slide-toggle (change)="onAllChanged(role, $event);" [checked]="isAllChecked(role)" [disabled]="readOnlyMode">
+                    <mat-slide-toggle (change)="onAllChanged(role, $event);"
+                                      [checked]="isAllChecked(role)"
+                                      [disabled]="readOnlyMode">
                       {{'rolesManagement.permission.checkAll' | translate}}
                     </mat-slide-toggle>
                   </div>
                 </th>
-                <td mat-cell *matCellDef="let permission" class="text-center">
+                <td *matCellDef="let permission" class="text-center" mat-cell>
                   <mat-checkbox (change)="onPermissionChanged(permission, role, $event)"
                                 [checked]="permission.data[role].checked"
-                                class="no-label-margin"
-                                [disabled]="readOnlyMode">
+                                [disabled]="readOnlyMode"
+                                class="no-label-margin">
                   </mat-checkbox>
                 </td>
               </ng-container>
             </ng-container>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
         </table>
       </div>
 
       <no-data [show]="!(dataSource?.data.length > 0)"></no-data>
 
       <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
-        <ng-container class="mr-auto flex-grow-1 flex-nowrap"
-                      [class.hidden]="!(dataSource?.data.length > 0) || (itemsPerPage > totalItems)">
+        <ng-container [class.hidden]="!(dataSource?.data.length > 0) || (options.pageSize > totalItems)"
+                      class="mr-auto flex-grow-1 flex-nowrap">
           <mat-paginator
-            [pageSizeOptions]="itemsPerPageOptions"
-            [pageSize]="itemsPerPage"
-            [length]="totalItems">
+            [length]="totalItems"
+            [pageSizeOptions]="options.pageSizeOptions"
+            [pageSize]="options.pageSize">
           </mat-paginator>
         </ng-container>
 
@@ -148,16 +152,16 @@
           <button (click)="onCancel()"
                   *permitted="'DASHBOARD.UPDATE'"
                   [disabled]="!hasChanges"
-                  mat-flat-button
                   class="mr-1"
+                  mat-flat-button
                   type="button">
             <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
           </button>
           <button (click)="onSave()"
                   *permitted="'DASHBOARD.UPDATE'"
                   [disabled]="!hasChanges"
-                  mat-flat-button
                   color="primary"
+                  mat-flat-button
                   type="button">
             <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
           </button>
