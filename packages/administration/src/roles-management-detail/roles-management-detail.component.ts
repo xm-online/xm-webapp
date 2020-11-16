@@ -1,23 +1,21 @@
 import { ComponentType } from '@angular/cdk/overlay';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
+import { JhiLanguageHelper } from '@xm-ngx/components/language';
+import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-
-import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
-import { JhiLanguageHelper } from '@xm-ngx/components/language';
+import { XmConfigService } from '../../../../src/app/shared';
 import { Permission } from '../../../../src/app/shared/role/permission.model';
 import { Role } from '../../../../src/app/shared/role/role.model';
 import { RoleService } from '../../../../src/app/shared/role/role.service';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { XM_PAGE_SIZE_OPTIONS } from '../../../../src/app/xm.constants';
-import { XmConfigService } from "../../../../src/app/shared";
 
 @Component({
     selector: 'xm-role-mgmt-datail',
@@ -27,7 +25,7 @@ import { XmConfigService } from "../../../../src/app/shared";
             padding: 4px 10px;
             white-space: nowrap;
         }
-    `]
+    `],
 })
 export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
 
@@ -35,39 +33,35 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
     public permissions: Permission[];
     public permissionsSort: Permission[];
     public totalItems: number;
-    public itemsPerPage: number = ITEMS_PER_PAGE;
+    public itemsPerPage: number = TABLE_CONFIG_DEFAULT.pageSize;
     public predicate: string = 'privilegeKey';
     public reverse: boolean = true;
     public routeData: any;
     public forbids: string[] = ['', 'EXCEPTION', 'SKIP'];
     public permits: any[] = [
         {},
-        {trans: 'permitted', value: true},
-        {trans: 'notPermitted', value: false},
+        { trans: 'permitted', value: true },
+        { trans: 'notPermitted', value: false },
     ];
     public resourceConditions: any[] = [
         {},
-        {trans: 'permitted', value: true},
-        {trans: 'notPermitted', value: false},
+        { trans: 'permitted', value: true },
+        { trans: 'notPermitted', value: false },
     ];
     public showLoader: boolean;
     public sortBy: any = {};
     public hasEnv: boolean;
     public entities: string[];
     public checkAll: boolean;
-    private routeParamsSubscription: Subscription;
-    private routeDataSubscription: Subscription;
-
-
-    public itemsPerPageOptions: number[] = XM_PAGE_SIZE_OPTIONS;
+    public itemsPerPageOptions: number[] = TABLE_CONFIG_DEFAULT.pageSizeOptions;
     public displayedColumns: string[];
     public dataSource: MatTableDataSource<Permission> =
         new MatTableDataSource<Permission>([]);
     public readOnlyMode: boolean;
-
-    @ViewChild(MatSort, {static: true}) public sort: MatSort;
-    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
-
+    @ViewChild(MatSort, { static: true }) public sort: MatSort;
+    @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
+    private routeParamsSubscription: Subscription;
+    private routeDataSubscription: Subscription;
 
     constructor(private jhiLanguageHelper: JhiLanguageHelper,
                 private roleService: RoleService,
@@ -122,7 +116,7 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
         this.roleService.getRole(roleKey)
             .pipe(
                 takeUntilOnDestroy(this),
-                finalize(() => this.showLoader = false)
+                finalize(() => this.showLoader = false),
             )
             .subscribe(
                 (result: Role) => {
@@ -143,7 +137,7 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
             const totalLength = this.role.permissions.length;
             const totalCheckedLength = this.role.permissions
                 .filter((p: Permission) => p.enabled).length;
-            this.checkAll =  totalLength === totalCheckedLength;
+            this.checkAll = totalLength === totalCheckedLength;
         } else {
             this.checkAll = false;
         }
@@ -240,7 +234,7 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
         variables: string[],
         transInfo: string,
     ): MatDialogRef<any> {
-        const modalRef = this.modalService.open(component, {width: '500px'});
+        const modalRef = this.modalService.open(component, { width: '500px' });
         modalRef.componentInstance.condition = condition;
         modalRef.componentInstance.variables = variables;
         modalRef.componentInstance.transInfo = transInfo;

@@ -3,7 +3,7 @@ import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
 
-import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
+import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { XmEventManager } from '@xm-ngx/core';
 import { Link } from '@xm-ngx/entity';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -11,7 +11,6 @@ import * as _ from 'lodash';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { Client } from 'src/app/shared';
-import { XM_PAGE_SIZE_OPTIONS } from '../../../src/app/xm.constants';
 
 @Injectable()
 export class BaseAdminListComponent implements OnInit, OnDestroy {
@@ -22,8 +21,8 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         sortDirection: 'asc' | 'desc',
         sortBy: string
     } = {
-        pageSizeOptions: XM_PAGE_SIZE_OPTIONS,
-        pageSize: ITEMS_PER_PAGE,
+        pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
+        pageSize: TABLE_CONFIG_DEFAULT.pageSize,
         sortDirection: 'desc',
         sortBy: 'id',
     };
@@ -51,7 +50,7 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     ) {
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             if (data?.pagingParams) {
-                this.options.pageSize = data.pagingParams.size || ITEMS_PER_PAGE;
+                this.options.pageSize = data.pagingParams.size || TABLE_CONFIG_DEFAULT.pageSize;
                 this.page = data.pagingParams.page;
                 this.previousPage = data.pagingParams.page;
                 this.options.sortDirection = data.pagingParams.ascending ? 'asc' : 'desc';
