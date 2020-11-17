@@ -3,16 +3,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
+import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { XmEventManager } from '@xm-ngx/core';
-
 import { Principal } from '@xm-ngx/core/auth';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Subscription } from 'rxjs';
 import { XmConfigService } from '../../../../src/app/shared';
 import { Role } from '../../../../src/app/shared/role/role.model';
 import { RoleService } from '../../../../src/app/shared/role/role.service';
-import { XM_PAGE_SIZE_OPTIONS } from '../../../../src/app/xm.constants';
+
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
 import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
 
@@ -34,8 +33,8 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         sortDirection: 'asc' | 'desc',
         sortBy: string
     } = {
-        pageSizeOptions: XM_PAGE_SIZE_OPTIONS,
-        pageSize: ITEMS_PER_PAGE,
+        pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
+        pageSize: TABLE_CONFIG_DEFAULT.pageSize,
         sortDirection: 'desc',
         sortBy: 'roleKey',
     };

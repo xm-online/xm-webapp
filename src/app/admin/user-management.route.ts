@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Resolve, Routes } from '@angular/router';
 import { UserMgmtDetailComponent } from '@xm-ngx/administration/user-management-detail/user-management-detail.component';
 import { UserMgmtComponent } from '@xm-ngx/administration/user-management/user-management.component';
+import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
-import { ITEMS_PER_PAGE, Principal } from '../shared';
+import { Principal } from '../shared';
 
 @Injectable()
 export class UserResolve implements CanActivate {
@@ -29,7 +30,7 @@ export class UserResolvePagingParams implements Resolve<any> {
         { predicate: string; size: number; page: number; ascending: boolean } {
         const page = route.queryParams.page ? route.queryParams.page : '1';
         const sort = route.queryParams.sort ? route.queryParams.sort : 'id,asc';
-        const size = route.queryParams.size && parseInt(route.queryParams.size, 10) || ITEMS_PER_PAGE;
+        const size = route.queryParams.size && parseInt(route.queryParams.size, 10) || TABLE_CONFIG_DEFAULT.pageSize;
         return {
             size,
             page: this.paginationUtil.parsePage(page),
@@ -47,7 +48,7 @@ export const userMgmtRoute: Routes = [
             pagingParams: UserResolvePagingParams,
         },
         data: {
-            privileges: {value: ['USER.GET_LIST']},
+            privileges: { value: ['USER.GET_LIST'] },
             pageTitle: 'global.menu.admin.main',
             pageSubTitleTrans: 'global.menu.admin.userManagement',
         },
@@ -56,7 +57,7 @@ export const userMgmtRoute: Routes = [
         path: 'user-management/:userKey',
         component: UserMgmtDetailComponent,
         data: {
-            privileges: {value: ['USER.GET_LIST']},
+            privileges: { value: ['USER.GET_LIST'] },
             pageTitle: 'global.menu.admin.main',
             pageSubTitleTrans: 'userManagement.detail.title',
         },

@@ -4,8 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
-import { ITEMS_PER_PAGE } from '@xm-ngx/components/pagination';
+import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { Principal } from '@xm-ngx/core/auth';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -14,7 +13,6 @@ import { finalize } from 'rxjs/operators';
 import { XmConfigService } from '../../../../src/app/shared';
 import { RoleMatrix, RoleMatrixPermission } from '../../../../src/app/shared/role/role.model';
 import { RoleService } from '../../../../src/app/shared/role/role.service';
-import { XM_PAGE_SIZE_OPTIONS } from '../../../../src/app/xm.constants';
 
 export interface TableDisplayColumn {
     key: string,
@@ -37,8 +35,8 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
         sortDirection: 'asc' | 'desc',
         sortBy: string
     } = {
-        pageSizeOptions: XM_PAGE_SIZE_OPTIONS,
-        pageSize: ITEMS_PER_PAGE,
+        pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
+        pageSize: TABLE_CONFIG_DEFAULT.pageSize,
         sortDirection: 'desc',
         sortBy: 'privilegeKey',
     };

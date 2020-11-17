@@ -1,13 +1,14 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { buildJsfAttributes } from '@xm-ngx/json-scheme-form';
 import * as _ from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 
-import { ContextService, ITEMS_PER_PAGE, XmConfigService } from '../../shared';
+import { ContextService, XmConfigService } from '../../shared';
 import { getFieldValue } from '../../shared/helpers/entity-list-helper';
 import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
 
@@ -40,7 +41,7 @@ export class EntityListCardComponent implements OnInit, OnChanges {
                 private xmConfigService: XmConfigService,
                 private router: Router,
                 private contextService: ContextService) {
-        this.entitiesPerPage = ITEMS_PER_PAGE;
+        this.entitiesPerPage = TABLE_CONFIG_DEFAULT.pageSize;
         this.activeItemId = 0;
         this.predicate = 'id';
         this.isShowFilterArea = false;

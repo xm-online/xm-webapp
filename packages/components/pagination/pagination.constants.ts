@@ -1,8 +1,17 @@
 import { Injectable } from '@angular/core';
 
-export const ITEMS_PER_PAGE = 10;
+export interface IPaginationConfig {
+    pageSizeOptions: number[];
+    pageSize: number;
+}
 
-@Injectable({providedIn: 'root'})
+export const PAGINATION_CONFIG_DEFAULT: IPaginationConfig = {
+    pageSizeOptions: [10, 20, 50],
+    pageSize: 10,
+};
+
+@Injectable({ providedIn: 'root' })
 export class PaginationConfig {
-    public ITEMS_PER_PAGE: number = ITEMS_PER_PAGE;
+    public pageSizeOptions: number[] = PAGINATION_CONFIG_DEFAULT.pageSizeOptions;
+    public pageSize: number = PAGINATION_CONFIG_DEFAULT.pageSize;
 }
