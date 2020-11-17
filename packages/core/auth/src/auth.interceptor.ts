@@ -58,7 +58,8 @@ export class AuthInterceptor implements HttpInterceptor {
         return this.isPublicPage()
             || authService.verifyRefreshToken(req)
             || this.isExternalUrl(req)
-            || this.isPublicConfig(req);
+            || this.isPublicConfig(req)
+            || this.hasAuthorisationHeader(req);
     }
 
     private responseError(
@@ -148,5 +149,9 @@ export class AuthInterceptor implements HttpInterceptor {
     private isPublicConfig(req: HttpRequest<unknown>): boolean {
         const coreConfig: XmCoreConfig = this.injector.get(XmCoreConfig);
         return coreConfig.UI_PUBLIC_CONFIG_URL === req.url;
+    }
+
+    private hasAuthorisationHeader(req: HttpRequest<unknown>): boolean {
+        return Boolean(req.headers.get('Authorization'));
     }
 }
