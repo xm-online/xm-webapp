@@ -1,0 +1,25 @@
+@import 'theme';
+
+.color-container {
+  text-align: center;
+  display:    inline-block;
+
+  .color-view {
+    display:       inline-block;
+    height:        50px;
+    width:         50px;
+    margin-left:   1rem;
+    margin-right:  1rem;
+    border-radius: 50%;
+    @include xm-shadow-xs();
+  }
+}
+
+.buttons-list {
+  margin-bottom: 1rem;
+
+  button {
+    margin-right: 1rem;
+  }
+}
+

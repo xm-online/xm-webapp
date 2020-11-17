@@ -54,6 +54,10 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/administration/roles-management').then(m => m.RolesManagementModule),
     },
     {
+        selector: '@xm-ngx/administration/style-guide',
+        loadChildren: () => import('@xm-ngx/administration/style-guide').then(m => m.StyleGuideModule),
+    },
+    {
         selector: '@xm-ngx/administration/roles-management-detail',
         loadChildren: () => import('@xm-ngx/administration/roles-management-detail').then(m => m.RolesManagementDetailModule),
     },
