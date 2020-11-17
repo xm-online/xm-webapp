@@ -1,6 +1,0 @@
-@import '~@xm-ngx/styles/src/scroll';
-
-.btn-group-container {
-  overflow-y: auto;
-  @include xm-scrollbar();
-}

@@ -2,6 +2,7 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnDestroy, OnInit, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { IWidget } from '@xm-ngx/dynamic';
@@ -19,20 +20,23 @@ interface Config {
 @Component({
     selector: 'xm-links-group-widget',
     template: `
-        <div *ngIf="config?.list" class="text-center mb-3 btn-group-container">
-            <div [ngClass]="isMobile ? 'btn-group-vertical' : 'btn-group'"
-                 class="mb-0"
+        <div *ngIf="config?.list" class="mb-3">
+            <nav [backgroundColor]="'accent'"
+                 mat-tab-nav-bar
+                 class="rounded"
                  role="group">
                 <ng-container *ngFor="let item of config.list">
                     <a [routerLink]="item.routerLink"
                        *xmPermission="item.privileges"
                        routerLinkActive="active"
-                       mat-stroked-button
-                       type="button" class="btn btn-outline-secondary">
+                       mat-tab-link
+                       #rla="routerLinkActive"
+                       [active]="rla.isActive"
+                       type="button">
                         {{item.title | translate}}
                     </a>
                 </ng-container>
-            </div>
+            </nav>
         </div>
     `,
     styleUrls: ['./links-group-widget.component.scss'],
@@ -74,6 +78,7 @@ export class LinksGroupWidgetComponent implements OnInit, OnDestroy {
         XmPermissionModule,
         XmTranslationModule,
         MatButtonModule,
+        MatTabsModule,
     ],
 })
 export class LinksGroupWidgetModule {
