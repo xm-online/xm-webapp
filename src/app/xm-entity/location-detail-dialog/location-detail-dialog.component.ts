@@ -175,7 +175,7 @@ export class LocationDetailDialogComponent implements OnInit {
     }
 
     private createForm(): void {
-        const regCoordinate = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/;
+        const regCoordinate = /^[-+]?([1-8]?\d\d(\.\d+)?|90(\.0+)?)$/;
 
         this.form = this.fb.group({
             id: [null],
