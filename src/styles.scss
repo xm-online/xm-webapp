@@ -17,7 +17,6 @@ $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 @include xm-vendor-xm-override();
 
 // Components
-@import '~@xm-ngx/styles/src/_loader-placeholder.scss';
 @import '~@xm-ngx/styles/src/_loader-dizabled-container.scss';
 @import 'packages/components/loader/loader.component';
 @import 'packages/xm-alert/alert';

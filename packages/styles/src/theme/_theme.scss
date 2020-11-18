@@ -80,6 +80,7 @@ $xm-set-enable-rounded:       true !default;
 $border-radius:               4px !default;
 
 $xm-theme:                    (
+                                is-dark-mode: $xm-is-dark-mode,
                                 // Primary
                                 primary: $xm-primary,
                                 primary-palette: $xm-primary-palette,
