@@ -1,0 +1,153 @@
+<main class="row">
+  <div class="col-12 col-md-4">
+
+    <section class="mb-5">
+      <h4>Colors</h4>
+
+      <div *ngFor="let color of colors" class="color-container">
+        <div #bg_color class="color-view bg-{{color}}"></div>
+        <div>{{color}}</div>
+        <div class="small">{{getStyles(bg_color, 'background-color')}}</div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h4>Typography</h4>
+
+      <div *ngFor="let font of fonts">
+        <span #font_size class="mat-{{font}}">Heading {{font}}</span>
+        <div class="small">font-size {{getStyles(font_size, 'font-size')}}</div>
+        <br>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="col-12 col-md-4">
+
+    <section class="mb-5">
+      <h4>Text fields</h4>
+
+      <form [formGroup]="group" class="example-form">
+        <mat-form-field>
+          <mat-label>Default</mat-label>
+          <input [formControl]="group.controls.default" matInput placeholder="Default Placeholder" type="email">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Email with error</mat-label>
+          <input [formControl]="group.controls.email" matInput placeholder="Ex. pat@example.com" type="email">
+          <mat-error *ngIf="group.controls.email.hasError('email') && !group.controls.email.hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="group.controls.email.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+          <mat-hint>For example <strong>test@example.com</strong></mat-hint>
+        </mat-form-field>
+      </form>
+    </section>
+
+    <section class="mb-5">
+      <h4>Buttons</h4>
+
+      <div class="buttons-list">
+        <button mat-button>Basic</button>
+        <button color="primary" mat-button>Primary</button>
+        <button color="accent" mat-button>Accent</button>
+        <button color="warn" mat-button>Warn</button>
+        <button disabled mat-button>Disabled</button>
+        <a href="https://www.google.com/" mat-button target="_blank">Link</a>
+      </div>
+
+      <div class="buttons-list">
+        <button mat-raised-button>Basic</button>
+        <button color="primary" mat-raised-button>Primary</button>
+        <button color="accent" mat-raised-button>Accent</button>
+        <button color="warn" mat-raised-button>Warn</button>
+        <button disabled mat-raised-button>Disabled</button>
+        <a href="https://www.google.com/" mat-raised-button target="_blank">Link</a>
+      </div>
+
+      <div class="buttons-list">
+        <button mat-stroked-button>Basic</button>
+        <button color="primary" mat-stroked-button>Primary</button>
+        <button color="accent" mat-stroked-button>Accent</button>
+        <button color="warn" mat-stroked-button>Warn</button>
+        <button disabled mat-stroked-button>Disabled</button>
+        <a href="https://www.google.com/" mat-stroked-button target="_blank">Link</a>
+      </div>
+
+      <div class="buttons-list">
+        <button mat-flat-button>Basic</button>
+        <button color="primary" mat-flat-button>Primary</button>
+        <button color="accent" mat-flat-button>Accent</button>
+        <button color="warn" mat-flat-button>Warn</button>
+        <button disabled mat-flat-button>Disabled</button>
+        <a href="https://www.google.com/" mat-flat-button target="_blank">Link</a>
+      </div>
+
+      <div class="buttons-list">
+        <button aria-label="Example icon button with a vertical three dot icon" mat-icon-button>
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <button aria-label="Example icon button with a home icon" color="primary" mat-icon-button>
+          <mat-icon>home</mat-icon>
+        </button>
+        <button aria-label="Example icon button with a menu icon" color="accent" mat-icon-button>
+          <mat-icon>menu</mat-icon>
+        </button>
+        <button aria-label="Example icon button with a heart icon" color="warn" mat-icon-button>
+          <mat-icon>favorite</mat-icon>
+        </button>
+        <button aria-label="Example icon button with a open in new tab icon" disabled mat-icon-button>
+          <mat-icon>open_in_new</mat-icon>
+        </button>
+      </div>
+
+      <div class="buttons-list">
+        <button aria-label="Example icon button with a delete icon" color="primary" mat-fab>
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button aria-label="Example icon button with a bookmark icon" color="accent" mat-fab>
+          <mat-icon>bookmark</mat-icon>
+        </button>
+        <button aria-label="Example icon button with a home icon" color="warn" mat-fab>
+          <mat-icon>home</mat-icon>
+        </button>
+        <button aria-label="Example icon button with a heart icon" disabled mat-fab>
+          <mat-icon>favorite</mat-icon>
+        </button>
+      </div>
+
+      <div class="buttons-list">
+        <button aria-label="Example icon button with a menu icon" color="primary" mat-mini-fab>
+          <mat-icon>menu</mat-icon>
+        </button>
+        <button aria-label="Example icon button with a plus one icon" color="accent" mat-mini-fab>
+          <mat-icon>plus_one</mat-icon>
+        </button>
+        <button aria-label="Example icon button with a filter list icon" color="warn" mat-mini-fab>
+          <mat-icon>filter_list</mat-icon>
+        </button>
+        <button aria-label="Example icon button with a home icon" disabled mat-mini-fab>
+          <mat-icon>home</mat-icon>
+        </button>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="col-12 col-md-4">
+    <section class="mb-5">
+      <h4>Tabs</h4>
+
+      <mat-tab-group>
+        <mat-tab label="First"></mat-tab>
+        <mat-tab label="Second"></mat-tab>
+        <mat-tab label="Third"></mat-tab>
+      </mat-tab-group>
+    </section>
+  </div>
+
+</main>
