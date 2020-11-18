@@ -30,7 +30,7 @@ interface GuestTokenResponse {
     access_token?: string;
 }
 
-interface AuthTokenResponse extends GuestTokenResponse {
+export interface AuthTokenResponse extends GuestTokenResponse {
     refresh_token?: string;
     expires_in?: number;
 }
@@ -98,10 +98,13 @@ export class AuthServerProvider {
         );
     }
 
-    public loginWithToken(jwt: string, rememberMe: boolean): Promise<never> | Promise<unknown> {
+    public loginWithToken(jwt: string, rememberMe: boolean, refreshToken?: string): Promise<never> | Promise<unknown> {
         this.$sessionStorage.clear(WIDGET_DATA);
         if (jwt) {
             this.storeAuthenticationToken(jwt, rememberMe);
+            if (refreshToken) {
+                this.storeRefreshToken(refreshToken, rememberMe);
+            }
             return Promise.resolve(jwt);
         } else {
             // eslint-disable-next-line prefer-promise-reject-errors
