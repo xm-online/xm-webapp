@@ -46,11 +46,21 @@ export class DatetimePickerComponent implements OnInit {
         const value = event.value || null;
         const formatString = this.getFormat();
         this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
-        this.jsf.updateValue(this, moment(value).utc().format(DEF_FORMAT));
+        this.jsf.updateValue(this, this.getSendValue(value));
     }
 
     private getFormat(): string {
         return this.options && this.options.formatString ? this.options.formatString : DEF_FORMAT;
+    }
+
+    private getSendValue(value: string| unknown): string | null {
+        let valueToSend;
+        if (this.options && this.options.sendFormatString) {
+            valueToSend = moment(value).format(this.options.sendFormatString)
+        } else {
+            valueToSend = moment(value).utc().format(DEF_FORMAT)
+        }
+        return valueToSend;
     }
 
     private setLocalizedButtons(): void {
