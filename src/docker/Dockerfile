@@ -1,5 +1,4 @@
 FROM nginx
-LABEL version="0.0.1-SNAPSHOT"
 LABEL description="XM^online webapp"
 MAINTAINER Ihor Shkurko <ishkurko@gmail.com>
 EXPOSE 80 19999
