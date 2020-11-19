@@ -3,17 +3,21 @@ module.exports = {
     env: {
         'browser': true,
         'node': true,
-        "es6": true,
+        'es6': true,
     },
-    parserOptions: { "ecmaVersion": 2020 },
-    'extends': 'eslint:recommended',
+    parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 2020,
+    },
+    extends: 'eslint:recommended',
     overrides: [
         {
             files: ['src/**/*.ts', 'packages/**/*.ts'],
-            excludedFiles: '*.spec.js',
+            excludedFiles: '**/*.spec.ts',
             parser: '@typescript-eslint/parser',
             parserOptions: {
                 tsconfigRootDir: __dirname,
+                sourceType: 'module',
                 project: ['./tsconfig.json'],
             },
             plugins: ['@typescript-eslint'],

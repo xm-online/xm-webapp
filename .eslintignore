@@ -8,3 +8,4 @@ coverage
 assets
 # skip test
 test.ts
+*.spec.ts
