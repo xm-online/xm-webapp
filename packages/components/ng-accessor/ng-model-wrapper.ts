@@ -1,11 +1,31 @@
-import { EventEmitter } from '@angular/core';
+import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
+@Directive()
 export abstract class NgModelWrapper<T> implements ControlValueAccessor {
+    @Output() public valueChange: EventEmitter<T> = new EventEmitter<T>();
 
-    public disabled: boolean;
-    public value: T;
-    public valueChange: EventEmitter<T> = new EventEmitter<T>();
+    protected _value: T;
+
+    public get value(): T {
+        return this._value;
+    }
+
+    @Input()
+    public set value(value: T) {
+        this._value = value;
+    }
+
+    protected _disabled: boolean;
+
+    public get disabled(): boolean {
+        return this._disabled;
+    }
+
+    @Input()
+    public set disabled(value: boolean) {
+        this._disabled = value;
+    }
 
     public writeValue(obj: T): void {
         this.value = obj;
