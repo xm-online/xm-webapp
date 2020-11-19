@@ -25,7 +25,7 @@ export class XmTranslateService {
      *  {{ 'global.common.accept' | translate }}
      *  // returns Accept
      */
-    public translate(text: Translate, interpolateParams: object): string | null {
+    public translate(text: Translate, interpolateParams: object = {}): string | null {
         if (typeof text === 'object' && text !== null) {
             const str = text[this.languageService.locale];
             const interpolated = this.interpolate(str, interpolateParams);

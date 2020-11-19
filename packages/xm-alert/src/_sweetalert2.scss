@@ -35,4 +35,8 @@ $swal2-cancel-button-font-size:         $xm-font-size-sm;
   .swal2-actions {
     align-items: end;
   }
+
+  .swal2-content {
+    white-space: pre-wrap;
+  }
 }
