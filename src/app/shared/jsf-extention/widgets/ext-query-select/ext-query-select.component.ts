@@ -79,7 +79,17 @@ export class ExtQuerySelectComponent implements OnInit, OnDestroy {
         this.initialValue$ = of(this.controlValue).pipe(
             mergeMap((value) => iif(() => !!value, initialData$, of([]))),
             filter((list) => !!list.length),
-            tap((list) => this.checkedOption.setValue(list[0].value)),
+            tap((list) => {
+                for (const item of list) {
+                    if (this.controlValue === item.value) {
+                        this.checkedOption.setValue(item.value);
+                    }
+                }
+
+                if (!this.checkedOption.value) {
+                    this.checkedOption.setValue(list[0].value);
+                }
+            }),
         );
 
         // process search events
