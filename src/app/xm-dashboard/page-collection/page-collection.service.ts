@@ -5,7 +5,7 @@ import { IId } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { PageCollectionConfig } from './page-collection-config';
 
-interface PageCollectionPageConfig {
+export interface PageCollectionPageConfig {
     resourceUrl: string;
 }
 

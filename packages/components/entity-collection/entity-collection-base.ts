@@ -1,13 +1,14 @@
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IEntityCollection, QueryParams } from './i-entity-collection';
+import { QueryParams } from './i-entity-collection';
+import { IEntityCollectionPageable, Pageable } from './i-entity-collection-pageable';
 
-export class EntityCollectionBase<T extends IId = unknown> {
+export class EntityCollectionBase<T extends IId = unknown, Extra extends Pageable = Pageable> {
     public loading$: Observable<boolean>;
-    protected collection: IEntityCollection<T>;
+    protected collection: IEntityCollectionPageable<T, Extra>;
 
-    constructor(collection: IEntityCollection<T>) {
+    constructor(collection: IEntityCollectionPageable<T, Extra>) {
         this.setCollection(collection);
     }
 
@@ -26,12 +27,12 @@ export class EntityCollectionBase<T extends IId = unknown> {
             .pipe(map((res) => res.body));
     }
 
-    public getAll(params?: QueryParams): Observable<T[]> {
+    public getAll(params?: QueryParams): Observable<T[] & Extra> {
         return this.collection.getAll(params)
             .pipe(map((res) => res.body));
     }
 
-    public query(params: QueryParams): Observable<T[]> {
+    public query(params: QueryParams): Observable<T[] & Extra> {
         return this.collection.query(params)
             .pipe(map((res) => res.body));
     }
@@ -46,7 +47,7 @@ export class EntityCollectionBase<T extends IId = unknown> {
             .pipe(map((res) => res.body));
     }
 
-    protected setCollection(collection: IEntityCollection<T>): void {
+    protected setCollection(collection: IEntityCollectionPageable<T, Extra>): void {
         if (!collection) {
             return;
         }
