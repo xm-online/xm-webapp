@@ -7,27 +7,39 @@
   }
 }
 
-.loader-placeholder {
-  background-color: whitesmoke;
-  position:         relative;
-  overflow:         hidden;
-}
+@mixin loader-placeholder($theme) {
+  $xm-is-dark-mode: map-get($theme, is-dark-mode);
 
-.loader-placeholder::before {
-  content:    '';
-  width:      100%;
-  height:     100%;
-  position:   absolute;
-  left:       0;
-  top:        0;
-  background: rgba(255, 255, 255, 1);
-  background: radial-gradient(
-                  circle,
-                  rgba(255, 255, 255, 1) 0%,
-                  rgba(255, 255, 255, 0) 100%
-              );
-  animation:  animationLoader 1.2s cubic-bezier(0.645, 0.045, 0.355, 1) both infinite;
-}
+  $base-grey:       null !default;
+  $base-color:      null !default;
+  @if ($xm-is-dark-mode == true) {
+    $base-grey:  #000000 !default;
+    $base-color: #050505 !default;
+  } @else {
+    $base-grey:  #ffffff !default;
+    $base-color: #f5f5f5 !default;
+  }
 
-.loader-placeholder {
+  .loader-placeholder {
+    background-color: $base-color;
+    position:         relative;
+    overflow:         hidden;
+  }
+
+  .loader-placeholder::before {
+    content:    '';
+    width:      100%;
+    height:     100%;
+    position:   absolute;
+    left:       0;
+    top:        0;
+    background: rgba($base-grey, 1);
+    background: radial-gradient(
+                    circle,
+                    rgba($base-grey, 1) 0%,
+                    rgba($base-grey, 0) 100%
+                );
+    animation:  animationLoader 1.2s cubic-bezier(0.645, 0.045, 0.355, 1) both infinite;
+  }
+
 }
