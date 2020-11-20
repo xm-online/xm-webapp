@@ -26,12 +26,14 @@
     </button>
   </div>
 
-  <button (click)="onEdit()"
-          *xmPermitted="['ENTITY.UPDATE']; context: xmEditContext()"
-          class="btn btn-primary xm-fab-button fab-main-button">
-    <i class="material-icons">edit</i>
-    <span class="fab-title">{{ "xm-entity.entity-detail-fab.edit-entity" | translate }}</span>
-  </button>
+  <div *ngIf="showEditButton">
+    <button (click)="onEdit()"
+            *xmPermitted="['ENTITY.UPDATE']; context: xmEditContext()"
+            class="btn btn-primary xm-fab-button fab-main-button">
+      <i class="material-icons">edit</i>
+      <span class="fab-title">{{ "xm-entity.entity-detail-fab.edit-entity" | translate }}</span>
+    </button>
+  </div>
 
   <button *ngIf="!showEditOptions && showEditSubOptions" class="btn btn-primary xm-fab-button fab-main-button">
     <i class="material-icons">more_vert</i>
