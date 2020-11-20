@@ -1,6 +1,8 @@
+import { XM_DATE_ELEMENTS } from '@xm-ngx/components/date';
 import { DynamicComponents } from '@xm-ngx/dynamic';
 
 export const XM_ELEMENTS: DynamicComponents = [
+    ...XM_DATE_ELEMENTS,
     {
         selector: '@xm-ngx/administration/audits',
         loadChildren: () => import('@xm-ngx/administration/audits').then(m => m.AuditsModule),
@@ -118,18 +120,6 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/currency').then(m => m.XmCurrencyValueModule),
     },
     {
-        selector: '@xm-ngx/components/date-value',
-        loadChildren: () => import('@xm-ngx/components/date').then(m => m.XmDateValueModule),
-    },
-    {
-        selector: '@xm-ngx/components/date-control',
-        loadChildren: () => import('@xm-ngx/components/date').then(m => m.DateControlModule),
-    },
-    {
-        selector: '@xm-ngx/components/date-range-control',
-        loadChildren: () => import('@xm-ngx/components/date').then(m => m.DateRangeControlModule),
-    },
-    {
         selector: '@xm-ngx/components/xm-bool-view',
         loadChildren: () => import('@xm-ngx/components/bool').then(m => m.BoolValueModule),
     },
@@ -216,5 +206,5 @@ export const XM_ELEMENTS: DynamicComponents = [
     {
         selector: '@xm-ngx/components/checkbox-control',
         loadChildren: () => import('@xm-ngx/components/checkbox-control').then(m => m.XmCheckboxControlModule),
-    }
+    },
 ];
