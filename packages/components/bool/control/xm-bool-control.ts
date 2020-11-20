@@ -47,7 +47,6 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmBoolControl extends NgControlAccessor<boolean> implements IControl<boolean, { title?: Translate }> {
-    @Input() public value: boolean;
     @Input() public options: { title?: string };
 }
 

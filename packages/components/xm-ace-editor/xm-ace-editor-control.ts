@@ -54,8 +54,6 @@ const DEFAULT_OPTIONS: AceEditorControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AceEditorControlComponent extends NgControlAccessor<string | object> {
-    @Input() public disabled: boolean;
-
     public error: boolean = false;
     public _options: AceEditorControlOptions = DEFAULT_OPTIONS;
 

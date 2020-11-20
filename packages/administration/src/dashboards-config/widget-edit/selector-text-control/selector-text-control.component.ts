@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
     ExtendedDynamicComponents,
@@ -26,9 +26,6 @@ import { map, shareReplay, startWith } from 'rxjs/operators';
 export class SelectorTextControlComponent
     extends NgModelWrapper<string>
     implements IControl<string, ITextControlOptions>, OnInit {
-    @Input() public value: string;
-    @Input() public disabled: boolean;
-    @Output() public valueChange: EventEmitter<string> = new EventEmitter<string>();
     @Input() public options: ITextControlOptions;
     public control: FormControl = new FormControl(this.value);
     public filteredOptions: Observable<ExtendedDynamicComponents[]>;
