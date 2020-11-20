@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { JhiEventManager } from 'ng-jhipster';
@@ -8,6 +8,8 @@ import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-deta
 import { Spec } from '../shared/spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntitySpecService } from '../shared/xm-entity-spec.service';
+import { Principal } from '../../shared';
+import { EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
 
 declare let swal: any;
 
@@ -16,15 +18,49 @@ declare let swal: any;
     templateUrl: './entity-list-fab.component.html',
     styleUrls: ['./entity-list-fab.component.scss'],
 })
-export class EntityListFabComponent {
+export class EntityListFabComponent implements OnChanges {
+
+    public showAddButton: boolean;
 
     @Input() public xmEntitySpec: XmEntitySpec;
     @Input() public spec: Spec;
+    @Input() public uiConfig: any;
+    @Input() public entityType: any;
 
     constructor(private xmEntitySpecService: XmEntitySpecService,
                 private eventManager: JhiEventManager,
                 private modalService: NgbModal,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private principal: Principal,
+    ) {
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        this.showAddButton = true;
+
+        const currentKey = changes.xmEntitySpec.currentValue.key;
+        const entities: EntityUiConfig[] = this.uiConfig.applications
+            && this.uiConfig.applications.config
+            && this.uiConfig.applications.config.entities;
+
+        if (currentKey && entities && entities.length > 0) {
+            entities.forEach((el: EntityUiConfig) => {
+                if (el.typeKey === currentKey) {
+                    this.checkEntityAddPermission(el);
+                }
+            });
+        }
+    }
+
+    private checkEntityAddPermission(config: EntityUiConfig): void {
+        if (config.addButtonPermission) {
+            this.showAddButton = false;
+            this.principal.hasPrivileges([config.addButtonPermission]).then((result) => {
+                if (result) {
+                    this.showAddButton = true;
+                }
+            });
+        }
     }
 
     public onRefresh(): void {

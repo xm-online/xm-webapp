@@ -1,4 +1,4 @@
-<div *ngIf="xmEntitySpec" class="xm-fab">
+<div *ngIf="xmEntitySpec && showAddButton" class="xm-fab">
   <div class="xm-fab-drop">
     <button (click)="onGenerateNew()" *xmPermitted="['XMENTITY_SPEC.GENERATE']" class="xm-fab-option">
       <i class="material-icons">plus_one</i>
