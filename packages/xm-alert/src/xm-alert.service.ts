@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { from, Observable } from 'rxjs';
-import swal from 'sweetalert2/dist/sweetalert2';
 import { SweetAlertOptions, SweetAlertResult, SweetAlertType } from 'sweetalert2';
+import swal from 'sweetalert2/dist/sweetalert2';
 import { XmAlertConfigService } from './xm-alert-config.service';
 
 export interface XmAlertOptions extends Partial<SweetAlertOptions> {
     type?: string | SweetAlertType | any;
-
+    text?: Translate | any;
     textOptions?: {
         value?: string;
         [value: string]: string | object;
     };
+
+    titleOptions?: object;
 }
 
 export type XmAlertResult = SweetAlertResult;
@@ -22,8 +24,9 @@ export type XmAlertResult = SweetAlertResult;
 })
 export class XmAlertService {
 
-    constructor(protected translateService: TranslateService,
-                protected config: XmAlertConfigService) {
+    constructor(protected config: XmAlertConfigService,
+                protected xmTranslateService: XmTranslateService,
+    ) {
     }
 
     public open(settings: XmAlertOptions): Observable<XmAlertResult> {
@@ -41,20 +44,23 @@ export class XmAlertService {
         settings = _.merge(DEFAULT, settings);
 
         if (settings.title) {
-            settings.title = this.translateService.instant(settings.title);
+            const opts = settings.titleOptions || {};
+
+            settings.title = this.xmTranslateService.translate(settings.title, opts);
         }
+
         if (settings.text) {
             const opts = settings.textOptions || {};
-            _.defaults(opts, {value: ''});
+            _.defaults(opts, { value: '' });
 
-            settings.text = this.translateService.instant(settings.text, opts);
+            settings.text = this.xmTranslateService.translate(settings.text, opts);
         }
 
         if (settings.confirmButtonText) {
-            settings.confirmButtonText = this.translateService.instant(settings.confirmButtonText);
+            settings.confirmButtonText = this.xmTranslateService.translate(settings.confirmButtonText);
         }
         if (settings.cancelButtonText) {
-            settings.cancelButtonText = this.translateService.instant(settings.cancelButtonText);
+            settings.cancelButtonText = this.xmTranslateService.translate(settings.cancelButtonText);
         }
 
         return from(swal(settings));
