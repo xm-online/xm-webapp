@@ -1,10 +1,11 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { IEntityCollectionPageable, Pageable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { IEntityCollection, QueryParams } from './i-entity-collection';
+import { QueryParams } from './i-entity-collection';
 
-export class HttpClientRest<T extends IId = unknown> implements IEntityCollection<T> {
+export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pageable> implements IEntityCollectionPageable<T, Extra> {
 
     public readonly loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public readonly url: string;
@@ -15,15 +16,15 @@ export class HttpClientRest<T extends IId = unknown> implements IEntityCollectio
     }
 
     public create(entity: T, params?: QueryParams): Observable<HttpResponse<T>> {
-        return this.handle(this.httpClient.post<T>(this.url, entity, {params, observe: 'response'}));
+        return this.handle(this.httpClient.post<T>(this.url, entity, { params, observe: 'response' }));
     }
 
     public update(entity: Partial<T>, params?: QueryParams): Observable<HttpResponse<T>> {
-        return this.handle(this.httpClient.put<T>(this.url, entity, {params, observe: 'response'}));
+        return this.handle(this.httpClient.put<T>(this.url, entity, { params, observe: 'response' }));
     }
 
-    public getAll(params?: QueryParams): Observable<HttpResponse<T[]>> {
-        return this.handle(this.httpClient.get<T[]>(this.url, {params, observe: 'response'}));
+    public getAll(params?: QueryParams): Observable<HttpResponse<T[] & Extra>> {
+        return this.handle(this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response' }));
     }
 
     public getById(key: Id, params?: QueryParams): Observable<HttpResponse<T>> {
@@ -31,7 +32,7 @@ export class HttpClientRest<T extends IId = unknown> implements IEntityCollectio
     }
 
     public find(key: Id, params?: QueryParams): Observable<HttpResponse<T>> {
-        return this.handle(this.httpClient.get<T>(`${this.url}/${key}`, {params, observe: 'response'}));
+        return this.handle(this.httpClient.get<T>(`${this.url}/${key}`, { params, observe: 'response' }));
     }
 
     public delete(key: Id, params?: QueryParams): Observable<HttpResponse<unknown>> {
@@ -41,8 +42,8 @@ export class HttpClientRest<T extends IId = unknown> implements IEntityCollectio
         }));
     }
 
-    public query(params: QueryParams): Observable<HttpResponse<T[]>> {
-        return this.handle(this.httpClient.get<T[]>(this.url, {params, observe: 'response'}));
+    public query(params: QueryParams): Observable<HttpResponse<T[] & Extra>> {
+        return this.handle(this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response' }));
     }
 
     public upsert(entity: T, params?: QueryParams): Observable<HttpResponse<T>> {
