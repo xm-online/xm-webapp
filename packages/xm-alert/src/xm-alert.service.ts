@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { XmTranslateService } from '@xm-ngx/translation';
+import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { from, Observable } from 'rxjs';
 import { SweetAlertOptions, SweetAlertResult, SweetAlertType } from 'sweetalert2';
@@ -8,11 +8,13 @@ import { XmAlertConfigService } from './xm-alert-config.service';
 
 export interface XmAlertOptions extends Partial<SweetAlertOptions> {
     type?: string | SweetAlertType | any;
-
+    text?: Translate | any;
     textOptions?: {
         value?: string;
         [value: string]: string | object;
     };
+
+    titleOptions?: object;
 }
 
 export type XmAlertResult = SweetAlertResult;
@@ -40,12 +42,17 @@ export class XmAlertService {
             cancelButtonText: this.config.cancelLabel,
         };
         settings = _.merge(DEFAULT, settings);
-        const opts = settings.textOptions || {};
 
         if (settings.title) {
+            const opts = settings.titleOptions || {};
+
             settings.title = this.xmTranslateService.translate(settings.title, opts);
         }
+
         if (settings.text) {
+            const opts = settings.textOptions || {};
+            _.defaults(opts, { value: '' });
+
             settings.text = this.xmTranslateService.translate(settings.text, opts);
         }
 
