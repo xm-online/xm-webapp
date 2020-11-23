@@ -1,6 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -21,6 +21,7 @@ import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 import { ActionOptions, EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
+import { Location } from '@angular/common';
 
 declare let swal: any;
 
@@ -46,6 +47,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     private entitiesUiConfig: any[] = [];
     private currentEntitiesUiConfig: any[] = [];
     private firstPage: number;
+    private queryParams: Params = {};
 
     private entityListActionSuccessSubscription: Subscription;
     private entityEntityListModificationSubscription: Subscription;
@@ -59,12 +61,26 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 private i18nNamePipe: I18nNamePipe,
                 private router: Router,
                 private contextService: ContextService,
-                public principal: Principal) {
+                public principal: Principal,
+                private activatedRoute: ActivatedRoute,
+                private location: Location,
+    ) {
         this.entitiesPerPage = ITEMS_PER_PAGE;
         this.firstPage = 1;
         this.activeItemId = 0;
         this.predicate = 'id';
         this.isShowFilterArea = false;
+
+        this.location.subscribe(data => {
+            this.router.navigate([data.url]);
+        })
+
+        this.activatedRoute.queryParams.subscribe((params: Params) => {
+            if (Object.keys(params).length > 0) {
+                this.queryParams = { ...params };
+                this.onApplyFilter(this.list[this.activeItemId], params);
+            }
+        })
     }
 
     public ngOnInit(): void {
@@ -81,6 +97,13 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         if (this.options) {
             this.isShowFilterArea = !!this.options.isShowFilterArea;
         }
+
+        this.activatedRoute.queryParams.subscribe((params: Params) => {
+            if (Object.keys(this.queryParams).length > 0 && Object.keys(params).length === 0) {
+                this.queryParams = {};
+                this.onApplyFilter(this.list[this.activeItemId], {});
+            }
+        })
     }
 
     public isHideAll(typeKey: string): boolean {
@@ -177,7 +200,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.loadEntities(entityOptions).subscribe((result) => entityOptions.entities = result);
     }
 
-    public onApplyFilter(entityOptions: EntityOptions, data: any): void {
+    public onApplyFilter(entityOptions: EntityOptions, data: any, byUser?: boolean): void {
         const copy = Object.assign({}, entityOptions);
         let funcValue;
         try {
@@ -190,7 +213,18 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         if (entityOptions.overrideCurrentQuery) {
             entityOptions.currentQuery = funcValue;
         }
-        entityOptions.page = this.firstPage;
+
+        if (data.state) {
+            data.state = Array.isArray(data.state) ? data.state : [data.state];
+        }
+        entityOptions.filterJsfAttributes.data = data;
+
+        if (byUser) {
+            entityOptions.page = this.firstPage;
+        } else {
+            entityOptions.page = this.queryParams.page || this.firstPage;
+        }
+
         this.loadEntities(entityOptions).subscribe((resp) => this.list[this.activeItemId].entities = resp);
     }
 
@@ -305,7 +339,11 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 if (activeItem.query) {
                     activeItem.currentQuery = activeItem.query;
                 }
-                this.loadEntities(activeItem).subscribe((resp) => activeItem.entities = resp);
+                if (Object.keys(this.queryParams).length > 0) {
+                    this.onApplyFilter(activeItem, this.queryParams);
+                } else {
+                    this.loadEntities(activeItem).subscribe((resp) => activeItem.entities = resp);
+                }
             }
         }
     }
@@ -362,7 +400,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 
     private loadEntities(entityOptions: EntityOptions): Observable<XmEntity[]> {
         this.showLoader = true;
-        const {options, method}: any = this.getQueryOptions(entityOptions);
+        const { options, method }: any = this.getQueryOptions(entityOptions);
 
         return this.xmEntityService[method](options).pipe(
             tap((xmEntities: HttpResponse<XmEntity[]>) => {
@@ -379,7 +417,22 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 this.showLoader = false;
                 return of([]);
             }),
-            finalize(() => this.showLoader = false));
+            finalize(() => {
+                this.showLoader = false;
+
+                const params = {
+                    ...entityOptions.filterJsfAttributes.data,
+                    ...options,
+                    page: options.page + 1,
+                };
+
+                delete params.query;
+                delete params.sort;
+                this.router.navigate([], {
+                    queryParams: params,
+                    relativeTo: this.activatedRoute,
+                });
+            }));
     }
 
     private getQueryOptions(entityOptions: EntityOptions): any {

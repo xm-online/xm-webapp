@@ -30,6 +30,7 @@ export interface EntityOptions {
     routerLink?: string[];
     filter?: FilterOptions;
     overrideCurrentQuery?: boolean;
+    filterJsfAttributes?: any;
 }
 
 export interface FieldOptions {
