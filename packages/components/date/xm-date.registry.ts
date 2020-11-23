@@ -1,0 +1,21 @@
+import { DynamicComponent } from '@xm-ngx/dynamic';
+
+export const XM_DATE_ELEMENTS: DynamicComponent[] = [
+    {
+        // TODO: rename to @xm-ngx/components/date
+        selector: '@xm-ngx/components/date-value',
+        loadChildren: () => import('./xm-date.component').then(m => m.XmDateModule),
+    },
+    {
+        selector: '@xm-ngx/components/date-view',
+        loadChildren: () => import('./xm-date-view').then(m => m.XmDateViewModule),
+    },
+    {
+        selector: '@xm-ngx/components/date-control',
+        loadChildren: () => import('./xm-date-control').then(m => m.XmDateControlModule),
+    },
+    {
+        selector: '@xm-ngx/components/date-range-control',
+        loadChildren: () => import('./xm-date-range-control').then(m => m.XmDateRangeControlModule),
+    },
+];

@@ -1,20 +1,21 @@
-import { Component, Input, NgModule, Type } from '@angular/core';
+import { Component, Input, NgModule } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { XmDateValue } from './xm-date.component';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { IControl, IDynamicModule } from '@xm-ngx/dynamic';
+import { IControl, IControlFn, IDynamicModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
-export interface DateControlOptions {
+export interface XmDateControlOptions {
     title: Translate;
     name?: string;
 }
 
 @Component({
-    selector: 'date-control',
+    selector: 'xm-date-control',
     template: `
         <mat-form-field>
             <mat-label>{{options?.title | translate}}</mat-label>
@@ -29,8 +30,8 @@ export interface DateControlOptions {
         </mat-form-field>
     `,
 })
-export class DateControl extends NgFormAccessor<string> {
-    @Input() public options: DateControlOptions;
+export class XmDateControl extends NgFormAccessor<XmDateValue> {
+    @Input() public options: XmDateControlOptions;
     @Input() public control: FormControl = new FormControl();
 }
 
@@ -43,9 +44,9 @@ export class DateControl extends NgFormAccessor<string> {
         XmTranslationModule,
         ControlErrorModule,
     ],
-    exports: [DateControl],
-    declarations: [DateControl],
+    exports: [XmDateControl],
+    declarations: [XmDateControl],
 })
-export class DateControlModule implements IDynamicModule<IControl<string, DateControlOptions>> {
-    public entry: Type<DateControl> = DateControl;
+export class XmDateControlModule implements IDynamicModule<IControl<XmDateValue, XmDateControlOptions>> {
+    public entry: IControlFn<XmDateValue, XmDateControlOptions> = XmDateControl;
 }
