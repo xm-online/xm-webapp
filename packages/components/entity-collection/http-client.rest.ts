@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { IEntityCollectionPageable, Pageable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { QueryParams } from './i-entity-collection';
 
 export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pageable> implements IEntityCollectionPageable<T, Extra> {
@@ -24,7 +24,11 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     }
 
     public getAll(params?: QueryParams): Observable<HttpResponse<T[] & Extra>> {
-        return this.handle(this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response' }));
+        return this.handle(
+            this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response' }).pipe(
+                map(res => this.extractExtra(res)),
+            ),
+        );
     }
 
     public getById(key: Id, params?: QueryParams): Observable<HttpResponse<T>> {
@@ -43,7 +47,11 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     }
 
     public query(params: QueryParams): Observable<HttpResponse<T[] & Extra>> {
-        return this.handle(this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response' }));
+        return this.handle(
+            this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response' }).pipe(
+                map(res => this.extractExtra(res)),
+            ),
+        );
     }
 
     public upsert(entity: T, params?: QueryParams): Observable<HttpResponse<T>> {
@@ -56,6 +64,17 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
 
     public handle<T>(obs: Observable<T>): Observable<T> {
         return this.loadingHandle(obs);
+    }
+
+    protected extractExtra(res: HttpResponse<any>): HttpResponse<T[] & Extra> {
+        const extra = {
+            pageIndex: 0,
+            pageSize: res.body?.length || 0,
+            total: res.body?.length || 0,
+        } as Extra;
+        const items = res.body;
+        const body = Object.assign(items, extra);
+        return res.clone({ body });
     }
 
     private loadingHandle<T>(obs: Observable<T>): Observable<T> {
