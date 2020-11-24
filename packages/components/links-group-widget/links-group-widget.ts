@@ -1,20 +1,21 @@
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnDestroy, OnInit, Type } from '@angular/core';
+import { Component, Input, NgModule, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { IWidget } from '@xm-ngx/dynamic';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
-interface Config {
-    list: {
-        privileges: string | string[];
-        title: Translate;
-        routerLink: string[] | string;
-    }[];
+
+export interface LinksGroupWidgetConfigItem {
+    privileges: string | string[];
+    title: Translate;
+    routerLink: string[] | string;
+}
+
+export interface LinksGroupWidgetConfig {
+    list: LinksGroupWidgetConfigItem[];
 }
 
 @Component({
@@ -41,37 +42,15 @@ interface Config {
     `,
     styleUrls: ['./links-group-widget.component.scss'],
 })
-export class LinksGroupWidgetComponent implements OnInit, OnDestroy {
+export class LinksGroupWidget {
     @Input()
-    public config: Config;
-
-    public isMobile: boolean = false;
-
-    constructor(private breakpointObserver: BreakpointObserver) {
-    }
-
-    public ngOnInit(): void {
-        this.breakpointObserver.observe([
-            Breakpoints.XSmall,
-            Breakpoints.Small,
-            Breakpoints.Medium,
-            Breakpoints.Large,
-            Breakpoints.XLarge,
-        ]).pipe(takeUntilOnDestroy(this)).subscribe((state: BreakpointState) => {
-            this.isMobile = state.breakpoints[Breakpoints.XSmall]
-                || state.breakpoints[Breakpoints.Small];
-        });
-    }
-
-    public ngOnDestroy(): void {
-        takeUntilOnDestroyDestroy(this);
-    }
+    public config: LinksGroupWidgetConfig;
 }
 
 @NgModule({
-    declarations: [LinksGroupWidgetComponent],
-    entryComponents: [LinksGroupWidgetComponent],
-    exports: [LinksGroupWidgetComponent],
+    declarations: [LinksGroupWidget],
+    entryComponents: [LinksGroupWidget],
+    exports: [LinksGroupWidget],
     imports: [
         CommonModule,
         RouterModule,
@@ -82,5 +61,5 @@ export class LinksGroupWidgetComponent implements OnInit, OnDestroy {
     ],
 })
 export class LinksGroupWidgetModule {
-    public entry: Type<IWidget> = LinksGroupWidgetComponent;
+    public entry: Type<IWidget> = LinksGroupWidget;
 }
