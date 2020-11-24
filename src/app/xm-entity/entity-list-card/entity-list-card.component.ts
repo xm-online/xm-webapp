@@ -21,7 +21,6 @@ import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 import { ActionOptions, EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
-import { Location } from '@angular/common';
 
 declare let swal: any;
 
@@ -64,7 +63,6 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 private contextService: ContextService,
                 public principal: Principal,
                 private activatedRoute: ActivatedRoute,
-                private location: Location,
     ) {
         this.entitiesPerPage = ITEMS_PER_PAGE;
         this.firstPage = 1;
@@ -73,10 +71,6 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.isShowFilterArea = false;
 
         if (this.useQueryParams) {
-            this.location.subscribe(data => {
-                this.router.navigate([data.url]);
-            });
-
             this.activatedRoute.queryParams.subscribe((params: Params) => {
                 if (Object.keys(params).length > 0 && params.page && params.size && params.sort) {
                     this.queryParams = { ...params };
@@ -107,7 +101,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             this.activatedRoute.queryParams.subscribe((params: Params) => {
                 if (Object.keys(this.queryParams).length > 0 && Object.keys(params).length === 0) {
                     this.queryParams = {};
-                    this.onApplyFilter(this.list[this.activeItemId], {});
+                    this.load();
                 }
             })
         }
@@ -130,8 +124,17 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.options && !_.isEqual(changes.options.previousValue, changes.options.currentValue)) {
             this.getCurrentEntitiesConfig();
-            this.predicate = 'id';
-            this.reverse = false;
+
+            if (this.useQueryParams && this.queryParams.sort) {
+                const [fieldName, direction] = this.queryParams.sort.split(',');
+
+                this.predicate = fieldName || 'id';
+                this.reverse = direction ? direction === 'asc' : false;
+            } else {
+                this.predicate = 'id';
+                this.reverse = false;
+            }
+
             this.load();
         }
     }
@@ -222,9 +225,8 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (this.useQueryParams) {
-            if (data.state) {
-                data.state = Array.isArray(data.state) ? data.state : [data.state];
-            }
+            this.normalizeFilterData(entityOptions, data);
+
             entityOptions.filterJsfAttributes.data = data;
 
             if (byUser) {
@@ -237,6 +239,20 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.loadEntities(entityOptions).subscribe((resp) => this.list[this.activeItemId].entities = resp);
+    }
+
+    private normalizeFilterData(entityOptions: EntityOptions, data: any) {
+        if (!entityOptions.filterJsfAttributes) {
+            return;
+        }
+
+        // todo: make it recursive
+        const filterProperties = entityOptions.filterJsfAttributes.schema.properties;
+        for (const key in filterProperties) {
+            if (filterProperties.hasOwnProperty(key) && filterProperties[key].type === 'array' && data[key]) {
+                data[key] = Array.isArray(data[key]) ? data[key] : [data[key]];
+            }
+        }
     }
 
     public onAction(entityOptions: EntityOptions, xmEntity: XmEntity, action: ActionOptions): NgbModalRef | null {
