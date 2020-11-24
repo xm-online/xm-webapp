@@ -37,6 +37,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     @Input() public searchTemplateParams: any;
 
     public isShowFilterArea: boolean;
+    private useQueryParams: boolean = true;
     public list: EntityOptions[];
     public activeItemId: number;
     public entitiesPerPage: any;
@@ -71,16 +72,18 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.predicate = 'id';
         this.isShowFilterArea = false;
 
-        this.location.subscribe(data => {
-            this.router.navigate([data.url]);
-        })
+        if (this.useQueryParams) {
+            this.location.subscribe(data => {
+                this.router.navigate([data.url]);
+            });
 
-        this.activatedRoute.queryParams.subscribe((params: Params) => {
-            if (Object.keys(params).length > 0) {
-                this.queryParams = { ...params };
-                this.onApplyFilter(this.list[this.activeItemId], params);
-            }
-        })
+            this.activatedRoute.queryParams.subscribe((params: Params) => {
+                if (Object.keys(params).length > 0 && params.page && params.size && params.sort) {
+                    this.queryParams = { ...params };
+                    this.onApplyFilter(this.list[this.activeItemId], params);
+                }
+            });
+        }
     }
 
     public ngOnInit(): void {
@@ -94,16 +97,20 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 () => {
                     this.load();
                 });
+
         if (this.options) {
-            this.isShowFilterArea = !!this.options.isShowFilterArea;
+            this.isShowFilterArea = Boolean(this.options.isShowFilterArea);
+            this.useQueryParams = Boolean(this.options.useQueryParams);
         }
 
-        this.activatedRoute.queryParams.subscribe((params: Params) => {
-            if (Object.keys(this.queryParams).length > 0 && Object.keys(params).length === 0) {
-                this.queryParams = {};
-                this.onApplyFilter(this.list[this.activeItemId], {});
-            }
-        })
+        if (this.useQueryParams) {
+            this.activatedRoute.queryParams.subscribe((params: Params) => {
+                if (Object.keys(this.queryParams).length > 0 && Object.keys(params).length === 0) {
+                    this.queryParams = {};
+                    this.onApplyFilter(this.list[this.activeItemId], {});
+                }
+            })
+        }
     }
 
     public isHideAll(typeKey: string): boolean {
@@ -214,15 +221,19 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             entityOptions.currentQuery = funcValue;
         }
 
-        if (data.state) {
-            data.state = Array.isArray(data.state) ? data.state : [data.state];
-        }
-        entityOptions.filterJsfAttributes.data = data;
+        if (this.useQueryParams) {
+            if (data.state) {
+                data.state = Array.isArray(data.state) ? data.state : [data.state];
+            }
+            entityOptions.filterJsfAttributes.data = data;
 
-        if (byUser) {
-            entityOptions.page = this.firstPage;
+            if (byUser) {
+                entityOptions.page = this.firstPage;
+            } else {
+                entityOptions.page = this.queryParams.page || this.firstPage;
+            }
         } else {
-            entityOptions.page = this.queryParams.page || this.firstPage;
+            entityOptions.page = this.firstPage;
         }
 
         this.loadEntities(entityOptions).subscribe((resp) => this.list[this.activeItemId].entities = resp);
@@ -339,8 +350,13 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 if (activeItem.query) {
                     activeItem.currentQuery = activeItem.query;
                 }
-                if (Object.keys(this.queryParams).length > 0) {
-                    this.onApplyFilter(activeItem, this.queryParams);
+
+                if (this.useQueryParams) {
+                    if (Object.keys(this.queryParams).length > 0) {
+                        this.onApplyFilter(activeItem, this.queryParams);
+                    } else {
+                        this.loadEntities(activeItem).subscribe((resp) => activeItem.entities = resp);
+                    }
                 } else {
                     this.loadEntities(activeItem).subscribe((resp) => activeItem.entities = resp);
                 }
@@ -420,18 +436,19 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             finalize(() => {
                 this.showLoader = false;
 
-                const params = {
-                    ...entityOptions.filterJsfAttributes.data,
-                    ...options,
-                    page: options.page + 1,
-                };
+                if (this.useQueryParams) {
+                    const params = {
+                        ...entityOptions.filterJsfAttributes.data,
+                        ...options,
+                        page: options.page + 1,
+                    };
 
-                delete params.query;
-                delete params.sort;
-                this.router.navigate([], {
-                    queryParams: params,
-                    relativeTo: this.activatedRoute,
-                });
+                    delete params.query;
+                    this.router.navigate([], {
+                        queryParams: params,
+                        relativeTo: this.activatedRoute,
+                    });
+                }
             }));
     }
 

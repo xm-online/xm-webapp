@@ -10,6 +10,7 @@ export interface EntityListCardOptions {
     hideOptionsMenu?: boolean;
     noDeepLink?: boolean;
     isShowFilterArea?: boolean;
+    useQueryParams?: boolean;
 }
 
 export interface EntityOptions {
