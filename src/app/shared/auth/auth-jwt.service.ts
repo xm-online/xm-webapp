@@ -98,13 +98,19 @@ export class AuthServerProvider {
         );
     }
 
-    public loginWithToken(jwt: string, rememberMe: boolean, refreshToken?: string): Promise<never> | Promise<unknown> {
+    public loginWithToken(jwt: string, rememberMe: boolean, refreshToken?: string, expiresIn?: number): Promise<never> | Promise<unknown> {
         this.$sessionStorage.clear(WIDGET_DATA);
         if (jwt) {
             this.storeAuthenticationToken(jwt, rememberMe);
+
             if (refreshToken) {
                 this.storeRefreshToken(refreshToken, rememberMe);
             }
+
+            if (expiresIn) {
+                this.refreshTokenService.setExpirationTime(new Date().setSeconds(expiresIn));
+            }
+
             return Promise.resolve(jwt);
         } else {
             // eslint-disable-next-line prefer-promise-reject-errors
@@ -240,10 +246,10 @@ export class AuthServerProvider {
         }));
     }
 
-    private setAutoRefreshTokens(rememberMe: boolean): void {
+    private setAutoRefreshTokens(rememberMe: boolean, expiresIn: number = null): void {
         if (this.getRefreshToken()) {
             this.sessionService.create();
-            this.refreshTokenService.start(null, () => {
+            this.refreshTokenService.start(expiresIn, () => {
                 if (this.getRefreshToken()) {
                     this.refreshTokens(rememberMe);
                 }
