@@ -1,6 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -36,6 +36,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     @Input() public searchTemplateParams: any;
 
     public isShowFilterArea: boolean;
+    private useQueryParams: boolean;
     public list: EntityOptions[];
     public activeItemId: number;
     public entitiesPerPage: any;
@@ -59,12 +60,15 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 private i18nNamePipe: I18nNamePipe,
                 private router: Router,
                 private contextService: ContextService,
-                public principal: Principal) {
+                public principal: Principal,
+                private activatedRoute: ActivatedRoute,
+    ) {
         this.entitiesPerPage = ITEMS_PER_PAGE;
         this.firstPage = 1;
         this.activeItemId = 0;
         this.predicate = 'id';
         this.isShowFilterArea = false;
+        this.useQueryParams = false;
     }
 
     public ngOnInit(): void {
@@ -79,7 +83,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                     this.load();
                 });
         if (this.options) {
-            this.isShowFilterArea = !!this.options.isShowFilterArea;
+            this.isShowFilterArea = Boolean(this.options.isShowFilterArea);
         }
     }
 
@@ -100,9 +104,16 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.options && !_.isEqual(changes.options.previousValue, changes.options.currentValue)) {
             this.getCurrentEntitiesConfig();
+            this.useQueryParams = Boolean(changes.options.currentValue.useQueryParams);
             this.predicate = 'id';
             this.reverse = false;
-            this.load();
+
+            if (this.useQueryParams) {
+                this.setQueryParamsSort();
+                this.loadWithParams();
+            } else {
+                this.load();
+            }
         }
     }
 
@@ -117,6 +128,17 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.loadEntities(this.list[this.activeItemId]).subscribe((result) => {
             this.list[this.activeItemId].entities = result;
         });
+    }
+
+    private setQueryParamsSort(): void {
+        const sortString = this.getQueryParam('sort');
+
+        if (sortString) {
+            const [predicate, reverse] = sortString.split(',');
+
+            this.predicate = predicate || this.predicate;
+            this.reverse = reverse ? (reverse === 'asc') : this.reverse;
+        }
     }
 
     public filtersReset(activeList: any): void {
@@ -140,12 +162,27 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public transition(): void {
-        this.load();
+        if (this.useQueryParams) {
+            this.loadWithParams({
+               sort: `${this.predicate},${this.reverse ? 'asc' : 'desc'}`,
+            });
+        } else {
+            this.load();
+        }
     }
 
     public onLoadPage(event: any,  entityOptions: EntityOptions): void {
         entityOptions.page = event;
-        this.loadEntities(entityOptions).subscribe((result) => entityOptions.entities = result);
+
+        this.loadEntities(entityOptions)
+            .pipe(
+                finalize(() => {
+                    if (this.useQueryParams) {
+                        this.changeQueryParams(null, 'page', event);
+                    }
+                }),
+            )
+            .subscribe((result) => entityOptions.entities = result);
     }
 
     public onNavigate(entityOptions: EntityOptions, xmEntity: XmEntity): void {
@@ -177,7 +214,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.loadEntities(entityOptions).subscribe((result) => entityOptions.entities = result);
     }
 
-    public onApplyFilter(entityOptions: EntityOptions, data: any): void {
+    public onApplyFilter(entityOptions: EntityOptions, data: any, submitted?: boolean): void {
         const copy = Object.assign({}, entityOptions);
         let funcValue;
         try {
@@ -190,8 +227,41 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         if (entityOptions.overrideCurrentQuery) {
             entityOptions.currentQuery = funcValue;
         }
-        entityOptions.page = this.firstPage;
-        this.loadEntities(entityOptions).subscribe((resp) => this.list[this.activeItemId].entities = resp);
+
+        if (this.useQueryParams) {
+            this.normalizeFilterData(entityOptions, data);
+
+            entityOptions.filterJsfAttributes = buildJsfAttributes(
+                entityOptions.filter.dataSpec,
+                entityOptions.filter.dataForm,
+            );
+            entityOptions.filterJsfAttributes.data = data;
+            entityOptions.page = data.page || this.firstPage;
+        } else {
+            entityOptions.page = this.firstPage;
+        }
+
+        this.loadEntities(entityOptions).subscribe((resp) => {
+            this.list[this.activeItemId].entities = resp;
+
+            if (this.useQueryParams) {
+                this.navigateByParams({ ...data, page: entityOptions.page }, submitted);
+            }
+        });
+    }
+
+    private normalizeFilterData(entityOptions: EntityOptions, data: any) {
+        if (!entityOptions.filterJsfAttributes) {
+            return;
+        }
+
+        // todo: make it recursive
+        const filterProperties = entityOptions.filterJsfAttributes.schema.properties;
+        for (const key in filterProperties) {
+            if (filterProperties.hasOwnProperty(key) && filterProperties[key].type === 'array' && data[key]) {
+                data[key] = Array.isArray(data[key]) ? data[key] : [data[key]];
+            }
+        }
     }
 
     public onAction(entityOptions: EntityOptions, xmEntity: XmEntity, action: ActionOptions): NgbModalRef | null {
@@ -275,25 +345,30 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
+    private buildList(): void {
+        this.list = this.options.entities.map((e: any) => {
+            e.page = this.firstPage;
+            e.xmEntitySpec = this.spec.types.filter((t) => t.key === e.typeKey).shift();
+            e.currentQuery = e.currentQuery ? e.currentQuery : this.getDefaultSearch(e);
+            if (e.filter) {
+                e.filterJsfAttributes = buildJsfAttributes(e.filter.dataSpec, e.filter.dataForm);
+            }
+            if (e.fields) { // Workaroud: server sorting doesn't work atm for nested "data" fields
+                e.fields
+                    .filter((f) => f.field && f.field.indexOf('data.') === 0)
+                    .map((f) => f.sortable = false);
+            }
+            return e;
+        });
+    }
+
     // tslint:disable-next-line:cognitive-complexity
-    private load(): void {
+    private load(setDefaultParams?: boolean, queryParams?: Params, buildList: boolean = true): void {
         // TODO: move processing of options.entities to onChange hook.
         //  Will options ever change after component initialization?
         if (this.options.entities) {
-            this.list = this.options.entities.map((e: any) => {
-                e.page = this.firstPage;
-                e.xmEntitySpec = this.spec.types.filter((t) => t.key === e.typeKey).shift();
-                e.currentQuery = e.currentQuery ? e.currentQuery : this.getDefaultSearch(e);
-                if (e.filter) {
-                    e.filterJsfAttributes = buildJsfAttributes(e.filter.dataSpec, e.filter.dataForm);
-                }
-                if (e.fields) { // Workaroud: server sorting doesn't work atm for nested "data" fields
-                    e.fields
-                        .filter((f) => f.field && f.field.indexOf('data.') === 0)
-                        .map((f) => f.sortable = false);
-                }
-                return e;
-            });
+            buildList && this.buildList();
+
             if (!this.list.length) {
                 return;
             }
@@ -305,7 +380,18 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 if (activeItem.query) {
                     activeItem.currentQuery = activeItem.query;
                 }
-                this.loadEntities(activeItem).subscribe((resp) => activeItem.entities = resp);
+                this.loadEntities(activeItem, setDefaultParams, queryParams)
+                    .subscribe((resp) => {
+                        activeItem.entities = resp;
+
+                        if (queryParams) {
+                            const { sort, page, size, ...filters } = queryParams;
+
+                            if (Object.keys(filters).length > 0) {
+                                this.onApplyFilter(activeItem, { ...filters, page, sort, size });
+                            }
+                        }
+                    });
             }
         }
     }
@@ -360,9 +446,65 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         throw new Error('No spec found');
     }
 
-    private loadEntities(entityOptions: EntityOptions): Observable<XmEntity[]> {
+    private loadWithParams(params?: Params): void {
+        if (window.location.search.length === 0) {
+            this.load(true);
+        } else {
+            this.buildList();
+            this.load(false, this.buildParams(params), false);
+        }
+    }
+
+    private getQueryParam(name: string): string | null {
+        const searchParams = (new URL(window.location.href)).searchParams;
+
+        return searchParams.get(name);
+    }
+
+
+    private buildParams(newParams?: Params, fromSubmit?: boolean): Params {
+        const searchParams = (new URL(window.location.href)).searchParams;
+        const properties = this.list[this.activeItemId].filterJsfAttributes.schema.properties;
+        const params: { [index: string]: any } = {};
+
+        params.size = searchParams.get('size');
+        params.page = searchParams.get('page');
+        params.sort = searchParams.get('sort');
+
+        for (const key in properties) {
+            if (properties[key].type === 'array') {
+                const activeFilter = searchParams.getAll(key);
+                if (activeFilter.length) {
+                    params[key] = activeFilter;
+                }
+            } else {
+                const activeFilter = searchParams.get(key);
+                if (activeFilter) {
+                    params[key] = activeFilter;
+                }
+            }
+        }
+
+        if (newParams && Object.keys(newParams).length > 0) {
+            if (fromSubmit) {
+                for (const key in params) {
+                    if (params[key] && !newParams[key] && !(['sort', 'page', 'size'].includes(key))) {
+                        delete params[key];
+                    }
+                }
+            }
+
+            for (const key in newParams) {
+                params[key] = newParams[key];
+            }
+        }
+
+        return params;
+    }
+
+    private loadEntities(entityOptions: EntityOptions, setDefaultParams?: boolean, queryParams?: Params): Observable<XmEntity[]> {
         this.showLoader = true;
-        const {options, method}: any = this.getQueryOptions(entityOptions);
+        const { options, method }: any = this.getQueryOptions(entityOptions, queryParams);
 
         return this.xmEntityService[method](options).pipe(
             tap((xmEntities: HttpResponse<XmEntity[]>) => {
@@ -379,10 +521,56 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 this.showLoader = false;
                 return of([]);
             }),
-            finalize(() => this.showLoader = false));
+            finalize(() => {
+                this.showLoader = false;
+
+                setDefaultParams && this.changeQueryParams(entityOptions);
+
+                if (queryParams && queryParams.sort) {
+                    this.changeQueryParams(null, 'sort', queryParams.sort);
+                }
+            }));
     }
 
-    private getQueryOptions(entityOptions: EntityOptions): any {
+    private changeQueryParams(entityOptions?: EntityOptions | null, changedParamName?: string, changedParamValue?: any) {
+        if (entityOptions) {
+            const defaultParams = {
+                page: entityOptions.page,
+                sort: [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
+                size: this.entitiesPerPage,
+            };
+
+            this.navigateByParams(defaultParams);
+        } else if (changedParamName && changedParamValue) {
+            this.navigateByParams({
+                [changedParamName]: changedParamValue,
+            });
+        }
+    }
+
+    private navigateByParams(params: Params, fromSubmit?: boolean) {
+        const newParams = this.buildParams(params, fromSubmit);
+
+        this.router.navigate([], {
+            relativeTo: this.activatedRoute,
+            queryParams: {
+                ...newParams,
+            },
+        });
+    }
+
+    private getModifiedOptions(entityOptions: EntityOptions, queryParams: Params) {
+        const { page, size, sort } = queryParams;
+
+        return {
+            typeKey: entityOptions.typeKey,
+            page: page ? (page - 1) : (entityOptions.page - 1),
+            size: size || this.entitiesPerPage,
+            sort: sort ? [sort] : [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
+        }
+    }
+
+    private getQueryOptions(entityOptions: EntityOptions, queryParams?: Params): any {
         let options: any;
         let method = 'query';
 
@@ -395,17 +583,23 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             };
             method = 'searchByTemplate';
         } else {
-            options = {
-                typeKey: entityOptions.typeKey,
-                page: entityOptions.page - 1,
-                size: this.entitiesPerPage,
-                sort: [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
-            };
+            if (queryParams && Object.keys(queryParams).length > 0) {
+                options = this.getModifiedOptions(entityOptions, queryParams);
+            } else {
+                options = {
+                    typeKey: entityOptions.typeKey,
+                    page: entityOptions.page - 1,
+                    size: this.entitiesPerPage,
+                    sort: [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
+                };
+            }
+
             if (entityOptions.currentQuery) {
                 options.query = entityOptions.currentQuery;
                 method = 'search';
             }
         }
+
         return {options, method};
     }
 
