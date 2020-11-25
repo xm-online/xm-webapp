@@ -165,6 +165,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         if (this.useQueryParams) {
             this.loadWithParams({
                sort: `${this.predicate},${this.reverse ? 'asc' : 'desc'}`,
+               size: this.entitiesPerPage,
             });
         } else {
             this.load();
@@ -229,6 +230,10 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (this.useQueryParams) {
+            if (submitted) {
+                this.entitiesPerPage = ITEMS_PER_PAGE;
+            }
+
             this.normalizeFilterData(entityOptions, data);
 
             entityOptions.filterJsfAttributes = buildJsfAttributes(
@@ -245,7 +250,13 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
             this.list[this.activeItemId].entities = resp;
 
             if (this.useQueryParams) {
-                this.navigateByParams({ ...data, page: entityOptions.page }, submitted);
+                const submitData = { ...data, page: entityOptions.page };
+
+                if (submitted) {
+                    submitData.size = this.entitiesPerPage;
+                }
+
+                this.navigateByParams(submitData, submitted);
             }
         });
     }
@@ -561,6 +572,10 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 
     private getModifiedOptions(entityOptions: EntityOptions, queryParams: Params) {
         const { page, size, sort } = queryParams;
+
+        if (size) {
+            this.entitiesPerPage = Number(size);
+        }
 
         return {
             typeKey: entityOptions.typeKey,
