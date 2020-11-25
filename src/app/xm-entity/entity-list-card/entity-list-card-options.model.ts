@@ -10,6 +10,7 @@ export interface EntityListCardOptions {
     hideOptionsMenu?: boolean;
     noDeepLink?: boolean;
     isShowFilterArea?: boolean;
+    useQueryParams?: boolean;
 }
 
 export interface EntityOptions {
@@ -30,6 +31,7 @@ export interface EntityOptions {
     routerLink?: string[];
     filter?: FilterOptions;
     overrideCurrentQuery?: boolean;
+    filterJsfAttributes?: any;
 }
 
 export interface FieldOptions {
