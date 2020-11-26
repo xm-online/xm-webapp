@@ -55,6 +55,7 @@ export * from './components/xm-password-needed/xm-password-needed.component';
 export * from './components/xm-confirmation-dialog/xm-confirm-dialog.component';
 
 export * from './password-strength-bar/password-strength-bar.component';
+export * from './password-rules/password-rules.component';
 
 export * from './directives/word-autocomplete.directive';
 export * from './directives/focus.directive';
