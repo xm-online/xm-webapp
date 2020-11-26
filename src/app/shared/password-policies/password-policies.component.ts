@@ -9,7 +9,7 @@ export interface IPasswordPolicy {
 }
 
 @Component({
-    selector: 'xm-password-rules',
+    selector: 'xm-password-policies',
     templateUrl: './password-policies.component.html',
     styleUrls: ['./password-policies.component.scss'],
     viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
