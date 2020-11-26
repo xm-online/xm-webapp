@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { Principal } from '../../shared';
 import { XmConfigService } from '../../shared/spec/config.service';
@@ -26,6 +26,7 @@ export class PasswordComponent implements OnInit {
     public password: ChangePassword;
     public passwordSettings: PasswordSpec;
     public patternMessage: string;
+    public passwordConfig: any;
 
     constructor(
         private passwordService: Password,
@@ -67,6 +68,7 @@ export class PasswordComponent implements OnInit {
     }
 
     private makePasswordSettings(config?: any): void {
+        this.passwordConfig = config;
         this.passwordSettings = this.xmConfigService.mapPasswordSettings(config);
         if (this.passwordSettings.patternMessage) {
             this.patternMessage = this.xmConfigService.updatePatternMessage(this.passwordSettings.patternMessage);

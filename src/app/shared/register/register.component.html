@@ -207,6 +207,8 @@
     </div>
   </div>
 
+  <xm-password-policies [config]="passwordConfig" [password]="registerAccount.password"></xm-password-policies>
+
   <div class="text-right">
     <button type="submit"
             [disabled]="registerForm.form.invalid"

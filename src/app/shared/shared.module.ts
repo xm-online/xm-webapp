@@ -72,6 +72,7 @@ import { MultilingualInputComponent } from './jsf-extention/widgets/multilingual
 import { TextSectionComponent } from './jsf-extention/widgets/text-section/text-section.component';
 import { ValidationComponent } from './jsf-extention/widgets/validation-component/validation-component.component';
 import { PasswordStrengthBarComponent } from './password-strength-bar/password-strength-bar.component';
+import { PasswordPoliciesComponent } from './password-policies/password-policies.component';
 import { RoleService } from './role/role.service';
 import { GateSharedCommonModule } from './shared-common.module';
 import { GateSharedLibsModule } from './shared-libs.module';
@@ -118,6 +119,7 @@ const PIPES = [
         XmPrivilegeDirective,
         XmGMapApiInitDirective,
         PasswordStrengthBarComponent,
+        PasswordPoliciesComponent,
         XmPasswordNeededComponent,
         XmConfirmDialogComponent,
         CurrentLocationComponent,
@@ -143,6 +145,7 @@ const PIPES = [
         RegisterComponent,
         UserLoginFormComponent,
         PasswordStrengthBarComponent,
+        PasswordPoliciesComponent,
         CurrentLocationComponent,
         ExtSelectComponent,
         ExtAutocompleteComponent,
@@ -185,6 +188,7 @@ const PIPES = [
         PrivilegeService,
         ParseByPathService,
         PasswordStrengthBarComponent,
+        PasswordPoliciesComponent,
         XmConfigService,
         PIPES,
     ],
@@ -216,6 +220,7 @@ const PIPES = [
         XmPrivilegeDirective,
         XmGMapApiInitDirective,
         PasswordStrengthBarComponent,
+        PasswordPoliciesComponent,
         XmPasswordNeededComponent,
         XmConfirmDialogComponent,
         CurrentLocationComponent,
