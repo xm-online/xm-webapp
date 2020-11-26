@@ -62,7 +62,6 @@ export class PasswordPoliciesComponent implements OnChanges {
         this.passedPolicies = 0;
         this.policies = passwordPolicies.map(policy => {
             policy.passed = false;
-
             return policy;
         });
         this.showRules = true;

@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
     public socialConfig: [];
     public passwordSettings: PasswordSpec;
     public patternMessage: string;
-    public passwordPolicyConfig: any;
+    public passwordConfig: any;
 
     constructor(private jhiLanguageService: JhiLanguageService,
                 private xmConfigService: XmConfigService,
@@ -161,7 +161,7 @@ export class RegisterComponent implements OnInit {
     }
 
     private makePasswordSettings(config?: any): void {
-        this.passwordPolicyConfig = config;
+        this.passwordConfig = config;
         this.passwordSettings = this.xmConfigService.mapPasswordSettings(config);
         if (this.passwordSettings.patternMessage) {
             this.patternMessage = this.xmConfigService.updatePatternMessage(this.passwordSettings.patternMessage);
