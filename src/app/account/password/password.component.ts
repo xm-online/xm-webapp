@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { Principal } from '../../shared';
 import { XmConfigService } from '../../shared/spec/config.service';
@@ -27,14 +27,11 @@ export class PasswordComponent implements OnInit {
     public passwordSettings: PasswordSpec;
     public patternMessage: string;
     public passwordPolicyConfig: any;
-    public passwordPolicyRequired: boolean = false;
-    public passwordPolicyStatus: boolean | null;
 
     constructor(
         private passwordService: Password,
         private xmConfigService: XmConfigService,
         private principal: Principal,
-        private changeDetectorRef: ChangeDetectorRef,
     ) {
         this.password = new ChangePassword();
     }
@@ -70,18 +67,8 @@ export class PasswordComponent implements OnInit {
         }
     }
 
-    public setPasswordPolicyStatus(event: boolean): void {
-        this.passwordPolicyStatus = event || null;
-        this.changeDetectorRef.detectChanges();
-    }
-
     private makePasswordSettings(config?: any): void {
-        const { passwordPolicies, passwordPoliciesMinimalMatchCount } = JSON.parse(config);
-        if (passwordPolicies && passwordPoliciesMinimalMatchCount && passwordPolicies.length) {
-            this.passwordPolicyRequired = true;
-            this.passwordPolicyConfig = { passwordPolicies, passwordPoliciesMinimalMatchCount };
-        }
-
+        this.passwordPolicyConfig = config;
         this.passwordSettings = this.xmConfigService.mapPasswordSettings(config);
         if (this.passwordSettings.patternMessage) {
             this.patternMessage = this.xmConfigService.updatePatternMessage(this.passwordSettings.patternMessage);
