@@ -19,7 +19,7 @@ export class PasswordPoliciesComponent implements OnChanges {
     @Input() private config: any;
     @Input() private password: any;
 
-    public showRules: boolean;
+    public showPolicies: boolean;
     public policies: IPasswordPolicy[];
     public policiesRequired: number;
     public passedPolicies: number;
@@ -64,6 +64,6 @@ export class PasswordPoliciesComponent implements OnChanges {
             policy.passed = false;
             return policy;
         });
-        this.showRules = true;
+        this.showPolicies = true;
     }
 }
