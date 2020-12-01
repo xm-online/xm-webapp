@@ -37,6 +37,8 @@ export class XmRibbonComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        document.body.setAttribute('data-release', environment.release);
+
         combineLatest([
             this.serverEnv$.pipe(startWith(null)),
             this.uiConfigService.config$().pipe(startWith(null)),
