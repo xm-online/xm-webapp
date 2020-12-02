@@ -22,9 +22,9 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
 
 export interface ITextControlOptions {
-    title?: string;
+    title?: Translate;
     type?: string;
-    placeholder?: string;
+    placeholder?: Translate;
     pattern?: string;
     id?: string;
     name?: string;

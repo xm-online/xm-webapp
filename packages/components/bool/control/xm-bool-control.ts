@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
-import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
+import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { IComponentFn, IControl } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
@@ -41,12 +41,12 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
                 </mat-option>
 
             </mat-select>
-            <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
+            <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
         </mat-form-field>
     `,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmBoolControl extends NgControlAccessor<boolean> implements IControl<boolean, { title?: Translate }> {
+export class XmBoolControl extends NgFormAccessor<boolean> implements IControl<boolean, { title?: Translate }> {
     @Input() public options: { title?: string };
 }
 

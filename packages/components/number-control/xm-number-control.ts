@@ -24,8 +24,8 @@ import { defaults } from 'lodash';
 
 
 export interface INumberControlOptions {
-    title?: string;
-    placeholder?: string;
+    title?: Translate;
+    placeholder?: Translate;
     pattern?: string;
     id?: string;
     name?: string;
