@@ -76,7 +76,7 @@ export class NavbarComponent implements OnInit, DoCheck {
                 this.languages = (result && result.langs) ? result.langs : languages;
             });
             this.helpConfig = result.helpConfig || null;
-            this.applicationsConfig = result.applications.config;
+            this.applicationsConfig = result.applications && result.applications.config;
         });
 
         this.routeData = this.getRouteData(this.router.routerState.snapshot.root);
