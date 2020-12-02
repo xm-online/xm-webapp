@@ -95,7 +95,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 this.searchTemplateParams = { templateName: content.template, manually: true };
                 this.load(true, { query, typeKey });
             },
-        )
+        );
     }
 
     public isHideAll(typeKey: string): boolean {
