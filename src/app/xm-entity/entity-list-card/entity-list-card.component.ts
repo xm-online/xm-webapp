@@ -50,6 +50,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
 
     private entityListActionSuccessSubscription: Subscription;
     private entityEntityListModificationSubscription: Subscription;
+    private entityListLoadingByTemplate: Subscription;
 
     constructor(private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private xmEntityService: XmEntityService,
@@ -85,6 +86,16 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
         if (this.options) {
             this.isShowFilterArea = Boolean(this.options.isShowFilterArea);
         }
+
+        this.entityListLoadingByTemplate = this.eventManager.subscribe(
+            XM_EVENT_LIST.XM_LOAD_ENTITY_LIST_WITH_TEMPLATE,
+            ({ content }) => {
+                const { query, typeKey } = content;
+
+                this.searchTemplateParams = { templateName: content.template, manually: true };
+                this.load(true, { query, typeKey });
+            },
+        )
     }
 
     public isHideAll(typeKey: string): boolean {
@@ -120,6 +131,7 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
     public ngOnDestroy(): void {
         this.eventManager.destroy(this.entityListActionSuccessSubscription);
         this.eventManager.destroy(this.entityEntityListModificationSubscription);
+        this.eventManager.destroy(this.entityListLoadingByTemplate);
     }
 
     public onRefresh(): void {
@@ -596,6 +608,13 @@ export class EntityListCardComponent implements OnInit, OnChanges, OnDestroy {
                 'templateParams[size]': this.entitiesPerPage,
                 'templateParams[sort]': [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
             };
+
+            if (this.searchTemplateParams.manually) {
+                options['templateParams[query]'] = queryParams.query;
+                options['templateParams[typeKey]'] = queryParams.typeKey;
+                this.searchTemplateParams = null;
+            }
+
             method = 'searchByTemplate';
         } else {
             if (queryParams && Object.keys(queryParams).length > 0) {

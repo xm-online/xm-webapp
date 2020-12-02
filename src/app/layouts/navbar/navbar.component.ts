@@ -3,14 +3,14 @@ import { Component, DoCheck, ElementRef, OnInit, ViewChild } from '@angular/core
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { JhiLanguageService } from 'ng-jhipster';
+import { JhiEventManager, JhiLanguageService } from 'ng-jhipster';
 
 import { iif, Observable, of } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
 import { JhiLanguageHelper, Principal } from '../../shared';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { DashboardWrapperService } from '../../xm-dashboard';
-import { DEBUG_INFO_ENABLED, VERSION } from '../../xm.constants';
+import { DEBUG_INFO_ENABLED, VERSION, XM_EVENT_LIST } from '../../xm.constants';
 
 const misc = {
     sidebarMiniActive: false,
@@ -42,6 +42,7 @@ export class NavbarComponent implements OnInit, DoCheck {
     private toggleButton: any;
     private sidebarVisible: boolean;
     private searchFullMatch: boolean;
+    private applicationsConfig: any;
 
     constructor(private languageHelper: JhiLanguageHelper,
                 private jhiLanguageService: JhiLanguageService,
@@ -51,7 +52,8 @@ export class NavbarComponent implements OnInit, DoCheck {
                 private element: ElementRef,
                 private location: Location,
                 private xmConfigService: XmConfigService,
-                private dashboardWrapperService: DashboardWrapperService) {
+                private dashboardWrapperService: DashboardWrapperService,
+                private eventManager: JhiEventManager) {
         this.version = DEBUG_INFO_ENABLED ? 'v' + VERSION : '';
         this.registerPopState();
 
@@ -74,6 +76,7 @@ export class NavbarComponent implements OnInit, DoCheck {
                 this.languages = (result && result.langs) ? result.langs : languages;
             });
             this.helpConfig = result.helpConfig || null;
+            this.applicationsConfig = result.applications.config;
         });
 
         this.routeData = this.getRouteData(this.router.routerState.snapshot.root);
@@ -126,6 +129,32 @@ export class NavbarComponent implements OnInit, DoCheck {
     }
 
     public search(term: string): void {
+        const searchedByTemplate: boolean = this.searchByApplicationTemplate(term);
+
+        if (term && !searchedByTemplate) {
+            this.navigateToSearch(term);
+        }
+    }
+
+    private searchByApplicationTemplate(term: string): boolean {
+        let searchTemplateFound = false;
+
+        if (term && this.getApplicationTypeKey()) {
+            this.applicationsConfig.entities && this.applicationsConfig.entities.forEach(entity => {
+                if (entity.typeKey === this.getApplicationTypeKey() && entity.globalSearchTemplate) {
+                    searchTemplateFound = true;
+                    this.eventManager.broadcast({
+                        name: XM_EVENT_LIST.XM_LOAD_ENTITY_LIST_WITH_TEMPLATE,
+                        content: { query: term, typeKey: entity.typeKey, template: entity.globalSearchTemplate },
+                    });
+                }
+            });
+        }
+
+        return searchTemplateFound;
+    }
+
+    private navigateToSearch(term: string): void {
         if (term) {
             const searchQuery = this.searchFullMatch ? `"${term}"` : term;
             this.router.navigate(['/search'], {queryParams: {query: searchQuery, dashboardId: this.getDashboardId()}});
@@ -278,6 +307,14 @@ export class NavbarComponent implements OnInit, DoCheck {
 
     private translateOrEmpty(item: string): string {
         return item ? this.translateService.instant(item) : '';
+    }
+
+    private getApplicationTypeKey(): string {
+        if (this.location.path(false).includes('application')) {
+            const url = this.location.path(false).split('/');
+            return url[url.indexOf('application') + 1];
+        }
+        return null;
     }
 
     private getDashboardId(): number | string {
