@@ -5,4 +5,6 @@ export interface CalendarSpec extends BaseSpec {
     key?: string;
     name?: any;
     events?: EventSpec[];
+    timeZoneStrategy?: string;
+    timeZoneDataRef?: string;
 }
