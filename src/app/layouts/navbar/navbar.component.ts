@@ -11,6 +11,7 @@ import { JhiLanguageHelper, Principal } from '../../shared';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { DashboardWrapperService } from '../../xm-dashboard';
 import { DEBUG_INFO_ENABLED, VERSION, XM_EVENT_LIST } from '../../xm.constants';
+import { getApplicationTypeKey, getDashboardId } from '../../shared/helpers/entity-list-helper';
 
 const misc = {
     sidebarMiniActive: false,
@@ -85,7 +86,7 @@ export class NavbarComponent implements OnInit, DoCheck {
             if (event instanceof NavigationEnd) {
                 this.routeData = this.getRouteData(this.router.routerState.snapshot.root);
 
-                if (this.getDashboardId()) {
+                if (getDashboardId(this.location.path(false))) {
                     this.getSearchMask().pipe(
                         tap((mask) => this.searchMask = mask),
                     ).subscribe();
@@ -139,9 +140,9 @@ export class NavbarComponent implements OnInit, DoCheck {
     private searchByApplicationTemplate(term: string): boolean {
         let searchTemplateFound = false;
 
-        if (term && this.getApplicationTypeKey()) {
+        if (term && getApplicationTypeKey(this.location.path(false))) {
             this.applicationsConfig.entities && this.applicationsConfig.entities.forEach(entity => {
-                if (entity.typeKey === this.getApplicationTypeKey() && entity.globalSearchTemplate) {
+                if (entity.typeKey === getApplicationTypeKey(this.location.path(false)) && entity.globalSearchTemplate) {
                     searchTemplateFound = true;
                     this.eventManager.broadcast({
                         name: XM_EVENT_LIST.XM_LOAD_ENTITY_LIST_WITH_TEMPLATE,
@@ -157,7 +158,9 @@ export class NavbarComponent implements OnInit, DoCheck {
     private navigateToSearch(term: string): void {
         if (term) {
             const searchQuery = this.searchFullMatch ? `"${term}"` : term;
-            this.router.navigate(['/search'], {queryParams: {query: searchQuery, dashboardId: this.getDashboardId()}});
+            this.router.navigate(['/search'], {
+                queryParams: { query: searchQuery, dashboardId: getDashboardId(this.location.path(false)) },
+            });
         }
     }
 
@@ -253,7 +256,7 @@ export class NavbarComponent implements OnInit, DoCheck {
         const condition = (dash) => !!(dash && dash.config && dash.config.search && dash.config.search.mask);
         const expr = (dash) => of((dash && dash.config && dash.config.search && dash.config.search.mask));
         const f$ = of('');
-        return this.dashboardWrapperService.getDashboardByIdOrSlug(this.getDashboardId())
+        return this.dashboardWrapperService.getDashboardByIdOrSlug(getDashboardId(this.location.path(false)))
             .pipe(
                 // get 1 or '' depending from condition
                 mergeMap((dashboard) => iif(() => condition(dashboard), expr(dashboard), f$)),
@@ -307,21 +310,5 @@ export class NavbarComponent implements OnInit, DoCheck {
 
     private translateOrEmpty(item: string): string {
         return item ? this.translateService.instant(item) : '';
-    }
-
-    private getApplicationTypeKey(): string {
-        if (this.location.path(false).includes('application')) {
-            const url = this.location.path(false).split('/');
-            return url[url.indexOf('application') + 1];
-        }
-        return null;
-    }
-
-    private getDashboardId(): number | string {
-        if (this.location.path(false).includes('dashboard')) {
-            const url = this.location.path(false).split('/');
-            return url[url.indexOf('dashboard') + 1];
-        }
-        return null;
     }
 }
