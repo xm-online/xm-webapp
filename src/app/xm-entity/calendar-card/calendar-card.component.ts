@@ -20,8 +20,23 @@ import { XmEntityService } from '../shared/xm-entity.service';
 import { LanguageService } from '../../modules/xm-translation/language.service';
 import { EntityCalendarUiConfig, EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
 
+// import { CalendarOptions, EventInput } from '@fullcalendar/angular';
+
 declare const $: any;
 declare const swal: any;
+
+// const INITIAL_EVENTS: EventInput[] = [
+//     {
+//         id: '1',
+//         title: 'All-day event',
+//         start: new Date().toISOString().replace(/T.*$/, ''),
+//     },
+//     {
+//         id: '2',
+//         title: 'Timed event',
+//         start: new Date().toISOString().replace(/T.*$/, '') + 'T12:00:00',
+//     },
+// ];
 
 export const DEFAULT_CALENDAR_EVENT_FETCH_SIZE = 50;
 
@@ -40,6 +55,21 @@ export class CalendarCardComponent implements OnChanges {
     public calendars: Calendar[] = [];
     public calendarElements: any = {};
     private calendarConfig: EntityCalendarUiConfig[] = [];
+
+    // public calendarOptions: CalendarOptions = {
+    //     headerToolbar: {
+    //         left: 'prev,next today',
+    //         center: 'title',
+    //         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+    //     },
+    //     initialView: 'dayGridMonth',
+    //     initialEvents: INITIAL_EVENTS,
+    //     weekends: true,
+    //     editable: true,
+    //     selectable: true,
+    //     selectMirror: true,
+    //     dayMaxEvents: true,
+    // };
 
     constructor(private xmEntityService: XmEntityService,
                 private xmConfigService: XmConfigService,

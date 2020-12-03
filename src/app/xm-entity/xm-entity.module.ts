@@ -70,7 +70,7 @@ import {
 } from './';
 import { AttachmentListBaseComponent } from './attachment-list/attachment-list-base.component';
 import { AttachmentListSimplifiedComponent } from './attachment-list/attachment-list-simplified.component';
-
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 
 @NgModule({
@@ -91,6 +91,7 @@ import { StateChangeDialogComponent } from './state-change-dialog/state-change-d
         ImageCropperModule,
         RatingModule,
         TagInputModule,
+        FullCalendarModule,
     ],
     declarations: [
         AreaComponent,
