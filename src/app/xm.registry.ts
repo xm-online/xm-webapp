@@ -1,8 +1,10 @@
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/date';
+import { XM_HTML_ELEMENTS } from '@xm-ngx/components/html';
 import { DynamicComponents } from '@xm-ngx/dynamic';
 
 export const XM_ELEMENTS: DynamicComponents = [
     ...XM_DATE_ELEMENTS,
+    ...XM_HTML_ELEMENTS,
     {
         selector: '@xm-ngx/administration/audits',
         loadChildren: () => import('@xm-ngx/administration/audits').then(m => m.AuditsModule),
@@ -102,10 +104,6 @@ export const XM_ELEMENTS: DynamicComponents = [
     {
         selector: '@xm-ngx/components/xm-ribbon',
         loadChildren: () => import('@xm-ngx/components/xm-ribbon').then(m => m.XmRibbonModule),
-    },
-    {
-        selector: '@xm-ngx/components/innerHTML',
-        loadChildren: () => import('@xm-ngx/components/xm-inner-html-widget').then(m => m.InnerHTMLModule),
     },
     {
         selector: '@xm-ngx/components/mat-fab',
