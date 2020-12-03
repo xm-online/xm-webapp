@@ -108,7 +108,7 @@ export class AuthServerProvider {
             }
 
             if (expiresIn) {
-                this.refreshTokenService.setExpirationTime(new Date().setSeconds(expiresIn));
+                this.refreshTokenService.setExpirationTime(new Date().setSeconds(expiresIn), rememberMe);
             }
 
             return Promise.resolve(jwt);

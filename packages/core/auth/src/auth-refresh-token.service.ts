@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { LocalStorageService } from 'ngx-webstorage';
+import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 
 export const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
 export const DEFAULT_TIMEOUT = Math.pow(2, 31) - 1;
@@ -12,15 +12,21 @@ export class AuthRefreshTokenService implements OnDestroy {
 
     constructor(
         private localStorage: LocalStorageService,
+        private sessionStorage: SessionStorageService,
     ) {
     }
 
     public getExpirationTime(): number | null {
-        return this.localStorage.retrieve(EXPIRES_DATE_FIELD) || null;
+        return this.sessionStorage.retrieve(EXPIRES_DATE_FIELD)
+            || this.localStorage.retrieve(EXPIRES_DATE_FIELD)
+            || null;
     }
 
-    public setExpirationTime(expirationTime: number): void {
-        this.localStorage.store(EXPIRES_DATE_FIELD, expirationTime);
+    public setExpirationTime(expirationTime: number, rememberMe: boolean = false): void {
+        if (rememberMe) {
+            this.localStorage.store(EXPIRES_DATE_FIELD, expirationTime);
+        }
+        this.sessionStorage.store(EXPIRES_DATE_FIELD, expirationTime);
     }
 
     public start(expiresIn: number | null, callback: () => void): void {
@@ -42,8 +48,15 @@ export class AuthRefreshTokenService implements OnDestroy {
         }
     }
 
+    public isExpired(): boolean {
+        const expirationTime = this.getExpirationTime();
+        const currentDate = new Date().setSeconds(0);
+        return currentDate > expirationTime;
+    }
+
     public clear(): void {
         clearTimeout(this.updateTokenTimer);
+        this.sessionStorage.clear(EXPIRES_DATE_FIELD);
         this.localStorage.clear(EXPIRES_DATE_FIELD);
     }
 
