@@ -1,10 +1,12 @@
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/date';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/html';
+import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/xm-text-view';
 import { DynamicComponents } from '@xm-ngx/dynamic';
 
 export const XM_ELEMENTS: DynamicComponents = [
     ...XM_DATE_ELEMENTS,
     ...XM_HTML_ELEMENTS,
+    ...XM_TEXT_ELEMENTS,
     {
         selector: '@xm-ngx/administration/audits',
         loadChildren: () => import('@xm-ngx/administration/audits').then(m => m.AuditsModule),
@@ -144,18 +146,6 @@ export const XM_ELEMENTS: DynamicComponents = [
     {
         selector: '@xm-ngx/components/xm-enum-control',
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlModule),
-    },
-    {
-        selector: '@xm-ngx/components/text-value',
-        loadChildren: () => import('@xm-ngx/components/xm-text-view').then(m => m.TextValueModule),
-    },
-    {
-        selector: '@xm-ngx/components/text-join-value',
-        loadChildren: () => import('@xm-ngx/components/xm-text-view').then(m => m.TextJoinValueModule),
-    },
-    {
-        selector: '@xm-ngx/components/xm-text-view',
-        loadChildren: () => import('@xm-ngx/components/xm-text-view').then(m => m.XmTextViewModule),
     },
     {
         selector: '@xm-ngx/components/xm-text-control',
