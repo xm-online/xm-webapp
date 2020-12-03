@@ -21,7 +21,7 @@ export interface EnumControlOptions {
 
 export interface EnumOption {
     title: Translate;
-    value: string;
+    value?: string;
     icon?: string;
     permissions?: string[];
 }

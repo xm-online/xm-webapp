@@ -5,7 +5,7 @@ import { NgControlAccessor } from './ng-control-accessor';
 
 @Directive()
 export abstract class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, OnChanges, OnDestroy {
-    public control: FormControl = new FormControl();
+    @Input() public control: FormControl = new FormControl();
     private valueSubscription: Subscription;
 
     public get value(): T {
