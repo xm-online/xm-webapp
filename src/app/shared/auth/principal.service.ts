@@ -7,16 +7,15 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { LanguageService } from '@xm-ngx/translation';
 
 import * as moment from 'moment';
-import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { Observable, Subject } from 'rxjs';
 import { shareReplay, takeUntil } from 'rxjs/operators';
+import { AuthRefreshTokenService } from '../../../../packages/core/auth';
 import { XmEntity } from '../../xm-entity';
 
 import { AccountService } from './account.service';
 import { SUPER_ADMIN } from './auth.constants';
 
 const CACHE_SIZE = 1;
-const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
 
 
 @Injectable({ providedIn: 'root' })
@@ -30,11 +29,10 @@ export class Principal implements OnDestroy, OnInitialize {
 
     constructor(private account: AccountService,
                 private alertService: XmToasterService,
-                private $localStorage: LocalStorageService,
+                private authRefreshTokenService: AuthRefreshTokenService,
                 private sessionService: XmSessionService,
                 private userService: XmUserService,
                 private languageService: LanguageService,
-                private $sessionStorage: SessionStorageService,
     ) {
     }
 
@@ -56,6 +54,7 @@ export class Principal implements OnDestroy, OnInitialize {
     }
 
     public logout(): void {
+        this.authRefreshTokenService.clear();
         this.userIdentity = null;
         this.authenticated = false;
         this.authenticationState.next(this.userIdentity);
@@ -273,10 +272,7 @@ export class Principal implements OnDestroy, OnInitialize {
 
     private checkTokenAndForceIdentity(): void {
         /* This method forcing identity on page load when user has token but identity does not inits */
-        const tokeExDate = this.$localStorage.retrieve(EXPIRES_DATE_FIELD)
-            || this.$sessionStorage.retrieve(EXPIRES_DATE_FIELD);
-        const now = new Date();
-        if (tokeExDate > now) {
+        if (!this.authRefreshTokenService.isExpired()) {
             this.identity();
         }
     }
