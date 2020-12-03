@@ -71,6 +71,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
                 const uaaConfig = config && config.uaa;
                 this.socialConfig = uiConfig && uiConfig.social;
                 this.hideRememberMe = uiConfig.hideRememberMe ? uiConfig.hideRememberMe : false;
+                this.rememberMe = uiConfig.rememberMeActiveByDefault === true;
                 this.hideResetPasswordLink = uiConfig.hideResetPasswordLink ? uiConfig.hideResetPasswordLink : false;
                 this.checkTermsOfConditions = (uaaConfig && uaaConfig.isTermsOfConditionsEnabled) || false;
             });
