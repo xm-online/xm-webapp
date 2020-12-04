@@ -2,13 +2,12 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { JhiDateUtils } from 'ng-jhipster';
 import { switchMap, tap } from 'rxjs/operators';
 
 import { Principal } from '../../shared/auth/principal.service';
 import { XmConfigService } from '../../shared';
 import { I18nNamePipe } from '../../shared/language/i18n-name.pipe';
-import { DEBUG_INFO_ENABLED, DEFAULT_CALENDAR_VIEW, CALENDAR_VIEW } from '../../xm.constants';
+import { CALENDAR_VIEW, DEBUG_INFO_ENABLED, DEFAULT_CALENDAR_VIEW } from '../../xm.constants';
 import { CalendarEventDialogComponent } from '../calendar-event-dialog/calendar-event-dialog.component';
 import { CalendarSpec } from '../shared/calendar-spec.model';
 import { Calendar } from '../shared/calendar.model';
@@ -23,7 +22,8 @@ import { EntityCalendarUiConfig, EntityUiConfig } from '../../shared/spec/xm-ui-
 declare const $: any;
 declare const swal: any;
 
-export const DEFAULT_CALENDAR_EVENT_FETCH_SIZE = 50;
+// 2500 like in google calendar
+export const DEFAULT_CALENDAR_EVENT_FETCH_SIZE = 2500;
 
 @Component({
     selector: 'xm-calendar-card',
@@ -45,7 +45,6 @@ export class CalendarCardComponent implements OnChanges {
                 private xmConfigService: XmConfigService,
                 private calendarService: CalendarService,
                 private eventService: EventService,
-                private dateUtils: JhiDateUtils,
                 private i18nNamePipe: I18nNamePipe,
                 private translateService: TranslateService,
                 private languageService: LanguageService,
@@ -217,8 +216,8 @@ export class CalendarCardComponent implements OnChanges {
             },
             events: (start, end, timezone, callback) => {
                 this.calendarService.getEvents(calendar.id, {
-                    'dateFrom.eq': start.format('YYYY-MM-DD'),
-                    'dateTo.eq': end.format('YYYY-MM-DD'),
+                    'endDate.greaterThanOrEqual': `${start.subtract(1, 'd').format('YYYY-MM-DD')}T${start.format('HH:mm:ss')}Z`,
+                    'startDate.lessThanOrEqual': `${end.add(1, 'd').format('YYYY-MM-DD')}T${end.format('HH:mm:ss')}Z`,
                     'size': calendarConfig.queryPageSize ? calendarConfig.queryPageSize : DEFAULT_CALENDAR_EVENT_FETCH_SIZE
                 })
                     .subscribe(
@@ -237,8 +236,8 @@ export class CalendarCardComponent implements OnChanges {
         return {
             id: event.id,
             title: event.title + '\n (' + this.i18nNamePipe.transform(eventSpec.name, this.principal) + ')',
-            start: this.dateUtils.convertDateTimeFromServer(event.startDate),
-            end: this.dateUtils.convertDateTimeFromServer(event.endDate),
+            start: event.startDate,
+            end: event.endDate,
             description: event.description,
             color: eventSpec.color,
             originEvent: event,
