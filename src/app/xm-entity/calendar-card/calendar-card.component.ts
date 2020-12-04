@@ -18,8 +18,6 @@ import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 import { LanguageService } from '../../modules/xm-translation/language.service';
 import { EntityCalendarUiConfig, EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
-import momentTimezonePlugin from '@fullcalendar/moment-timezone';
-import dayGridPlugin from '@fullcalendar/daygrid';
 
 declare const $: any;
 declare const swal: any;
@@ -168,19 +166,12 @@ export class CalendarCardComponent implements OnChanges {
         const calendarConfig: EntityCalendarUiConfig = this.calendarConfig
             .find((el) => el.typeKey === calendar.typeKey) || {} as EntityCalendarUiConfig;
         this.calendarElements[calendar.typeKey] = $('#xm-calendar-' + calendar.id);
-        let timezone = 'local';
-        if (calendarSpec.timeZoneStrategy && calendarSpec.timeZoneStrategy.toLowerCase() == 'subject') {
-            this.xmEntity.data = this.xmEntity.data || {};
-            timezone = this.xmEntity.data[calendarSpec.timeZoneDataRef] || 'UTC';
-        }
         this.calendarElements[calendar.typeKey].fullCalendar({
             header: {
                 left: 'title',
                 center: 'month,agendaWeek,agendaDay,listDay,listWeek',
                 right: 'prev,next,today',
             },
-            plugins: [ momentTimezonePlugin, dayGridPlugin ],
-            timeZone: timezone,
             locale: this.languageService.getUserLocale(),
             defaultDate: new Date(),
             selectable: true,
@@ -225,8 +216,8 @@ export class CalendarCardComponent implements OnChanges {
             },
             events: (start, end, timezone, callback) => {
                 this.calendarService.getEvents(calendar.id, {
-                    'endDate.greaterThanOrEqual': `${start.format('YYYY-MM-DD')}T${start.format('HH:mm:ss')}Z`,
-                    'startDate.lessThanOrEqual': `${end.format('YYYY-MM-DD')}T${end.format('HH:mm:ss')}Z`,
+                    'endDate.greaterThanOrEqual': `${start.subtract(1, 'd').format('YYYY-MM-DD')}T${start.format('HH:mm:ss')}Z`,
+                    'startDate.lessThanOrEqual': `${end.add(1, 'd').format('YYYY-MM-DD')}T${end.format('HH:mm:ss')}Z`,
                     'size': calendarConfig.queryPageSize ? calendarConfig.queryPageSize : DEFAULT_CALENDAR_EVENT_FETCH_SIZE
                 })
                     .subscribe(
