@@ -1,0 +1,16 @@
+<full-calendar
+  [plugins]="calendarPlugins"
+  [header]="calendarOptions.header"
+  [defaultView]="calendarOptions.defaultView"
+  [views]="calendarOptions.views"
+  [events]="calendarOptions.events"
+  [buttonIcons]="calendarOptions.buttonIcons"
+  [locale]="calendarOptions.locale"
+  [defaultDate]="calendarOptions.defaultDate"
+  [selectable]="calendarOptions.selectable"
+  [editable]="calendarOptions.editable"
+  [eventLimit]="calendarOptions.eventLimit"
+  (select)="calendarOptions.select($event)"
+  (eventClick)="calendarOptions.eventClick($event)"
+  #calendar>
+</full-calendar>

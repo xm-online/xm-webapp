@@ -72,6 +72,7 @@ import { AttachmentListBaseComponent } from './attachment-list/attachment-list-b
 import { AttachmentListSimplifiedComponent } from './attachment-list/attachment-list-simplified.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
+import { CalendarViewComponent } from './calendar-card/calendar-view/calendar-view.component';
 
 @NgModule({
     imports: [
@@ -134,6 +135,7 @@ import { StateChangeDialogComponent } from './state-change-dialog/state-change-d
         StatesManagementDialogComponent,
         AttachmentListSimplifiedComponent,
         AttachmentListBaseComponent,
+        CalendarViewComponent,
     ],
     entryComponents: [
         StatesManagementDialogComponent,

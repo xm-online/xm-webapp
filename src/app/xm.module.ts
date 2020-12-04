@@ -1,18 +1,3 @@
-// import { FullCalendarModule } from '@fullcalendar/angular';
-// import dayGridPlugin from '@fullcalendar/daygrid';
-// import timeGridPlugin from '@fullcalendar/timegrid';
-// import listPlugin from '@fullcalendar/list';
-// import interactionPlugin from '@fullcalendar/interaction';
-// import momentTimezonePlugin from '@fullcalendar/moment-timezone';
-
-// FullCalendarModule.registerPlugins([
-//     dayGridPlugin,
-//     timeGridPlugin,
-//     listPlugin,
-//     interactionPlugin,
-//     momentTimezonePlugin,
-// ]);
-
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';

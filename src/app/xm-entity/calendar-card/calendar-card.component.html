@@ -17,14 +17,20 @@
       </div>
     </div>
 
+    <!--  HERE NEW CALENDAR  -->
+    <div *ngFor="let calendar of calendars">
+      <xm-calendar-view
+        [calendar]="calendar"
+        [config]="getCalendarConfig(calendar)"
+        [spec]="getCalendarSpec(calendar)"
+        [xmEntity]="xmEntity">
+      </xm-calendar-view>
+    </div>
+
+    <!--  HERE OLD CALENDAR  -->
     <div *ngFor="let calendar of calendars"
          [hidden]="calendar.id != currentCalendar.id"
          [id]="'xm-calendar-' + calendar.id">
     </div>
-<!--    <full-calendar-->
-<!--      *ngIf="true"-->
-<!--      [options]="calendarOptions">-->
-
-<!--    </full-calendar>-->
   </div>
 </div>

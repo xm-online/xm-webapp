@@ -20,25 +20,12 @@ import { XmEntityService } from '../shared/xm-entity.service';
 import { LanguageService } from '../../modules/xm-translation/language.service';
 import { EntityCalendarUiConfig, EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
 
-// import { CalendarOptions, EventInput } from '@fullcalendar/angular';
-
 declare const $: any;
 declare const swal: any;
 
-// const INITIAL_EVENTS: EventInput[] = [
-//     {
-//         id: '1',
-//         title: 'All-day event',
-//         start: new Date().toISOString().replace(/T.*$/, ''),
-//     },
-//     {
-//         id: '2',
-//         title: 'Timed event',
-//         start: new Date().toISOString().replace(/T.*$/, '') + 'T12:00:00',
-//     },
-// ];
-
 export const DEFAULT_CALENDAR_EVENT_FETCH_SIZE = 50;
+
+// todo cleanup old logic
 
 @Component({
     selector: 'xm-calendar-card',
@@ -54,22 +41,7 @@ export class CalendarCardComponent implements OnChanges {
     public currentCalendar: Calendar;
     public calendars: Calendar[] = [];
     public calendarElements: any = {};
-    private calendarConfig: EntityCalendarUiConfig[] = [];
-
-    // public calendarOptions: CalendarOptions = {
-    //     headerToolbar: {
-    //         left: 'prev,next today',
-    //         center: 'title',
-    //         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-    //     },
-    //     initialView: 'dayGridMonth',
-    //     initialEvents: INITIAL_EVENTS,
-    //     weekends: true,
-    //     editable: true,
-    //     selectable: true,
-    //     selectMirror: true,
-    //     dayMaxEvents: true,
-    // };
+    public calendarConfig: EntityCalendarUiConfig[] = [];
 
     constructor(private xmEntityService: XmEntityService,
                 private xmConfigService: XmConfigService,
@@ -118,7 +90,6 @@ export class CalendarCardComponent implements OnChanges {
     }
 
     private load(): void {
-
         if (!this.calendarSpecs || !this.calendarSpecs.length) {
             if (DEBUG_INFO_ENABLED) {
                 console.info('DBG: no spec no call');
@@ -139,9 +110,8 @@ export class CalendarCardComponent implements OnChanges {
                 }),
             )
             .subscribe(() => {
-                const xmEntity = this.xmEntity;
-                if (xmEntity.calendars) {
-                    this.calendars = [...xmEntity.calendars];
+                if (this.xmEntity.calendars) {
+                    this.calendars = [...this.xmEntity.calendars];
                 }
 
                 const notIncludedSpecs = this.calendarSpecs.filter((cs) => this.calendars
@@ -190,6 +160,15 @@ export class CalendarCardComponent implements OnChanges {
         modalRef.componentInstance.onRemoveEvent = (event: Event, calendarTypeKey: string, callback?: () => void) =>  {
             this.onRemove(event, calendarTypeKey, callback);
         }
+    }
+
+    public getCalendarConfig(calendar: Calendar): EntityCalendarUiConfig {
+        return this.calendarConfig
+            .find((el) => el.typeKey === calendar.typeKey) || {} as EntityCalendarUiConfig;
+    }
+
+    public getCalendarSpec(calendar: Calendar): CalendarSpec {
+        return this.calendarSpecs.filter(spec => spec.key === calendar.typeKey).shift();
     }
 
     private initCalendar(calendar: Calendar): void {
