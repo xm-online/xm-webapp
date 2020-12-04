@@ -19,6 +19,7 @@ export interface TableColumn<O = unknown> extends Column<O> {
     sortable: boolean;
     title: Translate;
     dataClass: string;
+    dataStyle: string;
 }
 
 @Component({
@@ -31,7 +32,10 @@ export interface TableColumn<O = unknown> extends Column<O> {
                 [disabled]="isSortable()">
                 {{column.title | translate}}
             </th>
-            <td mat-cell [class]="column.dataClass" *matCellDef="let value">
+            <td mat-cell
+                [class]="column.dataClass"
+                [style]="column.dataStyle"
+                *matCellDef="let value">
                 <ng-container xmDynamicCell
                               [row]="value"
                               [column]="column"></ng-container>
