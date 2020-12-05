@@ -1,35 +1,43 @@
-import { ChangeDetectionStrategy, Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
-import { Primitive } from '@xm-ngx/shared/interfaces';
-import { XmTextComponent } from './xm-text-component';
+import { Component, Input, NgModule } from '@angular/core';
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
+import { Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import * as _ from 'lodash';
+import { XmTextComponent } from './xm-text-component';
 
-export interface ITextOptions {
+export interface XmTextViewOptions {
     title?: Translate;
     style?: 'inline';
+    emptyValue?: string;
 }
+
+export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
+    title: null,
+    style: null,
+    emptyValue: ' ',
+};
 
 @Component({
     selector: 'xm-text-view',
     template: `
-        <xm-text [styleInline]="styleInline">
+        <xm-text [styleInline]="!!this.options?.style">
             <span xmLabel>{{options.title | translate}}</span>
-            <span xmValue>{{value}}</span>
+            <span xmValue>{{value || options.emptyValue}}</span>
         </xm-text>
     `,
-    changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmTextView implements IComponent<Primitive, ITextOptions>, OnInit, OnChanges {
+export class XmTextView implements IComponent<Primitive, XmTextViewOptions> {
     @Input() public value: Primitive;
-    @Input() public options: ITextOptions;
-    public styleInline: boolean;
 
-    public ngOnInit(): void {
-        this.styleInline = Boolean(this.options?.style);
+    private _options: XmTextViewOptions = XM_TEXT_VIEW_OPTIONS_DEFAULT;
+
+    public get options(): XmTextViewOptions {
+        return this._options;
     }
 
-    public ngOnChanges(): void {
-        this.styleInline = Boolean(this.options?.style);
+    @Input()
+    public set options(value: XmTextViewOptions) {
+        this._options = _.defaults(value, XM_TEXT_VIEW_OPTIONS_DEFAULT);
     }
 }
 
@@ -39,5 +47,5 @@ export class XmTextView implements IComponent<Primitive, ITextOptions>, OnInit, 
     declarations: [XmTextView, XmTextComponent],
 })
 export class XmTextViewModule {
-    public entry: IComponentFn<Primitive, ITextOptions> = XmTextView;
+    public entry: IComponentFn<Primitive, XmTextViewOptions> = XmTextView;
 }
