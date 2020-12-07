@@ -41,7 +41,6 @@ export function appInitializerFn(appConfig: XmApplicationConfigService): () => P
         XmDashboardModule.forRoot(),
         MarkdownModule.forRoot(),
         LayoutModule,
-        // FullCalendarModule,
     ],
     providers: [
         XmApplicationConfigService,
