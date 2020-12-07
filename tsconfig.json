@@ -28,6 +28,5 @@
         "strictFunctionTypes": true,
         "noFallthroughCasesInSwitch": true,
         "resolveJsonModule": true,
-        "allowSyntheticDefaultImports": true,
     }
 }

@@ -22,7 +22,7 @@ import { CalendarEventDialogComponent } from '../../calendar-event-dialog/calend
 import { EventService } from '../../shared/event.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { XmEntity } from '../../shared/xm-entity.model';
-import moment from 'moment';
+import * as moment from 'moment';
 import swal, { SweetAlertType } from 'sweetalert2';
 
 @Component({
