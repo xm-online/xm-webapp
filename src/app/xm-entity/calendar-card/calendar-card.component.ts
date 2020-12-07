@@ -1,31 +1,18 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
-import { JhiDateUtils } from 'ng-jhipster';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { Principal } from '../../shared/auth/principal.service';
+import { Principal } from '../../shared';
 import { XmConfigService } from '../../shared';
-import { I18nNamePipe } from '../../shared/language/i18n-name.pipe';
-import { DEBUG_INFO_ENABLED, DEFAULT_CALENDAR_VIEW, CALENDAR_VIEW } from '../../xm.constants';
-import { CalendarEventDialogComponent } from '../calendar-event-dialog/calendar-event-dialog.component';
+import { I18nNamePipe } from '../../shared';
+import { DEBUG_INFO_ENABLED } from '../../xm.constants';
 import { CalendarSpec } from '../shared/calendar-spec.model';
 import { Calendar } from '../shared/calendar.model';
-import { Event } from '../shared/event.model';
-import { CalendarService } from '../shared/calendar.service';
-import { EventService } from '../shared/event.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
-import { LanguageService } from '../../modules/xm-translation/language.service';
 import { EntityCalendarUiConfig, EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
 
-declare const $: any;
-declare const swal: any;
-
-export const DEFAULT_CALENDAR_EVENT_FETCH_SIZE = 50;
-
-// todo cleanup old logic
+export const DEFAULT_CALENDAR_EVENT_FETCH_SIZE = 2500;
 
 @Component({
     selector: 'xm-calendar-card',
@@ -40,18 +27,11 @@ export class CalendarCardComponent implements OnChanges {
     public xmEntity: XmEntity;
     public currentCalendar: Calendar;
     public calendars: Calendar[] = [];
-    public calendarElements: any = {};
     public calendarConfig: EntityCalendarUiConfig[] = [];
 
     constructor(private xmEntityService: XmEntityService,
                 private xmConfigService: XmConfigService,
-                private calendarService: CalendarService,
-                private eventService: EventService,
-                private dateUtils: JhiDateUtils,
                 private i18nNamePipe: I18nNamePipe,
-                private translateService: TranslateService,
-                private languageService: LanguageService,
-                private modalService: NgbModal,
                 public principal: Principal) {
     }
 
@@ -61,32 +41,8 @@ export class CalendarCardComponent implements OnChanges {
         }
     }
 
-    public onRemove(event: Event, calendarTypeKey: string, callback?: () => void): void {
-        swal({
-            title: this.translateService.instant('xm-entity.calendar-card.delete.title'),
-            showCancelButton: true,
-            buttonsStyling: false,
-            confirmButtonClass: 'btn mat-raised-button btn-primary',
-            cancelButtonClass: 'btn mat-raised-button',
-            confirmButtonText: this.translateService.instant('xm-entity.calendar-card.delete.button'),
-            cancelButtonText: this.translateService.instant('xm-entity.calendar-card.delete.button-cancel'),
-        }).then((result) => {
-            if (result.value) {
-                this.eventService.delete(event.id).subscribe(
-                    () => {
-                        (typeof callback === 'function') && callback();
-                        this.alert('success', 'xm-entity.calendar-card.delete.remove-success');
-                        this.calendarElements[calendarTypeKey].fullCalendar('removeEvents', [event.id]);
-                    },
-                    () => this.alert('error', 'xm-entity.calendar-card.delete.remove-error'),
-                );
-            }
-        });
-    }
-
     public onCalendarChange(calendar: Calendar): void {
         this.currentCalendar = calendar;
-        setTimeout(() => $(this.calendarElements[calendar.typeKey]).data('fullCalendar').render(), 50);
     }
 
     private load(): void {
@@ -129,37 +85,7 @@ export class CalendarCardComponent implements OnChanges {
                 });
 
                 this.currentCalendar = this.calendars[0];
-                for (const calendar of this.calendars) {
-                    setTimeout(() => this.initCalendar(calendar), 50);
-                }
             });
-    }
-
-    private onShowEventDialog(start: any, end: any, calendar: Calendar, event: Event) {
-        const calendarSpec = this.calendarSpecs.filter((c) => c.key === calendar.typeKey).shift();
-        const modalRef = this.modalService.open(CalendarEventDialogComponent, {backdrop: 'static'});
-        modalRef.componentInstance.xmEntity = this.xmEntity;
-        modalRef.componentInstance.event = event;
-        modalRef.componentInstance.calendar = calendar /* self.currentCalendar */;
-        modalRef.componentInstance.startDate = `${start.format('YYYY-MM-DD')}T${start.format('HH:mm:ss')}`;
-        modalRef.componentInstance.endDate = `${end.format('YYYY-MM-DD')}T${end.format('HH:mm:ss')}`;
-        modalRef.componentInstance.calendarSpec = calendarSpec;
-        modalRef.componentInstance.onAddEvent = (event: Event, isEdit?: boolean) => {
-            this.currentCalendar.events = this.currentCalendar.events ? this.currentCalendar.events : [];
-            if (isEdit) {
-                const item = this.currentCalendar.events.find((el) => el.id === event.id);
-                Object.assign(item, event);
-                this.calendarElements[calendar.typeKey].fullCalendar('removeEvents', [event.id]);
-            } else {
-                this.currentCalendar.events.push(event);
-            }
-            this.calendarElements[calendar.typeKey]
-                .fullCalendar('renderEvent', this.mapEvent(calendarSpec, event), true);
-            this.calendarElements[calendar.typeKey].fullCalendar('unselect');
-        };
-        modalRef.componentInstance.onRemoveEvent = (event: Event, calendarTypeKey: string, callback?: () => void) =>  {
-            this.onRemove(event, calendarTypeKey, callback);
-        }
     }
 
     public getCalendarConfig(calendar: Calendar): EntityCalendarUiConfig {
@@ -170,97 +96,4 @@ export class CalendarCardComponent implements OnChanges {
     public getCalendarSpec(calendar: Calendar): CalendarSpec {
         return this.calendarSpecs.filter(spec => spec.key === calendar.typeKey).shift();
     }
-
-    private initCalendar(calendar: Calendar): void {
-        const calendarSpec = this.calendarSpecs.filter((c) => c.key === calendar.typeKey).shift();
-        const calendarConfig: EntityCalendarUiConfig = this.calendarConfig
-            .find((el) => el.typeKey === calendar.typeKey) || {} as EntityCalendarUiConfig;
-        this.calendarElements[calendar.typeKey] = $('#xm-calendar-' + calendar.id);
-        this.calendarElements[calendar.typeKey].fullCalendar({
-            header: {
-                left: 'title',
-                center: 'month,agendaWeek,agendaDay,listDay,listWeek',
-                right: 'prev,next,today',
-            },
-            locale: this.languageService.getUserLocale(),
-            defaultDate: new Date(),
-            selectable: true,
-            selectHelper: true,
-            defaultView: calendarConfig.view ? CALENDAR_VIEW[calendarConfig.view] : DEFAULT_CALENDAR_VIEW,
-            views: {
-                month: {
-                    titleFormat: 'MMMM YYYY',
-                },
-                week: {
-                    titleFormat: 'MMMM D YYYY',
-                    timeFormat: 'H(:mm)',
-                },
-                day: {
-                    titleFormat: 'D MMM, YYYY',
-                    timeFormat: 'H(:mm)',
-                },
-                listDay: {
-                    buttonText: this.translateService.instant('xm-entity.calendar-card.calendar.btn-list-day'),
-                    timeFormat: 'H(:mm)',
-                },
-                listWeek: {
-                    buttonText: this.translateService.instant('xm-entity.calendar-card.calendar.btn-list-week'),
-                    timeFormat: 'H(:mm)',
-                },
-            },
-            select: (start: any, end: any) => {
-                this.onShowEventDialog(start, end, calendar, {} as Event);
-            },
-            editable: false,
-            eventLimit: true,
-            // Events: calendar.events ? calendar.events.map((e) => this.mapEvent(calendarSpec, e)) : [],
-            timeFormat: 'H(:mm)',
-            renderEvent: (event: any, element: any) => {
-                const content = $(element).find('.fc-content');
-                if ($(element).find('.fc-title').is('div')) {
-                    const description = $('<div></div>');
-                    $(description).addClass('fc-title');
-                    $(description).text(event.description);
-                    content.append(description);
-                }
-            },
-            events: (start, end, timezone, callback) => {
-                this.calendarService.getEvents(calendar.id, {
-                    'dateFrom.eq': start.format('YYYY-MM-DD'),
-                    'dateTo.eq': end.format('YYYY-MM-DD'),
-                    'size': calendarConfig.queryPageSize ? calendarConfig.queryPageSize : DEFAULT_CALENDAR_EVENT_FETCH_SIZE
-                })
-                    .subscribe(
-                        res => callback((res || []).map((e) => this.mapEvent(calendarSpec, e))),
-                        () => callback([]),
-                    );
-            },
-            eventClick: (event: any) => {
-                this.onShowEventDialog(event.start, event.end, calendar, event.originEvent);
-            },
-        });
-    }
-
-    private mapEvent(calendarSpec: CalendarSpec, event: Event): any {
-        const eventSpec = calendarSpec.events.filter((e) => e.key === event.typeKey).shift();
-        return {
-            id: event.id,
-            title: event.title + '\n (' + this.i18nNamePipe.transform(eventSpec.name, this.principal) + ')',
-            start: this.dateUtils.convertDateTimeFromServer(event.startDate),
-            end: this.dateUtils.convertDateTimeFromServer(event.endDate),
-            description: event.description,
-            color: eventSpec.color,
-            originEvent: event,
-        };
-    }
-
-    private alert(type: string, key: string): void {
-        swal({
-            type,
-            text: this.translateService.instant(key),
-            buttonsStyling: false,
-            confirmButtonClass: 'btn btn-primary',
-        });
-    }
-
 }

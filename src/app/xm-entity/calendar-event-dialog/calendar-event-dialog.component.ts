@@ -29,24 +29,23 @@ export class CalendarEventDialogComponent implements OnInit {
     @Input() public event: Event;
     @Input() public calendar: Calendar;
     @Input() public calendarSpec: CalendarSpec;
-    @Input() public startDate: any;
-    @Input() public endDate: any;
-    @Input() public onAddEvent: (arg: Event, isEdit?: boolean) => void;
-    @Input() public onRemoveEvent: (arg: Event, calendarTypeKey: string, callback: () => void) => void;
+    @Input() public onAddEvent: () => void;
+    @Input() public onRemoveEvent: (event: Event, callback: () => void) => void;
 
     // public event: Event = {};
     public showLoader: boolean;
     public jsfAttributes: any;
     private eventSpec: any;
 
-    constructor(private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
-                private activeModal: NgbActiveModal,
-                private eventService: EventService,
-                private calendarService: CalendarService,
-                private dateUtils: JhiDateUtils,
-                private translateService: TranslateService,
-                public principal: Principal) {
-    }
+    constructor(
+        private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
+        private activeModal: NgbActiveModal,
+        private eventService: EventService,
+        private calendarService: CalendarService,
+        private dateUtils: JhiDateUtils,
+        private translateService: TranslateService,
+        public principal: Principal,
+    ) {}
 
     public ngOnInit(): void {
         const event: any = (this.calendarSpec.events.length && this.calendarSpec.events[0]) || {};
@@ -58,13 +57,9 @@ export class CalendarEventDialogComponent implements OnInit {
                     this.loadJSFAttributes();
                 }
             });
-
-        setTimeout(() => {
-            Object.assign(this.event, { startDate: this.startDate, endDate: this.endDate });
-        });
     }
 
-    onChangeSchemaForm(data: any) {
+    public onChangeSchemaForm(data: any): void {
         this.event.eventDataRef = this.event.eventDataRef || {
             typeKey: this.eventSpec.key,
             key: UUID.UUID(),
@@ -106,10 +101,11 @@ export class CalendarEventDialogComponent implements OnInit {
         if (calendar && event) {
             const calendarId = calendar.id;
             event.calendar = calendarId;
+            console.warn(event);
             this.eventService[event.id ? 'update' : 'create'](event)
                 .pipe(finalize(() => this.showLoader = false))
                 .subscribe(
-                    (eventResp: HttpResponse<Event>) => this.onSaveSuccess(calendarId, eventResp.body, !!event.id),
+                    () => this.onSaveSuccess(calendarId),
                     (err) => console.info(err),
                     () => this.showLoader = false);
         }
@@ -120,14 +116,14 @@ export class CalendarEventDialogComponent implements OnInit {
     }
 
     public onRemove(): void {
-        this.onRemoveEvent(this.event, this.calendar.typeKey, () => this.onCancel());
+        this.onRemoveEvent(this.event, () => this.onCancel());
     }
 
-    private onSaveSuccess(calendarId: number, event: Event, isEdit?: boolean): void {
+    private onSaveSuccess(calendarId: number): void {
         this.activeModal.dismiss(true);
         this.alert('success', 'xm-entity.calendar-event-dialog.add.success');
         this.calendar.id = calendarId;
-        this.onAddEvent(event, isEdit);
+        this.onAddEvent();
     }
 
     private alert(type: string, key: string): void {
