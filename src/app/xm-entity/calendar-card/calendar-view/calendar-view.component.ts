@@ -22,7 +22,7 @@ import { CalendarEventDialogComponent } from '../../calendar-event-dialog/calend
 import { EventService } from '../../shared/event.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { XmEntity } from '../../shared/xm-entity.model';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 import swal, { SweetAlertType } from 'sweetalert2';
 
 @Component({
@@ -153,9 +153,10 @@ export class CalendarViewComponent implements OnChanges {
     }
 
     private formatEventDates(event: Event, startDate: Date, endDate: Date): Event {
-        event.startDate = `${moment(startDate).utc().format('YYYY-MM-DDTHH:mm:ss')}`;
-        event.endDate = `${moment(endDate).utc().format('YYYY-MM-DDTHH:mm:ss')}`;
-
+        const format = 'YYYY-MM-DDTHH:mm:ss';
+        const timezone = this.getCalendarTimezone();
+        event.startDate = moment(startDate).tz(timezone).format(format);
+        event.endDate = moment(endDate).tz(timezone).format(format);
         return event;
     }
 
@@ -163,8 +164,8 @@ export class CalendarViewComponent implements OnChanges {
         const calendarApi = this.calendarComponent.getApi();
         const modifiedEvent = this.formatEventDates(event, start, end);
         const modalRef = this.modalService.open(CalendarEventDialogComponent, { backdrop: 'static' });
-
         modalRef.componentInstance.xmEntity = this.xmEntity;
+        modalRef.componentInstance.timezone = this.getCalendarTimezone();
         modalRef.componentInstance.event = modifiedEvent;
         modalRef.componentInstance.calendar = calendar;
         modalRef.componentInstance.calendarSpec = this.spec;

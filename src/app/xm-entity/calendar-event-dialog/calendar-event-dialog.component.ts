@@ -2,7 +2,6 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { JhiDateUtils } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
 
 import { XmEntitySpecWrapperService } from '../../xm-entity/shared/xm-entity-spec-wrapper.service';
@@ -27,6 +26,7 @@ export class CalendarEventDialogComponent implements OnInit {
 
     @Input() public xmEntity: XmEntity;
     @Input() public event: Event;
+    @Input() public timezone: string;
     @Input() public calendar: Calendar;
     @Input() public calendarSpec: CalendarSpec;
     @Input() public onAddEvent: () => void;
@@ -42,7 +42,6 @@ export class CalendarEventDialogComponent implements OnInit {
         private activeModal: NgbActiveModal,
         private eventService: EventService,
         private calendarService: CalendarService,
-        private dateUtils: JhiDateUtils,
         private translateService: TranslateService,
         public principal: Principal,
     ) {}
@@ -73,9 +72,6 @@ export class CalendarEventDialogComponent implements OnInit {
         if (this.calendar.id) {
             this.processCalendarEvent(this.calendar, this.event);
         } else {
-            const copy: Event = Object.assign({}, this.event);
-            copy.startDate = this.dateUtils.toDate(this.event.startDate);
-            copy.endDate = this.dateUtils.toDate(this.event.endDate);
             this.calendarService.create(this.calendar).pipe(finalize(() => this.showLoader = false))
                 .subscribe(
                     (calendarResp: HttpResponse<Calendar>) => {
@@ -101,8 +97,7 @@ export class CalendarEventDialogComponent implements OnInit {
         if (calendar && event) {
             const calendarId = calendar.id;
             event.calendar = calendarId;
-            console.warn(event);
-            this.eventService[event.id ? 'update' : 'create'](event)
+            this.eventService[event.id ? 'update' : 'create'](event, this.timezone)
                 .pipe(finalize(() => this.showLoader = false))
                 .subscribe(
                     () => this.onSaveSuccess(calendarId),
