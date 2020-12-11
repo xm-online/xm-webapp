@@ -1,16 +1,16 @@
 <div class="text-right">
   <button (click)="onAddEntitySpec()"
+          [disabled]="disabled"
           [matTooltip]="('admin-config.specification-mng.editor.add-entity-spec' | translate)"
           color="primary"
-          mat-icon-button
-          [disabled]="disabled">
+          mat-icon-button>
     <mat-icon>add</mat-icon>
   </button>
   <button (click)="onApplyChanges()"
+          [disabled]="disabled"
           [matTooltip]="('admin-config.specification-mng.editor.apply-changes' | translate)"
           color="primary"
-          mat-icon-button
-          [disabled]="disabled">
+          mat-icon-button>
     <mat-icon>save_alt</mat-icon>
   </button>
 </div>
@@ -34,22 +34,22 @@
 
     <div *ngIf="openedEntitySpec === index">
       <mat-form-field>
-        <input matInput
-               type="text"
+        <input [(ngModel)]="entitySpec.key"
                [placeholder]="('admin-config.specification-mng.editor.key' | translate)"
-               [(ngModel)]="entitySpec.key">
+               matInput
+               type="text">
       </mat-form-field>
 
       <xm-multi-language-control
-        [value]="toMultiLanguageDataModel(entitySpec.name)"
-        [options]="{title: ('admin-config.specification-mng.editor.name' | translate)}"
         (onValueChange)="fromMultiLanguageDataModel(entitySpec.name, $event)"
+        [options]="{title: ('admin-config.specification-mng.editor.name' | translate)}"
+        [value]="toMultiLanguageDataModel(entitySpec.name)"
       ></xm-multi-language-control>
 
       <xm-multi-language-control
-        [value]="toMultiLanguageDataModel(entitySpec.pluralName)"
-        [options]="{title: ('admin-config.specification-mng.editor.plural-name' | translate)}"
         (onValueChange)="fromMultiLanguageDataModel(entitySpec.pluralName, $event)"
+        [options]="{title: ('admin-config.specification-mng.editor.plural-name' | translate)}"
+        [value]="toMultiLanguageDataModel(entitySpec.pluralName)"
       ></xm-multi-language-control>
 
       <div class="row">
@@ -65,13 +65,14 @@
         </div>
         <div class="col-4">
           <mat-form-field>
-            <mat-select [placeholder]="('admin-config.specification-mng.editor.icon' | translate)"
-                        [(ngModel)]="entitySpec.icon">
+            <mat-select [(ngModel)]="entitySpec.icon"
+                        [placeholder]="('admin-config.specification-mng.editor.icon' | translate)">
               <mat-select-trigger>
                 {{entitySpec.icon}}
               </mat-select-trigger>
               <mat-option *ngFor="let icon of icons" [value]="icon">
-                <mat-icon>{{icon}}</mat-icon>{{icon}}
+                <mat-icon>{{icon}}</mat-icon>
+                {{icon}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -80,22 +81,22 @@
 
       <mat-label>{{'admin-config.specification-mng.editor.data-spec' | translate}}</mat-label>
       <div class="text-right">
-        <div [mode]="'json'"
+        <div (textChanged)="onDataSpecChanged(entitySpec, $event)"
+             [mode]="'json'"
              [options]="{ highlightActiveLine: true, maxLines: 25 }"
              [style.width]="'100%'"
              [text]="entitySpec.dataSpec"
-             (textChanged)="onDataSpecChanged(entitySpec, $event)"
              xmAceEditor>
         </div>
       </div>
 
       <mat-label>{{'admin-config.specification-mng.editor.form-spec' | translate}}</mat-label>
       <div class="text-right">
-        <div [mode]="'json'"
+        <div (textChanged)="onDataFormChanged(entitySpec, $event)"
+             [mode]="'json'"
              [options]="{ highlightActiveLine: true, maxLines: 25 }"
              [style.width]="'100%'"
              [text]="entitySpec.dataForm"
-             (textChanged)="onDataFormChanged(entitySpec, $event)"
              xmAceEditor>
         </div>
       </div>
@@ -104,50 +105,51 @@
         [entitySpec]="entitySpec"
       ></xm-states-editor>
 
-      <mat-divider></mat-divider>
-      <div class="d-flex pt-2">
-        <div class="p-2">
-          <h3>{{'admin-config.specification-mng.editor.links' | translate}}</h3>
-        </div>
-      </div>
-      <p>{{'admin-config.specification-mng.editor.coming-soon' | translate}}</p>
+      <!-- TODO:
+                  <mat-divider></mat-divider>
+                  <div class="d-flex pt-2">
+                    <div class="p-2">
+                      <h3>{{'admin-config.specification-mng.editor.links' | translate}}</h3>
+                    </div>
+                  </div>
+                  <p>{{'admin-config.specification-mng.editor.coming-soon' | translate}}</p>
 
-      <mat-divider></mat-divider>
-      <div class="d-flex pt-2">
-        <div class="p-2">
-          <h3>{{'admin-config.specification-mng.editor.functions' | translate}}</h3>
-        </div>
-      </div>
-      <p>{{'admin-config.specification-mng.editor.coming-soon' | translate}}</p>
+                  <mat-divider></mat-divider>
+                  <div class="d-flex pt-2">
+                    <div class="p-2">
+                      <h3>{{'admin-config.specification-mng.editor.functions' | translate}}</h3>
+                    </div>
+                  </div>
+                  <p>{{'admin-config.specification-mng.editor.coming-soon' | translate}}</p>
 
-      <mat-divider></mat-divider>
-      <div class="d-flex pt-2">
-        <div class="p-2">
-          <h3>{{'admin-config.specification-mng.editor.attachments' | translate}}</h3>
-        </div>
-      </div>
-      <p>{{'admin-config.specification-mng.editor.coming-soon' | translate}}</p>
+                  <mat-divider></mat-divider>
+                  <div class="d-flex pt-2">
+                    <div class="p-2">
+                      <h3>{{'admin-config.specification-mng.editor.attachments' | translate}}</h3>
+                    </div>
+                  </div>
+                  <p>{{'admin-config.specification-mng.editor.coming-soon' | translate}}</p>
 
-      <mat-divider></mat-divider>
-      <div class="d-flex pt-2">
-        <div class="p-2">
-          <h3>{{'admin-config.specification-mng.editor.comments' | translate}}</h3>
-        </div>
-      </div>
-      <p>{{'admin-config.specification-mng.editor.coming-soon' | translate}}</p>
+                  <mat-divider></mat-divider>
+                  <div class="d-flex pt-2">
+                    <div class="p-2">
+                      <h3>{{'admin-config.specification-mng.editor.comments' | translate}}</h3>
+                    </div>
+                  </div>
+                  <p>{{'admin-config.specification-mng.editor.coming-soon' | translate}}</p>
 
-      <mat-divider></mat-divider>
-      <div class="d-flex pt-2">
-        <div class="p-2">
-          <h3>{{'admin-config.specification-mng.editor.locations' | translate}}</h3>
-        </div>
-      </div>
-      <p>{{'admin-config.specification-mng.editor.coming-soon' | translate}}</p>
+                  <mat-divider></mat-divider>
+                  <div class="d-flex pt-2">
+                    <div class="p-2">
+                      <h3>{{'admin-config.specification-mng.editor.locations' | translate}}</h3>
+                    </div>
+                  </div>
+                  <p>{{'admin-config.specification-mng.editor.coming-soon' | translate}}</p>
+            -->
     </div>
-
     <mat-action-row>
-      <button mat-button color="primary"
-              (click)="onDeleteEntitySpec(entitySpec)">
+      <button (click)="onDeleteEntitySpec(entitySpec)" color="primary"
+              mat-button>
         {{'admin-config.specification-mng.editor.delete' | translate}}
       </button>
     </mat-action-row>
