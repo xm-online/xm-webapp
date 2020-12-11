@@ -2,7 +2,7 @@
   <button (click)="updatePrivateUiConfig();"
           *ngIf="isUiPrivateSpecValid"
           [class.loading]="uiPrivateSpecificationProgress"
-          [disabled]="uiPrivateSpecificationProgress || readOnlyMode"
+          [disabled]="uiPrivateSpecificationProgress || disabled"
           color="primary"
           mat-flat-button
           type="button">
@@ -13,7 +13,7 @@
           color="primary"
           mat-flat-button
           type="button"
-          [disabled]="readOnlyMode">
+          [disabled]="disabled">
     {{'admin-config.specification-mng.validate' | translate}}
   </button>
 

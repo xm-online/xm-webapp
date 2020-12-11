@@ -2,7 +2,7 @@
   <button (click)="updateTenantConfig();"
           *ngIf="isTenantSpecValid"
           [class.loading]="tenantSpecificationProgress"
-          [disabled]="tenantSpecificationProgress || readOnlyMode"
+          [disabled]="tenantSpecificationProgress || disabled"
           color="primary"
           mat-flat-button
           type="button">
@@ -10,7 +10,7 @@
   </button>
   <button (click)="validateTenantSpecification();"
           *ngIf="!isTenantSpecValid"
-          [disabled]="readOnlyMode"
+          [disabled]="disabled"
           color="primary"
           mat-flat-button
           type="button">

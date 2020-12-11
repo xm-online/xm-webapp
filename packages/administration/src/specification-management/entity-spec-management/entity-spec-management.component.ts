@@ -13,7 +13,7 @@ import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
 })
 export class EntitySpecManagementComponent implements OnInit {
 
-    @Input() public readOnlyMode: boolean;
+    @Input() public disabled: boolean;
 
     public entityValidation: any;
     public isXmEntitySpecValid: boolean;

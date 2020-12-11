@@ -8,7 +8,7 @@ import { XmConfigService } from '../../../../../src/app/shared';
     styleUrls: ['./uaa-mng.component.scss'],
 })
 export class UaaMngComponent implements OnInit {
-    @Input() public readOnlyMode: boolean;
+    @Input() public disabled: boolean;
 
     public uaaSpecificationIn: string;
     public uaaSpecificationOut: string;

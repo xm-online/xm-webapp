@@ -22,13 +22,7 @@ export class SpecificationManagementComponent implements OnInit {
     ];
     public currentSpecificationSlug: string;
 
-
-    public aceEditorOptions: any = {
-        highlightActiveLine: true,
-        maxLines: 50,
-    };
-
-    public readOnlyMode: boolean;
+    public disabled: boolean;
 
     constructor(private activatedRoute: ActivatedRoute,
                 private principal: Principal,
@@ -60,8 +54,9 @@ export class SpecificationManagementComponent implements OnInit {
             }
             this.specificationTypes.push({ slug: 'privateui', icon: 'view_quilt' });
         });
+
         this.service.getUiConfig().subscribe(result => {
-            this.readOnlyMode = result.readOnlyConfig;
+            this.disabled = result.readOnlyConfig;
         });
     }
 

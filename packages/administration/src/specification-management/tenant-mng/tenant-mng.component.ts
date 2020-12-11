@@ -11,7 +11,7 @@ const TENANT_SPEC_PATH = '/tenant-config.yml';
     styleUrls: ['./tenant-mng.component.scss'],
 })
 export class TenantMngComponent implements OnInit {
-    @Input() public readOnlyMode: boolean;
+    @Input() public disabled: boolean;
 
     public tenantSpecificationIn: string;
     public tenantSpecificationOut: string;

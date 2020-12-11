@@ -13,18 +13,18 @@
 
 <mat-card [ngSwitch]="currentSpecificationSlug" class="mb-3">
 
-  <xm-ui-mng *ngSwitchCase="'ui'" [readOnlyMode]="readOnlyMode"></xm-ui-mng>
+  <xm-ui-mng *ngSwitchCase="'ui'" [disabled]="disabled"></xm-ui-mng>
 
-  <xm-entity-spec-mng *ngSwitchCase="'entity'" [readOnlyMode]="readOnlyMode"></xm-entity-spec-mng>
+  <xm-entity-spec-mng *ngSwitchCase="'entity'" [disabled]="disabled"></xm-entity-spec-mng>
 
-  <xm-uaa-mng *ngSwitchCase="'uaa'" [readOnlyMode]="readOnlyMode"></xm-uaa-mng>
+  <xm-uaa-mng *ngSwitchCase="'uaa'" [disabled]="disabled"></xm-uaa-mng>
 
-  <xm-uaa-login-mng *ngSwitchCase="'uaa-login'" [readOnlyMode]="readOnlyMode"></xm-uaa-login-mng>
+  <xm-uaa-login-mng *ngSwitchCase="'uaa-login'" [disabled]="disabled"></xm-uaa-login-mng>
 
-  <xm-timeline-mng *ngSwitchCase="'timeline'" [readOnlyMode]="readOnlyMode"></xm-timeline-mng>
+  <xm-timeline-mng *ngSwitchCase="'timeline'" [disabled]="disabled"></xm-timeline-mng>
 
-  <xm-tenant-mng *ngSwitchCase="'tenant'" [readOnlyMode]="readOnlyMode"></xm-tenant-mng>
+  <xm-tenant-mng *ngSwitchCase="'tenant'" [disabled]="disabled"></xm-tenant-mng>
 
-  <xm-private-ui-mng *ngSwitchCase="'privateui'" [readOnlyMode]="readOnlyMode"></xm-private-ui-mng>
+  <xm-private-ui-mng *ngSwitchCase="'privateui'" [disabled]="disabled"></xm-private-ui-mng>
 
 </mat-card>

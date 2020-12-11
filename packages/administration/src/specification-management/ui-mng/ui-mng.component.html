@@ -2,7 +2,7 @@
   <button (click)="updateUiConfig();"
           *ngIf="isUiSpecValid"
           [class.loading]="uiSpecificationProgress"
-          [disabled]="uiSpecificationProgress || readOnlyMode"
+          [disabled]="uiSpecificationProgress || disabled"
           color="primary"
           mat-flat-button
           type="button">
@@ -13,7 +13,7 @@
           color="primary"
           mat-flat-button
           type="button"
-          [disabled]="readOnlyMode">
+          [disabled]="disabled">
     {{'admin-config.specification-mng.validate' | translate}}
   </button>
 

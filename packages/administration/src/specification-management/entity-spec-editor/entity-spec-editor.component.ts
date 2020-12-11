@@ -20,9 +20,9 @@ type Buffer = {
 })
 export class EntitySpecEditorComponent extends EditorUtils implements OnInit {
 
-    @Input() public in: string;
-    @Input() public readOnlyMode: boolean;
-    @Output() public out: EventEmitter<string> = new EventEmitter<string>();
+    @Input() public entitySpec: string;
+    @Input() public disabled: boolean;
+    @Output() public entitySpecChange: EventEmitter<string> = new EventEmitter<string>();
 
     public openedEntitySpec: number;
     public icons: string[] = MATERIAL_ICONS;
@@ -38,7 +38,7 @@ export class EntitySpecEditorComponent extends EditorUtils implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.spec = YAML.parse(this.in);
+        this.spec = YAML.parse(this.entitySpec);
         this.spec.types.forEach((t) => {
             if (t.dataSpec) {
                 t.dataSpec = JSON.stringify(JSON.parse(t.dataSpec), null, 4);
@@ -59,7 +59,7 @@ export class EntitySpecEditorComponent extends EditorUtils implements OnInit {
         });
 
         this.spec.types = this.spec.types.sort((a, b) => a.key < b.key ? -1 : 1);
-        this.out.emit(this.entitySpecYamlService.toYaml(this.spec));
+        this.entitySpecChange.emit(this.entitySpecYamlService.toYaml(this.spec));
     }
 
     public onAddEntitySpec(): void {

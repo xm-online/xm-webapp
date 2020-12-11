@@ -1,7 +1,7 @@
 <div class="text-center pb-3">
   <button (click)="validateTimelineConfig();"
           *ngIf="!isTimelineSpecValid"
-          [disabled]="readOnlyMode"
+          [disabled]="disabled"
           color="primary"
           mat-flat-button
           translate="admin-config.specification-mng.validate"
@@ -9,7 +9,7 @@
   </button>
   <button (click)="updateTimelineConfig();"
           *ngIf="isTimelineSpecValid"
-          [disabled]="readOnlyMode"
+          [disabled]="disabled"
           color="primary"
           mat-flat-button
           translate="admin-config.specification-mng.timeline.save"

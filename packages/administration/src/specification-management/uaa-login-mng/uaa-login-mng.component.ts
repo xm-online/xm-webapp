@@ -9,7 +9,7 @@ import { XmConfigService } from '../../../../../src/app/shared';
 })
 export class UaaLoginMngComponent implements OnInit {
 
-    @Input() public readOnlyMode: boolean;
+    @Input() public disabled: boolean;
 
     public isUaaLoginSpecValid: boolean;
     public loginsSpecificationIn: string;

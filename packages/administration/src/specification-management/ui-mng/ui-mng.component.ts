@@ -10,7 +10,7 @@ import { XmConfigService } from '../../../../../src/app/shared';
 })
 export class UiMngComponent implements OnInit {
 
-    @Input() public readOnlyMode: boolean;
+    @Input() public disabled: boolean;
 
     public uiSpecificationIn: string;
     public uiSpecificationOut: string;

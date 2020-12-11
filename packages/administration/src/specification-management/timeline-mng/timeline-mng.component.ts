@@ -8,7 +8,7 @@ import { XmConfigService } from '../../../../../src/app/shared';
     styleUrls: ['./timeline-mng.component.scss'],
 })
 export class TimelineMngComponent implements OnInit {
-    @Input() public readOnlyMode: boolean;
+    @Input() public disabled: boolean;
 
     public timelineSpecificationIn: string;
     public timelineSpecificationOut: string;

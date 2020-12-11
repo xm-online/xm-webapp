@@ -9,7 +9,7 @@ import { Principal, XmConfigService } from '../../../../../src/app/shared';
     styleUrls: ['./private-ui-mng.component.scss'],
 })
 export class PrivateUiMngComponent implements OnInit {
-    @Input() public readOnlyMode: boolean;
+    @Input() public disabled: boolean;
 
     public uiPrivateSpecificationIn: string;
     public uiPrivateSpecificationOut: string;
