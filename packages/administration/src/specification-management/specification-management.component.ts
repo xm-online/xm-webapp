@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Principal } from '@xm-ngx/core/auth';
-import { finalize } from 'rxjs/operators';
 
 import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
-import { ConfigValidatorUtil } from './config-validator/config-validator.util';
 
-const TENANT_SPEC_PATH = '/tenant-config.yml';
 
 @Component({
     selector: 'xm-specification-management',
@@ -25,7 +22,6 @@ export class SpecificationManagementComponent implements OnInit {
     ];
     public currentSpecificationSlug: string;
 
-    public isTenantSpecValid: boolean;
 
     public aceEditorOptions: any = {
         highlightActiveLine: true,
@@ -38,11 +34,6 @@ export class SpecificationManagementComponent implements OnInit {
 
     public isUaaLoginSpecValid: boolean;
 
-    public tenantSpecificationIn: string;
-    public tenantSpecificationOut: string;
-    public tenantValidation: any;
-    public tenantSpecificationProgress: boolean;
-
     public readOnlyMode: boolean;
 
     constructor(private activatedRoute: ActivatedRoute,
@@ -50,8 +41,6 @@ export class SpecificationManagementComponent implements OnInit {
                 private service: XmConfigService) {
         this.activatedRoute.queryParams.subscribe((params) => {
             this.currentSpecificationSlug = params.slug || this.specificationTypes[0].slug;
-            this.isTenantSpecValid = false;
-            this.tenantValidation = null;
         });
     }
 
@@ -76,10 +65,6 @@ export class SpecificationManagementComponent implements OnInit {
             this.loginsSpecificationOut = result;
         });
 
-        this.service.getConfig(TENANT_SPEC_PATH).subscribe((result) => {
-            this.tenantSpecificationIn = result;
-            this.tenantSpecificationOut = result;
-        });
         this.principal.hasPrivileges(['CONFIG.CLIENT.WEBAPP.GET_LIST.ITEM']).then((allow) => {
             if (!allow) {
                 return;
@@ -91,32 +76,6 @@ export class SpecificationManagementComponent implements OnInit {
         });
     }
 
-    public onTenantSpecificationChange(textChanged: any): void {
-        this.tenantSpecificationOut = textChanged;
-        this.isTenantSpecValid = false;
-        this.tenantValidation = null;
-    }
-
-    public updateTenantConfig(): void {
-        this.tenantSpecificationProgress = true;
-        this.service
-            .updateConfig(TENANT_SPEC_PATH, this.tenantSpecificationOut)
-            .pipe(finalize(() => this.tenantSpecificationProgress = false))
-            .subscribe(() => window.location.reload());
-    }
-
-    public validateTenantSpecification(): void {
-        const errors = ConfigValidatorUtil.validateYAML(this.tenantSpecificationOut);
-        if (errors && errors.length) {
-            this.tenantValidation = { errorMessage: '' };
-            for (const err of errors) {
-                this.tenantValidation.errorMessage += err.message + (err.path ? ' path: ' + err.path : '') + '<br/>';
-
-            }
-        } else {
-            this.isTenantSpecValid = true;
-        }
-    }
 
     public onLoginsSpecificationChange(textChanged: any): void {
         this.isUaaLoginSpecValid = false;

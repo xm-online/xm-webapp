@@ -1,0 +1,39 @@
+<div class="text-center pb-3">
+  <button (click)="updateTenantConfig();"
+          *ngIf="isTenantSpecValid"
+          [class.loading]="tenantSpecificationProgress"
+          [disabled]="tenantSpecificationProgress || readOnlyMode"
+          color="primary"
+          mat-flat-button
+          type="button">
+    {{'admin-config.specification-mng.tenant.save' | translate}}
+  </button>
+  <button (click)="validateTenantSpecification();"
+          *ngIf="!isTenantSpecValid"
+          [disabled]="readOnlyMode"
+          color="primary"
+          mat-flat-button
+          type="button">
+    {{'admin-config.specification-mng.validate' | translate}}
+  </button>
+
+  <div class="text-center">
+    <div *ngIf="tenantValidation && !tenantValidation.valid" [innerHtml]="tenantValidation?.errorMessage"
+         class="text-danger">
+    </div>
+  </div>
+</div>
+<div class="text-right">
+  <div (textChanged)="onTenantSpecificationChange($event)"
+       [autoUpdateContent]="true"
+       [mode]="'yaml'"
+       [options]="aceEditorOptions"
+       [readOnly]="false"
+       [style.min-height]="'150px'"
+       [style.width]="'100%'"
+       [text]="tenantSpecificationIn"
+       style="overflow-x: auto; border: 1px solid lightgray;"
+       xmAceEditor>
+    <span translate="admin-config.specification-mng.loading"></span>
+  </div>
+</div>

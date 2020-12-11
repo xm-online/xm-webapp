@@ -28,6 +28,7 @@ import { TimelineMngComponent } from './timeline-mng/timeline-mng.component';
 import { UaaMngComponent } from './uaa-mng/uaa-mng.component';
 import { UiMngComponent } from './ui-mng/ui-mng.component';
 import { PrivateUiMngComponent } from './private-ui-mng/private-ui-mng.component';
+import { TenantMngComponent } from './tenant-mng/tenant-mng.component';
 
 @NgModule({
   imports: [
@@ -63,6 +64,7 @@ import { PrivateUiMngComponent } from './private-ui-mng/private-ui-mng.component
         UaaMngComponent,
         UiMngComponent,
         PrivateUiMngComponent,
+        TenantMngComponent,
     ],
     providers: [EntitySpecYamlService],
 })
