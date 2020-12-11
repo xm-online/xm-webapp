@@ -26,6 +26,7 @@ import { MatListModule } from '@angular/material/list';
 import { MultiLanguageModuleModule } from '@xm-ngx/components/xm-multilanguage/xm-multi-language.module';
 import { TimelineMngComponent } from './timeline-mng/timeline-mng.component';
 import { UaaMngComponent } from './uaa-mng/uaa-mng.component';
+import { UiMngComponent } from './ui-mng/ui-mng.component';
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { UaaMngComponent } from './uaa-mng/uaa-mng.component';
         StatesEditorComponent,
         TimelineMngComponent,
         UaaMngComponent,
+        UiMngComponent,
     ],
     providers: [EntitySpecYamlService],
 })

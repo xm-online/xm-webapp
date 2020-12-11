@@ -16,35 +16,28 @@ const TENANT_SPEC_PATH = '/tenant-config.yml';
 export class SpecificationManagementComponent implements OnInit {
 
     public specificationTypes: any[] = [
-        {slug: 'ui', icon: 'view_quilt'},
-        {slug: 'entity', icon: 'build'},
-        {slug: 'timeline', icon: 'history'},
-        {slug: 'uaa', icon: 'security'},
-        {slug: 'uaa-login', icon: 'fingerprint'},
-        {slug: 'tenant', icon: 'ballot'},
+        { slug: 'ui', icon: 'view_quilt' },
+        { slug: 'entity', icon: 'build' },
+        { slug: 'timeline', icon: 'history' },
+        { slug: 'uaa', icon: 'security' },
+        { slug: 'uaa-login', icon: 'fingerprint' },
+        { slug: 'tenant', icon: 'ballot' },
     ];
     public currentSpecificationSlug: string;
 
-    public isUiSpecValid: boolean;
     public isTenantSpecValid: boolean;
 
     public aceEditorOptions: any = {
         highlightActiveLine: true,
         maxLines: 50,
     };
-    public line: number;
 
-    public uiSpecificationProgress: boolean;
 
     public loginsSpecificationIn: string;
     public loginsSpecificationOut: string;
     public loginsValidation: any;
 
     public isUaaLoginSpecValid: boolean;
-
-    public uiSpecificationIn: string;
-    public uiSpecificationOut: string;
-    public uiValidation: any;
 
     public uiPrivateSpecificationIn: string;
     public uiPrivateSpecificationOut: string;
@@ -66,9 +59,22 @@ export class SpecificationManagementComponent implements OnInit {
             this.currentSpecificationSlug = params.slug || this.specificationTypes[0].slug;
             this.isTenantSpecValid = false;
             this.tenantValidation = null;
-            this.isUiSpecValid = false;
-            this.uiValidation = null;
         });
+    }
+
+    public static renderValidationMessage(validation: any): void {
+        const errorMessage = validation.errorMessage;
+
+        const regexp = new RegExp('^(.*)\\(class');
+        const errors = regexp.exec(errorMessage);
+        if (errors && errors.length > 1) {
+            const error = errors[1];
+            const line = new RegExp('line: (\\d)').exec(errorMessage);
+            const column = new RegExp('column: (\\d)').exec(errorMessage);
+            const lineNumber = line && line.length > 0 ? line[1] : '';
+            const columnNumber = column && column.length > 0 ? column[1] : '';
+            validation.errorMessage = `${error} | line: ${lineNumber} column: ${columnNumber}`;
+        }
     }
 
     public ngOnInit(): void {
@@ -77,10 +83,6 @@ export class SpecificationManagementComponent implements OnInit {
             this.loginsSpecificationOut = result;
         });
 
-        this.service.getConfig('/webapp/settings-public.yml').subscribe((result) => {
-            this.uiSpecificationIn = result;
-            this.uiSpecificationOut = result;
-        });
         this.service.getConfig(TENANT_SPEC_PATH).subscribe((result) => {
             this.tenantSpecificationIn = result;
             this.tenantSpecificationOut = result;
@@ -89,7 +91,7 @@ export class SpecificationManagementComponent implements OnInit {
             if (!allow) {
                 return;
             }
-            this.specificationTypes.push({slug: 'privateui', icon: 'view_quilt'});
+            this.specificationTypes.push({ slug: 'privateui', icon: 'view_quilt' });
             this.service.getConfig('/webapp/settings-private.yml').subscribe((result) => {
                 this.uiPrivateSpecificationIn = result;
                 this.uiPrivateSpecificationOut = result;
@@ -100,11 +102,6 @@ export class SpecificationManagementComponent implements OnInit {
         });
     }
 
-    public onUiSpecificationChange(textChanged: any): void {
-        this.uiSpecificationOut = textChanged;
-        this.isUiSpecValid = false;
-        this.uiValidation = null;
-    }
 
     public onPrivateUiSpecificationChange(textChanged: any): void {
         this.uiPrivateSpecificationOut = textChanged;
@@ -118,13 +115,6 @@ export class SpecificationManagementComponent implements OnInit {
         this.tenantValidation = null;
     }
 
-    public updateUiConfig(): void {
-        this.uiSpecificationProgress = true;
-        this.service
-            .updateConfig('/webapp/settings-public.yml', this.uiSpecificationOut)
-            .pipe(finalize(() => this.uiSpecificationProgress = false))
-            .subscribe(() => window.location.reload());
-    }
 
     public updatePrivateUiConfig(): void {
         this.uiPrivateSpecificationProgress = true;
@@ -142,30 +132,13 @@ export class SpecificationManagementComponent implements OnInit {
             .subscribe(() => window.location.reload());
     }
 
-    public validateUiSpecification(): void {
-        const errors = ConfigValidatorUtil.validateYAML(this.uiSpecificationOut);
-        if (errors && errors.length) {
-            this.uiValidation = {errorMessage: ''};
-            for (const err of errors) {
-                this.uiValidation.errorMessage += err.message + (err.path ? ' path: ' + err.path : '') + '<br/>';
-                if (err.line) {
-                    this.line = err.line;
-                }
-            }
-        } else {
-            this.isUiSpecValid = true;
-        }
-    }
-
     public validateTenantSpecification(): void {
         const errors = ConfigValidatorUtil.validateYAML(this.tenantSpecificationOut);
         if (errors && errors.length) {
-            this.tenantValidation = {errorMessage: ''};
+            this.tenantValidation = { errorMessage: '' };
             for (const err of errors) {
                 this.tenantValidation.errorMessage += err.message + (err.path ? ' path: ' + err.path : '') + '<br/>';
-                if (err.line) {
-                    this.line = err.line;
-                }
+
             }
         } else {
             this.isTenantSpecValid = true;
@@ -175,12 +148,9 @@ export class SpecificationManagementComponent implements OnInit {
     public validatePrivateUiSpecification(): void {
         const errors = ConfigValidatorUtil.validateYAML(this.uiPrivateSpecificationOut);
         if (errors && errors.length) {
-            this.uiPrivateValidation = {errorMessage: ''};
+            this.uiPrivateValidation = { errorMessage: '' };
             for (const err of errors) {
                 this.uiPrivateValidation.errorMessage += err.message + (err.path ? ' path: ' + err.path : '') + '<br/>';
-                if (err.line) {
-                    this.line = err.line;
-                }
             }
         } else {
             this.isUiPrivateSpecValid = true;
@@ -206,21 +176,6 @@ export class SpecificationManagementComponent implements OnInit {
             this.isUaaLoginSpecValid = false;
             window.location.reload();
         });
-    }
-
-    public static renderValidationMessage(validation: any): void {
-        const errorMessage = validation.errorMessage;
-
-        const regexp = new RegExp('^(.*)\\(class');
-        const errors = regexp.exec(errorMessage);
-        if (errors && errors.length > 1) {
-            const error = errors[1];
-            const line = new RegExp('line: (\\d)').exec(errorMessage);
-            const column = new RegExp('column: (\\d)').exec(errorMessage);
-            const lineNumber = line && line.length > 0 ? line[1] : '';
-            const columnNumber = column && column.length > 0 ? column[1] : '';
-            validation.errorMessage = `${error} | line: ${lineNumber} column: ${columnNumber}`;
-        }
     }
 
 }
