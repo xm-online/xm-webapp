@@ -11,7 +11,7 @@ const TENANT_SPEC_PATH = '/tenant-config.yml';
 @Component({
     selector: 'xm-specification-management',
     templateUrl: './specification-management.component.html',
-    styleUrls: ['./specification-management.component.css'],
+    styleUrls: ['./specification-management.component.scss'],
 })
 export class SpecificationManagementComponent implements OnInit {
 
@@ -27,7 +27,6 @@ export class SpecificationManagementComponent implements OnInit {
 
     public isUiSpecValid: boolean;
     public isTenantSpecValid: boolean;
-    public isTimelineSpecValid: boolean;
     public isUaaSpecValid: boolean;
     public isUaaLoginSpecValid: boolean;
 
@@ -38,10 +37,6 @@ export class SpecificationManagementComponent implements OnInit {
     public line: number;
 
     public uiSpecificationProgress: boolean;
-
-    public timelineSpecificationIn: string;
-    public timelineSpecificationOut: string;
-    public timelineValidation: any;
 
     public loginsSpecificationIn: string;
     public loginsSpecificationOut: string;
@@ -81,10 +76,6 @@ export class SpecificationManagementComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.service.getConfig('/timeline/timeline.yml').subscribe((result) => {
-            this.timelineSpecificationIn = result;
-            this.timelineSpecificationOut = result;
-        });
         this.service.getConfig('/uaa/logins.yml').subscribe((result) => {
             this.loginsSpecificationIn = result;
             this.loginsSpecificationOut = result;
@@ -188,28 +179,6 @@ export class SpecificationManagementComponent implements OnInit {
         }
     }
 
-
-    public onTimelineSpecificationChange(textChanged: any): void {
-        this.isTimelineSpecValid = false;
-        this.timelineValidation = null;
-        this.timelineSpecificationOut = textChanged;
-    }
-
-    public validateTimelineConfig(): void {
-        this.service.validateTimelineSpec(this.timelineSpecificationOut).subscribe((result) => {
-            this.timelineValidation = result;
-            this.isTimelineSpecValid = !!this.timelineValidation.valid;
-            this.renderValidationMessage(this.timelineValidation);
-        });
-    }
-
-    public updateTimelineConfig(): void {
-        this.service.updateTimelineSpec(this.timelineSpecificationOut).subscribe(() => {
-            this.isTimelineSpecValid = false;
-            window.location.reload();
-        });
-    }
-
     public validatePrivateUiSpecification(): void {
         const errors = ConfigValidatorUtil.validateYAML(this.uiPrivateSpecificationOut);
         if (errors && errors.length) {
@@ -235,7 +204,7 @@ export class SpecificationManagementComponent implements OnInit {
         this.service.validateLoginsSpec(this.loginsSpecificationOut).subscribe((result) => {
             this.loginsValidation = result;
             this.isUaaLoginSpecValid = !!this.loginsValidation.valid;
-            this.renderValidationMessage(this.loginsValidation);
+            SpecificationManagementComponent.renderValidationMessage(this.loginsValidation);
         });
     }
 
@@ -256,7 +225,7 @@ export class SpecificationManagementComponent implements OnInit {
         this.service.validateUaaSpec(this.uaaSpecificationOut).subscribe((result) => {
             this.uaaValidation = result;
             this.isUaaSpecValid = !!this.uaaValidation.valid;
-            this.renderValidationMessage(this.uaaValidation);
+            SpecificationManagementComponent.renderValidationMessage(this.uaaValidation);
         });
     }
 
@@ -268,7 +237,7 @@ export class SpecificationManagementComponent implements OnInit {
     }
 
 
-    private renderValidationMessage(validation: any): void {
+    public static renderValidationMessage(validation: any): void {
         const errorMessage = validation.errorMessage;
 
         const regexp = new RegExp('^(.*)\\(class');

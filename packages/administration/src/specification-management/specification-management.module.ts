@@ -24,6 +24,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { StatesEditorComponent } from './entity-spec-editor/states-editor/states-editor.component';
 import { MatListModule } from '@angular/material/list';
 import { MultiLanguageModuleModule } from '@xm-ngx/components/xm-multilanguage/xm-multi-language.module';
+import { TimelineMngComponent } from './timeline-mng/timeline-mng.component';
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { MultiLanguageModuleModule } from '@xm-ngx/components/xm-multilanguage/x
         EntitySpecManagementComponent,
         EntitySpecEditorComponent,
         StatesEditorComponent,
+        TimelineMngComponent,
     ],
     providers: [EntitySpecYamlService],
 })

@@ -58,46 +58,7 @@
 
   <xm-entity-spec-mng *ngSwitchCase="'entity'" [readOnlyMode]="readOnlyMode"></xm-entity-spec-mng>
 
-  <ng-container *ngSwitchCase="'timeline'">
-    <div class="text-center pb-3">
-      <button (click)="validateTimelineConfig();"
-              *ngIf="!isTimelineSpecValid"
-              color="primary"
-              mat-flat-button
-              translate="admin-config.specification-mng.validate"
-              type="submit"
-              [disabled]="readOnlyMode">
-      </button>
-      <button (click)="updateTimelineConfig();"
-              *ngIf="isTimelineSpecValid"
-              color="primary"
-              mat-flat-button
-              translate="admin-config.specification-mng.timeline.save"
-              type="submit"
-              [disabled]="readOnlyMode">
-      </button>
-      <div class="text-center">
-        <div *ngIf="timelineValidation && !timelineValidation.valid"
-             [innerHtml]="timelineValidation?.errorMessage"
-             class="text-danger">
-        </div>
-      </div>
-    </div>
-    <div class="text-right">
-      <div (textChanged)="onTimelineSpecificationChange($event)"
-           [autoUpdateContent]="true"
-           [mode]="'yaml'"
-           [options]="aceEditorOptions"
-           [readOnly]="false"
-           [style.min-height]="'150px'"
-           [style.width]="'100%'"
-           [text]="timelineSpecificationIn"
-           style="overflow-x: auto; border: 1px solid lightgray;"
-           xmAceEditor>
-        <span translate="admin-config.specification-mng.loading"></span>
-      </div>
-    </div>
-  </ng-container>
+  <xm-timeline-mng *ngSwitchCase="'timeline'" [readOnlyMode]="readOnlyMode"></xm-timeline-mng>
 
   <ng-container *ngSwitchCase="'uaa-login'">
     <div class="text-center pb-3">
