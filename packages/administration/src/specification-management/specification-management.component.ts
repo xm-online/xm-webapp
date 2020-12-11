@@ -32,18 +32,11 @@ export class SpecificationManagementComponent implements OnInit {
         maxLines: 50,
     };
 
-
     public loginsSpecificationIn: string;
     public loginsSpecificationOut: string;
     public loginsValidation: any;
 
     public isUaaLoginSpecValid: boolean;
-
-    public uiPrivateSpecificationIn: string;
-    public uiPrivateSpecificationOut: string;
-    public uiPrivateValidation: any;
-    public isUiPrivateSpecValid: boolean;
-    public uiPrivateSpecificationProgress: boolean;
 
     public tenantSpecificationIn: string;
     public tenantSpecificationOut: string;
@@ -92,36 +85,16 @@ export class SpecificationManagementComponent implements OnInit {
                 return;
             }
             this.specificationTypes.push({ slug: 'privateui', icon: 'view_quilt' });
-            this.service.getConfig('/webapp/settings-private.yml').subscribe((result) => {
-                this.uiPrivateSpecificationIn = result;
-                this.uiPrivateSpecificationOut = result;
-            });
         });
         this.service.getUiConfig().subscribe(result => {
             this.readOnlyMode = result.readOnlyConfig;
         });
     }
 
-
-    public onPrivateUiSpecificationChange(textChanged: any): void {
-        this.uiPrivateSpecificationOut = textChanged;
-        this.isUiPrivateSpecValid = false;
-        this.uiPrivateValidation = null;
-    }
-
     public onTenantSpecificationChange(textChanged: any): void {
         this.tenantSpecificationOut = textChanged;
         this.isTenantSpecValid = false;
         this.tenantValidation = null;
-    }
-
-
-    public updatePrivateUiConfig(): void {
-        this.uiPrivateSpecificationProgress = true;
-        this.service
-            .updateConfig('/webapp/settings-private.yml', this.uiPrivateSpecificationOut)
-            .pipe(finalize(() => this.uiPrivateSpecificationProgress = false))
-            .subscribe(() => window.location.reload());
     }
 
     public updateTenantConfig(): void {
@@ -142,18 +115,6 @@ export class SpecificationManagementComponent implements OnInit {
             }
         } else {
             this.isTenantSpecValid = true;
-        }
-    }
-
-    public validatePrivateUiSpecification(): void {
-        const errors = ConfigValidatorUtil.validateYAML(this.uiPrivateSpecificationOut);
-        if (errors && errors.length) {
-            this.uiPrivateValidation = { errorMessage: '' };
-            for (const err of errors) {
-                this.uiPrivateValidation.errorMessage += err.message + (err.path ? ' path: ' + err.path : '') + '<br/>';
-            }
-        } else {
-            this.isUiPrivateSpecValid = true;
         }
     }
 

@@ -27,6 +27,7 @@ import { MultiLanguageModuleModule } from '@xm-ngx/components/xm-multilanguage/x
 import { TimelineMngComponent } from './timeline-mng/timeline-mng.component';
 import { UaaMngComponent } from './uaa-mng/uaa-mng.component';
 import { UiMngComponent } from './ui-mng/ui-mng.component';
+import { PrivateUiMngComponent } from './private-ui-mng/private-ui-mng.component';
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import { UiMngComponent } from './ui-mng/ui-mng.component';
         TimelineMngComponent,
         UaaMngComponent,
         UiMngComponent,
+        PrivateUiMngComponent,
     ],
     providers: [EntitySpecYamlService],
 })
