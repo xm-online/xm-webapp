@@ -29,6 +29,7 @@ import { UaaMngComponent } from './uaa-mng/uaa-mng.component';
 import { UiMngComponent } from './ui-mng/ui-mng.component';
 import { PrivateUiMngComponent } from './private-ui-mng/private-ui-mng.component';
 import { TenantMngComponent } from './tenant-mng/tenant-mng.component';
+import { UaaLoginMngComponent } from './uaa-login-mng/uaa-login-mng.component';
 
 @NgModule({
   imports: [
@@ -65,6 +66,7 @@ import { TenantMngComponent } from './tenant-mng/tenant-mng.component';
         UiMngComponent,
         PrivateUiMngComponent,
         TenantMngComponent,
+        UaaLoginMngComponent,
     ],
     providers: [EntitySpecYamlService],
 })

@@ -17,49 +17,11 @@
 
   <xm-entity-spec-mng *ngSwitchCase="'entity'" [readOnlyMode]="readOnlyMode"></xm-entity-spec-mng>
 
+  <xm-uaa-mng *ngSwitchCase="'uaa'" [readOnlyMode]="readOnlyMode"></xm-uaa-mng>
+
+  <xm-uaa-login-mng *ngSwitchCase="'uaa-login'" [readOnlyMode]="readOnlyMode"></xm-uaa-login-mng>
+
   <xm-timeline-mng *ngSwitchCase="'timeline'" [readOnlyMode]="readOnlyMode"></xm-timeline-mng>
-
-  <ng-container *ngSwitchCase="'uaa-login'">
-    <div class="text-center pb-3">
-      <button (click)="validateLoginsSpecification();"
-              *ngIf="!isUaaLoginSpecValid"
-              [translate]="'admin-config.specification-mng.validate'"
-              color="primary"
-              mat-flat-button
-              type="submit"
-              [disabled]="readOnlyMode">
-      </button>
-      <button (click)="updateLoginsSpecification();"
-              *ngIf="isUaaLoginSpecValid"
-              [translate]="'admin-config.specification-mng.uaa-login.save'"
-              color="primary"
-              mat-flat-button
-              type="submit"
-              [disabled]="readOnlyMode">
-      </button>
-      <div class="text-center">
-        <div *ngIf="loginsValidation && !loginsValidation.valid" [innerHtml]="loginsValidation?.errorMessage"
-             class="text-danger">
-        </div>
-      </div>
-    </div>
-    <div class="text-right">
-      <div (textChanged)="onLoginsSpecificationChange($event)"
-           [autoUpdateContent]="true"
-           [mode]="'yaml'"
-           [options]="aceEditorOptions"
-           [readOnly]="false"
-           [style.min-height]="'150px'"
-           [style.width]="'100%'"
-           [text]="loginsSpecificationIn"
-           style="overflow-x: auto; border: 1px solid lightgray;"
-           xmAceEditor>
-        <span translate="admin-config.specification-mng.loading"></span>
-      </div>
-    </div>
-  </ng-container>
-
-  <xm-timeline-mng *ngSwitchCase="'uaa'" [readOnlyMode]="readOnlyMode"></xm-timeline-mng>
 
   <xm-tenant-mng *ngSwitchCase="'tenant'" [readOnlyMode]="readOnlyMode"></xm-tenant-mng>
 
