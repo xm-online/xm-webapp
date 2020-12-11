@@ -27,8 +27,6 @@ export class SpecificationManagementComponent implements OnInit {
 
     public isUiSpecValid: boolean;
     public isTenantSpecValid: boolean;
-    public isUaaSpecValid: boolean;
-    public isUaaLoginSpecValid: boolean;
 
     public aceEditorOptions: any = {
         highlightActiveLine: true,
@@ -41,6 +39,8 @@ export class SpecificationManagementComponent implements OnInit {
     public loginsSpecificationIn: string;
     public loginsSpecificationOut: string;
     public loginsValidation: any;
+
+    public isUaaLoginSpecValid: boolean;
 
     public uiSpecificationIn: string;
     public uiSpecificationOut: string;
@@ -56,10 +56,6 @@ export class SpecificationManagementComponent implements OnInit {
     public tenantSpecificationOut: string;
     public tenantValidation: any;
     public tenantSpecificationProgress: boolean;
-
-    public uaaSpecificationIn: string;
-    public uaaSpecificationOut: string;
-    public uaaValidation: any;
 
     public readOnlyMode: boolean;
 
@@ -80,10 +76,7 @@ export class SpecificationManagementComponent implements OnInit {
             this.loginsSpecificationIn = result;
             this.loginsSpecificationOut = result;
         });
-        this.service.getConfig('/uaa/uaa.yml').subscribe((result) => {
-            this.uaaSpecificationIn = result;
-            this.uaaSpecificationOut = result;
-        });
+
         this.service.getConfig('/webapp/settings-public.yml').subscribe((result) => {
             this.uiSpecificationIn = result;
             this.uiSpecificationOut = result;
@@ -214,28 +207,6 @@ export class SpecificationManagementComponent implements OnInit {
             window.location.reload();
         });
     }
-
-    public onUaaSpecificationChange(textChanged: any): void {
-        this.isUaaSpecValid = false;
-        this.uaaValidation = null;
-        this.uaaSpecificationOut = textChanged;
-    }
-
-    public validateUaaSpecification(): void {
-        this.service.validateUaaSpec(this.uaaSpecificationOut).subscribe((result) => {
-            this.uaaValidation = result;
-            this.isUaaSpecValid = !!this.uaaValidation.valid;
-            SpecificationManagementComponent.renderValidationMessage(this.uaaValidation);
-        });
-    }
-
-    public updateUaaSpecification(): void {
-        this.service.updateUaaSpec(this.uaaSpecificationOut).subscribe(() => {
-            this.isUaaSpecValid = false;
-            window.location.reload();
-        });
-    }
-
 
     public static renderValidationMessage(validation: any): void {
         const errorMessage = validation.errorMessage;

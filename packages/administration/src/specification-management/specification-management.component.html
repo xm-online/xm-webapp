@@ -100,45 +100,7 @@
     </div>
   </ng-container>
 
-  <ng-container *ngSwitchCase="'uaa'">
-    <div class="text-center pb-3">
-      <button (click)="validateUaaSpecification();"
-              *ngIf="!isUaaSpecValid"
-              color="primary"
-              mat-flat-button
-              translate="admin-config.specification-mng.validate"
-              type="submit"
-              [disabled]="readOnlyMode">
-      </button>
-      <button (click)="updateUaaSpecification();"
-              *ngIf="isUaaSpecValid"
-              color="primary"
-              mat-flat-button
-              translate="admin-config.specification-mng.uaa.save"
-              type="submit"
-              [disabled]="readOnlyMode">
-      </button>
-      <div class="text-center">
-        <div *ngIf="uaaValidation && !uaaValidation.valid" [innerHtml]="uaaValidation?.errorMessage"
-             class="text-danger">
-        </div>
-      </div>
-    </div>
-    <div class="text-right">
-      <div (textChanged)="onUaaSpecificationChange($event)"
-           [autoUpdateContent]="true"
-           [mode]="'yaml'"
-           [options]="aceEditorOptions"
-           [readOnly]="false"
-           [style.min-height]="'150px'"
-           [style.width]="'100%'"
-           [text]="uaaSpecificationIn"
-           style="overflow-x: auto; border: 1px solid lightgray;"
-           xmAceEditor>
-        <span translate="admin-config.specification-mng.loading"></span>
-      </div>
-    </div>
-  </ng-container>
+  <xm-timeline-mng *ngSwitchCase="'uaa'" [readOnlyMode]="readOnlyMode"></xm-timeline-mng>
 
   <ng-container *ngSwitchCase="'tenant'">
     <div class="text-center pb-3">
