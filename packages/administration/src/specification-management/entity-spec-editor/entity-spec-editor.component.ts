@@ -65,6 +65,8 @@ export class EntitySpecEditorComponent extends EditorUtils implements OnInit {
     public onAddEntitySpec(): void {
         this.spec.types.unshift({
             name: {},
+            isApp: false,
+            isAbstract: false,
             pluralName: {},
         });
     }
