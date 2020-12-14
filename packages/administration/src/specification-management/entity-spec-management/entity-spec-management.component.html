@@ -1,8 +1,8 @@
 <div *ngIf="entitySpecificationIn" class="mb-3">
   <xm-entity-spec-editor
-    [readOnlyMode]="readOnlyMode"
-    (out)="onApplyChanges($event)"
-    [in]="entitySpecificationIn"
+    [disabled]="disabled"
+    (entitySpecChange)="onApplyChanges($event)"
+    [entitySpec]="entitySpecificationIn"
   ></xm-entity-spec-editor>
 </div>
 
@@ -14,7 +14,7 @@
           color="primary"
           mat-flat-button
           type="submit"
-          [disabled]="readOnlyMode">
+          [disabled]="disabled">
     {{'admin-config.specification-mng.validate' | translate}}
   </button>
 
@@ -24,7 +24,7 @@
           color="primary"
           mat-flat-button
           type="submit"
-          [disabled]="readOnlyMode">
+          [disabled]="disabled">
     {{ 'admin-config.specification-mng.entity.save' | translate }}
   </button>
 
