@@ -3,7 +3,6 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { Router } from '@angular/router';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
-import { buildJsfAttributes } from '@xm-ngx/json-scheme-form';
 import * as _ from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
@@ -24,7 +23,6 @@ export class EntityListCardComponent implements OnInit, OnChanges {
     @Input() public options: EntityListCardOptions;
     @Input() public searchTemplateParams: any;
 
-    public isShowFilterArea: boolean;
     public list: EntityOptions[];
     public activeItemId: number;
     public entitiesPerPage: any;
@@ -44,13 +42,11 @@ export class EntityListCardComponent implements OnInit, OnChanges {
         this.entitiesPerPage = TABLE_CONFIG_DEFAULT.pageSize;
         this.activeItemId = 0;
         this.predicate = 'id';
-        this.isShowFilterArea = false;
     }
 
     public ngOnInit(): void {
         this.getEntitiesUIConfig();
     }
-
 
     public isHideAll(typeKey: string): boolean {
         if (this.currentEntitiesUiConfig && this.currentEntitiesUiConfig.length) {
@@ -66,36 +62,6 @@ export class EntityListCardComponent implements OnInit, OnChanges {
             this.reverse = false;
             this.load();
         }
-    }
-
-    public onRefresh(): void {
-        this.filtersReset(this.list[this.activeItemId]);
-        this.getCurrentEntitiesConfig();
-        this.loadEntities(this.list[this.activeItemId]).subscribe((result) => {
-            this.list[this.activeItemId].entities = result;
-        });
-    }
-
-    public filtersReset(activeList: any): void {
-        const filter = activeList.filter || null;
-        if (filter) {
-            activeList.filterJsfAttributes = buildJsfAttributes(filter.dataSpec, filter.dataForm);
-            activeList.currentQuery = null;
-            activeList.currentQuery = this.getDefaultSearch(activeList);
-        }
-    }
-
-    public getDefaultSearch(entityOptions: EntityOptions): string {
-        if (!entityOptions.fastSearch) {
-            return null;
-        }
-        let fastSearchWithoutName: any;
-        if (this.isHideAll(entityOptions.typeKey)) {
-            fastSearchWithoutName = entityOptions.fastSearch[0];
-        } else {
-            fastSearchWithoutName = entityOptions.fastSearch.filter((s) => !s.name).shift();
-        }
-        return !fastSearchWithoutName ? null : fastSearchWithoutName.query;
     }
 
     public setActiveTab(i: number): void {

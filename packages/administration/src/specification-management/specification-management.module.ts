@@ -24,6 +24,12 @@ import { MatDividerModule } from '@angular/material/divider';
 import { StatesEditorComponent } from './entity-spec-editor/states-editor/states-editor.component';
 import { MatListModule } from '@angular/material/list';
 import { MultiLanguageModuleModule } from '@xm-ngx/components/xm-multilanguage/xm-multi-language.module';
+import { TimelineMngComponent } from './timeline-mng/timeline-mng.component';
+import { UaaMngComponent } from './uaa-mng/uaa-mng.component';
+import { UiMngComponent } from './ui-mng/ui-mng.component';
+import { PrivateUiMngComponent } from './private-ui-mng/private-ui-mng.component';
+import { TenantMngComponent } from './tenant-mng/tenant-mng.component';
+import { UaaLoginMngComponent } from './uaa-login-mng/uaa-login-mng.component';
 
 @NgModule({
   imports: [
@@ -55,6 +61,12 @@ import { MultiLanguageModuleModule } from '@xm-ngx/components/xm-multilanguage/x
         EntitySpecManagementComponent,
         EntitySpecEditorComponent,
         StatesEditorComponent,
+        TimelineMngComponent,
+        UaaMngComponent,
+        UiMngComponent,
+        PrivateUiMngComponent,
+        TenantMngComponent,
+        UaaLoginMngComponent,
     ],
     providers: [EntitySpecYamlService],
 })

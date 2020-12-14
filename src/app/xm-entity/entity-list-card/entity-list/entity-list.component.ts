@@ -79,9 +79,15 @@ export class EntityListComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.onRefresh();
             });
+
+        if (this.options) {
+            this.isShowFilterArea = Boolean(this.options.isShowFilterArea);
+        }
+
         if (this.item.filter) {
             this.item.filterJsfAttributes = buildJsfAttributes(this.item.filter.dataSpec, this.item.filter.dataForm);
         }
+
         if (this.item.fields) { // Workaround: server sorting doesn't work atm for nested "data" fields
             this.item.fields
                 .filter((f) => f.field && f.field.startsWith('data.'))
@@ -115,7 +121,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
 
     public getDefaultSearch(entityOptions: EntityOptions): string {
         if (!entityOptions.fastSearch) {
-            return null;
+            return entityOptions.query;
         }
         let fastSearchWithoutName: any;
         if (this.isHideAll(entityOptions.typeKey)) {
@@ -151,6 +157,11 @@ export class EntityListComponent implements OnInit, OnDestroy {
         }
         copy.currentQuery = `${copy.currentQuery ? copy.currentQuery : ''} ${funcValue}`;
         entityOptions.currentQuery = copy.currentQuery;
+
+        if (entityOptions.overrideCurrentQuery) {
+            entityOptions.currentQuery = funcValue;
+        }
+
         entityOptions.page = 0;
         this.loadEntitiesPaged(entityOptions).subscribe((resp) => this.tableDataSource.data = resp);
     }
