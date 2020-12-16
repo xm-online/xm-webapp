@@ -1,42 +1,43 @@
-<mat-card *xmCondition="options.condition; arguments {entity: entity}"
-          class="mb-3">
+<ng-container *xmPermission="options.permission">
+  <mat-card *xmCondition="options.condition; arguments {entity: entity}"
+            class="mb-3">
 
-  <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between">
 
-    <div mat-card-title>
-      <span>{{options.title | translate}}</span>
-      <ng-content select="[xmHeaderTitle]"></ng-content>
+      <div mat-card-title>
+        <span>{{options.title | translate}}</span>
+        <ng-content select="[xmHeaderTitle]"></ng-content>
+      </div>
+
+      <div *ngIf="!options.readonly && entity?.id" class="flex-nowrap d-flex">
+        <ng-content select="[xmHeaderActions]"></ng-content>
+
+        <xm-edit-widget-buttons (cancel)="cancel.emit($event)"
+                                (edit)="contentHidden = false"
+                                (isEditChange)="isEditChange.emit($event)"
+                                (save)="save.emit($event)"
+                                *xmCondition="options.editCondition; arguments {entity: entity}"
+                                [(isEdit)]="isEdit">
+        </xm-edit-widget-buttons>
+
+        <button (click)="contentHidden=!contentHidden"
+                *ngIf="options?.collapsableContent"
+                [disabled]="isEdit"
+                mat-icon-button>
+          <mat-icon>{{contentHidden ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}</mat-icon>
+        </button>
+
+      </div>
+
     </div>
 
-    <div *ngIf="!options.readonly && entity?.id" class="flex-nowrap d-flex">
-      <ng-content select="[xmHeaderActions]"></ng-content>
+    <mat-card-content *ngIf="entity"
+                      [@bodyExpansion]="contentHidden ? 'collapsed' : 'expanded'"
+                      class="overflow-hidden">
 
-      <xm-edit-widget-buttons (cancel)="cancel.emit($event)"
-                              (edit)="contentHidden = false"
-                              (isEditChange)="isEditChange.emit($event)"
-                              (save)="save.emit($event)"
-                              *xmCondition="options.editCondition; arguments {entity: entity}"
-                              [(isEdit)]="isEdit">
-      </xm-edit-widget-buttons>
+      <ng-content select="[xmContent]"></ng-content>
 
-      <button (click)="contentHidden=!contentHidden"
-              *ngIf="options?.collapsableContent"
-              [disabled]="isEdit"
-              mat-icon-button>
-        <mat-icon>{{contentHidden ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}</mat-icon>
-      </button>
+    </mat-card-content>
 
-    </div>
-
-  </div>
-
-  <mat-card-content *ngIf="entity"
-                    [@bodyExpansion]="contentHidden ? 'collapsed' : 'expanded'"
-                    class="overflow-hidden">
-
-    <ng-content select="[xmContent]"></ng-content>
-
-  </mat-card-content>
-
-</mat-card>
-
+  </mat-card>
+</ng-container>

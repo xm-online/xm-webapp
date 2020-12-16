@@ -9,6 +9,7 @@ export interface XmMatCardOptions {
     title: Translate;
     readonly: boolean;
     condition: JavascriptCode;
+    permission?: string[];
     collapsableContent?: boolean;
     contentHiddenByDefault?: boolean;
 }
