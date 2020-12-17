@@ -10,7 +10,9 @@
          [(ngModel)]="controlValue"
          (dateTimeChange)="updateValue($event)"
          [required]="options['required']"
-         [disabled]="options['readonly']">
+         [disabled]="options['readonly']"
+         [min]="options['min']"
+         [max]="options['max']">
   <button mat-button
           type="button"
           class="btn btn-sm btn-link btn-icon btn-just-icon picker-trigger"
