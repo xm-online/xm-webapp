@@ -35,6 +35,7 @@ export class SelectorTextControlComponent
     }
 
     public ngOnInit(): void {
+        this.widgetListService.load();
         const widgets$ = this.widgetListService.widgets$.pipe(shareReplay(1));
         this.filteredOptions = combineLatest(
             this.control.valueChanges.pipe(startWith('')),
