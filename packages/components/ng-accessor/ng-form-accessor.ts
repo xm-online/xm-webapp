@@ -1,5 +1,5 @@
-import { Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Directive, Input, OnChanges, OnDestroy, OnInit, Optional, Self, SimpleChanges } from '@angular/core';
+import { FormControl, FormControlDirective, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NgControlAccessor } from './ng-control-accessor';
 
@@ -7,6 +7,13 @@ import { NgControlAccessor } from './ng-control-accessor';
 export abstract class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, OnChanges, OnDestroy {
     @Input() public control: FormControl = new FormControl();
     private valueSubscription: Subscription;
+
+    constructor(@Optional() @Self() public ngControl: NgControl | null) {
+        super(ngControl);
+        if (this.ngControl instanceof FormControlDirective) {
+            this.control = this.ngControl.control;
+        }
+    }
 
     public get value(): T {
         return this.control.value;
@@ -62,5 +69,4 @@ export abstract class NgFormAccessor<T> extends NgControlAccessor<T> implements 
                 .subscribe((value) => this.change(value));
         }
     }
-
 }
