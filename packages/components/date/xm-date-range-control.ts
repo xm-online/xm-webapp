@@ -4,10 +4,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmDateValue } from './xm-date.component';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { IControl, IControlFn, IDynamicModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { XmDateValue } from './xm-date.component';
 
 export interface XmDateRangeControlOptions {
     title: Translate;
@@ -28,15 +28,17 @@ export interface XmDateRangeControlValue {
             <mat-date-range-input [formGroup]="group"
                                   [rangePicker]="picker">
                 <input matStartDate
+                       (focus)="picker.open()"
                        [name]="options?.fromName"
                        formControlName="from">
                 <input matEndDate
+                       (focus)="picker.open()"
                        formControlName="to"
                        [name]="options?.toName">
             </mat-date-range-input>
             <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
-            <mat-error *xmControlErrors="group?.errors; message as message">{{message}}</mat-error>
+            <mat-error *xmControlErrors="group?.errors || group?.controls.from?.errors || group?.controls.to?.errors; message as message">{{message}}</mat-error>
         </mat-form-field>
     `,
 })
