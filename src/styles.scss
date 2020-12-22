@@ -6,9 +6,11 @@ $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 
 // Theme
 @import './styles/theme';
+@import './styles/theming';
 @import '~@xm-ngx/styles/components';
 
 @include xm-ngx-styles-theme($xm-theme);
+@include xm-theme($xm-theme);
 
 // Vendors
 @import '~@xm-ngx/styles/src/vendor/index';
