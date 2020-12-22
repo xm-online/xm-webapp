@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { JhiDateUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as moment from 'moment';
 
 import { createRequestOption } from '../../shared/model/request-util';
 import { SERVER_API_URL } from '../../xm.constants';
@@ -81,10 +82,9 @@ export class EventService {
      */
     private convert(event: Event): Event {
         const copy: Event = Object.assign({}, event);
+        copy.startDate = moment.utc(event.startDate).format();
+        copy.endDate = moment.utc(event.endDate).format();
 
-        copy.startDate = this.dateUtils.toDate(event.startDate);
-
-        copy.endDate = this.dateUtils.toDate(event.endDate);
         return copy;
     }
 }
