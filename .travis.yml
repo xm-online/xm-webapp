@@ -1,8 +1,8 @@
 language: node_js
 node_js:
- - "10.16.2"
+ - "14.15.3"
+install:
+  - npm install
 script:
- - set -e
- - npm install --save-dev
  - npm run lint
  - npm run build-aot

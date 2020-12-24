@@ -85,6 +85,7 @@
     "@types/heatmap.js": "2.0.36",
     "@xm-ngx/dashboards": "file:./packages/dashboards",
     "@xm-ngx/styles": "file:./packages/styles",
+    "@xm-ngx/cli": "file:./packages/cli",
     "ajv": "6.10.2",
     "angular-calendar": "0.28.2",
     "angular2-material-datepicker": "0.5.0",
@@ -191,7 +192,7 @@
     "karma-jasmine": "3.3.1",
     "karma-jasmine-html-reporter": "1.5.4",
     "ng-packagr": "10.1.2",
-    "node-sass": "4.13.1",
+    "node-sass": "4.14.1",
     "protractor": "7.0.0",
     "ts-node": "8.3.0",
     "typescript": "3.9.7"
