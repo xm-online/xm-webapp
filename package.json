@@ -18,7 +18,6 @@
   },
   "scripts": {
     "ng": "ng",
-    "install-exts": "node ./scripts/install-exts.js",
     "prestart": "npm run prebuild",
     "start": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng serve",
     "prestart:prod": "npm run prebuild",
@@ -27,9 +26,9 @@
     "start-local:aot": " npm run prebuild && node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng serve --proxy-config local.proxy.conf.js --live-reload  --host=0.0.0.0 --prod --aot=true",
     "dev": "npm run prebuild && ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0",
     "dev:aot": "npm run prebuild && ng serve --proxy-config local.proxy.conf.js --live-reload  --host=0.0.0.0 --prod --aot=true",
-    "prebuild": "npm run mng-ext && npm run install-exts && npm run merge-translations && npm run build-themes",
+    "prebuild": "xm-ngx ext-install && xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes",
     "build": "ng build --stats-json",
-    "prebuild:prod": "npm run mng-ext && npm run install-exts && npm run merge-translations",
+    "prebuild:prod": "npm run prebuild",
     "build:prod": "ng build --prod",
     "build-aot": "npm run prebuild && node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot=true",
     "build-no-aot": "npm run prebuild && ng build --prod --aot=false",
@@ -43,14 +42,11 @@
     "lint": "npm run lint:js",
     "lint:js": "eslint . --ext .ts --quiet",
     "lint:sass": "stylelint */**/*.scss --quiet",
-    "mng-ext": "node ./scripts/manage-exts.js",
-    "build-themes": "node ./scripts/build-themes.js",
     "get-unwraped-labels": "node ./scripts/get-unwraped-labels.js",
     "get-translations": "node ./scripts/get-translations.js",
-    "merge-translations": "node ./scripts/merge-translations.js",
-    "translations": "npm run get-translations && npm run merge-translations",
+    "translations": "npm run get-translations && xm-ngx ext-i18n",
     "report:bundle": "webpack-bundle-analyzer dist/stats.json",
-    "postinstall": "ngcc --properties esm5 browser module main"
+    "postinstall": "node ./scripts/build-packages.js && ngcc --properties esm5 browser module main"
   },
   "dependencies": {
     "@agm/core": "1.1.0",

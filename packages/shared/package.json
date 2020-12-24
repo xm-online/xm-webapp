@@ -1,6 +1,9 @@
 {
   "name": "@xm-ngx/shared",
   "version": "1.0.0",
+  "scripts": {
+    "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
+  },
   "ngPackage": {
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
     "dest": "../../dist/packages/shared",

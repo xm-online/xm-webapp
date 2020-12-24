@@ -13,12 +13,16 @@ export class ExtRoutingCommand implements Command {
     }
 
     public execute(): void {
-        const files: string[] = glob.glob(this.extRoutingPathMask, { sync: true }, () => undefined) as any;
+        const files: string[] = glob.sync(this.extRoutingPathMask, { sync: true });
 
         const injects: { import: string, include: string, name: string }[] = [];
         for (const file of files) {
-            const matches = path.basename(String(file)).match(/^([a-zA-Z-0-9]+)-routing.ts$/) || [];
+            const matches: string[] = /^([a-zA-Z-0-9]+)-routing.ts$/.exec(path.basename(file)) || [];
             const name = matches[1];
+            if (!name) {
+                console.warn('Skip file: ', path.basename(file));
+                continue;
+            }
             const inject = {
                 name,
                 import: `import { ${name.toUpperCase()}_ROUTES } from '@xm-ngx/ext/${name}-webapp-ext/${name}-routing';\n`,
