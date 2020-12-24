@@ -20,9 +20,10 @@ export class ExtThemesCommand implements Command {
     public execute(): void {
         console.info('Building custom theme scss files.');
 
-        const files = _.flatten(_.map(this.themesPathMask, (themePath) => glob.glob(themePath, { sync: true }, null)));
+        const files: string[] = _.flatten(_.map(this.themesPathMask, (themePath) => glob.glob(themePath, { sync: true }, () => undefined))) as any[];
         for (const file of files) {
-            const name = path.basename(String(file)).match(/^_?([a-zA-Z-0-9]+).scss$/)[1];
+            const matches = path.basename(String(file)).match(/^_?([a-zA-Z-0-9]+).scss$/) || [];
+            const name = matches[1];
             const outFile = `${this.destPath}/${name}.css`;
 
             const res = sass.renderSync({

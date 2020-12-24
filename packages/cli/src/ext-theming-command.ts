@@ -13,11 +13,12 @@ export class ExtThemingCommand implements Command {
     }
 
     public execute(): void {
-        const files: string[] = glob.glob(this.extThemingPathMask, { sync: true }, null) as any;
+        const files: string[] = glob.glob(this.extThemingPathMask, { sync: true }, () => undefined) as any;
 
         const injects: { import: string, include: string, name: string }[] = [];
         for (const file of files) {
-            const name = path.basename(String(file)).match(/^_?([a-zA-Z-0-9]+)-theming.scss$/)[1];
+            const matches = path.basename(String(file)).match(/^_?([a-zA-Z-0-9]+)-theming.scss$/) || [];
+            const name = matches[1];
             const inject = {
                 name,
                 import: `@import '${name}-webapp-ext/${name}-theming';\n`,
