@@ -6,22 +6,26 @@ import { Config } from './config';
 
 export class ExtThemingCommand implements Command {
 
-    public extThemingPathMask: string = this.config.extDir + '/*/*-theming.scss';
+    public extThemingPathMask: string = this.config.extDir + '/*/styles/*-theming.scss';
     public extThemingDistPath: string = 'src/styles/_theming.scss';
 
     constructor(private config: Config) {
     }
 
     public execute(): void {
-        const files: string[] = glob.glob(this.extThemingPathMask, { sync: true }, () => undefined) as any;
+        const files: string[] = glob.sync(this.extThemingPathMask, { sync: true });
 
         const injects: { import: string, include: string, name: string }[] = [];
         for (const file of files) {
-            const matches = path.basename(String(file)).match(/^_?([a-zA-Z-0-9]+)-theming.scss$/) || [];
+            const matches: string[] = /^_?([a-zA-Z-0-9]+)-theming.scss$/.exec(path.basename(file)) || [];
             const name = matches[1];
+            if (!name) {
+                console.warn('Skip file: ', path.basename(file));
+                continue;
+            }
             const inject = {
                 name,
-                import: `@import '${name}-webapp-ext/${name}-theming';\n`,
+                import: `@import '${name}-webapp-ext/styles/_${name}-theming';\n`,
                 include: `@include ${name}-theme($theme);\n`,
             };
 
@@ -33,7 +37,7 @@ export class ExtThemingCommand implements Command {
         for (const inject of injects) {
             if (!themeFile.includes(inject.import)) {
                 themeFile = inject.import + themeFile;
-                console.info('Theming is added: ', inject.import);
+                console.info('Theming is added:', inject.name);
             }
 
             if (!themeFile.includes(inject.include)) {
