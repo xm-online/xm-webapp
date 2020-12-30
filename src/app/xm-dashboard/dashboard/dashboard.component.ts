@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { environment } from '@xm-ngx/core/environment';
@@ -34,6 +34,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
+                private cdf: ChangeDetectorRef,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private pageService: PageService<Page<{ slug?: string }>>,
                 pageTitleService: PageTitleService,
@@ -49,6 +50,8 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
             .pipe(takeUntilOnDestroy(this))
             .subscribe((params) => {
                 this.showLoader = true;
+                this.dashboard = null;
+                this.cdf.detectChanges();
                 this.pageService.load(params.id);
             });
 

@@ -1,4 +1,4 @@
-import { Inject, Injectable, Injector } from '@angular/core';
+import { ApplicationRef, Injectable, Injector } from '@angular/core';
 import { TranslationService } from '@xm-ngx/administration/translations/services/translation.service';
 import { DYNAMIC_COMPONENTS, DynamicTenantLoaderService, IDynamicComponent } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
@@ -12,7 +12,7 @@ function provideFullSelector(components: IDynamicComponent[], prefix?: string): 
     const append = prefix ? `${prefix}/` : '';
     return components.map((i) => {
         const globalSelector = `${append}${i.selector}`;
-        return {...i, globalSelector};
+        return { ...i, globalSelector };
     });
 }
 
@@ -26,22 +26,30 @@ export class WidgetListService {
         private translationService: TranslationService,
         private loader: DynamicTenantLoaderService,
         private injector: Injector,
-        @Inject(DYNAMIC_COMPONENTS) private dynamiccomponents: ExtendedDynamicComponents[],
+        private applicationRef: ApplicationRef,
     ) {
-        this.load();
+    }
+
+    public loadWithConfig(config: { modules: string [] }): void {
+        const globalWithGlobalSelector = provideFullSelector(_.flatMap(this.getRootDynamics()));
+
+        const moduleSelectors = config.modules.map(i => `ext-${i.substring(0, i.indexOf('-ext'))}`);
+        const moduleLoaders = moduleSelectors.map((ext) => this.loader.loadTenantModuleRef(ext, this.injector));
+        from(Promise.all(moduleLoaders)).subscribe((modules) => {
+            const components = modules.map(i => _.flatMap(i.injector.get(DYNAMIC_COMPONENTS, [])));
+            const componentsWithGlobalSelector = components.map((i, ix) => provideFullSelector(i, moduleSelectors[ix]));
+            const allComponents = _.uniq(_.flatMap([...componentsWithGlobalSelector, globalWithGlobalSelector]));
+            this.widgets.next(allComponents);
+        });
     }
 
     public load(): void {
-        const globalWithGlobalSelector = provideFullSelector(_.flatMap(this.dynamiccomponents));
         this.translationService.loadConfig().subscribe((config) => {
-            const moduleSelectors = config.exts.map(i => `ext-${i.substring(0, i.indexOf('-ext'))}`);
-            const moduleLoaders = moduleSelectors.map((ext) => this.loader.loadTenantModuleRef(ext, this.injector));
-            from(Promise.all(moduleLoaders)).subscribe((modules) => {
-                const components = modules.map(i => _.flatMap(i.injector.get(DYNAMIC_COMPONENTS, [])));
-                const componentsWithGlobalSelector = components.map((i, ix) => provideFullSelector(i, moduleSelectors[ix]));
-                const allComponents = _.uniq(_.flatMap([...componentsWithGlobalSelector, globalWithGlobalSelector]));
-                this.widgets.next(allComponents);
-            });
+            this.loadWithConfig({ modules: config.exts });
         });
+    }
+
+    public getRootDynamics(): ExtendedDynamicComponents[] {
+        return this.applicationRef['_injector'].get(DYNAMIC_COMPONENTS);
     }
 }

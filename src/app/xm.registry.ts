@@ -199,4 +199,8 @@ export const XM_ELEMENTS: DynamicComponents = [
         selector: '@xm-ngx/components/checkbox-control',
         loadChildren: () => import('@xm-ngx/components/checkbox-control').then(m => m.XmCheckboxControlModule),
     },
+    {
+        selector: '@xm-ngx/components/dynamic-list-widget',
+        loadChildren: () => import('@xm-ngx/components/dynamic/xm-dynamic-list.module').then(m => m.XmDynamicListModule),
+    },
 ];

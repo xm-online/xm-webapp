@@ -1,0 +1,47 @@
+{
+  "name": "@xm-ngx/cli",
+  "version": "0.0.1",
+  "description": "Extension Management Utilities",
+  "private": true,
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xm-online/xm-webapp.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [
+    "xm-ngx",
+    "cli"
+  ],
+  "license": "Apache-2.0",
+  "author": "Xm team",
+  "bugs": {
+    "url": "https://github.com/xm-online/xm-webapp/issues"
+  },
+  "homepage": "https://github.com/xm-online/xm-webapp/tree/develop/packages/cli",
+  "peerDependencies": {
+    "typescript": "3.9.7",
+    "@types/node": "13.1.7",
+    "node-sass": "4.13.1",
+    "@types/node-sass": "4.11.1",
+    "lodash": "4.17.19",
+    "node-sass-package-importer": "5.3.2"
+  },
+  "scripts": {
+    "start": "tsc --watch",
+    "build": "tsc",
+    "prepare" : "npm run build"
+  },
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "bin": {
+    "xm-ngx": "./bin/xm-ngx"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  }
+}
