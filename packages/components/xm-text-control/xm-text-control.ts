@@ -93,7 +93,7 @@ export class XmTextControl extends NgFormAccessor<Primitive> implements IControl
         this._options = defaults({}, value, { ...DEFAULT_OPTIONS, errors: this.xmControlErrorsTranslates });
         this._options.placeholder = this._options.placeholder || this._options.title;
 
-        if (value.disabled) {
+        if (this._options.disabled) {
             this.disabled = value.disabled;
         }
     }

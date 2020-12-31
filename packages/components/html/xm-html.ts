@@ -1,15 +1,31 @@
 import { Component, Input, NgModule, Type } from '@angular/core';
+import { Translate, XmTranslateService } from '@xm-ngx/translation';
 
 export interface XmHtmlOptions {
-    html: string,
+    html: Translate,
 }
 
 @Component({
     selector: 'xm-html',
-    template: '<div [innerHTML]="options?.html"></div>',
+    template: '<div [innerHTML]="html"></div>',
 })
 export class XmHtmlComponent {
-    @Input() public options: XmHtmlOptions;
+    public html: string;
+
+    constructor(private translationService: XmTranslateService) {
+    }
+
+    private _options: XmHtmlOptions;
+
+    public get options(): XmHtmlOptions {
+        return this._options;
+    }
+
+    @Input()
+    public set options(value: XmHtmlOptions) {
+        this._options = value;
+        this.html = this.translationService.translate(this._options?.html);
+    }
 }
 
 @NgModule({
