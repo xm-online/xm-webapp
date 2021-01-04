@@ -1,9 +1,19 @@
-.limetedWidth {
+.limitedWidth {
     max-width: 160px;
 
     @media screen and (max-width: 420px) {
         max-width: 100%;
     }
+}
+
+div.displayblock
+{
+display:block !important;
+}
+
+div.col-auto
+{
+width:100% !important;
 }
 
 .no-wrap {
@@ -14,8 +24,19 @@
 }
 
 .func-btn {
+    background: rgb(160,160,160);
+
     @media screen and (max-width: 420px) {
         width:   100%;
         display: block;
     }
 }
+
+.row-compact{
+  margin-left:0px;
+  margin-right:0px;
+}
+
+.container-fluid{
+}
+

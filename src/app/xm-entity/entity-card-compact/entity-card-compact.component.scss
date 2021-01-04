@@ -1,3 +1,16 @@
+.description{
+color: #909090;
+font-size: 12px;
+}
+
+.col-auto{
+width:100%;
+}
+
+.mat-menu-trigger{
+margin-top:10px;
+}
+
 .avatar-container-card {
     position: relative;
     display:  inline-block;
@@ -17,47 +30,105 @@
     left:       0;
     right:      0;
     transform:  translateY(5%);
-    font-size:  72px;
-    top:        20%;
+    font-size:  50px;
+    top:        8%;
 }
 
-.avatar-container-card img {
-    width:         130px;
-    height:        130px;
+.avatar-container-card img{
+    width:         70px;
+    height:        70px;
     overflow:      hidden;
     border-radius: 50%;
+    box-shadow: 0 0 5px 1px rgb(225, 225, 225);
+}
+
+ .card-icon img{
+    width:         70px;
+     height:        70px;
+    overflow:      hidden;
+    border-radius: 3px;
+}
+.card-custom .card-icon.avatar{
+padding:0px;
 }
 
 .hidden {
     display: none;
 }
 
+.card-title {
+     margin-top:10px !important;
+}
+
+.row-compact{
+  margin-left:0px;
+  margin-right:0px;
+}
+
+.card-custom-schema-compact{
+border-top: solid 1px #E0E0E0;
+margin-top: 5px !important;
+padding-top: 7px;
+}
+
 .card-custom {
+    min-width:300px;
+
     &.has-avatar {
         .card-title {
-            margin-left: 160px;
+            margin-left: 60px;
+        }
+        .card-desc{
+           // margin-left: 67px; -- no need with current avatar position
         }
 
-        .avatar-container-card {
-            margin-top: -45px;
-        }
+      .avatar-position{
+      position:absolute;
+      top: -10px;
+      left: -20px;
+      }
     }
 
     .card-title {
-        font-size: 22px;
+        max-width: calc(100% - 150px) ;
+
+        @media (min-width: 450px) {
+          font-size: 22px;
+        }
+        @media (max-width: 450px) {
+          font-size: 14px;
+        }
     }
+
+    .ecc-name{
+      font-weight: bold;
+      margin-top: 6px;
+      font-size: 18px;
+    }
+
+
+}
+
+
+.function-list{
+width:100%;
+margin-top:15px;
 }
 
 .card-desc {
+    margin-top: 10px;
+    margin-left: 15px;
+    margin-right: 15px;
     position:   relative;
     max-height: 62px;
     overflow:   hidden;
     transition: all 0.3s ease;
+    width: calc(100% - 30px)
 
     &-toggle {
         position:    absolute;
-        right:       22px;
-        top:         26px;
+        right:       5px;
+        top:         5px;
         width:       10px;
         height:      10px;
         transform:   rotate(45deg);
@@ -68,16 +139,16 @@
     }
 
     &.desc-full-view {
-        max-height: 1000px;
+        max-height: 250px;
 
         .card-desc-toggle {
             transform: rotate(225deg);
         }
     }
 
-    &-inner {
+/*    &-inner {
         margin-right: 20px;
-    }
+    }*/
 }
 
 :host::ng-deep {
@@ -115,7 +186,7 @@
             }
 
             .container-fluid {
-                padding-left: 0 !important;
+//                padding-left: 0 !important;
 
                 .col {
                     flex:      0 0 auto;
@@ -139,7 +210,7 @@
                                 position:    absolute;
                                 font-size:   22px;
                                 font-weight: 700;
-                                bottom:      10px;
+                                bottom:      12px;
                             }
                         }
                     }

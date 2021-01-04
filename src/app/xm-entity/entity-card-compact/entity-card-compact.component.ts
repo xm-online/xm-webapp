@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewChild, SimpleChanges } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
 import { JhiEventManager } from 'ng-jhipster';
@@ -10,6 +10,10 @@ import { EntityCardComponent } from '../entity-card/entity-card.component';
 import { RatingListSectionComponent } from '../rating-list-section/rating-list-section.component';
 import { XmEntityService } from '../shared/xm-entity.service';
 
+// transferred from entity-detail-fab
+import { EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
+import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
+
 declare let swal: any;
 
 @Component({
@@ -17,17 +21,23 @@ declare let swal: any;
     templateUrl: './entity-card-compact.component.html',
     styleUrls: ['./entity-card-compact.component.scss'],
 })
-export class EntityCardCompactComponent extends EntityCardComponent implements OnInit {
+export class EntityCardCompactComponent extends EntityCardComponent implements OnInit, OnChanges {
 
     @ViewChild('rating', {static: false}) public rating: RatingListSectionComponent;
 
     @Input() public preventDefaultUpdateError?: boolean;
+    @Input() public entityUiConfig: EntityUiConfig;
     @Output() public onSaveError: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     public jsfAttributes: any;
     public showLoader: boolean;
     public isDescFull: boolean;
 
+    // transferred from entity-detail-fab
+    public showEditButton: boolean;
+    public showEditOptions: boolean = false;
+    public showEditSubOptions: boolean = false;
+endsWith
     constructor(
         protected modalService: NgbModal,
         public principal: Principal,
@@ -42,6 +52,56 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
         super.ngOnInit();
         this.loadJsfAttr();
     }
+
+// transferred from entity-detail-fab
+    public ngOnChanges(changes: SimpleChanges): void {
+        this.showEditButton = true;
+
+        const currentKey = changes.xmEntitySpec.currentValue.key;
+        const uiConfigKey = this.entityUiConfig && this.entityUiConfig.typeKey;
+
+        if (currentKey && uiConfigKey && currentKey === uiConfigKey) {
+            this.checkEntityEditPermission(this.entityUiConfig);
+        }
+    }
+
+// transferred from entity-detail-fab
+    private checkEntityEditPermission(config: EntityUiConfig): void {
+        if (config.editButtonPermission) {
+            this.showEditButton = false;
+            this.principal.hasPrivileges([config.editButtonPermission]).then((result) => {
+                if (result) {
+                    this.showEditButton = true;
+                }
+            });
+        }
+    }
+
+// transferred from entity-detail-fab
+    public onEdit(): void {
+        this.openDialog(EntityDetailDialogComponent, (modalRef) => {
+            modalRef.componentInstance.xmEntity = Object.assign({}, this.xmEntity);
+            modalRef.componentInstance.xmEntitySpec = this.xmEntitySpec;
+        });
+    }
+
+// transferred from entity-detail-fab
+    private openDialog(dialogClass: any, operation: any, options?: any): NgbModalRef {
+        const modalRef = this.modalService.open(dialogClass, options ? options : {backdrop: 'static'});
+        modalRef.componentInstance.xmEntity = this.xmEntity;
+        operation(modalRef);
+        return modalRef;
+    }
+
+// transferred from entity-detail-fab
+    public xmEditContext(): () => any {
+        return () => {
+            // this flag turns off
+            this.showEditOptions = true;
+            return this.showEditOptions;
+        };
+    }
+
 
     public onSubmitForm(data: any): void {
         this.showLoader = true;
