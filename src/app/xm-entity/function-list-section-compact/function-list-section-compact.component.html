@@ -13,7 +13,8 @@
                [label]="f.name | i18nName: principal"
                [tabIndex]="f.key === 'AREA' ? 'AREA': i">
 
-<!--VK: obsolete
+<!--TODO: return back after checking that functions are functional or remove complete code of these functions
+
         <div *ngIf="f.key === 'AREA'">
           <xm-area *ngIf="initMap" [functionContext]="getFunctionContext(f)" [xmEntity]="xmEntity">
           </xm-area>
