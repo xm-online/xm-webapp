@@ -37,7 +37,7 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
     public showEditButton: boolean;
     public showEditOptions: boolean = false;
     public showEditSubOptions: boolean = false;
-endsWith
+
     constructor(
         protected modalService: NgbModal,
         public principal: Principal,
