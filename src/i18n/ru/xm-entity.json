@@ -99,7 +99,8 @@
         "entity-data-card": {
             "title": "Данные",
             "update-success": "Успешно обновлено.",
-            "update-error": "Не обновлено. Попробуй еще раз."
+            "update-error": "Не обновлено. Попробуй еще раз.",
+            "change-avatar": "Изменить фото"
         },
         "entity-list-card": {
             "action-dialog": {
