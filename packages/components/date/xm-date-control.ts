@@ -15,6 +15,7 @@ import { XmDateValue } from './xm-date.component';
 export interface XmDateControlOptions {
     title: Translate;
     name?: string;
+    required?: boolean;
 }
 
 @Component({
@@ -26,6 +27,7 @@ export interface XmDateControlOptions {
             <input [formControl]="control"
                    [matDatepicker]="picker"
                    [name]="options?.name"
+                   [required]="options?.required"
                    (click)="picker.open()"
                    matInput>
             <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
