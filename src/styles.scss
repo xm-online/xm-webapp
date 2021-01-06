@@ -50,3 +50,38 @@ $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0.5em 0;
 }
+
+.card:not(.mat-card) {
+  margin-bottom: 48px;
+}
+
+.mat-card.mb-4 {
+  padding-top: 0px;
+  margin-top: 20px;
+  display: inline-block;
+  width: 100%;
+}
+
+.table th,
+.table td {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.table thead th {
+  vertical-align: middle;
+}
+
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
+  padding-right: 16px;
+}
+
+.card-body {
+  padding-top: 0;
+}
+
+.card-stats {
+  margin: 0!important;
+  padding-bottom: 40px!important;
+}
