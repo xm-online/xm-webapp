@@ -3,16 +3,18 @@
      [ngSwitch]="isAvatarEnabled"
      class="card card-custom">
 
-  <!-- avatar is shown as a card heading, avatar editing is in the card-menu -->
-  <div class="card-header card-header-icon card-header-primary text-left">
-      <div *ngIf="xmEntity.avatarUrl" class="card-icon avatar">
-        <img src="{{xmEntity.avatarUrl}}">
-      </div>
-      <div *ngIf="!xmEntity.avatarUrl" class="card-icon">
-        <i class="material-icons">{{xmEntitySpec.icon ? xmEntitySpec.icon : './assets/img/placeholder.png'}}</i>
-      </div>
-    <h4 class="card-title">{{xmEntity.name}}</h4>
-  </div>
+    <div class="card-header card-header-icon card-header-primary text-left">
+      <!-- avatar is shown as a card heading, avatar editing is in the card-menu -->
+      <ng-container *ngIf="isAvatarEnabled">
+        <div *ngIf="xmEntity.avatarUrl" class="card-icon avatar">
+          <img src="{{xmEntity.avatarUrl}}">
+        </div>
+        <div *ngIf="!xmEntity.avatarUrl" class="card-icon">
+          <i class="material-icons">{{xmEntitySpec.icon ? xmEntitySpec.icon : './assets/img/placeholder.png'}}</i>
+        </div>
+      </ng-container>
+      <h4 class="card-title">{{xmEntity.name}}</h4>
+    </div>
 
   <div class="card-menu">
 
