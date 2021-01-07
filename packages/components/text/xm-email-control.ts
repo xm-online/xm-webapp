@@ -2,11 +2,10 @@ import { Component, Input, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { TranslateModule } from '@ngx-translate/core';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { IControlFn } from '@xm-ngx/dynamic';
-import { Translate } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 export interface XmEmailControlOptions {
     title: Translate,
@@ -43,7 +42,7 @@ export class XmEmailControl extends NgFormAccessor<string> {
         ControlErrorModule,
         MatInputModule,
         ReactiveFormsModule,
-        TranslateModule,
+        XmTranslationModule,
     ],
     exports: [XmEmailControl],
     declarations: [XmEmailControl],
