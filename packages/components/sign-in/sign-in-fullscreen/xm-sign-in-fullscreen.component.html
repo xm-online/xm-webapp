@@ -1,0 +1,17 @@
+<div class="row no-gutters h-100">
+
+  <div class="col-12 col-lg-4 xm-sign-in-form-banner-container">
+    <img [src]="options.leftLogoUrl">
+    <img [style.background-image]="'url(' + options.bannerImageUrl + ')'"
+         class="xm-sign-in-form-banner-img"
+         xmMouseMoveParallax>
+  </div>
+
+  <div class="col-12 col-lg-8 d-flex align-items-center pl-lg-5">
+    <xm-sign-in-form (afterSignIn)="afterSignIn.emit($event)"
+                     [options]="options"
+                     class="d-block col-12 col-lg-4 ml-lg-5 mt-4"></xm-sign-in-form>
+  </div>
+
+</div>
+
