@@ -4,15 +4,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { XmPhoneNumberControlOptions } from '@xm-ngx/components/text/xm-phone-number-control-options';
 import { IControlFn } from '@xm-ngx/dynamic';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { XmTranslationModule } from '@xm-ngx/translation';
 
-
-export interface XmPhoneNumberControlOptions {
-    title: Translate,
-    id?: string,
-    required?: boolean,
-}
 
 @Component({
     selector: 'xm-phone-number-control',

@@ -5,14 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { XmPasswordControlOptions } from '@xm-ngx/components/text/xm-password-control-options';
 import { IControlFn } from '@xm-ngx/dynamic';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-
-export interface XmPasswordControlOptions {
-    title: Translate,
-    id?: string,
-    required?: boolean,
-}
+import { XmTranslationModule } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-password-control',

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SignInForm } from '@xm-ngx/components/sign-in/sign-in-form/sign-in.service';
-import { XmSignInFormOptions } from '@xm-ngx/components/sign-in/sign-in-form/xm-sign-in-form.component';
+import { XmSignInFormOptions } from '@xm-ngx/components/sign-in/sign-in-form/xm-sign-in-form.options';
 
 
 export interface XmSignInFullscreenOptions extends XmSignInFormOptions {

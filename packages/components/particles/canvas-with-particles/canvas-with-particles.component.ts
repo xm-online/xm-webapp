@@ -1,5 +1,6 @@
-import { Component, ElementRef, HostListener, NgModule, OnDestroy, OnInit, ViewChild, Input } from '@angular/core';
-import { LineTrailParticles, LineTrailParticlesOptions } from '../line-trail-particles';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { LineTrailParticlesOptions } from '@xm-ngx/components/particles/line-trail-particles-options';
+import { LineTrailParticles} from '../line-trail-particles';
 
 
 export interface CanvasWithParticlesOptions {
@@ -66,9 +67,3 @@ export class CanvasWithParticlesComponent implements OnInit, OnDestroy {
 }
 
 
-@NgModule({
-    exports: [CanvasWithParticlesComponent],
-    declarations: [CanvasWithParticlesComponent],
-})
-export class CanvasWithParticlesModule {
-}

@@ -1,4 +1,5 @@
-import { Color, LineTrailParticle, randomInt } from './line-trail-particle';
+import { LineTrailParticlesOptions } from '@xm-ngx/components/particles/line-trail-particles-options';
+import { LineTrailParticle, randomInt } from './line-trail-particle';
 
 
 function randomValue(value: number | [number, number]): number {
@@ -9,26 +10,14 @@ function randomValue(value: number | [number, number]): number {
     }
 }
 
-export interface LineTrailParticlesOptions {
-    liveTime: number | [number, number],
-    size: number | [number, number],
-    count: number | [number, number],
-    color: Color,
-    canvasWidth: number,
-    canvasHeight: number,
-    trailCount: number | [number, number],
-    trailDelay: number | [number, number],
-    speed: number | [number, number],
-}
-
-export class ParticlesObject {
+class ParticlesObject {
     public objects: LineTrailParticle[] = [];
 
     constructor(public options: LineTrailParticlesOptions) {
     }
 }
 
-export class ParticlesLiveTimeScript {
+class ParticlesLiveTimeScript {
 
     constructor(
         private particlesObject: ParticlesObject,
@@ -45,7 +34,7 @@ export class ParticlesLiveTimeScript {
 
 }
 
-export class ParticlesCountScript {
+class ParticlesCountScript {
 
     constructor(
         private ctx: CanvasRenderingContext2D,
@@ -80,7 +69,7 @@ export class ParticlesCountScript {
     }
 }
 
-export class DestroyParticlesOutBorderScript {
+class DestroyParticlesOutBorderScript {
     constructor(
         private particlesObject: ParticlesObject,
     ) {

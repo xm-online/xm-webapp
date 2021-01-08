@@ -4,14 +4,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { XmEmailControlOptions } from '@xm-ngx/components/text/xm-email-control-options';
 import { IControlFn } from '@xm-ngx/dynamic';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-
-export interface XmEmailControlOptions {
-    title: Translate,
-    id?: string,
-    required?: boolean,
-}
+import { XmTranslationModule } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-email-control',

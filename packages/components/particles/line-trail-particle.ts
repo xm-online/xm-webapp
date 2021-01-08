@@ -4,7 +4,7 @@ export const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1
 
 export type Color = { r: number, g: number, b: number, a: number }
 
-export interface LineTrailParticleOptions {
+interface LineTrailParticleOptions {
     /** Start X position. */
     x: number;
     /** Start Y position. */
@@ -24,7 +24,7 @@ export interface LineTrailParticleOptions {
     liveTime: number,
 }
 
-export class LineTrailParticleObject {
+class LineTrailParticleObject {
     public time: number = 0;
     public x: number = this.options.x;
     public y: number = this.options.y;
@@ -35,7 +35,7 @@ export class LineTrailParticleObject {
     }
 }
 
-export class LiveTimeColorScript {
+class LiveTimeColorScript {
     constructor(
         private particleObject: LineTrailParticleObject) {
     }
@@ -46,7 +46,7 @@ export class LiveTimeColorScript {
     }
 }
 
-export class LineTrailParticleScript {
+class LineTrailParticleScript {
 
     private history: { x: number, y: number }[] = [];
     private trailDelayTime: number = 0;
@@ -88,7 +88,7 @@ export class LineTrailParticleScript {
     }
 }
 
-export class LinePhaseParticleScript {
+class LinePhaseParticleScript {
     private phase: { nextPhaseTime: number, rad: number, addedX: number, addedY: number };
     private timer: number = 0;
 

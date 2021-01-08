@@ -1,17 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { SignInForm, SignInService } from './sign-in.service';
-import { XmEmailControlOptions, XmPasswordControlOptions } from '@xm-ngx/components/text';
-import { Translate } from '@xm-ngx/translation';
+import { XmSignInFormOptions } from '@xm-ngx/components/sign-in/sign-in-form/xm-sign-in-form.options';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-
-export interface XmSignInFormOptions {
-    subtitle: Translate;
-    title: Translate;
-    username: XmEmailControlOptions;
-    password: XmPasswordControlOptions;
-}
+import { SignInForm, SignInService } from './sign-in.service';
 
 @Component({
     selector: 'xm-sign-in-form',

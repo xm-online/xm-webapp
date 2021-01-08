@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, NgModule } from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
     selector: '[xmMouseMoveParallax]',
@@ -9,7 +9,7 @@ export class MouseMoveParallaxDirective {
     }
 
     @HostListener('document:mousemove', ['$event'])
-    public onWindowResize(e: MouseEvent): void {
+    public onDocumentMouseMove(e: MouseEvent): void {
         const elem = this.el.nativeElement;
         const w = window.innerWidth / 2;
         const h = window.innerHeight / 2;
@@ -22,9 +22,3 @@ export class MouseMoveParallaxDirective {
 }
 
 
-@NgModule({
-    exports: [MouseMoveParallaxDirective],
-    declarations: [MouseMoveParallaxDirective],
-})
-export class MouseMoveParallaxModule {
-}
