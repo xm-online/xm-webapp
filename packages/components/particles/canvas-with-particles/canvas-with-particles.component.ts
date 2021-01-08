@@ -1,6 +1,16 @@
-import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    HostListener,
+    Input,
+    NgZone,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { LineTrailParticlesOptions } from '@xm-ngx/components/particles/line-trail-particles-options';
-import { LineTrailParticles} from '../line-trail-particles';
+import { LineTrailParticles } from '../line-trail-particles';
 
 
 export interface CanvasWithParticlesOptions {
@@ -11,29 +21,43 @@ export interface CanvasWithParticlesOptions {
     selector: 'xm-canvas-with-particles',
     templateUrl: './canvas-with-particles.component.html',
     styleUrls: ['./canvas-with-particles.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CanvasWithParticlesComponent implements OnInit, OnDestroy {
 
     @Input() public options: CanvasWithParticlesOptions;
 
     @ViewChild('signInCanvas', { static: true }) public signInCanvas: ElementRef<HTMLCanvasElement>;
-    private ctx: CanvasRenderingContext2D;
     private updateUI: boolean = true;
     private lineTrailParticles: LineTrailParticles;
+
+    constructor(private ngZone: NgZone) {
+    }
 
     public ngOnInit(): void {
         const canvas = this.signInCanvas.nativeElement;
         const canvasWidth = canvas.width = window.innerWidth;
         const canvasHeight = canvas.height = window.innerHeight;
-        this.ctx = canvas.getContext('2d');
-
-        this.lineTrailParticles = new LineTrailParticles(this.ctx, {
+        const ctx = canvas.getContext('2d');
+        const lineTrailParticles = this.lineTrailParticles = new LineTrailParticles(ctx, {
             ...this.options.lineTrailOptions,
             canvasHeight,
             canvasWidth,
         });
 
-        window.requestAnimationFrame(() => this.updateView());
+        this.ngZone.runOutsideAngular(() => {
+            window.requestAnimationFrame(() => {
+                const updateView = () => {
+                    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+                    lineTrailParticles.update();
+                    if (this.updateUI) {
+                        window.requestAnimationFrame(() => updateView());
+                    }
+                };
+
+                updateView();
+            });
+        });
     }
 
     @HostListener('window:resize')
@@ -54,16 +78,6 @@ export class CanvasWithParticlesComponent implements OnInit, OnDestroy {
             canvasWidth,
         });
     }
-
-    private updateView(): void {
-        this.ctx.clearRect(0, 0, this.signInCanvas.nativeElement.width, this.signInCanvas.nativeElement.height);
-        this.lineTrailParticles.update();
-
-        if (this.updateUI) {
-            window.requestAnimationFrame(() => this.updateView());
-        }
-    }
-
 }
 
 
