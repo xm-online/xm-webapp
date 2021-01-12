@@ -20,11 +20,6 @@ export class XmEntitySpecService {
         return this.http.post(this.resourceUrl, configContent);
     }
 
-    public generateXmEntity(typeKey: string): Observable<HttpResponse<any>> {
-        return this.http.post(`${this.resourceUrl}//generate-xm-entity?rootTypeKey=${typeKey}`, null,
-            {observe: 'response'});
-    }
-
     public getAll(): Observable<XmEntitySpec[]> {
         return this.http.get<XmEntitySpec[]>(this.resourceUrl);
     }

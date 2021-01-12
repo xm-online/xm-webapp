@@ -1,0 +1,27 @@
+<form [formGroup]="group">
+
+  <h2 class="sign-in-form-title mat-h2">{{ options.title | translate}}</h2>
+
+  <div class="sign-in-form-subtitle">{{ options.subtitle | translate}}</div>
+
+  <xm-email-control [options]="options.username" formControlName="username"></xm-email-control>
+
+  <xm-password-control [options]="options.password" formControlName="password"></xm-password-control>
+
+  <div class="xm-sign-in-form-error-block">
+    <mat-error *ngIf="error$ | async as error">
+      {{ error | translate }}
+    </mat-error>
+  </div>
+
+  <button (click)="onSubmit()"
+          [disabled]="(loading$ | async) || group.invalid"
+          [xm-loading]="loading$ | async"
+          color="primary"
+          class="xm-sign-in-form-submit-btn"
+          mat-flat-button>
+    {{'ext-b2b.login.next' | translate}}
+  </button>
+
+</form>
+

@@ -70,7 +70,8 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
         } else {
             if (this.spec && this.spec.types) {
                 this.availableSpecs = this.spec.types
-                    .filter((t) => !t.isAbstract && t.key.startsWith(this.xmEntitySpec.key));
+                    .filter((t) =>
+                        (!t.isAbstract && (t.key && (t.key.split('.')[0] === this.xmEntitySpec.key))));
                 this.xmEntity.key = UUID.UUID();
                 this.xmEntity.typeKey = this.availableSpecs[0].key;
                 this.onChangeEntityType(null, this.xmEntity.typeKey);

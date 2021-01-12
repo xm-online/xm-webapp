@@ -1,3 +1,5 @@
+@import 'theme';
+
 @mixin flex() {
   display: -webkit-box;
   display: -moz-box;
@@ -94,4 +96,5 @@
 .navbar {
   padding-top:    0.75rem;
   padding-bottom: 0.75rem;
+  z-index:        $zindex-sticky;
 }
