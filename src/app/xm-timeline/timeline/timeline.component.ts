@@ -22,6 +22,7 @@ export class TimelineComponent implements OnInit, OnChanges, OnDestroy {
     @Input() public filter: any;
     @Input() public template: (arg?: any) => string;
     @Input() public config: any;
+    @Input() public uiConfig: any;
 
     // xmEntity: XmEntity;
     public timelinePage: TimelinePage;
@@ -84,7 +85,7 @@ export class TimelineComponent implements OnInit, OnChanges, OnDestroy {
     private load(): void {
         this.showLoader = true;
 
-        if (!this.xmEntityId) {
+        if (!this.xmEntityId || this.uiConfig.disableTimeline) {
             this.showLoader = false;
             return;
         }
