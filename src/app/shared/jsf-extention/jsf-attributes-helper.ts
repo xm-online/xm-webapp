@@ -2,6 +2,7 @@
 import { environment } from '../../../environments/environment';
 import { CurrentLocationComponent } from './widgets/current-location/current-location.component';
 import { DatetimePickerComponent } from './widgets/datetime-picker/datetime-picker.component';
+import { DatePickerComponent } from './widgets/date-picker/date-picker.component';
 import { DatetimeUtcComponent } from './widgets/datetime-utc/datetime-utc.component';
 import { EmailMatcherComponent } from './widgets/email-matcher/email-matcher.component';
 import { ExtAutocompleteComponent } from './widgets/ext-autocomplete/ext-autocomplete.component';
@@ -35,6 +36,7 @@ export const getJsfWidgets = () => {
         'multilingual-input': MultilingualInputComponent,
         'datetime-utc': DatetimeUtcComponent,
         'datetime-picker': DatetimePickerComponent,
+        'date-picker': DatePickerComponent,
         'email-matcher': EmailMatcherComponent,
         'text-section': TextSectionComponent,
         'file-upload': FileUploadComponent,

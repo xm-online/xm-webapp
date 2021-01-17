@@ -42,6 +42,7 @@ import { XmEntityIconPipe } from './helpers/xm-entity-icon.pipe';
 import { XmEntityStateSpecPipe } from './helpers/xm-entity-state-spec.pipe';
 import { CurrentLocationComponent } from './jsf-extention/widgets/current-location/current-location.component';
 import { DatetimePickerComponent } from './jsf-extention/widgets/datetime-picker/datetime-picker.component';
+import { DatePickerComponent } from './jsf-extention/widgets/date-picker/date-picker.component';
 import { DatetimeUtcComponent } from './jsf-extention/widgets/datetime-utc/datetime-utc.component';
 import { EmailMatcherComponent } from './jsf-extention/widgets/email-matcher/email-matcher.component';
 import { ExtAutocompleteService } from './jsf-extention/widgets/ext-autocomplete/ext-autocomplete-service';
@@ -103,6 +104,7 @@ const PIPES = [XmEntityIconPipe];
         MultilingualInputComponent,
         DatetimeUtcComponent,
         DatetimePickerComponent,
+        DatePickerComponent,
         EmailMatcherComponent,
         TextSectionComponent,
         FileUploadComponent,
@@ -163,6 +165,7 @@ const PIPES = [XmEntityIconPipe];
         MatModule,
         DatetimeUtcComponent,
         DatetimePickerComponent,
+        DatePickerComponent,
         EmailMatcherComponent,
         TextSectionComponent,
         FileUploadComponent,
