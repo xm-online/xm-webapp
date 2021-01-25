@@ -20,7 +20,7 @@ import {
         <xm-date-range-control [value]="dateRangeValue" [options]="dateViewOptions"></xm-date-range-control>
     `,
 })
-export class XmDateExample {
+export class XmDateExampleComponent {
     public dateValue: XmDateValue = new Date();
     public dateOptions: XmDateOptions = { format: 'dd.MM.yyyy HH:mm' };
     public dateRangeValue: XmDateRangeControlValue = { from: new Date(), to: new Date() };
@@ -36,8 +36,8 @@ export class XmDateExample {
         XmDateControlModule,
         XmDateRangeControlModule,
     ],
-    exports: [XmDateExample],
-    declarations: [XmDateExample],
+    exports: [XmDateExampleComponent],
+    declarations: [XmDateExampleComponent],
 })
 export class XmDateExampleModule {
 }
