@@ -203,4 +203,8 @@ export const XM_ELEMENTS: DynamicComponents = [
         selector: '@xm-ngx/components/dynamic-list-widget',
         loadChildren: () => import('@xm-ngx/components/dynamic/xm-dynamic-list.module').then(m => m.XmDynamicListModule),
     },
+    {
+        selector: '@xm-ngx/components/examples',
+        loadChildren: () => import('../../packages/documentation/doc-examples/xm-doc-examples.module').then(m => m.XmDocExamplesModule),
+    },
 ];
