@@ -3,18 +3,39 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nNamePipe } from '@xm-ngx/components/language';
-import { ErrorHandlerEventPayload, XmEventManager } from '@xm-ngx/core';
+import { ErrorHandlerEventName, ErrorHandlerEventPayload, XmEventManager, XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { JhiAlertService } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
-import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
+import { map, take } from 'rxjs/operators';
 import { XmAlertService } from '../xm-alert.service';
 import { ResponseConfig, ResponseConfigItem, ResponseContext } from './response-config.model';
 
 interface ErrorHandlerEventPayloadProcessed extends ErrorHandlerEventPayload {
     content: HttpErrorResponse | any;
+}
+
+interface UIResponseConfig {
+    responseConfig: {
+        responses: UIResponseConfigResponses[];
+    }
+}
+
+interface UIResponseConfigResponses {
+    code: string
+    codePath: string
+    status: string
+    type: string
+    validationField: string
+    validationFieldsExtractor: string
+    outputMessage: {
+        type: string;
+        value: string;
+    }
+    condition: string
+    redirectUrl: string
 }
 
 @Component({
@@ -24,9 +45,8 @@ interface ErrorHandlerEventPayloadProcessed extends ErrorHandlerEventPayload {
 })
 export class JhiAlertErrorComponent implements OnDestroy {
 
-    private cleanHttpErrorListener: Subscription;
-    private rc: ResponseContext;
-    private responseConfig: ResponseConfig;
+    private subscription: Subscription;
+    private responseContext: ResponseContext;
 
     constructor(
         public jhiAlertService: JhiAlertService,
@@ -37,14 +57,15 @@ export class JhiAlertErrorComponent implements OnDestroy {
         private router: Router,
         private i18nNamePipe: I18nNamePipe,
         private translateService: TranslateService,
-        private specService: XmConfigService) {
+        private specService: XmPublicUiConfigService<UIResponseConfig>) {
 
-        this.cleanHttpErrorListener = eventManager.subscribe('xm.httpError', (resp) => {
-            const response = this.processResponse(resp as any);
-            this.specService.getUiConfig().subscribe((result) => {
+        this.subscription = eventManager.listenTo(ErrorHandlerEventName).pipe(
+            map((res) => this.processResponse(res as any)),
+        ).subscribe((response) => {
+            this.specService.config$().pipe(take(1)).subscribe((result) => {
                 if (result?.responseConfig?.responses?.length) {
-                    this.rc = { response: response.content, request: response.request };
-                    this.responseConfig = new ResponseConfig(result.responseConfig.responses.map((e) => {
+                    this.responseContext = { response: response.content, request: response.request };
+                    const responseConfig = new ResponseConfig(result.responseConfig.responses.map((e) => {
                         return new ResponseConfigItem(
                             e.code,
                             e.codePath,
@@ -57,7 +78,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                             e.redirectUrl,
                         );
                     }));
-                    const respConfigEl = this.responseConfig.getResponseConfigItem(this.rc);
+                    const respConfigEl = responseConfig.getResponseConfigItem(this.responseContext);
                     if (respConfigEl) {
                         this.configAndSendError(respConfigEl, response);
                     } else {
@@ -71,13 +92,14 @@ export class JhiAlertErrorComponent implements OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.cleanHttpErrorListener?.unsubscribe();
+        this.subscription?.unsubscribe();
     }
 
     private configAndSendError(config: ResponseConfigItem, response: ErrorHandlerEventPayloadProcessed, params?: any): void {
-        const title = this.processMessage(config.outputMessage ?
-            config.outputMessage :
-            null, response);
+        const title = this.processMessage(
+            config.outputMessage ? config.outputMessage : null,
+            response,
+        );
         const messageSettings = config.type.split('.') || [];
         switch (messageSettings[0]) {
             case 'swal': {
@@ -100,14 +122,14 @@ export class JhiAlertErrorComponent implements OnDestroy {
             }
             case 'validation': {
 
-                const errors = new Function('rc', config.validationFieldsExtractor)(this.rc);
+                const errors = new Function('rc', config.validationFieldsExtractor)(this.responseContext);
                 for (const key in errors) {
                     errors[key] = this.processMessage(errors[key] ? errors[key] : null, response);
                 }
                 this.eventManager.broadcast({
                     name: 'xm.ValidationError',
                     content: config,
-                    rc: this.rc,
+                    rc: this.responseContext,
                     title,
                     errors,
                 });
@@ -210,22 +232,23 @@ export class JhiAlertErrorComponent implements OnDestroy {
         }
     }
 
-    private processMessage(config: any, response: ErrorHandlerEventPayloadProcessed): string | null | any {
+    private processMessage(config: { type: string, value: string } | null, response: ErrorHandlerEventPayloadProcessed): string | null | any {
         if (!config) {
             return null;
         }
+
         switch (config.type) {
             case 'TRANSLATION_KEY': {
                 return this.translateService.instant(
-                    config.value, this.interpolationParams(response, this.rc));
+                    config.value, this.interpolationParams(response, this.responseContext));
             }
             case 'TRANSLATION_KEY_PATH': {
                 return this.translateService.instant(
-                    `errors.${_.get(this.rc.response, config.value)}`,
-                    this.interpolationParams(response, this.rc));
+                    `errors.${_.get(this.responseContext.response, config.value)}`,
+                    this.interpolationParams(response, this.responseContext));
             }
             case 'MESSAGE_PATH': {
-                return _.get(this.rc.response.error, config.value);
+                return _.get(this.responseContext.response.error, config.value);
             }
             case 'MESSAGE_OBJECT': {
                 return this.i18nNamePipe.transform(config.value);
