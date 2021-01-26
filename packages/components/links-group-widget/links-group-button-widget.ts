@@ -19,9 +19,10 @@ import { XmTranslationModule } from '@xm-ngx/translation';
                        *xmPermission="item.privileges"
                        routerLinkActive="active"
                        #rla="routerLinkActive"
-                       mat-stroked-button
+                       [attr.data-qa]=" item.dataQa || 'link-button'"
+                       mat-button [ngClass]="rla.isActive ? 'mat-flat-button' : 'mat-stroked-button'"
                        color="primary"
-                       class="mr-3 btn btn-outline-secondary"
+                       class="mr-3"
                        type="button">
                         {{item.title | translate}}
                     </a>
