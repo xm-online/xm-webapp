@@ -10,6 +10,7 @@ export type CliCommands = 'ext-assets'
     | 'ext-install'
     | 'ext-lazy-module'
     | 'replace'
+    | 'doc'
     | 'ext-routing'
     | 'ext-theming'
     | 'ext-themes';

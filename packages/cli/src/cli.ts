@@ -1,6 +1,7 @@
 import { CliCommands } from './command';
 import { Config } from './config';
 import { ExtAssetsCommand } from './ext-assets-command';
+import { DocCommand } from './doc-command';
 import { ExtI18nCommand } from './ext-i18n-command';
 import { ExtInstallCommand } from './ext-install-command';
 import { ExtLazyModuleCommand } from './ext-lazy-module-command';
@@ -32,6 +33,10 @@ export function cli(terminalArgs: string[]): void {
         }
         case 'replace': {
             new ReplaceCommand().execute(terminalArgs.slice(1));
+            break;
+        }
+        case 'doc': {
+            new DocCommand().execute();
             break;
         }
         case 'ext-routing': {

@@ -1,0 +1,28 @@
+<xm-text-control (valueChange)="inputValue$.next($event)"></xm-text-control>
+
+<div *ngIf="components$ | async as components"
+     class="row mx-0">
+
+  <aside class="col-12 col-md-3 d-flex flex-column">
+    <ng-container *ngFor="let component of components">
+      <button (click)="active = component"
+              class="text-left"
+              [color]="active === component ? 'primary': ''"
+              mat-flat-button>{{component.selector}}</button>
+    </ng-container>
+  </aside>
+
+  <mat-tab-group>
+    <mat-tab label="Example">
+      <!-- #regionstart dynamic-selectors -->
+      <!-- #regionend dynamic-selectors -->
+    </mat-tab>
+    <mat-tab *ngIf="active.exampleDocHtml" label="Html">
+      <pre [innerText]="active.exampleDocHtml"></pre>
+    </mat-tab>
+    <mat-tab *ngIf="active.exampleDocTs" label="TS">
+      <pre [innerText]="active.exampleDocTs"></pre>
+    </mat-tab>
+  </mat-tab-group>
+
+</div>
