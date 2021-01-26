@@ -3,15 +3,18 @@ import { Component, Input, NgModule, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
+import { IfDashboardSlugModule } from '@xm-ngx/components/if-dashboard-slug';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { IWidget } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 
 export interface LinksGroupWidgetConfigItem {
+    permittedByDashboardSlug: string;
     privileges: string | string[];
     title: Translate;
     routerLink: string[] | string;
+    dataQa?: string;
 }
 
 export interface LinksGroupWidgetConfig {
@@ -27,15 +30,18 @@ export interface LinksGroupWidgetConfig {
                  class="rounded"
                  role="group">
                 <ng-container *ngFor="let item of config.list">
-                    <a [routerLink]="item.routerLink"
-                       *xmPermission="item.privileges"
-                       routerLinkActive="active"
-                       mat-tab-link
-                       #rla="routerLinkActive"
-                       [active]="rla.isActive"
-                       type="button">
-                        {{item.title | translate}}
-                    </a>
+                    <ng-container *xmIfDashboardSlug="item.permittedByDashboardSlug">
+                        <a [routerLink]="item.routerLink"
+                           *xmPermission="item.privileges"
+                           routerLinkActive="active"
+                           [attr.data-qa]="item.dataQa || 'link-button'"
+                           mat-tab-link
+                           #rla="routerLinkActive"
+                           [active]="rla.isActive"
+                           type="button">
+                            {{item.title | translate}}
+                        </a>
+                    </ng-container>
                 </ng-container>
             </nav>
         </div>
@@ -58,6 +64,7 @@ export class LinksGroupWidget {
         XmTranslationModule,
         MatButtonModule,
         MatTabsModule,
+        IfDashboardSlugModule,
     ],
 })
 export class LinksGroupWidgetModule {
