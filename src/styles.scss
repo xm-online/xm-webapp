@@ -69,6 +69,7 @@ $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 
 .table thead th {
   vertical-align: middle;
+  border-top: none!important;
 }
 
 th.mat-header-cell:first-of-type,
