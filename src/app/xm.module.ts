@@ -1,13 +1,16 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { XmAlertModule } from '@xm-ngx/alert';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
-
 import { XmCoreModule } from '@xm-ngx/core';
 import { AuthServerProvider, Principal, UserRouteAccessService, XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { XmCoreConfigModule } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
 import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardModule } from '@xm-ngx/dashboard';
@@ -16,16 +19,14 @@ import { HttpLoaderFactory, LanguageService, TitleService, XmTranslationModule }
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
-import { XmCoreConfigModule } from '../../packages/core/config';
+
 import { IdleLogoutService } from './account/logout/idle-logout.service';
 import { XmMainComponent } from './layouts';
 import { LayoutModule } from './layouts/layout.module';
 import { XmApplicationConfigService } from './shared/spec';
 import { XmRoutingModule } from './xm-routing.module';
-import { XM_ELEMENTS } from './xm.registry';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from './xm.constants';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { XM_ELEMENTS } from './xm.registry';
 
 @NgModule({
     imports: [
@@ -34,6 +35,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         BrowserAnimationsModule,
         XmRoutingModule,
         XmCoreModule.forRoot(),
+        ControlErrorModule.forRoot(),
         XmCoreConfigModule,
         XmCoreAuthModule.forRoot(),
         NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
@@ -55,7 +57,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         XmApplicationConfigService,
         UserRouteAccessService,
         CookieService,
-        {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: XM_MAT_DIALOG_DEFAULT_OPTIONS}
+        { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: XM_MAT_DIALOG_DEFAULT_OPTIONS },
     ],
     bootstrap: [XmMainComponent],
 })
