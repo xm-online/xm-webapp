@@ -1,27 +1,27 @@
-<xm-text-control (valueChange)="inputValue$.next($event)"></xm-text-control>
-
 <div *ngIf="components$ | async as components"
-     class="row mx-0">
+     class="row">
 
   <aside class="col-12 col-md-3 d-flex flex-column">
+    <xm-text-control (valueChange)="inputValue$.next($event)" [options]="{title: 'Filter', required: false}"></xm-text-control>
+
     <ng-container *ngFor="let component of components">
       <button (click)="active = component"
+              [color]="active === component ? 'accent': ''"
               class="text-left"
-              [color]="active === component ? 'primary': ''"
               mat-flat-button>{{component.selector}}</button>
     </ng-container>
   </aside>
 
-  <mat-tab-group>
+  <mat-tab-group class="col-12 col-md-9">
     <mat-tab label="Example">
       <!-- #regionstart dynamic-selectors -->
       <!-- #regionend dynamic-selectors -->
     </mat-tab>
     <mat-tab *ngIf="active.exampleDocHtml" label="Html">
-      <pre [innerText]="active.exampleDocHtml"></pre>
+      <div [innerHTML]="active.exampleDocHtml | language : 'html' | markdown"></div>
     </mat-tab>
     <mat-tab *ngIf="active.exampleDocTs" label="TS">
-      <pre [innerText]="active.exampleDocTs"></pre>
+      <div [innerHTML]="active.exampleDocTs | language : 'typescript' | markdown"></div>
     </mat-tab>
   </mat-tab-group>
 
