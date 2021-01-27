@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 export class ResponseConfig {
     constructor(public responses: ResponseConfigItem[]) {
     }
@@ -17,8 +19,8 @@ export class ResponseConfigItem {
                 public validationField?: string,
                 public validationFieldsExtractor?: string,
                 public outputMessage?: {
-                    type?: string;
-                    value?: string;
+                    type: string;
+                    value: string;
                 },
                 public condition?: any,
                 public redirectUrl?: string) {
@@ -29,7 +31,7 @@ export class ResponseConfigItem {
         if ((this.status != null) && this.status !== rc.response.status) {
             return false;
         }
-        if ((this.code != null) && !(regExp.test(this.getByPath(rc.response.error, this.codePath)))) {
+        if ((this.code != null) && !(regExp.test(_.get(rc.response.error, this.codePath)))) {
             return false;
         }
         try {
@@ -42,20 +44,6 @@ export class ResponseConfigItem {
         }
 
         return true;
-    }
-
-    private getByPath(obj: any, path: string): any | undefined {
-        const paths = path.split('.');
-        let current = obj;
-        let i;
-        for (i = 0; i < paths.length; ++i) {
-            if (!current[paths[i]]) {
-                return undefined;
-            } else {
-                current = current[paths[i]];
-            }
-        }
-        return current;
     }
 }
 
