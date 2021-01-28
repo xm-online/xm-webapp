@@ -3,6 +3,7 @@ import { CliCommands, Command } from './command';
 export class HelpCommand implements Command {
 
     public commands: { name: CliCommands, message: string }[] = [
+        { name: 'doc', message: 'Generates a documentation.' },
         { name: 'replace', message: 'Replaces the core files.' },
         { name: 'ext-lazy-module', message: 'Places extension modules in angular.json.' },
         { name: 'ext-i18n', message: 'Combines extension translations into one file.' },
