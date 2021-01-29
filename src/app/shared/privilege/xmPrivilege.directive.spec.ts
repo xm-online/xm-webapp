@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
 import { JhiLanguageService } from 'ng-jhipster';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 import { JhiLanguageHelper } from '../../shared';
 import { Principal } from '../../shared/auth/principal.service';
@@ -83,10 +83,10 @@ describe('Directive: PermitDirective', () => {
                 XmEventManager,
                 ViewContainerRef,
                 TemplateRef,
-                {provide: JhiLanguageHelper, useClass: Mock},
-                {provide: JhiLanguageService, useClass: Mock},
-                {provide: Router, useClass: Mock},
-                {provide: Principal, useValue: mockPrincipalService},
+                { provide: JhiLanguageHelper, useClass: Mock },
+                { provide: JhiLanguageService, useClass: Mock },
+                { provide: Router, useClass: Mock },
+                { provide: Principal, useValue: mockPrincipalService },
             ],
         });
 
