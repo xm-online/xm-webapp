@@ -5,7 +5,7 @@
     <xm-text-control (valueChange)="inputValue$.next($event)" [options]="{title: 'Filter', required: false}"></xm-text-control>
 
     <ng-container *ngFor="let component of components">
-      <button (click)="active = component"
+      <button (click)="setActive(component)"
               [color]="active === component ? 'accent': ''"
               class="text-left"
               mat-flat-button>{{component.selector}}</button>
