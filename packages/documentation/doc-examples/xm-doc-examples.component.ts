@@ -1,11 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
-import { combineLatest } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { Subject } from 'rxjs/Subject';
-import { DocsExample, DOC_EXAMPLES } from './xm-doc-examples';
+import { DOC_EXAMPLES, DocsExample } from './xm-doc-examples';
 
 
 @Component({

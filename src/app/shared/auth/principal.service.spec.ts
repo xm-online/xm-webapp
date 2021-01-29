@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
 import { JhiAlertService } from 'ng-jhipster';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { AccountService } from './account.service';
 import { Principal } from './principal.service';
 
