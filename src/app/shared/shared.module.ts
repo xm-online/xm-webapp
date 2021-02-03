@@ -53,6 +53,8 @@ import { ExtQuerySelectComponent } from './jsf-extention/widgets/ext-query-selec
 import { ExtSelectService } from './jsf-extention/widgets/ext-select/ext-select-service';
 import { ExtSelectComponent } from './jsf-extention/widgets/ext-select/ext-select.component';
 import { ExtTextareaComponent } from './jsf-extention/widgets/ext-textarea/ext-textarea.component';
+import { ContentTextareaComponent } from './jsf-extention/widgets/content-textarea/content-textarea.component';
+import { LinkFieldComponent } from './jsf-extention/widgets/link-field/link-field.component';
 import { FileUploadComponent } from './jsf-extention/widgets/file-upload/file-upload.component';
 import { MultilingualInputComponent } from './jsf-extention/widgets/multilingual-input/multilingual-input.component';
 import { TextSectionComponent } from './jsf-extention/widgets/text-section/text-section.component';
@@ -100,6 +102,8 @@ const PIPES = [XmEntityIconPipe];
         ExtMultiSelectComponent,
         ExtQuerySelectComponent,
         ExtTextareaComponent,
+        ContentTextareaComponent,
+        LinkFieldComponent,
         ExtMdEditorComponent,
         MultilingualInputComponent,
         DatetimeUtcComponent,
@@ -160,6 +164,8 @@ const PIPES = [XmEntityIconPipe];
         ExtQuerySelectComponent,
         ValidationComponent,
         ExtTextareaComponent,
+        ContentTextareaComponent,
+        LinkFieldComponent,
         ExtMdEditorComponent,
         MultilingualInputComponent,
         MatModule,

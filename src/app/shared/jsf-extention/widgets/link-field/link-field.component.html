@@ -1,0 +1,55 @@
+<ng-container *ngIf="modeEdit">
+  <mat-form-field class="xm-link-field">
+    <mat-label>{{options['title']}}</mat-label>
+    <input matInput
+           class="abs"
+           type="text"
+           [name]="controlName"
+           [placeholder]="options['placeholder'] | translate"
+           #controlName="ngModel"
+           [(ngModel)]="controlValue"
+           [required]="options['required']"
+           [disabled]="options['readonly']"
+           (change)="changeText($event)"
+           #linkField>
+    <mat-error *ngIf="controlName.hasError('required')">
+      Field is required
+    </mat-error>
+    <button mat-button
+            matSuffix
+            type="button"
+            class="btn btn-sm btn-link btn-icon btn-just-icon picker-trigger"
+            (click)="disableEdit()">
+      <mat-icon>save</mat-icon>
+    </button>
+  </mat-form-field>
+</ng-container>
+
+<ng-container *ngIf="!modeEdit">
+  <div class="mat-form-field-wrapper xm-link-field">
+    <div class="mat-form-field-flex">
+      <div class="mat-form-field-infix">
+        <div class="mat-input-element fake-mat-input abs">
+          <a [href]="controlValue" [target]="options['target'] ? options['target'] : '_blank'">{{controlValue}}</a>
+        </div>
+        <span class="mat-form-field-label-wrapper">
+        <label class="mat-form-field-label ng-star-inserted">
+          <span class="ng-star-inserted">{{options['title']}}</span>
+        </label>
+      </span>
+      </div>
+      <div *ngIf="!options['readonly']" class="mat-form-field-suffix ng-star-inserted">
+        <button (click)="enableEdit()"
+                type="button"
+                class="mat-focus-indicator btn btn-sm btn-link btn-icon btn-just-icon picker-trigger mat-button mat-button-base">
+          <span class="mat-button-wrapper">
+            <mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true">edit</mat-icon>
+          </span>
+          <div class="mat-ripple mat-button-ripple"></div>
+          <div class="mat-button-focus-overlay"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
