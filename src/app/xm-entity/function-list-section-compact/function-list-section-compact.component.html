@@ -10,7 +10,7 @@
       </mat-tab>
 
       <mat-tab *ngFor="let f of customFunctions; let i = index;"
-               [label]="f.name | i18nName: principal"
+               [label]="f.name | translate"
                [tabIndex]="f.key === 'AREA' ? 'AREA': i">
 
 <!--TODO: return back after checking that functions are functional or remove complete code of these functions
@@ -41,11 +41,11 @@
                    *ngFor="let nextState of nextStates"
                    [style.background]="nextState.color"
                    class="xm-state act-as-button no-wrap mr-1 mb-1"
-                   title="{{nextState.actionName | i18nName: principal}}">
+                   title="{{nextState.actionName | translate}}">
                 <div [style.background]="'transparent'" class="xm-state-icon mr-0">
                   <i class="material-icons">{{nextState.icon}}</i>
                 </div>
-                {{nextState.actionName | i18nName: principal}}
+                {{nextState.actionName | translate}}
               </div>
             </ng-container>
           </ng-container>
@@ -55,8 +55,8 @@
                   <div (click)="onCallFunction(functionSpec)"
                        *ngFor="let functionSpec of defaultFunctions"
                           class="xm-state act-as-button  mr-1 mb-1 no-wrap func-btn"
-                          title="{{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | i18nName: principal}}">
-                    {{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | i18nName: principal}}
+                          title="{{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}">
+                    {{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}
                   </div>
             </ng-container>
           </ng-container>
@@ -75,7 +75,7 @@
             *ngFor="let functionSpec of defaultFunctions"
             class="btn-sm"
             mat-menu-item>
-      {{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | i18nName: principal}}
+      {{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}
     </button>
     <hr class="mt-0 mb-0">
   </div>
