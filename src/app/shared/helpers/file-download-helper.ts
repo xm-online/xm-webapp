@@ -34,3 +34,14 @@ export const getFileNameFromResponseContentDisposition = (res) => {
     const matches = (/filename=([^;]+)/ig).exec(contentDisposition);
     return (matches[1] || 'untitled').trim();
 };
+
+/**
+ * Saves a CSV file
+ * using file-save library.
+ * @param blobContent file content as a Blob
+ * @param fileName name file should be saved as
+ */
+export const saveCSVFile = (blobContent: Blob, fileName: string) => {
+    const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), blobContent], {type: 'text/csv;charset=UTF-8'});
+    saveAs(blob, fileName);
+};
