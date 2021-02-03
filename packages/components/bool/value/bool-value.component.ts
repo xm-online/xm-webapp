@@ -13,7 +13,7 @@ import { BoolOptions, XM_BOOL_VIEW_ICONS } from './bool-value.injectors';
 export type BoolValue = string | boolean;
 
 @Component({
-    selector: 'xm-bool-view, bool-value',
+    selector: 'xm-bool-view, bool-value, xm-bool',
     template: `
         <mat-icon>{{ icon }}</mat-icon>
     `,

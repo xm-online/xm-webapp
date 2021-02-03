@@ -2,6 +2,7 @@
 
 | command          | description |
 |------------------|-------------|
+| `doc`            | Generates a documentation. |
 | `replace`        | Replaces the core files. |
 | `ext-lazy-module`| Places extension modules in angular.json. |
 | `ext-i18n`       | Combines extension translations into one file. |
