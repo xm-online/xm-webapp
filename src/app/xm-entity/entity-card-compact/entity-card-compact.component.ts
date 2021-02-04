@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewChild, SimpleChanges } from '@angular/core';
-//import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
@@ -11,7 +10,11 @@ import { EntityCardComponent } from '../entity-card/entity-card.component';
 import { RatingListSectionComponent } from '../rating-list-section/rating-list-section.component';
 import { XmEntityService } from '../shared/xm-entity.service';
 
-// transferred from entity-detail-fab
+/**
+ *
+ * @privateRemarks
+ * transferred from entity-detail-fab
+ */
 import { EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
 
@@ -55,7 +58,11 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
         this.loadJsfAttr();
     }
 
-// transferred from entity-detail-fab
+    /**
+     *
+     * @privateRemarks
+     * transferred from entity-detail-fab
+     */
     public ngOnChanges(changes: SimpleChanges): void {
         this.showEditButton = true;
 
@@ -67,7 +74,11 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
         }
     }
 
-// transferred from entity-detail-fab
+    /**
+     *
+     * @privateRemarks
+     * transferred from entity-detail-fab
+     */
     private checkEntityEditPermission(config: EntityUiConfig): void {
         if (config.editButtonPermission) {
             this.showEditButton = false;
@@ -79,7 +90,11 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
         }
     }
 
-// transferred from entity-detail-fab
+    /**
+     *
+     * @privateRemarks
+     * transferred from entity-detail-fab
+     */
     public onEdit(): void {
         this.openDialog(EntityDetailDialogComponent, (modalRef) => {
             modalRef.componentInstance.xmEntity = Object.assign({}, this.xmEntity);
@@ -87,7 +102,11 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
         });
     }
 
-// transferred from entity-detail-fab
+    /**
+     *
+     * @privateRemarks
+     * transferred from entity-detail-fab
+     */
     private openDialog(dialogClass: any, operation: any, options?: any): MatDialogRef<any> {
         const modalRef = this.modalService.open<any>(dialogClass, options ? options : {width: '500px'});
         modalRef.componentInstance.xmEntity = this.xmEntity;
@@ -95,7 +114,11 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
         return modalRef;
     }
 
-// transferred from entity-detail-fab
+    /**
+     *
+     * @privateRemarks
+     * transferred from entity-detail-fab
+     */
     public xmEditContext(): () => any {
         return () => {
             // this flag turns off
