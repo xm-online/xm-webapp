@@ -57,6 +57,11 @@ export class XmMainComponent implements OnInit, OnDestroy {
         this.titleService.init();
         this.configService.getUiConfig().subscribe((config) => {
             this.config = config ? config : null;
+
+            if (this.config && this.config.langs && !this.config.langs.includes(this.languageService.locale)) {
+                this.languageService.locale = this.config.langs[0];
+            }
+
             this.prepareLayout();
             this.registerAuthenticationSuccess();
         });
