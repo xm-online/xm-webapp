@@ -3,26 +3,26 @@ import { Component, Input, NgModule, OnChanges, OnInit, Type, ViewEncapsulation 
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import {
-    LINK_DEFAULT_OPTIONS,
-    LinkOptions,
-    LinkValue,
-    LinkValueModule
-} from '@xm-ngx/components/xm-link-view/link-value';
+    XM_LINK_DEFAULT_OPTIONS,
+    XmLinkOptions,
+    XmLink,
+    XmLinkModule
+} from '@xm-ngx/components/link/xm-link';
 import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
 import { IComponent } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { assign, clone } from 'lodash';
 
-export interface LinkViewOptions extends LinkOptions {
+export interface XmLinkViewOptions extends XmLinkOptions {
     title: Translate;
     styleInline: boolean;
     icon?: string
 }
 
-export const LINK_VIEW_DEFAULT_OPTIONS: LinkViewOptions = assign(
+export const XM_LINK_VIEW_DEFAULT_OPTIONS: XmLinkViewOptions = assign(
     {},
-    LINK_DEFAULT_OPTIONS,
+    XM_LINK_DEFAULT_OPTIONS,
     {
         styleInline: false,
         title: '',
@@ -48,10 +48,10 @@ export const LINK_VIEW_DEFAULT_OPTIONS: LinkViewOptions = assign(
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class XmLinkViewComponent extends LinkValue implements IComponent<IId, LinkViewOptions>, OnInit, OnChanges {
+export class XmLinkViewComponent extends XmLink implements IComponent<IId, XmLinkViewOptions>, OnInit, OnChanges {
     @Input() public value: IId;
-    @Input() public options: LinkViewOptions;
-    protected defaultOptions: LinkViewOptions = clone(LINK_VIEW_DEFAULT_OPTIONS);
+    @Input() public options: XmLinkViewOptions;
+    protected defaultOptions: XmLinkViewOptions = clone(XM_LINK_VIEW_DEFAULT_OPTIONS);
 }
 
 @NgModule({
@@ -63,7 +63,7 @@ export class XmLinkViewComponent extends LinkValue implements IComponent<IId, Li
         XmTranslationModule,
         RouterModule,
         MatIconModule,
-        LinkValueModule
+        XmLinkModule
     ],
 })
 export class XmLinkViewModule {

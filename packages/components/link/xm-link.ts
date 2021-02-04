@@ -7,18 +7,18 @@ import { transformByMap } from '@xm-ngx/shared/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, get } from 'lodash';
 
-export interface LinkOptions {
+export interface XmLinkOptions {
     /** list of fields which will be transformed to queryParams */
     queryParamsFromEntityFields?: { [key: string]: string };
     /** string is field path or regular url */
-    routerLink: string[];
+    routerLink: string[] | string;
     /** Set field text from configuration */
     valueTitle: Translate;
     /** Set field text from entity */
     valueField: string;
 }
 
-export const LINK_DEFAULT_OPTIONS: LinkOptions = {
+export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
     queryParamsFromEntityFields: { 'id': 'id' },
     routerLink: [],
     valueField: 'id',
@@ -36,13 +36,13 @@ export const LINK_DEFAULT_OPTIONS: LinkOptions = {
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class LinkValue implements IComponent<IId, LinkOptions>, OnInit, OnChanges {
+export class XmLink implements IComponent<IId, XmLinkOptions>, OnInit, OnChanges {
     @Input() public value: IId;
-    @Input() public options: LinkOptions;
+    @Input() public options: XmLinkOptions;
     public fieldTitle: Translate;
     public fieldValue: unknown;
     public queryParams: { [key: string]: unknown };
-    protected defaultOptions: LinkOptions = clone(LINK_DEFAULT_OPTIONS);
+    protected defaultOptions: XmLinkOptions = clone(XM_LINK_DEFAULT_OPTIONS);
 
     public update(): void {
         if (!this.value) {
@@ -63,14 +63,14 @@ export class LinkValue implements IComponent<IId, LinkOptions>, OnInit, OnChange
 }
 
 @NgModule({
-    declarations: [LinkValue],
-    exports: [LinkValue],
+    declarations: [XmLink],
+    exports: [XmLink],
     imports: [
         CommonModule,
         RouterModule,
         XmTranslationModule,
     ],
 })
-export class LinkValueModule {
-    public entry: Type<LinkValue> = LinkValue;
+export class XmLinkModule {
+    public entry: Type<XmLink> = XmLink;
 }

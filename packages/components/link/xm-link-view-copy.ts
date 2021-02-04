@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, OnInit, Type, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { COPY_ICON_OPTIONS, CopyIconModule, CopyIconOptions } from '@xm-ngx/components/copy/copy-icon';
+import { XM_COPY_ICON_OPTIONS, XmCopyIconModule, XmCopyIconOptions } from '@xm-ngx/components/copy/xm-copy-icon';
 import {
-    LINK_VIEW_DEFAULT_OPTIONS,
-    LinkViewOptions,
+    XM_LINK_VIEW_DEFAULT_OPTIONS,
+    XmLinkViewOptions,
     XmLinkViewComponent,
-} from '@xm-ngx/components/xm-link-view/link-view';
+} from '@xm-ngx/components/link/xm-link-view';
 import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
 import { IComponent } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/shared/interfaces';
@@ -14,14 +14,14 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { assign, clone } from 'lodash';
 
 
-export interface LinkViewCopyOptions extends LinkViewOptions {
-    copy: CopyIconOptions;
+export interface XmLinkViewCopyOptions extends XmLinkViewOptions {
+    copy: XmCopyIconOptions;
 }
 
-export const LINK_VIEW_COPY_DEFAULT_OPTIONS: LinkViewCopyOptions = assign(
+export const XM_LINK_VIEW_COPY_DEFAULT_OPTIONS: XmLinkViewCopyOptions = assign(
     {},
-    LINK_VIEW_DEFAULT_OPTIONS,
-    { copy: { template: '${value.id}', copiedMessage: COPY_ICON_OPTIONS.copiedMessage } },
+    XM_LINK_VIEW_DEFAULT_OPTIONS,
+    { copy: { template: '{{value.id}}', copiedMessage: XM_COPY_ICON_OPTIONS.copiedMessage } },
 );
 
 @Component({
@@ -37,24 +37,24 @@ export const LINK_VIEW_COPY_DEFAULT_OPTIONS: LinkViewCopyOptions = assign(
                     <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
                     <span *ngIf="fieldValue">{{fieldValue}}</span>
                 </a>
-                <copy-icon [value]="copyValue"
-                           [options]="copyOptions"></copy-icon>
+                <xm-copy-icon [value]="copyValue"
+                              [options]="copyOptions"></xm-copy-icon>
             </div>
         </xm-text>
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class XmLinkViewCopyComponent extends XmLinkViewComponent implements IComponent<IId, LinkViewOptions>, OnInit, OnChanges {
+export class XmLinkViewCopyComponent extends XmLinkViewComponent implements IComponent<IId, XmLinkViewOptions>, OnInit, OnChanges {
     @Input() public value: IId;
-    @Input() public options: LinkViewCopyOptions;
+    @Input() public options: XmLinkViewCopyOptions;
     public copyValue: unknown;
-    public copyOptions: CopyIconOptions;
-    protected defaultOptions: LinkViewCopyOptions = clone(LINK_VIEW_COPY_DEFAULT_OPTIONS);
+    public copyOptions: XmCopyIconOptions;
+    protected defaultOptions: XmLinkViewCopyOptions = clone(XM_LINK_VIEW_COPY_DEFAULT_OPTIONS);
 
     public update(): void {
         super.update();
         this.copyValue = this.value;
-        this.copyOptions = assign({}, this.defaultOptions.copy, this.options.copy);
+        this.copyOptions = assign({}, this.defaultOptions.copy, this.options?.copy);
     }
 
     public ngOnChanges(): void {
@@ -74,7 +74,7 @@ export class XmLinkViewCopyComponent extends XmLinkViewComponent implements ICom
         XmTextViewModule,
         XmTranslationModule,
         RouterModule,
-        CopyIconModule,
+        XmCopyIconModule,
     ],
 })
 export class XmLinkViewCopyModule {
