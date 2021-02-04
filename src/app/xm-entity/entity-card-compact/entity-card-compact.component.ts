@@ -18,7 +18,7 @@ import { XmEntityService } from '../shared/xm-entity.service';
 import { EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
 
-declare let swal: any;
+import swal from 'sweetalert2/dist/sweetalert2';
 
 @Component({
     selector: 'xm-entity-card-compact',
