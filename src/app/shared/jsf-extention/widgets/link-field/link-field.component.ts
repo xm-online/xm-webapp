@@ -1,7 +1,8 @@
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {JsonSchemaFormService} from '@xm-ngx/json-schema-form/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 
-import { LinkFieldOptions } from './link-field-options.model';
+import {LinkFieldOptions} from './link-field-options.model';
+import { LinkFieldLayoutNode } from './link-field.layoutNode';
 
 @Component({
     selector: 'xm-link-field-widget',
@@ -10,7 +11,7 @@ import { LinkFieldOptions } from './link-field-options.model';
 export class LinkFieldComponent implements OnInit {
 
     @ViewChild('linkField') public linkField: ElementRef;
-    @Input() public layoutNode: any;
+    @Input() public layoutNode: LinkFieldLayoutNode;
 
     public controlValue: any;
     public options: LinkFieldOptions;

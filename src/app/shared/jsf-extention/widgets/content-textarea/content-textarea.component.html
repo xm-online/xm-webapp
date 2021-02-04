@@ -1,11 +1,11 @@
 <mat-form-field>
-  <mat-label>{{options["title"]}}</mat-label>
+  <mat-label>{{options.title}}</mat-label>
   <div class="content-textarea-wrap">
     <div
       class="content-textarea"
       contenteditable
-      [attr.placeholder]="options['placeholder'] | translate"
-      [style.height]="options['height']"
+      [attr.placeholder]="options.placeholder | translate"
+      [style.height]="options.height"
       (input)="changeText($event)"
       (blur)="innerHtml()"
       [innerHTML]="messageValue"
@@ -14,14 +14,14 @@
   </div>
   <textarea matInput
             hidden
-            [required]="options['required']"
+            [required]="options.required"
             [value]="controlValue"
             #controlName="ngModel"
             [(ngModel)]="controlValue">
      {{controlValue}}
   </textarea>
   <mat-error *ngIf="controlName.hasError('required')">
-    {{options['validationMessages']['required'] | translate}}
+    {{options.validationMessages.required | translate}}
   </mat-error>
 </mat-form-field>
 

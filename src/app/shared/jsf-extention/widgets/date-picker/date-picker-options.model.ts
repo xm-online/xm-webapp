@@ -3,7 +3,8 @@ export class DatePickerOptionsModel {
                 public floatLabel?: string,
                 public themeColor?: string,
                 public formatString?: string,
-                public dateMin?: string,
-                public dateMax?: string) {
+                public errorMessage?: string,
+                public readonly?: boolean,
+                public required?: boolean) {
     }
 }

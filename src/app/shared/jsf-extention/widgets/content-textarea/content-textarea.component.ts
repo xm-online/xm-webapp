@@ -2,6 +2,7 @@ import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { ContentTextareaOptions } from './content-textarea-options.model';
+import {ContentTextareaLayoutNode} from "./content-textarea.layoutNode";
 
 @Component({
     selector: 'xm-content-textarea-widget',
@@ -10,7 +11,7 @@ import { ContentTextareaOptions } from './content-textarea-options.model';
 })
 export class ContentTextareaComponent implements OnInit {
 
-    @Input() public layoutNode: any;
+    @Input() public layoutNode: ContentTextareaLayoutNode;
     @ViewChild('massageField') public massageField: ElementRef;
 
     public controlValue: any;

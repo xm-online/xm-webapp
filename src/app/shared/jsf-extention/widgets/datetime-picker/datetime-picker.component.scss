@@ -9,11 +9,12 @@
         white-space: nowrap;
         overflow: hidden;
         max-width: 85%;
+        display: none;
     }
 
     .abs {
         z-index: 2;
-        opacity: 0;
+        opacity: 1;
     }
 
     .picker-trigger {
@@ -21,6 +22,7 @@
         width: 28px;
         min-width: 28px;
         margin: 0;
+        padding: 0;
     }
 
     .error {

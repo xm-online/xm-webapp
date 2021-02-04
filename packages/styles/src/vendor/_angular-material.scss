@@ -96,51 +96,6 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
     box-shadow: none;
   }
 
-  .mat-form-field-appearance-legacy .mat-form-field-wrapper {
-    padding-top: 0.75em;
-  }
-
-  .mat-form-field-appearance-legacy .mat-form-field-infix {
-    padding: 0.5em 0;
-  }
-
-  th.mat-header-cell:first-of-type,
-  td.mat-cell:first-of-type,
-  td.mat-footer-cell:first-of-type {
-    padding-right: 16px;
-  }
-
-  .card:not(.mat-card) {
-    margin-bottom: 48px;
-  }
-
-  .mat-card.mb-4 {
-    padding-top: 0px;
-    margin-top: 20px;
-    display: inline-block;
-    width: 100%;
-  }
-
-  .card-body {
-    padding-top: 0;
-  }
-
-  .card-stats {
-    margin: 0!important;
-    padding-bottom: 40px!important;
-  }
-
-  .xm-datetime-picker .abs {
-    opacity: 1!important;
-  }
-
-  .xm-datetime-picker .to-display {
-    display: none!important;
-  }
-
-  .xm-datetime-picker .picker-trigger {
-    padding: 0!important;
-  }
 }
 
 $xm-mat-typography:        mat-typography-config(
