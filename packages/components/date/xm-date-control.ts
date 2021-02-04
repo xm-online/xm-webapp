@@ -40,8 +40,9 @@ export interface XmDateControlOptions {
                     *ngIf="value"
                     matSuffix
                     mat-icon-button
+                    [disabled]="control.disabled"
                     aria-label="Clear"
-                    (click)="control.patchValue('')">
+                    (click)="control.patchValue(''); control.markAsDirty()">
                 <mat-icon>close</mat-icon>
             </button>
 
