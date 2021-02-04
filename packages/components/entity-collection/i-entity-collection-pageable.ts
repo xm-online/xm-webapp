@@ -1,13 +1,14 @@
 import { HttpResponse } from '@angular/common/http';
+import { SortDirection } from '@angular/material/sort';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { Observable } from 'rxjs';
 import { IEntityCollection, QueryParams } from './i-entity-collection';
 
 export interface Sortable {
     /** Sort by the fields. */
-    sortBy?: string[];
+    sortBy?: string[] | string;
     /** Sort order. */
-    sortOrder?: 'asc' | 'desc';
+    sortOrder?: SortDirection;
 }
 
 export interface Pageable {
