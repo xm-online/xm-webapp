@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
@@ -15,6 +16,12 @@ export class XmDocExamplesComponent implements OnDestroy {
     public inputValue$: Subject<string> = new Subject();
     public components$: Observable<DocsExample[]>;
 
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
+    ) {
+    }
+
     public ngOnInit(): void {
         this.components$ = combineLatest(
             this.inputValue$.pipe(startWith('')),
@@ -24,8 +31,16 @@ export class XmDocExamplesComponent implements OnDestroy {
                 return _.filter(components, (component) => component.exampleDocHtml.toLowerCase().includes(input.toLowerCase()));
             }),
             tap((components) => {
-                if (!this.active) {
-                    this.active = components[0];
+                if (this.active) {
+                    return;
+                }
+
+                if (this.activatedRoute.snapshot.queryParams.activeSelector) {
+                    const activeSelector = this.activatedRoute.snapshot.queryParams.activeSelector;
+                    const active = components.find(i => i.selector === activeSelector) || components[0];
+                    this.setActive(active);
+                } else {
+                    this.setActive(components[0]);
                 }
             }),
         );
@@ -33,5 +48,16 @@ export class XmDocExamplesComponent implements OnDestroy {
 
     public ngOnDestroy(): void {
         this.inputValue$.complete();
+    }
+
+    public setActive(component: DocsExample): void {
+        this.active = component;
+        this.router.navigate(
+            [],
+            {
+                relativeTo: this.activatedRoute,
+                queryParams: { activeSelector: component.selector },
+                queryParamsHandling: 'merge',
+            });
     }
 }
