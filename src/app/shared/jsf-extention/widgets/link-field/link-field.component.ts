@@ -13,7 +13,7 @@ export class LinkFieldComponent implements OnInit {
     @ViewChild('linkField') public linkField: ElementRef;
     @Input() public layoutNode: LinkFieldLayoutNode;
 
-    public controlValue: any;
+    public controlValue: string;
     public options: LinkFieldOptions;
     public modeEdit: boolean;
 

@@ -119,7 +119,7 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
      * @privateRemarks
      * transferred from entity-detail-fab
      */
-    public xmEditContext(): () => any {
+    public xmEditContext(): () => boolean {
         return () => {
             // this flag turns off
             this.showEditOptions = true;

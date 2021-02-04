@@ -5,9 +5,9 @@ import { DateTimeAdapter, OwlDateTimeIntl } from 'ng-pick-datetime';
 
 import { ModulesLanguageHelper } from '@xm-ngx/components/language';
 import { DatePickerOptionsModel } from './date-picker-options.model';
-import { DataPickerLayoutNode } from "./data-picker.layoutNode";
+import { DataPickerLayoutNode } from './data-picker.layoutNode';
 
-declare let moment;
+import * as moment from 'moment';
 const DEF_FORMAT = 'YYYY-MM-DD';
 
 @Component({
@@ -19,8 +19,8 @@ export class DatePickerComponent implements OnInit {
 
     @Input() public layoutNode: DataPickerLayoutNode;
 
-    public controlValue: any;
-    public controlValueDisplayed: any;
+    public controlValue: string;
+    public controlValueDisplayed: string;
     public options: DatePickerOptionsModel;
 
     constructor(private jsf: JsonSchemaFormService,
