@@ -1066,7 +1066,8 @@
     "entity-data-card": {
       "title": "Data",
       "update-error": "Not updated. Try again.",
-      "update-success": "Updated successfully."
+      "update-success": "Updated successfully.",
+      "change-avatar": "Change Picture"
     },
     "entity-detail-dialog": {
       "add": {

@@ -1055,7 +1055,8 @@
     "entity-data-card": {
       "title": "Данные",
       "update-error": "Не обновлено. Попробуй еще раз.",
-      "update-success": "Успешно обновлено."
+      "update-success": "Успешно обновлено.",
+      "change-avatar": "Изменить фото"
     },
     "entity-detail-dialog": {
       "add": {

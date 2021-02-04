@@ -2,6 +2,7 @@
 import { environment } from '../../../environments/environment';
 import { CurrentLocationComponent } from './widgets/current-location/current-location.component';
 import { DatetimePickerComponent } from './widgets/datetime-picker/datetime-picker.component';
+import { DatePickerComponent } from './widgets/date-picker/date-picker.component';
 import { DatetimeUtcComponent } from './widgets/datetime-utc/datetime-utc.component';
 import { EmailMatcherComponent } from './widgets/email-matcher/email-matcher.component';
 import { ExtAutocompleteComponent } from './widgets/ext-autocomplete/ext-autocomplete.component';
@@ -10,6 +11,8 @@ import { ExtMultiSelectComponent } from './widgets/ext-multi-select/ext-multi-se
 import { ExtQuerySelectComponent } from './widgets/ext-query-select/ext-query-select.component';
 import { ExtSelectComponent } from './widgets/ext-select/ext-select.component';
 import { ExtTextareaComponent } from './widgets/ext-textarea/ext-textarea.component';
+import { ContentTextareaComponent } from './widgets/content-textarea/content-textarea.component';
+import { LinkFieldComponent } from './widgets/link-field/link-field.component';
 import { FileUploadComponent } from './widgets/file-upload/file-upload.component';
 import { MultilingualInputComponent } from './widgets/multilingual-input/multilingual-input.component';
 import { TextSectionComponent } from './widgets/text-section/text-section.component';
@@ -32,9 +35,12 @@ export const getJsfWidgets = () => {
         'ext-multi-select': ExtMultiSelectComponent,
         'validation-component': ValidationComponent,
         'ext-textarea': ExtTextareaComponent,
+        'content-textarea': ContentTextareaComponent,
         'multilingual-input': MultilingualInputComponent,
         'datetime-utc': DatetimeUtcComponent,
         'datetime-picker': DatetimePickerComponent,
+        'date-picker': DatePickerComponent,
+        'link-field': LinkFieldComponent,
         'email-matcher': EmailMatcherComponent,
         'text-section': TextSectionComponent,
         'file-upload': FileUploadComponent,

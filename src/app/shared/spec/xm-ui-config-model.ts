@@ -24,6 +24,7 @@ export interface EntityLinkUiConfig {
 
 export interface EntityCalendarUiConfig {
     typeKey: string;
+    queryPageSize: number;
     view: CalendarView;
 }
 
@@ -33,6 +34,8 @@ export type EntityDetailLayout = 'DEFAULT' | 'ALL-IN-ROW' | 'COMPACT';
 
 export interface EntityUiConfig {
     typeKey: string;
+    addButtonPermission?: string;
+    editButtonPermission?: string;
     detailLayoutType: EntityDetailLayout;
     fields?: FieldOptions[]; // TODO: FieldOptions is a UI config item. It can be moved here to keep all in one place.
     attachments?: EntityAttachmentsUiConfig;

@@ -5,3 +5,31 @@
 .json-form-hide-submit material-button-widget {
     display: none;
 }
+
+/*
+* Padding for mat-fields
+*/
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-top: 0.75em;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0.5em 0;
+}
+
+/*
+* Padding for angular-material table
+*/
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+.mat-card.mb-4 {
+  padding-top: 0px;
+  margin-top: 20px;
+  display: inline-block;
+  width: 100%;
+}

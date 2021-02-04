@@ -6,6 +6,16 @@
     }
 }
 
+div.displayblock
+{
+    display:block !important;
+}
+
+div.col-auto
+{
+    width:100% !important;
+}
+
 .no-wrap {
     white-space:   nowrap;
     max-width:     100%;
@@ -14,8 +24,17 @@
 }
 
 .func-btn {
+    background: rgb(160,160,160);
+
     @media screen and (max-width: 420px) {
         width:   100%;
         display: block;
     }
 }
+
+.row-compact{
+    margin-left:0px;
+    margin-right:0px;
+}
+
+

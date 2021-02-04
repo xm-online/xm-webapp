@@ -42,6 +42,7 @@ import { XmEntityIconPipe } from './helpers/xm-entity-icon.pipe';
 import { XmEntityStateSpecPipe } from './helpers/xm-entity-state-spec.pipe';
 import { CurrentLocationComponent } from './jsf-extention/widgets/current-location/current-location.component';
 import { DatetimePickerComponent } from './jsf-extention/widgets/datetime-picker/datetime-picker.component';
+import { DatePickerComponent } from './jsf-extention/widgets/date-picker/date-picker.component';
 import { DatetimeUtcComponent } from './jsf-extention/widgets/datetime-utc/datetime-utc.component';
 import { EmailMatcherComponent } from './jsf-extention/widgets/email-matcher/email-matcher.component';
 import { ExtAutocompleteService } from './jsf-extention/widgets/ext-autocomplete/ext-autocomplete-service';
@@ -52,6 +53,8 @@ import { ExtQuerySelectComponent } from './jsf-extention/widgets/ext-query-selec
 import { ExtSelectService } from './jsf-extention/widgets/ext-select/ext-select-service';
 import { ExtSelectComponent } from './jsf-extention/widgets/ext-select/ext-select.component';
 import { ExtTextareaComponent } from './jsf-extention/widgets/ext-textarea/ext-textarea.component';
+import { ContentTextareaComponent } from './jsf-extention/widgets/content-textarea/content-textarea.component';
+import { LinkFieldComponent } from './jsf-extention/widgets/link-field/link-field.component';
 import { FileUploadComponent } from './jsf-extention/widgets/file-upload/file-upload.component';
 import { MultilingualInputComponent } from './jsf-extention/widgets/multilingual-input/multilingual-input.component';
 import { TextSectionComponent } from './jsf-extention/widgets/text-section/text-section.component';
@@ -99,10 +102,13 @@ const PIPES = [XmEntityIconPipe];
         ExtMultiSelectComponent,
         ExtQuerySelectComponent,
         ExtTextareaComponent,
+        ContentTextareaComponent,
+        LinkFieldComponent,
         ExtMdEditorComponent,
         MultilingualInputComponent,
         DatetimeUtcComponent,
         DatetimePickerComponent,
+        DatePickerComponent,
         EmailMatcherComponent,
         TextSectionComponent,
         FileUploadComponent,
@@ -158,11 +164,14 @@ const PIPES = [XmEntityIconPipe];
         ExtQuerySelectComponent,
         ValidationComponent,
         ExtTextareaComponent,
+        ContentTextareaComponent,
+        LinkFieldComponent,
         ExtMdEditorComponent,
         MultilingualInputComponent,
         MatModule,
         DatetimeUtcComponent,
         DatetimePickerComponent,
+        DatePickerComponent,
         EmailMatcherComponent,
         TextSectionComponent,
         FileUploadComponent,
