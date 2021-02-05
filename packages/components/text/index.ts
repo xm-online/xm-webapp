@@ -1,7 +1,7 @@
 export {
     XmEmailControl,
     XmEmailControlOptions,
-    XmEmailControlModule
+    XmEmailControlModule,
 } from './email';
 
 export {
@@ -18,9 +18,9 @@ export {
 
 export {
     XmPasswordControl,
+    XmPasswordControlOptions,
     XmPasswordControlModule,
-
-} from './xm-password-control';
+} from './password';
 
 export {
     XmPhoneNumberControl,
