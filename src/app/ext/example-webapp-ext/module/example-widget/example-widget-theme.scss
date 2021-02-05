@@ -1,0 +1,22 @@
+/**
+ * Creating a mixin for the widget theming.
+ * Each theme will create styles with custom colors.
+ *
+ * @params $theme is the $xm-theme located in packages\styles\src\theme\_theme.scss
+ *    with custom overrides(your prebuild themes).
+ */
+@mixin example-widget-theme($theme) {
+  /**
+    * Getting colors from the $theme.
+    */
+  $primary:         map-get($theme, xm-primary);
+  $text-on-primary: map-get($theme, xm-text-on-primary);
+
+  /**
+   * Override colors.
+   */
+  .example-widget__colored-block {
+    background: $primary;
+    color:      $text-on-primary;
+  }
+}
