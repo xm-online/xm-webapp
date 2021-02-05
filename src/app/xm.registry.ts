@@ -2,7 +2,7 @@ import { XM_COPY_ELEMENTS } from '@xm-ngx/components/copy';
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/date';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/html';
 import { XM_LINK_ELEMENTS } from '@xm-ngx/components/link';
-import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/xm-text-view';
+import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/text';
 import { DynamicComponents } from '@xm-ngx/dynamic';
 
 export const XM_ELEMENTS: DynamicComponents = [
@@ -148,20 +148,12 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlModule),
     },
     {
-        selector: '@xm-ngx/components/xm-text-control',
-        loadChildren: () => import('@xm-ngx/components/xm-text-control').then(m => m.XmTextControlModule),
-    },
-    {
         selector: '@xm-ngx/components/by-entity-id',
         loadChildren: () => import('@xm-ngx/components/by-entity-id').then(m => m.ByEntityIdModule),
     },
     {
         selector: '@xm-ngx/components/by-entity-id-cell',
         loadChildren: () => import('@xm-ngx/components/by-entity-id/by-entity-id-value.component').then(m => m.ByEntityIdValueModule),
-    },
-    {
-        selector: '@xm-ngx/components/text-range',
-        loadChildren: () => import('@xm-ngx/components/text-range').then(m => m.XmTextRangeModule),
     },
     {
         selector: '@xm-ngx/account/xm-user-login-widget',
