@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { IControl, IControlFn, IDynamicModule } from '@xm-ngx/dynamic';
+import { IControl, IControlFn, DynamicModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
 
@@ -68,6 +68,6 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
     exports: [XmDateControl],
     declarations: [XmDateControl],
 })
-export class XmDateControlModule implements IDynamicModule<IControl<XmDateValue, XmDateControlOptions>> {
+export class XmDateControlModule implements DynamicModule<IControl<XmDateValue, XmDateControlOptions>> {
     public entry: IControlFn<XmDateValue, XmDateControlOptions> = XmDateControl;
 }

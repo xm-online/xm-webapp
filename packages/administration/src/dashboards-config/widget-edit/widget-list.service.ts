@@ -1,14 +1,14 @@
 import { ApplicationRef, Injectable, Injector } from '@angular/core';
 import { TranslationService } from '@xm-ngx/administration/translations/services/translation.service';
-import { DYNAMIC_COMPONENTS, DynamicTenantLoaderService, IDynamicComponent } from '@xm-ngx/dynamic';
+import { DYNAMIC_COMPONENTS, DynamicTenantLoaderService, DynamicComponent } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 import { from, Observable, Subject } from 'rxjs';
 
-export interface ExtendedDynamicComponents extends IDynamicComponent {
+export interface ExtendedDynamicComponents extends DynamicComponent {
     globalSelector: string;
 }
 
-function provideFullSelector(components: IDynamicComponent[], prefix?: string): ExtendedDynamicComponents[] {
+function provideFullSelector(components: DynamicComponent[], prefix?: string): ExtendedDynamicComponents[] {
     const append = prefix ? `${prefix}/` : '';
     return components.map((i) => {
         const globalSelector = `${append}${i.selector}`;

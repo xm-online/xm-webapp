@@ -25,8 +25,7 @@ export {
     DynamicNgModuleFactory,
     DynamicComponents,
     DynamicComponent,
-    IDynamicComponent,
-    IDynamicModule,
+    DynamicModule,
 } from './src/dynamic.interfaces';
 export { Layout } from './src/layout.model';
 export { XmDynamicModule, dynamicModuleInitializer } from './src/xm-dynamic.module';

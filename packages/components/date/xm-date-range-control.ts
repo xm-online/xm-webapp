@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
-import { IControl, IControlFn, IDynamicModule } from '@xm-ngx/dynamic';
+import { IControl, IControlFn, DynamicModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
 
@@ -67,6 +67,6 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeControlValu
     exports: [XmDateRangeControl],
     declarations: [XmDateRangeControl],
 })
-export class XmDateRangeControlModule implements IDynamicModule<IControl<XmDateRangeControlValue, XmDateRangeControlOptions>> {
+export class XmDateRangeControlModule implements DynamicModule<IControl<XmDateRangeControlValue, XmDateRangeControlOptions>> {
     public entry: IControlFn<XmDateRangeControlValue, XmDateRangeControlOptions> = XmDateRangeControl;
 }
