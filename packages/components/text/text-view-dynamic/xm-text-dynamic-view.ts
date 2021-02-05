@@ -14,14 +14,14 @@ export interface XmTextDynamicOptions {
 @Component({
     selector: 'xm-text-dynamic-view',
     template: `
-        <xm-text-view-label [styleInline]="this.options?.textStyle === 'inline'">
+        <xm-text-view-container [styleInline]="this.options?.textStyle === 'inline'">
             <span xmLabel>{{options.title | translate}}</span>
             <span xmDynamicView
                   xmValue
                   [selector]="options.selector"
                   [value]="value"
                   [options]="options.options"></span>
-        </xm-text-view-label>
+        </xm-text-view-container>
     `,
 })
 export class XmTextDynamicView implements IComponent<Primitive, XmTextDynamicOptions> {

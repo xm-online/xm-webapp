@@ -3,7 +3,7 @@ import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { XmTextViewLabelComponent } from './xm-text-view-label.component';
+import { XmTextViewContainerComponent } from './xm-text-view-container.component';
 
 export interface XmTextViewOptions {
     title?: Translate;
@@ -20,10 +20,10 @@ export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
 @Component({
     selector: 'xm-text-view',
     template: `
-        <xm-text-view-label [styleInline]="!!this.options?.style">
+        <xm-text-view-container [styleInline]="!!this.options?.style">
             <span xmLabel>{{options.title | translate}}</span>
             <span xmValue>{{value || options.emptyValue}}</span>
-        </xm-text-view-label>
+        </xm-text-view-container>
     `,
 })
 export class XmTextViewComponent implements IComponent<Primitive, XmTextViewOptions> {
@@ -43,8 +43,8 @@ export class XmTextViewComponent implements IComponent<Primitive, XmTextViewOpti
 
 @NgModule({
     imports: [XmTranslationModule],
-    exports: [XmTextViewComponent, XmTextViewLabelComponent],
-    declarations: [XmTextViewComponent, XmTextViewLabelComponent],
+    exports: [XmTextViewComponent, XmTextViewContainerComponent],
+    declarations: [XmTextViewComponent, XmTextViewContainerComponent],
 })
 export class XmTextViewModule {
     public entry: IComponentFn<Primitive, XmTextViewOptions> = XmTextViewComponent;

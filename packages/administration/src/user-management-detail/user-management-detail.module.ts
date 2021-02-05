@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
-import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
+import { XmTextViewModule } from '@xm-ngx/components/text';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { UserMgmtDetailComponent } from './user-management-detail.component';
 

@@ -18,13 +18,13 @@
     <xm-text-view [options]="{title: 'UserKey:'}" [value]="user.userKey"></xm-text-view>
     <xm-text-view [options]="{title: 'Email:'}" [value]="userEmail"></xm-text-view>
 
-    <xm-text>
+    <xm-text-view-container>
       <div xmLabel>{{'Status:' | translate}}</div>
       <div xmValue>
         <span *ngIf="!user.activated" class="badge badge-danger">{{'userManagement.deactivated' | translate}}</span>
         <span *ngIf="user.activated" class="badge badge-danger">{{'userManagement.activated' | translate}}</span>
       </div>
-    </xm-text>
+    </xm-text-view-container>
 
   </mat-card-content>
 

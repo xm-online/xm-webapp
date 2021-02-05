@@ -45,7 +45,7 @@ export {
     XmTextViewComponent,
     XM_TEXT_VIEW_OPTIONS_DEFAULT,
     XmTextViewModule,
-    XmTextViewLabelComponent,
+    XmTextViewContainerComponent,
 } from './text-view';
 
 export {

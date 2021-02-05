@@ -26,10 +26,10 @@ export const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
 @Component({
     selector: 'xm-by-entity-id',
     template: `
-        <xm-text [hidden]="!fieldValue" [styleInline]="options?.styleInline">
+        <xm-text-view-container [hidden]="!fieldValue" [styleInline]="options?.styleInline">
             <span xmLabel>{{options?.title | translate}}</span>
             <span xmValue>{{fieldValue}}</span>
-        </xm-text>
+        </xm-text-view-container>
     `,
 })
 export class ByEntityIdComponent extends ByEntityIdValueComponent implements OnInit, OnChanges {

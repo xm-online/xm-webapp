@@ -1,6 +1,6 @@
 export {
-    XmTextViewLabelComponent,
-} from './xm-text-view-label.component';
+    XmTextViewContainerComponent,
+} from './xm-text-view-container.component';
 
 export {
     XmTextViewModule,

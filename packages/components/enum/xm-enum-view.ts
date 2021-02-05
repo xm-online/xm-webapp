@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
 import { IEnumValueOptions, XmEnumValueModule } from './xm-enum-value.component';
-import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
+import { XmTextViewModule } from '@xm-ngx/components/text';
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
@@ -11,10 +11,10 @@ export interface IEnumOptions extends IEnumValueOptions {
 @Component({
     selector: 'xm-enum-view',
     template: `
-        <xm-text>
+        <xm-text-view-container>
             <span xmLabel>{{options.title | translate}}</span>
             <span xmValue><xm-enum-value [value]="value" [options]="options"></xm-enum-value></span>
-        </xm-text>
+        </xm-text-view-container>
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
