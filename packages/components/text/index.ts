@@ -24,7 +24,9 @@ export {
 
 export {
     XmPhoneNumberControl,
+    XmPhoneNumberControlOptions,
     XmPhoneNumberControlModule,
+} from './phone-number-control';
 
 } from './xm-phone-number-control';
 export { XmPasswordControlOptions } from '@xm-ngx/components/text/xm-password-control-options';
