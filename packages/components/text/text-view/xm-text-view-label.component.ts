@@ -1,7 +1,7 @@
 import { Component, HostBinding, Input } from '@angular/core';
 
 @Component({
-    selector: 'xm-text',
+    selector: 'xm-text-view-label',
     template: `
         <label class="xm-text-view--label">
             <ng-content select="[xmLabel]"></ng-content>
@@ -10,8 +10,8 @@ import { Component, HostBinding, Input } from '@angular/core';
             <ng-content select="[xmValue]"></ng-content>
         </p>
     `,
-    styleUrls: ['./xm-text-view.scss'],
+    styleUrls: ['./xm-text-view.component.scss'],
 })
-export class XmTextComponent {
+export class XmTextViewLabelComponent {
     @Input() @HostBinding('class.inline') public styleInline: boolean;
 }

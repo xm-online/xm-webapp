@@ -5,24 +5,24 @@ import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 
-export interface TextJoinValueOptionsTemplate {
+export interface XmTextJoinValueOptionsTemplate {
     condition: JavascriptCode
     title: Translate
 }
 
-export interface TextJoinValueOptions {
-    templates: TextJoinValueOptionsTemplate[];
+export interface XmTextJoinValueOptions {
+    templates: XmTextJoinValueOptionsTemplate[];
     joinSymbol: string;
 }
 
 @Component({
-    selector: 'text-join-value',
+    selector: 'xm-text-join-value',
     template: `{{joinValue}}`,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class TextJoinValue implements OnInit, IComponent<unknown, TextJoinValueOptions> {
+export class XmTextJoinComponent implements OnInit, IComponent<unknown, XmTextJoinValueOptions> {
     @Input() public value: unknown;
-    @Input() public options: TextJoinValueOptions;
+    @Input() public options: XmTextJoinValueOptions;
     public joinValue: string;
 
     constructor(
@@ -35,7 +35,7 @@ export class TextJoinValue implements OnInit, IComponent<unknown, TextJoinValueO
         this.joinValue = this.joinTemplates(this.options.templates || []);
     }
 
-    public joinTemplates(templates: TextJoinValueOptionsTemplate[]): string {
+    public joinTemplates(templates: XmTextJoinValueOptionsTemplate[]): string {
 
         const fields: string[] = [];
 
@@ -60,9 +60,9 @@ export class TextJoinValue implements OnInit, IComponent<unknown, TextJoinValueO
 }
 
 @NgModule({
-    exports: [TextJoinValue],
-    declarations: [TextJoinValue],
+    exports: [XmTextJoinComponent],
+    declarations: [XmTextJoinComponent],
 })
-export class TextJoinValueModule {
-    public entry: IComponentFn<unknown, TextJoinValueOptions> = TextJoinValue;
+export class XmTextJoinModule {
+    public entry: IComponentFn<unknown, XmTextJoinValueOptions> = XmTextJoinComponent;
 }

@@ -1,4 +1,4 @@
-@mixin xm-text-theme($theme) {
+@mixin xm-text-view-theme($theme) {
   $label-color: map-get($theme, text-light);
   $text-color:  map-get($theme, text);
 
