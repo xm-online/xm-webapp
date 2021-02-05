@@ -1,5 +1,5 @@
 import { ComponentFactory, Injectable, Injector, NgModuleFactory, NgModuleRef, Type } from '@angular/core';
-import { DynamicNgModuleFactory, IDynamicModule } from '../dynamic.interfaces';
+import { DynamicNgModuleFactory, DynamicModule } from '../dynamic.interfaces';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
 
 import { isComponentDef, isModuleDef } from './dynamic-loader.service';
@@ -40,7 +40,7 @@ export class DynamicTenantLoaderService {
     public async loadTenantModuleRef<T>(
         selector: string,
         injector: Injector = this.moduleRef.injector,
-    ): Promise<NgModuleRef<IDynamicModule<T>> | null> {
+    ): Promise<NgModuleRef<DynamicModule<T>> | null> {
         if (!selector || typeof selector !== 'string') {
             return null;
         }
@@ -55,7 +55,7 @@ export class DynamicTenantLoaderService {
      */
     public async getComponentFromInjector<T>(
         selector: string,
-        moduleRef: NgModuleRef<IDynamicModule<T>>,
+        moduleRef: NgModuleRef<DynamicModule<T>>,
     ): Promise<ComponentFactory<T> | null> {
         const moduleFac = await this.dynamicSearcher.search(selector, { injector: moduleRef.injector });
 

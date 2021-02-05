@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
-import { IComponent, IComponentFn, IDynamicModule } from '@xm-ngx/dynamic';
+import { IComponent, IComponentFn, DynamicModule } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 
 export interface XmDateOptions {
@@ -37,6 +37,6 @@ export class XmDateComponent implements IComponent<XmDateValue, XmDateOptions> {
     declarations: [XmDateComponent],
     imports: [CommonModule],
 })
-export class XmDateModule implements IDynamicModule<IComponent<XmDateValue, XmDateOptions>> {
+export class XmDateModule implements DynamicModule<IComponent<XmDateValue, XmDateOptions>> {
     public entry: IComponentFn<XmDateValue, XmDateOptions> = XmDateComponent;
 }
