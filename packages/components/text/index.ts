@@ -20,7 +20,7 @@ export {
     XmPasswordControl,
     XmPasswordControlOptions,
     XmPasswordControlModule,
-} from './password';
+} from './password-control';
 
 export {
     XmPhoneNumberControl,

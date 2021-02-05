@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { XmCodeModule } from '@xm-ngx/components/code';
-import { XmEmailControlModule, XmTextControlModule, XmTextRangeModule } from '@xm-ngx/components/text';
+import {
+    XmEmailControlModule,
+    XmPasswordControlModule,
+    XmPhoneNumberControlModule,
+    XmTextControlModule,
+    XmTextRangeModule,
+} from '@xm-ngx/components/text';
+
 import { XmTextExampleComponent } from './xm-text-example.component';
 
 @NgModule({
@@ -13,6 +20,8 @@ import { XmTextExampleComponent } from './xm-text-example.component';
         XmCodeModule,
         XmTextControlModule,
         XmEmailControlModule,
+        XmPasswordControlModule,
+        XmPhoneNumberControlModule,
     ],
 })
 export class XmTextExampleModule {
