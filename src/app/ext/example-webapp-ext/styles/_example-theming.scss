@@ -1,0 +1,12 @@
+@import 'example-webapp-ext/module/example-widget/example-widget-theme';
+
+/**
+ * use the command 'xm-ngx ext-theming' to import this file into src/styles/theming.scss.
+ * WARNING: Mixin prefix name must match extension name!
+ */
+@mixin example-theme($theme) {
+  /**
+   * Creating styles based on input $theme.
+   */
+  @include example-widget-theme($theme)
+}

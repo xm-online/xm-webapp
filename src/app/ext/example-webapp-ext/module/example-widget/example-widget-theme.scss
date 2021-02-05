@@ -9,8 +9,8 @@
   /**
     * Getting colors from the $theme.
     */
-  $primary:         map-get($theme, xm-primary);
-  $text-on-primary: map-get($theme, xm-text-on-primary);
+  $primary:         map-get($theme, primary);
+  $text-on-primary: map-get($theme, on-primary);
 
   /**
    * Override colors.
