@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
-import { XmTextRangeComponent } from './xm-text-range.component';
+import { XmTextRangeControlComponent } from './xm-text-range-control.component';
 
 @NgModule({
     imports: [
@@ -17,9 +17,9 @@ import { XmTextRangeComponent } from './xm-text-range.component';
         ReactiveFormsModule,
         MatFormFieldModule,
     ],
-    exports: [XmTextRangeComponent],
-    declarations: [XmTextRangeComponent],
+    exports: [XmTextRangeControlComponent],
+    declarations: [XmTextRangeControlComponent],
 })
-export class XmTextRangeModule {
-    public readonly entry: Type<XmTextRangeComponent> = XmTextRangeComponent;
+export class XmTextRangeControlModule {
+    public readonly entry: Type<XmTextRangeControlComponent> = XmTextRangeControlComponent;
 }

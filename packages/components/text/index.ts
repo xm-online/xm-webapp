@@ -28,10 +28,10 @@ export {
 } from './text-control';
 
 export {
-    XmTextRangeOptions,
-    XmTextRangeComponent,
-    XmTextRangeModule,
-} from './text-range';
+    XmTextRangeControlOptions,
+    XmTextRangeControlComponent,
+    XmTextRangeControlModule,
+} from './text-range-control';
 
 export {
     XmTextJoinModule,

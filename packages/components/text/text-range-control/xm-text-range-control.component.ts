@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { Translate } from '@xm-ngx/translation';
 
-export interface XmTextRangeOptions {
+export interface XmTextRangeControlOptions {
     title?: Translate;
     placeholder?: Translate;
     required?: boolean;
@@ -11,7 +11,7 @@ export interface XmTextRangeOptions {
 }
 
 @Component({
-    selector: 'xm-text-range',
+    selector: 'xm-text-range-control',
     template: `
         <mat-form-field>
             <mat-label>{{options.title | translate}}</mat-label>
@@ -30,6 +30,6 @@ export interface XmTextRangeOptions {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmTextRangeComponent extends NgFormAccessor<string> {
-    @Input() public options: XmTextRangeOptions;
+export class XmTextRangeControlComponent extends NgFormAccessor<string> {
+    @Input() public options: XmTextRangeControlOptions;
 }
