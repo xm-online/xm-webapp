@@ -1,8 +1,20 @@
 export {
     XmEmailControl,
-    XmEmailControlModule,
+    XmEmailControlOptions,
+    XmEmailControlModule
+} from './email';
 
-} from './xm-email-control';
+export {
+    XmTextRangeOptions,
+    XmTextRangeComponent,
+    XmTextRangeModule,
+} from './text-range';
+
+export {
+    XmTextControlOptions,
+    XmTextControl,
+    XmTextControlModule,
+} from './text-control';
 
 export {
     XmPasswordControl,
