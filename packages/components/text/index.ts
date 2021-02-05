@@ -2,7 +2,7 @@ export {
     XmEmailControl,
     XmEmailControlOptions,
     XmEmailControlModule,
-} from './email';
+} from './email-control';
 
 export {
     XmPasswordControl,
@@ -52,7 +52,7 @@ export {
     XmTextDynamicOptions,
     XmTextDynamicView,
     XmTextDynamicViewModule,
-} from './text-view-dynamic/xm-text-dynamic-view';
+} from './text-dynamic-view/xm-text-dynamic-view';
 
 export {
     XM_TEXT_ELEMENTS,

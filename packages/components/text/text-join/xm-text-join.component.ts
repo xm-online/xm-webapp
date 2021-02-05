@@ -16,7 +16,7 @@ export interface XmTextJoinValueOptions {
 }
 
 @Component({
-    selector: 'xm-text-join-value',
+    selector: 'xm-text-join',
     template: `{{joinValue}}`,
     changeDetection: ChangeDetectionStrategy.Default,
 })
