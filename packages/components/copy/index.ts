@@ -1,6 +1,8 @@
+export { XM_COPY_ELEMENTS } from './xm-copy.registry';
+
 export {
-    CopyIconModule,
-    CopyIconComponent,
-    COPY_ICON_OPTIONS,
-    CopyIconOptions,
-} from './copy-icon';
+    XmCopyIconModule,
+    XmCopyIconComponent,
+    XM_COPY_ICON_OPTIONS,
+    XmCopyIconOptions,
+} from './xm-copy-icon';
