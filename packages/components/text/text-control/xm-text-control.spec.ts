@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmTextControl } from '@xm-ngx/components/xm-text-control/xm-text-control';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTextControl } from './xm-text-control';
 
 describe('XmTextControl', () => {
     let component: XmTextControl;

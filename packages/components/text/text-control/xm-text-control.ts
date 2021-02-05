@@ -1,27 +1,23 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
     EventEmitter,
     Inject,
     Input,
-    NgModule,
     Optional,
     Output,
     Self,
     ViewEncapsulation,
 } from '@angular/core';
-import { FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
+import { FormControl, NgControl } from '@angular/forms';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
-import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { IControl, IControlFn } from '@xm-ngx/dynamic';
+import { IControl } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { Translate } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
 
-export interface ITextControlOptions {
+export interface XmTextControlOptions {
     title?: Translate;
     type?: string;
     placeholder?: Translate;
@@ -35,7 +31,7 @@ export interface ITextControlOptions {
     minLength?: number;
 }
 
-const DEFAULT_OPTIONS: ITextControlOptions = {
+const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     title: '',
     placeholder: '',
     type: 'text',
@@ -73,7 +69,7 @@ const DEFAULT_OPTIONS: ITextControlOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmTextControl extends NgFormAccessor<Primitive> implements IControl<Primitive, ITextControlOptions> {
+export class XmTextControl extends NgFormAccessor<Primitive> implements IControl<Primitive, XmTextControlOptions> {
     @Input() public control: FormControl = new FormControl();
     @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
 
@@ -82,15 +78,18 @@ export class XmTextControl extends NgFormAccessor<Primitive> implements IControl
         super(ngControl);
     }
 
-    private _options: ITextControlOptions = {};
+    private _options: XmTextControlOptions = {};
 
-    public get options(): ITextControlOptions {
+    public get options(): XmTextControlOptions {
         return this._options;
     }
 
     @Input()
-    public set options(value: ITextControlOptions) {
-        this._options = defaults({}, value, { ...DEFAULT_OPTIONS, errors: this.xmControlErrorsTranslates });
+    public set options(value: XmTextControlOptions) {
+        this._options = defaults({}, value, {
+            ...XM_TEXT_CONTROL_OPTIONS_DEFAULT,
+            errors: this.xmControlErrorsTranslates,
+        });
         this._options.placeholder = this._options.placeholder || this._options.title;
 
         if (this._options.disabled) {
@@ -100,17 +99,3 @@ export class XmTextControl extends NgFormAccessor<Primitive> implements IControl
 
 }
 
-@NgModule({
-    imports: [
-        MatInputModule,
-        XmTranslationModule,
-        CommonModule,
-        ControlErrorModule,
-        ReactiveFormsModule,
-    ],
-    exports: [XmTextControl],
-    declarations: [XmTextControl],
-})
-export class XmTextControlModule {
-    public readonly entry: IControlFn<Primitive, ITextControlOptions> = XmTextControl;
-}
