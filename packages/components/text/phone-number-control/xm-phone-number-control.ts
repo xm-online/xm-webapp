@@ -17,6 +17,7 @@ import { XmPhoneNumberControlOptions } from './xm-phone-number-control-options';
                    [id]="options.id"
                    pattern="\\d+"
                    required
+                   matInput
                    type="tel">
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>

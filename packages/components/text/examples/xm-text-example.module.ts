@@ -6,7 +6,11 @@ import {
     XmPasswordControlModule,
     XmPhoneNumberControlModule,
     XmTextControlModule,
-    XmTextRangeModule,
+    XmTextDynamicViewModule,
+    XmTextJoinModule,
+    XmTextModule,
+    XmTextRangeControlModule,
+    XmTextViewModule,
 } from '@xm-ngx/components/text';
 
 import { XmTextExampleComponent } from './xm-text-example.component';
@@ -16,12 +20,16 @@ import { XmTextExampleComponent } from './xm-text-example.component';
     exports: [XmTextExampleComponent],
     imports: [
         CommonModule,
-        XmTextRangeModule,
+        XmTextRangeControlModule,
         XmCodeModule,
         XmTextControlModule,
         XmEmailControlModule,
         XmPasswordControlModule,
         XmPhoneNumberControlModule,
+        XmTextModule,
+        XmTextJoinModule,
+        XmTextViewModule,
+        XmTextDynamicViewModule,
     ],
 })
 export class XmTextExampleModule {
