@@ -3,9 +3,7 @@ export {
 } from './xm-phone-number-control.module';
 
 export {
+    XmPhoneNumberControlComponent,
     XmPhoneNumberControlOptions,
-} from './xm-phone-number-control-options';
-
-export {
-    XmPhoneNumberControl,
-} from './xm-phone-number-control';
+    XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT,
+} from './xm-phone-number-control.component';

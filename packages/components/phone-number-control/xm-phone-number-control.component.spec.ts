@@ -3,23 +3,23 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
 
-import { PhoneNumberControlComponent } from './phone-number-control.component';
+import { XmPhoneNumberControlComponent } from './xm-phone-number-control.component';
 
-describe('PhoneNumberControlComponent', () => {
-    let component: PhoneNumberControlComponent;
-    let fixture: ComponentFixture<PhoneNumberControlComponent>;
+describe('XmPhoneNumberControlComponent', () => {
+    let component: XmPhoneNumberControlComponent;
+    let fixture: ComponentFixture<XmPhoneNumberControlComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [XmSharedTestingModule, NoopAnimationsModule],
-            declarations: [PhoneNumberControlComponent],
+            declarations: [XmPhoneNumberControlComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(PhoneNumberControlComponent);
+        fixture = TestBed.createComponent(XmPhoneNumberControlComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

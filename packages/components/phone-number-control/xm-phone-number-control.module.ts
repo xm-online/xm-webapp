@@ -6,12 +6,12 @@ import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgxMaskModule } from 'ngx-mask';
-import { PhoneNumberControlComponent } from './phone-number-control.component';
+import { XmPhoneNumberControlComponent } from './xm-phone-number-control.component';
 
 
 @NgModule({
-    declarations: [PhoneNumberControlComponent],
-    exports: [PhoneNumberControlComponent],
+    declarations: [XmPhoneNumberControlComponent],
+    exports: [XmPhoneNumberControlComponent],
     imports: [
         CommonModule,
         MatFormFieldModule,
@@ -24,5 +24,5 @@ import { PhoneNumberControlComponent } from './phone-number-control.component';
         FormsModule,
     ],
 })
-export class PhoneNumberControlModule {
+export class XmPhoneNumberControlModule {
 }

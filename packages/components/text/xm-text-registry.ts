@@ -12,10 +12,6 @@ export const XM_TEXT_ELEMENTS: DynamicComponent[] = [
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmPasswordControlModule),
     },
     {
-        selector: '@xm-ngx/components/phone-number-control',
-        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmPhoneNumberControlModule),
-    },
-    {
         selector: '@xm-ngx/components/text',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextModule),
     },

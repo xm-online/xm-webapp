@@ -3,7 +3,7 @@ import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { Translate } from '@xm-ngx/translation';
 import { assign } from 'lodash';
 
-interface PhoneNumberControlOptions {
+export interface XmPhoneNumberControlOptions {
     id: string;
     title: Translate;
     defaultPrefix: string;
@@ -13,7 +13,7 @@ interface PhoneNumberControlOptions {
     placeHolderCharacter: string;
 }
 
-const DEFAULT = {
+export const XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT = {
     id: 'phoneNumber',
     title: 'components.xm-phone-number-control.phone-number-label',
     defaultPrefix: '38',
@@ -25,21 +25,21 @@ const DEFAULT = {
 
 @Component({
     selector: 'xm-phone-number-control',
-    templateUrl: './phone-number-control.component.html',
-    styleUrls: ['./phone-number-control.component.scss'],
+    templateUrl: './xm-phone-number-control.component.html',
+    styleUrls: ['./xm-phone-number-control.component.scss'],
 })
-export class PhoneNumberControlComponent extends NgControlAccessor<string> {
+export class XmPhoneNumberControlComponent extends NgControlAccessor<string> {
     public inputValue: string;
 
-    private _options: PhoneNumberControlOptions = assign({}, DEFAULT);
+    private _options: XmPhoneNumberControlOptions = assign({}, XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT);
 
-    public get options(): PhoneNumberControlOptions {
+    public get options(): XmPhoneNumberControlOptions {
         return this._options;
     }
 
     @Input()
-    public set options(value: PhoneNumberControlOptions) {
-        this._options = assign({}, DEFAULT, value);
+    public set options(value: XmPhoneNumberControlOptions) {
+        this._options = assign({}, XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT, value);
     }
 
     public writeValue(obj: string): void {

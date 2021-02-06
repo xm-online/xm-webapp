@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {
     XmEmailControlOptions,
     XmPasswordControlOptions,
-    XmPhoneNumberControlOptions,
     XmTextControlOptions,
     XmTextDynamicOptions,
     XmTextRangeControlOptions,
@@ -24,11 +23,6 @@ export class XmTextExampleComponent {
     public passwordControlOptions: XmPasswordControlOptions = {
         id: 'password-id',
         title: { en: 'Password control' },
-    };
-
-    public phoneNumberControlOptions: XmPhoneNumberControlOptions = {
-        id: 'phone-number-control-id',
-        title: { en: 'Phone Number control' },
     };
 
     public textControlOptions: XmTextControlOptions = {

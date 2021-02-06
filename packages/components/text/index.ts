@@ -11,12 +11,6 @@ export {
 } from './password-control';
 
 export {
-    XmPhoneNumberControl,
-    XmPhoneNumberControlOptions,
-    XmPhoneNumberControlModule,
-} from './phone-number-control';
-
-export {
     XmTextComponent,
     XmTextModule,
 } from './text';

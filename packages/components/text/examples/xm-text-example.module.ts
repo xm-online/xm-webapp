@@ -4,7 +4,6 @@ import { XmCodeModule } from '@xm-ngx/components/code';
 import {
     XmEmailControlModule,
     XmPasswordControlModule,
-    XmPhoneNumberControlModule,
     XmTextControlModule,
     XmTextDynamicViewModule,
     XmTextJoinModule,
@@ -25,7 +24,6 @@ import { XmTextExampleComponent } from './xm-text-example.component';
         XmTextControlModule,
         XmEmailControlModule,
         XmPasswordControlModule,
-        XmPhoneNumberControlModule,
         XmTextModule,
         XmTextJoinModule,
         XmTextViewModule,
