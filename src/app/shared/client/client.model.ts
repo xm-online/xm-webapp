@@ -1,5 +1,12 @@
+export enum ClientState {
+    'BLOCKED' = 'BLOCKED',
+    'ACTIVE' = 'ACTIVE',
+    'NONE' = ''
+}
+
 export interface Client {
-    id?: any,
+    clientState?: ClientState,
+    id?: number,
     clientId?: string,
     clientSecret?: string,
     roleKey?: string,
