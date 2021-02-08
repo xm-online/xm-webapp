@@ -3,6 +3,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { DashboardWidget } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
+import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../const';
@@ -126,4 +127,21 @@ export class WidgetEditComponent {
         });
     }
 
+    public onCopyToClipboard(): void {
+        const text = JSON.stringify(this.formGroup);
+        navigator.clipboard.writeText(text);
+    }
+
+    public async onPasteFromClipboard(): Promise<void> {
+        const text = await navigator.clipboard.readText();
+        let config: DashboardWidget;
+        try {
+            config = JSON.parse(text);
+        } catch (e) {
+            return;
+        }
+        delete config.id;
+        delete config.dashboard.id;
+        this.value = _.merge(this.value, config);
+    }
 }
