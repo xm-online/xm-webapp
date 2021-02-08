@@ -23,7 +23,7 @@ $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 @import 'packages/components/loader/loader.component';
 @import 'packages/xm-alert/alert';
 @import 'packages/components/loading/loading';
-@import 'packages/components/xm-text-view/xm-text-theme';
+@import 'packages/components/text/xm-text-theme';
 @include xm-loading-theme($xm-theme);
 @include xm-text-theme($xm-theme);
 

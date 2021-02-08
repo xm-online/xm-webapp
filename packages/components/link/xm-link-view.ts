@@ -8,7 +8,7 @@ import {
     XmLink,
     XmLinkModule
 } from '@xm-ngx/components/link/xm-link';
-import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
+import { XmTextViewModule } from '@xm-ngx/components/text';
 import { IComponent } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
@@ -33,7 +33,7 @@ export const XM_LINK_VIEW_DEFAULT_OPTIONS: XmLinkViewOptions = assign(
 @Component({
     selector: 'xm-link-view',
     template: `
-        <xm-text [hidden]="!fieldValue" [styleInline]="options?.styleInline">
+        <xm-text-view-container [hidden]="!fieldValue" [styleInline]="options?.styleInline">
             <span xmLabel>{{options?.title | translate}}</span>
 
             <div xmValue>
@@ -44,7 +44,7 @@ export const XM_LINK_VIEW_DEFAULT_OPTIONS: XmLinkViewOptions = assign(
                     <mat-icon *ngIf="options?.icon">{{options.icon}}</mat-icon>
                 </a>
             </div>
-        </xm-text>
+        </xm-text-view-container>
     `,
     encapsulation: ViewEncapsulation.None,
 })

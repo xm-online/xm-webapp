@@ -1,20 +1,53 @@
 export {
     XmEmailControl,
+    XmEmailControlOptions,
     XmEmailControlModule,
-
-} from './xm-email-control';
+} from './email-control';
 
 export {
     XmPasswordControl,
+    XmPasswordControlOptions,
     XmPasswordControlModule,
-
-} from './xm-password-control';
+} from './password-control';
 
 export {
-    XmPhoneNumberControl,
-    XmPhoneNumberControlModule,
+    XmTextComponent,
+    XmTextModule,
+} from './text';
 
-} from './xm-phone-number-control';
-export { XmPasswordControlOptions } from '@xm-ngx/components/text/xm-password-control-options';
-export { XmPhoneNumberControlOptions } from '@xm-ngx/components/text/xm-phone-number-control-options';
-export { XmEmailControlOptions } from '@xm-ngx/components/text/xm-email-control-options';
+export {
+    XmTextControlOptions,
+    XmTextControl,
+    XmTextControlModule,
+} from './text-control';
+
+export {
+    XmTextRangeControlOptions,
+    XmTextRangeControlComponent,
+    XmTextRangeControlModule,
+} from './text-range-control';
+
+export {
+    XmTextJoinModule,
+    XmTextJoinComponent,
+    XmTextJoinValueOptions,
+    XmTextJoinValueOptionsTemplate,
+} from './text-join/xm-text-join.component';
+
+export {
+    XmTextViewOptions,
+    XmTextViewComponent,
+    XM_TEXT_VIEW_OPTIONS_DEFAULT,
+    XmTextViewModule,
+    XmTextViewContainerComponent,
+} from './text-view';
+
+export {
+    XmTextDynamicOptions,
+    XmTextDynamicView,
+    XmTextDynamicViewModule,
+} from './text-dynamic-view/xm-text-dynamic-view';
+
+export {
+    XM_TEXT_ELEMENTS,
+} from './xm-text-registry';

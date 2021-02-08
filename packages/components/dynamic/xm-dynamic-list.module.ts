@@ -7,8 +7,8 @@ import {
     ExtendedDynamicComponents,
     WidgetListService,
 } from '@xm-ngx/administration/dashboards-config/widget-edit/widget-list.service';
+import { XmTextControlModule } from '@xm-ngx/components/text';
 import { AceEditorControlModule } from '@xm-ngx/components/xm-ace-editor/xm-ace-editor-control';
-import { XmTextControlModule } from '@xm-ngx/components/xm-text-control';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';

@@ -7,7 +7,7 @@ import {
     XmLinkViewOptions,
     XmLinkViewComponent,
 } from '@xm-ngx/components/link/xm-link-view';
-import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
+import { XmTextViewModule } from '@xm-ngx/components/text';
 import { IComponent } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { XmTranslationModule } from '@xm-ngx/translation';
@@ -27,8 +27,8 @@ export const XM_LINK_VIEW_COPY_DEFAULT_OPTIONS: XmLinkViewCopyOptions = assign(
 @Component({
     selector: 'xm-link-view-copy',
     template: `
-        <xm-text [hidden]="!fieldValue"
-                 [styleInline]="options?.styleInline">
+        <xm-text-view-container [hidden]="!fieldValue"
+                                [styleInline]="options?.styleInline">
             <span xmLabel>{{options?.title | translate}}</span>
 
             <div xmValue>
@@ -40,7 +40,7 @@ export const XM_LINK_VIEW_COPY_DEFAULT_OPTIONS: XmLinkViewCopyOptions = assign(
                 <xm-copy-icon [value]="copyValue"
                               [options]="copyOptions"></xm-copy-icon>
             </div>
-        </xm-text>
+        </xm-text-view-container>
     `,
     encapsulation: ViewEncapsulation.None,
 })
