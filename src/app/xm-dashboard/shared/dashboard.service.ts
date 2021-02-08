@@ -22,6 +22,10 @@ export class DashboardService {
             map((res: HttpResponse<Dashboard>) => this.convertResponse(res)));
     }
 
+    public createBulk(body: DashboardWithWidgets[]): Observable<void> {
+        return this.http.request<void>('POST', 'dashboard/api/dashboards/bulk', {body});
+    }
+
     public update(dashboard: Dashboard): Observable<HttpResponse<Dashboard>> {
         const copy = this.convert(dashboard);
         return this.http.put<Dashboard>(this.resourceUrl, copy, { observe: 'response' }).pipe(

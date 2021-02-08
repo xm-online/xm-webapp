@@ -1,7 +1,7 @@
+import { Layout } from '@xm-ngx/dynamic';
 import { BaseEntity } from '@xm-ngx/entity';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
-import { Layout } from '@xm-ngx/dynamic';
 import { DashboardWidget } from './widget.model';
 
 export interface DashboardConfig {
@@ -32,11 +32,17 @@ export interface DashboardConfig {
     [key: string]: any;
 }
 
+interface DashboardLayoutLayout extends Layout {
+    widget?: number | string | DashboardWidget;
+    widgetName?: string;
+    content?: DashboardLayoutLayout[];
+}
+
 export interface DashboardLayout {
     class?: string;
-    layout?: Layout[];
+    layout?: DashboardLayoutLayout[];
     /** @deprecated use layout instead */
-    grid?: Layout[];
+    grid?: DashboardLayoutLayout[];
 }
 
 export interface Dashboard<C = DashboardConfig, L = DashboardLayout> extends BaseEntity {
