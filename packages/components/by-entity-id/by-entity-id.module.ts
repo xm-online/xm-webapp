@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { ByEntityIdValueModule } from './by-entity-id-value.component';
 import { ByEntityIdComponent } from './by-entity-id.component';
-import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
+import { XmTextViewModule } from '@xm-ngx/components/text';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
 

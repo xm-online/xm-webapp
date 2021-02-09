@@ -42,6 +42,11 @@
   .table {
     th, td {
       vertical-align: middle;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    th {
+      border-top: none;
     }
   }
 }
@@ -64,9 +69,24 @@
   }
 }
 
+/**
+ * Card
+ */
+@mixin bootstrap-xm-override-card() {
+  .card-body {
+    padding-top: 0;
+  }
+
+  .card-stats {
+    margin: 0;
+    padding-bottom: 40px;
+  }
+}
+
 @mixin bootstrap-xm-override() {
 
   @include bootstrap-xm-override-table();
   @include bootstrap-xm-override-btn-group();
+  @include bootstrap-xm-override-card();
 
 }

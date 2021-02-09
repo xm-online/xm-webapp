@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
-import { XmTextViewModule } from '@xm-ngx/components/xm-text-view';
+import { XmTextViewModule } from '@xm-ngx/components/text';
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateModule, XmDateOptions, XmDateValue } from './xm-date.component';
@@ -12,10 +12,10 @@ export interface XmDateViewOptions extends XmDateOptions {
 @Component({
     selector: 'xm-date-view',
     template: `
-        <xm-text [styleInline]="styleInline">
+        <xm-text-view-container [styleInline]="styleInline">
             <span xmLabel>{{options?.title | translate}}</span>
             <xm-date xmValue [value]="value" [options]="options"></xm-date>
-        </xm-text>
+        </xm-text-view-container>
     `,
     changeDetection: ChangeDetectionStrategy.Default,
 })

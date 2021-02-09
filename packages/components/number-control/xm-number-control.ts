@@ -16,7 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 
-import { ITextControlOptions } from '@xm-ngx/components/xm-text-control/xm-text-control';
+import { XmTextControlOptions } from '@xm-ngx/components/text';
 import { IControl, IControlFn } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
@@ -66,7 +66,7 @@ const DEFAULT_OPTIONS: INumberControlOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmNumberControl extends NgFormAccessor<Primitive> implements IControl<Primitive, ITextControlOptions> {
+export class XmNumberControl extends NgFormAccessor<Primitive> implements IControl<Primitive, XmTextControlOptions> {
     @Input() public control: FormControl = new FormControl();
     @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
 

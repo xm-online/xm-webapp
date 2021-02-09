@@ -3,9 +3,9 @@ import { NgModule, Type } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EDIT_DASHBOARD_EVENT } from '@xm-ngx/administration/dashboards-config/const';
 import { LoaderModule } from '@xm-ngx/components/loader';
+import { XmTextControlModule } from '@xm-ngx/components/text';
 import { AceEditorControlModule } from '@xm-ngx/components/xm-ace-editor/xm-ace-editor-control';
 import { BoolValueModule } from '@xm-ngx/components/bool';
-import { XmTextControlModule } from '@xm-ngx/components/xm-text-control';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmTranslationModule } from '@xm-ngx/translation';
 

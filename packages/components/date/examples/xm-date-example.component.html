@@ -1,4 +1,20 @@
-<xm-date [value]="dateValue" [options]="dateOptions"></xm-date>
-<xm-date-view [value]="dateValue" [options]="dateViewOptions"></xm-date-view>
-<xm-date-control [value]="dateValue" [options]="dateControlOptions"></xm-date-control>
-<xm-date-range-control [value]="dateRangeValue" [options]="dateViewOptions"></xm-date-range-control>
+<div class="mb-3">
+  <xm-code isBlock>@xm-ngx/components/date</xm-code>
+  <xm-date [value]="dateValue" [options]="dateOptions"></xm-date>
+</div>
+
+<div class="mb-3">
+  <xm-code isBlock>@xm-ngx/components/date-view</xm-code>
+  <xm-date-view [value]="dateValue" [options]="dateViewOptions"></xm-date-view>
+  <xm-date-view [value]="dateValue" [options]="dateViewInlineOptions"></xm-date-view>
+</div>
+
+<div class="mb-3">
+  <xm-code isBlock>@xm-ngx/components/date-control</xm-code>
+  <xm-date-control [value]="dateValue" [options]="dateControlOptions"></xm-date-control>
+</div>
+
+<div class="mb-3">
+  <xm-code isBlock>@xm-ngx/components/date-range-control</xm-code>
+  <xm-date-range-control [value]="dateRangeValue" [options]="dateRangeOptions"></xm-date-range-control>
+</div>
