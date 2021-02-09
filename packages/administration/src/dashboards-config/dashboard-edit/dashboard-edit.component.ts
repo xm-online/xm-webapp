@@ -147,4 +147,21 @@ export class DashboardEditComponent {
         $event.preventDefault();
         return false;
     }
+
+    public onCopyToClipboard(): void {
+        const text = JSON.stringify(this.formGroup);
+        navigator.clipboard.writeText(text);
+    }
+
+    public async onPasteFromClipboard(): Promise<void> {
+        const text = await navigator.clipboard.readText();
+        let config: Dashboard;
+        try {
+            config = JSON.parse(text);
+        } catch (e) {
+            return;
+        }
+        delete config.id;
+        this.value = _.merge(this.value, config);
+    }
 }

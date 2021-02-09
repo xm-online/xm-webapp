@@ -35,6 +35,21 @@
         <mat-icon>file_copy</mat-icon>
       </button>
 
+      <button (click)="onCopyToClipboard()"
+              *ngIf="editType === EditType.Edit"
+              [disabled]="!form.valid || disabled"
+              [matTooltip]="'copy to clipboard'"
+              mat-icon-button>
+        <mat-icon>content_copy</mat-icon>
+      </button>
+
+      <button (click)="onPasteFromClipboard()"
+              [disabled]="!form.valid || disabled"
+              [matTooltip]="'paste'"
+              mat-icon-button>
+        <mat-icon>content_paste</mat-icon>
+      </button>
+
       <button (click)="onDelete()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!form.valid || disabled"

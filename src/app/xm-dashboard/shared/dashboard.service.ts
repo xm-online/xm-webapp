@@ -22,10 +22,18 @@ export class DashboardService {
             map((res: HttpResponse<Dashboard>) => this.convertResponse(res)));
     }
 
+    public createBulk(body: DashboardWithWidgets[]): Observable<void> {
+        return this.http.request<void>('POST', 'dashboard/api/dashboards/bulk', {body});
+    }
+
     public update(dashboard: Dashboard): Observable<HttpResponse<Dashboard>> {
         const copy = this.convert(dashboard);
         return this.http.put<Dashboard>(this.resourceUrl, copy, { observe: 'response' }).pipe(
             map((res: HttpResponse<Dashboard>) => this.convertResponse(res)));
+    }
+
+    public updateBulk(body: DashboardWithWidgets[]): Observable<void> {
+        return this.http.request<void>('UPDATE', 'dashboard/api/dashboards/bulk', {body});
     }
 
     public find(id: number): Observable<HttpResponse<DashboardWithWidgets>> {
@@ -48,6 +56,10 @@ export class DashboardService {
 
     public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    public deleteBulk(body: DashboardWithWidgets[]): Observable<void> {
+        return this.http.request<void>('DELETE', 'dashboard/api/dashboards/bulk', {body});
     }
 
     private convertResponse(res: HttpResponse<Dashboard>): HttpResponse<Dashboard> {
