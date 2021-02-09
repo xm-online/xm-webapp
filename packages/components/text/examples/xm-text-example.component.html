@@ -23,9 +23,14 @@
 <xm-text-range-control [options]="textRangeOptions"></xm-text-range-control>
 
 <div class="mb-3">
-<xm-code isBlock>@xm-ngx/components/text-view</xm-code>
-<xm-text-view [options]="textViewOptions"></xm-text-view>
+  <xm-code isBlock>@xm-ngx/components/text-view</xm-code>
+  <xm-text-view [options]="textViewOptions"></xm-text-view>
 </div>
 
 <xm-code isBlock>@xm-ngx/components/text-dynamic-view</xm-code>
 <xm-text-dynamic-view value="hello" [options]="textDynamicOptions"></xm-text-dynamic-view>
+
+<div class="mt-5">
+  <div>xm-labeled-view-container</div>
+  <xm-labeled-view-container [options]="{title: { en: 'Label text' }}">text</xm-labeled-view-container>
+</div>
