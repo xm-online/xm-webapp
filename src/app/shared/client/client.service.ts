@@ -14,11 +14,11 @@ export class ClientService {
     }
 
     public create(client: Client): Observable<HttpResponse<Client>> {
-        return this.http.post(this.resourceUrl, client, { observe: 'response' });
+        return this.http.post<Client>(this.resourceUrl, client, { observe: 'response' });
     }
 
     public update(client: Client): Observable<HttpResponse<Client>> {
-        return this.http.put(this.resourceUrl, client, { observe: 'response' });
+        return this.http.put<Client>(this.resourceUrl, client, { observe: 'response' });
     }
 
     public find(id: number): Observable<Client> {
@@ -58,5 +58,13 @@ export class ClientService {
 
     public delete(id: number): Observable<HttpResponse<unknown>> {
         return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    public unblock(client: Client): Observable<void> {
+        return this.http.get<void>(`${this.resourceUrl}/${client.id}/activate`);
+    }
+
+    public block(client: Client): Observable<void> {
+        return this.http.get<void>(`${this.resourceUrl}/${client.id}/block`);
     }
 }

@@ -23,6 +23,7 @@ import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dial
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';
 import { ClientMgmtComponent } from './client-management.component';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
+import { ToggleLockClientComponent } from './toggle-lock-client/toggle-lock-client.component';
 
 @NgModule({
     imports: [
@@ -50,7 +51,7 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
         ModalCloseModule,
     ],
     exports: [ClientMgmtComponent],
-    declarations: [ClientMgmtComponent, ClientMgmtDeleteDialogComponent, ClientMgmtDialogComponent],
+    declarations: [ClientMgmtComponent, ClientMgmtDeleteDialogComponent, ClientMgmtDialogComponent, ToggleLockClientComponent],
     providers: [],
 })
 export class ClientManagementModule {

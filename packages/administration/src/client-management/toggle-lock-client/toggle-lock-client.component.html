@@ -1,0 +1,14 @@
+<button (click)="changeState(client)"
+        *ngIf="client.clientState != ClientState.BLOCKED"
+        color="warn"
+        mat-icon-button>
+  <mat-icon>lock_outline</mat-icon>
+</button>
+
+<button (click)="changeState(client)"
+        *ngIf="client.clientState == ClientState.BLOCKED"
+        color="accent"
+        mat-icon-button
+        style="color: #4caf50">
+  <mat-icon>lock_open</mat-icon>
+</button>
