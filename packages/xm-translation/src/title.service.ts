@@ -2,9 +2,10 @@ import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { XmPublicUiConfigService } from '@xm-ngx/core';
+import { OnInitialize } from '@xm-ngx/shared/interfaces';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { OnInitialize } from '@xm-ngx/shared/interfaces';
 
 import { LanguageService, Translate } from './language.service';
 
@@ -14,28 +15,37 @@ export interface IRouteDate {
 
 export const DEFAULT_TITLE = 'Title';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class TitleService implements OnInitialize {
 
     protected subscriptions: Subscription[] = [];
+    private postfix: string;
 
     constructor(protected translateService: TranslateService,
                 protected route: ActivatedRoute,
                 protected router: Router,
                 protected title: Title,
+                protected uiConfigService: XmPublicUiConfigService,
                 @Inject(LOCALE_ID) protected localeId: string,
                 protected languageService: LanguageService) {
     }
 
     public init(): void {
         this.subscriptions.push(
-            this.translateService.get(this.localeId).subscribe(this.update.bind(this)),
+            this.translateService.get(this.localeId).subscribe(() => this.update()),
+            this.uiConfigService.config$().subscribe((c) => {
+                if (c?.name) {
+                    this.postfix = ' - ' + c.name;
+                } else {
+                    this.postfix = '';
+                }
+            }),
             this.router.events.pipe(
                 filter((e) => e instanceof NavigationEnd),
                 map(() => this.getCurrentActiveRoute()),
                 filter(route => route.outlet === 'primary'),
                 distinctUntilChanged(),
-            ).subscribe(this.update.bind(this)),
+            ).subscribe(() => this.update()),
         );
     }
 
@@ -48,7 +58,7 @@ export class TitleService implements OnInitialize {
             return;
         }
 
-        this.title.setTitle(this.translateService.instant(title));
+        this.title.setTitle(this.translateService.instant(title) + this.postfix);
     }
 
     public get(): string {
