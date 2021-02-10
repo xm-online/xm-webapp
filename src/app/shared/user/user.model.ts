@@ -14,6 +14,7 @@ export class User implements XmUser {
     public langKey?: string;
     public permissions?: any[];
     public roleKey?: string;
+    public authorities?: string[];
     public createdBy?: string;
     public createdDate?: Date;
     public lastModifiedBy?: string;
@@ -42,6 +43,7 @@ export class User implements XmUser {
         password?: string,
         tfaEnabled?: boolean,
         imageUrl?: string,
+        authorities?: string[],
     ) {
         this.id = id ? id : null;
         this.userKey = userKey ? userKey : null;
@@ -60,6 +62,7 @@ export class User implements XmUser {
         this.langKey = langKey ? langKey : null;
         this.permissions = permissions ? permissions : null;
         this.roleKey = roleKey ? roleKey : null;
+        this.authorities = authorities ? authorities : null;
         this.createdBy = createdBy ? createdBy : null;
         this.createdDate = createdDate ? createdDate : null;
         this.lastModifiedBy = lastModifiedBy ? lastModifiedBy : null;

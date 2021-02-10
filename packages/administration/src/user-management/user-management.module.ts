@@ -11,7 +11,7 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { XmSharedModule } from '../../../../src/app/shared/shared.module';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
-import { UserMgmtDialogComponent } from './user-management-dialog.component';
+import { UserMgmtDialogComponent } from './user-management-dialog/user-management-dialog.component';
 import { UserMgmtComponent } from './user-management.component';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 

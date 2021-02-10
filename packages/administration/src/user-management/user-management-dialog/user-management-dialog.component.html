@@ -42,7 +42,7 @@
                placeholder="{{'userManagement.firstName' | translate}}"
                type="text">
         <mat-error *ngIf="firstNameInput.hasError('maxlength')">
-              <span>{{'entity.validation.maxlength'|translate}}</span>
+          <span>{{'entity.validation.maxlength'|translate}}</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -57,7 +57,7 @@
                placeholder="{{'userManagement.lastName' | translate}}"
                type="text">
         <mat-error *ngIf="lastNameInput.hasError('maxlength')">
-              <span>{{'entity.validation.maxlength'|translate}}</span>
+          <span>{{'entity.validation.maxlength'|translate}}</span>
         </mat-error>
       </mat-form-field>
     </div>
@@ -93,10 +93,12 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div class="form-group" *ngIf="userRoles !== undefined">
       <mat-form-field>
-        <mat-select [(ngModel)]="user.roleKey"
-                    id="authority"
+        <mat-select id="authority"
+                    [value]="userRoles"
+                    [multiple]="isMultiRole"
+                    (selectionChange)="roleSelect($event.value)"
                     name="authority"
                     placeholder="{{'userManagement.role' | translate}}">
           <mat-option *ngFor="let authority of authorities" [value]="authority">
@@ -109,7 +111,7 @@
   <div mat-dialog-actions>
     <button class="mr-1 ml-auto" mat-flat-button data-dismiss="modal" type="button" (click)="clear()">
       <span class="fa fa-ban"></span>&nbsp;<span
-     >{{'entity.action.cancel'|translate}}</span>
+    >{{'entity.action.cancel'|translate}}</span>
     </button>
     <button [disabled]="editForm.form.invalid || showLoader" mat-flat-button color="primary" type="submit">
       <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
