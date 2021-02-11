@@ -14,6 +14,7 @@
                   [value]="user.lastModifiedBy + ' ' + (user.lastModifiedDate | date)"></xm-text-view>
     <xm-text-view [options]="{title: 'Preferred Language:'}" [value]="user.langKey"></xm-text-view>
     <xm-text-view [options]="{title: 'Role:'}" [value]="user.roleKey"></xm-text-view>
+    <xm-text-view [options]="{title: 'Roles:'}" *ngIf="user.authorities" [value]="user.authorities"></xm-text-view>
     <xm-text-view [options]="{title: 'ID:'}" [value]="user.id"></xm-text-view>
     <xm-text-view [options]="{title: 'UserKey:'}" [value]="user.userKey"></xm-text-view>
     <xm-text-view [options]="{title: 'Email:'}" [value]="userEmail"></xm-text-view>
