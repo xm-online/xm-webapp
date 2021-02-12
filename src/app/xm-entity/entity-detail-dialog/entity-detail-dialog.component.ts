@@ -59,7 +59,7 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
         } else {
             if (this.spec && this.spec.types) {
                 this.availableSpecs = this.spec.types
-                    .filter((t) => !t.isAbstract && t.key.startsWith(this.xmEntitySpec.key));
+                    .filter((t) => this.filterSpecs(t));
                 this.xmEntity.key = UUID.UUID();
                 this.xmEntity.typeKey = this.availableSpecs[0].key;
                 this.onChangeEntityType(null, this.xmEntity.typeKey);
@@ -144,5 +144,11 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
         if (this.smartDescription.active && this.smartDescription.template) {
             this.smartDescription.value = formatString(this.smartDescription.template, data);
         }
+    }
+
+    private filterSpecs(t: XmEntitySpec): boolean {
+        const matches = t.key.split(this.xmEntitySpec.key);
+        const matchNext = matches && (matches.length > 1) && matches[1];
+        return !t.isAbstract && ((matchNext && matchNext.startsWith('.')) || t.key === this.xmEntitySpec.key);
     }
 }

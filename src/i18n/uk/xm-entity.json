@@ -100,7 +100,8 @@
         "entity-data-card": {
             "title": "Дані",
             "update-success": "Оновлено успішно.",
-            "update-error": "Не оновлено. Спробуйте ще раз."
+            "update-error": "Не оновлено. Спробуйте ще раз.",
+            "change-avatar": "Змінити фото"
         },
         "entity-list-card": {
             "action-dialog": {

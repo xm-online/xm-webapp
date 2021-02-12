@@ -15,6 +15,7 @@ import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 })
 export class EntityWidgetComponent implements OnInit, OnDestroy {
 
+    public uiConfig: any;
     public config: any;
     public grid: any;
     public xmEntity: XmEntity;
@@ -57,8 +58,9 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
     public defineUiConfig(): void {
         this.xmConfigService.getUiConfig().subscribe((config) => {
             // TODO for demo
+            this.uiConfig = config;
             this.tenant = config.name;
-            this.defaultDetailLayoutType = config.defaultDetailLayoutType
+            this.defaultDetailLayoutType = config.defaultDetailLayoutType;
             this.entityUiConfig = (config && config.applications
                 && config.applications.config
                 && config.applications.config.entities
