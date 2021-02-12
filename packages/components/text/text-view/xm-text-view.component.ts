@@ -8,7 +8,7 @@ import { XmTextViewContainerComponent } from './xm-text-view-container.component
 export interface XmTextViewOptions {
     title?: Translate;
     style?: 'inline';
-    emptyValue?: string;
+    emptyValue?: Translate;
 }
 
 export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
@@ -22,7 +22,7 @@ export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
     template: `
         <xm-text-view-container [styleInline]="!!this.options?.style">
             <span xmLabel>{{options.title | translate}}</span>
-            <span xmValue>{{value || options.emptyValue}}</span>
+            <span xmValue>{{value || (options.emptyValue | translate)}}</span>
         </xm-text-view-container>
     `,
 })
