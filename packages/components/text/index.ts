@@ -5,6 +5,12 @@ export {
 } from './email-control';
 
 export {
+    XmLabeledContainerOptions,
+    XmLabeledViewContainerComponent,
+    XmLabeledViewContainerModule,
+} from './labeled-view-container';
+
+export {
     XmPasswordControl,
     XmPasswordControlOptions,
     XmPasswordControlModule,

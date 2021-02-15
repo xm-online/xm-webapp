@@ -61,10 +61,10 @@ export class ClientService {
     }
 
     public unblock(client: Client): Observable<void> {
-        return this.http.get<void>(`${this.resourceUrl}/${client.id}/activate`);
+        return this.http.put<void>(`${this.resourceUrl}/${client.clientId}/activate`, {});
     }
 
     public block(client: Client): Observable<void> {
-        return this.http.get<void>(`${this.resourceUrl}/${client.id}/block`);
+        return this.http.put<void>(`${this.resourceUrl}/${client.clientId}/block`, {});
     }
 }
