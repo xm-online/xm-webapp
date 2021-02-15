@@ -12,10 +12,11 @@ import {
 import { MatSortModule } from '@angular/material/sort';
 import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule } from '@angular/material/table';
 import { TableColumnsManager } from '@xm-ngx/components/table/column/table-columns-manager';
-import { Column, DynamicCellModule } from '@xm-ngx/dynamic';
+import { DynamicCell, DynamicCellModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
-export interface TableColumn<O = unknown> extends Column<O> {
+export interface TableColumn<O = unknown> extends DynamicCell<O> {
+    name: string;
     sortable: boolean;
     title: Translate;
     dataClass: string;
@@ -44,6 +45,9 @@ export interface TableColumn<O = unknown> extends Column<O> {
     `,
     changeDetection: ChangeDetectionStrategy.Default,
 })
+/**
+ * @beta
+ */
 export class TableColumnDynamicCell implements OnDestroy, OnInit {
     @ViewChild(MatCellDef, { static: true }) public cell: MatCellDef;
     @ViewChild(MatColumnDef, { static: true }) public columnDef: MatColumnDef;
@@ -83,7 +87,7 @@ export class TableColumnDynamicCell implements OnDestroy, OnInit {
 
     private _syncColumnDefName(): void {
         if (this.columnDef) {
-            this.columnDef.name = this._column.field;
+            this.columnDef.name = this._column.name || this._column.field;
         }
     }
 }
