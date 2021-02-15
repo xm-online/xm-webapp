@@ -12,9 +12,11 @@ export {
     DynamicCellDirective,
     DynamicCellModule,
     Column,
-    TABLE_COLUMN,
+    DynamicCell,
+    getCellValue,
+    TABLE_CELL,
     TABLE_ROW,
-} from './src/view/dynamic-cell.directive';
+} from './src/view/dynamic-cell/dynamic-cell.directive';
 export { DynamicViewDirective } from './src/view/dynamic-view.directive';
 export { IComponent, IComponentFn } from './src/view/dynamic-base';
 export { DynamicViewLayoutComponent, ViewLayout } from './src/view/dynamic-view-layout.component';
