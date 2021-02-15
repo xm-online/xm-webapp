@@ -15,12 +15,12 @@ describe('DynamicCellDirective', () => {
             expect(directive.getCellValue()).toEqual(row.test);
         });
 
-        it('{field: null} should return null', () => {
+        it('{field: null} should return row', () => {
             const directive = new DynamicCellDirective(null, null, null, null, null);
             const row = { test: 1 }
             directive.row = row;
             directive.cell = {field: null, selector: null, options: null};
-            expect(directive.getCellValue()).toBeNull();
+            expect(directive.getCellValue()).toEqual(row);
         });
     });
 
