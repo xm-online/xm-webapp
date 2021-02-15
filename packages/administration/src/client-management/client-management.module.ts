@@ -15,6 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
+import { TableColumnDynamicCellModule } from '@xm-ngx/components/table/column/table-column-dynamic-cell';
 import { PerPageModule } from '@xm-ngx/components/xm-per-page';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
@@ -26,30 +27,31 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { ToggleLockClientComponent } from './toggle-lock-client/toggle-lock-client.component';
 
 @NgModule({
-    imports: [
-        MatFormFieldModule,
-        FormsModule,
-        MatButtonModule,
-        MatInputModule,
-        XmTranslationModule,
-        LoaderModule,
-        NgbPaginationModule,
-        NoDataModule,
-        NgJhipsterModule,
-        PerPageModule,
-        MatIconModule,
-        MatDialogModule,
-        MatSelectModule,
-        MatChipsModule,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        XmPermissionModule,
-        MatCardModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        ModalCloseModule,
-    ],
+  imports: [
+    MatFormFieldModule,
+    FormsModule,
+    MatButtonModule,
+    MatInputModule,
+    XmTranslationModule,
+    LoaderModule,
+    NgbPaginationModule,
+    NoDataModule,
+    NgJhipsterModule,
+    PerPageModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatChipsModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    XmPermissionModule,
+    MatCardModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    ModalCloseModule,
+    TableColumnDynamicCellModule,
+  ],
     exports: [ClientMgmtComponent],
     declarations: [ClientMgmtComponent, ClientMgmtDeleteDialogComponent, ClientMgmtDialogComponent, ToggleLockClientComponent],
     providers: [],

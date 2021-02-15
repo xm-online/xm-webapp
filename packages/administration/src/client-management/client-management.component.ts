@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
+import { TableColumn } from '@xm-ngx/components/table/column/table-column-dynamic-cell';
 import { XmEventManager } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -44,6 +45,7 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
         'actions',
     ];
     private eventSubscriber: Subscription;
+    @Input() public config: { columns: TableColumn[] };
 
     constructor(
         protected clientService: ClientService,
@@ -61,6 +63,9 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
     }
 
     public ngOnInit(): void {
+        const extraColumns = this.config.columns.map((c) => c.field);
+        this.displayedColumns.push(...extraColumns);
+
         this.dataSource.sort = this.matSort;
         this.dataSource.paginator = this.paginator;
     }
