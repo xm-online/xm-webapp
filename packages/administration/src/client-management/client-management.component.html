@@ -104,6 +104,9 @@
           </td>
         </ng-container>
 
+        <xm-table-column-dynamic-cell [column]="column"
+                                      *ngFor="let column of config.columns"></xm-table-column-dynamic-cell>
+
         <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
         <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
       </table>

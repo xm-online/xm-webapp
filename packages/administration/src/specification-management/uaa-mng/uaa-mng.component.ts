@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SpecificationManagementComponent } from '@xm-ngx/administration/specification-management';
+import { SpecificationManagementComponent } from '@xm-ngx/administration/specification-management/specification-management.component';
 import { XmConfigService } from '../../../../../src/app/shared';
 
 @Component({
