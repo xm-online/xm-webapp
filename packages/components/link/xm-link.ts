@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, OnInit, Type, ViewEncapsulation } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { IComponent } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/shared/interfaces';
@@ -16,6 +17,8 @@ export interface XmLinkOptions {
     valueTitle: Translate;
     /** Set field text from entity */
     valueField: string;
+    /** Material icon */
+    valueIcon: string;
 }
 
 export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
@@ -23,6 +26,7 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
     routerLink: [],
     valueField: 'id',
     valueTitle: null,
+    valueIcon: null,
 };
 
 @Component({
@@ -30,6 +34,7 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
     template: `
         <a [queryParams]="queryParams"
            [routerLink]="options?.routerLink">
+            <mat-icon *ngIf="options?.valueIcon">{{options.valueIcon}}</mat-icon>
             <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
             <span *ngIf="fieldValue">{{fieldValue}}</span>
         </a>
@@ -69,6 +74,7 @@ export class XmLink implements IComponent<IId, XmLinkOptions>, OnInit, OnChanges
         CommonModule,
         RouterModule,
         XmTranslationModule,
+        MatIconModule,
     ],
 })
 export class XmLinkModule {
