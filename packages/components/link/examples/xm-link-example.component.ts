@@ -14,6 +14,7 @@ export class XmLinkExampleComponent {
     };
     public linkOptions: XmLinkOptions = {
         valueField: 'id',
+        valueIcon: 'history',
         valueTitle: 'ID Title. ',
         routerLink: '/dashboard/example page',
         queryParamsFromEntityFields: { key: 'key' },
