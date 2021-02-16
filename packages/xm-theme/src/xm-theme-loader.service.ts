@@ -3,20 +3,20 @@ import { MaintenanceService } from '@xm-ngx/components/maintenance';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { XmPublicUiConfigService } from '../../core/src/xm-public-ui-config.service';
-import { ThemeOptions, XmThemeService } from './xm-theme.service';
+import { DarkThemeManagerConfig, XmDarkThemeManager } from './xm-dark-theme-manager';
 
 export function themeInitializer(
     config: XmPublicUiConfigService,
-    themeService: XmThemeService,
+    themeService: XmDarkThemeManager,
     maintenanceService: MaintenanceService,
 ): () => Promise<void> {
-    return (): Promise<void> => new ThemeLoader(config, themeService, maintenanceService).loadThemeFromConfig();
+    return (): Promise<void> => new XmThemeLoader(config, themeService, maintenanceService).loadThemeFromConfig();
 }
 
 export const THEME_PROVIDER_FACTORY: StaticProvider = {
     provide: APP_INITIALIZER,
     useFactory: themeInitializer,
-    deps: [XmPublicUiConfigService, XmThemeService, MaintenanceService],
+    deps: [XmPublicUiConfigService, XmDarkThemeManager, MaintenanceService],
     multi: true,
 };
 
@@ -24,11 +24,17 @@ export function themeInitializerFactory(): Provider[] {
     return [THEME_PROVIDER_FACTORY];
 }
 
+export type XmThemeConfig = DarkThemeManagerConfig;
+
 @Injectable()
-export class ThemeLoader {
+/**
+ * Applies a theme from configs
+ * @beta
+ */
+export class XmThemeLoader {
     constructor(
-        private configService: XmPublicUiConfigService<ThemeOptions>,
-        private themeService: XmThemeService,
+        private configService: XmPublicUiConfigService<XmThemeConfig>,
+        private themeManager: XmDarkThemeManager,
         private maintenanceService: MaintenanceService,
     ) {
     }
@@ -44,14 +50,13 @@ export class ThemeLoader {
         ).toPromise();
     }
 
-    private loadTheme(rawOptions: ThemeOptions): Observable<void> {
-        const options: ThemeOptions = {
+    private loadTheme(rawOptions: XmThemeConfig): Observable<void> {
+        const options: DarkThemeManagerConfig = {
             theme: rawOptions.theme,
+            darkTheme: rawOptions.darkTheme,
             themeColor: rawOptions.themeColor,
-            themeScheme: rawOptions.themeScheme,
-            colorScheme: rawOptions.colorScheme,
             themeStrategy: rawOptions.themeStrategy,
         };
-        return this.themeService.set(rawOptions.theme, options);
+        return this.themeManager.set(options);
     }
 }
