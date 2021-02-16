@@ -1,8 +1,19 @@
 language: node_js
 node_js:
- - "14.15.3"
+  - "14.15.3"
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+cache:
+  directories:
+    - ./node_modules
 install:
   - npm install
 script:
- - npm run lint
- - npm run build-aot
+  - npm run lint
+  - npm run build-aot
+  #  - TODO: remove include
+  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox --include="packages/dynamic"

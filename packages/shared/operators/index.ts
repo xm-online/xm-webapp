@@ -1,4 +1,5 @@
 export { download } from './src/download';
+export { format } from './src/format';
 export { debug } from './src/rxjs-debug';
 export { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from './src/take-until-on-destroy';
 export { transformByMap } from './src/transform-by-map';
