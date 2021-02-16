@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
+import * as moment from 'moment';
 
 import { XmEntitySpecWrapperService } from '../../xm-entity/shared/xm-entity-spec-wrapper.service';
 import { Principal } from '../../shared/auth/principal.service';
@@ -114,6 +115,14 @@ export class CalendarEventDialogComponent implements OnInit {
         this.onRemoveEvent(this.event, () => this.onCancel());
     }
 
+    public eventEndDateChange(event: { value: string }): void {
+        this.event.endDate = moment(event.value).format('YYYY-MM-DDTHH:mm:ss');
+    }
+
+    public eventStartDateChange(event: { value: string }): void {
+        this.event.startDate = moment(event.value).format('YYYY-MM-DDTHH:mm:ss');
+    }
+
     private onSaveSuccess(calendarId: number): void {
         this.activeModal.dismiss(true);
         this.alert('success', 'xm-entity.calendar-event-dialog.add.success');
@@ -129,5 +138,4 @@ export class CalendarEventDialogComponent implements OnInit {
             confirmButtonClass: 'btn btn-primary',
         });
     }
-
 }

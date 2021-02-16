@@ -47,7 +47,8 @@
                    matInput
                    name="startDate"
                    placeholder="{{'xm-entity.common.fields.start-date' | translate}}"
-                   required>
+                   required
+                   (dateTimeChange)="eventStartDateChange($event)">
             <button mat-button
                     type="button"
                     class="btn btn-sm btn-link btn-icon btn-just-icon picker-trigger"
@@ -78,7 +79,8 @@
                    matInput
                    name="endDate"
                    placeholder="{{'xm-entity.common.fields.end-date' | translate}}"
-                   required>
+                   required
+                   (dateTimeChange)="eventEndDateChange($event)">
             <button mat-button
                     type="button"
                     class="btn btn-sm btn-link btn-icon btn-just-icon picker-trigger"
@@ -162,3 +164,4 @@
     </div>
   </div>
 </form>
+<pre>{{event | json}}</pre>
