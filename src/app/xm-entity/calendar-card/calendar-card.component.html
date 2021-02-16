@@ -18,8 +18,13 @@
     </div>
 
     <div *ngFor="let calendar of calendars"
-         [hidden]="calendar.id != currentCalendar.id"
-         [id]="'xm-calendar-' + calendar.id">
+         [hidden]="calendar.id !== currentCalendar.id">
+      <xm-calendar-view
+        [calendar]="calendar"
+        [config]="getCalendarConfig(calendar)"
+        [spec]="getCalendarSpec(calendar)"
+        [xmEntity]="xmEntity">
+      </xm-calendar-view>
     </div>
   </div>
 </div>

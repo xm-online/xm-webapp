@@ -70,28 +70,32 @@ import {
 } from './';
 import { AttachmentListBaseComponent } from './attachment-list/attachment-list-base.component';
 import { AttachmentListSimplifiedComponent } from './attachment-list/attachment-list-simplified.component';
-
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
+import { CalendarViewComponent } from './calendar-card/calendar-view/calendar-view.component';
+import { OwlDateTimeModule } from 'ng-pick-datetime';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        XmSharedModule,
-        RouterModule,
-        MaterialDesignFrameworkModule,
-        {
-            ngModule: JsonSchemaFormModule,
-            providers: [
-                JsonSchemaFormService,
-                FrameworkLibraryService,
-                WidgetLibraryService,
-                {provide: Framework, useClass: MaterialDesignFramework, multi: true},
-            ],
-        },
-        ImageCropperModule,
-        RatingModule,
-        TagInputModule,
-    ],
+  imports: [
+    CommonModule,
+    XmSharedModule,
+    RouterModule,
+    MaterialDesignFrameworkModule,
+    {
+      ngModule: JsonSchemaFormModule,
+      providers: [
+        JsonSchemaFormService,
+        FrameworkLibraryService,
+        WidgetLibraryService,
+        {provide: Framework, useClass: MaterialDesignFramework, multi: true},
+      ],
+    },
+    ImageCropperModule,
+    RatingModule,
+    TagInputModule,
+    FullCalendarModule,
+    OwlDateTimeModule,
+  ],
     declarations: [
         AreaComponent,
         AttachmentCardComponent,
@@ -133,6 +137,7 @@ import { StateChangeDialogComponent } from './state-change-dialog/state-change-d
         StatesManagementDialogComponent,
         AttachmentListSimplifiedComponent,
         AttachmentListBaseComponent,
+        CalendarViewComponent,
     ],
     entryComponents: [
         StatesManagementDialogComponent,

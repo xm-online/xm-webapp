@@ -2,8 +2,8 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { JhiDateUtils } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
+import * as moment from 'moment';
 
 import { XmEntitySpecWrapperService } from '../../xm-entity/shared/xm-entity-spec-wrapper.service';
 import { Principal } from '../../shared/auth/principal.service';
@@ -27,26 +27,25 @@ export class CalendarEventDialogComponent implements OnInit {
 
     @Input() public xmEntity: XmEntity;
     @Input() public event: Event;
+    @Input() public timezone: string;
     @Input() public calendar: Calendar;
     @Input() public calendarSpec: CalendarSpec;
-    @Input() public startDate: any;
-    @Input() public endDate: any;
-    @Input() public onAddEvent: (arg: Event, isEdit?: boolean) => void;
-    @Input() public onRemoveEvent: (arg: Event, calendarTypeKey: string, callback: () => void) => void;
+    @Input() public onAddEvent: () => void;
+    @Input() public onRemoveEvent: (event: Event, callback: () => void) => void;
 
     // public event: Event = {};
     public showLoader: boolean;
     public jsfAttributes: any;
     private eventSpec: any;
 
-    constructor(private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
-                private activeModal: NgbActiveModal,
-                private eventService: EventService,
-                private calendarService: CalendarService,
-                private dateUtils: JhiDateUtils,
-                private translateService: TranslateService,
-                public principal: Principal) {
-    }
+    constructor(
+        private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
+        private activeModal: NgbActiveModal,
+        private eventService: EventService,
+        private calendarService: CalendarService,
+        private translateService: TranslateService,
+        public principal: Principal,
+    ) {}
 
     public ngOnInit(): void {
         const event: any = (this.calendarSpec.events.length && this.calendarSpec.events[0]) || {};
@@ -58,13 +57,9 @@ export class CalendarEventDialogComponent implements OnInit {
                     this.loadJSFAttributes();
                 }
             });
-
-        setTimeout(() => {
-            Object.assign(this.event, { startDate: this.startDate, endDate: this.endDate });
-        });
     }
 
-    onChangeSchemaForm(data: any) {
+    public onChangeSchemaForm(data: any): void {
         this.event.eventDataRef = this.event.eventDataRef || {
             typeKey: this.eventSpec.key,
             key: UUID.UUID(),
@@ -78,9 +73,6 @@ export class CalendarEventDialogComponent implements OnInit {
         if (this.calendar.id) {
             this.processCalendarEvent(this.calendar, this.event);
         } else {
-            const copy: Event = Object.assign({}, this.event);
-            copy.startDate = this.dateUtils.toDate(this.event.startDate);
-            copy.endDate = this.dateUtils.toDate(this.event.endDate);
             this.calendarService.create(this.calendar).pipe(finalize(() => this.showLoader = false))
                 .subscribe(
                     (calendarResp: HttpResponse<Calendar>) => {
@@ -106,10 +98,10 @@ export class CalendarEventDialogComponent implements OnInit {
         if (calendar && event) {
             const calendarId = calendar.id;
             event.calendar = calendarId;
-            this.eventService[event.id ? 'update' : 'create'](event)
+            this.eventService[event.id ? 'update' : 'create'](event, this.timezone)
                 .pipe(finalize(() => this.showLoader = false))
                 .subscribe(
-                    (eventResp: HttpResponse<Event>) => this.onSaveSuccess(calendarId, eventResp.body, !!event.id),
+                    () => this.onSaveSuccess(calendarId),
                     (err) => console.info(err),
                     () => this.showLoader = false);
         }
@@ -120,14 +112,22 @@ export class CalendarEventDialogComponent implements OnInit {
     }
 
     public onRemove(): void {
-        this.onRemoveEvent(this.event, this.calendar.typeKey, () => this.onCancel());
+        this.onRemoveEvent(this.event, () => this.onCancel());
     }
 
-    private onSaveSuccess(calendarId: number, event: Event, isEdit?: boolean): void {
+    public eventEndDateChange(event: { value: string }): void {
+        this.event.endDate = moment(event.value).format('YYYY-MM-DDTHH:mm:ss');
+    }
+
+    public eventStartDateChange(event: { value: string }): void {
+        this.event.startDate = moment(event.value).format('YYYY-MM-DDTHH:mm:ss');
+    }
+
+    private onSaveSuccess(calendarId: number): void {
         this.activeModal.dismiss(true);
         this.alert('success', 'xm-entity.calendar-event-dialog.add.success');
         this.calendar.id = calendarId;
-        this.onAddEvent(event, isEdit);
+        this.onAddEvent();
     }
 
     private alert(type: string, key: string): void {
@@ -138,5 +138,4 @@ export class CalendarEventDialogComponent implements OnInit {
             confirmButtonClass: 'btn btn-primary',
         });
     }
-
 }

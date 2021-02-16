@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { JhiDateUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as moment from 'moment';
 
 import { createRequestOption } from '../../shared/model/request-util';
 import { SERVER_API_URL } from '../../xm.constants';
 import { Event } from './event.model';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class EventService {
@@ -18,14 +18,14 @@ export class EventService {
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
 
-    public create(event: Event): Observable<HttpResponse<Event>> {
-        const copy = this.convert(event);
+    public create(event: Event, timezone?: string): Observable<HttpResponse<Event>> {
+        const copy = this.convert(event, timezone);
         return this.http.post<Event>(this.resourceUrl, copy, {observe: 'response'}).pipe(
             map((res: HttpResponse<Event>) => this.convertResponse(res)));
     }
 
-    public update(event: Event): Observable<HttpResponse<Event>> {
-        const copy = this.convert(event);
+    public update(event: Event, timezone?: string): Observable<HttpResponse<Event>> {
+        const copy = this.convert(event, timezone);
         return this.http.put<Event>(this.resourceUrl, copy, {observe: 'response'}).pipe(
             map((res: HttpResponse<Event>) => this.convertResponse(res)));
     }
@@ -80,11 +80,10 @@ export class EventService {
     /**
      * Convert a Event to a JSON which can be sent to the server.
      */
-    private convert(event: Event): Event {
+    private convert(event: Event, timezone?: string): Event {
         const copy: Event = Object.assign({}, event);
-        copy.startDate = moment.utc(event.startDate).format();
-        copy.endDate = moment.utc(event.endDate).format();
-
+        copy.startDate = moment.tz(event.startDate, timezone).utc();
+        copy.endDate = moment.tz(event.endDate, timezone).utc();
         return copy;
     }
 }
