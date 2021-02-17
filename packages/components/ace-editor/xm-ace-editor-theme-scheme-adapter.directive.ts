@@ -1,17 +1,17 @@
 import { Directive, Input, NgModule, OnDestroy, OnInit, Self } from '@angular/core';
-import { AceEditorDirective } from '@xm-ngx/components/xm-ace-editor/ace-editor.directive';
+import { XmAceEditorDirective } from '@xm-ngx/components/ace-editor/xm-ace-editor.directive';
 import { XmThemeStore } from '@xm-ngx/core/theme';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 @Directive({
-    selector: '[AceEditorThemeSchemeAdapter]',
+    selector: '[xmAceEditorThemeSchemeAdapter]',
 })
-export class AceEditorThemeSchemeAdapterDirective implements OnDestroy, OnInit {
+export class XmAceEditorThemeSchemeAdapterDirective implements OnDestroy, OnInit {
     @Input() public onLightTheme: string = 'chrome';
     @Input() public onDarkTheme: string = 'tomorrow_night';
 
     constructor(
-        @Self() private xmAceEditor: AceEditorDirective,
+        @Self() private xmAceEditor: XmAceEditorDirective,
         private themeStore: XmThemeStore,
     ) {
     }
@@ -30,8 +30,8 @@ export class AceEditorThemeSchemeAdapterDirective implements OnDestroy, OnInit {
 }
 
 @NgModule({
-    exports: [AceEditorThemeSchemeAdapterDirective],
-    declarations: [AceEditorThemeSchemeAdapterDirective],
+    exports: [XmAceEditorThemeSchemeAdapterDirective],
+    declarations: [XmAceEditorThemeSchemeAdapterDirective],
 })
-export class AceEditorThemeSchemeAdapterModule {
+export class XmAceEditorThemeSchemeAdapterModule {
 }

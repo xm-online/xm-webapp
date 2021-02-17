@@ -1,14 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
-import { AceEditorThemeSchemeAdapterModule } from '@xm-ngx/components/xm-ace-editor/ace-editor-theme-scheme-adapter.directive';
-import { XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { AceEditorModule } from './ace-editor.directive';
 
-export interface AceEditorControlOptions {
+export interface XmAceEditorControlOptions {
     id?: string;
     title?: string;
     name?: string;
@@ -18,7 +12,7 @@ export interface AceEditorControlOptions {
     darkTheme?: string;
 }
 
-const DEFAULT_OPTIONS: AceEditorControlOptions = {
+const XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS: XmAceEditorControlOptions = {
     title: '',
     name: 'text',
     mode: 'json',
@@ -44,7 +38,7 @@ const DEFAULT_OPTIONS: AceEditorControlOptions = {
                  [style.height]="_options.height"
                  [onLightTheme]="options.theme"
                  [onDarkTheme]="options.darkTheme"
-                 AceEditorThemeSchemeAdapter
+                 xmAceEditorThemeSchemeAdapter
                  xmAceEditor>
             </div>
             <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
@@ -53,31 +47,31 @@ const DEFAULT_OPTIONS: AceEditorControlOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class AceEditorControlComponent extends NgControlAccessor<string | object> {
+export class XmAceEditorControlComponent extends NgControlAccessor<unknown> {
     public error: boolean = false;
-    public _options: AceEditorControlOptions = DEFAULT_OPTIONS;
+    public _options: XmAceEditorControlOptions = XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS;
 
-    public get options(): AceEditorControlOptions {
+    public get options(): XmAceEditorControlOptions {
         return this._options;
     }
 
     @Input()
-    public set options(value: AceEditorControlOptions) {
-        this._options = _.defaults({}, value, DEFAULT_OPTIONS);
+    public set options(value: XmAceEditorControlOptions) {
+        this._options = _.defaults({}, value, XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS);
     }
 
-    public _value: string;
+    public _value: unknown;
 
-    public get value(): string | object {
+    public get value(): unknown {
         if (this._options.mode === 'json') {
-            return JSON.parse(this._value);
+            return JSON.parse(this._value as string);
         }
 
         return this._value;
     }
 
     @Input()
-    public set value(value: string | object) {
+    public set value(value: unknown) {
         if (typeof value === 'object') {
             this._value = JSON.stringify(value, null, 2);
         } else {
@@ -85,10 +79,10 @@ export class AceEditorControlComponent extends NgControlAccessor<string | object
         }
     }
 
-    public change(v: any): void {
+    public change(v: unknown): void {
         if (this._options.mode === 'json') {
             try {
-                v = JSON.parse(v);
+                v = JSON.parse(v as string);
                 this.error = false;
             } catch (e) {
                 this.error = true;
@@ -100,18 +94,3 @@ export class AceEditorControlComponent extends NgControlAccessor<string | object
 
 }
 
-@NgModule({
-    imports: [
-        XmTranslationModule,
-        AceEditorModule,
-        CommonModule,
-        MatFormFieldModule,
-        ControlErrorModule,
-        AceEditorThemeSchemeAdapterModule,
-    ],
-    exports: [AceEditorControlComponent],
-    declarations: [AceEditorControlComponent],
-    providers: [],
-})
-export class AceEditorControlModule {
-}
