@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ConfigValidatorUtil } from '@xm-ngx/administration/specification-management/config-validator/config-validator.util';
+import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { finalize } from 'rxjs/operators';
 import { XmConfigService } from '../../../../../src/app/shared';
 
@@ -18,9 +19,9 @@ export class UiMngComponent implements OnInit {
     public isUiSpecValid: boolean;
     public uiSpecificationProgress: boolean;
 
-    public aceEditorOptions: any = {
-        highlightActiveLine: true,
-        maxLines: 50,
+    public aceEditorOptions: XmAceEditorControlOptions = {
+        mode: 'yaml',
+        height: '700px',
     };
 
     constructor(
@@ -47,7 +48,7 @@ export class UiMngComponent implements OnInit {
     }
 
 
-    public onUiSpecificationChange(textChanged: any): void {
+    public onUiSpecificationChange(textChanged: string): void {
         this.uiSpecificationOut = textChanged;
         this.isUiSpecValid = false;
         this.uiValidation = null;

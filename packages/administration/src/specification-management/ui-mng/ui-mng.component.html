@@ -8,6 +8,7 @@
           type="button">
     {{'admin-config.specification-mng.ui.save' | translate}}
   </button>
+
   <button (click)="validateUiSpecification();"
           *ngIf="!isUiSpecValid"
           color="primary"
@@ -24,17 +25,10 @@
     </div>
   </div>
 </div>
-<div class="text-right">
-  <div (textChanged)="onUiSpecificationChange($event)"
-       [autoUpdateContent]="true"
-       [mode]="'yaml'"
-       [options]="aceEditorOptions"
-       [readOnly]="false"
-       [style.min-height]="'150px'"
-       [style.width]="'100%'"
-       [text]="uiSpecificationIn"
-       style="overflow-x: auto; border: 1px solid lightgray;"
-       xmAceEditor>
-    <span translate="admin-config.specification-mng.loading"></span>
-  </div>
-</div>
+
+<xm-ace-editor-control [value]="uiSpecificationIn"
+                       (valueChange)="onUiSpecificationChange($event)"
+                       [disabled]="disabled"
+                       [options]="aceEditorOptions">
+</xm-ace-editor-control>
+
