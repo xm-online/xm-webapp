@@ -3,6 +3,7 @@ import { ThemePalette } from '@angular/material/core/common-behaviors/color';
 import { IWidget } from '@xm-ngx/dynamic';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
+import { clone } from 'lodash';
 
 export interface MatFabConfigBase {
     icon?: string;
@@ -33,7 +34,7 @@ export const MAT_FAB_DEFAULT_CONFIG: MatFabConfig = {
     styleUrls: ['./mat-fab-widget.component.scss'],
 })
 export class MatFabWidget implements IWidget<MatFabConfig> {
-    private _config: MatFabConfig;
+    private _config: MatFabConfig = clone(MAT_FAB_DEFAULT_CONFIG);
 
     public get config(): MatFabConfig {
         return this._config;
