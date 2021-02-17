@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 
+export type ColorSchemeType = 'normal' | 'dark light'
+
 @Injectable({ providedIn: 'root' })
+/**
+ * Creates a meta tag for the color-scheme
+ *
+ * @public
+ */
 export class ColorSchemeService {
     public remove(): void {
         const existingLinkElement = getExistingColorSchemeElementByKey();
@@ -9,7 +16,7 @@ export class ColorSchemeService {
         }
     }
 
-    public set(value: 'normal' | 'dark light'): void {
+    public set(value: ColorSchemeType): void {
         getColorSchemeElementForKey().setAttribute('content', value);
     }
 }

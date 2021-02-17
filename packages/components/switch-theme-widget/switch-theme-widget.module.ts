@@ -6,15 +6,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { ThemeOptions, XmThemeService } from '@xm-ngx/core/theme';
+import { XmTheme, XmThemeStore } from '@xm-ngx/core/theme';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
+import { ThemeSchemeType } from '@xm-ngx/core/theme';
 
 interface SwitchThemeOptionsTheme {
     theme: string,
-    scheme: 'dark' | 'light',
+    scheme: ThemeSchemeType,
     icon: string,
     color: string,
     tooltip: Translate
@@ -48,11 +49,11 @@ export class SwitchThemeWidget implements OnInit {
     public loading: boolean;
     public nextTheme: SwitchThemeOptionsTheme;
 
-    constructor(private themeService: XmThemeService) {
+    constructor(private themeService: XmThemeStore) {
     }
 
     public ngOnInit(): void {
-        const theme = this.themeService.getTheme();
+        const theme = this.themeService.getThemeName();
         const current = _.find(this.config?.themes, { theme });
         this.nextTheme = this.getNext(current);
     }
@@ -66,7 +67,7 @@ export class SwitchThemeWidget implements OnInit {
         if (this.loading || !this.config?.themes) {
             return;
         }
-        const options: ThemeOptions = {
+        const options: XmTheme = {
             themeColor: theme.color,
             themeStrategy: 'THEME',
             themeScheme: theme.scheme,
