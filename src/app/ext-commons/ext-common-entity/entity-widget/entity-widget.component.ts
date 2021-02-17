@@ -7,6 +7,7 @@ import { ContextService, XmConfigService } from '../../../shared';
 import { AttachmentsView, EntityDetailLayout, EntityUiConfig } from '../../../shared/spec/xm-ui-config-model';
 import { FullLinkSpec, LinkSpec, Spec, XmEntity, XmEntityService, XmEntitySpec } from '../../../xm-entity';
 import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: 'xm-entity-widget',
@@ -37,6 +38,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
     constructor(private xmEntityService: XmEntityService,
                 private xmConfigService: XmConfigService,
                 private contextService: ContextService,
+                private activatedRoute: ActivatedRoute,
                 private eventManager: XmEventManager) {
         this.registerModificationSubscription();
     }
@@ -47,7 +49,12 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
             console.info(`DBG entity  e=%o`, this.xmEntity);
             console.info(`DBG spec  e=%o`, this.spec);
         }
-        this.loadEntity();
+        this.activatedRoute.params.subscribe((params) => {
+            if (params.xmEntityId) {
+                this.contextService.put('xmEntityId', params.xmEntityId);
+            }
+            this.loadEntity();
+        });
     }
 
     public ngOnDestroy(): void {
