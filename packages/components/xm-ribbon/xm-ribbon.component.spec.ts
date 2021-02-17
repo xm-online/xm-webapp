@@ -1,5 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { XmUiConfigService } from '@xm-ngx/core/config';
+import { MockUiConfigService } from '../../core/config/src/testing/mock-ui-config.service';
 
 import { XmRibbonComponent } from './xm-ribbon.component';
 
@@ -10,8 +12,8 @@ describe('XmRibbonComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [XmRibbonComponent],
+            providers: [{ provide: XmUiConfigService, useClass: MockUiConfigService }],
             schemas: [NO_ERRORS_SCHEMA],
-
         })
             .compileComponents();
     }));
