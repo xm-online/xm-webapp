@@ -6,26 +6,23 @@
 <div mat-dialog-content>
   <p>{{TRS.feedbackDetails | translate}}</p>
 
-  <mat-form-field>
-    <input #topic
-           [(ngModel)]="data.topic"
-           [placeholder]="TRS.title | translate"
-           matInput
-           maxLength="100"
-           required>
-    <mat-hint align="end">{{topic.value.length}} / 100</mat-hint>
-  </mat-form-field>
+  <xm-text-control [(ngModel)]="data.topic"
+                   [options]="{title: TRS.title, maxLength: 100, required: false}">
+  </xm-text-control>
 
-  <mat-form-field>
-    <textarea #message
-              [(ngModel)]="data.message"
-              [placeholder]="TRS.description | translate"
-              matInput
-              rows="7"
-              maxlength="500"
-              required></textarea>
-    <mat-hint align="end">{{message.value.length}} / 500</mat-hint>
-  </mat-form-field>
+  <xm-text-range-control [(ngModel)]="data.message"
+                         [options]="{title: TRS.description, rows:'7', maxLength: 500, required: true}">
+  </xm-text-range-control>
+
+  <xm-labeled-view-container [options]="{title: TRS.image}">
+    <xm-checkbox-control [(ngModel)]="attachImage" [options]="{title: TRS.attachImage}"></xm-checkbox-control>
+
+    <xm-image [value]="data.image"
+              class="w-100 text-center"
+              *ngIf="attachImage"
+              [options]="{imageStyle: 'max-height: 200px'}"></xm-image>
+  </xm-labeled-view-container>
+
 </div>
 
 <div mat-dialog-actions>

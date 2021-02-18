@@ -2,7 +2,8 @@
   "name": "@xm-ngx/shared",
   "version": "1.0.0",
   "peerDependencies": {
-    "@xm-ngx/shared": "*"
+    "@xm-ngx/shared": "*",
+    "html2canvas": "1.0.0-rc.7"
   },
   "ngPackage": {
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
