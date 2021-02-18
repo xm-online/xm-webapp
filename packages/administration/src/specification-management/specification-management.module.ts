@@ -16,7 +16,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { EntitySpecYamlService } from '@xm-ngx/administration/specification-management/entity-spec-editor/entity-spec-yaml.service';
-import { XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
+import { AceEditorModule, XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
 import { MultiLanguageModuleModule } from '@xm-ngx/components/xm-multilanguage/xm-multi-language.module';
 import { StatesManagementDialogModule } from '@xm-ngx/entity/states-management-dialog';
 import { XmTranslationModule } from '@xm-ngx/translation';
@@ -55,6 +55,7 @@ import { UiMngComponent } from './ui-mng/ui-mng.component';
         MultiLanguageModuleModule,
         MatCardModule,
         XmAceEditorControlModule,
+        AceEditorModule,
     ],
     exports: [SpecificationManagementComponent],
     declarations: [
