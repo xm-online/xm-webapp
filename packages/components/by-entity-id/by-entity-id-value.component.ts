@@ -29,7 +29,7 @@ export const BY_ENTITY_ID_VALUE_OPTIONS: ByEntityIdValueOptions = {
 @Component({
     selector: 'xm-by-entity-id-value',
     host: { class: 'xm-by-entity-id-value' },
-    template: `<span>{{fieldValue}}</span>`,
+    template: '<span>{{fieldValue}}</span>',
 })
 export class ByEntityIdValueComponent
     implements IComponent<Id, ByEntityIdValueOptions>, OnInit, OnChanges {

@@ -10,7 +10,7 @@ export interface IEnumValueOptions {
 
 @Component({
     selector: 'xm-enum-value',
-    template: `{{(titles[value] || value) | translate}}`,
+    template: '{{(titles[value] || value) | translate}}',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })

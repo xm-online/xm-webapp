@@ -6,7 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';

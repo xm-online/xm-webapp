@@ -22,7 +22,7 @@ export class ToggleLockClientComponent {
     public changeState(client: Client): void {
         const isActivate = client.clientState != ClientState.BLOCKED;
         this.alertService.open({
-            title: isActivate ? `Block client?` : `Unblock client?`,
+            title: isActivate ? 'Block client?' : 'Unblock client?',
             showCancelButton: true,
             buttonsStyling: false,
             confirmButtonClass: 'btn mat-button btn-primary',

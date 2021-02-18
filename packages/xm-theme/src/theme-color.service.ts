@@ -23,7 +23,7 @@ function getThemeColorElementForKey(): HTMLMetaElement {
 }
 
 function getExistingThemeColorElementByKey(): HTMLMetaElement {
-    return document.head.querySelector(`meta[name="theme-color"]`);
+    return document.head.querySelector('meta[name="theme-color"]');
 }
 
 function createThemeColorElementWithKey(): HTMLMetaElement {

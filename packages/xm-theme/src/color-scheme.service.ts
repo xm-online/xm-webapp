@@ -26,7 +26,7 @@ function getColorSchemeElementForKey(): HTMLMetaElement {
 }
 
 function getExistingColorSchemeElementByKey(): HTMLMetaElement {
-    return document.head.querySelector(`meta[name="color-scheme"]`);
+    return document.head.querySelector('meta[name="color-scheme"]');
 }
 
 function createColorSchemeElementWithKey(): HTMLMetaElement {

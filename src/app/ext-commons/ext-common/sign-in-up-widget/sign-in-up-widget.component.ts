@@ -4,7 +4,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 
 import { XM_EVENT_LIST } from '../../../xm.constants';
-import { LanguageService } from "@xm-ngx/translation";
+import { LanguageService } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-sign-in-up-widget',

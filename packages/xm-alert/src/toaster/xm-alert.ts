@@ -9,7 +9,7 @@ declare const $: any;
 @Component({
     selector: 'xm-alert',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: ``,
+    template: '',
 })
 export class XmAlertComponent implements OnInit {
 

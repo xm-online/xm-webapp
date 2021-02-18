@@ -13,7 +13,7 @@ export type XmDateValue = string | Date;
 
 @Component({
     selector: 'xm-date',
-    template: `{{ value | date:options.format:options.timezone:options.locale }}`,
+    template: '{{ value | date:options.format:options.timezone:options.locale }}',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
