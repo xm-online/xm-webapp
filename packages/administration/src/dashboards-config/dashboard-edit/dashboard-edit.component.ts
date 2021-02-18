@@ -1,7 +1,7 @@
 import { Component, HostListener, Input, Type } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
-import { AceEditorControlOptions } from '@xm-ngx/components/xm-ace-editor/xm-ace-editor-control';
+import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
 import { Dashboard } from '@xm-ngx/dashboard';
@@ -36,7 +36,7 @@ export class DashboardEditComponent {
     public disabled: boolean;
     public EDIT_EVENT: string = this.dashboardConfig.EDIT_DASHBOARD_EVENT;
 
-    public aceEditorOptions: AceEditorControlOptions = { title: '', mode: 'json', height: 'calc(100vh - 350px)' };
+    public aceEditorOptions: XmAceEditorControlOptions = { title: '', mode: 'json', height: 'calc(100vh - 350px)' };
 
     public editType: EditType;
     public widgetEditComponentType: Type<unknown> = this.dashboardConfig.widgetRef;
