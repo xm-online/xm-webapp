@@ -1,17 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { IfDashboardSlugModule } from '@xm-ngx/components/if-dashboard-slug';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { IWidget } from '@xm-ngx/dynamic';
-import { XmSharedModule } from '@xm-ngx/shared';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatFabWidget } from './mat-fab-widget.component';
 
 @NgModule({
     declarations: [MatFabWidget],
     entryComponents: [MatFabWidget],
     exports: [MatFabWidget],
-    imports: [CommonModule, MatButtonModule, XmSharedModule, IfDashboardSlugModule, RouterModule],
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        XmPermissionModule,
+        IfDashboardSlugModule,
+        RouterModule,
+        MatTooltipModule,
+        MatIconModule,
+        XmTranslationModule,
+    ],
 })
 export class MatFabModule {
     public entry: Type<IWidget> = MatFabWidget;
