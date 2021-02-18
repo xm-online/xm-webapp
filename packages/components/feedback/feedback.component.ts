@@ -5,6 +5,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import html2canvas from 'html2canvas';
 import { Observable } from 'rxjs/Observable';
 import { filter, finalize, switchMap } from 'rxjs/operators';
+
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
 import { FeedbackService, IFeedbackRequest } from './feedback.service';
 

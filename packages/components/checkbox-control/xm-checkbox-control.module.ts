@@ -5,6 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { IControlFn } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
 import { XmTranslationModule } from '@xm-ngx/translation';
+
 import { XmCheckboxControl, XmCheckboxControlOptions } from './xm-checkbox-control';
 
 @NgModule({
