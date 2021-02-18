@@ -1,21 +1,11 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    Inject,
-    Input,
-    Optional,
-    Output,
-    Self,
-    ViewEncapsulation,
-} from '@angular/core';
-import { FormControl, NgControl } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Inject, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
+import { NgControl } from '@angular/forms';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { IControl } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
-import { defaults, clone } from 'lodash';
+import { clone, defaults } from 'lodash';
 
 export interface XmTextControlOptions {
     title?: Translate;
@@ -67,7 +57,8 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
             <mat-error
                 *xmControlErrors="control.errors; translates options?.errors; message as message">{{message}}</mat-error>
 
-            <mat-hint *ngIf="options.maxLength" align="end">{{value?.length}} / {{options.maxLength}}</mat-hint>
+            <mat-hint *ngIf="options.maxLength"
+                      align="end">{{getValueLength()}} / {{options.maxLength}}</mat-hint>
 
         </mat-form-field>
     `,
@@ -76,9 +67,6 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
 })
 /** @beta */
 export class XmTextControl extends NgFormAccessor<Primitive> implements IControl<Primitive, XmTextControlOptions> {
-    @Input() public control: FormControl = new FormControl();
-    @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
-
     constructor(@Optional() @Self() public ngControl: NgControl | null,
                 @Inject(XM_CONTROL_ERRORS_TRANSLATES) private xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
         super(ngControl);
@@ -101,6 +89,13 @@ export class XmTextControl extends NgFormAccessor<Primitive> implements IControl
         if (this._options.disabled) {
             this.disabled = value.disabled;
         }
+    }
+
+    public getValueLength(): number {
+        if (this.value && typeof this.value === 'string') {
+            return this.value.length;
+        }
+        return 0;
     }
 
 }
