@@ -49,7 +49,8 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
             console.info(`DBG entity  e=%o`, this.xmEntity);
             console.info(`DBG spec  e=%o`, this.spec);
         }
-        this.activatedRoute.params.subscribe((params) => {
+        this.activatedRoute.queryParams.subscribe((params) => {
+            console.log("params", params);
             if (params.xmEntityId) {
                 this.contextService.put('xmEntityId', params.xmEntityId);
             }
@@ -155,6 +156,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
         if (!xmEntityId) {
             return;
         }
+        console.log("xmEntityId", xmEntityId);
 
         this.xmEntity$ = this.xmEntityService.find(xmEntityId, {embed: 'data'})
             .pipe(
