@@ -28,6 +28,9 @@ angular.json
 # Theme - this file is used to define the default theme
 src/styles/_theme.scss
 
+# Themeing - this file unites themes from the extentions
+src/styles/_theming.scss
+
 # Logs
 /logs
 *.log
