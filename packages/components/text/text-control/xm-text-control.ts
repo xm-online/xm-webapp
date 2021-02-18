@@ -15,7 +15,7 @@ import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { IControl } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
-import { defaults } from 'lodash';
+import { defaults, clone } from 'lodash';
 
 export interface XmTextControlOptions {
     title?: Translate;
@@ -29,6 +29,7 @@ export interface XmTextControlOptions {
     errors?: { [errorKey: string]: Translate };
     maxLength?: number;
     minLength?: number;
+    dataQa?: string;
 }
 
 const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
@@ -42,6 +43,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     disabled: false,
     maxLength: null,
     minLength: null,
+    dataQa: 'text-control',
 };
 
 @Component({
@@ -55,6 +57,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
                    [placeholder]="options.placeholder | translate"
                    [attr.name]="options.name"
                    [id]="options.id"
+                   [attr.data-qa]=" options.dataQa"
                    [required]="options.required"
                    [pattern]="options.pattern"
                    [attr.maxlength]="options.maxLength"
@@ -64,11 +67,14 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
             <mat-error
                 *xmControlErrors="control.errors; translates options?.errors; message as message">{{message}}</mat-error>
 
+            <mat-hint *ngIf="options.maxLength" align="end">{{value?.length}} / {{options.maxLength}}</mat-hint>
+
         </mat-form-field>
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
+/** @beta */
 export class XmTextControl extends NgFormAccessor<Primitive> implements IControl<Primitive, XmTextControlOptions> {
     @Input() public control: FormControl = new FormControl();
     @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
@@ -78,7 +84,7 @@ export class XmTextControl extends NgFormAccessor<Primitive> implements IControl
         super(ngControl);
     }
 
-    private _options: XmTextControlOptions = {};
+    private _options: XmTextControlOptions = clone(XM_TEXT_CONTROL_OPTIONS_DEFAULT);
 
     public get options(): XmTextControlOptions {
         return this._options;
