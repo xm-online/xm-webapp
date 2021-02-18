@@ -46,8 +46,8 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.showLoader = true;
         if (DEBUG_INFO_ENABLED) {
-            console.info(`DBG entity  e=%o`, this.xmEntity);
-            console.info(`DBG spec  e=%o`, this.spec);
+            console.info('DBG entity  e=%o', this.xmEntity);
+            console.info('DBG spec  e=%o', this.spec);
         }
         this.activatedRoute.queryParams.subscribe((params) => {
             if (params.xmEntityId) {
@@ -161,7 +161,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
                 map((responce) => responce.body),
                 tap((entity) => this.xmEntity = entity),
                 tap((entity) => this.xmEntitySpec = this.getXmEntitySpec(entity.typeKey)),
-                tap(() => DEBUG_INFO_ENABLED ? console.info(`DBG spec = %o`, this.xmEntitySpec) : undefined),
+                tap(() => DEBUG_INFO_ENABLED ? console.info('DBG spec = %o', this.xmEntitySpec) : undefined),
                 tap((entity) => this.backLinkSpecs = this.getBackLinkSpecs(entity.typeKey)),
                 tap(() => this.defineUiConfig()),
                 tap(() => this.linkSpecs$.next(

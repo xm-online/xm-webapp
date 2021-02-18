@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { XmToasterService } from "@xm-ngx/toaster";
+import { XmToasterService } from '@xm-ngx/toaster';
 import { filter, switchMap } from 'rxjs/operators';
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
 import { FeedbackService } from './feedback.service';

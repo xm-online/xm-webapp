@@ -5,10 +5,10 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { NotificationsComponent } from './notifications/notifications.component';
 import { NotificationsService } from './shared/notifications.service';
-import { MatIconModule } from "@angular/material/icon";
-import { MatMenuModule } from "@angular/material/menu";
-import { MatBadgeModule } from "@angular/material/badge";
-import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     imports: [

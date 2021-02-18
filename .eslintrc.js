@@ -3,9 +3,9 @@ module.exports = {
     env: {
         'browser': true,
         'node': true,
-        "es6": true,
+        'es6': true,
     },
-    parserOptions: { "ecmaVersion": 2020 },
+    parserOptions: { 'ecmaVersion': 2020 },
     'extends': 'eslint:recommended',
     overrides: [
         {
@@ -39,6 +39,7 @@ module.exports = {
                 '@typescript-eslint/no-var-requires': 'warn',
                 '@typescript-eslint/unbound-method': ['warn', { 'ignoreStatic': true }],
                 // Error
+                'quotes': ['error', 'single', { 'avoidEscape': true }],
                 'no-console': ['error', { 'allow': ['warn', 'info'] }],
                 '@typescript-eslint/typedef': ['error', { arrayDestructuring: false, arrowParameter: false }],
                 '@typescript-eslint/no-inferrable-types': ['error', {

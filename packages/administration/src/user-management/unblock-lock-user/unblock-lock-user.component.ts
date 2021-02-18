@@ -23,7 +23,7 @@ export class UnblockLockUserComponent {
 
     public changeState(user: User): void {
         this.alertService.open({
-            title: user.activated ? `Block user?` : `Unblock user?`,
+            title: user.activated ? 'Block user?' : 'Unblock user?',
             showCancelButton: true,
             buttonsStyling: false,
             confirmButtonClass: 'btn mat-button btn-primary',

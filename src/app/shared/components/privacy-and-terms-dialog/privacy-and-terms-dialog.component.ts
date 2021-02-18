@@ -1,8 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
-import { ITranslate, LanguageService } from "@xm-ngx/translation";
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from "@xm-ngx/shared/operators";
+import { ITranslate, LanguageService } from '@xm-ngx/translation';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 import { AuthServerProvider } from '../../auth/auth-jwt.service';
 

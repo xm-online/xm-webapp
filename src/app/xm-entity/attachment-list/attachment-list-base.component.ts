@@ -24,7 +24,7 @@ const ATTACHMENT_EVENT = XM_EVENT_LIST.XM_ATTACHMENT_LIST_MODIFICATION;
 
 @Component({
     selector: 'xm-attachment-list-base',
-    template: `no template, to be extended`,
+    template: 'no template, to be extended',
 })
 export class AttachmentListBaseComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -166,7 +166,7 @@ export class AttachmentListBaseComponent implements OnInit, OnChanges, OnDestroy
     private registerListModify(): void {
         this.modificationSubscription = this.eventManager.subscribe(ATTACHMENT_EVENT, (response) => {
             if (DEBUG_INFO_ENABLED) {
-                console.info(`DBG: $%o`, response);
+                console.info('DBG: $%o', response);
             }
             this.load();
         });

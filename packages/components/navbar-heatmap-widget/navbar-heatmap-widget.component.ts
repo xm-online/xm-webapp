@@ -4,8 +4,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {NavigationEnd, Router} from '@angular/router';
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/shared/operators';
 import {HeatmapService} from './heatmap.service';
-import {CommonModule} from "@angular/common";
-import {Principal} from "@xm-ngx/core/auth";
+import {CommonModule} from '@angular/common';
+import {Principal} from '@xm-ngx/core/auth';
 
 @Component({
     selector: 'xm-navbar-dashboard-edit-widget',

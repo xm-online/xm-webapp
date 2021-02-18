@@ -18,7 +18,7 @@ export class ReplaceCommand implements Command {
 
     public execute(terminalArgs?: string[]): void {
         if (!terminalArgs || !terminalArgs.length) {
-            console.warn(`No arguments provided`);
+            console.warn('No arguments provided');
             return;
         }
         for (let i = 0; i < terminalArgs.length; i += 2) {

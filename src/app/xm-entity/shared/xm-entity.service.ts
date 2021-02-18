@@ -26,12 +26,12 @@ export class XmEntityService {
 
     public readonly loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    private v2ResourceUrl: string = `/entity/api/v2/xm-entities`;
-    private resourceUrl: string = `/entity/api/xm-entities`;
-    private resourceSearchUrl: string = `/entity/api/_search/xm-entities`;
-    private resourceAvatarUrl: string = `/entity/api/storage/objects`;
-    private resourceProfileUrl: string = `/entity/api/profile`;
-    private resourceSearchTemplateUrl: string = `/entity/api/_search-with-template/xm-entities`;
+    private v2ResourceUrl: string = '/entity/api/v2/xm-entities';
+    private resourceUrl: string = '/entity/api/xm-entities';
+    private resourceSearchUrl: string = '/entity/api/_search/xm-entities';
+    private resourceAvatarUrl: string = '/entity/api/storage/objects';
+    private resourceProfileUrl: string = '/entity/api/profile';
+    private resourceSearchTemplateUrl: string = '/entity/api/_search-with-template/xm-entities';
     private getEntitiesByIdUrl: string = '/entity/api/xm-entities-by-ids';
 
     constructor(
