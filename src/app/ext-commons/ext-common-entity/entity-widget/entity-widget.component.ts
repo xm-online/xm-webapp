@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -7,7 +8,6 @@ import { ContextService, XmConfigService } from '../../../shared';
 import { AttachmentsView, EntityDetailLayout, EntityUiConfig } from '../../../shared/spec/xm-ui-config-model';
 import { FullLinkSpec, LinkSpec, Spec, XmEntity, XmEntityService, XmEntitySpec } from '../../../xm-entity';
 import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
-import { ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: 'xm-entity-widget',
@@ -50,7 +50,6 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
             console.info(`DBG spec  e=%o`, this.spec);
         }
         this.activatedRoute.queryParams.subscribe((params) => {
-            console.log("params", params);
             if (params.xmEntityId) {
                 this.contextService.put('xmEntityId', params.xmEntityId);
             }
@@ -114,30 +113,30 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
         }
 
         const grid = [
-            {class: 'row', content: [{class: 'col-sm-12', component: 'function-list-card'}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: attachmentsComponent}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: 'location-list-card'}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: 'link-list'}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: 'comment-list'}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: 'calendar-card'}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: 'timeline'}]},
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'function-list-card' }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: attachmentsComponent }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'location-list-card' }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'link-list' }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'comment-list' }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'calendar-card' }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'timeline' }] },
         ];
 
         if (detailLayoutType === 'ALL-IN-ROW') {
-            grid.unshift({class: 'row', content: [{class: 'col-sm-12', component: 'entity-data-card'}]});
+            grid.unshift({ class: 'row', content: [{ class: 'col-sm-12', component: 'entity-data-card' }] });
             grid.unshift({
                 class: 'row',
-                content: [{class: 'col-sm-12 col-xl-8 offset-xl-2', component: 'entity-card'}],
+                content: [{ class: 'col-sm-12 col-xl-8 offset-xl-2', component: 'entity-card' }],
             });
             return grid;
         } else if (detailLayoutType === 'COMPACT') {
-            grid.unshift({class: 'row', content: [{class: 'col-sm-12', component: 'entity-card-compact'}]});
+            grid.unshift({ class: 'row', content: [{ class: 'col-sm-12', component: 'entity-card-compact' }] });
             return grid;
         }
 
         grid.unshift({
             class: 'row',
-            content: [{class: 'col-md-6', component: 'entity-card'}, {
+            content: [{ class: 'col-md-6', component: 'entity-card' }, {
                 class: 'col-md-6',
                 component: 'entity-data-card',
             }],
@@ -156,9 +155,8 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
         if (!xmEntityId) {
             return;
         }
-        console.log("xmEntityId", xmEntityId);
 
-        this.xmEntity$ = this.xmEntityService.find(xmEntityId, {embed: 'data'})
+        this.xmEntity$ = this.xmEntityService.find(xmEntityId, { embed: 'data' })
             .pipe(
                 map((responce) => responce.body),
                 tap((entity) => this.xmEntity = entity),
