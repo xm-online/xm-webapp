@@ -1,5 +1,6 @@
 /**
  * Returns a first locale from the windows.navigator.languages
+ * @public
  */
 export function getBrowserLocale(): string | null {
     const w: typeof window = window;
