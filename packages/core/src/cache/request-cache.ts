@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { of, ReplaySubject, Subject, Subscription } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export interface IRequestCache<T> extends OnDestroy {
 
