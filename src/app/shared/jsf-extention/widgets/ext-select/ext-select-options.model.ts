@@ -17,6 +17,7 @@ export interface ExtSelectOptions {
     translations?: any;
     htmlClass?: any;
     required?: boolean;
+    noTitle?: boolean;
     emptyPlaceholder?: string;
     link?: ISelectDeepLinkOptions;
 }
