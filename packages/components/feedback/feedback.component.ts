@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { environment } from '@xm-ngx/core/environment';
 import { XmToasterService } from '@xm-ngx/toaster';
 import html2canvas from 'html2canvas';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { filter, finalize, switchMap } from 'rxjs/operators';
 
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';

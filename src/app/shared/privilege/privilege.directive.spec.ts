@@ -7,7 +7,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
 import { JhiLanguageService } from 'ng-jhipster';
 import { Subject } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { Principal } from '../auth/principal.service';
 import { JhiLanguageHelper } from '../index';

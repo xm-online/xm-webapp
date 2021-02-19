@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ThemeSchemeService } from './theme-scheme.service';
 import { THEME_STRATEGY, XmTheme, XmThemeStore } from './xm-theme-store.service';
 import { ColorSchemeService } from './color-scheme.service';
