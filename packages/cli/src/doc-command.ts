@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import path from 'path';
 import { Command } from './command';
 
+/** @experimental */
 export interface DocExample {
     filepath: string,
     moduleName: string,
@@ -14,6 +15,7 @@ export interface DocExample {
     exampleDocExample?: string,
 }
 
+/** @experimental */
 export class DocCommand implements Command {
     private examplesModulePathMask: string[] = [
         'src/**/examples/*module.ts',
