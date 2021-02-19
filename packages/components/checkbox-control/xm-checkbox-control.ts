@@ -1,70 +1,45 @@
-import { CommonModule } from '@angular/common';
-import {
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    Input,
-    NgModule,
-    Output,
-    ViewEncapsulation,
-} from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { IControl, IControlFn } from '@xm-ngx/dynamic';
+import { IControl } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-import { defaults } from 'lodash';
+import { Translate } from '@xm-ngx/translation';
+import { clone, defaults } from 'lodash';
 
-export interface ICheckboxControlOptions {
+export interface XmCheckboxControlOptions {
     title?: Translate;
     id?: string;
+    dataQa?: string;
 }
 
-const DEFAULT_OPTIONS: ICheckboxControlOptions = {
+const XM_CHECKBOX_CONTROL_DEFAULT_OPTIONS: XmCheckboxControlOptions = {
     title: '',
     id: null,
+    dataQa: 'checkbox-control',
 };
 
 @Component({
-    selector: 'checkbox-control',
+    selector: 'xm-checkbox-control',
     template: `
         <mat-checkbox [formControl]="control"
+                      [attr.data-qa]=" options.dataQa"
                       [id]="options.id"
                       [checked]="value">
-            {{options?.title | translate}}
+            {{options.title | translate}}
         </mat-checkbox>
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class CheckboxControl extends NgFormAccessor<Primitive> implements IControl<Primitive, ICheckboxControlOptions> {
-    @Input() public control: FormControl = new FormControl();
-    @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
+/** @beta */
+export class XmCheckboxControl extends NgFormAccessor<Primitive> implements IControl<Primitive, XmCheckboxControlOptions> {
+    private _options: XmCheckboxControlOptions = clone(XM_CHECKBOX_CONTROL_DEFAULT_OPTIONS);
 
-    private _options: ICheckboxControlOptions = DEFAULT_OPTIONS;
-
-    public get options(): ICheckboxControlOptions {
+    public get options(): XmCheckboxControlOptions {
         return this._options;
     }
 
     @Input()
-    public set options(value: ICheckboxControlOptions) {
-        this._options = defaults({}, value, DEFAULT_OPTIONS);
+    public set options(value: XmCheckboxControlOptions) {
+        this._options = defaults({}, value, XM_CHECKBOX_CONTROL_DEFAULT_OPTIONS);
     }
-}
-
-@NgModule({
-    imports: [
-        MatCheckboxModule,
-        XmTranslationModule,
-        CommonModule,
-        ReactiveFormsModule,
-    ],
-    exports: [CheckboxControl],
-    declarations: [CheckboxControl],
-})
-export class XmCheckboxControlModule {
-    public readonly entry: IControlFn<Primitive, ICheckboxControlOptions> = CheckboxControl;
 }

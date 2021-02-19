@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImageViewComponent } from './image-view.component';
+import { XmImageComponent } from './xm-image.component';
 
 describe('ImageViewComponent', () => {
-    let component: ImageViewComponent;
-    let fixture: ComponentFixture<ImageViewComponent>;
+    let component: XmImageComponent;
+    let fixture: ComponentFixture<XmImageComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ImageViewComponent],
+            declarations: [XmImageComponent],
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ImageViewComponent);
+        fixture = TestBed.createComponent(XmImageComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
