@@ -1,7 +1,8 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
+import { QueryParamsPageable } from '@xm-ngx/components/entity-collection';
 
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { XmEventManager } from '@xm-ngx/core';
@@ -12,32 +13,36 @@ import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { Client } from 'src/app/shared';
 
-@Injectable()
+@Directive()
 export class BaseAdminListComponent implements OnInit, OnDestroy {
 
     public options: {
         pageSizeOptions: number[],
         pageSize: number,
         sortDirection: 'asc' | 'desc',
-        sortBy: string
+        sortBy: string,
+        navigateUrl: string[];
     } = {
         pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
         pageSize: TABLE_CONFIG_DEFAULT.pageSize,
         sortDirection: 'desc',
         sortBy: 'id',
+        navigateUrl: [],
     };
-
-    public list: any[];
-    public page: number = 1;
-    public previousPage: number;
     public links: Link[];
     public totalItems: number;
     public queryCount: number;
     public eventModify: string;
-    public navigateUrl: string;
     public basePredicate: string;
     public showLoader: boolean;
-    private routeData: Subscription;
+    public pagination: QueryParamsPageable = {
+        pageIndex: 0,
+        pageSize: this.options.pageSize,
+        sortBy: this.options.sortBy,
+        sortDirection: this.options.sortDirection,
+    };
+    private previousPage: number;
+    private subscription: Subscription;
     private eventModifySubscriber: Subscription;
 
     constructor(
@@ -48,14 +53,11 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         protected parseLinks: JhiParseLinks,
         protected router: Router,
     ) {
-        this.routeData = this.activatedRoute.data.subscribe((data) => {
-            if (data?.pagingParams) {
-                this.options.pageSize = data.pagingParams.size || TABLE_CONFIG_DEFAULT.pageSize;
-                this.page = data.pagingParams.page;
-                this.previousPage = data.pagingParams.page;
-                this.options.sortDirection = data.pagingParams.ascending ? 'asc' : 'desc';
-                this.options.sortBy = data.pagingParams.predicate || 'id';
-            }
+        this.subscription = this.activatedRoute.queryParams.subscribe((data: QueryParamsPageable) => {
+            this.pagination.pageSize = data.pageSize || this.options.pageSize;
+            this.pagination.pageIndex = data.pageIndex || 0;
+            this.pagination.sortOrder = data.sortOrder || this.options.sortDirection;
+            this.pagination.sortBy = data.sortBy || this.options.sortBy;
         });
     }
 
@@ -65,8 +67,8 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.routeData.unsubscribe();
-        this.eventManager.destroy(this.eventModifySubscriber);
+        this.subscription.unsubscribe();
+        this.eventModifySubscriber.unsubscribe();
     }
 
     public loadAll(): void {
@@ -86,19 +88,12 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     }
 
     public transition(): void {
-        this.router.navigate([this.navigateUrl], {
-            queryParams:
-                {
-                    size: this.options.pageSize,
-                    page: this.page,
-                    sort: this.options.sortBy + ',' + this.options.sortDirection,
-                },
-        });
+        this.updateRoute();
         this.loadAll();
     }
 
     public loadPage(page: number): void {
-        this.page = page;
+        this.pagination.pageIndex = page;
         if (page !== this.previousPage) {
             this.previousPage = page;
             this.transition();
@@ -107,7 +102,7 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
 
     public registerChangeInList(): void {
         this.eventModifySubscriber = this.eventManager.subscribe(this.eventModify, (result) => {
-            this.page = this.getPageAfterRemove(result);
+            this.pagination.pageIndex = this.getPageAfterRemove(result);
             this.loadAll();
         });
     }
@@ -124,6 +119,17 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         this.toasterService.error(error.error, error.message, null);
     }
 
+    protected updateRoute(): void {
+        this.router.navigate(this.options.navigateUrl, {
+            queryParams: {
+                pageSize: this.pagination.pageSize,
+                pageIndex: this.pagination.pageIndex,
+                sortBy: this.pagination.sortBy,
+                sortOrder: this.pagination.sortOrder,
+            },
+        });
+    }
+
     protected onDeleteItem(id: number, itemName: string): void {
         this.alertService.open({
             title: `Delete ${itemName}?`,
@@ -135,18 +141,18 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         }).subscribe((result) => result.value ? this.deleteAction(id) : console.info('Cancel'));
     }
 
-    protected getPageAfterRemove(result: any): any {
-        if (result && result.content && result.content.id === 'delete' && this.page > 1) {
+    protected getPageAfterRemove(result: any): number {
+        if (result && result.content && result.content.id === 'delete' && this.pagination.pageIndex > 1) {
             this.queryCount--;
             const length = parseInt((this.queryCount / this.options.pageSize) + '', 10)
                 + (this.queryCount % this.options.pageSize ? 1 : 0);
-            if (this.page > length) {
+            if (this.pagination.pageIndex > length) {
                 this.previousPage = null;
                 return length;
             }
-            return this.page;
+            return this.pagination.pageIndex;
         } else {
-            return this.page;
+            return this.pagination.pageIndex;
         }
     }
 

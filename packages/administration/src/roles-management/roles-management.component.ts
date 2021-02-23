@@ -3,11 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { QueryParamsPageable } from '@xm-ngx/components/entity-collection';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { XmEventManager } from '@xm-ngx/core';
-import { Principal } from '@xm-ngx/core/auth';
+import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { Subscription } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
+import { startWith, take } from 'rxjs/operators';
 import { XmConfigService } from '../../../../src/app/shared';
 import { Role } from '../../../../src/app/shared/role/role.model';
 import { RoleService } from '../../../../src/app/shared/role/role.service';
@@ -39,6 +42,14 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         sortBy: 'roleKey',
     };
 
+    public pagination: QueryParamsPageable = {
+        total: 0,
+        pageIndex: 0,
+        pageSize: this.options.pageSize,
+        sortBy: this.options.sortBy,
+        sortDirection: this.options.sortDirection,
+    };
+
     public showLoader: boolean;
     public displayedColumns: string[] = [
         'roleKey',
@@ -58,28 +69,53 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     constructor(
         private roleService: RoleService,
         private alertService: XmToasterService,
-        private principal: Principal,
+        private router: Router,
         private eventManager: XmEventManager,
+        private activatedRoute: ActivatedRoute,
         private modalService: MatDialog,
         private configService: XmConfigService,
     ) {
         this.registerChangeInRoles();
+        const data: QueryParamsPageable = this.activatedRoute.snapshot.queryParams;
+        this.pagination.pageSize = data.pageSize || this.options.pageSize;
+        this.pagination.pageIndex = data.pageIndex || 0;
+        this.pagination.sortOrder = data.sortOrder || this.options.sortDirection;
+        this.pagination.sortBy = data.sortBy || this.options.sortBy;
     }
 
     public ngOnInit(): void {
-        this.principal.identity().then(() => {
-            this.dataSource.sort = this.sort;
-            this.dataSource.paginator = this.paginator;
-            this.loadAll();
-        });
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.loadAll();
 
-        this.configService.getUiConfig().subscribe(result => {
-            this.readOnlyMode = result.readOnlyConfig;
-        });
+        this.configService.getUiConfig()
+            .pipe(take(1))
+            .subscribe(result => {
+                this.readOnlyMode = result.readOnlyConfig;
+            });
+    }
+
+    public ngAfterViewInit(): void {
+        this.sort.sortChange.pipe(takeUntilOnDestroy(this)).subscribe(() => this.paginator.pageIndex = 0);
+        merge(this.sort.sortChange, this.paginator.page).pipe(
+            startWith({}),
+            takeUntilOnDestroy(this),
+        ).subscribe(() => {
+                this.pagination.pageIndex = this.paginator.pageIndex;
+                this.pagination.pageSize = this.paginator.pageSize;
+                this.pagination.sortOrder = this.sort.direction;
+                this.pagination.sortBy = this.sort.active;
+                this.updateRoute();
+            },
+            (err) => {
+                this.onError(err);
+                this.showLoader = false;
+            });
+
     }
 
     public ngOnDestroy(): void {
-        this.eventManager.destroy(this.eventSubscriber);
+        this.eventSubscriber.unsubscribe();
     }
 
     public loadAll(): void {
@@ -88,6 +124,7 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
             .subscribe(
                 (result) => {
                     this.dataSource.data = result;
+                    this.pagination.total = result.length;
                 },
                 (res: Response) => this.onError(res),
                 () => this.showLoader = false,
@@ -106,6 +143,17 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     public onDelete(role: Role): void {
         const modalRef = this.modalService.open(RoleMgmtDeleteDialogComponent, { width: '500px' });
         modalRef.componentInstance.selectedRole = role;
+    }
+
+    protected updateRoute(): void {
+        this.router.navigate([], {
+            queryParams: {
+                pageSize: this.pagination.pageSize,
+                pageIndex: this.pagination.pageIndex,
+                sortBy: this.pagination.sortBy,
+                sortOrder: this.pagination.sortOrder,
+            },
+        });
     }
 
     private registerChangeInRoles(): void {
