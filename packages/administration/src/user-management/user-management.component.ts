@@ -1,14 +1,17 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { JhiParseLinks } from 'ng-jhipster';
+import { merge, Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith, switchMap } from 'rxjs/operators';
-
-import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import {
     Client,
     Principal,
@@ -16,17 +19,14 @@ import {
     User,
     UserLogin,
     UserLoginService,
-    UserService
+    UserService,
 } from '../../../../src/app/shared';
+
+import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { BaseAdminListComponent } from '../admin.service';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
 import { UserMgmtDialogComponent } from './user-management-dialog/user-management-dialog.component';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { merge, Observable, Subscription } from 'rxjs';
 
 @Component({
     selector: 'xm-user-mgmt',
@@ -46,8 +46,8 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
     public onlineUsers: number = 0;
 
     public dataSource: MatTableDataSource<User> = new MatTableDataSource<User>([]);
-    @ViewChild(MatSort, {static: true}) public matSort: MatSort;
-    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
+    @ViewChild(MatSort, { static: true }) public matSort: MatSort;
+    @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
 
     public displayedColumns: string[] = [
         'id',
@@ -86,8 +86,8 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
                     .pipe(
                         takeUntilOnDestroy(this),
                     ).subscribe((list: Array<Client>) => {
-                        this.dataSource = new MatTableDataSource(list);
-                    });
+                    this.dataSource = new MatTableDataSource(list);
+                });
             });
     }
 
@@ -141,7 +141,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
 
     public enable2FA(user: User): void {
         this.alertService.open({
-            title: `Enable 2FA?`,
+            title: 'Enable 2FA?',
             showCancelButton: true,
             buttonsStyling: false,
             confirmButtonClass: 'btn mat-button btn-primary',
@@ -160,7 +160,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
 
     public disable2FA(user: User): void {
         this.alertService.open({
-            title: `Disable 2FA?`,
+            title: 'Disable 2FA?',
             showCancelButton: true,
             buttonsStyling: false,
             confirmButtonClass: 'btn mat-button btn-primary',
@@ -216,7 +216,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
                 finalize(() => this.showLoader = false),
             )
             .subscribe((list: Array<User>) => {
-                this.dataSource = new MatTableDataSource(list)
+                this.dataSource = new MatTableDataSource(list);
             });
     }
 
@@ -227,32 +227,32 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         this.loadAll()
             .pipe(takeUntilOnDestroy(this))
             .subscribe((list: Array<User>) => {
-                this.dataSource = new MatTableDataSource(list)
+                this.dataSource = new MatTableDataSource(list);
             });
     }
 
     public onAdd(): void {
-        this.modalService.open(UserMgmtDialogComponent, {width: '500px'});
+        this.modalService.open(UserMgmtDialogComponent, { width: '500px' });
     }
 
     public onEdit(user: User): void {
-        const modalRef = this.modalService.open(UserMgmtDialogComponent, {width: '500px'});
+        const modalRef = this.modalService.open(UserMgmtDialogComponent, { width: '500px' });
         modalRef.componentInstance.selectedUser = user;
     }
 
     public onLoginEdit(user: User): void {
-        const modalRef = this.modalService.open(UserLoginMgmtDialogComponent, {width: '500px'});
+        const modalRef = this.modalService.open(UserLoginMgmtDialogComponent, { width: '500px' });
         modalRef.componentInstance.user = user;
     }
 
     public onDelete(user: User): void {
-        const modalRef = this.modalService.open(UserMgmtDeleteDialogComponent, {width: '500px'});
+        const modalRef = this.modalService.open(UserMgmtDeleteDialogComponent, { width: '500px' });
         modalRef.componentInstance.user = user;
     }
 
     public loadAll(): Observable<User[]> {
         this.showLoader = true;
-        if (this.login && this.login.trim()){
+        if (this.login && this.login.trim()) {
             return this.loadFilteredUsers();
         } else {
             return this.loadUsers();

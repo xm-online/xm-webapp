@@ -95,7 +95,7 @@ export class DashboardWrapperService {
         return this.dashboardsWithWidgetsCache[id] = this.dashboardService.find(id).pipe(
             map((i) => i.body),
             catchError((err) => {
-                delete this.dashboardsWithWidgetsCache;
+                delete this.dashboardsWithWidgetsCache[id];
                 return throwError(err);
             }),
             shareReplay(1),

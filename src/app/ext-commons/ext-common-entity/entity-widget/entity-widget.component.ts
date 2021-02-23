@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -37,6 +38,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
     constructor(private xmEntityService: XmEntityService,
                 private xmConfigService: XmConfigService,
                 private contextService: ContextService,
+                private activatedRoute: ActivatedRoute,
                 private eventManager: XmEventManager) {
         this.registerModificationSubscription();
     }
@@ -44,10 +46,15 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.showLoader = true;
         if (DEBUG_INFO_ENABLED) {
-            console.info(`DBG entity  e=%o`, this.xmEntity);
-            console.info(`DBG spec  e=%o`, this.spec);
+            console.info('DBG entity  e=%o', this.xmEntity);
+            console.info('DBG spec  e=%o', this.spec);
         }
-        this.loadEntity();
+        this.activatedRoute.queryParams.subscribe((params) => {
+            if (params.xmEntityId) {
+                this.contextService.put('xmEntityId', params.xmEntityId);
+            }
+            this.loadEntity();
+        });
     }
 
     public ngOnDestroy(): void {
@@ -106,30 +113,30 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
         }
 
         const grid = [
-            {class: 'row', content: [{class: 'col-sm-12', component: 'function-list-card'}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: attachmentsComponent}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: 'location-list-card'}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: 'link-list'}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: 'comment-list'}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: 'calendar-card'}]},
-            {class: 'row', content: [{class: 'col-sm-12', component: 'timeline'}]},
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'function-list-card' }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: attachmentsComponent }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'location-list-card' }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'link-list' }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'comment-list' }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'calendar-card' }] },
+            { class: 'row', content: [{ class: 'col-sm-12', component: 'timeline' }] },
         ];
 
         if (detailLayoutType === 'ALL-IN-ROW') {
-            grid.unshift({class: 'row', content: [{class: 'col-sm-12', component: 'entity-data-card'}]});
+            grid.unshift({ class: 'row', content: [{ class: 'col-sm-12', component: 'entity-data-card' }] });
             grid.unshift({
                 class: 'row',
-                content: [{class: 'col-sm-12 col-xl-8 offset-xl-2', component: 'entity-card'}],
+                content: [{ class: 'col-sm-12 col-xl-8 offset-xl-2', component: 'entity-card' }],
             });
             return grid;
         } else if (detailLayoutType === 'COMPACT') {
-            grid.unshift({class: 'row', content: [{class: 'col-sm-12', component: 'entity-card-compact'}]});
+            grid.unshift({ class: 'row', content: [{ class: 'col-sm-12', component: 'entity-card-compact' }] });
             return grid;
         }
 
         grid.unshift({
             class: 'row',
-            content: [{class: 'col-md-6', component: 'entity-card'}, {
+            content: [{ class: 'col-md-6', component: 'entity-card' }, {
                 class: 'col-md-6',
                 component: 'entity-data-card',
             }],
@@ -149,12 +156,12 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.xmEntity$ = this.xmEntityService.find(xmEntityId, {embed: 'data'})
+        this.xmEntity$ = this.xmEntityService.find(xmEntityId, { embed: 'data' })
             .pipe(
                 map((responce) => responce.body),
                 tap((entity) => this.xmEntity = entity),
                 tap((entity) => this.xmEntitySpec = this.getXmEntitySpec(entity.typeKey)),
-                tap(() => DEBUG_INFO_ENABLED ? console.info(`DBG spec = %o`, this.xmEntitySpec) : undefined),
+                tap(() => DEBUG_INFO_ENABLED ? console.info('DBG spec = %o', this.xmEntitySpec) : undefined),
                 tap((entity) => this.backLinkSpecs = this.getBackLinkSpecs(entity.typeKey)),
                 tap(() => this.defineUiConfig()),
                 tap(() => this.linkSpecs$.next(

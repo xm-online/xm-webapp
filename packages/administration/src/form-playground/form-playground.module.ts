@@ -8,7 +8,7 @@ import { LanguageModule } from '@xm-ngx/components/language';
 import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { AceEditorModule } from '@xm-ngx/components/xm-ace-editor/ace-editor.directive';
+import { AceEditorModule } from '@xm-ngx/components/ace-editor';
 import { FormPlaygroundComponent } from './form-playground.component';
 
 @NgModule({

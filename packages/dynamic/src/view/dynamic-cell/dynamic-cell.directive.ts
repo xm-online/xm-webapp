@@ -35,6 +35,8 @@ export interface DynamicCell<O = unknown> {
     field: string;
     selector: string;
     options: O;
+    class: string;
+    style: string;
 }
 
 /**
@@ -72,6 +74,8 @@ export class DynamicCellDirective<V, O extends DynamicCell<O>>
         this._cell = value;
         this.selector = value?.selector;
         this.options = value?.options;
+        this.class = value?.class;
+        this.style = value?.style;
     }
 
     /** @deprecated use {@link cell} instead */

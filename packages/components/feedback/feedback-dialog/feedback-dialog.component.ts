@@ -1,17 +1,24 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IFeedbackRequest } from '../feedback.service';
 
 const TRANSLATES = {
-    feedback: {en: 'Feedback', ru: 'Обратная связь', uk: 'Відгуки'},
-    title: {en: 'Topic', ru: 'Тема', uk: 'Тема'},
-    send: {en: 'Send', ru: 'Отправить', uk: 'Надіслати'},
-    cancel: {en: 'Cancel', ru: 'Отмена', uk: 'Скасувати'},
-    description: {en: 'Description', ru: 'Описание', uk: 'Опис'},
+    feedback: { en: 'Feedback', ru: 'Обратная связь', uk: 'Відгуки' },
+    title: { en: 'Topic', ru: 'Тема', uk: 'Тема' },
+    send: { en: 'Send', ru: 'Отправить', uk: 'Надіслати' },
+    image: { en: 'Image', ru: 'Изображение', uk: 'Зображення' },
+    cancel: { en: 'Cancel', ru: 'Отмена', uk: 'Скасувати' },
+    description: { en: 'Description', ru: 'Описание', uk: 'Опис' },
     feedbackDetails: {
         en: 'Send your review - we are sure it will make our product better!',
         ru: 'Отправь свой отзыв - уверены, он сделает наш продукт лучше!',
-        uk: 'Відправ свій відгук - впевнені, він зробить наш продукт краще!'},
+        uk: 'Відправ свій відгук - впевнені, він зробить наш продукт краще!',
+    },
+    attachImage: {
+        en: 'Include image',
+        ru: 'Прикрепить изображение',
+        uk: 'Прикріпити зображення',
+    },
 };
 
 @Component({
@@ -23,15 +30,32 @@ export class FeedbackDialogComponent {
 
     public TRS: typeof TRANSLATES = TRANSLATES;
 
-    public data: IFeedbackRequest = {
-        topic: '',
-        message: '',
-    };
+    public defaultTitle: string = 'FEEDBACK: ' + new Date().toISOString();
+    public attachImage: boolean = true;
 
-    constructor(public dialogRef: MatDialogRef<FeedbackDialogComponent>) {}
+    constructor(
+        public dialogRef: MatDialogRef<FeedbackDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: IFeedbackRequest,
+    ) {
+        if (!data) {
+            this.data = {
+                image: '',
+                version: '',
+                message: '',
+                topic: '',
+            };
+        }
+    }
 
     public submit(): void {
-        this.dialogRef.close(this.data);
+        const result: IFeedbackRequest = {
+            topic: this.data.topic || this.defaultTitle,
+            message: this.data.message,
+            version: this.data.version,
+            image: this.attachImage ? this.data.image : '',
+        };
+
+        this.dialogRef.close(result);
     }
 
 }

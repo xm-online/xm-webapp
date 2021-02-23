@@ -1,0 +1,40 @@
+{
+  "dashboards": [
+    {
+      "id": 1,
+      "name": "Dashboards",
+      "owner": "xm_uaa",
+      "typeKey": "ADMIN",
+      "config": {
+        "name": {
+          "en": "Dashboards",
+          "ru": "Dashboards",
+          "uk": "Dashboards"
+        },
+        "orderIndex": 5,
+        "menu": {
+          "group": {
+            "key": "ADMINISTRATION",
+            "name": {
+              "en": "Administration",
+              "ru": "Администрирование",
+              "uk": "Адміністрування"
+            },
+            "orderIndex": 100,
+            "icon": "settings"
+          }
+        },
+        "slug": "admin-pages"
+      },
+      "isPublic": false
+    }
+  ],
+  "widgets": [
+    {
+      "id": 1,
+      "selector": "@xm-ngx/administration/dashboards-config-widget",
+      "name": "@xm-ngx/administration/dashboards-config-widget",
+      "dashboard": 1
+    }
+  ]
+}

@@ -29,6 +29,8 @@ export class XmTextExampleComponent {
         id: 'unique-id',
         placeholder: { en: 'Placeholder...' },
         title: { en: 'Text Control' },
+        dataQa: 'example-control',
+        maxLength: 30,
     };
 
     /*
@@ -50,6 +52,7 @@ export class XmTextExampleComponent {
         placeholder: { en: 'Write your text here...' },
         title: { en: 'Text range' },
         rows: 3,
+        maxLength: 350,
     };
 
     public textViewOptions: XmTextViewOptions = {

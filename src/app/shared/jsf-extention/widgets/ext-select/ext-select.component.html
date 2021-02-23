@@ -11,7 +11,7 @@
     </mat-icon>
     <mat-select [(ngModel)]="elementCtrl"
       (selectionChange)="updateValue($event)"
-      [placeholder]="placeholder | async"
+      [placeholder]="options.noTitle ? '' : (placeholder | async)"
       [disabled]="(disabled$ | async) || options['readonly']"
       [required]="options?.required"
       #singleSelect

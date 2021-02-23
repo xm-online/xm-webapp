@@ -33,6 +33,9 @@ export class ArchitectureComponent implements OnInit {
     @ViewChild('canvasHolder', {static: false}) private canvasHolder: ElementRef;
 
     public ngOnInit(): void {
+        if (!this.config) {
+            return;
+        }
         this.source = this.toNomnoml(this.config.components);
         setTimeout(() => this.resetViewport(), 0);
     }

@@ -10,7 +10,7 @@ import { IControl, IControlFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 import * as _ from 'lodash';
-import { XmPermissionModule } from "@xm-ngx/core/permission";
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 export interface EnumControlOptions {
     id?: string;

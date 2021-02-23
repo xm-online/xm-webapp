@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
+/**
+ * Creates a link tag.
+ * @public
+ */
 export class StyleManagerService {
     public remove(key: string): void {
         const existingLinkElement = getExistingLinkElementByKey(key);

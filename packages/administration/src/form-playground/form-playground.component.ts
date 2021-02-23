@@ -95,7 +95,7 @@ export class FormPlaygroundComponent implements OnInit {
     public xmEntityForms$: BehaviorSubject<any> = new BehaviorSubject<FormsConfig[]>(this.xmEntityForms);
     public formConfig$: BehaviorSubject<any> = new BehaviorSubject<string>('');
     public isXmForm: boolean = false;
-    private XM_TEMPLATE: string = `ng2jsf-xm-layout`;
+    private XM_TEMPLATE: string = 'ng2jsf-xm-layout';
 
     constructor(private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private route: ActivatedRoute,

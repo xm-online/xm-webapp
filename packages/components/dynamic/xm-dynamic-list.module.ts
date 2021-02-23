@@ -8,7 +8,7 @@ import {
     WidgetListService,
 } from '@xm-ngx/administration/dashboards-config/widget-edit/widget-list.service';
 import { XmTextControlModule } from '@xm-ngx/components/text';
-import { AceEditorControlModule } from '@xm-ngx/components/xm-ace-editor/xm-ace-editor-control';
+import { XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
@@ -99,7 +99,7 @@ export class XmDynamicListComponent implements OnInit {
         XmDynamicModule,
         MatButtonModule,
         ScrollingModule,
-        AceEditorControlModule,
+        XmAceEditorControlModule,
     ],
 })
 export class XmDynamicListModule {

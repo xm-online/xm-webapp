@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 export interface IFeedbackRequest {
     topic: string;
     message: string;
+    version?: string;
+    image?: string;
 }
 
 @Injectable({
@@ -12,9 +14,10 @@ export interface IFeedbackRequest {
 })
 export class FeedbackService {
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient) {
+    }
 
     public create(attributes: IFeedbackRequest, url: string): Observable<unknown> {
-        return this.httpClient.post(url, {attributes});
+        return this.httpClient.post(url, { attributes });
     }
 }

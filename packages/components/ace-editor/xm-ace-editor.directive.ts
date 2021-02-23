@@ -14,7 +14,7 @@ import 'brace/theme/tomorrow_night';
 @Directive({
     selector: '[xmAceEditor]',
 })
-export class AceEditorDirective<O = unknown> implements OnDestroy {
+export class XmAceEditorDirective<O = unknown> implements OnDestroy {
 
     public _highlightActiveLine: boolean = true;
     public _showGutter: boolean = true;
@@ -119,8 +119,8 @@ export class AceEditorDirective<O = unknown> implements OnDestroy {
 }
 
 @NgModule({
-    exports: [AceEditorDirective],
-    declarations: [AceEditorDirective],
+    exports: [XmAceEditorDirective],
+    declarations: [XmAceEditorDirective],
 })
 export class AceEditorModule {
 }

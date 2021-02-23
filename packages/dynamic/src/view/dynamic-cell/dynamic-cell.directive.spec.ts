@@ -9,17 +9,17 @@ describe('DynamicCellDirective', () => {
     describe('getCellValue', () => {
         it('{field: \'test\'} should return row field', () => {
             const directive = new DynamicCellDirective(null, null, null, null, null);
-            const row = { test: 1 }
+            const row = { test: 1 };
             directive.row = row;
-            directive.cell = {field: 'test', selector: null, options: null};
+            directive.cell = { field: 'test', selector: null, options: null, style: null, class: null };
             expect(directive.getCellValue()).toEqual(row.test);
         });
 
         it('{field: null} should return row', () => {
             const directive = new DynamicCellDirective(null, null, null, null, null);
-            const row = { test: 1 }
+            const row = { test: 1 };
             directive.row = row;
-            directive.cell = {field: null, selector: null, options: null};
+            directive.cell = { field: null, selector: null, options: null, style: null, class: null };
             expect(directive.getCellValue()).toEqual(row);
         });
     });

@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
+/**
+ * Creates a 'theme-color' meta tag
+ * @public
+ */
 export class ThemeColorService {
     public remove(): void {
         const existingLinkElement = getExistingThemeColorElementByKey();
@@ -19,7 +23,7 @@ function getThemeColorElementForKey(): HTMLMetaElement {
 }
 
 function getExistingThemeColorElementByKey(): HTMLMetaElement {
-    return document.head.querySelector(`meta[name="theme-color"]`);
+    return document.head.querySelector('meta[name="theme-color"]');
 }
 
 function createThemeColorElementWithKey(): HTMLMetaElement {

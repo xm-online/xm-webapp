@@ -1,63 +1,73 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
 import { XmApplicationConfigService } from '../../../src/app/shared/spec';
-import { ColorSchemeService } from './color-scheme.service';
 import { StyleManagerService } from './style-manager.service';
 import { ThemeColorService } from './theme-color.service';
-import { ThemeSchemeService } from './theme-scheme.service';
+import { ThemeSchemeState, ThemeSchemeType } from './theme-scheme.state';
 
 export type THEME_STRATEGY = 'THEME' | 'TENANT_ONLY';
 
-export interface ThemeOptions {
+export interface XmTheme {
     theme?: string,
     themeColor?: string,
-    themeScheme?: 'dark' | 'light',
-    colorScheme?: 'normal' | 'dark light',
+    themeScheme?: ThemeSchemeType,
     themeStrategy?: THEME_STRATEGY
 }
 
 @Injectable({
     providedIn: 'root',
 })
-export class XmThemeService {
-    private currentTheme: string;
+/**
+ * Stores an active theme.
+ * @beta
+ */
+export class XmThemeStore {
+    private activeTheme: BehaviorSubject<XmTheme | null> = new BehaviorSubject<XmTheme | null>(null);
 
     constructor(
         private styleManager: StyleManagerService,
-        private themeSchemeService: ThemeSchemeService,
-        private colorSchemeService: ColorSchemeService,
         private themeColorService: ThemeColorService,
         private applicationConfigService: XmApplicationConfigService,
     ) {
     }
 
-    public getTheme(): string | null {
-        return this.currentTheme || null;
+    public getThemeName(): string | null {
+        return this.activeTheme.getValue()?.theme || null;
     }
 
-    public set(theme: string | null, options?: ThemeOptions): Observable<void> {
+    public activeTheme$(): Observable<XmTheme | null> {
+        return this.activeTheme.asObservable();
+    }
+
+    public activeThemeSchemeChange$(): Observable<ThemeSchemeState> {
+        return this.activeTheme$().pipe(
+            map((theme) => {
+                if (!theme) {
+                    return {
+                        scheme: 'light',
+                        isDark: false,
+                    };
+                }
+
+                return ({ scheme: theme.themeScheme, isDark: theme.themeScheme === 'dark' });
+            }),
+        );
+    }
+
+    public set(theme: string | null, options?: XmTheme): Observable<void> {
         if (!theme) {
             this.styleManager.remove('theme');
-            this.colorSchemeService.remove();
             this.themeColorService.remove();
-            this.themeSchemeService.reset();
             this.applicationConfigServiceBC();
+            this.activeTheme.next(null);
             return of(undefined);
         }
 
-        this.currentTheme = theme;
+        this.activeTheme.next({ theme, ...options });
 
         if (options?.themeColor) {
             this.themeColorService.set(options.themeColor);
-        }
-
-        if (options?.colorScheme) {
-            this.colorSchemeService.set(options.colorScheme);
-        }
-
-        if (options?.themeScheme) {
-            this.themeSchemeService.set(options.themeScheme);
         }
 
         if (options?.themeStrategy === 'TENANT_ONLY') {

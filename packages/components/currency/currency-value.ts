@@ -16,7 +16,7 @@ export const CURRENCY_DEFAULT: ICurrencyOptions = {
 
 @Component({
     selector: 'xm-currency-value',
-    template: `{{ value | currency:_options.currencyCode:_options.display:_options.digitsInfo:_options.locale }}`,
+    template: '{{ value | currency:_options.currencyCode:_options.display:_options.digitsInfo:_options.locale }}',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
