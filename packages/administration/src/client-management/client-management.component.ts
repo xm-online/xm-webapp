@@ -27,7 +27,6 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
 
     public list: Client[];
     public eventModify: string = 'clientListModification';
-    public navigateUrl: string = 'administration/client-management';
     public basePredicate: string = 'lastModifiedDate';
     public clientId: string;
     public dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>([]);
@@ -60,10 +59,11 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
         super(activatedRoute, toasterService, alertService, eventManager, parseLinks, router);
         this.showLoader = true;
         this.registerChangeInClients();
+        this.clientId = activatedRoute.snapshot.queryParams.clientId || '';
     }
 
     public ngOnInit(): void {
-        const extraColumns = this.config.columns.map((c) => c.name || c.field);
+        const extraColumns = this.config.columns?.map((c) => c.name || c.field) || [];
         this.displayedColumns.push(...extraColumns);
 
         this.dataSource.sort = this.matSort;
@@ -95,6 +95,7 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
     }
 
     public loadAll(): Observable<Client[]> {
+        this.updateRoute();
         if (this.clientId) {
             return this.loadClientsById(this.clientId);
         } else {
@@ -172,5 +173,17 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
                     this.dataSource = new MatTableDataSource(list);
                 });
             });
+    }
+
+    protected updateRoute(): void {
+        this.router.navigate(this.options.navigateUrl, {
+            queryParams: {
+                pageSize: this.pagination.pageSize,
+                pageIndex: this.pagination.pageIndex,
+                sortBy: this.pagination.sortBy,
+                sortOrder: this.pagination.sortOrder,
+                clientId: this.clientId,
+            },
+        });
     }
 }

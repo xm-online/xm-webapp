@@ -12,15 +12,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { merge, Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith, switchMap } from 'rxjs/operators';
-import {
-    Client,
-    Principal,
-    RoleService,
-    User,
-    UserLogin,
-    UserLoginService,
-    UserService,
-} from '../../../../src/app/shared';
+import { Client, RoleService, User, UserLogin, UserLoginService, UserService } from '../../../../src/app/shared';
 
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { BaseAdminListComponent } from '../admin.service';
@@ -34,11 +26,8 @@ import { UserMgmtDialogComponent } from './user-management-dialog/user-managemen
 })
 export class UserMgmtComponent extends BaseAdminListComponent implements OnDestroy {
 
-    public currentAccount: any;
-    public list: User[];
     public eventModify: string = XM_EVENT_LIST.XM_USER_LIST_MODIFICATION;
     public eventSubscriber: Subscription;
-    public navigateUrl: string = 'administration/user-management';
     public basePredicate: string = 'id';
     public login: string;
     public authorities: any[];
@@ -61,19 +50,21 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         'actions',
     ];
 
-    constructor(protected activatedRoute: ActivatedRoute,
-                protected toasterService: XmToasterService,
-                protected alertService: XmAlertService,
-                protected eventManager: XmEventManager,
-                protected parseLinks: JhiParseLinks,
-                protected router: Router,
-                private modalService: MatDialog,
-                private userLoginService: UserLoginService,
-                private userService: UserService,
-                private roleService: RoleService,
-                private principal: Principal) {
+    constructor(
+        protected activatedRoute: ActivatedRoute,
+        protected toasterService: XmToasterService,
+        protected alertService: XmAlertService,
+        protected eventManager: XmEventManager,
+        protected parseLinks: JhiParseLinks,
+        protected router: Router,
+        private modalService: MatDialog,
+        private userLoginService: UserLoginService,
+        private userService: UserService,
+        private roleService: RoleService,
+    ) {
         super(activatedRoute, toasterService, alertService, eventManager, parseLinks, router);
-        this.currentSearch = activatedRoute.snapshot.params.search || '';
+        this.currentSearch = activatedRoute.snapshot.params.search || activatedRoute.snapshot.queryParams.userRole || '';
+        this.login = activatedRoute.snapshot.queryParams.userLogin || '';
     }
 
     public registerChangeInList(): void {
@@ -97,31 +88,32 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
     }
 
     public ngAfterViewInit(): void {
-        this.principal.identity().then((account) => {
-            this.registerChangeInList();
-            this.currentAccount = account;
-            this.roleService.getRoles()
-                .pipe(takeUntilOnDestroy(this))
-                .subscribe((roles) => this.authorities = roles.map((role) => role.roleKey).sort());
-            this.userService.getOnlineUsers()
-                .pipe(takeUntilOnDestroy(this))
-                .subscribe((result) => this.onlineUsers = result.body);
+        this.registerChangeInList();
+        this.roleService.getRoles()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((roles) => this.authorities = roles.map((role) => role.roleKey).sort());
+        this.userService.getOnlineUsers()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((result) => this.onlineUsers = result.body);
 
-            this.matSort.sortChange.pipe(takeUntilOnDestroy(this)).subscribe(() => this.paginator.pageIndex = 0);
-            merge(this.matSort.sortChange, this.paginator.page).pipe(
-                startWith({}),
-                switchMap(() => {
-                    return this.loadAll();
-                }),
-                takeUntilOnDestroy(this),
-            ).subscribe((list: Array<Client>) => {
-                    this.dataSource = new MatTableDataSource(list);
-                },
-                (err) => {
-                    this.onError(err);
-                    this.showLoader = false;
-                });
-        });
+        this.matSort.sortChange.pipe(takeUntilOnDestroy(this)).subscribe(() => this.paginator.pageIndex = 0);
+        merge(this.matSort.sortChange, this.paginator.page).pipe(
+            startWith({}),
+            switchMap(() => {
+                this.pagination.pageIndex = this.paginator.pageIndex;
+                this.pagination.pageSize = this.paginator.pageSize;
+                this.pagination.sortOrder = this.matSort.direction;
+                this.pagination.sortBy = this.matSort.active;
+                return this.loadAll();
+            }),
+            takeUntilOnDestroy(this),
+        ).subscribe((list: Array<Client>) => {
+                this.dataSource = new MatTableDataSource(list);
+            },
+            (err) => {
+                this.onError(err);
+                this.showLoader = false;
+            });
     }
 
     public getRegistrationEmail(user: User): string {
@@ -178,8 +170,8 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
 
     public loadUsers(): Observable<User[]> {
         return this.userService.query({
-            page: this.paginator.pageIndex,
-            size: this.paginator.pageSize,
+            page: this.pagination.pageIndex,
+            size: this.pagination.pageSize,
             sort: [`${this.matSort.active},${this.matSort.direction}`],
             roleKey: this.currentSearch,
         }).pipe(
@@ -190,8 +182,8 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
 
     public loadFilteredUsers(): Observable<User[]> {
         return this.userService.loginContains({
-            page: this.paginator.pageIndex,
-            size: this.paginator.pageSize,
+            page: this.pagination.pageIndex,
+            size: this.pagination.pageSize,
             sort: [`${this.matSort.active},${this.matSort.direction}`],
             roleKey: this.currentSearch,
             login: this.login,
@@ -208,7 +200,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
 
     public applySearchByRole(roleKey: string): void {
         this.login = null;
-        this.paginator.pageIndex = 0;
+        this.pagination.pageIndex = 0;
         this.currentSearch = roleKey;
         this.loadAll()
             .pipe(
@@ -222,7 +214,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
 
     public searchByLogin(): void | null {
         this.matSort.active = this.basePredicate;
-        this.paginator.pageIndex = 0;
+        this.pagination.pageIndex = 0;
         this.currentSearch = null;
         this.loadAll()
             .pipe(takeUntilOnDestroy(this))
@@ -251,12 +243,26 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
     }
 
     public loadAll(): Observable<User[]> {
+        this.updateRoute();
         this.showLoader = true;
         if (this.login && this.login.trim()) {
             return this.loadFilteredUsers();
         } else {
             return this.loadUsers();
         }
+    }
+
+    protected updateRoute(): void {
+        this.router.navigate(this.options.navigateUrl, {
+            queryParams: {
+                pageSize: this.pagination.pageSize,
+                pageIndex: this.pagination.pageIndex,
+                sortBy: this.pagination.sortBy,
+                sortOrder: this.pagination.sortOrder,
+                userLogin: this.login,
+                userRole: this.currentSearch,
+            },
+        });
     }
 
 }
