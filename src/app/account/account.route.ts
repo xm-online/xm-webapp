@@ -11,6 +11,7 @@ import {
     settingsRoute,
     socialAuthRoute,
     socialRegisterRoute,
+    idpCallbackRoute,
 } from './';
 import { logoutRoute } from './logout/logout.route';
 
@@ -28,5 +29,6 @@ export const accountState: Routes = [{
         socialRegisterRoute,
         settingsRoute,
         logoutRoute,
+        idpCallbackRoute,
     ],
 }];

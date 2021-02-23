@@ -33,6 +33,7 @@ export * from './social/social.component';
 export * from './auth/user-route-access-service';
 export * from './role/role.model';
 export * from './role/role.service';
+export * from './idp/idp.component';
 
 export * from './privilege/privilege.service';
 export * from './privilege/privilege.directive';

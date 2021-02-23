@@ -6,6 +6,8 @@
   </xm-social>
 </div>
 
+<xm-idp (onClientClicked)="loginWithIdp($event)" *ngIf="showIdp"></xm-idp>
+
 <div class="alert alert-danger"
      *ngIf="authenticationError"
      [innerHTML]="'login.messages.error.authentication' | translate"></div>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
@@ -8,6 +8,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthService, LoginComponent, LoginService, XmConfigService } from '../../shared';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { XM_EVENT_LIST } from '../../xm.constants';
+import { SessionStorageService } from 'ngx-webstorage';
+import { DOCUMENT, Location } from '@angular/common';
 
 const SOCIAL_AUTH = 'social-authentication';
 
@@ -17,7 +19,9 @@ const SOCIAL_AUTH = 'social-authentication';
 })
 export class SocialAuthComponent extends LoginComponent implements OnInit {
 
-    constructor(protected eventManager: XmEventManager,
+    constructor(protected $sessionStorage: SessionStorageService,
+                protected location: Location,
+                protected eventManager: XmEventManager,
                 protected xmConfigService: XmConfigService,
                 protected loginService: LoginService,
                 protected stateStorageService: StateStorageService,
@@ -26,8 +30,11 @@ export class SocialAuthComponent extends LoginComponent implements OnInit {
                 protected alertService: XmToasterService,
                 protected modalService: MatDialog,
                 protected authService: AuthService,
-                protected cookieService: CookieService) {
+                protected cookieService: CookieService,
+                @Inject(DOCUMENT) protected document: Document,) {
         super(
+            $sessionStorage,
+            location,
             eventManager,
             xmConfigService,
             loginService,
@@ -36,6 +43,7 @@ export class SocialAuthComponent extends LoginComponent implements OnInit {
             router,
             alertService,
             modalService,
+            document,
         );
     }
 

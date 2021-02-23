@@ -26,6 +26,7 @@ import { accountState } from './account.route';
 import { LogoutComponent } from './logout/logout.component';
 import { PasswordModule } from './password/password.module';
 import { PasswordSettingsComponent } from './password-settings/password-settings.component';
+import { IdpCallbackComponent } from './idp-callback/idp-callback.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { PasswordSettingsComponent } from './password-settings/password-settings
         LogoutComponent,
         HelpComponent,
         PasswordSettingsComponent,
+        IdpCallbackComponent,
     ],
     providers: [
         Activate,

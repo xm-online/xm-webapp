@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AsyncSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pluck, shareReplay, tap } from 'rxjs/operators';
 import { PasswordSpec } from './password-spec.model';
 import { ModulesLanguageHelper } from '../language';
 import { XmApplicationConfigService } from './xm-config.service';
+import { IIdpConfig } from './xm-ui-config-model';
 
 interface IUIConfig {
     logoUrl?: string;
@@ -21,9 +22,11 @@ export class XmConfigService {
     private configMaintenanceUrl: string = 'config/api/config';
     private uaaPasswordConfigUrl: string = 'uaa/api/uaa/properties/settings-public';
     private elasticReindexUrl: string = '/entity/api/elasticsearch/index';
+    private idpPublicConfig: string = '/config/api/profile/webapp/public/idp-config-public.yml?toJson';
 
     private uiConfig: UIConfig;
     private uiConfigState: AsyncSubject<any> = new AsyncSubject<any>();
+    private idpConfig: IIdpConfig;
 
     constructor(
         private http: HttpClient,
@@ -66,6 +69,21 @@ export class XmConfigService {
     public getPasswordConfig(): Observable<string> {
         return this.http.get(this.uaaPasswordConfigUrl, {responseType: 'text'}).pipe(
             map((res: any) => res));
+    }
+
+    public getIdpConfig(): Observable<IIdpConfig> {
+        if (this.idpConfig) {
+            return of(this.idpConfig)
+        } else {
+            return this.http.get(this.idpPublicConfig).pipe(
+                pluck('idp'),
+                tap((config: IIdpConfig) => {
+                    this.idpConfig = config;
+                    console.warn(this.idpConfig);
+                }),
+                shareReplay(1),
+            );
+        }
     }
 
     public getUiConfigData(): void {

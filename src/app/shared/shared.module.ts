@@ -32,6 +32,7 @@ import {
     XmConfigService,
     XmConfirmDialogComponent,
     XmGMapApiInitDirective,
+    IdpComponent,
 } from './';
 import { PrivacyAndTermsDialogComponent } from './components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
@@ -113,6 +114,7 @@ const PIPES = [XmEntityIconPipe];
         TextSectionComponent,
         FileUploadComponent,
         PrivacyAndTermsDialogComponent,
+        IdpComponent,
         PIPES,
     ],
     providers: [
@@ -176,6 +178,7 @@ const PIPES = [XmEntityIconPipe];
         TextSectionComponent,
         FileUploadComponent,
         GooglePlaceModule,
+        IdpComponent,
         PIPES,
         XmUserLoginWidgetModule,
         XmJsonSchemaFormModule,

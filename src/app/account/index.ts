@@ -20,3 +20,4 @@ export * from './settings/settings.route';
 export * from './social/social-auth.component';
 export * from './social/social-register.component';
 export * from './social/social.route';
+export * from './idp-callback/idp-callback.route';

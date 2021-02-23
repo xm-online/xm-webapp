@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, Input, isDevMode, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
@@ -6,13 +6,14 @@ import { XmToasterService } from '@xm-ngx/toaster';
 
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TERMS_ERROR, XM_EVENT_LIST } from '../../xm.constants';
+import { IDP_CLIENT, TERMS_ERROR } from '../../xm.constants';
 import { LoginService } from '../auth/login.service';
 import { StateStorageService } from '../auth/state-storage.service';
 import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfigService } from '../spec/config.service';
-
-declare let $: any;
+import { IIdpClient } from '../spec';
+import { SessionStorageService } from 'ngx-webstorage';
+import { DOCUMENT, Location } from '@angular/common';
 
 @Component({
     selector: 'xm-login',
@@ -41,8 +42,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
     public sendingLogin: boolean;
     public socialConfig: [];
     public checkTermsOfConditions: boolean;
+    public showIdp: boolean = false;
 
     constructor(
+        protected $sessionStorage: SessionStorageService,
+        protected location: Location,
         protected eventManager: XmEventManager,
         protected xmConfigService: XmConfigService,
         protected loginService: LoginService,
@@ -51,6 +55,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         protected router: Router,
         protected alertService: XmToasterService,
         protected modalService: MatDialog,
+        @Inject(DOCUMENT) protected document: Document,
     ) {
         this.checkOTP = false;
         this.credentials = {};
@@ -59,22 +64,32 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
 
     public ngOnInit(): void {
-        $('body').addClass('xm-public-screen');
+        this.document.body.classList.add('xm-public-screen');
         this.isDisabled = false;
-
         this.getConfigs()
             .pipe(
-                map((c) => ({ ui: c[0], uaa: c[1] ? c[1] : null })),
+                map((c) => ({ ui: c[0], uaa: c[1] ? c[1] : null})),
             )
             .subscribe((config) => {
                 const uiConfig = config && config.ui;
                 const uaaConfig = config && config.uaa;
+                this.showIdp = config?.ui?.idp?.enabled;
                 this.socialConfig = uiConfig && uiConfig.social;
                 this.hideRememberMe = uiConfig.hideRememberMe ? uiConfig.hideRememberMe : false;
                 this.rememberMe = uiConfig.rememberMeActiveByDefault === true;
                 this.hideResetPasswordLink = uiConfig.hideResetPasswordLink ? uiConfig.hideResetPasswordLink : false;
                 this.checkTermsOfConditions = (uaaConfig && uaaConfig.isTermsOfConditionsEnabled) || false;
             });
+    }
+
+    public loginWithIdp(client: IIdpClient): void {
+        const redirectUri = client.openIdConfig.authorizationEndpoint.uri;
+        const getRedirectUrl = `oauth2/authorization/${client.key}`;
+        const loc = isDevMode() ? 'https://ssp-dev.cloud.ticino.com' : location.origin; // todo: another way for backend uri
+        this.$sessionStorage.store(IDP_CLIENT, client)
+        if (redirectUri) {
+            location.href = `${loc}${this.location.prepareExternalUrl(getRedirectUrl)}`;
+        }
     }
 
     public ngAfterViewInit(): void {
@@ -91,33 +106,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.successRegistration = false;
     }
 
-    public loginSuccess(): void {
-        $('body').removeClass('xm-public-screen');
-        if (this.router.url === '/register'
-            // eslint-disable-next-line @typescript-eslint/prefer-includes
-            || ((/activate/).test(this.router.url))
-            || this.router.url === '/finishReset'
-            || this.router.url === '/requestReset') {
-            this.router.navigate(['']);
-        }
-
-        this.eventManager.broadcast({
-            name: XM_EVENT_LIST.XM_SUCCESS_AUTH,
-            content: 'Sending Authentication Success',
-        });
-
-        /*
-         * PreviousState was set in the authExpiredInterceptor before being redirected to login modal.
-         * since login is succesful, go to stored previousState and clear previousState
-         */
-        const redirect = this.stateStorageService.getUrl();
-        if (redirect) {
-            this.router.navigateByUrl(redirect);
-        } else {
-            this.router.navigate(['dashboard']);
-        }
-    }
-
     public checkOtp(): void {
         const credentials = {
             grant_type: 'tfa_otp_token',
@@ -127,7 +115,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
         this.loginService.login(credentials).then(() => {
             this.isDisabled = false;
-            this.loginSuccess();
+            this.loginService.loginSuccess();
         }).catch(() => {
             this.authenticationError = true;
             this.successRegistration = false;
@@ -165,7 +153,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
                 this.checkOTP = true;
                 this.alertService.info('login.messages.otp.notification');
             } else {
-                this.loginSuccess();
+                this.loginService.loginSuccess();
             }
         }).catch((err) => {
             const errObj = err.error || null;
