@@ -19,7 +19,7 @@ export class IdpCallbackComponent implements OnDestroy {
     ) {
         this.params = this.activeRouter.queryParams.subscribe(params => {
             if (activeRouter.snapshot.data.callbackAuth && params) {
-                this.loginService.loginWithCode(params);
+                this.loginService.loginWithIdpCallback(params);
             } else {
                 this.router.navigate(['']);
             }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
+import { IDP_CLIENT } from '../../../../src/app/xm.constants';
 
 export const REFRESH_TOKEN = 'refresh_token';
 export const AUTH_TOKEN = 'authenticationToken';
@@ -44,6 +45,8 @@ export class XmAuthenticationStoreService {
         this.sessionStorage.clear(AUTH_TOKEN);
         this.localStorage.clear(REFRESH_TOKEN);
         this.sessionStorage.clear(REFRESH_TOKEN);
+        this.localStorage.clear(IDP_CLIENT);
+        this.sessionStorage.clear(IDP_CLIENT);
     }
 
 }

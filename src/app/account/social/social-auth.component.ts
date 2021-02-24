@@ -8,8 +8,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthService, LoginComponent, LoginService, XmConfigService } from '../../shared';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { XM_EVENT_LIST } from '../../xm.constants';
-import { SessionStorageService } from 'ngx-webstorage';
-import { DOCUMENT, Location } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
+import { XmUiConfigService } from '@xm-ngx/core/config';
 
 const SOCIAL_AUTH = 'social-authentication';
 
@@ -19,10 +19,10 @@ const SOCIAL_AUTH = 'social-authentication';
 })
 export class SocialAuthComponent extends LoginComponent implements OnInit {
 
-    constructor(protected $sessionStorage: SessionStorageService,
-                protected location: Location,
+    constructor(
                 protected eventManager: XmEventManager,
                 protected xmConfigService: XmConfigService,
+                protected xmUiConfigService: XmUiConfigService,
                 protected loginService: LoginService,
                 protected stateStorageService: StateStorageService,
                 protected elementRef: ElementRef,
@@ -33,10 +33,9 @@ export class SocialAuthComponent extends LoginComponent implements OnInit {
                 protected cookieService: CookieService,
                 @Inject(DOCUMENT) protected document: Document,) {
         super(
-            $sessionStorage,
-            location,
             eventManager,
             xmConfigService,
+            xmUiConfigService,
             loginService,
             stateStorageService,
             elementRef,

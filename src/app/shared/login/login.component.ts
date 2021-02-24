@@ -1,26 +1,25 @@
-import { AfterViewInit, Component, ElementRef, Inject, Input, isDevMode, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { forkJoin, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { IDP_CLIENT, TERMS_ERROR } from '../../xm.constants';
+import { combineLatest } from 'rxjs';
+import { TERMS_ERROR } from '../../xm.constants';
 import { LoginService } from '../auth/login.service';
 import { StateStorageService } from '../auth/state-storage.service';
 import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfigService } from '../spec/config.service';
-import { IIdpClient } from '../spec';
-import { SessionStorageService } from 'ngx-webstorage';
-import { DOCUMENT, Location } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 @Component({
     selector: 'xm-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @Input() public successRegistration: boolean;
     @Input() public loginLabel: string;
@@ -42,13 +41,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
     public sendingLogin: boolean;
     public socialConfig: [];
     public checkTermsOfConditions: boolean;
-    public showIdp: boolean = false;
+    public uiConfig: XmUIConfig;
+    public isIdpDirectLoginDisabled: boolean = false;
 
     constructor(
-        protected $sessionStorage: SessionStorageService,
-        protected location: Location,
         protected eventManager: XmEventManager,
         protected xmConfigService: XmConfigService,
+        protected xmUiConfigService: XmUiConfigService,
         protected loginService: LoginService,
         protected stateStorageService: StateStorageService,
         protected elementRef: ElementRef,
@@ -63,33 +62,30 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.successRegistration = false;
     }
 
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
     public ngOnInit(): void {
         this.document.body.classList.add('xm-public-screen');
         this.isDisabled = false;
-        this.getConfigs()
-            .pipe(
-                map((c) => ({ ui: c[0], uaa: c[1] ? c[1] : null})),
-            )
-            .subscribe((config) => {
-                const uiConfig = config && config.ui;
-                const uaaConfig = config && config.uaa;
-                this.showIdp = config?.ui?.idp?.enabled;
-                this.socialConfig = uiConfig && uiConfig.social;
-                this.hideRememberMe = uiConfig.hideRememberMe ? uiConfig.hideRememberMe : false;
-                this.rememberMe = uiConfig.rememberMeActiveByDefault === true;
-                this.hideResetPasswordLink = uiConfig.hideResetPasswordLink ? uiConfig.hideResetPasswordLink : false;
+
+        combineLatest([
+            this.xmUiConfigService.config$(),
+            this.xmConfigService.getPasswordConfig(),
+        ])
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(([ui, uaa]) => {
+                this.uiConfig = ui;
+                this.isIdpDirectLoginDisabled = !this.uiConfig?.idp?.features?.directLogin?.enabled;
+                this.loginService.onIdpDirectLogin(ui);
+                const uaaConfig: string | any = uaa;
+                this.socialConfig = this.uiConfig && this.uiConfig.social;
+                this.hideRememberMe = this.uiConfig.hideRememberMe ? this.uiConfig.hideRememberMe : false;
+                this.rememberMe = this.uiConfig.rememberMeActiveByDefault === true;
+                this.hideResetPasswordLink = this.uiConfig.hideResetPasswordLink ? this.uiConfig.hideResetPasswordLink : false;
                 this.checkTermsOfConditions = (uaaConfig && uaaConfig.isTermsOfConditionsEnabled) || false;
             });
-    }
-
-    public loginWithIdp(client: IIdpClient): void {
-        const redirectUri = client.openIdConfig.authorizationEndpoint.uri;
-        const getRedirectUrl = `oauth2/authorization/${client.key}`;
-        const loc = isDevMode() ? 'https://ssp-dev.cloud.ticino.com' : location.origin; // todo: another way for backend uri
-        this.$sessionStorage.store(IDP_CLIENT, client)
-        if (redirectUri) {
-            location.href = `${loc}${this.location.prepareExternalUrl(getRedirectUrl)}`;
-        }
     }
 
     public ngAfterViewInit(): void {
@@ -188,12 +184,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
                 // Empty block
             }
         }, 500);
-    }
-
-    private getConfigs(): Observable<any> {
-        const ui = this.xmConfigService.getUiConfig();
-        const uaa = this.xmConfigService.getPasswordConfig();
-        return forkJoin([ui, uaa]);
     }
 
     private pushTermsAccepting(token: string): void {

@@ -5,13 +5,14 @@ import { map } from 'rxjs/operators';
 import { AuthServerProvider } from './auth-jwt.service';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
-// import { SessionStorageService } from 'ngx-webstorage';
+import { SessionStorageService } from 'ngx-webstorage';
 // import { IIdpClient } from '../spec';
 // import { HttpClient, HttpParams } from '@angular/common/http';
 // import { DEV_TOKEN, IDP_CLmIENT } from '../../xm.constants';
-import { DEV_TOKEN, XM_EVENT_LIST } from '../../xm.constants';
+import { DEV_TOKEN, IDP_CLIENT, XM_EVENT_LIST } from '../../xm.constants';
 import { XmEventManager } from '@xm-ngx/core';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, Location } from '@angular/common';
+import { IIdpClient, IIdpConfig } from '../../../../packages/core/src/xm-public-idp-config-model';
 
 @Injectable()
 export class LoginService {
@@ -20,10 +21,11 @@ export class LoginService {
                 private router: Router,
                 private authServerProvider: AuthServerProvider,
                 private stateStorageService: StateStorageService,
-                protected eventManager: XmEventManager,
-                @Inject(DOCUMENT) private document: Document,
-                // private $sessionStorage: SessionStorageService,
+                private $sessionStorage: SessionStorageService,
                 // private http: HttpClient,
+                protected eventManager: XmEventManager,
+                protected location: Location,
+                @Inject(DOCUMENT) private document: Document,
     ) {}
 
     public login(credentials: any, callback?: any): Promise<unknown> {
@@ -53,7 +55,27 @@ export class LoginService {
         });
     }
 
-    public loginWithCode(opt: any): void {
+    public onIdpDirectLogin(config: IIdpConfig): void {
+        const isDirectLogin = config?.idp?.enabled && config?.idp?.features?.directLogin?.enabled;
+        if (isDirectLogin) {
+            const client = this.getIdpClient({idp: config?.idp} as IIdpConfig);
+            this.$sessionStorage.store(IDP_CLIENT, client);
+            this.loginWithIdpClient(client);
+        }
+    }
+
+    public loginWithIdpClient(client: IIdpClient): void {
+        const redirectUri = client.openIdConfig.authorizationEndpoint.uri;
+        const getRedirectUrl = `oauth2/authorization/${client.key}`;
+        const devApiUri = client.devApiUri;
+        const loc = isDevMode() ? devApiUri : location.origin;
+        this.$sessionStorage.store(IDP_CLIENT, client);
+        if (redirectUri) {
+            location.href = `${loc}${this.location.prepareExternalUrl(getRedirectUrl)}`;
+        }
+    }
+
+    public loginWithIdpCallback(opt: any): void {
         // const config: IIdpClient = this.$sessionStorage.retrieve(IDP_CLIENT);
         // const params = new HttpParams({ fromObject: opt });
 
@@ -127,5 +149,12 @@ export class LoginService {
                 next(data);
             }
         });
+    }
+
+    private getIdpClient(config: IIdpConfig): IIdpClient {
+        const defaultClientKey = isDevMode() ? config?.idp?.devClientKey : config?.idp?.features?.directLogin?.defaultClientKey;
+        return defaultClientKey ?
+            config?.idp?.clients?.filter(s => s.key === defaultClientKey).shift() :
+            config?.idp?.clients[0];
     }
 }
