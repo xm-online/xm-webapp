@@ -115,7 +115,8 @@
 
       <mat-paginator [length]="totalItems"
                      [pageSizeOptions]="options.pageSizeOptions"
-                     [pageSize]="options.pageSize">
+                     [pageSize]="this.pagination.pageSize"
+                     [pageIndex]="this.pagination.pageIndex">
       </mat-paginator>
     </div>
   </div>
