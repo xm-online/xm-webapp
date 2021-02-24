@@ -35,7 +35,7 @@ export interface IOpenIdConfig {
     responseType?: string;
     additionalParams?: unknown;
     features?: unknown;
-    endSessionEndpoint: {
+    endSessionEndpoint?: {
         uri: string;
     };
     issuer?: string;

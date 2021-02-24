@@ -5,6 +5,9 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmEntitySpecWrapperService } from '@xm-ngx/entity';
 
 import { LoginService } from '../../shared';
+import { SessionStorageService } from 'ngx-webstorage';
+import { IDP_CLIENT } from '../../xm.constants';
+import { IIdpClient } from '../../../../packages/core/src/xm-public-idp-config-model';
 
 @Component({
     selector: 'xm-logout',
@@ -18,6 +21,7 @@ export class LogoutComponent implements OnInit {
         protected readonly xmEntitySpecWrapperService: XmEntitySpecWrapperService,
         protected readonly translateService: TranslateService,
         private alertService: XmAlertService,
+        private $sessionStorage: SessionStorageService,
         protected readonly route: ActivatedRoute,
         protected readonly router: Router,
     ) {
@@ -43,8 +47,14 @@ export class LogoutComponent implements OnInit {
     }
 
     public logout(): void {
+        const idpClient: IIdpClient = this.$sessionStorage.retrieve(IDP_CLIENT);
+        const idpLogoutUri = idpClient?.openIdConfig?.endSessionEndpoint?.uri;
         this.loginService.logout$().subscribe(() => {
-            this.router.navigate(['']);
+            if (idpLogoutUri) {
+                location.href = idpLogoutUri;
+            } else {
+                this.router.navigate(['']);
+            }
         });
     }
 
