@@ -22,10 +22,7 @@ interface ControlErrorsContext<T = unknown> {
     selector: '[xmControlErrors]',
 })
 export class ControlErrorsDirective implements OnChanges {
-
     @Input() public xmControlErrors: ValidationErrors | null;
-    @Input() public xmControlErrorsTranslates: { [errorKey: string]: Translate };
-
     private thenTemplateRef: TemplateRef<ControlErrorsContext>;
 
     constructor(
@@ -35,7 +32,18 @@ export class ControlErrorsDirective implements OnChanges {
         templateRef: TemplateRef<ControlErrorsContext>,
     ) {
         this.thenTemplateRef = templateRef;
-        this.xmControlErrorsTranslates = xmControlErrorsTranslates;
+        this._xmControlErrorsTranslates = xmControlErrorsTranslates || {};
+    }
+
+    private _xmControlErrorsTranslates: { [errorKey: string]: Translate };
+
+    public get xmControlErrorsTranslates(): { [p: string]: Translate } {
+        return this._xmControlErrorsTranslates;
+    }
+
+    @Input()
+    public set xmControlErrorsTranslates(value: { [p: string]: Translate }) {
+        this._xmControlErrorsTranslates = value || {};
     }
 
     public ngOnChanges(): void {

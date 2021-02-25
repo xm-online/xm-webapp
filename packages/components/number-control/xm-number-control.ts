@@ -2,16 +2,14 @@ import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
-    EventEmitter,
     Inject,
     Input,
     NgModule,
     Optional,
-    Output,
     Self,
-    ViewEncapsulation
+    ViewEncapsulation,
 } from '@angular/core';
-import { FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
@@ -67,9 +65,6 @@ const DEFAULT_OPTIONS: INumberControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmNumberControl extends NgFormAccessor<Primitive> implements IControl<Primitive, XmTextControlOptions> {
-    @Input() public control: FormControl = new FormControl();
-    @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
-
     constructor(@Optional() @Self() public ngControl: NgControl | null,
                 @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
         super(ngControl);

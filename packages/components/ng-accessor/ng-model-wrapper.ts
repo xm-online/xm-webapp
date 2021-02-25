@@ -6,6 +6,12 @@ import { ControlValueAccessor } from '@angular/forms';
  * The NgModelWrapper is used to implement ControlValueAccessor and
  * provides input and output for derived classes.
  *
+ * @remarks
+ * Example to set a connection with NgControl
+ * ```
+ * { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => YOUR_COMPONENT), multi: true },
+ * ```
+ *
  * @public
  */
 export class NgModelWrapper<T> implements ControlValueAccessor {

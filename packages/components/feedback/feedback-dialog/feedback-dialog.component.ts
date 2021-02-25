@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IFeedbackRequest } from '../feedback.service';
 
@@ -35,7 +35,7 @@ export class FeedbackDialogComponent {
 
     constructor(
         public dialogRef: MatDialogRef<FeedbackDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: IFeedbackRequest,
+        @Optional() @Inject(MAT_DIALOG_DATA) public data: IFeedbackRequest,
     ) {
         if (!data) {
             this.data = {
