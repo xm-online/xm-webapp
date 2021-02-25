@@ -6,7 +6,7 @@ export const XM_DATE_ELEMENTS: DynamicComponent[] = [
         loadChildren: () => import('./xm-date.component').then(m => m.XmDateModule),
     },
     {
-        /** @deprecated use @xm-ngx/components/date instead */
+        /** @deprecated use `@xm-ngx/components/date` instead */
         selector: '@xm-ngx/components/date-value',
         loadChildren: () => import('./xm-date.component').then(m => m.XmDateModule),
     },

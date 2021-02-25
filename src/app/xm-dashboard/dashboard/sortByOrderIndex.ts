@@ -8,8 +8,6 @@ export function sortByOrderIndex(arr: DashboardWidget[]): DashboardWidget[] {
 
 /**
  * Sort widgets by optional orderIndex field in widget.config
- * @param itemA
- * @param itemB
  */
 export function swapByOrderIndex(itemA: WidgetWithConfig, itemB: WidgetWithConfig): number {
     const aIndex = getOrderIndex(itemA.config ? itemA.config : {});

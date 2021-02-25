@@ -7,7 +7,7 @@ export const XM_TEXT_CONTROL_ELEMENTS: DynamicComponent[] = [
         loadChildren: () => import('@xm-ngx/components/text').then(m => XmTextControlModule),
     },
     {
-        /** @deprecated use @xm-ngx/components/text-control instead */
+        /** @deprecated use `@xm-ngx/components/text-control` instead */
         selector: '@xm-ngx/components/xm-text-control',
         loadChildren: () => import('@xm-ngx/components/text').then(m => XmTextControlModule),
     },

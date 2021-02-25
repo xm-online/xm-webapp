@@ -31,7 +31,7 @@ export class ExchangeWidgetComponent implements OnInit {
         this.financeService.getRates(this.currency.from, this.currency.to).subscribe((result) => {
             this.currency.rates = [...result];
 
-            // TODO change to the mat-select
+            // TODO: change to the mat-select
             setTimeout(() => $('.selectpicker').selectpicker('refresh'), 50);
         });
     }

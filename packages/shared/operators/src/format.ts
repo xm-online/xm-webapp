@@ -13,6 +13,7 @@ import * as _ from 'lodash';
  *
  *
  * @example
+ * ```
  * const template = {
  *    entity: 'Some text',
  *    body: {
@@ -36,7 +37,7 @@ import * as _ from 'lodash';
  * //        },
  * //    },
  * // };
- *
+ * ```
  * @alpha
  */
 export function format<T>(template: object | unknown, entity: unknown): T {

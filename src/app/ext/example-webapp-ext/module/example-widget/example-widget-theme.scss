@@ -2,7 +2,7 @@
  * Creating a mixin for the widget theming.
  * Each theme will create styles with custom colors.
  *
- * @params $theme is the $xm-theme located in packages\styles\src\theme\_theme.scss
+ * @param $theme is the $xm-theme located in packages\styles\src\theme\_theme.scss
  *    with custom overrides(your prebuild themes).
  */
 @mixin example-widget-theme($theme) {
