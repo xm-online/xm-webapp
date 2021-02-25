@@ -1,0 +1,7 @@
+@mixin xm-navbar-guest-background-theme($theme) {
+  $surface: map-get($theme, surface);
+
+  .xmGuestBackground-active {
+    background: $surface;
+  }
+}

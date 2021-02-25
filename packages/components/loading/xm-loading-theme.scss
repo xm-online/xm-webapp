@@ -1,0 +1,30 @@
+@mixin xm-loading-border-color($theme, $prop) {
+  &:after {
+    $xm-color:    map-get($theme, $prop);
+    border-color: $xm-color transparent $xm-color transparent;
+  }
+}
+
+@mixin xm-loading-theme($theme) {
+
+  .xm-loading-active {
+    @include xm-loading-border-color($theme, on-surface);
+  }
+
+  .xm-loading-active.mat-unthemed {
+    @include xm-loading-border-color($theme, on-surface);
+  }
+
+  .xm-loading-active.mat-primary {
+    @include xm-loading-border-color($theme, primary);
+  }
+
+  .xm-loading-active.mat-accent {
+    @include xm-loading-border-color($theme, secondary);
+  }
+
+  .xm-loading-active.mat-warn {
+    @include xm-loading-border-color($theme, warn);
+  }
+
+}

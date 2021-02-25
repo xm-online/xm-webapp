@@ -1,0 +1,7 @@
+@mixin xm-sidebar-right-theme($theme) {
+  $surface: map-get($theme, surface);
+
+  .xm-sidebar-right {
+    background: $surface;
+  }
+}
