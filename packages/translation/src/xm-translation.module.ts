@@ -38,7 +38,9 @@ export class XmTranslationModule {
                 {
                     provide: LOCALE_ID,
                     deps: [LanguageService],
-                    useFactory: (LocaleService: LanguageService) => LocaleService.locale,
+                    useFactory(LocaleService: LanguageService) {
+                        return LocaleService.locale;
+                    },
                 },
                 LanguageService,
             ],
