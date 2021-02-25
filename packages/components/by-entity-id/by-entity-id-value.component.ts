@@ -66,7 +66,8 @@ export class ByEntityIdValueComponent
      * Loads an entity with the {@link ByEntityIdValueComponent.value} id
      * from the {@link ByEntityIdValueComponent.options.resourceUrl} api
      * and get the value from the loaded entity by the {@link ByEntityIdValueComponent.options.entityField} field.
-     * @protected
+     *
+     * @internal
      */
     protected update(): void {
         if (this.value) {

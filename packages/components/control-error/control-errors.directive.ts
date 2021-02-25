@@ -10,11 +10,13 @@ interface ControlErrorsContext<T = unknown> {
 }
 
 /**
+ * Returns the matched error message with the provided error key
  * @example
- *
- *  myControl = new FormControl(null, Validators.required);
+ * ```
+ * // Result: <mat-error>xm-control-errors.validators.required</mat-error>
+ * myControl = new FormControl(null, Validators.required);
  * <mat-error *xmControlErrors="myControl.errors; message as message">{{message}}</mat-error>
- *  // Result: <mat-error>xm-control-errors.validators.required</mat-error>
+ * ```
  */
 @Directive({
     selector: '[xmControlErrors]',

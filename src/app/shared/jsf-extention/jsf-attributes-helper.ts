@@ -49,8 +49,8 @@ export const getJsfWidgets = () => {
 
 /**
  * JSON Scheme Form attributes builder.
- * @param spec JSON schema
- * @param form From details data could be in different structure
+ * @param spec - JSON schema
+ * @param form - From details data could be in different structure
  */
 export const buildJsfAttributes = (spec: any, form: any) => {
     const input = {dataSpec: interpolate(spec), dataForm: interpolate(form)};

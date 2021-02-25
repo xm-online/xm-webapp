@@ -6,7 +6,7 @@ export const XM_TEXT_RANGE_ELEMENTS: DynamicComponent[] = [
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextRangeControlModule),
     },
     {
-        /** @deprecated use @xm-ngx/components/text-range-control instead */
+        /** @deprecated use `@xm-ngx/components/text-range-control` instead */
         selector: '@xm-ngx/components/text-range',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextRangeControlModule),
     },

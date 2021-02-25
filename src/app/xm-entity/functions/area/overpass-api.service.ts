@@ -8,15 +8,15 @@ export class OverpassApiService {
     public OVERPASS_API_URL: string = 'https://www.overpass-api.de';
 
     /**
-     * @param {Object} http angular http service
+     * @param http - `{Object}` angular http service
      */
     constructor(private http: HttpClient) {
     }
 
     /**
-     * @param {Object/String} query
+     * @param query - `{Object/String}`
      * http://wiki.openstreetmap.org/wiki/FR:Overpass_API
-     * @return {Observable} http.get
+     * @returns `{Observable}` http.get
      */
     public overpass(query: string): Observable<any> {
         return this.http.get(this.OVERPASS_API_URL + '/api/interpreter?data=' + query);
@@ -24,8 +24,8 @@ export class OverpassApiService {
 
     /**
      * Returns list with OSM objects by start term of name and where type is boundary
-     * @param {String} name
-     * @return {Observable} http.get
+     * @param name - {@link String}
+     * @returns {@link Observable} http.get
      */
     public getBoundariesByName(name: string): Observable<any> {
         return this.overpass(`[out:json];rel[~"name"~"^${name}",i]["type"="boundary"];out body;`);
@@ -33,8 +33,8 @@ export class OverpassApiService {
 
     /**
      * Returns geometry for the relation by OSM Id
-     * @param {String} osmId
-     * @return {Observable} http.get
+     * @param osmId - `{String}`
+     * @returns `{Observable}` http.get
      */
     public getRelGeom(osmId: string): Observable<any> {
         return this.overpass(`[out:json];rel(${osmId});out geom;`);

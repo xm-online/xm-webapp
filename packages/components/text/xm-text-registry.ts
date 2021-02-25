@@ -16,7 +16,7 @@ export const XM_TEXT_ELEMENTS: DynamicComponent[] = [
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextModule),
     },
     {
-        /** @deprecated use @xm-ngx/components/text instead */
+        /** @deprecated use `@xm-ngx/components/text` instead */
         selector: '@xm-ngx/components/text-value',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextModule),
     },
@@ -26,7 +26,7 @@ export const XM_TEXT_ELEMENTS: DynamicComponent[] = [
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextJoinModule),
     },
     {
-        /** @deprecated use @xm-ngx/components/text-join-value instead */
+        /** @deprecated use `@xm-ngx/components/text-join-value` instead */
         selector: '@xm-ngx/components/text-join-value',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextJoinModule),
     },
@@ -36,7 +36,7 @@ export const XM_TEXT_ELEMENTS: DynamicComponent[] = [
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextViewModule),
     },
     {
-        /** @deprecated use @xm-ngx/components/text-view instead */
+        /** @deprecated use `@xm-ngx/components/text-view` instead */
         selector: '@xm-ngx/components/xm-text-view',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextViewModule),
     },

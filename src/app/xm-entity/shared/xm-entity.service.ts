@@ -93,7 +93,7 @@ export class XmEntityService {
 
     /**
      *  Template  (sting) - a template identifier from the search-templates.yml.
-     *  templateParams ([]|{}) - a named parameters for the template.
+     *  templateParams `([]|{})` - a named parameters for the template.
      */
     public searchByTemplate<T extends XmEntity>(req?: any): Observable<HttpResponse<XmEntity[]>> {
         const options = createRequestOption(req);

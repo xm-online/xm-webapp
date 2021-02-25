@@ -3,10 +3,10 @@ import { Subscription } from 'rxjs';
 import { Principal } from '../auth/principal.service';
 
 /**
- * @whatItDoes Conditionally includes an HTML element if current user has any
+ * Conditionally includes an HTML element if current user has any
  * of the authorities passed as the `expression`.
  *
- * @howToUse
+ * @example
  * ```
  *     <some-element *permitted="'RATING.UPDATE'">...</some-element>
  *

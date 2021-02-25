@@ -4,7 +4,9 @@ import { DynamicBase, IComponent, IComponentFn } from './dynamic-base';
 /**
  * DynamicComponent creates a component from the DynamicLoader
  * @example
+ * ```
  * <ng-template xmDynamicView [selector]="'@xm-ngx/components/xm-bool-view'" [value]="false"></ng-template>
+ * ```
  */
 @Directive({
     selector: '[xmDynamicView]',
