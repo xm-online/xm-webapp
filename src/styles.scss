@@ -19,21 +19,20 @@ $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 @include xm-vendor-xm-override();
 
 // Components
+@import 'packages/components/components-styles';
+@import 'packages/components/components-themes';
 @import '~@xm-ngx/styles/src/_loader-dizabled-container.scss';
-@import 'packages/components/loader/loader.component';
 @import 'packages/xm-alert/alert';
-@import 'packages/components/loading/loading';
-@import 'packages/components/text/xm-text-theme';
-@include xm-loading-theme($xm-theme);
-@include xm-text-theme($xm-theme);
 
 @import 'src/app/layouts/main/main-theme';
 @import 'src/app/modules/xm-sidebar/sidebar-theme';
-@import 'packages/components/xm-sidebar-right/sidebar-right-theme';
 @import 'src/app/layouts/navbar/_navbar-theme.scss';
 // increase css priority with xm-body class
 .xm-body {
   @include xm-sidebar-theme($xm-theme);
+  @include xm-components-theme($xm-theme);
+  @include xm-alert-theme($xm-theme);
+
 }
 @include xm-layout-sidebar-with-mini($xm-theme);
 @include xm-navbar($xm-theme);

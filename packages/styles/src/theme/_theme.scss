@@ -107,6 +107,9 @@ $xm-theme:                    (
                                 on-surface: $xm-text-on-success,
                                 // Background
                                 background: $xm-background,
+                                // Text
                                 text: $xm-text,
                                 text-light: $xm-text-light,
+                                // Divider
+                                divider: $xm-divider,
                               ) !default;
