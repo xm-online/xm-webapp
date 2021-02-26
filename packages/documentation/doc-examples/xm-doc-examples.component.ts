@@ -12,7 +12,7 @@ import { DOC_EXAMPLES, DocsExample } from './xm-doc-examples';
     templateUrl: './xm-doc-examples.component.html',
 })
 export class XmDocExamplesComponent implements OnDestroy {
-    public active: DocsExample;
+    public active: DocsExample | null = null;
     public inputValue$: Subject<string> = new Subject();
     public components$: Observable<DocsExample[]>;
 
@@ -31,7 +31,12 @@ export class XmDocExamplesComponent implements OnDestroy {
                 return _.filter(components, (component) => component.exampleDocHtml.toLowerCase().includes(input.toLowerCase()));
             }),
             tap((components) => {
-                if (this.active) {
+                if (!components?.length) {
+                    return;
+                }
+
+                if (this.active !== null) {
+                    this.setActive(components[0]);
                     return;
                 }
 
