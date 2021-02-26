@@ -14,10 +14,12 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnDestroy
         super(ngControl);
         if (this.ngControl instanceof FormControlDirective && this.ngControl.control) {
             this.control = this.ngControl.control;
+        } else {
+            this.control = new FormControl();
         }
     }
 
-    protected _control: FormControl = new FormControl();
+    protected _control: FormControl;
 
     public get control(): FormControl {
         return this._control;
