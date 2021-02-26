@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { IControl } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 
-export interface XmCheckboxControlOptions {
+export interface XmCheckboxControlOptions extends DataQa {
     title?: Translate;
     id?: string;
-    dataQa?: string;
 }
 
 const XM_CHECKBOX_CONTROL_DEFAULT_OPTIONS: XmCheckboxControlOptions = {

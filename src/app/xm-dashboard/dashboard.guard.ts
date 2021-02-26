@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, UrlTree } from '@angular/router';
+import { environment } from '@xm-ngx/core/environment';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { environment } from '@xm-ngx/core/environment';
 import { DashboardWrapperService } from './shared/dashboard-wrapper.service';
 import { DefaultDashboardService } from './shared/default-dashboard.service';
 
@@ -31,6 +31,10 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
             switchMap((available) => {
                 if (available) {
                     return of(available);
+                } else if (idOrSlug) {
+                    console.warn(`The dashboard by the "${idOrSlug}" slag is not available. `
+                        + 'A probable reason for this is an active user don\'t have the permission '
+                        + 'or this dashboard do not exist.');
                 }
                 return this.getFirstAvailableDashboard();
             }));
@@ -43,7 +47,7 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
     private getFirstAvailableDashboard(): Observable<UrlTree> {
         return this.defaultDashboardService.getDefaultOrFirstAvailable().pipe(
             map((d) => {
-                const newUrl = d ? `/dashboard/${d.config?.slug || d.id}`: environment.notFoundUrl;
+                const newUrl = d ? `/dashboard/${d.config?.slug || d.id}` : environment.notFoundUrl;
                 console.info(`DashboardGuard redirect to ${newUrl}`);
                 return this.router.parseUrl(newUrl);
             }),

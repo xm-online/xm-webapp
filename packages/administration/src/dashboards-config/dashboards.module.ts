@@ -8,6 +8,7 @@ import { XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
 import { BoolValueModule } from '@xm-ngx/components/bool';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmDocExamplesModule } from '../../../documentation/doc-examples/xm-doc-examples.module';
 
 import { DashboardEditComponent } from './dashboard-edit/dashboard-edit.component';
 import { DashboardsConfigComponent } from './dashboards-config.component';
@@ -19,16 +20,17 @@ import { EDIT_WIDGET_EVENT, WidgetEditComponent } from './widget-edit/widget-edi
 import { SelectorTextControlComponent } from './widget-edit/selector-text-control/selector-text-control.component';
 
 @NgModule({
-    imports: [
-        XmTranslationModule,
-        CommonModule,
-        XmSharedModule,
-        LoaderModule,
-        BoolValueModule,
-        XmAceEditorControlModule,
-        XmTextControlModule,
-        RouterModule,
-    ],
+  imports: [
+    XmTranslationModule,
+    CommonModule,
+    XmSharedModule,
+    LoaderModule,
+    BoolValueModule,
+    XmAceEditorControlModule,
+    XmTextControlModule,
+    RouterModule,
+    XmDocExamplesModule,
+  ],
     exports: [
         DashboardsConfigComponent,
         DashboardEditComponent,
