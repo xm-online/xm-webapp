@@ -40,7 +40,7 @@ export class CanvasWithParticlesComponent implements OnInit, OnDestroy {
         const canvasHeight = canvas.height = window.innerHeight;
         const ctx = canvas.getContext('2d');
         const lineTrailParticles = this.lineTrailParticles = new LineTrailParticles(ctx, {
-            ...this.options.lineTrailOptions,
+            ...this.options?.lineTrailOptions,
             canvasHeight,
             canvasWidth,
         });

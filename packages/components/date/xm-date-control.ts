@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { IControl, IControlFn, DynamicModule } from '@xm-ngx/dynamic';
+import { DynamicModule, IControl, IControlFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
 
@@ -51,7 +51,6 @@ export interface XmDateControlOptions {
 })
 export class XmDateControl extends NgFormAccessor<XmDateValue> {
     @Input() public options: XmDateControlOptions;
-    @Input() public control: FormControl = new FormControl();
 }
 
 @NgModule({

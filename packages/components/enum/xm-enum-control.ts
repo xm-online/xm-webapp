@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { IControl, IControlFn } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 import * as _ from 'lodash';
-import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 export interface EnumControlOptions {
     id?: string;
@@ -55,8 +55,6 @@ const DEFAULT: EnumControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmEnumControl extends NgFormAccessor<string> implements IControl<string, EnumControlOptions> {
-    @Input() public control: FormControl = new FormControl();
-
     public _list: EnumOption[];
     private _options: EnumControlOptions;
 

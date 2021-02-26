@@ -13,4 +13,5 @@ script:
   - npm run lint
   - npm run build-aot
   #  - TODO: remove include
+  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox --include="packages/components"
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox --include="packages/dynamic"

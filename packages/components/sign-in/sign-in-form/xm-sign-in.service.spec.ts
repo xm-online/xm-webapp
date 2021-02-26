@@ -6,7 +6,9 @@ describe('XmSignInService', () => {
     let service: SignInService;
 
     beforeEach(() => {
-        TestBed.configureTestingModule({});
+        TestBed.configureTestingModule({
+            providers: [SignInService],
+        });
         service = TestBed.inject(SignInService);
     });
 

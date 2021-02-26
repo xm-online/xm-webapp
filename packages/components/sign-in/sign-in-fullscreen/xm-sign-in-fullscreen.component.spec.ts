@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { XmSignInFullscreenComponent } from './xm-sign-in-fullscreen.component';
@@ -9,6 +10,7 @@ describe('SignInFullscreenComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [XmSignInFullscreenComponent],
+            schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();
     }));
