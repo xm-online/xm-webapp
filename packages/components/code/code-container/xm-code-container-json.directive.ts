@@ -1,5 +1,5 @@
 import { Directive, Input, NgModule, Self } from '@angular/core';
-import { XmCodeContainerComponent } from '@xm-ngx/components/code';
+import { XmCodeContainerComponent } from './xm-code-container.component';
 
 @Directive({ selector: '[xmCodeContainerJson]' })
 export class XmCodeContainerJsonDirective {
