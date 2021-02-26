@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { DataQa } from '@xm-ngx/shared/interfaces';
 import { clone, defaults } from 'lodash';
 
-export interface XmImageOptions {
+export interface XmImageOptions extends DataQa {
     alt?: string;
     imageClass?: string;
     imageStyle?: string;
-    dataQa?: string;
 }
 
 export const XM_IMAGE_OPTIONS_DEFAULT: XmImageOptions = {
