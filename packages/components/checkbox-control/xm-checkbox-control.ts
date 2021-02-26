@@ -20,7 +20,7 @@ const XM_CHECKBOX_CONTROL_DEFAULT_OPTIONS: XmCheckboxControlOptions = {
     selector: 'xm-checkbox-control',
     template: `
         <mat-checkbox [formControl]="control"
-                      [attr.data-qa]=" options.dataQa"
+                      [attr.data-qa]="options.dataQa"
                       [id]="options.id"
                       [checked]="value">
             {{options.title | translate}}

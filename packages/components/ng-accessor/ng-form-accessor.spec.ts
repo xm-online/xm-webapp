@@ -1,7 +1,7 @@
 import { FormControl, FormControlDirective } from '@angular/forms';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor/ng-form-accessor';
 
-xdescribe('NgFormAccessor', () => {
+describe('NgFormAccessor', () => {
     describe('constructor', () => {
         it('should create', () => {
             const directive = new NgFormAccessor(null);
@@ -14,9 +14,9 @@ xdescribe('NgFormAccessor', () => {
             const spy = spyOnProperty(ngControl, 'control').and.returnValue(control);
             const directive = new NgFormAccessor(ngControl);
             expect(directive).toBeTruthy();
-            expect(spy).toHaveBeenCalled();
             expect(ngControl.valueAccessor).toEqual(directive);
-            expect(ngControl.control).toEqual(directive.control);
+            expect(spy).not.toHaveBeenCalled();
+            expect(ngControl.control).not.toEqual(directive.control);
         });
     });
 

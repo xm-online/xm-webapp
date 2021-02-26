@@ -32,7 +32,7 @@ const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
                       [id]="options.id"
                       [required]="options.required"
                       [attr.maxlength]="options.maxLength"
-                      [attr.data-qa]=" options.dataQa"
+                      [attr.data-qa]="options.dataQa"
                       [rows]="options.rows || 4"
                       [formControl]="control"
                       matInput>

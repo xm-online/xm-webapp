@@ -6,7 +6,7 @@ export class XmCodeContainerJsonDirective {
     constructor(@Self() private xmCodeContainerComponent: XmCodeContainerComponent) {
     }
 
-    private _isFormatted: boolean = false;
+    private _isFormatted: boolean = true;
 
     public get isFormatted(): boolean {
         return this._isFormatted;
