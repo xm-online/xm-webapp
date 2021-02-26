@@ -52,6 +52,7 @@ export class XmTextExampleComponent {
         placeholder: { en: 'Write your text here...' },
         title: { en: 'Text range' },
         rows: 3,
+        dataQa: 'text-range-control',
         maxLength: 350,
     };
 

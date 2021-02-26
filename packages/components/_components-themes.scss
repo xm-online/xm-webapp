@@ -2,6 +2,7 @@
 @import 'navbar-guest-background/xm-navbar-guest-background-theme';
 @import 'loading/xm-loading-theme';
 @import 'text/xm-text-theme';
+@import 'code/xm-code-theme';
 @import 'xm-multilanguage/xm-angular-editor-theme';
 
 @mixin xm-components-theme($xm-theme) {
@@ -10,4 +11,5 @@
   @include xm-navbar-guest-background-theme($xm-theme);
   @include xm-loading-theme($xm-theme);
   @include xm-text-theme($xm-theme);
+  @include xm-code-theme($xm-theme);
 }
