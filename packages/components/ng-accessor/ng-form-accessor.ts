@@ -1,5 +1,5 @@
-import { Directive, Input, OnDestroy, Optional, Self } from '@angular/core';
-import { FormControl, FormControlDirective, NgControl } from '@angular/forms';
+import { Directive, Input, OnDestroy, OnInit, Optional, Self } from '@angular/core';
+import { FormControl, FormControlDirective, FormControlName, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NgControlAccessor } from './ng-control-accessor';
 
@@ -7,16 +7,12 @@ import { NgControlAccessor } from './ng-control-accessor';
 /**
  * @beta
  */
-export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnDestroy {
+export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, OnDestroy {
     private valueSubscription: Subscription;
 
     constructor(@Optional() @Self() public ngControl: NgControl) {
         super(ngControl);
-        if (this.ngControl instanceof FormControlDirective && this.ngControl.control) {
-            this.control = this.ngControl.control;
-        } else {
-            this.control = new FormControl();
-        }
+        this.control = new FormControl();
     }
 
     protected _control: FormControl;
@@ -85,6 +81,17 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnDestroy
         this.value = value;
         this._onChange(value);
         this.valueChange.next(value);
+    }
+
+    /**
+     * @remarks
+     * FormControlDirective initialized after NgFormAccessor
+     */
+    public ngOnInit(): void {
+        if ((this.ngControl instanceof FormControlDirective || this.ngControl instanceof FormControlName)
+            && this.ngControl.control) {
+            this._control = this.ngControl.control;
+        }
     }
 
     /**

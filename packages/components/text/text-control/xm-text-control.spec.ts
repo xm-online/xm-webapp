@@ -8,7 +8,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmTranslationTestingModule } from '@xm-ngx/translation';
 import { XmTextControl } from './xm-text-control';
 
-xdescribe('XmTextControl', () => {
+describe('XmTextControl', () => {
     let component: XmTextControl;
     let fixture: ComponentFixture<XmTextControl>;
 

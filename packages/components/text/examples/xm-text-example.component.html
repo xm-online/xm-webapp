@@ -43,3 +43,33 @@
   <div>xm-labeled-view-container</div>
   <xm-labeled-view-container [options]="{title: { en: 'Label text' }}">text</xm-labeled-view-container>
 </xm-code-container>
+
+<h3>ng-accessor</h3>
+
+<h6>value - {{ngModelValue}}</h6>
+<xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-control', options: textControlOptions}">
+  <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
+  <xm-text-control [value]="'test'"
+                   (valueChange)="ngModelValue = $event"
+                   [options]="textControlOptions"></xm-text-control>
+</xm-code-container>
+
+<h6>ngModel - {{ngModelValue}}</h6>
+<xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-control', options: textControlOptions}">
+  <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
+  <xm-text-control [(ngModel)]="ngModelValue" [options]="textControlOptions"></xm-text-control>
+</xm-code-container>
+
+<h6>formControl({{formControl.status}}) - {{formControl.value}}</h6>
+<xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-control', options: textControlOptions}">
+  <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
+  <xm-text-control [formControl]="formControl" [options]="textControlOptions"></xm-text-control>
+</xm-code-container>
+
+<h6>formGroup({{formGroup.status}}) - {{formGroup.value | json}}</h6>
+<form [formGroup]="formGroup">
+  <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-control', options: textControlOptions}">
+    <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
+    <xm-text-control formControlName="control" [options]="textControlOptions"></xm-text-control>
+  </xm-code-container>
+</form>

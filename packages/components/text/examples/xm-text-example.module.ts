@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { XmCodeContainerModule, XmCodeModule } from '@xm-ngx/components/code';
 import {
-  XmEmailControlModule, XmLabeledViewContainerModule,
-  XmPasswordControlModule,
-  XmTextControlModule,
-  XmTextDynamicViewModule,
-  XmTextJoinModule,
-  XmTextModule,
-  XmTextRangeControlModule,
-  XmTextViewModule,
+    XmEmailControlModule,
+    XmLabeledViewContainerModule,
+    XmPasswordControlModule,
+    XmTextControlModule,
+    XmTextDynamicViewModule,
+    XmTextJoinModule,
+    XmTextModule,
+    XmTextRangeControlModule,
+    XmTextViewModule,
 } from '@xm-ngx/components/text';
 
 import { XmTextExampleComponent } from './xm-text-example.component';
@@ -32,6 +33,7 @@ import { XmTextExampleComponent } from './xm-text-example.component';
         XmLabeledViewContainerModule,
         ReactiveFormsModule,
         XmCodeContainerModule,
+        FormsModule,
     ],
 })
 export class XmTextExampleModule {

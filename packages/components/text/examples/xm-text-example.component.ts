@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
     XmEmailControlOptions,
     XmPasswordControlOptions,
@@ -70,4 +71,10 @@ export class XmTextExampleComponent {
         options: null,
         selector: '@xm-ngx/components/text',
     };
+
+    public ngModelValue: string = 'test';
+    public formControl: FormControl = new FormControl('12345', Validators.pattern(/^\d+$/));
+    public formGroup: FormGroup = new FormGroup({
+        control: new FormControl('12345', Validators.pattern(/^\d+$/)),
+    });
 }
