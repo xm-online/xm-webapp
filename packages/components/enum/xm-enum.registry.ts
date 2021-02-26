@@ -20,6 +20,7 @@ export const XM_ENUM_ELEMENTS: DynamicComponent[] = [
         selector: '@xm-ngx/components/xm-enum-view',
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumViewModule),
     },
+
     {
         selector: '@xm-ngx/components/enum-control',
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlModule),
