@@ -5,7 +5,7 @@ import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 
-export interface XmCheckboxControlOptions extends DataQa{
+export interface XmCheckboxControlOptions extends DataQa {
     title?: Translate;
     id?: string;
 }

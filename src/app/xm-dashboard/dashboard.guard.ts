@@ -33,8 +33,8 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
                     return of(available);
                 } else if (idOrSlug) {
                     console.warn(`The dashboard by the "${idOrSlug}" slag is not available. `
-                        + `A probable reason for this is an active user don't have the permission `
-                        + `or this dashboard do not exist.`);
+                        + 'A probable reason for this is an active user don\'t have the permission '
+                        + 'or this dashboard do not exist.');
                 }
                 return this.getFirstAvailableDashboard();
             }));

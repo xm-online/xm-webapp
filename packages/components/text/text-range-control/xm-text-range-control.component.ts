@@ -4,7 +4,7 @@ import { DataQa } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 
-export interface XmTextRangeControlOptions extends DataQa{
+export interface XmTextRangeControlOptions extends DataQa {
     title?: Translate;
     placeholder?: Translate;
     required?: boolean;
