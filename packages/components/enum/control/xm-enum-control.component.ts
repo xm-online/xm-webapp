@@ -35,7 +35,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
             <mat-select [formControl]="control"
                         [required]="options.required"
                         [id]="options.id"
-                        [attr.data-qa]=" options.dataQa"
+                        [attr.data-qa]="options.dataQa"
                         [placeholder]="options?.title | translate">
                 <mat-select-trigger>
                     <ng-container *ngIf="value && itemsMap[value]">

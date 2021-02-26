@@ -17,11 +17,13 @@ export class XmTextExampleComponent {
 
     public emailControlOptions: XmEmailControlOptions = {
         id: 'email-id',
+        dataQa: 'email-example-control',
         title: { en: 'Email control' },
     };
 
     public passwordControlOptions: XmPasswordControlOptions = {
         id: 'password-id',
+        dataQa: 'password-example-control',
         title: { en: 'Password control' },
     };
 
@@ -29,7 +31,7 @@ export class XmTextExampleComponent {
         id: 'unique-id',
         placeholder: { en: 'Placeholder...' },
         title: { en: 'Text Control' },
-        dataQa: 'example-control',
+        dataQa: 'text-example-control',
         maxLength: 30,
     };
 
@@ -52,7 +54,7 @@ export class XmTextExampleComponent {
         placeholder: { en: 'Write your text here...' },
         title: { en: 'Text range' },
         rows: 3,
-        dataQa: 'text-range-control',
+        dataQa: 'text-range-example-control',
         maxLength: 350,
     };
 
