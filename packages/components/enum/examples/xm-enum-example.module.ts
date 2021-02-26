@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { XmCodeContainerModule, XmCodeModule } from '@xm-ngx/components/code';
 import { XmEnumControlModule, XmEnumModule, XmEnumViewModule } from '@xm-ngx/components/enum';
-import { XmEnumExampleComponent } from './xm-Enum-example.component';
+import { XmEnumExampleComponent } from './xm-enum-example.component';
 
 
 @NgModule({
