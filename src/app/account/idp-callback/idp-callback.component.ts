@@ -4,6 +4,7 @@ import { LoginService } from '@xm-ngx/core/auth';
 import { combineLatest } from 'rxjs';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'xm-idp-callback',
@@ -22,6 +23,7 @@ export class IdpCallbackComponent implements OnDestroy {
             this.xmUiConfigService.config$(),
         ).pipe(
             takeUntilOnDestroy(this),
+            take(1),
         ).subscribe(([params, config]) => {
             if (activeRouter.snapshot.data.callbackAuth && params && config?.idp?.enabled) {
                 this.loginService.loginWithIdpCallback(params);

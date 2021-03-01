@@ -13,6 +13,7 @@ import { XmConfigService } from '../spec/config.service';
 import { DOCUMENT } from '@angular/common';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { take } from 'rxjs/operators';
 
 @Component({
     selector: 'xm-login',
@@ -74,7 +75,10 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
             this.xmUiConfigService.config$(),
             this.xmConfigService.getPasswordConfig(),
         ])
-            .pipe(takeUntilOnDestroy(this))
+            .pipe(
+                takeUntilOnDestroy(this),
+                take(1),
+            )
             .subscribe(([ui, uaa]) => {
                 this.uiConfig = ui;
                 this.isIdpDirectLoginDisabled = !this.uiConfig?.idp?.features?.directLogin?.enabled;
