@@ -1,3 +1,4 @@
+import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/array-control';
 import { XM_COPY_ELEMENTS } from '@xm-ngx/components/copy';
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/date';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/html';
@@ -13,6 +14,7 @@ export const XM_ELEMENTS: DynamicComponents = [
     ...XM_COPY_ELEMENTS,
     ...XM_LINK_ELEMENTS,
     ...XM_ENUM_ELEMENTS,
+    ...XM_ARRAY_ELEMENTS,
     {
         selector: '@xm-ngx/administration/audits',
         loadChildren: () => import('@xm-ngx/administration/audits').then(m => m.AuditsModule),

@@ -107,6 +107,31 @@ describe('NgFormAccessorUI', () => {
             expect(child.value).toBe(newValue);
             expect(spy).not.toHaveBeenCalled();
         }));
+
+        it('new value via child.control triggers ngModel two-way binging', fakeAsync(() => {
+            const value = 'value';
+            const newValue = 'newValue';
+            const template = '<test-accessor [(ngModel)]="testValue"></test-accessor>';
+            const fixture = createTestComponent(template);
+
+            const container = fixture.componentInstance;
+            fixture.detectChanges();
+            const child = fixture.componentInstance.child;
+            const spy = spyOn(child.valueChange, 'emit');
+
+            fixture.detectChanges();
+            child.control.setValue(value);
+            child.control.patchValue(value);
+            expect(child.value).toBe(value);
+            expect(container.testValue).toBe(value);
+            expect(spy).toHaveBeenCalled();
+
+            child.control.patchValue(newValue);
+            fixture.detectChanges();
+            expect(child.value).toBe(newValue);
+            expect(container.testValue).toBe(newValue);
+            expect(spy).toHaveBeenCalled();
+        }));
     });
 
     describe('formControl', () => {

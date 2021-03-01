@@ -1,3 +1,4 @@
+import { fakeAsync } from '@angular/core/testing';
 import { FormControl, FormControlDirective } from '@angular/forms';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor/ng-form-accessor';
 
@@ -18,6 +19,50 @@ describe('NgFormAccessor', () => {
             expect(spy).not.toHaveBeenCalled();
             expect(ngControl.control).not.toEqual(directive.control);
         });
+
+
+    });
+    describe('FormControlDirective passes FormControl via constructor', () => {
+        it('change() sets value to FormControl and emits valueChange', () => {
+            const newValue = 'newValue';
+            const control = new FormControl();
+            const controlDirective = new FormControlDirective(null, null, null, null);
+            spyOnProperty(controlDirective, 'control', 'get').and.returnValue(control);
+
+            const directive = new NgFormAccessor(controlDirective);
+            directive.ngOnInit();
+
+            directive.valueChange.subscribe((v) => {
+                expect(v).toEqual(newValue);
+            });
+            const spy = spyOn(directive.valueChange, 'emit');
+
+            directive.change(newValue);
+            expect(spy).toHaveBeenCalled();
+
+            expect(directive.value).toEqual(newValue);
+            expect(control.value).toEqual(newValue);
+        });
+
+        it('FormControl valueChange triggers writeValue() and not emits valueChange', fakeAsync(() => {
+            const newValue = 'newValue';
+            const control = new FormControl();
+            const controlDirective = new FormControlDirective(null, null, null, null);
+            spyOnProperty(controlDirective, 'control', 'get').and.returnValue(control);
+
+            const directive = new NgFormAccessor(controlDirective);
+            directive.ngOnInit();
+
+            const spy = spyOn(directive.valueChange, 'emit');
+            const spy2 = spyOn(directive, 'writeValue');
+
+            control.patchValue(newValue);
+
+            expect(spy2).toHaveBeenCalled();
+            expect(spy).not.toHaveBeenCalled();
+            expect(control.value).toEqual(newValue);
+            expect(directive.value).toEqual(newValue);
+        }));
     });
 
     describe('control', () => {

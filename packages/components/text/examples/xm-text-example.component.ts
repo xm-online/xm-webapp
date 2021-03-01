@@ -62,6 +62,7 @@ export class XmTextExampleComponent {
     public textViewOptions: XmTextViewOptions = {
         title: { en: 'Text view' },
         emptyValue: 'Empty',
+        dataQa: 'text-view',
         style: 'inline',
     };
 

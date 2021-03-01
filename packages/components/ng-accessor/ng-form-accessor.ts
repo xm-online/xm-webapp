@@ -10,9 +10,11 @@ import { NgControlAccessor } from './ng-control-accessor';
 export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, OnDestroy {
     private valueSubscription: Subscription;
 
+    private defaultControl: FormControl = new FormControl();
+
     constructor(@Optional() @Self() public ngControl: NgControl) {
         super(ngControl);
-        this.control = new FormControl();
+        this.control = this.defaultControl;
     }
 
     protected _control: FormControl;
@@ -37,6 +39,7 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
             return;
         }
         this._control = value;
+        this.writeValue(this._control.value);
         this.initControlChangeListeners();
     }
 
@@ -58,6 +61,10 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
 
     @Input()
     public set disabled(value: boolean) {
+        if (value === this.control.disabled) {
+            return;
+        }
+
         if (value) {
             this.control.disable();
         } else {
@@ -80,7 +87,7 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
     public change(value: T): void {
         this.value = value;
         this._onChange(value);
-        this.valueChange.next(value);
+        this.valueChange.emit(value);
     }
 
     /**
@@ -90,7 +97,7 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
     public ngOnInit(): void {
         if ((this.ngControl instanceof FormControlDirective || this.ngControl instanceof FormControlName)
             && this.ngControl.control) {
-            this._control = this.ngControl.control;
+            this.control = this.ngControl.control;
         }
     }
 
@@ -108,6 +115,15 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
         }
         this.valueSubscription?.unsubscribe();
         this.valueSubscription = this.control.valueChanges
-            .subscribe((value) => this.change(value));
+            .subscribe((value) => {
+                // changes comes from inside
+                // and requires to emit event outside
+                if (this.control === this.defaultControl) {
+                    this.change(value);
+                } else {
+                    // changes comes from outside
+                    this.writeValue(value);
+                }
+            });
     }
 }
