@@ -247,6 +247,7 @@
     "idexists": "Новый {{entityName}} не может иметь данный ID",
     "insufficient_scope": "Insufficient scope",
     "internalServerError": "Внутренняя ошибка сервера",
+    "invalid_credentials": "Неверные учетные данные",
     "invalid_client": "Недопустимый клиент",
     "invalid_grant": "Недействительный грант",
     "invalid_request": "Неверный запрос",
@@ -597,6 +598,9 @@
       },
       "otp": {
         "notification": "Please enter one time password from email"
+      },
+      "idp": {
+        "login-title": "Вход с OAuth 2.0"
       }
     },
     "password": {
