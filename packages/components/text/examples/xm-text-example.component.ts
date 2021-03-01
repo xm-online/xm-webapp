@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
     XmEmailControlOptions,
     XmPasswordControlOptions,
@@ -17,11 +18,13 @@ export class XmTextExampleComponent {
 
     public emailControlOptions: XmEmailControlOptions = {
         id: 'email-id',
+        dataQa: 'email-example-control',
         title: { en: 'Email control' },
     };
 
     public passwordControlOptions: XmPasswordControlOptions = {
         id: 'password-id',
+        dataQa: 'password-example-control',
         title: { en: 'Password control' },
     };
 
@@ -29,7 +32,7 @@ export class XmTextExampleComponent {
         id: 'unique-id',
         placeholder: { en: 'Placeholder...' },
         title: { en: 'Text Control' },
-        dataQa: 'example-control',
+        dataQa: 'text-example-control',
         maxLength: 30,
     };
 
@@ -52,12 +55,14 @@ export class XmTextExampleComponent {
         placeholder: { en: 'Write your text here...' },
         title: { en: 'Text range' },
         rows: 3,
+        dataQa: 'text-range-example-control',
         maxLength: 350,
     };
 
     public textViewOptions: XmTextViewOptions = {
         title: { en: 'Text view' },
         emptyValue: 'Empty',
+        dataQa: 'text-view',
         style: 'inline',
     };
 
@@ -67,4 +72,10 @@ export class XmTextExampleComponent {
         options: null,
         selector: '@xm-ngx/components/text',
     };
+
+    public ngModelValue: string = 'test';
+    public formControl: FormControl = new FormControl('12345', Validators.pattern(/^\d+$/));
+    public formGroup: FormGroup = new FormGroup({
+        control: new FormControl('12345', Validators.pattern(/^\d+$/)),
+    });
 }

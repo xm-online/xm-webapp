@@ -188,7 +188,7 @@ export class Principal implements OnDestroy, OnInitialize {
 
     /**
      * Returns user XM Profile
-     * @param force
+     * @param force - if true loads profile from the backend
      */
     public getXmEntityProfile(force: boolean = false): Observable<XmEntity> {
         if (force) {
@@ -279,7 +279,7 @@ export class Principal implements OnDestroy, OnInitialize {
 
     /**
      * True if resolved. Inner helper method.
-     * @returns {boolean}
+     * @returns `{boolean}`
      */
     private isIdentityResolved(): boolean {
         return this.userIdentity;

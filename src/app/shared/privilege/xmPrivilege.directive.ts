@@ -4,12 +4,12 @@ import { Subscription } from 'rxjs';
 import { Principal } from '../auth/principal.service';
 
 /**
- * @Purpose Conditionally includes an HTML element if current user has any
+ * Conditionally includes an HTML element if current user has any
  * of xmPermitted AND if xmPermittedContext (optional) evaluated as True.
  *
  * xmPermittedContext is a call back function that evaluates state of component and provides true/false answer.
  *
- * @howToUse
+ * @example
  * ```
  *     <some-element *xmPermitted="['COMMENTS.DELETE']">...</some-element>
  *     <some-element *xmPermitted="['COMMENTS.DELETE', 'COMMENTS.CREATE']">...</some-element>

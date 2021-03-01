@@ -357,7 +357,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
 
     /**
      * Method is used to enrich XmEntity with spec details
-     * @param entity current entity
+     * @param entity - current entity
      */
     private enrichEntity(entity: XmEntity): XmEntity {
         entity.type = this.spec.types.filter((t) => t.key === entity.typeKey).shift();

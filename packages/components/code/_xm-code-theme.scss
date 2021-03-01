@@ -1,0 +1,5 @@
+@import 'code-container/xm-code-container-theme';
+
+@mixin xm-code-theme($theme) {
+  @include xm-code-container-theme($theme);
+}

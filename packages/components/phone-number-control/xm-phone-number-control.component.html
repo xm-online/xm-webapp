@@ -2,7 +2,7 @@
 
   <mat-label>{{ options.title | translate}}</mat-label>
 
-  <input (focusout)="touche(value)"
+  <input (blur)="touch(value)"
          (ngModelChange)="change($event)"
          [id]="options.id"
          [mask]="options.mask"

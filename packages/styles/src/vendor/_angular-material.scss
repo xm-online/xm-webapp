@@ -23,7 +23,7 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
 
   /* Override mat radius
    * using .xm-body to increase css classes below weight
-   * @todo: integrate source of angular material
+   * TODO: integrate source of angular material
    */
   .xm-body .mat-menu-panel,
   .xm-body .mat-form-field-outline,
@@ -49,7 +49,7 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
   $secondary:      map-get($theme, secondary-palette);
   $warn:           map-get($theme, warn-palette);
 
-  // @todo: pass $default, $light and $dark
+  // TODO: pass $default, $light and $dark
   $xm-mat-primary: mat-palette($primary);
   $xm-mat-accent:  mat-palette(
                        $secondary,
@@ -72,7 +72,7 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
 @mixin angular-material-xm-override() {
   /**
    * Backward compatibility: full width for all input inside of .form-group.
-   * @todo: research
+   * TODO: research
    */
   .form-group > mat-form-field {
     width: 100%;
@@ -80,7 +80,7 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
 
   /**
    * Backward compatibility: the icons shouldn't be overridden like this
-   * @todo: resolve cases locally
+   * TODO: resolve cases locally
    */
   a .material-icons {
     vertical-align: middle;
@@ -88,7 +88,7 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
 
   /**
    * Bootstrap conflict: bootstrap _reboot.scss assign button:focus
-   * @todo: remove bootstrap
+   * TODO: remove bootstrap
    */
   .mat-button:focus,
   .mat-button-base:focus {

@@ -48,8 +48,10 @@ export type Column<O = unknown> = DynamicCell<O>;
  * DynamicCellDirective creates a component from the DynamicLoader
  *
  * @example
+ * ```
  * <xm-dynamic-cell [row]="{c: true}"
  *                  [cell]="{field: 'c', selector='@xm-ngx/components/xm-bool-view'}"></xm-dynamic-cell>
+ * ```
  * @beta
  */
 @Directive({

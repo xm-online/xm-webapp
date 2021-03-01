@@ -29,9 +29,9 @@ interface IOptions<O> {
  * @public
  */
 export interface IComponent<V = unknown, O = unknown> extends IValue<V>, IOptions<O> {
-    /** {@inheritDoc IValue}. */
+    /** {@inheritDoc IValue} */
     value: V;
-    /** {@inheritDoc IOptions.value}. */
+    /** {@inheritDoc IOptions.value} */
     options: O;
 }
 

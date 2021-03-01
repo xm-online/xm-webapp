@@ -6,15 +6,15 @@ import { RouterModule } from '@angular/router';
 import { IfDashboardSlugModule } from '@xm-ngx/components/if-dashboard-slug';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { IWidget } from '@xm-ngx/dynamic';
+import { DataQa } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 
-export interface LinksGroupWidgetConfigItem {
+export interface LinksGroupWidgetConfigItem extends DataQa {
     permittedByDashboardSlug: string;
     privileges: string | string[];
     title: Translate;
     routerLink: string[] | string;
-    dataQa?: string;
 }
 
 export interface LinksGroupWidgetConfig {

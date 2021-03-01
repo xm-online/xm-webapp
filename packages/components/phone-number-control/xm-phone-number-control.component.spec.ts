@@ -1,7 +1,12 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { NgxMaskModule } from 'ngx-mask';
 
 import { XmPhoneNumberControlComponent } from './xm-phone-number-control.component';
 
@@ -11,7 +16,17 @@ describe('XmPhoneNumberControlComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmSharedTestingModule, NoopAnimationsModule],
+            imports: [
+                XmTranslationTestingModule,
+                MatFormFieldModule,
+                MatInputModule,
+                FormsModule,
+                ReactiveFormsModule,
+                ControlErrorModule,
+                ControlErrorModule.forRoot(),
+                NgxMaskModule.forRoot(),
+                NoopAnimationsModule,
+            ],
             declarations: [XmPhoneNumberControlComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })

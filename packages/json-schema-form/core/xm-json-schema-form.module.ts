@@ -39,9 +39,9 @@ fixFlexLayout();
 export class XmJsonSchemaFormModule {
 
     /**
-     @todo: Workaround
      Luck of ajsf architecture.
      When ajsf provide a way to configure the locales, the following code should be transferred to the configuration.
+     TODO: Workaround
      */
     constructor(
         languageService: LanguageService,

@@ -1,2 +1,7 @@
 @import 'src/sweetalert2';
+
 @include sweetalert2-xm-override();
+
+@mixin xm-alert-theme($theme) {
+  @include sweetalert2-xm-theme($theme)
+}

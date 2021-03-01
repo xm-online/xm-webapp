@@ -2,6 +2,7 @@ $swal2-fade-filter:                     blur(5px) !default;
 
 $swal2-background:                      $xm-surface;
 $swal2-title-color:                     $xm-text;
+$swal2-title-font-size:                 map-get($xm-title, 'font-size');
 $swal2-content-color:                   $xm-text;
 $swal2-success:                         $xm-success;
 $swal2-success-border:                  rgba($xm-success, .3);
@@ -38,5 +39,18 @@ $swal2-cancel-button-font-size:         $xm-font-size-sm;
 
   .swal2-content {
     white-space: pre-wrap;
+  }
+}
+
+@mixin sweetalert2-xm-theme($theme) {
+  $surface: map-get($theme, surface);
+  $text:    map-get($theme, text);
+
+  .swal2-popup {
+    background: $surface;
+  }
+
+  .swal2-title {
+    color: $text;
   }
 }

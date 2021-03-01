@@ -13,9 +13,12 @@ import { getBrowserLocale } from './getBrowserLocale';
 import { LANGUAGES } from './language.constants';
 
 /**
- * @description Translates as json
- * @example:
+ * Translates as json
+ *
+ * @example
+ * ```
  *  {en: 'Hi', ru: 'хай'}
+ * ```
  */
 export interface ITranslate {
     en?: string;
@@ -26,11 +29,17 @@ export interface ITranslate {
 }
 
 /**
- * @description Translate for a translate pipe.
- * @example:
+ * Translate for a translate pipe.
+ *
+ * @example
+ * ```
  * {en: 'Hi', ru: 'хай'}
- * @example:
+ * ```
+ *
+ * @example
+ * ```
  * 'Hi'
+ * ```
  */
 export type Translate = ITranslate | string;
 
@@ -76,12 +85,12 @@ export class LanguageService implements OnDestroy, OnInitialize {
         console.info('TRANSLATION Locale changed:', value);
     }
 
-    /** @description Get default languages list */
+    /** Get default languages list */
     public get languages(): Locale[] {
         return LANGUAGES;
     }
 
-    /** @description Get languages list from config or default */
+    /** Get languages list from config or default */
     public languages$(): Observable<Locale[]> {
         return this.configService.config$().pipe(
             map((c) => c?.langs ? c.langs : this.languages),
@@ -94,34 +103,37 @@ export class LanguageService implements OnDestroy, OnInitialize {
     }
 
     /**
-     * @description Set html lang
-     *  @example <html lang="en">
+     * Set html lang
+     * @example
+     * ```
+     * <html lang="en">
+     * ```
      */
     public setLangHTMLAttr(locale: Locale): void {
         document.documentElement.setAttribute('lang', locale);
     }
 
-    /** @description Get the user locale */
+    /** Get the user locale */
     public getUserLocale(): Locale | null {
         return this.userLocale;
     }
 
-    /** @description Get a locale form the session Storage */
+    /** Get a locale form the session Storage */
     public getSessionLocale(): Locale | null {
         return this.sessionStorage.retrieve(SESSION_LOCALE);
     }
 
-    /** @description Get a locale form the xm-webapp configuration */
+    /** Get a locale form the xm-webapp configuration */
     public getConfigLocale(): Locale | null {
         return this.configLocale;
     }
 
-    /** @description Get a locale form the browser */
+    /** Get a locale form the browser */
     public getBrowserLocale(): Locale | null {
         return getBrowserLocale();
     }
 
-    /** @description Get a default locale */
+    /** Get a default locale */
     public getDefaultLocale(): Locale {
         return 'en';
     }
@@ -147,7 +159,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
     }
 
     protected update(locale: string): void {
-        // TODO v2: rewrite below as listeners of the $locale
+        // TODO: v2: rewrite below as listeners of the $locale
         this.translate.use(locale);
         this.sessionStorage.store(SESSION_LOCALE, locale);
         this.translate.getTranslation(locale).subscribe((res) => {

@@ -13,5 +13,4 @@ export class LoadingDirective {
     @HostBinding('class.xm-loading-active')
     @Input('xm-loading') public active: boolean;
     @Input('xmLoadingPosition') public position: 'start' | 'center' | 'end' = 'center';
-
 }

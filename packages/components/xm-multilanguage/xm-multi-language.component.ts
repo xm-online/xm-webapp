@@ -72,6 +72,9 @@ export interface MultiLanguageOptions {
             </ng-container>
         </ng-container>
     `,
+    host: {
+        class: 'xm-multi-language-control',
+    },
     styles: ['mat-button-toggle-group{margin-bottom: 10px;} mat-label{display:block}'],
     changeDetection: ChangeDetectionStrategy.Default,
 })
@@ -126,7 +129,7 @@ export class MultiLanguageComponent implements IComponent<MultiLanguageDataModel
     }
 
     public setValue(value: string): void {
-        const lngValue = {languageKey: this.selectedLng, name: value};
+        const lngValue = { languageKey: this.selectedLng, name: value };
         const index = (this.value || []).findIndex(propEq('languageKey', this.selectedLng));
         if (index > -1) {
             this.value.splice(index, 1, lngValue);

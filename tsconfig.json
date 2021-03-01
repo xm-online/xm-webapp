@@ -39,7 +39,7 @@
       "@xm-ngx/shared/validators": ["packages/shared/validators"],
       "@xm-ngx/shared/interfaces": ["packages/shared/interfaces"],
       "@xm-ngx/shared/operators": ["packages/shared/operators"],
-      "@xm-ngx/translation": ["packages/xm-translation/src"],
+      "@xm-ngx/translation": ["packages/translation"],
       "@xm-ngx/entity": ["src/app/xm-entity/shared"],
       "@xm-ngx/account/*": ["packages/xm-account/src/*"],
       "@xm-ngx/entity/*": ["src/app/xm-entity/*"],

@@ -6,13 +6,13 @@ import { XmPasswordControlOptions } from './xm-password-control-options';
     selector: 'xm-password-control',
     template: `
         <mat-form-field>
-            <mat-label>{{ options.title | translate}}</mat-label>
+            <mat-label>{{ options?.title | translate}}</mat-label>
 
             <input [formControl]="control"
-                   [id]="options.id"
-                   [required]="options.required"
+                   [id]="options?.id"
+                   [required]="options?.required"
                    autocomplete="password"
-                   attr.data-qa="password-input"
+                   [attr.data-qa]="options?.dataQa || 'password-input'"
                    matInput
                    [type]="'password'"
                    #password

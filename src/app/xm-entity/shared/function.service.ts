@@ -47,7 +47,7 @@ export class FunctionService {
      * There are no well defined field in spec to mark FILE UPLOAD startegy (base64, blob, arraybuffer)
      * so for now everything started like
      * `EXPORT-ARRAYBUFFER-` will be processed as `responseType: 'arraybuffer'`
-     * @param key function key
+     * @param key - function key
      */
     private isExportFunction(key: string = ''): any {
         return key.toUpperCase().startsWith('EXPORT-ARRAYBUFFER-');

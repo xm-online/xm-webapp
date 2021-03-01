@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
 import { IComponent, IComponentFn, DynamicModule } from '@xm-ngx/dynamic';
-import * as _ from 'lodash';
+import { defaults } from 'lodash';
 
 export interface XmDateOptions {
     format?: string;
@@ -28,7 +28,7 @@ export class XmDateComponent implements IComponent<XmDateValue, XmDateOptions> {
 
     @Input()
     public set options(value: XmDateOptions) {
-        this._options = _.defaults(value, {});
+        this._options = defaults(value, {});
     }
 }
 

@@ -3,11 +3,11 @@ import { NgControl } from '@angular/forms';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { IControl } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 
-export interface XmTextControlOptions {
+export interface XmTextControlOptions extends DataQa {
     title?: Translate;
     type?: string;
     placeholder?: Translate;
@@ -19,7 +19,6 @@ export interface XmTextControlOptions {
     errors?: { [errorKey: string]: Translate };
     maxLength?: number;
     minLength?: number;
-    dataQa?: string;
 }
 
 const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
@@ -47,7 +46,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
                    [placeholder]="options.placeholder | translate"
                    [attr.name]="options.name"
                    [id]="options.id"
-                   [attr.data-qa]=" options.dataQa"
+                   [attr.data-qa]="options.dataQa"
                    [required]="options.required"
                    [pattern]="options.pattern"
                    [attr.maxlength]="options.maxLength"

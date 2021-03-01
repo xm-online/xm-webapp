@@ -103,6 +103,7 @@
     "datatables.net-responsive": "2.2.3",
     "eonasdan-bootstrap-datetimepicker": "4.17.47",
     "es6-shim": "0.35.5",
+    "eslint-plugin-tsdoc": "0.2.11",
     "file-saver": "2.0.2",
     "fs-extra": "8.1.0",
     "fullcalendar": "3.10.1",

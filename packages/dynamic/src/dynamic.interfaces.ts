@@ -1,7 +1,7 @@
 import { NgModuleFactory, Type } from '@angular/core';
 
-export interface DynamicModule<T> {
-    entry?: Type<T>;
+export interface DynamicModule<T = unknown> {
+    entry: Type<T>;
 }
 
 export type DynamicNgModuleFactory<T> = NgModuleFactory<DynamicModule<T>>;

@@ -21,14 +21,19 @@ export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDest
     }
 
     /**
-     * @params {(string | object)} value
-     * @description translate
+     * translate
+     * @param value - contains translations key
+     *
      * @example
+     * ```
      *  // returns Hi
      *  {{ {en: 'Hi', ru: 'хай'} | translate }}
+     * ```
      * @example
+     * ```
      *  // returns Accept
      *  {{ 'global.common.accept' | translate }}
+     * ```
      */
     public transform(value: Translate | ITranslate, ...args: any[]): string | any {
         if (typeof value === 'object' && value !== null) {

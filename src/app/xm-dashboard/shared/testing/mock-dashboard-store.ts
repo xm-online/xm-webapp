@@ -25,7 +25,7 @@ export class MockDashboardStore {
         return of(null);
     }
 
-    /** @deprecated */
+    /** @deprecated use dashboards$ instead */
     public dashboards(): Promise<Dashboard[]> {
         return Promise.resolve([]);
     }
