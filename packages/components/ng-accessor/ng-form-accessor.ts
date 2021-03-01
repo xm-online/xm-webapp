@@ -78,9 +78,12 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
     }
 
     public change(value: T): void {
+        if (value === this.control.value) {
+            return;
+        }
         this.value = value;
         this._onChange(value);
-        this.valueChange.next(value);
+        this.valueChange.emit(value);
     }
 
     /**
@@ -90,7 +93,7 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
     public ngOnInit(): void {
         if ((this.ngControl instanceof FormControlDirective || this.ngControl instanceof FormControlName)
             && this.ngControl.control) {
-            this._control = this.ngControl.control;
+            this.control = this.ngControl.control;
         }
     }
 
@@ -108,6 +111,6 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
         }
         this.valueSubscription?.unsubscribe();
         this.valueSubscription = this.control.valueChanges
-            .subscribe((value) => this.change(value));
+            .subscribe((value) => this.writeValue(value));
     }
 }

@@ -110,9 +110,9 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         this.change(this.selected);
     }
 
-    public change(value: string[]): void {
+    public writeValue(value: string[]): void {
         this.selected = value;
-        super.change(value);
+        super.writeValue(value);
     }
 
     public ngOnDestroy(): void {
