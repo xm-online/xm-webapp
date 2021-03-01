@@ -41,7 +41,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
                     <ng-container *ngIf="value && itemsMap[value]">
                         <mat-icon style="vertical-align: middle"
                                   *ngIf="itemsMap[value]?.icon">{{itemsMap[value].icon}}</mat-icon>
-                        {{itemsMap[value].title || ''}}
+                        {{(itemsMap[value].title | translate) || ''}}
                     </ng-container>
                 </mat-select-trigger>
 
@@ -71,7 +71,7 @@ export class XmEnumControlComponent extends NgFormAccessor<string> implements IC
     @Input()
     public set options(value: XmEnumControlOptions) {
         this._options = defaults({}, value, XM_ENUM_CONTROL_OPTIONS_DEFAULT);
-        this.itemsList = this._options.items || this._options.enum;
+        this.itemsList = value.items || value.enum;
         this.itemsMap = keyBy(this.itemsList, 'value');
 
         if (value?.enum) {
