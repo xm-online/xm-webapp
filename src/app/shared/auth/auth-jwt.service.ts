@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AuthRefreshTokenService, XmAuthenticationStoreService } from '../../../../packages/core/auth';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, IDP_CLIENT } from '../../xm.constants';
@@ -11,6 +11,7 @@ import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
 import { IIdpClient } from '../../../../packages/core/src/xm-public-idp-config-model';
+import { TEMP_TOKEN } from './login.service';
 
 const DEFAULT_HEADERS = {
     'Content-Type': DEFAULT_CONTENT_TYPE,
@@ -102,34 +103,30 @@ export class AuthServerProvider {
     public loginIdp(opt: any): Observable<any> {
         const config: IIdpClient = this.$sessionStorage.retrieve(IDP_CLIENT);
         const params = new HttpParams({ fromObject: opt });
+
+        return of({body: TEMP_TOKEN}).pipe(
+            map((resp) => {
+                // @TODO: refactor this
+                this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
+                const rememberMe = false;
+                const result = resp.body;
+                const accessToken = this.storeAT(result, rememberMe);
+                this.stateStorageService.resetDestinationState();
+                this.storeRT(result, rememberMe);
+                return accessToken;
+            }),
+            tap(() => this.sessionService.create()),
+        )
+
         return this.http.get<any>(`login/oauth2/code/${config.key}`, { params }).pipe(
             map((resp) => {
                 // @TODO: refactor this
                 this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
                 const rememberMe = false;
                 const result = resp.body;
-                let accessToken;
-                let tfaChannel = '';
-
-                if (resp.headers.get('icthh-xm-tfa-otp') === 'required') {
-                    tfaChannel = resp.headers.get('icthh-xm-tfa-otp-channel');
-                    console.info('tfaRequired=%s using %s', true, tfaChannel);
-
-                    this.stateStorageService.storeDestinationState(
-                        {
-                            name: 'otpConfirmation',
-                            data: { tfaVerificationKey: result.tfaVerificationKey, tfaChannel },
-                        },
-                        {},
-                        { name: 'login' });
-
-                    accessToken = this.storeAT(result, rememberMe);
-                } else {
-                    this.stateStorageService.resetDestinationState();
-                    accessToken = this.storeAT(result, rememberMe);
-                    this.storeRT(result, rememberMe);
-                }
-
+                const accessToken = this.storeAT(result, rememberMe);
+                this.stateStorageService.resetDestinationState();
+                this.storeRT(result, rememberMe);
                 return accessToken;
             }),
             tap(() => this.sessionService.create()),
@@ -279,7 +276,6 @@ export class AuthServerProvider {
                 accessToken = this.storeAT(result, rememberMe);
                 this.storeRT(result, rememberMe);
             }
-
             return accessToken;
         }));
     }
