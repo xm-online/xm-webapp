@@ -1,7 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '@xm-ngx/core/auth';
+import { combineLatest } from 'rxjs';
+import { XmUiConfigService } from '@xm-ngx/core/config';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 @Component({
   selector: 'xm-idp-callback',
@@ -9,18 +11,20 @@ import { LoginService } from '@xm-ngx/core/auth';
   styleUrls: ['./idp-callback.component.scss']
 })
 export class IdpCallbackComponent implements OnDestroy {
-
-    public params!: Subscription;
-
     constructor(
         private loginService: LoginService,
         private router: Router,
         private activeRouter: ActivatedRoute,
+        protected xmUiConfigService: XmUiConfigService,
     ) {
-        this.params = this.activeRouter.queryParams.subscribe(params => {
-            if (activeRouter.snapshot.data.callbackAuth && params) {
+        combineLatest(
+            this.activeRouter.queryParams,
+            this.xmUiConfigService.config$(),
+        ).pipe(
+            takeUntilOnDestroy(this),
+        ).subscribe(([params, config]) => {
+            if (activeRouter.snapshot.data.callbackAuth && params && config?.idp?.enabled) {
                 this.loginService.loginWithIdpCallback(params);
-
             } else {
                 this.router.navigate(['']);
             }
@@ -28,6 +32,6 @@ export class IdpCallbackComponent implements OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.params && this.params.unsubscribe();
+        takeUntilOnDestroyDestroy(this);
     }
 }
