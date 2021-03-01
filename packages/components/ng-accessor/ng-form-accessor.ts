@@ -37,6 +37,7 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
             return;
         }
         this._control = value;
+        this.writeValue(this._control.value);
         this.initControlChangeListeners();
     }
 
@@ -58,6 +59,10 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
 
     @Input()
     public set disabled(value: boolean) {
+        if (value === this.control.disabled) {
+            return;
+        }
+
         if (value) {
             this.control.disable();
         } else {
