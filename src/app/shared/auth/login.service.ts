@@ -6,13 +6,11 @@ import { AuthServerProvider } from './auth-jwt.service';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
 import { SessionStorageService } from 'ngx-webstorage';
-// import { IIdpClient } from '../spec';
-// import { HttpClient, HttpParams } from '@angular/common/http';
-// import { DEV_TOKEN, IDP_CLmIENT } from '../../xm.constants';
-import { DEV_TOKEN, IDP_CLIENT, XM_EVENT_LIST } from '../../xm.constants';
+import { IDP_CLIENT, XM_EVENT_LIST } from '../../xm.constants';
 import { XmEventManager } from '@xm-ngx/core';
 import { DOCUMENT, Location } from '@angular/common';
 import { IIdpClient, IIdpConfig } from '../../../../packages/core/src/xm-public-idp-config-model';
+import { environment } from '@xm-ngx/core/environment';
 
 @Injectable()
 export class LoginService {
@@ -22,7 +20,6 @@ export class LoginService {
                 private authServerProvider: AuthServerProvider,
                 private stateStorageService: StateStorageService,
                 private $sessionStorage: SessionStorageService,
-                // private http: HttpClient,
                 protected eventManager: XmEventManager,
                 protected location: Location,
                 @Inject(DOCUMENT) private document: Document,
@@ -55,6 +52,24 @@ export class LoginService {
         });
     }
 
+    public loginWithIdpCallback(opt: any): void {
+        this.authServerProvider
+            .loginIdp(opt)
+            .subscribe((data) => {
+                console.warn(data);
+                // this.router.navigate(['']);
+            }, err => {
+                // @TODO remove this
+                if (isDevMode()) {
+                    const DEV_TOKEN = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVUb2tlblRpbWUiOjE2MTQxNTM1NDYxNjYsInVzZXJfbmFtZSI6ImFuZHJldy5raWtvdEBqZXZlcmEuc29mdHdhcmUiLCJzY29wZSI6WyJvcGVuaWQiXSwicm9sZV9rZXkiOiJST0xFX0FETUlOIiwidXNlcl9rZXkiOiI3OTIwNDc4Yy01ODllLTQ5OTYtODNjZS0xZjQyNGJkNjc0NTYiLCJleHAiOjE2MjUxNTM1NDYsImxvZ2lucyI6W3sidHlwZUtleSI6IkxPR0lOLkVNQUlMIiwic3RhdGVLZXkiOm51bGwsImxvZ2luIjoiYW5kcmV3Lmtpa290QGpldmVyYS5zb2Z0d2FyZSJ9XSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiJjYTdjMDk3OS00ZGE4LTRmY2QtYmZjMy1hN2NhOTNlNDg3ZTYiLCJ0ZW5hbnQiOiJTU1AiLCJjbGllbnRfaWQiOiJ3ZWJhcHAifQ.bYp_TPHitRrR6ckXT0v3a0NBD6n5CWfiYz6e0mmg1FjY3iDNrqo1YJrtxFRf8UyVMyHRd4hFh2qw2GQu0rZjybHR4dvgd9zZJ03F5PQtkFwd-QZOSrP0EjwrgoHlt-BFcpNkXSL6Y6xO03JPcODNDsAdW_OK5RhABO52qRStkKSIupvkVbfAaKXkEdbiYDn3gzJRzjG7zFjnEZa-c4_3uGfqh3EFN3JFyV4koI5bSRohQu11CMnjoKRMhgTSaG2W4xnk-GB-q0WMK6VUNMv2FHw8gFJ0HCyXWfZKVnQY3CCtq-fEOofPSv25G7Go8cupBrIn8hSUZEY6xDGJHYTkXQ';
+                    this.loginWithToken(DEV_TOKEN, true).then(() => {
+                        this.loginSuccess();
+                    })
+                }
+            })
+
+    }
+
     public onIdpDirectLogin(config: IIdpConfig): void {
         const isDirectLogin = config?.idp?.enabled && config?.idp?.features?.directLogin?.enabled;
         if (isDirectLogin) {
@@ -67,35 +82,12 @@ export class LoginService {
     public loginWithIdpClient(client: IIdpClient): void {
         const redirectUri = client.openIdConfig.authorizationEndpoint.uri;
         const getRedirectUrl = `oauth2/authorization/${client.key}`;
-        const devApiUri = client.devApiUri;
-        const loc = isDevMode() ? devApiUri : location.origin;
+        const devApiUri = environment.idpServerApiUrl;
+        const loc = devApiUri ? devApiUri : location.origin;
         this.$sessionStorage.store(IDP_CLIENT, client);
         if (redirectUri) {
             location.href = `${loc}${this.location.prepareExternalUrl(getRedirectUrl)}`;
         }
-    }
-
-    public loginWithIdpCallback(opt: any): void {
-        // const config: IIdpClient = this.$sessionStorage.retrieve(IDP_CLIENT);
-        // const params = new HttpParams({ fromObject: opt });
-
-        if (isDevMode()) {
-            this.loginWithToken(DEV_TOKEN, true).then(() => {
-                this.loginSuccess();
-            })
-        }
-        // this.http.get(`login/oauth2/code/${config.key}`, { params }).subscribe(
-        //     (res: any) => {
-        //         if (res.access_token) {
-        //             this.authServerProvider.storeAuthenticationToken(res.access_token, true);
-        //             this.router.navigate(['']);
-        //         }
-        //     },
-        //     err => {
-        //         console.info(err)
-        //         this.router.navigate(['']);
-        //     }
-        // );
     }
 
     public loginWithToken(jwt: string, rememberMe: boolean): Promise<unknown> {
@@ -152,7 +144,7 @@ export class LoginService {
     }
 
     private getIdpClient(config: IIdpConfig): IIdpClient {
-        const defaultClientKey = isDevMode() ? config?.idp?.devClientKey : config?.idp?.features?.directLogin?.defaultClientKey;
+        const defaultClientKey = environment.idpClientKey ? environment.idpClientKey : config?.idp?.features?.directLogin?.defaultClientKey;
         return defaultClientKey ?
             config?.idp?.clients?.filter(s => s.key === defaultClientKey).shift() :
             config?.idp?.clients[0];

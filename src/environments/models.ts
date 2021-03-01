@@ -5,4 +5,6 @@ export interface IEnvironment {
     environment: string | 'local' | 'stg' | 'prod';
     release: string;
     version: string;
+    idpServerApiUrl?: string;
+    idpClientKey?: string;
 }

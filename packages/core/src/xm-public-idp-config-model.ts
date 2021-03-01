@@ -14,13 +14,12 @@ export interface IIdpConfig {
 
 export interface IIdpClient {
     clientId?: string;
-    devApiUri?: string;
     features?: unknown;
     key: string;
     name?: string;
     icon?: {
         class?: string;
-        name?: string;
+        name: string;
         src?: string;
         style?: string;
     }
