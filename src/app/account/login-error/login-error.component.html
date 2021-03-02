@@ -1,10 +1,10 @@
-<div class="row pt-3 pb-3">
+<div class="row pt-3 pb-3" *ngIf="errorKey">
   <div class="col-md-12 col-lg-6 m-auto">
     <h3 class="mb-2">
-      {{'login-error.messages.idp.login-error-title' | translate}}
+      {{'login.messages.idp.login-title' | translate}}
     </h3>
     <div class="alert alert-danger">
-      {{'error.invalid_credentials' | translate}}
+      {{errorKey | translate}}
     </div>
   </div>
 </div>

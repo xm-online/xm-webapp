@@ -611,7 +611,8 @@
         "notification": "Please enter one time password from email"
       },
       "idp": {
-        "login-title": "Login with OAuth 2.0"
+        "login-title": "Login with OAuth 2.0",
+        "wrong-key": "Wrong IDP key or client config"
       }
     },
     "password": {

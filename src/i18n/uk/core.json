@@ -600,7 +600,8 @@
         "notification": "Please enter one time password from email"
       },
       "idp": {
-        "login-title": "Вхід з OAuth 2.0"
+        "login-title": "Вхід з OAuth 2.0",
+        "wrong-key": "Неправильний ключ IDP або конфігурація клієнта"
       }
     },
     "password": {
