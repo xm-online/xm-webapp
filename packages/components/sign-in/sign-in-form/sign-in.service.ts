@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 
 export interface SignInForm {
     username: string;
-    password: string
+    password: string;
+    rememberMe: boolean;
 }
 
 @Injectable()
