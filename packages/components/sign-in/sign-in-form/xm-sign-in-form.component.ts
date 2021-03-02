@@ -16,6 +16,7 @@ export class XmSignInFormComponent {
     public group: FormGroup = new FormGroup({
         username: new FormControl(),
         password: new FormControl(),
+        rememberMe: new FormControl(true),
     });
 
     public error$: Subject<string | null> = new Subject<string | null>();

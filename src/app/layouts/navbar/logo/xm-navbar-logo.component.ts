@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
 import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 
 @Component({
-    selector: 'xm-navbar-logo-component',
+    selector: 'xm-navbar-logo',
     template: `
         <div class="xm-nav-logo">
             <a [routerLink]="(isSessionActive$ | async) ? '/dashboard' : '/'"

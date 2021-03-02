@@ -884,7 +884,7 @@
       "title": "Користувач"
     },
     "error": "Error",
-    "firstName": "Ім&#39;я",
+    "firstName": "Ім'я",
     "home": {
       "createOrEditLabel": "Створіть або відредагуйте користувача",
       "editLoginsLabel": "Оновити логіни користувачів",

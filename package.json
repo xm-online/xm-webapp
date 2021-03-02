@@ -1,7 +1,7 @@
 {
   "name": "xm-webapp",
-  "version": "2.0.1",
-  "release": "2.0.1",
+  "version": "2.1.1",
+  "release": "2.1.1",
   "private": true,
   "description": "Xm-webapp",
   "homepage": "https://github.com/xm-online/xm-webapp",
@@ -46,6 +46,7 @@
     "get-translations": "node ./scripts/get-translations.js",
     "translations": "npm run get-translations && xm-ngx ext-i18n",
     "report:bundle": "webpack-bundle-analyzer dist/stats.json",
+    "get-version": "printf $npm_package_version",
     "postinstall": "node ./scripts/build-packages.js && ngcc --properties esm5 browser module main"
   },
   "dependencies": {

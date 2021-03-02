@@ -2,15 +2,27 @@
 
   <div class="col-12 col-lg-4 xm-sign-in-form-banner-container">
     <img *ngIf="options?.leftLogoUrl" [src]="options.leftLogoUrl">
-    <img *ngIf="options?.bannerImageUrl" [style.background-image]="'url(' + options.bannerImageUrl + ')'"
+    <div *ngIf="options?.bannerImageUrl" [style.background-image]="'url(' + options.bannerImageUrl + ')'"
          class="xm-sign-in-form-banner-img"
          xmMouseMoveParallax>
+    </div>
   </div>
 
-  <div class="col-12 col-lg-8 d-flex align-items-center pl-lg-5">
-    <xm-sign-in-form (afterSignIn)="afterSignIn.emit($event)"
-                     [options]="options"
-                     class="d-block col-12 col-lg-4 ml-lg-5 mt-4"></xm-sign-in-form>
+  <div class="col-12 col-lg-8 pl-lg-5 d-flex flex-column">
+    <div *ngIf="options?.topLogo" class="d-flex flex-row align-items-center ml-lg-5 xm-sign-in-form-top-logo px-3">
+      <img [src]="options.topLogo.url">
+      <h2 class="brand text-primary ml-2">{{options.topLogo.title | translate}}</h2>
+    </div>
+
+    <div class="d-flex ml-lg-5 flex-grow-1 align-items-center">
+      <xm-sign-in-form (afterSignIn)="afterSignIn.emit($event)"
+                       [options]="options"
+                       class="d-block col-12 col-lg-4 mt-4"></xm-sign-in-form>
+    </div>
+
+    <div *ngIf="options?.topLogo" class="d-flex flex-row align-items-center ml-lg-5 xm-sign-in-form-top-logo px-3">
+      <!--  place keeper  -->
+    </div>
   </div>
 
 </div>

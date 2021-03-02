@@ -9,11 +9,12 @@ import { Observable } from 'rxjs';
     selector: 'xm-navbar-language-menu',
     template: `
         <button *ngIf="!(isSessionActive$ | async)"
-                mat-icon-button
+                mat-button
                 [matMenuTriggerFor]="menu"
                 [matTooltip]="'xm-navbar-language-menu.choose-language' | translate"
                 [attr.aria-label]="'xm-navbar-language-menu.choose-language' | translate">
-            <mat-icon>language</mat-icon>
+            {{languageService.locale | findLanguageFromKey}}
+            <mat-icon>expand_more</mat-icon>
         </button>
 
         <mat-menu #menu="matMenu" xPosition="before">
@@ -33,7 +34,7 @@ export class XmNavbarLanguageMenuComponent implements OnInit {
     constructor(
         private xmUiConfigService: XmUiConfigService,
         private xmSessionService: XmSessionService,
-        private languageService: LanguageService,
+        public languageService: LanguageService,
     ) {
     }
 
