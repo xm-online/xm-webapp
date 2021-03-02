@@ -1,7 +1,7 @@
 import { Injectable, Injector, NgModuleRef, Type } from '@angular/core';
 import * as _ from 'lodash';
-import { DYNAMIC_COMPONENTS } from '../dynamic.injectors';
-import { DynamicComponents, DynamicNgModuleFactory } from '../dynamic.interfaces';
+import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
+import { XmDynamicEntries, XmDynamicNgModuleFactory } from '../interfaces';
 import { DynamicSearcher } from './dynamic-searcher';
 
 @Injectable({
@@ -9,19 +9,19 @@ import { DynamicSearcher } from './dynamic-searcher';
 })
 export class DynamicInjectionTokenSearcherService implements DynamicSearcher {
 
-    private global: DynamicComponents;
+    private global: XmDynamicEntries;
 
     constructor(
         private moduleRef: NgModuleRef<unknown>,
     ) {
-        this.global = this.moduleRef.injector.get(DYNAMIC_COMPONENTS, []);
+        this.global = this.moduleRef.injector.get(XM_DYNAMIC_ENTRIES, []);
     }
 
     public async search<T>(
         selector: string,
         options: { injector?: Injector } = { injector: this.moduleRef.injector },
-    ): Promise<DynamicNgModuleFactory<T> | Type<T> | null> {
-        const providers = options.injector.get(DYNAMIC_COMPONENTS, []);
+    ): Promise<XmDynamicNgModuleFactory<T> | Type<T> | null> {
+        const providers = options.injector.get(XM_DYNAMIC_ENTRIES, []);
         const components = _.flatMap([...providers, ...this.global]);
         const component = components.find((i) => i.selector === selector)
             || { loadChildren: () => Promise.resolve(null) };

@@ -1,5 +1,5 @@
 import { ComponentFactory, Injectable, Injector, NgModuleFactory, NgModuleRef, Type } from '@angular/core';
-import { DynamicNgModuleFactory } from '../dynamic.interfaces';
+import { XmDynamicNgModuleFactory } from '../interfaces';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
 import { ModuleLoader } from './module-loader';
 
@@ -31,7 +31,7 @@ export class DynamicLoaderService {
         const moduleFac = await this.dynamicSearcher.search(selector, { injector });
 
         if (moduleFac instanceof NgModuleFactory || isModuleDef(moduleFac)) {
-            const moduleFactory = await this.moduleLoaderService.loadModuleFactory<T>(moduleFac as DynamicNgModuleFactory<T>);
+            const moduleFactory = await this.moduleLoaderService.loadModuleFactory<T>(moduleFac as XmDynamicNgModuleFactory<T>);
             const moduleRef = moduleFactory.create(injector);
             const componentRef = moduleRef.instance.entry;
             return moduleRef.componentFactoryResolver.resolveComponentFactory(componentRef);

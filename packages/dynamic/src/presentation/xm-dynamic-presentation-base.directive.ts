@@ -8,6 +8,7 @@ import {
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
+import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule } from '../interfaces';
 import { DynamicLoader } from '../loader/dynamic-loader';
 
 
@@ -28,27 +29,31 @@ interface IOptions<O> {
  *
  * @public
  */
-export interface IComponent<V = unknown, O = unknown> extends IValue<V>, IOptions<O> {
+export interface XmDynamicPresentation<V = unknown, O = unknown> extends XmDynamic, IValue<V>, IOptions<O> {
     /** {@inheritDoc IValue} */
     value: V;
     /** {@inheritDoc IOptions.value} */
     options: O;
 }
 
-export interface IComponentFn<V = unknown, O = unknown> {
-    new(...args: any): IComponent<V, O>;
+export interface XmDynamicPresentationConstructor<V = unknown, O = unknown> extends XmDynamicConstructor<XmDynamicPresentation<V, O>> {
+    new(...args: any): XmDynamicPresentation<V, O>;
+}
+
+export interface XmDynamicPresentationEntryModule extends XmDynamicEntryModule<XmDynamicPresentation> {
+    entry: XmDynamicPresentationConstructor;
 }
 
 @Directive()
-export class DynamicBase<V, O> implements IComponent<V, O>, OnChanges, OnInit {
+export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V, O>, OnChanges, OnInit {
     /** Component value */
     public value: V;
     /** Component options */
     public options: O;
     /** Component ref */
-    public selector: IComponentFn<V, O> | string;
+    public selector: XmDynamicPresentationConstructor<V, O> | string;
     /** Instance of created object */
-    public instance: IComponent<V, O>;
+    public instance: XmDynamicPresentation<V, O>;
 
     public class: string;
     public style: string;
@@ -105,7 +110,7 @@ export class DynamicBase<V, O> implements IComponent<V, O>, OnChanges, OnInit {
             return;
         }
 
-        const cfr = await this.loaderService.loadAndResolve<IComponent<V, O>>(this.selector as string, { injector: this.injector });
+        const cfr = await this.loaderService.loadAndResolve<XmDynamicPresentation<V, O>>(this.selector as string, { injector: this.injector });
 
         this.viewContainerRef.clear();
         const c = this.viewContainerRef.createComponent(cfr, 0, this.createInjector());

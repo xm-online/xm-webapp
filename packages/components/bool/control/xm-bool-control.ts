@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ControlErrorModule } from '@xm-ngx/components/control-error/control-error.module';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { IComponentFn, IControl } from '@xm-ngx/dynamic';
+import { XmDynamicControl, XmDynamicPresentationConstructor, XmDynamicPresentationEntryModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 
@@ -46,7 +46,7 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
     `,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmBoolControl extends NgFormAccessor<boolean> implements IControl<boolean, { title?: Translate }> {
+export class XmBoolControl extends NgFormAccessor<boolean> implements XmDynamicControl<boolean, { title?: Translate }> {
     @Input() public options: { title?: string };
 }
 
@@ -65,6 +65,6 @@ export class XmBoolControl extends NgFormAccessor<boolean> implements IControl<b
     declarations: [XmBoolControl],
     providers: [],
 })
-export class XmBoolControlModule {
-    public entry: IComponentFn<boolean, { title?: string }> = XmBoolControl;
+export class XmBoolControlModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = XmBoolControl;
 }

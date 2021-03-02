@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
-import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
+import {
+    XmDynamicPresentation,
+    XmDynamicPresentationConstructor,
+    XmDynamicPresentationEntryModule,
+} from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 
 export interface ICurrencyOptions {
@@ -20,7 +24,7 @@ export const CURRENCY_DEFAULT: ICurrencyOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class CurrencyValue implements IComponent<string, ICurrencyOptions> {
+export class CurrencyValue implements XmDynamicPresentation<string, ICurrencyOptions> {
 
     @Input() public value: string;
     public _options: ICurrencyOptions;
@@ -41,6 +45,6 @@ export class CurrencyValue implements IComponent<string, ICurrencyOptions> {
     declarations: [CurrencyValue],
     imports: [CommonModule],
 })
-export class XmCurrencyValueModule {
-    public entry: IComponentFn<string, ICurrencyOptions> = CurrencyValue;
+export class XmCurrencyValueModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = CurrencyValue;
 }

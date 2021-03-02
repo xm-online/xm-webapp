@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { IControl } from '@xm-ngx/dynamic';
+import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
@@ -30,7 +30,7 @@ const XM_CHECKBOX_CONTROL_DEFAULT_OPTIONS: XmCheckboxControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 /** @beta */
-export class XmCheckboxControl extends NgFormAccessor<Primitive> implements IControl<Primitive, XmCheckboxControlOptions> {
+export class XmCheckboxControl extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmCheckboxControlOptions> {
     private _options: XmCheckboxControlOptions = clone(XM_CHECKBOX_CONTROL_DEFAULT_OPTIONS);
 
     public get options(): XmCheckboxControlOptions {

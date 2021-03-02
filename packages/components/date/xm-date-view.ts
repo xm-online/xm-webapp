@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
 import { XmTextViewModule } from '@xm-ngx/components/text';
-import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
+import {
+    XmDynamicPresentation,
+    XmDynamicPresentationConstructor,
+    XmDynamicPresentationEntryModule,
+} from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateModule, XmDateOptions, XmDateValue } from './xm-date.component';
 
@@ -19,7 +23,7 @@ export interface XmDateViewOptions extends XmDateOptions {
     `,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmDateView implements IComponent<XmDateValue, XmDateViewOptions>, OnInit, OnChanges {
+export class XmDateView implements XmDynamicPresentation<XmDateValue, XmDateViewOptions>, OnInit, OnChanges {
     @Input() public value: XmDateValue;
     @Input() public options: XmDateViewOptions;
     public styleInline: boolean;
@@ -38,6 +42,6 @@ export class XmDateView implements IComponent<XmDateValue, XmDateViewOptions>, O
     exports: [XmDateView],
     declarations: [XmDateView],
 })
-export class XmDateViewModule {
-    public entry: IComponentFn<XmDateValue, XmDateViewOptions> = XmDateView;
+export class XmDateViewModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = XmDateView;
 }

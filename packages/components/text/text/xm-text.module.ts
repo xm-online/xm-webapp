@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
+import { XmDynamicPresentationConstructor } from '@xm-ngx/dynamic';
+import { XmDynamicPresentationEntryModule } from '../../../dynamic/src/presentation';
 import { XmTextComponent } from './xm-text.component';
-import { IComponentFn } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
 
 @NgModule({
-  exports: [XmTextComponent],
-  declarations: [XmTextComponent],
+    exports: [XmTextComponent],
+    declarations: [XmTextComponent],
 })
-export class XmTextModule {
-  public entry: IComponentFn<Primitive, undefined> = XmTextComponent;
+export class XmTextModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = XmTextComponent;
 }

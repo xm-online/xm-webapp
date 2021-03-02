@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { LinksGroupWidgetConfig } from './links-group-widget';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { IWidget } from '@xm-ngx/dynamic';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
 
@@ -50,5 +50,5 @@ export class LinksGroupButtonWidget {
     ],
 })
 export class LinksGroupButtonWidgetModule {
-    public entry: Type<IWidget> = LinksGroupButtonWidget;
+    public entry: Type<XmDynamicWidget> = LinksGroupButtonWidget;
 }

@@ -36,7 +36,7 @@ import { map, shareReplay, startWith } from 'rxjs/operators';
             <div *ngIf="activeWidget"
                  class="col-4">
                 <h4>{{activeWidget.globalSelector}}</h4>
-                <ng-container xmDynamicView
+                <ng-container xmDynamicPresentation
                               [selector]="activeWidget.globalSelector"
                               [value]="valueControl.value"
                               [options]="optionsControl.value">

@@ -1,8 +1,9 @@
 import { Component, Input, NgModule } from '@angular/core';
-import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
+import { XmDynamicPresentation, XmDynamicPresentationConstructor } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
+import { XmDynamicPresentationEntryModule } from '../../../dynamic/src/presentation';
 import { XmTextViewContainerComponent } from './xm-text-view-container.component';
 
 export interface XmTextViewOptions extends DataQa {
@@ -28,7 +29,7 @@ export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
         </xm-text-view-container>
     `,
 })
-export class XmTextViewComponent implements IComponent<Primitive, XmTextViewOptions> {
+export class XmTextViewComponent implements XmDynamicPresentation<Primitive, XmTextViewOptions> {
     @Input() public value: Primitive;
 
     private _options: XmTextViewOptions = XM_TEXT_VIEW_OPTIONS_DEFAULT;
@@ -48,6 +49,6 @@ export class XmTextViewComponent implements IComponent<Primitive, XmTextViewOpti
     exports: [XmTextViewComponent, XmTextViewContainerComponent],
     declarations: [XmTextViewComponent, XmTextViewContainerComponent],
 })
-export class XmTextViewModule {
-    public entry: IComponentFn<Primitive, XmTextViewOptions> = XmTextViewComponent;
+export class XmTextViewModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = XmTextViewComponent;
 }

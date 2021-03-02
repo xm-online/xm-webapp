@@ -6,7 +6,7 @@ import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { Page, PageService } from '../page/page.service';
-import { Dashboard } from '../shared/dashboard.model';
+import { Dashboard, DashboardLayoutLayout } from '../shared/dashboard.model';
 import { DashboardWidget } from '../shared/widget.model';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';
@@ -28,7 +28,7 @@ interface DashboardLayout {
 })
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
 
-    public dashboard: Dashboard = {isPublic: false};
+    public dashboard: Dashboard = { isPublic: false };
     public showLoader: boolean;
     public spec: Spec;
 
@@ -120,12 +120,14 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
         });
     }
 
-    private defaultGrid(el: DashboardWidget): { class: string; content: Array<{ widget: DashboardWidget; class: string }> } {
+    private defaultGrid(el: DashboardWidget): DashboardLayoutLayout {
         return {
             class: 'row mx-md-0',
+            selector: null,
             content: [
                 {
                     class: 'col-sm-12',
+                    selector: null,
                     widget: el,
                 },
             ],

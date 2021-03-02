@@ -1,44 +1,44 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
-import { DynamicControlDirective } from './control/dynamic-control.directive';
-import { DynamicFormControlDirective } from './control/dynamic-form-control.directive';
-import { DYNAMIC_COMPONENTS } from './dynamic.injectors';
-import { DynamicComponents } from './dynamic.interfaces';
+import { XmDynamicControlDirective } from './control/xm-dynamic-control.directive';
+import { XmDynamicFormControlDirective } from './control/xm-dynamic-form-control.directive';
+import { XM_DYNAMIC_ENTRIES } from './dynamic.injectors';
+import { XmDynamicEntries } from './interfaces';
 import { DynamicLoader } from './loader/dynamic-loader';
 import { DynamicMultiLoaderService } from './loader/dynamic-multi-loader.service';
 import { DynamicMultiSearcherService } from './searcher/dynamic-multi-searcher.service';
 import { DynamicSearcher } from './searcher/dynamic-searcher';
-import { DynamicViewLayoutComponent } from './view/dynamic-view-layout.component';
-import { DynamicViewDirective } from './view/dynamic-view.directive';
-import { DynamicWidgetLayoutComponent } from './widget/dynamic-widget-layout.component';
-import { DynamicWidgetDirective } from './widget/dynamic-widget.directive';
+import { XmDynamicPresentationLayoutComponent } from './presentation/xm-dynamic-presentation-layout.component';
+import { XmDynamicPresentationDirective } from './presentation/xm-dynamic-presentation.directive';
+import { XmDynamicWidgetLayoutComponent } from './widget/xm-dynamic-widget-layout.component';
+import { XmDynamicWidgetDirective } from './widget/xm-dynamic-widget.directive';
 
-export function dynamicModuleInitializer(components: DynamicComponents): Provider {
-    return [{ provide: DYNAMIC_COMPONENTS, multi: true, useValue: components }];
+export function dynamicModuleInitializer(components: XmDynamicEntries): Provider {
+    return [{ provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: components }];
 }
 
 @NgModule({
     imports: [CommonModule],
     exports: [
-        DynamicViewDirective,
-        DynamicControlDirective,
-        DynamicWidgetDirective,
-        DynamicWidgetLayoutComponent,
-        DynamicViewLayoutComponent,
-        DynamicFormControlDirective,
+        XmDynamicPresentationDirective,
+        XmDynamicControlDirective,
+        XmDynamicWidgetDirective,
+        XmDynamicWidgetLayoutComponent,
+        XmDynamicPresentationLayoutComponent,
+        XmDynamicFormControlDirective,
     ],
     declarations: [
-        DynamicViewDirective,
-        DynamicControlDirective,
-        DynamicWidgetDirective,
-        DynamicWidgetLayoutComponent,
-        DynamicViewLayoutComponent,
-        DynamicFormControlDirective,
+        XmDynamicPresentationDirective,
+        XmDynamicControlDirective,
+        XmDynamicWidgetDirective,
+        XmDynamicWidgetLayoutComponent,
+        XmDynamicPresentationLayoutComponent,
+        XmDynamicFormControlDirective,
     ],
     providers: [],
 })
 export class XmDynamicModule {
-    public static forRoot(components: DynamicComponents): ModuleWithProviders<XmDynamicModule> {
+    public static forRoot(components: XmDynamicEntries): ModuleWithProviders<XmDynamicModule> {
         return {
             ngModule: XmDynamicModule,
             providers: [
@@ -49,7 +49,7 @@ export class XmDynamicModule {
         };
     }
 
-    public static forChild(components: DynamicComponents): ModuleWithProviders<XmDynamicModule> {
+    public static forChild(components: XmDynamicEntries): ModuleWithProviders<XmDynamicModule> {
         return {
             ngModule: XmDynamicModule,
             providers: [dynamicModuleInitializer(components)],

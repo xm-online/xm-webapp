@@ -28,7 +28,7 @@ const MAP_WIDGETS: {[key: string]: string | any} = {
 };
 
 /** @deprecated Back compatibility */
-export function getWidgetComponent(widget: DashboardWidget = {}): DashboardWidget {
+export function getWidgetComponent(widget: DashboardWidget | any = {}): DashboardWidget {
     widget.selector = widget.selector ? widget.selector : 'ext-common/xm-widget-welcome';
     if (typeof MAP_WIDGETS[widget.selector] === 'string' || MAP_WIDGETS[widget.selector] instanceof String) {
         widget.selector = MAP_WIDGETS[widget.selector];
