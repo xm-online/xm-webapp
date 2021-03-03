@@ -3,6 +3,7 @@ import { XM_COPY_ELEMENTS } from '@xm-ngx/components/copy';
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/date';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/html';
 import { XM_LINK_ELEMENTS } from '@xm-ngx/components/link';
+import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/navbar';
 import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/text';
 import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/enum';
 import { DynamicComponents } from '@xm-ngx/dynamic';
@@ -15,6 +16,7 @@ export const XM_ELEMENTS: DynamicComponents = [
     ...XM_LINK_ELEMENTS,
     ...XM_ENUM_ELEMENTS,
     ...XM_ARRAY_ELEMENTS,
+    ...XM_NAVBAR_ELEMENTS,
     {
         selector: '@xm-ngx/administration/audits',
         loadChildren: () => import('@xm-ngx/administration/audits').then(m => m.AuditsModule),

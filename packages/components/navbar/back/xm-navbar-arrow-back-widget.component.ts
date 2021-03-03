@@ -1,5 +1,7 @@
-import { Location } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { Component, NgModule, OnInit, Type, ViewEncapsulation } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { XmSessionService } from '@xm-ngx/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
@@ -17,7 +19,7 @@ import { Observable } from 'rxjs';
     encapsulation: ViewEncapsulation.None,
 })
 
-export class XmNavbarArrowBackComponent implements OnInit {
+export class XmNavbarArrowBackWidget implements OnInit {
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
     private previousPath: string;
@@ -53,4 +55,17 @@ export class XmNavbarArrowBackComponent implements OnInit {
             }
         });
     }
+}
+
+@NgModule({
+    imports: [
+        MatIconModule,
+        MatButtonModule,
+        CommonModule,
+    ],
+    declarations: [XmNavbarArrowBackWidget],
+    exports: [XmNavbarArrowBackWidget],
+})
+export class XmNavbarArrowBackWidgetModule {
+    public entry: Type<XmNavbarArrowBackWidget> = XmNavbarArrowBackWidget;
 }
