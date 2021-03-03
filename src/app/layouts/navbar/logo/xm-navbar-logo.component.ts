@@ -10,7 +10,7 @@ import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 @Component({
     selector: 'xm-navbar-logo',
     template: `
-        <div class="xm-nav-logo">
+        <div class="xm-nav-logo" *ngIf="showLogo">
             <a [routerLink]="(isSessionActive$ | async) ? '/dashboard' : '/'"
                class="row flex-nowrap no-gutters align-items-center">
                 <span *ngIf="tenantLogoUrl" class="col"><img class="logo-img" [src]="tenantLogoUrl" [alt]="tenantName"/></span>
@@ -23,6 +23,7 @@ import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 export class XmNavbarLogoComponent implements OnInit, OnDestroy {
     public tenantLogoUrl: string = '../assets/img/logo-xm-online.png';
     public tenantName: string;
+    public showLogo: boolean = false;
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
     private version: string;
 
@@ -46,6 +47,10 @@ export class XmNavbarLogoComponent implements OnInit, OnDestroy {
 
             if (config.logoUrl) {
                 this.tenantLogoUrl = config.logoUrl;
+            }
+
+            if (config.showLogo !== false){
+                this.showLogo = true;
             }
         });
     }
