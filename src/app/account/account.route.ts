@@ -9,8 +9,6 @@ import {
     passwordSetupRoute,
     registerRoute,
     settingsRoute,
-    socialAuthRoute,
-    socialRegisterRoute,
     idpCallbackRoute,
     loginErrorRoutes,
 } from './';
@@ -26,8 +24,6 @@ export const accountState: Routes = [{
         passwordSetupRoute,
         passwordResetInitRoute,
         registerRoute,
-        socialAuthRoute,
-        socialRegisterRoute,
         settingsRoute,
         logoutRoute,
         idpCallbackRoute,

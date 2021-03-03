@@ -17,8 +17,5 @@ export * from './sign-up/sign-up.component';
 export * from './sign-up/sign-up.route';
 export * from './settings/settings.component';
 export * from './settings/settings.route';
-export * from './social/social-auth.component';
-export * from './social/social-register.component';
-export * from './social/social.route';
 export * from './idp-callback/idp-callback.route';
 export * from './login-error/login-error.route';

@@ -19,7 +19,6 @@ import {
     FocusDirective,
     HasAnyAuthorityDirective,
     InputPreventPasteDirective,
-    JhiSocialComponent,
     LoginComponent,
     LoginService,
     ParseByPathService,
@@ -82,7 +81,6 @@ const PIPES = [XmEntityIconPipe];
         ModalCloseModule,
     ],
     declarations: [
-        JhiSocialComponent,
         LoginComponent,
         RegisterComponent,
         HasAnyAuthorityDirective,
@@ -144,7 +142,6 @@ const PIPES = [XmEntityIconPipe];
     ],
     exports: [
         GateSharedLibsModule,
-        JhiSocialComponent,
         LoginComponent,
         RegisterComponent,
         HasAnyAuthorityDirective,

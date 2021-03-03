@@ -19,8 +19,6 @@ import {
     PasswordResetInitComponent,
     SettingsComponent,
     SignUpComponent,
-    SocialAuthComponent,
-    SocialRegisterComponent,
 } from './';
 import { accountState } from './account.route';
 import { LogoutComponent } from './logout/logout.component';
@@ -42,8 +40,6 @@ import { LoginErrorComponent } from './login-error/login-error.component';
         MarkdownModule,
     ],
     declarations: [
-        SocialRegisterComponent,
-        SocialAuthComponent,
         ActivateComponent,
         SignUpComponent,
         PasswordResetInitComponent,

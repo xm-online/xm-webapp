@@ -29,7 +29,6 @@ export * from '../../../packages/xm-account/src/xm-user-login-widget/login/user-
 export * from './client/client.model';
 export * from './client/client.service';
 export * from './spec/config.service';
-export * from './social/social.component';
 export * from './auth/user-route-access-service';
 export * from './role/role.model';
 export * from './role/role.service';

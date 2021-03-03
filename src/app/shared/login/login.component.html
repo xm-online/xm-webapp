@@ -1,12 +1,4 @@
 <ng-container *ngIf="uiConfig && isIdpDirectLoginDisabled">
-  <div class="form-group text-center" *ngIf="!checkOTP">
-    <xm-social [providerId]="provider.providerId"
-               [scope]="provider.scope"
-               [icon]="provider.icon"
-               *ngFor="let provider of socialConfig">
-    </xm-social>
-  </div>
-
   <xm-idp *ngIf="uiConfig?.idp?.enabled"></xm-idp>
 
   <div class="alert alert-danger"
