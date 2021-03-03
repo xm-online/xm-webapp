@@ -42,7 +42,7 @@ export class UserMgmtDialogComponent implements OnInit {
         }
 
         this.сonfigService.getConfig('/uaa/uaa.yml?toJson').subscribe((result) => {
-            this.isMultiRole = JSON.parse(result).multiRoleEnabled;
+            this.isMultiRole = JSON.parse(result).security.multiRoleEnabled;
             if (this.isMultiRole) {
                 this.userRoles = this.user.authorities;
             } else {
