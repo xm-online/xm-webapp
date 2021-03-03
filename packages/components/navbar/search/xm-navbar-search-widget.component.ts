@@ -16,7 +16,7 @@ interface SearchConfig {
 }
 
 @Component({
-    selector: 'xm-navbar-input-search',
+    selector: 'xm-navbar-input-search-widget',
     template: `
         <form (submit)="search($event, searchBox.value)"
               *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
@@ -39,10 +39,10 @@ interface SearchConfig {
             </button>
         </form>
     `,
-    styleUrls: ['./xm-navbar-input-search.component.scss'],
+    styleUrls: ['./xm-navbar-search-widget.component.scss'],
 })
 
-export class XmNavbarInputSearchComponent implements OnInit {
+export class XmNavbarSearchWidget implements OnInit {
     public searchMask: string = '';
     public isShowSearchPanel: boolean;
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();

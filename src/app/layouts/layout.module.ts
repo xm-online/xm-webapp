@@ -6,7 +6,7 @@ import { GuestBackgroundModule } from '@xm-ngx/components/guest-background/guest
 import { LanguageModule } from '@xm-ngx/components/language';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { RouteLoadingDirectiveModule } from '@xm-ngx/components/route-loading';
-import { XmNotificationsModule } from '@xm-ngx/components/xm-notifications';
+import { XmNavbarNotificationWidgetModule } from '@xm-ngx/components/xm-notifications';
 import { XmPasswordNeededModule } from '@xm-ngx/components/xm-password-needed';
 import { XmRibbonModule } from '@xm-ngx/components/xm-ribbon';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
@@ -33,7 +33,7 @@ import { PageRibbonComponent } from './profiles/page-ribbon.component';
         XmMaintenanceViewModule,
         XmEntityModule,
         XmTimelineModule,
-        XmNotificationsModule,
+        XmNavbarNotificationWidgetModule,
         RouterModule,
         XmSidebarModule,
         XmSidebarRightModule,

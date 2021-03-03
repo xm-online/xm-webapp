@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, DoCheck, NgModule, OnInit, Type } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -14,8 +13,8 @@ interface RouteData {
 }
 
 @Component({
-    selector: 'xm-navbar-title',
-    styleUrls: ['./xm-navbar-title.scss'],
+    selector: 'xm-navbar-title-widget',
+    styleUrls: ['./xm-navbar-title-widget.component.scss'],
     template: `
         <div *ngIf="routeData && title"
              class="title-part px-3">
@@ -26,7 +25,7 @@ interface RouteData {
     `,
 })
 
-export class XmNavbarTitleComponent implements OnInit, DoCheck {
+export class XmNavbarTitleWidget implements OnInit, DoCheck {
     public routeData: RouteData = {};
     public titleContent: string;
     public title: string;
@@ -85,13 +84,3 @@ export class XmNavbarTitleComponent implements OnInit, DoCheck {
     }
 }
 
-@NgModule({
-    exports: [XmNavbarTitleComponent],
-    declarations: [XmNavbarTitleComponent],
-    imports: [
-        CommonModule,
-    ],
-})
-export class XmNavbarTitleModule {
-    public entry: Type<XmNavbarTitleComponent> = XmNavbarTitleComponent;
-}

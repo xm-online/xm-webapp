@@ -5,10 +5,9 @@ import { environment } from '@xm-ngx/core/environment';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 
 @Component({
-    selector: 'xm-navbar-logo',
+    selector: 'xm-navbar-logo-widget',
     template: `
         <div class="xm-nav-logo" *ngIf="showLogo">
             <a [routerLink]="(isSessionActive$ | async) ? '/dashboard' : '/'"
@@ -18,9 +17,9 @@ import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
             </a>
         </div>
     `,
-    styleUrls: ['./xm-nav-logo.scss'],
+    styleUrls: ['./xm-navbar-logo-widget.component.scss'],
 })
-export class XmNavbarLogoComponent implements OnInit, OnDestroy {
+export class XmNavbarLogoWidget implements OnInit, OnDestroy {
     public tenantLogoUrl: string = '../assets/img/logo-xm-online.png';
     public tenantName: string;
     public showLogo: boolean = false;
@@ -34,7 +33,7 @@ export class XmNavbarLogoComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.version = DEBUG_INFO_ENABLED ? `v${environment.version}` : '';
+        this.version = environment.production ? `v${environment.version}` : '';
         takeUntilOnDestroyDestroy(this);
     }
 
@@ -49,7 +48,7 @@ export class XmNavbarLogoComponent implements OnInit, OnDestroy {
                 this.tenantLogoUrl = config.logoUrl;
             }
 
-            if (config.showLogo !== false){
+            if (config.showLogo !== false) {
                 this.showLogo = true;
             }
         });

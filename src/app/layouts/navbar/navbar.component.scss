@@ -58,8 +58,6 @@
 
 // TODO; redesign and remove ng-deep
 ::ng-deep {
-  @import 'toggle/navbar-toggler';
-
   .xm-navbar-container {
     @include flex();
     @include flex-grow(1);

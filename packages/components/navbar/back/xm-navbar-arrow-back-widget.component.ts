@@ -1,13 +1,11 @@
-import { CommonModule, Location } from '@angular/common';
-import { Component, NgModule, OnInit, Type } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'xm-navbar-arrow-back',
+    selector: 'xm-navbar-arrow-back-widget',
     template: `
         <button (click)="onBack()"
                 *ngIf="isSessionActive$ | async"
@@ -17,7 +15,6 @@ import { MatButtonModule } from '@angular/material/button';
         </button>
     `
 })
-
 export class XmNavbarArrowBackWidget implements OnInit {
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
@@ -56,15 +53,3 @@ export class XmNavbarArrowBackWidget implements OnInit {
     }
 }
 
-@NgModule({
-    imports: [
-        MatIconModule,
-        MatButtonModule,
-        CommonModule,
-    ],
-    declarations: [XmNavbarArrowBackWidget],
-    exports: [XmNavbarArrowBackWidget],
-})
-export class XmNavbarArrowBackWidgetModule {
-    public entry: Type<XmNavbarArrowBackWidget> = XmNavbarArrowBackWidget;
-}

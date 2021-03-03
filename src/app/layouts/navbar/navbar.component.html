@@ -1,18 +1,18 @@
 <nav *ngIf="navbarVersion === XmNavbarConfigVersion.First" class="navbar navbar-transparent" xmNavbarGuestBackground>
   <div class="xm-navbar-container justify-content-between row mx-3">
     <div class="d-flex">
-      <xm-navbar-logo></xm-navbar-logo>
-      <xm-navbar-arrow-back></xm-navbar-arrow-back>
-      <xm-navbar-title></xm-navbar-title>
+      <xm-navbar-logo-widget></xm-navbar-logo-widget>
+      <xm-navbar-arrow-back-widget></xm-navbar-arrow-back-widget>
+      <xm-navbar-title-widget></xm-navbar-title-widget>
     </div>
 
     <div class="d-flex align-items-center">
-      <xm-navbar-input-search></xm-navbar-input-search>
-      <xm-notifications></xm-notifications>
-      <xm-navbar-help-link></xm-navbar-help-link>
-      <xm-navbar-language-menu></xm-navbar-language-menu>
+      <xm-navbar-input-search-widget></xm-navbar-input-search-widget>
+      <xm-navbar-notification-widget></xm-navbar-notification-widget>
+      <xm-navbar-help-link-widget></xm-navbar-help-link-widget>
+      <xm-navbar-language-menu-widget></xm-navbar-language-menu-widget>
       <xm-dynamic-widget-layout *ngIf="navbarLayout" [layouts]="navbarLayout"></xm-dynamic-widget-layout>
-      <xm-navbar-toggle></xm-navbar-toggle>
+      <xm-navbar-toggle-widget></xm-navbar-toggle-widget>
     </div>
   </div>
 </nav>
