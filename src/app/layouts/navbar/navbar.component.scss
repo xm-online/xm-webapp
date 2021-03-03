@@ -98,3 +98,14 @@
   padding-bottom: 0.75rem;
   z-index:        $zindex-sticky;
 }
+
+.xm-navbar-widgets-container {
+  display:        flex;
+  box-sizing:     border-box;
+  padding:        0 32px;
+  width:          100%;
+  flex-direction: row;
+  align-items:    center;
+  white-space:    nowrap;
+  height:         64px;
+}

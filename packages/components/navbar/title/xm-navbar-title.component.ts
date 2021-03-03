@@ -1,4 +1,5 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, DoCheck, NgModule, OnInit, Type } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -82,4 +83,15 @@ export class XmNavbarTitleComponent implements OnInit, DoCheck {
     private translateOrEmpty(item: Translate): string {
         return item ? this.translateService.instant(item as string) : '';
     }
+}
+
+@NgModule({
+    exports: [XmNavbarTitleComponent],
+    declarations: [XmNavbarTitleComponent],
+    imports: [
+        CommonModule,
+    ],
+})
+export class XmNavbarTitleModule {
+    public entry: Type<XmNavbarTitleComponent> = XmNavbarTitleComponent;
 }

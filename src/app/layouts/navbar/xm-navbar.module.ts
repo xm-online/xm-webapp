@@ -7,46 +7,45 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { LanguageModule } from '@xm-ngx/components/language';
+import { XmNavbarArrowBackWidgetModule, XmNavbarTitleModule } from '@xm-ngx/components/navbar';
 import { NavbarGuestBackgroundModule } from '@xm-ngx/components/navbar-guest-background/navbar-guest-background.module';
 import { XmNotificationsModule } from '@xm-ngx/components/xm-notifications';
-import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { InputModule } from '../../shared/directives/input.module';
-import { NavbarComponent } from './navbar.component';
-import { XmNavbarArrowBackComponent } from './back/xm-navbar-arrow-back.component';
 import { XmNavbarHelpLink } from './help/xm-navbar-help-link';
-import { XmNavbarInputSearchComponent } from './search/xm-navbar-input-search.component';
 import { XmNavbarLanguageMenuComponent } from './language/xm-navbar-language-menu.component';
 import { XmNavbarLogoComponent } from './logo/xm-navbar-logo.component';
-import { XmNavbarTitleComponent } from './title/xm-navbar-title.component';
+import { NavbarComponent } from './navbar.component';
+import { XmNavbarInputSearchComponent } from './search/xm-navbar-input-search.component';
 import { XmNavbarToggleComponent } from './toggle/xm-navbar-toggle.component';
 
 
 @NgModule({
-  imports: [
-    MatIconModule,
-    MatButtonModule,
-    RouterModule,
-    CommonModule,
-    InputModule,
-    XmTranslationModule,
-    XmDynamicModule,
-    XmNotificationsModule,
-    LanguageModule,
-    MatMenuModule,
-    NavbarGuestBackgroundModule,
-    MatInputModule,
-    MatTooltipModule,
-  ],
+    imports: [
+        MatIconModule,
+        MatButtonModule,
+        RouterModule,
+        CommonModule,
+        InputModule,
+        XmTranslationModule,
+        XmDynamicModule,
+        XmNotificationsModule,
+        LanguageModule,
+        MatMenuModule,
+        NavbarGuestBackgroundModule,
+        MatInputModule,
+        MatTooltipModule,
+        XmNavbarArrowBackWidgetModule,
+        XmNavbarTitleModule,
+    ],
     exports: [NavbarComponent],
     declarations: [
         NavbarComponent,
-        XmNavbarArrowBackComponent,
         XmNavbarHelpLink,
         XmNavbarLanguageMenuComponent,
         XmNavbarInputSearchComponent,
         XmNavbarLogoComponent,
-        XmNavbarTitleComponent,
         XmNavbarToggleComponent,
     ],
     providers: [],
