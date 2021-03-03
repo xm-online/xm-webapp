@@ -12,32 +12,6 @@ import { DOCUMENT, Location } from '@angular/common';
 import { IIdpClient, IIdpConfig } from '../../../../packages/core/src/xm-public-idp-config-model';
 import { environment } from '@xm-ngx/core/environment';
 
-export const TEMP_TOKEN = {
-    'idp_id_token': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImR3enNVaXlTWkIzcTNSLW9IS3NpTCJ9.eyJnaXZlbl9uYW1lIjoiQW5kcml5IiwiZmFtaWx5X25hbWUiOiJLaWtvdCIsIm5pY2tuYW1lIjoiYW5kcmV3Lmtpa290IiwibmFtZSI6IkFuZHJpeSBLaWtvdCIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHak1PQ1FiQmF6Wkt2MXpRcm1OTm1DeGpFYld6N0l2NHQ1ZVBGOWk9czk2LWMiLCJsb2NhbGUiOiJ1ayIsInVwZGF0ZWRfYXQiOiIyMDIxLTAzLTAxVDA5OjI1OjEwLjU4N1oiLCJlbWFpbCI6ImFuZHJldy5raWtvdEBqZXZlcmEuc29mdHdhcmUiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9kZXYta3JlOWRvMDkuZXUuYXV0aDAuY29tLyIsInN1YiI6Imdvb2dsZS1vYXV0aDJ8MTA4MTIxMDg3MTAyMjczMTMwMjM4IiwiYXVkIjoiVDg4S3BkeFc3RkVmRUY4S0VYNTdhcHdka2lrcHpSekIiLCJpYXQiOjE2MTQ1OTA3NDQsImV4cCI6MTYxNDYyNjc0NCwibm9uY2UiOiJkR2lfeHZyRzJCajgwOXNhRjhoSzg2a0RNbUt0Z0NqSmxmdWhZY2ZRNWVJIn0.hUKPAp8TmKi8WNDezuoe0LPNvwTDvIPWyIFHDBI0llZnG8Mr5eYin1kyZ85cICYa5XS2hhEfC9LDqh6jgt4dol3tCnLQNcLSaL8Mga0pw9jCWi-JwCY7NkYzcnObbqxm99XBSVXvjQzbV0wN5CyNJeBHM3x79FC3xu9o_j-5KF4oX4EwHAFuX8nGg7ChVMoqw3juXMT_fVC5OlWGOKOTT-NSXjJQI6J6bIiPLvY-IRyxeuY2dVK5KUuU6Hj5ZIojALnHpuV4G4ScbuC6w_gUQj3uoxofpnu2yjqWZWz6CpJypzD-VfF3oIAbYdlocLgFZiPF7cW4ssG8YCd_I4E2bQ',
-    'idpAccessTokenInclusion': {
-        'enabled': true,
-        'idpTokenHeader': 'Authorization',
-        'xmTokenHeader': 'X-Authorization'
-    },
-    'access_token': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVUb2tlblRpbWUiOjE2MTQ1OTA3NDU4NTEsInVzZXJfbmFtZSI6ImFuZHJldy5raWtvdEBqZXZlcmEuc29mdHdhcmUiLCJzY29wZSI6WyJvcGVuaWQiXSwicm9sZV9rZXkiOiJST0xFX0FETUlOIiwidXNlcl9rZXkiOiI3OTIwNDc4Yy01ODllLTQ5OTYtODNjZS0xZjQyNGJkNjc0NTYiLCJleHAiOjE2MjU1OTA3NDUsImxvZ2lucyI6W3sidHlwZUtleSI6IkxPR0lOLkVNQUlMIiwic3RhdGVLZXkiOm51bGwsImxvZ2luIjoiYW5kcmV3Lmtpa290QGpldmVyYS5zb2Z0d2FyZSJ9XSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiIwMjZjNDQyOS1mNmY3LTRlNWQtYTRmYi03NzFkNDc0MjY4ZjciLCJ0ZW5hbnQiOiJTU1AiLCJjbGllbnRfaWQiOiJpbnRlcm5hbCJ9.UTJZEIDwULs408jp9jpOAUuSrizGijMBeYLaPfaLeZytCr2RbZ0931Br47IcNjTc9PEBbNMXpiCe_Wq8ITkZ1DOUpMOsX5n9R0gMMB5MUEq9Bdcu3eWd3EFSTouRKwtt4uHKhaO1YrAYCoF1jxVG4tuC8w3XdqVIsdOMvVIdH9wtP9ThBFQdHU0VPgSJocoZ0mvslYEjNonSw05lStSr_0D34LyMOVKKyH13cwd-9srd1dAEwbIlexTKsFNb5Q2sDXQKcgVoTCxZJCrK6tu_UUt5yWirwNnLk6p-60dahqw0MYO1UOkOCwbIqtHgXwAQt9bJY9JygaS_ZrQ1KFAYMA',
-    'token_type': 'bearer',
-    'refresh_token': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVUb2tlblRpbWUiOjE2MTQ1OTA3NDU4NTEsInVzZXJfbmFtZSI6ImFuZHJldy5raWtvdEBqZXZlcmEuc29mdHdhcmUiLCJzY29wZSI6WyJvcGVuaWQiXSwicm9sZV9rZXkiOiJST0xFX0FETUlOIiwiYXRpIjoiMDI2YzQ0MjktZjZmNy00ZTVkLWE0ZmItNzcxZDQ3NDI2OGY3IiwidXNlcl9rZXkiOiI3OTIwNDc4Yy01ODllLTQ5OTYtODNjZS0xZjQyNGJkNjc0NTYiLCJleHAiOjE2MjU1OTA3NDUsImxvZ2lucyI6W3sidHlwZUtleSI6IkxPR0lOLkVNQUlMIiwic3RhdGVLZXkiOm51bGwsImxvZ2luIjoiYW5kcmV3Lmtpa290QGpldmVyYS5zb2Z0d2FyZSJ9XSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiI2ZmY2OTM5ZC0wZDQ0LTQxOTktYTg2Yi1kYmQ3ZDRhMDAzNmIiLCJ0ZW5hbnQiOiJTU1AiLCJjbGllbnRfaWQiOiJpbnRlcm5hbCJ9.p-DMhpC7Yqkjo8q3pVb7NP0ppErwkNqCGc1qjOhsadmHu8Oq0AIBtDSlvEf5UJHWguhNZA0c0gKOo-fLBp-EpdheH3ROkrQ58ieKnNH4FpXny77btfwjJCaQAQUb40rv2tbFICZxGJQ33RwRaBBJQBaa-Fb-SObUMpSpWHW4VD8pn9P_vCn9A0ILDNKyrR33Y0hzf9NHbwWr6wQuFij9cA08jlxolsUkELEcUuQgVgcp8uwV1cyunFkwwchnzlyPi1eDi-kE3CfNqqXesyeUZdHNSfuIdRXhHodkZSpFE_4Ed1lK4-FB2WWugY888pnWOSd9vpc9PFxYdOzizIkNgQ',
-    'expires_in': 10999999,
-    'scope': 'openid',
-    'createTokenTime': 1614590745851,
-    'role_key': 'ROLE_ADMIN',
-    'user_key': '7920478c-589e-4996-83ce-1f424bd67456',
-    'logins': [
-        {
-            'typeKey': 'LOGIN.EMAIL',
-            'stateKey': null,
-            'login': 'andrew.kikot@jevera.software'
-        }
-    ],
-    'tenant': 'SSP',
-    'jti': '026c4429-f6f7-4e5d-a4fb-771d474268f7'
-}
-
 @Injectable()
 export class LoginService {
 

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { Observable, of } from 'rxjs';
@@ -11,7 +11,8 @@ import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
 import { IIdpClient } from '../../../../packages/core/src/xm-public-idp-config-model';
-import { TEMP_TOKEN } from './login.service';
+import { environment } from '@xm-ngx/core/environment';
+
 
 const DEFAULT_HEADERS = {
     'Content-Type': DEFAULT_CONTENT_TYPE,
@@ -100,33 +101,19 @@ export class AuthServerProvider {
         );
     }
 
-    public loginIdp(opt: any): Observable<any> {
+    public loginIdp(opt: Params): Observable<any> {
         const config: IIdpClient = this.$sessionStorage.retrieve(IDP_CLIENT);
         const params = new HttpParams({ fromObject: opt });
-
-        return of({body: TEMP_TOKEN}).pipe(
+        const stream = environment.environment === 'idp' ?
+            of({body: environment.idpDevSession}) :
+            this.http.get<any>(`login/oauth2/code/${config.key}`, { params });
+        return stream.pipe(
             map((resp) => {
-                // @TODO: refactor this
                 this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
-                const rememberMe = false;
                 const result = resp.body;
-                const accessToken = this.storeAT(result, rememberMe);
+                const accessToken = this.storeAT(result, false)
                 this.stateStorageService.resetDestinationState();
-                this.storeRT(result, rememberMe);
-                return accessToken;
-            }),
-            tap(() => this.sessionService.create()),
-        )
-
-        return this.http.get<any>(`login/oauth2/code/${config.key}`, { params }).pipe(
-            map((resp) => {
-                // @TODO: refactor this
-                this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
-                const rememberMe = false;
-                const result = resp.body;
-                const accessToken = this.storeAT(result, rememberMe);
-                this.stateStorageService.resetDestinationState();
-                this.storeRT(result, rememberMe);
+                this.storeRT(result, false);
                 return accessToken;
             }),
             tap(() => this.sessionService.create()),
