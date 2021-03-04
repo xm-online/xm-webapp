@@ -1,41 +1,40 @@
-<ng-container *ngIf="uiConfig && isIdpDirectLoginDisabled">
-  <xm-idp *ngIf="uiConfig?.idp?.enabled"></xm-idp>
+<xm-idp *ngIf="uiConfig?.idp?.enabled"></xm-idp>
 
-  <div class="alert alert-danger"
-       *ngIf="authenticationError"
-       [innerHTML]="'login.messages.error.authentication' | translate"></div>
+<div class="alert alert-danger"
+     *ngIf="authenticationError"
+     [innerHTML]="'login.messages.error.authentication' | translate"></div>
 
-  <div class="alert alert-success"
-       *ngIf="successRegistration"
-       [innerHTML]="'register.messages.success' | translate">
+<div class="alert alert-success"
+     *ngIf="successRegistration"
+     [innerHTML]="'register.messages.success' | translate">
+</div>
+
+<form class="form" role="form" (ngSubmit)="login()" *ngIf="!checkOTP" autocomplete="off">
+  <div class="form-group" id="userNameContainer">
+    <mat-form-field [floatLabel]="floatLabel ? 'always' : 'auto'">
+      <input matInput
+             type="text"
+             name="username"
+             [(ngModel)]="username"
+             (change)="floatLabel = false"
+             xmFocus
+             [placeholder]="loginLabel ? loginLabel : ('global.form.login' | translate)"
+             [disabled]="isFormDisabled()"
+             autocomplete="off">
+    </mat-form-field>
   </div>
 
-  <form class="form" role="form" (ngSubmit)="login()" *ngIf="!checkOTP" autocomplete="off">
-    <div class="form-group" id="userNameContainer">
-      <mat-form-field [floatLabel]="floatLabel ? 'always' : 'auto'">
-        <input matInput
-               type="text"
-               name="username"
-               [(ngModel)]="username"
-               (change)="floatLabel = false"
-               xmFocus
-               [placeholder]="loginLabel ? loginLabel : ('global.form.login' | translate)"
-               [disabled]="isFormDisabled()"
-               autocomplete="off">
-      </mat-form-field>
-    </div>
-
-    <div class="form-group" id="userPasswordContainer">
-      <mat-form-field [floatLabel]="floatLabel ? 'always' : 'auto'">
-        <input matInput
-               [type]="isShowPassword ? 'text' : 'password'"
-               name="password"
-               (change)="floatLabel = false"
-               [(ngModel)]="password"
-               placeholder="{{'login.form.password' | translate}}"
-               [disabled]="isFormDisabled()"
-               autocomplete="off">
-        <span class="form-control-addon" (click)="isShowPassword = !isShowPassword">
+  <div class="form-group" id="userPasswordContainer">
+    <mat-form-field [floatLabel]="floatLabel ? 'always' : 'auto'">
+      <input matInput
+             [type]="isShowPassword ? 'text' : 'password'"
+             name="password"
+             (change)="floatLabel = false"
+             [(ngModel)]="password"
+             placeholder="{{'login.form.password' | translate}}"
+             [disabled]="isFormDisabled()"
+             autocomplete="off">
+      <span class="form-control-addon" (click)="isShowPassword = !isShowPassword">
         <span class="xm-tooltip direction-left" *ngIf="!isShowPassword">
           <i class="material-icons">visibility</i>
           <span>{{'login.form.show-password' | translate}}</span>
@@ -45,67 +44,66 @@
           <span>{{'login.form.hide-password' | translate}}</span>
         </span>
       </span>
-      </mat-form-field>
-    </div>
+    </mat-form-field>
+  </div>
 
-    <div class="row align-items-center">
-      <div class="col-xs-12 col-md-6">
-        <div class="form-group" *ngIf="!(hideRememberMe)">
-          <mat-checkbox class="remember-me" color="primary" [(ngModel)]="rememberMe"
-                        name="rememberMe"
-                        [disabled]="isFormDisabled()">
-            <span>{{'login.form.rememberMe' | translate}}</span>
-          </mat-checkbox>
-        </div>
-      </div>
-
-      <div class="col-xs-12 col-md-6" *ngIf="!checkOTP && !hideResetPasswordLink">
-        <div class="form-group text-right">
-          <a class="forgot-link" href="javascript: void(0);" (click)="requestResetPassword()">
-            {{'login.password.forgot' | translate}}
-          </a>
-        </div>
+  <div class="row align-items-center">
+    <div class="col-xs-12 col-md-6">
+      <div class="form-group" *ngIf="!(hideRememberMe)">
+        <mat-checkbox class="remember-me" color="primary" [(ngModel)]="rememberMe"
+                      name="rememberMe"
+                      [disabled]="isFormDisabled()">
+          <span>{{'login.form.rememberMe' | translate}}</span>
+        </mat-checkbox>
       </div>
     </div>
 
-    <div class="text-right">
-      <button type="submit"
-              color="primary"
-              class="btn btn-primary display-block"
-              [ngClass]="{'loading' : sendingLogin}"
-              [disabled]="isFormDisabled()">
-        <span>{{'login.form.button' | translate}}</span>
-      </button>
+    <div class="col-xs-12 col-md-6" *ngIf="!checkOTP && !hideResetPasswordLink">
+      <div class="form-group text-right">
+        <a class="forgot-link" href="javascript: void(0);" (click)="requestResetPassword()">
+          {{'login.password.forgot' | translate}}
+        </a>
+      </div>
     </div>
-  </form>
+  </div>
 
-  <form class="form" role="form" (ngSubmit)="checkOtp()" *ngIf="checkOTP">
-    <div class="form-group">
-      <mat-form-field>
-        <input matInput
-               type="text"
-               name="otp"
-               [(ngModel)]="otpValue"
-               xmFocus
-               placeholder="{{'global.form.otp' | translate}}"
-               [disabled]="isFormDisabled()">
-      </mat-form-field>
-    </div>
+  <div class="text-right">
+    <button type="submit"
+            color="primary"
+            class="btn btn-primary display-block"
+            [ngClass]="{'loading' : sendingLogin}"
+            [disabled]="isFormDisabled()">
+      <span>{{'login.form.button' | translate}}</span>
+    </button>
+  </div>
+</form>
 
-    <div class="text-right">
-      <button mat-button
-              type="button"
-              class="btn mr-1 ml-auto"
-              [disabled]="isFormDisabled()"
-              (click)="backToLogin()">
-        <span>{{'login.form.otpValidateCancel' | translate}}</span>
-      </button>
-      <button mat-button
-              type="submit"
-              color="primary"
-              [disabled]="isFormDisabled()">
-        <span>{{'login.form.otpValidateButton' | translate}}</span>
-      </button>
-    </div>
-  </form>
-</ng-container>
+<form class="form" role="form" (ngSubmit)="checkOtp()" *ngIf="checkOTP">
+  <div class="form-group">
+    <mat-form-field>
+      <input matInput
+             type="text"
+             name="otp"
+             [(ngModel)]="otpValue"
+             xmFocus
+             placeholder="{{'global.form.otp' | translate}}"
+             [disabled]="isFormDisabled()">
+    </mat-form-field>
+  </div>
+
+  <div class="text-right">
+    <button mat-button
+            type="button"
+            class="btn mr-1 ml-auto"
+            [disabled]="isFormDisabled()"
+            (click)="backToLogin()">
+      <span>{{'login.form.otpValidateCancel' | translate}}</span>
+    </button>
+    <button mat-button
+            type="submit"
+            color="primary"
+            [disabled]="isFormDisabled()">
+      <span>{{'login.form.otpValidateButton' | translate}}</span>
+    </button>
+  </div>
+</form>

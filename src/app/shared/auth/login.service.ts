@@ -63,12 +63,9 @@ export class LoginService {
     }
 
     public onIdpDirectLogin(config: IIdpConfig): void {
-        const isDirectLogin = config?.idp?.enabled && config?.idp?.features?.directLogin?.enabled;
-        if (isDirectLogin) {
-            const client = this.getIdpClient({idp: config?.idp} as IIdpConfig);
-            this.$sessionStorage.store(IDP_CLIENT, client);
-            this.loginWithIdpClient(client);
-        }
+        const client = this.getIdpClient({idp: config?.idp} as IIdpConfig);
+        this.$sessionStorage.store(IDP_CLIENT, client);
+        this.loginWithIdpClient(client);
     }
 
     public loginWithIdpClient(client: IIdpClient): void {

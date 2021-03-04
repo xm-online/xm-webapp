@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
     public sendingLogin: boolean;
     public checkTermsOfConditions: boolean;
     public uiConfig: XmUIConfig;
-    public isIdpDirectLoginDisabled: boolean = false;
 
     constructor(
         protected eventManager: XmEventManager,
@@ -80,13 +79,14 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
             )
             .subscribe(([ui, uaa]) => {
                 this.uiConfig = ui;
-                this.isIdpDirectLoginDisabled = !this.uiConfig?.idp?.features?.directLogin?.enabled;
-                this.loginService.onIdpDirectLogin(ui);
                 const uaaConfig: string | any = uaa;
                 this.hideRememberMe = this.uiConfig.hideRememberMe ? this.uiConfig.hideRememberMe : false;
                 this.rememberMe = this.uiConfig.rememberMeActiveByDefault === true;
                 this.hideResetPasswordLink = this.uiConfig.hideResetPasswordLink ? this.uiConfig.hideResetPasswordLink : false;
                 this.checkTermsOfConditions = (uaaConfig && uaaConfig.isTermsOfConditionsEnabled) || false;
+                if (this.uiConfig?.idp?.features?.directLogin?.enabled) {
+                    this.loginService.onIdpDirectLogin(ui);
+                }
             });
     }
 

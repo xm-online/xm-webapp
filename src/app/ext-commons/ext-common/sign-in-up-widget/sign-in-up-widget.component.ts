@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 
 import { XM_EVENT_LIST } from '../../../xm.constants';
 import { LanguageService } from '@xm-ngx/translation';
+import { XmConfigService } from '../../../shared';
+import { XmUIConfig } from '@xm-ngx/core/config';
 
 @Component({
     selector: 'xm-sign-in-up-widget',
@@ -14,17 +16,21 @@ import { LanguageService } from '@xm-ngx/translation';
 export class SignInUpWidgetComponent implements OnInit, OnDestroy {
 
     public config: any;
+    public xmUiConfig: XmUIConfig;
     public isLoginFormView: boolean = true;
     public successRegistration: boolean = false;
     public loginLabel: string;
     private registrationSuccessSubscription: Subscription;
     private changeLanguageSubscriber: Subscription;
 
+
     constructor(
         private eventManager: XmEventManager,
         private languageService: LanguageService,
         private route: ActivatedRoute,
-        private router: Router) {
+        private router: Router,
+        protected xmConfigService: XmConfigService,) {
+        this.xmConfigService.getUiConfig().subscribe((cfg: XmUIConfig) => this.xmUiConfig = cfg);
     }
 
     public ngOnInit(): void {

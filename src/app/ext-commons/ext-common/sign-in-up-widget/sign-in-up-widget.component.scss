@@ -1,0 +1,12 @@
+:host {
+  .pending-direct-login {
+    min-height: 140px;
+    &.xm-disabled {
+      opacity: 1 !important;
+    }
+
+    .card-header, .card-body {
+      display: none;
+    }
+  }
+}
