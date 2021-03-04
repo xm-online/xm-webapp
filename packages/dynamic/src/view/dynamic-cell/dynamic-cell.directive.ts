@@ -35,6 +35,8 @@ export interface DynamicCell<O = unknown> {
     field: string;
     selector: string;
     options: O;
+    class: string;
+    style: string;
 }
 
 /**
@@ -46,8 +48,10 @@ export type Column<O = unknown> = DynamicCell<O>;
  * DynamicCellDirective creates a component from the DynamicLoader
  *
  * @example
+ * ```
  * <xm-dynamic-cell [row]="{c: true}"
  *                  [cell]="{field: 'c', selector='@xm-ngx/components/xm-bool-view'}"></xm-dynamic-cell>
+ * ```
  * @beta
  */
 @Directive({
@@ -72,6 +76,8 @@ export class DynamicCellDirective<V, O extends DynamicCell<O>>
         this._cell = value;
         this.selector = value?.selector;
         this.options = value?.options;
+        this.class = value?.class;
+        this.style = value?.style;
     }
 
     /** @deprecated use {@link cell} instead */

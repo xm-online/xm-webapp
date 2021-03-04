@@ -42,7 +42,7 @@ export class StringHandlerDirective extends NgModelWrapper<string> {
 
     @HostListener('blur')
     public applyFocusOut(): void {
-        this.touche(this.elementRef.nativeElement.value);
+        this.touch(this.elementRef.nativeElement.value);
     }
 
     public writeValue(obj: string): void {

@@ -16,14 +16,18 @@ export class XmTranslateService {
     }
 
     /**
-     * @params {(string | { en?: string; [locale: string]: string })} text
-     * @description translate
+     * @param value - `{(string | { en?: string; [locale: string]: string })}` text
+     * translate
      * @example
+     * ```
      *  {{ {en: 'Hi', ru: 'Хай'} | translate }}
      *  // returns Hi
+     * ```
      * @example
+     * ```
      *  {{ 'global.common.accept' | translate }}
      *  // returns Accept
+     * ```
      */
     public translate(text: Translate, interpolateParams: object = {}): string | null {
         if (typeof text === 'object' && text !== null) {

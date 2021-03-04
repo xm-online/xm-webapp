@@ -16,7 +16,10 @@ module.exports = {
                 tsconfigRootDir: __dirname,
                 project: ['./tsconfig.json'],
             },
-            plugins: ['@typescript-eslint'],
+            plugins: [
+                '@typescript-eslint',
+                'eslint-plugin-tsdoc',
+            ],
             extends: [
                 'eslint:recommended',
                 'plugin:@typescript-eslint/recommended',
@@ -39,6 +42,7 @@ module.exports = {
                 '@typescript-eslint/no-var-requires': 'warn',
                 '@typescript-eslint/unbound-method': ['warn', { 'ignoreStatic': true }],
                 // Error
+                'tsdoc/syntax': 'error',
                 'quotes': ['error', 'single', { 'avoidEscape': true }],
                 'no-console': ['error', { 'allow': ['warn', 'info'] }],
                 '@typescript-eslint/typedef': ['error', { arrayDestructuring: false, arrowParameter: false }],

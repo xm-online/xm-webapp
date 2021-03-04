@@ -1,0 +1,33 @@
+@mixin xm-angular-editor-theme($theme) {
+  $surface: map-get($theme, surface);
+  $divider: map-get($theme, divider);
+
+  .xm-multi-language-control {
+    .angular-editor .angular-editor-wrapper .angular-editor-textarea {
+      border-color: $divider !important;
+    }
+
+    .angular-editor-toolbar {
+      background-color: $surface;
+      border-color:     $surface;
+    }
+
+    .angular-editor-toolbar .angular-editor-toolbar-set .angular-editor-button {
+      background-color: $surface !important;
+      border-color:     $surface !important;
+    }
+
+    .ae-font .ae-picker-options .ae-picker-item {
+      background-color: $surface;
+    }
+
+    .ae-font .ae-picker-label:before {
+      background: linear-gradient(to right, $surface, $surface 100%);
+    }
+
+    .ae-font .ae-picker-label {
+      background-color: $surface;
+      border-color:     $divider;
+    }
+  }
+}

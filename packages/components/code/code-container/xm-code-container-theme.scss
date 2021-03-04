@@ -1,0 +1,13 @@
+@mixin xm-code-container-theme($theme) {
+  .xm-code-container {
+    $divider:      map-get($theme, divider);
+    $is-dark-mode: map-get($theme, is-dark-mode);
+    border-color:  $divider;
+
+    @if ($is-dark-mode) {
+      background: #363636;
+    } @else {
+      background: #f1f1f1;
+    }
+  }
+}

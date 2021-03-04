@@ -15,6 +15,13 @@ import { skip, take } from 'rxjs/operators';
 export const NAVBAR_EDIT_DASHBOARD_EVENT = 'NAVBAR_EDIT_DASHBOARD_EVENT';
 export const NAVBAR_EDIT_WIDGET_EVENT = 'NAVBAR_EDIT_WIDGET_EVENT';
 
+export const NAVBAR_DASHBOARD_EDIT_STORAGE_KEY = 'NAVBAR_DASHBOARD_EDIT_STORAGE_KEY';
+
+export enum NavbarDashboardEditState {
+    Open = 'OPEN',
+    Close = 'CLOSE',
+}
+
 @Component({
     selector: 'xm-navbar-dashboard-edit-widget',
     template: `
@@ -53,6 +60,8 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy {
             this.page = i as Dashboard;
             if (this.isEditing) {
                 this.editorService.editDashboard(this.dashboardConfig.dashboardRef, this.page);
+            } else if (sessionStorage.getItem(NAVBAR_DASHBOARD_EDIT_STORAGE_KEY) === NavbarDashboardEditState.Open) {
+                this.onEdit();
             }
         });
 
@@ -69,8 +78,10 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy {
         if (this.page && !this.isEditing) {
             this.isEditing = true;
             this.editorService.editDashboard(this.dashboardConfig.dashboardRef, this.page);
+            sessionStorage.setItem(NAVBAR_DASHBOARD_EDIT_STORAGE_KEY, NavbarDashboardEditState.Open);
         } else {
             this.isEditing = false;
+            sessionStorage.removeItem(NAVBAR_DASHBOARD_EDIT_STORAGE_KEY);
             this.editorService.close();
         }
     }

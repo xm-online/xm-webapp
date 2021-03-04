@@ -35,7 +35,7 @@ export class StateChangeDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        // TODO think about correct way to work with context
+        // TODO: think about correct way to work with context
         $.xmEntity = this.xmEntity;
         if (this.nextSpec && this.nextSpec.inputSpec) {
             this.jsfAttributes = buildJsfAttributes(this.nextSpec.inputSpec, this.nextSpec.inputForm);

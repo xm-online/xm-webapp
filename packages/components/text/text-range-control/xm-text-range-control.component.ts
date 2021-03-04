@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { DataQa } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 
-export interface XmTextRangeControlOptions {
+export interface XmTextRangeControlOptions extends DataQa {
     title?: Translate;
     placeholder?: Translate;
     required?: boolean;
     id?: string;
     rows?: string | number;
     maxLength?: number;
-    dataQa?: string;
 }
 
 const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
@@ -32,7 +32,7 @@ const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
                       [id]="options.id"
                       [required]="options.required"
                       [attr.maxlength]="options.maxLength"
-                      [attr.data-qa]=" options.dataQa"
+                      [attr.data-qa]="options.dataQa"
                       [rows]="options.rows || 4"
                       [formControl]="control"
                       matInput>

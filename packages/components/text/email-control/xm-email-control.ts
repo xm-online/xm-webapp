@@ -6,13 +6,13 @@ import { XmEmailControlOptions } from './xm-email-control-options';
     selector: 'xm-email-control',
     template: `
         <mat-form-field>
-            <mat-label>{{ options.title | translate}}</mat-label>
+            <mat-label>{{ options?.title | translate}}</mat-label>
 
             <input [formControl]="control"
-                   [id]="options.id"
-                   [required]="options.required"
+                   [id]="options?.id"
+                   [required]="options?.required"
                    autocomplete="email"
-                   attr.data-qa="email-input"
+                   [attr.data-qa]="options?.dataQa || 'email-input'"
                    matInput
                    name="email"
                    type="email">

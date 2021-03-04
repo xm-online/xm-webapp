@@ -1,11 +1,11 @@
 import { Component, Input, NgModule } from '@angular/core';
 import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { XmTextViewContainerComponent } from './xm-text-view-container.component';
 
-export interface XmTextViewOptions {
+export interface XmTextViewOptions extends DataQa {
     title?: Translate;
     style?: 'inline';
     emptyValue?: Translate;
@@ -14,6 +14,7 @@ export interface XmTextViewOptions {
 export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
     title: null,
     style: null,
+    dataQa: 'text-view',
     emptyValue: ' ',
 };
 
@@ -22,7 +23,8 @@ export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
     template: `
         <xm-text-view-container [styleInline]="!!this.options?.style">
             <span xmLabel>{{options.title | translate}}</span>
-            <span xmValue>{{value || (options.emptyValue | translate)}}</span>
+            <span [attr.data-qa]="options.dataQa"
+                  xmValue>{{value || (options.emptyValue | translate)}}</span>
         </xm-text-view-container>
     `,
 })

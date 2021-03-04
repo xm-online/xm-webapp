@@ -129,7 +129,7 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
             this.functionSpecs = this.functionSpecs
                 .filter((f) => f.hasOwnProperty('withEntityId') && f.withEntityId === false);
         } else {
-            // TODO workaround not to call xmEntityService for no reason
+            // TODO: workaround not to call xmEntityService for no reason
             if (this.functionSpecs &&
                 ((this.functionSpecs.length === 1 && this.functionSpecs[0].saveFunctionContext)
                     || (this.functionSpecs.length > 1))) {

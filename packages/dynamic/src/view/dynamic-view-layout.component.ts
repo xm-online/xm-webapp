@@ -10,7 +10,9 @@ export interface ViewLayout<V = unknown, O = unknown> extends Layout, IComponent
 
 /**
  * @example
+ * ```
  * <xm-dynamic-view-layout [layouts]="[{selector: '@xm-ngx/components/xm-bool-view', value: true }]"></xm-dynamic-view-layout>
+ * ```
  */
 @Component({
     selector: 'xm-dynamic-view-layout, [xmDynamicViewLayout]',

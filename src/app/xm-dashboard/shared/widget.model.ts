@@ -6,7 +6,7 @@ export interface DashboardWidget<C = any> extends BaseEntity {
     dashboard?: number
         /*
          * Backward compatibility,
-         * @todo: Backend, improve dashboard-microservice
+         * TODO: Backend, improve dashboard-microservice
          */
         | { id?: number } | any;
     isPublic?: boolean;
@@ -15,7 +15,7 @@ export interface DashboardWidget<C = any> extends BaseEntity {
 
     /*
      * Backward compatibility, @deprecated
-     * @todo: add generics
+     * TODO: add generics
      */
     [key: string]: any;
 

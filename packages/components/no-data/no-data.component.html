@@ -1,9 +1,38 @@
 <div *ngIf="show" class="xm-no-data">
 
-  <img *ngIf="!hideImage"
-       class="mb-3"
-       src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMjAzIDIwMy4zIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyMDMgMjAzLjM7IiB4bWw6c3BhY2U9InByZXNlcnZlIj48c3R5bGUgdHlwZT0idGV4dC9jc3MiPi5zdDB7ZmlsbDojQ0VDQ0NDO308L3N0eWxlPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xNzMsNzIuNFYzMC45aC00MS41TDEwMi4yLDEuNUw3Mi44LDMwLjlIMzEuM3Y0MS41TDIsMTAxLjdMMzEuMywxMzF2NDEuNWg0MS41bDI5LjMsMjkuM2wyOS4zLTI5LjNIMTczVjEzMWwyOS4zLTI5LjNMMTczLDcyLjR6IE0xMDIuMiwxNjIuNmMtMzMuNiwwLTYwLjktMjcuMy02MC45LTYwLjlzMjcuMy02MC45LDYwLjktNjAuOVMxNjMsNjguMSwxNjMsMTAxLjdTMTM1LjgsMTYyLjYsMTAyLjIsMTYyLjZ6Ii8+PGc+PHBhdGggY2xhc3M9InN0MCIgZD0iTTEwMC4zLDEzNmMtMjYuMSwwLTMzLjYtMjIuOS0zMy43LTIzLjFjLTAuNS0xLjYsMC40LTMuMywyLTMuOGMxLjYtMC41LDMuMywwLjQsMy44LDEuOWMwLjMsMC44LDYuNCwxOC45LDI4LDE4LjljMjEuNSwwLDI2LjYtMTgsMjYuOC0xOC44YzAuNC0xLjYsMi4xLTIuNSwzLjctMi4xYzEuNiwwLjQsMi42LDIuMSwyLjEsMy43QzEzMi44LDExMywxMjYuNSwxMzYsMTAwLjMsMTM2eiIvPjwvZz48Y2lyY2xlIGNsYXNzPSJzdDAiIGN4PSI4NSIgY3k9IjkxLjUiIHI9IjUuNSIvPjxjaXJjbGUgY2xhc3M9InN0MCIgY3g9IjExNS4xIiBjeT0iOTEuNSIgcj0iNS41Ii8+PC9zdmc+"
-       style="width: 108px; height: 108px">
+  <ng-container *ngIf="!hideImage">
+    <img *ngIf="imageUrl; else defaultImage"
+         [src]="imageUrl"
+         class="mb-3"
+         style="width: 108px; height: 108px">
+
+    <ng-template #defaultImage>
+      <svg height="344.000000pt"
+           style="width: 108px; height: 108px"
+           preserveAspectRatio="xMidYMid meet"
+           version="1.0"
+           viewBox="0 0 344.000000 344.000000"
+           width="344.000000pt"
+           xmlns="http://www.w3.org/2000/svg">
+
+        <g fill="#000000" stroke="none" transform="translate(0.000000,344.000000) scale(0.100000,-0.100000)">
+          <path d="M1697 2874 c-4 -4 -7 -71 -7 -150 0 -148 5 -163 45 -148 13 5 15 29 13 153 -3 138 -4 146 -23 149 -12 2 -24 0 -28 -4z"/>
+          <path d="M896 2544 c-9 -8 -16 -19 -16 -22 0 -4 47 -54 104 -111 104 -104 127 -116 143 -75 4 11 -25 46 -98 120 -57 57 -107 104 -111 104 -3 0 -14 -7 -22 -16z"/>
+          <path d="M2402 2446 c-70 -70 -100 -108 -96 -119 14 -39 37 -27 140 75 57 56 104 105 104 109 0 4 -7 15 -16 23 -8 9 -19 16 -23 16 -4 0 -53 -47 -109 -104z"/>
+          <path d="M1550 2480 c-375 -97 -630 -465 -580 -837 25 -190 94 -329 229 -463 65 -64 107 -96 170 -129 129 -67 187 -82 336 -88 112 -5 143 -2 214 16 266 67 462 249 553 514 30 86 32 101 33 232 0 120 -3 151 -23 215 -73 229 -227 407 -437 499 -139 62 -347 79 -495 41z m362 -69 c256 -66 457 -275 514 -535 22 -104 15 -263 -16 -356 -65 -193 -191 -339 -365 -421 -112 -54 -191 -72 -310 -71 -314 1 -571 192 -671 497 -22 67 -27 99 -27 195 -1 137 15 207 75 330 34 69 58 102 132 175 101 100 187 152 311 185 97 26 257 26 357 1z"/>
+          <path d="M1600 2316 c-219 -57 -388 -222 -445 -436 -19 -71 -19 -229 0 -300 55 -208 218 -372 425 -429 91 -25 170 -28 170 -6 0 10 -10 15 -27 15 -16 0 -59 7 -98 15 -295 62 -490 340 -447 636 32 218 193 402 407 465 95 28 232 24 325 -10 106 -38 120 -41 120 -24 0 16 -25 30 -110 60 -73 26 -243 33 -320 14z"/>
+          <path d="M2054 2218 c-4 -6 5 -21 21 -34 23 -18 32 -21 43 -11 12 9 9 15 -14 34 -33 26 -40 28 -50 11z"/>
+          <path d="M1973 1214 c-31 -13 -46 -44 -22 -44 22 0 80 33 76 43 -5 16 -19 17 -54 1z"/>
+          <path d="M1851 1166 c-8 -10 -9 -16 -1 -21 16 -10 50 4 50 21 0 18 -34 18 -49 0z"/>
+          <path d="M566 1737 c-13 -10 -16 -20 -12 -35 7 -21 12 -22 151 -22 139 0 144 1 151 22 12 39 -17 48 -151 48 -85 0 -127 -4 -139 -13z"/>
+          <path d="M2596 1737 c-13 -10 -16 -20 -12 -35 7 -21 12 -22 151 -22 139 0 144 1 151 22 12 39 -17 48 -151 48 -85 0 -127 -4 -139 -13z"/>
+          <path d="M993 1037 c-105 -103 -117 -126 -75 -142 23 -8 225 195 216 218 -15 39 -37 27 -141 -76z"/>
+          <path d="M2322 1118 c-7 -7 -12 -17 -12 -23 0 -6 46 -57 103 -113 103 -103 126 -115 142 -74 4 11 -24 46 -97 119 -56 57 -107 103 -113 103 -6 0 -16 -5 -23 -12z"/>
+          <path d="M1701 876 c-8 -9 -11 -59 -9 -152 l3 -139 25 0 25 0 3 139 c2 131 -3 166 -28 166 -4 0 -13 -6 -19 -14z"/>
+        </g>
+      </svg>
+    </ng-template>
+  </ng-container>
 
   <p>{{(text || 'global.noData') | translate}}</p>
 </div>

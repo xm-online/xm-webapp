@@ -24,7 +24,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
     public backLinkSpecs: LinkSpec[];
     public showLoader: boolean;
     public entityUiConfig: EntityUiConfig;
-    // TODO for demo
+    // TODO: for demo
     public tenant: string;
     public defaultDetailLayoutType: EntityDetailLayout;
 
@@ -63,7 +63,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
 
     public defineUiConfig(): void {
         this.xmConfigService.getUiConfig().subscribe((config) => {
-            // TODO for demo
+            // TODO: for demo
             this.tenant = config.name;
             this.defaultDetailLayoutType = config.defaultDetailLayoutType;
             this.entityUiConfig = (config && config.applications
@@ -107,7 +107,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
             attachmentsComponent = 'attachment-list';
         }
 
-        // TODO for demo
+        // TODO: for demo
         if (['XM Product Catalog', 'Cimdemo'].includes(this.tenant)) {
             detailLayoutType = 'COMPACT';
         }

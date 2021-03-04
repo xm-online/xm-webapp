@@ -1,7 +1,8 @@
+import { DataQa } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 
-export interface XmPasswordControlOptions {
-  title: Translate,
-  id?: string,
-  required?: boolean,
+export interface XmPasswordControlOptions extends DataQa {
+    title: Translate,
+    id?: string,
+    required?: boolean,
 }

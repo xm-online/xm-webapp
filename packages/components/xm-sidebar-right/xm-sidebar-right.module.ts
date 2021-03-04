@@ -24,6 +24,10 @@ export class ContainerOutlet {
 
 @Component({
     selector: 'xm-sidebar-right',
+    styleUrls: ['./xm-sidebar-right.component.scss'],
+    host: {
+        class: 'xm-sidebar-right',
+    },
     template: '<ng-container xmContainerOutlet></ng-container>',
 })
 export class XmSidebarRight implements OnInit, OnDestroy {

@@ -20,8 +20,8 @@ function permissionContextFactory(): PermissionContext {
 
 /**
  *
- * @Examples:
- *
+ * @example
+ * ```
  * <div *xmPermission="undefined"> Show template </div>
  * <div *xmPermission="null"> Show template </div>
  * <div *xmPermission="''"> Show template </div>
@@ -46,6 +46,7 @@ function permissionContextFactory(): PermissionContext {
  *
  *  <!-- Result: Shows template -->
  *  <div *xmPermission="['RIGHT_PERMISSION']; else noPermittedRef"> Shows template </div>
+ * ```
  */
 @Directive({
     selector: '[xmPermission]',

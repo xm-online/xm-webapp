@@ -55,7 +55,7 @@ export class DashboardWrapperService {
         );
     }
 
-    /** @deprecated */
+    /** @deprecated use dashboards$ instead */
     public dashboards(): Promise<Dashboard[]> {
         return this.dashboards$().pipe(
             take(1),

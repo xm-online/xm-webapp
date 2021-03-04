@@ -1,9 +1,11 @@
-import { SimpleChange, SimpleChanges } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTranslationTestingModule } from '@xm-ngx/translation';
 import { XmTextControl } from './xm-text-control';
 
 describe('XmTextControl', () => {
@@ -13,9 +15,14 @@ describe('XmTextControl', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [XmTextControl],
+            schemas: [NO_ERRORS_SCHEMA],
             imports: [
-                XmSharedTestingModule,
+                XmTranslationTestingModule,
+                MatFormFieldModule,
+                MatInputModule,
+                ReactiveFormsModule,
                 ControlErrorModule,
+                ControlErrorModule.forRoot(),
                 NoopAnimationsModule,
             ],
         }).compileComponents();
@@ -42,8 +49,6 @@ describe('XmTextControl', () => {
         const value = 'value2';
         component.control = new FormControl(value);
 
-        const changesObj: SimpleChanges = { control: new SimpleChange(null, component.control, false) };
-        component.ngOnChanges(changesObj);
         expect(component.value).toBe(value);
         expect(component.control.value).toBe(value);
     });
@@ -52,14 +57,10 @@ describe('XmTextControl', () => {
         const value = 'value3';
         component.control = new FormControl(null);
 
-        const changesObj: SimpleChanges = { control: new SimpleChange(null, component.control, false) };
-        component.ngOnChanges(changesObj);
         expect(component.value).toBeNull();
         expect(component.control.value).toBeNull();
 
         component.control = new FormControl(value);
-        const changesObj2: SimpleChanges = { control: new SimpleChange(null, component.control, false) };
-        component.ngOnChanges(changesObj2);
         expect(component.value).toBe(value);
         expect(component.control.value).toBe(value);
     });
@@ -69,8 +70,6 @@ describe('XmTextControl', () => {
         const value = 'value4';
         component.control = new FormControl(null);
         component.control.setValue(value);
-        const changesObj: SimpleChanges = { control: new SimpleChange(null, component.control, false) };
-        component.ngOnChanges(changesObj);
         expect(component.value).toBe(value);
         expect(component.control.value).toBe(value);
     });
@@ -82,6 +81,8 @@ describe('XmTextControl', () => {
         const input: HTMLInputElement = document.getElementById(component.options.id) as HTMLInputElement;
         input.value = value;
         input.dispatchEvent(new Event('input'));
+        fixture.detectChanges();
+
         expect(input.value).toBe(value);
         expect(component.control.value).toBe(value);
         expect(component.value).toBe(value);

@@ -1,0 +1,33 @@
+<mat-form-field>
+  <mat-label>{{options.title | translate}}</mat-label>
+  <mat-chip-list #chipList [attr.aria-label]="options.ariaLabel">
+    <mat-chip
+      *ngFor="let item of selected"
+      [selectable]="options.selectable"
+      [removable]="options.removable"
+      [disabled]="control.disabled"
+      (removed)="remove(item)">
+      {{item}}
+      <mat-icon matChipRemove *ngIf="options.removable">cancel</mat-icon>
+    </mat-chip>
+    <input
+      [placeholder]="options.placeholder | translate"
+      #input
+      [formControl]="inputControl"
+      (blur)="touch()"
+      [hidden]="control.disabled"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)">
+    <mat-option *ngFor="let item of filteredAutocomplete | async" [value]="item.value">
+      {{item.value}}
+    </mat-option>
+  </mat-autocomplete>
+
+  <mat-error *xmControlErrors="control.errors; message as message">{{message}}</mat-error>
+
+</mat-form-field>

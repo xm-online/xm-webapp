@@ -75,7 +75,11 @@
         <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="options.pageSizeOptions" [pageSize]="options.pageSize"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="options.pageSizeOptions"
+                     [pageSize]="this.pagination.pageSize"
+                     [length]="this.pagination.total"
+                     [pageIndex]="this.pagination.pageIndex">
+      </mat-paginator>
     </div>
 
     <no-data [show]="!(dataSource?.data.length > 0) && !showLoader"></no-data>

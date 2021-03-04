@@ -9,6 +9,7 @@ interface TakeUntilOnDestroyInstance extends OnDestroy {
 /**
  * Emit an event when Angular calls the ngOnDestroy method
  * @example
+ * ```
  *   @Component({    ..., template: ``})
  *   export class AppComponent implements OnInit {
  *     ngOnInit() {
@@ -19,6 +20,7 @@ interface TakeUntilOnDestroyInstance extends OnDestroy {
  *       takeUntilOnDestroyDestroy(this);
  *     }
  * }
+ * ```
  */
 export function takeUntilOnDestroy<T>(instance: TakeUntilOnDestroyInstance): MonoTypeOperatorFunction<T> {
     if (!instance.__takeUntilOnDestroy$) {

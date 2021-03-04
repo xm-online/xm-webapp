@@ -6,7 +6,7 @@ export const XM_LINK_ELEMENTS: DynamicComponent[] = [
         loadChildren: () => import('@xm-ngx/components/link').then(m => m.XmLinkModule),
     },
     {
-        /** @deprecated use @xm-ngx/components/link instead */
+        /** @deprecated use `@xm-ngx/components/link` instead */
         selector: '@xm-ngx/components/link-value',
         loadChildren: () => import('@xm-ngx/components/link').then(m => m.XmLinkModule),
     },

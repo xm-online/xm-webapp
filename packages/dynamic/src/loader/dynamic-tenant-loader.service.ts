@@ -34,8 +34,8 @@ export class DynamicTenantLoaderService {
     }
 
     /**
-     * @param selector e.g. ext-entity
-     * @param injector
+     * @param selector - e.g. ext-entity
+     * @param injector - angular injector
      */
     public async loadTenantModuleRef<T>(
         selector: string,
@@ -50,8 +50,8 @@ export class DynamicTenantLoaderService {
     }
 
     /**
-     * @param selector e.g. my-example-widget
-     * @param moduleRef
+     * @param selector - e.g. my-example-widget
+     * @param moduleRef - module container
      */
     public async getComponentFromInjector<T>(
         selector: string,

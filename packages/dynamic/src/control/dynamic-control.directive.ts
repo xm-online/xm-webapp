@@ -29,6 +29,7 @@ export interface IControlFn<V = unknown, O = unknown> {
 /**
  * DynamicControlComponent creates component from configs
  * @example
+ * ```
  * <ng-template xmDynamicControl
  *              [selector]="'@xm-ngx/components/xm-bool-control'"
  *              [value]="false"></ng-template>
@@ -36,6 +37,7 @@ export interface IControlFn<V = unknown, O = unknown> {
  *              [selector]="'@xm-ngx/components/xm-bool-control'"
  *              [disabled]="true"
  *              [formControl]="model"></ng-template>
+ * ```
  */
 @Directive({
     selector: '[xmDynamicControl]',

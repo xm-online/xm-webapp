@@ -1,7 +1,15 @@
 export {
     XmCodeComponent,
-} from './xm-code.component';
+} from './code/xm-code.component';
 
 export {
     XmCodeModule,
-} from './xm-code.module';
+} from './code/xm-code.module';
+
+export {
+    XmCodeContainerComponent,
+} from './code-container/xm-code-container.component';
+
+export {
+    XmCodeContainerModule,
+} from './code-container/xm-code-container.module';

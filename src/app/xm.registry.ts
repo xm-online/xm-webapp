@@ -1,8 +1,10 @@
+import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/array-control';
 import { XM_COPY_ELEMENTS } from '@xm-ngx/components/copy';
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/date';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/html';
 import { XM_LINK_ELEMENTS } from '@xm-ngx/components/link';
 import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/text';
+import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/enum';
 import { DynamicComponents } from '@xm-ngx/dynamic';
 
 export const XM_ELEMENTS: DynamicComponents = [
@@ -11,6 +13,8 @@ export const XM_ELEMENTS: DynamicComponents = [
     ...XM_TEXT_ELEMENTS,
     ...XM_COPY_ELEMENTS,
     ...XM_LINK_ELEMENTS,
+    ...XM_ENUM_ELEMENTS,
+    ...XM_ARRAY_ELEMENTS,
     {
         selector: '@xm-ngx/administration/audits',
         loadChildren: () => import('@xm-ngx/administration/audits').then(m => m.AuditsModule),
@@ -128,24 +132,12 @@ export const XM_ELEMENTS: DynamicComponents = [
         loadChildren: () => import('@xm-ngx/components/bool').then(m => m.XmBoolControlModule),
     },
     {
-        selector: '@xm-ngx/components/xm-enum-view',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumViewModule),
-    },
-    {
-        selector: '@xm-ngx/components/enum-value',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumValueModule),
-    },
-    {
         selector: '@xm-ngx/components/links-group-widget',
         loadChildren: () => import('@xm-ngx/components/links-group-widget').then(m => m.LinksGroupWidgetModule),
     },
     {
         selector: '@xm-ngx/components/links-group-button-widget',
         loadChildren: () => import('@xm-ngx/components/links-group-widget').then(m => m.LinksGroupButtonWidgetModule),
-    },
-    {
-        selector: '@xm-ngx/components/xm-enum-control',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlModule),
     },
     {
         selector: '@xm-ngx/components/by-entity-id',

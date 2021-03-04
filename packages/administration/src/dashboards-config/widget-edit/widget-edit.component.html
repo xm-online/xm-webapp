@@ -80,11 +80,20 @@
                               [options]="{ title: TRS.selector }"
                               name="selector"></xm-selector-text-control>
 
-    <xm-ace-editor-control [(ngModel)]="formGroup.config"
-                           [disabled]="disabled"
-                           [options]="aceEditorOptions"
-                           class="mh-"
-                           name="layout">
-    </xm-ace-editor-control>
+    <mat-tab-group>
+      <mat-tab [label]="'Config'">
+        <xm-ace-editor-control [(ngModel)]="formGroup.config"
+                               [disabled]="disabled"
+                               [options]="aceEditorOptions"
+                               name="layout">
+        </xm-ace-editor-control>
+      </mat-tab>
+
+      <mat-tab [label]="'Docs'">
+        <xm-doc-examples></xm-doc-examples>
+      </mat-tab>
+    </mat-tab-group>
+
+
   </div>
 </form>

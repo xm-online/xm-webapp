@@ -1,0 +1,15 @@
+.xm-code-container-copy-icon {
+  position: absolute;
+  right:    0;
+  top:      0;
+}
+
+:host(.xm-code-container) {
+  margin:        1rem;
+  padding:       1rem;
+  position:      relative;
+  display:       block;
+  border-style:  solid;
+  border-width:  1px;
+  border-radius: 3px;
+}

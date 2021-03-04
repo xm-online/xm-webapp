@@ -2,28 +2,25 @@ import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
-    EventEmitter,
     Inject,
     Input,
     NgModule,
     Optional,
-    Output,
     Self,
-    ViewEncapsulation
+    ViewEncapsulation,
 } from '@angular/core';
-import { FormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 
 import { XmTextControlOptions } from '@xm-ngx/components/text';
 import { IControl, IControlFn } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
 
-
-export interface INumberControlOptions {
+export interface XmNumberControlOptions extends DataQa {
     title?: Translate;
     placeholder?: Translate;
     pattern?: string;
@@ -33,11 +30,12 @@ export interface INumberControlOptions {
     errors?: { [errorKey: string]: Translate };
 }
 
-const DEFAULT_OPTIONS: INumberControlOptions = {
+const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
     title: '',
     placeholder: '',
     pattern: '',
     id: null,
+    dataQa: 'number-control',
     name: 'number',
     required: true,
 };
@@ -67,23 +65,20 @@ const DEFAULT_OPTIONS: INumberControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmNumberControl extends NgFormAccessor<Primitive> implements IControl<Primitive, XmTextControlOptions> {
-    @Input() public control: FormControl = new FormControl();
-    @Output() public valueChange: EventEmitter<Primitive> = new EventEmitter<Primitive>();
-
     constructor(@Optional() @Self() public ngControl: NgControl | null,
                 @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
         super(ngControl);
     }
 
-    private _options: INumberControlOptions = DEFAULT_OPTIONS;
+    private _options: XmNumberControlOptions = XM_NUMBER_CONTROL_DEFAULT_OPTIONS;
 
-    public get options(): INumberControlOptions {
+    public get options(): XmNumberControlOptions {
         return this._options;
     }
 
     @Input()
-    public set options(value: INumberControlOptions) {
-        this._options = defaults({}, value, { ...DEFAULT_OPTIONS, errors: this.xmControlErrorsTranslates });
+    public set options(value: XmNumberControlOptions) {
+        this._options = defaults({}, value, { ...XM_NUMBER_CONTROL_DEFAULT_OPTIONS, errors: this.xmControlErrorsTranslates });
         this._options.placeholder = this._options.placeholder || this._options.title;
     }
 }
@@ -100,5 +95,5 @@ export class XmNumberControl extends NgFormAccessor<Primitive> implements IContr
     declarations: [XmNumberControl],
 })
 export class XmNumberControlModule {
-    public readonly entry: IControlFn<Primitive, INumberControlOptions> = XmNumberControl;
+    public readonly entry: IControlFn<Primitive, XmNumberControlOptions> = XmNumberControl;
 }

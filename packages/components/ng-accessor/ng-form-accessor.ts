@@ -1,18 +1,46 @@
-import { Directive, Input, OnChanges, OnDestroy, OnInit, Optional, Self, SimpleChanges } from '@angular/core';
-import { FormControl, FormControlDirective, NgControl } from '@angular/forms';
+import { Directive, Input, OnDestroy, OnInit, Optional, Self } from '@angular/core';
+import { FormControl, FormControlDirective, FormControlName, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NgControlAccessor } from './ng-control-accessor';
 
 @Directive()
-export abstract class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, OnChanges, OnDestroy {
-    @Input() public control: FormControl = new FormControl();
+/**
+ * @beta
+ */
+export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, OnDestroy {
     private valueSubscription: Subscription;
 
-    constructor(@Optional() @Self() public ngControl: NgControl | null) {
+    private defaultControl: FormControl = new FormControl();
+
+    constructor(@Optional() @Self() public ngControl: NgControl) {
         super(ngControl);
-        if (this.ngControl instanceof FormControlDirective) {
-            this.control = this.ngControl.control;
+        this.control = this.defaultControl;
+    }
+
+    protected _control: FormControl;
+
+    public get control(): FormControl {
+        return this._control;
+    }
+
+    @Input()
+    /**
+     * @throws {@link TypeError}
+     * This exception is thrown if the value is not present.
+     *
+     * @public
+     */
+    public set control(value: FormControl) {
+        if (!value) {
+            throw new TypeError('FormControl is required!');
         }
+        if (value === this._control) {
+            console.warn('FormControl applies twice! This control is already initialized.');
+            return;
+        }
+        this._control = value;
+        this.writeValue(this._control.value);
+        this.initControlChangeListeners();
     }
 
     public get value(): T {
@@ -21,6 +49,9 @@ export abstract class NgFormAccessor<T> extends NgControlAccessor<T> implements 
 
     @Input()
     public set value(value: T) {
+        if (value === this.control.value) {
+            return;
+        }
         this.control.patchValue(value, { emitEvent: false });
     }
 
@@ -30,6 +61,10 @@ export abstract class NgFormAccessor<T> extends NgControlAccessor<T> implements 
 
     @Input()
     public set disabled(value: boolean) {
+        if (value === this.control.disabled) {
+            return;
+        }
+
         if (value) {
             this.control.disable();
         } else {
@@ -37,15 +72,8 @@ export abstract class NgFormAccessor<T> extends NgControlAccessor<T> implements 
         }
     }
 
-    public ngOnInit(): void {
-        this.initControlChangeListeners();
-    }
-
     public writeValue(obj: T): void {
         this.value = obj;
-        if (this.control) {
-            this.control.patchValue(obj);
-        }
     }
 
     public setDisabledState(isDisabled: boolean): void {
@@ -56,17 +84,46 @@ export abstract class NgFormAccessor<T> extends NgControlAccessor<T> implements 
         this.valueSubscription?.unsubscribe();
     }
 
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.control) {
-            this.initControlChangeListeners();
+    public change(value: T): void {
+        this.value = value;
+        this._onChange(value);
+        this.valueChange.emit(value);
+    }
+
+    /**
+     * @remarks
+     * FormControlDirective initialized after NgFormAccessor
+     */
+    public ngOnInit(): void {
+        if ((this.ngControl instanceof FormControlDirective || this.ngControl instanceof FormControlName)
+            && this.ngControl.control) {
+            this.control = this.ngControl.control;
         }
     }
 
+    /**
+     * Emits {@link change} when the {@link control} value changes
+     *
+     * @throws {@link TypeError}
+     * This exception is thrown if the {@link control} is not present.
+     *
+     * @internal
+     */
     protected initControlChangeListeners(): void {
-        this.valueSubscription?.unsubscribe();
-        if (this.control) {
-            this.valueSubscription = this.control.valueChanges
-                .subscribe((value) => this.change(value));
+        if (!this.control) {
+            throw new TypeError('FormControl is required to emit changes!');
         }
+        this.valueSubscription?.unsubscribe();
+        this.valueSubscription = this.control.valueChanges
+            .subscribe((value) => {
+                // changes comes from inside
+                // and requires to emit event outside
+                if (this.control === this.defaultControl) {
+                    this.change(value);
+                } else {
+                    // changes comes from outside
+                    this.writeValue(value);
+                }
+            });
     }
 }
