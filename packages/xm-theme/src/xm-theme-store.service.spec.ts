@@ -13,7 +13,7 @@ describe('XmThemeStore', () => {
     }));
 
     it('should be created', () => {
-        const service: XmThemeStore = TestBed.inject(XmThemeStore);
+        const service: XmThemeStore = TestBed.inject<XmThemeStore>(XmThemeStore);
         expect(service).toBeTruthy();
     });
 });

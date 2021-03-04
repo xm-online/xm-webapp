@@ -42,7 +42,7 @@ describe('PrincipalService', () => {
                 {provide: SessionStorageService, useValue: mockSessionStorage},
             ],
         });
-        service = TestBed.inject(Principal);
+        service = TestBed.inject<Principal>(Principal);
     });
 
     describe('isAuthenticated()', () => {

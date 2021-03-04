@@ -10,7 +10,7 @@ describe('EntityCollectionFactoryService', () => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
         });
-        service = TestBed.inject(EntityCollectionFactoryService);
+        service = TestBed.inject<EntityCollectionFactoryService>(EntityCollectionFactoryService);
     });
 
     it('should be created', () => {

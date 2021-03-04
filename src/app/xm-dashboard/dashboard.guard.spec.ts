@@ -7,7 +7,7 @@ describe('DashboardGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(DashboardGuard);
+    guard = TestBed.inject<DashboardGuard>(DashboardGuard);
   });
 
   it('should be created', () => {

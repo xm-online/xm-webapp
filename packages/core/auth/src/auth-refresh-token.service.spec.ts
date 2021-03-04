@@ -7,7 +7,7 @@ describe('AuthRefreshTokenService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AuthRefreshTokenService);
+    service = TestBed.inject<AuthRefreshTokenService>(AuthRefreshTokenService);
   });
 
   it('should be created', () => {

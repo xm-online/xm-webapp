@@ -12,7 +12,7 @@ describe('ProxyInterceptor', () => {
     }));
 
     it('should be created', () => {
-        const interceptor: ProxyInterceptor = TestBed.inject(ProxyInterceptor);
+        const interceptor: ProxyInterceptor = TestBed.inject<ProxyInterceptor>(ProxyInterceptor);
         expect(interceptor).toBeTruthy();
     });
 });

@@ -10,7 +10,7 @@ describe('ExportEntitiesService', () => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
         });
-        service = TestBed.inject(ExportEntitiesService);
+        service = TestBed.inject<ExportEntitiesService>(ExportEntitiesService);
     });
 
     it('should be created', () => {

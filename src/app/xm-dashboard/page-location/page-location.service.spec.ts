@@ -7,7 +7,7 @@ describe('PageLocationService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({});
-        service = TestBed.inject(PageLocationService);
+        service = TestBed.inject<PageLocationService>(PageLocationService);
     });
 
     it('should be created', () => {

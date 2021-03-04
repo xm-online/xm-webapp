@@ -7,7 +7,7 @@ describe('LanguageService', () => {
     beforeEach(() => TestBed.configureTestingModule({imports: [XmSharedTestingModule]}));
 
     it('should be created', () => {
-        const service: LanguageService = TestBed.inject(LanguageService);
+        const service: LanguageService = TestBed.inject<LanguageService>(LanguageService);
         expect(service).toBeTruthy();
     });
 });

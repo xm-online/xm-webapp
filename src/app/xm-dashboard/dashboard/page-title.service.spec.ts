@@ -20,7 +20,7 @@ describe('PageTitleService', () => {
                 { provide: PageService, useValue: {} },
             ],
         });
-        service = TestBed.inject(PageTitleService);
+        service = TestBed.inject<PageTitleService>(PageTitleService);
     });
 
     it('should be created', () => {

@@ -7,7 +7,7 @@ describe('SidebarRightService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({});
-        service = TestBed.inject(SidebarRightService);
+        service = TestBed.inject<SidebarRightService>(SidebarRightService);
     });
 
     it('should be created', () => {

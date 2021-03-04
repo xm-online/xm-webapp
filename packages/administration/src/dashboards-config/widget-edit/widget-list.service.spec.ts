@@ -7,7 +7,7 @@ describe('WidgetListService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({});
-        service = TestBed.inject(WidgetListService);
+        service = TestBed.inject<WidgetListService>(WidgetListService);
     });
 
     it('should be created', () => {

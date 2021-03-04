@@ -18,8 +18,8 @@ describe('AccountService', () => {
                 JhiDateUtils,
             ],
         });
-        httpTestingController = TestBed.inject(HttpTestingController);
-        service = TestBed.inject(AccountService);
+        httpTestingController = TestBed.inject<HttpTestingController>(HttpTestingController);
+        service = TestBed.inject<AccountService>(AccountService);
     });
 
     describe('get()', () => {

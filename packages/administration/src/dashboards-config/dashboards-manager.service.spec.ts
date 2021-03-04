@@ -7,7 +7,7 @@ describe('DashboardsManagerService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DashboardsManagerService);
+    service = TestBed.inject<DashboardsManagerService>(DashboardsManagerService);
   });
 
   it('should be created', () => {

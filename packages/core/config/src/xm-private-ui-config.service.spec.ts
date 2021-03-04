@@ -6,7 +6,7 @@ describe('XmPrivateUiConfigService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: XmPrivateUiConfigService = TestBed.inject(XmPrivateUiConfigService);
+    const service: XmPrivateUiConfigService = TestBed.inject<XmPrivateUiConfigService>(XmPrivateUiConfigService);
     expect(service).toBeTruthy();
   });
 });
