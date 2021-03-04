@@ -2,8 +2,8 @@ var replace = require('replace-in-file');
 var buildTimestamp = new Date().getTime();
 const options = {
     files: ['src/environments/environment.ts', 'src/environments/environment.prod.ts'],
-    from: /{BUILD_TIMESTAMP}/g,
-    to: buildTimestamp,
+    from: /buildTimestamp: '\d*'/g,
+    to: 'buildTimestamp: ' + buildTimestamp,
     allowEmptyPaths: false,
 };
 
