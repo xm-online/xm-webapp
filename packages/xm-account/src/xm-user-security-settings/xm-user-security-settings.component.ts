@@ -24,6 +24,10 @@ export class XmUserSecuritySettingsComponent implements OnInit {
 
     public ngOnInit(): void {
         this.principal.identity().then((account) => {
+            if (!account) {
+                return;
+            }
+
             this.settingsAccount = _.cloneDeep(account);
             this.tfaEnabled = this.settingsAccount.tfaEnabled;
             this.autoLogoutTime = this.settingsAccount.autoLogoutTime;

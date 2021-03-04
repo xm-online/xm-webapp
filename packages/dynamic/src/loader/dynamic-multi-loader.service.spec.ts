@@ -13,7 +13,7 @@ describe('DynamicMultiLoaderService', () => {
                 { provide: DynamicTenantLoaderService, useValue: null },
             ],
         });
-        service = TestBed.inject(DynamicMultiLoaderService);
+        service = TestBed.inject<DynamicMultiLoaderService>(DynamicMultiLoaderService);
     });
 
     it('should be created', () => {

@@ -1,17 +1,15 @@
-/* Tslint:disable:max-classes-per-file */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { XmEventManager } from '@xm-ngx/core';
+import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
-import { LanguageService } from '@xm-ngx/translation';
+import { LanguageService, XmTranslationTestingModule } from '@xm-ngx/translation';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { Observable, of } from 'rxjs';
 
-import { JhiLanguageHelper, LoginService, ModulesLanguageHelper, XmConfigService } from '../../shared';
+import { LoginService, ModulesLanguageHelper, XmConfigService } from '../../shared';
 import { XmApplicationConfigService } from '../../shared/spec/xm-config.service';
 import { XmMainComponent } from './main.component';
 
@@ -32,16 +30,16 @@ describe('XmMainComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [XmSharedTestingModule, HttpClientTestingModule, NgxWebstorageModule.forRoot()],
+            imports: [XmTranslationTestingModule, HttpClientTestingModule, NgxWebstorageModule.forRoot()],
             declarations: [XmMainComponent],
             providers: [
                 XmEventManager,
                 {
-                    provide: JhiLanguageHelper,
+                    provide: XmApplicationConfigService,
                     useClass: Mock,
                 },
                 {
-                    provide: ModulesLanguageHelper,
+                    provide: XmSessionService,
                     useClass: Mock,
                 },
                 {

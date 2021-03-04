@@ -15,7 +15,7 @@ describe('DynamicLoaderService', () => {
                 DynamicLoaderService,
             ],
         });
-        service = TestBed.inject(DynamicLoaderService);
+        service = TestBed.inject<DynamicLoaderService>(DynamicLoaderService);
     });
 
     it('should be created', () => {

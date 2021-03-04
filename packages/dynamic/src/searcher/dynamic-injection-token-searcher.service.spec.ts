@@ -23,7 +23,7 @@ describe('DynamicInjectionTokenSearcherService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({});
-        service = TestBed.inject(DynamicInjectionTokenSearcherService);
+        service = TestBed.inject<DynamicInjectionTokenSearcherService>(DynamicInjectionTokenSearcherService);
     });
 
     it('should be created', () => {

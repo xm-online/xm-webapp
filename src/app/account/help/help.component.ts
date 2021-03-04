@@ -41,7 +41,7 @@ export class HelpComponent implements OnInit {
         this.xmConfigService
             .getUiConfig()
             .pipe(
-                map((res) => res.helpConfig || {}),
+                map((res) => res?.helpConfig || {}),
                 finalize(() => this.showLoader = false),
             ).subscribe((c) => this.config = c || null);
     }

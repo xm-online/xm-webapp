@@ -5,12 +5,12 @@ import { SERVER_API_URL } from '../../xm.constants';
 import { XmEntityService } from './xm-entity.service';
 
 describe('XmEntityService', () => {
-    const v2ResourceUrl = `${SERVER_API_URL}entity/api/v2/xm-entities`;
-    const resourceUrl = `${SERVER_API_URL}entity/api/xm-entities`;
-    const resourceSearchUrl = `${SERVER_API_URL}entity/api/_search/xm-entities`;
-    const resourceProfileUrl = `${SERVER_API_URL}entity/api/profile`;
-    const resourceSearchTemplateUrl = `${SERVER_API_URL}entity/api/_search-with-template/xm-entities`;
-    const getEntitiesByIdUrl = 'entity/api/xm-entities-by-ids';
+    const v2ResourceUrl = `/${SERVER_API_URL}entity/api/v2/xm-entities`;
+    const resourceUrl = `/${SERVER_API_URL}entity/api/xm-entities`;
+    const resourceSearchUrl = `/${SERVER_API_URL}entity/api/_search/xm-entities`;
+    const resourceProfileUrl = `/${SERVER_API_URL}entity/api/profile`;
+    const resourceSearchTemplateUrl = `/${SERVER_API_URL}entity/api/_search-with-template/xm-entities`;
+    const getEntitiesByIdUrl = '/entity/api/xm-entities-by-ids';
 
     let service: XmEntityService;
     let httpTestingController: HttpTestingController;
@@ -23,8 +23,8 @@ describe('XmEntityService', () => {
                 { provide: JhiDateUtils, useValue: { toDate: r => r, convertDateTimeFromServer: r => r } },
             ],
         });
-        httpTestingController = TestBed.inject(HttpTestingController);
-        service = TestBed.inject(XmEntityService);
+        httpTestingController = TestBed.inject<HttpTestingController>(HttpTestingController);
+        service = TestBed.inject<XmEntityService>(XmEntityService);
     });
 
     afterEach(() => {
@@ -32,71 +32,71 @@ describe('XmEntityService', () => {
     });
 
     describe('serchApi', () => {
-        it('should call find() with correct url', () => {
+        it('should call find() with correct url', (done) => {
             const id = 123;
-            service.find(id).subscribe();
+            service.find(id).subscribe(done);
             const req = httpTestingController.expectOne(`${SERVER_API_URL + resourceUrl}/${id}`);
             req.flush({ id: 123 });
             httpTestingController.verify();
         });
 
-        it('should call getEntitiesByIds() with correct url', () => {
-            service.getEntitiesByIds().subscribe();
+        it('should call getEntitiesByIds() with correct url', (done) => {
+            service.getEntitiesByIds().subscribe(done);
             const req = httpTestingController.expectOne(getEntitiesByIdUrl);
             req.flush([{ id: 123 }]);
             httpTestingController.verify();
         });
 
-        it('should call query() with correct url', () => {
-            service.query().subscribe();
+        it('should call query() with correct url', (done) => {
+            service.query().subscribe(done);
             const req = httpTestingController.expectOne(resourceUrl);
             req.flush([{ id: 123 }]);
             httpTestingController.verify();
         });
 
-        it('should call search() with correct url', () => {
-            service.search().subscribe();
+        it('should call search() with correct url', (done) => {
+            service.search().subscribe(done);
             const req = httpTestingController.expectOne(resourceSearchUrl);
             req.flush([{ id: 123 }]);
             httpTestingController.verify();
         });
 
-        it('should call searchByTemplate() with correct url', () => {
-            service.searchByTemplate().subscribe();
+        it('should call searchByTemplate() with correct url', (done) => {
+            service.searchByTemplate().subscribe(done);
             const req = httpTestingController.expectOne(resourceSearchTemplateUrl);
             req.flush([{ id: 123 }]);
             httpTestingController.verify();
         });
 
-        it('should call getProfile() with correct url', () => {
-            service.getProfile().subscribe();
+        it('should call getProfile() with correct url', (done) => {
+            service.getProfile().subscribe(done);
             const req = httpTestingController.expectOne(resourceProfileUrl);
             req.flush({ id: 123 });
             httpTestingController.verify();
         });
 
-        it('should call findLinkTargets() with correct url', () => {
+        it('should call findLinkTargets() with correct url', (done) => {
             const id = 123;
             const linkType = 'test;';
-            service.findLinkTargets(id, linkType).subscribe();
+            service.findLinkTargets(id, linkType).subscribe(done);
             const req = httpTestingController.expectOne(`${resourceUrl}/${id}/links/targets?typeKey=${linkType}`);
             req.flush({ id: 123 });
             httpTestingController.verify();
         });
 
-        it('should call findLinkSources() with correct url', () => {
+        it('should call findLinkSources() with correct url', (done) => {
             const id = 123;
             const linkType = 'test;';
-            service.findLinkSources(id, linkType).subscribe();
+            service.findLinkSources(id, linkType).subscribe(done);
             const req = httpTestingController.expectOne(`${resourceUrl}/${id}/links/sources?typeKey=${linkType}`);
             req.flush({ id: 123 });
             httpTestingController.verify();
         });
 
-        it('should call findLinkSourcesInverted() with correct url', () => {
+        it('should call findLinkSourcesInverted() with correct url', (done) => {
             const idOrKey = '123';
             const linkType = ['test'];
-            service.findLinkSourcesInverted(idOrKey, linkType).subscribe();
+            service.findLinkSourcesInverted(idOrKey, linkType).subscribe(done);
             const req = httpTestingController.expectOne(
                 `${v2ResourceUrl}/${idOrKey}/links/sources?typeKeys=${linkType}`);
             req.flush({ id: 123 });

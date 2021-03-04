@@ -47,7 +47,7 @@ export class DashboardsListExpandComponent implements OnInit {
         this.loading$ = this.dashboardService.loading$.pipe(delay(0));
 
         this.dashboardService.getById(this.dashboardId).pipe(
-            map((i) => _.orderBy(i.widgets, 'name')),
+            map((i) => _.orderBy(i?.widgets, 'name')),
             map((widgets) => new MatTableDataSource(widgets)),
         ).subscribe((i) => {
             this.widgetsList = i;

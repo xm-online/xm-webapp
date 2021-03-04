@@ -1,6 +1,6 @@
 import { ApplicationRef, Injectable, Injector } from '@angular/core';
 import { TranslationService } from '@xm-ngx/administration/translations/services/translation.service';
-import { DYNAMIC_COMPONENTS, DynamicTenantLoaderService, DynamicComponent } from '@xm-ngx/dynamic';
+import { DYNAMIC_COMPONENTS, DynamicComponent, DynamicTenantLoaderService } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 import { from, Observable, Subject } from 'rxjs';
 
@@ -45,7 +45,7 @@ export class WidgetListService {
 
     public load(): void {
         this.translationService.loadConfig().subscribe((config) => {
-            this.loadWithConfig({ modules: config.exts });
+            this.loadWithConfig({ modules: config?.exts || [] });
         });
     }
 

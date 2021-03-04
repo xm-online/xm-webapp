@@ -1,16 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { XmConfigService } from '../../../../../src/app/shared';
-import { finalize, map } from 'rxjs/operators';
-import { MatDialogRef } from '@angular/material/dialog';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import {
-    ExportEntitiesService,
-} from '@xm-ngx/administration/maintenance/export-entities.service';
-import { saveFile } from '../../../../../src/app/shared/helpers/file-download-helper';
+import { MatDialogRef } from '@angular/material/dialog';
+import { ExportEntitiesService } from '@xm-ngx/administration/maintenance/export-entities.service';
 import { XmEntity } from '@xm-ngx/entity';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 import * as _ from 'lodash';
+import { finalize, map } from 'rxjs/operators';
+import { XmConfigService } from '../../../../../src/app/shared';
+import { saveFile } from '../../../../../src/app/shared/helpers/file-download-helper';
 
 export interface ExportConfig extends XmEntity {
     selected?: boolean;
@@ -42,18 +40,21 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
             .getConfigJson('/entity/xmentityspec.yml?toJson')
             .pipe(
                 map((config) => {
+                    if (!config) {
+                        return;
+                    }
                     return config.types.map(t => {
                         return Object.assign(t, {
                             selected: false,
                             treeModel: this.exportEntitiesService.getInitialTreeModel(t),
                             selection: null,
-                        })
-                    })
+                        });
+                    });
                 }),
                 takeUntilOnDestroy(this),
                 finalize(() => this.showLoader = false),
             ).subscribe((config) => {
-            this.intData(config)
+            this.intData(config);
         });
     }
 
@@ -85,7 +86,7 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
     public onParamsChecked(data: { specKey: string, selection: ExportConfig[] }): void {
         this.config.forEach((s: ExportConfig) => {
             if (s.key === data.specKey) {
-                s.selection = data.selection
+                s.selection = data.selection;
             }
         });
     }
@@ -94,7 +95,7 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
         this.showLoader = true;
         const configSelectedEntities = this.config
             .filter(c => c.selected)
-            .map(c => ({selection: c.selection || [], key: c.key}));
+            .map(c => ({ selection: c.selection || [], key: c.key }));
         const payload = this.exportEntitiesService.mapPayload(configSelectedEntities);
         this.exportEntitiesService
             .getExportJson(payload)
@@ -104,7 +105,7 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
             )
             .subscribe((resp: unknown) => {
                 const json = JSON.stringify(resp);
-                const blob = new Blob([json], {type: 'application/json'})
+                const blob = new Blob([json], { type: 'application/json' });
                 const stamp = new Date().getTime();
                 saveFile(blob, `export-${stamp}.json`, 'application/json');
                 this.activeModal.close('success');
