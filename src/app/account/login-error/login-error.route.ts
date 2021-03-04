@@ -6,8 +6,8 @@ export const loginErrorRoutes: Routes = [
         path: 'login',
         component: LoginErrorComponent,
     },
-    {
-        path: 'oauth2/authorization/:idpKey',
-        component: LoginErrorComponent,
-    },
+    // {
+    //     path: 'oauth2/authorization/:idpKey',
+    //     component: LoginErrorComponent,
+    // },
 ];
