@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StyleManagerService } from '@xm-ngx/core/theme';
+import { StyleManagerService, ThemeColorService } from '@xm-ngx/core/theme';
 import { XmApplicationConfigService } from '../../../src/app/shared/spec';
 
 import { XmThemeStore } from './xm-theme-store.service';
@@ -7,7 +7,9 @@ import { XmThemeStore } from './xm-theme-store.service';
 describe('XmThemeStore', () => {
     beforeEach(() => TestBed.configureTestingModule({
         providers: [
+            XmThemeStore,
             { provide: StyleManagerService, useValue: {} },
+            { provide: ThemeColorService, useValue: {} },
             { provide: XmApplicationConfigService, useValue: {} },
         ],
     }));

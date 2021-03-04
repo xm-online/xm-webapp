@@ -22,26 +22,26 @@ describe('UserService', () => {
     });
 
     describe('create()', () => {
-        it('should call with correct URL', () => {
-            service.create({}).subscribe();
+        it('should call with correct URL', (done) => {
+            service.create({}).subscribe(done);
             const req = httpTestingController.expectOne(SERVER_API_URL + resourceUrl);
-            req.flush({id: 1});
+            req.flush({ id: 1 });
             httpTestingController.verify();
         });
     });
 
     describe('update()', () => {
-        it('should call with correct URL', () => {
-            service.update({}).subscribe();
+        it('should call with correct URL', (done) => {
+            service.update({}).subscribe(done);
             const req = httpTestingController.expectOne(SERVER_API_URL + resourceUrl);
-            req.flush({id: 1});
+            req.flush({ id: 1 });
             httpTestingController.verify();
         });
     });
 
     describe('getOnlineUsers()', () => {
-        it('should call with correct URL', () => {
-            service.getOnlineUsers().subscribe();
+        it('should call with correct URL', (done) => {
+            service.getOnlineUsers().subscribe(done);
             const req = httpTestingController.expectOne(userOnline);
             req.flush({});
             httpTestingController.verify();
@@ -49,9 +49,9 @@ describe('UserService', () => {
     });
 
     describe('disable2FA()', () => {
-        it('should call with correct URL', () => {
+        it('should call with correct URL', (done) => {
             const userID = '111';
-            service.disable2FA(userID).subscribe();
+            service.disable2FA(userID).subscribe(done);
             const req = httpTestingController.expectOne(SERVER_API_URL + resourceUrl + '/' + userID + '/tfa_disable');
             req.flush({});
             httpTestingController.verify();
@@ -59,10 +59,10 @@ describe('UserService', () => {
     });
 
     describe('enable2FA()', () => {
-        it('should call with correct URL', () => {
+        it('should call with correct URL', (done) => {
             const userID = '111';
             const email = '';
-            service.enable2FA(userID, email).subscribe();
+            service.enable2FA(userID, email).subscribe(done);
             const req = httpTestingController.expectOne(SERVER_API_URL + resourceUrl + '/' + userID + '/tfa_enable');
             req.flush({});
             httpTestingController.verify();

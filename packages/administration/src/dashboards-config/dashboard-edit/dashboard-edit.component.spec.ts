@@ -1,17 +1,35 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, forwardRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { DashboardEditorService } from '@xm-ngx/administration/dashboards-config';
 import { DashboardCollection, DashboardConfig } from '@xm-ngx/administration/dashboards-config/injectors';
 import { XmAlertService } from '@xm-ngx/alert';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { MockEntityCollection } from '@xm-ngx/components/entity-collection/testing/mock-entity-collection';
+import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
 import { XmToasterService } from '@xm-ngx/toaster';
+import { XmTranslationTestingModule } from '@xm-ngx/translation';
 
 import { DashboardEditComponent } from './dashboard-edit.component';
+
+@Component({
+    selector: 'xm-text-control, xm-ace-editor-control',
+    template: '',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => MockXmTextControlComponent),
+            multi: true,
+        },
+    ],
+})
+export class MockXmTextControlComponent extends NgModelWrapper<undefined> {
+}
 
 describe('DashboardEditComponent', () => {
     let component: DashboardEditComponent;
@@ -19,13 +37,19 @@ describe('DashboardEditComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmSharedTestingModule, HttpClientTestingModule],
-            declarations: [DashboardEditComponent],
+            imports: [
+                XmTranslationTestingModule,
+                NoopAnimationsModule,
+                HttpClientTestingModule,
+                FormsModule,
+                ControlErrorModule.forRoot(),
+            ],
+            declarations: [DashboardEditComponent, MockXmTextControlComponent],
             providers: [
                 { provide: DashboardCollection, useClass: MockEntityCollection },
                 { provide: DashboardEditorService, useValue: null },
                 { provide: XmAlertService, useValue: null },
-                { provide: DashboardConfig, useValue: null },
+                { provide: DashboardConfig, useValue: {} },
                 { provide: XmEventManager, useValue: null },
                 { provide: Principal, useValue: null },
                 { provide: TranslateService, useValue: null },

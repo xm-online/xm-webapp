@@ -1,6 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { of } from 'rxjs';
+import { XmConfigService } from '../../../../../src/app/shared';
 
 import { UiMngComponent } from './ui-mng.component';
 
@@ -11,7 +14,10 @@ describe('UiMngComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [UiMngComponent],
-            imports: [HttpClientTestingModule],
+            providers: [
+                { provide: XmConfigService, useValue: { getConfig: () => of(null) } },
+            ],
+            imports: [HttpClientTestingModule, XmTranslationTestingModule],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();

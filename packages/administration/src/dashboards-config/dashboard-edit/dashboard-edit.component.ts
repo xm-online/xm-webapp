@@ -52,7 +52,7 @@ export class DashboardEditComponent {
         this.loading$ = this.dashboardService.loading$.pipe(delay(0), tap((i) => this.disabled = i));
     }
 
-    protected _value: Dashboard;
+    protected _value: Dashboard = {};
 
     public get value(): Dashboard {
         return this._value;

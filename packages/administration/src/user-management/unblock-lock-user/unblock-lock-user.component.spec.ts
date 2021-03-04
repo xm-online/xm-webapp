@@ -1,5 +1,10 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmAlertService } from '@xm-ngx/alert';
+import { TABLE_ROW } from '@xm-ngx/dynamic';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { UserService } from '../../../../../src/app/shared';
 
 import { UnblockLockUserComponent } from './unblock-lock-user.component';
 
@@ -9,7 +14,14 @@ describe('UnblockLockUserComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmSharedTestingModule],
+            imports: [XmTranslationTestingModule],
+            providers: [
+                { provide: XmAlertService, useValue: {} },
+                { provide: XmToasterService, useValue: {} },
+                { provide: UserService, useValue: {} },
+                { provide: TABLE_ROW, useValue: {} },
+            ],
+            schemas: [NO_ERRORS_SCHEMA],
             declarations: [UnblockLockUserComponent],
         })
             .compileComponents();

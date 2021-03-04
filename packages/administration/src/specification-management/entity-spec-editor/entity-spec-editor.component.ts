@@ -38,6 +38,10 @@ export class EntitySpecEditorComponent extends EditorUtils implements OnInit {
     }
 
     public ngOnInit(): void {
+        if (!this.entitySpec) {
+            return;
+        }
+
         this.spec = YAML.parse(this.entitySpec);
         this.spec.types.forEach((t) => {
             if (t.dataSpec) {

@@ -1,4 +1,9 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { JhiLanguageService } from 'ng-jhipster';
+import { of } from 'rxjs';
+import { XmConfigService } from '../../shared';
 
 import { HelpComponent } from './help.component';
 
@@ -8,7 +13,13 @@ describe('HelpComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [XmTranslationTestingModule],
             declarations: [HelpComponent],
+            providers: [
+                { provide: XmConfigService, useValue: { getUiConfig: () => of(null) } },
+                { provide: JhiLanguageService, useValue: { getCurrent: () => Promise.resolve() } },
+            ],
+            schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();
     }));

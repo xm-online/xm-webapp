@@ -11,13 +11,13 @@ import { MatSelectionListChange } from '@angular/material/list';
 })
 export class StatesEditorComponent extends EditorUtils {
 
-    @Input() public entitySpec: XmEntitySpec;
+    @Input() public entitySpec: XmEntitySpec = {};
 
     public openedStateSpec: number;
     public icons: string[] = MATERIAL_ICONS;
 
     public onAddStateSpec(entitySpec: XmEntitySpec): void {
-        if (!entitySpec.states) {
+        if (!entitySpec?.states) {
             entitySpec.states = [];
         }
         entitySpec.states.unshift({

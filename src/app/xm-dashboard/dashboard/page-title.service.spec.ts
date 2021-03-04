@@ -13,6 +13,7 @@ describe('PageTitleService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
+                PageTitleService,
                 { provide: TitleService, useValue: {} },
                 { provide: I18nNamePipe, useValue: {} },
                 { provide: Principal, useValue: {} },

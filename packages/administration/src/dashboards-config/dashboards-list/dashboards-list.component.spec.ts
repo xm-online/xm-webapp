@@ -1,22 +1,41 @@
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DashboardCollection } from '@xm-ngx/administration/dashboards-config/injectors';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterTestingModule } from '@angular/router/testing';
+import {
+    DashboardsExportService,
+    DashboardsImportService,
+    DashboardsManagerService,
+} from '@xm-ngx/administration/dashboards-config';
+import { DashboardCollection, WidgetCollection } from '@xm-ngx/administration/dashboards-config/injectors';
 import { MockEntityCollection } from '@xm-ngx/components/entity-collection/testing/mock-entity-collection';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTranslationTestingModule } from '@xm-ngx/translation';
 
 import { DashboardsListComponent } from './dashboards-list.component';
 
-describe('DashboardListComponent', () => {
+describe('DashboardsListComponent', () => {
     let component: DashboardsListComponent;
     let fixture: ComponentFixture<DashboardsListComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmSharedTestingModule, HttpClientTestingModule],
+            imports: [
+                XmTranslationTestingModule,
+                HttpClientTestingModule,
+                RouterTestingModule,
+                CommonModule,
+                MatSnackBarModule,
+            ],
             declarations: [DashboardsListComponent],
             providers: [
+                DatePipe,
+                { provide: WidgetCollection, useClass: MockEntityCollection },
                 { provide: DashboardCollection, useClass: MockEntityCollection },
+                { provide: DashboardsExportService, useValue: null },
+                { provide: DashboardsImportService, useValue: null },
+                { provide: DashboardsManagerService, useValue: null },
             ],
             schemas: [NO_ERRORS_SCHEMA],
         })

@@ -34,6 +34,9 @@ export class XmUserSettingsWidgetComponent implements OnInit {
 
     public ngOnInit(): void {
         this.principal.identity().then((account: XmUser) => {
+            if (!account){
+                return;
+            }
             this.settingsAccount = account;
             this.timeZoneOffset = account.timeZoneOffset || '';
 
