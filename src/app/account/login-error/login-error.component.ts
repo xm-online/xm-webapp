@@ -43,7 +43,8 @@ export class LoginErrorComponent implements OnDestroy {
 
     private onLoginIdp(client: IIdpClient): void {
         if (client) {
-            this.loginService.loginWithIdpClient(client);
+            // this.loginService.loginWithIdpClient(client);
+            console.warn(client);
         } else {
             this.errorKey = 'login.messages.idp.wrong-key';
         }
