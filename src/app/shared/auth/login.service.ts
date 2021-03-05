@@ -75,9 +75,6 @@ export class LoginService {
         const loc = devApiUri ? devApiUri : location.origin;
         this.$sessionStorage.store(IDP_CLIENT, client);
         if (authEndpointUri) {
-            console.warn(location.origin);
-            console.warn(loc);
-            console.warn(this.location.prepareExternalUrl(getRedirectUrl));
             location.href = `${loc}${this.location.prepareExternalUrl(getRedirectUrl)}`;
         }
     }
