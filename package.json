@@ -37,7 +37,7 @@
     "build-prod-v2": "npm run prebuild && node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot=true --build-optimizer=true --vendor-chunk=true --common-chunk=true",
     "build-prod-v2-stat": "npm run prebuild && node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot=true --build-optimizer=true --vendor-chunk=true --common-chunk=true --statsJson",
     "test": "ng test --source-map=false",
-    "test:prod": "ng test --source-map=false --watch=false --browsers=ChromeHeadlessNoSandbox",
+    "test:prod": "ng test --code-coverage=true --watch=false --browsers=ChromeHeadlessNoSandbox",
     "e2e": "ng e2e",
     "lint": "npm run lint:js",
     "lint:js": "eslint . --ext .ts --quiet",
@@ -188,12 +188,14 @@
     "jasmine-spec-reporter": "6.0.0",
     "karma": "6.1.1",
     "karma-chrome-launcher": "3.1.0",
+    "karma-coverage": "2.0.3",
     "karma-coverage-istanbul-reporter": "3.0.3",
     "karma-jasmine": "4.0.1",
     "karma-jasmine-html-reporter": "1.5.4",
     "ng-packagr": "11.2.4",
     "node-sass": "4.14.1",
     "protractor": "7.0.0",
+    "sonar-scanner": "3.1.0",
     "ts-node": "9.1.1",
     "typescript": "4.1.5"
   }
