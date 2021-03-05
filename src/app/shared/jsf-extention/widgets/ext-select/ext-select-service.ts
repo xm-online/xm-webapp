@@ -8,8 +8,14 @@ import { I18nNamePipe } from '../../../language/i18n-name.pipe';
 import { ExtSelectOptions } from './ext-select-options.model';
 import { AbstractControl, FormGroup } from '@angular/forms';
 
+export const URL_TEMPLATE_LITERAL: RegExp = /@{(\w+(\[\])?.?)+}/g;
+
 @Injectable()
 export class ExtSelectService {
+
+    public static isTemplateUrl(url: string) {
+        return url && URL_TEMPLATE_LITERAL.test(url);
+    }
 
     public static byString(o: any, s: any): any {
         s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
@@ -107,3 +113,5 @@ export class ExtSelectService {
     }
 
 }
+
+
