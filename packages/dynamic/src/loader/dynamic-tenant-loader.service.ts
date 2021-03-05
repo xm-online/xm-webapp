@@ -1,5 +1,5 @@
 import { ComponentFactory, Injectable, Injector, NgModuleFactory, NgModuleRef, Type } from '@angular/core';
-import { DynamicNgModuleFactory, DynamicModule } from '../dynamic.interfaces';
+import { XmDynamicNgModuleFactory, XmDynamicEntryModule } from '../interfaces';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
 
 import { isComponentDef, isModuleDef } from './dynamic-loader.service';
@@ -40,7 +40,7 @@ export class DynamicTenantLoaderService {
     public async loadTenantModuleRef<T>(
         selector: string,
         injector: Injector = this.moduleRef.injector,
-    ): Promise<NgModuleRef<DynamicModule<T>> | null> {
+    ): Promise<NgModuleRef<XmDynamicEntryModule<T>> | null> {
         if (!selector || typeof selector !== 'string') {
             return null;
         }
@@ -55,12 +55,12 @@ export class DynamicTenantLoaderService {
      */
     public async getComponentFromInjector<T>(
         selector: string,
-        moduleRef: NgModuleRef<DynamicModule<T>>,
+        moduleRef: NgModuleRef<XmDynamicEntryModule<T>>,
     ): Promise<ComponentFactory<T> | null> {
         const moduleFac = await this.dynamicSearcher.search(selector, { injector: moduleRef.injector });
 
         if (moduleFac instanceof NgModuleFactory || isModuleDef(moduleFac)) {
-            const moduleFactory = await this.moduleLoaderService.loadModuleFactory<T>(moduleFac as DynamicNgModuleFactory<T>);
+            const moduleFactory = await this.moduleLoaderService.loadModuleFactory<T>(moduleFac as XmDynamicNgModuleFactory<T>);
             return this.getComponentFromModuleAndResolve(moduleFactory, moduleRef.injector);
         } else if (isComponentDef(moduleFac)) {
             return moduleRef.componentFactoryResolver.resolveComponentFactory(moduleFac as Type<T>);
@@ -70,7 +70,7 @@ export class DynamicTenantLoaderService {
     }
 
     public getComponentFromModuleAndResolve<T>(
-        moduleFactory: DynamicNgModuleFactory<T>,
+        moduleFactory: XmDynamicNgModuleFactory<T>,
         injector: Injector = this.moduleRef.injector,
     ): ComponentFactory<T> {
         const elementModuleRef = moduleFactory.create(injector);

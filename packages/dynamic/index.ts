@@ -1,5 +1,12 @@
-export { DynamicControlDirective, IControl, IControlFn } from './src/control/dynamic-control.directive';
-export { DynamicFormControlDirective, IFormControl } from './src/control/dynamic-form-control.directive';
+export {
+    XmDynamicControlDirective,
+    XmDynamicControl,
+    XmDynamicControlConstructor,
+    XmDynamicControlEntryModule,
+} from './src/control/xm-dynamic-control.directive';
+
+export { XmDynamicFormControlDirective, IFormControl } from './src/control/xm-dynamic-form-control.directive';
+
 export { DynamicLoader } from './src/loader/dynamic-loader';
 export { DynamicLoaderService } from './src/loader/dynamic-loader.service';
 export { DynamicMultiLoaderService } from './src/loader/dynamic-multi-loader.service';
@@ -8,26 +15,46 @@ export { DynamicInjectionTokenSearcherService } from './src/searcher/dynamic-inj
 export { DynamicInjectorSearcherService } from './src/searcher/dynamic-injector-searcher.service';
 export { DynamicMultiSearcherService } from './src/searcher/dynamic-multi-searcher.service';
 export { DynamicSearcher } from './src/searcher/dynamic-searcher';
+
 export {
-    DynamicCellDirective,
-    DynamicCellModule,
-    Column,
-    DynamicCell,
+    XmDynamicCellDirective,
+    XmDynamicCellModule,
+    XmDynamicCell,
     getCellValue,
-    TABLE_CELL,
-    TABLE_ROW,
-} from './src/view/dynamic-cell/dynamic-cell.directive';
-export { DynamicViewDirective } from './src/view/dynamic-view.directive';
-export { IComponent, IComponentFn } from './src/view/dynamic-base';
-export { DynamicViewLayoutComponent, ViewLayout } from './src/view/dynamic-view-layout.component';
-export { DynamicWidgetDirective, IWidget, WidgetConfig, WidgetFn } from './src/widget/dynamic-widget.directive';
-export { DynamicWidgetLayoutComponent, SanitizedLayout } from './src/widget/dynamic-widget-layout.component';
-export { DYNAMIC_COMPONENTS } from './src/dynamic.injectors';
+    XM_DYNAMIC_TABLE_CELL,
+    XM_DYNAMIC_TABLE_ROW,
+} from './src/cell';
+
 export {
-    DynamicNgModuleFactory,
-    DynamicComponents,
-    DynamicComponent,
-    DynamicModule,
-} from './src/dynamic.interfaces';
-export { Layout } from './src/layout.model';
+    XmDynamicPresentationDirective,
+    XmDynamicPresentationConstructor,
+    XmDynamicPresentationBase,
+    XmPresentationLayout,
+    XmDynamicPresentationLayoutComponent,
+    XmDynamicPresentation,
+    XmDynamicPresentationEntryModule,
+} from './src/presentation';
+
+export {
+    XmLayout,
+    XmDynamicConstructor,
+    XmDynamicEntryModule,
+    XmDynamicEntries,
+    XmDynamicNgModuleFactory,
+    XmDynamicEntry,
+} from './src/interfaces';
+
+export {
+    XmDynamicWidgetDirective,
+    XmDynamicWidgetConfig,
+    XmDynamicWidgetModule,
+    XmDynamicWidget,
+    XmSanitizedLayout,
+    XmDynamicWidgetLayoutComponent,
+} from './src/widget';
+
+export { XM_DYNAMIC_ENTRIES } from './src/dynamic.injectors';
+
 export { XmDynamicModule, dynamicModuleInitializer } from './src/xm-dynamic.module';
+
+export * from './src/_bc';

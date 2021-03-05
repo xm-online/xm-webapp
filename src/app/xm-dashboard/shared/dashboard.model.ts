@@ -1,4 +1,4 @@
-import { Layout } from '@xm-ngx/dynamic';
+import { XmLayout } from '@xm-ngx/dynamic';
 import { BaseEntity } from '@xm-ngx/entity';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
@@ -32,7 +32,7 @@ export interface DashboardConfig {
     [key: string]: any;
 }
 
-interface DashboardLayoutLayout extends Layout {
+export interface DashboardLayoutLayout extends XmLayout {
     widget?: number | string | DashboardWidget;
     widgetName?: string;
     content?: DashboardLayoutLayout[];

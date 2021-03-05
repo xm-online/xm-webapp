@@ -1,6 +1,6 @@
 import { Component, Inject, Input, Optional } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
-import { TABLE_ROW } from '@xm-ngx/dynamic';
+import { XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { User, UserService } from '../../../../../src/app/shared';
 
@@ -16,7 +16,7 @@ export class UnblockLockUserComponent {
         protected alertService: XmAlertService,
         protected toasterService: XmToasterService,
         private userService: UserService,
-        @Optional() @Inject(TABLE_ROW) row: User,
+        @Optional() @Inject(XM_DYNAMIC_TABLE_ROW) row: User,
     ) {
         this.user = row;
     }

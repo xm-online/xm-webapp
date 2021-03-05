@@ -6,7 +6,7 @@ import {
 } from '@xm-ngx/administration/dashboards-config/widget-edit/widget-list.service';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmTextControlOptions } from '@xm-ngx/components/text';
-import { IControl } from '@xm-ngx/dynamic';
+import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
 
@@ -25,7 +25,7 @@ import { map, shareReplay, startWith } from 'rxjs/operators';
 })
 export class SelectorTextControlComponent
     extends NgModelWrapper<string>
-    implements IControl<string, XmTextControlOptions>, OnInit {
+    implements XmDynamicControl<string, XmTextControlOptions>, OnInit {
     @Input() public options: XmTextControlOptions;
     public control: FormControl = new FormControl(this.value);
     public filteredOptions: Observable<ExtendedDynamicComponents[]>;

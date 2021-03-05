@@ -10,15 +10,15 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { DynamicBase } from '../dynamic-base';
+import { XmDynamicPresentationBase } from '../presentation/xm-dynamic-presentation-base.directive';
 
-export const TABLE_ROW = new InjectionToken<string>('TABLE_ROW');
-export const TABLE_CELL = new InjectionToken<string>('TABLE_CELL');
+export const XM_DYNAMIC_TABLE_ROW = new InjectionToken<string>('XM_DYNAMIC_TABLE_ROW');
+export const XM_DYNAMIC_TABLE_CELL = new InjectionToken<string>('XM_DYNAMIC_TABLE_CELL');
 
 /**
  * @beta
  */
-export function getCellValue<V>(dynamicCell: DynamicCell, entity: unknown | V): V {
+export function getCellValue<V>(dynamicCell: XmDynamicCell, entity: unknown | V): V {
     const field = dynamicCell.field;
     if (field === null || field === undefined || field === '') {
         return entity as V;
@@ -28,10 +28,10 @@ export function getCellValue<V>(dynamicCell: DynamicCell, entity: unknown | V): 
 }
 
 /**
- * DynamicCellDirective cell configuration
+ * XmDynamicCellDirective cell configuration
  * @beta
  */
-export interface DynamicCell<O = unknown> {
+export interface XmDynamicCell<O = unknown> {
     field: string;
     selector: string;
     options: O;
@@ -40,12 +40,7 @@ export interface DynamicCell<O = unknown> {
 }
 
 /**
- * @deprecated use {@link DynamicCell} instead
- */
-export type Column<O = unknown> = DynamicCell<O>;
-
-/**
- * DynamicCellDirective creates a component from the DynamicLoader
+ * XmDynamicCellDirective creates a component from the DynamicLoader
  *
  * @example
  * ```
@@ -57,8 +52,8 @@ export type Column<O = unknown> = DynamicCell<O>;
 @Directive({
     selector: 'xm-dynamic-cell, [xmDynamicCell]',
 })
-export class DynamicCellDirective<V, O extends DynamicCell<O>>
-    extends DynamicBase<V, O>
+export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
+    extends XmDynamicPresentationBase<V, O>
     implements OnInit, OnChanges, DoCheck {
 
     /** Component row value */
@@ -112,8 +107,8 @@ export class DynamicCellDirective<V, O extends DynamicCell<O>>
     public createInjector(): Injector {
         return Injector.create({
             providers: [
-                { provide: TABLE_ROW, useValue: this.row },
-                { provide: TABLE_CELL, useValue: this._cell },
+                { provide: XM_DYNAMIC_TABLE_ROW, useValue: this.row },
+                { provide: XM_DYNAMIC_TABLE_CELL, useValue: this._cell },
             ],
             parent: this.injector,
         });
@@ -131,8 +126,8 @@ export class DynamicCellDirective<V, O extends DynamicCell<O>>
 }
 
 @NgModule({
-    exports: [DynamicCellDirective],
-    declarations: [DynamicCellDirective],
+    exports: [XmDynamicCellDirective],
+    declarations: [XmDynamicCellDirective],
 })
-export class DynamicCellModule {
+export class XmDynamicCellModule {
 }

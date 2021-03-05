@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
 import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
-import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
+import {
+    XmDynamicPresentation,
+    XmDynamicPresentationConstructor,
+    XmDynamicPresentationEntryModule,
+} from '@xm-ngx/dynamic';
 import { Id } from '@xm-ngx/shared/interfaces';
 import { get } from 'lodash';
 import { clone } from 'lodash/fp';
@@ -32,11 +36,11 @@ export const BY_ENTITY_ID_VALUE_OPTIONS: ByEntityIdValueOptions = {
     template: '<span>{{fieldValue}}</span>',
 })
 export class ByEntityIdValueComponent
-    implements IComponent<Id, ByEntityIdValueOptions>, OnInit, OnChanges {
+    implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges {
 
-    /** {@inheritDoc IComponent.options} */
+    /** {@inheritDoc XmDynamicPresentation.options} */
     @Input() public options: ByEntityIdValueOptions;
-    /** {@inheritDoc IComponent.value} */
+    /** {@inheritDoc XmDynamicPresentation.value} */
     @Input() public value: Id;
 
     /** The value of the loaded entity. */
@@ -98,6 +102,6 @@ export class ByEntityIdValueComponent
     exports: [ByEntityIdValueComponent],
     imports: [CommonModule],
 })
-export class ByEntityIdValueModule {
-    public entry: IComponentFn<Id, ByEntityIdValueOptions> = ByEntityIdValueComponent;
+export class ByEntityIdValueModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = ByEntityIdValueComponent;
 }

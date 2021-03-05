@@ -2,7 +2,7 @@ import { BaseEntity } from '@xm-ngx/entity';
 
 export interface DashboardWidget<C = any> extends BaseEntity {
     id?: number;
-    config?: C;
+    config: C;
     dashboard?: number
         /*
          * Backward compatibility,
@@ -11,7 +11,7 @@ export interface DashboardWidget<C = any> extends BaseEntity {
         | { id?: number } | any;
     isPublic?: boolean;
     name?: string;
-    selector?: string;
+    selector: string;
 
     /*
      * Backward compatibility, @deprecated

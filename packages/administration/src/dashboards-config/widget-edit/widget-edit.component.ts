@@ -46,7 +46,7 @@ export class WidgetEditComponent {
         this.loading$ = this.widgetService.loading$.pipe(tap((i) => this.disabled = i));
     }
 
-    private _value: DashboardWidget = {};
+    private _value: DashboardWidget = {config: null, selector: null};
 
     public get value(): DashboardWidget {
         return this._value;

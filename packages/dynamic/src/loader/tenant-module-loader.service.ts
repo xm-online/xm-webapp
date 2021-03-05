@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DynamicNgModuleFactory } from '@xm-ngx/dynamic';
+import { XmDynamicNgModuleFactory } from '@xm-ngx/dynamic';
 import { ModuleLoader } from './module-loader';
 
 @Injectable({ providedIn: 'root' })
@@ -10,7 +10,7 @@ export class TenantModuleLoaderService {
     ) {
     }
 
-    public loadTenantModuleFactory<T>(selector: string): Promise<DynamicNgModuleFactory<T>> {
+    public loadTenantModuleFactory<T>(selector: string): Promise<XmDynamicNgModuleFactory<T>> {
         const modulePath = this.resolveTenantModulePath(selector);
         return this.moduleLoader.loadModuleFactory(modulePath);
     }

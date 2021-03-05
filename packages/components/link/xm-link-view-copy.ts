@@ -8,7 +8,7 @@ import {
     XmLinkViewComponent,
 } from '@xm-ngx/components/link/xm-link-view';
 import { XmTextViewModule } from '@xm-ngx/components/text';
-import { IComponent } from '@xm-ngx/dynamic';
+import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { assign, clone } from 'lodash';
@@ -44,7 +44,7 @@ export const XM_LINK_VIEW_COPY_DEFAULT_OPTIONS: XmLinkViewCopyOptions = assign(
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class XmLinkViewCopyComponent extends XmLinkViewComponent implements IComponent<IId, XmLinkViewOptions>, OnInit, OnChanges {
+export class XmLinkViewCopyComponent extends XmLinkViewComponent implements XmDynamicPresentation<IId, XmLinkViewOptions>, OnInit, OnChanges {
     @Input() public value: IId;
     @Input() public options: XmLinkViewCopyOptions;
     public copyValue: unknown;

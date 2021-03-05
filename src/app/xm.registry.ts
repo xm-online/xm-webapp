@@ -5,9 +5,9 @@ import { XM_HTML_ELEMENTS } from '@xm-ngx/components/html';
 import { XM_LINK_ELEMENTS } from '@xm-ngx/components/link';
 import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/text';
 import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/enum';
-import { DynamicComponents } from '@xm-ngx/dynamic';
+import { XmDynamicEntries } from '@xm-ngx/dynamic';
 
-export const XM_ELEMENTS: DynamicComponents = [
+export const XM_ELEMENTS: XmDynamicEntries = [
     ...XM_DATE_ELEMENTS,
     ...XM_HTML_ELEMENTS,
     ...XM_TEXT_ELEMENTS,

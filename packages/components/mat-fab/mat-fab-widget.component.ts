@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ThemePalette } from '@angular/material/core/common-behaviors/color';
-import { IWidget } from '@xm-ngx/dynamic';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { clone } from 'lodash';
@@ -33,7 +33,7 @@ export const MAT_FAB_DEFAULT_CONFIG: MatFabConfig = {
     templateUrl: './mat-fab-widget.component.html',
     styleUrls: ['./mat-fab-widget.component.scss'],
 })
-export class MatFabWidget implements IWidget<MatFabConfig> {
+export class MatFabWidget implements XmDynamicWidget {
     private _config: MatFabConfig = clone(MAT_FAB_DEFAULT_CONFIG);
 
     public get config(): MatFabConfig {

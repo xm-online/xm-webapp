@@ -6,11 +6,11 @@ import * as _ from 'lodash';
 import { Observable, zip } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
-import { Layout } from '@xm-ngx/dynamic';
+import { XmLayout } from '@xm-ngx/dynamic';
 
 interface PublicSlugLayout {
     slug: string;
-    layout: (Layout & { config?: unknown }) [];
+    layout: (XmLayout & { config?: unknown }) [];
 }
 
 interface PublicConfig {
@@ -26,7 +26,7 @@ interface PublicConfig {
 })
 export class XmPublicComponent implements OnInit, OnDestroy {
 
-    public layouts$: Observable<Layout[]>;
+    public layouts$: Observable<XmLayout[]>;
 
     constructor(
         private publicUiConfig: XmPublicUiConfigService<PublicConfig>,

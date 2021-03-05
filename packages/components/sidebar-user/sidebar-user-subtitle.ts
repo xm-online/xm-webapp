@@ -16,7 +16,7 @@ export interface SidebarUserSubtitleOptions {
     template: `
         <ng-container *ngIf="!options?.role || (options?.role === value.roleKey)">
             <ng-template [ngIf]="options.selector" [ngIfElse]="defaultView">
-                <ng-template xmDynamicView
+                <ng-template xmDynamicPresentation
                              [selector]="options.selector"
                              [value]="get(value, options.field)"
                              [options]="options.options"></ng-template>

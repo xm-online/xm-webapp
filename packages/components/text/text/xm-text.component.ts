@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { IComponent } from '@xm-ngx/dynamic';
+import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
 
 @Component({
@@ -7,7 +7,7 @@ import { Primitive } from '@xm-ngx/shared/interfaces';
     template: '{{value}}',
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmTextComponent implements IComponent<Primitive, undefined> {
+export class XmTextComponent implements XmDynamicPresentation<Primitive, undefined> {
     @Input() public value: Primitive;
     @Input() public options: undefined;
 }

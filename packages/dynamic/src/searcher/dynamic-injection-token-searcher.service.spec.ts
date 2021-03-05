@@ -1,12 +1,12 @@
 import { Component, Injector, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { DynamicComponents } from '@xm-ngx/dynamic';
-import { DYNAMIC_COMPONENTS } from '../dynamic.injectors';
+import { XmDynamicEntries } from '@xm-ngx/dynamic';
+import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
 
 import { DynamicInjectionTokenSearcherService } from './dynamic-injection-token-searcher.service';
 
-function defineInjector(components: DynamicComponents): Injector {
-    return Injector.create({providers: [{provide: DYNAMIC_COMPONENTS, useValue: components}]});
+function defineInjector(components: XmDynamicEntries): Injector {
+    return Injector.create({providers: [{provide: XM_DYNAMIC_ENTRIES, useValue: components}]});
 }
 
 @Component({template: ''})

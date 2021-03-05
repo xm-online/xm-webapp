@@ -1,6 +1,6 @@
-import { DynamicComponent } from '@xm-ngx/dynamic';
+import { XmDynamicEntry } from '@xm-ngx/dynamic';
 
-export const XM_DATE_ELEMENTS: DynamicComponent[] = [
+export const XM_DATE_ELEMENTS: XmDynamicEntry[] = [
     {
         selector: '@xm-ngx/components/date',
         loadChildren: () => import('./xm-date.component').then(m => m.XmDateModule),

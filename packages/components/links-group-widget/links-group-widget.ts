@@ -5,7 +5,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 import { IfDashboardSlugModule } from '@xm-ngx/components/if-dashboard-slug';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { IWidget } from '@xm-ngx/dynamic';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
@@ -68,5 +68,5 @@ export class LinksGroupWidget {
     ],
 })
 export class LinksGroupWidgetModule {
-    public entry: Type<IWidget> = LinksGroupWidget;
+    public entry: Type<XmDynamicWidget> = LinksGroupWidget;
 }
