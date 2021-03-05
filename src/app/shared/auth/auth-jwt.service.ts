@@ -110,7 +110,7 @@ export class AuthServerProvider {
         return stream.pipe(
             map((resp) => {
                 this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
-                const result = resp.body;
+                const result = resp;
                 const accessToken = this.storeAT(result, false)
                 this.stateStorageService.resetDestinationState();
                 this.storeRT(result, false);
