@@ -12,9 +12,10 @@ import { XmJhiLanguageService } from './jhiLanguage.service';
 import { LanguageService } from './language.service';
 import { TranslateDirective } from './translate.directive';
 import { TranslatePipe } from './translate.pipe';
+import { environment } from '../../../environments/environment';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-    return new TranslateHttpLoader(http, './i18n/', '.json');
+    return new TranslateHttpLoader(http, './i18n/', '.json?' + environment.buildTimestamp);
 }
 
 @NgModule({
