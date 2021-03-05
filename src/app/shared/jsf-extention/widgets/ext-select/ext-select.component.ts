@@ -13,14 +13,15 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material';
 import { JsonSchemaFormComponent, JsonSchemaFormService } from 'angular2-json-schema-form';
-import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
-import { filter, finalize, map, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { finalize, takeUntil, tap } from 'rxjs/operators';
 
 import { environment } from '../../../../../environments/environment';
 import { Principal } from '../../../auth/principal.service';
 import { I18nNamePipe } from '../../../language/i18n-name.pipe';
 import { ExtSelectOptions, ISelectDeepLinkOptions } from './ext-select-options.model';
 import { ExtSelectService } from './ext-select-service';
+import { BaseExtSelectComponent } from "./base-ext-select.component";
 
 interface Element {
     label: any;
@@ -32,13 +33,11 @@ interface Element {
     templateUrl: 'ext-select.component.html',
     styleUrls: ['./ext-select.component.scss'],
 })
-export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     public options: ExtSelectOptions;
     public selectLinkOptions: ISelectDeepLinkOptions;
 
     public elements: any = [];
-    public disabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public cacheOptionsUrl: string | null;
     public elementCtrl: FormControl = new FormControl();
     public elementFilterCtrl: FormControl = new FormControl();
     public filteredElements: ReplaySubject<Element[]> = new ReplaySubject<Element[]>(1);
@@ -47,10 +46,8 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('singleSelect', {static: false}) protected singleSelect: MatSelect;
     @Input() private layoutNode: any;
-    private controlValue: any;
-    private regTemplateLiteral: RegExp = /@{(\w+(\[\])?.?)+}/g;
-    private _onDestroy: Subject<void> = new Subject<void>();
-    private dataIndex: number[];
+    protected controlValue: any;
+    protected dataIndex: number[];
 
     constructor(
         @Inject(forwardRef(() => JsonSchemaFormComponent)) private _parent: JsonSchemaFormComponent,
@@ -61,7 +58,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
         private changeDetectorRef: ChangeDetectorRef,
         public principal: Principal,
     ) {
-
+        super();
     }
 
     public onNavigate(e: Event): void {
@@ -97,51 +94,11 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        if (!this.options.url || !this.regTemplateLiteral.test(this.options.url)) {
+        if (!ExtSelectService.isTemplateUrl(this.options.url)) {
             this.fetchData(this.options);
             return;
         }
-
-        const savedLiteralsValue = {};
-
-        this.disabled$.next(true);
-        this.options.url
-            .match(this.regTemplateLiteral)
-            .map((literal) => {
-                savedLiteralsValue[literal] = null;
-                return literal;
-            })
-            .map((result) => result.replace(/@{|}/g, ''))
-            .forEach((eLiteral) => {
-                let currentFieldName: string;
-                of(eLiteral).pipe(
-                    filter((fieldLiteral) => !!fieldLiteral),
-                    tap((fieldName) => currentFieldName = fieldName),
-                    mergeMap((fieldName) => ExtSelectService.controlByKey(fieldName, this._parent.jsf.formGroup, this.dataIndex).valueChanges),
-                    tap(() => this.disabled$.next(true)),
-                    filter((fieldValue) => !!fieldValue),
-                    tap((fieldValue) => savedLiteralsValue[`@{${currentFieldName}}`] = fieldValue),
-                    map(() => savedLiteralsValue),
-                    filter((literalsValue) => Object.values(literalsValue).findIndex((val) => !val) === -1),
-                    tap(() => this.disabled$.next(false)),
-                    map((literalsValue) => {
-                        let optionsUrl = this.options.url;
-                        Object.keys(literalsValue)
-                            .forEach((literal) => optionsUrl = optionsUrl.replace(literal, literalsValue[literal]));
-                        return optionsUrl;
-                    }),
-                    filter((optionsUrl) => optionsUrl !== this.cacheOptionsUrl),
-                    tap((optionsUrl) => this.cacheOptionsUrl = optionsUrl),
-                    map((optionsUrl: string) => {
-                        const cloneOptions = Object.assign({}, this.options);
-                        cloneOptions.url = optionsUrl;
-                        return cloneOptions;
-                    }),
-                    tap((options) => this.fetchData(options)),
-                    tap(() => this.jsf.updateValue(this, this.controlValue)),
-                    takeUntil(this._onDestroy),
-                ).subscribe();
-            });
+        this.fetchByLiteral();
     }
 
     public ngOnDestroy(): void {
@@ -157,6 +114,14 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
             .subscribe(() => {
                 this.filterElements();
             });
+    }
+
+    public getParentJsf(): JsonSchemaFormService {
+        return this._parent.jsf;
+    }
+
+    public getJsf(): JsonSchemaFormService {
+        return this.jsf;
     }
 
     public updateValue(event: any): void {
@@ -185,24 +150,8 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
         this.controlValue = event.value.value;
     }
 
-    private filterElements(): void {
-        if (!this.elements) {
-            return;
-        }
-        let search = this.elementFilterCtrl.value;
-        if (!search && search == null) {
-            this.filteredElements.next(this.elements.slice());
-            return;
-        } else {
-            search = search.toLowerCase();
-        }
-        this.filteredElements.next(
-            this.elements.filter((e) => e.label.toLowerCase().indexOf(search) > -1),
-        );
-    }
-
     // tslint:disable-next-line:cognitive-complexity
-    private fetchData(options: any): void {
+    protected fetchData(options: any): void {
         if (options.sourceField) {
             const array = new Function(
                 'model', 'options', 'return ' + options.sourceField)(this.jsf.getData(), this.jsf.formOptions);
@@ -226,7 +175,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.initOptionList();
             });
         } else {
-            if (!this.options.url && !this.regTemplateLiteral.test(this.options.url)) {
+            if (!options.url && !ExtSelectService.isTemplateUrl(options.url)) {
                 return;
             }
             this.fetchOptions(options).pipe(
@@ -242,6 +191,22 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
                 },
                 (error) => console.warn(error));
         }
+    }
+
+    private filterElements(): void {
+        if (!this.elements) {
+            return;
+        }
+        let search = this.elementFilterCtrl.value;
+        if (!search && search == null) {
+            this.filteredElements.next(this.elements.slice());
+            return;
+        } else {
+            search = search.toLowerCase();
+        }
+        this.filteredElements.next(
+            this.elements.filter((e) => e.label.toLowerCase().indexOf(search) > -1),
+        );
     }
 
     private fetchOptions(options: any): Observable<any[]> {
