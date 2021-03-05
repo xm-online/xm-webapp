@@ -69,14 +69,15 @@ export class LoginService {
     }
 
     public loginWithIdpClient(client: IIdpClient): void {
-        const redirectUri = client.openIdConfig.authorizationEndpoint.uri;
+        const authEndpointUri = client.openIdConfig.authorizationEndpoint.uri;
         const getRedirectUrl = `oauth2/authorization/${client.key}`;
         const devApiUri = environment.idpServerApiUrl;
         const loc = devApiUri ? devApiUri : location.origin;
         this.$sessionStorage.store(IDP_CLIENT, client);
-        if (redirectUri) {
+        if (authEndpointUri) {
+            console.warn(location.origin);
             console.warn(loc);
-            console.warn(redirectUri);
+            console.warn(this.location.prepareExternalUrl(getRedirectUrl));
             location.href = `${loc}${this.location.prepareExternalUrl(getRedirectUrl)}`;
         }
     }
