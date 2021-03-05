@@ -52,7 +52,6 @@ export abstract class BaseExtSelectComponent {
                     map((optionsUrl: string) => {
                         const cloneOptions = Object.assign({}, this.options);
                         cloneOptions.url = optionsUrl;
-                        console.log('replace url')
                         return cloneOptions;
                     }),
                     tap((options) => this.fetchData(options)),

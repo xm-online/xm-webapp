@@ -95,7 +95,6 @@ export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit
 
     public ngAfterViewInit(): void {
         if (!ExtSelectService.isTemplateUrl(this.options.url)) {
-            console.log(this.options.url, 'It`s not template url')
             this.fetchData(this.options);
             return;
         }
