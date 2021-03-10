@@ -1,6 +1,8 @@
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { JsonSchemaFormService } from 'angular2-json-schema-form';
+import { FileUploadLayoutNode } from './file-upload.layoutNode';
+import { FileUploadOptions } from './file-upload-options.model';
 
 @Component({
     selector: 'xm-ajfs-file-upload',
@@ -9,14 +11,14 @@ import { JsonSchemaFormService } from 'angular2-json-schema-form';
 })
 export class FileUploadComponent implements OnInit, OnDestroy {
 
-    public options: any;
+    public options: FileUploadOptions;
     public controlValue: any;
     public uploadingError: boolean = false;
     public progress: number;
     public file: any;
     public uploadProcess: any;
 
-    @Input() public layoutNode: any;
+    @Input() public layoutNode: FileUploadLayoutNode;
 
     constructor(private jsf: JsonSchemaFormService,
                 private changeDetectorRef: ChangeDetectorRef,
