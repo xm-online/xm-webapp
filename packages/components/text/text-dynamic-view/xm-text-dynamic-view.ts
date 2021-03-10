@@ -1,8 +1,13 @@
 import { Component, Input, NgModule } from '@angular/core';
-import { XmTextViewModule } from '../text-view/xm-text-view.component';
-import { IComponent, IComponentFn, XmDynamicModule } from '@xm-ngx/dynamic';
+import {
+    XmDynamicModule,
+    XmDynamicPresentation,
+    XmDynamicPresentationConstructor,
+    XmDynamicPresentationEntryModule,
+} from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { XmTextViewModule } from '../text-view/xm-text-view.component';
 
 export interface XmTextDynamicOptions {
     title?: Translate;
@@ -16,7 +21,7 @@ export interface XmTextDynamicOptions {
     template: `
         <xm-text-view-container [styleInline]="this.options?.textStyle === 'inline'">
             <span xmLabel>{{options.title | translate}}</span>
-            <span xmDynamicView
+            <span xmDynamicPresentation
                   xmValue
                   [selector]="options.selector"
                   [value]="value"
@@ -24,7 +29,7 @@ export interface XmTextDynamicOptions {
         </xm-text-view-container>
     `,
 })
-export class XmTextDynamicView implements IComponent<Primitive, XmTextDynamicOptions> {
+export class XmTextDynamicView implements XmDynamicPresentation<Primitive, XmTextDynamicOptions> {
     @Input() public value: Primitive;
     @Input() public options: XmTextDynamicOptions;
 }
@@ -34,6 +39,6 @@ export class XmTextDynamicView implements IComponent<Primitive, XmTextDynamicOpt
     exports: [XmTextDynamicView],
     declarations: [XmTextDynamicView],
 })
-export class XmTextDynamicViewModule {
-    public entry: IComponentFn<Primitive, XmTextDynamicOptions> = XmTextDynamicView;
+export class XmTextDynamicViewModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = XmTextDynamicView;
 }

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, Input, Optional, Self, View
 import { NgControl } from '@angular/forms';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { IControl } from '@xm-ngx/dynamic';
+import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
@@ -65,7 +65,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 /** @beta */
-export class XmTextControl extends NgFormAccessor<Primitive> implements IControl<Primitive, XmTextControlOptions> {
+export class XmTextControl<T = Primitive> extends NgFormAccessor<T> implements XmDynamicControl<T, XmTextControlOptions> {
     constructor(@Optional() @Self() public ngControl: NgControl | null,
                 @Inject(XM_CONTROL_ERRORS_TRANSLATES) private xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
         super(ngControl);

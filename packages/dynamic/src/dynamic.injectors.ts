@@ -1,4 +1,4 @@
 import { InjectionToken } from '@angular/core';
-import { DynamicComponents } from './dynamic.interfaces';
+import { XmDynamicEntries } from './interfaces';
 
-export const DYNAMIC_COMPONENTS = new InjectionToken<DynamicComponents>('DYNAMIC_COMPONENTS');
+export const XM_DYNAMIC_ENTRIES = new InjectionToken<XmDynamicEntries>('XM_DYNAMIC_ENTRIES');

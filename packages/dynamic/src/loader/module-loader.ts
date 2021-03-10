@@ -1,5 +1,5 @@
 import { Compiler, Injectable, NgModuleFactory, NgModuleFactoryLoader, Optional } from '@angular/core';
-import { DynamicNgModuleFactory } from '@xm-ngx/dynamic';
+import { XmDynamicNgModuleFactory } from '@xm-ngx/dynamic';
 
 @Injectable({ providedIn: 'root'})
 export class ModuleLoader {
@@ -11,9 +11,9 @@ export class ModuleLoader {
     }
 
     public async loadModuleFactory<T>(
-        moduleImport: Promise<DynamicNgModuleFactory<T>> | DynamicNgModuleFactory<T> | string,
-    ): Promise<DynamicNgModuleFactory<T>> {
-        let elementModuleOrFactory: DynamicNgModuleFactory<T>;
+        moduleImport: Promise<XmDynamicNgModuleFactory<T>> | XmDynamicNgModuleFactory<T> | string,
+    ): Promise<XmDynamicNgModuleFactory<T>> {
+        let elementModuleOrFactory: XmDynamicNgModuleFactory<T>;
         if (typeof moduleImport === 'string') {
             elementModuleOrFactory = await this.loader.load(moduleImport);
         } else if (moduleImport instanceof Promise) {
@@ -22,11 +22,11 @@ export class ModuleLoader {
             elementModuleOrFactory = moduleImport;
         }
 
-        let elModuleFactory: DynamicNgModuleFactory<T>;
+        let elModuleFactory: XmDynamicNgModuleFactory<T>;
         if (elementModuleOrFactory instanceof NgModuleFactory) {
             elModuleFactory = elementModuleOrFactory;
         } else {
-            elModuleFactory = await this.compiler.compileModuleAsync(elementModuleOrFactory) as DynamicNgModuleFactory<T>;
+            elModuleFactory = await this.compiler.compileModuleAsync(elementModuleOrFactory) as XmDynamicNgModuleFactory<T>;
         }
 
         return elModuleFactory;

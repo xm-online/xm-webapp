@@ -6,7 +6,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { DynamicModule } from '@xm-ngx/dynamic';
+import { XmDynamicEntryModule } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmArrayControlComponent } from './xm-array-control.component';
 
@@ -25,6 +25,6 @@ import { XmArrayControlComponent } from './xm-array-control.component';
         XmTranslationModule,
     ],
 })
-export class XmArrayControlModule implements DynamicModule {
+export class XmArrayControlModule implements XmDynamicEntryModule {
     public entry: Type<XmArrayControlComponent> = XmArrayControlComponent;
 }

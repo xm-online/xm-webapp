@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
-import { IComponent, IComponentFn, DynamicModule } from '@xm-ngx/dynamic';
+import {
+    XmDynamicPresentation,
+    XmDynamicPresentationConstructor,
+    XmDynamicPresentationEntryModule,
+} from '@xm-ngx/dynamic';
 import { defaults } from 'lodash';
 
 export interface XmDateOptions {
@@ -17,7 +21,7 @@ export type XmDateValue = string | Date;
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmDateComponent implements IComponent<XmDateValue, XmDateOptions> {
+export class XmDateComponent implements XmDynamicPresentation<XmDateValue, XmDateOptions> {
     @Input() public value: XmDateValue;
 
     protected _options: XmDateOptions = {};
@@ -37,6 +41,6 @@ export class XmDateComponent implements IComponent<XmDateValue, XmDateOptions> {
     declarations: [XmDateComponent],
     imports: [CommonModule],
 })
-export class XmDateModule implements DynamicModule<IComponent<XmDateValue, XmDateOptions>> {
-    public entry: IComponentFn<XmDateValue, XmDateOptions> = XmDateComponent;
+export class XmDateModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = XmDateComponent;
 }

@@ -13,18 +13,24 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { XmDynamicConstructor, XmDynamicEntryModule } from '../interfaces';
 import { DynamicLoader } from '../loader/dynamic-loader';
-import { IComponent } from '../view/dynamic-base';
-import { DynamicViewDirective } from '../view/dynamic-view.directive';
+import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-base.directive';
+import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
 
-export interface IControl<V = unknown, O = unknown> extends IComponent<V, O>, ControlValueAccessor {
+export interface XmDynamicControl<V = unknown, O = unknown> extends XmDynamicPresentation<V, O>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
     disabled: boolean;
 }
 
-export interface IControlFn<V = unknown, O = unknown> {
-    new(...args: any): IControl<V, O>;
+export interface XmDynamicControlConstructor<V = unknown, O = unknown> extends XmDynamicConstructor<XmDynamicControl<V, O>> {
+    new(...args: any): XmDynamicControl<V, O>;
 }
+
+export interface XmDynamicControlEntryModule<V = unknown, O = unknown> extends XmDynamicEntryModule<XmDynamicControl<V, O>> {
+    entry: XmDynamicControlConstructor<V, O>;
+}
+
 
 /**
  * DynamicControlComponent creates component from configs
@@ -41,11 +47,11 @@ export interface IControlFn<V = unknown, O = unknown> {
  */
 @Directive({
     selector: '[xmDynamicControl]',
-    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => DynamicControlDirective), multi: true }],
+    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmDynamicControlDirective), multi: true }],
 })
-export class DynamicControlDirective<V, O>
-    extends DynamicViewDirective<V, O>
-    implements ControlValueAccessor, IControl<V, O>, OnInit, OnChanges {
+export class XmDynamicControlDirective<V, O>
+    extends XmDynamicPresentationDirective<V, O>
+    implements ControlValueAccessor, XmDynamicControl<V, O>, OnInit, OnChanges {
 
     /** Component value */
     @Input() public value: V;
@@ -57,13 +63,13 @@ export class DynamicControlDirective<V, O>
     @Input() public options: O;
 
     /** Component ref */
-    @Input() public selector: IControlFn<V, O> | string;
+    @Input() public selector: XmDynamicControlConstructor<V, O> | string;
 
     /** Component value changes */
     @Output() public valueChange: EventEmitter<V> = new EventEmitter<V>();
 
     /** Returns instance of created object */
-    public instance: IControl<V, O>;
+    public instance: XmDynamicControl<V, O>;
 
     constructor(
         viewContainerRef: ViewContainerRef,

@@ -7,7 +7,7 @@ describe('DynamicInjectorSearcherService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DynamicInjectorSearcherService);
+    service = TestBed.inject<DynamicInjectorSearcherService>(DynamicInjectorSearcherService);
   });
 
   it('should be created', () => {

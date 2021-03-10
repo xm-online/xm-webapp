@@ -7,7 +7,7 @@ describe('RequestCacheFactoryService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RequestCacheFactoryService);
+    service = TestBed.inject<RequestCacheFactoryService>(RequestCacheFactoryService);
   });
 
   it('should be created', () => {

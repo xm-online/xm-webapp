@@ -18,7 +18,7 @@ describe('DashboardsListExpandComponent', () => {
             imports: [XmSharedTestingModule, HttpClientTestingModule, NoopAnimationsModule],
             declarations: [DashboardsListExpandComponent],
             providers: [
-                { provide: DashboardsManagerService, useValue: null },
+                { provide: DashboardsManagerService, useValue: { activeWidget: null } },
                 { provide: DashboardEditorService, useValue: null },
                 { provide: DashboardCollection, useClass: MockEntityCollection },
                 { provide: WidgetCollection, useClass: MockEntityCollection },

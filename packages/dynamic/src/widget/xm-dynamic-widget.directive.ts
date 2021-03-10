@@ -10,24 +10,15 @@ import {
 } from '@angular/core';
 import * as _ from 'lodash';
 import { DynamicLoader } from '../loader/dynamic-loader';
+import { XmDynamicWidget } from './xm-dynamic-widget';
 
-export interface IWidget<C = any, S = any> {
-    config?: C;
-    /** @deprecated spec will be removed, you should provide the spec locally */
-    spec?: S;
-}
-
-export interface WidgetFn {
-    new(...args: any): IWidget;
-}
-
-export interface WidgetConfig<C = any, S = any> extends IWidget<C, S> {
+export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
     selector: string;
     /** @deprecated use selector instead */
     module: string;
     /** @deprecated use selector instead */
     component: string;
-    config?: C;
+    config: C;
     /** @deprecated spec will be removed, you should provide the spec locally */
     spec?: S;
 }
@@ -35,11 +26,11 @@ export interface WidgetConfig<C = any, S = any> extends IWidget<C, S> {
 @Directive({
     selector: 'xm-dynamic-widget, [xm-dynamic-widget]',
 })
-export class DynamicWidgetDirective implements OnChanges {
+export class XmDynamicWidgetDirective implements OnChanges {
 
     @Input() public class: string;
     @Input() public style: string;
-    private _layout: WidgetConfig;
+    private _layout: XmDynamicWidgetConfig;
 
     constructor(private injector: Injector,
                 private dynamicLoader: DynamicLoader,
@@ -47,12 +38,12 @@ export class DynamicWidgetDirective implements OnChanges {
                 private viewRef: ViewContainerRef) {
     }
 
-    public get init(): WidgetConfig {
+    public get init(): XmDynamicWidgetConfig {
         return this._layout;
     }
 
     @Input()
-    public set init(value: WidgetConfig) {
+    public set init(value: XmDynamicWidgetConfig) {
         if (!value) {
             return;
         }
@@ -74,7 +65,7 @@ export class DynamicWidgetDirective implements OnChanges {
             value.selector = `${value.module}/${value.component}`;
         }
 
-        const componentFactory = await this.dynamicLoader.loadAndResolve(this._layout.selector, {injector: this.injector});
+        const componentFactory = await this.dynamicLoader.loadAndResolve<XmDynamicWidget>(this._layout.selector, {injector: this.injector});
         if (componentFactory) {
             this.createComponent(this._layout, componentFactory);
             return;
@@ -83,8 +74,8 @@ export class DynamicWidgetDirective implements OnChanges {
         }
     }
 
-    private createComponent<T>(value: WidgetConfig, componentFactory: ComponentFactory<T>): void {
-        const widget = this.viewRef.createComponent<IWidget>(componentFactory);
+    private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, componentFactory: ComponentFactory<T>): void {
+        const widget = this.viewRef.createComponent<XmDynamicWidget>(componentFactory);
         widget.instance.config = value.config;
         widget.instance.spec = value.spec;
         // TODO: pass children layout

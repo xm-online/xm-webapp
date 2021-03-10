@@ -6,7 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { IfDashboardSlugModule } from '@xm-ngx/components/if-dashboard-slug';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { IWidget } from '@xm-ngx/dynamic';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatFabWidget } from './mat-fab-widget.component';
 
@@ -26,5 +26,5 @@ import { MatFabWidget } from './mat-fab-widget.component';
     ],
 })
 export class MatFabModule {
-    public entry: Type<IWidget> = MatFabWidget;
+    public entry: Type<XmDynamicWidget> = MatFabWidget;
 }

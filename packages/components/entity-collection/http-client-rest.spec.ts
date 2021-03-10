@@ -10,7 +10,7 @@ describe('HttpClientRestService', () => {
     }));
 
     it('should be created', () => {
-        const http = TestBed.inject(HttpClient);
+        const http = TestBed.inject<HttpClient>(HttpClient);
         const service: HttpClientRest = new HttpClientRest('test', http);
         expect(service).toBeTruthy();
     });

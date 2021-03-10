@@ -59,5 +59,6 @@ import { LanguageModule } from './language/language.module';
         CommonModule,
     ],
 })
+/** @deprecated Don't use GateSharedLibsModule */
 export class GateSharedLibsModule {
 }

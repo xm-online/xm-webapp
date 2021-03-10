@@ -34,10 +34,10 @@ export const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
 })
 export class ByEntityIdComponent extends ByEntityIdValueComponent implements OnInit, OnChanges {
 
-    /** {@inheritDoc IComponent.options} */
+    /** {@inheritDoc XmDynamicPresentation.options} */
     @Input() public options: ByEntityIdOptions;
 
-    /** {@inheritDoc IComponent.value} */
+    /** {@inheritDoc XmDynamicPresentation.value} */
     @Input() public value: Id;
 
     /** {@inheritDoc ByEntityIdValueComponent.defaultOptions} */

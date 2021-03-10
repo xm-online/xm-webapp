@@ -29,7 +29,7 @@ describe('XmTextControl', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(XmTextControl);
+        fixture = TestBed.createComponent<XmTextControl>(XmTextControl);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

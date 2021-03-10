@@ -7,7 +7,7 @@ describe('DynamicMultiSearcherService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DynamicMultiSearcherService);
+    service = TestBed.inject<DynamicMultiSearcherService>(DynamicMultiSearcherService);
   });
 
   it('should be created', () => {

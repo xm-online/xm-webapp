@@ -4,7 +4,7 @@ import { Component, Input, NgModule, OnChanges, OnInit, Type } from '@angular/co
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IComponent } from '@xm-ngx/dynamic';
+import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import { clone } from 'lodash';
 
@@ -31,7 +31,7 @@ export const XM_COPY_ICON_OPTIONS: XmCopyIconOptions = {
         </button>
     `,
 })
-export class XmCopyIconComponent implements IComponent<unknown, XmCopyIconOptions>, OnInit, OnChanges {
+export class XmCopyIconComponent implements XmDynamicPresentation<unknown, XmCopyIconOptions>, OnInit, OnChanges {
     @Input() public value: unknown;
     @Input() public options: XmCopyIconOptions = clone(XM_COPY_ICON_OPTIONS);
 

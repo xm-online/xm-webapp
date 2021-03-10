@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EDIT_DASHBOARD_EVENT } from '@xm-ngx/administration/dashboards-config/const';
-import { LoaderModule } from '@xm-ngx/components/loader';
-import { XmTextControlModule } from '@xm-ngx/components/text';
 import { XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
 import { BoolValueModule } from '@xm-ngx/components/bool';
+import { LoaderModule } from '@xm-ngx/components/loader';
+import { XmTextControlModule } from '@xm-ngx/components/text';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDocExamplesModule } from '../../../documentation/doc-examples/xm-doc-examples.module';
@@ -16,21 +16,21 @@ import { DashboardsListExpandComponent } from './dashboards-list/dashboards-list
 import { DashboardsListComponent } from './dashboards-list/dashboards-list.component';
 
 import { DashboardCollection, DashboardConfig, WidgetCollection } from './injectors';
-import { EDIT_WIDGET_EVENT, WidgetEditComponent } from './widget-edit/widget-edit.component';
 import { SelectorTextControlComponent } from './widget-edit/selector-text-control/selector-text-control.component';
+import { EDIT_WIDGET_EVENT, WidgetEditComponent } from './widget-edit/widget-edit.component';
 
 @NgModule({
-  imports: [
-    XmTranslationModule,
-    CommonModule,
-    XmSharedModule,
-    LoaderModule,
-    BoolValueModule,
-    XmAceEditorControlModule,
-    XmTextControlModule,
-    RouterModule,
-    XmDocExamplesModule,
-  ],
+    imports: [
+        XmTranslationModule,
+        CommonModule,
+        XmSharedModule,
+        LoaderModule,
+        BoolValueModule,
+        XmAceEditorControlModule,
+        XmTextControlModule,
+        RouterModule,
+        XmDocExamplesModule,
+    ],
     exports: [
         DashboardsConfigComponent,
         DashboardEditComponent,
@@ -43,11 +43,6 @@ import { SelectorTextControlComponent } from './widget-edit/selector-text-contro
         DashboardsListComponent,
         DashboardsListExpandComponent,
         SelectorTextControlComponent,
-    ],
-    entryComponents: [
-        DashboardsConfigComponent,
-        DashboardEditComponent,
-        WidgetEditComponent,
     ],
     providers: [
         DashboardCollection,

@@ -10,7 +10,7 @@ import {
     XmEnumControlOptions,
 } from './xm-enum-control.component';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { IControlFn } from '@xm-ngx/dynamic';
+import { XmDynamicControlConstructor } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
 @NgModule({
@@ -29,5 +29,5 @@ import { XmTranslationModule } from '@xm-ngx/translation';
     declarations: [XmEnumControlComponent],
 })
 export class XmEnumControlModule {
-    public entry: IControlFn<string, XmEnumControlOptions> = XmEnumControlComponent;
+    public entry: XmDynamicControlConstructor<string, XmEnumControlOptions> = XmEnumControlComponent;
 }

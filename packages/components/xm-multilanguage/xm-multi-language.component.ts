@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { IComponent } from '@xm-ngx/dynamic';
+import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { ITranslate, Locale, Translate } from '@xm-ngx/translation';
 import { propEq } from 'lodash/fp';
 import { XmApplicationConfigService } from '../../../src/app/shared/spec';
@@ -78,7 +78,7 @@ export interface MultiLanguageOptions {
     styles: ['mat-button-toggle-group{margin-bottom: 10px;} mat-label{display:block}'],
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class MultiLanguageComponent implements IComponent<MultiLanguageDataModel, MultiLanguageOptions> {
+export class MultiLanguageComponent implements XmDynamicPresentation<MultiLanguageDataModel, MultiLanguageOptions> {
 
     @Input() public value: MultiLanguageDataModel = [];
     @Input() public disabled: boolean;

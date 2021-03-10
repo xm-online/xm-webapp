@@ -34,5 +34,6 @@ import { MatModule } from '../../mat.module';
         CommonModule,
     ],
 })
+/** @deprecated Don't use XmSharedModule */
 export class XmSharedModule {
 }

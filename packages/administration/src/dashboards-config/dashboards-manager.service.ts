@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IWidget } from '@xm-ngx/dynamic';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { Dashboard, DashboardWidget } from '@xm-ngx/dashboard';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class DashboardsManagerService {
         this.saveActiveToParams();
     }
 
-    public setActiveWidget(widget: IWidget): void {
+    public setActiveWidget(widget: XmDynamicWidget): void {
         this.saveActiveToParams();
     }
 

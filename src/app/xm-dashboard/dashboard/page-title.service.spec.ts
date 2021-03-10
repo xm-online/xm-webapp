@@ -13,6 +13,7 @@ describe('PageTitleService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
+                PageTitleService,
                 { provide: TitleService, useValue: {} },
                 { provide: I18nNamePipe, useValue: {} },
                 { provide: Principal, useValue: {} },
@@ -20,7 +21,7 @@ describe('PageTitleService', () => {
                 { provide: PageService, useValue: {} },
             ],
         });
-        service = TestBed.inject(PageTitleService);
+        service = TestBed.inject<PageTitleService>(PageTitleService);
     });
 
     it('should be created', () => {

@@ -9,7 +9,7 @@ describe('XmSignInService', () => {
         TestBed.configureTestingModule({
             providers: [SignInService],
         });
-        service = TestBed.inject(SignInService);
+        service = TestBed.inject<SignInService>(SignInService);
     });
 
     it('should be created', () => {

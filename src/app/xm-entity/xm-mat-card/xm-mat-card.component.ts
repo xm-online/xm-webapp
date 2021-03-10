@@ -35,7 +35,7 @@ export class XmMatCardComponent implements OnInit, OnChanges {
     public contentHidden: boolean;
 
     public ngOnInit(): void {
-        this.contentHidden = this.options.contentHiddenByDefault;
+        this.contentHidden = this.options?.contentHiddenByDefault;
         this.updateEditStateByEntityId();
     }
 

@@ -1,14 +1,14 @@
-import { DynamicCellDirective } from '@xm-ngx/dynamic';
+import { XmDynamicCellDirective } from '@xm-ngx/dynamic';
 
-describe('DynamicCellDirective', () => {
+describe('XmDynamicCellDirective', () => {
     it('should create an instance', () => {
-        const directive = new DynamicCellDirective(null, null, null, null, null);
+        const directive = new XmDynamicCellDirective(null, null, null, null, null);
         expect(directive).toBeTruthy();
     });
 
     describe('getCellValue', () => {
         it('{field: \'test\'} should return row field', () => {
-            const directive = new DynamicCellDirective(null, null, null, null, null);
+            const directive = new XmDynamicCellDirective(null, null, null, null, null);
             const row = { test: 1 };
             directive.row = row;
             directive.cell = { field: 'test', selector: null, options: null, style: null, class: null };
@@ -16,7 +16,7 @@ describe('DynamicCellDirective', () => {
         });
 
         it('{field: null} should return row', () => {
-            const directive = new DynamicCellDirective(null, null, null, null, null);
+            const directive = new XmDynamicCellDirective(null, null, null, null, null);
             const row = { test: 1 };
             directive.row = row;
             directive.cell = { field: null, selector: null, options: null, style: null, class: null };

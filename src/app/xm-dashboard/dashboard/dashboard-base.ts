@@ -4,7 +4,7 @@ import { getWidgetComponent, getWidgetsComponent } from './widgets-path_backward
 export class DashboardBase {
 
     /** @deprecated Back compatibility */
-    protected getWidgetComponent(widget: DashboardWidget = {}): DashboardWidget {
+    protected getWidgetComponent(widget: DashboardWidget | any = {}): DashboardWidget {
         return getWidgetComponent(widget);
     }
 

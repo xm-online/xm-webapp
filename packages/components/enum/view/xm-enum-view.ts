@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
-import { XmEnumModule } from '../value/xm-enum.module';
 import { XmTextViewModule } from '@xm-ngx/components/text';
-import { IComponent, IComponentFn } from '@xm-ngx/dynamic';
+import {
+    XmDynamicPresentation,
+    XmDynamicPresentationConstructor,
+    XmDynamicPresentationEntryModule,
+} from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmEnumOptions } from '../value/xm-enum.component';
+import { XmEnumModule } from '../value/xm-enum.module';
 
 export interface XmEnumViewOptions extends XmEnumOptions {
     title?: Translate;
@@ -20,7 +24,7 @@ export interface XmEnumViewOptions extends XmEnumOptions {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmEnumView implements IComponent<string, XmEnumViewOptions> {
+export class XmEnumView implements XmDynamicPresentation<string, XmEnumViewOptions> {
     @Input() public value: string;
     @Input() public options: XmEnumViewOptions = { items: [] };
 }
@@ -31,6 +35,6 @@ export class XmEnumView implements IComponent<string, XmEnumViewOptions> {
     declarations: [XmEnumView],
     providers: [],
 })
-export class XmEnumViewModule {
-    public entry: IComponentFn<string, XmEnumViewOptions> = XmEnumView;
+export class XmEnumViewModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = XmEnumView;
 }

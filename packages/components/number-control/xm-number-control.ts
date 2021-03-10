@@ -15,7 +15,7 @@ import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compon
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 
 import { XmTextControlOptions } from '@xm-ngx/components/text';
-import { IControl, IControlFn } from '@xm-ngx/dynamic';
+import { XmDynamicControl, XmDynamicControlConstructor } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
@@ -64,7 +64,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmNumberControl extends NgFormAccessor<Primitive> implements IControl<Primitive, XmTextControlOptions> {
+export class XmNumberControl extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmTextControlOptions> {
     constructor(@Optional() @Self() public ngControl: NgControl | null,
                 @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
         super(ngControl);
@@ -95,5 +95,5 @@ export class XmNumberControl extends NgFormAccessor<Primitive> implements IContr
     declarations: [XmNumberControl],
 })
 export class XmNumberControlModule {
-    public readonly entry: IControlFn<Primitive, XmNumberControlOptions> = XmNumberControl;
+    public readonly entry: XmDynamicControlConstructor<Primitive, XmNumberControlOptions> = XmNumberControl;
 }

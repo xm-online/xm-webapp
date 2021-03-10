@@ -6,7 +6,7 @@ describe('XmEventManagerService', () => {
     beforeEach(() => TestBed.configureTestingModule({}));
 
     it('should be created', () => {
-        const service: XmEventManagerService = TestBed.inject(XmEventManagerService);
+        const service: XmEventManagerService = TestBed.inject<XmEventManagerService>(XmEventManagerService);
         expect(service).toBeTruthy();
     });
 });

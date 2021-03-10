@@ -19,7 +19,7 @@ describe('DashboardEditorService', () => {
     }));
 
     it('should be created', () => {
-        const service: DashboardEditorService = TestBed.inject(DashboardEditorService);
+        const service: DashboardEditorService = TestBed.inject<DashboardEditorService>(DashboardEditorService);
         expect(service).toBeTruthy();
     });
 });

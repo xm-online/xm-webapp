@@ -10,7 +10,7 @@ describe('XmPermissionService', () => {
     }));
 
     it('should be created', () => {
-        const service: XmPermissionService = TestBed.inject(XmPermissionService);
+        const service: XmPermissionService = TestBed.inject<XmPermissionService>(XmPermissionService);
         expect(service).toBeTruthy();
     });
 });

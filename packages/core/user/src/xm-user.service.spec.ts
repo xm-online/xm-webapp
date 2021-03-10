@@ -9,7 +9,7 @@ describe('XmUserService', () => {
     }));
 
     it('should be created', () => {
-        const service: XmUserService = TestBed.inject(XmUserService);
+        const service: XmUserService = TestBed.inject<XmUserService>(XmUserService);
         expect(service).toBeTruthy();
     });
 });

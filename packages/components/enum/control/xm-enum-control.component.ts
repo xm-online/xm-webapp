@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { XmEnumOptionsItem } from '../value/xm-enum.component';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { IControl } from '@xm-ngx/dynamic';
+import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/shared/interfaces';
 import { clone, defaults, keyBy } from 'lodash';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
@@ -59,7 +59,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmEnumControlComponent extends NgFormAccessor<string> implements IControl<string, XmEnumControlOptions> {
+export class XmEnumControlComponent extends NgFormAccessor<string> implements XmDynamicControl<string, XmEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: { [value: string]: XmEnumControlOptionsItem };
     private _options: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);

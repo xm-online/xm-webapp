@@ -1,6 +1,11 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, NgModule, OnInit, Optional } from '@angular/core';
 import { ConditionDirective } from '@xm-ngx/components/condition/condition.directive';
-import { IComponent, IComponentFn, TABLE_ROW } from '@xm-ngx/dynamic';
+import {
+    XM_DYNAMIC_TABLE_ROW,
+    XmDynamicPresentation,
+    XmDynamicPresentationConstructor,
+    XmDynamicPresentationEntryModule,
+} from '@xm-ngx/dynamic';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
@@ -20,13 +25,13 @@ export interface XmTextJoinValueOptions {
     template: '{{joinValue}}',
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmTextJoinComponent implements OnInit, IComponent<unknown, XmTextJoinValueOptions> {
+export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknown, XmTextJoinValueOptions> {
     @Input() public value: unknown;
     @Input() public options: XmTextJoinValueOptions;
     public joinValue: string;
 
     constructor(
-        @Optional() @Inject(TABLE_ROW) private row: unknown,
+        @Optional() @Inject(XM_DYNAMIC_TABLE_ROW) private row: unknown,
         private translateService: XmTranslateService,
     ) {
     }
@@ -63,6 +68,6 @@ export class XmTextJoinComponent implements OnInit, IComponent<unknown, XmTextJo
     exports: [XmTextJoinComponent],
     declarations: [XmTextJoinComponent],
 })
-export class XmTextJoinModule {
-    public entry: IComponentFn<unknown, XmTextJoinValueOptions> = XmTextJoinComponent;
+export class XmTextJoinModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = XmTextJoinComponent;
 }

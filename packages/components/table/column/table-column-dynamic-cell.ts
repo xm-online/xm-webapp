@@ -12,10 +12,10 @@ import {
 import { MatSortModule } from '@angular/material/sort';
 import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule } from '@angular/material/table';
 import { TableColumnsManager } from '@xm-ngx/components/table/column/table-columns-manager';
-import { DynamicCell, DynamicCellModule } from '@xm-ngx/dynamic';
+import { XmDynamicCell, XmDynamicCellModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
-export interface TableColumn<O = unknown> extends DynamicCell<O> {
+export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
     name: string;
     sortable: boolean;
     title: Translate;
@@ -95,7 +95,7 @@ export class TableColumnDynamicCell implements OnDestroy, OnInit {
 @NgModule({
     imports: [
         MatTableModule,
-        DynamicCellModule,
+        XmDynamicCellModule,
         XmTranslationModule,
         MatSortModule,
     ],

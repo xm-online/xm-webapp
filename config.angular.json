@@ -5,7 +5,7 @@
   "projects": {
     "xm-webapp": {
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "",
       "projectType": "application",
       "architect": {
         "build": {

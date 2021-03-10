@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { IComponent } from '@xm-ngx/dynamic';
+import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { Translate } from '@xm-ngx/translation';
 import { keyBy, mapValues } from 'lodash';
 
@@ -22,7 +22,7 @@ export interface XmEnumOptions {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmEnumComponent implements IComponent<string, XmEnumOptions> {
+export class XmEnumComponent implements XmDynamicPresentation<string, XmEnumOptions> {
     @Input() public value: string;
 
     public titles: Titles = {};

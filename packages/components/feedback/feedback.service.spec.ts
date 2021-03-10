@@ -9,7 +9,7 @@ describe('FeedbackService', () => {
     }));
 
     it('should be created', () => {
-        const service: FeedbackService = TestBed.inject(FeedbackService);
+        const service: FeedbackService = TestBed.inject<FeedbackService>(FeedbackService);
         expect(service).toBeTruthy();
     });
 });

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { XmEnumComponent, XmEnumOptions } from './xm-enum.component';
-import { IComponentFn } from '@xm-ngx/dynamic';
+import { XmDynamicPresentationConstructor, XmDynamicPresentationEntryModule } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmEnumComponent } from './xm-enum.component';
 
 @NgModule({
-  imports: [XmTranslationModule],
-  exports: [XmEnumComponent],
-  declarations: [XmEnumComponent],
+    imports: [XmTranslationModule],
+    exports: [XmEnumComponent],
+    declarations: [XmEnumComponent],
 })
-export class XmEnumModule {
-  public entry: IComponentFn<string, XmEnumOptions> = XmEnumComponent;
+export class XmEnumModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = XmEnumComponent;
 }

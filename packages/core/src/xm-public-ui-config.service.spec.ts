@@ -9,7 +9,7 @@ describe('XmPublicUiConfigService', () => {
     }));
 
     it('should be created', () => {
-        const service: XmPublicUiConfigService = TestBed.inject(XmPublicUiConfigService);
+        const service: XmPublicUiConfigService = TestBed.inject<XmPublicUiConfigService>(XmPublicUiConfigService);
         expect(service).toBeTruthy();
     });
 });

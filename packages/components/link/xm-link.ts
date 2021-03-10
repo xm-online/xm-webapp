@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, OnInit, Type, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import { IComponent } from '@xm-ngx/dynamic';
+import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { transformByMap } from '@xm-ngx/shared/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
@@ -41,7 +41,7 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class XmLink implements IComponent<IId, XmLinkOptions>, OnInit, OnChanges {
+export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit, OnChanges {
     @Input() public value: IId;
     @Input() public options: XmLinkOptions;
     public fieldTitle: Translate;

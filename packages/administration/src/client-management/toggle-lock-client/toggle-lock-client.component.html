@@ -15,4 +15,4 @@
   </button>
 </ng-template>
 
-<ng-container *ngIf="client.clientState == ClientState.BLOCKED; then lock; else unlock"></ng-container>
+<ng-container *ngIf="client?.clientState == ClientState.BLOCKED; then lock; else unlock"></ng-container>

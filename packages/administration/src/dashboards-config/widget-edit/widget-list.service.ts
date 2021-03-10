@@ -1,14 +1,14 @@
 import { ApplicationRef, Injectable, Injector } from '@angular/core';
 import { TranslationService } from '@xm-ngx/administration/translations/services/translation.service';
-import { DYNAMIC_COMPONENTS, DynamicTenantLoaderService, DynamicComponent } from '@xm-ngx/dynamic';
+import { XM_DYNAMIC_ENTRIES, DynamicTenantLoaderService, XmDynamicEntry } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 import { from, Observable, Subject } from 'rxjs';
 
-export interface ExtendedDynamicComponents extends DynamicComponent {
+export interface ExtendedDynamicComponents extends XmDynamicEntry {
     globalSelector: string;
 }
 
-function provideFullSelector(components: DynamicComponent[], prefix?: string): ExtendedDynamicComponents[] {
+function provideFullSelector(components: XmDynamicEntry[], prefix?: string): ExtendedDynamicComponents[] {
     const append = prefix ? `${prefix}/` : '';
     return components.map((i) => {
         const globalSelector = `${append}${i.selector}`;
@@ -36,7 +36,7 @@ export class WidgetListService {
         const moduleSelectors = config.modules.map(i => `ext-${i.substring(0, i.indexOf('-ext'))}`);
         const moduleLoaders = moduleSelectors.map((ext) => this.loader.loadTenantModuleRef(ext, this.injector));
         from(Promise.all(moduleLoaders)).subscribe((modules) => {
-            const components = modules.map(i => _.flatMap(i.injector.get(DYNAMIC_COMPONENTS, [])));
+            const components = modules.map(i => _.flatMap(i.injector.get(XM_DYNAMIC_ENTRIES, [])));
             const componentsWithGlobalSelector = components.map((i, ix) => provideFullSelector(i, moduleSelectors[ix]));
             const allComponents = _.uniq(_.flatMap([...componentsWithGlobalSelector, globalWithGlobalSelector]));
             this.widgets.next(allComponents);
@@ -45,11 +45,11 @@ export class WidgetListService {
 
     public load(): void {
         this.translationService.loadConfig().subscribe((config) => {
-            this.loadWithConfig({ modules: config.exts });
+            this.loadWithConfig({ modules: config?.exts || [] });
         });
     }
 
     public getRootDynamics(): ExtendedDynamicComponents[] {
-        return this.applicationRef['_injector'].get(DYNAMIC_COMPONENTS);
+        return this.applicationRef['_injector'].get(XM_DYNAMIC_ENTRIES);
     }
 }

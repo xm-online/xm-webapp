@@ -3,11 +3,10 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { IControlFn } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { XmDynamicControlConstructor, XmDynamicControlEntryModule } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
-import { XmTextControl, XmTextControlOptions } from './xm-text-control';
+import { XmTextControl } from './xm-text-control';
 
 @NgModule({
     imports: [
@@ -20,6 +19,6 @@ import { XmTextControl, XmTextControlOptions } from './xm-text-control';
     exports: [XmTextControl],
     declarations: [XmTextControl],
 })
-export class XmTextControlModule {
-    public readonly entry: IControlFn<Primitive, XmTextControlOptions> = XmTextControl;
+export class XmTextControlModule implements XmDynamicControlEntryModule {
+    public entry: XmDynamicControlConstructor = XmTextControl;
 }

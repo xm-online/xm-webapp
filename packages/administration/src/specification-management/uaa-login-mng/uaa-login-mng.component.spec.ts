@@ -1,8 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { XmConfigService } from '../../../../../src/app/shared';
 
 import { UaaLoginMngComponent } from './uaa-login-mng.component';
+import { of } from 'rxjs';
 
 describe('UaaLoginMngComponent', () => {
     let component: UaaLoginMngComponent;
@@ -12,6 +14,9 @@ describe('UaaLoginMngComponent', () => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             declarations: [UaaLoginMngComponent],
+            providers: [
+                { provide: XmConfigService, useValue: { getConfig: () => of(null) } },
+            ],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();

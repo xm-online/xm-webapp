@@ -1,4 +1,4 @@
-import { DynamicComponent } from '@xm-ngx/dynamic';
+import { XmDynamicEntry } from '@xm-ngx/dynamic';
 
 export {
     InnerHTMLModule,
@@ -12,7 +12,7 @@ export {
 } from './xm-html';
 
 
-export const XM_HTML_ELEMENTS: DynamicComponent[] = [
+export const XM_HTML_ELEMENTS: XmDynamicEntry[] = [
     {
         selector: '@xm-ngx/components/html',
         loadChildren: () => import('@xm-ngx/components/html').then(m => m.XmHtmlModule),
