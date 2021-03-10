@@ -31,6 +31,9 @@ src/styles/_theme.scss
 # Themeing - this file unites themes from the extentions
 src/styles/_theming.scss
 
+# test coverage
+coverage/
+
 # Logs
 /logs
 *.log

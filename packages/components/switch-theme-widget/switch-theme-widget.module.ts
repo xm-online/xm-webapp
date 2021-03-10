@@ -6,12 +6,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { XmTheme, XmThemeStore } from '@xm-ngx/core/theme';
+import { ThemeSchemeType, XmTheme, XmThemeStore } from '@xm-ngx/core/theme';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
-import { ThemeSchemeType } from '@xm-ngx/core/theme';
 
 interface SwitchThemeOptionsTheme {
     theme: string,
@@ -26,6 +25,8 @@ interface SwitchThemeOptions {
     permission: string;
     condition: JavascriptCode;
 }
+
+export const XM_THEME_KEY = 'XM_SWITCH_THEME_KEY';
 
 @Component({
     selector: 'switch-theme-widget',
@@ -53,8 +54,10 @@ export class SwitchThemeWidget implements OnInit {
     }
 
     public ngOnInit(): void {
-        const theme = this.themeService.getThemeName();
+        const fromStore = this.getFromStore();
+        const theme = fromStore ? fromStore.theme : this.themeService.getThemeName();
         const current = _.find(this.config?.themes, { theme });
+        this.changeTheme(current);
         this.nextTheme = this.getNext(current);
     }
 
@@ -73,10 +76,24 @@ export class SwitchThemeWidget implements OnInit {
             themeScheme: theme.scheme,
         };
 
+        this.setToStore(theme);
+
         this.loading = true;
         this.themeService.set(theme.theme, options)
             .pipe(finalize(() => this.loading = false))
             .subscribe(() => this.nextTheme = this.getNext(this.nextTheme));
+    }
+
+    public getFromStore(): XmTheme | null {
+        const item = localStorage.getItem(XM_THEME_KEY);
+        if (!item) {
+            return null;
+        }
+        return JSON.parse(item) || null;
+    }
+
+    protected setToStore(theme: XmTheme): void {
+        localStorage.setItem(XM_THEME_KEY, JSON.stringify(theme));
     }
 }
 
