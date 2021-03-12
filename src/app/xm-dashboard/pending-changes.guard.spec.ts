@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { XmAlertService } from '@xm-ngx/alert';
+import { XmLogger } from '@xm-ngx/logger';
+import { MockXmLogger } from '@xm-ngx/logger/testing';
 import { PageChangesStore } from './page-changes-store';
 
 import { PendingChangesGuard } from './pending-changes.guard';
@@ -13,6 +15,7 @@ describe('PendingChangesGuard', () => {
                 PendingChangesGuard,
                 { provide: PageChangesStore, useValue: {} },
                 { provide: XmAlertService, useValue: {} },
+                { provide: XmLogger, useClass: MockXmLogger },
             ],
         });
         guard = TestBed.inject(PendingChangesGuard);

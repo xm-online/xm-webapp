@@ -6,7 +6,7 @@ describe('XmLogger', () => {
     let service: XmLogger;
 
     beforeEach(() => {
-        TestBed.configureTestingModule({});
+        TestBed.configureTestingModule({ providers: [XmLogger] });
         service = TestBed.inject(XmLogger);
     });
 
