@@ -7,5 +7,4 @@ export interface IEnvironment {
     version: string;
     idpServerApiUrl?: string;
     idpClientKey?: string;
-    idpDevSession?: any; // TODO: temporary solution of 302 idp redirect for local development (should be removed)
 }
