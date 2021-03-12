@@ -15,6 +15,7 @@
         <xm-edit-widget-buttons (cancel)="cancel.emit($event)"
                                 (edit)="contentHidden = false"
                                 (isEditChange)="isEditChange.emit($event)"
+                                (change)="onEditChange($event)"
                                 (save)="save.emit($event)"
                                 *xmCondition="options.editCondition; arguments {entity: entity}"
                                 [(isEdit)]="isEdit">
