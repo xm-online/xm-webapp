@@ -16,6 +16,7 @@ import { globalErrorHandlerFactory } from '@xm-ngx/core/global-error-handler';
 import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardModule } from '@xm-ngx/dashboard';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { XmLoggerModule } from '@xm-ngx/logger';
 import { HttpLoaderFactory, LanguageService, TitleService, XmTranslationModule } from '@xm-ngx/translation';
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
@@ -44,6 +45,7 @@ import { XM_ELEMENTS } from './xm.registry';
             isolate: false,
             loader: { deps: [HttpClient], provide: TranslateLoader, useFactory: HttpLoaderFactory },
         }),
+        XmLoggerModule.forRoot(),
         XmAlertModule.forRoot(),
         XmTranslationModule.forRoot(),
         XmDashboardModule.forRoot(),

@@ -35,6 +35,8 @@
       "@xm-ngx/json-scheme-form": ["src/app/shared/jsf-extention"],
       "@xm-ngx/json-schema-form/*": ["packages/json-schema-form/*"],
       "@xm-ngx/toaster": ["src/app/shared/toaster"],
+      "@xm-ngx/logger": ["packages/logger"],
+      "@xm-ngx/logger/testing": ["packages/logger/testing"],
       "@xm-ngx/shared": ["src/app/modules/xm-shared"],
       "@xm-ngx/shared/validators": ["packages/shared/validators"],
       "@xm-ngx/shared/interfaces": ["packages/shared/interfaces"],
