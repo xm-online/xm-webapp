@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AuthRefreshTokenService, XmAuthenticationStoreService } from '../../../../packages/core/auth';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, IDP_CLIENT } from '../../xm.constants';
@@ -11,7 +11,6 @@ import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
 import { IIdpClient } from '../../../../packages/core/src/xm-public-idp-config-model';
-import { environment } from '@xm-ngx/core/environment';
 
 
 const DEFAULT_HEADERS = {
@@ -104,9 +103,7 @@ export class AuthServerProvider {
     public loginIdp(opt: Params): Observable<any> {
         const config: IIdpClient = this.$sessionStorage.retrieve(IDP_CLIENT);
         const params = new HttpParams({ fromObject: opt });
-        const stream = environment.environment === 'idp' ?
-            of({body: environment.idpDevSession}) :
-            this.http.get<any>(`login/oauth2/code/${config.key}`, { params });
+        const stream = this.http.get<any>(`login/oauth2/code/${config.key}`, { params });
         return stream.pipe(
             map((resp) => {
                 this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
