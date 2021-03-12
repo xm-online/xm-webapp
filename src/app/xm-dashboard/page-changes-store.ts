@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { XmLogger } from '@xm-ngx/logger';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { filter, pluck, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { PageService } from './page';
@@ -27,22 +28,25 @@ export class PageChangesStore {
 
     constructor(
         protected pageService: PageService,
+        protected logger: XmLogger,
     ) {
         this.state = this.pageService.active$().pipe(
             filter(Boolean),
             tap(() => this.changeStateEvent.next({ state: PageChangesStoreType.PRISTINE })),
+            tap(() => this.logger.debug('PageChangesStore state reset.')),
             switchMap(() => this.changeStateEvent),
+            shareReplay(1),
         );
     }
 
     public state$(): Observable<PageChangesStoreType> {
         return this.state.pipe(
             pluck('state'),
-            shareReplay(1),
         );
     }
 
     public setState(state: PageChangesStoreType): void {
+        this.logger.debug(`PageChangesStore state updated with ${state}.`);
         this.changeStateEvent.next({ state });
     }
 
