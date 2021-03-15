@@ -1,13 +1,19 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LoginService } from '@xm-ngx/core/auth';
 import { combineLatest } from 'rxjs';
-import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { take } from 'rxjs/operators';
 import { TERMS_ERROR } from '../../xm.constants';
 
 const TERMS_PROP = 'privacyAndTermsEnabled';
+
+interface IErrorTerm {
+    error?: {
+        oneTimeToken?: string, error?: string
+    }
+}
 
 @Component({
   selector: 'xm-idp-callback',
@@ -48,12 +54,12 @@ export class IdpCallbackComponent implements OnDestroy {
         takeUntilOnDestroyDestroy(this);
     }
 
-    private handleErrorException(err, config, params) {
+    private handleErrorException(err: IErrorTerm, config: XmUIConfig, params: Params) {
         this.isTermsShown = true;
         const errObj = err.error || null;
         const termsErr = errObj && errObj.error === TERMS_ERROR;
         const termsToken = errObj.oneTimeToken || null;
-        const termsConfig = this.extractTermConfigOject(config, TERMS_PROP);
+        const termsConfig = this.extractTermConfig(config, TERMS_PROP);
         if (termsErr && termsToken && !this.isTermsShown && termsConfig[TERMS_PROP]) {
             this.loginService.showTermsDialog(termsToken, termsConfig).then((r) => {
                 if (r === 'accept') {
@@ -65,24 +71,24 @@ export class IdpCallbackComponent implements OnDestroy {
         }
     }
 
-    private extractTermConfigOject(theObject, key) {
+    private extractTermConfig(config: XmUIConfig, key: string) {
         let result = null;
-        if(theObject instanceof Array) {
-            for(let i = 0; i < theObject.length; i++) {
-                result = this.extractTermConfigOject(theObject[i], key);
+        if(config instanceof Array) {
+            for(let i = 0; i < config.length; i++) {
+                result = this.extractTermConfig(config[i], key);
                 if (result) {
                     break;
                 }
             }
         } else {
-            for(let prop in theObject) {
+            for(let prop in config) {
                 if(prop == key) {
-                    if(theObject[prop] == 1) {
-                        return theObject;
+                    if(config[prop] == 1) {
+                        return config;
                     }
                 }
-                if(theObject[prop] instanceof Object || theObject[prop] instanceof Array) {
-                    result = this.extractTermConfigOject(theObject[prop], key);
+                if(config[prop] instanceof Object || config[prop] instanceof Array) {
+                    result = this.extractTermConfig(config[prop], key);
                     if (result) {
                         break;
                     }
