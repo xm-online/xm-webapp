@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -8,7 +8,6 @@ import { combineLatest } from 'rxjs';
 import { TERMS_ERROR } from '../../xm.constants';
 import { LoginService } from '../auth/login.service';
 import { StateStorageService } from '../auth/state-storage.service';
-import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfigService } from '../spec/config.service';
 import { DOCUMENT } from '@angular/common';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
@@ -189,12 +188,8 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private pushTermsAccepting(token: string): void {
-        const TERMS_MODAL_CFG: MatDialogConfig = { width: '800px', disableClose: true, autoFocus: false };
         this.isTermsShown = true;
-        const modalRef = this.modalService.open(PrivacyAndTermsDialogComponent, TERMS_MODAL_CFG);
-        modalRef.componentInstance.config = this.config;
-        modalRef.componentInstance.termsToken = token;
-        modalRef.afterClosed().subscribe((r) => {
+        this.loginService.showTermsDialog(token, this.config).then((r) => {
             if (r === 'accept') {
                 this.login();
             } else {

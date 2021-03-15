@@ -11,6 +11,8 @@ import { XmEventManager } from '@xm-ngx/core';
 import { DOCUMENT, Location } from '@angular/common';
 import { IIdpClient, IIdpConfig } from '../../../../packages/core/src/xm-public-idp-config-model';
 import { environment } from '@xm-ngx/core/environment';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 
 @Injectable()
 export class LoginService {
@@ -20,6 +22,7 @@ export class LoginService {
                 private authServerProvider: AuthServerProvider,
                 private stateStorageService: StateStorageService,
                 private $sessionStorage: SessionStorageService,
+                protected modalService: MatDialog,
                 protected eventManager: XmEventManager,
                 protected location: Location,
                 @Inject(DOCUMENT) private document: Document,
@@ -52,14 +55,20 @@ export class LoginService {
         });
     }
 
-    public loginWithIdpCallback(opt: Params): void {
-        this.authServerProvider
-            .loginIdp(opt)
-            .subscribe((data) => {
-                this.getUserIdentity(null, data);
-                this.loginSuccess();
-            }, err => console.info(err));
-
+    public loginWithIdpCallback(opt: Params, callback?: any): Promise<unknown> {
+        const cb = callback || (() => undefined);
+        return new Promise((resolve, reject) => {
+            this.authServerProvider
+                .loginIdp(opt)
+                .subscribe((data) => {
+                    this.getUserIdentity(resolve, data);
+                    return cb();
+                }, err => {
+                    console.info(err);
+                    reject(err);
+                    return cb(err);
+                });
+        })
     }
 
     public onIdpDirectLogin(config: IIdpConfig): void {
@@ -108,6 +117,14 @@ export class LoginService {
         } else {
             this.router.navigate(['dashboard']);
         }
+    }
+
+    public showTermsDialog(token: string, config: unknown): Promise<string> {
+        const TERMS_MODAL_CFG: MatDialogConfig = { width: '800px', disableClose: true, autoFocus: false };
+        const modalRef = this.modalService.open(PrivacyAndTermsDialogComponent, TERMS_MODAL_CFG);
+        modalRef.componentInstance.config = config;
+        modalRef.componentInstance.termsToken = token;
+        return modalRef.afterClosed().toPromise();
     }
 
     /** @deprecated use logout$*/
