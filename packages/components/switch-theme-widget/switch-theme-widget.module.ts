@@ -62,7 +62,7 @@ export class SwitchThemeWidget implements OnInit {
     }
 
     public getNext(current: SwitchThemeOptionsTheme): SwitchThemeOptionsTheme | null {
-        const idx = this.config.themes.indexOf(current);
+        const idx = _.indexOf(this.config.themes, current);
         return this.config.themes[idx + 1] || this.config.themes[0] || null;
     }
 
@@ -81,7 +81,7 @@ export class SwitchThemeWidget implements OnInit {
         this.loading = true;
         this.themeService.set(theme.theme, options)
             .pipe(finalize(() => this.loading = false))
-            .subscribe(() => this.nextTheme = this.getNext(this.nextTheme));
+            .subscribe(() => this.nextTheme = this.getNext(theme));
     }
 
     public getFromStore(): XmTheme | null {

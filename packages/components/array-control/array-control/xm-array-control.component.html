@@ -1,11 +1,10 @@
 <mat-form-field>
   <mat-label>{{options.title | translate}}</mat-label>
-  <mat-chip-list #chipList [attr.aria-label]="options.ariaLabel">
+  <mat-chip-list #chipList [disabled]="control.disabled" [attr.aria-label]="options.ariaLabel">
     <mat-chip
       *ngFor="let item of selected"
       [selectable]="options.selectable"
       [removable]="options.removable"
-      [disabled]="control.disabled"
       (removed)="remove(item)">
       {{item}}
       <mat-icon matChipRemove *ngIf="options.removable">cancel</mat-icon>
@@ -15,7 +14,7 @@
       #input
       [formControl]="inputControl"
       (blur)="touch()"
-      [hidden]="control.disabled"
+      [style.visibility]="!control.disabled ? 'visible' : 'hidden'"
       [matAutocomplete]="auto"
       [matChipInputFor]="chipList"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"

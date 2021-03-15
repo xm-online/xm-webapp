@@ -83,6 +83,9 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         const value = event.value;
 
         if ((value || '').trim()) {
+            if (!this.selected) {
+                this.selected = [];
+            }
             this.selected.push(value.trim());
         }
 
