@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IdpCallbackComponent } from './idp-callback.component';
 import { LoginService } from '@xm-ngx/core/auth';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('IdpCallbackComponent', () => {
     let component: IdpCallbackComponent;
@@ -12,6 +12,7 @@ describe('IdpCallbackComponent', () => {
         TestBed.configureTestingModule({
             providers:[
                 { provide: LoginService, useValue: {} },
+                { provide: ActivatedRoute, useValue: {} },
                 { provide: Router, useValue: {} },
             ],
             declarations: [IdpCallbackComponent]
