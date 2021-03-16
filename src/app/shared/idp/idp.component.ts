@@ -2,7 +2,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { IIdpClient, IIdpConfig } from '../../../../packages/core/src/xm-public-idp-config-model';
 import { XmPublicIdpConfigService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { SessionStorageService } from 'ngx-webstorage';
 import { Location } from '@angular/common';
 import { LoginService } from '@xm-ngx/core/auth';
 
@@ -17,7 +16,6 @@ export class IdpComponent implements OnDestroy {
     public clients: IIdpClient[];
 
     constructor(
-        protected $sessionStorage: SessionStorageService,
         protected location: Location,
         protected xmConfigService: XmPublicIdpConfigService,
         protected loginService: LoginService,

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IdpComponent } from './idp.component';
-import { SessionStorageService } from 'ngx-webstorage';
+import { HttpClient } from '@angular/common/http';
 
 describe('IdpComponent', () => {
     let component: IdpComponent;
@@ -10,7 +10,7 @@ describe('IdpComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                {provide: SessionStorageService, useValue: {}},
+                {provide: HttpClient, useValue: {}},
             ],
             declarations: [IdpComponent]
         })
