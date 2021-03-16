@@ -81,7 +81,7 @@ export class IdpCallbackComponent implements OnDestroy {
                 }
             }
         } else {
-            for(let prop in config) {
+            for(const prop in config) {
                 if(prop == key) {
                     if(config[prop] == 1) {
                         return config;
