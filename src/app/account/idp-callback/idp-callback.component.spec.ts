@@ -18,7 +18,7 @@ describe('IdpCallbackComponent', () => {
                 {provide: LoginService, useValue: {}},
                 {provide: ActivatedRoute, useValue: {params: of()}},
                 {provide: Router, useValue: {}},
-                {provide: XmPrivateUiConfigService, useValue: {config$: () => {}}},
+                {provide: XmPrivateUiConfigService, useValue: {config$: () => of(null)}},
             ],
             declarations: [IdpCallbackComponent]
         })
