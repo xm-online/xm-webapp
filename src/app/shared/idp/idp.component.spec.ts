@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IdpComponent } from './idp.component';
-import { HttpClient } from '@angular/common/http';
 import { LoginService } from '@xm-ngx/core/auth';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('IdpComponent', () => {
     let component: IdpComponent;
@@ -10,9 +10,9 @@ describe('IdpComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule],
             providers: [
                 {provide: LoginService, useValue: {}},
-                {provide: HttpClient, useValue: {}},
             ],
             declarations: [IdpComponent]
         })
