@@ -4,6 +4,7 @@ import { LoginErrorComponent } from './login-error.component';
 import { ActivatedRoute } from '@angular/router';
 import { LoginService } from '@xm-ngx/core/auth';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 
 describe('LoginErrorComponent', () => {
     let component: LoginErrorComponent;
@@ -14,7 +15,7 @@ describe('LoginErrorComponent', () => {
             imports: [HttpClientTestingModule],
             providers: [
                 {provide: LoginService, useValue: null},
-                {provide: ActivatedRoute, useValue: {}},
+                {provide: ActivatedRoute, useValue: {params: of()}},
             ],
             declarations: [LoginErrorComponent]
         })
