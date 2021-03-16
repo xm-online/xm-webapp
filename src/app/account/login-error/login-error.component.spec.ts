@@ -1,25 +1,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginErrorComponent } from './login-error.component';
+import { ActivatedRoute } from '@angular/router';
 
-describe('LoginComponent', () => {
-  let component: LoginErrorComponent;
-  let fixture: ComponentFixture<LoginErrorComponent>;
+describe('LoginErrorComponent', () => {
+    let component: LoginErrorComponent;
+    let fixture: ComponentFixture<LoginErrorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LoginErrorComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            providers: [
+                {provide: ActivatedRoute, useValue: null},
+            ],
+            declarations: [LoginErrorComponent]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LoginErrorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(LoginErrorComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });
