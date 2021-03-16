@@ -4,6 +4,7 @@ import { IdpCallbackComponent } from './idp-callback.component';
 import { LoginService } from '@xm-ngx/core/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmPrivateUiConfigService } from '@xm-ngx/core/config';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('IdpCallbackComponent', () => {
     let component: IdpCallbackComponent;
@@ -11,6 +12,7 @@ describe('IdpCallbackComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule],
             providers:[
                 { provide: LoginService, useValue: {} },
                 { provide: ActivatedRoute, useValue: {} },
