@@ -20,13 +20,15 @@ import {
 } from './';
 import { accountState } from './account.route';
 import { MarkdownModule } from 'ngx-markdown';
+import { JsonSchemaFormModule } from 'angular2-json-schema-form';
 
 @NgModule({
-    imports: [
-        XmSharedModule,
-        RouterModule.forChild(accountState),
-        MarkdownModule,
-    ],
+  imports: [
+    XmSharedModule,
+    RouterModule.forChild(accountState),
+    MarkdownModule,
+    JsonSchemaFormModule,
+  ],
     declarations: [
         SocialRegisterComponent,
         SocialAuthComponent,
