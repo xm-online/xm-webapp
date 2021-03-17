@@ -24,10 +24,10 @@ import { JsonSchemaFormModule } from 'angular2-json-schema-form';
 
 @NgModule({
     imports: [
-      XmSharedModule,
-      RouterModule.forChild(accountState),
-      MarkdownModule,
-      JsonSchemaFormModule,
+        XmSharedModule,
+        RouterModule.forChild(accountState),
+        MarkdownModule,
+        JsonSchemaFormModule,
     ],
     declarations: [
         SocialRegisterComponent,
