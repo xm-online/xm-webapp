@@ -35,7 +35,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
                 private modulesLanguageHelper: ModulesLanguageHelper,
                 private translateService: TranslateService,
                 private titleService: TitleService,
-                private principal: Principal,
+                public principal: Principal,
                 private xmConfig: XmConfigService) {
         this.principal.identity().then((account) => {
             this.settingsAccount = this.copyAccount(account);
