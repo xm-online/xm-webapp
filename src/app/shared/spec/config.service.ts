@@ -104,6 +104,10 @@ export class XmConfigService {
             map((res: any) => res));
     }
 
+    public getUaaDataSchema(roleKey: string): Observable<any> {
+        return this.http.get(`uaa/api/uaa/properties/data-schema/${roleKey}`);
+    }
+
     public reindexTenantElastic(): Observable<any> {
         return this.http.post(this.elasticReindexUrl, {});
     }

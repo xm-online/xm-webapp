@@ -83,6 +83,20 @@
             </mat-form-field>
           </div>
 
+          <div *ngIf="jsfAttributes?.schema" class="form-group min-height">
+            <json-schema-form (formLayout)="jsfAttributes.formLayout"
+                              [data]="jsfAttributes.data"
+                              [form]="jsfAttributes.form | i18nJsf:principal"
+                              framework="material-design"
+                              [layout]="jsfAttributes.layout | i18nJsf:principal"
+                              [options]="jsfAttributes.options | i18nJsf:principal"
+                              [schema]="jsfAttributes.schema"
+                              [widgets]="jsfAttributes.widgets"
+                              (onChanges)="onChangeJsf($event)"
+                              class="json-form-hide-submit">
+            </json-schema-form>
+          </div>
+
           <ng-container *ngIf="utcTime && time">
             <div class="form-group">
               <div>

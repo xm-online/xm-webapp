@@ -7,6 +7,7 @@ import { TitleService } from '../../modules/xm-translation/title.service';
 import { AccountService, ModulesLanguageHelper, Principal } from '../../shared';
 import { XmConfigService } from '../../shared/spec/config.service';
 import { DEFAULT_LANG } from '../../xm.constants';
+import { buildJsfAttributes, nullSafe } from '../../shared/jsf-extention';
 
 @Component({
     selector: 'xm-settings',
@@ -26,6 +27,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
     public time: any;
     public utcTime: any;
     public timeZoneOffset: string;
+    public jsfAttributes: any;
 
     private _clockSubscription: Subscription;
 
@@ -33,7 +35,7 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
                 private modulesLanguageHelper: ModulesLanguageHelper,
                 private translateService: TranslateService,
                 private titleService: TitleService,
-                private principal: Principal,
+                public principal: Principal,
                 private xmConfig: XmConfigService) {
         this.principal.identity().then((account) => {
             this.settingsAccount = this.copyAccount(account);
@@ -50,6 +52,10 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.xmConfig.getUiConfig().subscribe(
             (data) => {
                 this.languages = (data && data.langs) ? data.langs : [DEFAULT_LANG];
+
+                if (!data.disableAccountSettingsJsf) {
+                    this.initJsfForAccountRole();
+                }
             },
             (err) => {
                 console.warn(err);
@@ -123,6 +129,14 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
 
+    public onChangeJsf(jsfFormData: any): void {
+        if (this.settingsAccount.data) {
+            this.settingsAccount = { ...this.settingsAccount, data: { ...this.settingsAccount.data, ...jsfFormData } };
+        } else {
+            this.settingsAccount = { ...this.settingsAccount, data: { ...jsfFormData } };
+        }
+    }
+
     private findEmail(account: any): string {
         if (account && account.logins) {
             for (const entry of account.logins) {
@@ -156,5 +170,16 @@ export class SettingsComponent implements OnInit, OnDestroy, AfterViewInit {
             autoLogoutEnabled: account.autoLogoutEnabled,
             autoLogoutTime: account.autoLogoutTimeoutSeconds,
         };
+    }
+
+    private initJsfForAccountRole(): void {
+        this.principal.identity().then((account) => {
+            this.xmConfig.getUaaDataSchema(account.roleKey)
+                .subscribe(res => {
+                    const { dataSpec, dataForm } = res;
+                    this.jsfAttributes = buildJsfAttributes(dataSpec, dataForm);
+                    this.jsfAttributes.data = Object.assign(nullSafe(this.jsfAttributes.data), nullSafe(account.data));
+                });
+        });
     }
 }
