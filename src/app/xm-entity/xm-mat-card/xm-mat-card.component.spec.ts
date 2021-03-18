@@ -1,5 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { PageChangesStore } from '../../xm-dashboard/page-changes-store';
+import { MockPageChangesStore } from '../../xm-dashboard/testing/mock-page-changes-store';
 
 import { XmMatCardComponent } from './xm-mat-card.component';
 
@@ -10,6 +12,9 @@ describe('XmMatCardComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [XmMatCardComponent],
+            providers: [
+                { provide: PageChangesStore, useClass: MockPageChangesStore },
+            ],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();

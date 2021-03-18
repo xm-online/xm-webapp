@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserRouteAccessService } from '../shared';
 import { DashboardGuard } from './dashboard.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { PendingChangesGuard } from './pending-changes.guard';
 
 const routes: Routes = [
     {
@@ -24,6 +25,7 @@ const routes: Routes = [
                 value: ['DASHBOARD.GET_LIST.ITEM'],
             },
         },
+        canDeactivate: [PendingChangesGuard],
         canActivate: [UserRouteAccessService, DashboardGuard],
     },
 ];
