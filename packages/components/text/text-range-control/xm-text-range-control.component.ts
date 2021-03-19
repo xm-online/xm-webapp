@@ -11,6 +11,10 @@ export interface XmTextRangeControlOptions extends DataQa {
     id?: string;
     rows?: string | number;
     maxLength?: number;
+    autosize?: boolean;
+    minRows?: number;
+    maxRows?: number;
+    style?: { [klass: string]: unknown };
 }
 
 const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
@@ -20,6 +24,9 @@ const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
     required: true,
     maxLength: null,
     dataQa: 'text-range-control',
+    autosize: false,
+    minRows: null,
+    maxRows: null,
 };
 
 @Component({
@@ -35,6 +42,10 @@ const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
                       [attr.data-qa]="options.dataQa"
                       [rows]="options.rows || 4"
                       [formControl]="control"
+                      [cdkTextareaAutosize]="options.autosize"
+                      [cdkAutosizeMinRows]="options.minRows"
+                      [cdkAutosizeMaxRows]="options.maxRows"
+                      [ngStyle]="options.style"
                       matInput>
             </textarea>
 
