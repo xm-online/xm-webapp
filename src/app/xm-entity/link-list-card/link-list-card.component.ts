@@ -12,6 +12,8 @@ import { XmEntity } from '../shared/xm-entity.model';
 
 declare let swal: any;
 
+const LINK_DELETE_PERMISSION = 'LINK.DELETE';
+
 @Component({
     selector: 'xm-link-list-card',
     templateUrl: './link-list-card.component.html',
@@ -28,6 +30,7 @@ export class LinkListCardComponent implements OnInit, OnChanges {
     public mode: string = 'list';
     public treeRootLinks: Link[];
     public isCardVisible: boolean = false;
+    public deletePermission: string = LINK_DELETE_PERMISSION;
 
     public fields: FieldOptions[] = [
         {
@@ -44,6 +47,12 @@ export class LinkListCardComponent implements OnInit, OnChanges {
                 private eventManager: JhiEventManager,
                 private translateService: TranslateService,
                 public principal: Principal) {
+        principal.identity().then(identity => {
+            if (identity.privileges.filter(it => it.startsWith(`${LINK_DELETE_PERMISSION}.`)).length > 0) {
+                this.deletePermission = `${LINK_DELETE_PERMISSION}.${this.linkSpec.model.key}`;
+            }
+        });
+
     }
 
     public ngOnInit(): void {

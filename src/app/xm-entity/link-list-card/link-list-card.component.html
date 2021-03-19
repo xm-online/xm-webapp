@@ -65,7 +65,7 @@
             </td>
 
             <td *ngIf="!isBackLink">
-              <a (click)="onRemove(link)" *permitted="'LINK.DELETE'" class="text-muted" role="button">
+              <a (click)="onRemove(link)" *permitted="deletePermission" class="text-muted" role="button">
                 <i class="material-icons">close</i>
               </a>
             </td>
