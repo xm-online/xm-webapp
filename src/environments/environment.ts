@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  buildTimestamp: '1616140089056'
+  buildTimestamp: '0'
 };
