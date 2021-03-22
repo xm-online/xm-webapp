@@ -9,6 +9,7 @@ export { XmEventManagerService as XmEventManager } from './src/xm-event-manager.
 export { RequestCacheFactoryService } from './src/cache/request-cache-factory.service';
 export { RequestCache } from './src/cache/request-cache';
 export { XmPublicUiConfigService } from './src/xm-public-ui-config.service';
+export { XmPublicIdpConfigService } from './src/xm-public-idp-config.service';
 export { UIPublicConfig } from './src/xm-public-ui-config-model';
 export { XmSessionService, ISession } from './src/xm-session.service';
 export { XmCoreModule } from './src/xm-core.module';

@@ -104,6 +104,14 @@
               ],
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
+            },
+            "idp": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.idp.ts"
+                }
+              ]
             }
           }
         },
@@ -120,6 +128,9 @@
             },
             "serve-production": {
               "browserTarget": "xm-webapp:build:serve-production"
+            },
+            "idp": {
+              "browserTarget": "xm-webapp:build:idp"
             }
           }
         },

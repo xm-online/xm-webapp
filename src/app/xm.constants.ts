@@ -9,6 +9,7 @@ const _DEFAULT_AUTH_TOKEN = 'Basic d2ViYXBwOndlYmFwcA==';
 
 const _DEFAULT_LANG = 'en';
 const _TERMS_ERROR = 'needAcceptTermsOfConditions';
+export const IDP_CLIENT = 'idp_client';
 
 /**
  * System event dictionary

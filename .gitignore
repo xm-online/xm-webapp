@@ -1,6 +1,5 @@
 .idea/
 *.iml
-
 node_modules/
 dist/
 !src/swagger-ui/dist/
@@ -43,3 +42,6 @@ yarn-error.log*
 lerna-debug.log*
 
 /src/assets/themes/*.css
+/src/environments/*.idp.ts
+*.cert
+*.key

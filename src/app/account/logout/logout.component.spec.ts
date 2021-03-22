@@ -9,6 +9,8 @@ import { of } from 'rxjs';
 import { LoginService } from '../../shared';
 
 import { LogoutComponent } from './logout.component';
+import { XmPrivateUiConfigService } from '@xm-ngx/core/config';
+import { SessionStorageService } from 'ngx-webstorage';
 
 describe('LogoutComponent', () => {
     let component: LogoutComponent;
@@ -25,6 +27,8 @@ describe('LogoutComponent', () => {
                 { provide: XmAlertService, useValue: { open: () => of({}) } },
                 { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => '' } } } },
                 { provide: Router, useValue: {} },
+                { provide: XmPrivateUiConfigService, useValue: {} },
+                { provide: SessionStorageService, useValue: {} },
             ],
         })
             .compileComponents();

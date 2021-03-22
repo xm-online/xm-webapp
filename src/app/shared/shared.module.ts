@@ -19,7 +19,6 @@ import {
     FocusDirective,
     HasAnyAuthorityDirective,
     InputPreventPasteDirective,
-    JhiSocialComponent,
     LoginComponent,
     LoginService,
     ParseByPathService,
@@ -32,6 +31,7 @@ import {
     XmConfigService,
     XmConfirmDialogComponent,
     XmGMapApiInitDirective,
+    IdpComponent,
 } from './';
 import { PrivacyAndTermsDialogComponent } from './components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
@@ -81,7 +81,6 @@ const PIPES = [XmEntityIconPipe];
         ModalCloseModule,
     ],
     declarations: [
-        JhiSocialComponent,
         LoginComponent,
         RegisterComponent,
         HasAnyAuthorityDirective,
@@ -113,6 +112,7 @@ const PIPES = [XmEntityIconPipe];
         TextSectionComponent,
         FileUploadComponent,
         PrivacyAndTermsDialogComponent,
+        IdpComponent,
         PIPES,
     ],
     providers: [
@@ -142,7 +142,6 @@ const PIPES = [XmEntityIconPipe];
     ],
     exports: [
         GateSharedLibsModule,
-        JhiSocialComponent,
         LoginComponent,
         RegisterComponent,
         HasAnyAuthorityDirective,
@@ -176,6 +175,7 @@ const PIPES = [XmEntityIconPipe];
         TextSectionComponent,
         FileUploadComponent,
         GooglePlaceModule,
+        IdpComponent,
         PIPES,
         XmUserLoginWidgetModule,
         XmJsonSchemaFormModule,

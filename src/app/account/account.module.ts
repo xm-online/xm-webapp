@@ -19,13 +19,13 @@ import {
     PasswordResetInitComponent,
     SettingsComponent,
     SignUpComponent,
-    SocialAuthComponent,
-    SocialRegisterComponent,
 } from './';
 import { accountState } from './account.route';
 import { LogoutComponent } from './logout/logout.component';
 import { PasswordModule } from './password/password.module';
 import { PasswordSettingsComponent } from './password-settings/password-settings.component';
+import { IdpCallbackComponent } from './idp-callback/idp-callback.component';
+import { LoginErrorComponent } from './login-error/login-error.component';
 
 
 @NgModule({
@@ -40,8 +40,6 @@ import { PasswordSettingsComponent } from './password-settings/password-settings
         MarkdownModule,
     ],
     declarations: [
-        SocialRegisterComponent,
-        SocialAuthComponent,
         ActivateComponent,
         SignUpComponent,
         PasswordResetInitComponent,
@@ -50,6 +48,8 @@ import { PasswordSettingsComponent } from './password-settings/password-settings
         LogoutComponent,
         HelpComponent,
         PasswordSettingsComponent,
+        IdpCallbackComponent,
+        LoginErrorComponent,
     ],
     providers: [
         Activate,

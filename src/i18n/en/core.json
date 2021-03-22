@@ -250,6 +250,7 @@
     "idexists": "A new {{ entityName }} cannot already have an ID",
     "insufficient_scope": "Insufficient scope",
     "internalServerError": "Internal server error",
+    "invalid_credentials": "Invalid credentials",
     "invalid_client": "Invalid client",
     "invalid_grant": "Invalid grant",
     "invalid_request": "Invalid request",
@@ -608,6 +609,10 @@
       },
       "otp": {
         "notification": "Please enter one time password from email"
+      },
+      "idp": {
+        "login-title": "Login with OAuth 2.0",
+        "wrong-key": "Wrong IDP key or client config"
       }
     },
     "password": {

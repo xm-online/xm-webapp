@@ -1,0 +1,15 @@
+<div class="xm-idp-clients" *ngIf="clients && clients.length > 0">
+  <button
+    mat-flat-button
+    [color]="!(client?.icon?.style && client?.icon?.class && client?.icon?.src) && 'primary'"
+    type="button"
+    *ngFor="let client of clients;"
+    [title]="client.name | translate"
+    (click)="onLogin(client)"
+    [ngClass]="client?.icon?.class"
+    [style]="client?.icon?.style"
+    [class.has-image]="client?.icon?.src">
+    <img [src]="client?.icon?.src" *ngIf="client?.icon?.src">
+    {{(client.name | translate)[0] || ''}}
+  </button>
+</div>

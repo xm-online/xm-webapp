@@ -247,6 +247,7 @@
     "idexists": "Новий {{entityName}} не може вже мати ідентифікатор",
     "insufficient_scope": "Недостатній обсяг",
     "internalServerError": "Внутрішня помилка сервера",
+    "invalid_credentials": "Недійсні облікові дані",
     "invalid_client": "Недійсний клієнт",
     "invalid_grant": "Недійсний грант",
     "invalid_request": "Невірний запит",
@@ -597,6 +598,10 @@
       },
       "otp": {
         "notification": "Please enter one time password from email"
+      },
+      "idp": {
+        "login-title": "Вхід з OAuth 2.0",
+        "wrong-key": "Неправильний ключ IDP або конфігурація клієнта"
       }
     },
     "password": {

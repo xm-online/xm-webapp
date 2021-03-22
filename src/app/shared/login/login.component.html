@@ -1,10 +1,4 @@
-<div class="form-group text-center" *ngIf="!checkOTP">
-  <xm-social [providerId]="provider.providerId"
-             [scope]="provider.scope"
-             [icon]="provider.icon"
-             *ngFor="let provider of socialConfig">
-  </xm-social>
-</div>
+<xm-idp *ngIf="uiConfig?.idp?.enabled"></xm-idp>
 
 <div class="alert alert-danger"
      *ngIf="authenticationError"
@@ -109,9 +103,7 @@
             type="submit"
             color="primary"
             [disabled]="isFormDisabled()">
-      <span>
-{{'login.form.otpValidateButton' | translate}}
-      </span>
+      <span>{{'login.form.otpValidateButton' | translate}}</span>
     </button>
   </div>
 </form>

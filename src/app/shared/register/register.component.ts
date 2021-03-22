@@ -36,7 +36,6 @@ export class RegisterComponent implements OnInit {
     public needCaptcha: boolean = false;
     public language: string = 'en';
     public publicKey: string;
-    public socialConfig: [];
     public passwordSettings: PasswordSpec;
     public patternMessage: string;
 
@@ -59,9 +58,6 @@ export class RegisterComponent implements OnInit {
     public ngOnInit(): void {
         this.success = false;
         this.registerAccount = {};
-        this.xmConfigService.getUiConfig().subscribe((config) => {
-            this.socialConfig = config && config.social;
-        });
         this.xmConfigService
             .getPasswordConfig()
             .subscribe((config: any) => {

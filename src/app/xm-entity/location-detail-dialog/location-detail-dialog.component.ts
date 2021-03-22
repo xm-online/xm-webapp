@@ -87,8 +87,7 @@ export class LocationDetailDialogComponent implements OnInit {
             );
 
         this.xmConfigService.getUiConfig().subscribe((result) => {
-            if (!result?.entity?.location) { return; }
-
+            if (!result.entity || (result.entity && !result.entity.location)) {return; }
             const defaultSetting = result.entity.location;
 
             if (this.form.controls.latitude.invalid && defaultSetting.defaultLat) {
@@ -175,7 +174,8 @@ export class LocationDetailDialogComponent implements OnInit {
     }
 
     private createForm(): void {
-        const regCoordinate = /^[-+]?([1-8]?\d\d(\.\d+)?|90(\.0+)?)$/;
+        const regLatitudeCoordinate = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?)$/;
+        const regLongitudeCoordinate = /^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
 
         this.form = this.fb.group({
             id: [null],
@@ -187,8 +187,8 @@ export class LocationDetailDialogComponent implements OnInit {
             city: [null],
             addressLine1: [null],
             addressLine2: [null],
-            latitude: [null, [Validators.required, Validators.pattern(regCoordinate)]],
-            longitude: [null, [Validators.required, Validators.pattern(regCoordinate)]],
+            latitude: [null, [Validators.required, Validators.pattern(regLatitudeCoordinate)]],
+            longitude: [null, [Validators.required, Validators.pattern(regLongitudeCoordinate)]],
             xmEntity: this.fb.group({}),
         });
     }

@@ -1,15 +1,17 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AuthRefreshTokenService, XmAuthenticationStoreService } from '../../../../packages/core/auth';
-import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../xm.constants';
+import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, IDP_CLIENT } from '../../xm.constants';
 import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
+import { IIdpClient } from '../../../../packages/core/src/xm-public-idp-config-model';
+
 
 const DEFAULT_HEADERS = {
     'Content-Type': DEFAULT_CONTENT_TYPE,
@@ -94,6 +96,23 @@ export class AuthServerProvider {
         }
 
         return this.getAccessToken(data, DEFAULT_HEADERS, credentials.rememberMe).pipe(
+            tap(() => this.sessionService.create()),
+        );
+    }
+
+    public loginIdp(opt: Params): Observable<any> {
+        const config: IIdpClient = this.$sessionStorage.retrieve(IDP_CLIENT);
+        const params = new HttpParams({ fromObject: opt });
+        const stream = this.http.get<any>(`login/oauth2/code/${config.key}`, { params });
+        return stream.pipe(
+            map((resp) => {
+                this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
+                const result = resp;
+                const accessToken = this.storeAT(result, false);
+                this.stateStorageService.resetDestinationState();
+                this.storeRT(result, false);
+                return accessToken;
+            }),
             tap(() => this.sessionService.create()),
         );
     }
@@ -241,7 +260,6 @@ export class AuthServerProvider {
                 accessToken = this.storeAT(result, rememberMe);
                 this.storeRT(result, rememberMe);
             }
-
             return accessToken;
         }));
     }
