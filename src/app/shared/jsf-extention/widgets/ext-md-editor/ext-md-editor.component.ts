@@ -19,6 +19,12 @@ export class ExtMdEditorComponent implements OnInit {
         promptURLs: true,
         spellChecker: false,
         showIcons: ['code', 'table'],
+        previewRender: (plainText, preview) => {
+            setTimeout(() => {
+                preview.innerHTML = this._textEditor.simpleMDE.markdown(plainText);
+                this._textEditor.writeValue(plainText.replace(/onerror=/ig, ''));
+            });
+        }
     };
     @ViewChild('mdEditor', {static: false}) private _textEditor: TdTextEditorComponent;
 
