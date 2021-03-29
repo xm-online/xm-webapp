@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "2.0.36",
+  "version": "2.0.37",
   "private": true,
   "description": "Xm-webapp",
   "homepage": "https://github.com/xm-online/xm-webapp",
@@ -92,8 +92,8 @@
     "chartist": "0.11.4",
     "chartist-plugin-zoom": "0.6.0",
     "core-js": "2.4.1",
-    "datatables": "1.10.18",
-    "datatables.net-bs": "1.10.20",
+    "datatables.net": "^1.10.22",
+    "datatables.net-bs": "^1.10.22",
     "datatables.net-responsive": "2.2.3",
     "eonasdan-bootstrap-datetimepicker": "4.17.47",
     "es6-shim": "0.35.5",
