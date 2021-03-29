@@ -68,6 +68,7 @@ import { ExtSelectService } from './jsf-extention/widgets/ext-select/ext-select-
 import { ExtSelectComponent } from './jsf-extention/widgets/ext-select/ext-select.component';
 import { ExtTextareaComponent } from './jsf-extention/widgets/ext-textarea/ext-textarea.component';
 import { FileUploadComponent } from './jsf-extention/widgets/file-upload/file-upload.component';
+import { ContentUploaderComponent } from './jsf-extention/widgets/content-uploader/content-uploader.component';
 import { MultilingualInputComponent } from './jsf-extention/widgets/multilingual-input/multilingual-input.component';
 import { TextSectionComponent } from './jsf-extention/widgets/text-section/text-section.component';
 import { ValidationComponent } from './jsf-extention/widgets/validation-component/validation-component.component';
@@ -136,6 +137,7 @@ const PIPES = [
         EmailMatcherComponent,
         TextSectionComponent,
         FileUploadComponent,
+        ContentUploaderComponent,
         PrivacyAndTermsDialogComponent,
         PIPES,
         InputPatternDirective,
@@ -160,6 +162,7 @@ const PIPES = [
         EmailMatcherComponent,
         TextSectionComponent,
         FileUploadComponent,
+        ContentUploaderComponent,
         PrivacyAndTermsDialogComponent,
     ],
     providers: [
@@ -238,6 +241,7 @@ const PIPES = [
         EmailMatcherComponent,
         TextSectionComponent,
         FileUploadComponent,
+        ContentUploaderComponent,
         GooglePlaceModule,
         PIPES,
         InputPatternDirective,
