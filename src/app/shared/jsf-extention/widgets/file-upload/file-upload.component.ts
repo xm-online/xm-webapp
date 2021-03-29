@@ -120,7 +120,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     }
 
     private handleError(err?: any): void {
-        console.warn(err);
         this.uploadingError = true;
         this.progress = null;
         this.registerChanges();
