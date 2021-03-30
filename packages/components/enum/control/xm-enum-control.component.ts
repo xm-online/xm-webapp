@@ -38,7 +38,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
                         [attr.data-qa]="options.dataQa"
                         [placeholder]="options?.title | translate">
                 <mat-select-trigger>
-                    <ng-container *ngIf="value && itemsMap[value]">
+                    <ng-container *ngIf="(value !== undefined) && itemsMap[value]">
                         <mat-icon style="vertical-align: middle"
                                   *ngIf="itemsMap[value]?.icon">{{itemsMap[value].icon}}</mat-icon>
                         {{(itemsMap[value].title | translate) || ''}}
