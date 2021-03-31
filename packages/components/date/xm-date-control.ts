@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import {Component, Input, NgModule} from '@angular/core';
+import { ReactiveFormsModule} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,11 +11,13 @@ import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicEntryModule, XmDynamicControl, XmDynamicControlConstructor } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker/datepicker-input-base';
 
 export interface XmDateControlOptions {
     title: Translate;
     name?: string;
     required?: boolean;
+    useUtc?: boolean;
 }
 
 @Component({
@@ -24,7 +26,8 @@ export interface XmDateControlOptions {
         <mat-form-field>
             <mat-label>{{options?.title | translate}}</mat-label>
 
-            <input [formControl]="control"
+            <input (dateChange)="changeDateControl($event)"
+                   [formControl]="control"
                    [matDatepicker]="picker"
                    [name]="options?.name"
                    [required]="options?.required"
@@ -49,8 +52,20 @@ export interface XmDateControlOptions {
         </mat-form-field>
     `,
 })
-export class XmDateControl extends NgFormAccessor<XmDateValue> {
+export class XmDateControl extends NgFormAccessor<XmDateValue>{
     @Input() public options: XmDateControlOptions;
+
+    public changeDateControl({value}: MatDatepickerInputEvent<unknown>): void {
+        if (value instanceof Date) {
+
+            if (this.options?.useUtc) {
+                const utcDate = new Date(
+                    Date.UTC(value.getFullYear(), value.getMonth(), value.getDate())
+                );
+                this.control.setValue(utcDate, {emitEvent: true})
+            }
+        }
+    }
 }
 
 @NgModule({
