@@ -1,2 +1,2 @@
 export { XmLoggerModule } from './src/xm-logger.module';
-export { XmLogger } from './src/xm-logger';
+export { XmLoggerService, XmLogger } from './src/xm-logger.service';

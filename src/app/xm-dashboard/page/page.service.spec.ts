@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
-import { XmLogger } from '@xm-ngx/logger';
+import { XmLoggerService } from '@xm-ngx/logger';
 import { MockXmLogger } from '@xm-ngx/logger/testing';
 import { MockDashboardStore } from '../shared/testing/mock-dashboard-store';
 
@@ -13,7 +13,7 @@ describe('PageService', () => {
         TestBed.configureTestingModule({
             providers: [
                 { provide: DashboardWrapperService, useClass: MockDashboardStore },
-                { provide: XmLogger, useClass: MockXmLogger },
+                { provide: XmLoggerService, useClass: MockXmLogger },
             ],
         });
         service = TestBed.inject<PageService>(PageService);
