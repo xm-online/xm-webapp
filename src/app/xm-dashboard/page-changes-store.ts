@@ -1,16 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
-import { filter, pluck, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 import { PageService } from './page';
 
 export enum PageChangesStoreType {
     /** when a new page init */
-    PRISTINE = 1,
+    PRISTINE = 'PRISTINE',
     /** User has made some changes but hasn't saved them yet */
-    EDIT,
+    EDIT = 'EDIT',
     /** User has saved changes */
-    UPDATED,
+    UPDATED = 'UPDATED',
 }
 
 export interface PageChangesStorePayload {
@@ -21,24 +22,24 @@ export interface PageChangesStorePayload {
 /**
  * Stores page changes state between widgets
  */
-export class PageChangesStore {
+export class PageChangesStore implements OnDestroy {
 
     private changeStateEvent: Subject<PageChangesStorePayload> = new ReplaySubject(1);
-    private state: Observable<PageChangesStorePayload>;
+    private state: Observable<PageChangesStorePayload> = this.changeStateEvent.asObservable();
     private logger: XmLogger;
 
     constructor(
         protected pageService: PageService,
         loggerService: XmLoggerService,
     ) {
-        this.logger = loggerService.create({name: 'PageChangesStore'});
-        this.state = this.pageService.active$().pipe(
-            filter(Boolean),
-            tap(() => this.changeStateEvent.next({ state: PageChangesStoreType.PRISTINE })),
-            tap(() => this.logger.debug('State reset.')),
-            switchMap(() => this.changeStateEvent),
-            shareReplay(1),
-        );
+        this.logger = loggerService.create({ name: 'PageChangesStore' });
+
+        this.pageService.active$().pipe(
+            takeUntilOnDestroy(this),
+        ).subscribe(() => {
+            this.changeStateEvent.next({ state: PageChangesStoreType.PRISTINE });
+            this.logger.debug(`The new page resets state to ${PageChangesStoreType.PRISTINE}.`);
+        });
     }
 
     public state$(): Observable<PageChangesStoreType> {
@@ -48,8 +49,12 @@ export class PageChangesStore {
     }
 
     public setState(state: PageChangesStoreType): void {
-        this.logger.debug(`State updated with "${state}".`);
         this.changeStateEvent.next({ state });
+        this.logger.debug(`State is updated with "${state}".`);
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
     }
 
 }
