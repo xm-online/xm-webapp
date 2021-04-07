@@ -1,4 +1,10 @@
+import { XmLogger } from '@xm-ngx/logger';
+
 export class MockXmLogger {
+    public create(): XmLogger {
+        return new MockXmLogger();
+    }
+
     public debug(): void {
         // Mock empty
     }

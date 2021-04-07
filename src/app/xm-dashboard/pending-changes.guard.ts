@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate, UrlTree } from '@angular/router';
 import { XmAlertResult, XmAlertService } from '@xm-ngx/alert';
-import { XmLogger } from '@xm-ngx/logger';
+import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { PageChangesStore, PageChangesStoreType } from './page-changes-store';
 
 @Injectable()
 export class PendingChangesGuard implements CanDeactivate<unknown> {
+    private logger: XmLogger = this.loggerService.create({ name: 'PendingChangesGuard' });
+
     constructor(
         private pageStore: PageChangesStore,
         private alertService: XmAlertService,
-        private logger: XmLogger,
+        private loggerService: XmLoggerService,
     ) {
     }
 
@@ -26,7 +28,7 @@ export class PendingChangesGuard implements CanDeactivate<unknown> {
         return this.isPending$().pipe(
             take(1),
             switchMap((isPending) => {
-                this.logger.debug(`PendingChangesGuard canDeactivate ${String(isPending)}.`);
+                this.logger.debug(`canDeactivate "${String(isPending)}".`);
                 if (isPending) {
                     return this.isAlertConfirmed$();
                 } else {

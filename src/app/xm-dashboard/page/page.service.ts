@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { XmLogger } from '@xm-ngx/logger';
+import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 import { Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DashboardWrapperService } from '../shared/dashboard-wrapper.service';
@@ -22,11 +22,13 @@ export interface Page<C = unknown, L = unknown> {
 export class PageService<T extends Page = Page> implements OnDestroy {
 
     private _active$: ReplaySubject<T | null> = new ReplaySubject(1);
+    private logger: XmLogger;
 
     constructor(
         private dashboard: DashboardWrapperService,
-        protected logger: XmLogger,
+        protected loggerService: XmLoggerService,
     ) {
+        this.logger = this.loggerService.create({ name: 'PageService' });
     }
 
     public active$(): Observable<T | null> {
@@ -34,7 +36,7 @@ export class PageService<T extends Page = Page> implements OnDestroy {
     }
 
     public load(idOrSlug: string | null): void {
-        this.logger.debug(`PageService load ${idOrSlug}.`);
+        this.logger.debug(`Load dashboard idOrSlug="${idOrSlug}".`);
         this.loadPage(idOrSlug);
     }
 

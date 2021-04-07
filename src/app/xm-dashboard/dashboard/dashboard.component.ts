@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
+import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { Page, PageService } from '../page/page.service';
@@ -28,6 +29,8 @@ interface DashboardLayout {
 })
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
 
+    private logger: XmLogger;
+
     public dashboard: Dashboard = { isPublic: false };
     public showLoader: boolean;
     public spec: Spec;
@@ -37,9 +40,11 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 private cdf: ChangeDetectorRef,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private pageService: PageService<Page<{ slug?: string }>>,
+                loggerService: XmLoggerService,
                 pageTitleService: PageTitleService,
     ) {
         super();
+        this.logger = loggerService.create({ name: 'DashboardComponent' });
         pageTitleService.init();
     }
 
@@ -71,10 +76,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     }
 
     public loadDashboard(page: Page): void {
-        if (!environment.production) {
-            console.info(`loadDashboard ${page.id}`);
-        }
-
+        this.logger.info(`Dashboard is loaded name="${page.name}" id="${page.id}".`);
         this.dashboard = _.cloneDeep(page);
 
         const widgets = sortByOrderIndex(this.dashboard.widgets || []);
