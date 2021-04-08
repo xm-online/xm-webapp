@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,7 +15,7 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
     selector: 'xm-bool-control',
     template: `
         <mat-form-field>
-            <mat-select [(ngModel)]="value"
+            <mat-select [formControl]="control"
                         [disabled]="disabled"
                         [placeholder]="options?.title | translate"
                         (ngModelChange)="change($event)">
@@ -60,6 +60,7 @@ export class XmBoolControl extends NgFormAccessor<boolean> implements XmDynamicC
         XmTranslationModule,
         ControlErrorModule,
         CommonModule,
+        ReactiveFormsModule
     ],
     exports: [XmBoolControl],
     declarations: [XmBoolControl],
