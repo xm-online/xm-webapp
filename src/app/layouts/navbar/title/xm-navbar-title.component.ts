@@ -1,8 +1,7 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { XmUiConfigService } from '@xm-ngx/core/config';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { filter } from 'rxjs/operators';
@@ -17,7 +16,7 @@ interface RouteData {
     selector: 'xm-navbar-title',
     styleUrls: ['./xm-navbar-title.scss'],
     template: `
-        <div *ngIf="routeData && title && showLogo"
+        <div *ngIf="routeData && title"
              class="title-part px-3">
             <span [innerHTML]="titleContent"
                   [title]="title"
@@ -30,11 +29,9 @@ export class XmNavbarTitleComponent implements OnInit, DoCheck {
     public routeData: RouteData = {};
     public titleContent: string;
     public title: string;
-    public showLogo: boolean = false;
 
     constructor(
         private router: Router,
-        private xmUiConfigService: XmUiConfigService,
         private translateService: TranslateService,
     ) {
     }
@@ -48,14 +45,6 @@ export class XmNavbarTitleComponent implements OnInit, DoCheck {
     }
 
     public ngOnInit(): void {
-        this.xmUiConfigService.config$().pipe(
-            filter((i) => Boolean(i)),
-            takeUntilOnDestroy(this),
-        ).subscribe((config) => {
-            if (config.showLogo !== false) {
-                this.showLogo = true;
-            }
-        });
         this.routeData = this.getRouteData(this.router.routerState.snapshot.root);
 
         this.router.events
