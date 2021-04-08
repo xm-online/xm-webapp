@@ -1,11 +1,12 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from '@xm-ngx/core/auth';
+import { XmPrivateUiConfigService } from '@xm-ngx/core/config';
+import { of } from 'rxjs';
 
 import { IdpCallbackComponent } from './idp-callback.component';
-import { LoginService } from '@xm-ngx/core/auth';
-import { ActivatedRoute, Router } from '@angular/router';
-import { XmPrivateUiConfigService } from '@xm-ngx/core/config';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of } from 'rxjs';
 
 describe('IdpCallbackComponent', () => {
     let component: IdpCallbackComponent;
@@ -13,6 +14,7 @@ describe('IdpCallbackComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            schemas:[NO_ERRORS_SCHEMA],
             imports: [HttpClientTestingModule],
             providers: [
                 {provide: LoginService, useValue: {}},
