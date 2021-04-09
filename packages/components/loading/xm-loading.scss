@@ -15,7 +15,7 @@ $xm-loading-size:         1em !default;
     position: relative;
   }
 
-  .xm-loading-active:after {
+  &.xm-loading-active:after {
     display:       block;
     content:       '';
     z-index:       1;
@@ -30,15 +30,15 @@ $xm-loading-size:         1em !default;
     animation:     xm-loading-rotate-360 700ms linear infinite;
   }
 
-  .xm-loading-start:after {
+  &.xm-loading-start:after {
     left: $xm-loading-size / 2;
   }
 
-  .xm-loading-center:after {
+  &.xm-loading-center:after {
     left: 50%;
   }
 
-  .xm-loading-end:after {
+  &.xm-loading-end:after {
     left: -$xm-loading-size / 2;
   }
 
