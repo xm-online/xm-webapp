@@ -1,4 +1,3 @@
-import { HttpResponse } from '@angular/common/http';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { Observable, of } from 'rxjs';
 
@@ -31,9 +30,5 @@ export class MockEntityCollection<T extends IId = unknown> {
 
     public upsert(): Observable<T> {
         return of(null);
-    }
-
-    public getEntitiesByIds(): Observable<HttpResponse<T[]>> {
-        return of({} as HttpResponse<T[]>);
     }
 }
