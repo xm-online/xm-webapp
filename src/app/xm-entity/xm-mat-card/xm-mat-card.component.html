@@ -11,16 +11,16 @@
 
       <div *ngIf="!options.readonly && entity?.id" class="flex-nowrap d-flex">
         <ng-content select="[xmHeaderActions]"></ng-content>
-
-        <xm-edit-widget-buttons (cancel)="cancel.emit($event)"
-                                (edit)="contentHidden = false"
-                                (isEditChange)="isEditChange.emit($event)"
-                                (change)="onEditChange($event)"
-                                (save)="save.emit($event)"
-                                *xmCondition="options.editCondition; arguments {entity: entity}"
-                                [(isEdit)]="isEdit">
-        </xm-edit-widget-buttons>
-
+        <ng-container *xmPermission="options.editPermission">
+          <xm-edit-widget-buttons (cancel)="cancel.emit($event)"
+                                  (edit)="contentHidden = false"
+                                  (isEditChange)="isEditChange.emit($event)"
+                                  (change)="onEditChange($event)"
+                                  (save)="save.emit($event)"
+                                  *xmCondition="options.editCondition; arguments {entity: entity}"
+                                  [(isEdit)]="isEdit">
+          </xm-edit-widget-buttons>
+        </ng-container>
         <button (click)="contentHidden=!contentHidden"
                 *ngIf="options?.collapsableContent"
                 [disabled]="isEdit"

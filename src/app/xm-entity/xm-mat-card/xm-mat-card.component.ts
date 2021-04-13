@@ -15,6 +15,7 @@ export interface XmMatCardOptions {
     readonly: boolean;
     condition: JavascriptCode;
     permission?: string[];
+    editPermission?: string[];
     collapsableContent?: boolean;
     contentHiddenByDefault?: boolean;
 }
