@@ -45,3 +45,6 @@ lerna-debug.log*
 /src/environments/*.idp.ts
 *.cert
 *.key
+
+# compdoc out
+/documentation/
