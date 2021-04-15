@@ -13,6 +13,7 @@ import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
 import { Principal } from '../../shared';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'xm-entity-detail-fab',
@@ -35,6 +36,7 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
     constructor(private eventManager: JhiEventManager,
                 private modalService: NgbModal,
                 private principal: Principal,
+                public translateService: TranslateService,
     ) {
         this.registerChangeInXmEntities();
     }

@@ -9,7 +9,16 @@
     <ng-container *xmPermitted="['LINK.CREATE']; context: xmLinksContext()">
       <button (click)="onAddLink(linkSpec)" *ngFor="let linkSpec of this.xmEntitySpec.links" class="xm-fab-option">
         <i class="material-icons">{{linkSpec.icon}}</i>
-        <span class="fab-title">{{ "xm-entity.entity-detail-fab.new-link" | translate }}</span>
+
+        <ng-container *ngIf="linkSpec?.name && linkSpec?.name[translateService.currentLang]; else defaultLinkTooltip">
+          <span class="fab-title">
+            {{ "xm-entity.entity-detail-fab.new" | translate }} {{linkSpec?.name[translateService.currentLang] | lowercase}}
+          </span>
+        </ng-container>
+
+        <ng-template #defaultLinkTooltip>
+          <span class="fab-title">{{ "xm-entity.entity-detail-fab.new-link" | translate }}</span>
+        </ng-template>
       </button>
     </ng-container>
     <button (click)="onAddComment()"

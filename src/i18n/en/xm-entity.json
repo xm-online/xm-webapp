@@ -129,6 +129,7 @@
             "new-generated": "Generated!"
         },
         "entity-detail-fab": {
+            "new": "Add new",
             "new-link": "Add new link",
             "new-attachment": "Add new attachment",
             "new-comment": "Add new comment",
