@@ -130,6 +130,7 @@
             "new-generated": "Згенеровано!"
         },
         "entity-detail-fab": {
+            "new": "Додати",
             "new-link": "Додати посилання",
             "new-attachment": "Додати файл",
             "new-comment": "Додати кометар",

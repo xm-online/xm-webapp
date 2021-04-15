@@ -129,6 +129,7 @@
             "new-generated": "Сгенерировано!"
         },
         "entity-detail-fab": {
+            "new": "Добавить",
             "new-link": "Добавить ссылку",
             "new-attachment": "Добавить файл",
             "new-comment": "Добавить комментарий",
