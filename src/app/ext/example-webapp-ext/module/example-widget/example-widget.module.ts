@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { NgModule, Type } from '@angular/core';
-import { XmDynamicEntryModule } from '@xm-ngx/dynamic';
+import { NgModule } from '@angular/core';
+import { XmDynamicConstructor, XmDynamicWidgetModule } from '@xm-ngx/dynamic';
 import { ExampleWidgetComponent } from './example-widget.component';
 
 
@@ -11,9 +11,9 @@ import { ExampleWidgetComponent } from './example-widget.component';
         CommonModule,
     ],
 })
-export class ExampleWidgetModule implements XmDynamicEntryModule<ExampleWidgetComponent> {
+export class ExampleWidgetModule implements XmDynamicWidgetModule<ExampleWidgetComponent> {
     /**
      * Specifying the entry point for XmDynamicModule
      */
-    public entry: Type<ExampleWidgetComponent> = ExampleWidgetComponent;
+    public entry: XmDynamicConstructor<ExampleWidgetComponent> = ExampleWidgetComponent;
 }
