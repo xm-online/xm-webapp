@@ -8,24 +8,22 @@ import { XmUserSecuritySettingsModule } from '../../../packages/xm-account/src/x
 import { XmUserSettingsWidgetModule } from '../../../packages/xm-account/src/xm-user-settings-widget/xm-user-settings-widget.module';
 
 import { XmSharedModule } from '../shared/shared.module';
-import {
-    Activate,
-    ActivateComponent,
-    HelpComponent,
-    Password,
-    PasswordResetFinish,
-    PasswordResetFinishComponent,
-    PasswordResetInit,
-    PasswordResetInitComponent,
-    SettingsComponent,
-    SignUpComponent,
-} from './';
 import { accountState } from './account.route';
+import { ActivateComponent } from './activate/activate.component';
+import { Activate } from './activate/activate.service';
+import { HelpComponent } from './help/help.component';
 import { LogoutComponent } from './logout/logout.component';
+import { PasswordResetFinishComponent } from './password-reset/finish/password-reset-finish.component';
+import { PasswordResetFinish } from './password-reset/finish/password-reset-finish.service';
+import { PasswordResetInitComponent } from './password-reset/init/password-reset-init.component';
+import { PasswordResetInit } from './password-reset/init/password-reset-init.service';
 import { PasswordModule } from './password/password.module';
 import { PasswordSettingsComponent } from './password-settings/password-settings.component';
 import { IdpCallbackComponent } from './idp-callback/idp-callback.component';
 import { LoginErrorComponent } from './login-error/login-error.component';
+import { Password } from './password/password.service';
+import { SettingsComponent } from './settings/settings.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 
 @NgModule({

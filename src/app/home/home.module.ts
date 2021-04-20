@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmSharedModule } from '@xm-ngx/shared';
-import { HomeComponent } from './';
+import { HomeComponent } from './home.component';
 import { HOME_ROUTE } from './home.route';
 
 @NgModule({
