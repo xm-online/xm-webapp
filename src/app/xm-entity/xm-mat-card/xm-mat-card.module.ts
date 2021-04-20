@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { EditWidgetButtonsModule } from '@xm-ngx/components/edit-buttons';
+import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmPermissionModule } from '../../../../packages/core/permisson';
 import { XmMatCardComponent } from './xm-mat-card.component';
@@ -22,6 +23,7 @@ import { XmMatCardComponent } from './xm-mat-card.component';
     MatButtonModule,
     XmTranslationModule,
     XmPermissionModule,
+    XmLoadingModule,
   ],
 })
 export class XmMatCardModule {
