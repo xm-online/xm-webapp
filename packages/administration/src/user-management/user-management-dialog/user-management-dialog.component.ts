@@ -82,6 +82,7 @@ export class UserMgmtDialogComponent implements OnInit {
     public roleSelect(role: string | string[]): void {
         if (Array.isArray(role)) {
             this.user.authorities = role;
+            this.user.roleKey = role[0];
         } else {
             this.user.roleKey = role;
         }

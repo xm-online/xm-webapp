@@ -3,6 +3,7 @@
     <h4 class="modal-title text-left" id="myUserLabel">{{'userManagement.home.createOrEditLabel'|translate}}</h4>
     <xm-modal-close mat-dialog-close></xm-modal-close>
   </div>
+
   <div mat-dialog-content>
     <xm-loader [showLoader]="showLoader"></xm-loader>
 
@@ -17,6 +18,7 @@
                type="text">
       </mat-form-field>
     </div>
+
     <div class="form-group">
       <mat-form-field>
         <input [(ngModel)]="user.userKey"
@@ -28,9 +30,11 @@
                type="text">
       </mat-form-field>
     </div>
+
     <div *ngIf="user.id == null" class="form-group">
       <xm-user-login-form #userLoginForm [isCreate]="true" [isUser]="true" [user]="user"></xm-user-login-form>
     </div>
+
     <div class="form-group">
       <mat-form-field>
         <input #firstNameInput="ngModel"
@@ -46,6 +50,7 @@
         </mat-error>
       </mat-form-field>
     </div>
+
     <div class="form-group">
       <mat-form-field>
         <input #lastNameInput="ngModel"
@@ -61,6 +66,7 @@
         </mat-error>
       </mat-form-field>
     </div>
+
     <div class="row">
       <div class="col">
         <div class="form-group">
@@ -71,6 +77,7 @@
           </mat-checkbox>
         </div>
       </div>
+
       <div class="col">
         <div class="form-group">
           <mat-checkbox [(ngModel)]="user.autoLogoutEnabled" [disabled]="user.id === null || !(user.activated)"
@@ -81,6 +88,7 @@
         </div>
       </div>
     </div>
+
     <div *ngIf="languages && languages.length > 0" class="form-group">
       <mat-form-field>
         <mat-select [(ngModel)]="user.langKey"
@@ -93,6 +101,7 @@
         </mat-select>
       </mat-form-field>
     </div>
+
     <div class="form-group" *ngIf="userRoles !== undefined">
       <mat-form-field>
         <mat-select id="authority"
@@ -108,12 +117,16 @@
       </mat-form-field>
     </div>
   </div>
+
   <div mat-dialog-actions>
     <button class="mr-1 ml-auto" mat-flat-button data-dismiss="modal" type="button" (click)="clear()">
-      <span class="fa fa-ban"></span>&nbsp;<span
-    >{{'entity.action.cancel'|translate}}</span>
+      <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
     </button>
-    <button [disabled]="editForm.form.invalid || showLoader" mat-flat-button color="primary" type="submit">
+
+    <button [disabled]="editForm.form.invalid || showLoader"
+            mat-flat-button
+            color="primary"
+            type="submit">
       <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
     </button>
   </div>
