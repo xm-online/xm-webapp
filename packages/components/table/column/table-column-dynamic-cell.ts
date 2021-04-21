@@ -14,11 +14,13 @@ import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableM
 import { TableColumnsManager } from '@xm-ngx/components/table/column/table-columns-manager';
 import { XmDynamicCell, XmDynamicCellModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { CommonModule } from '@angular/common';
 
 export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
     name: string;
     sortable: boolean;
     title: Translate;
+    headerSelector?: string;
     dataClass: string;
     dataStyle: string;
 }
@@ -31,7 +33,13 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
                 mat-header-cell
                 mat-sort-header
                 [disabled]="isSortable()">
-                {{column.title | translate}}
+                <ng-container *ngIf="!!column?.headerSelector; else title"
+                              xmDynamicCell
+                              [row]="'value'"
+                              [column]="columnHeader"></ng-container>
+                <ng-template #title>
+                    {{column.title | translate}}
+                </ng-template>
             </th>
             <td mat-cell
                 [class]="column.dataClass"
@@ -49,15 +57,20 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
  * @beta
  */
 export class TableColumnDynamicCell implements OnDestroy, OnInit {
-    @ViewChild(MatCellDef, { static: true }) public cell: MatCellDef;
-    @ViewChild(MatColumnDef, { static: true }) public columnDef: MatColumnDef;
-    @ViewChild(MatHeaderCellDef, { static: true }) public headerCell: MatHeaderCellDef;
-    @ViewChild(MatFooterCellDef, { static: true }) public footerCell: MatFooterCellDef;
+    @ViewChild(MatCellDef, {static: true}) public cell: MatCellDef;
+    @ViewChild(MatColumnDef, {static: true}) public columnDef: MatColumnDef;
+    @ViewChild(MatHeaderCellDef, {static: true}) public headerCell: MatHeaderCellDef;
+    @ViewChild(MatFooterCellDef, {static: true}) public footerCell: MatFooterCellDef;
 
     constructor(@Inject(CDK_TABLE) protected columnsManager: TableColumnsManager) {
     }
 
     protected _column: TableColumn;
+    protected _columnHeader: TableColumn;
+
+    public get columnHeader(): TableColumn {
+        return this._columnHeader;
+    }
 
     public get column(): TableColumn {
         return this._column;
@@ -66,6 +79,7 @@ export class TableColumnDynamicCell implements OnDestroy, OnInit {
     @Input()
     public set column(c: TableColumn) {
         this._column = c;
+        this._columnHeader = {...this._column, selector: this._column.headerSelector};
     }
 
     public ngOnInit(): void {
@@ -98,6 +112,7 @@ export class TableColumnDynamicCell implements OnDestroy, OnInit {
         XmDynamicCellModule,
         XmTranslationModule,
         MatSortModule,
+        CommonModule,
     ],
     exports: [TableColumnDynamicCell],
     declarations: [TableColumnDynamicCell],
