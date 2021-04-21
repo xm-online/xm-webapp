@@ -33,6 +33,8 @@ export class XmMatCardComponent implements OnInit, OnChanges {
 
     @Input() public options: XmMatCardOptions;
     @Input() public entity: IId;
+    @Input() public loading: boolean = false;
+    @Input() public disableSubmit: boolean = false;
     @Output() public save: EventEmitter<void> = new EventEmitter<void>();
     @Output() public cancel: EventEmitter<void> = new EventEmitter<void>();
     @Output() public isEditChange: EventEmitter<boolean> = new EventEmitter<boolean>();
