@@ -1,3 +1,5 @@
+import { XM_TEXT_TITLE_ENTRY } from '@xm-ngx/components/text/text-title';
+import { XM_TEXT_TRANSLATE_ENTRY } from '@xm-ngx/components/text/text-translate';
 import { XmDynamicEntry } from '@xm-ngx/dynamic';
 import { XM_TEXT_CONTROL_ELEMENTS } from './text-control/xm-text-control.registry';
 import { XM_TEXT_RANGE_ELEMENTS } from './text-range-control/xm-text-range.registry';
@@ -31,6 +33,8 @@ export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextJoinModule),
     },
     ...XM_TEXT_RANGE_ELEMENTS,
+    XM_TEXT_TITLE_ENTRY,
+    XM_TEXT_TRANSLATE_ENTRY,
     {
         selector: '@xm-ngx/components/text-view',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextViewModule),

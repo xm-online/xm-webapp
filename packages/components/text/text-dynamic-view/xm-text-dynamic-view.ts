@@ -1,4 +1,5 @@
 import { Component, Input, NgModule } from '@angular/core';
+import { XmTextTitleOptions } from '@xm-ngx/components/text/text-title';
 import {
     XmDynamicModule,
     XmDynamicPresentation,
@@ -6,11 +7,10 @@ import {
     XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmTextViewModule } from '../text-view/xm-text-view.component';
 
-export interface XmTextDynamicOptions {
-    title?: Translate;
+export interface XmTextDynamicOptions extends XmTextTitleOptions {
     textStyle?: 'inline';
     selector: string;
     options: unknown;

@@ -13,6 +13,16 @@
   <xm-text value="text"></xm-text>
 </xm-code-container>
 
+<xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-title'}">
+  <xm-code isBlock>@xm-ngx/components/text-title</xm-code>
+  <xm-text-title [options]="{title: 'text'}"></xm-text-title>
+</xm-code-container>
+
+<xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-translate'}">
+  <xm-code isBlock>@xm-ngx/components/text-translate</xm-code>
+  <xm-text-translate value="text"></xm-text-translate>
+</xm-code-container>
+
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-control', options: textControlOptions}">
   <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
   <xm-text-control [options]="textControlOptions"></xm-text-control>

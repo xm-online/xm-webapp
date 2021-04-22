@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, NgModule, OnInit, Optional } from '@angular/core';
 import { ConditionDirective } from '@xm-ngx/components/condition/condition.directive';
+import { XmTextTitleOptions } from '@xm-ngx/components/text/text-title';
 import {
     XM_DYNAMIC_TABLE_ROW,
     XmDynamicPresentation,
@@ -7,12 +8,11 @@ import {
     XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
-import { Translate, XmTranslateService } from '@xm-ngx/translation';
+import { XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 
-export interface XmTextJoinValueOptionsTemplate {
+export interface XmTextJoinValueOptionsTemplate extends XmTextTitleOptions {
     condition: JavascriptCode
-    title: Translate
 }
 
 export interface XmTextJoinValueOptions {

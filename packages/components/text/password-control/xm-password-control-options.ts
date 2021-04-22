@@ -1,8 +1,7 @@
+import { XmTextTitleOptions } from '@xm-ngx/components/text/text-title';
 import { DataQa } from '@xm-ngx/shared/interfaces';
-import { Translate } from '@xm-ngx/translation';
 
-export interface XmPasswordControlOptions extends DataQa {
-    title: Translate,
+export interface XmPasswordControlOptions extends XmTextTitleOptions, DataQa {
     id?: string,
     required?: boolean,
 }

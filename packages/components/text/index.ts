@@ -41,6 +41,17 @@ export {
 } from './text-join/xm-text-join.component';
 
 export {
+    XmTextTitleOptions,
+    XmTextTitleComponent,
+    XmTextTitleModule,
+} from './text-title';
+
+export {
+    XmTextTranslateComponent,
+    XmTextTranslateModule,
+} from './text-translate';
+
+export {
     XmTextViewOptions,
     XmTextViewComponent,
     XM_TEXT_VIEW_OPTIONS_DEFAULT,
