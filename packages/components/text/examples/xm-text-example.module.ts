@@ -11,6 +11,8 @@ import {
     XmTextJoinModule,
     XmTextModule,
     XmTextRangeControlModule,
+    XmTextTitleModule,
+    XmTextTranslateModule,
     XmTextViewModule,
 } from '@xm-ngx/components/text';
 
@@ -34,6 +36,8 @@ import { XmTextExampleComponent } from './xm-text-example.component';
         ReactiveFormsModule,
         XmCodeContainerModule,
         FormsModule,
+        XmTextTranslateModule,
+        XmTextTitleModule,
     ],
 })
 export class XmTextExampleModule {
