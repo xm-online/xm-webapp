@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, Inject, Input, Optional, Self, View
 import { NgControl } from '@angular/forms';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { XmTextTitleOptions } from '@xm-ngx/components/text/text-title';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 
-export interface XmTextControlOptions extends DataQa {
-    title?: Translate;
+export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
     type?: string;
     placeholder?: Translate;
     pattern?: string;

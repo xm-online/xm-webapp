@@ -14,7 +14,6 @@ import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 
-import { XmTextControlOptions } from '@xm-ngx/components/text';
 import { XmDynamicControl, XmDynamicControlConstructor } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
@@ -64,7 +63,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmNumberControl extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmTextControlOptions> {
+export class XmNumberControl extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmNumberControlOptions> {
     constructor(@Optional() @Self() public ngControl: NgControl | null,
                 @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
         super(ngControl);

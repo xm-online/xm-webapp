@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { XmTextTitleOptions } from '@xm-ngx/components/text/text-title';
 import { DataQa } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 
-export interface XmTextRangeControlOptions extends DataQa {
-    title?: Translate;
+export interface XmTextRangeControlOptions extends XmTextTitleOptions, DataQa {
     placeholder?: Translate;
     required?: boolean;
     id?: string;
