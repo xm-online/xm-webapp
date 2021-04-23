@@ -1,16 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { I18nNamePipe } from '@xm-ngx/components/language';
+
+import { Principal } from '@xm-ngx/core/auth';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import { startWith } from 'rxjs/operators';
 import * as formatString from 'string-template';
 
-import { Principal } from '@xm-ngx/core/auth';
-import { I18nNamePipe } from '@xm-ngx/components/language';
-
 @Component({
     selector: 'xm-text-section',
     templateUrl: './text-section.component.html',
-    styleUrls: ['./text-section.component.scss'],
 })
 export class TextSectionComponent implements OnInit {
 

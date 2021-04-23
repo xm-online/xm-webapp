@@ -1,17 +1,17 @@
+import { SelectionModel } from '@angular/cdk/collections';
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { ExportConfig } from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
 import {
     ExportEntitiesService,
-    ExportEntityFlatNode, ExportEntityItemNode
+    ExportEntityFlatNode,
+    ExportEntityItemNode
 } from '@xm-ngx/administration/maintenance/export-entities.service';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { SelectionModel } from '@angular/cdk/collections';
-import { ExportConfig } from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
 
 @Component({
     selector: 'xm-export-tree',
     templateUrl: './export-tree.component.html',
-    styleUrls: ['./export-tree.component.scss'],
     providers: [ExportEntitiesService]
 })
 export class ExportTreeComponent implements OnDestroy {

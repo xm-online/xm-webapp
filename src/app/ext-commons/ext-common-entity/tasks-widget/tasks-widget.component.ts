@@ -19,7 +19,6 @@ function sort(a: any, b: any): number {
 @Component({
     selector: 'xm-tasks-widget',
     templateUrl: './tasks-widget.component.html',
-    styleUrls: ['./tasks-widget.component.scss'],
 })
 export class TasksWidgetComponent implements OnInit, OnDestroy {
 

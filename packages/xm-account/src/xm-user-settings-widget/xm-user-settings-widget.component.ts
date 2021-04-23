@@ -11,7 +11,6 @@ import { AccountService, Principal } from '../../../../src/app/shared/auth';
 @Component({
     selector: 'xm-user-settings-widget',
     templateUrl: './xm-user-settings-widget.component.html',
-    styleUrls: ['./xm-user-settings-widget.component.scss'],
 })
 export class XmUserSettingsWidgetComponent implements OnInit {
     public languages$: Observable<Locale[]> = this.languageService.languages$();

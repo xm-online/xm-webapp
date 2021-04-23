@@ -5,7 +5,6 @@ import { TwitterTimelineService } from './twitter-timeline.service';
 @Component({
     selector: 'xm-twitter-timeline-widget',
     templateUrl: './twitter-timeline-widget.component.html',
-    styleUrls: ['./twitter-timeline-widget.component.scss'],
 })
 export class TwitterTimelineWidgetComponent implements OnInit, AfterViewInit {
 

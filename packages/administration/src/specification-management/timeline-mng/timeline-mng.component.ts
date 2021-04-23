@@ -5,7 +5,6 @@ import { XmConfigService } from '../../../../../src/app/shared';
 @Component({
     selector: 'xm-timeline-mng',
     templateUrl: './timeline-mng.component.html',
-    styleUrls: ['./timeline-mng.component.scss'],
 })
 export class TimelineMngComponent implements OnInit {
     @Input() public disabled: boolean;

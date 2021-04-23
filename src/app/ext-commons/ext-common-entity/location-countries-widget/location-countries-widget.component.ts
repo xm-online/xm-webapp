@@ -7,7 +7,6 @@ declare const $: any;
 @Component({
     selector: 'xm-location-countries-widget',
     templateUrl: './location-countries-widget.component.html',
-    styleUrls: ['./location-countries-widget.component.scss'],
 })
 export class LocationCountriesWidgetComponent implements OnInit, AfterViewInit {
 

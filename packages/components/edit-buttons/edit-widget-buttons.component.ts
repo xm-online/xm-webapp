@@ -18,7 +18,6 @@ export interface EditWidgetButtonsEvent {
 @Component({
     selector: 'xm-edit-widget-buttons',
     templateUrl: './edit-widget-buttons.component.html',
-    styleUrls: ['./edit-widget-buttons.component.scss'],
 })
 export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
 

@@ -5,7 +5,6 @@ import { XmConfigService } from '../../../../../src/app/shared';
 @Component({
     selector: 'xm-uaa-login-mng',
     templateUrl: './uaa-login-mng.component.html',
-    styleUrls: ['./uaa-login-mng.component.scss'],
 })
 export class UaaLoginMngComponent implements OnInit {
 

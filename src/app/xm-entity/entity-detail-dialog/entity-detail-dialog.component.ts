@@ -4,10 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { LanguageModule } from '@xm-ngx/components/language';
 import { LoaderModule } from '@xm-ngx/components/loader';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
 import { XmTranslationModule } from '@xm-ngx/translation';
@@ -22,13 +24,10 @@ import { Spec } from '../shared/spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
-import { MatIconModule } from '@angular/material/icon';
-import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @Component({
     selector: 'xm-entity-detail-dialog',
     templateUrl: './entity-detail-dialog.component.html',
-    styleUrls: ['./entity-detail-dialog.component.scss'],
 })
 export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
 

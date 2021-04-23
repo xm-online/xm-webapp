@@ -14,7 +14,6 @@ declare let $: any;
 @Component({
     selector: 'xm-state-change-dialog',
     templateUrl: './state-change-dialog.component.html',
-    styleUrls: ['./state-change-dialog.component.scss'],
 })
 export class StateChangeDialogComponent implements OnInit {
 

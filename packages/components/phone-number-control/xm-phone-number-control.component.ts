@@ -26,7 +26,6 @@ export const XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT = {
 @Component({
     selector: 'xm-phone-number-control',
     templateUrl: './xm-phone-number-control.component.html',
-    styleUrls: ['./xm-phone-number-control.component.scss'],
 })
 export class XmPhoneNumberControlComponent extends NgControlAccessor<string> {
     public inputValue: string;

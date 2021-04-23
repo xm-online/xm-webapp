@@ -23,7 +23,6 @@ export interface XmMatCardOptions {
 @Component({
     selector: 'xm-mat-card',
     templateUrl: './xm-mat-card.component.html',
-    styleUrls: ['./xm-mat-card.component.scss'],
     animations: [
         matExpansionAnimations.bodyExpansion,
         matExpansionAnimations.indicatorRotate,

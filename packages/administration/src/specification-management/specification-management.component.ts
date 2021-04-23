@@ -8,7 +8,6 @@ import { XmConfigService } from '../../../../src/app/shared/spec/config.service'
 @Component({
     selector: 'xm-specification-management',
     templateUrl: './specification-management.component.html',
-    styleUrls: ['./specification-management.component.scss'],
 })
 export class SpecificationManagementComponent implements OnInit {
 

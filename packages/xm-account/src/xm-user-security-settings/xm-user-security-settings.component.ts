@@ -6,7 +6,6 @@ import { AccountService, Principal } from '../../../../src/app/shared/auth';
 @Component({
     selector: 'xm-user-security-settings',
     templateUrl: './xm-user-security-settings.component.html',
-    styleUrls: ['./xm-user-security-settings.component.scss'],
 })
 export class XmUserSecuritySettingsComponent implements OnInit {
 

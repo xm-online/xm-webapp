@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import { LinksGroupWidgetConfig } from './links-group-widget';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
+import { LinksGroupWidgetConfig } from './links-group-widget';
 
 
 @Component({
@@ -30,7 +30,6 @@ import { XmTranslationModule } from '@xm-ngx/translation';
             </nav>
         </div>
     `,
-    styleUrls: ['./links-group-widget.component.scss'],
 })
 export class LinksGroupButtonWidget {
     @Input()

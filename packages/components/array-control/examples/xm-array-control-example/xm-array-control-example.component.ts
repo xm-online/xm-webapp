@@ -4,7 +4,6 @@ import { XmArrayControlOptions } from '@xm-ngx/components/array-control';
 @Component({
     selector: 'xm-array-control-example',
     templateUrl: './xm-array-control-example.component.html',
-    styleUrls: ['./xm-array-control-example.component.scss'],
 })
 export class XmArrayControlExampleComponent {
 

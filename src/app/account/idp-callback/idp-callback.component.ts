@@ -1,9 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LoginService } from '@xm-ngx/core/auth';
-import { combineLatest } from 'rxjs';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TERMS_ERROR } from '../../xm.constants';
 
@@ -18,7 +18,6 @@ interface IErrorTerm {
 @Component({
   selector: 'xm-idp-callback',
   templateUrl: './idp-callback.component.html',
-  styleUrls: ['./idp-callback.component.scss']
 })
 export class IdpCallbackComponent implements OnDestroy {
 

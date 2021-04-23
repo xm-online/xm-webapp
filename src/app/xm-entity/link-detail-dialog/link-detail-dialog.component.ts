@@ -8,7 +8,6 @@ import { XmEntity } from '../shared/xm-entity.model';
 @Component({
     selector: 'xm-link-detail-dialog',
     templateUrl: './link-detail-dialog.component.html',
-    styleUrls: ['./link-detail-dialog.component.scss'],
 })
 export class LinkDetailDialogComponent implements OnInit {
 

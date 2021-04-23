@@ -12,7 +12,6 @@ import {
 @Component({
     selector: 'xm-text-example',
     templateUrl: './xm-text-example.component.html',
-    styleUrls: ['./xm-text-example.component.scss'],
 })
 export class XmTextExampleComponent {
 

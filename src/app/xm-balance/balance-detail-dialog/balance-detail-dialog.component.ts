@@ -8,7 +8,6 @@ import { PocketService } from '../shared/pocket.service';
 @Component({
     selector: 'xm-balance-detail-dialog',
     templateUrl: './balance-detail-dialog.component.html',
-    styleUrls: ['./balance-detail-dialog.component.scss'],
 })
 export class BalanceDetailDialogComponent implements OnInit {
 

@@ -7,7 +7,6 @@ import { User, UserService } from '../../../../../src/app/shared';
 @Component({
     selector: 'xm-unblock-lock-user',
     templateUrl: './unblock-lock-user.component.html',
-    styleUrls: ['./unblock-lock-user.component.scss'],
 })
 export class UnblockLockUserComponent {
     @Input() public user: User;

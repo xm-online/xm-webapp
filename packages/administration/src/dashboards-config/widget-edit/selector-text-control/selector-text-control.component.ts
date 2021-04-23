@@ -13,7 +13,6 @@ import { map, shareReplay, startWith } from 'rxjs/operators';
 @Component({
     selector: 'xm-selector-text-control',
     templateUrl: './selector-text-control.component.html',
-    styleUrls: ['./selector-text-control.component.scss'],
     providers: [
         WidgetListService,
         {

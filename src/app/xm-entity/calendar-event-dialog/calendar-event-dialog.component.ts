@@ -17,7 +17,6 @@ import { XmEntity } from '../shared/xm-entity.model';
 @Component({
     selector: 'xm-calendar-event-dialog',
     templateUrl: './calendar-event-dialog.component.html',
-    styleUrls: ['./calendar-event-dialog.component.scss'],
 })
 export class CalendarEventDialogComponent implements OnInit {
 
