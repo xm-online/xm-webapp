@@ -7,7 +7,7 @@
   <div class="d-flex" *ngFor="let instance of route.serviceInstances">
 
     <!--  link  -->
-    <div [style.width]="'25%'"><a href="{{instance.uri}}" target="_blank">{{instance.uri}}</a></div>
+    <div [style.width]="'25%'"><a href="{{instance.uri}}" target="_blank" rel=noopener>{{instance.uri}}</a></div>
 
     <!--  badge  -->
     <div [style.width]="'5%'">
