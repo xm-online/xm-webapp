@@ -6,6 +6,7 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { XmDynamicPresentationEntryModule } from '../../../dynamic/src/presentation';
 import { XmTextViewContainerComponent } from './xm-text-view-container.component';
+import { CommonModule } from '@angular/common';
 
 export interface XmTextViewOptions extends XmTextTitleOptions, DataQa {
     style?: 'inline';
@@ -25,7 +26,14 @@ export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
         <xm-text-view-container [styleInline]="!!this.options?.style">
             <span xmLabel>{{options.title | translate}}</span>
             <span [attr.data-qa]="options.dataQa"
-                  xmValue>{{value || (options.emptyValue | translate)}}</span>
+                  xmValue>
+                <span *ngIf="value !== undefined; else emptyValue">
+                    {{ value }}
+                </span>
+                <ng-template #emptyValue>
+                    {{options.emptyValue | translate}}
+                </ng-template>
+            </span>
         </xm-text-view-container>
     `,
 })
@@ -45,7 +53,7 @@ export class XmTextViewComponent implements XmDynamicPresentation<Primitive, XmT
 }
 
 @NgModule({
-    imports: [XmTranslationModule],
+    imports: [XmTranslationModule, CommonModule],
     exports: [XmTextViewComponent, XmTextViewContainerComponent],
     declarations: [XmTextViewComponent, XmTextViewContainerComponent],
 })
