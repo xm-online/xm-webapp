@@ -18,6 +18,7 @@
   },
   "scripts": {
     "ng": "ng",
+    "xm-ngx": "xm-ngx",
     "prestart": "npm run prebuild",
     "start": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng serve",
     "prestart:prod": "npm run prebuild",

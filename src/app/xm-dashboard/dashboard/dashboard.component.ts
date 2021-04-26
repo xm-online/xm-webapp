@@ -29,11 +29,10 @@ interface DashboardLayout {
 })
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
 
-    private logger: XmLogger;
-
     public dashboard: Dashboard = { isPublic: false };
     public showLoader: boolean;
     public spec: Spec;
+    private logger: XmLogger;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -114,6 +113,10 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
             if (k === 'widgetName') {
                 layout.widget = widgets.find((w) => w.name === layout[k]);
+                if (!layout.widget) {
+                    this.logger.error('The dashboard layout has a reference to the non-existing widget '
+                        + `widgetName=${layout[k]}.`);
+                }
             }
 
             if (layout[k] && typeof layout[k] === 'object') {
