@@ -22,4 +22,8 @@ export const XM_DATE_ELEMENTS: XmDynamicEntry[] = [
         selector: '@xm-ngx/components/date-range-control',
         loadChildren: () => import('./xm-date-range-control').then(m => m.XmDateRangeControlModule),
     },
+    {
+        selector: '@xm-ngx/components/datetime-control',
+        loadChildren: () => import('./xm-datetime-control').then(m => m.XmDatetimeControlModule),
+    },
 ];
