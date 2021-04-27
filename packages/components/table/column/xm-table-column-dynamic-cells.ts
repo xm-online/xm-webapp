@@ -1,10 +1,10 @@
-import { CDK_TABLE } from '@angular/cdk/table';
-import { Component, Inject, Input, NgModule, ViewChild } from '@angular/core';
-import { MatSortModule } from '@angular/material/sort';
-import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule } from '@angular/material/table';
-import { TableColumnsManager } from '@xm-ngx/components/table/column/table-columns-manager';
-import { XM_TEXT_TITLE_ENTRY } from '@xm-ngx/components/text/text-title';
-import { XmDynamicCell, XmDynamicCellModule, XmDynamicModule } from '@xm-ngx/dynamic';
+import {CDK_TABLE} from '@angular/cdk/table';
+import {Component, Inject, Input, NgModule, ViewChild, ViewEncapsulation} from '@angular/core';
+import {MatSortModule} from '@angular/material/sort';
+import {MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule} from '@angular/material/table';
+import {TableColumnsManager} from '@xm-ngx/components/table/column/table-columns-manager';
+import {XM_TEXT_TITLE_ENTRY} from '@xm-ngx/components/text/text-title';
+import {XmDynamicCell, XmDynamicCellModule, XmDynamicModule} from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 
 
@@ -77,6 +77,12 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
             </td>
         </ng-container>
     `,
+    styles: [`
+        .mat-sort-header-container {
+            border-bottom: none !important;
+        }
+    `],
+    encapsulation: ViewEncapsulation.None,
 })
 /**
  * @beta
