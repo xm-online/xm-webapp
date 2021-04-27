@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { XmCheckboxControlModule } from '@xm-ngx/components/checkbox-control';
+import { XmCheckboxControlModule } from '@xm-ngx/components/bool';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmEmailControlModule, XmPasswordControlModule } from '@xm-ngx/components/text';
 import { XmTranslationModule } from '@xm-ngx/translation';

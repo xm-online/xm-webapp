@@ -1,4 +1,4 @@
-import { XmCheckboxControlOptions } from '@xm-ngx/components/checkbox-control';
+import { XmCheckboxControlOptions } from '@xm-ngx/components/bool';
 import { XmEmailControlOptions, XmPasswordControlOptions } from '@xm-ngx/components/text';
 import { Translate } from '@xm-ngx/translation';
 

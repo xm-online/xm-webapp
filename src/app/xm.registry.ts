@@ -1,4 +1,5 @@
 import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/array-control';
+import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/bool';
 import { XM_COPY_ELEMENTS } from '@xm-ngx/components/copy';
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/date';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/html';
@@ -11,6 +12,7 @@ export const XM_ELEMENTS: XmDynamicEntries = [
     ...XM_DATE_ELEMENTS,
     ...XM_HTML_ELEMENTS,
     ...XM_TEXT_ELEMENTS,
+    ...XM_BOOL_ELEMENTS,
     ...XM_COPY_ELEMENTS,
     ...XM_LINK_ELEMENTS,
     ...XM_ENUM_ELEMENTS,
@@ -124,14 +126,6 @@ export const XM_ELEMENTS: XmDynamicEntries = [
         loadChildren: () => import('@xm-ngx/components/currency').then(m => m.XmCurrencyValueModule),
     },
     {
-        selector: '@xm-ngx/components/xm-bool-view',
-        loadChildren: () => import('@xm-ngx/components/bool').then(m => m.BoolValueModule),
-    },
-    {
-        selector: '@xm-ngx/components/xm-bool-control',
-        loadChildren: () => import('@xm-ngx/components/bool').then(m => m.XmBoolControlModule),
-    },
-    {
         selector: '@xm-ngx/components/links-group-widget',
         loadChildren: () => import('@xm-ngx/components/links-group-widget').then(m => m.LinksGroupWidgetModule),
     },
@@ -166,10 +160,6 @@ export const XM_ELEMENTS: XmDynamicEntries = [
     {
         selector: '@xm-ngx/components/number-control',
         loadChildren: () => import('@xm-ngx/components/number-control').then(m => m.XmNumberControlModule),
-    },
-    {
-        selector: '@xm-ngx/components/checkbox-control',
-        loadChildren: () => import('@xm-ngx/components/checkbox-control').then(m => m.XmCheckboxControlModule),
     },
     {
         selector: '@xm-ngx/components/dynamic-list-widget',

@@ -3,7 +3,7 @@ import { NgModule, Type } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EDIT_DASHBOARD_EVENT } from '@xm-ngx/administration/dashboards-config/const';
 import { XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
-import { BoolValueModule } from '@xm-ngx/components/bool';
+import { XmBoolModule } from '@xm-ngx/components/bool';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmTextControlModule } from '@xm-ngx/components/text';
 import { XmSharedModule } from '@xm-ngx/shared';
@@ -25,7 +25,7 @@ import { EDIT_WIDGET_EVENT, WidgetEditComponent } from './widget-edit/widget-edi
         CommonModule,
         XmSharedModule,
         LoaderModule,
-        BoolValueModule,
+        XmBoolModule,
         XmAceEditorControlModule,
         XmTextControlModule,
         RouterModule,
