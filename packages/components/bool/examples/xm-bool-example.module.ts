@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { BoolValueModule, XmBoolControlModule } from '@xm-ngx/components/bool';
+import { XmBoolModule, XmBoolControlModule, XmCheckboxControlModule } from '@xm-ngx/components/bool';
+import { XmCodeContainerModule, XmCodeModule } from '@xm-ngx/components/code';
 import { XmBoolExampleComponent } from './xm-bool-example/xm-bool-example.component';
 
 
@@ -10,7 +11,10 @@ import { XmBoolExampleComponent } from './xm-bool-example/xm-bool-example.compon
     imports: [
         CommonModule,
         XmBoolControlModule,
-        BoolValueModule,
+        XmBoolModule,
+        XmCodeContainerModule,
+        XmCodeModule,
+        XmCheckboxControlModule,
     ],
 })
 export class XmBoolExampleModule {

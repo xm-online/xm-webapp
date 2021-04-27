@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { XmCheckboxControlModule } from '@xm-ngx/components/checkbox-control';
+import { XmCheckboxControlModule } from '@xm-ngx/components/bool';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmLabeledViewContainerModule, XmTextControlModule, XmTextRangeControlModule } from '@xm-ngx/components/text';
