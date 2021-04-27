@@ -12,7 +12,7 @@ export interface XmCheckboxControlOptions extends DataQa {
     cancelable: boolean,
 }
 
-const XM_CHECKBOX_CONTROL_DEFAULT_OPTIONS: XmCheckboxControlOptions = {
+export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
     title: '',
     id: null,
     dataQa: 'checkbox-control',
@@ -54,7 +54,7 @@ const XM_CHECKBOX_CONTROL_DEFAULT_OPTIONS: XmCheckboxControlOptions = {
 })
 /** @beta */
 export class XmCheckboxControl extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmCheckboxControlOptions> {
-    private _options: XmCheckboxControlOptions = clone(XM_CHECKBOX_CONTROL_DEFAULT_OPTIONS);
+    private _options: XmCheckboxControlOptions = clone(XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT);
 
     public get options(): XmCheckboxControlOptions {
         return this._options;
@@ -62,6 +62,6 @@ export class XmCheckboxControl extends NgFormAccessor<Primitive> implements XmDy
 
     @Input()
     public set options(value: XmCheckboxControlOptions) {
-        this._options = defaults({}, value, XM_CHECKBOX_CONTROL_DEFAULT_OPTIONS);
+        this._options = defaults({}, value, XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT);
     }
 }
