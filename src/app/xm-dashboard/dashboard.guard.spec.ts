@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { XmLoggerService } from '@xm-ngx/logger';
+import { MockXmLogger } from '@xm-ngx/logger/testing';
 
 import { DashboardGuard } from './dashboard.guard';
 import { DashboardWrapperService } from './shared/dashboard-wrapper.service';
@@ -12,6 +14,7 @@ describe('DashboardGuard', () => {
         TestBed.configureTestingModule({
             providers: [
                 DashboardGuard,
+                { provide: XmLoggerService, useClass: MockXmLogger },
                 { provide: DashboardWrapperService, useValue: {} },
                 { provide: DefaultDashboardService, useValue: {} },
             ],
