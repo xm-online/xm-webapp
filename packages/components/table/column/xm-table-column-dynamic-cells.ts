@@ -1,4 +1,5 @@
 import { CDK_TABLE } from '@angular/cdk/table';
+import { CommonModule } from '@angular/common';
 import { Component, Inject, Input, NgModule, ViewChild } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule } from '@angular/material/table';
@@ -56,17 +57,34 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
     selector: 'xm-table-column-dynamic-cells',
     template: `
         <ng-container matColumnDef>
-            <th *matHeaderCellDef
-                mat-header-cell
-                mat-sort-header
-                [class]="column.headClass"
-                [style]="column.headStyle"
-                [disabled]="isSortable()">
 
-                <ng-container xmDynamicPresentation
-                              [selector]="column.head.selector"
-                              [options]="column.head.options"></ng-container>
-            </th>
+            <ng-template #headerCellRef>
+                <th *matHeaderCellDef
+                    mat-header-cell
+                    [class]="column.headClass"
+                    [style]="column.headStyle">
+                    <ng-container xmDynamicPresentation
+                                  [selector]="column.head.selector"
+                                  [options]="column.head.options"></ng-container>
+                </th>
+            </ng-template>
+
+            <ng-template #headerCellWithSortingRef>
+                <th *matHeaderCellDef
+                    mat-header-cell
+                    mat-sort-header
+                    [class]="column.headClass"
+                    [style]="column.headStyle">
+                    <ng-container xmDynamicPresentation
+                                  [selector]="column.head.selector"
+                                  [options]="column.head.options"></ng-container>
+                </th>
+            </ng-template>
+
+            <ng-template [ngIf]="column.head.sortable"
+                         [ngIfThen]="headerCellWithSortingRef"
+                         [ngIfElse]="headerCellRef"></ng-template>
+
             <td mat-cell
                 [class]="column.bodyClass"
                 [style]="column.bodyStyle"
@@ -114,10 +132,6 @@ export class XmTableColumnDynamicCellsComponent {
         this.columnsManager.removeColumnDef(this.columnDef);
     }
 
-    public isSortable(): boolean {
-        return !this._column.head.sortable;
-    }
-
     private _syncColumnDefName(): void {
         if (this.columnDef) {
             this.columnDef.name = this._column.name || this._column.body.field;
@@ -131,6 +145,7 @@ export class XmTableColumnDynamicCellsComponent {
         MatSortModule,
         XmDynamicCellModule,
         XmDynamicModule,
+        CommonModule,
     ],
     exports: [XmTableColumnDynamicCellsComponent],
     declarations: [XmTableColumnDynamicCellsComponent],
