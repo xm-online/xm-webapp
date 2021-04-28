@@ -17,7 +17,7 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
     id: null,
     dataQa: 'checkbox-control',
     class: '',
-    cancelable: true,
+    cancelable: false,
 };
 
 @Component({
@@ -26,7 +26,7 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
         <mat-checkbox [attr.data-qa]="options.dataQa"
                       [formControl]="control"
                       [class]="options.class || 'pt-2'"
-                      [indeterminate]="value === false"
+                      [indeterminate]="options.cancelable && value === false"
                       [id]="options.id">
             {{options.title | translate}}
             <div class="xm-checkbox-control__placeholder"><span></span></div>
@@ -36,7 +36,7 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
                 mat-icon-button
                 [disabled]="control.disabled"
                 aria-label="Clear"
-                (click)="change('')">
+                (click)="control.patchValue('')">
             <mat-icon>close</mat-icon>
         </button>
     `,
