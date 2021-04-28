@@ -12,7 +12,7 @@ import { XmCoreModule } from '@xm-ngx/core';
 import { AuthServerProvider, Principal, UserRouteAccessService, XmCoreAuthModule } from '@xm-ngx/core/auth';
 import { XmCoreConfigModule } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
-import { globalErrorHandlerFactory } from '@xm-ngx/core/global-error-handler';
+//import { globalErrorHandlerFactory } from '@xm-ngx/core/global-error-handler';
 import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardModule } from '@xm-ngx/dashboard';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
@@ -55,7 +55,7 @@ import { XM_ELEMENTS } from './xm.registry';
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],
     providers: [
-        globalErrorHandlerFactory(),
+        //globalErrorHandlerFactory(),
         themeInitializerFactory(),
         proxyInterceptorFactory({ url: environment.serverApiUrl, excludedUrls: ['http', 'i18n', 'assets'] }),
         XmApplicationConfigService,
