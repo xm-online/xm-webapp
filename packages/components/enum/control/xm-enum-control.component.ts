@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { XmEnumOptionsItem } from '../value/xm-enum.component';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/shared/interfaces';
+import { Translate } from '@xm-ngx/translation';
 import { clone, defaults, keyBy } from 'lodash';
+import { XmEnumOptionsItem } from '../value/xm-enum.component';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
 
 
@@ -11,8 +12,9 @@ export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
     id?: string;
     required?: boolean;
     /** @deprecated use {@link items} instead */
-    enum?: XmEnumControlOptionsItem[]
-    items: XmEnumControlOptionsItem[]
+    enum?: XmEnumControlOptionsItem[];
+    items: XmEnumControlOptionsItem[];
+    clearButtonText?: Translate | string;
 }
 
 export interface XmEnumControlOptionsItem extends XmEnumOptionsItem {
@@ -26,6 +28,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
     required: false,
     enum: [],
     items: [],
+    clearButtonText: 'admin-config.common.cancel'
 };
 
 @Component({
@@ -44,6 +47,11 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
                         {{(itemsMap[value].title | translate) || ''}}
                     </ng-container>
                 </mat-select-trigger>
+
+                <mat-option [hidden]="!value">
+                    <mat-icon>close</mat-icon>
+                    {{ options.clearButtonText | translate}}
+                </mat-option>
 
                 <ng-template ngFor [ngForOf]="itemsList" let-item>
                     <mat-option [value]="item.value" *xmPermission="item.permissions || []">
