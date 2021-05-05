@@ -14,8 +14,8 @@ export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
     /** @deprecated use {@link items} instead */
     enum?: XmEnumControlOptionsItem[];
     items: XmEnumControlOptionsItem[];
+    showClearButton?: boolean;
     clearButtonText?: Translate | string;
-    clearButton?: boolean;
 }
 
 export interface XmEnumControlOptionsItem extends XmEnumOptionsItem {
@@ -29,7 +29,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
     required: false,
     enum: [],
     items: [],
-    clearButton: false,
+    showClearButton: false,
     clearButtonText: 'admin-config.common.cancel'
 };
 
@@ -50,7 +50,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
                     </ng-container>
                 </mat-select-trigger>
 
-                <ng-container *ngIf="options.clearButton">
+                <ng-container *ngIf="options.showClearButton">
                     <mat-option [hidden]="!value">
                         <mat-icon>close</mat-icon>
                         {{ options.clearButtonText | translate}}
