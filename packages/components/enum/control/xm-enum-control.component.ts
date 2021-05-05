@@ -15,6 +15,7 @@ export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
     enum?: XmEnumControlOptionsItem[];
     items: XmEnumControlOptionsItem[];
     clearButtonText?: Translate | string;
+    clearButton?: boolean;
 }
 
 export interface XmEnumControlOptionsItem extends XmEnumOptionsItem {
@@ -28,6 +29,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
     required: false,
     enum: [],
     items: [],
+    clearButton: false,
     clearButtonText: 'admin-config.common.cancel'
 };
 
@@ -48,10 +50,12 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
                     </ng-container>
                 </mat-select-trigger>
 
-                <mat-option [hidden]="!value">
-                    <mat-icon>close</mat-icon>
-                    {{ options.clearButtonText | translate}}
-                </mat-option>
+                <ng-container *ngIf="options.clearButton">
+                    <mat-option [hidden]="!value">
+                        <mat-icon>close</mat-icon>
+                        {{ options.clearButtonText | translate}}
+                    </mat-option>
+                </ng-container>
 
                 <ng-template ngFor [ngForOf]="itemsList" let-item>
                     <mat-option [value]="item.value" *xmPermission="item.permissions || []">
@@ -69,7 +73,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
 })
 export class XmEnumControlComponent extends NgFormAccessor<string> implements XmDynamicControl<string, XmEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];
-    public itemsMap: { [value: string]: XmEnumControlOptionsItem };
+    public itemsMap: {[value: string]: XmEnumControlOptionsItem};
     private _options: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);
 
     public get options(): XmEnumControlOptions {
