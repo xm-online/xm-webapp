@@ -41,7 +41,6 @@ interface UIResponseConfigResponses {
 @Component({
     selector: 'xm-alert-error',
     templateUrl: './alert-error.component.html',
-    styleUrls: ['./alert-error.component.scss'],
 })
 export class JhiAlertErrorComponent implements OnDestroy {
 

@@ -5,7 +5,6 @@ import { XmConfigService } from '../../../../../src/app/shared';
 @Component({
     selector: 'xm-uaa-mng',
     templateUrl: './uaa-mng.component.html',
-    styleUrls: ['./uaa-mng.component.scss'],
 })
 export class UaaMngComponent implements OnInit {
     @Input() public disabled: boolean;

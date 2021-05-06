@@ -7,7 +7,6 @@ import { map } from 'rxjs/operators';
 @Component({
     selector: 'xm-user-login-widget',
     templateUrl: './xm-user-login-widget.component.html',
-    styleUrls: ['./xm-user-login-widget.component.scss'],
 })
 export class XmUserLoginWidgetComponent implements OnInit {
 

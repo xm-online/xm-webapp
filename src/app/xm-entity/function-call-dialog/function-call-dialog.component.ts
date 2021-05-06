@@ -18,7 +18,6 @@ declare let $: any;
 @Component({
     selector: 'xm-function-call-dialog',
     templateUrl: './function-call-dialog.component.html',
-    styleUrls: ['./function-call-dialog.component.scss'],
 })
 export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
 

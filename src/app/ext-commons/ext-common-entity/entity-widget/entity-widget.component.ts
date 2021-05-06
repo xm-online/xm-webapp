@@ -12,7 +12,6 @@ import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 @Component({
     selector: 'xm-entity-widget',
     templateUrl: './entity-widget.component.html',
-    styleUrls: ['./entity-widget.component.scss'],
 })
 export class EntityWidgetComponent implements OnInit, OnDestroy {
 

@@ -14,7 +14,6 @@ import { XmEntityService } from '../shared/xm-entity.service';
 @Component({
     selector: 'xm-rating-list-section',
     templateUrl: './rating-list-section.component.html',
-    styleUrls: ['./rating-list-section.component.scss'],
 })
 export class RatingListSectionComponent implements OnChanges {
 

@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { environment } from '@xm-ngx/core/environment';
+import { XmLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { Observable, zip } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
-import { XmPublicUiConfigService } from '@xm-ngx/core';
-import { XmLayout } from '@xm-ngx/dynamic';
 
 interface PublicSlugLayout {
     slug: string;
@@ -22,7 +22,6 @@ interface PublicConfig {
 @Component({
     selector: 'xm-public',
     templateUrl: './xm-public.component.html',
-    styleUrls: ['./xm-public.component.scss'],
 })
 export class XmPublicComponent implements OnInit, OnDestroy {
 

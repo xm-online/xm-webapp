@@ -1,15 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { StatesManagementDialogComponent } from '@xm-ngx/entity/states-management-dialog';
-import { ConfigVisualizerDialogComponent } from '../config-visualizer-dialog/config-visualizer-dialog.component';
 import { XmConfigService } from '../../../../../src/app/shared/spec/config.service';
 
 import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
+import { ConfigVisualizerDialogComponent } from '../config-visualizer-dialog/config-visualizer-dialog.component';
 
 @Component({
     selector: 'xm-entity-spec-mng',
     templateUrl: './entity-spec-management.component.html',
-    styleUrls: ['./entity-spec-management.component.scss'],
 })
 export class EntitySpecManagementComponent implements OnInit {
 

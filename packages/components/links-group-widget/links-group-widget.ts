@@ -46,7 +46,6 @@ export interface LinksGroupWidgetConfig {
             </nav>
         </div>
     `,
-    styleUrls: ['./links-group-widget.component.scss'],
 })
 export class LinksGroupWidget {
     @Input()

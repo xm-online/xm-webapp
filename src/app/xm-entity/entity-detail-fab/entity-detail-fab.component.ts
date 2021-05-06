@@ -15,7 +15,6 @@ import { XmEntity } from '../shared/xm-entity.model';
 @Component({
     selector: 'xm-entity-detail-fab',
     templateUrl: './entity-detail-fab.component.html',
-    styleUrls: ['./entity-detail-fab.component.scss'],
 })
 export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
 

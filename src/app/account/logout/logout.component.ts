@@ -2,20 +2,19 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
+import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmEntitySpecWrapperService } from '@xm-ngx/entity';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { SessionStorageService } from 'ngx-webstorage';
+import { combineLatest } from 'rxjs';
+import { IIdpClient } from '../../../../packages/core/src/xm-public-idp-config-model';
 
 import { LoginService } from '../../shared';
-import { SessionStorageService } from 'ngx-webstorage';
 import { IDP_CLIENT } from '../../xm.constants';
-import { IIdpClient } from '../../../../packages/core/src/xm-public-idp-config-model';
-import { XmUiConfigService } from '@xm-ngx/core/config';
-import { combineLatest } from 'rxjs';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 @Component({
     selector: 'xm-logout',
     templateUrl: './logout.component.html',
-    styleUrls: ['./logout.component.scss'],
 })
 export class LogoutComponent implements OnInit, OnDestroy {
 

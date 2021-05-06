@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router } from '@angular/router';
+import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { Dashboard, DashboardWrapperService } from '@xm-ngx/dashboard';
 import { XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { transpilingForIE } from '@xm-ngx/json-scheme-form';
@@ -11,7 +12,6 @@ import { combineLatest, from, Observable } from 'rxjs';
 import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 
 import { ContextService, Principal } from '../../../src/app/shared';
-import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { DEFAULT_MENU_LIST } from './menu-const';
 import { MenuCategory, MenuItem } from './menu-models';
 
@@ -142,7 +142,6 @@ export function categoriesToMenuItems(categories: MenuCategory[]): MenuItem[] {
     host: {
         class: 'xm-menu',
     },
-    styleUrls: ['./menu.component.scss'],
     animations: [
         matExpansionAnimations.bodyExpansion,
         matExpansionAnimations.indicatorRotate,

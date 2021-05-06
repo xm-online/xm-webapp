@@ -24,7 +24,6 @@ const TRANSLATES = {
 @Component({
     selector: 'xm-feedback-dialog',
     templateUrl: './feedback-dialog.component.html',
-    styleUrls: ['./feedback-dialog.component.scss'],
 })
 export class FeedbackDialogComponent {
 

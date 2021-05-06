@@ -5,7 +5,6 @@ import { FeedService } from './feed.service';
 @Component({
     selector: 'xm-news-widget',
     templateUrl: './news-widget.component.html',
-    styleUrls: ['./news-widget.component.scss'],
 })
 export class NewsWidgetComponent implements OnInit {
 

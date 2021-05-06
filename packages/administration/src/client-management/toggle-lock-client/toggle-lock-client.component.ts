@@ -6,7 +6,6 @@ import { Client, ClientService, ClientState } from '../../../../../src/app/share
 @Component({
     selector: 'xm-toggle-lock-client',
     templateUrl: './toggle-lock-client.component.html',
-    styleUrls: ['./toggle-lock-client.component.scss'],
 })
 export class ToggleLockClientComponent {
     public ClientState: typeof ClientState = ClientState;

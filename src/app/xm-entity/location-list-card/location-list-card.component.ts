@@ -20,7 +20,6 @@ declare let google: any;
 @Component({
     selector: 'xm-location-list-card',
     templateUrl: './location-list-card.component.html',
-    styleUrls: ['./location-list-card.component.scss'],
 })
 export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
 

@@ -14,7 +14,6 @@ import { XmEntity } from '../shared/xm-entity.model';
 @Component({
     selector: 'xm-comment-detail-dialog',
     templateUrl: './comment-detail-dialog.component.html',
-    styleUrls: ['./comment-detail-dialog.component.scss'],
 })
 export class CommentDetailDialogComponent implements OnInit {
 

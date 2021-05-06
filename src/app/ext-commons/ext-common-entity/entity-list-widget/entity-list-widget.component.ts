@@ -7,7 +7,6 @@ import { Spec } from '../../../xm-entity';
 @Component({
     selector: 'xm-entity-list-widget',
     templateUrl: './entity-list-widget.component.html',
-    styleUrls: ['./entity-list-widget.component.scss'],
 })
 export class EntityListWidgetComponent implements OnInit {
 

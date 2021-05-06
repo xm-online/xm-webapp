@@ -10,7 +10,6 @@ import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 @Component({
     selector: 'xm-entity-list-fab',
     templateUrl: './entity-list-fab.component.html',
-    styleUrls: ['./entity-list-fab.component.scss'],
 })
 export class EntityListFabComponent {
 

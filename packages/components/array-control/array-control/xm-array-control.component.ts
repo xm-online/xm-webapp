@@ -34,7 +34,6 @@ export const XM_ARRAY_CONTROL_OPTIONS_DEFAULT: XmArrayControlOptions = {
 @Component({
     selector: 'xm-array-control',
     templateUrl: './xm-array-control.component.html',
-    styleUrls: ['./xm-array-control.component.scss'],
 })
 export class XmArrayControlComponent extends NgFormAccessor<string[]> {
     public inputControl: FormControl = new FormControl();

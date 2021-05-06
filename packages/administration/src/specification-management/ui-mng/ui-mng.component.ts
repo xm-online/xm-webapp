@@ -7,7 +7,6 @@ import { XmConfigService } from '../../../../../src/app/shared';
 @Component({
     selector: 'xm-ui-mng',
     templateUrl: './ui-mng.component.html',
-    styleUrls: ['./ui-mng.component.scss'],
 })
 export class UiMngComponent implements OnInit {
 

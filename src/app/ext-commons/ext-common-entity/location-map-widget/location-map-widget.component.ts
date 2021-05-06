@@ -12,7 +12,6 @@ declare const MarkerClusterer: any;
 @Component({
     selector: 'xm-location-map-widget',
     templateUrl: './location-map-widget.component.html',
-    styleUrls: ['./location-map-widget.component.scss'],
 })
 export class LocationMapWidgetComponent implements OnInit {
 

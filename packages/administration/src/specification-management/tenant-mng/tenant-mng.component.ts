@@ -8,7 +8,6 @@ const TENANT_SPEC_PATH = '/tenant-config.yml';
 @Component({
     selector: 'xm-tenant-mng',
     templateUrl: './tenant-mng.component.html',
-    styleUrls: ['./tenant-mng.component.scss'],
 })
 export class TenantMngComponent implements OnInit {
     @Input() public disabled: boolean;

@@ -6,7 +6,6 @@ import { Principal, XmConfigService } from '../../../../../src/app/shared';
 @Component({
     selector: 'xm-private-ui-mng',
     templateUrl: './private-ui-mng.component.html',
-    styleUrls: ['./private-ui-mng.component.scss'],
 })
 export class PrivateUiMngComponent implements OnInit {
     @Input() public disabled: boolean;

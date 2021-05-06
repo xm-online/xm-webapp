@@ -10,7 +10,6 @@ import { LogsService } from './logs.service';
 
 @Component({
     selector: 'xm-logs',
-    styleUrls: ['./logs.component.scss'],
     templateUrl: './logs.component.html',
 })
 export class LogsComponent implements OnInit {
