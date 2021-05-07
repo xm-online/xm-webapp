@@ -44,7 +44,7 @@ export class DatetimePickerComponent implements OnInit {
         const value = event.value || null;
         const formatString = this.getFormat();
         this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
-        this.jsf.updateValue(this, moment(value).utc().format(DEF_FORMAT));
+        this.jsf.updateValue(this, this.getSendValue(value));
     }
 
     private getFormat(): string {
@@ -54,5 +54,17 @@ export class DatetimePickerComponent implements OnInit {
     private setLocalizedButtons(): void {
         this.dateTimeAdapterLabels.cancelBtnLabel = this.translateService.instant('global.common.cancel');
         this.dateTimeAdapterLabels.setBtnLabel = this.translateService.instant('global.common.set');
+    }
+
+    private getSendValue(value: string | unknown): string {
+        let valueToSend: string;
+
+        if (this.options && this.options.sendFormatString) {
+            valueToSend = moment(value).format(this.options.sendFormatString);
+        } else {
+            valueToSend = moment(value).utc().format(DEF_FORMAT);
+        }
+
+        return valueToSend;
     }
 }
