@@ -122,6 +122,10 @@ export const XM_ELEMENTS: XmDynamicEntries = [
         loadChildren: () => import('@xm-ngx/components/mat-fab').then(m => m.MatFabModule),
     },
     {
+        selector: '@xm-ngx/components/file-control',
+        loadChildren: () => import('@xm-ngx/components/file').then(m => m.FileControlModule),
+    },
+    {
         selector: '@xm-ngx/components/currency-value',
         loadChildren: () => import('@xm-ngx/components/currency').then(m => m.XmCurrencyValueModule),
     },
