@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { XmEnumOptionsItem } from '../value/xm-enum.component';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/shared/interfaces';
-import { clone, defaults, keyBy } from 'lodash';
+import { clone, defaults, forEach, keyBy } from 'lodash';
+import { XmEnumOptionsItem } from '../value/xm-enum.component';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
 
 
@@ -72,6 +72,7 @@ export class XmEnumControlComponent extends NgFormAccessor<string> implements Xm
     public set options(value: XmEnumControlOptions) {
         this._options = defaults({}, value, XM_ENUM_CONTROL_OPTIONS_DEFAULT);
         this.itemsList = value.items || value.enum;
+        forEach(this.itemsList, (item) => item.value = String(item.value || ''));
         this.itemsMap = keyBy(this.itemsList, 'value');
 
         if (value?.enum) {
