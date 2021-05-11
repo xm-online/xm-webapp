@@ -80,7 +80,6 @@ export class XmDatetimeControl extends NgFormAccessor<XmDateValue> implements On
                 if ((this.control.value as Moment)?.seconds() !== 0 && this.options.ignoreSeconds) {
                     this.control.patchValue(value.seconds(0));
                 }
-                debugger;
             })
     }
 
