@@ -40,7 +40,7 @@ export class DatetimePickerComponent implements OnInit {
         if (this.controlValue) {
             const formatString = this.getFormat();
             if (!this.controlValueModel) {
-                this.controlValueModel = moment(this.controlValue, formatString || null).local().format();
+                this.controlValueModel = moment(this.controlValue).local().format();
             }
             this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
         }
