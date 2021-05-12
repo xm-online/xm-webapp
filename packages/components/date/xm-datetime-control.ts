@@ -9,7 +9,6 @@ import {MatInputModule} from '@angular/material/input';
 import {ControlErrorModule} from '@xm-ngx/components/control-error';
 import {XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule} from '@xm-ngx/dynamic';
 import {XmTranslationModule} from '@xm-ngx/translation';
-import {XmDateValue} from './xm-date.component';
 import {XmDateControlOptions} from '@xm-ngx/components/date/xm-date-control';
 import {DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule} from 'ng-pick-datetime';
 import {NgFormAccessor} from '@xm-ngx/components/ng-accessor';
@@ -63,7 +62,7 @@ const MY_CUSTOM_FORMATS = {
         </mat-form-field>
     `,
 })
-export class XmDatetimeControl extends NgFormAccessor<XmDateValue> implements OnInit, OnDestroy{
+export class XmDatetimeControl extends NgFormAccessor<Moment> implements OnInit, OnDestroy{
     @Input() public options: XmDatetimeControlOptions;
 
     public ngOnInit(): void {
@@ -110,6 +109,6 @@ export class XmDatetimeControl extends NgFormAccessor<XmDateValue> implements On
     exports: [XmDatetimeControl],
     declarations: [XmDatetimeControl],
 })
-export class XmDatetimeControlModule implements XmDynamicEntryModule<XmDynamicControl<XmDateValue, XmDatetimeControlOptions>> {
-    public entry: XmDynamicControlConstructor<XmDateValue, XmDatetimeControlOptions> = XmDatetimeControl;
+export class XmDatetimeControlModule implements XmDynamicEntryModule<XmDynamicControl<Moment, XmDatetimeControlOptions>> {
+    public entry: XmDynamicControlConstructor<Moment, XmDatetimeControlOptions> = XmDatetimeControl;
 }
