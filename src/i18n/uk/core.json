@@ -589,7 +589,7 @@
       "otpValidateButton": "Send OTP",
       "otpValidateCancel": "Cancel",
       "password": "Пароль",
-      "rememberMe": "Пам'ятай мене",
+      "rememberMe": "Запам'ятати мене",
       "show-password": "Показати пароль"
     },
     "messages": {
