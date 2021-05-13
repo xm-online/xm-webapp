@@ -20,6 +20,7 @@ export class DatetimePickerComponent implements OnInit {
     @Input() public layoutNode: any;
 
     public controlValue: any;
+    public controlValueModel: any;
     public controlValueDisplayed: any;
     public options: DatetimePickerOptionsModel;
 
@@ -38,6 +39,9 @@ export class DatetimePickerComponent implements OnInit {
         this.setLocalizedButtons();
         if (this.controlValue) {
             const formatString = this.getFormat();
+            if (!this.controlValueModel) {
+                this.controlValueModel = moment(this.controlValue).local().format();
+            }
             this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
         }
     }
@@ -45,7 +49,7 @@ export class DatetimePickerComponent implements OnInit {
     public updateValue(event: any): void {
         const value = event.value || null;
         const formatString = this.getFormat();
-        this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
+        this.controlValueDisplayed = moment(this.controlValueModel).local().format(formatString);
         this.jsf.updateValue(this, this.getSendValue(value));
     }
 

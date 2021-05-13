@@ -7,7 +7,7 @@
          #controlName="ngModel"
          [owlDateTimeTrigger]="picker"
          [owlDateTime]="picker"
-         [(ngModel)]="controlValue"
+         [(ngModel)]="controlValueModel"
          (dateTimeChange)="updateValue($event)"
          [required]="options['required']"
          [disabled]="options['readonly']"
