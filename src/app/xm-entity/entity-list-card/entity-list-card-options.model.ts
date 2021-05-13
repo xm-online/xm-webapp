@@ -40,25 +40,23 @@ export interface FieldOptions {
     useKeyword?: boolean;
     func?: string;
     action?: ActionOptions;
-    actions?: ActionsOptions[];
+    actions?: ActionOptions[];
     actionsListPrivileges?: string[];
     sortable?: boolean;
 }
 
 export interface ActionOptions {
     name?: any;
+    className?: string;
+    navigateByInnerUrl?: string;
     functionKey?: string;
+    privilege?: string[] | string;
     handler?: (entity: XmEntity) => any;
     actionCondition?: (entity: XmEntity) => any;
 }
 
-export interface ActionsOptions {
-    name?: any;
-    functionKey?: string;
-    privilege?: string[];
-    handler?: (entity: XmEntity) => any;
-    actionCondition?: (entity: XmEntity) => any;
-}
+/** @deprecated use ActionOptions instead */
+export interface ActionsOptions extends ActionOptions {}
 
 export interface FilterOptions {
     template?: string;

@@ -178,6 +178,22 @@
         </td>
       </ng-container>
 
+      <ng-container *ngSwitchCase="'action'">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td *matCellDef="let xmEntity">
+          <ng-container *ngIf="!field.action.actionCondition || (field.action.actionCondition(xmEntity))">
+            <ng-container *permitted="field.action.privilege">
+              <button (click)="onAction(item, xmEntity, field.action)"
+                      class="size-sm {{field.action.className}}"
+                      color="primary"
+                      mat-flat-button>
+                <span>{{(field.action.name | translate) || '&nbsp;'}}</span>
+              </button>
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+
       <ng-container *ngSwitchCase="'stateKey'">
         <th mat-header-cell
             *matHeaderCellDef
