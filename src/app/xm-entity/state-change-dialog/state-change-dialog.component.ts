@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { XmAlertService } from '@xm-ngx/alert';
+import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
 import { buildJsfAttributes } from '../../shared/jsf-extention/jsf-attributes-helper';
@@ -22,7 +23,7 @@ export class StateChangeDialogComponent implements OnInit {
     @Input() public dialogTitle: any;
     @Input() public buttonTitle: any;
 
-    public jsfAttributes: any;
+    public jsfAttributes: JsfAttributes;
     public formData: any = {};
     public showLoader: boolean;
     public isJsonFormValid: boolean = true;

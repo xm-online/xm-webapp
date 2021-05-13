@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
+import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 
 import { XmToasterService } from '@xm-ngx/toaster';
 import { UUID } from 'angular2-uuid';
@@ -30,7 +31,7 @@ export class LinkDetailNewSectionComponent implements OnInit, OnDestroy, AfterVi
     public xmEntity: XmEntity = {};
     public xmEntitySpec: XmEntitySpec;
     public availableSpecs: XmEntitySpec[];
-    public jsfAttributes: any;
+    public jsfAttributes: JsfAttributes;
     public showLoader: boolean;
     public isJsonFormValid: boolean = true;
     public isEdit: boolean;

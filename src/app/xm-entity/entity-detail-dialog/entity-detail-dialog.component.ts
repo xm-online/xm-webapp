@@ -11,6 +11,7 @@ import { LanguageModule } from '@xm-ngx/components/language';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmEventManager } from '@xm-ngx/core';
+import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
@@ -38,7 +39,7 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
 
     public availableSpecs: XmEntitySpec[];
     public selectedXmEntitySpec: XmEntitySpec;
-    public jsfAttributes: any;
+    public jsfAttributes: JsfAttributes;
     public name: string;
     public isEdit: boolean;
     public showLoader: boolean;
