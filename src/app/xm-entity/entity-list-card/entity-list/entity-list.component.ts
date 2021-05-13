@@ -23,7 +23,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
 import { merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
+import { flattenEntityWithPath, getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
 import { ContextService } from '../../../shared';
 import { saveFile } from '../../../shared/helpers/file-download-helper';
 import { XM_EVENT_LIST } from '../../../xm.constants';
@@ -194,7 +194,10 @@ export class EntityListComponent implements OnInit, OnDestroy {
             action.handler(xmEntity);
             return null;
         }
-
+        if (action.navigateByInnerUrl) {
+            this.navigateByConfigUrl(action.navigateByInnerUrl, xmEntity);
+            return null;
+        }
         const modalRef = this.modalService.open(FunctionCallDialogComponent, { width: '500px' });
         this.translateService.get('xm-entity.entity-list-card.action-dialog.question', {
             action: this.translate.transform(action.name),
@@ -368,5 +371,26 @@ export class EntityListComponent implements OnInit, OnDestroy {
         return entity;
     }
 
-
+    private navigateByConfigUrl(configUrl: string, e: XmEntity): void {
+        const fEntity = flattenEntityWithPath(e);
+        const navUrl = configUrl && configUrl.split('?')[0];
+        const strParams = configUrl && configUrl.split('?')[1];
+        if (navUrl) {
+            try {
+                const params =
+                    strParams && JSON.parse(
+                        '{"' + decodeURI(strParams)
+                            .replace(/"/g, '\\"')
+                            .replace(/&/g, '","')
+                            .replace(/=/g,'":"') + '"}');
+                const queryParams = {};
+                params && Object.keys(params).forEach(key => {
+                    Object.assign(queryParams, {[key]: fEntity[params[key]]});
+                })
+                this.router.navigate([navUrl], {queryParams});
+            } catch (e) {
+                this.router.navigate([navUrl])
+            }
+        }
+    }
 }
