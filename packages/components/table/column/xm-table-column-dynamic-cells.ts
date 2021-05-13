@@ -1,9 +1,11 @@
 import { CDK_TABLE } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, NgModule, ViewChild } from '@angular/core';
+import { Component, Inject, Input, NgModule, Type, ViewChild } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule } from '@angular/material/table';
-import { TableColumnsManager } from './table-columns-manager';
+import { TableColumnsManager } from '@xm-ngx/components/table/column/table-columns-manager';
+import { XmDynamicColumn } from '@xm-ngx/components/table/column/xm-table-dynamic-column';
+import { XM_TEXT_TITLE_ENTRY } from '@xm-ngx/components/text/text-title';
 import { XmDynamicCell, XmDynamicCellModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 import { XmTextTitleComponent, XmTextTitleModule } from '@xm-ngx/components/text';
@@ -101,7 +103,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
 /**
  * @beta
  */
-export class XmTableColumnDynamicCellsComponent {
+export class XmTableColumnDynamicCellsComponent implements XmDynamicColumn<any> {
     @ViewChild(MatCellDef, { static: true }) protected cell: MatCellDef;
     @ViewChild(MatColumnDef, { static: true }) protected columnDef: MatColumnDef;
     @ViewChild(MatHeaderCellDef, { static: true }) protected headerCell: MatHeaderCellDef;
@@ -158,4 +160,5 @@ export class XmTableColumnDynamicCellsComponent {
     declarations: [XmTableColumnDynamicCellsComponent],
 })
 export class XmTableColumnDynamicCellsModule {
+    public entry: Type<XmTableColumnDynamicCellsComponent> = XmTableColumnDynamicCellsComponent;
 }
