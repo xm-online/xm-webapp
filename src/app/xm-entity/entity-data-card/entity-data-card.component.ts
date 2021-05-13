@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
+import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
 
@@ -21,7 +22,7 @@ export class EntityDataCardComponent implements OnInit {
     @Input() public preventDefaultUpdateError?: boolean;
     @Output() public onSaveError: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    public jsfAttributes: any;
+    public jsfAttributes: JsfAttributes;
     public showLoader: boolean;
 
     constructor(

@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
+import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { catchError, filter, finalize, share, tap } from 'rxjs/operators';
 import { getFileNameFromResponseContentDisposition, saveFile } from '../../shared/helpers/file-download-helper';
@@ -29,7 +30,7 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
     @Input() public onError: any;
     @Input() public preSendHandler: any;
 
-    public jsfAttributes: any;
+    public jsfAttributes: JsfAttributes;
     public formData: any = {};
     public isJsonFormValid: boolean = true;
 
