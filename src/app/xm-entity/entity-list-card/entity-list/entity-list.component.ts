@@ -389,7 +389,6 @@ export class EntityListComponent implements OnInit, OnDestroy {
                 })
                 this.router.navigate([navUrl], {queryParams});
             } catch (e) {
-                console.error(e);
                 this.router.navigate([navUrl])
             }
         }

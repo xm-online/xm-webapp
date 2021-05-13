@@ -56,7 +56,15 @@ export interface ActionOptions {
 }
 
 /** @deprecated use ActionOptions instead */
-export interface ActionsOptions extends ActionOptions {}
+export interface ActionsOptions extends ActionOptions {
+    name?: any;
+    className?: string;
+    navigateByInnerUrl?: string;
+    functionKey?: string;
+    privilege?: string[] | string;
+    handler?: (entity: XmEntity) => any;
+    actionCondition?: (entity: XmEntity) => any;
+}
 
 export interface FilterOptions {
     template?: string;
