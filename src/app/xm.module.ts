@@ -21,6 +21,7 @@ import { HttpLoaderFactory, LanguageService, TitleService, XmTranslationModule }
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
+import { XmLoggerWatcherService } from '../../packages/logger/src/xm-logger-watcher.service';
 
 import { IdleLogoutService } from './account/logout/idle-logout.service';
 import { XmMainComponent } from './layouts';
@@ -70,6 +71,7 @@ export class XmModule {
         languageService: LanguageService,
         idleLogoutService: IdleLogoutService,
         titleService: TitleService,
+        loggerWatcherService: XmLoggerWatcherService,
         authServerProvider: AuthServerProvider,
         principal: Principal,
     ) {
@@ -78,5 +80,6 @@ export class XmModule {
         idleLogoutService.init();
         languageService.init();
         titleService.init();
+        loggerWatcherService.init();
     }
 }
