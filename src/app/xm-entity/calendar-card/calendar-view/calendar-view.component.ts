@@ -58,7 +58,7 @@ export class CalendarViewComponent implements OnChanges {
     ) {}
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.calendar.currentValue) {
+        if (changes.calendar && changes.calendar.currentValue) {
             this.initCalendar();
         }
     }
@@ -103,7 +103,7 @@ export class CalendarViewComponent implements OnChanges {
                 },
             },
             events: ({ start, end }, callback): void => {
-                this.calendarService.getEvents(this.calendar.id, {
+                this.calendar.id && this.calendarService.getEvents(this.calendar.id, {
                     'endDate.greaterThanOrEqual':
                         `${moment(start).subtract(1, 'd').format('YYYY-MM-DD')}T${moment(start).format('HH:mm:ss')}Z`,
                     'startDate.lessThanOrEqual':
