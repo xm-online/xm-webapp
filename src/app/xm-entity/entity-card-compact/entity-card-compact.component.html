@@ -10,7 +10,7 @@
           <img src="{{xmEntity.avatarUrl}}">
         </div>
         <div *ngIf="!xmEntity.avatarUrl" class="card-icon">
-          <i class="material-icons">{{xmEntitySpec.icon ? xmEntitySpec.icon : './assets/img/placeholder.png'}}</i>
+          <mat-icon>{{xmEntitySpec.icon ? xmEntitySpec.icon : './assets/img/placeholder.png'}}</mat-icon>
         </div>
       </ng-container>
       <h4 class="card-title">{{xmEntity.name}}</h4>

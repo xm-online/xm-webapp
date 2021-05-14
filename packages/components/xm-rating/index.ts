@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, forwardRef, HostListener, Input, NgModule, OnInit, Output } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'rating',
@@ -16,12 +17,12 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
               [attr.aria-valuemax]="ratingRange.length"
               [attr.aria-valuenow]="model">
     <span *ngFor="let item of ratingRange; let index = index">
-        <i (mouseenter)="setHovered(item)"
+        <mat-icon (mouseenter)="setHovered(item)"
            (mousemove)="changeHovered($event)"
            (click)="rate(item)"
            [attr.data-icon]="fullIcon"
            class="{{ iconClass }} half{{ calculateWidth(item) }}"
-           [title]="titles[index] || item">{{ emptyIcon }}</i>
+           [title]="titles[index] || item">{{ emptyIcon }}</mat-icon>
     </span>
 </span>
     `,
@@ -329,7 +330,7 @@ export class Rating implements OnInit, ControlValueAccessor, Validator {
 }
 
 @NgModule({
-    imports: [CommonModule],
+    imports: [CommonModule, MatIconModule],
     declarations: [Rating],
     exports: [Rating],
 })

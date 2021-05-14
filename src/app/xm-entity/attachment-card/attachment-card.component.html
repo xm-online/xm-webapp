@@ -20,10 +20,10 @@
     <div class="stats">{{getFileSize(2)}}</div>
     <div class="navbar-right">
       <a (click)="onDownload()" *xmPermitted="['ATTACHMENT.GET_LIST.ITEM']" href="javascript: void(0);" role="button">
-        <i class="material-icons">file_download</i>
+        <mat-icon>file_download</mat-icon>
       </a>
       <a (click)="onRemove()" *xmPermitted="['ATTACHMENT.DELETE']" href="javascript: void(0);" role="button">
-        <i class="material-icons">close</i>
+        <mat-icon>close</mat-icon>
       </a>
     </div>
   </div>

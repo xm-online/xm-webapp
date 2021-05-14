@@ -5,7 +5,7 @@
         <img src="{{link.target.avatarUrl}}">
       </div>
       <p>{{link.target.name}}</p>
-      <i *ngIf="!link.target.targets" class="material-icons">keyboard_arrow_right</i>
+      <mat-icon class="xm-link-avatar" *ngIf="!link.target.targets">keyboard_arrow_right</mat-icon>
     </span>
     <xm-link-list-tree-section *ngIf="filterByLinkType(link.target.targets).length > 0" [linkSpec]="linkSpec"
                                [links]="filterByLinkType(link.target.targets)">

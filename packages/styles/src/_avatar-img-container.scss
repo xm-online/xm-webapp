@@ -16,7 +16,8 @@ $xm-avatar-img-container-width:  $xm-avatar-img-container-size !default;
     position: relative;
   }
 
-  .xm-avatar-img-container > i {
+  .xm-avatar-img-container > i,
+  .xm-avatar-img-container > .xm-avatar-icon {
     border-radius: $xm-avatar-img-container-radius;
     color:         $xm-avatar-img-container-color;
     display:       block;

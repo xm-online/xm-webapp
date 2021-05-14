@@ -7,7 +7,7 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
         <div class="card">
             <div class="card-header card-header-icon card-header-primary">
                 <div class="card-icon">
-                    <i class="material-icons">{{'attach_file'}}</i>
+                    <mat-icon>{{'attach_file'}}</mat-icon>
                 </div>
                 <h4 class="card-title">{{'xm-entity.attachment-card.title'|translate}}</h4>
             </div>
@@ -48,7 +48,7 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
                                 <td>
                                     <div class="xm-avatar-img-container">
                                         <img src="./assets/img/placeholder.png">
-                                        <i class="material-icons">attach_file</i>
+                                        <mat-icon class="xm-avatar-icon">attach_file</mat-icon>
                                     </div>
                                 </td>
                                 <td>{{attachment.name}}</td>
@@ -58,13 +58,13 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
                                     <a href="javascript: void(0);"
                                        (click)="onDownload(attachment)"
                                        *xmPermitted="['ATTACHMENT.GET_LIST.ITEM']">
-                                        <i class="material-icons">cloud_download</i>
+                                        <mat-icon>cloud_download</mat-icon>
                                     </a>
                                     &nbsp;
                                     <a href="javascript: void(0);"
                                        (click)="onRemove(attachment)"
                                        *xmPermitted="['ATTACHMENT.DELETE']">
-                                        <i class="material-icons">delete</i>
+                                        <mat-icon>delete</mat-icon>
                                     </a>
                                 </td>
                             </tr>

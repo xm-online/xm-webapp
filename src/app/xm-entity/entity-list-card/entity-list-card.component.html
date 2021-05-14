@@ -3,7 +3,7 @@
   <!-- start header for the one entity type  -->
   <div *ngSwitchCase="true" class="card-header card-header-icon card-header-primary">
     <div class="card-icon">
-      <i class="material-icons">{{list[0]?.xmEntitySpec?.icon ? list[0]?.xmEntitySpec?.icon : 'search'}}</i>
+      <mat-icon>{{list[0]?.xmEntitySpec?.icon ? list[0]?.xmEntitySpec?.icon : 'search'}}</mat-icon>
     </div>
     <h4 *ngSwitchCase="true" class="card-title">{{list[0].name | translate}}</h4>
   </div>

@@ -11,6 +11,7 @@ import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { JhiGatewayComponent } from './gateway.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { JhiGatewayComponent } from './gateway.component';
         MatPaginatorModule,
         MatTableModule,
         MatSortModule,
+        MatIconModule,
     ],
     exports: [JhiGatewayComponent],
     declarations: [JhiGatewayComponent],

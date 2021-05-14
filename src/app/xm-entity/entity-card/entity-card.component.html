@@ -2,7 +2,7 @@
   <div class="card-header card-header-icon card-header-primary text-left">
     <ng-container *ngSwitchCase="false">
       <div *ngIf="xmEntitySpec.icon" class="card-icon">
-        <i class="material-icons">{{xmEntitySpec.icon}}</i>
+        <mat-icon>{{xmEntitySpec.icon}}</mat-icon>
       </div>
     </ng-container>
     <h4 class="card-title"><strong>{{xmEntitySpec.name | translate}}</strong> - {{xmEntity.name}}</h4>
@@ -33,8 +33,8 @@
       <div *ngSwitchCase="true" class="col-auto text-center">
         <div class="avatar-container-card">
           <img src="{{xmEntity.avatarUrl ? xmEntity.avatarUrl : './assets/img/placeholder.png'}}">
-          <i class="avatar-container-icon material-icons"
-             *ngIf="xmEntitySpec.icon && !xmEntity.avatarUrl">{{xmEntitySpec.icon}}</i>
+          <mat-icon class="avatar-container-icon"
+             *ngIf="xmEntitySpec.icon && !xmEntity.avatarUrl">{{xmEntitySpec.icon}}</mat-icon>
           <button class="edit-avatar"
                   mat-icon-button
                   role="button"
