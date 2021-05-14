@@ -46,9 +46,11 @@ export class XmRibbonComponent implements OnInit, OnDestroy {
             takeUntilOnDestroy(this),
             delay(700),
         ).subscribe(([server]) => {
-            const favicon = this.config.favicons.find((i) => i.server === server);
-            if (favicon) {
-                changeFavicon(favicon.url);
+            if (this.config && this.config.favicons) {
+                const favicon = this.config.favicons.find((i) => i.server === server);
+                if (favicon) {
+                    changeFavicon(favicon.url);
+                }
             }
         });
     }
