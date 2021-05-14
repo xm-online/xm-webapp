@@ -77,6 +77,7 @@ export class CalendarCardComponent implements OnChanges {
                     const calendar: Calendar = {};
                     calendar.name = this.i18nNamePipe.transform(calendarSpec.name, this.principal);
                     calendar.typeKey = calendarSpec.key;
+                    calendar.readonly = calendarSpec.readonly;
                     calendar.startDate = new Date().toISOString();
                     calendar.uuid = UUID.UUID();
                     calendar.xmEntity = {};

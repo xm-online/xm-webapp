@@ -123,7 +123,7 @@ export class CalendarViewComponent implements OnChanges {
             },
             locale: this.languageService.getUserLocale(),
             defaultDate: new Date(),
-            selectable: true,
+            selectable: !(this.calendar.readonly),
             editable: false,
             eventLimit: true,
             timezone: this.getCalendarTimezone(),
@@ -161,19 +161,21 @@ export class CalendarViewComponent implements OnChanges {
     }
 
     private onShowEventDialog(start: any, end: any, calendar: ICalendar, event: Event): void {
-        const calendarApi = this.calendarComponent.getApi();
-        const modifiedEvent = this.formatEventDates(event, start, end);
-        const modalRef = this.modalService.open(CalendarEventDialogComponent, { backdrop: 'static' });
-        modalRef.componentInstance.xmEntity = this.xmEntity;
-        modalRef.componentInstance.timezone = this.getCalendarTimezone();
-        modalRef.componentInstance.event = modifiedEvent;
-        modalRef.componentInstance.calendar = calendar;
-        modalRef.componentInstance.calendarSpec = this.spec;
-        modalRef.componentInstance.onAddEvent = (): void => {
-            calendarApi.refetchEvents();
-        };
-        modalRef.componentInstance.onRemoveEvent = (event: Event, callback?: () => void): void => {
-            this.onRemove(event, callback);
+        if (!this.calendar.readonly) {
+            const calendarApi = this.calendarComponent.getApi();
+            const modifiedEvent = this.formatEventDates(event, start, end);
+            const modalRef = this.modalService.open(CalendarEventDialogComponent, { backdrop: 'static' });
+            modalRef.componentInstance.xmEntity = this.xmEntity;
+            modalRef.componentInstance.timezone = this.getCalendarTimezone();
+            modalRef.componentInstance.event = modifiedEvent;
+            modalRef.componentInstance.calendar = calendar;
+            modalRef.componentInstance.calendarSpec = this.spec;
+            modalRef.componentInstance.onAddEvent = (): void => {
+                calendarApi.refetchEvents();
+            };
+            modalRef.componentInstance.onRemoveEvent = (event: Event, callback?: () => void): void => {
+                this.onRemove(event, callback);
+            }
         }
     }
 
