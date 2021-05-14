@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { JhiHealth, JhiHealthService } from './health.service';
 
-
-import { JhiHealthService } from './health.service';
 
 @Component({
     selector: 'xm-health-modal',
@@ -10,14 +9,7 @@ import { JhiHealthService } from './health.service';
 })
 export class JhiHealthModalComponent implements OnInit {
 
-    public currentHealth: any;
-    public aceEditorOptions: any = {
-        highlightActiveLine: false,
-        maxLines: 1000,
-        printMargin: false,
-        showGutter: false,
-        autoScrollEditorIntoView: true,
-    };
+    public currentHealth: JhiHealth;
     public editorValue: string;
 
     constructor(public activeModal: MatDialogRef<JhiHealthModalComponent>,
@@ -28,11 +20,11 @@ export class JhiHealthModalComponent implements OnInit {
         this.editorValue = JSON.stringify(this.currentHealth, null, 4) || null;
     }
 
-    public baseName(name: any): string {
+    public baseName(name: string): string {
         return this.healthService.getBaseName(name);
     }
 
-    public subSystemName(name: any): string {
+    public subSystemName(name: string): string {
         return this.healthService.getSubSystemName(name);
     }
 

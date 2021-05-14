@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SpecificationManagementComponent } from '@xm-ngx/administration/specification-management/specification-management.component';
+import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { XmConfigService } from '../../../../../src/app/shared';
 
 @Component({
@@ -14,9 +15,12 @@ export class UaaMngComponent implements OnInit {
     public uaaValidation: any;
     public isUaaSpecValid: boolean;
 
-    public aceEditorOptions: any = {
-        highlightActiveLine: true,
-        maxLines: 50,
+    public aceEditorOptions: XmAceEditorControlOptions = {
+        mode: 'yaml',
+        options: {
+            highlightActiveLine: true,
+            maxLines: 50,
+        },
     };
 
     constructor(

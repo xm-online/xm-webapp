@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ConfigValidatorUtil } from '@xm-ngx/administration/specification-management/config-validator/config-validator.util';
+import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { finalize } from 'rxjs/operators';
 import { Principal, XmConfigService } from '../../../../../src/app/shared';
 
@@ -15,9 +16,12 @@ export class PrivateUiMngComponent implements OnInit {
     public uiPrivateValidation: any;
     public isUiPrivateSpecValid: boolean;
     public uiPrivateSpecificationProgress: boolean;
-    public aceEditorOptions: any = {
-        highlightActiveLine: true,
-        maxLines: 50,
+    public aceEditorOptions: XmAceEditorControlOptions = {
+        mode: 'yaml',
+        options: {
+            highlightActiveLine: true,
+            maxLines: 50,
+        },
     };
 
     constructor(

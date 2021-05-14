@@ -70,16 +70,10 @@
         </div>
 
         <div *ngIf="formConfig$ | async as formConfig">
-          <div xmAceEditor
-               *ngIf="visible.schema"
-               [text]="formConfig"
-               [options]="aceEditorOptions"
-               [readOnly]="false"
-               [autoUpdateContent]="true"
-               (textChanged)="generateForm($event)"
-               style="width:100%; overflow: auto; border: 1px solid lightgray;">
-            <span>{{'formPlayground.loading'|translate}}</span>
-          </div>
+          <xm-ace-editor-control (valueChange)="generateForm($event)"
+                                 *ngIf="visible.schema"
+                                 [options]="aceEditorOptions"
+                                 [value]="formConfig"></xm-ace-editor-control>
         </div>
 
       </div>
@@ -89,7 +83,7 @@
   <div class="col-md-6">
     <mat-card class="card">
       <div class="card-header card-header-icon card-header-primary">
-        <h4 class="card-title" >{{'formPlayground.result'|translate}}</h4>
+        <h4 class="card-title">{{'formPlayground.result'|translate}}</h4>
       </div>
       <div class="card-body">
         <div *ngIf="!formActive">{{jsonFormStatusMessage}}</div>
@@ -115,7 +109,7 @@
     </mat-card>
     <mat-card class="card">
       <div class="card-header card-header-icon card-header-primary">
-        <h4 class="card-title" >{{'formPlayground.output'|translate}}</h4>
+        <h4 class="card-title">{{'formPlayground.output'|translate}}</h4>
       </div>
       <div class="card-body">
         <div>

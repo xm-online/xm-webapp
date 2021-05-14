@@ -6,6 +6,12 @@ import { SERVER_API_URL } from '../../../../src/app/xm.constants';
 
 const SERVICES_COLLECTION = '/api/monitoring/services';
 
+export interface JhiHealth {
+    error: string;
+    details: string;
+    name: string
+}
+
 @Injectable()
 export class JhiHealthService {
     public separator: string;
@@ -26,7 +32,7 @@ export class JhiHealthService {
         return this.http.get(SERVER_API_URL + 'management/health');
     }
 
-    public transformHealthData(data: any): any {
+    public transformHealthData(data: any): any[] {
         const response = [];
         this.flattenHealthData(response, null, data.details);
         return response;
@@ -51,7 +57,7 @@ export class JhiHealthService {
     }
 
     /* private methods */
-    private addHealthObject(result: any, isLeaf: any, healthObject: any, name: any): any {
+    private addHealthObject(result: any, isLeaf: boolean, healthObject: any, name: string): any {
         const healthData: any = {
             name,
         };
@@ -85,7 +91,7 @@ export class JhiHealthService {
         return healthData;
     }
 
-    private flattenHealthData(result: any, path: any, data: any): any {
+    private flattenHealthData(result: any, path: string, data: any): any {
         for (const key in data) {
             if (data.hasOwnProperty(key)) {
                 const value = data[key];
@@ -102,7 +108,7 @@ export class JhiHealthService {
         return result;
     }
 
-    private getModuleName(path: any, name: any): string {
+    private getModuleName(path: string, name: string): string {
         let result;
         if (path && name) {
             result = path + this.separator + name;

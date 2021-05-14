@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JhiHealthModalComponent } from './health-modal.component';
 
-import { JhiHealthService } from './health.service';
+import { JhiHealth, JhiHealthService } from './health.service';
 
 @Component({
     selector: 'xm-health',
@@ -87,7 +87,7 @@ export class JhiHealthCheckComponent implements OnInit {
         return this.healthService.getBaseName(name);
     }
 
-    public getBadgeClass(statusState: any): string {
+    public getBadgeClass(statusState: string): string {
         if (statusState === 'UP') {
             return 'badge-success';
         } else {
@@ -95,7 +95,7 @@ export class JhiHealthCheckComponent implements OnInit {
         }
     }
 
-    public showHealth(health: any): void {
+    public showHealth(health: JhiHealth): void {
         const modalRef = this.modalService.open(JhiHealthModalComponent, { width: '500px' });
         modalRef.componentInstance.currentHealth = health;
     }
