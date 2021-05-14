@@ -1,11 +1,11 @@
 <div class="ext-md-editor">
   <div class="ext-md-editor__header">
     <div class="ext-md-editor__message" *ngIf="controlValue?.length else emptyMessage">
-      {{ 'global.shared.ext-md-editor.placeholder' | translate }} <b>{{ options?.title }}</b>!
+      {{ 'global.shared.ext-md-editor.placeholder' | translate }} <strong>{{ options?.title }}</strong>!
     </div>
     <ng-template #emptyMessage>
       <div class="ext-md-editor__message">
-        {{ 'global.shared.ext-md-editor.placeholder-empty' | translate }} <b>{{ options?.title }}</b>!
+        {{ 'global.shared.ext-md-editor.placeholder-empty' | translate }} <strong>{{ options?.title }}</strong>!
       </div>
     </ng-template>
 
