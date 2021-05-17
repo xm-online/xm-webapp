@@ -56,37 +56,47 @@ export class AttachmentDetailDialogComponent implements OnInit {
         this.readOnlyInputs = this.attachmentSpecs[0].isNameReadonly ? this.attachmentSpecs[0].isNameReadonly : true;
     }
 
+
     public setFileData(event: any, nameCtrl: any): void {
         if (event.target.files && event.target.files[0]) {
-            const file = event.target.files[0];
+            this.createAttachment(event.target.files, nameCtrl);
+        }
+    }
 
-            // Content type validation
-            const attachmentSpec = this.attachmentSpecs
-                .filter((att: any) => att.key === this.attachment.typeKey).shift();
+    public dropFileData(files: any, nameCtrl: any): void {
+        if (files && files.length) {
+            this.createAttachment(files, nameCtrl);
+        }
+    }
 
-            if (attachmentSpec
-                && attachmentSpec.contentTypes
-                && attachmentSpec.contentTypes.filter((type: string) => type === file.type).length <= 0) {
-                console.warn(`Not allowed content type ${file.type}`);
-                this.wrongFileType = file.type;
-                return;
-            }
+    private createAttachment(files: File[], nameCtrl: any): void {
+        const file = files[0];
+        // Content type validation
+        const attachmentSpec = this.attachmentSpecs
+            .filter((att: any) => att.key === this.attachment.typeKey).shift();
 
-            this.wrongFileType = undefined;
+        if (attachmentSpec
+            && attachmentSpec.contentTypes
+            && attachmentSpec.contentTypes.filter((type: string) => type === file.type).length <= 0) {
+            console.warn(`Not allowed content type ${file.type}`);
+            this.wrongFileType = file.type;
+            return;
+        }
 
-            this.attachment.contentUrl = file.name;
-            this.attachment.valueContentType = file.type;
+        this.wrongFileType = undefined;
 
-            // Content assignment
-            this.dataUtils.toBase64(file, (base64Data) => {
-                this.attachment.content.value = base64Data;
-            });
+        this.attachment.contentUrl = file.name;
+        this.attachment.valueContentType = file.type;
 
-            // Default attachment name
-            if (!this.attachmentSpecs[0].defaultFileName) {
-                this.attachment.name = file.name;
-                nameCtrl.classList.remove('is-empty');
-            }
+        // Content assignment
+        this.dataUtils.toBase64(file, (base64Data) => {
+            this.attachment.content.value = base64Data;
+        });
+
+        // Default attachment name
+        if (!this.attachmentSpecs[0].defaultFileName) {
+            this.attachment.name = file.name;
+            nameCtrl.classList.remove('is-empty');
         }
     }
 
