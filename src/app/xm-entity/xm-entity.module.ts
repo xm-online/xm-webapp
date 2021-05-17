@@ -74,13 +74,14 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { CalendarViewComponent } from './calendar-card/calendar-view/calendar-view.component';
 import { OwlDateTimeModule } from 'ng-pick-datetime';
-import { JsfTestComponent } from './entity-data-card/jsf-test/jsf-test.component';
+import { XmJsfExtModule } from "../xm-jsf-ext.module";
 
 @NgModule({
   imports: [
     CommonModule,
     XmSharedModule,
     RouterModule,
+    XmJsfExtModule,
     MaterialDesignFrameworkModule,
     {
       ngModule: JsonSchemaFormModule,
@@ -139,7 +140,6 @@ import { JsfTestComponent } from './entity-data-card/jsf-test/jsf-test.component
         AttachmentListSimplifiedComponent,
         AttachmentListBaseComponent,
         CalendarViewComponent,
-        JsfTestComponent,
     ],
     entryComponents: [
         StatesManagementDialogComponent,
@@ -153,7 +153,6 @@ import { JsfTestComponent } from './entity-data-card/jsf-test/jsf-test.component
         LinkDetailDialogComponent,
         LocationDetailDialogComponent,
         OsmPolygonDialogComponent,
-        JsfTestComponent,
     ],
     exports: [
         AreaComponent,
