@@ -94,8 +94,8 @@
       <td mat-cell *matCellDef="let xmEntity">
         <div class="xm-avatar-img-container">
           <img src="{{xmEntity.avatarUrl ? xmEntity.avatarUrl : './assets/img/placeholder.png'}}">
-          <i class="material-icons"
-             *ngIf="xmEntity.type?.icon && !xmEntity.avatarUrl">{{xmEntity.type?.icon}}</i>
+          <mat-icon class="xm-avatar-icon"
+             *ngIf="xmEntity.type?.icon && !xmEntity.avatarUrl">{{xmEntity.type?.icon}}</mat-icon>
         </div>
       </td>
     </ng-container>
@@ -161,7 +161,7 @@
         <td *matCellDef="let xmEntity">
           <div class="xm-table-options dropdown" *permitted="field.actionsListPrivileges">
                       <span class="dropdown-toggle" data-toggle="dropdown" href="#pablo" aria-expanded="false">
-                        <i class="material-icons text_align-center visible-on-sidebar-regular">more_vert</i>
+                        <mat-icon class="text_align-center visible-on-sidebar-regular">more_vert</mat-icon>
                       </span>
             <ul class="dropdown-menu" x-placement="bottom-start">
               <ng-container *ngFor="let action of field.actions">
@@ -202,7 +202,7 @@
         <td *matCellDef="let xmEntity">
           <div *ngIf="xmEntity.state" class="xm-state">
             <div [style.background]="xmEntity.state?.color" class="xm-state-icon">
-              <i class="material-icons">{{xmEntity.state?.icon}}</i>
+              <mat-icon>{{xmEntity.state?.icon}}</mat-icon>
             </div>
             {{xmEntity.state?.name | translate}}
           </div>
@@ -224,7 +224,7 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td *matCellDef="let xmEntity">
         <a (click)="onRemove(xmEntity)" href="javascript: void(0);">
-          <i class="material-icons">close</i>
+          <mat-icon>close</mat-icon>
         </a>
       </td>
     </ng-container>

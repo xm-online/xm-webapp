@@ -33,7 +33,7 @@
             </ng-template>
 
             <ng-template #iconTpl>
-              <i class="material-icons">{{button?.icon}}</i>
+              <mat-icon>{{button?.icon}}</mat-icon>
             </ng-template>
           </ng-container>
         </ng-container>
@@ -43,7 +43,7 @@
               [style.backgroundColor]="mainButton?.bgColor"
               [style.color]="mainButton?.color"
               class="xm-fab-button fab-main-button">
-        <i class="material-icons">{{ mainButton?.icon }}</i>
+        <mat-icon>{{ mainButton?.icon }}</mat-icon>
         <span *ngIf="mainButton?.title" class="fab-title">{{ mainButton?.title | translate }}</span>
       </button>
     </div>

@@ -1,7 +1,7 @@
 <div class="card" *ngIf="isCardVisible">
   <div class="card-header card-header-icon card-header-primary">
     <div class="card-icon">
-      <i class="material-icons">{{isBackLink ? 'link' : linkSpec.model.icon}}</i>
+      <mat-icon>{{isBackLink ? 'link' : linkSpec.model.icon}}</mat-icon>
     </div>
     <h4 class="card-title">{{linkSpec.model.name | translate}}</h4>
   </div>
@@ -45,8 +45,7 @@
             <td *matCellDef="let link">
               <div class="xm-avatar-img-container">
                 <img src="{{link.target.avatarUrl ? link.target.avatarUrl : './assets/img/placeholder.png'}}">
-                <i *ngIf="linkSpec.model.icon && !link.target.avatarUrl"
-                   class="material-icons">{{linkSpec.model.icon}}</i>
+                <mat-icon class="xm-avatar-icon" *ngIf="linkSpec.model.icon && !link.target.avatarUrl">{{linkSpec.model.icon}}</mat-icon>
               </div>
             </td>
           </ng-container>

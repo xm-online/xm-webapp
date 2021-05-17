@@ -89,18 +89,18 @@
 <div class="xm-fab">
   <div class="xm-fab-drop">
     <button (click)="refresh()" [disabled]="loading" class="xm-fab-option">
-      <i class="material-icons">refresh</i>
+      <mat-icon>refresh</mat-icon>
     </button>
     <button (click)="tenantConfigRefresh()" *xmPermitted="['CONFIG.CLIENT.REFRESH']" [disabled]="loading"
             class="xm-fab-option">
-      <i class="material-icons">system_update_alt</i>
+      <mat-icon>system_update_alt</mat-icon>
     </button>
     <button (click)="tenantElasticUpdate()" *xmPermitted="['ELASTICSEARCH.INDEX']" [disabled]="loading"
             class="xm-fab-option">
-      <i class="material-icons">search</i>
+      <mat-icon>search</mat-icon>
     </button>
   </div>
   <button [disabled]="loading" class="btn btn-primary btn-icon btn-just-icon rounded-circle btn-lg" mat-button>
-    <i class="material-icons">build</i>
+    <mat-icon>build</mat-icon>
   </button>
 </div>

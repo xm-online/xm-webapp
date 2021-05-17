@@ -32,8 +32,8 @@
     </table>
     <div>
       <button (click)="isShowCalc = !isShowCalc;" class="btn btn-primary rounded-circle">
-        <i *ngIf="!isShowCalc" class="material-icons">arrow_drop_down</i>
-        <i *ngIf="isShowCalc" class="material-icons">arrow_drop_up</i>
+        <mat-icon *ngIf="!isShowCalc">arrow_drop_down</mat-icon>
+        <mat-icon *ngIf="isShowCalc">arrow_drop_up</mat-icon>
         <span>{{'ext-common.exchange-widget.title'|translate}}</span>
       </button>
     </div>

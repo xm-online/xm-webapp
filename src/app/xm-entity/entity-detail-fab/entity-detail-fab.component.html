@@ -3,25 +3,25 @@
     <button (click)="onAddAttachment()"
             *xmPermitted="['ATTACHMENT.CREATE']; context: xmAttachmentContext()"
             class="xm-fab-option">
-      <i class="material-icons">attach_file</i>
+      <mat-icon>attach_file</mat-icon>
       <span class="fab-title">{{ "xm-entity.entity-detail-fab.new-attachment" | translate }}</span>
     </button>
     <ng-container *xmPermitted="['LINK.CREATE']; context: xmLinksContext()">
       <button (click)="onAddLink(linkSpec)" *ngFor="let linkSpec of this.xmEntitySpec.links" class="xm-fab-option">
-        <i class="material-icons">{{linkSpec.icon}}</i>
+        <mat-icon>{{linkSpec.icon}}</mat-icon>
         <span class="fab-title">{{ "xm-entity.entity-detail-fab.new-link" | translate }}</span>
       </button>
     </ng-container>
     <button (click)="onAddComment()"
             *xmPermitted="['COMMENT.CREATE']; context: xmCommentContext()"
             class="xm-fab-option">
-      <i class="material-icons">comment</i>
+      <mat-icon>comment</mat-icon>
       <span class="fab-title">{{ "xm-entity.entity-detail-fab.new-comment" | translate }}</span>
     </button>
     <button (click)="onAddALocation()"
             *xmPermitted="['LOCATION.CREATE']; context: xmLocationContext()"
             class="xm-fab-option">
-      <i class="material-icons">place</i>
+      <mat-icon>place</mat-icon>
       <span class="fab-title">{{ "xm-entity.entity-detail-fab.new-location" | translate }}</span>
     </button>
   </div>
@@ -29,11 +29,11 @@
   <button (click)="onEdit()"
           *xmPermitted="['ENTITY.UPDATE']; context: xmEditContext()"
           class="btn btn-primary xm-fab-button fab-main-button">
-    <i class="material-icons">edit</i>
+    <mat-icon>edit</mat-icon>
     <span class="fab-title">{{ "xm-entity.entity-detail-fab.edit-entity" | translate }}</span>
   </button>
 
   <button *ngIf="!showEditOptions && showEditSubOptions" class="btn btn-primary xm-fab-button fab-main-button">
-    <i class="material-icons">more_vert</i>
+    <mat-icon>more_vert</mat-icon>
   </button>
 </div>

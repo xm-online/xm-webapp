@@ -36,11 +36,11 @@
              autocomplete="off">
       <span class="form-control-addon" (click)="isShowPassword = !isShowPassword">
         <span class="xm-tooltip direction-left" *ngIf="!isShowPassword">
-          <i class="material-icons">visibility</i>
+          <mat-icon>visibility</mat-icon>
           <span>{{'login.form.show-password' | translate}}</span>
         </span>
         <span class="xm-tooltip direction-left" *ngIf="isShowPassword">
-          <i class="material-icons">visibility_off</i>
+          <mat-icon>visibility_off</mat-icon>
           <span>{{'login.form.hide-password' | translate}}</span>
         </span>
       </span>

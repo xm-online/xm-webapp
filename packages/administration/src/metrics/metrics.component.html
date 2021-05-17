@@ -40,7 +40,7 @@
       <h3>{{'metrics.jvm.title'|translate}}</h3>
       <div *ngIf="!updatingMetrics && metrics" class="row">
         <div class="col-md-4">
-          <b>{{'metrics.jvm.memory.title'|translate}}</b>
+          <strong>{{'metrics.jvm.memory.title'|translate}}</strong>
           <p><span>{{'metrics.jvm.memory.total'|translate}}</span>
             ({{metrics.gauges['jvm.memory.total.used'].value / 1000000 | number:'1.0-0'}}M /
             {{metrics.gauges['jvm.memory.total.max'].value / 1000000 | number:'1.0-0'}}M)</p>
@@ -73,7 +73,7 @@
         </div>
         <div class="col-md-4">
               <span class="relative-block">
-                <b>{{'metrics.jvm.threads.title'|translate}}</b> (Total:
+                <strong>{{'metrics.jvm.threads.title'|translate}}</strong> (Total:
                 {{metrics.gauges['jvm.threads.count'].value}})
 
                 <button (click)="refreshThreadDumpData()"
@@ -120,7 +120,7 @@
           </ngb-progressbar>
         </div>
         <div class="col-md-4">
-          <b>{{'metrics.jvm.gc.title'|translate}}</b>
+          <strong>{{'metrics.jvm.gc.title'|translate}}</strong>
           <div *ngIf="metrics.gauges['jvm.garbage.PS-MarkSweep.count']" class="row">
             <div class="col-md-9">{{'metrics.jvm.gc.marksweepcount'|translate}}</div>
             <div class="col-md-3 text-right">{{metrics.gauges['jvm.garbage.PS-MarkSweep.count'].value}}</div>
@@ -144,10 +144,10 @@
       <h3>{{'metrics.jvm.http.title'|translate}}</h3>
       <p *ngIf="metrics?.counters">
         <span>{{'metrics.jvm.http.active'|translate}}</span>
-        <b>{{metrics.counters['com.codahale.metrics.servlet.InstrumentedFilter.activeRequests'].count
-          | number:'1.0-0'}}</b> - <span>{{'metrics.jvm.http.total'|translate}}</span>
-        <b>{{metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'].count
-          | number:'1.0-0'}}</b>
+        <strong>{{metrics.counters['com.codahale.metrics.servlet.InstrumentedFilter.activeRequests'].count
+          | number:'1.0-0'}}</strong> - <span>{{'metrics.jvm.http.total'|translate}}</span>
+        <strong>{{metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'].count
+          | number:'1.0-0'}}</strong>
       </p>
       <div *ngIf="!updatingMetrics && metrics" class="table-responsive">
         <table class="table table-striped">
@@ -336,6 +336,6 @@
   <button (click)="initMonitoring()"
           class="btn btn-primary btn-icon btn-just-icon rounded-circle btn-lg"
           mat-button>
-    <i class="material-icons">refresh</i>
+    <mat-icon>refresh</mat-icon>
   </button>
 </div>
