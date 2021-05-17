@@ -14,7 +14,6 @@
 @import './src/state';
 @import './src/word-autocomplete';
 @import './src/material-mat-dialog';
-@import './src/loader-placeholder';
 
 @mixin xm-ngx-styles-theme($theme) {
 
@@ -29,6 +28,5 @@
   @include xm-state($theme);
   @include xm-word($theme);
   @include xm-mat-dialog($theme);
-  @include loader-placeholder($theme);
 
 }
