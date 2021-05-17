@@ -74,6 +74,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { CalendarViewComponent } from './calendar-card/calendar-view/calendar-view.component';
 import { OwlDateTimeModule } from 'ng-pick-datetime';
+import { JsfTestComponent } from './entity-data-card/jsf-test/jsf-test.component';
 
 @NgModule({
   imports: [
@@ -138,6 +139,7 @@ import { OwlDateTimeModule } from 'ng-pick-datetime';
         AttachmentListSimplifiedComponent,
         AttachmentListBaseComponent,
         CalendarViewComponent,
+        JsfTestComponent,
     ],
     entryComponents: [
         StatesManagementDialogComponent,
@@ -151,6 +153,7 @@ import { OwlDateTimeModule } from 'ng-pick-datetime';
         LinkDetailDialogComponent,
         LocationDetailDialogComponent,
         OsmPolygonDialogComponent,
+        JsfTestComponent,
     ],
     exports: [
         AreaComponent,

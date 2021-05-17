@@ -57,7 +57,8 @@
                         "lazyModules": [
                             "src/app/ext-commons/ext-common/ext-common.module",
                             "src/app/ext-commons/ext-common-entity/ext-common-entity.module",
-                            "src/app/ext-commons/ext-common-csp/ext-common-csp.module"
+                            "src/app/ext-commons/ext-common-csp/ext-common-csp.module",
+                            "src/app/ext/research-webapp-ext/module/research-webapp-ext-jsf.module"
                         ]
                     },
                     "configurations": {
