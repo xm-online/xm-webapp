@@ -56,6 +56,7 @@ export class AttachmentDetailDialogComponent implements OnInit {
         this.readOnlyInputs = this.attachmentSpecs[0].isNameReadonly ? this.attachmentSpecs[0].isNameReadonly : true;
     }
 
+
     public setFileData(event: any, nameCtrl: any): void {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
