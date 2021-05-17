@@ -5,9 +5,11 @@ import { keyBy, mapValues } from 'lodash';
 
 type Titles = { [value: string]: Translate } | Translate[];
 
+export type XmEnumValue = boolean | string | number;
+
 export interface XmEnumOptionsItem {
     title: Translate;
-    value: string;
+    value: XmEnumValue;
 }
 
 export interface XmEnumOptions {
@@ -18,12 +20,12 @@ export interface XmEnumOptions {
 
 @Component({
     selector: 'xm-enum',
-    template: '{{(titles[value] || value) | translate}}',
+    template: '{{(titles[value + \'\'] || value) | translate}}',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmEnumComponent implements XmDynamicPresentation<string, XmEnumOptions> {
-    @Input() public value: string;
+export class XmEnumComponent implements XmDynamicPresentation<XmEnumValue, XmEnumOptions> {
+    @Input() public value: XmEnumValue;
 
     public titles: Titles = {};
     private _options: XmEnumOptions = { items: [] };

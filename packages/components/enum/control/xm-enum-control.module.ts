@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { XmEnumValue } from '@xm-ngx/components/enum';
 import {
     XmEnumControlComponent,
     XmEnumControlOptions,
@@ -29,5 +30,5 @@ import { XmTranslationModule } from '@xm-ngx/translation';
     declarations: [XmEnumControlComponent],
 })
 export class XmEnumControlModule {
-    public entry: XmDynamicControlConstructor<string, XmEnumControlOptions> = XmEnumControlComponent;
+    public entry: XmDynamicControlConstructor<XmEnumValue, XmEnumControlOptions> = XmEnumControlComponent;
 }
