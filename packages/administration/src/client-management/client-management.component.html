@@ -44,47 +44,47 @@
              matSort>
 
         <ng-container matColumnDef="id">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'global.field.id' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'global.field.id' | translate}}</th>
           <td *matCellDef="let client" mat-cell> {{client.id}} </td>
         </ng-container>
 
         <ng-container matColumnDef="clientId">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.clientId' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'clientManagement.clientId' | translate}}</th>
           <td *matCellDef="let client" mat-cell> {{client.clientId}} </td>
         </ng-container>
 
         <ng-container matColumnDef="roleKey">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.roleKey' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'clientManagement.roleKey' | translate}}</th>
           <td *matCellDef="let client" mat-cell> {{client.roleKey}} </td>
         </ng-container>
 
         <ng-container matColumnDef="description">
-          <th *matHeaderCellDef mat-header-cell>{{'clientManagement.description' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell>{{'clientManagement.description' | translate}}</th>
           <td *matCellDef="let client" mat-cell> {{client.description}} </td>
         </ng-container>
 
         <ng-container matColumnDef="createdBy">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.createdBy' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'clientManagement.createdBy' | translate}}</th>
           <td *matCellDef="let client" mat-cell> {{client.createdBy}} </td>
         </ng-container>
 
         <ng-container matColumnDef="createdDate">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.createdDate' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'clientManagement.createdDate' | translate}}</th>
           <td *matCellDef="let client" mat-cell> {{client.createdDate | date}} </td>
         </ng-container>
 
         <ng-container matColumnDef="lastModifiedBy">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.lastModifiedBy' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'clientManagement.lastModifiedBy' | translate}}</th>
           <td *matCellDef="let client" mat-cell> {{client.lastModifiedBy}} </td>
         </ng-container>
 
         <ng-container matColumnDef="lastModifiedDate">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'clientManagement.lastModifiedDate' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'clientManagement.lastModifiedDate' | translate}}</th>
           <td *matCellDef="let client" mat-cell> {{client.lastModifiedDate | date}} </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell></th>
+          <th *matHeaderCellDef scope="col" mat-header-cell></th>
           <td *matCellDef="let client" mat-cell>
             <div class="d-flex flex-nowrap align-items-center justify-content-end">
               <xm-toggle-lock-client [client]="client"></xm-toggle-lock-client>
@@ -122,7 +122,7 @@
   </div>
 </mat-card>
 
-<div style="height: 100px; width: 100%"></div>
+<div style="height: 100px; width: 100%;"></div>
 
 <div class="xm-fab">
   <button (click)="onAdd()"

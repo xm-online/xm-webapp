@@ -60,6 +60,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
 
             <ng-template #headerCellRef>
                 <th *matHeaderCellDef
+                    scope="col"
                     mat-header-cell
                     [class]="column.headClass"
                     [style]="column.headStyle">
@@ -71,6 +72,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
 
             <ng-template #headerCellWithSortingRef>
                 <th *matHeaderCellDef
+                    scope="col"
                     mat-header-cell
                     mat-sort-header
                     [class]="column.headClass"

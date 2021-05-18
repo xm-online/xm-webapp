@@ -34,25 +34,25 @@
 
       <!-- timestamp Column -->
       <ng-container matColumnDef="timestamp">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'audits.table.header.date' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'audits.table.header.date' | translate}}</th>
         <td *matCellDef="let row" class="text-left text-wrap text-break" mat-cell>{{row.timestamp| date:'medium'}}</td>
       </ng-container>
 
       <!-- principal Column -->
       <ng-container matColumnDef="principal">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'audits.table.header.principal' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'audits.table.header.principal' | translate}}</th>
         <td *matCellDef="let row" class="text-left text-wrap text-break" mat-cell>{{row.principal}}</td>
       </ng-container>
 
       <!-- type Column -->
       <ng-container matColumnDef="type">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'audits.table.header.status' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'audits.table.header.status' | translate}}</th>
         <td *matCellDef="let row" class="text-left text-wrap text-break" mat-cell>{{row.type}}</td>
       </ng-container>
 
       <!-- data.remoteAddress Column -->
       <ng-container matColumnDef="data.remoteAddress">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'audits.table.header.data' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'audits.table.header.data' | translate}}</th>
         <td *matCellDef="let row" class="text-left text-wrap text-break" mat-cell>
           <span *ngIf="row.data">{{row.data.message}}</span>
           <ng-container *ngIf="row.data">

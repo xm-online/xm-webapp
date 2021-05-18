@@ -37,13 +37,13 @@
 
     <!--  name -->
     <ng-container matColumnDef="{{columns[0]}}">
-      <th *matHeaderCellDef disableClear mat-header-cell mat-sort-header> {{columns[0] | translate}} </th>
+      <th *matHeaderCellDef scope="col" disableClear mat-header-cell mat-sort-header> {{columns[0] | translate}} </th>
       <td *matCellDef="let element" mat-cell> {{ element[columns[0]] }} </td>
     </ng-container>
 
     <!--  slug -->
     <ng-container matColumnDef="{{columns[1]}}">
-      <th *matHeaderCellDef disableClear mat-header-cell mat-sort-header> {{columns[1] | translate}} </th>
+      <th *matHeaderCellDef scope="col" disableClear mat-header-cell mat-sort-header> {{columns[1] | translate}} </th>
       <td *matCellDef="let element" mat-cell>
         {{ element?.config?.slug }}
         <mat-icon *ngIf="element?.config?.slug"
@@ -55,7 +55,7 @@
 
     <!--  config -->
     <ng-container matColumnDef="{{columns[2]}}">
-      <th *matHeaderCellDef mat-header-cell> {{columns[2] | translate}}</th>
+      <th *matHeaderCellDef scope="col" mat-header-cell> {{columns[2] | translate}}</th>
       <td *matCellDef="let element" mat-cell>
         <bool-value [value]="!!element[columns[2]]"></bool-value>
       </td>
@@ -63,7 +63,7 @@
 
     <!--  layout -->
     <ng-container matColumnDef="{{columns[3]}}">
-      <th *matHeaderCellDef mat-header-cell> {{columns[3] | translate}}</th>
+      <th *matHeaderCellDef scope="col" mat-header-cell> {{columns[3] | translate}}</th>
       <td *matCellDef="let element" mat-cell>
         <bool-value [value]="!!element[columns[3]]"></bool-value>
       </td>
@@ -71,7 +71,7 @@
 
     <!--  hidden -->
     <ng-container matColumnDef="{{columns[4]}}">
-      <th *matHeaderCellDef mat-header-cell> {{columns[4] | translate}}</th>
+      <th *matHeaderCellDef scope="col" mat-header-cell> {{columns[4] | translate}}</th>
       <td *matCellDef="let element" mat-cell>
         <bool-value [value]="!!fromMap(element, columns[4])"></bool-value>
       </td>
@@ -80,7 +80,7 @@
     <!-- Actions column -->
     <ng-container [matColumnDef]="ACTIONS_COLUMN">
 
-      <th *matHeaderCellDef class="text-right" mat-header-cell>
+      <th *matHeaderCellDef scope="col" class="text-right" mat-header-cell>
         <button (click)="onAdd()"
                 [matTooltip]="TRS.createDashboard | translate"
                 color="primary"
