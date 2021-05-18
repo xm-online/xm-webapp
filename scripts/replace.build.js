@@ -12,7 +12,7 @@ try {
     replace.sync(options);
     console.info('Build timestamp set: ' + buildTimestamp);
 }
-catch (error) {environment.ts
+catch (error) {
     console.error('Error occurred:', error);
 }
 
