@@ -24,4 +24,3 @@ src/app/ext/*
 !src/assets/css/ext/
 src/assets/img/ext/
 angular.json
-src/app/xm-jsf-ext.module.ts
