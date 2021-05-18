@@ -24,3 +24,4 @@ src/app/ext/*
 !src/assets/css/ext/
 src/assets/img/ext/
 angular.json
+
