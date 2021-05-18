@@ -1,7 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { get } from 'lodash';
+
+
+interface SidebarConfig {
+    user: unknown;
+    layout: XmLayout[]
+}
 
 @Component({
     selector: 'xm-sidebar',
@@ -13,10 +20,10 @@ import { get } from 'lodash';
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class SidebarComponent {
-    public config: { user: unknown };
+    public config: SidebarConfig;
 
     constructor(
-        private xmConfigService: XmUiConfigService<{sidebar: { user: unknown }}>,
+        private xmConfigService: XmUiConfigService<{ sidebar: SidebarConfig }>,
     ) {
     }
 

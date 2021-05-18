@@ -6,6 +6,7 @@ import { XmMenuModule } from '@xm-ngx/components/menu';
 import { XmPoweredByModule } from '@xm-ngx/components/xm-powered-by';
 import { XmSidebarUserModule } from '@xm-ngx/components/sidebar-user';
 import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
 
 import { XmSharedModule } from '../../shared/shared.module';
 
@@ -17,15 +18,16 @@ export const SIDEBAR_KEY = 'xm-widget-sidebar';
     declarations: [
         SidebarComponent,
     ],
-    imports: [
-        XmSharedModule,
-        RouterModule,
-        CommonModule,
-        XmLogoModule,
-        XmSidebarUserModule,
-        XmMenuModule,
-        XmPoweredByModule,
-    ],
+  imports: [
+    XmSharedModule,
+    RouterModule,
+    CommonModule,
+    XmLogoModule,
+    XmSidebarUserModule,
+    XmMenuModule,
+    XmPoweredByModule,
+    XmDynamicModule,
+  ],
     providers: [
         {provide: SIDEBAR_KEY, useValue: SidebarComponent},
         XmUiConfigService,
