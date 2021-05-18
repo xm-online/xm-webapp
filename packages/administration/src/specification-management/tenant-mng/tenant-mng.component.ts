@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ConfigValidatorUtil } from '@xm-ngx/administration/specification-management/config-validator/config-validator.util';
+import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { finalize } from 'rxjs/operators';
 import { XmConfigService } from '../../../../../src/app/shared';
 
@@ -18,9 +19,12 @@ export class TenantMngComponent implements OnInit {
     public tenantSpecificationProgress: boolean;
     public isTenantSpecValid: boolean;
 
-    public aceEditorOptions: any = {
-        highlightActiveLine: true,
-        maxLines: 50,
+    public aceEditorOptions: XmAceEditorControlOptions = {
+        mode: 'yaml',
+        options: {
+            highlightActiveLine: true,
+            maxLines: 50,
+        },
     };
 
     constructor(

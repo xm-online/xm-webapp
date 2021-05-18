@@ -6,13 +6,20 @@ export interface XmAceEditorControlOptions {
     id?: string;
     title?: string;
     name?: string;
-    mode?: string | 'json';
+    mode: string | 'yaml' | 'json';
     height?: string;
     theme?: string;
     darkTheme?: string;
+    options?: {
+        highlightActiveLine?: boolean;
+        maxLines?: number;
+        printMargin?: boolean;
+        autoScrollEditorIntoView?: boolean;
+    },
 }
 
 const XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS: XmAceEditorControlOptions = {
+    options: {},
     title: '',
     name: 'text',
     mode: 'json',
@@ -21,21 +28,24 @@ const XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS: XmAceEditorControlOptions = {
     darkTheme: 'tomorrow_night',
 };
 
+type AceEditorValue = string | object;
+
 @Component({
     selector: 'xm-ace-editor-control',
     template: `
         <div class="form-group">
-            <label class="control-label">{{ _options.title | translate }}</label>
+            <label class="control-label">{{ options.title | translate }}</label>
             <div class="ace-editor-control w-100 border"
                  [ngClass]="{ 'border-danger': error}"
                  (textChanged)="change($event)"
                  [autoUpdateContent]="true"
-                 [mode]="_options.mode"
+                 [mode]="options.mode"
                  [readOnly]="disabled"
                  [text]="_value"
-                 [attr.id]="_options.id"
-                 [attr.name]="_options.name"
-                 [style.height]="_options.height"
+                 [options]="options.options"
+                 [attr.id]="options.id"
+                 [attr.name]="options.name"
+                 [style.height]="options.height"
                  [onLightTheme]="options.theme"
                  [onDarkTheme]="options.darkTheme"
                  xmAceEditorThemeSchemeAdapter
@@ -47,9 +57,9 @@ const XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS: XmAceEditorControlOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmAceEditorControlComponent extends NgControlAccessor<unknown> {
+export class XmAceEditorControlComponent extends NgControlAccessor<AceEditorValue> {
     public error: boolean = false;
-    public _options: XmAceEditorControlOptions = XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS;
+    private _options: XmAceEditorControlOptions = XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS;
 
     public get options(): XmAceEditorControlOptions {
         return this._options;
@@ -60,18 +70,18 @@ export class XmAceEditorControlComponent extends NgControlAccessor<unknown> {
         this._options = _.defaults({}, value, XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS);
     }
 
-    public _value: unknown;
+    public _value: string;
 
-    public get value(): unknown {
+    public get value(): AceEditorValue {
         if (this._options.mode === 'json') {
-            return JSON.parse(this._value as string);
+            return JSON.parse(this._value);
         }
 
         return this._value;
     }
 
     @Input()
-    public set value(value: unknown) {
+    public set value(value: AceEditorValue) {
         if (typeof value === 'object') {
             this._value = JSON.stringify(value, null, 2);
         } else {
@@ -79,8 +89,8 @@ export class XmAceEditorControlComponent extends NgControlAccessor<unknown> {
         }
     }
 
-    public change(v: unknown): void {
-        if (this._options.mode === 'json') {
+    public change(v: AceEditorValue): void {
+        if (this.options.mode === 'json') {
             try {
                 v = JSON.parse(v as string);
                 this.error = false;

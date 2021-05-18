@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
+import { FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity/index';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 
@@ -13,7 +15,6 @@ import {
     getJsfWidgets,
     processValidationMessages,
 } from '../../../../src/app/shared/jsf-extention/jsf-attributes-helper';
-import { FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity/index';
 import { EXAMPLES } from './example-schemas.model';
 
 interface FormsConfig {
@@ -28,13 +29,13 @@ interface FormsConfig {
     templateUrl: './form-playground.component.html',
     animations: [
         trigger('expandSection', [
-            state('in', style({height: '*'})),
+            state('in', style({ height: '*' })),
             transition(':enter', [
-                style({height: 0}), animate(100),
+                style({ height: 0 }), animate(100),
             ]),
             transition(':leave', [
-                style({height: '*'}),
-                animate(100, style({height: 0})),
+                style({ height: '*' }),
+                animate(100, style({ height: 0 })),
             ]),
         ]),
     ],
@@ -63,11 +64,11 @@ export class FormPlaygroundComponent implements OnInit {
     public jsonFormSchema: string;
     public jsonFormValid: boolean = false;
     public jsonFormStatusMessage: string = 'Loading form...';
-    public jsonFormObject: {schema?: any; layout?: any; data?: any} |  any;
+    public jsonFormObject: { schema?: any; layout?: any; data?: any } | any;
     public jsonFormOptions: any = {
         addSubmit: true, // Add a submit button if layout does not have one
         loadExternalAssets: true, // Load external css and JavaScript for frameworks
-        formDefaults: {feedback: true}, // Show inline feedback icons
+        formDefaults: { feedback: true }, // Show inline feedback icons
         debug: false,
         returnEmptyFields: false,
     };
@@ -75,11 +76,14 @@ export class FormPlaygroundComponent implements OnInit {
     public formValidationErrors: any;
     public formIsValid: boolean = null;
     public submittedFormData: any = null;
-    public aceEditorOptions: any = {
-        highlightActiveLine: true,
-        maxLines: 1000,
-        printMargin: false,
-        autoScrollEditorIntoView: true,
+    public aceEditorOptions: XmAceEditorControlOptions = {
+        mode: 'json',
+        options: {
+            highlightActiveLine: true,
+            maxLines: 1000,
+            printMargin: false,
+            autoScrollEditorIntoView: true,
+        },
     };
     public widgets: any = {};
     public formLayout: () => void;
@@ -93,7 +97,7 @@ export class FormPlaygroundComponent implements OnInit {
     public selectedSpecKey$: Subject<any> = new Subject<string>();
     public xmEntityForms: FormsConfig[] = [];
     public xmEntityForms$: BehaviorSubject<any> = new BehaviorSubject<FormsConfig[]>(this.xmEntityForms);
-    public formConfig$: BehaviorSubject<any> = new BehaviorSubject<string>('');
+    public formConfig$: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public isXmForm: boolean = false;
     private XM_TEMPLATE: string = 'ng2jsf-xm-layout';
 
@@ -274,7 +278,7 @@ export class FormPlaygroundComponent implements OnInit {
         if (spec.dataSpec || spec.dataForm) {
             const dataSpec = spec.dataSpec ? spec.dataSpec : '{}';
             const dataForm = spec.dataForm ? spec.dataForm : '[]';
-            const item = {key: 'dataForm', title: 'dataForm', dataSpec, dataForm};
+            const item = { key: 'dataForm', title: 'dataForm', dataSpec, dataForm };
             xmForms.push(item);
         }
         xmForms.push(...spec.functions.map((item) => this.functionSpecToFormConfig(item)));
@@ -290,8 +294,8 @@ export class FormPlaygroundComponent implements OnInit {
         };
     }
 
-    private getSchemaTemplate(file: any): Observable<string> {
-        return this.http.get(`assets/example-schemas/${file}.json`, {responseType: 'text'});
+    private getSchemaTemplate(file: string): Observable<string> {
+        return this.http.get(`assets/example-schemas/${file}.json`, { responseType: 'text' });
     }
 
     private _filterSpec(value: string): XmEntitySpec[] {

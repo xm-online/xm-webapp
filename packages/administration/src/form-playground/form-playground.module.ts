@@ -8,23 +8,24 @@ import { LanguageModule } from '@xm-ngx/components/language';
 import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { AceEditorModule } from '@xm-ngx/components/ace-editor';
+import { AceEditorModule, XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
 import { FormPlaygroundComponent } from './form-playground.component';
 
 @NgModule({
-    imports: [
-        MatFormFieldModule,
-        MatSelectModule,
-        XmTranslationModule,
-        FormsModule,
-        NgxMatSelectSearchModule,
-        CommonModule,
-        MatCardModule,
-        LanguageModule,
-        XmJsonSchemaFormModule,
-        ReactiveFormsModule,
-        AceEditorModule,
-    ],
+  imports: [
+    MatFormFieldModule,
+    MatSelectModule,
+    XmTranslationModule,
+    FormsModule,
+    NgxMatSelectSearchModule,
+    CommonModule,
+    MatCardModule,
+    LanguageModule,
+    XmJsonSchemaFormModule,
+    ReactiveFormsModule,
+    AceEditorModule,
+    XmAceEditorControlModule,
+  ],
     exports: [FormPlaygroundComponent],
     declarations: [FormPlaygroundComponent],
     providers: [],

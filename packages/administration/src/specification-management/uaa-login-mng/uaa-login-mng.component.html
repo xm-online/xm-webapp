@@ -22,16 +22,7 @@
   </div>
 </div>
 <div class="text-right">
-  <div (textChanged)="onLoginsSpecificationChange($event)"
-       [autoUpdateContent]="true"
-       [mode]="'yaml'"
-       [options]="aceEditorOptions"
-       [readOnly]="false"
-       [style.min-height]="'150px'"
-       [style.width]="'100%'"
-       [text]="loginsSpecificationIn"
-       style="overflow-x: auto; border: 1px solid lightgray;"
-       xmAceEditor>
-    <span translate="admin-config.specification-mng.loading"></span>
-  </div>
+  <xm-ace-editor-control (valueChange)="onLoginsSpecificationChange($event)"
+                         [options]="aceEditorOptions"
+                         [value]="loginsSpecificationIn"></xm-ace-editor-control>
 </div>

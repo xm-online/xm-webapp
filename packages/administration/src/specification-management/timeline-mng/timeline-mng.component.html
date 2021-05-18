@@ -23,16 +23,7 @@
   </div>
 </div>
 <div class="text-right">
-  <div (textChanged)="onTimelineSpecificationChange($event)"
-       [autoUpdateContent]="true"
-       [mode]="'yaml'"
-       [options]="aceEditorOptions"
-       [readOnly]="false"
-       [style.min-height]="'150px'"
-       [style.width]="'100%'"
-       [text]="timelineSpecificationIn"
-       style="overflow-x: auto; border: 1px solid lightgray;"
-       xmAceEditor>
-    <span translate="admin-config.specification-mng.loading"></span>
-  </div>
+  <xm-ace-editor-control (valueChange)="onTimelineSpecificationChange($event)"
+                         [options]="aceEditorOptions"
+                         [value]="timelineSpecificationIn"></xm-ace-editor-control>
 </div>

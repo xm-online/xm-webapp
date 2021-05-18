@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { StatesManagementDialogComponent } from '@xm-ngx/entity/states-management-dialog';
 import { XmConfigService } from '../../../../../src/app/shared/spec/config.service';
 
@@ -19,9 +20,12 @@ export class EntitySpecManagementComponent implements OnInit {
     public entitySpecificationIn: string;
     public entitySpecificationOut: string;
     public line: number;
-    public aceEditorOptions: any = {
-        highlightActiveLine: true,
-        maxLines: 50,
+    public aceEditorOptions: XmAceEditorControlOptions = {
+        mode: 'yaml',
+        options: {
+            highlightActiveLine: true,
+            maxLines: 50,
+        },
     };
 
     constructor(
@@ -51,7 +55,7 @@ export class EntitySpecManagementComponent implements OnInit {
     public validateXmEntitySpec(): void {
         const errors = ConfigValidatorUtil.validate(this.entitySpecificationOut);
         if (errors && errors.length) {
-            this.entityValidation = {errorMessage: ''};
+            this.entityValidation = { errorMessage: '' };
             for (const err of errors) {
                 this.entityValidation.errorMessage += err.message + (err.path ? ` path: ${err.path}` : '') + '<br/>';
                 if (err.line) {
@@ -66,12 +70,12 @@ export class EntitySpecManagementComponent implements OnInit {
     public onShowConfigVisualizerDialog(): void {
         const modalRef = this.modalService
             .open(ConfigVisualizerDialogComponent,
-                {width: '80vw'});
+                { width: '80vw' });
         modalRef.componentInstance.entitySpecification = this.entitySpecificationOut;
     }
 
     public onShowConfigStatesManagementDialog(): void {
-        this.modalService.open(StatesManagementDialogComponent, {width: '500px'});
+        this.modalService.open(StatesManagementDialogComponent, { width: '500px' });
     }
 
 
