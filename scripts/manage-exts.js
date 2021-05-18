@@ -1,5 +1,6 @@
 const fs = require('fs');
 const fse = require('fs-extra');
+const { exec } = require("child_process");
 const {join} = require('path');
 const LOCAL_EXT_PATH = 'src/app/ext';
 const LOCAL_ASSETS_PATH = 'src/assets/css/ext/';
@@ -80,3 +81,5 @@ fs.readFile('config.angular.json', function (err, data) {
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+exec('git update-index --assume-unchanged src/app/xm-jsf-ext.module.ts')
