@@ -11,8 +11,8 @@ import { NgModule } from "@angular/core";
 
 @NgModule({
     imports: [
-        /* [GENERATED_MODULES_IMPORTS_START] */
-        /* [GENERATED_MODULES_IMPORTS_STOP] */
+/* [GENERATED_MODULES_IMPORTS_START] */
+/* [GENERATED_MODULES_IMPORTS_STOP] */
     ]
 })
 export class XmJsfExtModule {
