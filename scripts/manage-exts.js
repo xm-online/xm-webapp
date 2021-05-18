@@ -11,14 +11,14 @@ dirs(LOCAL_EXT_PATH).forEach(moduleName => {
     const MODULE_PATH = `${LOCAL_EXT_PATH}/${moduleName}/jsf-module/${moduleName}-jsf.module.ts`;
     if (fs.existsSync(MODULE_PATH)) {
         const moduleClassName = moduleName.split('-').map(it => capitalizeFirstLetter(it)).join('') + 'JsfModule';
-        generateImports[moduleClassName] = `./ext/${moduleName}/jsf-module/${moduleName}-jsf.module.ts`;
+        generateImports[moduleClassName] = `./ext/${moduleName}/jsf-module/${moduleName}-jsf.module`;
     }
 })
 
 fs.readFile('src/app/xm-jsf-ext.module.ts', function (err, data) {
     let fileContent = data.toString();
     const generatedModuleImports = Object.keys(generateImports).map(it => ' '.repeat(8) + it).join(',\n');
-    const generatedImports = Object.keys(generateImports).map(it => `import { ${it} } from "${generateImports[it]}";`).join('\n');
+    const generatedImports = Object.keys(generateImports).map(it => `import { ${it} } from '${generateImports[it]}';`).join('\n');
     const GENERATED_IMPORTS_START = '/* [GENERATED_IMPORTS_START] */';
     const GENERATED_IMPORTS_STOP = '/* [GENERATED_IMPORTS_STOP] */';
     const GENERATED_MODULES_IMPORTS_START = '/* [GENERATED_MODULES_IMPORTS_START] */';
