@@ -19,8 +19,7 @@ import { Observable } from 'rxjs';
             display: flex;
             justify-content: center;
         }
-    `],
-    encapsulation: ViewEncapsulation.None,
+    `]
 })
 
 export class XmNavbarArrowBackComponent implements OnInit {
