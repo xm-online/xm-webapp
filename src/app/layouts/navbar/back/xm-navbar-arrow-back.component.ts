@@ -11,9 +11,15 @@ import { Observable } from 'rxjs';
                 *ngIf="isSessionActive$ | async"
                 class="bg-surface rounded-circle shadow-sm"
                 mat-icon-button>
-            <mat-icon>arrow_back</mat-icon>
+            <mat-icon >arrow_back</mat-icon>
         </button>
     `,
+    styles: [`
+        .mat-icon-button .mat-button-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+    `],
     encapsulation: ViewEncapsulation.None,
 })
 
