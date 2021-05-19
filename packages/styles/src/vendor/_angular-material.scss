@@ -118,3 +118,9 @@ $xm-mat-typography:        mat-typography-config(
 @mixin xm-angular-material-typography() {
   @include angular-material-typography($xm-mat-typography);
 }
+
+// fix: correcting indentation mat-icons in round buttons
+.mat-icon-button.rounded-circle .mat-button-wrapper {
+  display: flex;
+  justify-content: center;
+}
