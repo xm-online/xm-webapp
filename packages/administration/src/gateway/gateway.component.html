@@ -54,19 +54,19 @@
 
     <!-- url Column -->
     <ng-container matColumnDef="url">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'gateway.routes.url' | translate}}</th>
+      <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'gateway.routes.url' | translate}}</th>
       <td *matCellDef="let route" class="text-left text-wrap text-break" mat-cell>{{route.path}}</td>
     </ng-container>
 
     <!-- service Column -->
     <ng-container matColumnDef="service">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'gateway.routes.service' | translate}}</th>
+      <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'gateway.routes.service' | translate}}</th>
       <td *matCellDef="let route" class="text-left text-wrap text-break" mat-cell>{{route.serviceId}}</td>
     </ng-container>
 
     <!-- servers Column -->
     <ng-container matColumnDef="servers">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'gateway.routes.servers' | translate}}</th>
+      <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'gateway.routes.servers' | translate}}</th>
       <td *matCellDef="let route" class="text-left text-wrap text-break" mat-cell>
         <ng-template [ngTemplateOutletContext]="{route: route}" [ngTemplateOutlet]="subTable"></ng-template>
       </td>

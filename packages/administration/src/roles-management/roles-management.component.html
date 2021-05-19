@@ -15,14 +15,14 @@
              matSort>
 
         <ng-container matColumnDef="roleKey">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'rolesManagement.key' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'rolesManagement.key' | translate}}</th>
           <td *matCellDef="let role" mat-cell>
             <a [routerLink]="['/administration/role-management', role.roleKey]">{{role.roleKey}}</a>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="description">
-          <th *matHeaderCellDef mat-header-cell>{{'rolesManagement.description' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell>{{'rolesManagement.description' | translate}}</th>
           <td *matCellDef="let role" mat-cell>
             <div class="role-description">
               {{role.description}}
@@ -31,27 +31,27 @@
         </ng-container>
 
         <ng-container matColumnDef="createdBy">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'rolesManagement.createdBy' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'rolesManagement.createdBy' | translate}}</th>
           <td *matCellDef="let role" mat-cell> {{role.createdBy}} </td>
         </ng-container>
 
         <ng-container matColumnDef="createdDate">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'rolesManagement.createdDate' | translate}}</th>
+          <th *matHeaderCellDef scope="col"mat-header-cell mat-sort-header>{{'rolesManagement.createdDate' | translate}}</th>
           <td *matCellDef="let role" mat-cell> {{role.createdDate | date}} </td>
         </ng-container>
 
         <ng-container matColumnDef="updatedBy">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'rolesManagement.lastModifiedBy' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'rolesManagement.lastModifiedBy' | translate}}</th>
           <td *matCellDef="let role" mat-cell> {{role.updatedBy}} </td>
         </ng-container>
 
         <ng-container matColumnDef="updatedDate">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'rolesManagement.lastModifiedDate' | translate}}</th>
+          <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'rolesManagement.lastModifiedDate' | translate}}</th>
           <td *matCellDef="let role" mat-cell> {{role.updatedDate | date}} </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell></th>
+          <th *matHeaderCellDef scope="col" mat-header-cell></th>
           <td *matCellDef="let role" mat-cell>
             <div class="d-flex flex-nowrap align-items-center">
               <button (click)="onEdit(role)"
@@ -86,7 +86,7 @@
   </div>
 </mat-card>
 
-<div style="height: 100px; width: 100%"></div>
+<div style="height: 100px; width: 100%;"></div>
 
 <div class="xm-fab">
   <button (click)="onAdd()"

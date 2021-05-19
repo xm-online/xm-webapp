@@ -28,6 +28,7 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
     template: `
         <ng-container matColumnDef>
             <th *matHeaderCellDef
+                scope="col"
                 mat-header-cell
                 mat-sort-header
                 [disabled]="isSortable()">

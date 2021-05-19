@@ -80,21 +80,21 @@
                matSort>
 
           <ng-container matColumnDef="privilegeKey">
-            <th *matHeaderCellDef mat-header-cell mat-sort-header>
+            <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>
               {{'rolesManagement.permission.privilegeKey'|translate}}
             </th>
             <td *matCellDef="let permission" mat-cell>{{permission?.privilegeKey}}</td>
           </ng-container>
 
           <ng-container matColumnDef="permissionDescription">
-            <th *matHeaderCellDef mat-header-cell>{{'rolesManagement.permission.desc' | translate}}</th>
+            <th *matHeaderCellDef scope="col" mat-header-cell>{{'rolesManagement.permission.desc' | translate}}</th>
             <td *matCellDef="let permission" class="text-center" mat-cell>
               <mat-icon *ngIf="permission?.description" [matTooltip]="permission.description">info</mat-icon>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="msName">
-            <th *matHeaderCellDef mat-header-cell mat-sort-header>
+            <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>
               {{'rolesManagement.permission.msName' | translate}}
             </th>
             <td *matCellDef="let permission" class="text-center" mat-cell>
@@ -105,7 +105,7 @@
           <ng-container *ngIf="matrix?.roles.length > 0">
             <ng-container *ngFor="let role of matrix?.roles; index as i">
               <ng-container [matColumnDef]="role">
-                <th *matHeaderCellDef mat-header-cell>
+                <th *matHeaderCellDef scope="col" mat-header-cell>
                   <mat-chip-list class="mt-2 mb-2 d-block">
                     <mat-chip (removed)="onHideRole(role, i)" removable>
                       {{role}}

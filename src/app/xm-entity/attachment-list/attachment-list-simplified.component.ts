@@ -35,11 +35,11 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th></th>
-                                <th><span>{{'xm-entity.common.fields.name'|translate}}</span></th>
-                                <th><span>{{'xm-entity.common.fields.description'|translate}}</span></th>
-                                <th></th>
-                                <th></th>
+                                <th scope="col"></th>
+                                <th scope="col"><span>{{'xm-entity.common.fields.name'|translate}}</span></th>
+                                <th scope="col"><span>{{'xm-entity.common.fields.description'|translate}}</span></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
                             </tr>
                             </thead>
 

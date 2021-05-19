@@ -46,14 +46,14 @@
 
       <!-- service -->
       <ng-container matColumnDef="service">
-        <th *matHeaderCellDef mat-header-cell>{{'health.table.service' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell>{{'health.table.service' | translate}}</th>
         <td *matCellDef="let health" class="text-left text-wrap text-break"
             mat-cell>{{'health.indicator.' + baseName(health.name) | translate}} {{subSystemName(health.name)}}</td>
       </ng-container>
 
       <!-- status -->
       <ng-container matColumnDef="status">
-        <th *matHeaderCellDef mat-header-cell>{{'health.table.status' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell>{{'health.table.status' | translate}}</th>
         <td *matCellDef="let health" class="text-left text-wrap text-break" mat-cell>
                <span [class.badge-danger]="health.status === 'DOWN'"
                      [class.badge-default]="health.status === 'OUT_OF_SERVICE'"
@@ -67,7 +67,7 @@
 
       <!-- details -->
       <ng-container matColumnDef="details">
-        <th *matHeaderCellDef mat-header-cell>{{'health.details.details' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell>{{'health.details.details' | translate}}</th>
         <td *matCellDef="let health" class="text-left text-wrap text-break" mat-cell>
           <div class="view-action">
             <button (click)="showHealth(health)"

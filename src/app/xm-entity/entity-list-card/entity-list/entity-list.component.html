@@ -90,7 +90,7 @@
          [dataSource]="tableDataSource">
 
     <ng-container matColumnDef="avatarUrl">
-      <th mat-header-cell *matHeaderCellDef></th>
+      <th scope="col" mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let xmEntity">
         <div class="xm-avatar-img-container">
           <img src="{{xmEntity.avatarUrl ? xmEntity.avatarUrl : './assets/img/placeholder.png'}}">
@@ -104,7 +104,7 @@
                   [matColumnDef]="field?.field" [ngSwitch]="field?.field">
 
       <ng-container *ngSwitchCase="'name'">
-        <th mat-header-cell *matHeaderCellDef
+        <th scope="col" mat-header-cell *matHeaderCellDef
             [disabled]="field.sortable === false"
             [mat-sort-header]="field?.field">
           {{field.title | translate}}
@@ -124,7 +124,8 @@
       </ng-container>
 
       <ng-container  *ngSwitchCase="'typeKey'">
-        <th mat-header-cell
+        <th scope="col"
+            mat-header-cell
             *matHeaderCellDef
             [disabled]="field.sortable === false"
             [mat-sort-header]="field?.field">{{field.title | translate}}</th>
@@ -135,7 +136,8 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'startDate'">
-        <th mat-header-cell
+        <th scope="col"
+            mat-header-cell
             *matHeaderCellDef
             [disabled]="field.sortable === false"
             [mat-sort-header]="field?.field">{{field.title | translate}}</th>
@@ -146,7 +148,8 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'updateDate'">
-        <th mat-header-cell
+        <th scope="col"
+            mat-header-cell
             *matHeaderCellDef
             [disabled]="field.sortable === false"
             [mat-sort-header]="field?.field">{{field.title | translate}}</th>
@@ -157,7 +160,7 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'actions'">
-        <th mat-header-cell *matHeaderCellDef></th>
+        <th scope="col" mat-header-cell *matHeaderCellDef></th>
         <td *matCellDef="let xmEntity">
           <div class="xm-table-options dropdown" *permitted="field.actionsListPrivileges">
                       <span class="dropdown-toggle" data-toggle="dropdown" href="#pablo" aria-expanded="false">
@@ -179,7 +182,7 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'action'">
-        <th mat-header-cell *matHeaderCellDef></th>
+        <th scope="col" mat-header-cell *matHeaderCellDef></th>
         <td *matCellDef="let xmEntity">
           <ng-container *ngIf="!field.action.actionCondition || (field.action.actionCondition(xmEntity))">
             <ng-container *permitted="field.action.privilege">
@@ -195,7 +198,8 @@
       </ng-container>
 
       <ng-container *ngSwitchCase="'stateKey'">
-        <th mat-header-cell
+        <th scope="col"
+            mat-header-cell
             *matHeaderCellDef
             [disabled]="field.sortable === false"
             [mat-sort-header]="field?.field">{{field.title | translate}}</th>
@@ -210,7 +214,8 @@
       </ng-container>
 
       <ng-container *ngSwitchDefault>
-        <th mat-header-cell
+        <th scope="col"
+            mat-header-cell
             *matHeaderCellDef
             [disabled]="field.sortable === false"
             [mat-sort-header]="field.useKeyword ? field.field + '.keyword' : field.field">
@@ -221,7 +226,7 @@
     </ng-container>
 
     <ng-container *ngIf="!(options?.hideDelete) && !(item?.hideDelete)" matColumnDef="deleteButton">
-      <th mat-header-cell *matHeaderCellDef></th>
+      <th scope="col" mat-header-cell *matHeaderCellDef></th>
       <td *matCellDef="let xmEntity">
         <a (click)="onRemove(xmEntity)" href="javascript: void(0);">
           <mat-icon>close</mat-icon>

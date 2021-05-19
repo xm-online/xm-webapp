@@ -93,19 +93,19 @@
              matSort
              class="table table-striped table-no-bordered table-hover">
         <ng-container matColumnDef="privilegeKey">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
             {{'rolesManagement.permission.privilegeKey'|translate}}
           </th>
           <td mat-cell *matCellDef="let permission">{{permission?.privilegeKey}}</td>
         </ng-container>
         <ng-container matColumnDef="permissionDescription">
-          <th mat-header-cell *matHeaderCellDef>{{'rolesManagement.permission.desc' | translate}}</th>
+          <th scope="col" mat-header-cell *matHeaderCellDef>{{'rolesManagement.permission.desc' | translate}}</th>
           <td mat-cell *matCellDef="let permission" class="text-center">
             <mat-icon *ngIf="permission?.description" [matTooltip]="permission.description">info</mat-icon>
           </td>
         </ng-container>
         <ng-container matColumnDef="msName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
             {{'rolesManagement.permission.msName' | translate}}
           </th>
           <td mat-cell *matCellDef="let permission" class="text-center">
@@ -113,7 +113,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="permit">
-          <th mat-header-cell *matHeaderCellDef>
+          <th scope="col" mat-header-cell *matHeaderCellDef>
             {{'rolesManagement.permission.permit' | translate}}
           </th>
           <td mat-cell *matCellDef="let permission" class="text-center">
@@ -126,7 +126,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="onForbid">
-          <th mat-header-cell *matHeaderCellDef>
+          <th scope="col" mat-header-cell *matHeaderCellDef>
             {{'rolesManagement.permission.onForbid' | translate}}
           </th>
           <td mat-cell *matCellDef="let permission" class="text-center">
@@ -140,7 +140,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="resourceCondition">
-          <th mat-header-cell *matHeaderCellDef>
+          <th scope="col" mat-header-cell *matHeaderCellDef>
             {{'rolesManagement.permission.resourceCondition' | translate}}
           </th>
           <td mat-cell *matCellDef="let permission">
@@ -157,7 +157,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="envCondition">
-          <th mat-header-cell *matHeaderCellDef>
+          <th scope="col" mat-header-cell *matHeaderCellDef>
             {{'rolesManagement.permission.envCondition' | translate}}
           </th>
           <td mat-cell *matCellDef="let permsision">

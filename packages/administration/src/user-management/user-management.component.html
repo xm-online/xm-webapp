@@ -64,14 +64,14 @@
            matSort>
 
       <ng-container matColumnDef="id">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'global.field.id' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'global.field.id' | translate}}</th>
         <td *matCellDef="let user" mat-cell>
           <a [routerLink]="['/administration/user-management', user.userKey]">{{user.id}}</a>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="logins">
-        <th *matHeaderCellDef mat-header-cell>{{'userManagement.logins' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell>{{'userManagement.logins' | translate}}</th>
         <td *matCellDef="let user" mat-cell>
           <div *ngIf="user.logins" class="d-flex flex-nowrap align-items-center">
             <div class="flex-grow-1">
@@ -87,7 +87,7 @@
       </ng-container>
 
       <ng-container matColumnDef="2FA">
-        <th *matHeaderCellDef mat-header-cell></th>
+        <th *matHeaderCellDef scope="col" mat-header-cell></th>
         <td *matCellDef="let user" mat-cell>
           <div class="d-flex flex-nowrap align-items-center justify-content-end">
             <button (click)="enable2FA(user)" *ngIf="!user.tfaEnabled" mat-icon-button>
@@ -102,32 +102,32 @@
       </ng-container>
 
       <ng-container matColumnDef="langKey">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'userManagement.langKey' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'userManagement.langKey' | translate}}</th>
         <td *matCellDef="let user" mat-cell>{{user.langKey}}</td>
       </ng-container>
 
       <ng-container matColumnDef="roleKey">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'userManagement.role' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'userManagement.role' | translate}}</th>
         <td *matCellDef="let user" mat-cell>{{user.authorities?.length ? user.authorities : user.roleKey}}</td>
       </ng-container>
 
       <ng-container matColumnDef="createdDate">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'userManagement.createdDate' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'userManagement.createdDate' | translate}}</th>
         <td *matCellDef="let user" mat-cell>{{user.createdDate | xmDateTime}}</td>
       </ng-container>
 
       <ng-container matColumnDef="lastModifiedBy">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'userManagement.lastModifiedBy' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'userManagement.lastModifiedBy' | translate}}</th>
         <td *matCellDef="let user" mat-cell>{{user.lastModifiedBy}}</td>
       </ng-container>
 
       <ng-container matColumnDef="lastModifiedDate">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>{{'userManagement.lastModifiedDate' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'userManagement.lastModifiedDate' | translate}}</th>
         <td *matCellDef="let user" mat-cell>{{user.lastModifiedDate | xmDateTime}}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th *matHeaderCellDef mat-header-cell></th>
+        <th *matHeaderCellDef scope="col" mat-header-cell></th>
         <td *matCellDef="let user" mat-cell>
           <div class="d-flex align-items-center justify-content-end flex-nowrap">
             <xm-unblock-lock-user [user]="user"></xm-unblock-lock-user>
@@ -157,7 +157,7 @@
   </div>
 </mat-card>
 
-<div style="height: 100px; width: 100%"></div>
+<div style="height: 100px; width: 100%;"></div>
 
 <div class="xm-fab">
   <button (click)="onAdd()" *permitted="'USER.CREATE'"
