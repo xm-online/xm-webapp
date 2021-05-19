@@ -1,10 +1,16 @@
-<xm-logo></xm-logo>
-<mat-divider></mat-divider>
-
-<div class="section-scroll">
-  <xm-sidebar-user [config]="config?.user"></xm-sidebar-user>
+<ng-template #defaultSidebarRef>
+  <xm-logo></xm-logo>
   <mat-divider></mat-divider>
-  <xm-menu></xm-menu>
-</div>
-<xm-powered-by></xm-powered-by>
-<div class="xm-sidebar-background"></div>
+
+  <div class="section-scroll">
+    <xm-sidebar-user [config]="config?.user"></xm-sidebar-user>
+    <mat-divider></mat-divider>
+    <xm-menu></xm-menu>
+  </div>
+
+  <div class="xm-sidebar-background"></div>
+</ng-template>
+
+<ng-container *ngIf="config?.layout; else defaultSidebarRef">
+  <xm-dynamic-widget-layout [layouts]="config.layout"></xm-dynamic-widget-layout>
+</ng-container>
