@@ -74,12 +74,14 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { CalendarViewComponent } from './calendar-card/calendar-view/calendar-view.component';
 import { OwlDateTimeModule } from 'ng-pick-datetime';
+import { XmJsfExtModule } from "../xm-jsf-ext.module";
 
 @NgModule({
   imports: [
     CommonModule,
     XmSharedModule,
     RouterModule,
+    XmJsfExtModule,
     MaterialDesignFrameworkModule,
     {
       ngModule: JsonSchemaFormModule,

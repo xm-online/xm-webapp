@@ -1,3 +1,4 @@
+const { exec } = require("child_process");
 const replace = require('replace-in-file');
 const buildTimestamp = new Date().getTime();
 const options = {
@@ -14,3 +15,6 @@ try {
 catch (error) {
     console.error('Error occurred:', error);
 }
+
+exec('git update-index --assume-unchanged src/environments/environment.ts')
+exec('git update-index --assume-unchanged src/environments/environment.prod.ts')
