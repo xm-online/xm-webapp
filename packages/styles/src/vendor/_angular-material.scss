@@ -118,3 +118,9 @@ $xm-mat-typography:        mat-typography-config(
 @mixin xm-angular-material-typography() {
   @include angular-material-typography($xm-mat-typography);
 }
+
+// centers mat-icon
+.mat-icon-button .mat-button-wrapper {
+  display: flex;
+  justify-content: center;
+}

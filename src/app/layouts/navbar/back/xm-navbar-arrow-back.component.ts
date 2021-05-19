@@ -13,13 +13,7 @@ import { Observable } from 'rxjs';
                 mat-icon-button>
             <mat-icon >arrow_back</mat-icon>
         </button>
-    `,
-    styles: [`
-        .mat-icon-button .mat-button-wrapper {
-            display: flex;
-            justify-content: center;
-        }
-    `]
+    `
 })
 
 export class XmNavbarArrowBackComponent implements OnInit {
