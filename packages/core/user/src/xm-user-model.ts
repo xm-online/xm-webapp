@@ -35,6 +35,7 @@ export interface XmUser<D = any> {
     langKey?: string;
     permissions?: XmUserPermission[];
     roleKey?: string;
+    authorities?: string[];
     createdBy?: string;
     createdDate?: Date | string;
     lastModifiedBy?: string;
