@@ -147,7 +147,7 @@ export class CalendarViewComponent implements OnChanges {
             start: event.startDate,
             end: event.endDate,
             description: event.description,
-            color: eventSpec.color,
+            color: event.color || eventSpec.color,
             originEvent: event,
         };
     }
