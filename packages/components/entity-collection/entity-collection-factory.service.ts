@@ -11,8 +11,10 @@ export class EntityCollectionFactoryService {
     constructor(protected readonly httpClient: HttpClient) {
     }
 
-    /** @param plural - api slug where entity rest implemented */
-    public create<T>(plural: string): IEntityCollection<T> {
-        return new HttpClientRest<T>(plural, this.httpClient);
+    /** @param resource - api slug where entity rest implemented
+     * @param url - interpolated url
+     */
+    public create<T>(resource: string, url = resource): IEntityCollection<T> {
+        return new HttpClientRest<T>(url, this.httpClient);
     }
 }
