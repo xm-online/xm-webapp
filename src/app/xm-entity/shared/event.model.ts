@@ -12,4 +12,5 @@ export interface Event extends BaseEntity {
     calendar?: number;
     assigned?: XmEntity;
     eventDataRef?: XmEntity;
+    color?: string;
 }
