@@ -58,7 +58,7 @@ export class CalendarViewComponent implements OnChanges {
     ) {}
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.calendar.currentValue) {
+        if (changes.calendar && changes.calendar.currentValue) {
             this.initCalendar();
         }
     }
@@ -103,7 +103,7 @@ export class CalendarViewComponent implements OnChanges {
                 },
             },
             events: ({ start, end }, callback): void => {
-                this.calendarService.getEvents(this.calendar.id, {
+                this.calendar.id && this.calendarService.getEvents(this.calendar.id, {
                     'endDate.greaterThanOrEqual':
                         `${moment(start).subtract(1, 'd').format('YYYY-MM-DD')}T${moment(start).format('HH:mm:ss')}Z`,
                     'startDate.lessThanOrEqual':
@@ -123,7 +123,7 @@ export class CalendarViewComponent implements OnChanges {
             },
             locale: this.languageService.getUserLocale(),
             defaultDate: new Date(),
-            selectable: true,
+            selectable: !(this.calendar.readonly),
             editable: false,
             eventLimit: true,
             timezone: this.getCalendarTimezone(),
@@ -161,19 +161,21 @@ export class CalendarViewComponent implements OnChanges {
     }
 
     private onShowEventDialog(start: any, end: any, calendar: ICalendar, event: Event): void {
-        const calendarApi = this.calendarComponent.getApi();
-        const modifiedEvent = this.formatEventDates(event, start, end);
-        const modalRef = this.modalService.open(CalendarEventDialogComponent, { backdrop: 'static' });
-        modalRef.componentInstance.xmEntity = this.xmEntity;
-        modalRef.componentInstance.timezone = this.getCalendarTimezone();
-        modalRef.componentInstance.event = modifiedEvent;
-        modalRef.componentInstance.calendar = calendar;
-        modalRef.componentInstance.calendarSpec = this.spec;
-        modalRef.componentInstance.onAddEvent = (): void => {
-            calendarApi.refetchEvents();
-        };
-        modalRef.componentInstance.onRemoveEvent = (event: Event, callback?: () => void): void => {
-            this.onRemove(event, callback);
+        if (!this.calendar.readonly) {
+            const calendarApi = this.calendarComponent.getApi();
+            const modifiedEvent = this.formatEventDates(event, start, end);
+            const modalRef = this.modalService.open(CalendarEventDialogComponent, { backdrop: 'static' });
+            modalRef.componentInstance.xmEntity = this.xmEntity;
+            modalRef.componentInstance.timezone = this.getCalendarTimezone();
+            modalRef.componentInstance.event = modifiedEvent;
+            modalRef.componentInstance.calendar = calendar;
+            modalRef.componentInstance.calendarSpec = this.spec;
+            modalRef.componentInstance.onAddEvent = (): void => {
+                calendarApi.refetchEvents();
+            };
+            modalRef.componentInstance.onRemoveEvent = (event: Event, callback?: () => void): void => {
+                this.onRemove(event, callback);
+            }
         }
     }
 

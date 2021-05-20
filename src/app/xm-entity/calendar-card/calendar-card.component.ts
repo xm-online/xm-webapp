@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { switchMap, tap } from 'rxjs/operators';
+import { UUID } from 'angular2-uuid';
 
 import { Principal } from '../../shared';
 import { XmConfigService } from '../../shared';
@@ -67,7 +68,7 @@ export class CalendarCardComponent implements OnChanges {
             )
             .subscribe(() => {
                 if (this.xmEntity.calendars) {
-                    this.calendars = [...this.xmEntity.calendars];
+                    this.calendars = [...this.xmEntity.calendars.map((c: Calendar) => ({...c, uuid: UUID.UUID()}))];
                 }
 
                 const notIncludedSpecs = this.calendarSpecs.filter((cs) => this.calendars
@@ -76,14 +77,15 @@ export class CalendarCardComponent implements OnChanges {
                     const calendar: Calendar = {};
                     calendar.name = this.i18nNamePipe.transform(calendarSpec.name, this.principal);
                     calendar.typeKey = calendarSpec.key;
+                    calendar.readonly = calendarSpec.readonly;
                     calendar.startDate = new Date().toISOString();
+                    calendar.uuid = UUID.UUID();
                     calendar.xmEntity = {};
                     calendar.xmEntity.id = this.xmEntity.id;
                     calendar.xmEntity.typeKey = this.xmEntity.typeKey;
                     calendar.events = [];
                     this.calendars.push(calendar);
                 });
-
                 this.currentCalendar = this.calendars[0];
             });
     }

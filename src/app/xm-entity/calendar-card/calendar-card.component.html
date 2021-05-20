@@ -17,8 +17,7 @@
       </div>
     </div>
 
-    <div *ngFor="let calendar of calendars"
-         [hidden]="calendar.id !== currentCalendar.id">
+    <div *ngFor="let calendar of calendars" [class.hidden]="calendar.uuid !== currentCalendar.uuid">
       <xm-calendar-view
         [calendar]="calendar"
         [config]="getCalendarConfig(calendar)"
