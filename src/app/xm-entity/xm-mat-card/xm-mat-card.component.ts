@@ -49,7 +49,10 @@ export class XmMatCardComponent implements OnInit, OnChanges {
     public onEditChange(event: EditWidgetButtonsEvent): void {
         if (event.event === EditWidgetButtonsEventType.EDIT) {
             this.pageState.setState(PageChangesStoreType.EDIT);
-        } else{
+            if (this.contentHidden) {
+                this.contentHidden = false;
+            }
+        } else {
             this.pageState.setState(PageChangesStoreType.UPDATED);
         }
     }
