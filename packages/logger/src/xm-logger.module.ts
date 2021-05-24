@@ -1,12 +1,13 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { XmLoggerService } from './xm-logger.service';
+import { XmLoggerWatcherService } from './xm-logger-watcher.service';
+import { XmLoggerService} from './xm-logger.service';
 
 
 @NgModule()
 export class XmLoggerModule {
     public static forRoot(): ModuleWithProviders<XmLoggerModule> {
         return {
-            providers: [XmLoggerService],
+            providers: [XmLoggerService, XmLoggerWatcherService],
             ngModule: XmLoggerModule,
         };
     }
