@@ -47,10 +47,20 @@ export function format<T>(template: object | unknown, entity: unknown): T {
             const value = template[key];
             if (typeof value === 'string') {
                 res[key] = interpolate(value, { entity, _ });
+            } else if (value instanceof Array) {
+                res[key] = formatArray(value, entity);
             } else if (typeof value === 'object') {
                 res[key] = format(value, entity);
             }
         }
     }
+    return res;
+}
+
+function formatArray<T = unknown>(template: Array<T>, entity: unknown): Array<T> {
+    const res = [];
+    template.forEach(item => {
+        res.push(format(item, entity));
+    })
     return res;
 }
