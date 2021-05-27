@@ -40,25 +40,27 @@ import * as _ from 'lodash';
  * ```
  * @alpha
  */
-export function format<T>(template: object | unknown, entity: unknown): T | T[] {
-    if (template instanceof Array) {
-        const res = [] as T[];
-        template.forEach(item => {
-            res.push(format(item, entity) as T);
-        })
-        return res;
-    } else {
-        const res = {} as T;
-        for (const key in template as object) {
-            if (Object.prototype.hasOwnProperty.call(template, key)) {
-                const value = template[key];
-                if (typeof value === 'string') {
-                    res[key] = interpolate(value, { entity, _ });
-                } else if (typeof value === 'object') {
-                    res[key] = format(value, entity);
-                }
+export function format<T>(template: object | unknown, entity: unknown): T {
+    const res = {} as T;
+    for (const key in template as object) {
+        if (Object.prototype.hasOwnProperty.call(template, key)) {
+            const value = template[key];
+            if (typeof value === 'string') {
+                res[key] = interpolate(value, { entity, _ });
+            } else if (value instanceof Array) {
+                res[key] = formatArray(value, entity);
+            } else if (typeof value === 'object') {
+                res[key] = format(value, entity);
             }
         }
-        return res;
     }
+    return res;
+}
+
+function formatArray(template: Array<any>, entity: unknown): Array<any> {
+    const res = [];
+    template.forEach(item => {
+        res.push(format(item, entity));
+    })
+    return res;
 }
