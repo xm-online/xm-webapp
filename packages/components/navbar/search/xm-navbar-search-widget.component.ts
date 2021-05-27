@@ -4,7 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { iif, Observable, of } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
 
@@ -43,6 +43,8 @@ interface SearchConfig {
 })
 
 export class XmNavbarSearchWidget implements OnInit {
+    @Input() @Defaults({}) public config: { permission: string[] };
+
     public searchMask: string = '';
     public isShowSearchPanel: boolean;
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();

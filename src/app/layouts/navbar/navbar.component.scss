@@ -1,70 +1,15 @@
 @import 'theme';
 
-@mixin flex() {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-}
-
-@mixin inline-flex {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -moz-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-}
-
-@mixin flex-direction($value: row) {
-  @if $value == row-reverse {
-    -webkit-box-direction: reverse;
-    -webkit-box-orient:    horizontal;
-  } @else if $value == column {
-    -webkit-box-direction: normal;
-    -webkit-box-orient:    vertical;
-  } @else if $value == column-reverse {
-    -webkit-box-direction: reverse;
-    -webkit-box-orient:    vertical;
-  } @else {
-    -webkit-box-direction: normal;
-    -webkit-box-orient:    horizontal;
-  }
-  -webkit-flex-direction: $value;
-  -moz-flex-direction:    $value;
-  -ms-flex-direction:     $value;
-  flex-direction:         $value;
-}
-
-@mixin flex-grow($int: 0) {
-  -webkit-box-flex:  $int;
-  -webkit-flex-grow: $int;
-  -moz-flex-grow:    $int;
-  -ms-flex-positive: $int;
-  flex-grow:         $int;
-}
-
-@mixin flex-wrap($value: nowrap) {
-  // No Webkit Box fallback.
-  -webkit-flex-wrap: $value;
-  -moz-flex-wrap:    $value;
-  @if $value == nowrap {
-    -ms-flex-wrap: none;
-  } @else {
-    -ms-flex-wrap: $value;
-  }
-  flex-wrap:         $value;
-}
 
 // TODO; redesign and remove ng-deep
 ::ng-deep {
   .xm-navbar-container {
-    @include flex();
-    @include flex-grow(1);
-    @include flex-direction(row);
-    @include flex-wrap(nowrap);
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-wrap: nowrap;
     align-items: center;
-    max-width:   100%;
+    max-width: 100%;
 
     ::ng-deep .navbar-toggler {
       display: none;
@@ -74,7 +19,7 @@
   @media (max-width: 991px) {
     .xm-navbar-container {
       .navbar-toggler {
-        display:      block;
+        display: block;
         margin-right: -5px;
       }
     }
@@ -92,18 +37,19 @@
 }
 
 .navbar {
-  padding-top:    0.75rem;
+  padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-  z-index:        $zindex-sticky;
+  z-index: $zindex-sticky;
 }
 
 .xm-navbar-widgets-container {
-  display:        flex;
-  box-sizing:     border-box;
-  padding:        0 32px;
-  width:          100%;
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 32px;
+  width: 100%;
   flex-direction: row;
-  align-items:    center;
-  white-space:    nowrap;
-  height:         64px;
+  align-items: center;
+  white-space: nowrap;
+  height: 64px;
+  z-index: $zindex-sticky;
 }
