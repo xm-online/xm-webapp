@@ -1,3 +1,4 @@
+export { Defaults } from './src/defaults';
 export { download } from './src/download';
 export { format } from './src/format';
 export { debug } from './src/rxjs-debug';

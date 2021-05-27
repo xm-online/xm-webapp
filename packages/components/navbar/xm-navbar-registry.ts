@@ -1,5 +1,4 @@
 import { XmDynamicEntry } from '@xm-ngx/dynamic';
-import { XmNavbarTitleWidgetModule } from '@xm-ngx/components/navbar/title/xm-navbar-title-widget.module';
 
 export const XM_NAVBAR_ELEMENTS: XmDynamicEntry[] = [
     {
@@ -7,7 +6,27 @@ export const XM_NAVBAR_ELEMENTS: XmDynamicEntry[] = [
         loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarArrowBackWidgetModule),
     },
     {
-        selector: '@xm-ngx/components/navbar-title',
-        loadChildren: () => import('@xm-ngx/components/navbar').then(m => XmNavbarTitleWidgetModule),
+        selector: '@xm-ngx/components/navbar-help-link-widget',
+        loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarHelpLinkWidgetModule),
+    },
+    {
+        selector: '@xm-ngx/components/navbar-language-menu-widget',
+        loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarLanguageMenuWidgetModule),
+    },
+    {
+        selector: '@xm-ngx/components/navbar-logo-widget',
+        loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarLogoWidgetModule),
+    },
+    {
+        selector: '@xm-ngx/components/navbar-search-widget',
+        loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarSearchWidgetModule),
+    },
+    {
+        selector: '@xm-ngx/components/navbar-title-widget',
+        loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarTitleWidgetModule),
+    },
+    {
+        selector: '@xm-ngx/components/navbar-toggle-widget',
+        loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarToggleWidgetModule),
     },
 ];

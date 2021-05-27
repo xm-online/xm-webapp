@@ -11,7 +11,7 @@ import {
 import { NavbarComponent } from './navbar.component';
 import { CommonModule } from '@angular/common';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
-import { XmNavbarNotificationWidgetModule } from '@xm-ngx/components/xm-notifications';
+import { XmNavbarNotificationWidgetModule } from '@xm-ngx/components/navbar-notification-widget';
 
 
 @NgModule({

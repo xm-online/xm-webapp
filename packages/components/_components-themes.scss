@@ -15,5 +15,5 @@
   @include xm-text-theme($xm-theme);
   @include xm-code-theme($xm-theme);
   @include xm-block-placeholder-theme($xm-theme);
-  @include xm-navbar-search-theme($xm-theme);
+  @include xm-navbar-search-widget-theme($xm-theme);
 }

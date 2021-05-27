@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { XmNavbarLanguageMenuWidget } from './xm-navbar-language-menu-widget.component';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,4 +22,5 @@ import { MatMenuModule } from '@angular/material/menu';
     declarations: [XmNavbarLanguageMenuWidget],
 })
 export class XmNavbarLanguageMenuWidgetModule {
+    public entry: Type<XmNavbarLanguageMenuWidget> = XmNavbarLanguageMenuWidget;
 }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { XmNavbarHelpLinkWidget } from './xm-navbar-help-link-widget.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -16,4 +16,5 @@ import { XmTranslationModule } from '@xm-ngx/translation';
     declarations: [XmNavbarHelpLinkWidget],
 })
 export class XmNavbarHelpLinkWidgetModule {
+    public entry: Type<XmNavbarHelpLinkWidget> = XmNavbarHelpLinkWidget;
 }

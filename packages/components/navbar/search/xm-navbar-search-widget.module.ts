@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { CommonModule } from '@angular/common';
-import { InputModule } from '../../../../src/app/shared/directives/input.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { XmNavbarSearchWidget } from '@xm-ngx/components/navbar/search/xm-navbar-search-widget.component';
+import { InputModule } from '../../../../src/app/shared/directives/input.module';
+import { XmNavbarSearchWidget } from './xm-navbar-search-widget.component';
+import { XmPermissionModule } from '../../../core/permisson';
 
 @NgModule({
     exports: [XmNavbarSearchWidget],
@@ -17,8 +18,10 @@ import { XmNavbarSearchWidget } from '@xm-ngx/components/navbar/search/xm-navbar
         MatButtonModule,
         MatInputModule,
         InputModule,
-        MatIconModule
+        MatIconModule,
+        XmPermissionModule
     ]
 })
 export class XmNavbarSearchWidgetModule {
+    public entry: Type<XmNavbarSearchWidget> = XmNavbarSearchWidget;
 }

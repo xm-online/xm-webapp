@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
@@ -16,28 +16,28 @@ interface SearchConfig {
 }
 
 @Component({
-    selector: 'xm-navbar-input-search-widget',
+    selector: 'xm-navbar-search-widget',
     template: `
-        <form (submit)="search($event, searchBox.value)"
-              *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
-              class="d-none d-md-flex flex-row xm-search-global"
-              role="search">
+        <ng-container *xmPermission="config.permission">
+            <form (submit)="search($event, searchBox.value)"
+                  *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
+                  class="d-flex flex-row align-items-center xm-search-global"
+                  role="search">
 
-            <mat-form-field floatLabel="never">
-                <input #searchBox
-                       matInput
-                       [regexp]="searchMask"
-                       class="search-input"
-                       [placeholder]="'navbar.search' | translate"
-                       type="text"
-                       xmInputPattern>
-            </mat-form-field>
+                <mat-form-field>
+                    <input #searchBox
+                           matInput
+                           [regexp]="searchMask"
+                           [placeholder]="'navbar.search' | translate"
+                           type="text"
+                           xmInputPattern>
+                </mat-form-field>
 
-            <button class="search-btn bg-surface rounded-circle shadow-sm mr-2"
-                    mat-icon-button>
-                <mat-icon>search</mat-icon>
-            </button>
-        </form>
+                <button mat-icon-button>
+                    <mat-icon>search</mat-icon>
+                </button>
+            </form>
+        </ng-container>
     `,
     styleUrls: ['./xm-navbar-search-widget.component.scss'],
 })
