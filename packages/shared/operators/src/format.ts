@@ -57,7 +57,7 @@ export function format<T>(template: object | unknown, entity: unknown): T {
     return res;
 }
 
-function formatArray(template: Array<any>, entity: unknown): Array<any> {
+function formatArray<T = unknown>(template: Array<T>, entity: unknown): Array<T> {
     const res = [];
     template.forEach(item => {
         res.push(format(item, entity));
