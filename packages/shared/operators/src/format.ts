@@ -40,11 +40,11 @@ import * as _ from 'lodash';
  * ```
  * @alpha
  */
-export function format<T extends Array<any>>(template: object | unknown, entity: unknown): T {
+export function format<T>(template: object | unknown, entity: unknown): T | T[] {
     if (template instanceof Array) {
-        const res = [] as T;
+        const res = [] as T[];
         template.forEach(item => {
-            res.push(format(item, entity));
+            res.push(format(item, entity) as T);
         })
         return res;
     } else {
