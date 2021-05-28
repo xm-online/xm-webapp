@@ -1,5 +1,5 @@
 import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { XmLayout, XmSanitizedLayout } from '@xm-ngx/dynamic';
+import { XmLayout, XmSanitizedLayout } from '../interfaces';
 import * as _ from 'lodash';
 
 @Directive()

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { XmDynamicPresentationConstructor } from '@xm-ngx/dynamic';
-import { XmDynamicPresentationEntryModule } from '../../../dynamic/src/presentation';
+import { XmDynamicPresentationConstructor, XmDynamicPresentationEntryModule } from '@xm-ngx/dynamic';
 import { XmTextComponent } from './xm-text.component';
 
 @NgModule({

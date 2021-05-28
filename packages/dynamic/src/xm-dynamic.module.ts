@@ -8,10 +8,8 @@ import { DynamicLoader } from './loader/dynamic-loader';
 import { DynamicMultiLoaderService } from './loader/dynamic-multi-loader.service';
 import { DynamicMultiSearcherService } from './searcher/dynamic-multi-searcher.service';
 import { DynamicSearcher } from './searcher/dynamic-searcher';
-import { XmDynamicPresentationLayoutComponent } from './presentation/xm-dynamic-presentation-layout.component';
-import { XmDynamicPresentationDirective } from './presentation/xm-dynamic-presentation.directive';
-import { XmDynamicWidgetLayoutComponent } from './widget/xm-dynamic-widget-layout.component';
-import { XmDynamicWidgetDirective } from './widget/xm-dynamic-widget.directive';
+import { XmDynamicPresentationDirective, XmDynamicPresentationLayoutComponent } from './presentation';
+import { XmDynamicWidgetDirective, XmDynamicWidgetLayoutComponent } from './widget';
 
 export function dynamicModuleInitializer(components: XmDynamicEntries): Provider {
     return [{ provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: components }];

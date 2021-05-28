@@ -7,3 +7,9 @@ export interface XmLayout {
     class?: string;
     style?: string;
 }
+
+export interface XmSanitizedLayout {
+    layout: XmLayout;
+    isCustomElement: boolean;
+    customParams: unknown;
+}

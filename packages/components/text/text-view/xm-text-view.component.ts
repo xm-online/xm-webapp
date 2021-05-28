@@ -1,10 +1,13 @@
 import { Component, Input, NgModule } from '@angular/core';
 import { XmTextTitleOptions } from '@xm-ngx/components/text/text-title/xm-text-title.component';
-import { XmDynamicPresentation, XmDynamicPresentationConstructor } from '@xm-ngx/dynamic';
+import {
+    XmDynamicPresentation,
+    XmDynamicPresentationConstructor,
+    XmDynamicPresentationEntryModule
+} from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { XmDynamicPresentationEntryModule } from '../../../dynamic/src/presentation';
 import { XmTextViewContainerComponent } from './xm-text-view-container.component';
 import { CommonModule } from '@angular/common';
 

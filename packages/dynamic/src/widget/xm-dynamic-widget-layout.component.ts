@@ -1,12 +1,5 @@
 import { Component } from '@angular/core';
-import { XmLayout } from '../interfaces/xm-layout';
 import { XmDynamicLayoutBase } from './xm-dynamic-layout.base';
-
-export interface XmSanitizedLayout {
-    layout: XmLayout;
-    isCustomElement: boolean;
-    customParams: unknown;
-}
 
 @Component({
     selector: 'xm-dynamic-widget-layout, [xm-dynamic-widget-layout]',

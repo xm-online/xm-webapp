@@ -42,6 +42,7 @@ export {
     XmDynamicEntries,
     XmDynamicNgModuleFactory,
     XmDynamicEntry,
+    XmSanitizedLayout,
 } from './src/interfaces';
 
 export {
@@ -49,7 +50,6 @@ export {
     XmDynamicWidgetConfig,
     XmDynamicWidgetModule,
     XmDynamicWidget,
-    XmSanitizedLayout,
     XmDynamicWidgetLayoutComponent,
 } from './src/widget';
 
