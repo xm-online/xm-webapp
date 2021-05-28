@@ -10,6 +10,14 @@ class MyComponent {
 }
 ```
 
+* **exceptions:** Add exceptions.
+
+```ts
+throw new ArgumentException();
+throw new NotImplementedException();
+throw new NotSupportedException();
+```
+
 ### BREAKING CHANGES
 
 * **navbar:** Split and rename navbar components.

@@ -2,6 +2,7 @@ import { Directive, Input, OnDestroy, OnInit, Optional, Self } from '@angular/co
 import { FormControl, FormControlDirective, FormControlName, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NgControlAccessor } from './ng-control-accessor';
+import { ArgumentException } from '@xm-ngx/shared/exceptions';
 
 @Directive()
 /**
@@ -32,7 +33,7 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
      */
     public set control(value: FormControl) {
         if (!value) {
-            throw new TypeError('FormControl is required!');
+            throw new ArgumentException('FormControl is required!');
         }
         if (value === this._control) {
             console.warn('FormControl applies twice! This control is already initialized.');

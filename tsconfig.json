@@ -38,6 +38,7 @@
       "@xm-ngx/logger": ["packages/logger"],
       "@xm-ngx/logger/testing": ["packages/logger/testing"],
       "@xm-ngx/shared": ["src/app/modules/xm-shared"],
+      "@xm-ngx/shared/exceptions": ["packages/shared/exceptions"],
       "@xm-ngx/shared/validators": ["packages/shared/validators"],
       "@xm-ngx/shared/interfaces": ["packages/shared/interfaces"],
       "@xm-ngx/shared/operators": ["packages/shared/operators"],

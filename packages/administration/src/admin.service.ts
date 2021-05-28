@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { Client } from 'src/app/shared';
+import { NotImplementedException } from '@xm-ngx/shared/exceptions';
 
 @Directive()
 export class BaseAdminListComponent implements OnInit, OnDestroy {
@@ -72,11 +73,11 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     }
 
     public loadAll(): void {
-        throw new Error('Not implemented');
+        throw new NotImplementedException();
     }
 
     public deleteAction(id: number): void {
-        throw new Error('Not implemented ' + id);
+        throw new NotImplementedException();
     }
 
     public sort(): string[] {
