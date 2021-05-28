@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError, switchMap, tap, take } from 'rxjs/operators';
 // TODO: remove external deps
 import { AuthServerProvider } from '../../../../src/app/shared/auth/auth-jwt.service';
-import { LoginService } from '../../../../src/app/shared/auth/login.service';
+import { of } from 'rxjs';
 
 export const ERROR_CODE_UNAUTHORIZED = 401;
 export const TOKEN_URL = 'uaa/oauth/token';
@@ -14,7 +14,6 @@ export const TOKEN_URL = 'uaa/oauth/token';
 export class XmAuthenticationService {
 
     constructor(
-        private loginService: LoginService,
         private serverProvider: AuthServerProvider,
         private sessionService: XmSessionService,
     ) {
@@ -25,10 +24,10 @@ export class XmAuthenticationService {
     }
 
     public refreshShouldHappen(response: HttpErrorResponse): boolean {
-        return response.status === 401;
+        return response.status === ERROR_CODE_UNAUTHORIZED;
     }
 
-    public refreshToken(): Observable<unknown> {
+    public refreshToken(): Observable<unknown | null> {
         return this.sessionService.isActive().pipe(
             take(1),
             switchMap((active) => {
@@ -38,7 +37,10 @@ export class XmAuthenticationService {
                 return this.serverProvider.refreshGuestAccessToken();
             }),
             tap((res) => this.serverProvider.updateTokens(res)),
-            catchError(() => this.loginService.logout$()),
+            catchError(() => {
+                this.sessionService.clear();
+                return of(null);
+            }),
         );
     }
 

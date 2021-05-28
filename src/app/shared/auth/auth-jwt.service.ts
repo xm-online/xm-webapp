@@ -4,7 +4,7 @@ import { Params, Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { AuthRefreshTokenService, XmAuthenticationStoreService } from '../../../../packages/core/auth';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, IDP_CLIENT } from '../../xm.constants';
 import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
@@ -55,6 +55,10 @@ export class AuthServerProvider {
     public init(): void {
         const isRememberMe = this.storeService.isRememberMe();
         this.setAutoRefreshTokens(isRememberMe);
+        this.sessionService.isActive().pipe(
+            filter(i => i === false),
+            switchMap(()=>this.logout())
+        ).subscribe();
     }
 
     public getToken(): string {
