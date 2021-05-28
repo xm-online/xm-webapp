@@ -56,7 +56,7 @@ export class XmPermissionService {
         }
         return this.privileges$().pipe(
             map((arr) => _.intersection(arr, privileges).length === privileges.length),
-            this.isSuperAdmin.bind(this),
+            switchMap((res) => this.isSuperAdmin(res)),
         );
     }
 
@@ -66,7 +66,7 @@ export class XmPermissionService {
         }
         return this.privileges$().pipe(
             map((arr) => _.intersection(arr, privileges).length !== 0),
-            this.isSuperAdmin.bind(this),
+            switchMap((res) => this.isSuperAdmin(res)),
         );
     }
 
@@ -84,11 +84,11 @@ export class XmPermissionService {
         }
     }
 
-    private isSuperAdmin(res: Observable<boolean>): Observable<boolean> {
+    private isSuperAdmin(res: boolean): Observable<boolean> {
         return this.userService.user$().pipe(
             filter((u) => Boolean(u)),
             first(),
-            switchMap((user) => user.roleKey === SUPER_ADMIN ? of(true) : res),
+            map((user) => user.roleKey === SUPER_ADMIN ? true : res),
         );
     }
 }
