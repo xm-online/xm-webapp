@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
-import { IDP_CLIENT } from '../../../../src/app/xm.constants';
+
+// TODO: move to IDP context
+export const IDP_CLIENT = 'idp_client';
 
 export const REFRESH_TOKEN = 'refresh_token';
 export const AUTH_TOKEN = 'authenticationToken';
