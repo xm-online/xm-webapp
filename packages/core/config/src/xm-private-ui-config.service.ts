@@ -3,8 +3,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { RequestCache, RequestCacheFactoryService, XmCoreConfig } from '@xm-ngx/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { XmPermissionService } from '../../permisson';
 import { UIPrivateConfig } from './xm-ui-config-model';
+import { XmPermissionService } from '@xm-ngx/core/permisson';
 
 @Injectable()
 export class XmPrivateUiConfigService<T = UIPrivateConfig> implements OnDestroy {
