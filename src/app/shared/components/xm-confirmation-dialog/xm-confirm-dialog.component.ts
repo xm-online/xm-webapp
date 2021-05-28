@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { NotImplementedException } from '@xm-ngx/shared/exceptions';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class XmConfirmDialogComponent {
     }
 
     public onSubmit(): void {
-        throw new Error('Not implemented');
+        throw new NotImplementedException();
     }
 
     public onDismiss(): void {

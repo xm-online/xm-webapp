@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, first, map, switchMap } from 'rxjs/operators';
 import { XmUser, XmUserPermission, XmUserService } from '@xm-ngx/core/user';
+import { ArgumentException } from '@xm-ngx/shared/exceptions';
 
 export const SUPER_ADMIN = 'SUPER-ADMIN';
 
@@ -41,7 +42,7 @@ export class XmPermissionService {
 
     public hasPrivilege(privilege: string): Observable<boolean> {
         if (!privilege) {
-            throw new Error('The privilege is empty!');
+            throw new ArgumentException('The privilege is empty!');
         }
         return this.privileges$().pipe(
             map((arr) => _.includes(arr, privilege)),
@@ -51,21 +52,21 @@ export class XmPermissionService {
 
     public hasPrivileges(privileges: string[]): Observable<boolean> {
         if (!privileges && !privileges.length) {
-            throw new Error('The privileges array is empty!');
+            throw new ArgumentException('The privileges array is empty!');
         }
         return this.privileges$().pipe(
             map((arr) => _.intersection(arr, privileges).length === privileges.length),
-            this.isSuperAdmin.bind(this),
+            switchMap((res) => this.isSuperAdmin(res)),
         );
     }
 
     public hasAnyPrivilege(privileges: string[]): Observable<boolean> {
         if (!privileges && !privileges.length) {
-            throw new Error('The privileges array is empty!');
+            throw new ArgumentException('The privileges array is empty!');
         }
         return this.privileges$().pipe(
             map((arr) => _.intersection(arr, privileges).length !== 0),
-            this.isSuperAdmin.bind(this),
+            switchMap((res) => this.isSuperAdmin(res)),
         );
     }
 
@@ -83,11 +84,11 @@ export class XmPermissionService {
         }
     }
 
-    private isSuperAdmin(res: Observable<boolean>): Observable<boolean> {
+    private isSuperAdmin(res: boolean): Observable<boolean> {
         return this.userService.user$().pipe(
             filter((u) => Boolean(u)),
             first(),
-            switchMap((user) => user.roleKey === SUPER_ADMIN ? of(true) : res),
+            map((user) => user.roleKey === SUPER_ADMIN ? true : res),
         );
     }
 }
