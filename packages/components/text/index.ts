@@ -44,6 +44,7 @@ export {
     XmTextTitleOptions,
     XmTextTitleComponent,
     XmTextTitleModule,
+    XM_TEXT_TITLE_ENTRY
 } from './text-title';
 
 export {

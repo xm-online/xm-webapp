@@ -1,8 +1,7 @@
 {
-  "name": "@xm-ngx/shared",
+  "name": "@xm-ngx/components",
   "version": "1.0.0",
   "peerDependencies": {
-    "@xm-ngx/shared": "*",
     "html2canvas": "1.0.0-rc.7"
   },
   "ngPackage": {

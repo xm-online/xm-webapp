@@ -2,7 +2,11 @@ import { InjectionToken } from '@angular/core';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { Translate } from '@xm-ngx/translation';
 
-export const XM_CONTROL_ERRORS_TRANSLATES = new InjectionToken('XM_CONTROL_ERRORS_TRANSLATES');
+export interface XmControlErrorsTranslates {
+    [errorKey: string]: Translate
+}
+
+export const XM_CONTROL_ERRORS_TRANSLATES = new InjectionToken<XmControlErrorsTranslates>('XM_CONTROL_ERRORS_TRANSLATES');
 
 export const XM_CONTROL_ERRORS_TRANSLATES_DEFAULT: { [errorKey: string]: Translate } = {
     min: marker('xm-control-errors.validators.min'),

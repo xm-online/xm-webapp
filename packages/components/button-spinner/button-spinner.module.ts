@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ButtonSpinnerDirective } from '@xm-ngx/components/button-spinner/button-spinner.directive';
+import { ButtonSpinnerDirective } from './button-spinner.directive';
 
 @NgModule({
-    declarations: [ButtonSpinnerDirective],
     imports: [
         CommonModule
     ],
+    declarations: [ButtonSpinnerDirective],
     exports: [ButtonSpinnerDirective]
 })
 export class ButtonSpinnerModule {

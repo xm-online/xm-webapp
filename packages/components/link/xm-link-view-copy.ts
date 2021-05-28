@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, OnInit, Type, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { XM_COPY_ICON_OPTIONS, XmCopyIconModule, XmCopyIconOptions } from '@xm-ngx/components/copy/xm-copy-icon';
+import { XM_COPY_ICON_OPTIONS, XmCopyIconModule, XmCopyIconOptions } from '@xm-ngx/components/copy';
 import {
     XM_LINK_VIEW_DEFAULT_OPTIONS,
     XmLinkViewOptions,
     XmLinkViewComponent,
-} from '@xm-ngx/components/link/xm-link-view';
+} from './xm-link-view';
 import { XmTextViewModule } from '@xm-ngx/components/text';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/shared/interfaces';

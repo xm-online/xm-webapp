@@ -1,5 +1,5 @@
 import { Component, Input, NgModule } from '@angular/core';
-import { XmTextTitleOptions } from '@xm-ngx/components/text/text-title/xm-text-title.component';
+import { XmTextTitleOptions } from '../text-title/xm-text-title.component';
 import {
     XmDynamicPresentation,
     XmDynamicPresentationConstructor,

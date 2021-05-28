@@ -9,7 +9,7 @@ import {MatInputModule} from '@angular/material/input';
 import {ControlErrorModule} from '@xm-ngx/components/control-error';
 import {XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule} from '@xm-ngx/dynamic';
 import {XmTranslationModule} from '@xm-ngx/translation';
-import {XmDateControlOptions} from '@xm-ngx/components/date/xm-date-control';
+import {XmDateControlOptions} from './xm-date-control';
 import {DateTimeAdapter, OWL_DATE_TIME_FORMATS, OWL_DATE_TIME_LOCALE, OwlDateTimeModule} from 'ng-pick-datetime';
 import {NgFormAccessor} from '@xm-ngx/components/ng-accessor';
 import {MomentDateTimeAdapter} from 'ng-pick-datetime/date-time/adapter/moment-adapter/moment-date-time-adapter.class';

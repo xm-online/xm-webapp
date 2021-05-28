@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MaintenanceService } from '@xm-ngx/components/maintenance/maintenance.service';
+import { MaintenanceService } from './maintenance.service';
 import { Observable } from 'rxjs';
 
 @Component({

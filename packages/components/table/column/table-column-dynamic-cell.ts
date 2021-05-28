@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule } from '@angular/material/table';
-import { TableColumnsManager } from '@xm-ngx/components/table/column/table-columns-manager';
+import { TableColumnsManager } from './table-columns-manager';
 import { XmDynamicCell, XmDynamicCellModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
