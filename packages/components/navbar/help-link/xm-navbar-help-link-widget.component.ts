@@ -3,10 +3,10 @@ import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
-import { IHelpNavLink } from '../../../account';
+import { IHelpNavLink } from '../../../../src/app/account';
 
 @Component({
-    selector: 'xm-navbar-help-link',
+    selector: 'xm-navbar-help-link-widget',
     template: `
         <div *ngIf="helpConfig && !(isSessionActive$ | async)"
              class="xm-nav-help-link">
@@ -18,9 +18,9 @@ import { IHelpNavLink } from '../../../account';
             </a>
         </div>
     `,
-    styleUrls: ['./xm-navbar-help-link.scss'],
+    styleUrls: ['./xm-navbar-help-link-widget.component.scss'],
 })
-export class XmNavbarHelpLink implements OnInit {
+export class XmNavbarHelpLinkWidget implements OnInit {
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
     public helpConfig: {
         navLink: IHelpNavLink;

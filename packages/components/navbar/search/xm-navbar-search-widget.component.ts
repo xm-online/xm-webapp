@@ -1,10 +1,10 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { iif, Observable, of } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
 
@@ -16,33 +16,35 @@ interface SearchConfig {
 }
 
 @Component({
-    selector: 'xm-navbar-input-search',
+    selector: 'xm-navbar-search-widget',
     template: `
-        <form (submit)="search($event, searchBox.value)"
-              *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
-              class="d-none d-md-flex flex-row xm-search-global"
-              role="search">
+        <ng-container *xmPermission="config.permission">
+            <form (submit)="search($event, searchBox.value)"
+                  *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
+                  class="d-flex flex-row align-items-center xm-search-global"
+                  role="search">
 
-            <mat-form-field floatLabel="never">
-                <input #searchBox
-                       matInput
-                       [regexp]="searchMask"
-                       class="search-input"
-                       [placeholder]="'navbar.search' | translate"
-                       type="text"
-                       xmInputPattern>
-            </mat-form-field>
+                <mat-form-field>
+                    <input #searchBox
+                           matInput
+                           [regexp]="searchMask"
+                           [placeholder]="'navbar.search' | translate"
+                           type="text"
+                           xmInputPattern>
+                </mat-form-field>
 
-            <button class="search-btn bg-surface rounded-circle shadow-sm mr-2"
-                    mat-icon-button>
-                <mat-icon>search</mat-icon>
-            </button>
-        </form>
+                <button mat-icon-button>
+                    <mat-icon>search</mat-icon>
+                </button>
+            </form>
+        </ng-container>
     `,
-    styleUrls: ['./xm-navbar-input-search.component.scss'],
+    styleUrls: ['./xm-navbar-search-widget.component.scss'],
 })
 
-export class XmNavbarInputSearchComponent implements OnInit {
+export class XmNavbarSearchWidget implements OnInit {
+    @Input() @Defaults({}) public config: { permission: string[] };
+
     public searchMask: string = '';
     public isShowSearchPanel: boolean;
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();

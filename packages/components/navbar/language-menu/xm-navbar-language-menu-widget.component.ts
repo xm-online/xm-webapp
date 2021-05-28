@@ -6,7 +6,7 @@ import { LanguageService, Locale } from '@xm-ngx/translation';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'xm-navbar-language-menu',
+    selector: 'xm-navbar-language-menu-widget',
     template: `
         <button *ngIf="!(isSessionActive$ | async)"
                 mat-button
@@ -27,7 +27,7 @@ import { Observable } from 'rxjs';
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class XmNavbarLanguageMenuComponent implements OnInit {
+export class XmNavbarLanguageMenuWidget implements OnInit {
     public languages: Locale[];
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 

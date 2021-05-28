@@ -3,7 +3,7 @@ import { NgModule, Type } from '@angular/core';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
-import { NotificationsComponent } from './notifications/notifications.component';
+import { XmNavbarNotificationWidget } from './notifications/xm-navbar-notification-widget.component';
 import { NotificationsService } from './shared/notifications.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -20,10 +20,10 @@ import { MatButtonModule } from '@angular/material/button';
         MatButtonModule,
         XmTranslationModule,
     ],
-    declarations: [NotificationsComponent],
-    exports: [NotificationsComponent],
+    declarations: [XmNavbarNotificationWidget],
+    exports: [XmNavbarNotificationWidget],
     providers: [NotificationsService],
 })
-export class XmNotificationsModule {
-    public entry: Type<NotificationsComponent> = NotificationsComponent;
+export class XmNavbarNotificationWidgetModule {
+    public entry: Type<XmNavbarNotificationWidget> = XmNavbarNotificationWidget;
 }

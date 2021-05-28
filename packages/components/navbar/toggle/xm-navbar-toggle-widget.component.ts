@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector: 'xm-navbar-toggle',
+    selector: 'xm-navbar-toggle-widget',
     template: `
         <div class="sidbar-toggle">
             <button (click)="sidebarToggle()"
@@ -15,10 +15,11 @@ import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core'
             </button>
         </div>
     `,
+    styleUrls: ['./xm-navbar-toggle-widget.scss'],
     encapsulation: ViewEncapsulation.None,
 })
 
-export class XmNavbarToggleComponent implements OnInit {
+export class XmNavbarToggleWidget implements OnInit {
     protected mobileMenuVisible: boolean = false;
     private toggleButton: HTMLElement;
     private sidebarVisible: boolean;

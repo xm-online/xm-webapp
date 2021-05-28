@@ -18,11 +18,11 @@ const DEFAULT_PRIVILEGES = ['XMENTITY.SEARCH', 'XMENTITY.SEARCH.QUERY', 'XMENTIT
 const DEF_NOTIFY_COUNT = 5;
 
 @Component({
-    selector: 'xm-notifications',
-    templateUrl: './notifications.component.html',
-    styleUrls: ['./notifications.component.scss'],
+    selector: 'xm-navbar-notification-widget',
+    templateUrl: './xm-navbar-notification-widget.component.html',
+    styleUrls: ['./xm-navbar-notification-widget.component.scss'],
 })
-export class NotificationsComponent implements OnInit, OnDestroy {
+export class XmNavbarNotificationWidget implements OnInit, OnDestroy {
 
     public config: NotificationUiConfig;
     public isOpened: boolean;

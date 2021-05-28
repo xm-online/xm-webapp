@@ -13,8 +13,8 @@ interface RouteData {
 }
 
 @Component({
-    selector: 'xm-navbar-title',
-    styleUrls: ['./xm-navbar-title.scss'],
+    selector: 'xm-navbar-title-widget',
+    styleUrls: ['./xm-navbar-title-widget.component.scss'],
     template: `
         <div *ngIf="routeData && title"
              class="title-part px-3">
@@ -25,7 +25,7 @@ interface RouteData {
     `,
 })
 
-export class XmNavbarTitleComponent implements OnInit, DoCheck {
+export class XmNavbarTitleWidget implements OnInit, DoCheck {
     public routeData: RouteData = {};
     public titleContent: string;
     public title: string;
@@ -83,3 +83,4 @@ export class XmNavbarTitleComponent implements OnInit, DoCheck {
         return item ? this.translateService.instant(item as string) : '';
     }
 }
+

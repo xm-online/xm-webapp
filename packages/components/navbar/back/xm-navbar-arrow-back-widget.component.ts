@@ -5,18 +5,17 @@ import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'xm-navbar-arrow-back',
+    selector: 'xm-navbar-arrow-back-widget',
     template: `
         <button (click)="onBack()"
                 *ngIf="isSessionActive$ | async"
                 class="bg-surface rounded-circle shadow-sm"
                 mat-icon-button>
-            <mat-icon >arrow_back</mat-icon>
+            <mat-icon>arrow_back</mat-icon>
         </button>
     `
 })
-
-export class XmNavbarArrowBackComponent implements OnInit {
+export class XmNavbarArrowBackWidget implements OnInit {
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
     private previousPath: string;
@@ -53,3 +52,4 @@ export class XmNavbarArrowBackComponent implements OnInit {
         });
     }
 }
+

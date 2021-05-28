@@ -1,0 +1,11 @@
+.xm-nav-help-link {
+  a {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+
+    > span {
+      padding: 0 5px;
+    }
+  }
+}
