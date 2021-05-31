@@ -28,6 +28,7 @@ export class MockTranslateService {
 /** @public */
 export class MockXmTranslateService {
     public translate: (i: string) => string = (arg) => arg;
+    public interpolate: (i: string) => string = (arg) => arg;
 }
 
 /** @public */
