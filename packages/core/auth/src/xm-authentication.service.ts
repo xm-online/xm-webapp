@@ -1,11 +1,15 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
-import { Observable } from 'rxjs';
-import { catchError, switchMap, tap, take } from 'rxjs/operators';
-// TODO: remove external deps
-import { AuthServerProvider } from '../../../../src/app/shared/auth/auth-jwt.service';
-import { LoginService } from '../../../../src/app/shared/auth/login.service';
+import { Observable, of } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import {
+    AuthTokenResponse,
+    GuestTokenResponse,
+    XmAuthenticationRepository
+} from './xm-authentication-repository.service';
+import { XmAuthenticationStoreService } from './xm-authentication-store.service';
+import { AuthRefreshTokenService } from './auth-refresh-token.service';
 
 export const ERROR_CODE_UNAUTHORIZED = 401;
 export const TOKEN_URL = 'uaa/oauth/token';
@@ -14,8 +18,9 @@ export const TOKEN_URL = 'uaa/oauth/token';
 export class XmAuthenticationService {
 
     constructor(
-        private loginService: LoginService,
-        private serverProvider: AuthServerProvider,
+        private authenticationRepository: XmAuthenticationRepository,
+        private storeService: XmAuthenticationStoreService,
+        private refreshTokenService: AuthRefreshTokenService,
         private sessionService: XmSessionService,
     ) {
     }
@@ -25,25 +30,46 @@ export class XmAuthenticationService {
     }
 
     public refreshShouldHappen(response: HttpErrorResponse): boolean {
-        return response.status === 401;
+        return response.status === ERROR_CODE_UNAUTHORIZED;
     }
 
-    public refreshToken(): Observable<unknown> {
+    public refreshToken(): Observable<unknown | null> {
         return this.sessionService.isActive().pipe(
             take(1),
             switchMap((active) => {
                 if (active) {
-                    return this.serverProvider.refreshToken();
+                    return this.authenticationRepository.refreshToken();
                 }
-                return this.serverProvider.refreshGuestAccessToken();
+                return this.authenticationRepository.refreshGuestAccessToken();
             }),
-            tap((res) => this.serverProvider.updateTokens(res)),
-            catchError(() => this.loginService.logout$()),
+            tap((res) => this.updateTokens(res)),
+            catchError(() => {
+                this.sessionService.clear();
+                return of(null);
+            }),
         );
     }
 
     public getHeaders(token: string): { [name: string]: string | string[] } {
-        return { Authorization: `Bearer ${token}` };
+        return {Authorization: `Bearer ${token}`};
+    }
+
+    private updateTokens(res: AuthTokenResponse | GuestTokenResponse): void {
+        const rememberMe: boolean = this.storeService.isRememberMe();
+
+        this.storeService.storeAuthenticationToken(res.access_token, rememberMe);
+
+        const data: AuthTokenResponse = res as AuthTokenResponse;
+        if (!data.refresh_token || !data.expires_in) {
+            return;
+        }
+
+        this.storeService.storeRefreshToken(data.refresh_token, rememberMe);
+        // TODO: invert to listener of session change
+        this.refreshTokenService.start(data.expires_in, () => this.refreshToken());
+
+        this.sessionService.update();
+
     }
 }
 

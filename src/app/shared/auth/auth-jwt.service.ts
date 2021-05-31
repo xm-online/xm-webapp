@@ -4,13 +4,14 @@ import { Params, Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { AuthRefreshTokenService, XmAuthenticationStoreService } from '../../../../packages/core/auth';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, IDP_CLIENT } from '../../xm.constants';
 import { CustomUriEncoder } from '../helpers/custom-uri-encoder';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
 import { IIdpClient } from '../../../../packages/core/src/xm-public-idp-config-model';
+import { XmAuthenticationRepository } from '../../../../packages/core/auth';
 
 
 const DEFAULT_HEADERS = {
@@ -43,6 +44,7 @@ export class AuthServerProvider {
     constructor(
         private principal: Principal,
         private http: HttpClient,
+        private authenticationRepository: XmAuthenticationRepository,
         private sessionService: XmSessionService,
         private storeService: XmAuthenticationStoreService,
         private refreshTokenService: AuthRefreshTokenService,
@@ -55,6 +57,10 @@ export class AuthServerProvider {
     public init(): void {
         const isRememberMe = this.storeService.isRememberMe();
         this.setAutoRefreshTokens(isRememberMe);
+        this.sessionService.isActive().pipe(
+            filter(i => i === false),
+            switchMap(()=>this.logout())
+        ).subscribe();
     }
 
     public getToken(): string {
@@ -171,30 +177,11 @@ export class AuthServerProvider {
     }
 
     public refreshToken(): Observable<AuthTokenResponse> {
-        const headers = {
-            Authorization: DEFAULT_AUTH_TOKEN,
-            'Content-Type': DEFAULT_CONTENT_TYPE,
-            Accept: 'application/json',
-        };
-
-        const body = new HttpParams()
-            .set('grant_type', 'refresh_token')
-            .set('refresh_token', this.getRefreshToken());
-
-        return this.http.post<AuthTokenResponse>(TOKEN_URL, body, { headers });
+        return this.authenticationRepository.refreshToken();
     }
 
     public refreshGuestAccessToken(): Observable<GuestTokenResponse> {
-        const data = new HttpParams().set('grant_type', 'client_credentials');
-        const headers = {
-            'Content-Type': DEFAULT_CONTENT_TYPE,
-            Authorization: DEFAULT_AUTH_TOKEN,
-        };
-        return this.http.post<GuestTokenResponse>(
-            'uaa/oauth/token',
-            data,
-            { headers },
-        );
+        return this.authenticationRepository.refreshGuestAccessToken();
     }
 
     public refreshTokens(rememberMe: boolean = this.storeService.isRememberMe()): void {

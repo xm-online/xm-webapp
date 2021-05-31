@@ -1,18 +1,18 @@
 import { Inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AuthServerProvider } from './auth-jwt.service';
 import { Principal } from './principal.service';
 import { StateStorageService } from './state-storage.service';
 import { SessionStorageService } from 'ngx-webstorage';
 import { IDP_CLIENT, XM_EVENT_LIST } from '../../xm.constants';
-import { XmEventManager } from '@xm-ngx/core';
+import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { DOCUMENT, Location } from '@angular/common';
 import { IIdpClient, IIdpConfig } from '../../../../packages/core/src/xm-public-idp-config-model';
 import { environment } from '@xm-ngx/core/environment';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
+import { of } from 'rxjs';
 
 @Injectable()
 export class LoginService {
@@ -25,6 +25,7 @@ export class LoginService {
                 protected modalService: MatDialog,
                 protected eventManager: XmEventManager,
                 protected location: Location,
+                protected sessionService: XmSessionService,
                 @Inject(DOCUMENT) private document: Document,
     ) {}
 
@@ -127,18 +128,16 @@ export class LoginService {
         return modalRef.afterClosed().toPromise();
     }
 
-    /** @deprecated use logout$*/
+    /** @deprecated use SessionService.clear() */
     public logout(): void {
-        this.authServerProvider.logout().subscribe();
-        this.principal.logout();
+        this.sessionService.clear();
         this.router.navigate(['']);
     }
 
+    /** @deprecated use SessionService.clear() */
     public logout$(): Observable<void> {
-        return this.authServerProvider.logout().pipe(
-            // TODO: replace with session subscription
-            map(() => this.principal.logout()),
-        );
+        this.sessionService.clear();
+        return of(null);
     }
 
     private getUserIdentity(next: any, data: any): void {

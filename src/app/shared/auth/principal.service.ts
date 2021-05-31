@@ -8,7 +8,7 @@ import { LanguageService } from '@xm-ngx/translation';
 
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
-import { shareReplay, takeUntil } from 'rxjs/operators';
+import { filter, shareReplay, takeUntil } from 'rxjs/operators';
 import { AuthRefreshTokenService } from '../../../../packages/core/auth';
 import { XmEntity } from '../../xm-entity';
 
@@ -39,6 +39,10 @@ export class Principal implements OnDestroy, OnInitialize {
     public init(): void {
         this.checkTokenAndForceIdentity();
         this.onLanguageChange();
+
+        this.sessionService.isActive().pipe(
+            filter(i => i === false),
+        ).subscribe(() => this.logout());
     }
 
     public ngOnDestroy(): void {

@@ -4,6 +4,7 @@ import { AuthRefreshTokenService } from './auth-refresh-token.service';
 import { AuthInterceptor } from './auth.interceptor';
 import { XmAuthenticationStoreService } from './xm-authentication-store.service';
 import { XmAuthenticationService } from './xm-authentication.service';
+import { XmAuthenticationRepository } from './xm-authentication-repository.service';
 
 @NgModule()
 export class XmCoreAuthModule {
@@ -17,6 +18,7 @@ export class XmCoreAuthModule {
                     deps: [Injector],
                 },
                 AuthRefreshTokenService,
+                XmAuthenticationRepository,
                 XmAuthenticationService,
                 XmAuthenticationStoreService,
             ],
