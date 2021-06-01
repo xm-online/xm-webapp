@@ -4,9 +4,9 @@ import { Component, Inject, Input, NgModule, ViewChild } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule } from '@angular/material/table';
 import { TableColumnsManager } from './table-columns-manager';
-import { XM_TEXT_TITLE_ENTRY } from '@xm-ngx/components/text';
 import { XmDynamicCell, XmDynamicCellModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
+import { XmTextTitleComponent, XmTextTitleModule } from '@xm-ngx/components/text';
 
 
 export interface XmTableColumnDynamicCellsOptions {
@@ -36,7 +36,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
     headStyle: '',
     head: {
         options: { title: '' },
-        selector: XM_TEXT_TITLE_ENTRY.selector,
+        selector: 'xm-table-column-dynamic-cells/text-title',
         class: '',
         sortable: false,
         style: '',
@@ -147,6 +147,11 @@ export class XmTableColumnDynamicCellsComponent {
         MatSortModule,
         XmDynamicCellModule,
         XmDynamicModule,
+        XmTextTitleModule,
+        XmDynamicModule.forChild([{
+            selector: 'xm-table-column-dynamic-cells/text-title',
+            loadChildren: () => XmTextTitleComponent
+        }]),
         CommonModule,
     ],
     exports: [XmTableColumnDynamicCellsComponent],

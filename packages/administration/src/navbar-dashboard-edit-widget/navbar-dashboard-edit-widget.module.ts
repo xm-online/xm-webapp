@@ -9,7 +9,7 @@ import {
     NAVBAR_EDIT_DASHBOARD_EVENT,
     NAVBAR_EDIT_WIDGET_EVENT,
     NavbarDashboardEditWidgetComponent,
-} from '@xm-ngx/components/navbar-dashboard-edit-widget/navbar-dashboard-edit-widget.component';
+} from './navbar-dashboard-edit-widget.component';
 import { XmSharedModule } from '@xm-ngx/shared';
 
 

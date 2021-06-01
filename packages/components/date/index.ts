@@ -24,6 +24,3 @@ export {
     XmDateViewModule,
 } from './xm-date-view';
 
-export {
-    XM_DATE_ELEMENTS
-} from './xm-date.registry';

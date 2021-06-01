@@ -5,5 +5,3 @@ export { XmEnumControlOptionsItem, XmEnumControlOptions, XmEnumControlComponent 
 export { XmEnumControlModule } from './control/xm-enum-control.module';
 
 export { XmEnumViewOptions, XmEnumView, XmEnumViewModule } from './view/xm-enum-view';
-
-export { XM_ENUM_ELEMENTS } from './xm-enum.registry';

@@ -5,5 +5,3 @@ export {
     XmArrayControlOptions,
     XmArrayControlComponent,
 } from './array-control/xm-array-control.component';
-
-export { XM_ARRAY_ELEMENTS } from './xm-array-registry';

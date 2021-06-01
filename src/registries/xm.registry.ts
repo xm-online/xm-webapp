@@ -1,13 +1,13 @@
-import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/array-control';
-import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/bool';
-import { XM_COPY_ELEMENTS } from '@xm-ngx/components/copy';
-import { XM_DATE_ELEMENTS } from '@xm-ngx/components/date';
-import { XM_HTML_ELEMENTS } from '@xm-ngx/components/html';
-import { XM_LINK_ELEMENTS } from '@xm-ngx/components/link';
-import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/navbar';
-import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/text';
-import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/enum';
 import { XmDynamicEntries } from '@xm-ngx/dynamic';
+import { XM_DATE_ELEMENTS } from './xm-date.registry';
+import { XM_HTML_ELEMENTS } from './xm-html.registry';
+import { XM_TEXT_ELEMENTS } from './xm-text-registry';
+import { XM_COPY_ELEMENTS } from './xm-copy.registry';
+import { XM_LINK_ELEMENTS } from './xm-link.registry';
+import { XM_ENUM_ELEMENTS } from './xm-enum.registry';
+import { XM_BOOL_ELEMENTS } from './xm-bool-registry';
+import { XM_ARRAY_ELEMENTS } from './xm-array-registry';
+import { XM_NAVBAR_ELEMENTS } from './xm-navbar-registry';
 
 export const XM_ELEMENTS: XmDynamicEntries = [
     ...XM_DATE_ELEMENTS,
@@ -105,7 +105,7 @@ export const XM_ELEMENTS: XmDynamicEntries = [
     },
     {
         selector: '@xm-ngx/components/navbar-dashboard-edit-widget',
-        loadChildren: () => import('@xm-ngx/components/navbar-dashboard-edit-widget').then(m => m.NavbarDashboardEditWidgetModule),
+        loadChildren: () => import('@xm-ngx/administration/navbar-dashboard-edit-widget').then(m => m.NavbarDashboardEditWidgetModule),
     },
     {
         selector: '@xm-ngx/components/feedback',

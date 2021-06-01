@@ -1,8 +1,16 @@
-import { XM_TEXT_TITLE_ENTRY } from './text-title';
-import { XM_TEXT_TRANSLATE_ENTRY } from './text-translate';
 import { XmDynamicEntry } from '@xm-ngx/dynamic';
-import { XM_TEXT_CONTROL_ELEMENTS } from './text-control/xm-text-control.registry';
-import { XM_TEXT_RANGE_ELEMENTS } from './text-range-control/xm-text-range.registry';
+import { XM_TEXT_CONTROL_ELEMENTS } from './xm-text-control.registry';
+import { XM_TEXT_RANGE_ELEMENTS } from './xm-text-range.registry';
+
+export const XM_TEXT_TITLE_ENTRY: XmDynamicEntry = {
+    selector: '@xm-ngx/components/text-title',
+    loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextTitleModule),
+};
+
+export const XM_TEXT_TRANSLATE_ENTRY: XmDynamicEntry = {
+    selector: '@xm-ngx/components/text-translate',
+    loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextTranslateModule),
+};
 
 export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
     {
