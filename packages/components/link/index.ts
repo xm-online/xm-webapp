@@ -1,5 +1,3 @@
-export { XM_LINK_ELEMENTS } from './xm-link.registry';
-
 export {
     XM_LINK_DEFAULT_OPTIONS,
     XmLinkOptions,

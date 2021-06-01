@@ -44,7 +44,6 @@ export {
     XmTextTitleOptions,
     XmTextTitleComponent,
     XmTextTitleModule,
-    XM_TEXT_TITLE_ENTRY
 } from './text-title';
 
 export {
@@ -65,7 +64,3 @@ export {
     XmTextDynamicView,
     XmTextDynamicViewModule,
 } from './text-dynamic-view/xm-text-dynamic-view';
-
-export {
-    XM_TEXT_ELEMENTS,
-} from './xm-text-registry';

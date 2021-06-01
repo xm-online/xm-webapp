@@ -29,7 +29,7 @@ import { LayoutModule } from './layouts/layout.module';
 import { XmApplicationConfigService } from './shared/spec';
 import { XmRoutingModule } from './xm-routing.module';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from './xm.constants';
-import { XM_ELEMENTS } from './xm.registry';
+import { XM_ELEMENTS } from '../registries/xm.registry';
 
 @NgModule({
     imports: [

@@ -5,5 +5,3 @@ export { XmNavbarLogoWidgetModule } from './logo/xm-navbar-logo-widget.module';
 export { XmNavbarSearchWidgetModule } from './search/xm-navbar-search-widget.module';
 export { XmNavbarTitleWidgetModule } from './title/xm-navbar-title-widget.module';
 export { XmNavbarToggleWidgetModule } from './toggle/xm-navbar-toggle-widget.module';
-
-export { XM_NAVBAR_ELEMENTS } from './xm-navbar-registry';

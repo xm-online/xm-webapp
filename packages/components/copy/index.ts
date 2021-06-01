@@ -1,5 +1,3 @@
-export { XM_COPY_ELEMENTS } from './xm-copy.registry';
-
 export {
     XmCopyIconModule,
     XmCopyIconComponent,
