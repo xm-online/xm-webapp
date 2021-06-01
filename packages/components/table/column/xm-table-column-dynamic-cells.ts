@@ -4,7 +4,6 @@ import { Component, Inject, Input, NgModule, ViewChild } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule } from '@angular/material/table';
 import { TableColumnsManager } from './table-columns-manager';
-import { XM_TEXT_TITLE_ENTRY } from '@xm-ngx/components/text';
 import { XmDynamicCell, XmDynamicCellModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 
@@ -36,7 +35,8 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
     headStyle: '',
     head: {
         options: { title: '' },
-        selector: XM_TEXT_TITLE_ENTRY.selector,
+        // TODO: refactor: import via module deps and make simple local sselector as xm_table_coumn_..._text_title
+        selector: '@xm-ngx/components/text-title',
         class: '',
         sortable: false,
         style: '',

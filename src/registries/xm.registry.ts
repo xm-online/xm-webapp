@@ -105,7 +105,7 @@ export const XM_ELEMENTS: XmDynamicEntries = [
     },
     {
         selector: '@xm-ngx/components/navbar-dashboard-edit-widget',
-        loadChildren: () => import('@xm-ngx/components/navbar-dashboard-edit-widget').then(m => m.NavbarDashboardEditWidgetModule),
+        loadChildren: () => import('@xm-ngx/administration/navbar-dashboard-edit-widget').then(m => m.NavbarDashboardEditWidgetModule),
     },
     {
         selector: '@xm-ngx/components/feedback',
