@@ -1,6 +1,6 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { XmSharedModule } from '@xm-ngx/shared';
+import { XmTranslationModule } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-error',
@@ -46,8 +46,8 @@ export class ErrorComponent implements OnInit {
 
 @NgModule({
     imports: [
-        XmSharedModule,
-        RouterModule.forChild([{path: '', component: ErrorComponent}]),
+        RouterModule.forChild([{ path: '', component: ErrorComponent }]),
+        XmTranslationModule,
     ],
     exports: [ErrorComponent],
     entryComponents: [ErrorComponent],

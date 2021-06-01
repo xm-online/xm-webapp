@@ -6,6 +6,7 @@ import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableM
 import { TableColumnsManager } from './table-columns-manager';
 import { XmDynamicCell, XmDynamicCellModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
+import { XmTextTitleComponent, XmTextTitleModule } from '@xm-ngx/components/text';
 
 
 export interface XmTableColumnDynamicCellsOptions {
@@ -35,8 +36,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
     headStyle: '',
     head: {
         options: { title: '' },
-        // TODO: refactor: import via module deps and make simple local sselector as xm_table_coumn_..._text_title
-        selector: '@xm-ngx/components/text-title',
+        selector: 'xm-table-column-dynamic-cells/text-title',
         class: '',
         sortable: false,
         style: '',
@@ -147,6 +147,11 @@ export class XmTableColumnDynamicCellsComponent {
         MatSortModule,
         XmDynamicCellModule,
         XmDynamicModule,
+        XmTextTitleModule,
+        XmDynamicModule.forChild([{
+            selector: 'xm-table-column-dynamic-cells/text-title',
+            loadChildren: () => XmTextTitleComponent
+        }]),
         CommonModule,
     ],
     exports: [XmTableColumnDynamicCellsComponent],

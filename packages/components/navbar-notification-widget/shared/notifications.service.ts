@@ -3,11 +3,9 @@ import { Injectable } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { Principal } from '@xm-ngx/core/auth';
-import { I18nNamePipe } from '@xm-ngx/components/language';
 import { FunctionService, XmEntityService } from '@xm-ngx/entity';
 import { NotificationUiConfig } from './notification.model';
+import { TranslatePipe } from '@xm-ngx/translation';
 
 @Injectable()
 export class NotificationsService {
@@ -16,15 +14,15 @@ export class NotificationsService {
 
     constructor(
         private http: HttpClient,
-        private principal: Principal,
         private eventManager: XmEventManager,
-        private i18nNamePipe: I18nNamePipe,
+        private translatePipe: TranslatePipe,
         private functionService: FunctionService,
         private entityService: XmEntityService,
-    ) {}
+    ) {
+    }
 
     public getNotifications(options: NotificationUiConfig): Observable<any> {
-        return this.http.get(options.resourceUrl, {observe: 'response'}).pipe(
+        return this.http.get(options.resourceUrl, { observe: 'response' }).pipe(
             map((response: HttpResponse<any>) => {
                 this.totalCount = Number(response.headers.get('X-Total-Count')) || 0;
                 const array: any = response.body || [];
@@ -35,7 +33,7 @@ export class NotificationsService {
                         if (options.labelPath) {
                             label = this.byString(e, options.labelPath);
                         }
-                        label = this.i18nNamePipe.transform(label, this.principal);
+                        label = this.translatePipe.transform(label);
                         return {
                             label,
                             id: e.id,
@@ -57,7 +55,7 @@ export class NotificationsService {
 
         return action$.pipe(
             map(() => {
-                this.eventManager.broadcast({name: 'notificationListUpdated'});
+                this.eventManager.broadcast({ name: 'notificationListUpdated' });
                 this.totalCount--;
                 return true;
             }));

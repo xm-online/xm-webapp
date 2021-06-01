@@ -5,15 +5,15 @@ import {
     categoriesToMenuItems,
     dashboardsToCategories,
     filterByConditionDashboards,
-} from '@xm-ngx/components/menu/menu.component';
-import { SidebarUserSubtitleOptions } from '@xm-ngx/components/sidebar-user/sidebar-user-subtitle';
+} from '@xm-ngx/components/menu';
+import { SidebarUserSubtitleOptions } from './sidebar-user-subtitle';
 import { XmUser, XmUserService } from '@xm-ngx/core/user';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { ContextService } from '../../../src/app/shared';
+import { ContextService } from '../../../src/app/shared/context/context.service';
 import { MenuItem } from '../menu/menu-models';
 
 interface UserOptions {
