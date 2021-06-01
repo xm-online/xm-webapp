@@ -7,7 +7,7 @@ import { ConditionModule } from '@xm-ngx/components/condition';
 import { EditWidgetButtonsModule } from '@xm-ngx/components/edit-buttons';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { XmPermissionModule } from '../../../../packages/core/permisson';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmMatCardComponent } from './xm-mat-card.component';
 
 
