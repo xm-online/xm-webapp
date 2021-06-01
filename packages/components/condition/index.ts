@@ -1,1 +1,2 @@
-export * from './condition.module';
+export { ConditionModule } from './condition.module';
+export { ConditionDirective } from './condition.directive';

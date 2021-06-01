@@ -2,17 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, OnInit, Type, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import {
-    XM_LINK_DEFAULT_OPTIONS,
-    XmLinkOptions,
-    XmLink,
-    XmLinkModule
-} from '@xm-ngx/components/link/xm-link';
+
 import { XmTextViewModule } from '@xm-ngx/components/text';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { assign, clone } from 'lodash';
+import { XM_LINK_DEFAULT_OPTIONS, XmLink, XmLinkOptions, XmLinkModule } from './xm-link';
 
 export interface XmLinkViewOptions extends XmLinkOptions {
     title: Translate;

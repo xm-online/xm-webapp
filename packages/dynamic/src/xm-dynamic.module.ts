@@ -3,13 +3,13 @@ import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import { XmDynamicControlDirective } from './control/xm-dynamic-control.directive';
 import { XmDynamicFormControlDirective } from './control/xm-dynamic-form-control.directive';
 import { XM_DYNAMIC_ENTRIES } from './dynamic.injectors';
-import { XmDynamicEntries } from './interfaces';
+import { XmDynamicEntries } from './interfaces/xm-dynamic-entry';
 import { DynamicLoader } from './loader/dynamic-loader';
 import { DynamicMultiLoaderService } from './loader/dynamic-multi-loader.service';
-import { DynamicMultiSearcherService } from './searcher/dynamic-multi-searcher.service';
-import { DynamicSearcher } from './searcher/dynamic-searcher';
 import { XmDynamicPresentationLayoutComponent } from './presentation/xm-dynamic-presentation-layout.component';
 import { XmDynamicPresentationDirective } from './presentation/xm-dynamic-presentation.directive';
+import { DynamicMultiSearcherService } from './searcher/dynamic-multi-searcher.service';
+import { DynamicSearcher } from './searcher/dynamic-searcher';
 import { XmDynamicWidgetLayoutComponent } from './widget/xm-dynamic-widget-layout.component';
 import { XmDynamicWidgetDirective } from './widget/xm-dynamic-widget.directive';
 

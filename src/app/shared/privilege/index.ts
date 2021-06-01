@@ -6,7 +6,7 @@ export {
     PermissionGuard,
     PermissionDirective,
     PermissionContext,
-} from '../../../../packages/core/permisson';
+} from '../../../../packages/core/permission';
 export * from './privilege.directive';
 export * from './privilege.service';
 export * from './xm-permission.module';

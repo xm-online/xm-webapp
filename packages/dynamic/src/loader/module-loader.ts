@@ -1,5 +1,5 @@
 import { Compiler, Injectable, NgModuleFactory, NgModuleFactoryLoader, Optional } from '@angular/core';
-import { XmDynamicNgModuleFactory } from '@xm-ngx/dynamic';
+import { XmDynamicNgModuleFactory } from '../interfaces';
 
 @Injectable({ providedIn: 'root'})
 export class ModuleLoader {

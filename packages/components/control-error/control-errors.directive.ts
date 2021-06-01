@@ -1,6 +1,6 @@
 import { Directive, Inject, Input, OnChanges, TemplateRef, ViewContainerRef } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
-import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error/xm-control-errors-translates';
+import { XM_CONTROL_ERRORS_TRANSLATES, XmControlErrorsTranslates } from './xm-control-errors-translates';
 import { Translate, TranslatePipe } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 
@@ -26,7 +26,7 @@ export class ControlErrorsDirective implements OnChanges {
     private thenTemplateRef: TemplateRef<ControlErrorsContext>;
 
     constructor(
-        @Inject(XM_CONTROL_ERRORS_TRANSLATES) xmControlErrorsTranslates: { [errorKey: string]: Translate },
+        @Inject(XM_CONTROL_ERRORS_TRANSLATES) xmControlErrorsTranslates: XmControlErrorsTranslates,
         private viewContainer: ViewContainerRef,
         private translatePipe: TranslatePipe,
         templateRef: TemplateRef<ControlErrorsContext>,
@@ -35,7 +35,7 @@ export class ControlErrorsDirective implements OnChanges {
         this._xmControlErrorsTranslates = xmControlErrorsTranslates || {};
     }
 
-    private _xmControlErrorsTranslates: { [errorKey: string]: Translate };
+    private _xmControlErrorsTranslates: XmControlErrorsTranslates;
 
     public get xmControlErrorsTranslates(): { [p: string]: Translate } {
         return this._xmControlErrorsTranslates;

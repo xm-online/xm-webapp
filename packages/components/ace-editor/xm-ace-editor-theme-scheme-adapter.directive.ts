@@ -1,5 +1,5 @@
 import { Directive, Input, NgModule, OnDestroy, OnInit, Self } from '@angular/core';
-import { XmAceEditorDirective } from '@xm-ngx/components/ace-editor/xm-ace-editor.directive';
+import { XmAceEditorDirective } from './xm-ace-editor.directive';
 import { XmThemeStore } from '@xm-ngx/core/theme';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 

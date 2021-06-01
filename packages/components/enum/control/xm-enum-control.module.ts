@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmEnumValue } from '@xm-ngx/components/enum';
+import { XmEnumValue } from '../value/xm-enum.component';
 import {
     XmEnumControlComponent,
     XmEnumControlOptions,

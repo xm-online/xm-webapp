@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { XmDynamicNgModuleFactory } from '@xm-ngx/dynamic';
 import { ModuleLoader } from './module-loader';
+import { XmDynamicNgModuleFactory } from '../interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class TenantModuleLoaderService {

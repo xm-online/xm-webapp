@@ -17,44 +17,43 @@ export { DynamicMultiSearcherService } from './src/searcher/dynamic-multi-search
 export { DynamicSearcher } from './src/searcher/dynamic-searcher';
 
 export {
-    XmDynamicCellDirective,
-    XmDynamicCellModule,
-    XmDynamicCell,
     getCellValue,
     XM_DYNAMIC_TABLE_CELL,
     XM_DYNAMIC_TABLE_ROW,
-} from './src/cell';
+    XmDynamicCell,
+    XmDynamicCellDirective,
+    XmDynamicCellModule,
+} from './src/cell/xm-dynamic-cell.directive';
 
 export {
-    XmDynamicPresentationDirective,
-    XmDynamicPresentationConstructor,
     XmDynamicPresentationBase,
-    XmPresentationLayout,
-    XmDynamicPresentationLayoutComponent,
-    XmDynamicPresentation,
     XmDynamicPresentationEntryModule,
-} from './src/presentation';
-
+    XmDynamicPresentationConstructor,
+    XmDynamicPresentation,
+} from './src/presentation/xm-dynamic-presentation-base.directive';
 export {
-    XmLayout,
-    XmDynamicConstructor,
-    XmDynamicEntryModule,
+    XmDynamicPresentationLayoutComponent,
+    XmPresentationLayout,
+} from './src/presentation/xm-dynamic-presentation-layout.component';
+export { XmDynamicPresentationDirective } from './src/presentation/xm-dynamic-presentation.directive';
+
+export { XmDynamic } from './src/interfaces/xm-dynamic';
+export { XmDynamicConstructor } from './src/interfaces/xm-dynamic-constructor';
+export { XmLayout, XmSanitizedLayout } from './src/interfaces/xm-layout';
+export { XmDynamicEntryModule } from './src/interfaces/xm-dynamic-entry-module';
+export {
+    XmDynamicEntry,
     XmDynamicEntries,
     XmDynamicNgModuleFactory,
-    XmDynamicEntry,
-} from './src/interfaces';
+} from './src/interfaces/xm-dynamic-entry';
 
-export {
-    XmDynamicWidgetDirective,
-    XmDynamicWidgetConfig,
-    XmDynamicWidgetModule,
-    XmDynamicWidget,
-    XmSanitizedLayout,
-    XmDynamicWidgetLayoutComponent,
-} from './src/widget';
+export { XmDynamicWidgetDirective, XmDynamicWidgetConfig } from './src/widget/xm-dynamic-widget.directive';
+export { XmDynamicWidgetLayoutComponent } from './src/widget/xm-dynamic-widget-layout.component';
+export { XmDynamicWidget } from './src/widget/xm-dynamic-widget';
+export { XmDynamicWidgetModule } from './src/widget/xm-dynamic-widget-module.interface';
 
 export { XM_DYNAMIC_ENTRIES } from './src/dynamic.injectors';
 
 export { XmDynamicModule, dynamicModuleInitializer } from './src/xm-dynamic.module';
 
-export * from './src/_bc';
+export { DynamicComponents, DynamicModule } from './src/_bc';

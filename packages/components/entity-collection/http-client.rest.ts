@@ -1,5 +1,5 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { IEntityCollectionPageable, Pageable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { IEntityCollectionPageable, Pageable } from './i-entity-collection-pageable';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
