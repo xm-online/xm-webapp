@@ -19,7 +19,7 @@ export class TenantModuleLoaderService {
         const commons: string[] = ['ext-common', 'ext-common-csp', 'ext-common-entity'];
         const rootClass = module.split('-').map((e) => e[0].toUpperCase() + e.slice(1)).join('');
         const extName = module.split('ext-').reverse()[0];
-        let extRootClass = `${rootClass.replace('Ext', '')}WebappExtModule`;
+        const extRootClass = `${rootClass.replace('Ext', '')}WebappExtModule`;
         let modulePath: string;
         if (commons.includes(module)) {
             modulePath = `src/app/ext-commons/${module}/${module}.module#${rootClass}Module`;
