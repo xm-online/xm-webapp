@@ -68,9 +68,14 @@ export class CalendarCardComponent implements OnChanges {
             )
             .subscribe(() => {
                 if (this.xmEntity.calendars) {
-                    this.calendars = [...this.xmEntity.calendars.map((c: Calendar) => ({...c, uuid: UUID.UUID()}))];
+                    this.calendars = [
+                        ...this.xmEntity.calendars.map((c: Calendar) => ({
+                            ...c,
+                            uuid: UUID.UUID(),
+                            readonly: this.getReadonly(c, this.calendarSpecs),
+                        })),
+                    ];
                 }
-
                 const notIncludedSpecs = this.calendarSpecs.filter((cs) => this.calendars
                     .filter((c) => c.typeKey === cs.key).length === 0);
                 notIncludedSpecs.forEach((calendarSpec) => {
@@ -97,5 +102,10 @@ export class CalendarCardComponent implements OnChanges {
 
     public getCalendarSpec(calendar: Calendar): CalendarSpec {
         return this.calendarSpecs.filter(spec => spec.key === calendar.typeKey).shift();
+    }
+
+    private getReadonly(calendar: Calendar, specs: CalendarSpec[]): boolean {
+        const matched = specs.filter((cs: CalendarSpec) => cs.key === calendar.typeKey)
+        return matched && matched.length > 0 && matched.shift().readonly;
     }
 }
