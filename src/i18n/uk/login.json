@@ -13,7 +13,7 @@
         },
         "form": {
             "password": "Пароль",
-            "rememberMe": "Пам&#39;ятай мене",
+            "rememberMe": "Запам'ятати мене",
             "button": "Увійти",
             "otpValidateCancel": "Cancel",
             "otpValidateButton": "Send OTP",
