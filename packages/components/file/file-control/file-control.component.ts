@@ -7,7 +7,8 @@ import { clone, defaults } from 'lodash';
 
 export interface XmFileControlOptions extends XmTextTitleOptions, DataQa {
     multiple: boolean,
-    accept: string
+    accept: string,
+    required: boolean,
 }
 
 const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
@@ -15,6 +16,7 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
     dataQa: 'file-control',
     multiple: false,
     accept: '*',
+    required: false
 };
 
 @Component({
@@ -23,7 +25,12 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
         <mat-form-field>
             <mat-label>{{options.title | translate}}</mat-label>
 
-            <input #input (change)="change($event.target.files)" hidden type="file"/>
+            <input #input
+                   (change)="change($event.target.files)"
+                   [formControl]="control"
+                   [required]="options.required"
+                   hidden
+                   type="file"/>
 
             <input #input
                    matInput
