@@ -18,7 +18,15 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
     accept: '*',
     required: false
 };
+/**
+for required you need to use validators
 
+ "validators": [
+   \{
+     "type": "required"
+   \}
+ ],
+*/
 @Component({
     selector: 'xm-file-control',
     template: `
@@ -27,7 +35,6 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
 
             <input #input
                    (change)="change($event.target.files)"
-                   [formControl]="control"
                    [required]="options.required"
                    hidden
                    type="file"/>
@@ -37,6 +44,7 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
                    type="text"
                    [readonly]="true"
                    [value]="fileNames"
+                   [required]="options.required"
                    [attr.data-qa]="options.dataQa"
                    (click)="input.click()"
                    [attr.multiple]="options.multiple? '' : null"
