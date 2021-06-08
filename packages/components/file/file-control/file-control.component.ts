@@ -19,14 +19,16 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
     required: false
 };
 /**
-for required you need to use validators
-
- "validators": [
-   \{
-     "type": "required"
-   \}
- ],
-*/
+ * For required you need to use validators
+ * @example
+ * ```json
+ * "validators": [
+ *  {
+ *    "type": "required"
+ *  }
+ * ],
+ * ```
+ */
 @Component({
     selector: 'xm-file-control',
     template: `
