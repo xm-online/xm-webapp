@@ -76,8 +76,13 @@ export class CalendarCardComponent implements OnChanges {
                         })),
                     ];
                 }
-                const notIncludedSpecs = this.calendarSpecs.filter((cs) => this.calendars
-                    .filter((c) => c.typeKey === cs.key).length === 0);
+
+                this.calendars = this.calendars.filter((c) =>
+                    this.calendarSpecs.findIndex((cs) => c.typeKey === cs.key) >= 0);
+
+                const notIncludedSpecs = this.calendarSpecs
+                    .filter((cs) => this.calendars.findIndex((c) => c.typeKey === cs.key) < 0);
+
                 notIncludedSpecs.forEach((calendarSpec) => {
                     const calendar: Calendar = {};
                     calendar.name = this.i18nNamePipe.transform(calendarSpec.name, this.principal);
