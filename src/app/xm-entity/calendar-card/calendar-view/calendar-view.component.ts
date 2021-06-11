@@ -131,7 +131,7 @@ export class CalendarViewComponent implements OnChanges {
     }
 
     private getCalendarTimezone(): string {
-        if (this.spec.timeZoneStrategy && this.spec.timeZoneStrategy.toLowerCase() === 'subject') {
+        if (this.spec && this.spec.timeZoneStrategy && this.spec.timeZoneStrategy.toLowerCase() === 'subject') {
             this.xmEntity.data = this.xmEntity.data || {};
             return this.xmEntity.data[this.spec.timeZoneDataRef] || 'UTC';
         } else {
