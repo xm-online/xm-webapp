@@ -7,7 +7,7 @@ $xm-menu-icon-font-size:    20px !default;
   cursor: pointer;
 
   $xm-primary: map-get($theme, primary);
-  $xm-menu-item-active-color: $xm-primary;
+  $xm-menu-item-active-color: map-get($theme, sidebar-text-active-color) or $xm-primary;
 
   &.expanded {
     background: $xm-menu-item-hover;
