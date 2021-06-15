@@ -1,0 +1,67 @@
+<div mat-dialog-title>{{'rolesManagement.permission.editCondition'|translate}}</div>
+
+<mat-dialog-content>
+  <div class="row g-3  align-items-center">
+    <xm-text-view [options]="defaultConfig.privilegeKeyField"
+                  value="key"
+                  class="col-12 col-md-6"></xm-text-view>
+    <xm-text-view [options]="defaultConfig.roleField"
+                  value="role"
+                  class="col-12 col-md-6"></xm-text-view>
+  </div>
+  <div class="row align-items-center">
+    <xm-text-control [options]="defaultConfig.searchControl"
+                     [formControl]="searchControl"
+                     class="col-12 col-md-6"></xm-text-control>
+    <mat-slide-toggle [formControl]="activeControl"
+                      class="col-12 col-md-6 mt-2">
+      {{defaultConfig.slideControl | translate}}
+    </mat-slide-toggle>
+
+  </div>
+
+  <ng-container *ngIf="condition">
+    <div class="material-datatables table-responsive overflow-auto " style="height: 300px">
+      <table [dataSource]="dataSource"
+             mat-table
+             class="table table-no-bordered table-hover">
+        <ng-container matColumnDef="typeKey">
+          <th scope="col" mat-header-cell *matHeaderCellDef>
+            {{'rolesManagement.permission.privilegeKey'|translate}}
+          </th>
+          <td mat-cell *matCellDef="let permission">{{permission.typeKey}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="text-right">
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row" class="text-right">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+      </table>
+    </div>
+  </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button
+          mat-dialog-close
+          (click)="onCancel()">
+    {{defaultConfig.declineButton | translate}}
+  </button>
+  <button mat-button
+          mat-flat-button
+          (click)="onSave()">
+    {{defaultConfig.approveButton | translate}}
+  </button>
+</mat-dialog-actions>
