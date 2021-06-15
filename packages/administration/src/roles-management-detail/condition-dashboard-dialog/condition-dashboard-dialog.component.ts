@@ -6,6 +6,7 @@ import { XmTextControlOptions, XmTextViewOptions } from '@xm-ngx/components/text
 import { Dashboard, DashboardWrapperService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Translate } from '@xm-ngx/translation';
+import { Permission } from '../../../../../src/app/shared/role/permission.model';
 
 interface ConditionDashboardDialogConfig {
     privilegeKeyField: XmTextViewOptions,
@@ -40,8 +41,16 @@ const DEFAULT_CONFIG: ConditionDashboardDialogConfig = {
     templateUrl: './condition-dashboard-dialog.component.html'
 })
 export class ConditionDashboardDialogComponent implements OnInit, OnDestroy {
+    public get permission(): Permission {
+        return this._permission;
+    }
+
+    public set permission(value: Permission) {
+        this._permission = value;
+    }
 
     public condition: string;
+    private _permission: Permission;
     public dataSource: Dashboard[];
     public initialSelection = [];
     public allowMultiSelect = true;

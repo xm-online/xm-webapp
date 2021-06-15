@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
@@ -30,6 +31,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
         XmTextControlModule,
         ReactiveFormsModule,
         MatSlideToggleModule,
+        MatIconModule,
     ],
 })
 export class ConditionDashboardDialogModule {

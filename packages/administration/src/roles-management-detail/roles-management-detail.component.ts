@@ -164,10 +164,13 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
 
             const modalRef = this.modalService.open(ConditionDashboardDialogComponent, { width: '500px' });
             modalRef.componentInstance.condition = item.resourceCondition;
-
+            modalRef.componentInstance.permission = item;
             modalRef.afterClosed()
                 .subscribe(
                     (result) => {
+                        if (!result) {
+                            return;
+                        }
                         item.resourceCondition = result || '';
                     });
         } else {
@@ -176,6 +179,9 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
                 .afterClosed()
                 .subscribe(
                     (result) => {
+                        if (result === false) {
+                        return;
+                        }
                         item.resourceCondition = result || '';
                     });
         }

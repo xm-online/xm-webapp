@@ -3,10 +3,10 @@
 <mat-dialog-content>
   <div class="row g-3  align-items-center">
     <xm-text-view [options]="defaultConfig.privilegeKeyField"
-                  value="key"
+                  [value]="permission.privilegeKey"
                   class="col-12 col-md-6"></xm-text-view>
     <xm-text-view [options]="defaultConfig.roleField"
-                  value="role"
+                  [value]="permission.roleKey"
                   class="col-12 col-md-6"></xm-text-view>
   </div>
   <div class="row align-items-center">
@@ -17,29 +17,27 @@
                       class="col-12 col-md-6 mt-2">
       {{defaultConfig.slideControl | translate}}
     </mat-slide-toggle>
-
   </div>
 
   <ng-container *ngIf="condition">
-    <div class="material-datatables table-responsive overflow-auto " style="height: 300px">
+    <div class="material-datatables table-responsive overflow-auto" style="max-height: 300px;">
       <table [dataSource]="dataSource"
              mat-table
              class="table table-no-bordered table-hover">
         <ng-container matColumnDef="typeKey">
-          <th scope="col" mat-header-cell *matHeaderCellDef>
-            {{'rolesManagement.permission.privilegeKey'|translate}}
+          <th scope="col"  class="border-0" mat-header-cell *matHeaderCellDef>
           </th>
-          <td mat-cell *matCellDef="let permission">{{permission.typeKey}}</td>
+          <td mat-cell class="border-0" *matCellDef="let permission" >{{permission.typeKey}}</td>
         </ng-container>
 
         <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef class="text-right">
+          <th mat-header-cell  class="text-right border-0" *matHeaderCellDef>
             <mat-checkbox (change)="$event ? masterToggle() : null"
                           [checked]="selection.hasValue() && isAllSelected()"
                           [indeterminate]="selection.hasValue() && !isAllSelected()">
             </mat-checkbox>
           </th>
-          <td mat-cell *matCellDef="let row" class="text-right">
+          <td mat-cell class="text-right border-0" *matCellDef="let row" >
             <mat-checkbox (click)="$event.stopPropagation()"
                           (change)="$event ? selection.toggle(row) : null"
                           [checked]="selection.isSelected(row)">
@@ -59,9 +57,10 @@
           (click)="onCancel()">
     {{defaultConfig.declineButton | translate}}
   </button>
-  <button mat-button
-          mat-flat-button
+  <button mat-flat-button
+          color="primary"
           (click)="onSave()">
+    <mat-icon>done</mat-icon>
     {{defaultConfig.approveButton | translate}}
   </button>
 </mat-dialog-actions>
