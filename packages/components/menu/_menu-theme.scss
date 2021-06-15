@@ -85,7 +85,7 @@ $xm-menu-icon-font-size:    20px !default;
       color: inherit;
     }
 
-    & > span {
+    & > .xm-menu-item-text {
       padding-left:  $xm-sidebar-padding-x;
       overflow:      hidden;
       text-overflow: ellipsis;
