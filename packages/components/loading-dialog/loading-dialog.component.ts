@@ -4,15 +4,19 @@ import { Translate } from '@xm-ngx/translation';
 import { cloneDeep, defaultsDeep } from 'lodash';
 
 export interface LoadingDialogConfig {
-    title: Translate;
     buttons?: {
         decline: Translate;
         accept: Translate;
     }
 }
 
+export enum EMITTER_EVENTS {
+    CLOSE = 'CLOSE',
+    ACCEPT = 'ACCEPT',
+    DECLINE = 'DECLINE',
+}
+
 const DEFAULT_CONFIG: LoadingDialogConfig = {
-    title: '',
     buttons: {
         decline: COMMON_TRANSLATES.cancel,
         accept: COMMON_TRANSLATES.confirm,
@@ -24,24 +28,39 @@ const DEFAULT_CONFIG: LoadingDialogConfig = {
     templateUrl: './loading-dialog.component.html',
     styleUrls: ['./loading-dialog.component.scss']
 })
+/**
+ * Reusable loading indicator with request form, should be used in material dialog window
+ * @public
+ */
 export class LoadingDialogComponent {
+    /** Use to control when loading indicator is shown*/
     @Input() public loading: boolean;
-    @Output() public onCancel: EventEmitter<void> = new EventEmitter<void>();
-    @Output() public onApply: EventEmitter<void> = new EventEmitter<void>();
+    /** Title to show in request window*/
+    @Input() public title: Translate;
+    /** Emit EMITTER_EVENTS value when button pressed*/
+    @Output() public decisionEvent: EventEmitter<EMITTER_EVENTS> = new EventEmitter<EMITTER_EVENTS>();
+
+    /** Translation for buttons*/
     @Input()
     public set config(value: LoadingDialogConfig) {
-        this._config = defaultsDeep(value, DEFAULT_CONFIG);
+        this._config = defaultsDeep(value, DEFAULT_CONFIG) as LoadingDialogConfig;
     }
+
     public get config(): LoadingDialogConfig {
         return this._config;
     }
+
     private _config: LoadingDialogConfig = cloneDeep(DEFAULT_CONFIG);
 
-    public decline(): void {
-        this.onCancel.emit();
+    public onDecline(): void {
+        this.decisionEvent.emit(EMITTER_EVENTS.DECLINE);
     }
 
-    public accept(): void {
-        this.onApply.emit();
+    public onAccept(): void {
+        this.decisionEvent.emit(EMITTER_EVENTS.ACCEPT);
+    }
+
+    public onClose(): void {
+        this.decisionEvent.emit(EMITTER_EVENTS.CLOSE);
     }
 }

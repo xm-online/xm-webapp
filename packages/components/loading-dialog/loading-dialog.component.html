@@ -4,25 +4,25 @@
   <div class="row  justify-content-end">
     <button mat-icon-button
             [disabled]="loading"
-            (click)="decline()">
+            (click)="onClose()">
       <mat-icon>close</mat-icon>
     </button>
   </div>
 
   <div class="row justify-content-center mt-3 mb-5">
-    <h4>{{config.title | translate}}</h4>
+    <h4>{{title | translate}}</h4>
   </div>
 
   <div class="row d-flex justify-content-center">
     <button mat-button
             [disabled]="loading"
-            (click)="decline()">
+            (click)="onDecline()">
       {{config.buttons.decline | translate}}
     </button>
     <button mat-raised-button
             color="primary"
             [disabled]="loading"
-            (click)="accept()"
+            (click)="onAccept()"
             class="ml-4">
       {{config.buttons.accept | translate}}
     </button>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, NgModule, Type } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
@@ -11,7 +11,14 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+/**
+ * Wrapper for Angular material progress bar with indeterminate mode.
+ * @public
+ */
 export class LoadingBarComponent {
+    /**
+     * Show or hide loading bar
+     */
     @Input() public visible: boolean;
 }
 
@@ -24,5 +31,5 @@ export class LoadingBarComponent {
     exports: [LoadingBarComponent]
 })
 export class LoadingBarModule {
-
+    public entry: Type<LoadingBarComponent> = LoadingBarComponent;
 }
