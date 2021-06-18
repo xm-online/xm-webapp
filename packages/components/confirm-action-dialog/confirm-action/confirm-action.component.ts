@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { COMMON_TRANSLATES } from '@xm-ngx/ext/common-webapp-ext/i18n';
 import { Translate } from '@xm-ngx/translation';
 import { cloneDeep, defaultsDeep } from 'lodash';
 
@@ -22,8 +21,8 @@ export enum ActionDecision {
 const DEFAULT_CONFIG: LoadingDialogConfig = {
     title:'',
     buttons: {
-        decline: COMMON_TRANSLATES.cancel,
-        accept: COMMON_TRANSLATES.confirm,
+        decline: 'global.common.cancel',
+        accept: 'global.common.accept',
     }
 };
 
