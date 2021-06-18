@@ -1,10 +1,7 @@
 import { Component, NgModule, Type } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import {
-    ActionDecision,
-    LoadingDialogConfig
-} from '@xm-ngx/components/confirm-action-dialog/confirm-action/confirm-action.component';
-import { ConfirmActionModule } from '@xm-ngx/components/confirm-action-dialog/index';
+import { ActionDecision, LoadingDialogConfig } from './confirm-action/confirm-action.component';
+import { ConfirmActionModule } from './confirm-action/confirm-action.module';
 
 @Component({
     selector: 'xm-mat-dialog-test',
@@ -26,7 +23,7 @@ export class ConfirmActionDialogComponent {
     public onPush(event: ActionDecision): void {
         this.loading = true;
         if (event === ActionDecision.APPROVE) {
-            this.closeDialog(true);
+            //this.closeDialog(true);
             return;
         }
         this.closeDialog(false);
