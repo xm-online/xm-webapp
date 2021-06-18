@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LoadingBarModule } from '@xm-ngx/components/loading-bar';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { LoadingDialogComponent } from './loading-dialog.component';
+import { ConfirmActionComponent } from './confirm-action.component';
 
 @NgModule({
     imports: [
@@ -14,13 +14,9 @@ import { LoadingDialogComponent } from './loading-dialog.component';
         XmTranslationModule,
         LoadingBarModule,
     ],
-    declarations: [
-        LoadingDialogComponent
-    ],
-    exports: [
-        LoadingDialogComponent
-    ],
+    declarations: [ConfirmActionComponent,],
+    exports: [ConfirmActionComponent,],
 })
-export class LoadingDialogModule {
-    public entry: Type<LoadingDialogComponent> = LoadingDialogComponent;
+export class ConfirmActionModule {
+    public entry: Type<ConfirmActionComponent> = ConfirmActionComponent;
 }
