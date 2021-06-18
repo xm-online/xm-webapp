@@ -16,7 +16,7 @@ import { ConfirmActionModule } from '@xm-ngx/components/confirm-action-dialog/in
 })
 export class ConfirmActionDialogComponent {
     public config: LoadingDialogConfig = {
-        title: 'Change state?'
+        title: 'xm-entity.function-list-card.change-state.title'
     };
     public loading;
 

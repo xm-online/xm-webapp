@@ -33,7 +33,7 @@ const DEFAULT_CONFIG: LoadingDialogConfig = {
     styleUrls: ['./confirm-action.component.scss']
 })
 /**
- * Reusable loading indicator with request form, should be used in material dialog window
+ * Reusable request form with loading indicator, should be used in material dialog window
  * @public
  */
 export class ConfirmActionComponent {
