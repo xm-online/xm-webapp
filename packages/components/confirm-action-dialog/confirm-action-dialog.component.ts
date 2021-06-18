@@ -1,7 +1,11 @@
-import { Component, NgModule, Type } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, NgModule, Type } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActionDecision, LoadingDialogConfig } from './confirm-action/confirm-action.component';
 import { ConfirmActionModule } from './confirm-action/confirm-action.module';
+
+const DEFAULT_CONFIG = {
+    title: 'xm-entity.function-list-card.change-state.title'
+};
 
 @Component({
     selector: 'xm-mat-dialog-test',
@@ -17,13 +21,15 @@ export class ConfirmActionDialogComponent {
     };
     public loading;
 
-    constructor(private matDialogRef: MatDialogRef<ConfirmActionDialogComponent, boolean>) {
+    constructor(private matDialogRef: MatDialogRef<ConfirmActionDialogComponent, boolean>,
+                @Inject(MAT_DIALOG_DATA) public data: {config: LoadingDialogConfig},) {
+        this.initConfig();
     }
 
     public onPush(event: ActionDecision): void {
         this.loading = true;
         if (event === ActionDecision.APPROVE) {
-            //this.closeDialog(true);
+            this.closeDialog(true);
             return;
         }
         this.closeDialog(false);
@@ -31,6 +37,11 @@ export class ConfirmActionDialogComponent {
 
     public closeDialog(data: boolean): void {
         this.matDialogRef.close(data);
+    }
+
+    private initConfig() {
+        this.config = this.data.config || DEFAULT_CONFIG;
+
     }
 }
 
