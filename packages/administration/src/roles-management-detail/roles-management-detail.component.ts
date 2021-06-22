@@ -161,14 +161,13 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
 
     public onEditResource(item: Permission): void {
         if (item.privilegeKey === 'DASHBOARD.GET_LIST' || item.privilegeKey === 'DASHBOARD.GET_LIST.ITEM') {
-
             const modalRef = this.modalService.open(ConditionDashboardDialogComponent, { width: '500px' });
             modalRef.componentInstance.condition = item.resourceCondition;
             modalRef.componentInstance.permission = item;
             modalRef.afterClosed()
                 .subscribe(
                     (result) => {
-                        if (!result) {
+                        if (result === false) {
                             return;
                         }
                         item.resourceCondition = result || '';
