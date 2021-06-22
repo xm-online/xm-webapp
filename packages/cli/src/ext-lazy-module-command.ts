@@ -37,9 +37,11 @@ export class ExtLazyModuleCommand implements Command {
         const extDirs = this.getAllDirectories();
         const modules: string[] = [];
         _.forEach(extDirs, (i) => {
-            const selector = i.slice(i.lastIndexOf('/'), i.length).replace('/', '');
-            const className = selector.split('-').map((e) => e[0].toUpperCase() + e.slice(1)).join('') + 'Module';
-            const path = i.replace('src/app', '.') + `/module/${selector}.module`;
+            const directory = i.slice(i.lastIndexOf('/'), i.length).replace('/', '');
+            const className = directory.split('-').map((e) => e[0].toUpperCase() + e.slice(1)).join('') + 'Module';
+            const path = i.replace('src/app', '.') + `/module/${directory}.module`;
+            let selector = directory.replace('-webapp-ext', '');
+            selector = selector.startsWith('ext-') ? selector : ('ext-' + selector);
             const template = this.template(selector, path, className);
             modules.push(template);
             console.info('Update xm.module.ts lazyModules:', path);
