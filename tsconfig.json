@@ -47,6 +47,7 @@
       "@xm-ngx/account/*": ["packages/xm-account/src/*"],
       "@xm-ngx/entity/*": ["src/app/xm-entity/*"],
       "@xm-ngx/dynamic": ["packages/dynamic"],
+      "@xm-ngx/dynamic/*": ["packages/dynamic/*"],
       "@xm-ngx/dashboard": ["src/app/xm-dashboard"],
       "@xm-ngx/xm-balance": ["src/app/xm-balance"],
       "@xm-ngx/components/language": ["src/app/shared/language"]
