@@ -1,4 +1,4 @@
-@import 'xm-sidebar-right/xm-sidebar-right-theme';
+@import 'sidebar-right/xm-sidebar-right-theme';
 @import 'navbar-guest-background/xm-navbar-guest-background-theme';
 @import 'loading/xm-loading-theme';
 @import 'placeholder/block-placeholder/xm-block-placeholder-theme';
@@ -6,8 +6,8 @@
 @import 'code/xm-code-theme';
 @import 'menu/menu-theme';
 @import 'sidebar-user/user-theme';
-@import 'xm-ribbon/xm-ribbon-theme';
-@import 'xm-multilanguage/xm-angular-editor-theme';
+@import 'ribbon/xm-ribbon-theme';
+@import 'multilanguage/xm-angular-editor-theme';
 @import 'navbar/search/xm-navbar-search-widget-theme';
 
 @mixin xm-components-theme($xm-theme) {
