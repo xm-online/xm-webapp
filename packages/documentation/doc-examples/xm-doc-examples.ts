@@ -1,4 +1,3 @@
-/* eslint-disable quotes */
 export interface DocsExample {
     filepath: string;
     moduleName: string;

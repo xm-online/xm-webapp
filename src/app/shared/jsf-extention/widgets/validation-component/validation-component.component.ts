@@ -50,7 +50,6 @@ export class ValidationComponent implements OnInit, OnDestroy {
                 }
             }
             if (it.errors) {
-                // eslint-disable-next-line guard-for-in
                 for (const key in it.errors) {
                     const control = this.resolveComponentByPath(formGroup, key.split('[')
                         .join('.').split(']').join('.').split('.'));

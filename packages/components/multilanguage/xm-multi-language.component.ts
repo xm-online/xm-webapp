@@ -105,7 +105,7 @@ export class MultiLanguageComponent implements XmDynamicPresentation<MultiLangua
     @Input() public control?: FormControl;
     @Input() public options: MultiLanguageOptions;
 
-    @Output() public onValueChange: EventEmitter<MultiLanguageDataModel> = new EventEmitter<MultiLanguageDataModel>();
+    @Output() public valueChange: EventEmitter<MultiLanguageDataModel> = new EventEmitter<MultiLanguageDataModel>();
     public selectedLng: string;
     public languages: string[] = [];
 
@@ -136,7 +136,7 @@ export class MultiLanguageComponent implements XmDynamicPresentation<MultiLangua
         } else {
             this.value = [...(this.value || []), lngValue];
         }
-        this.onValueChange.emit(this.value);
+        this.valueChange.emit(this.value);
         if (this.control) {
             this.control.setValue(this.value);
             this.control.markAsTouched();

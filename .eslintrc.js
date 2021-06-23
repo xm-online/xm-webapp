@@ -48,7 +48,6 @@ module.exports = {
                     }
                 ],
                 '@angular-eslint/no-host-metadata-property': 'warn',
-                '@angular-eslint/no-output-on-prefix': 'warn',
                 '@angular-eslint/no-conflicting-lifecycle': 'warn',
                 '@angular-eslint/directive-class-suffix': 'warn',
                 '@angular-eslint/no-empty-lifecycle-method': 'warn',
