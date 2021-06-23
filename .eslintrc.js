@@ -52,8 +52,6 @@ module.exports = {
                 '@angular-eslint/directive-class-suffix': 'warn',
                 '@angular-eslint/no-empty-lifecycle-method': 'warn',
                 '@angular-eslint/no-output-native': 'warn',
-                '@angular-eslint/no-input-rename': 'warn',
-                '@angular-eslint/no-output-rename': 'warn',
                 '@angular-eslint/directive-selector': [
                     'off',
                     {
