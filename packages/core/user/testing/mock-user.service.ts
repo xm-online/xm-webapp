@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { XmUser } from '../xm-user-model';
+import { XmUser } from '@xm-ngx/core/user';
 
 @Injectable()
 export class MockUserService<T = XmUser> {

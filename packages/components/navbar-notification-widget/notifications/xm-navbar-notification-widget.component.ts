@@ -8,11 +8,11 @@ import * as _ from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
-import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
 import { Notification, NotificationUiConfig } from '../shared/notification.model';
 
 import { NotificationsService } from '../shared/notifications.service';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { XmUiConfigService } from '@xm-ngx/core/config';
 
 const DEFAULT_PRIVILEGES = ['XMENTITY.SEARCH', 'XMENTITY.SEARCH.QUERY', 'XMENTITY.SEARCH.TEMPLATE'];
 const DEF_NOTIFY_COUNT = 5;
@@ -37,7 +37,7 @@ export class XmNavbarNotificationWidget implements OnInit, OnDestroy {
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
     constructor(
-        private xmConfigService: XmConfigService,
+        private xmConfigService: XmUiConfigService,
         private eventManager: XmEventManager,
         private router: Router,
         private sanitized: DomSanitizer,
