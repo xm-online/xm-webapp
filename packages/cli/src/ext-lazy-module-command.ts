@@ -6,8 +6,8 @@ import fs from 'fs';
 export class ExtLazyModuleCommand implements Command {
 
     public sources: string[] = [
-        'src/app/ext/*',
         'src/app/ext-commons/*',
+        'src/app/ext/*',
     ];
 
     public template = (selector: string, file: string, module: string) => `    {
