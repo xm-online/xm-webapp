@@ -39,48 +39,6 @@ module.exports = {
                 'plugin:@angular-eslint/template/process-inline-templates'
             ],
             rules: {
-                '@angular-eslint/component-selector': [
-                    'off',
-                    {
-                        prefix: 'xm',
-                        style: 'kebab-case',
-                        type: 'element'
-                    }
-                ],
-                '@angular-eslint/no-host-metadata-property': 'warn',
-                '@angular-eslint/no-conflicting-lifecycle': 'warn',
-                '@angular-eslint/directive-class-suffix': 'warn',
-                '@angular-eslint/no-empty-lifecycle-method': 'warn',
-                '@angular-eslint/no-output-native': 'warn',
-                '@angular-eslint/directive-selector': [
-                    'off',
-                    {
-                        prefix: 'xm',
-                        style: 'camelCase',
-                        type: 'attribute'
-                    }
-                ],
-                '@angular-eslint/component-class-suffix': 'warn',
-                // Blocked by https://github.com/angular/angular/milestone/103
-                '@typescript-eslint/no-unsafe-assignment': 'warn',
-                '@typescript-eslint/restrict-template-expressions': 'warn',
-                '@typescript-eslint/no-unsafe-member-access': 'warn',
-                '@typescript-eslint/no-unsafe-call': 'warn',
-                '@typescript-eslint/no-floating-promises': 'warn',
-                '@typescript-eslint/restrict-plus-operands': 'warn',
-                '@typescript-eslint/no-unsafe-return': 'warn',
-                'no-prototype-builtins': 'warn',
-                '@typescript-eslint/no-implied-eval': 'warn',
-                '@typescript-eslint/ban-types': 'warn',
-                '@typescript-eslint/prefer-regexp-exec': 'warn',
-                '@typescript-eslint/no-misused-promises': 'warn',
-                '@typescript-eslint/no-var-requires': 'warn',
-                '@typescript-eslint/unbound-method': [
-                    'warn',
-                    {
-                        ignoreStatic: true
-                    }
-                ],
                 'tsdoc/syntax': 'error',
                 quotes: [
                     'error',
@@ -112,9 +70,7 @@ module.exports = {
                         ignoreProperties: true
                     }
                 ],
-                '@typescript-eslint/type-annotation-spacing': [
-                    'error'
-                ],
+                '@typescript-eslint/type-annotation-spacing': 'error',
                 '@typescript-eslint/explicit-member-accessibility': [
                     'error',
                     {
@@ -123,7 +79,55 @@ module.exports = {
                             accessors: 'off'
                         }
                     }
-                ]
+                ],
+                // Off
+                '@angular-eslint/component-selector': [
+                    'off',
+                    {
+                        prefix: 'xm',
+                        style: 'kebab-case',
+                        type: 'element'
+                    }
+                ],
+                '@angular-eslint/directive-selector': [
+                    'off',
+                    {
+                        prefix: 'xm',
+                        style: 'camelCase',
+                        type: 'attribute'
+                    }
+                ],
+                // Override
+                // Waiting for the fixed
+                '@angular-eslint/component-class-suffix': [
+                    "warn",
+                    {
+                        "suffixes": ["Component", "Widget", "Control"]
+                    }
+                ],
+                '@angular-eslint/no-host-metadata-property': 'warn',
+                '@angular-eslint/no-output-native': 'warn',
+                // Blocked by https://github.com/angular/angular/milestone/103
+                '@typescript-eslint/no-unsafe-assignment': 'warn',
+                '@typescript-eslint/restrict-template-expressions': 'warn',
+                '@typescript-eslint/no-unsafe-member-access': 'warn',
+                '@typescript-eslint/no-unsafe-call': 'warn',
+                '@typescript-eslint/no-floating-promises': 'warn',
+                '@typescript-eslint/restrict-plus-operands': 'warn',
+                '@typescript-eslint/no-unsafe-return': 'warn',
+                'no-prototype-builtins': 'warn',
+                '@typescript-eslint/no-implied-eval': 'warn',
+                '@typescript-eslint/ban-types': 'warn',
+                '@typescript-eslint/prefer-regexp-exec': 'warn',
+                '@typescript-eslint/no-misused-promises': 'warn',
+                '@typescript-eslint/no-var-requires': 'warn',
+                '@typescript-eslint/unbound-method': [
+                    'warn',
+                    {
+                        ignoreStatic: true
+                    }
+                ],
+
             }
         },
         {
