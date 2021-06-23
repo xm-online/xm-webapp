@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { environment } from '../../../environments/environment';
 import { CurrentLocationComponent } from './widgets/current-location/current-location.component';
 import { DatetimePickerComponent } from './widgets/datetime-picker/datetime-picker.component';
@@ -108,7 +107,6 @@ const interpolate = (spec: any) => {
     if (typeof (spec) === 'string') {
         spec = spec.replace(/\\\\/g, '\\\\\\\\');
         try {
-            // @ts-ignore
             return new Function('$', 'return `' + spec + '`;').call(this, $);
         } catch (e) {
             return transpilingForIE(spec, $);
@@ -198,7 +196,6 @@ export const processValidationMessages = (jsfAttributes) => {
         field = field.properties || {};
 
         const path = key.split('.');
-        // eslint-disable-next-line guard-for-in
         for (const i in path) {
             field = field[path[i]];
         }

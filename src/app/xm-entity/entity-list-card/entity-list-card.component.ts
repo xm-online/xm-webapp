@@ -174,7 +174,7 @@ export class EntityListCardComponent implements OnInit, OnChanges {
             return this.xmEntitySpecWrapperService.xmSpecByKey(xmEntity.typeKey);
         }
 
-        console.info(`No spec found by options=${entityOptions} or entity=${xmEntity}`); // eslint-disable-line
+        console.info(`No spec found by options=${entityOptions} or entity=${xmEntity}`);
 
         throw new Error('No spec found');
     }
@@ -194,7 +194,7 @@ export class EntityListCardComponent implements OnInit, OnChanges {
                 return xmEntities.map((e) => this.enrichEntity(e));
             }),
             catchError((err) => {
-                console.info(err); // eslint-disable-line
+                console.info(err);
                 this.showLoader = false;
                 return of([]);
             }),

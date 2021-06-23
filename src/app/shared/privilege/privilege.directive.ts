@@ -29,7 +29,7 @@ export class PermitDirective implements OnDestroy {
     ) {
     }
 
-    @Input('permitted')
+    @Input()
     set permitted(value: string) {
         this.privileges = typeof value === 'string' ? [value] : value;
         this.updateView();
