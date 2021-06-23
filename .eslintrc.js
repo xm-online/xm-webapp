@@ -80,6 +80,12 @@ module.exports = {
                         }
                     }
                 ],
+                '@angular-eslint/component-class-suffix': [
+                    "warn",
+                    {
+                        "suffixes": ["Component", "Widget", "Control"]
+                    }
+                ],
                 // Off
                 '@angular-eslint/component-selector': [
                     'off',
@@ -97,16 +103,8 @@ module.exports = {
                         type: 'attribute'
                     }
                 ],
-                // Override
                 // Waiting for the fixed
-                '@angular-eslint/component-class-suffix': [
-                    "warn",
-                    {
-                        "suffixes": ["Component", "Widget", "Control"]
-                    }
-                ],
                 '@angular-eslint/no-host-metadata-property': 'warn',
-                '@angular-eslint/no-output-native': 'warn',
                 // Blocked by https://github.com/angular/angular/milestone/103
                 '@typescript-eslint/no-unsafe-assignment': 'warn',
                 '@typescript-eslint/restrict-template-expressions': 'warn',

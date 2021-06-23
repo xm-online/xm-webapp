@@ -15,6 +15,7 @@ export class TranslateDirective extends NgxTranslateDirective implements OnDestr
     }
 
     // eslint-disable-next-line
+    // @ts-ignore
     @Input() public set translate(value: string) {
         if (value) {
             if (typeof value === 'object') {
