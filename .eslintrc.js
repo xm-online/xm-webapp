@@ -10,7 +10,6 @@ module.exports = {
     overrides: [
         {
             files: ['src/**/*.ts', 'packages/**/*.ts'],
-            excludedFiles: '*.spec.js',
             parser: '@typescript-eslint/parser',
             parserOptions: {
                 tsconfigRootDir: __dirname,
