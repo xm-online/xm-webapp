@@ -15,7 +15,6 @@ import { Principal } from '../auth/principal.service';
  */
 
 @Directive({
-    // tslint:disable-next-line:directive-selector
     selector: '[permitted]',
 })
 export class PermitDirective implements OnDestroy {
@@ -35,7 +34,7 @@ export class PermitDirective implements OnDestroy {
         this.privileges = typeof value === 'string' ? [value] : value;
         this.updateView();
         // Get notified each time authentication state changes.
-        this.privilegeSubscription = this.principal.getAuthenticationState().subscribe((identity) => this.updateView());
+        this.privilegeSubscription = this.principal.getAuthenticationState().subscribe(() => this.updateView());
     }
 
     public ngOnDestroy(): void {

@@ -62,7 +62,6 @@ export const buildJsfAttributes = (spec: any, form: any) => {
         entity: conditionalForm(input.dataForm, 'entity') || extractElement(input, 'entity'),
         options: conditionalForm(input.dataForm, 'options') || extractElement(input, 'options') || {},
         widgets: getJsfWidgets(),
-        // tslint:disable-next-line
         formLayout: formLayout(),
     } || null;
     jsfAttributes.options.data = jsfAttributes.data;
@@ -199,7 +198,7 @@ export const processValidationMessages = (jsfAttributes) => {
         field = field.properties || {};
 
         const path = key.split('.');
-        // tslint:disable-next-line:forin
+        // eslint-disable-next-line guard-for-in
         for (const i in path) {
             field = field[path[i]];
         }

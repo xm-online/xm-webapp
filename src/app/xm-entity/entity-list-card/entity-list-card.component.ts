@@ -106,7 +106,6 @@ export class EntityListCardComponent implements OnInit, OnChanges {
         }
     }
 
-    // tslint:disable-next-line:cognitive-complexity
     private load(): void {
         // TODO: move processing of options.entities to onChange hook.
         //  Will options ever change after component initialization?
@@ -175,7 +174,7 @@ export class EntityListCardComponent implements OnInit, OnChanges {
             return this.xmEntitySpecWrapperService.xmSpecByKey(xmEntity.typeKey);
         }
 
-        console.info(`No spec found by options=${entityOptions} or entity=${xmEntity}`); // tslint:disable-line
+        console.info(`No spec found by options=${entityOptions} or entity=${xmEntity}`); // eslint-disable-line
 
         throw new Error('No spec found');
     }
@@ -195,7 +194,7 @@ export class EntityListCardComponent implements OnInit, OnChanges {
                 return xmEntities.map((e) => this.enrichEntity(e));
             }),
             catchError((err) => {
-                console.info(err); // tslint:disable-line
+                console.info(err); // eslint-disable-line
                 this.showLoader = false;
                 return of([]);
             }),
