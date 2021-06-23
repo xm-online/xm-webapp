@@ -4,7 +4,8 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { ITranslate, Locale, Translate } from '@xm-ngx/translation';
 import { propEq } from 'lodash/fp';
-import { XmApplicationConfigService } from '../../../src/app/shared/spec';
+import { XmUiConfigService } from '@xm-ngx/core/config';
+import { take } from 'rxjs/operators';
 
 export type MultiLanguageDataModel = { languageKey: string; name: string }[]
 
@@ -109,13 +110,14 @@ export class MultiLanguageComponent implements XmDynamicPresentation<MultiLangua
     public selectedLng: string;
     public languages: string[] = [];
 
-    constructor(private xmConfigService: XmApplicationConfigService<{ langs: Locale[] }>) {
+    constructor(private xmConfigService: XmUiConfigService<{ langs: Locale[] }>) {
     }
 
     public ngOnInit(): void {
-        const config = this.xmConfigService.getAppConfig();
-        this.languages = config.langs;
-        this.selectedLng = this.languages[0];
+        this.xmConfigService.config$().pipe(take(1)).subscribe(config => {
+            this.languages = config.langs;
+            this.selectedLng = this.languages[0];
+        });
     }
 
     public getValue(): string {

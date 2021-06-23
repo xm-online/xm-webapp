@@ -6,7 +6,7 @@ import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 
 import * as _ from 'lodash';
 import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
 import { Notification, NotificationUiConfig } from '../shared/notification.model';
 
@@ -37,7 +37,7 @@ export class XmNavbarNotificationWidget implements OnInit, OnDestroy {
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
     constructor(
-        private xmConfigService: XmUiConfigService,
+        private xmConfigService: XmUiConfigService<{ notifications: NotificationUiConfig }>,
         private eventManager: XmEventManager,
         private router: Router,
         private sanitized: DomSanitizer,
@@ -83,11 +83,10 @@ export class XmNavbarNotificationWidget implements OnInit, OnDestroy {
     }
 
     public load(initAutoUpdate: boolean = false): void {
-        this.xmConfigService
-            .getUiConfig()
-            .pipe(takeUntilOnDestroy(this))
+        this.xmConfigService.config$()
+            .pipe(take(1))
             .subscribe((config) => {
-            this.config = config.notifications as NotificationUiConfig;
+            this.config = config.notifications;
             this.mapPrviliges(this.config);
             if (this.config) {
                 this.getNotifications(this.config);
