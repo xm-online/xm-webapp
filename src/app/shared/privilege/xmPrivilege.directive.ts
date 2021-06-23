@@ -1,4 +1,3 @@
-/* tslint:disable:member-ordering */
 import { AfterContentInit, Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Principal } from '../auth/principal.service';
