@@ -5,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { XmUserService } from '@xm-ngx/core/user';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
-import { MockDashboardStore } from '../../../src/app/xm-dashboard/shared/testing/mock-dashboard-store';
+import { MockDashboardStore } from '@xm-ngx/dashboards/testing';
 import { MockUserService } from '@xm-ngx/core/user/testing';
 
 import { SidebarUserComponent } from './sidebar-user.component';

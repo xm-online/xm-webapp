@@ -7,7 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NavbarUserWidgetComponent } from './navbar-user-widget.component';
 import { DashboardWrapperService } from '@xm-ngx/dashboard';
-import { MockDashboardStore } from '../../../src/app/xm-dashboard/shared/testing/mock-dashboard-store';
+import { MockDashboardStore } from '@xm-ngx/dashboards/testing';
 import { XmUserService } from '@xm-ngx/core/user';
 import { MockUserService } from '@xm-ngx/core/user/testing';
 import { MatMenuModule } from '@angular/material/menu';
