@@ -6,7 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NavbarUserWidgetComponent } from './navbar-user-widget.component';
-import { DashboardWrapperService } from '@xm-ngx/dashboard';
+import { DashboardStore } from '@xm-ngx/dashboard';
 import { MockDashboardStore } from '@xm-ngx/dashboards/testing';
 import { XmUserService } from '@xm-ngx/core/user';
 import { MockUserService } from '@xm-ngx/core/user/testing';
@@ -29,7 +29,7 @@ describe('NavbarUserWidgetComponent', () => {
             ],
             declarations: [NavbarUserWidgetComponent],
             providers: [
-                { provide: DashboardWrapperService, useClass: MockDashboardStore },
+                { provide: DashboardStore, useClass: MockDashboardStore },
                 { provide: XmUserService, useClass: MockUserService },
             ],
         })
