@@ -68,4 +68,6 @@ import '@angular/localize/init';
 
 // Fix Swagger Ui, ReferenceError: Buffer is not defined
 (window as any).process = {version: '', browser: true};
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 (window as any).Buffer = (window as any).Buffer || require('buffer').Buffer;
