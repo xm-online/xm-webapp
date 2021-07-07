@@ -52,6 +52,7 @@
       "@xm-ngx/dynamic": ["packages/dynamic"],
       "@xm-ngx/dynamic/*": ["packages/dynamic/*"],
       "@xm-ngx/dashboard": ["src/app/xm-dashboard"],
+      "@xm-ngx/dashboards/testing": ["packages/dashboards/testing"],
       "@xm-ngx/xm-balance": ["src/app/xm-balance"],
       "@xm-ngx/components/language": ["src/app/shared/language"]
 
