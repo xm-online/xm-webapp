@@ -51,9 +51,10 @@
       "@xm-ngx/account/*": ["packages/account/src/*"],
       "@xm-ngx/entity/*": ["src/app/xm-entity/*"],
       "@xm-ngx/dynamic": ["packages/dynamic"],
-      "@xm-ngx/dynamic/*": ["packages/dynamic/*"],
-      "@xm-ngx/dashboard": ["packages/dashboard/src"],
-      "@xm-ngx/dashboard/testing": ["packages/dashboard/testing"],
+      "@xm-ngx/dynamic/testing": ["packages/dynamic/testing"],
+      "@xm-ngx/dashboards": ["packages/dashboards"],
+      "@xm-ngx/dashboards/testing": ["packages/dashboards/testing"],
+      "@xm-ngx/dashboard": ["src/app/xm-dashboard"],
       "@xm-ngx/xm-balance": ["src/app/xm-balance"],
       "@xm-ngx/components/language": ["src/app/shared/language"]
 
