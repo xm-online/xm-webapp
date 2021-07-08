@@ -81,11 +81,9 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
 
     constructor(@Optional() @Self() public ngControl: NgControl) {
         super(ngControl);
-        debugger
     }
 
     public ngOnInit(): void {
-        debugger
         this.setDateRange();
     }
 
