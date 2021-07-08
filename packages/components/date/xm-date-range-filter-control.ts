@@ -7,11 +7,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { ElementsModule } from '@xm-ngx/ext/common-webapp-ext/elements/elements.module';
 import { OwlDateTimeModule } from 'ng-pick-datetime';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { XmDateModule } from '@xm-ngx/components/date/xm-date.component';
 
 const dateInitValues = {
     '7DaysAgo': 7,
@@ -87,7 +87,7 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
         this.setDateRange();
     }
 
-    public change(v: any): void {
+    public change(v: DateValue): void {
         this.value = v;
         this._onChange(v);
         this.valueChange.emit(v);
@@ -120,12 +120,12 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
         MatInputModule,
         XmTranslationModule,
         ControlErrorModule,
-        ElementsModule,
         FormsModule,
         OwlDateTimeModule,
         MatIconModule,
         MatButtonModule,
         CommonModule,
+        XmDateModule,
     ],
     exports: [DateRangeFilterControlComponent],
     declarations: [DateRangeFilterControlComponent],
