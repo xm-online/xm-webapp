@@ -40,7 +40,6 @@ type DateValue = string[] | Date[];
 @Component({
     selector: 'xm-date-range-filter-control',
     template: `
-        <!--        //TODO: obm-custom-input-icon and check css classes -->
         <mat-form-field class="xm-custom-input-icon">
             <div class="to-display" *ngIf="value && value.length > 0">
                 <xm-date [value]="value[0]" [options]="options"></xm-date>
