@@ -22,7 +22,7 @@ const ROUTES: Routes = [
     {path: 'search', pathMatch: 'full', redirectTo: 'application/search'},
     {
         path: 'dashboard',
-        loadChildren: () => import('./xm-dashboard/xm-dashboard.module').then((m) => m.XmDashboardModule),
+        loadChildren: () => import('@xm-ngx/dashboard').then((m) => m.XmDashboardModule),
     },
     {
         path: 'public',

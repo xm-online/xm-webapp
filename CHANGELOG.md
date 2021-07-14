@@ -32,3 +32,13 @@ xm-navbar-input-search to xm-navbar-search-widget
 xm-navbar-title to xm-navbar-title-widget
 xm-navbar-toggle to xm-navbar-toggle-widget
 ```
+
+# 3.3.0 (2021-07-14)
+
+### BREAKING CHANGES
+
+* **dashboards:** Move from /src/xm-dashboard to /packages/dashboard
+
+```text
+Use `@xm-ngx/dashboard` to import from /packages/dashboard
+```

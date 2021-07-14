@@ -2,13 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
-import { DashboardWidget } from '@xm-ngx/dashboard';
+import { DashboardBase, DashboardWidget } from '@xm-ngx/dashboard';
 import { XmLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { cloneDeep } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { DashboardBase } from '../xm-dashboard/dashboard/dashboard-base';
 
 interface HomeLayout extends XmLayout {
     content?: HomeLayout[];
