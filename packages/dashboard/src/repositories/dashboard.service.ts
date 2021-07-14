@@ -5,12 +5,11 @@ import { createRequestOption } from '@xm-ngx/entity';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Dashboard, DashboardWithWidgets } from '../models/dashboard.model';
-import { environment } from '@xm-ngx/core/environment';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
 
-    private resourceUrl: string = `${environment.serverApiUrl}/dashboard/api/dashboards`;
+    private resourceUrl: string = '/dashboard/api/dashboards';
 
     constructor(private http: HttpClient) {
     }
