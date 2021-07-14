@@ -7,7 +7,7 @@ import {
 
 import { IId, JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
-import { PageChangesStore, PageChangesStoreType } from '../../xm-dashboard/page-changes-store';
+import { PageChangesStore, PageChangesStoreType } from '@xm-ngx/dashboard';
 
 export interface XmMatCardOptions {
     editCondition: JavascriptCode;
