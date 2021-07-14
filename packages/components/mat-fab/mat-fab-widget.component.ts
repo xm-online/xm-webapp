@@ -4,6 +4,7 @@ import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { clone } from 'lodash';
+import { Params } from '@angular/router';
 
 export interface MatFabConfigBase {
     icon?: string;
@@ -16,6 +17,7 @@ export interface MatFabConfigBase {
 
 export interface MatFabConfig extends MatFabConfigBase {
     navigateTo: string | string[];
+    queryParams?: Params;
 }
 
 export const MAT_FAB_DEFAULT_CONFIG: MatFabConfig = {
