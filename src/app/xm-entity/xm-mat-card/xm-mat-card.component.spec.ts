@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageChangesStore } from '@xm-ngx/dashboard';
-import { MockPageChangesStore } from 'packages/dashboard/testing';
+import { MockPageChangesStore } from '@xm-ngx/dashboard/testing';
 
 import { XmMatCardComponent } from './xm-mat-card.component';
 

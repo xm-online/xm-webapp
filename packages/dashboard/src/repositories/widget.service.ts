@@ -5,45 +5,45 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { DashboardWidget } from '../models/dashboard-widget.model';
-import { environment } from '@xm-ngx/core/environment';
 
 @Injectable()
 export class WidgetService {
 
-    private resourceUrl: string = environment.serverApiUrl + 'dashboard/api/widgets';
+    private resourceUrl: string = '/dashboard/api/widgets';
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+    }
 
     public create(widget: DashboardWidget): Observable<HttpResponse<DashboardWidget>> {
         const copy = this.convert(widget);
-        return this.http.post<DashboardWidget>(this.resourceUrl, copy, {observe: 'response'}).pipe(
+        return this.http.post<DashboardWidget>(this.resourceUrl, copy, { observe: 'response' }).pipe(
             map((res: HttpResponse<DashboardWidget>) => this.convertResponse(res)));
     }
 
     public update(widget: DashboardWidget): Observable<HttpResponse<DashboardWidget>> {
         const copy = this.convert(widget);
-        return this.http.put<DashboardWidget>(this.resourceUrl, copy, {observe: 'response'}).pipe(
+        return this.http.put<DashboardWidget>(this.resourceUrl, copy, { observe: 'response' }).pipe(
             map((res: HttpResponse<DashboardWidget>) => this.convertResponse(res)));
     }
 
     public find(id: number): Observable<HttpResponse<DashboardWidget>> {
-        return this.http.get<DashboardWidget>(`${this.resourceUrl}/${id}`, {observe: 'response'}).pipe(
+        return this.http.get<DashboardWidget>(`${this.resourceUrl}/${id}`, { observe: 'response' }).pipe(
             map((res: HttpResponse<DashboardWidget>) => this.convertResponse(res)));
     }
 
     public query(req?: any): Observable<HttpResponse<DashboardWidget[]>> {
         const options = createRequestOption(req);
-        return this.http.get<DashboardWidget[]>(this.resourceUrl, {params: options, observe: 'response'}).pipe(
+        return this.http.get<DashboardWidget[]>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
             map((res: HttpResponse<DashboardWidget[]>) => this.convertArrayResponse(res)));
     }
 
     public delete(id: number): Observable<HttpResponse<any>> {
-        return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
+        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
     private convertResponse(res: HttpResponse<DashboardWidget>): HttpResponse<DashboardWidget> {
         const body: DashboardWidget = this.convertItemFromServer(res.body);
-        return res.clone({body});
+        return res.clone({ body });
     }
 
     private convertArrayResponse(res: HttpResponse<DashboardWidget[]>): HttpResponse<DashboardWidget[]> {
@@ -52,7 +52,7 @@ export class WidgetService {
         for (const i of jsonResponse) {
             body.push(this.convertItemFromServer(i));
         }
-        return res.clone({body});
+        return res.clone({ body });
     }
 
     /**

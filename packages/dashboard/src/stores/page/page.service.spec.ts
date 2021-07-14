@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { MockXmLogger } from '@xm-ngx/logger/testing';
-import { MockDashboardStore } from 'packages/dashboard/testing';
+import { MockDashboardStore } from '@xm-ngx/dashboard/testing';
 
 import { PageService } from './page.service';
 
