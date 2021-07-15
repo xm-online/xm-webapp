@@ -89,7 +89,7 @@ export class ConditionDashboardDialogComponent implements OnInit, OnDestroy {
             this.dashboards = dashboards;
             this.dataSource = dashboards;
             if (this.condition) {
-                const alreadySelected = dashboards.filter(dashboard => this.condition.includes(dashboard.typeKey));
+                const alreadySelected = dashboards.filter(dashboard => this.condition === dashboard.typeKey);
                 this.selection.select(...alreadySelected);
             }
 
