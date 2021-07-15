@@ -22,7 +22,6 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "skipLibCheck": true,
-    "emitDecoratorMetadata": false,
     "experimentalDecorators": true,
     "importHelpers": true,
     "lib": ["dom", "es2015"],

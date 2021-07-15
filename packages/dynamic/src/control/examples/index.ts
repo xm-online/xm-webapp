@@ -1,1 +1,1 @@
-export {XmDynamicControlExampleModule} from '@xm-ngx/dynamic/src/control/examples/xm-dynamic-control-example.module';
+export {XmDynamicControlExampleModule} from './xm-dynamic-control-example.module';

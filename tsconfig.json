@@ -1,6 +1,8 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": false,
+    "strict": false,
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "baseUrl": "./",
@@ -8,9 +10,8 @@
     "declaration": true,
     "downlevelIteration": true,
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "es2017",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -50,7 +51,6 @@
       "@xm-ngx/account/*": ["packages/account/src/*"],
       "@xm-ngx/entity/*": ["src/app/xm-entity/*"],
       "@xm-ngx/dynamic": ["packages/dynamic"],
-      "@xm-ngx/dynamic/*": ["packages/dynamic/*"],
       "@xm-ngx/dashboard": ["packages/dashboard/src"],
       "@xm-ngx/dashboard/testing": ["packages/dashboard/testing"],
       "@xm-ngx/xm-balance": ["src/app/xm-balance"],
@@ -58,7 +58,7 @@
 
     },
     "inlineSources": true,
-    "module": "esnext",
+    "module": "es2020",
     "stripInternal": false,
     "noUnusedLocals": true,
     "noImplicitThis": true,

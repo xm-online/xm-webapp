@@ -6,6 +6,7 @@
     "xm-webapp": {
       "root": "",
       "sourceRoot": "",
+      "prefix": "xm",
       "projectType": "application",
       "architect": {
         "build": {
@@ -27,7 +28,10 @@
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/styles", "src/app/ext"]
+              "includePaths": [
+                "src/styles",
+                "src/app/ext"
+              ]
             },
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
@@ -61,8 +65,13 @@
             ]
           },
           "configurations": {
-            "serve": {
-              "extractCss": true
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             },
             "serve-production": {
               "optimization": true,
@@ -113,7 +122,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "xm-webapp:build:serve",
+            "browserTarget": "xm-webapp:build:development",
             "proxyConfig": "proxy.conf.js",
             "host": "0.0.0.0"
           },
@@ -221,6 +230,9 @@
   },
   "defaultProject": "xm-webapp",
   "schematics": {
+    "@schematics/angular:application": {
+      "strict": true
+    },
     "@schematics/angular:component": {
       "prefix": "xm",
       "style": "scss"

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { DynamicTenantLoaderService } from './dynamic-tenant-loader.service';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
-import { ModuleLoader } from '@xm-ngx/dynamic/src/loader/module-loader';
+import { ModuleLoader } from '../loader/module-loader';
 import { TenantModuleLoaderService } from '@xm-ngx/dynamic';
 
 describe('DynamicTenantLoaderService', () => {

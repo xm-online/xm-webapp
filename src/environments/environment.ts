@@ -3,14 +3,13 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
-import * as npmPackage from '.././../package.json';
 import { IEnvironment } from './models';
 
 export const environment: IEnvironment = {
     environment: 'default',
     notFoundUrl: '/accessdenied',
     serverApiUrl: '/xm-api',
-    version: npmPackage.version,
-    release: npmPackage.release,
+    version: 'x.x.x',
+    release: 'x.x.x',
     production: false,
 };

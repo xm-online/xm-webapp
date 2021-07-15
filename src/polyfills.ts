@@ -55,7 +55,7 @@
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js/dist/zone';  // Included with Angular CLI.
+import 'zone.js';  // Included with Angular CLI.
 
 
 /***************************************************************************************************
@@ -68,4 +68,6 @@ import '@angular/localize/init';
 
 // Fix Swagger Ui, ReferenceError: Buffer is not defined
 (window as any).process = {version: '', browser: true};
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 (window as any).Buffer = (window as any).Buffer || require('buffer').Buffer;
