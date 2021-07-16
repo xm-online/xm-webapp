@@ -1,13 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-    ActivatedRouteSnapshot,
-    CanActivate,
-    CanLoad,
-    LoadChildren,
-    Route,
-    RouterStateSnapshot,
-    Routes,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, RouterStateSnapshot, Routes } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ArgumentException } from '@xm-ngx/shared/exceptions';
@@ -16,6 +8,7 @@ import { XmDynamicRouteResolverGuard } from '@xm-ngx/dynamic/route';
 import { DashboardStore } from '../stores/dashboard-store.service';
 import { Dashboard } from '../models/dashboard.model';
 import { DashboardGuard } from '../guards/dashboard.guard';
+import { DynamicSearcher } from '@xm-ngx/dynamic';
 
 export type RouteFactory = (dashboard: Dashboard, slug: string) => Route;
 
@@ -80,6 +73,7 @@ export class XmDashboardDynamicRouteResolverGuard
 
     constructor(
         private dashboardStore: DashboardStore,
+        private dynamicSearcher: DynamicSearcher,
     ) {
         super();
     }
@@ -127,17 +121,17 @@ export class XmDashboardDynamicRouteResolverGuard
         );
     }
 
-    private dashboardLoadChildren: LoadChildren = () => import('@xm-ngx/dashboard').then(m => m.XmDashboardModule);
-
     private dashboardRoutesFactory(dashboards: Dashboard[]): Routes {
         const routeFactory: RouteFactory = (dashboard, slug: string) => {
+            const selector = dashboard.config.selector || '@xm-ngx/dashboard/default-dashboard';
             return {
                 path: slug,
                 data: {
                     title: dashboard.config?.name || dashboard.name,
                     dashboard,
                 },
-                loadChildren: this.dashboardLoadChildren,
+                loadChildren: () => this.dynamicSearcher.getEntry(selector)
+                    .then(e => e.loadChildren()),
             };
         };
 

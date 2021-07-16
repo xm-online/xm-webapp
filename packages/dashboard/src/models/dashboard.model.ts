@@ -5,6 +5,7 @@ import { Translate } from '@xm-ngx/translation';
 import { DashboardWidget } from './dashboard-widget.model';
 
 export interface DashboardConfig {
+    selector?: string;
     slug?: string;
     orderIndex?: number;
     condition?: JavascriptCode;

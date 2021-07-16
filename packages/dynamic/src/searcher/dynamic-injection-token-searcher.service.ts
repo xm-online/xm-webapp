@@ -27,7 +27,8 @@ export class DynamicInjectionTokenSearcherService implements DynamicSearcher {
 
     public getEntry<T>(
         selector: string,
-        options?: { injector?: Injector }): Promise<XmDynamicEntry<T> | null> {
+        options: { injector?: Injector } = { injector: this.moduleRef.injector },
+    ): Promise<XmDynamicEntry<T> | null> {
         const components = this.getAllEntries<T>(selector, options);
         const component = components.find((i) => i.selector === selector) || null;
         return Promise.resolve(component);

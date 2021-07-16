@@ -8,6 +8,7 @@ import { XM_ENUM_ELEMENTS } from './xm-enum.registry';
 import { XM_BOOL_ELEMENTS } from './xm-bool-registry';
 import { XM_ARRAY_ELEMENTS } from './xm-array-registry';
 import { XM_NAVBAR_ELEMENTS } from './xm-navbar-registry';
+import { XM_DASHBOARD_ELEMENTS } from './xm-dashboard.registry';
 
 export const XM_ELEMENTS: XmDynamicEntries = [
     ...XM_DATE_ELEMENTS,
@@ -19,6 +20,7 @@ export const XM_ELEMENTS: XmDynamicEntries = [
     ...XM_ENUM_ELEMENTS,
     ...XM_ARRAY_ELEMENTS,
     ...XM_NAVBAR_ELEMENTS,
+    ...XM_DASHBOARD_ELEMENTS,
     {
         selector: '@xm-ngx/components/navbar-user-widget',
         loadChildren: () => import('@xm-ngx/components/navbar-user-widget').then(m => m.NavbarUserWidgetModule),
