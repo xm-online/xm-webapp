@@ -26,7 +26,7 @@ export class UserMgmtDialogComponent implements OnInit {
     constructor(
         public activeModal: MatDialogRef<UserMgmtDialogComponent>,
         private languageService: LanguageService,
-        private сonfigService: XmConfigService,
+        private configService: XmConfigService,
         private xmConfigService: XmPublicUiConfigService,
         private userService: UserService,
         private roleService: RoleService,
@@ -41,7 +41,7 @@ export class UserMgmtDialogComponent implements OnInit {
             this.user = new User();
         }
 
-        this.сonfigService.getConfig('/uaa/uaa.yml?toJson').subscribe((result) => {
+        this.configService.getConfig('/uaa/uaa.yml?toJson').subscribe((result) => {
             this.isMultiRole = JSON.parse(result).security.multiRoleEnabled;
             if (this.isMultiRole) {
                 this.userRoles = this.user.authorities;
