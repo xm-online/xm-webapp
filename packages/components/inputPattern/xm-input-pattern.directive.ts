@@ -4,7 +4,7 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
     selector: '[xmInputPattern]',
 })
 export class XmInputPatternDirective {
-    @Input() private regexp: string;
+    @Input() public regexp: string;
 
     private regex: RegExp;
     private specialKeys: string[] = ['Backspace', 'Tab', 'End', 'Home', 'ArrowLeft', 'ArrowRight', 'Space'];

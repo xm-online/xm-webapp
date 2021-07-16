@@ -24,7 +24,7 @@ export class UserLoginFormComponent implements OnChanges {
     public userLogins: any = [];
     public success: boolean;
     @Input()
-    private user: User;
+    public user: User;
 
     constructor(@Optional() private activeModal: MatDialogRef<UserLoginFormComponent>,
                 private userService: UserService,
