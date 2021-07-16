@@ -24,10 +24,11 @@ export class DynamicMultiSearcherService implements DynamicSearcher {
             || await this.dynamicInjectionTokenSearcherService.search(selector, options);
     }
 
-    public getEntry<T>(
+    public async getEntry<T>(
         selector: string,
-        options?: { injector?: Injector }): Promise<XmDynamicEntry<T> | null> {
-        return this.dynamicInjectorSearcherService.getEntry(selector, options)
-            || this.dynamicInjectionTokenSearcherService.getEntry(selector, options);
+        options: { injector?: Injector } = { injector: this.moduleRef.injector },
+    ): Promise<XmDynamicEntry<T> | null> {
+        return await this.dynamicInjectorSearcherService.getEntry(selector, options)
+            || await this.dynamicInjectionTokenSearcherService.getEntry(selector, options);
     }
 }

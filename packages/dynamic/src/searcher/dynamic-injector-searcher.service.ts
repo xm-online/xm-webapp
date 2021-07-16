@@ -32,7 +32,8 @@ export class DynamicInjectorSearcherService implements DynamicSearcher {
 
     public getEntry<T>(
         selector: string,
-        options?: { injector?: Injector }): Promise<XmDynamicEntry<T> | null> {
+        options: { injector?: Injector } = { injector: this.moduleRef.injector },
+    ): Promise<XmDynamicEntry<T> | null> {
         return Promise.resolve(null);
     }
 
