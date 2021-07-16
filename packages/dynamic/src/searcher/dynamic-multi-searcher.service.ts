@@ -1,5 +1,5 @@
 import { Injectable, Injector, NgModuleRef, Type } from '@angular/core';
-import { XmDynamicNgModuleFactory } from '../interfaces';
+import { XmDynamicEntry, XmDynamicNgModuleFactory } from '../interfaces';
 import { DynamicInjectionTokenSearcherService } from './dynamic-injection-token-searcher.service';
 import { DynamicInjectorSearcherService } from './dynamic-injector-searcher.service';
 import { DynamicSearcher } from './dynamic-searcher';
@@ -18,9 +18,16 @@ export class DynamicMultiSearcherService implements DynamicSearcher {
 
     public async search<T>(
         selector: string,
-        options: { injector?: Injector } = {injector: this.moduleRef.injector},
+        options: { injector?: Injector } = { injector: this.moduleRef.injector },
     ): Promise<XmDynamicNgModuleFactory<T> | Type<T> | null> {
         return await this.dynamicInjectorSearcherService.search(selector, options)
             || await this.dynamicInjectionTokenSearcherService.search(selector, options);
+    }
+
+    public getEntry<T>(
+        selector: string,
+        options?: { injector?: Injector }): Promise<XmDynamicEntry<T> | null> {
+        return this.dynamicInjectorSearcherService.getEntry(selector, options)
+            || this.dynamicInjectionTokenSearcherService.getEntry(selector, options);
     }
 }
