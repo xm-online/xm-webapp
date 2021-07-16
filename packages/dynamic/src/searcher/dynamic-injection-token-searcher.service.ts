@@ -1,7 +1,7 @@
 import { Injectable, Injector, NgModuleRef, Type } from '@angular/core';
 import * as _ from 'lodash';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
-import { XmDynamicEntries, XmDynamicNgModuleFactory } from '../interfaces';
+import { XmDynamicEntries, XmDynamicEntry, XmDynamicNgModuleFactory } from '../interfaces';
 import { DynamicSearcher } from './dynamic-searcher';
 
 @Injectable({
@@ -21,11 +21,20 @@ export class DynamicInjectionTokenSearcherService implements DynamicSearcher {
         selector: string,
         options: { injector?: Injector } = { injector: this.moduleRef.injector },
     ): Promise<XmDynamicNgModuleFactory<T> | Type<T> | null> {
-        const providers = options.injector.get(XM_DYNAMIC_ENTRIES, []);
-        const components = _.flatMap([...providers, ...this.global]);
-        const component = components.find((i) => i.selector === selector)
-            || { loadChildren: () => Promise.resolve(null) };
+        const component = await this.getEntry(selector, options) || { loadChildren: () => Promise.resolve(null) };
         return component.loadChildren();
     }
 
+    public getEntry<T>(
+        selector: string,
+        options?: { injector?: Injector }): Promise<XmDynamicEntry<T> | null> {
+        const components = this.getAllEntries<T>(selector, options);
+        const component = components.find((i) => i.selector === selector) || null;
+        return Promise.resolve(component);
+    }
+
+    public getAllEntries<T>(selector: string, options?: { injector?: Injector }): XmDynamicEntry<T>[] {
+        const providers = options.injector.get(XM_DYNAMIC_ENTRIES, []);
+        return _.flatMap<XmDynamicEntry<T>>([...providers, ...this.global] as XmDynamicEntry<T>[]);
+    }
 }

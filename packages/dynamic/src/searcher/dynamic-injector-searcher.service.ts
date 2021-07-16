@@ -1,5 +1,5 @@
 import { Injectable, Injector, NgModuleRef, Type } from '@angular/core';
-import { XmDynamicNgModuleFactory } from '../interfaces';
+import { XmDynamicEntry, XmDynamicNgModuleFactory } from '../interfaces';
 import { DynamicSearcher } from './dynamic-searcher';
 
 export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
@@ -16,7 +16,7 @@ export class DynamicInjectorSearcherService implements DynamicSearcher {
 
     public async search<T>(
         selector: string,
-        options: { injector?: Injector } = {injector: this.moduleRef.injector},
+        options: { injector?: Injector } = { injector: this.moduleRef.injector },
     ): Promise<XmDynamicNgModuleFactory<T> | Type<T> | null> {
         const componentTypeOrLazyComponentType = options.injector.get(selector, ELEMENT_NOT_FOUND);
         if (componentTypeOrLazyComponentType === ELEMENT_NOT_FOUND) {
@@ -28,6 +28,12 @@ export class DynamicInjectorSearcherService implements DynamicSearcher {
         } else {
             return Promise.resolve(componentTypeOrLazyComponentType);
         }
+    }
+
+    public getEntry<T>(
+        selector: string,
+        options?: { injector?: Injector }): Promise<XmDynamicEntry<T> | null> {
+        return Promise.resolve(null);
     }
 
 }
