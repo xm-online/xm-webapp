@@ -9,7 +9,7 @@ import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { combineLatest, from, Observable } from 'rxjs';
-import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, shareReplay, startWith, switchMap, take, tap } from 'rxjs/operators';
 
 import { ContextService, Principal } from '../../../src/app/shared';
 import { DEFAULT_MENU_LIST } from './menu-const';
@@ -165,6 +165,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         const dashboards$ = this.dashboardService.dashboards$().pipe(
+            startWith([]),
             takeUntilOnDestroy(this),
             filter((dashboards) => Boolean(dashboards)),
             map((i) => filterByConditionDashboards(i, this.contextService)),
