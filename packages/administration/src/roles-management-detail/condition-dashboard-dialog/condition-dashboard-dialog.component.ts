@@ -89,11 +89,10 @@ export class ConditionDashboardDialogComponent implements OnInit, OnDestroy {
             this.dashboards = dashboards;
             this.dataSource = dashboards;
             if (this.condition) {
-                const selectedDashboards = this.condition.split(/'*'/g).filter(el=>!el.includes('returnObject'))
+                const selectedDashboards = this.condition.split('\'').filter(el => !el.includes(' '));
                 const alreadySelected = dashboards.filter(dashboard => selectedDashboards.includes(dashboard.typeKey));
                 this.selection.select(...alreadySelected);
             }
-
         });
     }
 
