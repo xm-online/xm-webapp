@@ -29,12 +29,15 @@ export function dashboardRoutesFactory(
     const routes: Routes = [];
     dashboards = _.orderBy(dashboards, 'config.slug');
 
-    _.forEach(dashboards, (dashboard) => {
-        if (dashboard.config.slug === undefined || dashboard.config.slug === null) {
+    dashboards = _.filter(dashboards, dashboard => {
+        if (dashboard.config?.slug === undefined || dashboard.config.slug === null) {
             console.warn(`Dashboard should have a config.slug, id=${dashboard.id}, name=${dashboard.name}.`);
-            return;
+            return false;
         }
+        return true;
+    });
 
+    _.forEach(dashboards, (dashboard) => {
         let parentRoutes = routes;
         const slugs = _.split(dashboard.config.slug, '/');
         for (const slug of slugs) {
