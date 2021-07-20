@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, LoadChildren, Route, Routes } from '@angular/router';
+import {
+    ActivatedRouteSnapshot,
+    CanActivate,
+    CanLoad,
+    LoadChildren,
+    Route,
+    RouterStateSnapshot,
+    Routes,
+} from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ArgumentException } from '@xm-ngx/shared/exceptions';
@@ -31,8 +39,8 @@ export function dashboardRoutesFactory(
 
     dashboards = _.filter(dashboards, dashboard => {
         if (dashboard.config?.slug === undefined || dashboard.config.slug === null) {
-            console.warn(`Dashboard should have a config.slug, id=${dashboard.id}, name=${dashboard.name}.`);
-            return false;
+            console.warn(`Dashboard should have a config.slug, otherwise "id" will be used instead! id=${dashboard.id}, name=${dashboard.name}.`);
+            _.set(dashboard, 'config.slug', `${dashboard.id}`);
         }
         return true;
     });
@@ -76,11 +84,20 @@ export function dashboardRoutesFactory(
 
 
 @Injectable()
-export class XmDashboardDynamicRouteResolverGuard extends XmDynamicRouteResolverGuard implements CanLoad {
+export class XmDashboardDynamicRouteResolverGuard
+    extends XmDynamicRouteResolverGuard
+    implements CanLoad, CanActivate {
     private routes: Routes | null = null;
 
-    constructor(private dashboardStore: DashboardStore) {
+    constructor(
+        private dashboardStore: DashboardStore,
+    ) {
         super();
+    }
+
+    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+        delete route.routeConfig['_loadedConfig'];
+        return this.canLoad();
     }
 
     public getRoutes(): Routes | null {
@@ -88,26 +105,35 @@ export class XmDashboardDynamicRouteResolverGuard extends XmDynamicRouteResolver
     }
 
     public canLoad(): Observable<boolean> {
+        return this.getRoutes$().pipe(
+            map((routes) => {
+                this.routes = routes;
+                return true;
+            })
+        );
+    }
+
+    private getRoutes$(): Observable<Routes> {
         return this.dashboardStore.dashboards$().pipe(
             map((dashboards) => {
                 if (dashboards === null) {
                     throw new ArgumentException('Dashboards should not be empty!');
                 }
-                this.routes = this.dashboardRoutesFactory(dashboards);
+                const routes = this.dashboardRoutesFactory(dashboards);
 
                 // Add the default empty page
                 if (!_.find(this.routes, d => d.path === '')) {
                     // Redirect to first available
-                    this.routes.unshift({ path: '', pathMatch: 'full', canActivate: [DashboardGuard], })
+                    routes.unshift({ path: '', pathMatch: 'full', canActivate: [DashboardGuard], })
                 }
 
                 // Add the default not-found page
                 if (!_.find(this.routes, d => d.path === '**')) {
                     // Redirect to first available
-                    this.routes.push({ path: '**', canActivate: [DashboardGuard], })
+                    routes.push({ path: '**', canActivate: [DashboardGuard], })
                 }
 
-                return true;
+                return routes;
             })
         );
     }
