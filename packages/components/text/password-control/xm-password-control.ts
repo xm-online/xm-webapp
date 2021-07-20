@@ -8,7 +8,7 @@ export const XM_PASSWORD_OPTIONS_DEFAULT: XmPasswordControlOptions = {
     required: false,
     title: 'Password',
     dataQa: 'password-input',
-    autocomplete: 'password'
+    autocomplete: 'password',
 };
 
 @Component({

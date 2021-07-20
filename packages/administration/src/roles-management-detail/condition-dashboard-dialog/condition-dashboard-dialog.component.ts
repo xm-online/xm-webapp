@@ -20,11 +20,11 @@ interface ConditionDashboardDialogConfig {
 const DEFAULT_CONFIG: ConditionDashboardDialogConfig = {
     privilegeKeyField: {
         title: 'rolesManagement.permission.privilegeKey',
-        dataQa: 'privilege-key-field'
+        dataQa: 'privilege-key-field',
     },
     roleField: {
         title: 'rolesManagement.detail.title',
-        dataQa: 'role-field'
+        dataQa: 'role-field',
     },
     searchControl: {
         title: 'entity.search',
@@ -38,7 +38,7 @@ const DEFAULT_CONFIG: ConditionDashboardDialogConfig = {
 
 @Component({
     selector: 'xm-condition-dashboard-detail',
-    templateUrl: './condition-dashboard-dialog.component.html'
+    templateUrl: './condition-dashboard-dialog.component.html',
 })
 export class ConditionDashboardDialogComponent implements OnInit, OnDestroy {
     public get permission(): Permission {

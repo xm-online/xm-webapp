@@ -16,7 +16,7 @@ import { MatMenuModule } from '@angular/material/menu';
         MatTooltipModule,
         XmTranslationModule,
         LanguageModule,
-        MatMenuModule
+        MatMenuModule,
     ],
     exports: [XmNavbarLanguageMenuWidget],
     declarations: [XmNavbarLanguageMenuWidget],

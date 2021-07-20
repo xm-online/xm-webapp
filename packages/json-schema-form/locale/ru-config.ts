@@ -3,7 +3,7 @@ export const RU_INTL = {
     minLength: 'Должно быть не менее {{minimumLength}} символов (текущая длина: {{currentLength}}).',
     maxLength: 'Должно быть не более {{maximumLength}} символов (текущая длина: {{currentLength}}).',
     pattern: 'Должен соответствовать шаблону: {{requiredPattern}}.',
-    format: (error: { requiredFormat: string }) => {
+    format: (error: { requiredFormat: string }): string => {
         switch (error.requiredFormat) {
             case 'date':
                 return 'Должна быть дата, например "2000-12-31".';
@@ -39,13 +39,13 @@ export const RU_INTL = {
     exclusiveMinimum: 'Должно быть больше {{exclusiveMinimumValue}}.',
     maximum: 'Должно быть {{maximumValue}} или меньше.',
     exclusiveMaximum: 'Должно быть меньше чем {{exclusiveMaximumValue}}.',
-    multipleOf: (error: { multipleOfValue: number }) => {
+    multipleOf: (error: { multipleOfValue: number }): string => {
         if ((1 / error.multipleOfValue) % 10 === 0) {
             const decimals = Math.log10(1 / error.multipleOfValue);
             return `Должно быть ${decimals} или меньше десятичных знаков.`;
-        } else {
-            return `Должно быть кратно ${error.multipleOfValue}.`;
         }
+        return `Должно быть кратно ${error.multipleOfValue}.`;
+
     },
     minProperties: 'Должно быть {{minimumProperties}} или более элементов (текущие элементы: {{currentProperties}}).',
     maxProperties: 'Должно быть {{maximumProperties}} или меньше элементов (текущие элементы: {{currentProperties}}).',

@@ -10,13 +10,13 @@ import { XmDateExampleComponent } from '@xm-ngx/components/date/examples/xm-date
 
 
 @NgModule({
-  imports: [
-    XmDateModule,
-    XmDateViewModule,
-    XmDateControlModule,
-    XmDateRangeControlModule,
-    XmCodeModule,
-  ],
+    imports: [
+        XmDateModule,
+        XmDateViewModule,
+        XmDateControlModule,
+        XmDateRangeControlModule,
+        XmCodeModule,
+    ],
     exports: [XmDateExampleComponent],
     declarations: [XmDateExampleComponent],
 })

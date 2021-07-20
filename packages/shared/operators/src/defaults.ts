@@ -10,5 +10,5 @@ export function Defaults<T>(defaultValue: T) {
             propertyKey,
             {get: getter, set: setter},
         );
-    }
+    };
 }

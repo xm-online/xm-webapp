@@ -8,14 +8,14 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { JhiDocsComponent } from './docs.component';
 
 @NgModule({
-  imports: [
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    XmTranslationModule,
-    CommonModule,
-    MatCardModule,
-  ],
+    imports: [
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule,
+        XmTranslationModule,
+        CommonModule,
+        MatCardModule,
+    ],
     exports: [JhiDocsComponent],
     declarations: [JhiDocsComponent],
     providers: [],

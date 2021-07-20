@@ -20,9 +20,9 @@ export class XmDynamicControlExampleComponent<T> {
         'title': {
             'en': 'Name',
             'ru': 'Наименование',
-            'uk': 'Найменування'
+            'uk': 'Найменування',
         },
-        'required': false
+        'required': false,
     };
 
     public onApply(selector: string, options: unknown): void {

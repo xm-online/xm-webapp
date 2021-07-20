@@ -1,1 +1,1 @@
-export { ModalCloseModule } from './modal-close.module'
+export { ModalCloseModule } from './modal-close.module';

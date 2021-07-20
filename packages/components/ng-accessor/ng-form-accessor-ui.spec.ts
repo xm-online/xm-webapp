@@ -72,18 +72,17 @@ describe('NgFormAccessorUI', () => {
 
     describe('ngModel', () => {
         it('value passes to control', fakeAsync(() => {
-                const value = 'value';
-                const template = '<test-accessor [ngModel]="testValue"></test-accessor>';
-                const fixture = createTestComponent(template);
-                const container = fixture.componentInstance;
-                fixture.detectChanges();
-                container.testValue = value;
-                const child = fixture.componentInstance.child;
-                fixture.detectChanges();
-                tick();
-                expect(child.value).toBe(value);
-            }),
-        );
+            const value = 'value';
+            const template = '<test-accessor [ngModel]="testValue"></test-accessor>';
+            const fixture = createTestComponent(template);
+            const container = fixture.componentInstance;
+            fixture.detectChanges();
+            container.testValue = value;
+            const child = fixture.componentInstance.child;
+            fixture.detectChanges();
+            tick();
+            expect(child.value).toBe(value);
+        }));
 
         it('new value not triggers a valueChange', fakeAsync(() => {
             const value = 'value';

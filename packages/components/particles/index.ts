@@ -2,5 +2,5 @@ export {
     CanvasWithParticlesOptions,
 } from './canvas-with-particles/canvas-with-particles.component';
 export {
-    CanvasWithParticlesModule
+    CanvasWithParticlesModule,
 } from '@xm-ngx/components/particles/canvas-with-particles/canvas-with-particles.module';

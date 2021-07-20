@@ -10,7 +10,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
         CommonModule,
         RouterModule,
         MatIconModule,
-        XmTranslationModule
+        XmTranslationModule,
     ],
     exports: [XmNavbarHelpLinkWidget],
     declarations: [XmNavbarHelpLinkWidget],

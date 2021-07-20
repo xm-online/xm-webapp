@@ -10,7 +10,7 @@ export class ExtLazyModuleCommand implements Command {
         'src/app/ext/*',
     ];
 
-    public template = (selector: string, file: string, module: string) => `    {
+    public template = (selector: string, file: string, module: string): string => `    {
         selector: '${selector}',
         loadChildren: () => import('${file}').then(m => m.${module}),
     },

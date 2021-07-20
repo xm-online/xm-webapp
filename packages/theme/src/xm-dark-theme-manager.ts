@@ -32,9 +32,9 @@ export class XmDarkThemeManager implements OnDestroy {
         this.subscription = this.themeSchemeService.browserThemeChange$().subscribe((e) => {
             if (this.darkTheme && e === 'dark') {
                 return this.themeStore.set(this.darkTheme.theme, this.darkTheme);
-            } else {
-                return this.themeStore.set(this.lightTheme.theme, this.lightTheme);
-            }
+            } 
+            return this.themeStore.set(this.lightTheme.theme, this.lightTheme);
+            
         });
     }
 

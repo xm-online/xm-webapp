@@ -48,9 +48,9 @@ export class XmPoweredBy implements OnInit, OnDestroy {
         takeUntilOnDestroyDestroy(this);
     }
 
-    public redirect(url: string): void | null {
+    public redirect(url: string): void {
         if (!url) {
-            return null;
+            return;
         }
         window.open(url);
     }

@@ -6,5 +6,5 @@ export {
 } from './xm-control-errors-translates';
 
 export {
-    ControlErrorsDirective
+    ControlErrorsDirective,
 } from './control-errors.directive';

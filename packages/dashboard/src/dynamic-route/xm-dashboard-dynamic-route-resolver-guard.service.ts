@@ -109,7 +109,7 @@ export class XmDashboardDynamicRouteResolverGuard
             map((routes) => {
                 this.routes = routes;
                 return true;
-            })
+            }),
         );
     }
 
@@ -124,17 +124,17 @@ export class XmDashboardDynamicRouteResolverGuard
                 // Add the default empty page
                 if (!_.find(this.routes, d => d.path === '')) {
                     // Redirect to first available
-                    routes.unshift({ path: '', pathMatch: 'full', canActivate: [DashboardGuard], })
+                    routes.unshift({ path: '', pathMatch: 'full', canActivate: [DashboardGuard] });
                 }
 
                 // Add the default not-found page
                 if (!_.find(this.routes, d => d.path === '**')) {
                     // Redirect to first available
-                    routes.push({ path: '**', canActivate: [DashboardGuard], })
+                    routes.push({ path: '**', canActivate: [DashboardGuard] });
                 }
 
                 return routes;
-            })
+            }),
         );
     }
 
@@ -150,7 +150,7 @@ export class XmDashboardDynamicRouteResolverGuard
                 },
                 loadChildren: this.dashboardLoadChildren,
             };
-        }
+        };
 
         const containerFactory: RouteFactory = (dashboard, slug: string) => {
             return {
@@ -160,10 +160,10 @@ export class XmDashboardDynamicRouteResolverGuard
                     dashboard,
                 },
                 children: [
-                    routeFactory(dashboard, '')
-                ]
+                    routeFactory(dashboard, ''),
+                ],
             };
-        }
+        };
 
         return dashboardRoutesFactory(dashboards, containerFactory, routeFactory);
     }

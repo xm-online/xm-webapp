@@ -77,9 +77,9 @@ export class JhiGatewayComponent implements OnInit {
         const isValidDate = (date) => date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date);
         if (isValidDate(date)) {
             return new Date(date as string);
-        } else {
-            return null;
-        }
+        } 
+        return null;
+        
     }
 
     private triggerUpdate(type: 'updateTenantConfig' | 'reindexTenantElastic' = 'updateTenantConfig'): void {

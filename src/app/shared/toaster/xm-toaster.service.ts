@@ -48,9 +48,9 @@ export class XmToasterService {
         if (this.useMatSnackbars) {
             // TODO: hotfix: join ToasterConfig[] with MatSnackBarDismiss
             return this.matAlert(params) as any;
-        } else {
-            return this.jhiAlert(params);
-        }
+        } 
+        return this.jhiAlert(params);
+        
     }
 
     /** @deprecated use create instead */

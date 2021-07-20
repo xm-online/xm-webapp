@@ -3,7 +3,7 @@ import { XmSessionService } from '@xm-ngx/core';
 import {
     AuthRefreshTokenService,
     XmAuthenticationRepository,
-    XmAuthenticationStoreService
+    XmAuthenticationStoreService,
 } from '@xm-ngx/core/auth';
 
 import { XmAuthenticationService } from './xm-authentication.service';

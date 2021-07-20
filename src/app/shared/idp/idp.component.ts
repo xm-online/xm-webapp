@@ -6,9 +6,9 @@ import { Location } from '@angular/common';
 import { LoginService } from '@xm-ngx/core/auth';
 
 @Component({
-  selector: 'xm-idp',
-  templateUrl: './idp.component.html',
-  styleUrls: ['./idp.component.scss']
+    selector: 'xm-idp',
+    templateUrl: './idp.component.html',
+    styleUrls: ['./idp.component.scss'],
 })
 export class IdpComponent implements OnDestroy {
 

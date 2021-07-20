@@ -14,7 +14,7 @@ export {
     XmPasswordControl,
     XmPasswordControlOptions,
     XmPasswordControlModule,
-    XM_PASSWORD_OPTIONS_DEFAULT
+    XM_PASSWORD_OPTIONS_DEFAULT,
 } from './password-control';
 
 export {

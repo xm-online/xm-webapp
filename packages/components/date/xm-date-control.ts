@@ -60,9 +60,9 @@ export class XmDateControl extends NgFormAccessor<XmDateValue>{
 
             if (this.options?.useUtc) {
                 const utcDate = new Date(
-                    Date.UTC(value.getFullYear(), value.getMonth(), value.getDate())
+                    Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()),
                 );
-                this.control.setValue(utcDate, {emitEvent: true})
+                this.control.setValue(utcDate, {emitEvent: true});
             }
         }
     }

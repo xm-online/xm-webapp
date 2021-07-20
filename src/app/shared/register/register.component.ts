@@ -104,10 +104,10 @@ export class RegisterComponent implements OnInit {
             this.registerAccount.langKey = key;
             this.makeLogins();
             this.registerService.save(this.registerAccount).subscribe(() => {
-                    this.success = true;
-                    this.eventManager.broadcast({name: XM_EVENT_LIST.XM_REGISTRATION, content: ''});
-                },
-                (response) => this.processError(response));
+                this.success = true;
+                this.eventManager.broadcast({name: XM_EVENT_LIST.XM_REGISTRATION, content: ''});
+            },
+            (response) => this.processError(response));
         });
     }
 

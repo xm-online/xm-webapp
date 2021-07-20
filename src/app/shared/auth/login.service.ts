@@ -69,7 +69,7 @@ export class LoginService {
                     reject(err);
                     return cb(err);
                 });
-        })
+        });
     }
 
     public onIdpDirectLogin(config: IIdpConfig): void {

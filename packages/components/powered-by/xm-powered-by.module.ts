@@ -13,8 +13,8 @@ import { XmTranslationModule } from '@xm-ngx/translation';
         XmTranslationModule,
     ],
     exports: [
-        XmPoweredBy
-    ]
+        XmPoweredBy,
+    ],
 })
 export class XmPoweredByModule {
 }

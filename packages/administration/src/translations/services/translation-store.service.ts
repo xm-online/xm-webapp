@@ -64,6 +64,6 @@ export class TranslationStoreService {
     }
 
     private getFromStore(keysName: string): Observable<{}> {
-        return this.store.pipe(map((store) => store[keysName]?.keys || {}))
+        return this.store.pipe(map((store) => store[keysName]?.keys || {}));
     }
 }

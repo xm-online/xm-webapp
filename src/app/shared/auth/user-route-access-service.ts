@@ -7,7 +7,7 @@ import {
     Route,
     Router,
     RouterStateSnapshot,
-    UrlSegment
+    UrlSegment,
 } from '@angular/router';
 import { XmToasterService } from '@xm-ngx/toaster';
 

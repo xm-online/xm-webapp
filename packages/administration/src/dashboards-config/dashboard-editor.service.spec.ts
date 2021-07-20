@@ -14,7 +14,7 @@ describe('DashboardEditorService', () => {
             { provide: ActivatedRoute, useValue: null },
             { provide: XmToasterService, useValue: null },
             { provide: Injector, useValue: null },
-            DashboardEditorService
+            DashboardEditorService,
         ],
     }));
 

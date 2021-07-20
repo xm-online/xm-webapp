@@ -5,7 +5,7 @@ import { XmDynamicRouteResolverGuard } from './xm-dynamic-route-resolver-guard.s
 
 function dynamicRoutesFactory(route: XmDynamicRouteResolverGuard): Routes {
     if (!route) {
-        throw new ArgumentException('XmDynamicRouteResolverGuard must be provided!')
+        throw new ArgumentException('XmDynamicRouteResolverGuard must be provided!');
     }
     if (!route.getRoutes) {
         throw new ArgumentException('The getRoutes() method at XmDynamicRouteResolverGuard must not be null!');
@@ -19,7 +19,7 @@ function dynamicRoutesFactory(route: XmDynamicRouteResolverGuard): Routes {
             provide: ROUTES,
             multi: true,
             useFactory: dynamicRoutesFactory,
-            deps: [XmDynamicRouteResolverGuard]
+            deps: [XmDynamicRouteResolverGuard],
         },
     ],
 })

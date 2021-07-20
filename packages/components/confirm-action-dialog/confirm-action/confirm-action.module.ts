@@ -14,8 +14,8 @@ import { ConfirmActionComponent } from './confirm-action.component';
         XmTranslationModule,
         LoadingBarModule,
     ],
-    declarations: [ConfirmActionComponent,],
-    exports: [ConfirmActionComponent,],
+    declarations: [ConfirmActionComponent],
+    exports: [ConfirmActionComponent],
 })
 export class ConfirmActionModule {
     public entry: Type<ConfirmActionComponent> = ConfirmActionComponent;

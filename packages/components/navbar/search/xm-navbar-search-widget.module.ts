@@ -18,8 +18,8 @@ import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
         MatButtonModule,
         MatInputModule,
         MatIconModule,
-        XmPermissionModule
-    ]
+        XmPermissionModule,
+    ],
 })
 export class XmNavbarSearchWidgetModule {
     public entry: Type<XmNavbarSearchWidget> = XmNavbarSearchWidget;

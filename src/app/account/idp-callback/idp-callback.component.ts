@@ -16,8 +16,8 @@ interface IErrorTerm {
 }
 
 @Component({
-  selector: 'xm-idp-callback',
-  templateUrl: './idp-callback.component.html',
+    selector: 'xm-idp-callback',
+    templateUrl: './idp-callback.component.html',
 })
 export class IdpCallbackComponent implements OnDestroy {
 

@@ -5,7 +5,7 @@ import { XmUiConfigService } from './xm-ui-config.service';
 @NgModule({
     providers: [
         XmPrivateUiConfigService,
-        XmUiConfigService
+        XmUiConfigService,
     ],
 })
 export class XmCoreConfigModule {

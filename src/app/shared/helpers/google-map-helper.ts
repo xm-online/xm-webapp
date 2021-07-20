@@ -3,7 +3,7 @@ declare const google: any;
 /**
  * Colored Pin builder for the Google Map.
  */
-export const buildPinSymbol = (color) => {
+export const buildPinSymbol = (color: any): any => {
     return {
         path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
         fillColor: color,
@@ -18,6 +18,6 @@ export const buildPinSymbol = (color) => {
 /**
  * Unique id builder for the Google Map.
  */
-export const buildMapId = (prefix?) => {
+export const buildMapId = (prefix?: string): string => {
     return prefix + '_' + Math.random().toString(36).substr(2, 9);
 };

@@ -90,9 +90,9 @@ export class JhiHealthCheckComponent implements OnInit {
     public getBadgeClass(statusState: string): string {
         if (statusState === 'UP') {
             return 'badge-success';
-        } else {
-            return 'badge-danger';
-        }
+        } 
+        return 'badge-danger';
+        
     }
 
     public showHealth(health: JhiHealth): void {

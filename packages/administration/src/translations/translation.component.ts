@@ -36,7 +36,7 @@ export class TranslationComponent implements OnInit {
         return this.translationService.loadConfig().pipe(
             map((res) => {
                 res.exts = [coreName, ...res.exts];
-                return res
+                return res;
             }),
             tap((res) => {
                 this.setExt(res.exts[0]);
@@ -56,7 +56,7 @@ export class TranslationComponent implements OnInit {
     public updateTranslate(newTranslate: { key: string; value: string }): void {
         this.getPath$().pipe(
             take(1),
-        ).subscribe((path) => this.translationKeysStoreService.updateKeys(path, newTranslate))
+        ).subscribe((path) => this.translationKeysStoreService.updateKeys(path, newTranslate));
     }
 
     public downloadAssets(): void {
@@ -67,7 +67,7 @@ export class TranslationComponent implements OnInit {
             take(1),
         ).subscribe(({keys, name}) => {
             download(JSON.stringify(keys, null, 2), name, 'application/json');
-        })
+        });
     }
 
     public clearCache(): void {
@@ -76,13 +76,13 @@ export class TranslationComponent implements OnInit {
                 .getCombinedKeys(path, this.config.extractorFromBackend)
                 .pipe(map((res) => ({path, res}))),
             ),
-        ).subscribe(({path, res}) => this.translationKeysStoreService.updateStore(path, res))
+        ).subscribe(({path, res}) => this.translationKeysStoreService.updateStore(path, res));
     }
 
     private getTranslations(): Observable<object> {
         return this.getPath$().pipe(
             switchMap((path) => this.translationKeysStoreService.getKeysFromStore(path)),
-        )
+        );
     }
 
     private initGetTranslations(): void {
@@ -92,7 +92,7 @@ export class TranslationComponent implements OnInit {
                 .getCombinedKeys(path, this.config.extractorFromBackend)
                 .pipe(map((res) => ({path, res}))),
             ),
-        ).subscribe(({path, res}) => this.translationKeysStoreService.updateStore(path, res))
+        ).subscribe(({path, res}) => this.translationKeysStoreService.updateStore(path, res));
     }
 
     private getPath$(): Observable<string> {
@@ -104,6 +104,6 @@ export class TranslationComponent implements OnInit {
                 ([prevExt, prevLang], [currExt, currLang],
                 ) => prevExt === currExt && prevLang === currLang),
             map(([ext, lang]) => ext === 'core' ? `./i18n/${lang}/core.json` : `./i18n/ext/${lang}/${ext}.json`),
-        )
+        );
     }
 }

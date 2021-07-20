@@ -6,13 +6,13 @@ import { ExportConfig } from '@xm-ngx/administration/maintenance/export-entities
 import {
     ExportEntitiesService,
     ExportEntityFlatNode,
-    ExportEntityItemNode
+    ExportEntityItemNode,
 } from '@xm-ngx/administration/maintenance/export-entities.service';
 
 @Component({
     selector: 'xm-export-tree',
     templateUrl: './export-tree.component.html',
-    providers: [ExportEntitiesService]
+    providers: [ExportEntitiesService],
 })
 export class ExportTreeComponent implements OnDestroy {
 
@@ -55,7 +55,7 @@ export class ExportTreeComponent implements OnDestroy {
         });
     }
 
-    public getLevel: (node: ExportEntityFlatNode) => number  = (node: ExportEntityFlatNode) => node.level;
+    public getLevel: (node: ExportEntityFlatNode) => number = (node: ExportEntityFlatNode) => node.level;
     public isExpandable: (node: ExportEntityFlatNode) => boolean = (node: ExportEntityFlatNode) => node.expandable;
     public getChildren: (node: ExportEntityItemNode) => ExportEntityItemNode[] = (node: ExportEntityItemNode): ExportEntityItemNode[] => node.children;
     public hasChild: (_: number, _nodeData: ExportEntityFlatNode) => boolean = (_: number, _nodeData: ExportEntityFlatNode) => _nodeData.expandable;
@@ -156,10 +156,10 @@ export class ExportTreeComponent implements OnDestroy {
         const specKey = this.currentSpec.key;
         const selection: ExportEntityFlatNode[] = [];
         this.checklistSelection.selected.forEach(s => {
-            let selected = {...s}
+            let selected = {...s};
             const parent = this.getParentNode(s);
             if (parent) {
-                selected = {...selected, parent}
+                selected = {...selected, parent};
             }
             selection.push(selected);
         });

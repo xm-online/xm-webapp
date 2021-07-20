@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
                 mat-icon-button>
             <mat-icon>arrow_back</mat-icon>
         </button>
-    `
+    `,
 })
 export class XmNavbarArrowBackWidget implements OnInit {
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();

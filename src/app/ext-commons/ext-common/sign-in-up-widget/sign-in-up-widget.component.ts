@@ -29,7 +29,7 @@ export class SignInUpWidgetComponent implements OnInit, OnDestroy {
         private languageService: LanguageService,
         private route: ActivatedRoute,
         private router: Router,
-        protected xmConfigService: XmConfigService,) {
+        protected xmConfigService: XmConfigService) {
         this.xmConfigService.getUiConfig().subscribe((cfg: XmUIConfig) => this.xmUiConfig = cfg);
     }
 

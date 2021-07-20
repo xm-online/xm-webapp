@@ -64,9 +64,9 @@ export class DynamicTenantLoaderService {
             return this.getComponentFromModuleAndResolve(moduleFactory, moduleRef.injector);
         } else if (isComponentDef(moduleFac)) {
             return moduleRef.componentFactoryResolver.resolveComponentFactory(moduleFac as Type<T>);
-        } else {
-            return null;
-        }
+        } 
+        return null;
+        
     }
 
     public getComponentFromModuleAndResolve<T>(

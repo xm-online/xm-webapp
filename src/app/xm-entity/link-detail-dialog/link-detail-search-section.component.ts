@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, finalize, map, tap } from 'rxjs/operators';
 
@@ -9,11 +9,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { UIConfig, XmConfigService } from '../../shared';
 import { XmEntitySpec } from '../index';
-import { LinkSpec } from '@xm-ngx/entity';
-import { Link } from '@xm-ngx/entity';
-import { LinkService } from '@xm-ngx/entity';
-import { Spec } from '@xm-ngx/entity';
-import { XmEntity } from '@xm-ngx/entity';
+import { Link, LinkService, LinkSpec, Spec, XmEntity } from '@xm-ngx/entity';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 const DEBOUNCE_DELAY = 500;
@@ -89,14 +85,17 @@ export class LinkDetailSearchSectionComponent implements OnInit, OnDestroy, Afte
         link.typeKey = this.linkSpec.key;
         link.startDate = new Date().toISOString();
 
-        this.linkService.create(link).subscribe(() => {
-                this.eventManager.broadcast({name: 'linkListModification'});
+        this.linkService.create(link).subscribe(
+            () => {
+                this.eventManager.broadcast({ name: 'linkListModification' });
                 this.toasterService.success('xm-entity.link-detail-dialog.add.success');
-            }, () => {
+            },
+            () => {
                 this.toasterService.error('xm-entity.link-detail-dialog.add.error');
                 this.showLoader = false;
             },
-            () => this.activeModal.close(true));
+            () => this.activeModal.close(true),
+        );
     }
 
     public onSearch(): void {

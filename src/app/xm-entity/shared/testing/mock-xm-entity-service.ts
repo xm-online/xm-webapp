@@ -21,7 +21,7 @@ export class MockXmEntityService {
         return of(null);
     }
 
-    public getById<T extends XmEntity>(key: number | string, params: {embed: string} & QueryParams = {embed: 'data'}): Observable<T> {
+    public getById<T extends XmEntity>(key: number | string, params: { embed: string } & QueryParams = { embed: 'data' }): Observable<T> {
         return of(null);
     }
 
@@ -70,8 +70,8 @@ export class MockXmEntityService {
     }
 
     public findLinkSourcesInverted(idOrKey: string,
-                                   linkTypeKey: string[],
-                                   req?: any): Observable<HttpResponse<Link[]>> {
+        linkTypeKey: string[],
+        req?: any): Observable<HttpResponse<Link[]>> {
         return of(null);
     }
 

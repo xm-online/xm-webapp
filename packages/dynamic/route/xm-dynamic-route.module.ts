@@ -12,8 +12,8 @@ import { XmDynamicRouteResolverGuard } from './xm-dynamic-route-resolver-guard.s
                 canLoad: [XmDynamicRouteResolverGuard],
                 canActivate: [XmDynamicRouteResolverGuard],
                 loadChildren: () => Promise.resolve(XmDynamicRouteProviderModule),
-            }
-        ])
+            },
+        ]),
     ],
     exports: [RouterModule],
 })

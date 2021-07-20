@@ -40,9 +40,9 @@ export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDest
             return this.processMap(value, args);
         } else if (typeof value === 'string') {
             return super.transform(value, ...args);
-        } else {
-            return value;
-        }
+        } 
+        return value;
+        
     }
 
     public ngOnDestroy(): void {
@@ -52,10 +52,10 @@ export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDest
     private processMap(map: ITranslate | ITrKeyTranslates, ...args: any[]): string | any {
         if (map.trKey) {
             return super.transform(map.trKey, ...args);
-        } else {
-            return map[this.languageService.locale]
+        } 
+        return map[this.languageService.locale]
                 || map[this.languageService.getDefaultLocale()]
                 || map[Object.keys(map)[0]];
-        }
+        
     }
 }

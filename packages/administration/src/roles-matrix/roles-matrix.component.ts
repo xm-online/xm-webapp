@@ -245,6 +245,8 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
                 if (!this.hiddenRoles.some((i) => i.indx === y)) {
                     return x;
                 }
+
+                return undefined;
             });
             const anySet = clearItemsbyRoles.some((x) => x.value);
             const allSet = clearItemsbyRoles.every((x) => x.value);

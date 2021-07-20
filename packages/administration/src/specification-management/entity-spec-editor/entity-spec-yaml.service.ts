@@ -20,9 +20,9 @@ export class EntitySpecYamlService {
             return 'number';
         } else if (type === 'undefined' || object === null) {
             return 'null';
-        } else {
-            return 'hash';
-        }
+        } 
+        return 'hash';
+        
     }
 
     public toYaml(spec: Spec): string {

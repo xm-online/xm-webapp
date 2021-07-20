@@ -10,7 +10,7 @@ interface HTMLInputEvent extends Event {
 @Component({
     selector: 'xm-import-entities-details',
     templateUrl: './import-entities-details.component.html',
-    styleUrls: ['./import-entities-details.component.scss']
+    styleUrls: ['./import-entities-details.component.scss'],
 })
 export class ImportEntitiesDetailsComponent {
 
@@ -21,7 +21,7 @@ export class ImportEntitiesDetailsComponent {
     constructor(
         private activeModal: MatDialogRef<ImportEntitiesDetailsComponent>,
         private importService: ImportEntitiesService,
-        ) {
+    ) {
     }
 
     public onFileChange(e: HTMLInputEvent): void {
@@ -35,7 +35,7 @@ export class ImportEntitiesDetailsComponent {
                     this.importedJson = JSON.parse(loadEvent.target.result as string);
                     this.parseError = false;
                 } catch (e) {
-                    this.parseError = true
+                    this.parseError = true;
                 }
             };
             myReader.readAsText(file);
@@ -51,7 +51,7 @@ export class ImportEntitiesDetailsComponent {
                 this.activeModal.close('success');
             }, err => {
                 this.activeModal.close(err);
-            })
+            });
 
     }
 }

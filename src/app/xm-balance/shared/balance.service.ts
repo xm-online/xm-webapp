@@ -10,7 +10,7 @@ import { Balance } from './balance.model';
 @Injectable()
 export class BalanceService {
 
-    private resourceUrl: string = `${SERVER_API_URL  }balance/api/balances`;
+    private resourceUrl: string = `${SERVER_API_URL }balance/api/balances`;
 
     constructor(private http: HttpClient) { }
 

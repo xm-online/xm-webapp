@@ -40,6 +40,7 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
             marker.setMap(map);
             return map;
         }
+        return null;
     }
 
     @Input() public xmEntityId: number;

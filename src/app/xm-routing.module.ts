@@ -23,7 +23,7 @@ const ROUTES: Routes = [
     { path: 'search', pathMatch: 'full', redirectTo: 'application/search' },
     {
         path: 'dashboard',
-        data: { privileges: { value: ['DASHBOARD.GET_LIST'], }, },
+        data: { privileges: { value: ['DASHBOARD.GET_LIST'] } },
         canActivate: [UserRouteAccessService],
         canLoad: [UserRouteAccessService],
         loadChildren: () => import('@xm-ngx/dynamic/route').then((m) => m.XmDynamicRouteModule),

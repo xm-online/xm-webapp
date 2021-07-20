@@ -4,7 +4,7 @@ export {
 
 export {
     XmPasswordControl,
-    XM_PASSWORD_OPTIONS_DEFAULT
+    XM_PASSWORD_OPTIONS_DEFAULT,
 } from './xm-password-control';
 
 export {

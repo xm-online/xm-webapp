@@ -13,9 +13,9 @@ export class JhiMetricsService {
     public getMetrics(msName: string = ''): Observable<any> {
         if (!msName) {
             return this.http.get(SERVER_API_URL + 'management/metrics');
-        } else {
-            return this.http.get(SERVER_API_URL + `/${msName}/management/metrics`);
-        }
+        } 
+        return this.http.get(SERVER_API_URL + `/${msName}/management/metrics`);
+        
     }
 
     public threadDump(): Observable<any> {

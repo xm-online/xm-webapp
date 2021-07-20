@@ -22,7 +22,7 @@ export const getFieldValue = (xmEntity: any = {}, field: FieldOptions): any => {
         ? value.toISOString().replace(/T/, ' ').split('.').shift() : fieldValueToString(field, value)) : '';
 };
 
-export const flattenEntityWithPath = (obj: XmEntity, prefix: string = '') => {
+export const flattenEntityWithPath = (obj: XmEntity, prefix: string = ''): any => {
     return Object.keys(obj).reduce((acc, k) => {
         const pre = prefix.length ? `${prefix}.` : '';
         if ( typeof obj[k] === 'object' && obj[k] !== null && Object.keys(obj[k]).length > 0) {
@@ -31,5 +31,5 @@ export const flattenEntityWithPath = (obj: XmEntity, prefix: string = '') => {
             acc[pre + k] = obj[k];
         }
         return acc;
-    }, {})
-}
+    }, {});
+};

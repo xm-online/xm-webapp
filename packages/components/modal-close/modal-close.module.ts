@@ -9,12 +9,12 @@ import { MatButtonModule } from '@angular/material/button';
 @NgModule({
     declarations: [ModalCloseComponent],
     exports: [
-        ModalCloseComponent
+        ModalCloseComponent,
     ],
     imports: [
         CommonModule,
         MatIconModule,
-        MatButtonModule
-    ]
+        MatButtonModule,
+    ],
 })
 export class ModalCloseModule { }

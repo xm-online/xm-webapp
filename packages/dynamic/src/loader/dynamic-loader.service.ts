@@ -37,9 +37,9 @@ export class DynamicLoaderService {
             return moduleRef.componentFactoryResolver.resolveComponentFactory(componentRef);
         } else if (isComponentDef(moduleFac)) {
             return this.moduleRef.componentFactoryResolver.resolveComponentFactory(moduleFac as Type<T>);
-        } else {
-            return null;
-        }
+        } 
+        return null;
+        
     }
 
 }

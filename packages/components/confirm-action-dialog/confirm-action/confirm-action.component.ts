@@ -23,13 +23,13 @@ const DEFAULT_CONFIG: LoadingDialogConfig = {
     buttons: {
         decline: 'global.common.cancel',
         accept: 'global.common.accept',
-    }
+    },
 };
 
 @Component({
     selector: 'xm-confirm-action',
     templateUrl: './confirm-action.component.html',
-    styleUrls: ['./confirm-action.component.scss']
+    styleUrls: ['./confirm-action.component.scss'],
 })
 /**
  * Reusable request form with loading indicator, should be used in material dialog window

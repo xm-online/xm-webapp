@@ -53,9 +53,9 @@ const DEFAULT: UserOptions = {
 function getUserName(user: XmUser): string {
     if (user.firstName || user.lastName) {
         return `${user.firstName || ''} ${user.lastName || ''}`;
-    } else {
-        return user.logins[0].login;
-    }
+    } 
+    return user.logins[0].login;
+    
 }
 
 function userToOptions(user: XmUser): UserOptions {

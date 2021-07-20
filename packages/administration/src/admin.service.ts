@@ -152,9 +152,9 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
                 return length;
             }
             return this.pagination.pageIndex;
-        } else {
-            return this.pagination.pageIndex;
-        }
+        } 
+        return this.pagination.pageIndex;
+        
     }
 
 }

@@ -26,7 +26,7 @@ export function toggleControlValidation(control: AbstractControl, active: boolea
     selector: 'xm-form-layout, [xm-form-layout]',
     templateUrl: './form-layout.component.html',
     host: {
-        class: 'row'
+        class: 'row',
     },
 })
 export class FormLayoutComponent {

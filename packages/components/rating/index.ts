@@ -31,7 +31,7 @@ import {MatIconModule} from '@angular/material/icon';
         {provide: NG_VALIDATORS, useExisting: forwardRef(() => Rating), multi: true},
     ],
     styles: [
-            `
+        `
             span.rating {
                 cursor: pointer;
                 outline: none;

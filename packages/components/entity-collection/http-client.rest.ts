@@ -57,9 +57,9 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     public upsert(entity: T, params?: QueryParams): Observable<HttpResponse<T>> {
         if (entity.id) {
             return this.create(entity, params);
-        } else {
-            return this.update(entity, params);
-        }
+        } 
+        return this.update(entity, params);
+        
     }
 
     public handle<T>(obs: Observable<T>): Observable<T> {

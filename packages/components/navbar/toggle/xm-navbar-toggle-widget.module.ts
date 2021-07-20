@@ -4,7 +4,7 @@ import { XmNavbarToggleWidget } from './xm-navbar-toggle-widget.component';
 
 @NgModule({
     imports: [
-        MatButtonModule
+        MatButtonModule,
     ],
     exports: [XmNavbarToggleWidget],
     declarations: [XmNavbarToggleWidget],

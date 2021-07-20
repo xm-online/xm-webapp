@@ -11,9 +11,9 @@ export class TwitterTimelineService {
         return Observable.create((observer) => {
             this.startScriptLoad();
             (window as any).twttr.ready((twitter) => {
-                    observer.next(twitter);
-                    observer.complete();
-                },
+                observer.next(twitter);
+                observer.complete();
+            },
             );
         });
     }

@@ -36,7 +36,7 @@ export const BY_ENTITY_ID_VALUE_OPTIONS: ByEntityIdValueOptions = {
     template: '<span>{{fieldValue}}</span>',
 })
 export class ByEntityIdValueComponent
-    implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges {
+implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges {
 
     /** {@inheritDoc XmDynamicPresentation.options} */
     @Input() public options: ByEntityIdValueOptions;

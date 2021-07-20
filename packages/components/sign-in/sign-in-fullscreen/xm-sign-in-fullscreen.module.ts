@@ -9,12 +9,12 @@ import { XmSignInFullscreenComponent } from './xm-sign-in-fullscreen.component';
 @NgModule({
     declarations: [XmSignInFullscreenComponent],
     exports: [XmSignInFullscreenComponent],
-  imports: [
-    CommonModule,
-    XmSignInFormModule,
-    MouseMoveParallaxModule,
-    XmTranslationModule,
-  ],
+    imports: [
+        CommonModule,
+        XmSignInFormModule,
+        MouseMoveParallaxModule,
+        XmTranslationModule,
+    ],
 })
 export class XmSignInFullscreenModule {
 }

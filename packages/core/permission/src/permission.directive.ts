@@ -104,7 +104,7 @@ export class PermissionDirective implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-      this.subscription.unsubscribe();
+        this.subscription.unsubscribe();
     }
 
     public ngOnInit(): void {

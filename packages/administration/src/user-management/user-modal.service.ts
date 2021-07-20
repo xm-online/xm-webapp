@@ -29,9 +29,9 @@ export class UserModalService {
                     this.isOpen = false;
                 });
             return null;
-        } else {
-            return this.userModalRef(component, new User());
-        }
+        } 
+        return this.userModalRef(component, new User());
+        
     }
 
     public userModalRef(component: any, user: User): MatDialogRef<any> {

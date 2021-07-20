@@ -145,8 +145,8 @@ export class XmEntityService {
     }
 
     public findLinkSourcesInverted(idOrKey: string,
-                                   linkTypeKey: string[],
-                                   req?: any): Observable<HttpResponse<Link[]>> {
+        linkTypeKey: string[],
+        req?: any): Observable<HttpResponse<Link[]>> {
         const options = createRequestOption(req);
         return this.http.get<Link[]>(`${this.v2ResourceUrl}/${idOrKey}/links/sources?typeKeys=${linkTypeKey}`,
             { params: options, observe: 'response' });

@@ -16,7 +16,7 @@ export function byString(o: any, s: any): any {
         if (k in o) {
             o = o[k];
         } else {
-            return;
+            return '';
         }
     }
     return o;

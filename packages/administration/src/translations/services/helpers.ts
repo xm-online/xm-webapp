@@ -9,8 +9,8 @@ export function setToObject(obj: {}, prop: string, value: string): string {
 
 export function fromStringToObject(string: string, lastValue: {} = {}): { [p: string]: {} } {
     return string.split('.').reduceRight((acc, currentValue) => {
-        return { [currentValue]: acc }
-    }, lastValue)
+        return { [currentValue]: acc };
+    }, lastValue);
 }
 
 export function flattenObj(obj: {}, roots: any[] = [], sep: string = '.'): {} {
@@ -22,5 +22,5 @@ export function flattenObj(obj: {}, roots: any[] = [], sep: string = '.'): {} {
             Object.prototype.toString.call(obj[prop]) === '[object Object]'
                 ? flattenObj(obj[prop], roots.concat([prop]))
                 : {[roots.concat([prop]).join(sep)]: obj[prop]},
-        ), {})
+        ), {});
 }

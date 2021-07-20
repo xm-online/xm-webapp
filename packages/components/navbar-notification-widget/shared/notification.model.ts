@@ -18,13 +18,13 @@ export class NotificationUiConfig {
         public showDate: boolean, // show notification date, default false
         public max: number, // max number of notifications in dropdown
         public autoUpdateEnabled: boolean, // whether to auto-check for notifications each N seconds,
-                                           // to be rewritten with websockets
+        // to be rewritten with websockets
         public autoUpdate: number, // auto-update interval in seconds
         public preventNavigation: boolean, // do not navigate to the related entity on click
         public referenceTypeKeyPath: string, // path to get typeKey of related entity inside the notification object,
-                                             // used to navigate
+        // used to navigate
         public referenceIdPath: string, // path to get id of related entity inside the notification object,
-                                        // used to navigate,
+        // used to navigate,
         public privileges: string[], // array of priviledges to show notifications to
     ) {}
 }

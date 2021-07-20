@@ -52,7 +52,7 @@ import { RoleMgmtDetailComponent } from './roles-management-detail.component';
         MatSortModule,
         MatTableModule,
         MatPaginatorModule,
-        ConditionDashboardDialogModule
+        ConditionDashboardDialogModule,
     ],
 })
 export class RolesManagementDetailModule {

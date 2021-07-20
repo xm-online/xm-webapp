@@ -14,8 +14,8 @@ export class FunctionService {
     }
 
     public callEntityFunction(functionKey: string,
-                              xmEntityId?: number,
-                              inputContext?: any): Observable<HttpResponse<any>> {
+        xmEntityId?: number,
+        inputContext?: any): Observable<HttpResponse<any>> {
         const copy = this.convert(inputContext);
         if (xmEntityId) {
             return this.callWithEntityId(xmEntityId, functionKey, copy);
@@ -33,8 +33,8 @@ export class FunctionService {
     }
 
     public callWithEntityId(xmEntityId: number,
-                            functionKey: string,
-                            inputContext?: any): Observable<HttpResponse<any>> {
+        functionKey: string,
+        inputContext?: any): Observable<HttpResponse<any>> {
         const copy = this.convert(inputContext);
         const url = this.resourceEntityUrl(xmEntityId, functionKey);
         if (this.isExportFunction(functionKey)) {
@@ -79,9 +79,9 @@ export class FunctionService {
         if (type.includes('application/json')) {
             const body = this.convertItemFromServer(JSON.parse(res.body));
             return res.clone({body});
-        } else {
-            return Object.assign({actionType: 'download'}, res);
-        }
+        } 
+        return Object.assign({actionType: 'download'}, res);
+        
     }
 
     /**

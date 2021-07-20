@@ -60,7 +60,7 @@ export class XmBoolControl extends NgFormAccessor<boolean> implements XmDynamicC
         XmTranslationModule,
         ControlErrorModule,
         CommonModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
     exports: [XmBoolControl],
     declarations: [XmBoolControl],

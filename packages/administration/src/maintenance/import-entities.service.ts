@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 const API_IMPORT_ENTITIES = '/entity/api/import/xm-entities';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ImportEntitiesService {
 

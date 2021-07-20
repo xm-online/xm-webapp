@@ -4,7 +4,7 @@ import { ActionDecision, LoadingDialogConfig } from './confirm-action/confirm-ac
 import { ConfirmActionModule } from './confirm-action/confirm-action.module';
 
 const DEFAULT_CONFIG = {
-    title: 'xm-entity.function-list-card.change-state.title'
+    title: 'xm-entity.function-list-card.change-state.title',
 };
 
 @Component({
@@ -17,12 +17,12 @@ const DEFAULT_CONFIG = {
 })
 export class ConfirmActionDialogComponent {
     public config: LoadingDialogConfig = {
-        title: 'xm-entity.function-list-card.change-state.title'
+        title: 'xm-entity.function-list-card.change-state.title',
     };
     public loading;
 
     constructor(private matDialogRef: MatDialogRef<ConfirmActionDialogComponent, boolean>,
-                @Inject(MAT_DIALOG_DATA) public data: {config: LoadingDialogConfig},) {
+                @Inject(MAT_DIALOG_DATA) public data: {config: LoadingDialogConfig}) {
         this.initConfig();
     }
 
@@ -46,10 +46,10 @@ export class ConfirmActionDialogComponent {
 }
 
 @NgModule({
-        declarations: [ConfirmActionDialogComponent],
-        imports: [ConfirmActionModule],
-        exports: [ConfirmActionDialogComponent]
-    }
+    declarations: [ConfirmActionDialogComponent],
+    imports: [ConfirmActionModule],
+    exports: [ConfirmActionDialogComponent],
+},
 )
 export class ConfirmActionDialogModule {
     public entry: Type<ConfirmActionDialogComponent> = ConfirmActionDialogComponent;
