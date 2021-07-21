@@ -1,4 +1,4 @@
-/* eslint-disable quotes */
+/* eslint-disable quotes, indent, comma-dangle */
 export interface DocsExample {
     filepath: string;
     moduleName: string;
