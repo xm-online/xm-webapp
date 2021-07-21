@@ -179,7 +179,7 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
                 .subscribe(
                     (result) => {
                         if (result === false) {
-                        return;
+                            return;
                         }
                         item.resourceCondition = result || '';
                     });

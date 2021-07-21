@@ -20,8 +20,8 @@ export {
 } from './xm-link-view-copy';
 
 export {
-    XmLinkButtonModule
+    XmLinkButtonModule,
 } from './link-button/xm-link-button.module';
 export {
-    XmLinkButtonComponent
+    XmLinkButtonComponent,
 } from './link-button/xm-link-button.component';

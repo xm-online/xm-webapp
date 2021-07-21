@@ -70,7 +70,7 @@ export class XmNavbarNotificationWidget implements OnInit, OnDestroy {
             .pipe(takeUntilOnDestroy(this))
             .subscribe((res: boolean) => {
                 if (res) {
-                    this.load()
+                    this.load();
                 }
             });
     }
@@ -86,23 +86,23 @@ export class XmNavbarNotificationWidget implements OnInit, OnDestroy {
         this.xmConfigService.config$()
             .pipe(take(1))
             .subscribe((config) => {
-            this.config = config.notifications;
-            this.mapPrviliges(this.config);
-            if (this.config) {
-                this.getNotifications(this.config);
-            }
-            if (this.config && this.config.autoUpdate && !this.autoUpdateEnabled && initAutoUpdate) {
-                this.autoUpdateEnabled = true;
-                // TODO: should be redone with web sockets
-                this.updateInterval = window.setInterval(() => {
-                    if (this.principal.isAuthenticated()) {
-                        this.getNotifications(this.config);
-                    } else {
-                        clearInterval(this.updateInterval);
-                    }
-                }, this.config.autoUpdate);
-            }
-        });
+                this.config = config.notifications;
+                this.mapPrviliges(this.config);
+                if (this.config) {
+                    this.getNotifications(this.config);
+                }
+                if (this.config && this.config.autoUpdate && !this.autoUpdateEnabled && initAutoUpdate) {
+                    this.autoUpdateEnabled = true;
+                    // TODO: should be redone with web sockets
+                    this.updateInterval = window.setInterval(() => {
+                        if (this.principal.isAuthenticated()) {
+                            this.getNotifications(this.config);
+                        } else {
+                            clearInterval(this.updateInterval);
+                        }
+                    }, this.config.autoUpdate);
+                }
+            });
     }
 
     public getNotifications(config: NotificationUiConfig): void {

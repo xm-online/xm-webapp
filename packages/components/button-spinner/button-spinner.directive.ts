@@ -7,7 +7,7 @@ import {
     OnChanges,
     Renderer2,
     SimpleChanges,
-    ViewContainerRef
+    ViewContainerRef,
 } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { ThemePalette } from '@angular/material/core';
@@ -35,7 +35,7 @@ export class ButtonSpinnerDirective implements OnChanges {
         private matButton: MatButton,
         private componentFactoryResolver: ComponentFactoryResolver,
         private viewContainerRef: ViewContainerRef,
-        private renderer: Renderer2
+        private renderer: Renderer2,
     ) {
         this.spinnerFactory = this.componentFactoryResolver.resolveComponentFactory(MatProgressSpinner);
     }

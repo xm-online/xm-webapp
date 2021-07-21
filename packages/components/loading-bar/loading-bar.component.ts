@@ -9,7 +9,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
             <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         </ng-container>
     `,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 /**
  * Wrapper for Angular material progress bar with indeterminate mode.
@@ -25,10 +25,10 @@ export class LoadingBarComponent {
 @NgModule({
     imports: [
         MatProgressBarModule,
-        CommonModule
+        CommonModule,
     ],
     declarations: [LoadingBarComponent],
-    exports: [LoadingBarComponent]
+    exports: [LoadingBarComponent],
 })
 export class LoadingBarModule {
     public entry: Type<LoadingBarComponent> = LoadingBarComponent;

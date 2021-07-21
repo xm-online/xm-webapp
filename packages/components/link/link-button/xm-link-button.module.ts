@@ -12,7 +12,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 
 @NgModule({
     declarations: [
-        XmLinkButtonComponent
+        XmLinkButtonComponent,
     ],
     imports: [
         CommonModule,
@@ -22,8 +22,8 @@ import { XmTranslationModule } from '@xm-ngx/translation';
         MatTooltipModule,
         RouterModule,
         MatIconModule,
-        XmTranslationModule
-    ]
+        XmTranslationModule,
+    ],
 })
 export class XmLinkButtonModule {
     public entry: Type<XmLinkButtonComponent> = XmLinkButtonComponent;

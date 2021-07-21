@@ -61,7 +61,7 @@ export class NotificationsService {
             }));
     }
 
-    public byString(o: any, s: any): any {
+    public byString(o: any, s: string): string {
         s = s.replace(/\[(\w+)\]/g, '.$1');
         s = s.replace(/^\./, '');
         const a = s.split('.');
@@ -70,7 +70,7 @@ export class NotificationsService {
             if (k in o) {
                 o = o[k];
             } else {
-                return;
+                return '';
             }
         }
         return o;

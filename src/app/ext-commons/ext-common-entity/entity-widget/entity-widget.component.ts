@@ -166,7 +166,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
                 tap(() => this.linkSpecs$.next(
                     this.xmEntitySpec && this.xmEntitySpec.links ?
                         this.xmEntitySpec.links.map((spec) => this.addInterfaceSpec(spec, this.entityUiConfig)) : [],
-                    ),
+                ),
                 ),
                 tap(() => this.backLinkSpecs$.next(
                     this.backLinkSpecs.map((spec) => this.addInterfaceSpec(spec, this.entityUiConfig)),

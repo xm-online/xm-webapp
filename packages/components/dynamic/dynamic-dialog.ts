@@ -25,7 +25,7 @@ export class DynamicDialog {
         const cfr = await this.loaderService.loadAndResolve(selector, { injector: this.injector });
         return this.matDialog.open(cfr.componentType, {
             viewContainerRef: this.viewContainerRef,
-            componentFactoryResolver: this.componentFactoryResolver
+            componentFactoryResolver: this.componentFactoryResolver,
         });
     }
 }

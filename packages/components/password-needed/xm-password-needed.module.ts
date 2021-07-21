@@ -8,12 +8,12 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 @NgModule({
     declarations: [XmPasswordNeededComponent],
     exports: [XmPasswordNeededComponent],
-  imports: [
-    LoaderModule,
-    CommonModule,
-    XmSharedModule,
-    ModalCloseModule,
-  ],
+    imports: [
+        LoaderModule,
+        CommonModule,
+        XmSharedModule,
+        ModalCloseModule,
+    ],
 })
 export class XmPasswordNeededModule {
 }

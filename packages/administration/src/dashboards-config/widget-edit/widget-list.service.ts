@@ -4,7 +4,7 @@ import {
     XM_DYNAMIC_ENTRIES,
     XM_DYNAMIC_EXTENSIONS,
     XmDynamicEntry,
-    XmDynamicExtensionEntry
+    XmDynamicExtensionEntry,
 } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 import { from, Observable, Subject } from 'rxjs';

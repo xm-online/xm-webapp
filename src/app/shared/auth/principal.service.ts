@@ -91,10 +91,10 @@ export class Principal implements OnDestroy, OnInitialize {
             return false;
         } else if (privilegesOperation === 'AND') {
             return privileges.filter((el) => this.userIdentity.privileges.indexOf(el) === -1);
-        } else {
-            this.alertService.warning('error.privilegeOperationWrong', { name: privilegesOperation });
-            return false;
-        }
+        } 
+        this.alertService.warning('error.privilegeOperationWrong', { name: privilegesOperation });
+        return false;
+        
     }
 
     public hasPrivileges(privileges: string[] = [], privilegesOperation: string = 'OR'): Promise<any> {
@@ -112,82 +112,82 @@ export class Principal implements OnDestroy, OnInitialize {
     public identity(force: boolean = false, mockUser: boolean = false): Promise<any> {
         if (!force && this.promise) {
             return this.promise;
-        } else {
-            return this.promise = new Promise((resolve, reject) => {
-                if (force === true) {
-                    this.userService.forceReload();
-                    this.authenticated = false;
-                    this.userIdentity = undefined;
-                }
+        } 
+        return this.promise = new Promise((resolve, reject) => {
+            if (force === true) {
+                this.userService.forceReload();
+                this.authenticated = false;
+                this.userIdentity = undefined;
+            }
 
-                /*
+            /*
                  * Check and see if we have retrieved the userIdentity data from the server.
                  * if we have, reuse it by immediately resolving
                  */
-                if (this.userIdentity) {
-                    this.promise = null;
-                    resolve(this.userIdentity);
-                    return;
-                }
+            if (this.userIdentity) {
+                this.promise = null;
+                resolve(this.userIdentity);
+                return;
+            }
 
-                // Retrieve the userIdentity data from the server, update the identity object, and then resolve.
-                this.account
-                    .get()
-                    .toPromise()
-                    .then((response) => {
-                        const account = response.body;
-                        this.promise = null;
-                        this.resetCachedProfile();
-                        if (account) {
-                            if (account.permissions) {
-                                account.privileges = account.permissions.reduce((result, el) => {
-                                    if (el.enabled) {
-                                        result.push(el.privilegeKey);
-                                    }
-                                    return result;
-                                }, []);
-                            }
-                            this.sessionService.create();
-                            this.userIdentity = account;
-                            this.authenticated = true;
-                            account.timeZoneOffset = this.setTimezoneOffset();
-                            /*
+            // Retrieve the userIdentity data from the server, update the identity object, and then resolve.
+            this.account
+                .get()
+                .toPromise()
+                .then((response) => {
+                    const account = response.body;
+                    this.promise = null;
+                    this.resetCachedProfile();
+                    if (account) {
+                        if (account.permissions) {
+                            account.privileges = account.permissions.reduce((result, el) => {
+                                if (el.enabled) {
+                                    result.push(el.privilegeKey);
+                                }
+                                return result;
+                            }, []);
+                        }
+                        this.sessionService.create();
+                        this.userIdentity = account;
+                        this.authenticated = true;
+                        account.timeZoneOffset = this.setTimezoneOffset();
+                        /*
                              * After the login the language will be changed to
                              * the language selected by the user during his registration
                              */
-                            if (account.langKey) {
-                                this.languageService.locale = account.langKey;
-                            }
-                        } else {
-                            this.sessionService.clear();
-                            this.userIdentity = null;
-                            this.authenticated = false;
+                        if (account.langKey) {
+                            this.languageService.locale = account.langKey;
                         }
+                    } else {
+                        this.sessionService.clear();
+                        this.userIdentity = null;
+                        this.authenticated = false;
+                    }
+                    this.authenticationState.next(this.userIdentity);
+                    resolve(this.userIdentity);
+                })
+                .catch(() => {
+                    this.promise = null;
+                    this.resetCachedProfile();
+                    if (mockUser) {
+                        this.userIdentity = {
+                            firstName: 'NoName',
+                            lastName: 'NoName',
+                            roleKey: 'ROLE_USER',
+                        };
+                        this.authenticated = true;
                         this.authenticationState.next(this.userIdentity);
                         resolve(this.userIdentity);
-                    })
-                    .catch(() => {
-                        this.promise = null;
-                        this.resetCachedProfile();
-                        if (mockUser) {
-                            this.userIdentity = {
-                                firstName: 'NoName',
-                                lastName: 'NoName',
-                                roleKey: 'ROLE_USER',
-                            };
-                            this.authenticated = true;
-                            this.authenticationState.next(this.userIdentity);
-                            resolve(this.userIdentity);
-                        } else {
-                            this.sessionService.clear();
-                            this.userIdentity = null;
-                            this.authenticated = false;
-                            this.authenticationState.next(this.userIdentity);
-                            resolve(this.userIdentity);
-                        }
-                    });
-            });
-        }
+                    } else {
+                        this.sessionService.clear();
+                        this.userIdentity = null;
+                        this.authenticated = false;
+                        this.authenticationState.next(this.userIdentity);
+                        resolve(this.userIdentity);
+                    }
+                });
+        });
+        
     }
 
     /**
@@ -237,9 +237,9 @@ export class Principal implements OnDestroy, OnInitialize {
         }
         if (this.userIdentity.firstName || this.userIdentity.lastName) {
             return [this.userIdentity.firstName, this.userIdentity.lastName].join(' ');
-        } else {
-            return this.userIdentity.logins[0].login;
-        }
+        } 
+        return this.userIdentity.logins[0].login;
+        
     }
 
     public getDetailName(): string[] {

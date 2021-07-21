@@ -97,7 +97,8 @@ export class DashboardsListComponent implements OnInit {
 
     public onImport(files: FileList): void {
         if (!files || !files[0]) {
-            return console.warn('File is not selected!');
+            console.warn('File is not selected!');
+            return;
         }
         this.dashboardsImportService.import(files[0]).pipe(finalize(this.load.bind(this))).subscribe();
     }

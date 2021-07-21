@@ -77,8 +77,8 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
                     .pipe(
                         takeUntilOnDestroy(this),
                     ).subscribe((list: Array<Client>) => {
-                    this.dataSource = new MatTableDataSource(list);
-                });
+                        this.dataSource = new MatTableDataSource(list);
+                    });
             });
     }
 
@@ -108,12 +108,12 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
             }),
             takeUntilOnDestroy(this),
         ).subscribe((list: Array<Client>) => {
-                this.dataSource = new MatTableDataSource(list);
-            },
-            (err) => {
-                this.onError(err);
-                this.showLoader = false;
-            });
+            this.dataSource = new MatTableDataSource(list);
+        },
+        (err) => {
+            this.onError(err);
+            this.showLoader = false;
+        });
     }
 
     public getRegistrationEmail(user: User): string {
@@ -161,10 +161,10 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         }).subscribe((result) => result.value ?
             this.userService.disable2FA(user.userKey)
                 .subscribe(() => {
-                        user.tfaEnabled = false;
-                        this.toasterService.success('userManagement.twoFADisabled');
-                    },
-                    (error) => this.toasterService.error(error)) :
+                    user.tfaEnabled = false;
+                    this.toasterService.success('userManagement.twoFADisabled');
+                },
+                (error) => this.toasterService.error(error)) :
             console.info('Cancel'));
     }
 
@@ -247,9 +247,9 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         this.showLoader = true;
         if (this.login && this.login.trim()) {
             return this.loadFilteredUsers();
-        } else {
-            return this.loadUsers();
-        }
+        } 
+        return this.loadUsers();
+        
     }
 
     protected updateRoute(): void {

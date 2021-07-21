@@ -5,9 +5,9 @@ import { LineTrailParticle, randomInt } from './line-trail-particle';
 function randomValue(value: number | [number, number]): number {
     if (Array.isArray(value) && value.length === 2) {
         return randomInt(value[0], value[1]);
-    } else {
-        return value as number;
-    }
+    } 
+    return value as number;
+    
 }
 
 class ParticlesObject {

@@ -14,7 +14,7 @@ describe('IdpComponent', () => {
             providers: [
                 {provide: LoginService, useValue: {}},
             ],
-            declarations: [IdpComponent]
+            declarations: [IdpComponent],
         })
             .compileComponents();
     }));

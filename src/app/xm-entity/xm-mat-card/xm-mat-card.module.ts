@@ -14,17 +14,17 @@ import { XmMatCardComponent } from './xm-mat-card.component';
 @NgModule({
     declarations: [XmMatCardComponent],
     exports: [XmMatCardComponent],
-  imports: [
-    CommonModule,
-    MatCardModule,
-    ConditionModule,
-    EditWidgetButtonsModule,
-    MatIconModule,
-    MatButtonModule,
-    XmTranslationModule,
-    XmPermissionModule,
-    XmLoadingModule,
-  ],
+    imports: [
+        CommonModule,
+        MatCardModule,
+        ConditionModule,
+        EditWidgetButtonsModule,
+        MatIconModule,
+        MatButtonModule,
+        XmTranslationModule,
+        XmPermissionModule,
+        XmLoadingModule,
+    ],
 })
 export class XmMatCardModule {
 }

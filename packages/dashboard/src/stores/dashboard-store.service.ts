@@ -77,9 +77,9 @@ export class DashboardStore {
                     return this.getFromCache(d.id);
                 }
                 return this.getAndCache(d.id);
-            } else {
-                return of(d);
-            }
+            } 
+            return of(d);
+            
         });
     }
 

@@ -1,74 +1,90 @@
 module.exports = {
     root: true,
     ignorePatterns: [
-        'projects/**/*'
+        'projects/**/*',
     ],
     overrides: [
         {
             files: [
-                '*.js'
+                '*.js',
             ],
             env: {
                 browser: true,
                 node: true,
-                'es6': true
+                'es6': true,
             },
             parserOptions: {
-                ecmaVersion: 2020
+                ecmaVersion: 2020,
             },
-            extends: 'eslint:recommended'
+            extends: 'eslint:recommended',
+            rules: {
+                indent: ['error', 4, {
+                    SwitchCase: 1,
+                    FunctionDeclaration: {
+                        'parameters': 'first',
+                    },
+                }],
+                quotes: ['error', 'single', {avoidEscape: true}],
+                'no-console': ['error', {allow: ['warn', 'info']}],
+                'no-multi-spaces': 'error',
+                'consistent-return': 'error',
+                'no-else-return': 'error',
+                semi: 'error',
+                'space-unary-ops': 'error',
+                'comma-dangle': ['error', 'always-multiline'],
+            },
         },
         {
             files: [
-                '*.ts'
+                '*.ts',
             ],
             plugins: [
                 '@typescript-eslint',
-                'eslint-plugin-tsdoc'
+                'eslint-plugin-tsdoc',
             ],
             parserOptions: {
                 project: [
-                    'tsconfig.json'
+                    'tsconfig.json',
                 ],
-                createDefaultProgram: true
+                createDefaultProgram: true,
             },
             extends: [
                 'plugin:@typescript-eslint/recommended',
                 'plugin:@typescript-eslint/recommended-requiring-type-checking',
                 'plugin:@angular-eslint/recommended',
-                'plugin:@angular-eslint/template/process-inline-templates'
+                'plugin:@angular-eslint/template/process-inline-templates',
             ],
             rules: {
+                indent: ['error', 4, {
+                    SwitchCase: 1,
+                    FunctionDeclaration: {
+                        'parameters': 'first',
+                    },
+                }],
+                quotes: ['error', 'single', {avoidEscape: true}],
+                'no-console': ['error', {allow: ['warn', 'info']}],
+                'no-multi-spaces': 'error',
+                'consistent-return': 'error',
+                'no-else-return': 'error',
+                semi: 'error',
+                'space-unary-ops': 'error',
+                'comma-dangle': ['error', 'always-multiline'],
+
                 'tsdoc/syntax': 'error',
-                quotes: [
-                    'error',
-                    'single',
-                    {
-                        avoidEscape: true
-                    }
-                ],
-                'no-console': [
-                    'error',
-                    {
-                        allow: [
-                            'warn',
-                            'info'
-                        ]
-                    }
-                ],
+                '@typescript-eslint/explicit-module-boundary-types': ['error', {allowArgumentsExplicitlyTypedAsAny: true}],
                 '@typescript-eslint/typedef': [
                     'error',
                     {
                         arrayDestructuring: false,
-                        arrowParameter: false
-                    }
+                        arrowParameter: false,
+                    },
                 ],
                 '@typescript-eslint/no-inferrable-types': [
                     'error',
                     {
                         ignoreParameters: true,
-                        ignoreProperties: true
-                    }
+                        ignoreProperties: true,
+                    },
                 ],
                 '@typescript-eslint/type-annotation-spacing': 'error',
                 '@typescript-eslint/explicit-member-accessibility': [
@@ -76,15 +92,15 @@ module.exports = {
                     {
                         overrides: {
                             constructors: 'off',
-                            accessors: 'off'
-                        }
-                    }
+                            accessors: 'off',
+                        },
+                    },
                 ],
                 '@angular-eslint/component-class-suffix': [
-                    "warn",
+                    'warn',
                     {
-                        "suffixes": ["Component", "Widget", "Control"]
-                    }
+                        'suffixes': ['Component', 'Widget', 'Control'],
+                    },
                 ],
                 // Off
                 '@angular-eslint/component-selector': [
@@ -92,16 +108,16 @@ module.exports = {
                     {
                         prefix: 'xm',
                         style: 'kebab-case',
-                        type: 'element'
-                    }
+                        type: 'element',
+                    },
                 ],
                 '@angular-eslint/directive-selector': [
                     'off',
                     {
                         prefix: 'xm',
                         style: 'camelCase',
-                        type: 'attribute'
-                    }
+                        type: 'attribute',
+                    },
                 ],
                 // Waiting for the fixed
                 '@angular-eslint/no-host-metadata-property': 'warn',
@@ -122,20 +138,20 @@ module.exports = {
                 '@typescript-eslint/unbound-method': [
                     'warn',
                     {
-                        ignoreStatic: true
-                    }
+                        ignoreStatic: true,
+                    },
                 ],
 
-            }
+            },
         },
         {
             files: [
-                '*.html'
+                '*.html',
             ],
             extends: [
-                'plugin:@angular-eslint/template/recommended'
+                'plugin:@angular-eslint/template/recommended',
             ],
-            rules: {}
-        }
-    ]
-}
+            rules: {},
+        },
+    ],
+};

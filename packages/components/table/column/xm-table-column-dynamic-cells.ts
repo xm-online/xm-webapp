@@ -150,7 +150,7 @@ export class XmTableColumnDynamicCellsComponent {
         XmTextTitleModule,
         XmDynamicModule.forChild([{
             selector: 'xm-table-column-dynamic-cells/text-title',
-            loadChildren: () => XmTextTitleComponent
+            loadChildren: () => XmTextTitleComponent,
         }]),
         CommonModule,
     ],

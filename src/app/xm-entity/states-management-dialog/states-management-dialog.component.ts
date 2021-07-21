@@ -69,9 +69,9 @@ export class StatesManagementDialogComponent implements OnInit {
                                             {},
                                             arr.filter((eState) => eState.key === nextState.stateKey).shift(),
                                             nextState);
-                                    } else {
-                                        return 'empty';
-                                    }
+                                    } 
+                                    return 'empty';
+                                    
                                 });
                         })
                         .map((state, i) => {
@@ -100,7 +100,7 @@ export class StatesManagementDialogComponent implements OnInit {
 }
 
 @NgModule({
-  imports: [XmSharedModule, NoDataModule, EntityStateModule, ModalCloseModule],
+    imports: [XmSharedModule, NoDataModule, EntityStateModule, ModalCloseModule],
     exports: [StatesManagementDialogComponent],
     declarations: [StatesManagementDialogComponent],
     entryComponents: [StatesManagementDialogComponent],

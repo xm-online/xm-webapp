@@ -12,7 +12,7 @@ export const XM_IMAGE_OPTIONS_DEFAULT: XmImageOptions = {
     imageClass: 'img-fluid',
     imageStyle: 'max-height: 40px;',
     dataQa: 'image',
-    alt: ''
+    alt: '',
 };
 
 @Component({

@@ -47,10 +47,10 @@ export class TimeAgoService {
         } else if (days <= 545) {
             // 'a year ago';
             return this.translateService.instant('xm-timeline.common.time-ago.year');
-        } else { // (days > 545)
-            // ' years ago';
-            return years + this.translateService.instant('xm-timeline.common.time-ago.years');
-        }
+        } // (days > 545)
+        // ' years ago';
+        return years + this.translateService.instant('xm-timeline.common.time-ago.years');
+        
     }
 
 }

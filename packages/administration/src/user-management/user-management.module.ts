@@ -16,19 +16,19 @@ import { UserMgmtComponent } from './user-management.component';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @NgModule({
-  imports: [
-    UnblockLockUserModule,
-    LoaderModule,
-    XmTranslationModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    FormsModule,
-    MatInputModule,
-    NgJhipsterModule,
-    RouterModule,
-    XmSharedModule,
-    ModalCloseModule,
-  ],
+    imports: [
+        UnblockLockUserModule,
+        LoaderModule,
+        XmTranslationModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        FormsModule,
+        MatInputModule,
+        NgJhipsterModule,
+        RouterModule,
+        XmSharedModule,
+        ModalCloseModule,
+    ],
     exports: [UserMgmtComponent],
     declarations: [
         UserMgmtComponent,

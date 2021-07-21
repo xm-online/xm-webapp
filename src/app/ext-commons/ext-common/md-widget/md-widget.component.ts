@@ -71,17 +71,17 @@ export class MdWidgetComponent implements AfterViewInit, OnDestroy {
             .find(this.config.id)
             .pipe(takeUntilOnDestroy(this))
             .subscribe((result: HttpResponse<DashboardWidget>) => {
-            const widget: DashboardWidget = result.body;
-            widget.config = widget.config || {};
-            Object.assign(widget.config, {content: this._textEditor.value});
-            Object.assign(widget, {dashboard: {id: Number(widget.dashboard)}}); // widget.dashboard must be an object
-            this.widgetService.update(widget).pipe(takeUntilOnDestroy(this)).subscribe(() => {
-                this.isEditMode = false;
-                if (!this._textEditor.isPreviewActive()) {
-                    this._textEditor.togglePreview();
-                }
+                const widget: DashboardWidget = result.body;
+                widget.config = widget.config || {};
+                Object.assign(widget.config, {content: this._textEditor.value});
+                Object.assign(widget, {dashboard: {id: Number(widget.dashboard)}}); // widget.dashboard must be an object
+                this.widgetService.update(widget).pipe(takeUntilOnDestroy(this)).subscribe(() => {
+                    this.isEditMode = false;
+                    if (!this._textEditor.isPreviewActive()) {
+                        this._textEditor.togglePreview();
+                    }
+                });
             });
-        });
     }
 
 }

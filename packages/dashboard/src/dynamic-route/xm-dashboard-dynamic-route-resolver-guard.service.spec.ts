@@ -30,7 +30,7 @@ describe('XmDashboardDynamicRouteResolverGuard', () => {
         const containerFactory: RouteFactory = (dashboard, slug: string) => ({
             path: slug,
             data: { dashboard },
-            children: [routeFactory(dashboard, '')]
+            children: [routeFactory(dashboard, '')],
         });
 
         it('empty dashboards should be empty routes', () => {
@@ -61,21 +61,21 @@ describe('XmDashboardDynamicRouteResolverGuard', () => {
             const dashboards: Dashboard[] = [
                 { config: { slug: 'users' } },
                 { config: { slug: 'users/:id' } },
-                { config: { slug: 'users/:id/edit' } }
+                { config: { slug: 'users/:id/edit' } },
             ];
             const expectedResult: Routes = [{
                 path: 'users',
                 data: { dashboard: dashboards[0] },
                 children: [
-                    { path: '', data: { dashboard: dashboards[0] }, },
+                    { path: '', data: { dashboard: dashboards[0] } },
                     {
                         path: ':id', data: { dashboard: dashboards[1] },
                         children: [
                             { path: '', data: { dashboard: dashboards[1] } },
-                            { path: 'edit', data: { dashboard: dashboards[2] }, },
-                        ]
-                    }
-                ]
+                            { path: 'edit', data: { dashboard: dashboards[2] } },
+                        ],
+                    },
+                ],
             }];
 
             const result = dashboardRoutesFactory(dashboards, containerFactory, routeFactory);
@@ -85,15 +85,15 @@ describe('XmDashboardDynamicRouteResolverGuard', () => {
         it('dashboard slug "users" and "users/:id" should be routes with path "users" and children ":id" and ""', () => {
             const dashboards: Dashboard[] = [
                 { config: { slug: 'users' } },
-                { config: { slug: 'users/:id' } }
+                { config: { slug: 'users/:id' } },
             ];
             const expectedResult: Routes = [{
                 path: 'users',
                 data: { dashboard: dashboards[0] },
                 children: [
-                    { path: '', data: { dashboard: dashboards[0] }, },
-                    { path: ':id', data: { dashboard: dashboards[1] }, }
-                ]
+                    { path: '', data: { dashboard: dashboards[0] } },
+                    { path: ':id', data: { dashboard: dashboards[1] } },
+                ],
             }];
 
             const result = dashboardRoutesFactory(dashboards, containerFactory, routeFactory);
@@ -102,7 +102,7 @@ describe('XmDashboardDynamicRouteResolverGuard', () => {
 
         it('dashboard slug only "users/:id" should not create', () => {
             const dashboards: Dashboard[] = [
-                { config: { slug: 'users/:id' } }
+                { config: { slug: 'users/:id' } },
             ];
             const expectedResult: Routes = [];
 

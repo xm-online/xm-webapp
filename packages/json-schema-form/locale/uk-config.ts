@@ -3,7 +3,7 @@ export const UK_INTL = {
     minLength: 'Повинно бути не менше {{minimumLength}} символів (поточна довжина: {{currentLength}}).',
     maxLength: 'Повинно бути не більше {{maximumLength}} символів (поточна довжина: {{currentLength}}).',
     pattern: 'Повинен відповідати шаблоном: {{requiredPattern}}.',
-    format: (error: { requiredFormat: string }) => {
+    format: (error: { requiredFormat: string }): string => {
         switch (error.requiredFormat) {
             case 'date':
                 return 'Повинна бути дата, наприклад "2000-12-31".';
@@ -39,13 +39,13 @@ export const UK_INTL = {
     exclusiveMinimum: 'Повинно бути більше {{exclusiveMinimumValue}}.',
     maximum: 'Повинно бути {{maximumValue}} або менше.',
     exclusiveMaximum: 'Повинно бути менше ніж {{exclusiveMaximumValue}}.',
-    multipleOf: (error: { multipleOfValue: number }) => {
+    multipleOf: (error: { multipleOfValue: number }): string => {
         if ((1 / error.multipleOfValue) % 10 === 0) {
             const decimals = Math.log10(1 / error.multipleOfValue);
             return `Повинно бути ${decimals} або менше десяткових знаков.`;
-        } else {
-            return `Повинно бути кратно ${error.multipleOfValue}.`;
         }
+        return `Повинно бути кратно ${error.multipleOfValue}.`;
+
     },
     minProperties: 'Повинно бути {{minimumProperties}} або більше елементів (поточні елементи: {{currentProperties}}).',
     maxProperties: 'Повинно бути {{maximumProperties}} або менше елементів (поточні елементи: {{currentProperties}}).',

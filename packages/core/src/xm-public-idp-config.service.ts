@@ -7,7 +7,7 @@ import { XmCoreConfig } from './xm-core-config';
 import { Observable } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class XmPublicIdpConfigService<T = IIdpConfig> implements OnDestroy {
     public readonly IDP_PUBLIC_CONFIG_URL: string;

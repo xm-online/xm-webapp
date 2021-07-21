@@ -10,8 +10,8 @@ export interface XmLinkButtonOptions extends MatFabConfig {
 
 export const XM_LINK_BUTTON_DEFAULT_OPTIONS = {
     ...MAT_FAB_DEFAULT_CONFIG,
-    title: ''
-}
+    title: '',
+};
 
 @Component({
     selector: 'xm-link-button',

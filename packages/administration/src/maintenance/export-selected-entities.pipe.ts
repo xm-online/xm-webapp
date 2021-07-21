@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ExportConfig } from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
 
 @Pipe({
-    name: 'exportSelectedEntities'
+    name: 'exportSelectedEntities',
 })
 export class ExportSelectedEntitiesPipe implements PipeTransform {
 

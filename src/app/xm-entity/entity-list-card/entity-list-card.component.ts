@@ -52,7 +52,7 @@ export class EntityListCardComponent implements OnInit, OnChanges {
         if (this.currentEntitiesUiConfig && this.currentEntitiesUiConfig.length) {
             const entityConfig = this.currentEntitiesUiConfig.find((e) => e && e.typeKey === typeKey) || {};
             return entityConfig && entityConfig.fastSearchHideAll;
-        } else { return false; }
+        } return false; 
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -65,7 +65,7 @@ export class EntityListCardComponent implements OnInit, OnChanges {
                 this.loadSpec().pipe(take(1)).subscribe((spec: Spec) => {
                     this.spec = spec;
                     this.load();
-                })
+                });
             } else {
                 this.load();
             }
@@ -255,7 +255,7 @@ export class EntityListCardComponent implements OnInit, OnChanges {
         return this.xmEntitySpecWrapperService.entitySpec$()
             .pipe(
                 take(1),
-                map((specs: XmEntitySpec[]) => ({types: specs}))
+                map((specs: XmEntitySpec[]) => ({types: specs})),
             );
     }
 }

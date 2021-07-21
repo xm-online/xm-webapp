@@ -34,11 +34,11 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         if (request.headers.has(SKIP_ERROR_HANDLER_INTERCEPTOR_HEADER_KEY)) {
             const headers = request.headers.delete(SKIP_ERROR_HANDLER_INTERCEPTOR_HEADER_KEY);
             return next.handle(request.clone({ headers }));
-        } else {
-            return next.handle(request).pipe(tap({
-                error: (err: HttpErrorResponse) => this.handleError(err, request),
-            }));
-        }
+        } 
+        return next.handle(request).pipe(tap({
+            error: (err: HttpErrorResponse) => this.handleError(err, request),
+        }));
+        
     }
 
     private handleError(err: HttpErrorResponse, request: HttpRequest<unknown>): void {

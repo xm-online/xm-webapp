@@ -31,9 +31,9 @@ export class PendingChangesGuard implements CanDeactivate<unknown> {
                 this.logger.debug(`canDeactivate "${String(isPending)}".`);
                 if (isPending) {
                     return this.isAlertConfirmed$();
-                } else {
-                    return of(true);
-                }
+                } 
+                return of(true);
+                
             }),
         );
     }

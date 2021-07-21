@@ -41,7 +41,7 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
             .pipe(
                 map((config) => {
                     if (!config) {
-                        return;
+                        return null;
                     }
                     return config.types.map(t => {
                         return Object.assign(t, {
@@ -54,8 +54,8 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
                 takeUntilOnDestroy(this),
                 finalize(() => this.showLoader = false),
             ).subscribe((config) => {
-            this.intData(config);
-        });
+                this.intData(config);
+            });
     }
 
     public intData(config: ExportConfig[]): void {
@@ -91,7 +91,7 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
         });
     }
 
-    public export() {
+    public export(): void {
         this.showLoader = true;
         const configSelectedEntities = this.config
             .filter(c => c.selected)

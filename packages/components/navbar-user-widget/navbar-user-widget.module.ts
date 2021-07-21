@@ -22,7 +22,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
         MatIconModule,
         RouterModule,
         XmTranslationModule,
-    ]
+    ],
 })
 export class NavbarUserWidgetModule {
     public entry: Type<NavbarUserWidgetComponent> = NavbarUserWidgetComponent;

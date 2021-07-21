@@ -18,16 +18,16 @@ export const SIDEBAR_KEY = 'xm-widget-sidebar';
     declarations: [
         SidebarComponent,
     ],
-  imports: [
-    XmSharedModule,
-    RouterModule,
-    CommonModule,
-    XmLogoModule,
-    XmSidebarUserModule,
-    XmMenuModule,
-    XmPoweredByModule,
-    XmDynamicModule,
-  ],
+    imports: [
+        XmSharedModule,
+        RouterModule,
+        CommonModule,
+        XmLogoModule,
+        XmSidebarUserModule,
+        XmMenuModule,
+        XmPoweredByModule,
+        XmDynamicModule,
+    ],
     providers: [
         {provide: SIDEBAR_KEY, useValue: SidebarComponent},
         XmUiConfigService,

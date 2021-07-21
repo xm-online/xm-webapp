@@ -80,12 +80,12 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
             }),
             takeUntilOnDestroy(this),
         ).subscribe((list: Array<Client>) => {
-                this.dataSource = new MatTableDataSource(list);
-            },
-            (err) => {
-                this.onError(err);
-                this.showLoader = false;
-            });
+            this.dataSource = new MatTableDataSource(list);
+        },
+        (err) => {
+            this.onError(err);
+            this.showLoader = false;
+        });
 
     }
 
@@ -98,9 +98,9 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
         this.updateRoute();
         if (this.clientId) {
             return this.loadClientsById(this.clientId);
-        } else {
-            return this.loadClients();
         }
+        return this.loadClients();
+
     }
 
     public trackIdentity(_index: number | string, item: Client): number {
@@ -108,15 +108,15 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
     }
 
 
-    public filterByClientId() {
+    public filterByClientId(): void {
         this.showLoader = true;
         this.paginator.pageIndex = 0;
         this.loadAll()
             .pipe(
                 takeUntilOnDestroy(this),
             ).subscribe((list: Array<Client>) => {
-            this.dataSource = new MatTableDataSource(list);
-        });
+                this.dataSource = new MatTableDataSource(list);
+            });
     }
 
     public onDelete(client: Client): void {
@@ -170,8 +170,8 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
                     .pipe(
                         takeUntilOnDestroy(this),
                     ).subscribe((list: Array<Client>) => {
-                    this.dataSource = new MatTableDataSource(list);
-                });
+                        this.dataSource = new MatTableDataSource(list);
+                    });
             });
     }
 

@@ -22,7 +22,7 @@ describe('IdpCallbackComponent', () => {
                 {provide: Router, useValue: {}},
                 {provide: XmPrivateUiConfigService, useValue: {config$: () => of(null)}},
             ],
-            declarations: [IdpCallbackComponent]
+            declarations: [IdpCallbackComponent],
         })
             .compileComponents();
     }));

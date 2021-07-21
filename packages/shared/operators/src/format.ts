@@ -61,6 +61,6 @@ function formatArray<T = unknown>(template: Array<T>, entity: unknown): Array<T>
     const res = [];
     template.forEach(item => {
         res.push(format(item, entity));
-    })
+    });
     return res;
 }

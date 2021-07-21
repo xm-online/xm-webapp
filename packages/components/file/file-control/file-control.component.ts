@@ -16,7 +16,7 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
     dataQa: 'file-control',
     multiple: false,
     accept: '*',
-    required: false
+    required: false,
 };
 /**
  * For required you need to use validators
@@ -76,7 +76,7 @@ export class FileControlComponent extends NgFormAccessor<File[]> {
         this._options = defaults(value, XM_FILE_CONTROL_OPTIONS_DEFAULT);
     }
 
-    public get fileNames() {
+    public get fileNames(): string {
         return this.value ? _.map(this.value, (i => i.name)).join('') : '';
     }
 }

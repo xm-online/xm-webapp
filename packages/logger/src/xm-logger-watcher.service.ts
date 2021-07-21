@@ -31,9 +31,9 @@ export class XmLoggerWatcherService {
                             }
                             return null;
                         }));
-                } else {
-                    return of(null);
-                }
+                } 
+                return of(null);
+                
             }),
         ).subscribe((log: Log) => {
             if (!log) {

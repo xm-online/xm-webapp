@@ -23,7 +23,7 @@ declare let Babili: any;
 /**
  * Returns available JSON Scheme Form widgets.
  */
-export const getJsfWidgets = () => {
+export const getJsfWidgets = (): any => {
     return {
         'ext-autocomplete': ExtAutocompleteComponent,
         'ext-md-editor': ExtMdEditorComponent,
@@ -51,7 +51,7 @@ export const getJsfWidgets = () => {
  * @param spec - JSON schema
  * @param form - From details data could be in different structure
  */
-export const buildJsfAttributes = (spec: any, form: any) => {
+export const buildJsfAttributes = (spec: any, form: any): any => {
     const input = {dataSpec: interpolate(spec), dataForm: interpolate(form)};
     const jsfAttributes = spec && {
         schema: typeof (input.dataSpec) === 'string' ? JSON.parse(input.dataSpec) : input.dataSpec,
@@ -82,11 +82,11 @@ export const buildJsfAttributes = (spec: any, form: any) => {
     return jsfAttributes;
 };
 
-export const nullSafe = (object: any) => {
+export const nullSafe = (object: any): any => {
     return object ? object : {};
 };
 
-export const isJsonString = (str) => {
+export const isJsonString = (str: any): any => {
     try {
         JSON.parse(str);
     } catch (e) {
@@ -95,7 +95,7 @@ export const isJsonString = (str) => {
     return true;
 };
 
-export const toJsonString = (str) => {
+export const toJsonString = (str: any): any => {
     try {
         return JSON.parse(str);
     } catch (e) {
@@ -103,7 +103,7 @@ export const toJsonString = (str) => {
     }
 };
 
-const interpolate = (spec: any) => {
+const interpolate = (spec: any): any => {
     if (typeof (spec) === 'string') {
         spec = spec.replace(/\\\\/g, '\\\\\\\\');
         try {
@@ -115,7 +115,7 @@ const interpolate = (spec: any) => {
     return spec;
 };
 
-export const addValidationComponent = (form) => {
+export const addValidationComponent = (form: any): any => {
     if (form && form instanceof Array) {
         form.push({
             type: 'validation-component',
@@ -128,7 +128,7 @@ export const addValidationComponent = (form) => {
     return form;
 };
 
-export const addValidationComponentToLayout = (layout) => {
+export const addValidationComponentToLayout = (layout: any): any => {
     if (layout && layout instanceof Array) {
         layout.push({
             type: 'validation-component',
@@ -152,7 +152,7 @@ const traverce = (obj, task) => {
     return obj;
 };
 
-export const processValidationMessages = (jsfAttributes) => {
+export const processValidationMessages = (jsfAttributes: any): any => {
     jsfAttributes.options = jsfAttributes.options || {};
     jsfAttributes.options.defautWidgetOptions = jsfAttributes.options.defautWidgetOptions || {};
     jsfAttributes.options.defautWidgetOptions.validationMessages = jsfAttributes.options.defautWidgetOptions
@@ -244,9 +244,9 @@ const extractLayoutElement = (input: any, field: string) => {
     const dataForm = typeof (input.dataForm) === 'string' ? JSON.parse(input.dataForm) : input.dataForm;
     if (dataForm instanceof Array) {
         return dataForm;
-    } else {
-        return dataForm[field];
     }
+    return dataForm[field];
+
 };
 
 const extractElement = (input: any, field: string) => {
@@ -280,7 +280,7 @@ const processDataFieldExpressions = (data: any) => {
 };
 
 // TODO: find solution to remove this workaround form view
-export const formLayout = () => {
+export const formLayout = (): void => {
     setTimeout(() => {
         // remove legend elements for the array view
         const legendList: HTMLElement[] = $('legend');
@@ -297,22 +297,22 @@ export const formLayout = () => {
     }, 50);
 };
 
-export const transpilingForIE = (code, obj) => {
+export const transpilingForIE = (code: any, obj: any): any => {
     const tmpCode = parseTemplateLiterals(code, obj);
     if (isJsonString(tmpCode)) {
         return tmpCode;
-    } else {
-        let result;
-        try {
-            result = Babili.transform(tmpCode, {presets: ['es2015']}).code.replace(/"use strict";/, '');
-        } catch (e) {
-            result = tmpCode;
-        }
-        return result;
     }
+    let result;
+    try {
+        result = Babili.transform(tmpCode, {presets: ['es2015']}).code.replace(/"use strict";/, '');
+    } catch (e) {
+        result = tmpCode;
+    }
+    return result;
+
 };
 
-export const parseTemplateLiterals = (str: string, obj: any = {}) => {
+export const parseTemplateLiterals = (str: string, obj: any = {}): any => {
     let tmpStr = str.slice().replace(/\n/g, ' ');
     while (/\$\{.+\}/.test(tmpStr)) {
         // Find and get Template Literal "${...}" from string

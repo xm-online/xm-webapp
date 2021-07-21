@@ -3,7 +3,7 @@ import { XmTextTitleOptions } from '../text-title/xm-text-title.component';
 import {
     XmDynamicPresentation,
     XmDynamicPresentationConstructor,
-    XmDynamicPresentationEntryModule
+    XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';

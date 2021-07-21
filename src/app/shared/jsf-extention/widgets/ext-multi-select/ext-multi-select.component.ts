@@ -109,9 +109,9 @@ export class ExtMultiSelectComponent implements OnInit, OnDestroy, AfterViewInit
         if (!search && search == null) {
             this.filteredElementsMulti.next(this.elements.slice());
             return;
-        } else {
-            search = search.toLowerCase();
-        }
+        } 
+        search = search.toLowerCase();
+        
         this.filteredElementsMulti.next(
             this.elements.filter((e) => e.label && e.label.toLowerCase().indexOf(search) > -1),
         );

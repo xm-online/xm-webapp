@@ -31,7 +31,7 @@ interface Element {
     selector: 'xm-ext-select-widget',
     templateUrl: 'ext-select.component.html',
     styles: [
-            `
+        `
             :host .deep-link {
                 vertical-align: middle;
             }
@@ -207,9 +207,9 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!search && search == null) {
             this.filteredElements.next(this.elements.slice());
             return;
-        } else {
-            search = search.toLowerCase();
-        }
+        } 
+        search = search.toLowerCase();
+        
         this.filteredElements.next(
             this.elements.filter((e) => e.label.toLowerCase().indexOf(search) > -1),
         );

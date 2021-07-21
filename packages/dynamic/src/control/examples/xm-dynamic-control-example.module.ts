@@ -10,8 +10,8 @@ import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
-  declarations: [XmDynamicControlExampleComponent],
-  exports: [XmDynamicControlExampleComponent],
+    declarations: [XmDynamicControlExampleComponent],
+    exports: [XmDynamicControlExampleComponent],
     imports: [
         CommonModule,
         FormsModule,

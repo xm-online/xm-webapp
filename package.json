@@ -42,7 +42,7 @@
     "test:prod": "ng test --code-coverage=true --watch=false --browsers=ChromeHeadlessNoSandbox",
     "e2e": "ng e2e",
     "lint": "npm run lint:js",
-    "lint:js": "eslint . --ext .ts --quiet",
+    "lint:js": "node --max_old_space_size=4096 ./node_modules/eslint/bin/eslint.js . --ext .ts --quiet",
     "lint:sass": "stylelint */**/*.scss --quiet",
     "docs": "compodoc -p tsconfig.json",
     "get-unwraped-labels": "node ./scripts/get-unwraped-labels.js",

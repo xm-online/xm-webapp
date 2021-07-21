@@ -7,19 +7,19 @@ export function debug<T>(key: string | number, isDebugger: boolean = true): Mono
     return tap<T>({
         next: (data) => {
             if (isDebugger) {
-                debugger
+                debugger;
             }
             console.info(`NEXT: ${key} `, data);
         },
         error: (err) => {
             if (isDebugger) {
-                debugger
+                debugger;
             }
             console.info(`ERROR: ${key} `, err);
         },
         complete: () => {
             if (isDebugger) {
-                debugger
+                debugger;
             }
             console.info(`COMPLETE: ${key} `);
         },

@@ -8,8 +8,8 @@ import { XmArrayControlExampleComponent } from './xm-array-control-example/xm-ar
 
 
 @NgModule({
-  declarations: [XmArrayControlExampleComponent],
-  exports: [XmArrayControlExampleComponent],
+    declarations: [XmArrayControlExampleComponent],
+    exports: [XmArrayControlExampleComponent],
     imports: [
         CommonModule,
         XmArrayControlModule,

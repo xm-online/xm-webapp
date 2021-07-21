@@ -5,19 +5,20 @@ import { saveAs } from 'file-saver';
  * using file-save library.
  * @param blobContent - file content as a Blob
  * @param fileName - name file should be saved as
+ * @param responseType - response type
  */
-export const saveFile = (blobContent: Blob, fileName: string, responceType: string) => {
-    const blob = new Blob([blobContent], {type: responceType ? responceType : 'application/octet-stream'});
+export const saveFile = (blobContent: Blob, fileName: string, responseType: string): void => {
+    const blob = new Blob([blobContent], {type: responseType ? responseType : 'application/octet-stream'});
     saveAs(blob, fileName);
 };
 
 /**
  * Saves a file by opening file-save-as dialog in the browser
  * using file-save library.
- * @param fileUrl - path
+ * @param url - path
  * @param fileName - name file should be saved as
  */
-export const saveFileFromUrl = (url: string, fileName: string) => {
+export const saveFileFromUrl = (url: string, fileName: string): void => {
     saveAs(url, fileName);
 };
 
@@ -26,7 +27,7 @@ export const saveFileFromUrl = (url: string, fileName: string) => {
  * by looking inside content-disposition
  * @param res - http Response
  */
-export const getFileNameFromResponseContentDisposition = (res) => {
+export const getFileNameFromResponseContentDisposition = (res: any): any => {
     const contentDisposition = res.headers.get('content-disposition') || '';
     if (!contentDisposition) {
         return '"untitled"';
@@ -41,7 +42,7 @@ export const getFileNameFromResponseContentDisposition = (res) => {
  * @param blobContent - file content as a Blob
  * @param fileName - name file should be saved as
  */
-export const saveCSVFile = (blobContent: Blob, fileName: string) => {
+export const saveCSVFile = (blobContent: Blob, fileName: string): void => {
     const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), blobContent], {type: 'text/csv;charset=UTF-8'});
     saveAs(blob, fileName);
 };

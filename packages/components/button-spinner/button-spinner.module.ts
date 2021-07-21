@@ -4,10 +4,10 @@ import { ButtonSpinnerDirective } from './button-spinner.directive';
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
     ],
     declarations: [ButtonSpinnerDirective],
-    exports: [ButtonSpinnerDirective]
+    exports: [ButtonSpinnerDirective],
 })
 export class ButtonSpinnerModule {
 }

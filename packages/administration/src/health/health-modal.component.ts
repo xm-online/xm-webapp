@@ -37,8 +37,8 @@ export class JhiHealthModalComponent implements OnInit {
         const val = value / 1073741824;
         if (val > 1) { // Value
             return val.toFixed(2) + ' GB';
-        } else {
-            return (value / 1048576).toFixed(2) + ' MB';
-        }
+        } 
+        return (value / 1048576).toFixed(2) + ' MB';
+        
     }
 }

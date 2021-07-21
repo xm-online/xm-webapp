@@ -27,11 +27,11 @@ export class XmUiConfigService<T extends XmUIConfig = XmUIConfig> {
                         .pipe(
                             startWith(null),
                             map((idpConfig: IIdpConfig) => _.merge(config, idpConfig)),
-                            catchError(() => of(null))
+                            catchError(() => of(null)),
                         );
-                } else {
-                    return of(config);
-                }
+                } 
+                return of(config);
+                
             }),
         );
     }

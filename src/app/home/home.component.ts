@@ -62,9 +62,9 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
                 }
                 if (config?.defaultLayout) {
                     return this.getFromConfigDefaultLayout(config.defaultLayout);
-                } else {
-                    return this.getFromConfigDefaultWidget(config);
-                }
+                } 
+                return this.getFromConfigDefaultWidget(config);
+                
             }),
             catchError(() => of(this.getFromConfigDefaultWidget())),
         );

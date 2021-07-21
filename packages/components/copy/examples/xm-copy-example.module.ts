@@ -8,11 +8,11 @@ import { XmCopyExampleComponent } from './xm-copy-example.component';
 @NgModule({
     declarations: [XmCopyExampleComponent],
     exports: [XmCopyExampleComponent],
-  imports: [
-    CommonModule,
-    XmCopyIconModule,
-    XmCodeModule,
-  ],
+    imports: [
+        CommonModule,
+        XmCopyIconModule,
+        XmCodeModule,
+    ],
 })
 export class XmCopyExampleModule {
 }

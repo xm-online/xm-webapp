@@ -59,7 +59,7 @@ export class AuthServerProvider {
         this.setAutoRefreshTokens(isRememberMe);
         this.sessionService.isActive().pipe(
             filter(i => i === false),
-            switchMap(()=>this.logout(true))
+            switchMap(()=>this.logout(true)),
         ).subscribe();
     }
 
@@ -137,9 +137,9 @@ export class AuthServerProvider {
             }
 
             return Promise.resolve(jwt);
-        } else {
-            return Promise.reject('auth-jwt-service Promise reject'); // Put appropriate error message here
-        }
+        } 
+        return Promise.reject('auth-jwt-service Promise reject'); // Put appropriate error message here
+        
     }
 
     public storeAuthenticationToken(jwt: string, rememberMe: boolean): void {

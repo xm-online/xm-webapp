@@ -6,7 +6,7 @@ import { XmNavbarLogoWidget } from './xm-navbar-logo-widget.component';
 @NgModule({
     imports: [
         RouterModule,
-        CommonModule
+        CommonModule,
     ],
     exports: [XmNavbarLogoWidget],
     declarations: [XmNavbarLogoWidget],

@@ -12,7 +12,7 @@ export {
     DashboardConfig,
     DashboardLayout,
     DashboardLayoutLayout,
-    DashboardWithWidgets
+    DashboardWithWidgets,
 } from './models/dashboard.model';
 export { DashboardWidget } from './models/dashboard-widget.model';
 

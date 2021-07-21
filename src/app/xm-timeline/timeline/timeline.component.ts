@@ -56,7 +56,7 @@ export class TimelineComponent implements OnInit, OnChanges, OnDestroy {
         this.eventManager.destroy(this.modifySubscription);
     }
 
-    public onNextPage(next: any): void {
+    public onNextPage(next: unknown): void {
         this.showLoader = true;
         this.timelineService.search(this.getSearchBody({next})).pipe(
             finalize(() => this.showLoader = false))
@@ -66,7 +66,7 @@ export class TimelineComponent implements OnInit, OnChanges, OnDestroy {
             });
     }
 
-    public timeAgo(time: any): any {
+    public timeAgo(time: string): string {
         return this.timeAgoService.transform(time);
     }
 

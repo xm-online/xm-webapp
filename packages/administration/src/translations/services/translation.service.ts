@@ -36,7 +36,7 @@ export class TranslationService {
                     && keysName.includes(additionalKeys?.extJsonName);
 
                 if (!isExistBackendKeys) {
-                    return of(res)
+                    return of(res);
                 }
 
                 return this.getKeysFromBackend(additionalKeys).pipe(

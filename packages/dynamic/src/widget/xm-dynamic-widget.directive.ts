@@ -69,9 +69,9 @@ export class XmDynamicWidgetDirective implements OnChanges {
         if (componentFactory) {
             this.createComponent(this._layout, componentFactory);
             return;
-        } else {
-            console.warn(`"${value.selector}" does not exist!`);
-        }
+        } 
+        console.warn(`"${value.selector}" does not exist!`);
+        
     }
 
     private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, componentFactory: ComponentFactory<T>): void {

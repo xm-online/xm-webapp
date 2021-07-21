@@ -147,7 +147,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
                     .pipe(
                         filter((c) => Boolean(c)),
                         first(),
-                        map(c => c && c.langs && c.langs[0] ? c.langs[0] : null)
+                        map(c => c && c.langs && c.langs[0] ? c.langs[0] : null),
                     )
         ).subscribe(locale => {
             moment.locale(locale);

@@ -71,6 +71,7 @@ export class WordAutocompleteDirective implements OnInit {
         } else if (ev.keyCode === KEY_CODE.ESCAPE) {
             this.onRemoveWordListContainer();
         } else if (ev.keyCode === KEY_CODE.UP_ARROW && this.showPopup) {
+            // eslint-disable-next-line consistent-return
             [].reduceRight.call(this.wordListEl.childNodes, (isNextActive, el, pos) => {
                 if (isNextActive) {
                     return el.classList.add('active');
@@ -81,7 +82,8 @@ export class WordAutocompleteDirective implements OnInit {
             }, false);
         } else if (ev.keyCode === KEY_CODE.DOWN_ARROW && this.showPopup) {
             const count = this.wordListEl.childNodes.length - 1;
-            [].reduce.call(this.wordListEl.childNodes, (isNextActive, el, pos) => {
+            // eslint-disable-next-line consistent-return
+            [].reduce.call(this.wordListEl.childNodes, (isNextActive, el, pos): any => {
                 if (isNextActive) {
                     return el.classList.add('active');
                 } else if (el.classList.contains('active') && pos !== count) {

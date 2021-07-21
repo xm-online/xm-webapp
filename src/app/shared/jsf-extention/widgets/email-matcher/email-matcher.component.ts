@@ -47,21 +47,21 @@ export class EmailMatcherComponent implements OnInit {
             .pipe(
                 debounceTime(200),
                 tap(() => {
-                        this.matcherControl.markAsUntouched();
-                        this.originalControl.markAsDirty();
-                        this.originalControl.markAsTouched();
-                        if (this.originalControl.value !== this.matcherControl.value) {
-                            if (this.matcherControl.value && this.matcherControl.value.length > 0) {
-                                this.matcherSetError();
-                            }
-                            this.controlValue = '';
-                            this.updateValue(this.controlValue);
-                        } else {
-                            this.matcherControl.setErrors(null);
-                            this.controlValue = this.originalControl.value;
-                            this.updateValue(this.controlValue);
+                    this.matcherControl.markAsUntouched();
+                    this.originalControl.markAsDirty();
+                    this.originalControl.markAsTouched();
+                    if (this.originalControl.value !== this.matcherControl.value) {
+                        if (this.matcherControl.value && this.matcherControl.value.length > 0) {
+                            this.matcherSetError();
                         }
-                    },
+                        this.controlValue = '';
+                        this.updateValue(this.controlValue);
+                    } else {
+                        this.matcherControl.setErrors(null);
+                        this.controlValue = this.originalControl.value;
+                        this.updateValue(this.controlValue);
+                    }
+                },
                 ),
             )
             .subscribe();
@@ -73,16 +73,16 @@ export class EmailMatcherComponent implements OnInit {
             .pipe(
                 debounceTime(200),
                 tap(() => {
-                        if (this.originalControl.value !== this.matcherControl.value) {
-                            this.matcherSetError();
-                            this.controlValue = '';
-                            this.updateValue(this.controlValue);
-                        } else {
-                            this.matcherControl.setErrors(null);
-                            this.controlValue = this.originalControl.value;
-                            this.updateValue(this.controlValue);
-                        }
-                    },
+                    if (this.originalControl.value !== this.matcherControl.value) {
+                        this.matcherSetError();
+                        this.controlValue = '';
+                        this.updateValue(this.controlValue);
+                    } else {
+                        this.matcherControl.setErrors(null);
+                        this.controlValue = this.originalControl.value;
+                        this.updateValue(this.controlValue);
+                    }
+                },
                 ),
             )
             .subscribe();

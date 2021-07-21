@@ -25,9 +25,9 @@ export class DynamicInjectorSearcherService implements DynamicSearcher {
 
         if (componentTypeOrLazyComponentType instanceof Promise) {
             return componentTypeOrLazyComponentType;
-        } else {
-            return Promise.resolve(componentTypeOrLazyComponentType);
-        }
+        } 
+        return Promise.resolve(componentTypeOrLazyComponentType);
+        
     }
 
     public getEntry<T>(

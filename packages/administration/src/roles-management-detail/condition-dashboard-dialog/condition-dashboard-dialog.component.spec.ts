@@ -19,7 +19,7 @@ describe('ConditionDashboardDialogComponent', () => {
             providers: [
                 { provide: MatDialogRef, useValue: {} },
                 { provide: DashboardStore, useValue: { dashboards$: () => of() } },
-            ]
+            ],
         })
             .compileComponents();
     });

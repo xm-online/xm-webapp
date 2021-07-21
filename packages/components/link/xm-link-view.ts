@@ -22,7 +22,7 @@ export const XM_LINK_VIEW_DEFAULT_OPTIONS: XmLinkViewOptions = assign(
     {
         styleInline: false,
         title: '',
-        icon: null
+        icon: null,
     },
 );
 
@@ -59,7 +59,7 @@ export class XmLinkViewComponent extends XmLink implements XmDynamicPresentation
         XmTranslationModule,
         RouterModule,
         MatIconModule,
-        XmLinkModule
+        XmLinkModule,
     ],
 })
 export class XmLinkViewModule {

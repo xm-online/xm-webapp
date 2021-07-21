@@ -14,12 +14,12 @@ import { PocketService } from './shared/pocket.service';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NoDataModule,
-    XmSharedModule,
-    ModalCloseModule,
-  ],
+    imports: [
+        CommonModule,
+        NoDataModule,
+        XmSharedModule,
+        ModalCloseModule,
+    ],
     declarations: [
         BalanceListCardComponent,
         BalanceDetailDialogComponent,

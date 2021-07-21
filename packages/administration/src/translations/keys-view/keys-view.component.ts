@@ -41,7 +41,7 @@ export class KeysViewComponent {
 
     public saveAll(): void {
         Object.entries(this.unSave).forEach(([key, value]) => {
-            this.updateTranslate.emit({key, value})
+            this.updateTranslate.emit({key, value});
         });
 
         this.unSave = {};
@@ -54,7 +54,7 @@ export class KeysViewComponent {
     public changeFilter(): void {
         this.filterTranslationKeys = this.translationKeys
             .filter(([key]) => key.includes(this.filters.byKey))
-            .filter(([key, translate]) => translate.includes(this.filters.byValue))
+            .filter(([key, translate]) => translate.includes(this.filters.byValue));
     }
 
     private resetState(): void {

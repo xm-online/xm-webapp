@@ -3,14 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { DynamicMultiSearcherService } from './dynamic-multi-searcher.service';
 
 describe('DynamicMultiSearcherService', () => {
-  let service: DynamicMultiSearcherService;
+    let service: DynamicMultiSearcherService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject<DynamicMultiSearcherService>(DynamicMultiSearcherService);
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject<DynamicMultiSearcherService>(DynamicMultiSearcherService);
+    });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+    it('should be created', () => {
+        expect(service).toBeTruthy();
+    });
 });

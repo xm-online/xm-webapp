@@ -11,8 +11,8 @@ export interface UnblockLockUserOptions {
 }
 
 const DEFAULT_OPTIONS = {
-    title: null
-}
+    title: null,
+};
 
 @Component({
     selector: 'xm-unblock-lock-user',
@@ -29,41 +29,41 @@ export class UnblockLockUserComponent {
     @Input() public user: User;
      private _options: UnblockLockUserOptions = DEFAULT_OPTIONS;
 
-    constructor(
+     constructor(
         protected alertService: XmAlertService,
         protected toasterService: XmToasterService,
         private userService: UserService,
         @Optional() @Inject(XM_DYNAMIC_TABLE_ROW) row: User,
-    ) {
-        this.user = row;
-    }
+     ) {
+         this.user = row;
+     }
 
-    public changeState(user: User): void {
-        this.alertService.open({
-            title: user.activated ? 'Block user?' : 'Unblock user?',
-            showCancelButton: true,
-            buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
-            confirmButtonText: 'Yes',
-        }).subscribe((result) => result.value ?
-            this.changeUserState(user) :
-            console.info('Cancel'));
-    }
+     public changeState(user: User): void {
+         this.alertService.open({
+             title: user.activated ? 'Block user?' : 'Unblock user?',
+             showCancelButton: true,
+             buttonsStyling: false,
+             confirmButtonClass: 'btn mat-button btn-primary',
+             cancelButtonClass: 'btn mat-button',
+             confirmButtonText: 'Yes',
+         }).subscribe((result) => result.value ?
+             this.changeUserState(user) :
+             console.info('Cancel'));
+     }
 
 
-    private changeUserState(user: User): void {
-        const isActivate = user.activated;
-        const unblock$ = this.userService.unblock(user);
-        const block$ = this.userService.block(user);
-        const api = isActivate ? block$: unblock$;
+     private changeUserState(user: User): void {
+         const isActivate = user.activated;
+         const unblock$ = this.userService.unblock(user);
+         const block$ = this.userService.block(user);
+         const api = isActivate ? block$: unblock$;
 
-        api.subscribe(() => {
-            user.activated = !isActivate;
-            this.toasterService.success('userManagement.success');
-        }, () => {
-            this.toasterService.error('userManagement.error');
-        });
-    }
+         api.subscribe(() => {
+             user.activated = !isActivate;
+             this.toasterService.success('userManagement.success');
+         }, () => {
+             this.toasterService.error('userManagement.error');
+         });
+     }
 
 }

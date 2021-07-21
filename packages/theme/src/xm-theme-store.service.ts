@@ -73,10 +73,10 @@ export class XmThemeStore {
         if (options?.themeStrategy === 'TENANT_ONLY') {
             return this.styleManager.setAsync('theme', `assets/css/${theme}.css`)
                 .pipe(finalize(() => this.applicationConfigServiceBC()));
-        } else {
-            return this.styleManager.setAsync('theme', this.getUrl(theme))
-                .pipe(finalize(() => this.applicationConfigServiceBC()));
-        }
+        } 
+        return this.styleManager.setAsync('theme', this.getUrl(theme))
+            .pipe(finalize(() => this.applicationConfigServiceBC()));
+        
     }
 
     public getUrl(theme: string): string {

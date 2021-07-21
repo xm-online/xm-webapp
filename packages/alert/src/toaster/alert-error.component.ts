@@ -256,9 +256,9 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 console.warn('Wrong responseConfigItem outputMessage type - returning default message');
                 if (response.content.error !== '' && response.content.error.error) {
                     return this.translateService.instant(`errors.${response.content.error.error}`);
-                } else {
-                    return this.translateService.instant(`errors.${response.content.error}`);
-                }
+                } 
+                return this.translateService.instant(`errors.${response.content.error}`);
+            
             }
         }
     }

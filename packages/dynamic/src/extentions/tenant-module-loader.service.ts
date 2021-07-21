@@ -2,7 +2,7 @@ import { Compiler, Inject, Injectable, NgModuleFactory, Optional } from '@angula
 import {
     XM_DYNAMIC_EXTENSIONS,
     XmDynamicExtensionConstructor,
-    XmDynamicExtensionEntry
+    XmDynamicExtensionEntry,
 } from './xm-dynamic-extension.injectors';
 import { ArgumentException } from '@xm-ngx/shared/exceptions';
 import * as _ from 'lodash';
@@ -12,7 +12,7 @@ export class TenantModuleLoaderService {
 
     constructor(
         @Optional() private compiler: Compiler,
-        @Inject(XM_DYNAMIC_EXTENSIONS) private dynamicExtensions: XmDynamicExtensionEntry[]
+        @Inject(XM_DYNAMIC_EXTENSIONS) private dynamicExtensions: XmDynamicExtensionEntry[],
     ) {
     }
 

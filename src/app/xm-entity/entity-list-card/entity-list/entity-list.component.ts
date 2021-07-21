@@ -142,9 +142,9 @@ export class EntityListComponent implements OnInit, OnDestroy {
         if (this.currentEntitiesUiConfig && this.currentEntitiesUiConfig.length) {
             const entityConfig = this.currentEntitiesUiConfig.find((e) => e && e.typeKey === typeKey) || {};
             return entityConfig && entityConfig.fastSearchHideAll;
-        } else {
-            return false;
         }
+        return false;
+
     }
 
     public onApplyFilter(entityOptions: EntityOptions, data: any): void {
@@ -178,7 +178,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
         return new MatTableDataSource<XmEntity>(data);
     }
 
-    public getColumnsToDisplay(fields: Array<FieldOptions>) {
+    public getColumnsToDisplay(fields: Array<FieldOptions>): any[] {
         return ['avatarUrl', ...fields?.map(i => i.field), 'deleteButton'];
     }
 
@@ -377,19 +377,19 @@ export class EntityListComponent implements OnInit, OnDestroy {
         const strParams = configUrl && configUrl.split('?')[1];
         if (navUrl) {
             try {
-                const params =
-                    strParams && JSON.parse(
-                        '{"' + decodeURI(strParams)
-                            .replace(/"/g, '\\"')
-                            .replace(/&/g, '","')
-                            .replace(/=/g,'":"') + '"}');
+                const params = strParams && JSON.parse('{"' +
+                    decodeURI(strParams)
+                        .replace(/"/g, '\\"')
+                        .replace(/&/g, '","')
+                        .replace(/=/g, '":"') +
+                    '"}');
                 const queryParams = {};
                 params && Object.keys(params).forEach(key => {
-                    Object.assign(queryParams, {[key]: fEntity[params[key]]});
-                })
-                this.router.navigate([navUrl], {queryParams});
+                    Object.assign(queryParams, { [key]: fEntity[params[key]] });
+                });
+                this.router.navigate([navUrl], { queryParams });
             } catch (e) {
-                this.router.navigate([navUrl])
+                this.router.navigate([navUrl]);
             }
         }
     }

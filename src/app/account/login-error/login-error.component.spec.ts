@@ -17,7 +17,7 @@ describe('LoginErrorComponent', () => {
                 {provide: LoginService, useValue: null},
                 {provide: ActivatedRoute, useValue: {params: of()}},
             ],
-            declarations: [LoginErrorComponent]
+            declarations: [LoginErrorComponent],
         })
             .compileComponents();
     }));

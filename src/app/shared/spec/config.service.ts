@@ -144,9 +144,9 @@ export class XmConfigService {
                 pattern: CONFIG.pattern || '',
                 patternMessage: CONFIG.patternMessage || null,
             };
-        } else {
-            return DEFAULT_SETTINGS;
-        }
+        } 
+        return DEFAULT_SETTINGS;
+        
     }
 
     public updatePatternMessage(message: any, currentLang?: string): string {

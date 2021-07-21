@@ -9,7 +9,7 @@ import { ButtonSpinnerDirective } from '@xm-ngx/components/button-spinner/button
         <button [mat-button] [loading]="true"></button>
         <button [mat-button] [loading]="false"></button>
         <button [mat-button] [loading]="false" [disabled]="false"></button>
-    `
+    `,
 })
 class MockTestComponent {
 }

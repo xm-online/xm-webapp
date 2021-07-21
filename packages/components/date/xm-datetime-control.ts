@@ -30,7 +30,7 @@ const MY_CUSTOM_FORMATS = {
     timePickerInput: 'LT',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY'
+    monthYearA11yLabel: 'MMMM YYYY',
 };
 
 type XmDateTimeControlValue = moment.Moment | string;
@@ -75,8 +75,8 @@ export class XmDatetimeControl extends NgFormAccessor<XmDateTimeControlValue> im
             takeUntilOnDestroy(this),
             filter(value => !!value),
             map(value => moment.isMoment(value) ? value : moment(value)),
-            filter(value => value.seconds() !== 0 && this.options.ignoreSeconds)
-        ).subscribe((value: moment.Moment) => this.control.patchValue(value.seconds(0)))
+            filter(value => value.seconds() !== 0 && this.options.ignoreSeconds),
+        ).subscribe((value: moment.Moment) => this.control.patchValue(value.seconds(0)));
     }
 
 
@@ -101,7 +101,7 @@ export class XmDatetimeControl extends NgFormAccessor<XmDateTimeControlValue> im
     ],
     providers: [
         {provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},
-        {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS}
+        {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS},
     ],
     exports: [XmDatetimeControl],
     declarations: [XmDatetimeControl],

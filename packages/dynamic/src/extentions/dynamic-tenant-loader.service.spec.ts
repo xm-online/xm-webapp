@@ -16,7 +16,7 @@ describe('DynamicTenantLoaderService', () => {
                 { provide: ModuleLoader, useValue: null },
                 { provide: TenantModuleLoaderService, useValue: null },
                 { provide: NgModuleRef, useValue: null },
-                DynamicTenantLoaderService
+                DynamicTenantLoaderService,
             ],
         });
         service = TestBed.inject<DynamicTenantLoaderService>(DynamicTenantLoaderService);

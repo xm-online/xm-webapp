@@ -7,9 +7,9 @@ export class ParseByPathService {
         const pathArr = path.split('.');
         if (pathArr.length > 1) {
             return this.parse(obj[pathArr.shift()], pathArr.join('.'));
-        } else {
-            return path ? (obj.hasOwnProperty(path) ? obj[path] : null) : obj;
-        }
+        } 
+        return path ? (obj.hasOwnProperty(path) ? obj[path] : null) : obj;
+        
     }
 
 }

@@ -29,7 +29,7 @@ export class ExportEntityFlatNode {
 }
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ExportEntitiesService {
 
@@ -79,31 +79,31 @@ export class ExportEntitiesService {
         Object.keys(spec).forEach((key: string) => {
             switch (key) {
                 case 'calendars': {
-                    treeData = {...treeData, calendars: this.getCalendars(spec[key])}
+                    treeData = {...treeData, calendars: this.getCalendars(spec[key])};
                     break;
                 }
                 case 'comments': {
-                    treeData = {...treeData, comments: null}
+                    treeData = {...treeData, comments: null};
                     break;
                 }
                 case 'attachments': {
-                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key])}
+                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key])};
                     break;
                 }
                 case 'links': {
-                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key])}
+                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key])};
                     break;
                 }
                 case 'locations': {
-                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key])}
+                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key])};
                     break;
                 }
                 case 'ratings': {
-                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key])}
+                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key])};
                     break;
                 }
                 case 'tags': {
-                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key])}
+                    treeData = {...treeData, [key]: this.getByValuesKey(spec[key])};
                     break;
                 }
                 default: {
@@ -131,7 +131,7 @@ export class ExportEntitiesService {
                 calendars: [],
                 comments: false,
                 typeKey: spec.key,
-            }
+            };
 
             const exportParams = [];
             const calendarEvents = [];
@@ -204,9 +204,9 @@ export class ExportEntitiesService {
     }
 
     private getByValuesKey(values: unknown[], prop: string = 'key'): unknown {
-        const obj = {}
+        const obj = {};
         values.map(s => {
-            Object.assign(obj, {[s[prop]]: null})
+            Object.assign(obj, {[s[prop]]: null});
         });
         return obj;
     }
@@ -214,8 +214,8 @@ export class ExportEntitiesService {
     private getCalendars(calendars: ExportConfig[]): unknown {
         const calendarsNode = {};
         calendars.forEach((c) => {
-            Object.assign(calendarsNode, {[c.key]: this.getCalendarsEvents(c)})
-        })
+            Object.assign(calendarsNode, {[c.key]: this.getCalendarsEvents(c)});
+        });
         return calendarsNode;
     }
 
@@ -226,8 +226,8 @@ export class ExportEntitiesService {
                 Object.assign(calendarEventsNode, {[e.key]: null});
             });
             return calendarEventsNode;
-        } else {
-            return null;
-        }
+        } 
+        return null;
+        
     }
 }

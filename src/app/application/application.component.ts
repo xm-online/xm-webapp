@@ -151,7 +151,7 @@ export class ApplicationComponent implements OnInit, OnDestroy {
                 page: this.page,
                 size: this.itemsPerPage,
                 search: this.searchQuery,
-                sort: `${this.predicate  },${  this.reverse ? 'asc' : 'desc'}`,
+                sort: `${this.predicate },${ this.reverse ? 'asc' : 'desc'}`,
             },
         }).then(() => this.load());
     }
@@ -162,7 +162,7 @@ export class ApplicationComponent implements OnInit, OnDestroy {
         this.router.navigate(['/application', this.typeKey], {
             queryParams: {
                 page: this.page,
-                sort: `${this.predicate  },${  this.reverse ? 'asc' : 'desc'}`,
+                sort: `${this.predicate },${ this.reverse ? 'asc' : 'desc'}`,
             },
         }).then(() => this.load());
     }
@@ -218,13 +218,13 @@ export class ApplicationComponent implements OnInit, OnDestroy {
     protected getListConfig(): null | any {
         if (this.isSearch) {
             return this.getSearchPattern();
-        } else {
-            const entitiesConfig = this.uiConfig.applications && this.uiConfig.applications.config
+        } 
+        const entitiesConfig = this.uiConfig.applications && this.uiConfig.applications.config
                 && this.uiConfig.applications.config.entities;
-            if (entitiesConfig) {
-                return entitiesConfig.filter((c) => c.typeKey === this.typeKey).shift();
-            }
+        if (entitiesConfig) {
+            return entitiesConfig.filter((c) => c.typeKey === this.typeKey).shift();
         }
+        
         return null;
     }
 
@@ -261,8 +261,8 @@ export class ApplicationComponent implements OnInit, OnDestroy {
                 map((dash) => dash && dash.config),
                 map((config) => config && config.search),
             );
-        } else {
-            return of('');
-        }
+        } 
+        return of('');
+        
     }
 }
