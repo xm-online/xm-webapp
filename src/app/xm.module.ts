@@ -54,8 +54,8 @@ import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
         XmDashboardModule.forRoot(),
         MarkdownModule.forRoot(),
         XmDynamicExtensionModule.forRoot([
-// #regionstart dynamic-extension-modules
-// #regionend dynamic-extension-modules
+            // #regionstart dynamic-extension-modules
+            // #regionend dynamic-extension-modules
         ]),
         XmDynamicModule.forRoot(XM_ELEMENTS),
         LayoutModule,
