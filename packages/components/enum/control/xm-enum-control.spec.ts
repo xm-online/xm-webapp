@@ -8,7 +8,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmEnumControlComponent } from '@xm-ngx/components/enum';
 import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
-import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 
 describe('XmEnumControlComponent', () => {

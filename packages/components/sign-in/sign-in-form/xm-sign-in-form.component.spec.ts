@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SignInService } from '@xm-ngx/components/sign-in';
-import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
 
 import { XmSignInFormComponent } from './xm-sign-in-form.component';

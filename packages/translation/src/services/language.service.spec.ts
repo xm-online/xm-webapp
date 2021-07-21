@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmUserService } from '@xm-ngx/core/user';
-import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { SessionStorageService } from 'ngx-webstorage';
 import { MockUiConfigService } from '@xm-ngx/core/config/testing';
 import { MockUserService } from '@xm-ngx/core/user/testing';

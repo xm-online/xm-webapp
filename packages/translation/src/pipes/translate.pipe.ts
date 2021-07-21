@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Injectable, OnDestroy, Optional, Pipe, PipeTransform } from '@angular/core';
 import { TranslatePipe as NgxTranslate, TranslateService } from '@ngx-translate/core';
 
-import { ITranslate, LanguageService, Translate } from './language.service';
+import { ITranslate, LanguageService, Translate } from '../services/language.service';
 
 export interface ITrKeyTranslates {
     trKey: string;
@@ -40,9 +40,9 @@ export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDest
             return this.processMap(value, args);
         } else if (typeof value === 'string') {
             return super.transform(value, ...args);
-        } 
+        }
         return value;
-        
+
     }
 
     public ngOnDestroy(): void {
@@ -52,10 +52,10 @@ export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDest
     private processMap(map: ITranslate | ITrKeyTranslates, ...args: any[]): string | any {
         if (map.trKey) {
             return super.transform(map.trKey, ...args);
-        } 
+        }
         return map[this.languageService.locale]
                 || map[this.languageService.getDefaultLocale()]
                 || map[Object.keys(map)[0]];
-        
+
     }
 }

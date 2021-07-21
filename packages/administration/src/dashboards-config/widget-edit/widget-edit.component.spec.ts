@@ -13,7 +13,7 @@ import { MockEntityCollection } from '@xm-ngx/components/entity-collection/testi
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { WidgetEditComponent } from './widget-edit.component';
 

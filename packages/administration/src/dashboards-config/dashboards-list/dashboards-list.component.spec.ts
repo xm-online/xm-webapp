@@ -11,7 +11,7 @@ import {
 } from '@xm-ngx/administration/dashboards-config';
 import { DashboardCollection, WidgetCollection } from '@xm-ngx/administration/dashboards-config/injectors';
 import { MockEntityCollection } from '@xm-ngx/components/entity-collection/testing/mock-entity-collection';
-import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardsListComponent } from './dashboards-list.component';
 

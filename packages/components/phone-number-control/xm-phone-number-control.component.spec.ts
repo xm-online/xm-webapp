@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { XmPhoneNumberControlComponent } from './xm-phone-number-control.component';

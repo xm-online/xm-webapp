@@ -37,8 +37,8 @@ export class XmTranslateService {
         } else if (typeof text === 'string') {
             const interpolated = this.interpolate(text, interpolateParams);
             return interpolated ? this.translateService.instant(interpolated, interpolateParams) : '';
-        } 
+        }
         return null;
-        
+
     }
 }
