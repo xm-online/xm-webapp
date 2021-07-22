@@ -9,7 +9,7 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { DynamicLoader } from '../loader/dynamic-loader';
+import { DynamicLoader } from '../src/loader/dynamic-loader';
 import { XmDynamicWidget } from './xm-dynamic-widget';
 
 export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
@@ -69,9 +69,9 @@ export class XmDynamicWidgetDirective implements OnChanges {
         if (componentFactory) {
             this.createComponent(this._layout, componentFactory);
             return;
-        } 
+        }
         console.warn(`"${value.selector}" does not exist!`);
-        
+
     }
 
     private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, componentFactory: ComponentFactory<T>): void {

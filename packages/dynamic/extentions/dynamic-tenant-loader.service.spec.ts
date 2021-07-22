@@ -2,8 +2,8 @@ import { NgModuleRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { DynamicTenantLoaderService } from './dynamic-tenant-loader.service';
-import { DynamicSearcher } from '../searcher/dynamic-searcher';
-import { ModuleLoader } from '../loader/module-loader';
+import { DynamicSearcher } from '../src/searcher/dynamic-searcher';
+import { ModuleLoader } from '../src/loader/module-loader';
 import { TenantModuleLoaderService } from '@xm-ngx/dynamic';
 
 describe('DynamicTenantLoaderService', () => {

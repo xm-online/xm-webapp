@@ -1,10 +1,10 @@
 import { ComponentFactory, Injectable, Injector, NgModuleFactory, NgModuleRef, Type } from '@angular/core';
 
 import { TenantModuleLoaderService } from './tenant-module-loader.service';
-import { DynamicSearcher } from '../searcher/dynamic-searcher';
-import { ModuleLoader } from '../loader/module-loader';
-import { isComponentDef, isModuleDef } from '../loader/dynamic-loader.service';
-import { XmDynamicNgModuleFactory } from '../interfaces/xm-dynamic-entry';
+import { DynamicSearcher } from '../src/searcher/dynamic-searcher';
+import { ModuleLoader } from '../src/loader/module-loader';
+import { isComponentDef, isModuleDef } from '../src/loader/dynamic-loader.service';
+import { XmDynamicNgModuleFactory } from '../src/interfaces/xm-dynamic-entry';
 
 @Injectable({
     providedIn: 'root',
@@ -64,9 +64,9 @@ export class DynamicTenantLoaderService {
             return this.getComponentFromModuleAndResolve(moduleFactory, moduleRef.injector);
         } else if (isComponentDef(moduleFac)) {
             return moduleRef.componentFactoryResolver.resolveComponentFactory(moduleFac as Type<T>);
-        } 
+        }
         return null;
-        
+
     }
 
     public getComponentFromModuleAndResolve<T>(
