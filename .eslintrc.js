@@ -31,7 +31,7 @@ module.exports = {
                 'no-else-return': 'error',
                 semi: 'error',
                 'space-unary-ops': 'error',
-                'comma-dangle': ['error', 'always-multiline'],
+                'comma-dangle': ['warn', 'always-multiline'],
             },
         },
         {
@@ -68,7 +68,7 @@ module.exports = {
                 'no-else-return': 'error',
                 semi: 'error',
                 'space-unary-ops': 'error',
-                'comma-dangle': ['error', 'always-multiline'],
+                'comma-dangle': ['warn', 'always-multiline'],
 
                 'tsdoc/syntax': 'error',
                 '@typescript-eslint/explicit-module-boundary-types': ['error', {allowArgumentsExplicitlyTypedAsAny: true}],
