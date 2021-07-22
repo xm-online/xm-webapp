@@ -2,14 +2,12 @@
 
 // Fonts
 $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
-@import '~@xm-ngx/styles/src/material-design-icons';
+@import '~@xm-ngx/styles/src/vendor/material-design-icons';
 
 // Theme
 @import './styles/theme';
 @import './styles/theming';
-@import '~@xm-ngx/styles/components';
 
-@include xm-ngx-styles-theme($xm-theme);
 @include xm-theme($xm-theme);
 
 // Vendors
@@ -19,9 +17,8 @@ $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 @include xm-vendor-xm-override();
 
 // Components
-@import 'packages/components/components-styles';
-@import 'packages/components/components-themes';
-@import '~@xm-ngx/styles/src/_loader-dizabled-container.scss';
+@import 'packages/components/theming/styles';
+@import 'packages/components/theming/themes';
 @import 'packages/alert/alert';
 
 @import 'src/app/layouts/main/main-theme';

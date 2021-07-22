@@ -9,7 +9,7 @@ $xm-avatar-img-container-size:   34px !default;
 $xm-avatar-img-container-height: $xm-avatar-img-container-size !default;
 $xm-avatar-img-container-width:  $xm-avatar-img-container-size !default;
 
-@mixin xm-avatar-img-container($theme) {
+@mixin xm-avatar-img-container-theme($theme) {
 
   .xm-avatar-img-container {
     display:  inline-block;

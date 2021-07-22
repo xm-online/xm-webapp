@@ -1,0 +1,8 @@
+$mat-card-bordered-color: #e9ecef !default;
+
+@mixin mat-card-bordered() {
+  .mat-card:not([class*='mat-elevation-z']) {
+    border: solid 1px $mat-card-bordered-color;
+    box-shadow: none;
+  }
+}

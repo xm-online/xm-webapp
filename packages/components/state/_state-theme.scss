@@ -16,7 +16,7 @@ $xm-state-icon-color:      $xm-text-on-primary !default;
 $xm-state-icon-size:       32px !default;
 $xm-state-icon-radius:     $xm-radius-circle !default;
 
-@mixin xm-state($theme) {
+@mixin xm-state-theme($theme) {
 
   .xm-state {
     background:    $xm-state-background;

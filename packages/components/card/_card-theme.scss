@@ -1,7 +1,7 @@
 $xm-card-margin: 16px !default;
 $xm-card-margin-bottom: 48px !default;
 
-@mixin xm-card($theme) {
+@mixin xm-card-theme($theme) {
   .card:not(.mat-card) {
     margin-bottom: $xm-card-margin-bottom;
     margin-top:    $xm-card-margin;

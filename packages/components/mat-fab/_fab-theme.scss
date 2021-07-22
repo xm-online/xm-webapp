@@ -3,7 +3,7 @@
  * TODO: create and move to the xm-fab-speed-dial component
  */
 
-@mixin xm-fab($theme) {
+@mixin xm-fab-theme($theme) {
   .xm-fab *,
   .xm-fab *::before,
   .xm-fab *::after {

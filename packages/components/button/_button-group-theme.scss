@@ -3,7 +3,7 @@
  * TODO: create and move to the xm-button-group component
  */
 
-@mixin xm-button-group($theme) {
+@mixin xm-button-group-theme($theme) {
   .xm-button-group {
     font-size: 0;
 

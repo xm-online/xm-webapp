@@ -3,7 +3,7 @@
  * TODO: refactor, add vars, move to component
  */
 
-@mixin xm-word($theme) {
+@mixin xm-word-list-theme($theme) {
 
   .word-container {
     margin-bottom: 16px;

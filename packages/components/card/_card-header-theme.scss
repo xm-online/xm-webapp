@@ -1,11 +1,11 @@
-@import './card';
+@import 'card-theme';
 
 $xm-card-header-left:        0 !default;
 $xm-card-header-icon-radius: 3px !default;
 $xm-card-header-right:       16px !default;
 $xm-card-header-padding:     16px !default;
 
-@mixin xm-card-header($theme) {
+@mixin xm-card-header-theme($theme) {
 
   .card-icon {
     display:          flex;

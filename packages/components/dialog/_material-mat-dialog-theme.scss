@@ -2,7 +2,7 @@ $xm-mat-dialog-padding:           20px !default;
 $xm-mat-dialog-close-color:       $xm-text-light !default;
 $xm-mat-dialog-close-color-hover: $xm-text !default;
 
-@mixin xm-mat-dialog($theme) {
+@mixin xm-mat-dialog-theme($theme) {
   .mat-dialog-title {
     position: relative;
     padding:  0 $xm-mat-dialog-padding 0 0;

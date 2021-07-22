@@ -1,0 +1,49 @@
+// Mixins
+@import '../scroll/scroll';
+// Themes
+@import '../sidebar-right/xm-sidebar-right-theme';
+@import '../navbar-guest-background/xm-navbar-guest-background-theme';
+@import '../loading/xm-loading-theme';
+@import '../placeholder/block-placeholder/xm-block-placeholder-theme';
+@import '../text/xm-text-theme';
+@import '../code/xm-code-theme';
+@import '../menu/menu-theme';
+@import '../sidebar-user/user-theme';
+@import '../ribbon/xm-ribbon-theme';
+@import '../multilanguage/xm-angular-editor-theme';
+@import '../navbar/search/xm-navbar-search-widget-theme';
+@import '../animate/animate-theme';
+@import '../avatar/avatar-img-container-theme';
+@import '../card/card-theme';
+@import '../card/card-entity-list-actions-theme';
+@import '../card/card-header-theme';
+@import '../mat-fab/fab-theme';
+@import '../button/button-group-theme';
+@import '../state/state-theme';
+@import '../word-list/xm-word-list-theme';
+@import '../dialog/material-mat-dialog-theme';
+
+
+@mixin xm-components-theme($theme) {
+  @include xm-angular-editor-theme($theme);
+  @include xm-sidebar-right-theme($theme);
+  @include xm-navbar-guest-background-theme($theme);
+  @include xm-loading-theme($theme);
+  @include xm-ribbon-theme($theme);
+  @include xm-user-theme($theme);
+  @include xm-menu-theme($theme);
+  @include xm-text-theme($theme);
+  @include xm-code-theme($theme);
+  @include xm-block-placeholder-theme($theme);
+  @include xm-navbar-search-widget-theme($theme);
+  @include xm-animate-theme($theme);
+  @include xm-avatar-img-container-theme($theme);
+  @include xm-card-theme($theme);
+  @include xm-entity-list-actions-theme($theme);
+  @include xm-card-header-theme($theme);
+  @include xm-fab-theme($theme);
+  @include xm-button-group-theme($theme);
+  @include xm-state-theme($theme);
+  @include xm-word-list-theme($theme);
+  @include xm-mat-dialog-theme($theme);
+}
