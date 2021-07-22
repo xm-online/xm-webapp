@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ThemeSchemeType } from './theme-scheme.state';
+import { ThemeSchemeType } from '../interfaces/theme-scheme.state';
 
 @Injectable({ providedIn: 'root' })
 /**

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-import { XmApplicationConfigService } from '../../../src/app/shared/spec';
-import { StyleManagerService } from './style-manager.service';
-import { ThemeColorService } from './theme-color.service';
-import { ThemeSchemeState, ThemeSchemeType } from './theme-scheme.state';
+import { XmApplicationConfigService } from '../../../../../src/app/shared/spec';
+import { StyleManagerService } from '../services/style-manager.service';
+import { ThemeColorService } from '../services/theme-color.service';
+import { ThemeSchemeState, ThemeSchemeType } from '../interfaces/theme-scheme.state';
 
 export type THEME_STRATEGY = 'THEME' | 'TENANT_ONLY';
 
@@ -73,10 +73,10 @@ export class XmThemeStore {
         if (options?.themeStrategy === 'TENANT_ONLY') {
             return this.styleManager.setAsync('theme', `assets/css/${theme}.css`)
                 .pipe(finalize(() => this.applicationConfigServiceBC()));
-        } 
+        }
         return this.styleManager.setAsync('theme', this.getUrl(theme))
             .pipe(finalize(() => this.applicationConfigServiceBC()));
-        
+
     }
 
     public getUrl(theme: string): string {

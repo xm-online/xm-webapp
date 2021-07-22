@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { StyleManagerService, ThemeColorService } from '@xm-ngx/core/theme';
-import { XmApplicationConfigService } from '../../../src/app/shared/spec';
+import { XmApplicationConfigService } from '../../../../../src/app/shared/spec';
 
 import { XmThemeStore } from './xm-theme-store.service';
 

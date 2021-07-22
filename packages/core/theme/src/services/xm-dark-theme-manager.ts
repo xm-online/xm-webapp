@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
 import { ThemeSchemeService } from './theme-scheme.service';
-import { THEME_STRATEGY, XmTheme, XmThemeStore } from './xm-theme-store.service';
+import { THEME_STRATEGY, XmTheme, XmThemeStore } from '../stores/xm-theme-store.service';
 import { ColorSchemeService } from './color-scheme.service';
 
 export interface DarkThemeManagerConfig {
@@ -32,9 +32,9 @@ export class XmDarkThemeManager implements OnDestroy {
         this.subscription = this.themeSchemeService.browserThemeChange$().subscribe((e) => {
             if (this.darkTheme && e === 'dark') {
                 return this.themeStore.set(this.darkTheme.theme, this.darkTheme);
-            } 
+            }
             return this.themeStore.set(this.lightTheme.theme, this.lightTheme);
-            
+
         });
     }
 
