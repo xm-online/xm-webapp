@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { XmAlertConfigService } from './xm-alert-config.service';
 

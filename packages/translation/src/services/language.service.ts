@@ -10,8 +10,8 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { getBrowserLocale } from './getBrowserLocale';
-import { LANGUAGES } from './language.constants';
+import { getBrowserLocale } from '../operators/getBrowserLocale';
+import { LANGUAGES } from '../language.constants';
 
 /**
  * Translates as json

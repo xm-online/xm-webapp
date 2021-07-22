@@ -13,7 +13,7 @@ import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/auth';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardEditComponent } from './dashboard-edit.component';
 

@@ -1,9 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AccountService, Principal } from '@xm-ngx/core/auth';
-import { LanguageService, TitleService, XmTranslationTestingModule } from '@xm-ngx/translation';
+import { LanguageService, TitleService } from '@xm-ngx/translation';
+import { MockLanguageService, XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MockPrincipalService } from '../../../../src/app/shared/auth/testing/mock-principal.service';
-import { MockLanguageService } from '../../../translation/src/testing/xm-translation-testing.module';
 
 import { XmUserSettingsWidgetComponent } from './xm-user-settings-widget.component';
 

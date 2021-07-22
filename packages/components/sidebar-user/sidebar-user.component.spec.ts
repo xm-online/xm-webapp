@@ -9,7 +9,7 @@ import { MockDashboardStore } from '@xm-ngx/dashboard/testing';
 import { MockUserService } from '@xm-ngx/core/user/testing';
 
 import { SidebarUserComponent } from './sidebar-user.component';
-import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 describe('SidebarUserComponent', () => {
     let component: SidebarUserComponent;

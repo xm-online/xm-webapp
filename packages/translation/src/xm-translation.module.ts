@@ -5,13 +5,13 @@ import { Title } from '@angular/platform-browser';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { JhiLanguageService } from 'ng-jhipster';
 
-import { XmJhiLanguageService } from './jhiLanguage.service';
-import { JhiLanguageHelper } from './language.helper';
-import { LanguageService } from './language.service';
+import { XmJhiLanguageService } from './services/jhiLanguage.service';
+import { JhiLanguageHelper } from './services/language.helper';
+import { LanguageService } from './services/language.service';
 import './locales';
-import { ModulesLanguageHelper } from './modules-language.helper';
-import { TranslateDirective } from './translate.directive';
-import { TranslatePipe } from './translate.pipe';
+import { ModulesLanguageHelper } from './services/modules-language.helper';
+import { TranslateDirective } from './directives/translate.directive';
+import { TranslatePipe } from './pipes/translate.pipe';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './i18n/', '.json');

@@ -47,6 +47,7 @@
       "@xm-ngx/shared/interfaces": ["packages/shared/interfaces"],
       "@xm-ngx/shared/operators": ["packages/shared/operators"],
       "@xm-ngx/translation": ["packages/translation"],
+      "@xm-ngx/translation/testing": ["packages/translation/testing"],
       "@xm-ngx/entity": ["src/app/xm-entity/shared"],
       "@xm-ngx/account/*": ["packages/account/src/*"],
       "@xm-ngx/entity/*": ["src/app/xm-entity/*"],

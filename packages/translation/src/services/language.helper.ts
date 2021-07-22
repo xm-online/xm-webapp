@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { LanguageService } from './language.service';
 import { TitleService } from './title.service';
-import { LANGUAGES } from './language.constants';
+import { LANGUAGES } from '../language.constants';
 
 @Injectable({providedIn: 'root'})
 export class JhiLanguageHelper {
