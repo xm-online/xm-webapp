@@ -34,10 +34,12 @@ export class ExtThemesCommand implements Command {
                 outFile: outFile,
                 outputStyle: 'compressed',
             }, (err, res) => {
+                if (err) {
+                    throw err;
+                }
                 fs.writeFileSync(outFile, res.css);
                 console.info(`Building: ${outFile}`);
             });
-
 
         }
     }

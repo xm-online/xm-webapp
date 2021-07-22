@@ -1,10 +1,11 @@
 @import 'bootstrap-theme';
 
+// Layout & components
 @import '~bootstrap/scss/root';
 @import '~bootstrap/scss/reboot';
 @import '~bootstrap/scss/type';
 @import '~bootstrap/scss/images';
-@import '~bootstrap/scss/code';
+@import '~bootstrap/scss/containers';
 @import '~bootstrap/scss/grid';
 @import '~bootstrap/scss/tables';
 @import '~bootstrap/scss/forms';
@@ -12,18 +13,15 @@
 @import '~bootstrap/scss/transitions';
 @import '~bootstrap/scss/dropdown';
 @import '~bootstrap/scss/button-group';
-@import '~bootstrap/scss/input-group';
-@import '~bootstrap/scss/custom-forms';
 @import '~bootstrap/scss/nav';
 @import '~bootstrap/scss/navbar';
 @import '~bootstrap/scss/card';
+@import '~bootstrap/scss/accordion';
 @import '~bootstrap/scss/breadcrumb';
 @import '~bootstrap/scss/pagination';
 @import '~bootstrap/scss/badge';
-@import '~bootstrap/scss/jumbotron';
 @import '~bootstrap/scss/alert';
 @import '~bootstrap/scss/progress';
-@import '~bootstrap/scss/media';
 @import '~bootstrap/scss/list-group';
 @import '~bootstrap/scss/close';
 @import '~bootstrap/scss/toasts';
@@ -32,8 +30,11 @@
 @import '~bootstrap/scss/popover';
 @import '~bootstrap/scss/carousel';
 @import '~bootstrap/scss/spinners';
-@import '~bootstrap/scss/utilities';
-@import '~bootstrap/scss/print';
+@import '~bootstrap/scss/offcanvas';
+// Helpers
+@import '~bootstrap/scss/helpers';
+// Utilities
+@import '~bootstrap/scss/utilities/api';
 
 /**
  * Table
@@ -59,11 +60,11 @@
     margin: $spacer 0;
 
     > .btn:first-child {
-      @include border-left-radius($badge-pill-border-radius);
+      @include border-start-radius($border-radius-pill);
     }
 
     > .btn:last-child {
-      @include border-right-radius($badge-pill-border-radius);
+      @include border-end-radius($border-radius-pill);
     }
 
   }
