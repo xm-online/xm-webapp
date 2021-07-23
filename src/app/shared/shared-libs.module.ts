@@ -10,7 +10,6 @@ import { JhiConfigService, NgJhipsterModule } from 'ng-jhipster';
 import { XmMaintenanceViewModule } from '@xm-ngx/components/maintenance';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { PerPageModule } from '@xm-ngx/components/per-page';
-import { AceEditorModule } from '@xm-ngx/components/ace-editor';
 import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
 import { WordAutocompleteModule } from './directives/word-autocomplete.directive';
 import { LanguageModule } from './language/language.module';
@@ -18,7 +17,6 @@ import { LanguageModule } from './language/language.module';
 @NgModule({
     imports: [
         LoaderModule,
-        AceEditorModule,
         WordAutocompleteModule,
         PerPageModule,
         XmInputPatternModule,
@@ -41,7 +39,6 @@ import { LanguageModule } from './language/language.module';
         },
     ],
     exports: [
-        AceEditorModule,
         WordAutocompleteModule,
         LoaderModule,
         PerPageModule,
