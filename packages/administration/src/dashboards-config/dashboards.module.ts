@@ -18,6 +18,8 @@ import { DashboardsListComponent } from './dashboards-list/dashboards-list.compo
 import { DashboardCollection, DashboardConfig, WidgetCollection } from './injectors';
 import { SelectorTextControlComponent } from './widget-edit/selector-text-control/selector-text-control.component';
 import { EDIT_WIDGET_EVENT, WidgetEditComponent } from './widget-edit/widget-edit.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { XmExpansionIndicatorModule } from '@xm-ngx/components/expansion-indicator';
 
 @NgModule({
     imports: [
@@ -30,6 +32,8 @@ import { EDIT_WIDGET_EVENT, WidgetEditComponent } from './widget-edit/widget-edi
         XmTextControlModule,
         RouterModule,
         XmDocExamplesModule,
+        DragDropModule,
+        XmExpansionIndicatorModule,
     ],
     exports: [
         DashboardsConfigComponent,
