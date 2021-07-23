@@ -89,10 +89,10 @@ export class ConditionDashboardDialogComponent implements OnInit, OnDestroy {
             this.dashboards = dashboards;
             this.dataSource = dashboards;
             if (this.condition) {
-                const alreadySelected = dashboards.filter(dashboard => this.condition.includes(dashboard.typeKey));
+                const selectedDashboards = this.condition.split('\'').filter(el => !el.includes(' '));
+                const alreadySelected = dashboards.filter(dashboard => selectedDashboards.includes(dashboard.typeKey));
                 this.selection.select(...alreadySelected);
             }
-
         });
     }
 
@@ -121,7 +121,7 @@ export class ConditionDashboardDialogComponent implements OnInit, OnDestroy {
     }
 
     private static transformToSPELL(selectedData: Dashboard[]): string {
-        const typeKeys = selectedData.map(dashboard => dashboard.typeKey);
+        const typeKeys = [...new Set(selectedData.map(dashboard => dashboard.typeKey))];
         return typeKeys.map(key => `#returnObject.typeKey == '${key}'`).join(' || ');
     }
 }
