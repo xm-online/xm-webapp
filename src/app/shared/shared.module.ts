@@ -65,8 +65,6 @@ import { GateSharedLibsModule } from './shared-libs.module';
 import { XmConfigService } from './spec/config.service';
 import { UserService } from './user/user.service';
 
-const PIPES = [XmEntityIconPipe];
-
 @NgModule({
     imports: [
         XmJsonSchemaFormModule,
@@ -82,17 +80,9 @@ const PIPES = [XmEntityIconPipe];
         ModalCloseModule,
     ],
     declarations: [
+        // Components
         LoginComponent,
         RegisterComponent,
-        HasAnyAuthorityDirective,
-        SafeNamePipe,
-        XmCondition,
-        XmEntityStateSpecPipe,
-        XmDateTimePipe,
-        FocusDirective,
-        InputPreventPasteDirective,
-        DigitOnlyDirective,
-        XmGMapApiInitDirective,
         PasswordStrengthBarComponent,
         XmConfirmDialogComponent,
         CurrentLocationComponent,
@@ -114,9 +104,23 @@ const PIPES = [XmEntityIconPipe];
         FileUploadComponent,
         PrivacyAndTermsDialogComponent,
         IdpComponent,
-        PIPES,
+        // Directives
+        HasAnyAuthorityDirective,
+        XmCondition,
+        FocusDirective,
+        InputPreventPasteDirective,
+        DigitOnlyDirective,
+        XmGMapApiInitDirective,
+        // Pipes
+        XmDateTimePipe,
+        XmEntityStateSpecPipe,
+        SafeNamePipe,
+        XmEntityIconPipe,
     ],
     providers: [
+        // Components
+        PasswordStrengthBarComponent,
+        // Services
         ContextService,
         LoginService,
         RegisterService,
@@ -130,31 +134,22 @@ const PIPES = [XmEntityIconPipe];
         ExtSelectService,
         ExtAutocompleteService,
         UserLoginService,
-        DatePipe,
-        SafeNamePipe,
-        XmCondition,
-        XmDateTimePipe,
-        RoleService,
         PrivilegeService,
         ParseByPathService,
-        PasswordStrengthBarComponent,
+        RoleService,
         XmConfigService,
-        PIPES,
+        // Directives
+        XmCondition,
+        // Pipes
+        SafeNamePipe,
+        XmDateTimePipe,
+        DatePipe,
+        XmEntityIconPipe,
     ],
     exports: [
-        GateSharedLibsModule,
+        // Components
         LoginComponent,
         RegisterComponent,
-        HasAnyAuthorityDirective,
-        DatePipe,
-        SafeNamePipe,
-        XmCondition,
-        XmEntityStateSpecPipe,
-        XmDateTimePipe,
-        FocusDirective,
-        InputPreventPasteDirective,
-        DigitOnlyDirective,
-        XmGMapApiInitDirective,
         PasswordStrengthBarComponent,
         XmConfirmDialogComponent,
         CurrentLocationComponent,
@@ -168,20 +163,33 @@ const PIPES = [XmEntityIconPipe];
         LinkFieldComponent,
         ExtMdEditorComponent,
         MultilingualInputComponent,
-        MatModule,
         DatetimeUtcComponent,
         DatetimePickerComponent,
         DatePickerComponent,
         EmailMatcherComponent,
         TextSectionComponent,
         FileUploadComponent,
-        GooglePlaceModule,
         IdpComponent,
-        PIPES,
+        // Directives
+        HasAnyAuthorityDirective,
+        XmCondition,
+        FocusDirective,
+        InputPreventPasteDirective,
+        DigitOnlyDirective,
+        XmGMapApiInitDirective,
+        // Pipes
+        SafeNamePipe,
+        XmEntityStateSpecPipe,
+        XmDateTimePipe,
+        DatePipe,
+        XmEntityIconPipe,
+        // Modules
+        GateSharedLibsModule,
+        MatModule,
+        GooglePlaceModule,
         XmUserLoginWidgetModule,
         XmJsonSchemaFormModule,
     ],
-
 })
 export class XmSharedModule {
 }
