@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Role, RoleMatrix } from './role.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class RoleService {
     private resourceUrl: string = 'uaa/api/roles';
 

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
@@ -18,6 +18,7 @@ import {
     CSRFService,
     HasAnyAuthorityDirective,
     LoginService,
+    Principal,
     StateStorageService,
 } from './auth';
 import { ClientService } from './client/client.service';
@@ -121,23 +122,8 @@ import { UserService } from './user/user.service';
         // Components
         PasswordStrengthBarComponent,
         // Services
-        ContextService,
-        LoginService,
-        RegisterService,
-        AccountService,
-        StateStorageService,
-        CSRFService,
-        AuthServerProvider,
-        AuthService,
-        UserService,
-        ClientService,
         ExtSelectService,
         ExtAutocompleteService,
-        UserLoginService,
-        PrivilegeService,
-        ParseByPathService,
-        RoleService,
-        XmConfigService,
         // Directives
         XmCondition,
         // Pipes
@@ -192,4 +178,27 @@ import { UserService } from './user/user.service';
     ],
 })
 export class XmSharedModule {
+    public static forRoot(): ModuleWithProviders<XmSharedModule> {
+        return {
+            ngModule: XmSharedModule,
+            providers: [
+                ContextService,
+                LoginService,
+                RegisterService,
+                AccountService,
+                StateStorageService,
+                CSRFService,
+                AuthServerProvider,
+                AuthService,
+                UserService,
+                ClientService,
+                Principal,
+                UserLoginService,
+                PrivilegeService,
+                ParseByPathService,
+                RoleService,
+                XmConfigService,
+            ],
+        };
+    }
 }

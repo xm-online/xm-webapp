@@ -18,7 +18,7 @@ import { SUPER_ADMIN } from './auth.constants';
 const CACHE_SIZE = 1;
 
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class Principal implements OnDestroy, OnInitialize {
     private userIdentity: any;
     private authenticated: boolean = false;
@@ -91,10 +91,10 @@ export class Principal implements OnDestroy, OnInitialize {
             return false;
         } else if (privilegesOperation === 'AND') {
             return privileges.filter((el) => this.userIdentity.privileges.indexOf(el) === -1);
-        } 
+        }
         this.alertService.warning('error.privilegeOperationWrong', { name: privilegesOperation });
         return false;
-        
+
     }
 
     public hasPrivileges(privileges: string[] = [], privilegesOperation: string = 'OR'): Promise<any> {
@@ -112,7 +112,7 @@ export class Principal implements OnDestroy, OnInitialize {
     public identity(force: boolean = false, mockUser: boolean = false): Promise<any> {
         if (!force && this.promise) {
             return this.promise;
-        } 
+        }
         return this.promise = new Promise((resolve, reject) => {
             if (force === true) {
                 this.userService.forceReload();
@@ -187,7 +187,7 @@ export class Principal implements OnDestroy, OnInitialize {
                     }
                 });
         });
-        
+
     }
 
     /**
@@ -237,9 +237,9 @@ export class Principal implements OnDestroy, OnInitialize {
         }
         if (this.userIdentity.firstName || this.userIdentity.lastName) {
             return [this.userIdentity.firstName, this.userIdentity.lastName].join(' ');
-        } 
+        }
         return this.userIdentity.logins[0].login;
-        
+
     }
 
     public getDetailName(): string[] {

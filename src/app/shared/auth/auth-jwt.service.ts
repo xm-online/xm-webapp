@@ -38,7 +38,7 @@ export interface AuthTokenResponse extends GuestTokenResponse {
     expires_in?: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class AuthServerProvider {
 
     constructor(
@@ -137,9 +137,9 @@ export class AuthServerProvider {
             }
 
             return Promise.resolve(jwt);
-        } 
+        }
         return Promise.reject('auth-jwt-service Promise reject'); // Put appropriate error message here
-        
+
     }
 
     public storeAuthenticationToken(jwt: string, rememberMe: boolean): void {

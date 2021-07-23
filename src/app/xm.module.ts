@@ -31,6 +31,7 @@ import { XmRoutingModule } from './xm-routing.module';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from './xm.constants';
 import { XM_ELEMENTS } from '../registries/xm.registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
+import { XmSharedModule } from './shared/shared.module';
 
 @NgModule({
     imports: [
@@ -58,6 +59,7 @@ import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
             // #regionend dynamic-extension-modules
         ]),
         XmDynamicModule.forRoot(XM_ELEMENTS),
+        XmSharedModule.forRoot(),
         LayoutModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],

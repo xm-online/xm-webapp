@@ -9,7 +9,7 @@ import { XmEntity } from '../../xm-entity/shared/xm-entity.model';
 import { SERVER_API_URL } from '../../xm.constants';
 import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL } from './auth.constants';
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class AccountService {
 
     private resourceProfileUrl: string = SERVER_API_URL + 'entity/api/profile';

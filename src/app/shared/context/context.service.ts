@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class ContextService {
 
     private data: any = {};
