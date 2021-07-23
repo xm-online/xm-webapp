@@ -1,0 +1,11 @@
+@import 'theme';
+
+.xm-expansion-indicator-icon {
+  & {
+    display: block;
+  }
+
+  &::after {
+    @include xm-mat-expansion-indicator();
+  }
+}

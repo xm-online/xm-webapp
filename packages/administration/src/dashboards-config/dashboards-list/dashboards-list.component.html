@@ -2,15 +2,24 @@
   <h4>{{ TRS.dashboards | translate }}</h4>
 
   <div>
+    <button (click)="onUpdateIndexes()"
+            *ngIf="isUpdateIndexRequired"
+            [disabled]="loading$ | async"
+            color="primary"
+            mat-button>
+      {{ 'Update indexes' | translate }}
+    </button>
+
+
     <button (click)="fileInput.click()"
-            [disabled]="dashboardsImportService.loading$ | async"
+            [disabled]="loading$ | async"
             mat-button>
       <input #fileInput (change)="onImport($event.target.files)" accept=".json" hidden type="file">
       <mat-icon>vertical_align_top</mat-icon>
       {{ TRS.import | translate }}</button>
 
     <button (click)="onExport()"
-            [disabled]="dashboardsExportService.loading$ | async"
+            [disabled]="loading$ | async"
             mat-button>
       <mat-icon>vertical_align_bottom</mat-icon>
       {{ TRS.export | translate }}</button>
@@ -20,67 +29,67 @@
 
 <xm-text-control (valueChange)="onFilter($event)" [options]="{title: TRS.filter }"></xm-text-control>
 
-<!-- TODO: loader -->
-<!--<xm-loading [value]="loading$"></xm-loading>-->
-<!--<xm-loader [showLoader]="loading$ | async"></xm-loader>-->
 <div class="table-container mb-3">
-  <table
-    [dataSource]="dashboardList"
-    class="w-100"
-    mat-table
+  <table (cdkDropListDropped)="dropRow($event)"
+         [cdkDropListData]="dashboardList"
+         [cdkDropListDisabled]="loading$ | async"
+         [dataSource]="dashboardList"
+         cdkDropList
+         class="w-100"
+         mat-table
+         multiTemplateDataRows>
 
-    matSort
-    matSortActive="defaultDashboardOrder"
-    matSortDirection="asc"
-    matSortDisableClear
-    multiTemplateDataRows>
-
-    <!--  name -->
-    <ng-container matColumnDef="{{columns[0]}}">
-      <th *matHeaderCellDef scope="col" disableClear mat-header-cell mat-sort-header> {{columns[0] | translate}} </th>
-      <td *matCellDef="let element" mat-cell> {{ element[columns[0]] }} </td>
+    <!-- orderIndex -->
+    <ng-container matColumnDef="orderIndex">
+      <th *matHeaderCellDef mat-header-cell scope="col"> {{'#' | translate}} </th>
+      <td *matCellDef="let element" mat-cell>
+        <div [cdkDragData]="element"
+             cdkDrag>
+          <mat-icon class="align-middle">reorder</mat-icon>
+          <span class="px-2"> {{ element.config.orderIndex }} </span>
+        </div>
+      </td>
     </ng-container>
 
-    <!--  slug -->
-    <ng-container matColumnDef="{{columns[1]}}">
-      <th *matHeaderCellDef scope="col" disableClear mat-header-cell mat-sort-header> {{columns[1] | translate}} </th>
+    <!--  name -->
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef mat-header-cell scope="col"> {{'name' | translate}} </th>
       <td *matCellDef="let element" mat-cell>
-        {{ element?.config?.slug }}
-        <mat-icon *ngIf="element?.config?.slug"
-                  class="cursor-pointer"
-                  color="primary"
-                  [routerLink]="['/dashboard', element?.config?.slug]">link</mat-icon>
+        <div>{{ element.name }}</div>
+        <div>
+          <a [routerLink]="['/dashboard', element?.config?.slug]"> {{ element?.config?.slug }} </a>
+        </div>
       </td>
     </ng-container>
 
     <!--  config -->
-    <ng-container matColumnDef="{{columns[2]}}">
-      <th *matHeaderCellDef scope="col" mat-header-cell> {{columns[2] | translate}}</th>
+    <ng-container matColumnDef="config">
+      <th *matHeaderCellDef mat-header-cell scope="col"> {{'config' | translate}}</th>
       <td *matCellDef="let element" mat-cell>
-        <bool-value [value]="!!element[columns[2]]"></bool-value>
+        <bool-value [value]="!!element.config"></bool-value>
       </td>
     </ng-container>
 
     <!--  layout -->
-    <ng-container matColumnDef="{{columns[3]}}">
-      <th *matHeaderCellDef scope="col" mat-header-cell> {{columns[3] | translate}}</th>
+    <ng-container matColumnDef="layout">
+      <th *matHeaderCellDef mat-header-cell scope="col"> {{'layout' | translate}}</th>
       <td *matCellDef="let element" mat-cell>
-        <bool-value [value]="!!element[columns[3]]"></bool-value>
+        <bool-value [value]="!!element.layout"></bool-value>
       </td>
     </ng-container>
 
     <!--  hidden -->
-    <ng-container matColumnDef="{{columns[4]}}">
-      <th *matHeaderCellDef scope="col" mat-header-cell> {{columns[4] | translate}}</th>
+    <ng-container matColumnDef="hidden">
+      <th *matHeaderCellDef mat-header-cell scope="col"> {{'hidden' | translate}}</th>
       <td *matCellDef="let element" mat-cell>
-        <bool-value [value]="!!fromMap(element, columns[4])"></bool-value>
+        <bool-value [value]="!!fromMap(element, 'hidden')"></bool-value>
       </td>
     </ng-container>
 
     <!-- Actions column -->
     <ng-container [matColumnDef]="ACTIONS_COLUMN">
 
-      <th *matHeaderCellDef scope="col" class="text-right" mat-header-cell>
+      <th *matHeaderCellDef class="text-right" mat-header-cell scope="col">
         <button (click)="onAdd()"
                 [matTooltip]="TRS.createDashboard | translate"
                 color="primary"
@@ -95,10 +104,8 @@
           <mat-icon>edit</mat-icon>
         </button>
 
-        <span (click)="toggleExpand()"
-              [@indicatorRotate]="expandedElement?.id === row.id && expanded ? 'expanded' : 'collapsed'"
-              class="cursor-pointer mat-expansion-indicator d-inline-block"></span>
-
+        <xm-expansion-indicator (valueChange)="onEdit(row); expanded = $event"
+                                [value]="expandedElement?.id === row.id && expanded"></xm-expansion-indicator>
       </td>
 
     </ng-container>
@@ -119,8 +126,7 @@
 
     <tr *matHeaderRowDef="columns; sticky: true" mat-header-row></tr>
 
-    <tr (click)="this.onEdit(element)"
-        *matRowDef="let element; columns: columns;"
+    <tr *matRowDef="let element; columns: columns;"
         [class.example-expanded-row]="expandedElement?.id === element.id"
         [ngClass]="{ 'list-item-active': managerService.activeDashboard?.id === element.id}"
         class="example-element-row"

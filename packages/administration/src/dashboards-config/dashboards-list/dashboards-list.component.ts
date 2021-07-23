@@ -1,14 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { matExpansionAnimations } from '@angular/material/expansion';
-import { MatSort } from '@angular/material/sort';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { expand } from '@xm-ngx/components/animations';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard } from '@xm-ngx/dashboard';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { debounceTime, finalize, map } from 'rxjs/operators';
 import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES, EDIT_DASHBOARD_EVENT } from '../const';
 import { DashboardEditComponent } from '../dashboard-edit/dashboard-edit.component';
 import { DashboardEditorService } from '../dashboard-editor.service';
@@ -16,11 +14,12 @@ import { DashboardsManagerService } from '../dashboards-manager.service';
 import { DashboardCollection } from '../injectors';
 import { DashboardsExportService } from './dashboards-export.service';
 import { DashboardsImportService } from './dashboards-import.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 const EXPORT_FILENAME = 'dashboards';
 const DISPLAYED_COLUMNS = [
+    'orderIndex',
     'name',
-    'slug',
     'config',
     'layout',
     'hidden',
@@ -36,7 +35,6 @@ const columnMap = {
     styleUrls: ['./dashboards-list.component.scss'],
     animations: [
         expand,
-        matExpansionAnimations.indicatorRotate,
     ],
     providers: [DashboardEditorService, DashboardsExportService, DashboardsImportService, DashboardsManagerService],
 })
@@ -52,23 +50,36 @@ export class DashboardsListComponent implements OnInit {
     public expandedElement: Dashboard;
     public expanded: boolean = true;
 
-    @ViewChild(MatSort, {static: true}) protected sort: MatSort;
+    public isUpdateIndexRequired = false;
 
     constructor(
         protected dashboardService: DashboardCollection,
         protected activatedRoute: ActivatedRoute,
-        protected readonly eventManager: XmEventManager,
-        public readonly dashboardsExportService: DashboardsExportService,
-        public readonly dashboardsImportService: DashboardsImportService,
-        public editorService: DashboardEditorService,
+        protected eventManager: XmEventManager,
+        protected dashboardsExportService: DashboardsExportService,
+        protected dashboardsImportService: DashboardsImportService,
+        protected editorService: DashboardEditorService,
         public managerService: DashboardsManagerService,
     ) {
     }
 
+    public onUpdateIndexes(): void {
+        this.dashboardList.data.forEach(dashboard => {
+            this.dashboardService.update(dashboard).subscribe();
+        });
+        this.isUpdateIndexRequired = false;
+    }
+
     public ngOnInit(): void {
-        this.loading$ = this.dashboardService.loading$;
+        this.loading$ = combineLatest([
+            this.dashboardService.loading$,
+            this.dashboardsImportService.loading$,
+        ]).pipe(
+            map(([a, b]) => a || b),
+            debounceTime(700),
+        );
+
         this.dashboardList = new MatTableDataSource([]);
-        this.dashboardList.sort = this.sort;
 
         this.eventManager.listenTo(EDIT_DASHBOARD_EVENT).subscribe((e) => {
             if (e.delete || e.add || e.edit) {
@@ -85,8 +96,8 @@ export class DashboardsListComponent implements OnInit {
         // TODO: after receiver the data scroll to last selected row
         this.dashboardService.getAll().pipe(
             map(sortDashboards),
-        ).subscribe((i) => {
-            this.dashboardList.data = i;
+        ).subscribe((dashboards) => {
+            this.dashboardList.data = dashboards;
             this.loadToEditor();
         });
     }
@@ -123,6 +134,15 @@ export class DashboardsListComponent implements OnInit {
 
     public fromMap(source: any, key: string): any {
         return _.get(source, columnMap[key]);
+    }
+
+    public dropRow(event: CdkDragDrop<MatTableDataSource<Dashboard>, unknown>): void {
+        const currentIndex = event.currentIndex;
+        const prevIndex = this.dashboardList.data.findIndex((d) => d === event.item.data);
+        moveItemInArray(this.dashboardList.data, prevIndex, currentIndex);
+        this.dashboardList.data.forEach((dashboard, ix) => dashboard.config.orderIndex = ix + 1);
+        this.dashboardList.data = [...this.dashboardList.data];
+        this.isUpdateIndexRequired = true;
     }
 
     private loadToEditor(): void {
