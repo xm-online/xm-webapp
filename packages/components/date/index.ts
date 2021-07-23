@@ -1,7 +1,7 @@
 export {
     XmStringDateControl,
     XmStringDateControlModule,
-} from '@xm-ngx/components/date/xm-string-date-control';
+} from './xm-string-date-control';
 
 export {
     XmDateModule,

@@ -20,7 +20,7 @@ export interface XmStringDateControlOptions {
 }
 
 @Component({
-    selector: 'xm-date-string-control',
+    selector: 'xm-string-date-control',
     template: `
         <mat-form-field>
             <mat-label>{{options?.title | translate}}</mat-label>

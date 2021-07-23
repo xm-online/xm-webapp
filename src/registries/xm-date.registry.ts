@@ -32,6 +32,6 @@ export const XM_DATE_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/string-date-control',
-        loadChildren: () => import('@xm-ngx/components/date/xm-string-date-control').then(m => m.XmStringDateControlModule),
+        loadChildren: () => import('@xm-ngx/components/date').then(m => m.XmStringDateControlModule),
     },
 ];
