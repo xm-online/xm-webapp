@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { DynamicLoaderService, DynamicTenantLoaderService } from '@xm-ngx/dynamic';
+import { DynamicLoaderService, DynamicSearcher, DynamicTenantLoaderService } from '@xm-ngx/dynamic';
 
 import { DynamicMultiLoaderService } from './dynamic-multi-loader.service';
 
@@ -11,6 +11,7 @@ describe('DynamicMultiLoaderService', () => {
             providers: [
                 { provide: DynamicLoaderService, useValue: null },
                 { provide: DynamicTenantLoaderService, useValue: null },
+                { provide: DynamicSearcher, useValue: null },
             ],
         });
         service = TestBed.inject<DynamicMultiLoaderService>(DynamicMultiLoaderService);

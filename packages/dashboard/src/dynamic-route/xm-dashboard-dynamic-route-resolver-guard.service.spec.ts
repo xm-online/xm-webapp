@@ -4,6 +4,7 @@ import { MockDashboardStore } from '@xm-ngx/dashboard/testing';
 import { dashboardRoutesFactory, RouteFactory } from './xm-dashboard-dynamic-route-resolver-guard.service';
 import { Routes } from '@angular/router';
 import * as _ from 'lodash';
+import { DynamicLoader } from '@xm-ngx/dynamic';
 
 describe('XmDashboardDynamicRouteResolverGuard', () => {
     let guard: XmDashboardDynamicRouteResolverGuard;
@@ -12,7 +13,8 @@ describe('XmDashboardDynamicRouteResolverGuard', () => {
         TestBed.configureTestingModule({
             providers: [
                 XmDashboardDynamicRouteResolverGuard,
-                { provide: DashboardStore, useValue: MockDashboardStore },
+                { provide: DashboardStore, useClass: MockDashboardStore },
+                { provide: DynamicLoader, useValue: null },
             ],
         });
         guard = TestBed.inject(XmDashboardDynamicRouteResolverGuard);

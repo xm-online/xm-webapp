@@ -4,7 +4,7 @@ import { TenantModuleLoaderService } from './tenant-module-loader.service';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
 import { ModuleLoader } from '../loader/module-loader';
 import { isComponentDef, isModuleDef } from '../loader/dynamic-loader.service';
-import { XmDynamicNgModuleFactory } from '../interfaces/xm-dynamic-entry';
+import { XmDynamicEntry, XmDynamicNgModuleFactory } from '../interfaces/xm-dynamic-entry';
 
 @Injectable({
     providedIn: 'root',
@@ -31,6 +31,16 @@ export class DynamicTenantLoaderService {
         const moduleRef = await this.loadTenantModuleRef<T>(moduleSelector, injector);
         const componentSelector = selector.split('/')[1];
         return await this.getComponentFromInjector<T>(componentSelector, moduleRef);
+    }
+
+    public async getEntry<T>(
+        selector: string,
+        injector: Injector = this.moduleRef.injector,
+    ): Promise<XmDynamicEntry<T> | null> {
+        const moduleSelector = selector.split('/')[0];
+        const moduleRef = await this.loadTenantModuleRef<T>(moduleSelector, injector);
+        const componentSelector = selector.split('/')[1];
+        return await this.dynamicSearcher.getEntry<T>(componentSelector, { injector: moduleRef.injector });
     }
 
     /**
@@ -64,9 +74,9 @@ export class DynamicTenantLoaderService {
             return this.getComponentFromModuleAndResolve(moduleFactory, moduleRef.injector);
         } else if (isComponentDef(moduleFac)) {
             return moduleRef.componentFactoryResolver.resolveComponentFactory(moduleFac as Type<T>);
-        } 
+        }
         return null;
-        
+
     }
 
     public getComponentFromModuleAndResolve<T>(
