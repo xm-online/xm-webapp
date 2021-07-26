@@ -17,16 +17,6 @@ import { DashboardStore } from '../stores/dashboard-store.service';
 import { Dashboard } from '../models/dashboard.model';
 import { DashboardGuard } from '../guards/dashboard.guard';
 
-
-function getRouteBySlug(routes: Routes, slug: string): Route | null {
-    for (const route of routes) {
-        if (route.path === slug) {
-            return route;
-        }
-    }
-    return null;
-}
-
 export type RouteFactory = (dashboard: Dashboard, slug: string) => Route;
 
 export function dashboardRoutesFactory(
@@ -35,8 +25,7 @@ export function dashboardRoutesFactory(
     routeFactory: RouteFactory,
 ): Routes {
     const routes: Routes = [];
-    dashboards = _.orderBy(dashboards, 'config.slug');
-
+    dashboards = _.orderBy(dashboards, ['config.orderIndex', 'config.slug']);
     dashboards = _.filter(dashboards, dashboard => {
         if (dashboard.config?.slug === undefined || dashboard.config.slug === null) {
             console.warn(`Dashboard should have a config.slug, otherwise "id" will be used instead! id=${dashboard.id}, name=${dashboard.name}.`);
@@ -49,7 +38,7 @@ export function dashboardRoutesFactory(
         let parentRoutes = routes;
         const slugs = _.split(dashboard.config.slug, '/');
         for (const slug of slugs) {
-            const node = getRouteBySlug(parentRoutes, slug);
+            const node = _.find(parentRoutes, (r) => r.path === slug) || null;
 
             if (node === null) {
                 // check for a new child

@@ -3,6 +3,7 @@ import { Dashboard, DashboardStore, XmDashboardDynamicRouteResolverGuard } from 
 import { MockDashboardStore } from '@xm-ngx/dashboard/testing';
 import { dashboardRoutesFactory, RouteFactory } from './xm-dashboard-dynamic-route-resolver-guard.service';
 import { Routes } from '@angular/router';
+import * as _ from 'lodash';
 
 describe('XmDashboardDynamicRouteResolverGuard', () => {
     let guard: XmDashboardDynamicRouteResolverGuard;
@@ -57,6 +58,14 @@ describe('XmDashboardDynamicRouteResolverGuard', () => {
             void expect(result).toEqual(expectedResult);
         });
 
+        it('dashboard without slug should be routes with id instead', () => {
+            const dashboards: Dashboard[] = [{ id: 1, config: { slug: null } }];
+            const expectedResult: Routes = [{ path: '1', data: { dashboard: dashboards[0] } }];
+
+            const result = dashboardRoutesFactory(dashboards, containerFactory, routeFactory);
+            void expect(result).toEqual(expectedResult);
+        });
+
         it('dashboard slug "users" and "users/:id" and "users/:id/edit" should be routes with path "users" and children and "", ":id" as a parent for "/edit"', () => {
             const dashboards: Dashboard[] = [
                 { config: { slug: 'users' } },
@@ -97,6 +106,25 @@ describe('XmDashboardDynamicRouteResolverGuard', () => {
             }];
 
             const result = dashboardRoutesFactory(dashboards, containerFactory, routeFactory);
+            void expect(result).toEqual(expectedResult);
+        });
+
+        it('dashboard orderIndex "users" and "users/:id" and "users/new" should be routes with path "users" and children and "", "new", ":id"', () => {
+            const dashboards: Dashboard[] = [
+                { config: { orderIndex: 0, slug: 'users' } },
+                { config: { orderIndex: 1, slug: 'users/new' } },
+                { config: { orderIndex: 2, slug: 'users/:id' } },
+            ];
+            const expectedResult: Routes = [{
+                path: 'users', data: { dashboard: dashboards[0] },
+                children: [
+                    { path: '', data: { dashboard: dashboards[0] } },
+                    { path: 'new', data: { dashboard: dashboards[1] } },
+                    { path: ':id', data: { dashboard: dashboards[2] } },
+                ],
+            }];
+
+            const result = dashboardRoutesFactory(_.shuffle([...dashboards]), containerFactory, routeFactory);
             void expect(result).toEqual(expectedResult);
         });
 
