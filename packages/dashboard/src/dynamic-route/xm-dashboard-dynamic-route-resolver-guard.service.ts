@@ -40,6 +40,7 @@ export class XmDashboardDynamicRouteResolverGuard
                 this.routes = routes;
                 return true;
             }),
+            catchError(() => of(false)),
         );
     }
 
