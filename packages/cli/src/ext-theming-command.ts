@@ -3,6 +3,7 @@ import * as glob from 'glob';
 import * as path from 'path';
 import { Command } from './command';
 import { Config } from './config';
+import { ignoreChangedFile } from './git-utils';
 
 export class ExtThemingCommand implements Command {
 
@@ -46,6 +47,7 @@ export class ExtThemingCommand implements Command {
         }
 
         fs.writeFileSync(this.extThemingDistPath, themeFile);
+        ignoreChangedFile(this.extThemingDistPath);
     }
 
 }
