@@ -35,8 +35,7 @@ export * from './role/role.service';
 export * from './idp/idp.component';
 
 export * from './privilege/privilege.service';
-export * from './privilege/privilege.directive';
-export * from './privilege/xmPrivilege.directive';
+export { XmPermittedDirective } from './privilege/xm-permitted.directive';
 
 export * from './g-map/xmGMapApiInit.directive';
 

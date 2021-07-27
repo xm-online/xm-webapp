@@ -7,7 +7,6 @@ export {
     PermissionDirective,
     PermissionContext,
 } from '../../../../packages/core/permission';
-export * from './privilege.directive';
+export { XmPermittedDirective } from './xm-permitted.directive';
 export * from './privilege.service';
 export * from './xm-permission.module';
-export * from './xmPrivilege.directive';
