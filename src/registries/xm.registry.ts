@@ -22,6 +22,10 @@ export const XM_ELEMENTS: XmDynamicEntries = [
     ...XM_NAVBAR_ELEMENTS,
     ...XM_DASHBOARD_ELEMENTS,
     {
+        selector: '@xm-ngx/components/breadcrumb',
+        loadChildren: () => import('@xm-ngx/components/breadcrumb').then(m => m.XmBreadcrumbModule),
+    },
+    {
         selector: '@xm-ngx/components/navbar-user-widget',
         loadChildren: () => import('@xm-ngx/components/navbar-user-widget').then(m => m.NavbarUserWidgetModule),
     },
