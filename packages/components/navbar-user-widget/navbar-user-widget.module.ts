@@ -8,6 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
         MatIconModule,
         RouterModule,
         XmTranslationModule,
+        MatDividerModule,
     ],
 })
 export class NavbarUserWidgetModule {
