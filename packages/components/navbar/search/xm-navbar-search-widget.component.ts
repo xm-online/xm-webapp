@@ -24,7 +24,7 @@ interface SearchConfig {
                   class="d-flex flex-row align-items-center xm-search-global"
                   role="search">
 
-                <mat-form-field>
+                <mat-form-field class="xm-navbar-search-widget-control">
                     <input #searchBox
                            matInput
                            [regexp]="searchMask"
