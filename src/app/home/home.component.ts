@@ -8,6 +8,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 import { cloneDeep } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { XmLoggerService } from '@xm-ngx/logger';
 
 interface HomeLayout extends XmLayout {
     content?: HomeLayout[];
@@ -41,8 +42,9 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
         private xmConfigService: XmUiConfigService<HomeConfig>,
         private sessionService: XmSessionService,
         private router: Router,
+        loggerService: XmLoggerService,
     ) {
-        super();
+        super(loggerService.create({ name: 'HomeComponent' }));
     }
 
     public ngOnInit(): void {
@@ -62,9 +64,9 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
                 }
                 if (config?.defaultLayout) {
                     return this.getFromConfigDefaultLayout(config.defaultLayout);
-                } 
+                }
                 return this.getFromConfigDefaultWidget(config);
-                
+
             }),
             catchError(() => of(this.getFromConfigDefaultWidget())),
         );
