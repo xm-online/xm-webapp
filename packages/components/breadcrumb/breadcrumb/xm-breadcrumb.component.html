@@ -1,0 +1,8 @@
+<ul class="xm-breadcrumb-container">
+  <li *ngFor="let breadcrumb of (breadcrumbs$ | async); let last = last; let first = first"
+      [ngClass]="{ 'xm-breadcrumb-item-active': last }"
+      class="xm-breadcrumb-item">
+    <mat-icon *ngIf="!first" class="align-middle">chevron_right</mat-icon>
+    <a [routerLink]="breadcrumb.url" mat-button>{{ breadcrumb.label | translate }}</a>
+  </li>
+</ul>
