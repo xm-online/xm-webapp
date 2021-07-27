@@ -90,12 +90,13 @@ function applicationsToCategory(applications: XmEntitySpec[]): MenuCategory[] {
 export function dashboardToMenuItem(dashboard: Dashboard): MenuItem {
     const config = dashboard.config || {};
     const menu = config.menu || {};
-
+    const slug = config.slug || String(dashboard.id);
+    const url = ['dashboard', slug].join('/');
     return ({
         position: config.orderIndex,
         class: config.hidden ? 'd-none' : '',
         permission: config.permission || 'DASHBOARD.GET_LIST',
-        url: ['dashboard', (config.slug || String(dashboard.id))],
+        url: [url],
         title: menu.name || config.name || dashboard.name || '',
         icon: config.icon || '',
     });
