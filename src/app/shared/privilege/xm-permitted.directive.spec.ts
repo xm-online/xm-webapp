@@ -1,32 +1,19 @@
 import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Observable, Subject } from 'rxjs';
-import { Principal } from '../../shared/auth/principal.service';
+import { of } from 'rxjs';
 import { XmPermittedDirective } from './xm-permitted.directive';
+import { XmPermissionService } from '../../../../packages/core/permission';
+import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 import SpyObj = jasmine.SpyObj;
-
-
-class MockPrincipal {
-    public authenticationState: Subject<boolean> = new Subject<boolean>();
-
-    public hasPrivileges(): Promise<boolean> {
-        return Promise.resolve(true);
-    }
-
-    public getAuthenticationState(): Observable<boolean> {
-        this.authenticationState.next(true);
-        return this.authenticationState.asObservable();
-    }
-}
 
 @Component({
     template: `
         <div>
             <button class="noPermission">noPermission</button>
 
-            <button class="pOk" *permitted="['TEST_OK']">pOk</button>
-            <button class="pNok" *permitted="['TEST_NOK']">pNok</button>
+            <button class="pdOk" *permitted="['TEST_OK']">pdOk</button>
+            <button class="pdNok" *permitted="['TEST_NOK']">pdNok</button>
 
             <button class="pOk" *xmPermitted="['TEST_OK']">pOk</button>
             <button class="pNok" *xmPermitted="['TEST_NOK']">pNok</button>
@@ -45,11 +32,10 @@ class TestComponent {
 describe('XmPermittedDirective', () => {
 
     let fixture: ComponentFixture<TestComponent>;
-    let mockPrincipalService: SpyObj<MockPrincipal>;
-    let authenticationState: Subject<boolean>;
+    let mockPrincipalService: SpyObj<MockPermissionService>;
 
-    const OK_SET = new Set(['noPermission', 'pOk', 'pOkCtxOk']);
-    const NOK_SET = new Set(['pNok', 'pOkCtxNok', 'pNokCtxOk', 'pNokCtxNok']);
+    const OK_SET = new Set(['noPermission', 'pOk', 'pdOk', 'pOkCtxOk']);
+    const NOK_SET = new Set(['pNok', 'pdNok', 'pOkCtxNok', 'pNokCtxOk', 'pNokCtxNok']);
 
     const TEST_OK = 'TEST_OK';
     const TEST_NO_OK = 'TEST_NOK';
@@ -57,26 +43,26 @@ describe('XmPermittedDirective', () => {
     const pResolver = (privileges: string[] = []) => {
         if (!privileges) {
             console.info('No privileges passed');
-            return Promise.resolve(false);
+            return of(false);
         }
 
         if (privileges.length === 1 && TEST_OK === privileges[0]) {
-            return Promise.resolve(true);
+            return of(true);
         }
 
         if (privileges.length === 1 && TEST_NO_OK === privileges[0]) {
-            return Promise.resolve(false);
+            return of(false);
         }
 
-        console.info('Resolve false, no match');
-        return Promise.resolve(false);
+        throw new Error('Resolve false, no match');
     };
 
     beforeEach(waitForAsync(() => {
 
-        mockPrincipalService = jasmine.createSpyObj<MockPrincipal>(['getAuthenticationState', 'hasPrivileges']);
+        mockPrincipalService = jasmine.createSpyObj<MockPermissionService>(['hasPrivileges', 'permissions$']);
 
         mockPrincipalService.hasPrivileges.and.callFake(pResolver);
+        mockPrincipalService.permissions$.and.callFake(() => of<[]>([]));
 
         TestBed.configureTestingModule({
             declarations: [
@@ -84,18 +70,14 @@ describe('XmPermittedDirective', () => {
                 TestComponent,
             ],
             providers: [
-                { provide: Principal, useValue: mockPrincipalService },
+                { provide: XmPermissionService, useValue: mockPrincipalService },
             ],
         });
 
-        authenticationState = new Subject<boolean>();
         fixture = TestBed.createComponent(TestComponent);
     }));
 
     it('should be visible all elements from OK_SET', waitForAsync(() => {
-        authenticationState.next(true);
-        mockPrincipalService.getAuthenticationState.and.returnValue(authenticationState.asObservable());
-
         fixture.detectChanges();
 
         void fixture.whenStable().then(() => {
@@ -108,9 +90,6 @@ describe('XmPermittedDirective', () => {
     }));
 
     it('should not be visible all elements from NOK_SET', waitForAsync(() => {
-        authenticationState.next(true);
-        mockPrincipalService.getAuthenticationState.and.returnValue(authenticationState.asObservable());
-
         fixture.detectChanges();
 
         void fixture.whenStable().then(() => {

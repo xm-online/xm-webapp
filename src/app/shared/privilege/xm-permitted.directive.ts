@@ -1,6 +1,7 @@
 import { AfterContentInit, Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Principal } from '../auth/principal.service';
+import { XmPermissionService } from '../../../../packages/core/permission';
+import { take } from 'rxjs/operators';
 
 /**
  * Conditionally includes an HTML element if current user has any
@@ -27,7 +28,7 @@ import { Principal } from '../auth/principal.service';
 export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit {
     private privilegeSubscription: Subscription;
 
-    constructor(private principal: Principal,
+    constructor(private permissionService: XmPermissionService,
                 private templateRef: TemplateRef<unknown>,
                 private viewContainerRef: ViewContainerRef,
     ) {
@@ -57,7 +58,7 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
     @Input() public xmPermittedContext: () => boolean = () => true;
 
     public ngOnInit(): void {
-        this.privilegeSubscription = this.principal.getAuthenticationState()
+        this.privilegeSubscription = this.permissionService.permissions$()
             .subscribe(() => this.updateView());
     }
 
@@ -70,7 +71,9 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
     }
 
     private updateView(): void {
-        void this.principal.hasPrivileges(this._xmPermitted).then((result) => {
+        void this.permissionService.hasPrivileges(this._xmPermitted).pipe(
+            take(1),
+        ).subscribe((result) => {
             this.viewContainerRef.clear();
             if (result && this.xmPermittedContext()) {
                 this.viewContainerRef.createEmbeddedView(this.templateRef);
