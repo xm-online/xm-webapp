@@ -16,19 +16,22 @@ export class XmBreadcrumbStore implements OnDestroy {
 
     constructor(
         private router: Router,
-        breadcrumbResolver: XmBreadcrumbResolver,
+        private breadcrumbResolver: XmBreadcrumbResolver,
     ) {
         this.subscription = this.router.events.pipe(
             filter((event) => event instanceof NavigationEnd),
-        ).subscribe(() => {
-            const root = this.router.routerState.snapshot.root;
-            const breadcrumbs: XmBreadcrumb[] = breadcrumbResolver.getBreadcrumbs(root);
-            this.breadcrumbs.next(breadcrumbs);
-        });
+        ).subscribe(() => this.load());
+        this.load();
     }
 
     public ngOnDestroy(): void {
         this.breadcrumbs.complete();
         this.subscription.unsubscribe();
+    }
+
+    private load(): void {
+        const root = this.router.routerState.snapshot.root;
+        const breadcrumbs: XmBreadcrumb[] = this.breadcrumbResolver.getBreadcrumbs(root);
+        this.breadcrumbs.next(breadcrumbs);
     }
 }
