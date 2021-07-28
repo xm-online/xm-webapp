@@ -1,3 +1,11 @@
 .xm-search-global {
   font-size: 12px;
 }
+
+@media only screen and (max-width: 600px) {
+  .xm-navbar-search-widget-control {
+    $width: 60px;
+    max-width: $width;
+    width: $width;
+  }
+}
