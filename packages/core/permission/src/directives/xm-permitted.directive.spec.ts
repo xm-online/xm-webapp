@@ -2,8 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { XmPermittedDirective } from './xm-permitted.directive';
-import { XmPermissionService } from '../../../../packages/core/permission';
+import { XmPermissionService, XmPermittedDirective } from '@xm-ngx/core/permission';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 import SpyObj = jasmine.SpyObj;
 

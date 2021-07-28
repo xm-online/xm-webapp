@@ -1,6 +1,6 @@
 import { AfterContentInit, Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { XmPermissionService } from '../../../../packages/core/permission';
+import { XmPermissionService } from '../xm-permission.service';
 import { take } from 'rxjs/operators';
 
 /**
