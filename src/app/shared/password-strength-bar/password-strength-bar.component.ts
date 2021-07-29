@@ -6,7 +6,7 @@ import { XM_EVENT_LIST } from '../../xm.constants';
 
 const DEF_POINT_COUNT = 5;
 
-interface IPoint {
+interface IPassStrengthPoint {
     color?: string;
 }
 
@@ -30,7 +30,7 @@ export class PasswordStrengthBarComponent implements OnDestroy {
     public colors: string[] = ['#F00', '#F90', '#FF0', '#9F0', '#0F0'];
     public polices: IPasswordPolicy[];
 
-    public points: IPoint[];
+    public points: IPassStrengthPoint[];
 
     constructor(
         private renderer: Renderer,
@@ -142,12 +142,8 @@ export class PasswordStrengthBarComponent implements OnDestroy {
             }
             default: {
                 count.forEach((c: number, i: number) => {
-                    this.points = this.points.map((point: IPoint, pi: number) => {
-                        if (pi > i) {
-                            point.color = null;
-                        } else {
-                            point.color =this.colors[1]
-                        }
+                    this.points = this.points.map((point: IPassStrengthPoint, pi: number) => {
+                        point.color = pi > i ? null : this.colors[1];
                         return point
                     });
                 });
