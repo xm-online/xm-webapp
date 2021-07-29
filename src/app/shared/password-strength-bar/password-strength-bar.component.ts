@@ -1,31 +1,57 @@
-import { Component, ElementRef, Input, Renderer } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, Renderer } from '@angular/core';
+import { IPasswordPolicy } from '../password-policies/password-policies.component';
+import { JhiEventManager } from 'ng-jhipster';
+import { Subscription } from 'rxjs';
+import { XM_EVENT_LIST } from '../../xm.constants';
+
+const DEF_POINT_COUNT = 5;
+
+interface IPassStrengthPoint {
+    color?: string;
+}
 
 @Component({
     selector: 'xm-password-strength-bar',
     template: `
         <div id="strength">
             <small jhiTranslate="global.messages.validate.newpassword.strength">Password strength:</small>
+
             <ul id="strengthBar">
-                <li class="point"></li>
-                <li class="point"></li>
-                <li class="point"></li>
-                <li class="point"></li>
-                <li class="point"></li>
+                <li class="point" *ngFor="let p of points" [style.backgroundColor]="p.color"></li>
             </ul>
         </div>`,
     styleUrls: [
         'password-strength-bar.css',
     ],
 })
-export class PasswordStrengthBarComponent {
+export class PasswordStrengthBarComponent implements OnDestroy {
 
+    public policiesUpdateSubscription: Subscription;
     public colors: string[] = ['#F00', '#F90', '#FF0', '#9F0', '#0F0'];
+    public policies: IPasswordPolicy[];
 
-    constructor(private renderer: Renderer, private elementRef: ElementRef) { }
+    public points: IPassStrengthPoint[];
+
+    constructor(
+        private renderer: Renderer,
+        private elementRef: ElementRef,
+        private eventManager: JhiEventManager,
+    ) {
+        this.points = [...Array(DEF_POINT_COUNT).keys()].map(() => ({color: null}));
+
+        this.policiesUpdateSubscription =
+            this.eventManager.subscribe(
+                XM_EVENT_LIST.XM_PASSWORD_POLICY_UPDATE,
+                (passedPolicies: { content?: number }) => {
+                    if (this.policies) {
+                        this.mapPassedPolicies(passedPolicies.content);
+                    }
+                });
+    }
 
     @Input()
     set passwordToCheck(password: string) {
-        if (password) {
+        if (password && !(this.policies && this.policies.length)) {
             const c = this.getColor(this.measureStrength(password));
             const element = this.elementRef.nativeElement;
             if (element.className) {
@@ -39,6 +65,22 @@ export class PasswordStrengthBarComponent {
                     this.renderer.setElementStyle(lis[i], 'backgroundColor', '#DDD');
                 }
             }
+        }
+    }
+
+    @Input() public set passwordConfig(c: string) {
+        if (c) {
+            const config = JSON.parse(c);
+            this.policies = config && config.passwordPolicies;
+            if (this.policies) {
+                this.points = [...Array(this.policies.length).keys()].map(() => ({color: null}));
+            }
+        }
+    }
+
+    public ngOnDestroy() {
+        if (this.policiesUpdateSubscription) {
+            this.policiesUpdateSubscription.unsubscribe();
         }
     }
 
@@ -84,5 +126,28 @@ export class PasswordStrengthBarComponent {
             idx = 4;
         }
         return {idx: idx + 1, col: this.colors[idx]};
+    }
+
+    private mapPassedPolicies(policiesCount: number): void {
+        const count = [...Array(policiesCount).keys()];
+
+        switch (count.length) {
+            case this.points.length: {
+                this.points = this.points.map(() => ({color: this.colors[3]}));
+                break;
+            }
+            case 0: {
+                this.points = this.points.map(() => ({color: null}));
+                break;
+            }
+            default: {
+                count.forEach((c: number, i: number) => {
+                    this.points = this.points.map((point: IPassStrengthPoint, pi: number) => {
+                        point.color = pi > i ? null : this.colors[1];
+                        return point;
+                    });
+                });
+            }
+        }
     }
 }
