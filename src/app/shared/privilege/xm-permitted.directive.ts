@@ -43,7 +43,6 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
     public set xmPermitted(value: string[]) {
         this._xmPermitted = typeof value === 'string' ? [value] : value;
         this.updateView();
-        this._xmPermitted = value;
     }
 
     public get permitted(): string[] {
