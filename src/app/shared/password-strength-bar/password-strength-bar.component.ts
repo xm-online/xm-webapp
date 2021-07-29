@@ -144,7 +144,7 @@ export class PasswordStrengthBarComponent implements OnDestroy {
                 count.forEach((c: number, i: number) => {
                     this.points = this.points.map((point: IPassStrengthPoint, pi: number) => {
                         point.color = pi > i ? null : this.colors[1];
-                        return point
+                        return point;
                     });
                 });
             }
