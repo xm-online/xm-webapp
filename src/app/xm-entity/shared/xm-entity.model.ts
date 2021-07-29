@@ -39,4 +39,5 @@ export interface XmEntity<D = any> extends BaseEntity {
     functionContexts?: FunctionContext[];
     events?: Event[];
     createdBy?: string;
+    version?: number;
 }
