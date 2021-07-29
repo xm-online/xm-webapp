@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlContainer, NgForm } from '@angular/forms';
+import { JhiEventManager } from 'ng-jhipster';
+import { XM_EVENT_LIST } from '../../xm.constants';
 
 export interface IPasswordPolicy {
     pattern: string;
@@ -25,6 +27,11 @@ export class PasswordPoliciesComponent implements OnChanges {
     public passedPolicies: number;
     public policyCheckRequired: boolean;
 
+    constructor(
+        private eventManager: JhiEventManager,
+    ) { }
+
+
     ngOnChanges(changes: SimpleChanges): void {
         if ((typeof this.password === 'string') && this.policies) {
             this.checkPassword();
@@ -44,6 +51,7 @@ export class PasswordPoliciesComponent implements OnChanges {
         });
 
         this.passedPolicies = this.policies.filter(policy => Boolean(policy.passed)).length;
+        this.eventManager.broadcast({name: XM_EVENT_LIST.XM_PASSWORD_POLICY_UPDATE, content: this.passedPolicies})
     }
 
     private handleConfig(): void {

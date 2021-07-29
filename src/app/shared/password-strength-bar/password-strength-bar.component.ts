@@ -1,31 +1,59 @@
-import { Component, ElementRef, Input, Renderer } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, Renderer } from '@angular/core';
+import { IPasswordPolicy } from '../password-policies/password-policies.component';
+import { JhiEventManager } from 'ng-jhipster';
+import { Subscription } from 'rxjs';
+import { XM_EVENT_LIST } from '../../xm.constants';
+
+const DEF_POINT_COUNT = 5;
+
+interface IPoint {
+    color?: string;
+}
 
 @Component({
     selector: 'xm-password-strength-bar',
     template: `
         <div id="strength">
             <small jhiTranslate="global.messages.validate.newpassword.strength">Password strength:</small>
+
             <ul id="strengthBar">
-                <li class="point"></li>
-                <li class="point"></li>
-                <li class="point"></li>
-                <li class="point"></li>
-                <li class="point"></li>
+                <li class="point" *ngFor="let p of points" [style.backgroundColor]="p.color"></li>
             </ul>
         </div>`,
     styleUrls: [
         'password-strength-bar.css',
     ],
 })
-export class PasswordStrengthBarComponent {
+export class PasswordStrengthBarComponent implements OnDestroy {
 
+    public policesUpdateSubscription: Subscription;
     public colors: string[] = ['#F00', '#F90', '#FF0', '#9F0', '#0F0'];
+    public polices: IPasswordPolicy[];
+    public policiesStrength: number;
+    public points: IPoint[];
 
-    constructor(private renderer: Renderer, private elementRef: ElementRef) { }
+    constructor(
+        private renderer: Renderer,
+        private elementRef: ElementRef,
+        private eventManager: JhiEventManager,
+    ) {
+        this.points = [...Array(DEF_POINT_COUNT).keys()].map(() => ({color: null}));
+
+        this.policesUpdateSubscription =
+            this.eventManager.subscribe(
+                XM_EVENT_LIST.XM_PASSWORD_POLICY_UPDATE,
+                (passedPolicies: { content?: number }) => {
+                    this.policiesStrength = passedPolicies.content;
+
+                    if (this.polices) {
+                        this.mapPassedPolices();
+                    }
+                });
+    }
 
     @Input()
     set passwordToCheck(password: string) {
-        if (password) {
+        if (password && !(this.polices && this.polices.length)) {
             const c = this.getColor(this.measureStrength(password));
             const element = this.elementRef.nativeElement;
             if (element.className) {
@@ -39,6 +67,22 @@ export class PasswordStrengthBarComponent {
                     this.renderer.setElementStyle(lis[i], 'backgroundColor', '#DDD');
                 }
             }
+        }
+    }
+
+    @Input() public set passwordConfig(c: string) {
+        if (c) {
+            const config = JSON.parse(c);
+            this.polices = config && config.passwordPolicies;
+            if (this.polices) {
+                this.points = [...Array(this.polices.length).keys()].map(() => ({color: null}));
+            }
+        }
+    }
+
+    public ngOnDestroy() {
+        if (this.policesUpdateSubscription) {
+            this.policesUpdateSubscription.unsubscribe();
         }
     }
 
@@ -84,5 +128,32 @@ export class PasswordStrengthBarComponent {
             idx = 4;
         }
         return {idx: idx + 1, col: this.colors[idx]};
+    }
+
+    private mapPassedPolices(): void {
+        const count = [...Array(this.policiesStrength).keys()];
+
+        switch (count.length) {
+            case this.points.length: {
+                this.points = this.points.map(() => ({color: this.colors[3]}));
+                break;
+            }
+            case 0: {
+                this.points = this.points.map(() => ({color: null}));
+                break;
+            }
+            default: {
+                count.forEach((c: number, i: number) => {
+                    this.points = this.points.map((point: IPoint, pi: number) => {
+                        if (pi > i) {
+                            point.color = null;
+                        } else {
+                            point.color =this.colors[1]
+                        }
+                        return point
+                    });
+                });
+            }
+        }
     }
 }
