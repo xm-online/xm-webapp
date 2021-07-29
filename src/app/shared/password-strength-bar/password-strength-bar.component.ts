@@ -26,9 +26,9 @@ interface IPassStrengthPoint {
 })
 export class PasswordStrengthBarComponent implements OnDestroy {
 
-    public policesUpdateSubscription: Subscription;
+    public policiesUpdateSubscription: Subscription;
     public colors: string[] = ['#F00', '#F90', '#FF0', '#9F0', '#0F0'];
-    public polices: IPasswordPolicy[];
+    public policies: IPasswordPolicy[];
 
     public points: IPassStrengthPoint[];
 
@@ -39,19 +39,19 @@ export class PasswordStrengthBarComponent implements OnDestroy {
     ) {
         this.points = [...Array(DEF_POINT_COUNT).keys()].map(() => ({color: null}));
 
-        this.policesUpdateSubscription =
+        this.policiesUpdateSubscription =
             this.eventManager.subscribe(
                 XM_EVENT_LIST.XM_PASSWORD_POLICY_UPDATE,
                 (passedPolicies: { content?: number }) => {
-                    if (this.polices) {
-                        this.mapPassedPolices(passedPolicies.content);
+                    if (this.policies) {
+                        this.mapPassedPolicies(passedPolicies.content);
                     }
                 });
     }
 
     @Input()
     set passwordToCheck(password: string) {
-        if (password && !(this.polices && this.polices.length)) {
+        if (password && !(this.policies && this.policies.length)) {
             const c = this.getColor(this.measureStrength(password));
             const element = this.elementRef.nativeElement;
             if (element.className) {
@@ -71,16 +71,16 @@ export class PasswordStrengthBarComponent implements OnDestroy {
     @Input() public set passwordConfig(c: string) {
         if (c) {
             const config = JSON.parse(c);
-            this.polices = config && config.passwordPolicies;
-            if (this.polices) {
-                this.points = [...Array(this.polices.length).keys()].map(() => ({color: null}));
+            this.policies = config && config.passwordPolicies;
+            if (this.policies) {
+                this.points = [...Array(this.policies.length).keys()].map(() => ({color: null}));
             }
         }
     }
 
     public ngOnDestroy() {
-        if (this.policesUpdateSubscription) {
-            this.policesUpdateSubscription.unsubscribe();
+        if (this.policiesUpdateSubscription) {
+            this.policiesUpdateSubscription.unsubscribe();
         }
     }
 
@@ -128,7 +128,7 @@ export class PasswordStrengthBarComponent implements OnDestroy {
         return {idx: idx + 1, col: this.colors[idx]};
     }
 
-    private mapPassedPolices(policiesCount: number): void {
+    private mapPassedPolicies(policiesCount: number): void {
         const count = [...Array(policiesCount).keys()];
 
         switch (count.length) {
