@@ -29,7 +29,7 @@ export class PasswordStrengthBarComponent implements OnDestroy {
     public policesUpdateSubscription: Subscription;
     public colors: string[] = ['#F00', '#F90', '#FF0', '#9F0', '#0F0'];
     public polices: IPasswordPolicy[];
-    public policiesStrength: number;
+
     public points: IPoint[];
 
     constructor(
@@ -43,10 +43,8 @@ export class PasswordStrengthBarComponent implements OnDestroy {
             this.eventManager.subscribe(
                 XM_EVENT_LIST.XM_PASSWORD_POLICY_UPDATE,
                 (passedPolicies: { content?: number }) => {
-                    this.policiesStrength = passedPolicies.content;
-
                     if (this.polices) {
-                        this.mapPassedPolices();
+                        this.mapPassedPolices(passedPolicies.content);
                     }
                 });
     }
@@ -130,8 +128,8 @@ export class PasswordStrengthBarComponent implements OnDestroy {
         return {idx: idx + 1, col: this.colors[idx]};
     }
 
-    private mapPassedPolices(): void {
-        const count = [...Array(this.policiesStrength).keys()];
+    private mapPassedPolices(policiesCount: number): void {
+        const count = [...Array(policiesCount).keys()];
 
         switch (count.length) {
             case this.points.length: {
