@@ -42,7 +42,7 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
 
     @Input()
     public set xmPermitted(value: string[]) {
-        this._xmPermitted = typeof value === 'string' ? [value] : value;
+        this._xmPermitted = typeof value === 'string' ? [value] : (value || []);
         this.updateView();
     }
 
@@ -71,6 +71,10 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
     }
 
     private updateView(): void {
+        if (this._xmPermitted.length === 0) {
+            this.viewContainerRef.clear();
+            return;
+        }
         void this.permissionService.hasPrivileges(this._xmPermitted).pipe(
             take(1),
         ).subscribe((result) => {

@@ -9,10 +9,13 @@ import SpyObj = jasmine.SpyObj;
 @Component({
     template: `
         <div>
-            <button class="noPermission">noPermission</button>
+            <button class="withoutPermission">withoutPermission</button>
 
-            <button class="pdOk" *permitted="['TEST_OK']">pdOk</button>
-            <button class="pdNok" *permitted="['TEST_NOK']">pdNok</button>
+            <button class="emptyPermission" *permitted="[]">emptyPermission</button>
+            <button class="nullPermission" *permitted="null">nullPermission</button>
+
+            <button class="existPermission" *permitted="['TEST_OK']">existPermission</button>
+            <button class="notExistPermission" *permitted="['TEST_NOK']">notExistPermission</button>
 
             <button class="pOk" *xmPermitted="['TEST_OK']">pOk</button>
             <button class="pNok" *xmPermitted="['TEST_NOK']">pNok</button>
@@ -33,8 +36,23 @@ describe('XmPermittedDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
     let mockPrincipalService: SpyObj<MockPermissionService>;
 
-    const OK_SET = new Set(['noPermission', 'pOk', 'pdOk', 'pOkCtxOk']);
-    const NOK_SET = new Set(['pNok', 'pdNok', 'pOkCtxNok', 'pNokCtxOk', 'pNokCtxNok']);
+    const OK_SET = new Set([
+        'withoutPermission',
+        'pOk',
+        'pdOk',
+        'existPermission',
+        'pOkCtxOk',
+    ]);
+    const NOK_SET = new Set([
+        'emptyPermission',
+        'nullPermission',
+        'pNok',
+        'notExistPermission',
+        'pdNok',
+        'pOkCtxNok',
+        'pNokCtxOk',
+        'pNokCtxNok',
+    ]);
 
     const TEST_OK = 'TEST_OK';
     const TEST_NO_OK = 'TEST_NOK';
