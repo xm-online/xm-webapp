@@ -14,6 +14,11 @@ function filter(censor: unknown): (this: unknown, key: string, value: unknown) =
     };
 }
 
+/**
+ * @public
+ * Covert object to string with circular dependencies
+ * @param obj - object
+ */
 export function jsonSafeStringify(obj: unknown): string {
     return JSON.stringify(obj, filter(obj));
 }

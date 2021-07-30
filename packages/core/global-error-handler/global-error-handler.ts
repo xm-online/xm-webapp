@@ -1,6 +1,5 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { XmLog, XmLoggerService } from '@xm-ngx/logger';
-import { jsonSafeStringify } from '@xm-ngx/shared/operators';
 
 @Injectable()
 export class GlobalErrorHandler extends ErrorHandler {
@@ -22,12 +21,12 @@ export class GlobalErrorHandler extends ErrorHandler {
         }
     }
 
-    private dispatchLog(error: unknown): void {
+    private dispatchLog(error: { stack: string }): void {
         const log: XmLog = {
             level: 'error',
             name: 'GlobalErrorHandler',
             timeStamp: new Date().toISOString(),
-            message: jsonSafeStringify(error),
+            message: error.stack,
         };
         this.loggerService.dispatch(log);
     }

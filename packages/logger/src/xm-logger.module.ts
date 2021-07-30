@@ -18,9 +18,10 @@ export class XmLoggerModule {
     public static forRoot(config: XmLoggerModuleConfig = {}): ModuleWithProviders<XmLoggerModule> {
         return {
             providers: [
+                XmLoggerService,
                 config.logBroker || { provide: XmLogBroker, useClass: XmLogBrokerDefault },
                 config.logBroker || { provide: XmLoggerFactory, useClass: XmLoggerFactoryDefault },
-                config.logger || { provide: XmLogger, useClass: XmLoggerService },
+                config.logger || { provide: XmLogger, useExisting: XmLoggerService },
                 XmLoggerWatcherService,
             ],
             ngModule: XmLoggerModule,
