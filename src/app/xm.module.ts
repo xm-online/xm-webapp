@@ -31,6 +31,7 @@ import { XmRoutingModule } from './xm-routing.module';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from './xm.constants';
 import { XM_ELEMENTS } from '../registries/xm.registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
+import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 
 @NgModule({
     imports: [
@@ -53,6 +54,7 @@ import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
         XmDynamicRouteModule.forRoot({ routeResolverGuard: XmDashboardDynamicRouteResolverGuard }),
         XmDashboardModule.forRoot(),
         MarkdownModule.forRoot(),
+        XmBreadcrumbModule.forRoot(),
         XmDynamicExtensionModule.forRoot([
             // #regionstart dynamic-extension-modules
             // #regionend dynamic-extension-modules

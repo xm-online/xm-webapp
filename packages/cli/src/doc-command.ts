@@ -3,6 +3,7 @@ import * as glob from 'glob';
 import * as _ from 'lodash';
 import path from 'path';
 import { Command } from './command';
+import { ignoreChangedFile } from './git-utils';
 
 /** @experimental */
 export interface DocExample {
@@ -30,6 +31,9 @@ export class DocCommand implements Command {
         this.updateModuleFile(examples);
         this.updateDataFile(examples);
         this.updateComponentFile(examples);
+        ignoreChangedFile(this.examplesModulePath);
+        ignoreChangedFile(this.examplesComponentPath);
+        ignoreChangedFile(this.examplesComponentHtmlPath);
     }
 
     private getExamples(): DocExample[] {

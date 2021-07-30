@@ -21,31 +21,48 @@ import { Principal } from '../auth/principal.service';
  * }
  * ```
  */
-
 @Directive({
-    selector: '[xmPermitted]',
+    selector: '[xmPermitted], [permitted]',
 })
-export class XmPrivilegeDirective implements OnInit, OnDestroy, AfterContentInit {
-
-    @Input() public xmPermitted: string[] = [];
-    @Input() public xmPermittedContext: () => boolean = () => true;
+export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit {
     private privilegeSubscription: Subscription;
 
     constructor(private principal: Principal,
-                private templateRef: TemplateRef<any>,
+                private templateRef: TemplateRef<unknown>,
                 private viewContainerRef: ViewContainerRef,
     ) {
     }
 
+    private _xmPermitted: string[] = [];
+
+    public get xmPermitted(): string[] {
+        return this._xmPermitted;
+    }
+
+    @Input()
+    public set xmPermitted(value: string[]) {
+        this._xmPermitted = typeof value === 'string' ? [value] : value;
+        this.updateView();
+    }
+
+    public get permitted(): string[] {
+        return this.xmPermitted;
+    }
+
+    @Input()
+    public set permitted(value: string[]) {
+        this.xmPermitted = value;
+    }
+
+    @Input() public xmPermittedContext: () => boolean = () => true;
+
     public ngOnInit(): void {
         this.privilegeSubscription = this.principal.getAuthenticationState()
-            .subscribe((identity) => this.updateView());
+            .subscribe(() => this.updateView());
     }
 
     public ngOnDestroy(): void {
-        this.privilegeSubscription
-            ? this.privilegeSubscription.unsubscribe()
-            : console.info('no privilegeSubscription');
+        this.privilegeSubscription?.unsubscribe();
     }
 
     public ngAfterContentInit(): void {
@@ -53,7 +70,7 @@ export class XmPrivilegeDirective implements OnInit, OnDestroy, AfterContentInit
     }
 
     private updateView(): void {
-        this.principal.hasPrivileges(this.xmPermitted).then((result) => {
+        void this.principal.hasPrivileges(this._xmPermitted).then((result) => {
             this.viewContainerRef.clear();
             if (result && this.xmPermittedContext()) {
                 this.viewContainerRef.createEmbeddedView(this.templateRef);

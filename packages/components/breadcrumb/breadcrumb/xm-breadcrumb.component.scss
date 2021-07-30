@@ -1,0 +1,18 @@
+.xm-breadcrumb-item.xm-breadcrumb-item-active {
+  font-weight: bold;
+}
+
+.xm-breadcrumb-item {
+  display: inline;
+  list-style-type: none;
+  font-weight: normal;
+
+  .mat-button {
+    font-weight: inherit;
+  }
+}
+
+.xm-breadcrumb-container {
+  margin: 0;
+  padding: 0;
+}

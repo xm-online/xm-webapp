@@ -46,7 +46,7 @@
         <div [cdkDragData]="element"
              cdkDrag>
           <mat-icon class="align-middle">reorder</mat-icon>
-          <span class="px-2"> {{ element.config.orderIndex }} </span>
+          <span class="px-2"> {{ element.config?.orderIndex }} </span>
         </div>
       </td>
     </ng-container>
@@ -57,7 +57,7 @@
       <td *matCellDef="let element" mat-cell>
         <div>{{ element.name }}</div>
         <div>
-          <a [routerLink]="['/dashboard', element?.config?.slug]"> {{ element?.config?.slug }} </a>
+          <a [routerLink]="['/dashboard/' + element?.config?.slug]"> {{ element?.config?.slug }} </a>
         </div>
       </td>
     </ng-container>

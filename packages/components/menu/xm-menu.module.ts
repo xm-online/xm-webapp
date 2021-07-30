@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
@@ -19,4 +19,5 @@ import { MenuComponent } from './menu.component';
     declarations: [MenuComponent, MenuLinkComponent],
 })
 export class XmMenuModule {
+    public entry: Type<MenuComponent> = MenuComponent;
 }
