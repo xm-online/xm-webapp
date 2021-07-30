@@ -1,12 +1,16 @@
-import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
+import { XmLogger } from '@xm-ngx/logger';
 import { upperCase } from 'lodash';
-import { LogLevel } from './xm-logger.service';
+import { LogLevel } from '../services/xm-logger.service';
+import { XmLogBroker } from '../interfaces/xm-log-broker';
 
 export class XmConsoleLogger implements XmLogger {
 
     private logger: typeof console = console;
 
-    constructor(private name: string, protected root: XmLoggerService) {
+    constructor(
+        private name: string,
+        protected broker?: XmLogBroker,
+    ) {
     }
 
     public debug(message: string): void {
@@ -34,6 +38,6 @@ export class XmConsoleLogger implements XmLogger {
     private format(type: LogLevel, message: string): void {
         const date = new Date().toISOString();
         this.logger[type](`${date} ${upperCase(type)} ${this.name} ${message}`);
-        this.root.log$.next({timeStamp: date, name: this.name, message, level: type});
+        this.broker?.dispatch({ timeStamp: date, name: this.name, message, level: type });
     }
 }
