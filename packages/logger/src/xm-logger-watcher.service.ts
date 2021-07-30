@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { XmPublicUiConfigService } from '@xm-ngx/core';
+import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS, XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmLoggerService } from './services/xm-logger.service';
 import { XmLog, XmLogLevel } from './interfaces/xm-log.interface';
 import * as _ from 'lodash';
@@ -38,11 +38,17 @@ export class XmLoggerWatcherService implements OnDestroy {
                 return of(null);
             }),
             filter(log => Boolean(log)),
-            switchMap((log: XmLog) => this.httpClient.post('/logger/api/log', {
-                level: _.upperCase(log.level),
-                message: log.message,
-                fileName: log.name,
-            })),
+            switchMap((log: XmLog) => this.httpClient.post(
+                '/logger/api/log',
+                {
+                    level: _.upperCase(log.level),
+                    message: log.message,
+                    fileName: log.name,
+                },
+                {
+                    headers: SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS,
+                },
+            )),
             catchError(() => of(null)),
         ).subscribe();
     }
