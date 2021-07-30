@@ -3,8 +3,7 @@ import { Observable } from 'rxjs';
 import { XmConsoleLogger } from '../loggers/xm-console-logger';
 import { XmLogger } from '../interfaces/xm-logger';
 import { XmLog } from '../interfaces/xm-log.interface';
-import { XmLoggerFactoryDefault, XmLoggerFactoryOptions } from './xm-logger-factory.service';
-import { XmLogBrokerDefault } from './xm-log-broker.service';
+import { XmLoggerFactoryOptions } from './xm-logger-factory.service';
 import { XmLogBroker } from '../interfaces/xm-log-broker';
 import { XmLoggerFactory } from '../interfaces/xm-logger-factory';
 
@@ -17,8 +16,8 @@ export class XmLoggerService implements XmLogger, XmLoggerFactory, XmLogBroker {
     private logger = new XmConsoleLogger('', this);
 
     constructor(
-        private loggerFactory: XmLoggerFactoryDefault,
-        private broker: XmLogBrokerDefault,
+        private loggerFactory: XmLoggerFactory,
+        private broker: XmLogBroker,
     ) {
     }
 
