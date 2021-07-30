@@ -1,8 +1,11 @@
-import { XmLogger } from '@xm-ngx/logger';
 import { upperCase } from 'lodash';
-import { LogLevel } from '../services/xm-logger.service';
 import { XmLogBroker } from '../interfaces/xm-log-broker';
+import { XmLogLevel } from '../interfaces/xm-log.interface';
+import { XmLogger } from '../interfaces/xm-logger';
 
+/**
+ * The default console logger implementation
+ */
 export class XmConsoleLogger implements XmLogger {
 
     private logger: typeof console = console;
@@ -29,13 +32,7 @@ export class XmConsoleLogger implements XmLogger {
         this.format('error', message);
     }
 
-    /**
-     * Temporary solution to set timestamp and type
-     *
-     * @experimental
-     * Should be implemented via ngx-logger or alternative
-     */
-    private format(type: LogLevel, message: string): void {
+    private format(type: XmLogLevel, message: string): void {
         const date = new Date().toISOString();
         this.logger[type](`${date} ${upperCase(type)} ${this.name} ${message}`);
         this.broker?.dispatch({ timeStamp: date, name: this.name, message, level: type });

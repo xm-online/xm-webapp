@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { XmLogger } from '@xm-ngx/logger';
 import { XmConsoleLogger } from '../loggers/xm-console-logger';
 import { XmLoggerFactory } from '../interfaces/xm-logger-factory';
 import { XmLogBroker } from '../interfaces/xm-log-broker';
+import { XmLogger } from '../interfaces/xm-logger';
 
 export interface XmLoggerFactoryOptions {
     name: string,
@@ -10,6 +10,9 @@ export interface XmLoggerFactoryOptions {
 }
 
 @Injectable()
+/**
+ * The default XmLoggerFactory implementation
+ */
 export class XmLoggerFactoryDefault implements XmLoggerFactory {
     constructor(private logBroker: XmLogBroker) {
     }

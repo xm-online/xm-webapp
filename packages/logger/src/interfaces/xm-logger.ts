@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
+/**
+ * @public
+ * Logger
+ */
 export abstract class XmLogger {
     public abstract debug(message: string): void;
 

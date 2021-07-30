@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmLoggerService } from './services/xm-logger.service';
-import { XmLog } from './interfaces/xm-log.interface';
+import { XmLog, XmLogLevel } from './interfaces/xm-log.interface';
 import * as _ from 'lodash';
 import { of, Subscription } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 
 interface XmLoggerWatcherConfig {
-    levels: ('debug' | 'error' | 'info' | 'warn')[]
+    levels: XmLogLevel[]
 }
 
 @Injectable()

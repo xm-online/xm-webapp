@@ -8,9 +8,10 @@ import { XmLogBrokerDefault } from './xm-log-broker.service';
 import { XmLogBroker } from '../interfaces/xm-log-broker';
 import { XmLoggerFactory } from '../interfaces/xm-logger-factory';
 
-export type LogLevel = 'debug' | 'error' | 'info' | 'warn';
-
 @Injectable()
+/**
+ * The default XmLogger implementation base on XmConsoleLogger
+ */
 export class XmLoggerService implements XmLogger, XmLoggerFactory, XmLogBroker {
 
     private logger = new XmConsoleLogger('', this);
