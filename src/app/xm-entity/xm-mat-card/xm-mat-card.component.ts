@@ -13,6 +13,7 @@ export interface XmMatCardOptions {
     editCondition: JavascriptCode;
     title: Translate;
     readonly: boolean;
+    dataQa?: string;
     condition: JavascriptCode;
     permission?: string[];
     editPermission?: string[];

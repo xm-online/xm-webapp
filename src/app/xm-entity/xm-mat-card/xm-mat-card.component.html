@@ -1,5 +1,6 @@
 <ng-container *xmPermission="options.permission">
   <mat-card *xmCondition="options.condition; arguments {entity: entity}"
+            [attr.data-qa]="options.dataQa || 'card-container'"
             class="mb-3">
 
     <div class="d-flex justify-content-between">

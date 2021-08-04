@@ -4,6 +4,7 @@
           *ngIf="!isEdit"
           [disabled]="disabled"
           class="btn"
+          [attr.data-qa]="'edit-button'"
           mat-icon-button
           type="button">
     <mat-icon>edit</mat-icon>
@@ -13,6 +14,7 @@
           *ngIf="isEdit"
           [disabled]="disabled || disableSubmit"
           color="primary"
+          [attr.data-qa]="'save-button'"
           mat-icon-button
           type="button">
     <mat-icon>check</mat-icon>
@@ -21,6 +23,7 @@
   <button (click)="onCancel()"
           [disabled]="disabled"
           *ngIf="isEdit"
+          [attr.data-qa]="'cancel-button'"
           mat-icon-button
           type="button">
     <mat-icon>close</mat-icon>
