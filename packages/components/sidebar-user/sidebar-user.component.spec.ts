@@ -1,29 +1,30 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { XmUserService } from '@xm-ngx/core/user';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MockUserService } from '@xm-ngx/core/user/testing';
+import { SidebarUserComponent } from '@xm-ngx/components/sidebar-user/sidebar-user.component';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { MockDashboardStore } from '@xm-ngx/dashboard/testing';
-import { MockUserService } from '@xm-ngx/core/user/testing';
+import { XmUserService } from '@xm-ngx/core/user';
 
-import { SidebarUserComponent } from './sidebar-user.component';
-import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 describe('SidebarUserComponent', () => {
     let component: SidebarUserComponent;
     let fixture: ComponentFixture<SidebarUserComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            schemas: [NO_ERRORS_SCHEMA],
-            imports: [XmTranslationTestingModule, HttpClientTestingModule, RouterTestingModule, NoopAnimationsModule],
             declarations: [SidebarUserComponent],
+            imports: [
+                RouterTestingModule,
+                NoopAnimationsModule,
+            ],
             providers: [
                 { provide: DashboardStore, useClass: MockDashboardStore },
                 { provide: XmUserService, useClass: MockUserService },
             ],
+            schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();
     }));
