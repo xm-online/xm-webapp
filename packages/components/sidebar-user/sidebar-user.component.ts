@@ -1,22 +1,35 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import * as _ from 'lodash';
 import { MenuItem } from '../menu/menu-models';
 import { UserWidgetBase } from './user-widget.base';
+import { DashboardStore } from '@xm-ngx/dashboard';
+import { XmUserService } from '@xm-ngx/core/user';
+import { ContextService } from '../../../src/app/shared';
+import { Router } from '@angular/router';
 
 
 @Component({
     selector: 'xm-sidebar-user',
     templateUrl: './sidebar-user.component.html',
     styleUrls: ['./sidebar-user.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Default,
     animations: [
         matExpansionAnimations.bodyExpansion,
         matExpansionAnimations.indicatorRotate,
     ],
 })
 export class SidebarUserComponent extends UserWidgetBase {
+
     public active: boolean = false;
+
+    constructor(
+        protected readonly dashboardService: DashboardStore,
+        protected readonly userService: XmUserService,
+        protected readonly contextService: ContextService,
+        protected readonly router: Router,
+    ) {
+        super(dashboardService, userService, contextService, router);
+    }
 
     public getState(): string {
         return this.active ? 'expanded' : 'collapsed';
