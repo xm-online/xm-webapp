@@ -8,7 +8,7 @@ export interface XmControlErrorsTranslates {
 
 export const XM_CONTROL_ERRORS_TRANSLATES = new InjectionToken<XmControlErrorsTranslates>('XM_CONTROL_ERRORS_TRANSLATES');
 
-export const XM_CONTROL_ERRORS_TRANSLATES_DEFAULT: { [errorKey: string]: Translate } = {
+export const XM_CONTROL_ERRORS_TRANSLATES_DEFAULT: XmControlErrorsTranslates = {
     min: marker('xm-control-errors.validators.min'),
     max: marker('xm-control-errors.validators.max'),
     required: marker('xm-control-errors.validators.required'),

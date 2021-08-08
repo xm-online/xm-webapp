@@ -1525,5 +1525,12 @@
       "type": "Тип",
       "votes": "Голос(а)"
     }
+  },
+  "xm-validator-processing": {
+    "validators": {
+      "minDate": "Обрана дата менше ніж мінімальна дата ({{minDateI18n}}).",
+      "languageRequired": "",
+      "minArrayLength": "Масив менший за мінімальну допустиму довжину ({{requiredLength}})."
+    }
   }
 }
