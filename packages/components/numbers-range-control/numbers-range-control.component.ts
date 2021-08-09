@@ -97,7 +97,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumbersRangeControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class NumbersRangeControlComponent extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmNumbersRangeControlOptions> {
-        constructor(@Optional() @Self() public ngControl: NgControl | null,
+    constructor(@Optional() @Self() public ngControl: NgControl | null,
                 @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
         super(ngControl);
     }
