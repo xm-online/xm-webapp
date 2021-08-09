@@ -13,14 +13,15 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { JsonSchemaFormComponent, JsonSchemaFormService } from '@ajsf/core';
-import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
-import { filter, finalize, map, mergeMap, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { finalize, takeUntil, tap } from 'rxjs/operators';
 
 import { environment } from '@xm-ngx/core/environment';
 import { Principal } from '@xm-ngx/core/auth';
 import { I18nNamePipe } from '@xm-ngx/components/language';
 import { ExtSelectOptions, SelectDeepLinkOptions } from './ext-select-options.model';
 import { ExtSelectService } from './ext-select-service';
+import BaseExtSelectComponent from './base-ext-select.component';
 
 interface Element {
     label: any;
@@ -47,14 +48,12 @@ interface Element {
         `,
     ],
 })
-export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public options: ExtSelectOptions;
     public selectLinkOptions: SelectDeepLinkOptions;
     public canSeeLink: boolean;
     public elements: any = [];
-    public disabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public cacheOptionsUrl: string | null;
     public elementCtrl: FormControl = new FormControl();
     public elementFilterCtrl: FormControl = new FormControl();
     public filteredElements: ReplaySubject<Element[]> = new ReplaySubject<Element[]>(1);
@@ -62,10 +61,8 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('singleSelect', {static: false}) protected singleSelect: MatSelect;
     @Input() private layoutNode: any;
-    private controlValue: any;
-    private regTemplateLiteral: RegExp = /@{(\w+(\[\])?.?)+}/g;
-    private _onDestroy: Subject<void> = new Subject<void>();
-    private dataIndex: number[];
+    protected controlValue: unknown;
+    protected dataIndex: number[];
 
     constructor(
         @Inject(forwardRef(() => JsonSchemaFormComponent)) private _parent: JsonSchemaFormComponent,
@@ -76,6 +73,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
         private changeDetectorRef: ChangeDetectorRef,
         private principal: Principal,
     ) {
+        super();
     }
 
     public ngOnInit(): void {
@@ -101,56 +99,25 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        if (!this.options.url || !this.regTemplateLiteral.test(this.options.url)) {
+        if (!this.options.url || !ExtSelectService.isTemplateUrl(this.options.url)) {
             this.fetchData(this.options);
             return;
         }
 
-        const savedLiteralsValue = {};
-
-        this.disabled$.next(true);
-        this.options.url
-            .match(this.regTemplateLiteral)
-            .map((literal) => {
-                savedLiteralsValue[literal] = null;
-                return literal;
-            })
-            .map((result) => result.replace(/@{|}/g, ''))
-            .forEach((eLiteral) => {
-                let currentFieldName: string;
-                of(eLiteral).pipe(
-                    filter((fieldLiteral) => !!fieldLiteral),
-                    tap((fieldName) => currentFieldName = fieldName),
-                    mergeMap((fieldName) => ExtSelectService.controlByKey(fieldName, this._parent.jsf.formGroup, this.dataIndex).valueChanges),
-                    tap(() => this.disabled$.next(true)),
-                    filter((fieldValue) => !!fieldValue),
-                    tap((fieldValue) => savedLiteralsValue[`@{${currentFieldName}}`] = fieldValue),
-                    map(() => savedLiteralsValue),
-                    filter((literalsValue) => Object.values(literalsValue).findIndex((val) => !val) === -1),
-                    tap(() => this.disabled$.next(false)),
-                    map((literalsValue) => {
-                        let optionsUrl = this.options.url;
-                        Object.keys(literalsValue)
-                            .forEach((literal) => optionsUrl = optionsUrl.replace(literal, literalsValue[literal]));
-                        return optionsUrl;
-                    }),
-                    filter((optionsUrl) => optionsUrl !== this.cacheOptionsUrl),
-                    tap((optionsUrl) => this.cacheOptionsUrl = optionsUrl),
-                    map((optionsUrl: string) => {
-                        const cloneOptions = Object.assign({}, this.options);
-                        cloneOptions.url = optionsUrl;
-                        return cloneOptions;
-                    }),
-                    tap((options) => this.fetchData(options)),
-                    tap(() => this.jsf.updateValue(this, this.controlValue)),
-                    takeUntil(this._onDestroy),
-                ).subscribe();
-            });
+        this.fetchByLiteral();
     }
 
     public ngOnDestroy(): void {
         this._onDestroy.next();
         this._onDestroy.complete();
+    }
+
+    public getParentJsf(): JsonSchemaFormService {
+        return this._parent.jsf;
+    }
+
+    public getJsf(): JsonSchemaFormService {
+        return this.jsf;
     }
 
     public initOptionList(): void {
@@ -207,15 +174,15 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!search && search == null) {
             this.filteredElements.next(this.elements.slice());
             return;
-        } 
+        }
         search = search.toLowerCase();
-        
+
         this.filteredElements.next(
             this.elements.filter((e) => e.label.toLowerCase().indexOf(search) > -1),
         );
     }
 
-    private fetchData(options: any): void {
+    protected fetchData(options: any): void {
         if (options.sourceField) {
             const array = new Function(
                 'model', 'options', 'return ' + options.sourceField)(this.jsf.getData(), this.jsf.formOptions);
@@ -239,7 +206,7 @@ export class ExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.initOptionList();
             });
         } else {
-            if (!this.options.url && !this.regTemplateLiteral.test(this.options.url)) {
+            if (!this.options.url && !ExtSelectService.isTemplateUrl(this.options.url)) {
                 return;
             }
 

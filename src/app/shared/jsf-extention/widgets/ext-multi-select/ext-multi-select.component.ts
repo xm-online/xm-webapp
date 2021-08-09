@@ -1,8 +1,10 @@
-import { buildFormGroup, JsonSchemaFormService, removeRecursiveReferences } from '@ajsf/core';
+import { buildFormGroup, JsonSchemaFormComponent, JsonSchemaFormService, removeRecursiveReferences } from '@ajsf/core';
 import {
     AfterViewInit,
     ChangeDetectorRef,
     Component,
+    forwardRef,
+    Inject,
     Input,
     OnDestroy,
     OnInit,
@@ -14,11 +16,12 @@ import { FormControl } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { I18nNamePipe } from '@xm-ngx/components/language';
 import { Principal } from '@xm-ngx/core/auth';
-import { ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { ExtSelectService } from '../ext-select/ext-select-service';
 import { ExtMultiSelectOptions } from './ext-multi-select-options.model';
+import BaseExtSelectComponent from '../ext-select/base-ext-select.component';
 
 interface Element {
     label: any;
@@ -29,7 +32,7 @@ interface Element {
     selector: 'xm-ext-multi-select-widget',
     templateUrl: 'ext-multi-select.component.html',
 })
-export class ExtMultiSelectComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ExtMultiSelectComponent extends BaseExtSelectComponent implements OnInit, OnDestroy, AfterViewInit {
     public version: Version = VERSION;
 
     public elementMultiCtrl: any;
@@ -39,22 +42,28 @@ export class ExtMultiSelectComponent implements OnInit, OnDestroy, AfterViewInit
     @Input() public layoutNode: any;
     public options: ExtMultiSelectOptions;
     public elements: any;
-    public controlValue: any;
-    private _onDestroy: Subject<any> = new Subject<void>();
+    protected controlValue: unknown[];
+    protected dataIndex: number[];
 
-    constructor(private jsf: JsonSchemaFormService,
+    constructor(@Inject(forwardRef(() => JsonSchemaFormComponent)) private _parent: JsonSchemaFormComponent,
+                private jsf: JsonSchemaFormService,
                 private selectService: ExtSelectService,
                 private i18nNamePipe: I18nNamePipe,
                 private changeDetectorRef: ChangeDetectorRef,
                 private principal: Principal) {
+        super();
     }
 
     public ngOnInit(): void {
         this.options = this.layoutNode.options || {};
-        const options: any = this.options;
         this.jsf.initializeControl(this);
         this.elements = [];
-        this.fetchData(options);
+
+        if (!ExtSelectService.isTemplateUrl(this.options.url)) {
+            this.fetchData(this.options);
+            return;
+        }
+        this.fetchByLiteral();
     }
 
     public ngAfterViewInit(): void {
@@ -64,6 +73,14 @@ export class ExtMultiSelectComponent implements OnInit, OnDestroy, AfterViewInit
     public ngOnDestroy(): void {
         this._onDestroy.next();
         this._onDestroy.complete();
+    }
+
+    public getParentJsf(): JsonSchemaFormService {
+        return this._parent.jsf;
+    }
+
+    public getJsf(): JsonSchemaFormService {
+        return this.jsf;
     }
 
     public initOptionList(): void {
@@ -109,15 +126,15 @@ export class ExtMultiSelectComponent implements OnInit, OnDestroy, AfterViewInit
         if (!search && search == null) {
             this.filteredElementsMulti.next(this.elements.slice());
             return;
-        } 
+        }
         search = search.toLowerCase();
-        
+
         this.filteredElementsMulti.next(
             this.elements.filter((e) => e.label && e.label.toLowerCase().indexOf(search) > -1),
         );
     }
 
-    private fetchData(options: any): void {
+    protected fetchData(options: any): void {
         if (options.sourceField) {
             const array = new Function('model', 'options', 'return '
                 + options.sourceField)(this.jsf.getData(), this.jsf.formOptions);
@@ -142,7 +159,7 @@ export class ExtMultiSelectComponent implements OnInit, OnDestroy, AfterViewInit
                 this.initOptionList();
             });
         } else {
-            this.selectService.fetchData(this.options).subscribe((elements) => {
+            this.selectService.fetchData(options).subscribe((elements) => {
                 this.elements = elements;
                 this.initOptionList();
                 this.changeDetectorRef.detectChanges();
