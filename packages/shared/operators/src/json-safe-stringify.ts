@@ -1,3 +1,5 @@
+const recurrentDepsLimit = 29;
+
 function filter(censor: unknown): (this: unknown, key: string, value: unknown) => unknown {
     let i = 0;
 
@@ -5,7 +7,7 @@ function filter(censor: unknown): (this: unknown, key: string, value: unknown) =
         if (i !== 0 && typeof (censor) === 'object' && typeof (value) == 'object' && censor == value)
             return '[Circular]';
 
-        if (i >= 29) // limit of recurrent deps
+        if (i >= recurrentDepsLimit)
             return '[Unknown]';
 
         ++i;
