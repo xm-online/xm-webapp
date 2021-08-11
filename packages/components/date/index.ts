@@ -1,4 +1,9 @@
 export {
+    XmStringDateControl,
+    XmStringDateControlModule,
+} from './xm-string-date-control';
+
+export {
     XmDateModule,
     XmDateComponent,
     XmDateOptions,
@@ -17,6 +22,7 @@ export {
     XmDateRangeControlValue,
     XmDateRangeControlModule,
 } from './xm-date-range-control';
+
 export {
     DateRangeFilterControlComponent,
     XmDateRangeFilterControlModule,
@@ -27,4 +33,3 @@ export {
     XmDateViewOptions,
     XmDateViewModule,
 } from './xm-date-view';
-

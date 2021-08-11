@@ -1,6 +1,6 @@
 import { XmLogger } from '@xm-ngx/logger';
 
-export class MockXmLogger {
+export class MockXmLogger implements XmLogger {
     public create(): XmLogger {
         return new MockXmLogger();
     }

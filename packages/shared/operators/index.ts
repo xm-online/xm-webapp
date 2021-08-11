@@ -1,4 +1,5 @@
 export { Defaults } from './src/defaults';
+export { jsonSafeStringify } from './src/json-safe-stringify';
 export { download } from './src/download';
 export { getValue } from './src/get-value';
 export { format } from './src/format';
