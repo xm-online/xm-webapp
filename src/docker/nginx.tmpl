@@ -72,7 +72,7 @@ http {
 	          return 404;
 	      }
         location /management/health {
-          return 200 '{"status":"UP"}'
+          return 200 '{"status":"UP"}';
           add_header Content-Type text/plain;
         }
     }
