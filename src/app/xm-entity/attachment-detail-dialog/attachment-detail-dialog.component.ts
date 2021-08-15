@@ -23,7 +23,7 @@ const ATTACHMENT_EVENT = 'attachmentListModification';
 export class AttachmentDetailDialogComponent implements OnInit {
 
     @Input() public xmEntity: XmEntity;
-    @Input() public attachmentSpecs: AttachmentSpec[];
+    @Input() public attachmentSpecs: AttachmentSpec[] = [];
 
     public attachment: Attachment = {};
     public showLoader: boolean;
@@ -46,14 +46,13 @@ export class AttachmentDetailDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        if (!this.attachmentSpecs || !this.attachmentSpecs.length) {
-            return;
+        if (this.attachmentSpecs[0]) {
+            this.attachment.typeKey = this.attachmentSpecs[0].key;
+            this.attachment.name = this.attachmentSpecs[0].defaultFileName || '';
+            this.readOnlyInputs = this.attachmentSpecs[0].isNameReadonly === true;
         }
 
-        this.attachment.typeKey = this.attachmentSpecs[0].key;
         this.attachment.content = {};
-        this.attachment.name = this.attachmentSpecs[0].defaultFileName ? this.attachmentSpecs[0].defaultFileName : '';
-        this.readOnlyInputs = this.attachmentSpecs[0].isNameReadonly ? this.attachmentSpecs[0].isNameReadonly : true;
     }
 
 
@@ -94,7 +93,7 @@ export class AttachmentDetailDialogComponent implements OnInit {
         });
 
         // Default attachment name
-        if (!this.attachmentSpecs[0].defaultFileName) {
+        if (!this.attachmentSpecs[0]?.defaultFileName) {
             this.attachment.name = file.name;
             nameCtrl.classList.remove('is-empty');
         }
