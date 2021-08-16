@@ -37,7 +37,6 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
 
             <input #input
                    (change)="change($event.target.files)"
-                   [required]="options.required"
                    hidden
                    type="file"/>
 
@@ -46,6 +45,7 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
                    type="text"
                    [readonly]="true"
                    [value]="fileNames"
+                   [formControl]="control"
                    [required]="options.required"
                    [attr.data-qa]="options.dataQa"
                    (click)="input.click()"
@@ -78,5 +78,11 @@ export class FileControlComponent extends NgFormAccessor<File[]> {
 
     public get fileNames(): string {
         return this.value ? _.map(this.value, (i => i.name)).join('') : '';
+    }
+
+    public change(value: File[]): void {
+        this.value = value.length ? value : null;
+        this._onChange(value);
+        this.valueChange.emit(value);
     }
 }
