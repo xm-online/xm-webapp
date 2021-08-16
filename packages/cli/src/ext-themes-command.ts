@@ -35,7 +35,7 @@ export class ExtThemesCommand implements Command {
                 outputStyle: 'compressed',
             }, (err, res) => {
                 if (err) {
-                    console.log(err);
+                    console.warn(err);
                 }
                 fs.writeFileSync(outFile, res.css);
                 console.info(`Building: ${outFile}`);
