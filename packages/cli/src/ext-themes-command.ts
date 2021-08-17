@@ -2,10 +2,10 @@ import * as fs from 'fs';
 import * as glob from 'glob';
 import * as _ from 'lodash';
 import * as sass from 'sass';
-import packageImporter from 'node-sass-package-importer';
 import * as path from 'path';
 import { Command } from './command';
 import { Config } from './config';
+import { packageImporter } from './ext-theming/node-sass-package-importer';
 
 export class ExtThemesCommand implements Command {
     public themesPathMask: string[] = [
@@ -20,7 +20,7 @@ export class ExtThemesCommand implements Command {
     public execute(): void {
         console.info('Building custom theme scss files.');
 
-        const files: string[] = _.flatten(_.map(this.themesPathMask, (themePath) => glob.sync(themePath, { sync: true })));
+        const files: string[] = _.flatten(_.map(this.themesPathMask, (themePath) => glob.sync(themePath, {sync: true})));
         for (const file of files) {
             const matches = /^_?([a-zA-Z-0-9]+).scss$/.exec(path.basename(file)) || [];
             const name = matches[1];
@@ -34,6 +34,9 @@ export class ExtThemesCommand implements Command {
                 outFile: outFile,
                 outputStyle: 'compressed',
             }, (err, res) => {
+                if (err) {
+                    console.warn(err);
+                }
                 fs.writeFileSync(outFile, res.css);
                 console.info(`Building: ${outFile}`);
             });
