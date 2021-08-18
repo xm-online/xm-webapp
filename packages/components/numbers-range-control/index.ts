@@ -1,1 +1,1 @@
-export {NumbersRangeControlModule} from '@xm-ngx/components/numbers-range-control/numbers-range-control.module';
+export { NumbersRangeControlModule } from './numbers-range-control.module';

@@ -8,8 +8,8 @@ import {XmDynamicControlConstructor} from '@xm-ngx/dynamic';
 import {Primitive} from '@xm-ngx/shared/interfaces';
 import {
     NumbersRangeControlComponent,
-    XmNumbersRangeControlOptions
-} from '@xm-ngx/components/numbers-range-control/numbers-range-control.component';
+    XmNumbersRangeControlOptions,
+} from './numbers-range-control.component';
 import {MatCardModule} from '@angular/material/card';
 
 

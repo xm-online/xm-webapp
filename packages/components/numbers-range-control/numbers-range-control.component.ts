@@ -1,11 +1,11 @@
-import {DataQa, Primitive} from '@xm-ngx/shared/interfaces';
-import {Translate} from '@xm-ngx/translation';
-import {ChangeDetectionStrategy, Component, Inject, Input, Optional, Self, ViewEncapsulation} from '@angular/core';
-import {NgFormAccessor} from '@xm-ngx/components/ng-accessor';
-import {XmDynamicControl} from '@xm-ngx/dynamic';
-import {FormControl, NgControl, Validators} from '@angular/forms';
-import {XM_CONTROL_ERRORS_TRANSLATES} from '@xm-ngx/components/control-error';
-import {defaults} from 'lodash';
+import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
+import { Translate } from '@xm-ngx/translation';
+import { ChangeDetectionStrategy, Component, Inject, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
+import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { XmDynamicControl } from '@xm-ngx/dynamic';
+import { FormControl, NgControl, Validators } from '@angular/forms';
+import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
+import { defaults } from 'lodash';
 
 
 export interface XmNumbersRangeControlOptions extends DataQa {
@@ -21,8 +21,8 @@ export interface XmNumbersRangeControlOptions extends DataQa {
     nameTo: string,
     requiredFrom: boolean,
     requiredTo: boolean,
-    errorsFrom: { [errorKey: string]: Translate },
-    errorsTo: { [errorKey: string]: Translate },
+    errorsFrom: {[errorKey: string]: Translate},
+    errorsTo: {[errorKey: string]: Translate},
     direction: 'vertical' | 'horizontal',
 }
 
@@ -98,7 +98,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumbersRangeControlOptions = {
 })
 export class NumbersRangeControlComponent extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmNumbersRangeControlOptions> {
     constructor(@Optional() @Self() public ngControl: NgControl | null,
-                @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
+                @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: {[errorKey: string]: Translate}) {
         super(ngControl);
     }
 
@@ -106,6 +106,7 @@ export class NumbersRangeControlComponent extends NgFormAccessor<Primitive> impl
     public get valueFrom(): number {
         return this._valueFrom;
     }
+
     public set valueFrom(value: number) {
         this._valueFrom = value;
         this.controlTo.setValidators([Validators.min(this.valueFrom)]);
@@ -115,6 +116,7 @@ export class NumbersRangeControlComponent extends NgFormAccessor<Primitive> impl
     public get valueTo(): number {
         return this._valueTo;
     }
+
     public set valueTo(value: number) {
         this._valueTo = value;
         this.controlFrom.setValidators([Validators.max(this.valueTo)]);
@@ -131,7 +133,10 @@ export class NumbersRangeControlComponent extends NgFormAccessor<Primitive> impl
 
     @Input()
     public set options(value: XmNumbersRangeControlOptions) {
-        this._options = defaults({}, value, { ...XM_NUMBER_CONTROL_DEFAULT_OPTIONS, errors: this.xmControlErrorsTranslates });
+        this._options = defaults({}, value, {
+            ...XM_NUMBER_CONTROL_DEFAULT_OPTIONS,
+            errors: this.xmControlErrorsTranslates,
+        });
         this._options.placeholderFrom = this._options.placeholderFrom || this._options.titleFrom;
         this._options.placeholderTo = this._options.placeholderTo || this._options.titleTo;
     }
