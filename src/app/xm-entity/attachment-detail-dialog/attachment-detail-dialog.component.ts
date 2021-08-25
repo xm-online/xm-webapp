@@ -46,7 +46,7 @@ export class AttachmentDetailDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        if (this.attachmentSpecs[0]) {
+        if (this.attachmentSpecs && this.attachmentSpecs.length) {
             this.attachment.typeKey = this.attachmentSpecs[0].key;
             this.attachment.name = this.attachmentSpecs[0].defaultFileName || '';
             this.readOnlyInputs = this.attachmentSpecs[0].isNameReadonly === true;
