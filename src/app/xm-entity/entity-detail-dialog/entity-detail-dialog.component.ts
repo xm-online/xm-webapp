@@ -17,9 +17,10 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
+import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
 import * as formatString from 'string-template';
 
-import { buildJsfAttributes, nullSafe } from '../../shared/jsf-extention/jsf-attributes-helper';
+import { nullSafe } from '../../shared/jsf-extention/jsf-attributes-helper';
 import { XM_EVENT_LIST } from '../../xm.constants';
 import { Spec } from '../shared/spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
@@ -50,7 +51,10 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
     constructor(private activeModal: MatDialogRef<EntityDetailDialogComponent>,
                 private changeDetector: ChangeDetectorRef,
                 private xmEntityService: XmEntityService,
-                private eventManager: XmEventManager) {
+                private eventManager: XmEventManager,
+                protected widgetService: JsfComponentRegistryService
+                
+                ) {
         this.nameValidPattern = null;
         this.smartDescription = {
             active: false,
@@ -89,7 +93,7 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
         this.xmEntity.typeKey = xmEntitySpec.key;
         this.selectedXmEntitySpec = xmEntitySpec;
         if (xmEntitySpec.dataSpec) {
-            this.jsfAttributes = buildJsfAttributes(xmEntitySpec.dataSpec, xmEntitySpec.dataForm);
+            this.jsfAttributes = this.widgetService.buildJsfAttributes(xmEntitySpec.dataSpec, xmEntitySpec.dataForm);
             this.jsfAttributes.data = Object.assign(nullSafe(this.jsfAttributes.data), nullSafe(this.xmEntity.data));
         }
         this.nameValidPattern = xmEntitySpec.nameValidationPattern ? xmEntitySpec.nameValidationPattern : null;

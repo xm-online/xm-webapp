@@ -17,13 +17,14 @@ import {
     FieldOptions,
 } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
 import { FunctionCallDialogComponent } from '@xm-ngx/entity/function-call-dialog/function-call-dialog.component';
-import { buildJsfAttributes, transpilingForIE } from '@xm-ngx/json-scheme-form';
+import { transpilingForIE } from '@xm-ngx/json-scheme-form';
 import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
 import { merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { flattenEntityWithPath, getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
+import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
 import { ContextService } from '../../../shared';
 import { saveFile } from '../../../shared/helpers/file-download-helper';
 import { XM_EVENT_LIST } from '../../../xm.constants';
@@ -66,7 +67,9 @@ export class EntityListComponent implements OnInit, OnDestroy {
                 private toasterService: XmToasterService,
                 private eventManager: XmEventManager,
                 private xmEntityService: XmEntityService,
-                private alertService: XmAlertService) {
+                private alertService: XmAlertService,
+                private widgetService: JsfComponentRegistryService
+                ) {
     }
 
     public ngOnInit(): void {
@@ -85,7 +88,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
         }
 
         if (this.item.filter) {
-            this.item.filterJsfAttributes = buildJsfAttributes(this.item.filter.dataSpec, this.item.filter.dataForm);
+            this.item.filterJsfAttributes = this.widgetService.buildJsfAttributes(this.item.filter.dataSpec, this.item.filter.dataForm);
         }
 
         if (this.item.fields) { // Workaround: server sorting doesn't work atm for nested "data" fields
@@ -243,7 +246,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
     public filtersReset(activeList: any): void {
         const filter = activeList.filter || null;
         if (filter) {
-            activeList.filterJsfAttributes = buildJsfAttributes(filter.dataSpec, filter.dataForm);
+            activeList.filterJsfAttributes = this.widgetService.buildJsfAttributes(filter.dataSpec, filter.dataForm);
             activeList.currentQuery = null;
             activeList.currentQuery = this.getDefaultSearch(activeList);
         }

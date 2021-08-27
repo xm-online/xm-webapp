@@ -5,7 +5,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
-import { buildJsfAttributes } from '../../shared/jsf-extention/jsf-attributes-helper';
+import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
 import { NextSpec } from '../shared/state-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
@@ -31,14 +31,16 @@ export class StateChangeDialogComponent implements OnInit {
     constructor(private activeModal: MatDialogRef<StateChangeDialogComponent>,
                 private xmEntityService: XmEntityService,
                 private alertService: XmAlertService,
-                private toasterService: XmToasterService) {
+                private toasterService: XmToasterService,
+                private widgetService: JsfComponentRegistryService
+                ) {
     }
 
     public ngOnInit(): void {
         // TODO: think about correct way to work with context
         $.xmEntity = this.xmEntity;
         if (this.nextSpec && this.nextSpec.inputSpec) {
-            this.jsfAttributes = buildJsfAttributes(this.nextSpec.inputSpec, this.nextSpec.inputForm);
+            this.jsfAttributes = this.widgetService.buildJsfAttributes(this.nextSpec.inputSpec, this.nextSpec.inputForm);
         }
         $.xmEntity = null;
     }

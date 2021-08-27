@@ -8,12 +8,12 @@ import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { catchError, filter, finalize, share, tap } from 'rxjs/operators';
 import { getFileNameFromResponseContentDisposition, saveFile } from '../../shared/helpers/file-download-helper';
-import { buildJsfAttributes } from '../../shared/jsf-extention/jsf-attributes-helper';
 import { XM_EVENT_LIST } from '../../xm.constants';
 import { FunctionSpec } from '../shared/function-spec.model';
 import { FunctionService } from '../shared/function.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { JsonSchemaFormService } from '@ajsf/core';
+import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
 
 declare let $: any;
 
@@ -44,14 +44,16 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
                 private eventManager: XmEventManager,
                 private alertService: XmAlertService,
                 private ref: ChangeDetectorRef,
-                private router: Router) {
+                private router: Router,
+                private widgetService: JsfComponentRegistryService
+                ) {
     }
 
     public ngOnInit(): void {
         // TODO: think about correct way to work with context
         $.xmEntity = this.xmEntity;
         if (this.functionSpec) {
-            this.jsfAttributes = buildJsfAttributes(this.functionSpec.inputSpec || {},
+            this.jsfAttributes = this.widgetService.buildJsfAttributes(this.functionSpec.inputSpec || {},
                 this.functionSpec.inputForm || {});
         }
         $.xmEntity = null;
@@ -141,7 +143,7 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
             }).subscribe();
         } else if (data && this.functionSpec.showResponse && this.functionSpec.contextDataForm) {
             this.showSecondStep$.next(true);
-            this.jsfAttributes = buildJsfAttributes(
+            this.jsfAttributes = this.widgetService.buildJsfAttributes(
                 this.functionSpec.contextDataSpec ? this.functionSpec.contextDataSpec : {},
                 this.functionSpec.contextDataForm ? this.functionSpec.contextDataForm : {});
             this.jsfAttributes.data = data;
