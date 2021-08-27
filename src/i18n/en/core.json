@@ -1444,6 +1444,10 @@
       "type-tag": "type tag ..."
     }
   },
+  "xm-enum": {
+    "other": "Other",
+    "others": "Others"
+  },
   "xm-navbar-language-menu": {
     "choose-language": "Choose a language"
   },

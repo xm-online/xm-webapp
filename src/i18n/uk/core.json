@@ -1410,6 +1410,10 @@
       "type-tag": "додати тег ..."
     }
   },
+  "xm-enum": {
+    "other": "Інше",
+    "others": "Інші"
+  },
   "xm-navbar-language-menu": {
     "choose-language": "Виберіть мову"
   },
