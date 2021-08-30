@@ -13,8 +13,8 @@
            class="img img-fluid">
     </div>
   <div class="card-body text-center">
-    <p class="category"><em>{{attachmentSpec.name | translate | uppercase}}</em></p>
-    <h5 class="card-title attachment-card-title xm-word-wrap">{{attachment.name}}</h5>
+    <p class="category"><em>{{attachmentSpec?.name | translate | uppercase}}</em></p>
+    <h5 class="card-title attachment-card-title xm-word-wrap">{{attachment?.name}}</h5>
   </div>
   <div class="card-footer">
     <div class="stats">{{getFileSize(2)}}</div>
