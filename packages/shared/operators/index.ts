@@ -1,7 +1,9 @@
 export { Defaults } from './src/defaults';
+export { jsonSafeStringify } from './src/json-safe-stringify';
 export { download } from './src/download';
 export { getValue } from './src/get-value';
 export { format } from './src/format';
+export { flattenObject } from './src/flattenObject';
 export { debug } from './src/rxjs-debug';
 export { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from './src/take-until-on-destroy';
 export { transformByMap } from './src/transform-by-map';

@@ -1433,6 +1433,10 @@
       "type-tag": "добавить тег ..."
     }
   },
+  "xm-enum": {
+    "other": "Другое",
+    "others": "Другие"
+  },
   "xm-navbar-language-menu": {
     "choose-language": "Выбрать язык"
   },

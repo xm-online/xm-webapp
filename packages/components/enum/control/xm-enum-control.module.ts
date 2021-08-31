@@ -30,5 +30,5 @@ import { XmTranslationModule } from '@xm-ngx/translation';
     declarations: [XmEnumControlComponent],
 })
 export class XmEnumControlModule {
-    public entry: XmDynamicControlConstructor<XmEnumValue, XmEnumControlOptions> = XmEnumControlComponent;
+    public entry: XmDynamicControlConstructor<XmEnumValue | XmEnumValue[], XmEnumControlOptions> = XmEnumControlComponent;
 }
