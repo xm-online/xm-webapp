@@ -1,15 +1,31 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+    XM_CONTROL_ERRORS_TRANSLATES_DEFAULT,
+    XmControlErrorsTranslates,
+} from '@xm-ngx/components/control-error/xm-control-errors-translates';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+
+
+/***
+ * Extends validators
+ * ***/
+export const XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES: XmControlErrorsTranslates = {
+    ...XM_CONTROL_ERRORS_TRANSLATES_DEFAULT,
+    minDate: marker('xm-validator-processing.validators.minDate'),
+    languageRequired: marker('xm-validator-processing.validators.languageRequired'),
+    minArrayLength: marker('xm-validator-processing.validators.minArrayLength'),
+};
 
 export interface ValidatorProcessingOption {
     type: string;
     params?: unknown;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ValidatorProcessingService {
 
-    private validators: { [key: string]: (...args: any[]) => ValidatorFn | ValidationErrors } = {
+    private validators: {[key: string]: (...args: any[]) => ValidatorFn | ValidationErrors} = {
         languageRequired: ValidatorProcessingService.languageRequired,
         minArrayLength: ValidatorProcessingService.minArrayLength,
         pattern: Validators.pattern,
@@ -33,7 +49,7 @@ export class ValidatorProcessingService {
             });
 
             return invalidLanguages.length > 0
-                ? { languageRequired: invalidLanguages }
+                ? {languageRequired: invalidLanguages}
                 : null;
         };
     }
@@ -50,12 +66,12 @@ export class ValidatorProcessingService {
 
             const length: number = control.value ? control.value.length : 0;
             return length < minLength
-                ? { minArrayLength: { requiredLength: minLength, actualLength: length } }
+                ? {minArrayLength: {requiredLength: minLength, actualLength: length}}
                 : null;
         };
     }
 
-    public static minDate(options: { type: 'TODAY' | 'TOMORROW' }): ValidatorFn {
+    public static minDate(options: {type: 'TODAY' | 'TOMORROW'}): ValidatorFn {
         return (control: AbstractControl) => {
             function isEmptyInputValue(value: any): boolean {
                 return value == null || value.length === 0;
@@ -75,7 +91,7 @@ export class ValidatorProcessingService {
             }
             const length: number = control.value ? control.value?.getTime() : 0;
             return length < date.getTime()
-                ? { minDate: { minDate: date, actualDate: control.value, minDateI18n: date.toISOString().split('T')[0] } }
+                ? {minDate: {minDate: date, actualDate: control.value, minDateI18n: date.toISOString().split('T')[0]}}
                 : null;
         };
     }

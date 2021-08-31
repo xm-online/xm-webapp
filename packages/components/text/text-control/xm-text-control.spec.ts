@@ -7,6 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { XmTextControl } from './xm-text-control';
+import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
 describe('XmTextControl', () => {
     let component: XmTextControl;
@@ -22,7 +23,7 @@ describe('XmTextControl', () => {
                 MatInputModule,
                 ReactiveFormsModule,
                 ControlErrorModule,
-                ControlErrorModule.forRoot(),
+                ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 NoopAnimationsModule,
             ],
         }).compileComponents();

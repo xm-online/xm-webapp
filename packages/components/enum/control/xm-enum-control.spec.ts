@@ -10,6 +10,7 @@ import { XmEnumControlComponent } from '@xm-ngx/components/enum';
 import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
+import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
 describe('XmEnumControlComponent', () => {
     let component: XmEnumControlComponent;
@@ -28,7 +29,7 @@ describe('XmEnumControlComponent', () => {
                 ReactiveFormsModule,
                 XmPermissionModule,
                 ControlErrorModule,
-                ControlErrorModule.forRoot(),
+                ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 NoopAnimationsModule,
             ],
         }).compileComponents();
