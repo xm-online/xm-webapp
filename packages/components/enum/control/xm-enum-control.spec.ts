@@ -10,6 +10,7 @@ import { XmEnumControlComponent } from '@xm-ngx/components/enum';
 import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
+import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
 describe('XmEnumControlComponent', () => {
     let component: XmEnumControlComponent;
@@ -28,7 +29,7 @@ describe('XmEnumControlComponent', () => {
                 ReactiveFormsModule,
                 XmPermissionModule,
                 ControlErrorModule,
-                ControlErrorModule.forRoot(),
+                ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 NoopAnimationsModule,
             ],
         }).compileComponents();
@@ -84,5 +85,63 @@ describe('XmEnumControlComponent', () => {
         expect(component.value).toBe(value);
         expect(component.itemsMap[String(value)].value).toBe(value);
     });
+
+    describe('multiple selection mode', () => {
+
+        it('value boolean should be equal to options.items[i] value', () => {
+            const value = false;
+            const title = 'False';
+            component.options = { dataQa: '', items: [{ value, title }, { value: '1', title: '1' }] };
+            component.value = [value];
+            fixture.detectChanges();
+            expect(component.value).toEqual([value]);
+            expect(component.itemsMap[String(value)].value).toBe(value);
+        });
+
+        it('value string should be equal to options.items[i] value', () => {
+            const value = 'false';
+            const title = 'False';
+            component.value = [value];
+            component.options = { dataQa: '', items: [{ value, title }, { value: 1, title: '1' }] };
+            fixture.detectChanges();
+            expect(component.value).toEqual([value]);
+            expect(component.itemsMap[String(value)].value).toBe(value);
+        });
+
+
+        it('value number should be equal to options.items[i] value', () => {
+            const value = 1;
+            const title = 'False';
+            component.value = [value];
+            component.options = { dataQa: '', items: [{ value, title }, { value: 2, title: '1' }] };
+            fixture.detectChanges();
+            expect(component.value).toEqual([value]);
+            expect(component.itemsMap[String(value)].value).toBe(value);
+        });
+
+        it('value number zero should be equal to options.items[i] value', () => {
+            const value = 0;
+            const title = 'False';
+            component.value = [value];
+            component.options = { dataQa: '', items: [{ value: 1, title: '1' },{ value, title } ] };
+            fixture.detectChanges();
+            expect(component.value).toEqual([value]);
+            expect(component.itemsMap[String(value)].value).toBe(value);
+        });
+
+        it('first element in value array should be equal to options.items[i] value', () => {
+            const value = [1, 2, 3];
+            const title = 'False';
+            component.value = value;
+            component.options = {
+                dataQa: '', multiple: true,
+                items: [{ value: value[0], title }, { value: value[1], title: '1' }, { value: value[2], title: '2' }],
+            };
+            fixture.detectChanges();
+            expect(component.value).toEqual([1, 2, 3]);
+            expect(component.itemsMap[String(value[0])].value).toEqual(value[0]);
+        });
+    });
+
 
 });

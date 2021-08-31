@@ -1433,6 +1433,10 @@
       "type-tag": "добавить тег ..."
     }
   },
+  "xm-enum": {
+    "other": "Другое",
+    "others": "Другие"
+  },
   "xm-navbar-language-menu": {
     "choose-language": "Выбрать язык"
   },
@@ -1562,6 +1566,13 @@
       "treeView": "В виде дерева",
       "type": "Тип",
       "votes": "Голос(а)"
+    }
+  },
+  "xm-validator-processing": {
+    "validators": {
+      "minDate": "Выбранная дата меньше минимальной даты ({{minDateI18n}}).",
+      "languageRequired": "",
+      "minArrayLength": "Массив меньше минимальной длины ({{requiredLength}})."
     }
   }
 }

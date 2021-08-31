@@ -1410,6 +1410,10 @@
       "type-tag": "додати тег ..."
     }
   },
+  "xm-enum": {
+    "other": "Інше",
+    "others": "Інші"
+  },
   "xm-navbar-language-menu": {
     "choose-language": "Виберіть мову"
   },
@@ -1524,6 +1528,13 @@
       "treeView": "Вид дерева",
       "type": "Тип",
       "votes": "Голос(а)"
+    }
+  },
+  "xm-validator-processing": {
+    "validators": {
+      "minDate": "Обрана дата менше ніж мінімальна дата ({{minDateI18n}}).",
+      "languageRequired": "",
+      "minArrayLength": "Масив менший за мінімальну допустиму довжину ({{requiredLength}})."
     }
   }
 }
