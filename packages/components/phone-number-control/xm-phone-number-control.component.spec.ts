@@ -9,7 +9,6 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { XmPhoneNumberControlComponent } from './xm-phone-number-control.component';
-import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
 describe('XmPhoneNumberControlComponent', () => {
     let component: XmPhoneNumberControlComponent;
@@ -24,7 +23,6 @@ describe('XmPhoneNumberControlComponent', () => {
                 FormsModule,
                 ReactiveFormsModule,
                 ControlErrorModule,
-                ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 NgxMaskModule.forRoot(),
                 NoopAnimationsModule,
             ],

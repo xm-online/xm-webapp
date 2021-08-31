@@ -16,7 +16,6 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardEditComponent } from './dashboard-edit.component';
-import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
 @Component({
     selector: 'xm-text-control, xm-ace-editor-control',
@@ -43,7 +42,7 @@ describe('DashboardEditComponent', () => {
                 NoopAnimationsModule,
                 HttpClientTestingModule,
                 FormsModule,
-                ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
+                ControlErrorModule,
             ],
             declarations: [DashboardEditComponent, MockXmTextControlComponent],
             providers: [
