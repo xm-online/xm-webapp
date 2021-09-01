@@ -15,6 +15,7 @@ export const XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES: XmControlErrorsT
     minDate: marker('xm-validator-processing.validators.minDate'),
     languageRequired: marker('xm-validator-processing.validators.languageRequired'),
     minArrayLength: marker('xm-validator-processing.validators.minArrayLength'),
+    valueLessThanIn: marker('xm-control-errors.validators.pattern'),
 };
 
 export interface ValidatorProcessingOption {
@@ -36,6 +37,8 @@ export class ValidatorProcessingService {
         min: Validators.min,
         maxLength: Validators.maxLength,
         minDate: ValidatorProcessingService.minDate,
+        valueLessThanIn: ValidatorProcessingService.valueLessThanIn,
+        valueMoreThanIn: ValidatorProcessingService.valueMoreThanIn,
     };
 
     public static languageRequired(languages: string[]): ValidatorFn {
@@ -93,6 +96,34 @@ export class ValidatorProcessingService {
             return length < date.getTime()
                 ? {minDate: {minDate: date, actualDate: control.value, minDateI18n: date.toISOString().split('T')[0]}}
                 : null;
+        };
+    }
+
+    public static valueMoreThanIn(controlName: string): ValidatorFn | null {
+        return (control: AbstractControl) => {
+            if(control?.value > control?.parent?.get(controlName)?.value) {
+                return {
+                    valueMoreThanIn: {
+                        controlName,
+                    },
+                };
+            }
+            control?.parent?.get(controlName)?.setErrors(null);
+            return null;
+        };
+    }
+
+    public static valueLessThanIn(controlName: string): ValidatorFn | null {
+        return (control: AbstractControl) => {
+            if(control?.value < control?.parent?.get(controlName)?.value) {
+                return {
+                    valueLessThanIn: {
+                        controlName,
+                    },
+                };
+            }
+            control?.parent?.get(controlName)?.setErrors(null);
+            return null;
         };
     }
 
