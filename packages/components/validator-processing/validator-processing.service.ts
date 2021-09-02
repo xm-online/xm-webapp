@@ -16,6 +16,7 @@ export const XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES: XmControlErrorsT
     languageRequired: marker('xm-validator-processing.validators.languageRequired'),
     minArrayLength: marker('xm-validator-processing.validators.minArrayLength'),
     valueLessThanIn: marker('xm-control-errors.validators.pattern'),
+    valueMoreThanIn: marker('xm-control-errors.validators.pattern'),
 };
 
 export interface ValidatorProcessingOption {
