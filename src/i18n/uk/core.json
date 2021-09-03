@@ -1534,7 +1534,9 @@
     "validators": {
       "minDate": "Обрана дата менше ніж мінімальна дата ({{minDateI18n}}).",
       "languageRequired": "",
-      "minArrayLength": "Масив менший за мінімальну допустиму довжину ({{requiredLength}})."
+      "minArrayLength": "Масив менший за мінімальну допустиму довжину ({{requiredLength}}).",
+      "valueMoreThanIn": "Значення введено некоректно",
+      "valueLessThanIn": "Значення введено некоректно"
     }
   }
 }
