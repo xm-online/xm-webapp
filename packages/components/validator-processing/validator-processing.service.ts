@@ -102,7 +102,8 @@ export class ValidatorProcessingService {
 
     public static valueMoreThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
-            if(control?.value > control?.parent?.get(controlName)?.value) {
+            const compareValue = control?.parent?.get(controlName)?.value;
+            if(compareValue !== '' && control?.value > compareValue) {
                 return {
                     valueMoreThanIn: {
                         controlName,
@@ -116,7 +117,8 @@ export class ValidatorProcessingService {
 
     public static valueLessThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
-            if(control?.value < control?.parent?.get(controlName)?.value) {
+            const compareValue = control?.parent?.get(controlName)?.value;
+            if(compareValue !== '' && control?.value < compareValue) {
                 return {
                     valueLessThanIn: {
                         controlName,

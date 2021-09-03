@@ -1572,7 +1572,9 @@
     "validators": {
       "minDate": "Выбранная дата меньше минимальной даты ({{minDateI18n}}).",
       "languageRequired": "",
-      "minArrayLength": "Массив меньше минимальной длины ({{requiredLength}})."
+      "minArrayLength": "Массив меньше минимальной длины ({{requiredLength}}).",
+      "valueMoreThanIn": "Значение введено некорректно",
+      "valueLessThanIn": "Значение введено некорректно"
     }
   }
 }
