@@ -47,10 +47,10 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
                         [placeholder]="options?.title | translate">
                 <mat-select-trigger>
                     <ng-container *ngIf="options.multiple; else singleSelection">
-                        <ng-container *ngIf="itemsMap && itemsMap[value[0] + '']">
+                        <ng-container *ngIf="itemsMap && itemsMap[(value ? (value[0]+'') : '')]">
                             <mat-icon style="vertical-align: middle"
-                                      *ngIf="itemsMap[value[0] + '']?.icon">{{itemsMap[value[0] + ''].icon}}</mat-icon>
-                            {{(itemsMap[value[0] + ''].title | translate) || ''}}
+                                      *ngIf="itemsMap[(value ? (value[0]+'') : '')]?.icon">{{itemsMap[(value ? (value[0]+'') : '')].icon}}</mat-icon>
+                            {{(itemsMap[(value ? (value[0]+'') : '')].title | translate) || ''}}
                         </ng-container>
                         <span *ngIf="control.value?.length > 1" class="small">
                         (+{{control.value?.length - 1}} {{(control.value?.length === 2 ? "xm-enum.other" : "xm-enum.others")  | translate}})
