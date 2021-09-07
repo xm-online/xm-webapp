@@ -20,7 +20,6 @@ export const XM_ENUM_ELEMENTS: XmDynamicEntry[] = [
         selector: '@xm-ngx/components/xm-enum-view',
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumViewModule),
     },
-
     {
         selector: '@xm-ngx/components/enum-control',
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlModule),
@@ -29,5 +28,9 @@ export const XM_ENUM_ELEMENTS: XmDynamicEntry[] = [
         /** @deprecated use `@xm-ngx/components/enum-control` instead */
         selector: '@xm-ngx/components/xm-enum-control',
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlModule),
+    },
+    {
+        selector: '@xm-ngx/components/multiple-enum-control',
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmMultipleEnumControlModule),
     },
 ];
