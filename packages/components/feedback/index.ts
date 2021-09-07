@@ -1,2 +1,2 @@
 export { FeedbackModule } from './feedback.module';
-export { FeedbackComponent } from './feedback.component';
+export { FeedbackComponent, FeedbackConfig } from './feedback.component';
