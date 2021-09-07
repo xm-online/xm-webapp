@@ -5,14 +5,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmEnumValue } from '../value/xm-enum.component';
-import {
-    XmEnumControlComponent,
-    XmEnumControlOptions,
-} from './xm-enum-control.component';
+import { XmEnumControlOptions } from '../control/xm-enum-control.component';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmDynamicControlConstructor } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmEnumValue } from '../value/xm-enum.component';
+import { XmMultipleEnumControlComponent } from './xm-multiple-enum-control.component';
 
 @NgModule({
     imports: [
@@ -26,9 +24,9 @@ import { XmTranslationModule } from '@xm-ngx/translation';
         ReactiveFormsModule,
         XmPermissionModule,
     ],
-    exports: [XmEnumControlComponent],
-    declarations: [XmEnumControlComponent],
+    exports: [XmMultipleEnumControlComponent],
+    declarations: [XmMultipleEnumControlComponent],
 })
-export class XmEnumControlModule {
-    public entry: XmDynamicControlConstructor<XmEnumValue, XmEnumControlOptions> = XmEnumControlComponent;
+export class XmMultipleEnumControlModule {
+    public entry: XmDynamicControlConstructor<XmEnumValue[], XmEnumControlOptions> = XmMultipleEnumControlComponent;
 }

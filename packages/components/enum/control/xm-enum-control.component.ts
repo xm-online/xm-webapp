@@ -16,7 +16,6 @@ export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
     items: XmEnumControlOptionsItem[];
     showClearButton?: boolean;
     clearButtonText?: Translate | string;
-    multiple?: boolean;
 }
 
 export interface XmEnumControlOptionsItem extends XmEnumOptionsItem {
@@ -32,7 +31,6 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
     items: [],
     showClearButton: false,
     clearButtonText: 'admin-config.common.cancel',
-    multiple: false,
 };
 
 @Component({
@@ -42,30 +40,14 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
             <mat-select [formControl]="control"
                         [required]="options.required"
                         [id]="options.id"
-                        [multiple]="options.multiple"
                         [attr.data-qa]="options.dataQa"
                         [placeholder]="options?.title | translate">
                 <mat-select-trigger>
-                    <ng-container *ngIf="options.multiple; else singleSelection">
-                        <ng-container *ngIf="itemsMap && itemsMap[(value ? (value[0]+'') : '')]">
-                            <mat-icon style="vertical-align: middle"
-                                      *ngIf="itemsMap[(value ? (value[0]+'') : '')]?.icon">{{itemsMap[(value ? (value[0]+'') : '')].icon}}</mat-icon>
-                            {{(itemsMap[(value ? (value[0]+'') : '')].title | translate) || ''}}
-                        </ng-container>
-                        <span *ngIf="control.value?.length > 1" class="small">
-                        (+{{control.value?.length - 1}} {{(control.value?.length === 2 ? "xm-enum.other" : "xm-enum.others")  | translate}})
-                        </span>
-                    </ng-container> 
-
-                    <ng-template #singleSelection>
-                        <ng-container *ngIf="itemsMap && itemsMap[value + '']">
-                            <mat-icon style="vertical-align: middle"
-                                      *ngIf="itemsMap[value + '']?.icon">{{itemsMap[value + ''].icon}}</mat-icon>
-                            {{(itemsMap[value + ''].title | translate) || ''}}
-                        </ng-container>
-                    </ng-template>
-
-
+                    <ng-container *ngIf="itemsMap && itemsMap[value + '']">
+                        <mat-icon style="vertical-align: middle"
+                                  *ngIf="itemsMap[value + '']?.icon">{{itemsMap[value + ''].icon}}</mat-icon>
+                        {{(itemsMap[value + ''].title | translate) || ''}}
+                    </ng-container>
                 </mat-select-trigger>
 
                 <ng-container *ngIf="options.showClearButton">
@@ -90,8 +72,8 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmEnumControlComponent
-    extends NgFormAccessor<XmEnumValue | XmEnumValue[]>
-    implements XmDynamicControl<XmEnumValue | XmEnumValue[], XmEnumControlOptions> {
+    extends NgFormAccessor<XmEnumValue>
+    implements XmDynamicControl<XmEnumValue, XmEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: {[value: string]: XmEnumControlOptionsItem};
     private _options: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);
