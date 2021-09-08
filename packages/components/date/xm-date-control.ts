@@ -57,13 +57,14 @@ export class XmDateControl extends NgFormAccessor<XmDateValue>{
 
     public changeDateControl({value}: MatDatepickerInputEvent<unknown>): void {
         if (value instanceof Date) {
-
             if (this.options?.useUtc) {
                 const utcDate = new Date(
                     Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()),
                 );
                 this.control.setValue(utcDate, {emitEvent: true});
             }
+        } else if (value === null) {
+            this.control.setValue('', {emitEvent: true});
         }
     }
 }
