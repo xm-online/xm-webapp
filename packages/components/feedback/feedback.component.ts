@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '@xm-ngx/core/environment';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -8,6 +8,7 @@ import { filter, finalize, switchMap } from 'rxjs/operators';
 
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
 import { FeedbackService, IFeedbackRequest } from './feedback.service';
+import { Permissible } from '@xm-ngx/shared/interfaces';
 
 export function screenshot(): Observable<string> {
     return new Observable((subject) => {
@@ -19,7 +20,7 @@ export function screenshot(): Observable<string> {
     });
 }
 
-export interface FeedbackConfig {
+export interface FeedbackConfig extends Permissible {
     feedback: {
         url: string;
     };
@@ -28,19 +29,21 @@ export interface FeedbackConfig {
 @Component({
     selector: 'xm-feedback',
     template: `
-        <button *ngIf="config?.feedback?.url"
-                [xm-loading]="loading"
-                [disabled]="loading"
-                (click)="create(config.feedback.url)"
-                [matTooltip]="'dashboard-config-widget.feedback.tooltip' | translate"
-                mat-icon-button>
-            <mat-icon>feedback</mat-icon>
-        </button>
+        <ng-container *xmPermission="config?.permission">
+            <button *ngIf="config?.feedback?.url"
+                    [xm-loading]="loading"
+                    [disabled]="loading"
+                    (click)="create(config.feedback.url)"
+                    [matTooltip]="'dashboard-config-widget.feedback.tooltip' | translate"
+                    mat-icon-button>
+                <mat-icon>feedback</mat-icon>
+            </button>
+        </ng-container>
     `,
 })
 export class FeedbackComponent {
 
-    public config: FeedbackConfig;
+    @Input() public config: FeedbackConfig;
     public loading: boolean = false;
 
     constructor(
