@@ -4,7 +4,6 @@ import {
     XM_CONTROL_ERRORS_TRANSLATES_DEFAULT,
     XmControlErrorsTranslates,
 } from '@xm-ngx/components/control-error/xm-control-errors-translates';
-import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 
 /***
@@ -12,11 +11,6 @@ import { marker } from '@biesbjerg/ngx-translate-extract-marker';
  * ***/
 export const XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES: XmControlErrorsTranslates = {
     ...XM_CONTROL_ERRORS_TRANSLATES_DEFAULT,
-    minDate: marker('xm-validator-processing.validators.minDate'),
-    languageRequired: marker('xm-validator-processing.validators.languageRequired'),
-    minArrayLength: marker('xm-validator-processing.validators.minArrayLength'),
-    valueLessThanIn: marker('xm-control-errors.validators.pattern'),
-    valueMoreThanIn: marker('xm-control-errors.validators.pattern'),
 };
 
 export interface ValidatorProcessingOption {

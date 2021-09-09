@@ -16,4 +16,9 @@ export const XM_CONTROL_ERRORS_TRANSLATES_DEFAULT: XmControlErrorsTranslates = {
     minlength: marker('xm-control-errors.validators.minlength'),
     maxlength: marker('xm-control-errors.validators.maxlength'),
     pattern: marker('xm-control-errors.validators.pattern'),
+    minDate: marker('xm-validator-processing.validators.minDate'),
+    languageRequired: marker('xm-validator-processing.validators.languageRequired'),
+    minArrayLength: marker('xm-validator-processing.validators.minArrayLength'),
+    valueLessThanIn: marker('xm-control-errors.validators.pattern'),
+    valueMoreThanIn: marker('xm-control-errors.validators.pattern'),
 };
