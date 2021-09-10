@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { buildJsfAttributes, getJsfWidgets } from '.';
+import { buildJsfAttributes, getJsfWidgets } from './jsf-attributes-helper';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JsfComponentRegistryService {
 
-  private componentList: any = {};
+  private componentList: {[key: string]: Object} = {};
 
   constructor() { 
     this.componentList = getJsfWidgets();
