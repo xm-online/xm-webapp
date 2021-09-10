@@ -3,6 +3,7 @@ export { jsonSafeStringify } from './src/json-safe-stringify';
 export { download } from './src/download';
 export { getValue } from './src/get-value';
 export { format } from './src/format';
+export { removeEmptyDeep } from './src/remove-empty-deep';
 export { flattenObject } from './src/flattenObject';
 export { debug } from './src/rxjs-debug';
 export { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from './src/take-until-on-destroy';
