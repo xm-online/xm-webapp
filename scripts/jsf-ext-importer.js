@@ -12,11 +12,8 @@ dirs(LOCAL_EXT_PATH).forEach(moduleName => {
     const MODULE_PATH = `${LOCAL_EXT_PATH}/${moduleName}/jsf-module/${moduleName}-jsf.module.ts`;
     console.log('Check module path', MODULE_PATH);
     if (fs.existsSync(MODULE_PATH)) {
-        console.log('Exists');
         const moduleClassName = moduleName.split('-').map(it => capitalizeFirstLetter(it)).join('') + 'JsfModule';
         generateImports[moduleClassName] = `./ext/${moduleName}/jsf-module/${moduleName}-jsf.module`;
-    } else {
-      console.log('NOT Exists');
     }
 })
 
