@@ -156,6 +156,10 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 this.showError(null, 'error.url.not.found');
                 break;
             }
+            case 403: {
+                this.showError(null, 'error.403');
+                break;
+            }
             case 400: {
                 const arr = content.headers.keys();
                 let errorHeader = null;
@@ -256,9 +260,9 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 console.warn('Wrong responseConfigItem outputMessage type - returning default message');
                 if (response.content.error !== '' && response.content.error.error) {
                     return this.translateService.instant(`errors.${response.content.error.error}`);
-                } 
+                }
                 return this.translateService.instant(`errors.${response.content.error}`);
-            
+
             }
         }
     }

@@ -32,4 +32,28 @@ describe('transformByMap', () => {
         const result = transformByMap(data, map);
         expect(result).toEqual(expectation);
     });
+
+    it('should skip undefined sub-data', () => {
+        const data = { creds: { login: undefined } };
+        const map = { 'credentials.nickname': 'creds.login' };
+        const expectation = {};
+        const result = transformByMap(data, map);
+        expect(result).toEqual(expectation);
+    });
+
+    it('should skip empty string sub-data', () => {
+        const data = { creds: { login: '' } };
+        const map = { 'credentials.nickname': 'creds.login' };
+        const expectation = {};
+        const result = transformByMap(data, map);
+        expect(result).toEqual(expectation);
+    });
+
+    it('should pass false sub-data', () => {
+        const data = { creds: { login: false } };
+        const map = { 'credentials.nickname': 'creds.login' };
+        const expectation = { credentials: { nickname: false } };
+        const result = transformByMap(data, map);
+        expect(result).toEqual(expectation);
+    });
 });
