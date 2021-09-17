@@ -17,3 +17,5 @@ export * from './widgets/ext-md-editor/ext-md-editor.component';
 export * from './widgets/email-matcher/email-matcher.component';
 export * from './widgets/text-section/text-section.component';
 export * from './widgets/file-upload/file-upload.component';
+export * from './widgets/dynamic-control-injector-component/dynamic-control-injector.component';
+export * from './widgets/dynamic-control-injector-component/dynamic-control-injector.module';
