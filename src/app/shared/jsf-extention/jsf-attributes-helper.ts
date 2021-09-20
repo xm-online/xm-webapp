@@ -3,6 +3,7 @@ import { CurrentLocationComponent } from './widgets/current-location/current-loc
 import { DatetimePickerComponent } from './widgets/datetime-picker/datetime-picker.component';
 import { DatePickerComponent } from './widgets/date-picker/date-picker.component';
 import { DatetimeUtcComponent } from './widgets/datetime-utc/datetime-utc.component';
+import { DynamicControlInjectorComponent } from './widgets/dynamic-control-injector-component/dynamic-control-injector.component';
 import { EmailMatcherComponent } from './widgets/email-matcher/email-matcher.component';
 import { ExtAutocompleteComponent } from './widgets/ext-autocomplete/ext-autocomplete.component';
 import { ExtMdEditorComponent } from './widgets/ext-md-editor/ext-md-editor.component';
@@ -43,6 +44,7 @@ export const getJsfWidgets = (): any => {
         'email-matcher': EmailMatcherComponent,
         'text-section': TextSectionComponent,
         'file-upload': FileUploadComponent,
+        'dynamic-control': DynamicControlInjectorComponent,
     };
 };
 
