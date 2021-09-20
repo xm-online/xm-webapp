@@ -17,6 +17,7 @@ import { FileUploadComponent } from './widgets/file-upload/file-upload.component
 import { MultilingualInputComponent } from './widgets/multilingual-input/multilingual-input.component';
 import { TextSectionComponent } from './widgets/text-section/text-section.component';
 import { ValidationComponent } from './widgets/validation-component/validation-component.component';
+import { MultilingualInputV2Component } from './widgets/multilingual-input-v2/multilingual-input-v2.component';
 
 declare const $: any;
 declare let Babili: any;
@@ -37,6 +38,7 @@ export const getJsfWidgets = (): any => {
         'ext-textarea': ExtTextareaComponent,
         'content-textarea': ContentTextareaComponent,
         'multilingual-input': MultilingualInputComponent,
+        'multilingual-input-v2': MultilingualInputV2Component,
         'datetime-utc': DatetimeUtcComponent,
         'datetime-picker': DatetimePickerComponent,
         'date-picker': DatePickerComponent,

@@ -1,0 +1,40 @@
+<mat-label *ngIf="options?.title">
+    <span class="pr-2">{{ options?.title}}</span>
+</mat-label>
+
+<mat-button-toggle-group ngModel
+                         (ngModelChange)="onChangeLanguage($event)">
+    <mat-button-toggle *ngFor="let k of languages" [value]="k">{{k}}</mat-button-toggle>
+</mat-button-toggle-group>
+
+<ng-container [ngSwitch]="options?.language?.type">
+    <ng-container *ngSwitchCase="'wysiwyg'">
+        <angular-editor *ngIf="!currentLanguage;else wysiwigEditor"
+                        [config]="disabledWysiwygConfig"
+                        [(ngModel)]="text"></angular-editor>
+
+        <ng-template #wysiwigEditor>
+            <angular-editor [config]="wysiwygConfig"
+                            [(ngModel)]="text"
+                            (ngModelChange)="onChangeText()"></angular-editor>
+        </ng-template>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'textarea'">
+        <mat-form-field>
+                    <textarea matInput
+                              type="text"
+                              [(ngModel)]="text"
+                              (change)="onChangeText()"></textarea>
+        </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngSwitchDefault>
+        <mat-form-field>
+            <input matInput
+                   type="text"
+                   [(ngModel)]="text"
+                   (change)="onChangeText()"/>
+        </mat-form-field>
+    </ng-container>
+</ng-container>
