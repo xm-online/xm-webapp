@@ -52,7 +52,7 @@ export class EntityListCardComponent implements OnInit, OnChanges {
         if (this.currentEntitiesUiConfig && this.currentEntitiesUiConfig.length) {
             const entityConfig = this.currentEntitiesUiConfig.find((e) => e && e.typeKey === typeKey) || {};
             return entityConfig && entityConfig.fastSearchHideAll;
-        } return false; 
+        } return false;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -98,6 +98,15 @@ export class EntityListCardComponent implements OnInit, OnChanges {
         this.xmConfigService.getUiConfig().pipe(
             map((res) => res.applications || {}),
             map((app) => app.config || {}),
+            tap((res) => {
+                if (res?.hideAvatar || res?.hideDelete) {
+                    this.options = {
+                        ...this.options,
+                        hideAvatar: res?.hideAvatar,
+                        hideDelete: res?.hideDelete,
+                    };
+                }
+            }),
             map((conf) => conf.entities || []),
             tap((entities) => this.entitiesUiConfig = entities),
             tap(() => { this.getCurrentEntitiesConfig(); }),
