@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
 import { ReCaptchaModule } from 'angular2-recaptcha';
@@ -51,6 +52,7 @@ import { ExtSelectComponent } from './jsf-extention/widgets/ext-select/ext-selec
 import { ExtTextareaComponent } from './jsf-extention/widgets/ext-textarea/ext-textarea.component';
 import { FileUploadComponent } from './jsf-extention/widgets/file-upload/file-upload.component';
 import { LinkFieldComponent } from './jsf-extention/widgets/link-field/link-field.component';
+import { MultilingualInputV2Component } from './jsf-extention/widgets/multilingual-input-v2/multilingual-input-v2.component';
 import { MultilingualInputComponent } from './jsf-extention/widgets/multilingual-input/multilingual-input.component';
 import { TextSectionComponent } from './jsf-extention/widgets/text-section/text-section.component';
 import { ValidationComponent } from './jsf-extention/widgets/validation-component/validation-component.component';
@@ -80,6 +82,7 @@ const PIPES = [XmEntityIconPipe];
         GooglePlaceModule,
         OwlNativeDateTimeModule,
         ModalCloseModule,
+        AngularEditorModule,
     ],
     declarations: [
         LoginComponent,
@@ -106,6 +109,7 @@ const PIPES = [XmEntityIconPipe];
         LinkFieldComponent,
         ExtMdEditorComponent,
         MultilingualInputComponent,
+        MultilingualInputV2Component,
         DatetimeUtcComponent,
         DatetimePickerComponent,
         DatePickerComponent,
@@ -168,6 +172,7 @@ const PIPES = [XmEntityIconPipe];
         LinkFieldComponent,
         ExtMdEditorComponent,
         MultilingualInputComponent,
+        MultilingualInputV2Component,
         MatModule,
         DatetimeUtcComponent,
         DatetimePickerComponent,

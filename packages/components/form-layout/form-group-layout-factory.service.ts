@@ -31,7 +31,7 @@ export class FormGroupLayoutFactoryService {
 
     public createControl(option: FormGroupLayoutItem): FormControl {
         const syncValidators = this.validatorProcessingService.validatorsFactory(option.validators);
-        const control = new FormControl(option.value || '', syncValidators);
+        const control = new FormControl(option.value, syncValidators);
         if (option.disabled) {
             control.disable();
         }

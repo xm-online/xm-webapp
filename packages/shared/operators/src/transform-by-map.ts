@@ -25,7 +25,7 @@ export function transformByMap<T, R, M>(data: T, mapper: M): R {
                 const fieldValue: null | undefined | string = get(data, optionValue);
                 if (fieldValue !== null
                     && fieldValue !== undefined
-                    && fieldValue !== '') {
+                ) {
                     set<R>(result, optionKey, fieldValue);
                 }
             }

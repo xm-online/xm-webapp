@@ -1,22 +1,50 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { buildFormGroup, JsonSchemaFormService, removeRecursiveReferences } from '@ajsf/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 import { JhiLanguageHelper } from '../../../index';
 import { XmConfigService } from '../../../spec/config.service';
-import { MultilingualInputOptions } from './multilingual-input-options.model';
+import { MultilingualInputV2Options } from './multilingual-input-v2-options.model';
 
 @Component({
-    selector: 'xm-multilingual-input-widget',
-    templateUrl: 'multilingual-input.component.html',
+    selector: 'xm-multilingual-input-v2-widget',
+    templateUrl: 'multilingual-input-v2.component.html',
+    styles: [`
+        mat-button-toggle-group {
+            margin-bottom: 10px;
+        }
+
+        mat-label {
+            display: block
+        }
+    `],
+
 })
-export class MultilingualInputComponent implements OnInit {
+export class MultilingualInputV2Component implements OnInit {
+    public disabledWysiwygConfig: AngularEditorConfig = {
+        editable: false,
+        showToolbar: false,
+    };
+    public wysiwygConfig: AngularEditorConfig = {
+        editable: true,
+        showToolbar: true,
+        defaultParagraphSeparator: 'p',
+        toolbarHiddenButtons: [
+            ['fontName'],
+            [
+                'backgroundColor',
+                'insertImage',
+                'insertVideo',
+            ],
+        ],
+    };
 
-    @Input() public layoutNode: any;
-    public options: MultilingualInputOptions & {title?: string};
+    @Input() public layoutNode: {dataPointer: string, options: MultilingualInputV2Options};
+    public options: MultilingualInputV2Options;
 
-    public currentLanguage: any;
-    public languages: any[];
-    public controlValue: any;
+    public currentLanguage: string;
+    public languages: string[];
+    public controlValue: {languageKey: string, name: string}[];
     public text: string;
 
     constructor(private jsf: JsonSchemaFormService,
@@ -59,7 +87,6 @@ export class MultilingualInputComponent implements OnInit {
         this.updateFormArrayComponent(this.controlValue.filter(ctrl => ctrl.languageKey));
     }
 
-    // TODO: move it into the util class
     private updateFormArrayComponent(item: any): void {
         const formArray: any = this.jsf.getFormControl(this);
         while (formArray.value.length) {
