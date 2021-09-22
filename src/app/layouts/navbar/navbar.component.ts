@@ -19,6 +19,7 @@ declare const $: any;
 @Component({
     selector: 'xm-navbar',
     styleUrls: ['./navbar.component.scss'],
+    host: { class: 'xm-navbar' },
     templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
