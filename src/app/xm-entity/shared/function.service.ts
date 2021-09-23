@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 
 import { SERVER_API_URL } from '../../xm.constants';
 
+const DOWNLOAD_RESPONSE_PREFIX = 'EXPORT-ARRAYBUFFER-';
+
 @Injectable()
 export class FunctionService {
 
@@ -50,7 +52,7 @@ export class FunctionService {
      * @param key - function key
      */
     private isExportFunction(key: string = ''): any {
-        return key.toUpperCase().startsWith('EXPORT-ARRAYBUFFER-');
+        return key.toUpperCase().includes(DOWNLOAD_RESPONSE_PREFIX);
     }
 
     private resourceEntityUrl(id: any, key: string): any {
@@ -79,9 +81,9 @@ export class FunctionService {
         if (type.includes('application/json')) {
             const body = this.convertItemFromServer(JSON.parse(res.body));
             return res.clone({body});
-        } 
+        }
         return Object.assign({actionType: 'download'}, res);
-        
+
     }
 
     /**
