@@ -33,6 +33,7 @@ import { XM_ELEMENTS } from '../registries/xm.registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import { XmSidebarModule } from '@xm-ngx/components/sidebar';
 
 @NgModule({
     imports: [
@@ -56,6 +57,7 @@ import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compo
         XmDashboardModule.forRoot(),
         MarkdownModule.forRoot(),
         XmBreadcrumbModule.forRoot(),
+        XmSidebarModule.forRoot(),
         XmDynamicExtensionModule.forRoot([
             // #regionstart dynamic-extension-modules
             // #regionend dynamic-extension-modules

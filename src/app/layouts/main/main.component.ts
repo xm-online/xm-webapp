@@ -7,7 +7,7 @@ import { XmApplicationConfigService } from '../../shared/spec';
 @Component({
     selector: 'xm-main',
     templateUrl: './main.component.html',
-    styleUrls: ['./main.component.scss'],
+    styleUrls: ['./main.component.scss', './heatmap-container.scss'],
 })
 export class XmMainComponent implements OnInit, OnDestroy {
     public resolved$: Observable<boolean> = this.xmConfigService.isResolved();

@@ -1,110 +1,60 @@
-import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import {
+    XM_SIDEBAR_CONFIG,
+    XmSidebarConfig,
+    XmSidebarPresentationType,
+    XmSidebarStoreService,
+} from '@xm-ngx/components/sidebar';
 
 @Component({
     selector: 'xm-navbar-toggle-widget',
     template: `
-        <div class="sidbar-toggle">
-            <button (click)="sidebarToggle()"
-                    class="navbar-toggler btn btn-icon btn-just-icon btn-link btn-no-ripple"
-                    mat-icon-button
-                    type="button">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="navbar-toggler-icon icon-bar"></span>
-                <span class="navbar-toggler-icon icon-bar"></span>
-                <span class="navbar-toggler-icon icon-bar"></span>
-            </button>
-        </div>
+        <button (click)="toggleSidebar()"
+                *xmIfSession
+                [ngClass]="{toggled: isOpen}"
+                class="navbar-toggle btn btn-icon btn-just-icon btn-link btn-no-ripple"
+                mat-icon-button
+                type="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggle-icon icon-bar"></span>
+            <span class="navbar-toggle-icon icon-bar"></span>
+            <span class="navbar-toggle-icon icon-bar"></span>
+        </button>
     `,
     styleUrls: ['./xm-navbar-toggle-widget.scss'],
     encapsulation: ViewEncapsulation.None,
 })
 
-export class XmNavbarToggleWidget implements OnInit {
-    protected mobileMenuVisible: boolean = false;
-    private toggleButton: HTMLElement;
-    private sidebarVisible: boolean;
+export class XmNavbarToggleWidget implements OnInit, OnDestroy {
+    public isOpen: boolean = false;
+    private closePresentationType: XmSidebarPresentationType;
 
     constructor(
-        private element: ElementRef,
+        private xmSidebarStoreService: XmSidebarStoreService,
+        @Inject(XM_SIDEBAR_CONFIG) config: XmSidebarConfig,
     ) {
-        this.sidebarVisible = false;
+        this.closePresentationType = config.defaultCloseType;
     }
 
     public ngOnInit(): void {
-        const navbar: HTMLElement = this.element.nativeElement;
-        this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0] as HTMLElement;
+        this.xmSidebarStoreService.onStateChange
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(i => this.isOpen =
+                i === XmSidebarPresentationType.Open
+                || i === XmSidebarPresentationType.Tablet,
+            );
     }
 
-    public sidebarToggle(): void {
-        if (this.sidebarVisible === false) {
-            this.sidebarOpen();
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
+    public toggleSidebar(): void {
+        if (this.xmSidebarStoreService.state.presentationType === XmSidebarPresentationType.Open) {
+            this.xmSidebarStoreService.setPresentationType(this.closePresentationType);
         } else {
-            this.sidebarClose();
+            this.xmSidebarStoreService.setPresentationType(XmSidebarPresentationType.Open);
         }
     }
-
-    // TODO: refactor
-    public sidebarOpen(): void {
-        const $toggle = document.getElementsByClassName('navbar-toggler')[0];
-        const toggleButton = this.toggleButton;
-        const body = document.getElementsByTagName('body')[0];
-        setTimeout(() => {
-            toggleButton.classList.add('toggled');
-        }, 500);
-        body.classList.add('nav-open');
-        setTimeout(() => {
-            $toggle.classList.add('toggled');
-        }, 430);
-
-        const $layer = document.createElement('div');
-        $layer.setAttribute('class', 'close-layer');
-
-        if (body.querySelectorAll('.main-panel')) {
-            document.getElementsByClassName('main-panel')[0].appendChild($layer);
-        } else if (body.classList.contains('off-canvas-sidebar')) {
-            document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
-        }
-
-        setTimeout(() => {
-            $layer.classList.add('visible');
-        }, 100);
-
-        $layer.onclick = (() => {
-            body.classList.remove('nav-open');
-            this.mobileMenuVisible = false;
-            this.sidebarVisible = false;
-
-            $layer.classList.remove('visible');
-            setTimeout(() => {
-                $layer.remove();
-                $toggle.classList.remove('toggled');
-            }, 400);
-        }).bind(this);
-
-        body.classList.add('nav-open');
-        this.mobileMenuVisible = true;
-        this.sidebarVisible = true;
-    }
-
-    // TODO: refactor
-    public sidebarClose(): void {
-        const $toggle = document.getElementsByClassName('navbar-toggler')[0];
-        const body = document.getElementsByTagName('body')[0];
-        this.toggleButton.classList.remove('toggled');
-        const $layer = document.createElement('div');
-        $layer.setAttribute('class', 'close-layer');
-
-        this.sidebarVisible = false;
-        body.classList.remove('nav-open');
-        if ($layer) {
-            $layer.remove();
-        }
-
-        setTimeout(() => {
-            $toggle.classList.remove('toggled');
-        }, 400);
-
-        this.mobileMenuVisible = false;
-    }
-
 }

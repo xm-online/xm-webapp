@@ -5,11 +5,11 @@ import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MockUiConfigService } from '@xm-ngx/core/config/testing';
 
-import { SidebarComponent } from './sidebar.component';
+import { xmSidebarComponent } from './xm-sidebar.component';
 
 describe('XmSidebarComponent', () => {
-    let component: SidebarComponent;
-    let fixture: ComponentFixture<SidebarComponent>;
+    let component: xmSidebarComponent;
+    let fixture: ComponentFixture<xmSidebarComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -17,14 +17,14 @@ describe('XmSidebarComponent', () => {
             providers: [
                 { provide: XmUiConfigService, useClass: MockUiConfigService },
             ],
-            declarations: [SidebarComponent],
+            declarations: [xmSidebarComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(SidebarComponent);
+        fixture = TestBed.createComponent(xmSidebarComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

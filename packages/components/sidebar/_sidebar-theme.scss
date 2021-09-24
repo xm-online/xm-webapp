@@ -5,15 +5,20 @@ $xm-sidebar-opacity:             0.93 !default;
 
 @mixin xm-sidebar-theme($theme) {
 
-  $surface: map-get($theme, surface);
-  $on-surface: map-get($theme, on-surface);
+  $surface:               map-get($theme, surface);
+  $on-surface:            map-get($theme, on-surface);
 
-  $xm-sidebar-backdrop: map-get($theme, sidebar-backdrop) or $surface;
+  $xm-sidebar-backdrop:   map-get($theme, sidebar-backdrop) or $surface;
   $xm-sidebar-background: map-get($theme, sidebar-background) or $surface;
   $xm-sidebar-text-color: map-get($theme, sidebar-text-color) or $on-surface;
 
   .xm-sidebar {
-    color: $xm-sidebar-text-color;
+    color:      $xm-sidebar-text-color;
+    background: $xm-sidebar-background;
+  }
+
+  .xm-sidebar-content {
+    color:      $xm-sidebar-text-color;
     background: $xm-sidebar-background;
   }
 

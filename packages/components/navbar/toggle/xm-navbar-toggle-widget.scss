@@ -23,34 +23,78 @@
   transition:         all $time $type;
 }
 
-@keyframes topbar-back {
-  0% { top: 6px; transform: rotate(135deg); }
-  45% { transform: rotate(-10deg); }
-  75% { transform: rotate(5deg); }
-  100% { top: 0px; transform: rotate(0); }
+@keyframes top-bar-back {
+  0% {
+    top:       6;
+    transform: rotate(135deg);
+  }
+  45% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    top:       0;
+    transform: rotate(0);
+  }
 }
-@keyframes bottombar-back {
-  0% { bottom: 6px;transform: rotate(-135deg);}
-  45% { transform: rotate(10deg);}
-  75% { transform: rotate(-5deg);}
-  100% { bottom: 0px;transform: rotate(0);}
+
+@keyframes bottom-bar-back {
+  0% {
+    bottom:    6px;
+    transform: rotate(-135deg);
+  }
+  45% {
+    transform: rotate(10deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    bottom:    0;
+    transform: rotate(0);
+  }
 }
-@keyframes topbar-x {
-  0% {top: 0px; transform: rotate(0deg); }
-  45% {top: 6px; transform: rotate(145deg); }
-  75% {transform: rotate(130deg); }
-  100% {transform: rotate(135deg); }
+
+@keyframes top-bar-x {
+  0% {
+    top:       0;
+    transform: rotate(0deg);
+  }
+  45% {
+    top:       6px;
+    transform: rotate(145deg);
+  }
+  75% {
+    transform: rotate(130deg);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
 }
-@keyframes bottombar-x {
-  0% {bottom: 0px; transform: rotate(0deg);}
-  45% {bottom: 6px; transform: rotate(-145deg);}
-  75% {transform: rotate(-130deg);}
-  100% {transform: rotate(-135deg);}
+
+@keyframes bottom-bar-x {
+  0% {
+    bottom:    0;
+    transform: rotate(0deg);
+  }
+  45% {
+    bottom:    6px;
+    transform: rotate(-145deg);
+  }
+  75% {
+    transform: rotate(-130deg);
+  }
+  100% {
+    transform: rotate(-135deg);
+  }
 }
-$topbar-back:    topbar-back !default;
-$bottombar-back: bottombar-back !default;
-$topbar-x:       topbar-x !default;
-$bottombar-x:    bottombar-x !default;
+
+$top-bar-back:    top-bar-back !default;
+$bottom-bar-back: bottom-bar-back !default;
+$top-bar-x:       top-bar-x !default;
+$bottom-bar-x:    bottom-bar-x !default;
 
 
 .navbar .container {
@@ -64,21 +108,21 @@ $bottombar-x:    bottombar-x !default;
   left: 0;
 }
 
-.navbar-toggler .icon-bar {
-  background:    #555 !important;
-  border-radius: 1px;
+.navbar-toggle .icon-bar {
+  position:      relative;
   display:       block;
+  width:         24px;
   height:        2px;
   margin:        0 auto;
-  position:      relative;
-  width:         24px;
+  border-radius: 1px;
+  background:    #555 !important;
 }
 
-.navbar-header .navbar-toggler {
+.navbar-header .navbar-toggle {
+  width:      40px;
   height:     40px;
   margin-top: 4px;
   padding:    15px;
-  width:      40px;
 }
 
 .bar1,
@@ -87,10 +131,10 @@ $bottombar-x:    bottombar-x !default;
   outline: 1px solid transparent;
 }
 
-.navbar-toggler {
+.navbar-toggle {
   .icon-bar:nth-child(2) {
-    top: 0px;
-    @include bar-animation($topbar-back);
+    top: 0;
+    @include bar-animation($top-bar-back);
   }
 
   .icon-bar:nth-child(3) {
@@ -98,14 +142,14 @@ $bottombar-x:    bottombar-x !default;
   }
 
   .icon-bar:nth-child(4) {
-    bottom: 0px;
-    @include bar-animation($bottombar-back);
+    bottom: 0;
+    @include bar-animation($bottom-bar-back);
   }
 
   &.toggled {
     .icon-bar:nth-child(2) {
       top: 6px;
-      @include bar-animation($topbar-x);
+      @include bar-animation($top-bar-x);
     }
 
     .icon-bar:nth-child(3) {
@@ -114,30 +158,31 @@ $bottombar-x:    bottombar-x !default;
 
     .icon-bar:nth-child(4) {
       bottom: 6px;
-      @include bar-animation($bottombar-x);
+      @include bar-animation($bottom-bar-x);
     }
   }
 }
-.navbar.navbar-transparent{
-  .navbar-toggler{
-    .navbar-toggler-icon{
+
+.navbar.navbar-transparent {
+  .navbar-toggle {
+    .navbar-toggle-icon {
       background-color: white;
     }
   }
 }
 
-.navbar-toggler{
+.navbar-toggle {
   cursor: pointer;
 
-  .navbar-toggler-icon{
-    width: 22px;
-    height: 2px;
+  .navbar-toggle-icon {
+    display:        block;
+    width:          22px;
+    height:         2px;
     vertical-align: middle;
-    outline: 0;
-    display: block;
-    border-radius: 1px;
+    border-radius:  1px;
+    outline:        0;
 
-    & + .navbar-toggler-icon{
+    & + .navbar-toggle-icon {
       margin-top: 4px;
     }
   }
