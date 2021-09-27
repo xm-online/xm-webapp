@@ -4,7 +4,8 @@ import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core'
     selector: 'xm-navbar-toggle-widget',
     template: `
         <div class="sidbar-toggle">
-            <button (click)="sidebarToggle()"
+            <button *xmIfSession
+                    (click)="sidebarToggle()"
                     class="navbar-toggler btn btn-icon btn-just-icon btn-link btn-no-ripple"
                     mat-icon-button
                     type="button">
