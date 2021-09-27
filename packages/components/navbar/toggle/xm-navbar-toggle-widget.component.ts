@@ -3,18 +3,16 @@ import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core'
 @Component({
     selector: 'xm-navbar-toggle-widget',
     template: `
-        <div class="sidbar-toggle">
-            <button *xmIfSession
-                    (click)="sidebarToggle()"
-                    class="navbar-toggler btn btn-icon btn-just-icon btn-link btn-no-ripple"
-                    mat-icon-button
-                    type="button">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="navbar-toggler-icon icon-bar"></span>
-                <span class="navbar-toggler-icon icon-bar"></span>
-                <span class="navbar-toggler-icon icon-bar"></span>
-            </button>
-        </div>
+        <button *xmIfSession
+                (click)="sidebarToggle()"
+                class="navbar-toggler btn btn-icon btn-just-icon btn-link btn-no-ripple"
+                mat-icon-button
+                type="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
     `,
     styleUrls: ['./xm-navbar-toggle-widget.scss'],
     encapsulation: ViewEncapsulation.None,
@@ -22,7 +20,6 @@ import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core'
 
 export class XmNavbarToggleWidget implements OnInit {
     protected mobileMenuVisible: boolean = false;
-    private toggleButton: HTMLElement;
     private sidebarVisible: boolean;
 
     constructor(
@@ -32,8 +29,7 @@ export class XmNavbarToggleWidget implements OnInit {
     }
 
     public ngOnInit(): void {
-        const navbar: HTMLElement = this.element.nativeElement;
-        this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0] as HTMLElement;
+        this.sidebarOpen();
     }
 
     public sidebarToggle(): void {
@@ -46,8 +42,12 @@ export class XmNavbarToggleWidget implements OnInit {
 
     // TODO: refactor
     public sidebarOpen(): void {
+        const navbar: HTMLElement = this.element.nativeElement;
+        const toggleButton = navbar.getElementsByClassName('navbar-toggler')[0] as HTMLElement;
+        if (!toggleButton) {
+            return;
+        }
         const $toggle = document.getElementsByClassName('navbar-toggler')[0];
-        const toggleButton = this.toggleButton;
         const body = document.getElementsByTagName('body')[0];
         setTimeout(() => {
             toggleButton.classList.add('toggled');
@@ -89,9 +89,14 @@ export class XmNavbarToggleWidget implements OnInit {
 
     // TODO: refactor
     public sidebarClose(): void {
+        const navbar: HTMLElement = this.element.nativeElement;
+        const toggleButton = navbar.getElementsByClassName('navbar-toggler')[0] as HTMLElement;
+        if (!toggleButton) {
+            return;
+        }
         const $toggle = document.getElementsByClassName('navbar-toggler')[0];
         const body = document.getElementsByTagName('body')[0];
-        this.toggleButton.classList.remove('toggled');
+        toggleButton.classList.remove('toggled');
         const $layer = document.createElement('div');
         $layer.setAttribute('class', 'close-layer');
 
