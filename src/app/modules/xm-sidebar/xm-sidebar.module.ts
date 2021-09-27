@@ -7,8 +7,7 @@ import { XmPoweredByModule } from '@xm-ngx/components/powered-by';
 import { XmSidebarUserModule } from '@xm-ngx/components/sidebar-user';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
-
-import { XmSharedModule } from '../../shared/shared.module';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { SidebarComponent } from './sidebar.component';
 
@@ -19,7 +18,6 @@ export const SIDEBAR_KEY = 'xm-widget-sidebar';
         SidebarComponent,
     ],
     imports: [
-        XmSharedModule,
         RouterModule,
         CommonModule,
         XmLogoModule,
@@ -27,6 +25,7 @@ export const SIDEBAR_KEY = 'xm-widget-sidebar';
         XmMenuModule,
         XmPoweredByModule,
         XmDynamicModule,
+        MatDividerModule,
     ],
     providers: [
         {provide: SIDEBAR_KEY, useValue: SidebarComponent},

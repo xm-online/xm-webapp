@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -19,7 +19,7 @@ interface SidebarConfig {
     templateUrl: './sidebar.component.html',
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit, OnDestroy {
     public config: SidebarConfig;
 
     constructor(
