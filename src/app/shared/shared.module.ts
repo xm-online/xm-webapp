@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
@@ -8,9 +8,9 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MarkdownModule } from 'ngx-markdown';
+
 import { UserLoginService } from '../../../packages/account/src/user-login-widget/login/user-login.service';
 import { XmUserLoginWidgetModule } from '../../../packages/account/src/user-login-widget/xm-user-login-widget.module';
-
 import { MatModule } from '../mat.module';
 import {
     AccountService,
@@ -22,7 +22,6 @@ import {
     StateStorageService,
 } from './auth';
 import { ClientService } from './client/client.service';
-
 import { PrivacyAndTermsDialogComponent } from './components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfirmDialogComponent } from './components/xm-confirmation-dialog/xm-confirm-dialog.component';
 import { ContextService } from './context/context.service';
@@ -67,8 +66,6 @@ import { GateSharedLibsModule } from './shared-libs.module';
 import { XmConfigService } from './spec/config.service';
 import { UserService } from './user/user.service';
 
-const PIPES = [XmEntityIconPipe];
-
 @NgModule({
     imports: [
         XmJsonSchemaFormModule,
@@ -85,17 +82,9 @@ const PIPES = [XmEntityIconPipe];
         AngularEditorModule,
     ],
     declarations: [
+        // Components
         LoginComponent,
         RegisterComponent,
-        HasAnyAuthorityDirective,
-        SafeNamePipe,
-        XmCondition,
-        XmEntityStateSpecPipe,
-        XmDateTimePipe,
-        FocusDirective,
-        InputPreventPasteDirective,
-        DigitOnlyDirective,
-        XmGMapApiInitDirective,
         PasswordStrengthBarComponent,
         XmConfirmDialogComponent,
         CurrentLocationComponent,
@@ -118,47 +107,37 @@ const PIPES = [XmEntityIconPipe];
         FileUploadComponent,
         PrivacyAndTermsDialogComponent,
         IdpComponent,
-        PIPES,
-    ],
-    providers: [
-        ContextService,
-        LoginService,
-        RegisterService,
-        AccountService,
-        StateStorageService,
-        CSRFService,
-        AuthServerProvider,
-        AuthService,
-        UserService,
-        ClientService,
-        ExtSelectService,
-        ExtAutocompleteService,
-        UserLoginService,
-        DatePipe,
-        SafeNamePipe,
-        XmCondition,
-        XmDateTimePipe,
-        RoleService,
-        PrivilegeService,
-        ParseByPathService,
-        PasswordStrengthBarComponent,
-        XmConfigService,
-        PIPES,
-    ],
-    exports: [
-        GateSharedLibsModule,
-        LoginComponent,
-        RegisterComponent,
+        // Directives
         HasAnyAuthorityDirective,
-        DatePipe,
-        SafeNamePipe,
         XmCondition,
-        XmEntityStateSpecPipe,
-        XmDateTimePipe,
         FocusDirective,
         InputPreventPasteDirective,
         DigitOnlyDirective,
         XmGMapApiInitDirective,
+        // Pipes
+        XmDateTimePipe,
+        XmEntityStateSpecPipe,
+        SafeNamePipe,
+        XmEntityIconPipe,
+    ],
+    providers: [
+        // Components
+        PasswordStrengthBarComponent,
+        // Services
+        ExtSelectService,
+        ExtAutocompleteService,
+        // Directives
+        XmCondition,
+        // Pipes
+        SafeNamePipe,
+        XmDateTimePipe,
+        DatePipe,
+        XmEntityIconPipe,
+    ],
+    exports: [
+        // Components
+        LoginComponent,
+        RegisterComponent,
         PasswordStrengthBarComponent,
         XmConfirmDialogComponent,
         CurrentLocationComponent,
@@ -172,21 +151,55 @@ const PIPES = [XmEntityIconPipe];
         LinkFieldComponent,
         ExtMdEditorComponent,
         MultilingualInputComponent,
-        MultilingualInputV2Component,
-        MatModule,
         DatetimeUtcComponent,
         DatetimePickerComponent,
         DatePickerComponent,
         EmailMatcherComponent,
         TextSectionComponent,
         FileUploadComponent,
-        GooglePlaceModule,
         IdpComponent,
-        PIPES,
+        // Directives
+        HasAnyAuthorityDirective,
+        XmCondition,
+        FocusDirective,
+        InputPreventPasteDirective,
+        DigitOnlyDirective,
+        XmGMapApiInitDirective,
+        // Pipes
+        SafeNamePipe,
+        XmEntityStateSpecPipe,
+        XmDateTimePipe,
+        DatePipe,
+        XmEntityIconPipe,
+        // Modules
+        GateSharedLibsModule,
+        MatModule,
+        GooglePlaceModule,
         XmUserLoginWidgetModule,
         XmJsonSchemaFormModule,
     ],
-
 })
 export class XmSharedModule {
+    public static forRoot(): ModuleWithProviders<XmSharedModule> {
+        return {
+            ngModule: XmSharedModule,
+            providers: [
+                ContextService,
+                LoginService,
+                RegisterService,
+                AccountService,
+                StateStorageService,
+                CSRFService,
+                AuthServerProvider,
+                AuthService,
+                UserService,
+                ClientService,
+                UserLoginService,
+                PrivilegeService,
+                ParseByPathService,
+                RoleService,
+                XmConfigService,
+            ],
+        };
+    }
 }

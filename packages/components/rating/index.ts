@@ -7,7 +7,7 @@ import {MatIconModule} from '@angular/material/icon';
     selector: 'rating',
     template: `
         <span (mouseleave)="resetHovered()"
-              (focus)="onTouched()"
+              (focus)="touch()"
               class="rating"
               [class.disabled]="disabled"
               [class.readonly]="readonly"
@@ -175,8 +175,8 @@ export class Rating implements OnInit, ControlValueAccessor, Validator {
      */
     public hovered: number = 0;
     public hoveredPercent: number = undefined;
-    public onTouched: (m?: any) => void;
-    private onChange: (m: any) => void;
+    public touch: (m?: any) => void;
+    private changeValue: (m: any) => void;
 
     /*
      * -------------------------------------------------------------------------
@@ -214,11 +214,11 @@ export class Rating implements OnInit, ControlValueAccessor, Validator {
     }
 
     public registerOnChange(fn: any): void {
-        this.onChange = fn;
+        this.changeValue = fn;
     }
 
     public registerOnTouched(fn: any): void {
-        this.onTouched = fn;
+        this.touch = fn;
     }
 
     /*
@@ -304,7 +304,7 @@ export class Rating implements OnInit, ControlValueAccessor, Validator {
     public rate(value: number): void {
         if (!this.readonly && !this.disabled && value >= 0 && value <= this.ratingRange.length) {
             const newValue = this.hoveredPercent ? (value - 1) + this.hoveredPercent / 100 : value;
-            this.onChange(newValue);
+            this.changeValue(newValue);
             this.model = newValue;
         }
     }

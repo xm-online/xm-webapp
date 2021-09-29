@@ -33,6 +33,7 @@ import { XM_ELEMENTS } from '../registries/xm.registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import { XmSharedModule } from './shared/shared.module';
 
 @NgModule({
     imports: [
@@ -40,6 +41,7 @@ import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compo
         HttpClientModule,
         BrowserAnimationsModule,
         XmRoutingModule,
+        XmSharedModule.forRoot(),
         XmCoreModule.forRoot(),
         ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
         XmCoreConfigModule,
