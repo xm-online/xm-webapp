@@ -1,7 +1,7 @@
 import { Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
-import { PermissionCheckStrategy, XmPermissionService } from './xm-permission.service';
-import { IfElseThenBaseDirective } from './directives/if-else-then-base.directive';
+import { PermissionCheckStrategy, XmPermissionService } from '../xm-permission.service';
+import { IfElseThenBaseDirective } from './if-else-then-base.directive';
 
 export interface PermissionContext {
     $implicit: string[];
