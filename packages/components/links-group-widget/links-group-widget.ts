@@ -27,7 +27,7 @@ export interface LinksGroupWidgetConfig {
         <div *ngIf="config?.list">
             <nav [color]="'primary'"
                  mat-tab-nav-bar
-                 class="rounded bg-surface pb-3 font-weight-bold"
+                 class="rounded bg-surface mb-3 font-weight-bold"
                  role="group">
                 <ng-container *ngFor="let item of config.list">
                     <ng-container *xmIfDashboardSlug="item.permittedByDashboardSlug">

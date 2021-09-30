@@ -1,0 +1,17 @@
+$xm-sidebar-presentation: (
+                            close: 0px,
+                            tablet: 64px,
+                            open: 256px,
+                          ) !default;
+
+:host(.xm-sidebar-presentation-close) {
+  width: map-get($xm-sidebar-presentation, close);
+}
+
+:host(.xm-sidebar-presentation-open) {
+  width: map-get($xm-sidebar-presentation, open);
+}
+
+:host(.xm-sidebar-presentation-tablet) {
+  width: map-get($xm-sidebar-presentation, tablet);
+}

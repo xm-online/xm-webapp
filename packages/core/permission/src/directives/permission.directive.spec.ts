@@ -2,7 +2,7 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { XmPermissionService } from './xm-permission.service';
+import { XmPermissionService } from '../xm-permission.service';
 import { PermissionDirective } from './permission.directive';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 
