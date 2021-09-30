@@ -1,10 +1,22 @@
-import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { XmSidebarStoreService } from '@xm-ngx/components/sidebar';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+
+import {
+    XM_NAVBAR_BREAKPOINT_CONFIG_DEFAULT,
+    XmNavbarBreakpoint,
+    XmNavbarBreakpointConfig,
+    XmNavbarOpenState,
+} from './xm-navbar-breakpoint.config';
+import { XM_NAVBAR_STATE_CONFIG_DEFAULT, XmNavbarState } from './xm-navbar-state';
 
 @Component({
     selector: 'xm-navbar-toggle-widget',
     template: `
         <button *xmIfSession
-                (click)="sidebarToggle()"
+                (click)="toggleSidebar()"
+                [ngClass]="{'toggled': state.openState === XmNavbarOpenState.Open}"
                 class="navbar-toggler btn btn-icon btn-just-icon btn-link btn-no-ripple"
                 mat-icon-button
                 type="button">
@@ -18,99 +30,100 @@ import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core'
     encapsulation: ViewEncapsulation.None,
 })
 
-export class XmNavbarToggleWidget implements OnInit {
-    protected mobileMenuVisible: boolean = false;
-    private sidebarVisible: boolean;
+export class XmNavbarToggleWidget implements OnInit, OnDestroy {
+    public XmNavbarOpenState = XmNavbarOpenState;
+    public state: XmNavbarState = XM_NAVBAR_STATE_CONFIG_DEFAULT;
+    private breakpointConfig: XmNavbarBreakpointConfig = XM_NAVBAR_BREAKPOINT_CONFIG_DEFAULT;
 
     constructor(
-        private element: ElementRef,
+        private xmSidebarStoreService: XmSidebarStoreService,
+        private breakpointObserver: BreakpointObserver,
     ) {
-        this.sidebarVisible = false;
     }
 
     public ngOnInit(): void {
-        this.sidebarOpen();
+        this.breakpointObserver
+            .observe([
+                Breakpoints.XSmall,
+                Breakpoints.Small,
+                Breakpoints.Medium,
+                Breakpoints.Large,
+                Breakpoints.XLarge,
+                Breakpoints.Handset,
+                Breakpoints.Tablet,
+                Breakpoints.Web,
+                Breakpoints.HandsetPortrait,
+                Breakpoints.TabletPortrait,
+                Breakpoints.WebPortrait,
+                Breakpoints.HandsetLandscape,
+                Breakpoints.TabletLandscape,
+                Breakpoints.WebLandscape,
+            ])
+            .subscribe((result) => {
+                if (!result.matches) {
+                    return;
+                }
+
+                if (result.breakpoints[Breakpoints.XSmall]) {
+                    this.state.navbarBreakpoint = this.breakpointConfig[XmNavbarBreakpoint.Handset];
+                } else if (result.breakpoints[Breakpoints.Small]) {
+                    this.state.navbarBreakpoint = this.breakpointConfig[XmNavbarBreakpoint.Handset];
+                } else if (result.breakpoints[Breakpoints.Medium]) {
+                    this.state.navbarBreakpoint = this.breakpointConfig[XmNavbarBreakpoint.Tablet];
+                } else if (result.breakpoints[Breakpoints.Large]) {
+                    this.state.navbarBreakpoint = this.breakpointConfig[XmNavbarBreakpoint.Web];
+                } else if (result.breakpoints[Breakpoints.XLarge]) {
+                    this.state.navbarBreakpoint = this.breakpointConfig[XmNavbarBreakpoint.Web];
+                }
+
+                this.updateState();
+            });
+
+        this.xmSidebarStoreService.onPresentationChange
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(i => {
+                const isOpen = i === this.state.navbarBreakpoint[XmNavbarOpenState.Open].presentationType;
+                let newState: XmNavbarOpenState;
+                if (isOpen) {
+                    newState = XmNavbarOpenState.Open;
+                } else {
+                    newState = XmNavbarOpenState.Close;
+                }
+
+                if (this.state.openState === newState) {
+                    return;
+                }
+
+                this.state.openState = newState;
+                this.updateState();
+            });
     }
 
-    public sidebarToggle(): void {
-        if (this.sidebarVisible === false) {
-            this.sidebarOpen();
-        } else {
-            this.sidebarClose();
-        }
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
     }
 
-    // TODO: refactor
-    public sidebarOpen(): void {
-        const navbar: HTMLElement = this.element.nativeElement;
-        const toggleButton = navbar.getElementsByClassName('navbar-toggler')[0] as HTMLElement;
-        if (!toggleButton) {
-            return;
+    public toggleSidebar(): void {
+        switch (this.state.openState) {
+            case XmNavbarOpenState.Close:
+                this.state.openState = XmNavbarOpenState.Open;
+                break;
+            case XmNavbarOpenState.Open:
+                this.state.openState = XmNavbarOpenState.Close;
+                break;
         }
-        const $toggle = document.getElementsByClassName('navbar-toggler')[0];
-        const body = document.getElementsByTagName('body')[0];
-        setTimeout(() => {
-            toggleButton.classList.add('toggled');
-        }, 500);
-        body.classList.add('nav-open');
-        setTimeout(() => {
-            $toggle.classList.add('toggled');
-        }, 430);
-
-        const $layer = document.createElement('div');
-        $layer.setAttribute('class', 'close-layer');
-
-        if (body.querySelectorAll('.main-panel')) {
-            document.getElementsByClassName('main-panel')[0].appendChild($layer);
-        } else if (body.classList.contains('off-canvas-sidebar')) {
-            document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
-        }
-
-        setTimeout(() => {
-            $layer.classList.add('visible');
-        }, 100);
-
-        $layer.onclick = (() => {
-            body.classList.remove('nav-open');
-            this.mobileMenuVisible = false;
-            this.sidebarVisible = false;
-
-            $layer.classList.remove('visible');
-            setTimeout(() => {
-                $layer.remove();
-                $toggle.classList.remove('toggled');
-            }, 400);
-        }).bind(this);
-
-        body.classList.add('nav-open');
-        this.mobileMenuVisible = true;
-        this.sidebarVisible = true;
+        this.updateState();
     }
 
-    // TODO: refactor
-    public sidebarClose(): void {
-        const navbar: HTMLElement = this.element.nativeElement;
-        const toggleButton = navbar.getElementsByClassName('navbar-toggler')[0] as HTMLElement;
-        if (!toggleButton) {
-            return;
+    private updateState(): void {
+        switch (this.state.openState) {
+            case XmNavbarOpenState.Close:
+                break;
+            case XmNavbarOpenState.Open:
+                break;
         }
-        const $toggle = document.getElementsByClassName('navbar-toggler')[0];
-        const body = document.getElementsByTagName('body')[0];
-        toggleButton.classList.remove('toggled');
-        const $layer = document.createElement('div');
-        $layer.setAttribute('class', 'close-layer');
-
-        this.sidebarVisible = false;
-        body.classList.remove('nav-open');
-        if ($layer) {
-            $layer.remove();
-        }
-
-        setTimeout(() => {
-            $toggle.classList.remove('toggled');
-        }, 400);
-
-        this.mobileMenuVisible = false;
+        const breakpointState = this.state.navbarBreakpoint[this.state.openState];
+        this.xmSidebarStoreService.setPresentationType(breakpointState.presentationType);
     }
 
 }

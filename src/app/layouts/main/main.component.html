@@ -3,14 +3,16 @@
 <xm-password-needed></xm-password-needed>
 <xm-maintenance-view></xm-maintenance-view>
 
-<div class="heatmap-container-wrapper">
+<div *ngIf="resolved$ | async" class="heatmap-container-wrapper">
   <div class="hidden-heatmap" id="heatmapContainer">
     <div class="wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}">
       <div xmGuestBackground></div>
 
-      <xm-sidebar *ngIf="!isGuestLayout" class="sidebar"></xm-sidebar>
+      <xm-sidebar *ngIf="!isGuestLayout"
+                  [mainContainer]="mainContainer"
+                  class="sidebar"></xm-sidebar>
 
-      <div *ngIf="resolved$ | async"
+      <div #mainContainer
            class="main-panel xm-main-panel"
            id="main">
 
@@ -29,7 +31,7 @@
 
       </div>
 
-      <xm-sidebar-right></xm-sidebar-right>
+      <xm-sidebar-right [mainContainer]="mainContainer"></xm-sidebar-right>
 
     </div>
   </div>

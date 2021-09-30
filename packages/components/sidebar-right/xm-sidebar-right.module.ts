@@ -4,6 +4,7 @@ import {
     ComponentFactoryResolver,
     Directive,
     HostBinding,
+    Input,
     NgModule,
     OnDestroy,
     OnInit,
@@ -36,6 +37,8 @@ export class XmSidebarRight implements OnInit, OnDestroy {
 
     @HostBinding('style.width') public width: string;
 
+    @Input() public mainContainer: HTMLElement | null;
+
     constructor(private sidebarRightService: SidebarRightService) {
     }
 
@@ -45,6 +48,11 @@ export class XmSidebarRight implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.sidebarRightService.removeContainer();
+        // TODO: extract from sidebar to main-container as a listener
+        // guest page or auth page
+        if (this.mainContainer) {
+            this.mainContainer.style.marginRight = '0';
+        }
     }
 
     public create<T, D>(templateRef: TemplateRef<D> | Type<T>, config: SidebarRightConfig<D>): T | null {
@@ -57,9 +65,8 @@ export class XmSidebarRight implements OnInit, OnDestroy {
             viewContainerRef.createEmbeddedView(templateRef);
             this.openStyles(config.width || this.sidebarRightService.width);
             return null;
-        } 
+        }
         return this.loadComponent(templateRef, config);
-        
     }
 
     public remove(): void {
@@ -79,15 +86,19 @@ export class XmSidebarRight implements OnInit, OnDestroy {
     }
 
     private openStyles(width: string): void {
-        const main: HTMLElement = document.getElementById('main');
-        main.style.marginRight = width;
         this.width = width;
+        // TODO: extract from sidebar to main-container as a listener
+        if (this.mainContainer) {
+            this.mainContainer.style.marginRight = width;
+        }
     }
 
     private closeStyles(): void {
-        const main: HTMLElement = document.getElementById('main');
-        main.style.marginRight = '0';
         delete this.width;
+        // TODO: extract from sidebar to main-container as a listener
+        if (this.mainContainer) {
+            this.mainContainer.style.marginRight = '0';
+        }
     }
 }
 

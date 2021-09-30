@@ -23,4 +23,5 @@ export {
     XM_SIDEBAR_DEFAULT_STATE,
     XmSidebarAlignType,
     XmSidebarPresentationType,
+    XmSidebarBackdropType,
 } from './stores/xm-sidebar.state';

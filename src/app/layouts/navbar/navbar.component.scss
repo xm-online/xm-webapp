@@ -11,18 +11,6 @@
     align-items: center;
     max-width: 100%;
 
-    ::ng-deep .navbar-toggler {
-      display: none;
-    }
-  }
-
-  @media (max-width: 991px) {
-    .xm-navbar-container {
-      .navbar-toggler {
-        display: block;
-        margin-right: -5px;
-      }
-    }
   }
 
   .xm-guest-layout .xm-nav-logo {

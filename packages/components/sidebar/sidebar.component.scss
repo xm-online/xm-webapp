@@ -5,8 +5,13 @@ $xm-sidebar-z-index:          $zindex-fixed !default;
 $xm-sidebar-backdrop-z-index: -1 !default;
 
 :host(.xm-sidebar) {
-  z-index: $xm-sidebar-z-index;
-  display: block;
+  z-index:  $xm-sidebar-z-index;
+  display:  block;
+  position: fixed;
+  top:      0;
+  left:     0;
+  bottom:   0;
+  @include transitions-property(width, 300ms, cubic-bezier(0.685, 0.0473, 0.346, 1));
 }
 
 .xm-sidebar-content {

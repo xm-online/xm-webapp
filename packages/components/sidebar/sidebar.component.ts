@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -13,9 +13,15 @@ interface SidebarConfig {
 }
 
 export const XM_SIDEBAR_PRESENTATION_STATE_CLASSES = {
-    [XmSidebarPresentationType.Close]: 'xm-sidebar-presentation-close',
     [XmSidebarPresentationType.Open]: 'xm-sidebar-presentation-open',
+    [XmSidebarPresentationType.Close]: 'xm-sidebar-presentation-close',
     [XmSidebarPresentationType.Tablet]: 'xm-sidebar-presentation-tablet',
+};
+
+export const XM_SIDEBAR_PRESENTATION_STATE_WIDTH = {
+    [XmSidebarPresentationType.Open]: '256px',
+    [XmSidebarPresentationType.Close]: '0',
+    [XmSidebarPresentationType.Tablet]: '64px',
 };
 
 @Component({
@@ -29,6 +35,7 @@ export const XM_SIDEBAR_PRESENTATION_STATE_CLASSES = {
 })
 export class XmSidebarComponent implements OnInit, OnDestroy {
     public config: SidebarConfig;
+    @Input() public mainContainer: HTMLElement | null;
 
     @HostBinding('class') public classes: string;
 
@@ -49,10 +56,19 @@ export class XmSidebarComponent implements OnInit, OnDestroy {
             .pipe(takeUntilOnDestroy(this))
             .subscribe(i => {
                 this.classes = XM_SIDEBAR_PRESENTATION_STATE_CLASSES[i];
+                // TODO: extract from sidebar to main-container as a listener
+                if (this.mainContainer) {
+                    this.mainContainer.style.marginLeft = XM_SIDEBAR_PRESENTATION_STATE_WIDTH[i];
+                }
             });
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
+        // TODO: extract from sidebar to main-container as a listener
+        // guest page or auth page
+        if (this.mainContainer) {
+            this.mainContainer.style.marginLeft = '0';
+        }
     }
 }
