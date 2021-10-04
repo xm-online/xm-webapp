@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
+import { FormControl, NgControl } from '@angular/forms';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmTextTitleOptions } from '../text-title';
@@ -7,6 +7,7 @@ import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
     type?: string;
@@ -19,6 +20,7 @@ export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
     errors?: { [errorKey: string]: Translate };
     maxLength?: number;
     minLength?: number;
+    isTrimmingString?: boolean,
 }
 
 const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
@@ -33,6 +35,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     maxLength: null,
     minLength: null,
     dataQa: 'text-control',
+    isTrimmingString: false,
 };
 
 @Component({
@@ -42,7 +45,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
             <mat-label>{{options.title | translate}}</mat-label>
 
             <input matInput
-                   [formControl]="control"
+                   [formControl]="formControl"
                    [placeholder]="options.placeholder | translate"
                    [attr.name]="options.name"
                    [id]="options.id"
@@ -65,10 +68,12 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 /** @beta */
-export class XmTextControl<T = Primitive> extends NgFormAccessor<T> implements XmDynamicControl<T, XmTextControlOptions> {
-    constructor(@Optional() @Self() public ngControl: NgControl | null,
-                @Inject(XM_CONTROL_ERRORS_TRANSLATES) private xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
-        super(ngControl);
+export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
+    implements XmDynamicControl<T, XmTextControlOptions>, OnInit, OnDestroy {
+    public newControl: FormControl = new FormControl();
+
+    public get formControl(): FormControl {
+        return this.options.isTrimmingString ? this.newControl : this.control;
     }
 
     private _options: XmTextControlOptions = clone(XM_TEXT_CONTROL_OPTIONS_DEFAULT);
@@ -90,6 +95,17 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T> implements X
         }
     }
 
+    constructor(@Optional() @Self() public ngControl: NgControl | null,
+                @Inject(XM_CONTROL_ERRORS_TRANSLATES) private xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
+        super(ngControl);
+    }
+
+    public ngOnInit(): void {
+        if(this.options.isTrimmingString) {
+            this.initControlWithTrimmingString();
+        }
+    }
+
     public getValueLength(): number {
         if (this.value && typeof this.value === 'string') {
             return this.value.length;
@@ -97,5 +113,19 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T> implements X
         return 0;
     }
 
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
+    private initControlWithTrimmingString(): void {
+        this.newControl.patchValue(this.value);
+        this.newControl.valueChanges
+            .pipe(
+                takeUntilOnDestroy(this),
+            )
+            .subscribe((value: string) => {
+                this.control.patchValue(value?.trim());
+            });
+    }
 }
 
