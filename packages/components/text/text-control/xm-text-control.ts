@@ -38,7 +38,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     maxLength: null,
     minLength: null,
     dataQa: 'text-control',
-    applyTrimForValue: true,
+    applyTrimForValue: false,
 };
 
 @Component({

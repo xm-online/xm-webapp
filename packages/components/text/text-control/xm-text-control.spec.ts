@@ -167,7 +167,7 @@ describe('XmTextControl', () => {
                 .toEqual('test1');
         });
 
-        it('should vall validatorsFactory from validatorProcessingService', () => {
+        it('should call validatorsFactory from validatorProcessingService', () => {
             (component as any).initControlWithTrimmingString();
 
             expect(validatorProcessingServiceMock.validatorsFactory)
