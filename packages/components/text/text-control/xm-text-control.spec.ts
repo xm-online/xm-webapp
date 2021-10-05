@@ -100,19 +100,33 @@ describe('XmTextControl', () => {
         expect(component.value).toBe(value);
     });
 
+    it('should set formControl as newControl when applyTrimForValue equal true', () => {
+        component.options.applyTrimForValue = true;
+
+        expect(component.formControl)
+            .toEqual((component as any).newControl);
+    });
+
+    it('should set formControl as control when applyTrimForValue equal false', () => {
+        component.options.applyTrimForValue = false;
+
+        expect(component.formControl)
+            .toEqual((component as any).control);
+    });
+
     describe('ngOnInit', () => {
-        it('should call initControlWithTrimmingString when isTrimValue equal true', () => {
+        it('should call initControlWithTrimmingString when applyTrimForValue equal true', () => {
             spyOn((component as any), 'initControlWithTrimmingString');
-            component.options.isTrimValue = true;
+            component.options.applyTrimForValue = true;
             component.ngOnInit();
 
             expect((component as any).initControlWithTrimmingString)
                 .toHaveBeenCalled();
         });
 
-        it('should NOT call initControlWithTrimmingString when isTrimValue equal false', () => {
+        it('should NOT call initControlWithTrimmingString when applyTrimForValue equal false', () => {
             spyOn((component as any), 'initControlWithTrimmingString');
-            component.options.isTrimValue = false;
+            component.options.applyTrimForValue = false;
             component.ngOnInit();
 
             expect((component as any).initControlWithTrimmingString)
@@ -151,6 +165,13 @@ describe('XmTextControl', () => {
 
             expect((component as any).newControl.value)
                 .toEqual('test1');
+        });
+
+        it('should vall validatorsFactory from validatorProcessingService', () => {
+            (component as any).initControlWithTrimmingString();
+
+            expect(validatorProcessingServiceMock.validatorsFactory)
+                .toHaveBeenCalledWith(component.options?.validators);
         });
 
         it('should trim value from newControl and patch to control', () => {

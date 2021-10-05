@@ -8,7 +8,8 @@ import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
+import { ValidatorProcessingOption, ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
+import { filter } from 'rxjs/operators';
 
 export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
     type?: string;
@@ -21,8 +22,8 @@ export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
     errors?: { [errorKey: string]: Translate };
     maxLength?: number;
     minLength?: number;
-    isTrimValue?: boolean;
-    validators?: any[];
+    applyTrimForValue?: boolean;
+    validators?: ValidatorProcessingOption[];
 }
 
 const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
@@ -37,7 +38,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     maxLength: null,
     minLength: null,
     dataQa: 'text-control',
-    isTrimValue: false,
+    applyTrimForValue: true,
 };
 
 @Component({
@@ -92,7 +93,7 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
     }
 
     public get formControl(): FormControl {
-        return this.options.isTrimValue ? this.newControl : this.control;
+        return this.options.applyTrimForValue ? this.newControl : this.control;
     }
 
     private newControl: FormControl = new FormControl();
@@ -106,7 +107,7 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
     }
 
     public ngOnInit(): void {
-        if(this.options.isTrimValue) {
+        if(this.options.applyTrimForValue) {
             this.initControlWithTrimmingString();
         }
     }
@@ -128,6 +129,7 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
         this.newControl.valueChanges
             .pipe(
                 takeUntilOnDestroy(this),
+                filter(() => this.newControl.valid),
             )
             .subscribe((value: string) => {
                 this.control.patchValue(value?.trim());
