@@ -1,21 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { XmLogoModule } from '@xm-ngx/components/logo';
 import { XmMenuModule } from '@xm-ngx/components/menu';
 import { XmPoweredByModule } from '@xm-ngx/components/powered-by';
 import { XmSidebarUserModule } from '@xm-ngx/components/sidebar-user';
-import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { MatDividerModule } from '@angular/material/divider';
 
-import { SidebarComponent } from './sidebar.component';
+import { XmSidebarComponent } from './sidebar.component';
+import { XmSidebarStoreService } from './stores/xm-sidebar-store.service';
+import { XM_SIDEBAR_CONFIG, XM_SIDEBAR_CONFIG_DEFAULT, XmSidebarConfig } from './configs/xm-sidebar.config';
 
-export const SIDEBAR_KEY = 'xm-widget-sidebar';
+export const XM_SIDEBAR_KEY = 'xm-widget-sidebar';
 
 @NgModule({
     declarations: [
-        SidebarComponent,
+        XmSidebarComponent,
     ],
     imports: [
         RouterModule,
@@ -28,9 +29,18 @@ export const SIDEBAR_KEY = 'xm-widget-sidebar';
         MatDividerModule,
     ],
     providers: [
-        {provide: SIDEBAR_KEY, useValue: SidebarComponent},
-        XmUiConfigService,
+        { provide: XM_SIDEBAR_KEY, useValue: XmSidebarComponent },
     ],
-    exports: [SidebarComponent],
+    exports: [XmSidebarComponent],
 })
-export class XmSidebarModule {}
+export class XmSidebarModule {
+    public static forRoot(config: XmSidebarConfig = XM_SIDEBAR_CONFIG_DEFAULT): ModuleWithProviders<XmSidebarModule> {
+        return {
+            ngModule: XmSidebarModule,
+            providers: [
+                { provide: XM_SIDEBAR_CONFIG, useValue: config },
+                XmSidebarStoreService,
+            ],
+        };
+    }
+}

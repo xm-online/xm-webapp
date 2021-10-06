@@ -33,7 +33,7 @@ import { PageRibbonComponent } from './profiles/page-ribbon.component';
         XmEntityModule,
         XmTimelineModule,
         RouterModule,
-        XmSidebarModule,
+        XmSidebarModule.forRoot(),
         XmSidebarRightModule,
         XmRibbonModule,
         XmSharedModule,
