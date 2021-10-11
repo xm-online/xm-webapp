@@ -175,9 +175,8 @@ describe('XmTextControl', () => {
         });
 
         it('should trim value from newControl and patch to control', () => {
-            (component as any).newControl.patchValue(' test2 ');
-
             (component as any).initControlWithTrimmingString();
+            (component as any).newControl.patchValue(' test2 ');
 
             expect(component.control.value)
                 .toEqual('test2');
