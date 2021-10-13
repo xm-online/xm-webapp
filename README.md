@@ -32,6 +32,12 @@ npm run prebuild
 npm start
 ```
 
+## Add ui examples (link - dashboard/ui-docs)
+* Command for console:
+```
+xm-ngx doc --examples
+```
+
 ## Changelog
 
 [Learn about the latest improvements][changelog].
