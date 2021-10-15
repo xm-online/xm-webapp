@@ -15,8 +15,8 @@ export const XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES: XmControlErrorsT
     minDate: marker('xm-validator-processing.validators.minDate'),
     languageRequired: marker('xm-validator-processing.validators.languageRequired'),
     minArrayLength: marker('xm-validator-processing.validators.minArrayLength'),
-    valueLessThanIn: marker('xm-control-errors.validators.pattern'),
-    valueMoreThanIn: marker('xm-control-errors.validators.pattern'),
+    valueLessThanIn: marker('xm-validator-processing.validators.valueLessThanIn'),
+    valueMoreThanIn: marker('xm-validator-processing.validators.valueMoreThanIn'),
 };
 
 export interface ValidatorProcessingOption {
@@ -75,57 +75,67 @@ export class ValidatorProcessingService {
         };
     }
 
-    public static minDate(options: {type: 'TODAY' | 'TOMORROW'}): ValidatorFn {
+    public static minDate(options: {
+        type?: 'TOMORROW',
+        days?: number,
+    }): ValidatorFn {
         return (control: AbstractControl) => {
-            function isEmptyInputValue(value: any): boolean {
-                return value == null || value.length === 0;
-            }
-
-            if (isEmptyInputValue(control.value)) {
+            if (!control.value) {
                 return null;
             }
-            let date: Date;
-            if (options.type === 'TODAY') {
-                date = new Date();
-                date.setHours(0, 0, 0, 0);
-            } else if (options.type === 'TOMORROW') {
-                date = new Date();
-                date.setHours(0, 0, 0, 0);
+
+            const date = new Date();
+            date.setHours(0, 0, 0, 0);
+
+            if (options.type === 'TOMORROW') { // TODO: remove this condition and refactor if don`t using
                 date.setDate(date.getDate() + 1);
+            } else {
+                date.setDate(date.getDate() + options.days);
             }
+
             const length: number = control.value ? control.value?.getTime() : 0;
-            return length < date.getTime()
-                ? {minDate: {minDate: date, actualDate: control.value, minDateI18n: date.toISOString().split('T')[0]}}
-                : null;
+            return length < date.getTime() ?
+                {
+                    minDate: {
+                        minDate: date,
+                        actualDate: control.value,
+                        minDateI18n: date.toISOString().split('T')[0],
+                    },
+                } :
+                null;
         };
     }
 
     public static valueMoreThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
-            const compareValue = control?.parent?.get(controlName)?.value;
-            if(compareValue !== '' && control?.value > compareValue) {
+            const compareValue = control?.parent?.value[controlName];
+            if(compareValue && control?.value > compareValue) {
+                const isDateValue = typeof compareValue?.getMonth === 'function';
                 return {
                     valueMoreThanIn: {
                         controlName,
+                        compareValue: isDateValue ? compareValue.toISOString().split('T')[0] : compareValue,
                     },
                 };
             }
-            control?.parent?.get(controlName)?.setErrors(null);
+            control?.parent?.controls[controlName].setErrors(null);
             return null;
         };
     }
 
     public static valueLessThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
-            const compareValue = control?.parent?.get(controlName)?.value;
-            if(compareValue !== '' && control?.value < compareValue) {
+            const compareValue = control?.parent?.value[controlName];
+            if(compareValue && control?.value < compareValue) {
+                const isDateValue = typeof compareValue?.getMonth === 'function';
                 return {
                     valueLessThanIn: {
                         controlName,
+                        compareValue: isDateValue ? compareValue.toISOString().split('T')[0] : compareValue,
                     },
                 };
             }
-            control?.parent?.get(controlName)?.setErrors(null);
+            control?.parent?.controls[controlName].setErrors(null);
             return null;
         };
     }
