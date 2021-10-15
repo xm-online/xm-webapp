@@ -37,6 +37,20 @@ export class XmTextExampleComponent {
         maxLength: 30,
     };
 
+    public textControlWithTrimOptions: XmTextControlOptions = {
+        id: 'trim-value-id',
+        placeholder: { en: 'Placeholder...' },
+        title: { en: 'Text Control' },
+        dataQa: 'text-example-control',
+        applyTrimForValue: true,
+        validators: [
+            {
+                type: 'maxLength',
+                params: '20',
+            },
+        ],
+    };
+
     /*
      TODO: research table row
       public textJoinValue: unknown = [
