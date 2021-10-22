@@ -93,8 +93,8 @@ export class ValidatorProcessingService {
                 date.setDate(date.getDate() + options.days);
             }
 
-            const length: number = control.value ? control.value?.getTime() : 0;
-            return length < date.getTime() ?
+            const controlValueTime: number = new Date(control.value)?.getTime();
+            return controlValueTime < date.getTime() ?
                 {
                     minDate: {
                         minDate: date,
