@@ -136,8 +136,6 @@ export class ValidatorProcessingService {
                 compareValue = new Date(compareValue);
             }
 
-
-
             if(compareValue && control?.value < compareValue) {
                 return {
                     valueLessThanIn: {
