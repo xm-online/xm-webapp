@@ -1584,8 +1584,8 @@
       "minDate": "The selected date is less than the minimum date ({{minDateI18n}}).",
       "languageRequired": "",
       "minArrayLength": "Array is less then the minimum length ({{requiredLength}}).",
-      "valueMoreThanIn": "Value entered incorrectly",
-      "valueLessThanIn": "Value entered incorrectly"
+      "valueMoreThanIn": "Value is more than {{compareValue}}",
+      "valueLessThanIn": "Value is less than {{compareValue}}"
     }
   }
 }
