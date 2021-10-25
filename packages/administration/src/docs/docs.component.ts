@@ -8,6 +8,11 @@ import SwaggerUI from 'swagger-ui';
 interface SwaggerResource {
     location: string;
     name: string;
+    swaggerVersion: string;
+}
+
+interface JhiDocsComponentConfig {
+    swaggerResources: SwaggerResource[];
 }
 
 @Component({
@@ -28,6 +33,7 @@ interface SwaggerResource {
 })
 export class JhiDocsComponent implements AfterViewInit {
 
+    public config: JhiDocsComponentConfig;
     public swaggerResources: SwaggerResource[];
     public currentResource: string;
 
@@ -38,13 +44,19 @@ export class JhiDocsComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        this.http
-            .get<SwaggerResource[]>('/swagger-resources')
-            .subscribe((data: SwaggerResource[]) => {
-                this.swaggerResources = data;
-                this.currentResource = this.swaggerResources[0].location;
-                this.updateSwagger(this.currentResource);
-            });
+        if (!this.config?.swaggerResources) {
+            this.http
+                .get<SwaggerResource[]>('/swagger-resources')
+                .subscribe((data: SwaggerResource[]) => {
+                    this.swaggerResources = data;
+                    this.currentResource = this.swaggerResources[0].location;
+                    this.updateSwagger(this.currentResource);
+                });
+        } else {
+            this.swaggerResources = this.config?.swaggerResources;
+            this.currentResource = this.swaggerResources[0].location;
+            this.updateSwagger(this.currentResource);
+        }
     }
 
     public updateSwagger(resource: string): void {
