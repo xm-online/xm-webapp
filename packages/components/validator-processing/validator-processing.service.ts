@@ -108,34 +108,43 @@ export class ValidatorProcessingService {
 
     public static valueMoreThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
-            const compareValue = control?.parent?.value[controlName];
+            let compareValue = control?.parent?.value[controlName] ?? 0;
+            const isNumber = Number.isInteger(compareValue);
+            if(!isNumber) {
+                compareValue = new Date(compareValue);
+            }
+
             if(compareValue && control?.value > compareValue) {
-                const isDateValue = typeof compareValue?.getMonth === 'function';
                 return {
                     valueMoreThanIn: {
                         controlName,
-                        compareValue: isDateValue ? compareValue.toISOString().split('T')[0] : compareValue,
+                        compareValue: !isNumber ? compareValue.toISOString().split('T')[0] : compareValue,
                     },
                 };
             }
-            control?.parent?.controls[controlName].setErrors(null);
+            control?.parent?.controls[controlName]?.setErrors(null);
             return null;
         };
     }
 
     public static valueLessThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
-            const compareValue = control?.parent?.value[controlName];
+            let compareValue = control?.parent?.value[controlName] ?? 0;
+            const isNumber = Number.isInteger(compareValue);
+
+            if(!isNumber) {
+                compareValue = new Date(compareValue);
+            }
+
             if(compareValue && control?.value < compareValue) {
-                const isDateValue = typeof compareValue?.getMonth === 'function';
                 return {
                     valueLessThanIn: {
                         controlName,
-                        compareValue: isDateValue ? compareValue.toISOString().split('T')[0] : compareValue,
+                        compareValue: !isNumber ? compareValue.toISOString().split('T')[0] : compareValue,
                     },
                 };
             }
-            control?.parent?.controls[controlName].setErrors(null);
+            control?.parent?.controls[controlName]?.setErrors(null);
             return null;
         };
     }
