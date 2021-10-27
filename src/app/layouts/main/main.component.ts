@@ -12,7 +12,7 @@ import { XmApplicationConfigService } from '../../shared/spec';
 export class XmMainComponent implements OnInit, OnDestroy {
     public resolved$: Observable<boolean> = this.xmConfigService.isResolved();
     public isGuestLayout: boolean = true;
-    public config=this.xmConfigService.getAppConfig();
+    public config = this.xmConfigService.getAppConfig();
 
     constructor(
         private xmConfigService: XmApplicationConfigService,
