@@ -16,16 +16,16 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     }
 
     public create(entity: T, params?: QueryParams): Observable<HttpResponse<T>> {
-        return this.handle(this.httpClient.post<T>(this.url, entity, { params, observe: 'response' }));
+        return this.handle(this.httpClient.post<T>(this.url, entity, { ...params, observe: 'response' }));
     }
 
     public update(entity: Partial<T>, params?: QueryParams): Observable<HttpResponse<T>> {
-        return this.handle(this.httpClient.put<T>(this.url, entity, { params, observe: 'response' }));
+        return this.handle(this.httpClient.put<T>(this.url, entity, { ...params, observe: 'response' }));
     }
 
     public getAll(params?: QueryParams): Observable<HttpResponse<T[] & Extra>> {
         return this.handle(
-            this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response' }).pipe(
+            this.httpClient.get<T[] & Extra>(this.url, { ...params, observe: 'response' }).pipe(
                 map(res => this.extractExtra(res)),
             ),
         );
@@ -36,19 +36,19 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     }
 
     public find(key: Id, params?: QueryParams): Observable<HttpResponse<T>> {
-        return this.handle(this.httpClient.get<T>(`${this.url}/${key}`, { params, observe: 'response' }));
+        return this.handle(this.httpClient.get<T>(`${this.url}/${key}`, { ...params, observe: 'response' }));
     }
 
     public delete(key: Id, params?: QueryParams): Observable<HttpResponse<unknown>> {
         return this.handle(this.httpClient.delete<unknown>(`${this.url}/${key}`, {
-            params,
+            ...params,
             observe: 'response',
         }));
     }
 
     public query(params: QueryParams): Observable<HttpResponse<T[] & Extra>> {
         return this.handle(
-            this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response' }).pipe(
+            this.httpClient.get<T[] & Extra>(this.url, { ...params, observe: 'response' }).pipe(
                 map(res => this.extractExtra(res)),
             ),
         );
@@ -57,9 +57,9 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     public upsert(entity: T, params?: QueryParams): Observable<HttpResponse<T>> {
         if (entity.id) {
             return this.create(entity, params);
-        } 
+        }
         return this.update(entity, params);
-        
+
     }
 
     public handle<T>(obs: Observable<T>): Observable<T> {
