@@ -21,6 +21,9 @@ class MockedConfig extends Mock {
     public isResolved(): Observable<boolean> {
         return of(true);
     }
+    public getAppConfig(): Observable<boolean> {
+        return of(true);
+    }
 
     public isMaintenanceProgress(): Observable<boolean> {
         return of(true);
