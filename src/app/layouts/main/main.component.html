@@ -18,7 +18,7 @@
 
         <xm-navbar class="mb-3"></xm-navbar>
 
-        <div [ngClass]="isGuestLayout ? 'container' : 'container-fluid'"
+        <div [ngClass]="(isGuestLayout && !config.fullWidth) ? 'container' : 'container-fluid'"
              class="main-content xm-main-content">
           <router-outlet></router-outlet>
         </div>
