@@ -43,6 +43,7 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
         return this.handle(this.httpClient.delete<unknown>(`${this.url}/${key}`, {
             params,
             observe: 'response',
+            headers,
         }));
     }
 
@@ -54,11 +55,11 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
         );
     }
 
-    public upsert(entity: T, params?: QueryParams): Observable<HttpResponse<T>> {
+    public upsert(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
         if (entity.id) {
-            return this.create(entity, params);
+            return this.create(entity, params, headers);
         }
-        return this.update(entity, params);
+        return this.update(entity, params, headers);
 
     }
 
