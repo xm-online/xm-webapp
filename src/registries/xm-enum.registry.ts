@@ -33,4 +33,8 @@ export const XM_ENUM_ELEMENTS: XmDynamicEntry[] = [
         selector: '@xm-ngx/components/multiple-enum-control',
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmMultipleEnumControlModule),
     },
+    {
+        selector: '@xm-ngx/components/icon-enum',
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmIconEnumModule),
+    },
 ];
