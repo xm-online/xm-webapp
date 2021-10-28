@@ -22,8 +22,10 @@ export function transformByMap<T, R, M>(data: T, mapper: M): R {
         if (Object.prototype.hasOwnProperty.call(mapper, optionKey)) {
             const optionValue = mapper[optionKey];
             if (typeof optionValue === 'string') {
-                const fieldValue: null | undefined = get(data, optionValue);
-                if (fieldValue !== null && fieldValue !== undefined) {
+                const fieldValue: null | undefined | string = get(data, optionValue);
+                if (fieldValue !== null
+                    && fieldValue !== undefined
+                ) {
                     set<R>(result, optionKey, fieldValue);
                 }
             }

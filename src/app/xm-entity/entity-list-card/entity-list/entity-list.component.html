@@ -225,7 +225,7 @@
       </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="!(options?.hideDelete) && !(item?.hideDelete)" matColumnDef="deleteButton">
+    <ng-container matColumnDef="deleteButton">
       <th scope="col" mat-header-cell *matHeaderCellDef></th>
       <td *matCellDef="let xmEntity">
         <a (click)="onRemove(xmEntity)" href="javascript: void(0);">

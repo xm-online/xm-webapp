@@ -83,3 +83,9 @@
     <xm-text-control formControlName="control" [options]="textControlOptions"></xm-text-control>
   </xm-code-container>
 </form>
+
+<h6>formControl(trim value option - trims the space at the beginning/end) - "{{formControl.value}}"</h6>
+<xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-control', options: textControlWithTrimOptions}">
+  <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
+  <xm-text-control [formControl]="formControl" [options]="textControlWithTrimOptions"></xm-text-control>
+</xm-code-container>

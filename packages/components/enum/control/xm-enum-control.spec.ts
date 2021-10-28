@@ -10,6 +10,7 @@ import { XmEnumControlComponent } from '@xm-ngx/components/enum';
 import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
+import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
 describe('XmEnumControlComponent', () => {
     let component: XmEnumControlComponent;
@@ -28,7 +29,7 @@ describe('XmEnumControlComponent', () => {
                 ReactiveFormsModule,
                 XmPermissionModule,
                 ControlErrorModule,
-                ControlErrorModule.forRoot(),
+                ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 NoopAnimationsModule,
             ],
         }).compileComponents();
@@ -64,7 +65,6 @@ describe('XmEnumControlComponent', () => {
         expect(component.itemsMap[String(value)].value).toBe(value);
     });
 
-
     it('value number should be equal to options.items[0] value', () => {
         const value = 1;
         const title = 'False';
@@ -84,5 +84,4 @@ describe('XmEnumControlComponent', () => {
         expect(component.value).toBe(value);
         expect(component.itemsMap[String(value)].value).toBe(value);
     });
-
 });

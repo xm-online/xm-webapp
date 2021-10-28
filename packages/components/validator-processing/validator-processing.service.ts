@@ -1,15 +1,33 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+    XM_CONTROL_ERRORS_TRANSLATES_DEFAULT,
+    XmControlErrorsTranslates,
+} from '@xm-ngx/components/control-error/xm-control-errors-translates';
+import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+
+
+/***
+ * Extends validators
+ * ***/
+export const XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES: XmControlErrorsTranslates = {
+    ...XM_CONTROL_ERRORS_TRANSLATES_DEFAULT,
+    minDate: marker('xm-validator-processing.validators.minDate'),
+    languageRequired: marker('xm-validator-processing.validators.languageRequired'),
+    minArrayLength: marker('xm-validator-processing.validators.minArrayLength'),
+    valueLessThanIn: marker('xm-validator-processing.validators.valueLessThanIn'),
+    valueMoreThanIn: marker('xm-validator-processing.validators.valueMoreThanIn'),
+};
 
 export interface ValidatorProcessingOption {
     type: string;
     params?: unknown;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ValidatorProcessingService {
 
-    private validators: { [key: string]: (...args: any[]) => ValidatorFn | ValidationErrors } = {
+    private validators: {[key: string]: (...args: any[]) => ValidatorFn | ValidationErrors} = {
         languageRequired: ValidatorProcessingService.languageRequired,
         minArrayLength: ValidatorProcessingService.minArrayLength,
         pattern: Validators.pattern,
@@ -20,6 +38,8 @@ export class ValidatorProcessingService {
         min: Validators.min,
         maxLength: Validators.maxLength,
         minDate: ValidatorProcessingService.minDate,
+        valueLessThanIn: ValidatorProcessingService.valueLessThanIn,
+        valueMoreThanIn: ValidatorProcessingService.valueMoreThanIn,
     };
 
     public static languageRequired(languages: string[]): ValidatorFn {
@@ -33,7 +53,7 @@ export class ValidatorProcessingService {
             });
 
             return invalidLanguages.length > 0
-                ? { languageRequired: invalidLanguages }
+                ? {languageRequired: invalidLanguages}
                 : null;
         };
     }
@@ -50,33 +70,82 @@ export class ValidatorProcessingService {
 
             const length: number = control.value ? control.value.length : 0;
             return length < minLength
-                ? { minArrayLength: { requiredLength: minLength, actualLength: length } }
+                ? {minArrayLength: {requiredLength: minLength, actualLength: length}}
                 : null;
         };
     }
 
-    public static minDate(options: { type: 'TODAY' | 'TOMORROW' }): ValidatorFn {
+    public static minDate(options: {
+        type?: 'TOMORROW',
+        days?: number,
+    }): ValidatorFn {
         return (control: AbstractControl) => {
-            function isEmptyInputValue(value: any): boolean {
-                return value == null || value.length === 0;
-            }
-
-            if (isEmptyInputValue(control.value)) {
+            if (!control.value) {
                 return null;
             }
-            let date: Date;
-            if (options.type === 'TODAY') {
-                date = new Date();
-                date.setHours(0, 0, 0, 0);
-            } else if (options.type === 'TOMORROW') {
-                date = new Date();
-                date.setHours(0, 0, 0, 0);
+
+            const date = new Date();
+            date.setHours(0, 0, 0, 0);
+
+            if (options.type === 'TOMORROW') { // TODO: remove this condition and refactor if don`t using
                 date.setDate(date.getDate() + 1);
+            } else {
+                date.setDate(date.getDate() + options.days);
             }
-            const length: number = control.value ? control.value?.getTime() : 0;
-            return length < date.getTime()
-                ? { minDate: { minDate: date, actualDate: control.value, minDateI18n: date.toISOString().split('T')[0] } }
-                : null;
+
+            const controlValueTime: number = new Date(control.value)?.getTime();
+            return controlValueTime < date.getTime() ?
+                {
+                    minDate: {
+                        minDate: date,
+                        actualDate: control.value,
+                        minDateI18n: date.toISOString().split('T')[0],
+                    },
+                } :
+                null;
+        };
+    }
+
+    public static valueMoreThanIn(controlName: string): ValidatorFn | null {
+        return (control: AbstractControl) => {
+            let compareValue = control?.parent?.value[controlName] ?? 0;
+            const isNumber = Number.isInteger(compareValue);
+            if(!isNumber) {
+                compareValue = new Date(compareValue);
+            }
+
+            if(compareValue && control?.value > compareValue) {
+                return {
+                    valueMoreThanIn: {
+                        controlName,
+                        compareValue: !isNumber ? compareValue.toISOString().split('T')[0] : compareValue,
+                    },
+                };
+            }
+            control?.parent?.controls[controlName]?.setErrors(null);
+            return null;
+        };
+    }
+
+    public static valueLessThanIn(controlName: string): ValidatorFn | null {
+        return (control: AbstractControl) => {
+            let compareValue = control?.parent?.value[controlName] ?? 0;
+            const isNumber = Number.isInteger(compareValue);
+
+            if(!isNumber) {
+                compareValue = new Date(compareValue);
+            }
+
+            if(compareValue && control?.value < compareValue) {
+                return {
+                    valueLessThanIn: {
+                        controlName,
+                        compareValue: !isNumber ? compareValue.toISOString().split('T')[0] : compareValue,
+                    },
+                };
+            }
+            control?.parent?.controls[controlName]?.setErrors(null);
+            return null;
         };
     }
 

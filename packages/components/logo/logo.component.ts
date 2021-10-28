@@ -39,6 +39,7 @@ function optionsConfigToLogo(config: XmUIConfig): LogoOptions {
     selector: 'xm-logo',
     templateUrl: './logo.component.html',
     styleUrls: ['./logo.component.scss'],
+    host: { class: 'xm-logo' },
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class LogoComponent implements OnInit {

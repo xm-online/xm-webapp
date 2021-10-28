@@ -5,6 +5,7 @@ import { XmEntity } from '../shared/xm-entity.model';
 export interface EntityListCardOptions {
     entities?: EntityOptions[];
     hideDelete?: boolean;
+    hideAvatar?: boolean;
     smOverflow?: boolean;
     hideExport?: boolean;
     hideOptionsMenu?: boolean;
@@ -19,6 +20,7 @@ export interface EntityOptions {
     name?: any;
     fastSearch?: FastSearchSpec[];
     hideDelete?: boolean;
+    hideAvatar?: boolean;
     noDeepLink?: boolean;
     fields?: FieldOptions[];
     noData?: any;

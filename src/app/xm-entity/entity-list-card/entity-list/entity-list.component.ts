@@ -182,7 +182,16 @@ export class EntityListComponent implements OnInit, OnDestroy {
     }
 
     public getColumnsToDisplay(fields: Array<FieldOptions>): any[] {
-        return ['avatarUrl', ...fields?.map(i => i.field), 'deleteButton'];
+        let fieldsConfig: string[] = [];
+        if (!this.options?.hideAvatar) {
+            fieldsConfig.push('avatarUrl');
+        }
+
+        fieldsConfig = [...fieldsConfig, ...fields?.map(i => i.field)];
+        if (!this.options?.hideDelete) {
+            fieldsConfig.push('deleteButton');
+        }
+        return fieldsConfig;
     }
 
     public onNavigate(entityOptions: EntityOptions, xmEntity: XmEntity): void {

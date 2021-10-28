@@ -2,12 +2,14 @@ import { Component, Inject, Input, Optional } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { Translate } from '@xm-ngx/translation';
+import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import { defaultsDeep } from 'lodash';
 import { User, UserService } from '../../../../../src/app/shared';
 
 export interface UnblockLockUserOptions {
     title?: Translate;
+    blockUserMessage?: string;
+    unBlockUserMessage?: string;
 }
 
 const DEFAULT_OPTIONS = {
@@ -33,6 +35,7 @@ export class UnblockLockUserComponent {
         protected alertService: XmAlertService,
         protected toasterService: XmToasterService,
         private userService: UserService,
+        private xmTranslationService: XmTranslateService,
         @Optional() @Inject(XM_DYNAMIC_TABLE_ROW) row: User,
      ) {
          this.user = row;
@@ -40,12 +43,14 @@ export class UnblockLockUserComponent {
 
      public changeState(user: User): void {
          this.alertService.open({
-             title: user.activated ? 'Block user?' : 'Unblock user?',
+             title: user.activated
+                 ? this.xmTranslationService.translate(this.options.blockUserMessage || 'Block user?')
+                 : this.xmTranslationService.translate(this.options.unBlockUserMessage || 'Unblock user?'),
              showCancelButton: true,
              buttonsStyling: false,
              confirmButtonClass: 'btn mat-button btn-primary',
              cancelButtonClass: 'btn mat-button',
-             confirmButtonText: 'Yes',
+             confirmButtonText: this.xmTranslationService.translate('global.common.yes'),
          }).subscribe((result) => result.value ?
              this.changeUserState(user) :
              console.info('Cancel'));

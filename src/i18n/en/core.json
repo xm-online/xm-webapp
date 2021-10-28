@@ -198,7 +198,7 @@
     "feedback": {
       "error": "Not sent. Try again later",
       "success": "Successfully sent feedback",
-      "tooltip": "Sent feedback"
+      "tooltip": "Send feedback"
     },
     "filter": "Filter",
     "id": "Id",
@@ -1444,6 +1444,10 @@
       "type-tag": "type tag ..."
     }
   },
+  "xm-enum": {
+    "other": "Other",
+    "others": "Others"
+  },
   "xm-navbar-language-menu": {
     "choose-language": "Choose a language"
   },
@@ -1573,6 +1577,15 @@
       "treeView": "Tree view",
       "type": "Type",
       "votes": "Vote(s)"
+    }
+  },
+  "xm-validator-processing": {
+    "validators": {
+      "minDate": "The selected date is less than the minimum date ({{minDateI18n}}).",
+      "languageRequired": "",
+      "minArrayLength": "Array is less then the minimum length ({{requiredLength}}).",
+      "valueMoreThanIn": "Value is more than {{compareValue}}",
+      "valueLessThanIn": "Value is less than {{compareValue}}"
     }
   }
 }

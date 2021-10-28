@@ -12,7 +12,7 @@ import { MultilingualInputOptions } from './multilingual-input-options.model';
 export class MultilingualInputComponent implements OnInit {
 
     @Input() public layoutNode: any;
-    public options: MultilingualInputOptions;
+    public options: MultilingualInputOptions & {title?: string};
 
     public currentLanguage: any;
     public languages: any[];

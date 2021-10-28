@@ -18,8 +18,8 @@ export class I18nNamePipe implements PipeTransform {
             return name[principal.getLangKey()];
         } else if (name && name.en) {
             return name.en;
-        } 
+        }
         return name;
-        
+
     }
 }

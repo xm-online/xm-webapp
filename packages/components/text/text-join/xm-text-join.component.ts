@@ -10,9 +10,16 @@ import {
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
+import * as moment from 'moment';
+
+export interface XmTextJoinValueOptionsTemplateType {
+    value: 'date',
+    format?: string,
+}
 
 export interface XmTextJoinValueOptionsTemplate extends XmTextTitleOptions {
-    condition: JavascriptCode
+    condition: JavascriptCode,
+    type?: XmTextJoinValueOptionsTemplateType,
 }
 
 export interface XmTextJoinValueOptions {
@@ -52,10 +59,18 @@ export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknow
                 continue;
             }
 
-            const translates = this.translateService.translate(item.title, {
+            let translates = this.translateService.translate(item.title, {
                 entity: this.row,
                 value: this.value,
             });
+
+            if(item.type?.value === 'date') {
+                const isDateValue = moment(translates).isValid();
+
+                if(isDateValue) {
+                    translates = moment(translates).format(item.type?.format);
+                }
+            }
 
             fields.push(translates);
         }

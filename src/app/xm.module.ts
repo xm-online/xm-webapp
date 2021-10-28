@@ -32,6 +32,8 @@ import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from './xm.constants';
 import { XM_ELEMENTS } from '../registries/xm.registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
+import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import { XmSharedModule } from './shared/shared.module';
 
 @NgModule({
     imports: [
@@ -39,8 +41,9 @@ import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
         HttpClientModule,
         BrowserAnimationsModule,
         XmRoutingModule,
+        XmSharedModule.forRoot(),
         XmCoreModule.forRoot(),
-        ControlErrorModule.forRoot(),
+        ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
         XmCoreConfigModule,
         XmCoreAuthModule.forRoot(),
         NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),

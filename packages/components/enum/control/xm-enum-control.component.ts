@@ -75,7 +75,7 @@ export class XmEnumControlComponent
     extends NgFormAccessor<XmEnumValue>
     implements XmDynamicControl<XmEnumValue, XmEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];
-    public itemsMap: { [value: string]: XmEnumControlOptionsItem };
+    public itemsMap: {[value: string]: XmEnumControlOptionsItem};
     private _options: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);
 
     public get options(): XmEnumControlOptions {

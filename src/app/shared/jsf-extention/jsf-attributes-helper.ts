@@ -3,6 +3,7 @@ import { CurrentLocationComponent } from './widgets/current-location/current-loc
 import { DatetimePickerComponent } from './widgets/datetime-picker/datetime-picker.component';
 import { DatePickerComponent } from './widgets/date-picker/date-picker.component';
 import { DatetimeUtcComponent } from './widgets/datetime-utc/datetime-utc.component';
+import { DynamicControlInjectorComponent } from './widgets/dynamic-control-injector-component/dynamic-control-injector.component';
 import { EmailMatcherComponent } from './widgets/email-matcher/email-matcher.component';
 import { ExtAutocompleteComponent } from './widgets/ext-autocomplete/ext-autocomplete.component';
 import { ExtMdEditorComponent } from './widgets/ext-md-editor/ext-md-editor.component';
@@ -16,6 +17,7 @@ import { FileUploadComponent } from './widgets/file-upload/file-upload.component
 import { MultilingualInputComponent } from './widgets/multilingual-input/multilingual-input.component';
 import { TextSectionComponent } from './widgets/text-section/text-section.component';
 import { ValidationComponent } from './widgets/validation-component/validation-component.component';
+import { MultilingualInputV2Component } from './widgets/multilingual-input-v2/multilingual-input-v2.component';
 
 declare const $: any;
 declare let Babili: any;
@@ -36,6 +38,7 @@ export const getJsfWidgets = (): any => {
         'ext-textarea': ExtTextareaComponent,
         'content-textarea': ContentTextareaComponent,
         'multilingual-input': MultilingualInputComponent,
+        'multilingual-input-v2': MultilingualInputV2Component,
         'datetime-utc': DatetimeUtcComponent,
         'datetime-picker': DatetimePickerComponent,
         'date-picker': DatePickerComponent,
@@ -43,6 +46,7 @@ export const getJsfWidgets = (): any => {
         'email-matcher': EmailMatcherComponent,
         'text-section': TextSectionComponent,
         'file-upload': FileUploadComponent,
+        'dynamic-control': DynamicControlInjectorComponent,
     };
 };
 

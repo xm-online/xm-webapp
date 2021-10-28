@@ -63,7 +63,7 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
     }
 
     public ngOnInit(): void {
-        const extraColumns = this.config.columns?.map((c) => c.name || c.field) || [];
+        const extraColumns = this.config?.columns?.map((c) => c.name || c.field) || [];
         this.displayedColumns.push(...extraColumns);
 
         this.dataSource.sort = this.matSort;
