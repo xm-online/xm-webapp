@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,38 +13,38 @@ export class EntityCollectionBase<T extends IId = unknown, Extra extends Pageabl
         this.setCollection(collection);
     }
 
-    public create(entity: T, params?: QueryParams): Observable<T> {
-        return this.collection.create(entity, params)
+    public create(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<T> {
+        return this.collection.create(entity, params, headers)
             .pipe(map((res) => res.body));
     }
 
-    public delete(id: Id, params?: QueryParams): Observable<unknown> {
-        return this.collection.delete(id, params)
+    public delete(id: Id, params?: QueryParams, headers?: HttpHeaders): Observable<unknown> {
+        return this.collection.delete(id, params, headers)
             .pipe(map((res) => res.body));
     }
 
-    public getById(id: Id, params?: QueryParams): Observable<T> {
-        return this.collection.getById(id, params)
+    public getById(id: Id, params?: QueryParams, headers?: HttpHeaders): Observable<T> {
+        return this.collection.getById(id, params, headers)
             .pipe(map((res) => res.body));
     }
 
-    public getAll(params?: QueryParams): Observable<T[] & Extra> {
-        return this.collection.getAll(params)
+    public getAll(params?: QueryParams, headers?: HttpHeaders): Observable<T[] & Extra> {
+        return this.collection.getAll(params, headers)
             .pipe(map((res) => res.body));
     }
 
-    public query(params: QueryParams): Observable<T[] & Extra> {
-        return this.collection.query(params)
+    public query(params: QueryParams, headers?: HttpHeaders): Observable<T[] & Extra> {
+        return this.collection.query(params, headers)
             .pipe(map((res) => res.body));
     }
 
-    public update(update: Partial<T>, params?: QueryParams): Observable<T> {
-        return this.collection.update(update, params)
+    public update(update: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<T> {
+        return this.collection.update(update, params, headers)
             .pipe(map((res) => res.body));
     }
 
-    public upsert(entity: T, params?: QueryParams): Observable<T> {
-        return this.collection.upsert(entity, params)
+    public upsert(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<T> {
+        return this.collection.upsert(entity, params, headers)
             .pipe(map((res) => res.body));
     }
 
