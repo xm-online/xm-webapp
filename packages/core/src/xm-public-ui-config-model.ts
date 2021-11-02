@@ -20,6 +20,7 @@ export interface UIPublicConfig {
     loginScreenBgn?: string;
     googleApiKey?: string;
     langs?: string[];
+    fullWidth?: boolean;
     defaultDashboard?: number | string;
     datesFormats?: {
         en?: string;

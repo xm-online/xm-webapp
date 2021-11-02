@@ -1,3 +1,6 @@
+export { XmIconEnumComponent, XmIconEnumOptions, XmIconEnumOptionsItem } from '@xm-ngx/components/enum/icon/xm-icon-enum.component';
+export { XmIconEnumModule } from '@xm-ngx/components/enum/icon/xm-icon-enum.module';
+
 export { XmEnumComponent, XmEnumOptions, XmEnumValue } from './value/xm-enum.component';
 export { XmEnumModule } from './value/xm-enum.module';
 
