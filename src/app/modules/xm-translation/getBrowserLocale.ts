@@ -1,3 +1,5 @@
+import { LANGUAGES } from '../../shared/language/language.constants';
+
 /**
  * Returns a first locale from the windows.navigator.languages
  */
@@ -19,5 +21,5 @@ export function getBrowserLocale(): string | null {
     if (browserLang.indexOf('_') !== -1) {
         browserLang = browserLang.split('_')[0];
     }
-    return browserLang;
+    return browserLang && LANGUAGES.includes(browserLang) ? browserLang : null;
 }
