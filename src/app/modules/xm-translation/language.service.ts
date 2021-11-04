@@ -45,7 +45,6 @@ export class LanguageService implements OnDestroy, OnInitialize {
         return this.$locale.getValue()
             || this.getUserLocale()
             || this.getSessionLocale()
-            // TODO: if BrowserLocale isn't supported by our app when return null
             || this.getBrowserLocale()
             || this.getConfigLocale()
             || this.getDefaultLocale();
@@ -90,7 +89,8 @@ export class LanguageService implements OnDestroy, OnInitialize {
 
     /** @description Get a locale form the browser */
     public getBrowserLocale(): Locale | null {
-        return getBrowserLocale();
+        const locale = getBrowserLocale();
+        return locale && this.languages.includes(locale) ? locale : null;
     }
 
     /** @description Get a default locale */
