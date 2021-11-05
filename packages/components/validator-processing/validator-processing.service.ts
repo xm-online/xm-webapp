@@ -17,6 +17,7 @@ export const XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES: XmControlErrorsT
     minArrayLength: marker('xm-validator-processing.validators.minArrayLength'),
     valueLessThanIn: marker('xm-validator-processing.validators.valueLessThanIn'),
     valueMoreThanIn: marker('xm-validator-processing.validators.valueMoreThanIn'),
+    severalEmails: marker('xm-validator-processing.validators.severalEmails'),
 };
 
 export interface ValidatorProcessingOption {
@@ -40,6 +41,7 @@ export class ValidatorProcessingService {
         minDate: ValidatorProcessingService.minDate,
         valueLessThanIn: ValidatorProcessingService.valueLessThanIn,
         valueMoreThanIn: ValidatorProcessingService.valueMoreThanIn,
+        severalEmails: ValidatorProcessingService.severalEmails,
     };
 
     public static languageRequired(languages: string[]): ValidatorFn {
@@ -149,9 +151,30 @@ export class ValidatorProcessingService {
         };
     }
 
+    public static severalEmails(): ValidatorFn | null {
+        return (control: AbstractControl) => {
+            if(!control?.value) {
+                return null;
+            }
+
+            const emailPattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+            const separator = ';';
+            const emails = control.value?.split(separator);
+            const isAllEmailsValid = emails.every(item => emailPattern.test(item.trim()));
+
+            if(!isAllEmailsValid) {
+                return {
+                    severalEmails: true,
+                };
+            }
+
+            return null;
+        };
+    }
+
     public validatorFactory(option: ValidatorProcessingOption): ValidatorFn | null {
         const validator = this.validators[option.type] || null;
-        return (validator && option.params) ? (validator as any)(option.params) : validator;
+        return (validator && option.params) ? (validator as any)(option.params) : validator();
     }
 
     public validatorsFactory(options: ValidatorProcessingOption[]): ValidatorFn[] {

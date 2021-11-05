@@ -1574,7 +1574,8 @@
       "languageRequired": "",
       "minArrayLength": "Массив меньше минимальной длины ({{requiredLength}}).",
       "valueMoreThanIn": "Значение больше чем {{compareValue}}",
-      "valueLessThanIn": "Значение меньше чем {{compareValue}}"
+      "valueLessThanIn": "Значение меньше чем {{compareValue}}",
+      "severalEmails": "Невалидный email или значения должны быть разделены знаками: ';'"
     }
   }
 }
