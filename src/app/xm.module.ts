@@ -21,19 +21,19 @@ import { HttpLoaderFactory, LanguageService, TitleService, XmTranslationModule }
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
-import { XmLoggerWatcherService } from '../../packages/logger/src/xm-logger-watcher.service';
+import { XmLoggerWatcherService } from '@xm-ngx/logger';
 
-import { IdleLogoutService } from './account/logout/idle-logout.service';
-import { XmMainComponent } from './layouts';
-import { LayoutModule } from './layouts/layout.module';
-import { XmApplicationConfigService } from './shared/spec';
-import { XmRoutingModule } from './xm-routing.module';
-import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from './xm.constants';
-import { XM_ELEMENTS } from '../registries/xm.registry';
+import { IdleLogoutService } from 'src/app/account/logout/idle-logout.service';
+import { XmMainComponent } from 'src/app/layouts';
+import { LayoutModule } from 'src/app/layouts/layout.module';
+import { XmApplicationConfigService } from 'src/app/shared/spec';
+import { XmRoutingModule } from 'src/app/xm-routing.module';
+import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
+import { XM_ELEMENTS } from 'src/registries/xm.registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { XmSharedModule } from './shared/shared.module';
+import { XmSharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     imports: [
