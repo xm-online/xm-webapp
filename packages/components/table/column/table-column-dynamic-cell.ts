@@ -21,12 +21,18 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
     title: Translate;
     dataClass: string;
     dataStyle: string;
+    sticky?: boolean;
+    stickyEnd?: boolean;
+    optional?: boolean;
 }
 
 @Component({
     selector: 'xm-table-column-dynamic-cell',
     template: `
-        <ng-container matColumnDef>
+        <ng-container
+            matColumnDef
+            [sticky]="column.sticky"
+            [stickyEnd]="column.stickyEnd">
             <th *matHeaderCellDef
                 scope="col"
                 mat-header-cell
