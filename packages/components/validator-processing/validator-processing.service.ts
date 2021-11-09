@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
 import {
     XM_CONTROL_ERRORS_TRANSLATES_DEFAULT,
     XmControlErrorsTranslates,
@@ -28,12 +28,12 @@ export interface ValidatorProcessingOption {
 @Injectable({providedIn: 'root'})
 export class ValidatorProcessingService {
 
-    private validators: {[key: string]: (...args: any[]) => ValidatorFn | ValidationErrors} = {
+    private validators: {[key: string]: (...args: any[]) => ValidatorFn} = {
         languageRequired: ValidatorProcessingService.languageRequired,
         minArrayLength: ValidatorProcessingService.minArrayLength,
         pattern: Validators.pattern,
-        required: Validators.required,
-        email: Validators.email,
+        required: () => Validators.required,
+        email: () => Validators.email,
         minLength: Validators.minLength,
         max: Validators.max,
         min: Validators.min,
