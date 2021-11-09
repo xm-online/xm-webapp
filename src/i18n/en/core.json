@@ -1585,7 +1585,8 @@
       "languageRequired": "",
       "minArrayLength": "Array is less then the minimum length ({{requiredLength}}).",
       "valueMoreThanIn": "Value is more than {{compareValue}}",
-      "valueLessThanIn": "Value is less than {{compareValue}}"
+      "valueLessThanIn": "Value is less than {{compareValue}}",
+      "severalEmails": "Invalid email or values should be separating by next symbol: ';'"
     }
   }
 }
