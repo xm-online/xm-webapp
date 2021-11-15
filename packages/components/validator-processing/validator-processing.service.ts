@@ -114,6 +114,9 @@ export class ValidatorProcessingService {
 
     public static valueMoreThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
+            if (!control.value) {
+                return null;
+            }
             let compareValue = control?.parent?.value[controlName] ?? 0;
             const isNumber = Number.isInteger(compareValue);
             if(!isNumber) {
@@ -135,6 +138,9 @@ export class ValidatorProcessingService {
 
     public static valueLessThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
+            if (!control.value) {
+                return null;
+            }
             let compareValue = control?.parent?.value[controlName] ?? 0;
             const isNumber = Number.isInteger(compareValue);
 
@@ -157,6 +163,9 @@ export class ValidatorProcessingService {
 
     public static dateMoreThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
+            if (!control.value) {
+                return null;
+            }
             const compareValue = control?.parent?.value[controlName] ?? 0;
             const controlValue = ValidatorProcessingService.formatToDateTime(control?.value);
             const compareDate = ValidatorProcessingService.formatToDateTime(compareValue);
@@ -173,6 +182,9 @@ export class ValidatorProcessingService {
 
     public static dateLessThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
+            if (!control.value) {
+                return null;
+            }
             const compareValue = control?.parent?.value[controlName] ?? 0;
             const controlValue = ValidatorProcessingService.formatToDateTime(control?.value);
             const compareDate = ValidatorProcessingService.formatToDateTime(compareValue);
