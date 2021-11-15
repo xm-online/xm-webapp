@@ -18,6 +18,8 @@ export const XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES: XmControlErrorsT
     valueLessThanIn: marker('xm-validator-processing.validators.valueLessThanIn'),
     valueMoreThanIn: marker('xm-validator-processing.validators.valueMoreThanIn'),
     severalEmails: marker('xm-validator-processing.validators.severalEmails'),
+    dateLessThanIn: marker('xm-control-errors.validators.pattern'),
+    dateMoreThanIn: marker('xm-control-errors.validators.pattern'),
 };
 
 export interface ValidatorProcessingOption {
@@ -42,6 +44,8 @@ export class ValidatorProcessingService {
         valueLessThanIn: ValidatorProcessingService.valueLessThanIn,
         valueMoreThanIn: ValidatorProcessingService.valueMoreThanIn,
         severalEmails: ValidatorProcessingService.severalEmails,
+        dateMoreThanIn: ValidatorProcessingService.dateMoreThanIn,
+        dateLessThanIn: ValidatorProcessingService.dateLessThanIn,
     };
 
     public static languageRequired(languages: string[]): ValidatorFn {
@@ -151,6 +155,38 @@ export class ValidatorProcessingService {
         };
     }
 
+    public static dateMoreThanIn(controlName: string): ValidatorFn | null {
+        return (control: AbstractControl) => {
+            const compareValue = control?.parent?.value[controlName] ?? 0;
+            const controlValue = ValidatorProcessingService.formatToDateTime(control?.value);
+            const compareDate = ValidatorProcessingService.formatToDateTime(compareValue);
+
+            if(compareValue && controlValue > compareDate) {
+                return {
+                    dateMoreThanIn: true,
+                };
+            }
+            control?.parent?.controls[controlName]?.setErrors(null);
+            return null;
+        };
+    }
+
+    public static dateLessThanIn(controlName: string): ValidatorFn | null {
+        return (control: AbstractControl) => {
+            const compareValue = control?.parent?.value[controlName] ?? 0;
+            const controlValue = ValidatorProcessingService.formatToDateTime(control?.value);
+            const compareDate = ValidatorProcessingService.formatToDateTime(compareValue);
+
+            if(compareValue && controlValue < compareDate) {
+                return {
+                    dateLessThanIn: true,
+                };
+            }
+            control?.parent?.controls[controlName]?.setErrors(null);
+            return null;
+        };
+    }
+
     public static severalEmails(): ValidatorFn | null {
         return (control: AbstractControl) => {
             if(!control?.value) {
@@ -184,4 +220,9 @@ export class ValidatorProcessingService {
         return options.map(option => this.validatorFactory(option)).filter((v) => Boolean(v));
     }
 
+    private static formatToDateTime(value: string | Date): number {
+        return Number.isInteger(value) ?
+            new Date().setDate(new Date().getDate() + (Number(value) - 1)) :
+            new Date(value).getTime();
+    }
 }
