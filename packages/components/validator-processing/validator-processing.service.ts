@@ -234,7 +234,7 @@ export class ValidatorProcessingService {
 
     private static formatToDateTime(value: string | Date): number {
         return Number.isInteger(value) ?
-            new Date().setDate(new Date().getDate() + (Number(value) - 1)) :
+            new Date().setDate(new Date().getDate() + Number(value)) :
             new Date(value).getTime();
     }
 }
