@@ -1,0 +1,63 @@
+name: Autoincrement project version
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+    types: [opened,edited,reopened,synchronize]
+
+jobs:
+  increment_version:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          path: ${{ github.head_ref }}
+
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.base_ref }}
+          path: ${{ github.base_ref }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Set Project Version
+        env:
+          event: ${{ github.event.action }}
+          event_label_name: ${{ github.event.label.name }}
+
+        run: |
+          cd ${{ github.workspace }}/${{ github.base_ref }}
+          curent_version=`npm -s run-script get-version`
+          echo "Curent version: $curent_version"
+          cd ${{ github.workspace }}/${{ github.head_ref }}
+          merge_version=`npm -s run-script get-version`
+          echo "New version: $merge_version"
+          max_version=`printf '%s\n' "$merge_version" "$curent_version" | sort -V | tail -n 1`
+          echo "Max version: $max_version"
+          if [ "$max_version" == "$curent_version" ]
+          then
+            echo "Increment project version"
+            echo "From:"
+            npm version $max_version --no-git-tag-version --allow-same-version
+            echo "To:"
+            npm version patch --no-git-tag-version
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git commit --amend --no-edit
+          else
+            echo "Keep project version:"
+            npm version $merge_version --no-git-tag-version --allow-same-version
+          fi
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+          directory: ${{ github.head_ref }}
