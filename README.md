@@ -13,20 +13,7 @@ git clone https://github.com/xm-online/xm-webapp
 cd xm-webapp/
 ```
 * Add extensions (optional):
-```
-cd src/app/ext/
-git clone <repo with extension>
-```
-* Change API endpoint in the file `proxy.conf.js` (optional):
-value for the parameter `target`
-* Install all dependencies:
-```
-npm install
-```
-* Build i18n resources and register extensions (optional):
-```
-npm run prebuild
-```
+
 * Start web application:
 ```
 npm start
