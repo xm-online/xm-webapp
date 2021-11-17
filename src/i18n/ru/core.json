@@ -1575,7 +1575,9 @@
       "minArrayLength": "Массив меньше минимальной длины ({{requiredLength}}).",
       "valueMoreThanIn": "Значение больше чем {{compareValue}}",
       "valueLessThanIn": "Значение меньше чем {{compareValue}}",
-      "severalEmails": "Невалидный email или значения должны быть разделены знаками: ';'"
+      "severalEmails": "Невалидный email или значения должны быть разделены знаками: ';'",
+      "dateMoreThanIn": "Значение выше допустимого диапазона",
+      "dateLessThanIn": "Значение меньше допустимого диапазона"
     }
   }
 }
