@@ -36,6 +36,7 @@ jobs:
               fi
               git tag -a "v"$tag -m "add tag $tag"
           done
+
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
