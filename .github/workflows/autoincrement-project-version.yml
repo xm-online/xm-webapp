@@ -55,6 +55,7 @@ jobs:
             echo "Keep project version:"
             npm version $merge_version --no-git-tag-version --allow-same-version
           fi
+
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
