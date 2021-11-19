@@ -20,6 +20,7 @@ export const XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES: XmControlErrorsT
     severalEmails: marker('xm-validator-processing.validators.severalEmails'),
     dateLessThanIn: marker('xm-control-errors.validators.pattern'),
     dateMoreThanIn: marker('xm-control-errors.validators.pattern'),
+    pastDate: marker('xm-validator-processing.validators.pastDate'),
 };
 
 export interface ValidatorProcessingOption {
@@ -46,6 +47,7 @@ export class ValidatorProcessingService {
         severalEmails: ValidatorProcessingService.severalEmails,
         dateMoreThanIn: ValidatorProcessingService.dateMoreThanIn,
         dateLessThanIn: ValidatorProcessingService.dateLessThanIn,
+        pastDate: ValidatorProcessingService.pastDate,
     };
 
     public static languageRequired(languages: string[]): ValidatorFn {
@@ -105,6 +107,26 @@ export class ValidatorProcessingService {
                     minDate: {
                         minDate: date,
                         actualDate: control.value,
+                        minDateI18n: date.toISOString().split('T')[0],
+                    },
+                } :
+                null;
+        };
+    }
+
+    public static pastDate(): ValidatorFn {
+        return (control: AbstractControl) => {
+            if (!control.value) {
+                return null;
+            }
+
+            const date = new Date();
+            const controlValueTime: number = new Date(control.value)?.getTime();
+            return controlValueTime < date.getTime() ?
+                {
+                    pastDate: {
+                        pastDate: controlValueTime,
+                        actualDate: date,
                         minDateI18n: date.toISOString().split('T')[0],
                     },
                 } :

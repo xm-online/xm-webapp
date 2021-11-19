@@ -1588,7 +1588,8 @@
       "valueLessThanIn": "Value is less than {{compareValue}}",
       "severalEmails": "Invalid email or values should be separating by next symbol: ';'",
       "dateMoreThanIn": "Value more then allowable range",
-      "dateLessThanIn": "Value is less than allowable range"
+      "dateLessThanIn": "Value is less than allowable range",
+      "pastDate": "The selected date is less than current date."
     }
   }
 }
