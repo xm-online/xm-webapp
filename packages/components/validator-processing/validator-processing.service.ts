@@ -88,7 +88,7 @@ export class ValidatorProcessingService {
         days?: number,
     }): ValidatorFn {
         return (control: AbstractControl) => {
-            if (!control.value) {
+            if (!control.value || !control.touched) {
                 return null;
             }
 
@@ -116,7 +116,7 @@ export class ValidatorProcessingService {
 
     public static pastDate(): ValidatorFn {
         return (control: AbstractControl) => {
-            if (!control.value) {
+            if (!control.value || !control.touched) {
                 return null;
             }
 
@@ -136,7 +136,7 @@ export class ValidatorProcessingService {
 
     public static valueMoreThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
-            if (!control.value) {
+            if (!control.value || !control.touched) {
                 return null;
             }
             let compareValue = control?.parent?.value[controlName] ?? 0;
@@ -160,7 +160,7 @@ export class ValidatorProcessingService {
 
     public static valueLessThanIn(controlName: string): ValidatorFn | null {
         return (control: AbstractControl) => {
-            if (!control.value) {
+            if (!control.value || !control.touched) {
                 return null;
             }
             let compareValue = control?.parent?.value[controlName] ?? 0;
@@ -188,7 +188,7 @@ export class ValidatorProcessingService {
         assignError?: string,
     }): ValidatorFn | null {
         return (control: AbstractControl) => {
-            if (!control.value) {
+            if (!control.value || !control.touched) {
                 return null;
             }
             const compareValue = control?.parent?.value[options?.controlName] ?? 0;
@@ -217,7 +217,7 @@ export class ValidatorProcessingService {
         assignError?: string,
     }): ValidatorFn | null {
         return (control: AbstractControl) => {
-            if (!control.value) {
+            if (!control.value || !control.touched) {
                 return null;
             }
             const compareValue = control?.parent?.value[options?.controlName] ?? 0;
