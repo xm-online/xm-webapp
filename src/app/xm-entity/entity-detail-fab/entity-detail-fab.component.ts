@@ -119,6 +119,8 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
         this.openDialog(EntityDetailDialogComponent, (modalRef) => {
             modalRef.componentInstance.xmEntity = Object.assign({}, this.xmEntity);
             modalRef.componentInstance.xmEntitySpec = this.xmEntitySpec;
+        }, {
+            minWidth: '500px',
         });
     }
 
