@@ -48,3 +48,5 @@ lerna-debug.log*
 
 # compdoc out
 /documentation/
+
+package-lock.json
