@@ -49,7 +49,7 @@ export class EntityListFabComponent {
     }
 
     public onAddNew(): void {
-        const modalRef = this.modalService.open(EntityDetailDialogComponent, {width: '500px'});
+        const modalRef = this.modalService.open(EntityDetailDialogComponent, { minWidth: '500px' });
         modalRef.componentInstance.xmEntitySpec = this.xmEntitySpec;
         modalRef.componentInstance.spec = this.spec;
     }
