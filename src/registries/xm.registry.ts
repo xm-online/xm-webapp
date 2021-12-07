@@ -107,4 +107,8 @@ export const XM_ELEMENTS: XmDynamicEntries = [
         selector: '@xm-ngx/documentation/examples',
         loadChildren: () => import('../../packages/documentation/doc-examples/xm-doc-examples.module').then(m => m.XmDocExamplesModule),
     },
+    {
+        selector: '@xm-ngx/components/xm-ace-editor-control',
+        loadChildren: () => import('@xm-ngx/components/ace-editor').then(m => m.XmAceEditorControlModule),
+    },
 ];
