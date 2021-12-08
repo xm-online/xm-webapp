@@ -1,5 +1,6 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 /* [GENERATED_IMPORTS_START] */
+import { EeCoreWebappExtJsfModule } from './ext/ee-core-webapp-ext/jsf-module/ee-core-webapp-ext-jsf.module';
 /* [GENERATED_IMPORTS_STOP] */
 
 /*
@@ -9,10 +10,12 @@ import { NgModule } from "@angular/core";
 *  And name of module should be MyCoolExtJsfModule, module name build from folder name too.
 */
 
+
 @NgModule({
     imports: [
-/* [GENERATED_MODULES_IMPORTS_START] */
-/* [GENERATED_MODULES_IMPORTS_STOP] */
+        /* [GENERATED_MODULES_IMPORTS_START] */
+        EeCoreWebappExtJsfModule
+        /* [GENERATED_MODULES_IMPORTS_STOP] */
     ]
 })
 export class XmJsfExtModule {
