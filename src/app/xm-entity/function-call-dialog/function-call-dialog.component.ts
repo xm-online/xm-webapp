@@ -17,6 +17,8 @@ import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-co
 
 declare let $: any;
 
+const FUNC_CONTEXT_URL = '/api/function-contexts/';
+
 @Component({
     selector: 'xm-function-call-dialog',
     templateUrl: './function-call-dialog.component.html',
@@ -128,6 +130,7 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
 
     private onSuccessFunctionCall(r: any): void {
         const data = r.body && r.body.data;
+        const location = r.headers.get('location');
         // if onSuccess handler passes, close popup and pass processing to function
         if (this.onSuccess) {
             this.activeModal.close(true);
@@ -148,14 +151,20 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
                 this.functionSpec.contextDataForm ? this.functionSpec.contextDataForm : {});
             this.jsfAttributes.data = data;
             // if contains a location header, go to location specified
-        } else if (r.headers.get('location')) {
-            this.activeModal.close(true);
-            this.router.navigate(
-                [r.headers.get('location')],
-                {queryParams: data},
-            );
+        } else if (location) {
+            this.processLocation(location, data);
         } else {
             this.activeModal.close(true);
+        }
+    }
+
+    private processLocation(location: string, data: unknown): void {
+        this.activeModal.close(true);
+        if (location !== FUNC_CONTEXT_URL) {
+            this.router.navigate(
+                [location],
+                {queryParams: data},
+            );
         }
     }
 

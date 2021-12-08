@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmTranslationModule } from '@xm-ngx/translation';
@@ -20,4 +20,5 @@ import { XmAceEditorControlComponent } from './xm-ace-editor-control';
     declarations: [XmAceEditorControlComponent],
 })
 export class XmAceEditorControlModule {
+    public entry: Type<XmAceEditorControlComponent> = XmAceEditorControlComponent;
 }

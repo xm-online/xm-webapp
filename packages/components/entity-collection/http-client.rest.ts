@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { IEntityCollectionPageable, Pageable } from './i-entity-collection-pageable';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -15,51 +15,52 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
         this.url = `${plural}`;
     }
 
-    public create(entity: T, params?: QueryParams): Observable<HttpResponse<T>> {
-        return this.handle(this.httpClient.post<T>(this.url, entity, { params, observe: 'response' }));
+    public create(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
+        return this.handle(this.httpClient.post<T>(this.url, entity, { params, observe: 'response', headers }));
     }
 
-    public update(entity: Partial<T>, params?: QueryParams): Observable<HttpResponse<T>> {
-        return this.handle(this.httpClient.put<T>(this.url, entity, { params, observe: 'response' }));
+    public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
+        return this.handle(this.httpClient.put<T>(this.url, entity, { params, observe: 'response', headers }));
     }
 
-    public getAll(params?: QueryParams): Observable<HttpResponse<T[] & Extra>> {
+    public getAll(params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T[] & Extra>> {
         return this.handle(
-            this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response' }).pipe(
+            this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response', headers }).pipe(
                 map(res => this.extractExtra(res)),
             ),
         );
     }
 
-    public getById(key: Id, params?: QueryParams): Observable<HttpResponse<T>> {
+    public getById(key: Id, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
         return this.find(key, params);
     }
 
-    public find(key: Id, params?: QueryParams): Observable<HttpResponse<T>> {
-        return this.handle(this.httpClient.get<T>(`${this.url}/${key}`, { params, observe: 'response' }));
+    public find(key: Id, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
+        return this.handle(this.httpClient.get<T>(`${this.url}/${key}`, { params, observe: 'response', headers }));
     }
 
-    public delete(key: Id, params?: QueryParams): Observable<HttpResponse<unknown>> {
+    public delete(key: Id, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<unknown>> {
         return this.handle(this.httpClient.delete<unknown>(`${this.url}/${key}`, {
             params,
             observe: 'response',
+            headers,
         }));
     }
 
-    public query(params: QueryParams): Observable<HttpResponse<T[] & Extra>> {
+    public query(params: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T[] & Extra>> {
         return this.handle(
-            this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response' }).pipe(
+            this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response', headers }).pipe(
                 map(res => this.extractExtra(res)),
             ),
         );
     }
 
-    public upsert(entity: T, params?: QueryParams): Observable<HttpResponse<T>> {
+    public upsert(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
         if (entity.id) {
-            return this.create(entity, params);
-        } 
-        return this.update(entity, params);
-        
+            return this.create(entity, params, headers);
+        }
+        return this.update(entity, params, headers);
+
     }
 
     public handle<T>(obs: Observable<T>): Observable<T> {

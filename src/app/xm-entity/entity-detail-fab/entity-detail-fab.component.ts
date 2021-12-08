@@ -11,6 +11,8 @@ import { LocationDetailDialogComponent } from '../location-detail-dialog/locatio
 import { Spec } from '../shared/spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
+import { EntityUiConfig } from '../../shared/spec';
+import { Principal } from '@xm-ngx/core/auth';
 
 @Component({
     selector: 'xm-entity-detail-fab',
@@ -21,13 +23,18 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
     @Input() public xmEntity: XmEntity;
     @Input() public xmEntitySpec: XmEntitySpec;
     @Input() public spec: Spec;
+    @Input() public entityUiConfig: EntityUiConfig;
+
     public view: any = {attachment: false, location: false, link: false, comment: false};
     public showEditOptions: boolean = false;
     public showEditSubOptions: boolean = false;
+    public showEditButton: boolean;
     private eventSubscriber: Subscription;
 
     constructor(private eventManager: XmEventManager,
-                private modalService: MatDialog) {
+                private modalService: MatDialog,
+                private principal: Principal,
+    ) {
         this.registerChangeInXmEntities();
     }
 
@@ -36,8 +43,17 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
+        this.showEditButton = true;
+
+        const currentKey = changes.xmEntitySpec.currentValue.key;
+        const uiConfigKey = this.entityUiConfig && this.entityUiConfig.typeKey;
+
         if (changes.xmEntity && changes.xmEntity.previousValue !== changes.xmEntity.currentValue) {
             this.detectViewBtns();
+        }
+
+        if (currentKey && uiConfigKey && currentKey === uiConfigKey) {
+            this.checkEntityEditPermission(this.entityUiConfig);
         }
     }
 
@@ -103,6 +119,8 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
         this.openDialog(EntityDetailDialogComponent, (modalRef) => {
             modalRef.componentInstance.xmEntity = Object.assign({}, this.xmEntity);
             modalRef.componentInstance.xmEntitySpec = this.xmEntitySpec;
+        }, {
+            minWidth: '500px',
         });
     }
 
@@ -126,4 +144,14 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
         return modalRef;
     }
 
+    private checkEntityEditPermission(config: EntityUiConfig): void {
+        if (config.editButtonPermission) {
+            this.showEditButton = false;
+            this.principal.hasPrivileges([config.editButtonPermission]).then((result) => {
+                if (result) {
+                    this.showEditButton = true;
+                }
+            });
+        }
+    }
 }
