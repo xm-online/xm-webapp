@@ -53,4 +53,4 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-exec('git update-index --assume-unchanged src/app/xm-jsf-ext.module.ts')
+// exec('git update-index --assume-unchanged src/app/xm-jsf-ext.module.ts')
