@@ -33,7 +33,7 @@ export class StateChangeDialogComponent implements OnInit {
                 private alertService: XmAlertService,
                 private toasterService: XmToasterService,
                 private widgetService: JsfComponentRegistryService
-                ) {
+    ) {
     }
 
     public ngOnInit(): void {

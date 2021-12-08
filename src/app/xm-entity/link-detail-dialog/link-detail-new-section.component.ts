@@ -43,7 +43,7 @@ export class LinkDetailNewSectionComponent implements OnInit, OnDestroy, AfterVi
                 private eventManager: XmEventManager,
                 private toasterService: XmToasterService,
                 private widgetService: JsfComponentRegistryService
-                ) {
+    ) {
         $.isAddNewLink = true;
     }
 

@@ -48,7 +48,7 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
                 private ref: ChangeDetectorRef,
                 private router: Router,
                 private widgetService: JsfComponentRegistryService
-                ) {
+    ) {
     }
 
     public ngOnInit(): void {

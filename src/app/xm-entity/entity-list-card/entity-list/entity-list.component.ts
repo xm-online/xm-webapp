@@ -69,7 +69,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
                 private xmEntityService: XmEntityService,
                 private alertService: XmAlertService,
                 private widgetService: JsfComponentRegistryService
-                ) {
+    ) {
     }
 
     public ngOnInit(): void {
@@ -151,7 +151,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
     }
 
     public onApplyFilter(entityOptions: EntityOptions, data: any): void {
-        const copy = { ...entityOptions };
+        const copy = {...entityOptions};
         let funcValue;
         try {
             funcValue = new Function(`return \`${entityOptions.filter.template}\`;`).call(data);
@@ -210,7 +210,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
             this.navigateByConfigUrl(action.navigateByInnerUrl, xmEntity);
             return null;
         }
-        const modalRef = this.modalService.open(FunctionCallDialogComponent, { width: '500px' });
+        const modalRef = this.modalService.open(FunctionCallDialogComponent, {width: '500px'});
         this.translateService.get('xm-entity.entity-list-card.action-dialog.question', {
             action: this.translate.transform(action.name),
             name: xmEntity.name,
@@ -222,7 +222,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
         modalRef.componentInstance.functionSpec = entityOptions.xmEntitySpec.functions
             ? entityOptions.xmEntitySpec.functions
                 .filter((f) => f.key === action.functionKey)
-                .shift() : { key: action.functionKey };
+                .shift() : {key: action.functionKey};
         return modalRef;
     }
 
@@ -397,9 +397,9 @@ export class EntityListComponent implements OnInit, OnDestroy {
                     '"}');
                 const queryParams = {};
                 params && Object.keys(params).forEach(key => {
-                    Object.assign(queryParams, { [key]: fEntity[params[key]] });
+                    Object.assign(queryParams, {[key]: fEntity[params[key]]});
                 });
-                this.router.navigate([navUrl], { queryParams });
+                this.router.navigate([navUrl], {queryParams});
             } catch (e) {
                 this.router.navigate([navUrl]);
             }

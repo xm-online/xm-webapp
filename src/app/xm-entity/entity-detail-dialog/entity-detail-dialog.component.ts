@@ -53,8 +53,7 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
                 private xmEntityService: XmEntityService,
                 private eventManager: XmEventManager,
                 protected widgetService: JsfComponentRegistryService
-                
-                ) {
+    ) {
         this.nameValidPattern = null;
         this.smartDescription = {
             active: false,
