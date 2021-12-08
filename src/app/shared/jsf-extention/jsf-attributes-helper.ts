@@ -55,7 +55,7 @@ export const getJsfWidgets = (): any => {
  * @param spec - JSON schema
  * @param form - From details data could be in different structure
  */
-export const buildJsfAttributes = (spec: any, form: any, widgets: any): any => {
+export const buildJsfAttributes = (spec: any, form: any, widgets?: any): any => {
     const input = {dataSpec: interpolate(spec), dataForm: interpolate(form)};
     const jsfAttributes = spec && {
         schema: typeof (input.dataSpec) === 'string' ? JSON.parse(input.dataSpec) : input.dataSpec,
