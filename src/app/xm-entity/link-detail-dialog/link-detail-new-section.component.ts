@@ -6,8 +6,9 @@ import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
+import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
 
-import { buildJsfAttributes, nullSafe } from '../../shared/jsf-extention/jsf-attributes-helper';
+import { nullSafe } from '../../shared/jsf-extention/jsf-attributes-helper';
 import { LinkSpec } from '../shared/link-spec.model';
 import { Link } from '../shared/link.model';
 import { Spec } from '../shared/spec.model';
@@ -40,7 +41,9 @@ export class LinkDetailNewSectionComponent implements OnInit, OnDestroy, AfterVi
                 private xmEntityService: XmEntityService,
                 private changeDetector: ChangeDetectorRef,
                 private eventManager: XmEventManager,
-                private toasterService: XmToasterService) {
+                private toasterService: XmToasterService,
+                private widgetService: JsfComponentRegistryService
+    ) {
         $.isAddNewLink = true;
     }
 
@@ -60,7 +63,7 @@ export class LinkDetailNewSectionComponent implements OnInit, OnDestroy, AfterVi
         this.xmEntitySpec = this.availableSpecs.filter((s) => s.key === typeKey).shift();
         this.xmEntity.typeKey = this.xmEntitySpec.key;
         if (this.xmEntitySpec.dataSpec) {
-            this.jsfAttributes = buildJsfAttributes(this.xmEntitySpec.dataSpec, this.xmEntitySpec.dataForm);
+            this.jsfAttributes = this.widgetService.buildJsfAttributes(this.xmEntitySpec.dataSpec, this.xmEntitySpec.dataForm);
             this.jsfAttributes.data = Object.assign(nullSafe(this.jsfAttributes.data), nullSafe(this.xmEntity.data));
             if (this.jsfAttributes && this.jsfAttributes.entity
                 && this.jsfAttributes.entity.hideNameAndDescription
