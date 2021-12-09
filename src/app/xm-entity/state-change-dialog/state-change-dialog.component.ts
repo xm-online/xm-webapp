@@ -9,12 +9,14 @@ import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-co
 import { NextSpec } from '../shared/state-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
+import { JsonSchemaFormService } from '@ajsf/core';
 
 declare let $: any;
 
 @Component({
     selector: 'xm-state-change-dialog',
     templateUrl: './state-change-dialog.component.html',
+    providers: [JsonSchemaFormService],
 })
 export class StateChangeDialogComponent implements OnInit {
 
