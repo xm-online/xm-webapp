@@ -3,8 +3,9 @@ import { XmEventManager } from '@xm-ngx/core';
 import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
+import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
 
-import { buildJsfAttributes, nullSafe } from '../../shared/jsf-extention/jsf-attributes-helper';
+import { nullSafe } from '../../shared/jsf-extention/jsf-attributes-helper';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
@@ -29,6 +30,7 @@ export class EntityDataCardComponent implements OnInit {
         private xmEntityService: XmEntityService,
         private toasterService: XmToasterService,
         private eventManager: XmEventManager,
+        protected widgetService: JsfComponentRegistryService
     ) {
     }
 
@@ -58,7 +60,7 @@ export class EntityDataCardComponent implements OnInit {
 
     private load(): void {
         if (this.xmEntitySpec && this.xmEntitySpec.dataSpec) {
-            this.jsfAttributes = buildJsfAttributes(this.xmEntitySpec.dataSpec, this.xmEntitySpec.dataForm);
+            this.jsfAttributes = this.widgetService.buildJsfAttributes(this.xmEntitySpec.dataSpec, this.xmEntitySpec.dataForm);
             this.jsfAttributes.data = Object.assign(nullSafe(this.jsfAttributes.data), nullSafe(this.xmEntity.data));
         }
     }
