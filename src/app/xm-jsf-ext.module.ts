@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 /* [GENERATED_IMPORTS_START] */
-import { EeCoreWebappExtJsfModule } from './ext/ee-core-webapp-ext/jsf-module/ee-core-webapp-ext-jsf.module';
 /* [GENERATED_IMPORTS_STOP] */
 
 /*
@@ -14,7 +13,6 @@ import { EeCoreWebappExtJsfModule } from './ext/ee-core-webapp-ext/jsf-module/ee
 @NgModule({
     imports: [
         /* [GENERATED_MODULES_IMPORTS_START] */
-        EeCoreWebappExtJsfModule
         /* [GENERATED_MODULES_IMPORTS_STOP] */
     ]
 })
