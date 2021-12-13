@@ -97,7 +97,7 @@ export class XmToasterService {
 
     protected matAlert(params: ToasterConfig): Observable<MatSnackBarDismiss> {
         const snackbar = this.matSnackBar.open(params.msg, 'x', {
-            duration: 5000,
+            duration: params.timeout || 5000,
             verticalPosition: 'top',
             horizontalPosition: 'right',
             panelClass: 'alert-' + params.type,
