@@ -6,7 +6,7 @@ import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
 import { Principal } from '../../shared/auth/principal.service';
-import { buildJsfAttributes, nullSafe } from '../../shared/jsf-extention/jsf-attributes-helper';
+import { nullSafe } from '../../shared/jsf-extention/jsf-attributes-helper';
 import { EntityCardComponent } from '../entity-card/entity-card.component';
 import { RatingListSectionComponent } from '../rating-list-section/rating-list-section.component';
 import { XmEntityService } from '../shared/xm-entity.service';
@@ -20,6 +20,7 @@ import { EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
 
 import swal from 'sweetalert2/dist/sweetalert2';
+import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
 
 @Component({
     selector: 'xm-entity-card-compact',
@@ -50,6 +51,7 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
         protected eventManager: XmEventManager,
         protected translateService: TranslateService,
         protected xmEntityService: XmEntityService,
+        protected widgetService: JsfComponentRegistryService
     ) {
         super(modalService, principal, eventManager);
     }
@@ -151,7 +153,7 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
 
     protected loadJsfAttr(): void {
         if (this.xmEntitySpec && this.xmEntitySpec.dataSpec) {
-            this.jsfAttributes = buildJsfAttributes(this.xmEntitySpec.dataSpec, this.xmEntitySpec.dataForm);
+            this.jsfAttributes = this.widgetService.buildJsfAttributes(this.xmEntitySpec.dataSpec, this.xmEntitySpec.dataForm);
             this.jsfAttributes.data = Object.assign(nullSafe(this.jsfAttributes.data), nullSafe(this.xmEntity.data));
         }
     }
