@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
+import { ConditionModule } from '@xm-ngx/components/condition';
 import { XmDynamicControlDirective } from './control/xm-dynamic-control.directive';
 import { XmDynamicFormControlDirective } from './control/xm-dynamic-form-control.directive';
 import { XM_DYNAMIC_ENTRIES } from './dynamic.injectors';
@@ -18,7 +19,7 @@ export function dynamicModuleInitializer(components: XmDynamicEntries): Provider
 }
 
 @NgModule({
-    imports: [CommonModule],
+    imports: [CommonModule, ConditionModule],
     exports: [
         XmDynamicPresentationDirective,
         XmDynamicControlDirective,

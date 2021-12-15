@@ -39,9 +39,12 @@ export interface XmPresentationLayout<V = unknown, O = unknown> extends XmLayout
 
         <ng-template ngFor [ngForOf]="sanitizedLayouts" let-item>
             <!-- resolve as html tag or dynamic injector -->
-            <ng-container *ngIf="item"
-                          [ngTemplateOutlet]="item.isCustomElement ? dynamicRef : tagRef"
-                          [ngTemplateOutletContext]="{item: item}">
+            <ng-container *ngIf="item">
+                <ng-container
+                        *xmCondition="item.layout?.condition; arguments {entity: resolveCustomParams(item.layout)?.value}"
+                        [ngTemplateOutlet]="item.isCustomElement ? dynamicRef : tagRef"
+                        [ngTemplateOutletContext]="{item: item}">
+                </ng-container>
             </ng-container>
         </ng-template>
     `,
