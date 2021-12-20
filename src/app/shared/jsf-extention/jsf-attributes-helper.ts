@@ -64,7 +64,7 @@ export const buildJsfAttributes = (spec: any, form: any, widgets?: any): any => 
         data: extractData(input) || extractElement(input, 'data'),
         entity: conditionalForm(input.dataForm, 'entity') || extractElement(input, 'entity'),
         options: conditionalForm(input.dataForm, 'options') || extractElement(input, 'options') || {},
-        widgets: widgets,
+        widgets: widgets || getJsfWidgets(),
         formLayout: formLayout(),
     } || null;
     jsfAttributes.options.data = jsfAttributes.data;
