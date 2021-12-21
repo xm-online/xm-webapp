@@ -28,6 +28,10 @@ export const XM_ELEMENTS: XmDynamicEntries = [
         loadChildren: () => import('@xm-ngx/components/logo').then(m => m.XmLogoModule),
     },
     {
+        selector: '@xm-ngx/components/sidebar-image-logo',
+        loadChildren: () => import('@xm-ngx/components/logo').then(m => m.ImageLogoModule),
+    },
+    {
         selector: '@xm-ngx/components/sidebar-menu',
         loadChildren: () => import('@xm-ngx/components/menu').then(m => m.XmMenuModule),
     },

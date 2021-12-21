@@ -10,3 +10,4 @@ export { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from './src/take-until-
 export { transformByMap } from './src/transform-by-map';
 export { uuid } from './src/uuid';
 export { Interpolate, interpolate } from './src/interpolate';
+export { randomInt } from './src/random-int';
