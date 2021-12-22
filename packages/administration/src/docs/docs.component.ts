@@ -61,6 +61,11 @@ export class JhiDocsComponent implements AfterViewInit {
 
     public updateSwagger(resource: string): void {
         const authToken = this.auth.getToken();
+        let prefix = null;
+        if (this.config?.swaggerResources) {
+            prefix = this.config.swaggerResources.find(swaggerResource => swaggerResource.location === resource)?.name;
+        }
+
         SwaggerUI({
             dom_id: '#swaggerHolder',
             supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
@@ -71,6 +76,17 @@ export class JhiDocsComponent implements AfterViewInit {
             validatorUrl: null,
             configs: {
                 preFetch: (req) => {
+                    if (prefix) {
+                        try {
+                            const url = new URL(req.url);
+                            if (!url.pathname.startsWith(prefix)) {
+                                url.pathname = prefix + url.pathname;
+                                req.url = url.toString();
+                            }
+                        } catch (e) {
+                        }
+                    }
+
                     if (authToken) {
                         req.headers.Authorization = `Bearer ${authToken}`;
                     }
