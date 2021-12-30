@@ -19,6 +19,7 @@ export interface XmLinkOptions {
     valueField: string;
     /** Material icon */
     valueIcon: string;
+    style?: string;
 }
 
 export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
@@ -33,7 +34,8 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
     selector: 'xm-link',
     template: `
         <a [queryParams]="queryParams"
-           [routerLink]="options?.routerLink">
+           [routerLink]="options?.routerLink"
+           [style]="options?.style">
             <mat-icon *ngIf="options?.valueIcon">{{options.valueIcon}}</mat-icon>
             <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
             <span *ngIf="fieldValue">{{fieldValue}}</span>
