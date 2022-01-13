@@ -1,6 +1,6 @@
 const fs = require('fs');
 const fse = require('fs-extra');
-const { exec } = require("child_process");
+const {exec} = require('child_process');
 const {join} = require('path');
 const LOCAL_EXT_PATH = 'src/app/ext';
 const LOCAL_ASSETS_PATH = 'src/assets/css/ext/';
@@ -15,7 +15,7 @@ dirs(LOCAL_EXT_PATH).forEach(moduleName => {
         const moduleClassName = moduleName.split('-').map(it => capitalizeFirstLetter(it)).join('') + 'JsfModule';
         generateImports[moduleClassName] = `./ext/${moduleName}/jsf-module/${moduleName}-jsf.module`;
     }
-})
+});
 
 fs.readFile('src/app/xm-jsf-ext.module.ts', function (err, data) {
     let fileContent = data.toString();
@@ -25,27 +25,30 @@ fs.readFile('src/app/xm-jsf-ext.module.ts', function (err, data) {
     const GENERATED_IMPORTS_STOP = '/* [GENERATED_IMPORTS_STOP] */';
     const GENERATED_MODULES_IMPORTS_START = '/* [GENERATED_MODULES_IMPORTS_START] */';
     const GENERATED_MODULES_IMPORTS_STOP = '/* [GENERATED_MODULES_IMPORTS_STOP] */';
-
-    fileContent = insertBetweenPrefixAndSuffix(
-        fileContent,
-        GENERATED_MODULES_IMPORTS_START,
-        GENERATED_MODULES_IMPORTS_STOP,
-        generatedModuleImports
-    );
-    fileContent = insertBetweenPrefixAndSuffix(
-        fileContent,
-        GENERATED_IMPORTS_START,
-        GENERATED_IMPORTS_STOP,
-        generatedImports
-    );
+    if (generatedModuleImports.length) {
+        fileContent = insertBetweenPrefixAndSuffix(
+            fileContent,
+            GENERATED_MODULES_IMPORTS_START,
+            GENERATED_MODULES_IMPORTS_STOP,
+            generatedModuleImports,
+        );
+    }
+    if (generatedImports.length) {
+        fileContent = insertBetweenPrefixAndSuffix(
+            fileContent,
+            GENERATED_IMPORTS_START,
+            GENERATED_IMPORTS_STOP,
+            generatedImports,
+        );
+    }
     fs.writeFile('src/app/xm-jsf-ext.module.ts', fileContent, () => {
-        console.log('Jsf extensions processed!')
+        console.log('Jsf extensions processed!');
     });
 });
 
 function insertBetweenPrefixAndSuffix(content, prefix, suffix, stringToInsert) {
-    let fileContentPrefix = content.substring(0, content.indexOf(prefix) + prefix.length)
-    let fileContentSuffix = content.substring(content.indexOf(suffix))
+    let fileContentPrefix = content.substring(0, content.indexOf(prefix) + prefix.length);
+    let fileContentSuffix = content.substring(content.indexOf(suffix));
     return `${fileContentPrefix}\n${stringToInsert}\n${fileContentSuffix}`;
 }
 
@@ -53,4 +56,4 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-exec('git update-index --assume-unchanged src/app/xm-jsf-ext.module.ts')
+exec('git update-index --assume-unchanged src/app/xm-jsf-ext.module.ts');
