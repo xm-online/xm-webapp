@@ -67,12 +67,14 @@ export function xmDashboardRoutesFactory(
     _.forEach(dashboards, (dashboard) => {
         let parentRoutes = routes;
         const slugs = _.split(dashboard.config.slug, '/');
+        const lastSlug = _.last(slugs);
+
         for (const slug of slugs) {
             const node = _.find(parentRoutes, (r) => r.path === slug) || null;
 
             if (node === null) {
                 // check for a new child
-                if (_.last(slugs) === slug) {
+                if (lastSlug === slug) {
 
                     const child = _.find(dashboards, d => _.startsWith(d.config.slug, dashboard.config.slug) && d !== dashboard);
                     if (child !== null && child !== undefined) {
@@ -88,7 +90,7 @@ export function xmDashboardRoutesFactory(
                     return;
                 }
             } else {
-                if (_.last(slugs) !== slug) {
+                if (lastSlug !== slug) {
                     parentRoutes = node.children;
                 } else {
                     console.warn(`Dashboard with the slug "${dashboard.config.slug}" exists already, id=${dashboard.id}, name=${dashboard.name}.`);
