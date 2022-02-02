@@ -25,7 +25,7 @@ import { merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { flattenEntityWithPath, getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
 import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
-import { ContextService } from '../../../shared';
+import { ContextService, Principal } from '../../../shared';
 import { saveFile } from '../../../shared/helpers/file-download-helper';
 import { XM_EVENT_LIST } from '../../../xm.constants';
 
@@ -53,6 +53,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
     public totalItems: number;
     public itemsPerPageOptions: number[] = TABLE_CONFIG_DEFAULT.pageSizeOptions;
     public tableDataSource: MatTableDataSource<XmEntity>;
+    public timeZoneOffset: string;
 
     private entityListActionSuccessSubscription: Subscription;
     private entityEntityListModificationSubscription: Subscription;
@@ -68,8 +69,10 @@ export class EntityListComponent implements OnInit, OnDestroy {
                 private eventManager: XmEventManager,
                 private xmEntityService: XmEntityService,
                 private alertService: XmAlertService,
-                private widgetService: JsfComponentRegistryService
+                private widgetService: JsfComponentRegistryService,
+                private principal: Principal,
     ) {
+        this.principal.identity().then((account) => this.timeZoneOffset = account?.timeZoneOffset);
     }
 
     public ngOnInit(): void {
