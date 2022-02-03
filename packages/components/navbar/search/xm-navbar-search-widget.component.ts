@@ -1,18 +1,23 @@
 import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { XmSessionService } from '@xm-ngx/core';
+import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { iif, Observable, of } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
+import { getApplicationTypeKey } from '../../../../src/app/shared/helpers/entity-list-helper';
+import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 
 interface SearchConfig {
     search: {
         searchFullMatch: boolean;
         searchPanel: boolean;
-    }
+    },
+    applications?: {
+        config?: any;
+    };
 }
 
 @Component({
@@ -49,6 +54,7 @@ export class XmNavbarSearchWidget implements OnInit {
     public isShowSearchPanel: boolean;
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
     private searchFullMatch: boolean = false;
+    private applicationsConfig: any;
 
     constructor(
         private router: Router,
@@ -56,6 +62,7 @@ export class XmNavbarSearchWidget implements OnInit {
         private dashboardWrapperService: DashboardStore,
         private location: Location,
         private xmSessionService: XmSessionService,
+        private eventManager: XmEventManager,
     ) {
     }
 
@@ -64,6 +71,7 @@ export class XmNavbarSearchWidget implements OnInit {
             filter((i) => Boolean(i)),
             takeUntilOnDestroy(this),
         ).subscribe((res) => {
+            this.applicationsConfig = res.applications && res.applications.config;
             if (!res.search) {
                 this.isShowSearchPanel = true;
             } else {
@@ -89,7 +97,8 @@ export class XmNavbarSearchWidget implements OnInit {
 
     public search(e: Event, term: string): void {
         e.preventDefault();
-        if (term) {
+        const searchedByTemplate: boolean = this.searchByApplicationTemplate(term);
+        if (term && !searchedByTemplate) {
             const searchQuery = this.searchFullMatch ? `"${term}"` : term;
             this.router.navigate(['/search'], {
                 queryParams: {
@@ -98,6 +107,29 @@ export class XmNavbarSearchWidget implements OnInit {
                 },
             });
         }
+    }
+
+    private searchByApplicationTemplate(term: string): boolean {
+        let searchTemplateFound = false;
+
+        if (!term) {
+            this.eventManager.broadcast({name: XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS});
+            return searchTemplateFound;
+        }
+
+        if (term && getApplicationTypeKey(this.location.path(false))) {
+            this.applicationsConfig.entities && this.applicationsConfig.entities.forEach(entity => {
+                if (entity.typeKey === getApplicationTypeKey(this.location.path(false)) && entity.globalSearchTemplate) {
+                    searchTemplateFound = true;
+                    this.eventManager.broadcast({
+                        name: XM_EVENT_LIST.XM_LOAD_ENTITY_LIST_WITH_TEMPLATE,
+                        content: { query: term, typeKey: entity.typeKey, template: entity.globalSearchTemplate },
+                    });
+                }
+            });
+        }
+
+        return searchTemplateFound;
     }
 
     private getDashboardId(): number | string {
