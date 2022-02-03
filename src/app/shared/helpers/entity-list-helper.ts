@@ -33,3 +33,11 @@ export const flattenEntityWithPath = (obj: XmEntity, prefix: string = ''): any =
         return acc;
     }, {});
 };
+
+export const getApplicationTypeKey = (path: string): string => {
+    if (path.includes('application')) {
+        const url = path.split('/');
+        return url[url.indexOf('application') + 1];
+    }
+    return null;
+};
