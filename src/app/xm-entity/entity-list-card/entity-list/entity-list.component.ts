@@ -4,7 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
@@ -25,7 +25,7 @@ import { merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { flattenEntityWithPath, getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
 import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
-import { ContextService } from '../../../shared';
+import { ContextService, Principal } from '../../../shared';
 import { saveFile } from '../../../shared/helpers/file-download-helper';
 import { XM_EVENT_LIST } from '../../../xm.constants';
 
@@ -46,6 +46,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
     @Input() public reverse: boolean;
     @Input() public pageSize: number;
     @Input() public spec: Spec;
+    @Input() public searchTemplateParams: any;
 
     public showLoader: boolean;
     public currentEntitiesUiConfig: any[];
@@ -53,9 +54,11 @@ export class EntityListComponent implements OnInit, OnDestroy {
     public totalItems: number;
     public itemsPerPageOptions: number[] = TABLE_CONFIG_DEFAULT.pageSizeOptions;
     public tableDataSource: MatTableDataSource<XmEntity>;
+    public timeZoneOffset: string;
 
     private entityListActionSuccessSubscription: Subscription;
     private entityEntityListModificationSubscription: Subscription;
+    private entityListLoadingByTemplate: Subscription;
 
 
     constructor(public translate: TranslatePipe,
@@ -68,8 +71,10 @@ export class EntityListComponent implements OnInit, OnDestroy {
                 private eventManager: XmEventManager,
                 private xmEntityService: XmEntityService,
                 private alertService: XmAlertService,
-                private widgetService: JsfComponentRegistryService
+                private widgetService: JsfComponentRegistryService,
+                private principal: Principal,
     ) {
+        this.principal.identity().then((account) => this.timeZoneOffset = account?.timeZoneOffset);
     }
 
     public ngOnInit(): void {
@@ -96,8 +101,22 @@ export class EntityListComponent implements OnInit, OnDestroy {
                 .filter((f) => f.field && f.field.startsWith('data.'))
                 .map((f) => f.sortable = false);
         }
+
+        this.entityListLoadingByTemplate = this.eventManager.subscribe(
+            XM_EVENT_LIST.XM_LOAD_ENTITY_LIST_WITH_TEMPLATE,
+            ({ content }) => {
+                const { query, typeKey } = content;
+                this.searchTemplateParams = { templateName: content.template, manually: true };
+                this.loadSearch(true, { query, typeKey });
+            },
+        );
     }
 
+    private loadSearch(setDefaultParams?: boolean, queryParams?: Params): void {
+        this.loadEntitiesPaged(this.item, setDefaultParams, queryParams).subscribe((result) => {
+            this.tableDataSource.data = result;
+        });
+    }
 
     public ngAfterViewInit(): void {
         merge(this.sort.sortChange, this.paginator.page).pipe(
@@ -120,6 +139,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
         takeUntilOnDestroy(this);
         this.entityListActionSuccessSubscription.unsubscribe();
         this.entityEntityListModificationSubscription.unsubscribe();
+        this.entityListLoadingByTemplate.unsubscribe();
     }
 
     public getDefaultSearch(entityOptions: EntityOptions): string {
@@ -154,9 +174,9 @@ export class EntityListComponent implements OnInit, OnDestroy {
         const copy = {...entityOptions};
         let funcValue;
         try {
-            funcValue = new Function(`return \`${entityOptions.filter.template}\`;`).call(data);
+            funcValue = new Function(`return \`${entityOptions?.filter?.template}\`;`).call(data);
         } catch (e) {
-            funcValue = transpilingForIE(entityOptions.filter.template, data);
+            funcValue = transpilingForIE(entityOptions?.filter?.template, data);
         }
         copy.currentQuery = `${copy.currentQuery ? copy.currentQuery : ''} ${funcValue}`;
         entityOptions.currentQuery = copy.currentQuery;
@@ -285,20 +305,64 @@ export class EntityListComponent implements OnInit, OnDestroy {
         });
     }
 
-    protected loadEntitiesPaged(entityOptions: EntityOptions): Observable<XmEntity[]> {
-        this.showLoader = true;
-        const options: any = {
-            typeKey: this.item.typeKey,
-            page: this.paginator.pageIndex,
-            size: this.paginator.pageSize,
-            sort: [`${this.sort.active},${this.sort.direction}`],
-        };
-
+    private getQueryOptions(entityOptions: EntityOptions, queryParams?: Params): any {
+        let options: any;
         let method = 'query';
-        if (entityOptions.currentQuery) {
-            options.query = entityOptions.currentQuery;
-            method = 'search';
+
+        if (this.searchTemplateParams) {
+            options = {
+                'template': this.searchTemplateParams.templateName,
+                'templateParams[page]': this.paginator.pageIndex,
+                'templateParams[size]': this.paginator.pageSize,
+                'templateParams[sort]': [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
+            };
+
+            if (this.searchTemplateParams.manually) {
+                options['templateParams[query]'] = queryParams.query;
+                options['templateParams[typeKey]'] = queryParams.typeKey;
+                this.searchTemplateParams = null;
+            }
+
+            method = 'searchByTemplate';
+        } else {
+            if (queryParams && Object.keys(queryParams).length > 0) {
+                options = this.getModifiedOptions(entityOptions, queryParams);
+            } else {
+                options = {
+                    typeKey: entityOptions.typeKey,
+                    page: this.paginator.pageIndex,
+                    size: this.paginator.pageSize,
+                    sort: [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
+                };
+            }
+
+            if (entityOptions.currentQuery) {
+                options.query = entityOptions.currentQuery;
+                method = 'search';
+            }
         }
+
+        return {options, method};
+    }
+
+    private getModifiedOptions(entityOptions: EntityOptions, queryParams: Params) {
+        const { page, size, sort } = queryParams;
+
+        if (size) {
+            this.paginator.pageSize = Number(size);
+        }
+
+        return {
+            typeKey: entityOptions.typeKey,
+            page: page ? (page - 1) : (entityOptions.page - 1),
+            size: size || this.paginator.pageSize,
+            sort: sort ? [sort] : [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
+        };
+    }
+
+    protected loadEntitiesPaged(entityOptions: EntityOptions, setDefaultParams?: boolean, queryParams?: Params): Observable<XmEntity[]> {
+        this.showLoader = true;
+        const { options, method }: any = this.getQueryOptions(entityOptions, queryParams);
 
         return this.xmEntityService[method](options).pipe(
             tap((xmEntities: HttpResponse<XmEntity[]>) => {
