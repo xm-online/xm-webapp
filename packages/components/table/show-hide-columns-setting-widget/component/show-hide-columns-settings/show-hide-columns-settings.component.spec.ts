@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ShowHideColumnsSettingsComponent } from './show-hide-columns-settings.component';
 import { of } from 'rxjs';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
-import { ColumnsSettingStorageService } from '@xm-ngx/ext/entity-webapp-ext/module/table/service/columns-settings-storage.service';
+import { ColumnsSettingStorageService } from '../../../service/columns-settings-storage.service';
 import { FormBuilder } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
