@@ -13,7 +13,7 @@ import {
 @Component({
     selector: 'xm-show-hide-columns-settings',
     templateUrl: './show-hide-columns-settings.component.html',
-    styleUrls: ['./show-hide-columns-settings.component.scss'],
+    styleUrls: [],
 })
 export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
     public form: FormGroup;
