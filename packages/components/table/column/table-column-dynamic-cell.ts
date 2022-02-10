@@ -14,6 +14,8 @@ import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableM
 import { TableColumnsManager } from './table-columns-manager';
 import { XmDynamicCell, XmDynamicCellModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { CommonModule } from '@angular/common';
+import { ShowHideColumnsSettingsModule } from '../show-hide-columns-setting-widget/show-hide-columns-settings.module';
 
 export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
     name: string;
@@ -21,18 +23,27 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
     title: Translate;
     dataClass: string;
     dataStyle: string;
+    sticky?: boolean;
+    stickyEnd?: boolean;
+    optional?: boolean;
+    storageColumn?: boolean;
 }
 
 @Component({
     selector: 'xm-table-column-dynamic-cell',
     template: `
-        <ng-container matColumnDef>
+        <ng-container
+            matColumnDef
+            [sticky]="column.sticky"
+            [stickyEnd]="column.stickyEnd">
             <th *matHeaderCellDef
                 scope="col"
                 mat-header-cell
                 mat-sort-header
                 [disabled]="isSortable()">
                 {{column.title | translate}}
+
+                <xm-show-hide-columns-settings *ngIf="column.storageColumn"></xm-show-hide-columns-settings>
             </th>
             <td mat-cell
                 [class]="column.dataClass"
@@ -95,10 +106,12 @@ export class TableColumnDynamicCell implements OnDestroy, OnInit {
 
 @NgModule({
     imports: [
+        CommonModule,
         MatTableModule,
         XmDynamicCellModule,
         XmTranslationModule,
         MatSortModule,
+        ShowHideColumnsSettingsModule,
     ],
     exports: [TableColumnDynamicCell],
     declarations: [TableColumnDynamicCell],

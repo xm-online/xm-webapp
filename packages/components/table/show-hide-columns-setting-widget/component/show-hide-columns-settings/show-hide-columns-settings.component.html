@@ -1,0 +1,17 @@
+<div [formGroup]="form">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>vertical_split</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" (closed)="onClosedMenu()">
+    <mat-selection-list formControlName="columns">
+      <mat-list-option *ngFor="let column of columns"
+                       [value]="column"
+                       checkboxPosition='before'
+                       (click)="$event.stopPropagation();"
+      >{{column.title | translate}}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-menu>
+</div>
+
+
