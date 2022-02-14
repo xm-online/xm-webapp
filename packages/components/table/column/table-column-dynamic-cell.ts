@@ -27,6 +27,8 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
     stickyEnd?: boolean;
     optional?: boolean;
     storageColumn?: boolean;
+    headClass?: string;
+    headStyle?: string;
 }
 
 @Component({
@@ -40,6 +42,8 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
                 scope="col"
                 mat-header-cell
                 mat-sort-header
+                [class]="column.headClass"
+                [style]="column.headStyle"
                 [disabled]="isSortable()">
                 {{column.title | translate}}
 
