@@ -91,7 +91,7 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnInit
 
     public ngOnInit(): void {
         this.languageService.locale$.pipe(
-            filter(locale => !!locale),
+            filter(Boolean),
             takeUntilOnDestroy(this),
         ).subscribe(locale => {
             this.dateAdapter.setLocale(locale);
