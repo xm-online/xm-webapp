@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, NgModule, Optional, Self } from '@angular/core';
+import { Component, Inject, Input, NgModule, OnDestroy, OnInit, Optional, Self } from '@angular/core';
 import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -11,9 +11,12 @@ import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compon
 import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error/xm-control-errors-translates';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } from '@xm-ngx/dynamic';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { LanguageService, Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
 import { XmDateValue } from './xm-date.component';
+import { DateAdapter } from '@angular/material/core';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { filter } from 'rxjs/operators';
 
 export interface XmDateControlOptions {
     title: Translate;
@@ -64,9 +67,11 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
         </mat-form-field>
     `,
 })
-export class XmDateControl extends NgFormAccessor<XmDateValue> {
+export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnInit, OnDestroy {
     constructor(@Optional() @Self() public ngControl: NgControl | null,
-                @Inject(XM_CONTROL_ERRORS_TRANSLATES) private xmControlErrorsTranslates: {[errorKey: string]: Translate}) {
+                @Inject(XM_CONTROL_ERRORS_TRANSLATES) private xmControlErrorsTranslates: { [errorKey: string]: Translate },
+                private dateAdapter: DateAdapter<Date>,
+                private languageService: LanguageService) {
         super(ngControl);
     }
 
@@ -84,6 +89,15 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
         return this._options;
     }
 
+    public ngOnInit(): void {
+        this.languageService.locale$.pipe(
+            filter(locale => !!locale),
+            takeUntilOnDestroy(this),
+        ).subscribe(locale => {
+            this.dateAdapter.setLocale(locale);
+        });
+    }
+
     public changeDateControl({ value }: MatDatepickerInputEvent<unknown>): void {
         if (value instanceof Date) {
             if (this.options?.useUtc) {
@@ -99,6 +113,10 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
             this.control.markAsTouched();
             this.control.markAsDirty();
         }
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
     }
 }
 
