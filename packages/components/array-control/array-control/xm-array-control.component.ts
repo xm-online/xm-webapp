@@ -10,12 +10,14 @@ import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { HintText } from '@xm-ngx/components/hint/hint.interface';
 
 interface XmArrayItem {
     value: string
 }
 
 export interface XmArrayControlOptions extends DataQa, AriaLabel {
+    hint?: HintText;
     title?: Translate;
     placeholder?: Translate;
     removable?: boolean;
@@ -24,6 +26,7 @@ export interface XmArrayControlOptions extends DataQa, AriaLabel {
 }
 
 export const XM_ARRAY_CONTROL_OPTIONS_DEFAULT: XmArrayControlOptions = {
+    hint: null,
     title: '',
     placeholder: '',
     dataQa: 'array-control',

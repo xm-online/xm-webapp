@@ -13,6 +13,7 @@ import {
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmDynamicControlConstructor } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
+import { HintModule } from '@xm-ngx/components/hint';
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
         ControlErrorModule,
         ReactiveFormsModule,
         XmPermissionModule,
+        HintModule,
     ],
     exports: [XmEnumControlComponent],
     declarations: [XmEnumControlComponent],

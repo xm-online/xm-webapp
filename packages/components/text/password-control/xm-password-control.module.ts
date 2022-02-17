@@ -9,6 +9,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { XmPasswordControl } from './xm-password-control';
 import { XmPasswordControlOptions } from './xm-password-control-options';
+import { HintModule } from '@xm-ngx/components/hint';
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import { XmPasswordControlOptions } from './xm-password-control-options';
         ReactiveFormsModule,
         XmTranslationModule,
         MatIconModule,
+        HintModule,
     ],
     exports: [XmPasswordControl],
     declarations: [XmPasswordControl],

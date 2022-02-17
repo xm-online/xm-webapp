@@ -7,6 +7,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { XmTextRangeControlComponent } from './xm-text-range-control.component';
+import { HintModule } from '@xm-ngx/components/hint';
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import { XmTextRangeControlComponent } from './xm-text-range-control.component';
         ControlErrorModule,
         ReactiveFormsModule,
         MatFormFieldModule,
+        HintModule,
     ],
     exports: [XmTextRangeControlComponent],
     declarations: [XmTextRangeControlComponent],

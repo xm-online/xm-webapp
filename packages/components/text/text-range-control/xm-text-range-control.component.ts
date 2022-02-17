@@ -4,8 +4,10 @@ import { XmTextTitleOptions } from '../text-title';
 import { DataQa } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
+import { HintText } from '@xm-ngx/components/hint/hint.interface';
 
 export interface XmTextRangeControlOptions extends XmTextTitleOptions, DataQa {
+    hint?: HintText;
     placeholder?: Translate;
     required?: boolean;
     id?: string;
@@ -18,6 +20,7 @@ export interface XmTextRangeControlOptions extends XmTextTitleOptions, DataQa {
 }
 
 const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
+    hint: null,
     title: '',
     placeholder: '',
     id: null,
@@ -53,6 +56,7 @@ const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
 
             <mat-hint *ngIf="options.maxLength" align="end">{{value?.length}} / {{options.maxLength}}</mat-hint>
 
+            <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
     `,
     encapsulation: ViewEncapsulation.None,

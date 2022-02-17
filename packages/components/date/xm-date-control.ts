@@ -14,8 +14,11 @@ import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } f
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
 import { XmDateValue } from './xm-date.component';
+import { HintModule } from '@xm-ngx/components/hint';
+import { HintText } from '@xm-ngx/components/hint/hint.interface';
 
 export interface XmDateControlOptions {
+    hint?: HintText;
     title: Translate;
     name?: string;
     required?: boolean;
@@ -24,6 +27,7 @@ export interface XmDateControlOptions {
 }
 
 const DEFAULT_CONFIG: XmDateControlOptions = {
+    hint: null,
     title: null,
     name: null,
     required: null,
@@ -61,6 +65,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
                 <mat-icon>close</mat-icon>
             </button>
 
+            <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
     `,
 })
@@ -113,6 +118,7 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
         MatButtonModule,
         CommonModule,
         MatIconModule,
+        HintModule,
     ],
     exports: [XmDateControl],
     declarations: [XmDateControl],

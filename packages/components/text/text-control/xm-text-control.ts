@@ -10,8 +10,10 @@ import { clone, defaults } from 'lodash';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { ValidatorProcessingOption, ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import { filter } from 'rxjs/operators';
+import { HintText } from '@xm-ngx/components/hint/hint.interface';
 
 export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
+    hint?: HintText;
     type?: string;
     placeholder?: Translate;
     pattern?: string;
@@ -27,6 +29,7 @@ export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
 }
 
 const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
+    hint: null,
     title: '',
     placeholder: '',
     type: 'text',
@@ -64,6 +67,8 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
 
             <mat-hint *ngIf="options.maxLength"
                       align="end">{{getValueLength()}} / {{options.maxLength}}</mat-hint>
+
+            <mat-hint [hint]="options.hint"></mat-hint>
 
         </mat-form-field>
     `,
