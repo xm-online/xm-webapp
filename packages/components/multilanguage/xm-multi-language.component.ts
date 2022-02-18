@@ -79,6 +79,7 @@ export interface MultiLanguageOptions {
     styles: ['mat-button-toggle-group{margin-bottom: 10px;} mat-label{display:block}'],
     changeDetection: ChangeDetectionStrategy.Default,
 })
+/** @deprecated use XmMultilingualControlComponent instead */
 export class MultiLanguageComponent implements XmDynamicPresentation<MultiLanguageDataModel, MultiLanguageOptions> {
 
     @Input() public value: MultiLanguageDataModel = [];

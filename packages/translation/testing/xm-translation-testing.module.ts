@@ -35,6 +35,7 @@ export class MockXmTranslateService {
 export class MockLanguageService {
     public languages = [];
 
+    public locale$: Observable<string> = of(null);
     public languages$: (i: string) => Observable<string[]> = () => of([]);
 }
 
@@ -44,7 +45,7 @@ export class MockLanguageService {
         MockTranslatePipe,
     ],
     providers: [
-        { provide: LanguageService, useClass: MockTranslatePipe },
+        { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslatePipe, useClass: MockTranslatePipe },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: XmTranslateService, useClass: MockXmTranslateService },

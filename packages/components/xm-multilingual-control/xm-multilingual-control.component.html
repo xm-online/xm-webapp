@@ -1,0 +1,20 @@
+<mat-label *ngIf="options?.title">
+    <span class="pr-2">{{ options.title | translate }}</span>
+    <mat-icon *ngIf="options?.feedback" [matTooltip]="options.feedback | translate">help</mat-icon>
+</mat-label>
+
+<mat-button-toggle-group [formControl]="selectedLng">
+    <mat-button-toggle *ngFor="let key of languages$ | async" [value]="key">{{key}}</mat-button-toggle>
+</mat-button-toggle-group>
+
+<div [formGroup]="multilingualGroup">
+    <ng-container *ngFor="let lang of languages$ | async">
+        <div *ngIf="selectedLng.value === lang">
+            <ng-container [formControlName]="lang"
+                          [selector]="options.input.selector"
+                          [options]="options.input.options"
+                          (blur)="_onTouched()"
+                          xmDynamicControl></ng-container>
+        </div>
+    </ng-container>
+</div>
