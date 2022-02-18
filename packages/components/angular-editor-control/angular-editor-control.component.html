@@ -1,0 +1,14 @@
+<angular-editor
+        *ngIf="disable;else wysiwigEditor"
+        [config]="disabledWysiwygConfig"
+        [ngModel]="value"
+        (ngModelChange)="_onChange($event)"
+        (blur)="_onTouched()"></angular-editor>
+
+<ng-template #wysiwigEditor>
+    <angular-editor
+            [config]="wysiwygConfig"
+            [ngModel]="value"
+            (ngModelChange)="_onChange($event)"
+            (blur)="_onTouched()"></angular-editor>
+</ng-template>
