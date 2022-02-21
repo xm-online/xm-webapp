@@ -1,1 +1,1 @@
-export { XmMultilingualModule } from ./xm-multilingual.module';
+export { XmMultilingualModule } from './xm-multilingual.module';
