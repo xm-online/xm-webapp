@@ -314,7 +314,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
                 'template': this.searchTemplateParams.templateName,
                 'templateParams[page]': this.paginator.pageIndex,
                 'templateParams[size]': this.paginator.pageSize,
-                'templateParams[sort]': [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
+                'templateParams[sort]': [`${this.sort.active},${this.sort.direction}`],
             };
 
             if (this.searchTemplateParams.manually) {
@@ -332,7 +332,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
                     typeKey: entityOptions.typeKey,
                     page: this.paginator.pageIndex,
                     size: this.paginator.pageSize,
-                    sort: [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
+                    sort: [`${this.sort.active},${this.sort.direction}`],
                 };
             }
 
@@ -356,7 +356,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
             typeKey: entityOptions.typeKey,
             page: page ? (page - 1) : (entityOptions.page - 1),
             size: size || this.paginator.pageSize,
-            sort: sort ? [sort] : [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')],
+            sort: sort ? [sort] : [`${this.sort.active},${this.sort.direction}`],
         };
     }
 
