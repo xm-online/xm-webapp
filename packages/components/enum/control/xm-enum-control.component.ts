@@ -20,6 +20,7 @@ export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
 
 export interface XmEnumControlOptionsItem extends XmEnumOptionsItem {
     icon?: string;
+    iconColor?: string;
     permissions?: string[];
 }
 
@@ -44,8 +45,12 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
                         [placeholder]="options?.title | translate">
                 <mat-select-trigger>
                     <ng-container *ngIf="itemsMap && itemsMap[value + '']">
-                        <mat-icon style="vertical-align: middle"
-                                  *ngIf="itemsMap[value + '']?.icon">{{itemsMap[value + ''].icon}}</mat-icon>
+                        <mat-icon
+                            class="align-middle"
+                            [style.background-color]="itemsMap[value + '']?.iconColor"
+                            *ngIf="itemsMap[value + '']?.icon">
+                            {{itemsMap[value + ''].icon}}
+                        </mat-icon>
                         {{(itemsMap[value + ''].title | translate) || ''}}
                     </ng-container>
                 </mat-select-trigger>
@@ -59,7 +64,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
 
                 <ng-template ngFor [ngForOf]="itemsList" let-item>
                     <mat-option [value]="item.value" *xmPermission="item.permissions || []">
-                        <mat-icon *ngIf="item.icon">{{item.icon}}</mat-icon>
+                        <mat-icon *ngIf="item.icon" [style.background-color]="item.iconColor">{{item.icon}}</mat-icon>
                         {{item.title | translate}}
                     </mat-option>
                 </ng-template>
