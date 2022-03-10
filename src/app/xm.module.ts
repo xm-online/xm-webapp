@@ -34,6 +34,7 @@ import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmSharedModule } from 'src/app/shared/shared.module';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
     imports: [
@@ -58,6 +59,7 @@ import { XmSharedModule } from 'src/app/shared/shared.module';
         XmDashboardModule.forRoot(),
         MarkdownModule.forRoot(),
         XmBreadcrumbModule.forRoot(),
+        NgxMaskModule.forRoot(),
         XmDynamicExtensionModule.forRoot([
             // #regionstart dynamic-extension-modules
             // #regionend dynamic-extension-modules
