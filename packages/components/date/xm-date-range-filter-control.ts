@@ -12,8 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { XmDateModule } from '@xm-ngx/components/date/xm-date.component';
-import { HintModule } from '@xm-ngx/components/hint';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 
 const dateInitValues = {
     '7DaysAgo': 7,

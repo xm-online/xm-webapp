@@ -18,8 +18,7 @@ import { XmDynamicControl, XmDynamicControlConstructor } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
-import { HintModule } from '@xm-ngx/components/hint';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 
 export interface XmNumberControlOptions extends DataQa {
     hint?: HintText;

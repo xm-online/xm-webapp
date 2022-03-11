@@ -14,8 +14,7 @@ import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } f
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
 import { XmDateValue } from './xm-date.component';
-import { HintModule } from '@xm-ngx/components/hint';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 
 export interface XmDateControlOptions {
     hint?: HintText;

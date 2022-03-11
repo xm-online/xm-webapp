@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { HintComponent } from '@xm-ngx/components/hint/hint.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { CommonModule } from '@angular/common';
-import { HintPopoverModule } from '@xm-ngx/components/hint/hint-popover/hint-popover.module';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { HintComponent } from './hint.component';
+import { HintPopoverModule } from './hint-popover/hint-popover.module';
 
 @NgModule({
     imports: [

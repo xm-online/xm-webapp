@@ -1,15 +1,18 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { HintService } from '@xm-ngx/components/hint/hint.service';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { HintText } from './hint.interface';
+import { HintService } from './hint.service';
 
 @Component({
     selector: 'mat-hint[hint]',
     templateUrl: './hint.component.html',
     styleUrls: [ './hint.component.scss' ],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        class: 'hint',
+    },
 })
 export class HintComponent implements OnInit, OnDestroy {
     private readonly unsubscribe = new Subject<void>();

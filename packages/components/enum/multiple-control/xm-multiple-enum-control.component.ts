@@ -6,7 +6,7 @@ import { clone, defaults, forEach, keyBy } from 'lodash';
 import { XmEnumControlOptionsItem } from '../control/xm-enum-control.component';
 import { XmEnumValue } from '../value/xm-enum.component';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintText } from '@xm-ngx/components/hint';
 
 export interface XmMultipleEnumControlOptions extends XmEnumViewOptions, DataQa {
     id?: string;

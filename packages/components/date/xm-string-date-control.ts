@@ -12,8 +12,7 @@ import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
-import { HintModule } from '@xm-ngx/components/hint';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 
 export interface XmStringDateControlOptions {
     hint?: HintText;

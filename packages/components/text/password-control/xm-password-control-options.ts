@@ -1,6 +1,6 @@
 import { XmTextTitleOptions } from '../text-title';
 import { DataQa } from '@xm-ngx/shared/interfaces';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintText } from '@xm-ngx/components/hint';
 
 export interface XmPasswordControlOptions extends XmTextTitleOptions, DataQa {
     hint?: HintText;

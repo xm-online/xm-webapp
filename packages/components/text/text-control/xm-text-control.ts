@@ -10,7 +10,7 @@ import { clone, defaults } from 'lodash';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { ValidatorProcessingOption, ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import { filter } from 'rxjs/operators';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintText } from '@xm-ngx/components/hint';
 
 export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
     hint?: HintText;

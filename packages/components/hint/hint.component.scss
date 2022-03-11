@@ -1,4 +1,4 @@
-:host {
+.hint {
   width: 100%;
   + ::ng-deep .mat-form-field-hint-spacer {
     flex: auto;
@@ -18,9 +18,5 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-  }
-
-  &__button {
-
   }
 }

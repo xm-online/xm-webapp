@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { Translate } from '@xm-ngx/translation';
 import { assign } from 'lodash';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintText } from '@xm-ngx/components/hint';
 
 export interface XmPhoneNumberControlOptions {
     hint?: HintText;
