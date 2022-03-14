@@ -4,14 +4,17 @@ import { XmTextTitleOptions } from '@xm-ngx/components/text';
 import { DataQa } from '@xm-ngx/shared/interfaces';
 import * as _ from 'lodash';
 import { clone, defaults } from 'lodash';
+import { HintText } from '@xm-ngx/components/hint/hint.interface';
 
 export interface XmFileControlOptions extends XmTextTitleOptions, DataQa {
-    multiple: boolean,
-    accept: string,
-    required: boolean,
+    hint: HintText;
+    multiple: boolean;
+    accept: string;
+    required: boolean;
 }
 
 const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
+    hint: null,
     title: '',
     dataQa: 'file-control',
     multiple: false,
@@ -61,6 +64,7 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
 
             <mat-icon matSuffix>attach_file</mat-icon>
 
+            <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
     `,
 })

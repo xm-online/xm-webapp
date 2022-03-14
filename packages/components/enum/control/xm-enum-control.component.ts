@@ -6,6 +6,7 @@ import { Translate } from '@xm-ngx/translation';
 import { clone, defaults, forEach, keyBy } from 'lodash';
 import { XmEnumOptionsItem, XmEnumValue } from '../value/xm-enum.component';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
+import { HintText } from '@xm-ngx/components/hint/hint.interface';
 
 
 export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
@@ -16,6 +17,7 @@ export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
     items: XmEnumControlOptionsItem[];
     showClearButton?: boolean;
     clearButtonText?: Translate | string;
+    hint?: HintText;
 }
 
 export interface XmEnumControlOptionsItem extends XmEnumOptionsItem {
@@ -25,6 +27,7 @@ export interface XmEnumControlOptionsItem extends XmEnumOptionsItem {
 }
 
 export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
+    hint: null,
     title: '',
     dataQa: 'enum-control',
     required: false,
@@ -71,6 +74,8 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
             </mat-select>
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
+
+            <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
     `,
     encapsulation: ViewEncapsulation.None,

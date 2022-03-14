@@ -18,8 +18,10 @@ import { XmDynamicControl, XmDynamicControlConstructor } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 
 export interface XmNumberControlOptions extends DataQa {
+    hint?: HintText;
     title?: Translate;
     placeholder?: Translate;
     pattern?: string;
@@ -30,6 +32,7 @@ export interface XmNumberControlOptions extends DataQa {
 }
 
 const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
+    hint: null,
     title: '',
     placeholder: '',
     pattern: '',
@@ -58,6 +61,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
                 {{message}}
             </mat-error>
 
+            <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
     `,
     encapsulation: ViewEncapsulation.None,
@@ -89,6 +93,7 @@ export class XmNumberControl extends NgFormAccessor<Primitive> implements XmDyna
         CommonModule,
         ControlErrorModule,
         ReactiveFormsModule,
+        HintModule,
     ],
     exports: [XmNumberControl],
     declarations: [XmNumberControl],

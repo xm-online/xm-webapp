@@ -16,6 +16,7 @@ import {MomentDateTimeAdapter} from 'ng-pick-datetime/date-time/adapter/moment-a
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/shared/operators';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
+import { HintModule } from '@xm-ngx/components/hint';
 
 export interface XmDatetimeControlOptions extends XmDateControlOptions {
     ignoreSeconds: boolean;
@@ -62,6 +63,7 @@ type XmDateTimeControlValue = moment.Moment | string;
                 <mat-icon>close</mat-icon>
             </button>
 
+            <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
     `,
 })
@@ -98,6 +100,7 @@ export class XmDatetimeControl extends NgFormAccessor<XmDateTimeControlValue> im
         CommonModule,
         MatIconModule,
         OwlDateTimeModule,
+        HintModule,
     ],
     providers: [
         {provide: DateTimeAdapter, useClass: MomentDateTimeAdapter, deps: [OWL_DATE_TIME_LOCALE]},

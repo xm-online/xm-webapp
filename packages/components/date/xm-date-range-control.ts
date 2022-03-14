@@ -8,8 +8,10 @@ import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 
 export interface XmDateRangeControlOptions {
+    hint?: HintText;
     title: Translate;
     fromName?: string;
     toName?: string;
@@ -39,6 +41,7 @@ export interface XmDateRangeControlValue {
             <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
             <mat-error *xmControlErrors="group?.errors || group?.controls.from?.errors || group?.controls.to?.errors; message as message">{{message}}</mat-error>
+            <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
     `,
 })
@@ -63,6 +66,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeControlValu
         MatInputModule,
         XmTranslationModule,
         ControlErrorModule,
+        HintModule,
     ],
     exports: [XmDateRangeControl],
     declarations: [XmDateRangeControl],
