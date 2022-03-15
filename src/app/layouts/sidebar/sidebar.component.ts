@@ -388,7 +388,7 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.dashboards
                     .filter((d) => this.checkCondition(d))
                     .length + 1;
-            let groupKey = !menu ? 'DASHBOARD' : menu.group.key;
+            let groupKey = !menu ? 'DASHBOARD' : (menu.group && menu.group.key) ? menu.group.key : 'DASHBOARD';
             const icon = menu && menu.group && menu.group.icon ? menu.group.icon : null;
             if (groupIsLink) {
                 groupKey = dashboard.config && dashboard.config.slug ? dashboard.config.slug : null;
