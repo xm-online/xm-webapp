@@ -40,9 +40,6 @@ import { Translate } from '@xm-ngx/translation';
             <mat-icon class="hint-toggle__icon">visibility</mat-icon>
         </button>
     `,
-    host: {
-        class: 'hint-popover-wrapper',
-    },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HintPopoverComponent implements AfterViewInit, OnDestroy {

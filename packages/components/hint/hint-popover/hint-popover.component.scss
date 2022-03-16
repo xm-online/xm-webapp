@@ -1,3 +1,10 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .hint {
   &-popover {
     display: block;
@@ -6,12 +13,6 @@
     border-radius: 4px;
     padding: 4px 8px;
     width: 100%;
-    &-wrapper {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-    }
   }
   &-text {
     white-space: nowrap;

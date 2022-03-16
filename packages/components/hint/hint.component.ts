@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Input,
+    OnDestroy,
+    OnInit,
+} from '@angular/core';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -10,9 +17,6 @@ import { HintService } from './hint.service';
     templateUrl: './hint.component.html',
     styleUrls: [ './hint.component.scss' ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {
-        class: 'hint',
-    },
 })
 export class HintComponent implements OnInit, OnDestroy {
     private readonly unsubscribe = new Subject<void>();
