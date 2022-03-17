@@ -5,8 +5,8 @@ import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import * as _ from 'lodash';
-import { combineLatest, from, Observable, Subject } from 'rxjs';
-import { filter, map, shareReplay, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
+import { combineLatest, from, Observable } from 'rxjs';
+import { filter, map, shareReplay, startWith, switchMap, take } from 'rxjs/operators';
 
 import { ContextService, Principal } from '../../../src/app/shared';
 import { getDefaultMenuList } from './default-menu-list';
@@ -15,6 +15,7 @@ import { treeNodeSearch } from '../../shared/operators/src/tree-search';
 import { buildMenuTree } from './nested-menu';
 import { applicationsToCategory, filterByConditionDashboards } from './flat-menu';
 import { MenuItem } from '@xm-ngx/components/menu/menu.interface';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 @Component({
     selector: 'xm-menu',
@@ -29,8 +30,6 @@ import { MenuItem } from '@xm-ngx/components/menu/menu.interface';
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MenuComponent implements OnInit, OnDestroy {
-    private unsubscribe = new Subject<void>();
-
     public treeControl = new NestedTreeControl<MenuItem>(node => node.children);
     public categories$: Observable<MenuItem[]>;
 
@@ -44,12 +43,13 @@ export class MenuComponent implements OnInit, OnDestroy {
     ) {
     }
 
-    public hasChild = (_: number, node: any): boolean => node.isLink == null ? (!!node.children && node.children.length > 0) : !node.isLink;
+    public hasChild = (_: number, node: MenuItem): boolean => {
+        return node.isLink == null ? (!!node.children && node.children.length > 0) : !node.isLink;
+    }
 
     public ngOnInit(): void {
         const dashboards$ = this.dashboardService.dashboards$().pipe(
             startWith([]),
-            takeUntil(this.unsubscribe),
             filter((dashboards) => Boolean(dashboards)),
             map((i) => filterByConditionDashboards(i, this.contextService)),
             map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
@@ -76,13 +76,12 @@ export class MenuComponent implements OnInit, OnDestroy {
             take(1),
             map(i => i?.sidebar?.hideAdminConsole ? [] : getDefaultMenuList()),
             shareReplay(1),
-            takeUntil(this.unsubscribe),
         );
 
         this.categories$ = combineLatest([ dashboards$, applications$, default$ ]).pipe(
             map(([ a, b, c ]) => [ ...a, ...b, ...c ]),
+            takeUntilOnDestroy(this),
             shareReplay(1),
-            takeUntil(this.unsubscribe),
         );
 
         combineLatest([
@@ -90,7 +89,7 @@ export class MenuComponent implements OnInit, OnDestroy {
             this.router.events.pipe(filter((e) => e instanceof NavigationEnd)),
         ]).pipe(
             map((i) => i[0]),
-            takeUntil(this.unsubscribe),
+            takeUntilOnDestroy(this),
         ).subscribe(a => {
             const active = this.getActiveNode(a);
             this.unfoldParentNode(active);
@@ -112,8 +111,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.unsubscribe.next();
-        this.unsubscribe.complete();
+        takeUntilOnDestroyDestroy(this);
     }
 
     public unfoldParentNode(child: MenuItem): void {
@@ -128,10 +126,9 @@ export class MenuComponent implements OnInit, OnDestroy {
         }
     }
 
-    public toggle(node: MenuItem, evt?: Event): void {
-        evt?.preventDefault();
+    public toggle(node: MenuItem, evt: Event): void {
+        evt.preventDefault();
 
-        // If node is expand, collapse it and exit from toggle function
         if (this.treeControl.isExpanded(node)) {
             this.treeControl.collapse(node);
 

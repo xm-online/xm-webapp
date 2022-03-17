@@ -7,7 +7,6 @@ import { XmEntitySpec } from '@xm-ngx/entity';
 import * as _ from 'lodash';
 
 function checkCondition(item: { config?: { condition?: JavascriptCode } }, contextService: ContextService): boolean {
-    // If configurator do not provide configs, return true
     if (!item.config || !item.config.condition) {
         return true;
     }
