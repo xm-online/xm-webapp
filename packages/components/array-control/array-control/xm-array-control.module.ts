@@ -9,11 +9,11 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmDynamicEntryModule } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmArrayControlComponent } from './xm-array-control.component';
-
+import { HintModule } from '@xm-ngx/components/hint';
 
 @NgModule({
-    declarations: [XmArrayControlComponent],
-    exports: [XmArrayControlComponent],
+    declarations: [ XmArrayControlComponent ],
+    exports: [ XmArrayControlComponent ],
     imports: [
         CommonModule,
         MatFormFieldModule,
@@ -23,6 +23,7 @@ import { XmArrayControlComponent } from './xm-array-control.component';
         MatAutocompleteModule,
         ControlErrorModule,
         XmTranslationModule,
+        HintModule,
     ],
 })
 export class XmArrayControlModule implements XmDynamicEntryModule {

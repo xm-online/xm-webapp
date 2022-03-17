@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { XmDateModule } from '@xm-ngx/components/date/xm-date.component';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 
 const dateInitValues = {
     '7DaysAgo': 7,
@@ -22,6 +23,7 @@ const dateInitValues = {
 type DateInitValues = keyof typeof dateInitValues;
 
 export interface IDateOptions {
+    hint?: HintText;
     title?: string;
     min?: DateValue;
     max?: DateValue;
@@ -68,6 +70,8 @@ type DateValue = string[] | Date[];
             <mat-icon [owlDateTimeTrigger]="dt1" class="icon">date_range</mat-icon>
 
             <owl-date-time #dt1 [startAt]="options?.start" [pickerType]="'calendar'"></owl-date-time>
+
+            <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
     `,
     styleUrls: ['./date.control.scss'],
@@ -126,6 +130,7 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
         MatButtonModule,
         CommonModule,
         XmDateModule,
+        HintModule,
     ],
     exports: [DateRangeFilterControlComponent],
     declarations: [DateRangeFilterControlComponent],

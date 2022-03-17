@@ -6,14 +6,17 @@ import { clone, defaults, forEach, keyBy } from 'lodash';
 import { XmEnumControlOptionsItem } from '../control/xm-enum-control.component';
 import { XmEnumValue } from '../value/xm-enum.component';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
+import { HintText } from '@xm-ngx/components/hint';
 
 export interface XmMultipleEnumControlOptions extends XmEnumViewOptions, DataQa {
     id?: string;
     required?: boolean;
     items: XmEnumControlOptionsItem[];
+    hint?: HintText;
 }
 
 export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOptions = {
+    hint: null,
     title: '',
     dataQa: 'multiple-enum-control',
     required: false,
@@ -51,6 +54,8 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
             </mat-select>
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
+
+            <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
     `,
     encapsulation: ViewEncapsulation.None,
