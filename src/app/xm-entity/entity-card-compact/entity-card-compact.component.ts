@@ -69,7 +69,7 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
     public ngOnChanges(changes: SimpleChanges): void {
         this.showEditButton = true;
 
-        const currentKey = changes.xmEntitySpec.currentValue.key;
+        const currentKey = changes?.xmEntitySpec?.currentValue.key;
         const uiConfigKey = this.entityUiConfig && this.entityUiConfig.typeKey;
 
         if (currentKey && uiConfigKey && currentKey === uiConfigKey) {
