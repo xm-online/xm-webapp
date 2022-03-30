@@ -23,6 +23,8 @@ export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
     emptyValue: ' ',
 };
 
+export type PrimitiveOrTranslate = Primitive & Translate;
+
 @Component({
     selector: 'xm-text-view',
     template: `
@@ -31,7 +33,7 @@ export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
             <span [attr.data-qa]="options.dataQa"
                   xmValue>
                 <span *ngIf="value !== undefined; else emptyValue">
-                    {{ value }}
+                    {{ value | translate }}
                 </span>
                 <ng-template #emptyValue>
                     {{options.emptyValue | translate}}
@@ -40,8 +42,8 @@ export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
         </xm-text-view-container>
     `,
 })
-export class XmTextViewComponent implements XmDynamicPresentation<Primitive, XmTextViewOptions> {
-    @Input() public value: Primitive;
+export class XmTextViewComponent implements XmDynamicPresentation<PrimitiveOrTranslate, XmTextViewOptions> {
+    @Input() public value: PrimitiveOrTranslate;
 
     private _options: XmTextViewOptions = XM_TEXT_VIEW_OPTIONS_DEFAULT;
 
