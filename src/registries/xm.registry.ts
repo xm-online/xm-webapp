@@ -116,6 +116,10 @@ export const XM_ELEMENTS: XmDynamicEntries = [
         loadChildren: () => import('@xm-ngx/components/ace-editor').then(m => m.XmAceEditorControlModule),
     },
     {
+        selector: '@xm-ngx/components/multilanguage',
+        loadChildren: () => import('@xm-ngx/components/multilanguage').then(m => m.MultiLanguageModule),
+    },
+    {
         selector: '@xm-ngx/components/hint-switch',
         loadChildren: () => import('@xm-ngx/components/hint/hint-switch/hint-switch.module').then(m => m.HintSwitchModule),
     },
