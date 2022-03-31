@@ -13,12 +13,16 @@ import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 
 export type MultiLanguageDataModel = { languageKey: string; name: string }[];
 
-// List model
-// [{ languageKey: 'ru', name: 'text_1' }, { languageKey: 'en', name: 'text_2' }]
+/**
+ * List model
+ * [\{ languageKey: 'ru', name: 'text_1' \}, \{ languageKey: 'en', name: 'text_2' \}]
+ */
 export type MultiLanguageListModel = MultiLanguageDataModel;
 
-// Map model
-// { 'ru': 'text_1', 'en': 'text_2' }
+/**
+ * Map model
+ * \{ 'ru': 'text_1', 'en': 'text_2' \}
+ */
 export type MultiLanguageMapModel = Record<string, string>;
 export type MultiLanguageModel = MultiLanguageListModel | MultiLanguageMapModel;
 export type MultiLanguageType<T> =
