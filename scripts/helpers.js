@@ -1,7 +1,7 @@
 const fs = require('fs');
 const glob = require('glob');
 
-const LANGUAGES = ['en', 'ru', 'uk'];
+const LANGUAGES = ['en', 'ru', 'uk', 'de'];
 const EXT_PATH = 'src/app/ext/*';
 
 const isDirectory = (source) => fs.lstatSync(source).isDirectory();

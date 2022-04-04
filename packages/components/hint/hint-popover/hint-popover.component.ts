@@ -49,6 +49,7 @@ export class HintPopoverComponent implements AfterViewInit, OnDestroy {
         'en': 'Open',
         'ru': 'Открыть',
         'uk': 'Відкрити',
+        'de': 'Offen',
     }
 
     private _attachTo: ElementRef<unknown>;

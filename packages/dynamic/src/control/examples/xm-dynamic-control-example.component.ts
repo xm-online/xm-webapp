@@ -21,6 +21,7 @@ export class XmDynamicControlExampleComponent<T> {
             'en': 'Name',
             'ru': 'Наименование',
             'uk': 'Найменування',
+            'de': 'Name',
         },
         'required': false,
     };
