@@ -17,11 +17,12 @@ import { MatSelect } from '@angular/material/select';
 import { I18nNamePipe } from '@xm-ngx/components/language';
 import { Principal } from '@xm-ngx/core/auth';
 import { ReplaySubject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, tap } from 'rxjs/operators';
 
 import { ExtSelectService } from '../ext-select/ext-select-service';
 import { ExtMultiSelectOptions } from './ext-multi-select-options.model';
 import BaseExtSelectComponent from '../ext-select/base-ext-select.component';
+import { environment } from '@xm-ngx/core/environment';
 
 interface Element {
     label: any;
@@ -102,7 +103,7 @@ export class ExtMultiSelectComponent extends BaseExtSelectComponent implements O
         this.filteredElementsMulti
             .pipe(take(1), takeUntil(this._onDestroy))
             .subscribe(() => {
-                this.multiSelect.compareWith = (a: Element, b: Element) => a.value === b.value;
+                this.multiSelect.compareWith = (a: Element, b: Element) => a?.value === b?.value;
             });
     }
 
@@ -159,13 +160,17 @@ export class ExtMultiSelectComponent extends BaseExtSelectComponent implements O
                 this.initOptionList();
             });
         } else {
-            this.selectService.fetchData(options).subscribe((elements) => {
-                this.elements = elements;
-                this.initOptionList();
-                this.changeDetectorRef.detectChanges();
-            }, (error) => {
-                console.warn(error);
-            });
+            this.selectService.fetchData(options)
+                .pipe(
+                    tap((items) => !environment.production && console.info('[dbg] ext-multy-select -> ', items))
+                )
+                .subscribe((elements) => {
+                    this.elements = elements;
+                    this.initOptionList();
+                    this.changeDetectorRef.detectChanges();
+                }, (error) => {
+                    console.warn(error);
+                });
         }
     }
 

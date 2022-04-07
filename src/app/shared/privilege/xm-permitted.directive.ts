@@ -1,6 +1,7 @@
 import { AfterContentInit, Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Principal } from '../auth/principal.service';
+import { Principal } from '@xm-ngx/core/auth';
+import { environment } from '@xm-ngx/core/environment';
 
 /**
  * Conditionally includes an HTML element if current user has any
@@ -41,6 +42,12 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
 
     @Input()
     public set xmPermitted(value: string[]) {
+
+        if (!environment.production) {
+            // eslint-disable-next-line no-console
+            console.log('[DBG] XM %o', value);
+        }
+
         this._xmPermitted = typeof value === 'string' ? [value] : value;
         this.updateView();
     }
@@ -51,6 +58,10 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
 
     @Input()
     public set permitted(value: string[]) {
+        if (!environment.production) {
+            // eslint-disable-next-line no-console
+            console.log('[DBG] XM %o', value);
+        }
         this.xmPermitted = value;
     }
 
