@@ -34,9 +34,14 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
     @Input() public onError: any;
     @Input() public preSendHandler: any;
 
+    @Input() set listSelection(selection: XmEntity[]) {
+        this.xmEntityListSelection = selection;
+    }
+
     public jsfAttributes: JsfAttributes;
     public formData: any = {};
     public isJsonFormValid: boolean = true;
+    public xmEntityListSelection!: XmEntity[];
 
     public showLoader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public showSecondStep$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -76,6 +81,9 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
         this.showLoader$.next(true);
         // XXX think about this assignment
         this.formData.xmEntity = this.xmEntity;
+        if (this.xmEntityListSelection) {
+            this.formData.xmEntityListSelection = this.xmEntityListSelection;
+        }
         const eId = this.functionSpec.withEntityId ? this.xmEntity.id : null;
 
         const apiCall$ = this.functionService.callEntityFunction(this.functionSpec.key, eId, this.formData)
