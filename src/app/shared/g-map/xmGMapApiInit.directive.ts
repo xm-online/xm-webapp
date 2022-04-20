@@ -39,7 +39,7 @@ export class XmGMapApiInitDirective implements OnInit, OnDestroy {
             this.statusLoaded.next(true);
         } else {
             this.xmConfigService
-                .getConfigJson('/webapp/settings-public.yml?toJson')
+                .getConfigJson('/webapp/settings-public.yml?toJson&processed=true')
                 .pipe(
                     map((res) => res.googleApiKey ? res.googleApiKey : ''),
                     tap((apiKey) => this.loadGoogleMapApi(apiKey)),
