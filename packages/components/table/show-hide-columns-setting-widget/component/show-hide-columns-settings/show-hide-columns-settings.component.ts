@@ -39,13 +39,13 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
             )
             .subscribe(res => {
                 this.columns = res || [];
-                const checked = this.columns.filter(item => item.hidden);
-                this.columnsControl.patchValue(checked, {emitEvent: false});
+                const unchecked = this.columns.filter(item => !item.hidden);
+                this.columnsControl.patchValue(unchecked, {emitEvent: false});
             });
     }
 
     public submit(): void {
-        this.setCheckedColumns();
+        this.setUnCheckedColumns();
         this.columnsSettingStorageService.updateStore(this.columns);
     }
 
@@ -57,9 +57,9 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
         takeUntilOnDestroyDestroy(this);
     }
 
-    private setCheckedColumns(): void {
+    private setUnCheckedColumns(): void {
         this.columns.forEach(item => {
-            item.hidden = this.columnsControl?.value.some(control => control.name === item.name);
+            item.hidden = !this.columnsControl?.value.some(control => control.name === item.name);
         });
     }
 }
