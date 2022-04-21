@@ -18,6 +18,14 @@ import {
 export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
     public form: FormGroup;
     public columns: ColumnsSettingStorageItem[] = [];
+    public isSelectedAll: boolean;
+    public TRS = {
+        selectAll: {
+            en: 'Select all checkboxes',
+            ru: 'Выбрать все чекбоксы',
+            uk: 'Обрати всі чекбокси',
+        },
+    };
 
     public get columnsControl(): AbstractControl {
         return this.form?.get('columns');
@@ -39,8 +47,7 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
             )
             .subscribe(res => {
                 this.columns = res || [];
-                const unchecked = this.columns.filter(item => !item.hidden);
-                this.columnsControl.patchValue(unchecked, {emitEvent: false});
+                this.isSelectedAll = this.columns.every(item => !item.hidden);
             });
     }
 
@@ -53,13 +60,35 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
         this.submit();
     }
 
+    public toggleSelectAll(): void {
+        this.isSelectedAll = !this.isSelectedAll;
+
+        this.setSelectedAllToOptions(this.isSelectedAll);
+    }
+
+    public setSelectedAll(): void {
+        this.isSelectedAll = this.columnsControl?.value.filter(control => !!control).length === this.columns.length;
+
+        if(this.isSelectedAll) {
+            this.setSelectedAllToOptions(this.isSelectedAll);
+        }
+    }
+
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
 
     private setUnCheckedColumns(): void {
         this.columns.forEach(item => {
-            item.hidden = !this.columnsControl?.value.some(control => control.name === item.name);
+            item.hidden = !this.columnsControl?.value.some(control => control?.name === item?.name);
         });
+    }
+
+    private setSelectedAllToOptions(isSelectedAll: boolean): void {
+        this.columns.forEach(item => {
+            item.hidden = !isSelectedAll;
+        });
+
+        this.columnsControl.patchValue(this.columns, {emitEvent: false});
     }
 }
