@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 
 import { Observable, of, ReplaySubject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { pluck, takeUntil } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
 import { ContextService } from '../../shared/context/context.service';
 import { FunctionCallDialogComponent } from '../function-call-dialog/function-call-dialog.component';
@@ -41,6 +41,7 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
     public customFunctions: any = {
         'AREA': AreaComponent,
     };
+    public xmEntityListSelection!: XmEntity[];
     private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
     constructor(protected xmEntityService: XmEntityService,
@@ -49,6 +50,14 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
                 protected translateService: TranslateService,
                 protected contextService: ContextService,
                 protected principal: Principal) {
+        this.eventManager.listenTo(XM_EVENT_LIST.XM_ENTITY_LIST_SELECTION_CHANGED)
+            .pipe(
+                pluck('payload', XM_EVENT_LIST.XM_ENTITY_LIST_SELECTION_CHANGED),
+                takeUntil(this.destroyed$),
+            )
+            .subscribe((selected: unknown) => {
+                this.xmEntityListSelection = selected as XmEntity[];
+            });
     }
 
     public ngOnInit(): void {
@@ -108,6 +117,7 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
         modalRef.componentInstance.functionSpec = functionSpec;
         modalRef.componentInstance.dialogTitle = title;
         modalRef.componentInstance.buttonTitle = title;
+        modalRef.componentInstance.listSelection = this.xmEntityListSelection;
         console.info('onCallFunction');
     }
 

@@ -28,6 +28,7 @@ enum _XM_EVENT_LIST {
     XM_ATTACHMENT_LIST_MODIFICATION = 'attachmentListModification',
     XM_ENTITY_LIST_MODIFICATION = 'xmEntityListModification',
     XM_LOAD_ENTITY_LIST_WITH_TEMPLATE = 'xmLoadEntityListWithTemplate',
+    XM_ENTITY_LIST_SELECTION_CHANGED = 'xmEntityListSelection',
 }
 
 export const VERSION = environment.version;
