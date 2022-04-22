@@ -6,20 +6,19 @@
 
   .xm-checkbox-container-label {
     font-size: 11px;
-    line-height: 18px;
+    line-height: 25px;
     color: #00000099;
   }
 
   .xm-checkbox-container-input {
     align-self: center;
-    margin-top: 8px;
     user-select: none;
 
     &::ng-deep .mat-checkbox-background {
       background: transparent;
 
       svg path {
-        stroke: black !important;
+        stroke: #00000099 !important;
       }
     }
   }

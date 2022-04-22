@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
             <div class="xm-checkbox-container">
                 <span class="xm-checkbox-container-label">{{ options?.label | translate }}</span>
 
-                <mat-checkbox class="xm-checkbox-container-input" disableRipple="true" disabled="true" [checked]="value"></mat-checkbox>
+                <mat-checkbox class="xm-checkbox-container-input" disableRipple="true" disabled="true" [checked]="getCheckBoxState()"></mat-checkbox>
             </div>
         </ng-container>
     `,
@@ -16,6 +16,12 @@ import { Component, Input } from '@angular/core';
 export class XmCheckboxComponent {
     @Input() public value: boolean;
     @Input() public options: XmCheckboxInterface;
+
+    public checkBoxState: boolean;
+
+    public getCheckBoxState(): boolean {
+        return this.value !== true ? this.checkBoxState = false : this.checkBoxState = true;
+    }
 }
 
 export interface XmCheckboxInterface {
