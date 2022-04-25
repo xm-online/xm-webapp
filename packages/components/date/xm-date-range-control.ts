@@ -123,7 +123,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
             this._value = this.toModel(this.value);
         }
 
-        if (this.value == null) {
+        if (!this.value) {
             this.group.reset();
         } else if (typeof this.value !== 'string') {
             this.group.patchValue(this.value, { emitEvent: false });
@@ -148,7 +148,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
 
     private toModel(value: XmDateRangeValueOrString): XmDateRangeControlValue {
         if (typeof value === 'string') {
-            if (this.options?.transform == null) {
+            if (!this.options?.transform) {
                 return {
                     from: null,
                     to: null,
@@ -159,7 +159,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
                 ?.split(` ${this.getSeparator()} `)
                 ?.map(x => _.trim(x, this.buildQuotedString(' ')));
 
-            if (from == null && to == null) {
+            if (!from && !to) {
                 return {
                     from: null,
                     to: null,
@@ -173,7 +173,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     }
 
     private fromModel(dates: XmDateRangeControlValue): string {
-        if (this.options?.transform == null) {
+        if (!this.options?.transform) {
             return '';
         }
 
