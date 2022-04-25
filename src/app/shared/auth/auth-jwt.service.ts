@@ -20,7 +20,7 @@ const DEFAULT_HEADERS = {
 };
 
 const _TOKEN_URL = 'uaa/oauth/token';
-const _CONFIG_SETTINGS_API = 'config/api/profile/webapp/settings-public.yml?toJson';
+const _CONFIG_SETTINGS_API = 'config/api/profile/webapp/settings-public.yml?toJson&processed=true';
 const TOKEN_STORAGE_KEY = 'WALLET-TOKEN';
 const WIDGET_DATA = 'widget:data';
 export const ACCESS_TOKEN = 'access_token';
@@ -137,9 +137,9 @@ export class AuthServerProvider {
             }
 
             return Promise.resolve(jwt);
-        } 
+        }
         return Promise.reject('auth-jwt-service Promise reject'); // Put appropriate error message here
-        
+
     }
 
     public storeAuthenticationToken(jwt: string, rememberMe: boolean): void {

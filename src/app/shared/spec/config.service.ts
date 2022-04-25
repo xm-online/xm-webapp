@@ -72,7 +72,7 @@ export class XmConfigService {
         if (this.uiConfig) {
             this.uiConfigState.next(this.uiConfig);
         } else {
-            this.getConfigJson('/webapp/settings-public.yml?toJson').subscribe((uiConfig) => {
+            this.getConfigJson('/webapp/settings-public.yml?toJson&processed=true').subscribe((uiConfig) => {
                 this.uiConfigState.next(this.uiConfig = uiConfig);
                 this.uiConfigState.complete();
             });
@@ -144,9 +144,9 @@ export class XmConfigService {
                 pattern: CONFIG.pattern || '',
                 patternMessage: CONFIG.patternMessage || null,
             };
-        } 
+        }
         return DEFAULT_SETTINGS;
-        
+
     }
 
     public updatePatternMessage(message: any, currentLang?: string): string {
