@@ -2,16 +2,15 @@ import { Dashboard } from '@xm-ngx/dashboard';
 import { MenuItem } from '@xm-ngx/components/menu/menu.interface';
 import * as _ from 'lodash';
 
+const DEFAULT_DASHBOARD_KEY = 'DASHBOARD';
+
 export function buildMenuTree(dashboards: Dashboard[]): MenuItem[] {
     const result = _.orderBy(dashboards, [ 'config.orderIndex', 'config.slug' ]).reduce(
-        (result, {
+        (data, {
             name: dashboardName,
             config: {
                 slug, hidden = false,
-                menu: {
-                    name: menuName,
-                    group: { icon: groupIcon, key = 'DASHBOARD', name: groupName, orderIndex: groupOrder } = {},
-                } = {},
+                menu: configMenu = {},
                 icon: configIcon,
                 orderIndex: configOrder,
                 name: configName,
@@ -19,19 +18,24 @@ export function buildMenuTree(dashboards: Dashboard[]): MenuItem[] {
             },
         }) => {
             if (hidden) {
-                return result;
+                return data;
             }
+
+            const {
+                name: menuName,
+                group: { icon: groupIcon, key = DEFAULT_DASHBOARD_KEY, name: groupName, orderIndex: groupOrder } = {},
+            } = configMenu;
 
             const groupKey = key.toLowerCase();
             const parts = slug.replace(/^\/|\/$/g, '').split('/');
 
-            // Append parent slug from group object
+            // Add menu item from group object
             // In future it will deprecated
-            if (parts.length <= 1) {
-                const group = result.find(r => r.path == groupKey);
+            if (parts.length === 1 && key !== DEFAULT_DASHBOARD_KEY) {
+                const group = data.find(r => r.path == groupKey);
 
                 if (!group) {
-                    result.push({
+                    data.push({
                         path: groupKey,
                         position: groupOrder,
                         icon: groupIcon || configIcon,
@@ -43,21 +47,21 @@ export function buildMenuTree(dashboards: Dashboard[]): MenuItem[] {
                     });
                 }
 
+                // Prepend config key to nested slug
                 parts.unshift(groupKey);
             }
 
             // Support nested slug
             parts.reduce((tree, path) => {
                 // Skip route which has a required param
+                // It will display if parent route have not been added
                 if (path.startsWith(':')) {
                     return { path, children: [] };
                 }
 
-                let node = (tree.children = tree.children || []).find(t => t.path === path);
+                let node = (tree.children = tree.children || []).find(child => child.path === path);
 
-                if (!node &&
-                    path !== groupKey // TODO(yaroslav): hack
-                ) {
+                if (!node) {
                     node = {
                         path,
                         position: configOrder,
@@ -74,9 +78,9 @@ export function buildMenuTree(dashboards: Dashboard[]): MenuItem[] {
 
                 return node;
 
-            }, { children: result });
+            }, { children: data });
 
-            return result;
+            return data;
         }, []);
 
     return _.orderBy(result, [ 'position' ], 'asc');
