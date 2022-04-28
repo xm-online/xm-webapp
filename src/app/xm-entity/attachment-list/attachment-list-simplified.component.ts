@@ -85,7 +85,7 @@ export class AttachmentListSimplifiedComponent extends AttachmentListBaseCompone
 
     public ngOnInit(): void {
         super.ngOnInit();
-        if (this.entityUiConfig.attachments && this.entityUiConfig.attachments.noData) {
+        if (this?.entityUiConfig?.attachments && this?.entityUiConfig?.attachments?.noData) {
             this.noDataText = this.entityUiConfig.attachments.noData;
         }
     }
