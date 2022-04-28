@@ -102,7 +102,7 @@ export class ExtMultiSelectComponent extends BaseExtSelectComponent implements O
         this.filteredElementsMulti
             .pipe(take(1), takeUntil(this._onDestroy))
             .subscribe(() => {
-                this.multiSelect.compareWith = (a: Element, b: Element) => a.value === b.value;
+                this.multiSelect.compareWith = (a: Element, b: Element) => a.value === b?.value;
             });
     }
 
