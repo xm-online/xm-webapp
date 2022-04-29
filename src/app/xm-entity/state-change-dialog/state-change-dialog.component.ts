@@ -61,7 +61,11 @@ export class StateChangeDialogComponent implements OnInit {
             (r) => {
                 this.onSuccessFunctionCall(r);
             },
-            () => this.alert('error', 'xm-entity.function-list-card.change-state.error'),
+            (err) => {
+                if (err && !err.handled) {
+                    this.alert('error', 'xm-entity.function-list-card.change-state.error')
+                }
+            },
         );
 
     }

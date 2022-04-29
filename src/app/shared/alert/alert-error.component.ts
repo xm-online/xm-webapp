@@ -92,6 +92,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                         this.router.navigate([redirect]);
                     }
                 });
+                response.content.handled = true;
                 break;
             }
             case 'ignore': {
@@ -116,6 +117,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 }, {
                     type: messageSettings[1],
                 });
+                response.content.handled = true;
                 break;
             }
             default: {
