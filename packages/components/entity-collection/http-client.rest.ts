@@ -71,7 +71,7 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
         const extra = {
             pageIndex: 0,
             pageSize: res.body?.length || 0,
-            total: res.body?.length || 0,
+            total: res.headers.get('x-total-count') || res.body?.length || 0,
         } as Extra;
         const items = res.body;
         const body = Object.assign(items, extra);
