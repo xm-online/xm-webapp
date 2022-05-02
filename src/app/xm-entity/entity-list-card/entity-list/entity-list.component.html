@@ -39,7 +39,7 @@
 
 <div class="row">
   <!-- start fast search -->
-  <div *xmPermitted="['XMENTITY.SEARCH.QUERY']" class="col-sm-8">
+  <div *xmPermitted="['XMENTITY.SEARCH.QUERY']" class="col">
     <div *ngIf="item.fastSearch?.length > 1" class="xm-button-group mb-3">
       <button (click)="onApplyFastSearch(item, getDefaultSearch(item))"
               *ngIf="true"
