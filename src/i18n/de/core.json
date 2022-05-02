@@ -1,0 +1,1594 @@
+{
+  "Status:": "",
+  "Unauthorized": "Autorisierung benötigen!",
+  "activate": {
+    "messages": {
+      "error": "<strong>Ihr Benutzer konnte nicht aktiviert werden.</strong> Bitte nutzen Sie das Anmeldeformular, um sich anzumelden.",
+      "link": "Anmelden",
+      "register": "Registrierung",
+      "success": "<strong>Ihr Benutzerkonto wurde aktiviert.</strong> Bitte&nbsp;"
+    },
+    "title": "Aktivierung"
+  },
+  "admin-config": {
+    "common": {
+      "cancel": "Abbrechen",
+      "confirm": "Bist du sicher?",
+      "fields": {
+        "config": "Konfiguration",
+        "id": "ID",
+        "layout": "Layout",
+        "name": "Name",
+        "owner": "Eigentümer",
+        "selector": "Selektor",
+        "typeKey": "Schlüssel eingeben"
+      },
+      "menu": {
+        "dashboard-mng": "Dashboards-Konfiguration",
+        "mini": {
+          "dashboard-mng": "D",
+          "specification-mng": "S"
+        },
+        "specification-mng": "Leistungsbeschreibung",
+        "title": "Konfiguration"
+      },
+      "save": "Retten"
+    },
+    "dashboard-detail-dialog": {
+      "add": {
+        "success": "Erfolg",
+        "title": "Hinzufügen eines neuen Dashboards"
+      },
+      "edit": {
+        "success": "Erfolg",
+        "title": "Bearbeiten eines Dashboards"
+      }
+    },
+    "dashboard-list-card": {
+      "export-action": "Export in JSON",
+      "import-action": "Import aus JSON",
+      "title": "Armaturenbretter"
+    },
+    "specification-mng": {
+      "editor": {
+        "add-entity-spec": "Entitätsspezifikation hinzufügen",
+        "add-state-spec": "Statusspezifikation hinzufügen",
+        "apply-changes": "Anwenden von Änderungen",
+        "attachments": "Anhängsel",
+        "color": "Farbe",
+        "coming-soon": "Demnächst...",
+        "comments": "Kommentare",
+        "data-spec": "Datenspezifikation",
+        "delete": "Löschen",
+        "form-spec": "Formularspezifikation",
+        "functions": "Funktionen",
+        "icon": "Ikone",
+        "is-abstract": "Ist abstrakt?",
+        "is-application": "Ist Anwendung?",
+        "key": "Schlüssel",
+        "links": "Verknüpfungen",
+        "locations": "Orte",
+        "name": "Name",
+        "next": "Nächster",
+        "plural-name": "Pluralname",
+        "states": "Staaten"
+      },
+      "entity": {
+        "save": "Entitätsspezifikation aktualisieren",
+        "title": "Entität"
+      },
+      "loading": "Spezifikation wird geladen...",
+      "privateui": {
+        "save": "Private UI-Spezifikation aktualisieren",
+        "title": "Private UI-Spezifikation"
+      },
+      "tenant": {
+        "save": "Mandantenspezifikation aktualisieren",
+        "title": "Mieter"
+      },
+      "timeline": {
+        "save": "Timeline-Spezifikation aktualisieren",
+        "title": "Zeitleiste"
+      },
+      "uaa-login": {
+        "save": "Login-Spezifikation speichern",
+        "title": "Login"
+      },
+      "uaa": {
+        "save": "UAA-Spezifikation speichern",
+        "title": "ZA."
+      },
+      "ui": {
+        "save": "UI-Spezifikation aktualisieren",
+        "title": "BENUTZEROBERFLÄCHE"
+      },
+      "validate": "Validieren"
+    },
+    "widget-detail-dialog": {
+      "add": {
+        "success": "Erfolg",
+        "title": "Hinzufügen eines neuen Widgets"
+      },
+      "edit": {
+        "success": "Erfolg",
+        "title": "Bearbeiten eines Widgets"
+      }
+    },
+    "widget-list-card": {
+      "title": "Widgets"
+    }
+  },
+  "admin-webapp-ext": {
+    "common": {
+      "project": "",
+      "save": ""
+    }
+  },
+  "audits": {
+    "filter": {
+      "from": "Von",
+      "title": "Nach Datum filtern",
+      "to": "An"
+    },
+    "table": {
+      "data": {
+        "remoteAddress": "Remote-Adresse:"
+      },
+      "header": {
+        "data": "Zusätzliche Daten",
+        "date": "Datum",
+        "principal": "Benutzer",
+        "status": "Zustand"
+      }
+    },
+    "title": "Audits"
+  },
+  "cancel": "",
+  "clientManagement": {
+    "client": {
+      "already": {
+        "exists": "Client mit dieser ID ist bereits vorhanden"
+      }
+    },
+    "clientId": "Client-ID",
+    "clientSecret": "Geheimer Clientschlüssel",
+    "createdBy": "Erstellt von",
+    "createdDate": "Erstellungsdatum",
+    "delete": {
+      "question": "Möchten Sie den Client {{ id }} wirklich löschen?"
+    },
+    "description": "Beschreibung",
+    "detail": {
+      "title": "Kunde"
+    },
+    "home": {
+      "createOrEditLabel": "Erstellen oder Bearbeiten eines Clients",
+      "title": "Klienten"
+    },
+    "lastModifiedBy": "Geändert von",
+    "lastModifiedDate": "Änderungsdatum",
+    "role": "Rolle",
+    "roleKey": "Rolle",
+    "roles": "Rollen",
+    "scopes-add": "Hinzufügen von Bereichen",
+    "search-by-client-id": "Suche nach Client-ID",
+    "validityPeriod": "Gültigkeitsdauer"
+  },
+  "commons": {
+    "required-field": ""
+  },
+  "dashboard-config-widget": {
+    "add-widget": "Widget hinzufügen",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "config": "Konfiguration",
+    "copy": "Kopieren",
+    "create": "Schaffen",
+    "create-dashboard": "Dashboard erstellen",
+    "created": "Erstellt {{value}}",
+    "dashboard": "Instrumententafel",
+    "dashboards": "Armaturenbretter",
+    "delete": "Löschen",
+    "deleted": "Gelöscht {{Wert}}",
+    "duplicate": "Duplikat",
+    "edit-dashboard": "Dashboard bearbeiten",
+    "edit-widget": "Widget bearbeiten",
+    "empty": "Leer",
+    "export": "Exportieren",
+    "feedback": {
+      "error": "Nicht gesendet. Versuchen Sie es später erneut",
+      "success": "Erfolgreich gesendetes Feedback",
+      "tooltip": "Feedback senden"
+    },
+    "filter": "Filter",
+    "id": "Id",
+    "import": "Importieren",
+    "layout": "Layout",
+    "name": "Name",
+    "owner": "Eigentümer",
+    "project": "Projekt",
+    "save": "Retten",
+    "saved": "Gespeichert {{Wert}}",
+    "selector": "Selektor",
+    "typeKey": "TypeKey",
+    "updated": "Aktualisiert {{value}}",
+    "widgets": "Widgets"
+  },
+  "entity": {
+    "action": {
+      "back": "Zurück",
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "save": "Retten"
+    },
+    "add": "Hinzufügen",
+    "delete": {
+      "title": "Löschvorgang bestätigen"
+    },
+    "detail": {
+      "square": "Quadrat: {{Quadrat}} m"
+    },
+    "search": "Suchen",
+    "validation": {
+      "maxlength": "Dieses Feld darf nicht länger als {{ max }} Zeichen sein.",
+      "required": "Dieses Feld ist erforderlich."
+    }
+  },
+  "error": {
+    "403": "Sie sind nicht berechtigt, auf die Seite zuzugreifen.",
+    "500": "Interner Serverfehler.",
+    "NotBlank": "Nicht leer",
+    "NotNull": "Feld {{ fieldName }} darf nicht leer sein!",
+    "Size": "Feld {{ fieldName }} erfüllt nicht die Mindest-/Maximalgrößenanforderungen!",
+    "Unauthorized": "Autorisierung benötigen!",
+    "accessDenied": "Zugriff abgelehnt",
+    "access_denied": "Zugriff abgelehnt",
+    "emailexists": "E-Mail ist bereits im Einsatz!",
+    "error": {
+      "accessDenied": "Zugriff abgelehnt",
+      "business": "Weiterleitungsfehler",
+      "internalServerError": "Interner Serverfehler"
+    },
+    "idexists": "Ein neues {{ entityName }} kann nicht bereits eine ID haben",
+    "insufficient_scope": "Unzureichender Anwendungsbereich",
+    "internalServerError": "Interner Serverfehler",
+    "invalid_credentials": "Ungültige Anmeldeinformationen",
+    "invalid_client": "Ungültiger Client",
+    "invalid_grant": "Ungültige Gewährung",
+    "invalid_request": "Ungültige Anfrage",
+    "invalid_scope": "Ungültiger Bereich",
+    "invalid_token": "Ungültiges Token",
+    "notfound": "Ressource nicht gefunden",
+    "privilegeInsufficient": "Unzureichende Berechtigungen '{{ name }}'!",
+    "privilegeOperationWrong": "Operation nicht unterstützt '{{ name }}'!",
+    "redirect_uri_mismatch": "Nicht übereinstimmender Umleitungs-URI",
+    "server": {
+      "not": {
+        "reachable": "Server nicht erreichbar"
+      }
+    },
+    "session_expired": "Die Sitzung ist abgelaufen. Bitte loggen Sie sich ein.",
+    "unauthorized": "Unbefugt",
+    "unauthorized_client": "Nicht autorisierter Client",
+    "unsupported_grant_type": "Nicht unterstützter Gewährungstyp",
+    "unsupported_response_type": "Nicht unterstützter Antworttyp",
+    "url": {
+      "not": {
+        "found": "Nicht gefunden"
+      }
+    },
+    "business": "Weiterleitungsfehler",
+    "concurrencyFailure": "Fehler bei paralleler Anforderung.",
+    "not": {
+      "enough": {
+        "credits": "Nicht genug Credits!"
+      }
+    },
+    "title": "Fehlerseite!",
+    "userexists": "Login-Name bereits verwendet!",
+    "validation": "Fehler bei Eingabeparametern",
+    "wallet": {
+      "not": {
+        "active": "Wallet nicht aktiv!"
+      }
+    }
+  },
+  "ext-common-entity": {
+    "available-offerings-widget": {
+      "action-dialog": {
+        "question": "Bist du sicher, dass du <b>{{action}}</b> zum <b>{{name}}</b> machen willst?"
+      }
+    },
+    "entity-fab-actions": {
+      "operation-error": "Operation fehlgeschlagen!",
+      "operation-success": "Betrieb erfolgreich!"
+    }
+  },
+  "ext-common": {
+    "clock-widget": {
+      "title": "Uhr"
+    },
+    "exchange-widget": {
+      "code": "Code",
+      "course": "Offizieller Kurs",
+      "currency": "Währung",
+      "from": "Von",
+      "number-units": "Anzahl der Einheiten",
+      "select-from": "Währung auswählen aus",
+      "select-to": "Wählen Sie die Währung aus, um",
+      "title": "Exchange-Rechner"
+    },
+    "sign-in-up-widget": {
+      "sign-in": "Anmelden",
+      "sign-up": "Anmelden"
+    },
+    "weather-widget": {
+      "humidity": "Feuchtigkeit",
+      "ms": "M/s",
+      "wind-speed": "Windgeschwindigkeit"
+    }
+  },
+  "formPlayground": {
+    "definition": "Definition",
+    "errors": "— Fehler aus validationErrors():",
+    "liveData": "Live-Daten — von onChanges():",
+    "loading": "(Spezifikation des Ladeformulars...)",
+    "na": "N/A",
+    "output": "Ausgabe",
+    "result": "Ergebnis",
+    "selectSchema": "SCHEMA AUSWÄHLEN",
+    "valid": "Gültig?:"
+  },
+  "gateway": {
+    "routes": {
+      "error": "Achtung: kein Server verfügbar!",
+      "servers": "Verfügbare Server",
+      "service": "Dienst",
+      "url": "URL (englisch)"
+    },
+    "title": "Tor"
+  },
+  "global": {
+    "actionPerformed": "Ausgeführte Aktion",
+    "all": "Alle",
+    "common": {
+      "accept": "Annehmen",
+      "are-you-sure": "Bist du sicher?",
+      "cancel": "Abbrechen",
+      "delete": "Löschen",
+      "delete-message": "{{wert}} entfernen?",
+      "maintenance-description": "Es dauert normalerweise ein paar Minuten, ansonsten wenden Sie sich an Ihren Systemadministrator.",
+      "maintenance-export-entities": "Export der Entität",
+      "maintenance-import-entities": "Import der Entität",
+      "maintenance-message": "Technische Arbeiten in Arbeit... <br>Bitte versuchen Sie es später noch einmal.",
+      "maintenance-reindex-elastic": "elastisch neu indizieren",
+      "maintenance-update-tenant-configuration": "Aktualisieren der Mandantenkonfiguration",
+      "maintenance-update-tenants-configuration": "Aktualisieren der Mandantenkonfiguration",
+      "no": "Nein",
+      "set": "Garnitur",
+      "yes": "Ja",
+      "yes-exit": "Ja, Steig aus!"
+    },
+    "field": {
+      "id": "ID"
+    },
+    "form": {
+      "confirmpassword": "Bestätigung des neuen Passworts",
+      "email": "E-Mail",
+      "firstname": "Vorname",
+      "language": "Sprache",
+      "lastname": "Nachname",
+      "login": "Login",
+      "newpassword": "Neues Passwort",
+      "oldpassword": "Altes Passwort",
+      "otp": "Einmalpasswort",
+      "show-password": "Passwort anzeigen",
+      "signin": "Anmelden"
+    },
+    "item-count": "Zeigt {{first}} - {{second}} von {{total}} Elementen an.",
+    "menu": {
+      "account": {
+        "help": "Hilfe",
+        "help-not-provided": "Inhalt der Hilfeseite nicht angegeben!",
+        "logout": "Abmelden",
+        "mini": {
+          "password": "P",
+          "profile": "ALSO",
+          "settings": "S"
+        },
+        "password": "Passwort",
+        "passwordSetup": "Einladung zum System",
+        "profile": "Profil",
+        "settings": "Einstellungen"
+      },
+      "admin": {
+        "apidocs": "API",
+        "audits": "Audits",
+        "clientManagement": "Kundenverwaltung",
+        "dashboard": "Instrumententafel",
+        "formPlayground": "Form Spielplatz",
+        "gateway": "Tor",
+        "health": "Gesundheit",
+        "logs": "Baumstämme",
+        "main": "Verwaltung",
+        "maintenance": "Instandhaltung",
+        "metrics": "Metrik",
+        "mini": {
+          "apidocs": "Ein",
+          "audits": "Ein",
+          "clientManagement": "C",
+          "dashboard": "D",
+          "formPlayground": "F",
+          "gateway": "G",
+          "health": "H",
+          "logs": "L",
+          "maintenance": "M",
+          "metrics": "M",
+          "rolesManagement": "R",
+          "rolesMatrix": "R",
+          "translation": "T",
+          "userManagement": "Im"
+        },
+        "rolesManagement": "Rollenverwaltung",
+        "rolesMatrix": "Rollenmatrix",
+        "translation": "Übersetzung",
+        "userManagement": "Benutzerverwaltung"
+      },
+      "applications": {
+        "application": "Anwendung",
+        "main": "Anträge"
+      },
+      "dashboards": {
+        "main": "Armaturenbretter"
+      },
+      "entities": {
+        "attachment": "Anhang",
+        "calendar": "Kalender",
+        "comment": "Kommentar",
+        "content": "Inhalt",
+        "country": "Land",
+        "event": "Ereignis",
+        "jhipster-needle-menu-add-entry": "JHipster wird hier zusätzliche Entitäten hinzufügen (nicht übersetzen!)",
+        "link": "Verbinden",
+        "location": "Ort",
+        "main": "Entitäten",
+        "rating": "Bewertung",
+        "tag": "Tag",
+        "vote": "Wählen",
+        "xmEntity": "Xm-Entität"
+      }
+    },
+    "messages": {
+      "error": {
+        "captchaempty": "Bitte überprüfen Sie Captcha.",
+        "dontmatch": "Das Passwort und seine Bestätigung stimmen nicht überein!",
+        "upload-fail": "Upload-Service nicht verfügbar!"
+      },
+      "info": {
+        "authenticated": {
+          "link": "Anmelden",
+          "prefix": "Wenn Sie möchten ",
+          "suffix": "können Sie die Standardkonten ausprobieren:"
+        }
+      },
+      "validate": {
+        "captcha": {
+          "required": "Captcha ist erforderlich."
+        },
+        "confirmpassword": {
+          "maxlength": "Ihr Bestätigungspasswort darf nicht länger als 50 Zeichen sein.",
+          "minlength": "Ihr Bestätigungspasswort muss mindestens 4 Zeichen lang sein.",
+          "password-max-length": "Ihr Bestätigungskennwort darf nicht länger als {{maxLength}}-Zeichen sein.",
+          "password-min-length": "Ihr Bestätigungskennwort muss mindestens aus {{minLength}}-Zeichen bestehen.",
+          "password-pattern": "Ihre Passwortdosis stimmt nicht mit muster {{muster}} überein",
+          "required": "Ihr Bestätigungspasswort ist erforderlich."
+        },
+        "email": {
+          "invalid": "Ihre E-Mail-Adresse ist ungültig.",
+          "maxlength": "Ihre E-Mail darf nicht länger als 50 Zeichen sein.",
+          "minlength": "Ihre E-Mail muss mindestens 5 Zeichen lang sein.",
+          "required": "Ihre E-Mail-Adresse ist erforderlich."
+        },
+        "firstname": {
+          "maxlength": "Ihr Vorname darf nicht länger als 50 Zeichen sein",
+          "minlength": "Ihr Vorname muss mindestens 1 Zeichen lang sein",
+          "required": "Ihr Vorname ist erforderlich."
+        },
+        "lastname": {
+          "maxlength": "Ihr Nachname darf nicht länger als 50 Zeichen sein",
+          "minlength": "Ihr Nachname muss mindestens 1 Zeichen lang sein",
+          "required": "Ihr Nachname ist erforderlich."
+        },
+        "newpassword": {
+          "maxlength": "Ihr Passwort darf nicht länger als 50 Zeichen sein.",
+          "minlength": "Ihr Passwort muss mindestens 4 Zeichen lang sein.",
+          "password-max-length": "Ihr Kennwort darf nicht länger als {{maxLength}}-Zeichen sein.",
+          "password-min-length": "Ihr Passwort muss mindestens aus {{minLength}}-Zeichen bestehen.",
+          "password-pattern": "Ihre Passwortdosis stimmt nicht mit muster {{muster}} überein",
+          "required": "Ihr Passwort ist erforderlich.",
+          "strength": "Passwortstärke:"
+        },
+        "oldpassword": {
+          "maxlength": "Das alte Kennwort darf nicht länger als 50 Zeichen sein.",
+          "minlength": "Das alte Passwort muss mindestens 4 Zeichen lang sein.",
+          "password-max-length": "Das alte Kennwort darf nicht länger als {{maxLength}}-Zeichen sein.",
+          "password-min-length": "Das alte Kennwort muss mindestens aus {{minLength}}-Zeichen bestehen.",
+          "password-pattern": "Ihre Passwortdosis stimmt nicht mit muster {{muster}} überein",
+          "required": "Ein altes Kennwort ist erforderlich."
+        }
+      }
+    },
+    "new": "Neu",
+    "noData": "Keine Daten!",
+    "perPage": "Artikel pro Seite",
+    "rest-select-none-option": "Nichts",
+    "rest-select-placeholder-noresults": "Keine Ergebnisse gefunden",
+    "rest-select-placeholder-search": {
+      "prefix": "",
+      "simple": "Suchen",
+      "suffix": ""
+    },
+    "rest-select-search-more": "Weitere Ergebnisse sind verfügbar. Verfeinern Sie Ihre Suchanfrage!",
+    "ribbon": {
+      "dev": "Entwicklung"
+    },
+    "shared": {
+      "ext-md-editor": {
+        "placeholder": "Klicken Sie auf Bearbeiten, um die Beschreibung im Feld zu ändern",
+        "placeholder-empty": "Feld ist leer! Klicken Sie auf Bearbeiten, um eine Beschreibung in das Feld einzufügen",
+        "save-button": "Änderungen speichern"
+      },
+      "privacy-and-terms-dialog": {
+        "i-agree": "Ich stimme den Nutzungsbedingungen und der Verarbeitung meiner Daten wie in der Datenschutzrichtlinie beschrieben zu",
+        "title": "Datenschutz und Nutzungsbedingungen"
+      }
+    }
+  },
+  "health": {
+    "details": {
+      "details": "Details",
+      "error": "Fehler",
+      "name": "Name",
+      "properties": "Eigenschaften",
+      "value": "Wert"
+    },
+    "indicator": {
+      "binders": "Bindemittel",
+      "cassandra": "Kassandra",
+      "cdb": "CDB",
+      "configServer": "Microservice-Konfigurationsserver",
+      "consul": "Konsul",
+      "db": "Datenbank",
+      "discoveryComposite": "Discovery Composite",
+      "diskSpace": "Festplattenspeicher",
+      "elasticsearch": "Elastische Suche",
+      "healthIndicator": "Gesundheitsindikator",
+      "hlr": "HLR",
+      "hystrix": "Hystrix",
+      "mail": "E-Mail",
+      "refreshScope": "Microservice-Aktualisierungsbereich"
+    },
+    "options": {
+      "done": "Schließen",
+      "instance-name": "Beispiel",
+      "service-name": "Name des Dienstes"
+    },
+    "refresh": {
+      "button": "Auffrischen"
+    },
+    "stacktrace": "Stacktrace",
+    "status": {
+      "DOWN": "HERAB",
+      "OUT_OF_SERVICE": "OUT_OF_SERVICE",
+      "UNKNOWN": "UNBEKANNT",
+      "UP": "OBEN"
+    },
+    "table": {
+      "service": "Name des Dienstes",
+      "status": "Status"
+    },
+    "title": "Gesundheitschecks"
+  },
+  "home": {
+    "subtitle": "Dies ist Ihre Homepage",
+    "title": "Willkommen!"
+  },
+  "login": {
+    "form": {
+      "button": "Anmelden",
+      "hide-password": "Passwort ausblenden",
+      "otpValidateButton": "OTP senden",
+      "otpValidateCancel": "Abbrechen",
+      "password": "Passwort",
+      "rememberMe": "Erinnern Sie sich an mich",
+      "show-password": "Passwort anzeigen"
+    },
+    "messages": {
+      "error": {
+        "authentication": "<strong>Anmeldung fehlgeschlagen!</strong> Bitte überprüfen Sie Ihre Anmeldeinformationen und versuchen Sie es erneut."
+      },
+      "otp": {
+        "notification": "Bitte geben Sie ein Einmalpasswort aus der E-Mail ein"
+      },
+      "idp": {
+        "login-title": "Login mit OAuth 2.0",
+        "wrong-key": "Falscher IDP-Schlüssel oder falsche Clientkonfiguration"
+      }
+    },
+    "password": {
+      "forgot": "Haben Sie Ihr Passwort vergessen?"
+    },
+    "signin": "Anmelden",
+    "signup": "Melden Sie sich an",
+    "title": "Anmelden"
+  },
+  "logs": {
+    "filter": "Filter",
+    "nbloggers": "Es gibt {{ total }} Logger.",
+    "table": {
+      "level": "Niveau",
+      "name": "Name"
+    },
+    "title": "Baumstämme"
+  },
+  "mat": {
+    "paginator": {
+      "firstPageLabel": "Erste Seite",
+      "itemsPerPageLabel": "Artikel pro Seite:",
+      "lastPageLabel": "Letzte Seite",
+      "nextPageLabel": "Nächste Seite",
+      "of": "von",
+      "previousPageLabel": "Vorherige Seite"
+    }
+  },
+  "metrics": {
+    "datasource": {
+      "count": "Zählen",
+      "max": "Max",
+      "mean": "Bedeuten",
+      "min": "Min",
+      "p50": "S. 50",
+      "p75": "S. 75",
+      "p95": "S. 95",
+      "p99": "S. 99",
+      "title": "DataSource-Statistik (Zeit in Millisekunde)",
+      "usage": "Verwendung"
+    },
+    "jvm": {
+      "gc": {
+        "marksweepcount": "Anzahl der Markierungs-Sweeps",
+        "marksweeptime": "Markierung Sweep-Zeit",
+        "scavengecount": "Scavenge-Anzahl",
+        "scavengetime": "Aufräumzeit",
+        "title": "Garbage Collections"
+      },
+      "http": {
+        "active": "Aktive Anfragen:",
+        "code": {
+          "notfound": "Nicht gefunden",
+          "ok": "Okay",
+          "servererror": "Serverfehler"
+        },
+        "table": {
+          "average": "Durchschnitt",
+          "code": "Code",
+          "count": "Zählen",
+          "mean": "Bedeuten"
+        },
+        "title": "HTTP-Anfragen (Ereignisse pro Sekunde)",
+        "total": "Anfragen insgesamt:"
+      },
+      "memory": {
+        "heap": "Heap-Speicher",
+        "nonheap": "Nicht-Heap-Speicher",
+        "title": "Gedächtnis",
+        "total": "Arbeitsspeicher gesamt"
+      },
+      "threads": {
+        "blocked": "Gesperrt",
+        "dump": {
+          "blockedcount": "Blockierte Anzahl",
+          "blockedtime": "Blockierte Zeit",
+          "hide": "Stacktrace ausblenden",
+          "lockname": "Namen sperren",
+          "show": "Stacktrace anzeigen",
+          "title": "Thread-Dump",
+          "waitedcount": "Gewartete Anzahl",
+          "waitedtime": "Wartezeit"
+        },
+        "runnable": "Ausführbar",
+        "timedwaiting": "Zeitgesteuertes Warten",
+        "title": "Fäden",
+        "waiting": "Warten"
+      },
+      "title": "JVM-Metriken"
+    },
+    "options": {
+      "done": "Schließen",
+      "f-all": "Alle",
+      "f-blocked": "Gesperrt",
+      "f-runnable": "Ausführbar",
+      "f-timed-waiting": "Zeitgesteuertes Warten",
+      "f-waiting": "Warten",
+      "instance-name": "Beispiel",
+      "service-name": "Name des Dienstes"
+    },
+    "servicesstats": {
+      "table": {
+        "count": "Zählen",
+        "max": "Max",
+        "mean": "Bedeuten",
+        "min": "Min",
+        "name": "Name des Dienstes",
+        "p50": "S. 50",
+        "p75": "S. 75",
+        "p95": "S. 95",
+        "p99": "S. 99"
+      },
+      "title": "Servicestatistik (Zeit in Millisekunde)"
+    },
+    "title": "Anwendungsmetriken",
+    "updating": "Aktualisierung..."
+  },
+  "navbar": {
+    "notification": "Benachrichtigungen",
+    "search": "Suchen",
+    "toggleNotification": "Navigation ein-/ausblenden"
+  },
+  "password": {
+    "form": {
+      "button": "Retten"
+    },
+    "messages": {
+      "error": "<strong>Ein Fehler ist aufgetreten!</strong> Das Kennwort konnte nicht geändert werden.",
+      "success": "<strong>Passwort geändert!</strong>"
+    },
+    "title": "Passwort für [<b>{{Benutzername}}</b>]"
+  },
+  "register": {
+    "form": {
+      "button": "Registrieren"
+    },
+    "messages": {
+      "error": {
+        "emailempty": "<strong>E-Mails können nicht leer sein!</strong> Bitte wählen Sie eine aus.",
+        "fail": "<strong>Registrierung fehlgeschlagen!</strong> Bitte versuchen Sie es später noch einmal.",
+        "userexists": "<strong>Login bereits registriert!</strong> Bitte wählen Sie eine andere."
+      },
+      "success": "<strong>Anmeldung gespeichert!</strong> Bitte überprüfen Sie Ihre E-Mail zur Bestätigung."
+    },
+    "title": "Registrierung"
+  },
+  "reset": {
+    "finish": {
+      "form": {
+        "button": "Neues Passwort validieren"
+      },
+      "messages": {
+        "error": "Ihr Passwort konnte nicht zurückgesetzt werden. Denken Sie daran, dass eine Passwortanforderung nur 24 Stunden gültig ist.",
+        "info": "Wählen Sie ein neues Passwort",
+        "keyexpired": "Der Anforderungsschlüssel ist abgelaufen.",
+        "keymissing": "Die Reset-Taste fehlt.",
+        "keyused": "Der Anforderungsschlüssel wurde bereits verwendet.",
+        "success": "<strong>Ihr Passwort wurde zurückgesetzt.</strong> Bitte&nbsp;"
+      },
+      "title": "Passwort zurücksetzen"
+    },
+    "request": {
+      "form": {
+        "button": "Passwort zurücksetzen"
+      },
+      "messages": {
+        "info": "Geben Sie die E-Mail-Adresse ein, mit der Sie sich registriert haben",
+        "notfound": "<strong>Die E-Mail-Adresse ist nicht registriert!</strong> Bitte überprüfen Sie und versuchen Sie es erneut",
+        "success": "Überprüfen Sie Ihre E-Mails auf Details zum Zurücksetzen Ihres Passworts."
+      },
+      "title": "Passwort zurücksetzen"
+    },
+    "setup": {
+      "form": {
+        "button": "Setup-Passwort"
+      },
+      "messages": {
+        "error": "Ihr Passwort konnte nicht erstellt werden. Denken Sie daran, dass eine Passwortanforderung nur 24 Stunden gültig ist.",
+        "info": "Neues Passwort erstellen",
+        "success": "<strong>Ihr Passwort wurde erstellt.</strong> Bitte&nbsp;"
+      },
+      "title": "Richten Sie Ihr Passwort ein"
+    }
+  },
+  "rolesManagement": {
+    "basedOn": "Aufgrund",
+    "chooseRole": "Rolle auswählen",
+    "createdBy": "Erstellt von",
+    "createdDate": "Erstellungsdatum",
+    "delete": {
+      "question": "Möchten Sie die Rolle '{{ roleKey }}' wirklich löschen?"
+    },
+    "description": "Beschreibung",
+    "detail": {
+      "permissions": "Erlaubnisse",
+      "title": "Rolle"
+    },
+    "home": {
+      "labelCreate": "Neue Rolle erstellen",
+      "labelEdit": "Rolle bearbeiten",
+      "title": "Rollen"
+    },
+    "key": "Schlüssel",
+    "lastModifiedBy": "Geändert von",
+    "lastModifiedDate": "Änderungsdatum",
+    "matrix": {
+      "title": "Rollenmatrix"
+    },
+    "ok": "Okay",
+    "permission": {
+      "checkAll": "Alle prüfen",
+      "condition": "Zustand",
+      "conditionEnvInfo": "1. Verwenden Sie die SpEL-Funktionalität2<br>. Verwenden Sie # vor <br>variable3. #subject.role, #subject.userKey, #subject.login sind <br>verfügbar4. #env['ipAddress'] ist verfügbar",
+      "conditionResourceInfo": "1. Verwenden Sie die SpEL-Funktionalität2<br>. Verwenden Sie # vor <br>variable3. #subject.role, #subject.userKey, #subject.login sind verfügbar",
+      "createCondition": "Bedingung erstellen",
+      "desc": "Beschreibung",
+      "editCondition": "Bedingung bearbeiten",
+      "envCondition": "Umgebungszustand",
+      "msName": "MS-Name",
+      "notPermitted": "unerlaubt",
+      "onForbid": "Auf Verbieten",
+      "permit": "Erlauben",
+      "permitted": "zulässig",
+      "permittedAny": "mindestens eine",
+      "privilegeKey": "Berechtigungsschlüssel",
+      "resourceCondition": "Ressourcenbedingung"
+    },
+    "selected": "Nur ausgewählt",
+    "variables": "Verfügbare Variablen"
+  },
+  "sessions": {
+    "messages": {
+      "error": "<strong>Ein Fehler ist aufgetreten!</strong> Die Sitzung konnte nicht ungültig gemacht werden.",
+      "success": "<strong>Sitzung ungültig!</strong>"
+    },
+    "table": {
+      "button": "Entkräften",
+      "date": "Datum",
+      "ipaddress": "IP-Adresse",
+      "useragent": "Benutzer-Agent"
+    },
+    "title": "Aktive Sitzungen für [<b>{{Benutzername}}</b>]"
+  },
+  "settings": {
+    "form": {
+      "button": "Retten",
+      "general": "Allgemeine Informationen",
+      "local-time": "Ortszeit: ",
+      "logins": "Anmeldungen",
+      "offset-time": "Zeitzonen-Offset: ",
+      "utc-time": "UTC-Zeit: "
+    },
+    "messages": {
+      "logins": {
+        "success": "<strong>Logins gespeichert!</strong>"
+      },
+      "success": "<strong>Einstellungen gespeichert!</strong>"
+    },
+    "security": {
+      "autoLogout": "Auto logout",
+      "name": "Sicherheitseinstellungen",
+      "seconds": "Nachschlag",
+      "twoFAStatus": "Zwei-Faktor-Authentifizierung"
+    }
+  },
+  "social": {
+    "register": {
+      "errorTitle": "Registrieren Sie sich mit einem externen Konto",
+      "messages": {
+        "error": {
+          "fail": "<strong>Registrierung fehlgeschlagen!</strong> Ein Problem ist während der Validierung Ihres externen Kontos aufgetreten, wir empfehlen Ihnen, es mit einer anderen Verbindung zu versuchen."
+        },
+        "success": "<strong>Anmeldung gespeichert!</strong> Bitte überprüfen Sie Ihre E-Mail zur Bestätigung."
+      },
+      "title": "Registrieren sie sich mit {{ label }}"
+    }
+  },
+  "swagger": {
+    "select-component": "Komponente auswählen"
+  },
+  "tracker": {
+    "table": {
+      "ipaddress": "IP-Adresse",
+      "page": "Aktuelle Seite",
+      "time": "Zeit",
+      "userAgent": "Benutzer-Agent",
+      "userlogin": "Benutzer"
+    },
+    "title": "Echtzeit-Benutzeraktivitäten"
+  },
+  "translate-managment": {
+    "clear-cache-button": "Cache für aktuelle Übersetzungen leeren",
+    "download-button": "Übersetzungen herunterladen",
+    "filter-by-key": "Nach Schlüssel filtern",
+    "filter-by-value": "Nach Wert filtern",
+    "save-all-button": "Alle speichern",
+    "title": "Übersetzungsmanagement"
+  },
+  "userManagement": {
+    "activated": "Aktiviert",
+    "autoLogout": "Auto logout",
+    "createdBy": "Erstellt von",
+    "createdDate": "Erstellungsdatum",
+    "deactivated": "Deaktiviert",
+    "delete": {
+      "question": "Möchten Sie den Benutzer {{ userKey }} wirklich löschen?"
+    },
+    "detail": {
+      "title": "Benutzer"
+    },
+    "error": "Fehler",
+    "firstName": "Vorname",
+    "home": {
+      "createOrEditLabel": "Erstellen oder Bearbeiten eines Benutzers",
+      "editLoginsLabel": "Benutzeranmeldungen aktualisieren",
+      "title": "Benutzer"
+    },
+    "langKey": "Sprache",
+    "lastModifiedBy": "Geändert von",
+    "lastModifiedDate": "Änderungsdatum",
+    "lastName": "Nachname",
+    "logins": "Anmeldungen",
+    "onlineUsers": "Online-Nutzer: ",
+    "role": "Rolle",
+    "search-by-login": "Suche per Login",
+    "success": "Erfolg",
+    "twoFADisabled": "Zwei-Faktor-Authentifizierung deaktiviert",
+    "twoFAEnabled": "Zwei-Faktor-Authentifizierung aktiviert",
+    "userKey": "Benutzerschlüssel"
+  },
+  "wordAutocomplete": {
+    "hint": "Geben Sie STRG+LEERTASTE ein, um die QuickInfo anzuzeigen",
+    "noVariables": "Wort nicht finden"
+  },
+  "xm-balance": {
+    "balance-detail-dialog": {
+      "title": "Balance-Detail"
+    },
+    "balance-list-card": {
+      "title": "Salden"
+    },
+    "common": {
+      "cancel": "Abbrechen",
+      "fields": {
+        "amount": "Menge",
+        "end-date": "Enddatum",
+        "label": "Etikett",
+        "start-date": "Startdatum"
+      }
+    }
+  },
+  "xm-bool-control": {
+    "cancel": "Abbrechen",
+    "false": "FALSE",
+    "true": "STIMMT"
+  },
+  "xm-control-errors": {
+    "validators": {
+      "email": "Ihre E-Mail-Adresse ist falsch.",
+      "max": "Der Maximalwert ist {{min}}.",
+      "maxlength": "Darf {{requiredLength}}-Zeichen nicht überschreiten.",
+      "min": "Der Mindestwert ist {{min}}.",
+      "minlength": "Muss mindestens aus {{requiredLength}}-Zeichen bestehen.",
+      "pattern": "Feld falsch ausgefüllt.",
+      "required": "Das Feld ist Pflichtfeld."
+    }
+  },
+  "xm-entity": {
+    "attachment-card": {
+      "delete": {
+        "button": "Ja, löschen!",
+        "button-cancel": "Abbrechen",
+        "remove-error": "Anlage nicht entfernt. Wiederholen.",
+        "remove-success": "Anlage wurde erfolgreich entfernt.",
+        "title": "Möchten Sie die Anlage wirklich löschen?"
+      },
+      "no-data": "Keine angehängten Dateien",
+      "title": "Anhängsel",
+      "volume": {
+        "GB": "Gb",
+        "KB": "Kb",
+        "MB": "MB",
+        "PB": "Pb",
+        "TB": "Tb",
+        "bytes": "Bytes"
+      }
+    },
+    "attachment-detail-dialog": {
+      "add": {
+        "success": "Anlage erfolgreich hinzugefügt."
+      },
+      "choose-type": "Anlagentyp auswählen",
+      "title": "Neuen Anhang für die",
+      "upload": "Klicken Sie hier, um die Datei hochzuladen oder abzulegen",
+      "wrong-type-error": ""
+    },
+    "calendar-card": {
+      "calendar": {
+        "btn-list-day": "Tag (Liste)",
+        "btn-list-week": "Woche (Liste)"
+      },
+      "delete": {
+        "button": "Ja, löschen!",
+        "button-cancel": "Abbrechen",
+        "remove-error": "Ereignis nicht entfernt. Wiederholen.",
+        "remove-success": "Ereignis wurde erfolgreich entfernt.",
+        "title": "Möchten Sie das Ereignis wirklich löschen?"
+      }
+    },
+    "calendar-event-dialog": {
+      "add": {
+        "success": "Ereignis wurde erfolgreich hinzugefügt."
+      },
+      "choose-type": "Ereignistyp auswählen",
+      "title": "Neues Ereignis für die"
+    },
+    "comment-detail-dialog": {
+      "add": {
+        "success": "Kommentar erfolgreich hinzugefügt."
+      },
+      "choose-type": "Kommentartyp auswählen",
+      "title": "Neuen Kommentar für die"
+    },
+    "common": {
+      "add": "Hinzufügen",
+      "add-avatar": "Avatar hinzufügen",
+      "cancel": "Abbrechen",
+      "change-avatar": "Avatar ändern",
+      "close": "Schließen",
+      "fields": {
+        "addressLine1": "Adresszeile 1",
+        "addressLine2": "Adresszeile 2",
+        "city": "Stadt",
+        "description": "Beschreibung",
+        "end-date": "Enddatum",
+        "id": "ID",
+        "latitude": "Breite",
+        "longitude": "Länge",
+        "message": "Kommentar",
+        "name": "Name",
+        "region": "Region",
+        "start-date": "Startdatum",
+        "state": "Zustand",
+        "title": "Titel",
+        "type": "Art",
+        "zip": "PLZ"
+      },
+      "save": "Retten",
+      "search": "Suchen",
+      "validation": {
+        "coordinates": "Dieses Feld stimmt nicht mit dem Format von Breiten- und Längengrad überein.",
+        "date-time": "Dieses Feld sollte ein Datum und eine Uhrzeit sein.",
+        "pattern": "Dieses Feld stimmt nicht mit den Regeln überein",
+        "required": "Dieses Feld ist erforderlich."
+      }
+    },
+    "entity-data-card": {
+      "title": "Daten",
+      "update-error": "Nicht aktualisiert. Wiederholen.",
+      "update-success": "Erfolgreich aktualisiert.",
+      "change-avatar": "Bild ändern"
+    },
+    "entity-detail-dialog": {
+      "add": {
+        "choose-type": "Entitätstyp auswählen",
+        "title": "Hinzufügen einer neuen Entität"
+      },
+      "edit": {
+        "title": "Bearbeiten einer Entität"
+      }
+    },
+    "entity-detail-fab": {
+      "edit-entity": "Redigieren",
+      "new-attachment": "Neuen Anhang hinzufügen",
+      "new-comment": "Neuen Kommentar hinzufügen",
+      "new-link": "Neuen Link hinzufügen",
+      "new-location": "Neuen Standort hinzufügen"
+    },
+    "entity-list-card": {
+      "action-dialog": {
+        "question": "Bist du sicher, dass du <b>{{action}}</b> zum <b>{{name}}</b> machen willst?"
+      },
+      "delete": {
+        "button": "Ja, löschen!",
+        "button-cancel": "Abbrechen",
+        "remove-error": "Nicht entfernt. Wiederholen.",
+        "remove-success": "Erfolgreich entfernt.",
+        "title": "Sind Sie sicher, dass Sie löschen möchten?"
+      },
+      "export": {
+        "action": {
+          "csv": "CSV-Datei",
+          "downloads": "Downloads",
+          "xls": "XLS"
+        }
+      },
+      "filters-hide": "Filter ausblenden",
+      "filters-show": "Filter anzeigen",
+      "open": "Offen",
+      "refresh": "Auffrischen"
+    },
+    "entity-list-fab": {
+      "new-generated": "Erzeugt!"
+    },
+    "function-list-card": {
+      "change-state": {
+        "button": "Ja, Veränderung!",
+        "error": "Status nicht geändert. Wiederholen.",
+        "success": "Status wurde erfolgreich geändert.",
+        "title": "Sind Sie sicher, dass Sie den Status ändern möchten?"
+      },
+      "current-state": "Aktueller Stand: ",
+      "general-group": "Allgemeine Funktionen",
+      "next-states": "Nächste Status, die während des Lebenszyklus verfügbar sind:",
+      "other-functions": "Weitere Funktionen:",
+      "title": "Funktionen"
+    },
+    "link-detail-dialog": {
+      "add-link": "Hinzufügen",
+      "add": {
+        "build-type-new": "Neu",
+        "build-type-search": "Suchen",
+        "error": "Link nicht hinzugefügt. Wiederholen.",
+        "success": "Link erfolgreich hinzugefügt.",
+        "title": "Neuen Link für die"
+      },
+      "show-more": "Zeige mehr"
+    },
+    "link-list-card": {
+      "delete": {
+        "button": "Ja, löschen!",
+        "button-cancel": "Abbrechen",
+        "remove-error": "Link nicht entfernt. Wiederholen.",
+        "remove-success": "Link wurde erfolgreich entfernt.",
+        "title": "Sind Sie sicher, dass Sie Link löschen möchten?"
+      },
+      "list-view": "Listenansicht",
+      "tree-view": "Baumansicht"
+    },
+    "link-list-tree-section": {
+      "collapse": "Diesen Zweig reduzieren"
+    },
+    "location-detail-dialog": {
+      "add": {
+        "success": "Speicherort erfolgreich hinzugefügt.",
+        "title": "Fügen Sie einen neuen Speicherort für die"
+      },
+      "choose-country": "Land wählen",
+      "choose-type": "Standorttyp auswählen (erforderlich)",
+      "countries": {
+        "AD": "Andorra",
+        "AE": "Vereinigte Arabische Emirate",
+        "AF": "Afghanistan",
+        "AG": "Antigua und Barbuda",
+        "AI": "Anguilla",
+        "AL": "Albanien",
+        "AM": "Armenien",
+        "AO": "Angola",
+        "AQ": "Antarktis",
+        "AR": "Argentinien",
+        "AS": "Amerikanisch-Samoa",
+        "AT": "Österreich",
+        "AU": "Australien",
+        "AW": "Aruba",
+        "AX": "Åland-Inseln",
+        "AZ": "Aserbaidschan",
+        "BA": "Bosnien und Herzegowina",
+        "BB": "Barbados",
+        "BD": "Bangladesch",
+        "BE": "Belgien",
+        "BF": "Burkina Faso",
+        "BG": "Bulgarien",
+        "BH": "Bahrain",
+        "BI": "Burundi",
+        "BJ": "Benin",
+        "BL": "Heiliger Barthélemy",
+        "BM": "Bermuda",
+        "BN": "Brunei Darussalam",
+        "BO": "Bolivien",
+        "BQ": "Bonaire, Sint Eustatius und Saba",
+        "BR": "Brazilien",
+        "BS": "Bahamas",
+        "BT": "Bhutan",
+        "BV": "Bouvetinsel",
+        "BW": "Botsuana",
+        "BY": "Belarus",
+        "BZ": "Belize",
+        "CA": "Kanada",
+        "CC": "Kokosinseln (Keelinginseln)",
+        "CD": "Kongo, Demokratische Republik Kongo",
+        "CF": "Zentralafrikanische Republik",
+        "CG": "Kongo",
+        "CH": "Schweiz",
+        "CI": "Elfenbeinküste",
+        "CK": "Cookinseln",
+        "CL": "Chile",
+        "CM": "Kamerun",
+        "CN": "China",
+        "CO": "Kolumbien",
+        "CR": "Costa Rica",
+        "CU": "Kuba",
+        "CV": "Kap Verde",
+        "CW": "Curaçao",
+        "CX": "Weihnachtsinsel",
+        "CY": "Zypern",
+        "CZ": "Tschechische Republik",
+        "DE": "Deutschland",
+        "DJ": "Dschibuti",
+        "DK": "Dänemark",
+        "DM": "Dominica",
+        "DO": "Dominikanische Republik",
+        "DZ": "Algerien",
+        "EC": "Ecuador",
+        "EE": "Estland",
+        "EG": "Ägypten",
+        "EH": "Westsahara",
+        "ER": "Eritrea",
+        "ES": "Spanien",
+        "ET": "Äthiopien",
+        "FI": "Finnland",
+        "FJ": "Fidschi",
+        "FK": "Falklandinseln (Malwinen)",
+        "FM": "Mikronesien, Föderierte Staaten von",
+        "FO": "Färöer Inseln",
+        "FR": "Frankreich",
+        "GA": "Gabun",
+        "GB": "Vereinigtes Königreich",
+        "GD": "Grenada",
+        "GE": "Georgien",
+        "GF": "Französisch-Guayana",
+        "GG": "Guernsey",
+        "GH": "Ghana",
+        "GI": "Gibraltar",
+        "GL": "Grönland",
+        "GM": "Gambia",
+        "GN": "Guinea",
+        "GP": "Guadeloupe",
+        "GQ": "Äquatorialguinea",
+        "GR": "Griechenland",
+        "GS": "Südgeorgien und die Südlichen Sandwichinseln",
+        "GT": "Guatemala",
+        "GU": "Guam",
+        "GW": "Guinea-Bissau",
+        "GY": "Guyana",
+        "HK": "Hongkong",
+        "HM": "Heard Island und McDonaldInseln",
+        "HN": "Honduras",
+        "HR": "Kroatien",
+        "HT": "Haiti",
+        "HU": "Ungarn",
+        "ID": "Indonesisch",
+        "IE": "Irland",
+        "IL": "Israel",
+        "IM": "Insel Man",
+        "IN": "Indien",
+        "IO": "Britisches Territorium im Indischen Ozean",
+        "IQ": "Irak",
+        "IR": "Iran, Islamische Republik",
+        "IS": "Island",
+        "IT": "Italien",
+        "JE": "Jersey",
+        "JM": "Jamaika",
+        "JO": "Jordanien",
+        "JP": "Japan",
+        "KE": "Kenia",
+        "KG": "Kirgistan",
+        "KH": "Kambodscha",
+        "KI": "Kiribati",
+        "KM": "Komoren",
+        "KN": "St. Kitts und Nevis",
+        "KP": "Nordkorea",
+        "KR": "Südkorea",
+        "KW": "Kuwait",
+        "KY": "Kaimaninseln",
+        "KZ": "Kasachstan",
+        "LA": "Demokratische Volksrepublik Laos",
+        "LB": "Libanon",
+        "LC": "St. Lucia",
+        "LI": "Liechtenstein",
+        "LK": "Sri Lanka",
+        "LR": "Liberia",
+        "LS": "Lesotho",
+        "LT": "Litauen",
+        "LU": "Luxemburg",
+        "LV": "Lettland",
+        "LY": "Libysch-Arabische Dschamahirija",
+        "MA": "Marokko",
+        "MC": "Monaco",
+        "MD": "Moldawien, Republik",
+        "ME": "Montenegro",
+        "MF": "Saint Martin (französischer Teil)",
+        "MG": "Madagaskar",
+        "MH": "Marshallinseln",
+        "MK": "Mazedonien, ehemalige jugoslawische Republik",
+        "ML": "Mali",
+        "MM": "Myanmar",
+        "MN": "Mongolei",
+        "MO": "Macao",
+        "MP": "Nördliche Marianen",
+        "MQ": "Martinique",
+        "MR": "Mauretanien",
+        "MS": "Montserrat",
+        "MT": "Malta",
+        "MU": "Mauritius",
+        "MV": "Malediven",
+        "MW": "Malawi",
+        "MX": "Mexiko",
+        "MY": "Malaysien",
+        "MZ": "Mosambik",
+        "NA": "Namibia",
+        "NC": "Neukaledonien",
+        "NE": "Niger",
+        "NF": "Norfolkinsel",
+        "NG": "Nigeria",
+        "NI": "Nicaragua",
+        "NL": "Niederlande",
+        "NO": "Norwegen",
+        "NP": "Nepal",
+        "NR": "Nauru",
+        "NU": "Niue",
+        "NZ": "Neuseeland",
+        "OM": "Oman",
+        "PA": "Panama",
+        "PE": "Peru",
+        "PF": "Französisch-Polynesien",
+        "PG": "Papua-Neuguinea",
+        "PH": "Philippinen",
+        "PK": "Pakistan",
+        "PL": "Polen",
+        "PM": "Saint Pierre und Miquelon",
+        "PN": "Pitcairn",
+        "PR": "Puerto Rico",
+        "PS": "Palästinensisches Gebiet, besetzt",
+        "PT": "Portugal",
+        "PW": "Palast",
+        "PY": "Paraguay",
+        "QA": "Katar",
+        "RE": "Wiedervereinigung",
+        "RO": "Rumänien",
+        "RS": "Serbien",
+        "RU": "Russische Föderation",
+        "RW": "Ruanda",
+        "SA": "Saudi-Arabien",
+        "SB": "Salomonen",
+        "SC": "Seychellen",
+        "SD": "Sudan",
+        "SE": "Schweden",
+        "SG": "Singapur",
+        "SH": "St. Helena",
+        "SI": "Slowenien",
+        "SJ": "Svalbard und Jan Mayen",
+        "SK": "Slowakei",
+        "SL": "Sierra Leone",
+        "SM": "San Marino",
+        "SN": "Senegal",
+        "SO": "Somalia",
+        "SR": "Suriname",
+        "SS": "Südsudan",
+        "ST": "Sao Tome und Principe",
+        "SV": "El Salvador",
+        "SX": "Sint Maarten (niederländischer Teil)",
+        "SY": "Arabische Republik Syrien",
+        "SZ": "Swasiland",
+        "TC": "Turks- und Caicosinseln",
+        "TD": "Tschad",
+        "TF": "Französische Südterritorien",
+        "TG": "Togo",
+        "TH": "Thailand",
+        "TJ": "Tadschikistan",
+        "TK": "Tokelau",
+        "TL": "Osttimor",
+        "TM": "Turkmenistan",
+        "TN": "Tunesien",
+        "TO": "Tonga",
+        "TR": "Turkei",
+        "TT": "Trinidad und Tobago",
+        "TV": "Tuvalu",
+        "TW": "Taiwan",
+        "TZ": "Tansania, Vereinigte Republik",
+        "UA": "Ukraine",
+        "UG": "Uganda",
+        "UM": "Vereinigte Staaten Minor Outlying Islands",
+        "US": "Vereinigte Staaten von Amerika",
+        "UY": "Uruguay",
+        "UZ": "Usbekistan",
+        "VA": "Heiliger Stuhl (Staat Vatikanstadt)",
+        "VC": "St. Vincent und die Grenadinen",
+        "VE": "Venezuela",
+        "VG": "Jungferninseln, Britisch",
+        "VI": "Jungferninseln, USA",
+        "VN": "Vietnam",
+        "VU": "Vanuatu",
+        "WF": "Wallis und Futuna",
+        "WS": "Samoa",
+        "XK": "Kosovo",
+        "YE": "Jemen",
+        "YT": "Mayotte",
+        "ZA": "Südafrika",
+        "ZM": "Sambia",
+        "ZW": "Zimbabwe"
+      },
+      "edit": {
+        "success": "Der Standort wurde erfolgreich geändert.",
+        "title": "Bearbeiten eines Speicherorts für die"
+      }
+    },
+    "location-list-card": {
+      "delete": {
+        "button": "Ja, löschen!",
+        "button-cancel": "Abbrechen",
+        "remove-error": "Speicherort nicht entfernt. Wiederholen.",
+        "remove-success": "Speicherort wurde erfolgreich entfernt.",
+        "title": "Möchten Sie den Standort wirklich löschen?"
+      },
+      "title": "Orte"
+    },
+    "rating-list-section": {
+      "vote-error": "Ihre Stimme wird nicht berücksichtigt.",
+      "vote-success": "Ihre Stimme wird berücksichtigt.",
+      "votes": "Stimme(n)"
+    },
+    "states-management-dialog": {
+      "choose-state": "Status auswählen",
+      "title": "Details zu den Zuständen"
+    },
+    "tag-list-section": {
+      "add-error": "Tag nicht hinzugefügt. Wiederholen.",
+      "remove-error": "Tag nicht entfernt. Wiederholen.",
+      "type-tag": "type-Tag ..."
+    }
+  },
+  "xm-enum": {
+    "other": "Andere",
+    "others": "Andere"
+  },
+  "xm-navbar-language-menu": {
+    "choose-language": "Wählen Sie eine Sprache"
+  },
+  "xm-notifications": {
+    "showAll": "Alle anzeigen"
+  },
+  "xm-timeline": {
+    "common": {
+      "time-ago": {
+        "day": "vor einem Tag",
+        "days": " Tage",
+        "hour": "vor einer Stunde",
+        "hours": " Stunden",
+        "minute": "vor einer Minute",
+        "minutes": " vor Minuten",
+        "month": "vor einem Monat",
+        "months": " Monaten",
+        "seconds": "vor ein paar Sekunden",
+        "year": "vor einem Jahr",
+        "years": " Jahren"
+      }
+    },
+    "timeline": {
+      "by": "bis",
+      "error": "FEHLER",
+      "more": "mehr Timeline-Ereignisse...",
+      "success": "ERFOLG",
+      "title": "Zeitleiste"
+    }
+  },
+  "xm": {
+    "defaultProfile": {
+      "created": "Ein neues Standardprofil wird mit dem Bezeichner {{ param }} erstellt.",
+      "dashboard": "Instrumententafel",
+      "delete": {
+        "question": "Möchten Sie das Standardprofil {{ id }} wirklich löschen?"
+      },
+      "deleted": "Ein Standardprofil wird mit dem Bezeichner {{ param }} gelöscht",
+      "detail": {
+        "title": "Standardprofil"
+      },
+      "home": {
+        "createLabel": "Erstellen eines neuen Standardprofils",
+        "createOrEditLabel": "Erstellen oder Bearbeiten eines Standardprofils",
+        "search": "Suchen nach Standardprofil",
+        "title": "Standardprofile"
+      },
+      "roleKey": "Rollenschlüssel",
+      "updated": "Ein Standardprofil wird mit dem Bezeichner {{ param }} aktualisiert."
+    },
+    "delete": {
+      "question": "Sind Sie sicher, dass Sie [ <b>{{name}} ]</b> löschen möchten?"
+    },
+    "export-entities": {
+      "btn-cancel": "Abbrechen",
+      "btn-export": "Exportieren",
+      "details-title": "Exportunternehmen",
+      "message-error": "Export fehlgeschlagen!",
+      "message-success": "Erfolgreich exportiert!",
+      "no-params-required": "Keine erforderlichen Parameter!",
+      "step-1": "Type auswählenSchlüssel der Entität",
+      "step-2": "Wählen Sie die erforderlichen Parameter"
+    },
+    "import-entities": {
+      "btn-cancel": "Abbrechen",
+      "btn-import": "Importieren",
+      "details-title": "Entität importieren",
+      "file-process-error": "Datei beschädigt oder hat eine andere Erweiterung .json!",
+      "message-error": "Import fehlgeschlagen!",
+      "message-success": "Erfolgreich importiert!",
+      "upload-btn-text": "Aus JSON-Datei laden"
+    },
+    "profile": {
+      "created": "Ein neues Profil wird mit dem Bezeichner {{ param }} erstellt",
+      "dashboards": "Armaturenbretter",
+      "delete": {
+        "question": "Möchten Sie das Profil {{ id }} wirklich löschen?"
+      },
+      "deleted": "Ein Profil wird mit dem Bezeichner {{ param }} gelöscht",
+      "detail": {
+        "title": "Profil"
+      },
+      "home": {
+        "createLabel": "Neues Profil erstellen",
+        "createOrEditLabel": "Erstellen oder Bearbeiten eines Profils",
+        "search": "Suche nach Profil",
+        "title": "Profile"
+      },
+      "login": "Login",
+      "updated": "Ein Profil wird mit dem Bezeichner {{ param }} aktualisiert"
+    },
+    "xmEntity": {
+      "add": {
+        "chooseType": "Entitätstyp auswählen",
+        "title": "Hinzufügen einer neuen Entität"
+      },
+      "addPhoto": "Foto hinzufügen",
+      "change": "Veränderung",
+      "data": "Daten",
+      "description": "Beschreibung",
+      "edit": {
+        "title": "Bearbeiten einer Entität [<b>{{Name}}</b>]"
+      },
+      "endDate": "Enddatum",
+      "functions": "Funktionen",
+      "lifecycle": {
+        "nextStates": "Nächste Status, die während des Lebenszyklus verfügbar sind:",
+        "title": "Lebenszyklus"
+      },
+      "listView": "Listenansicht",
+      "locations": "Orte",
+      "name": "Name",
+      "redeem": {
+        "title": "Einlösen"
+      },
+      "search": "Suchergebnis für ",
+      "showMore": "Zeige mehr",
+      "startDate": "Startdatum",
+      "state": "Zustand",
+      "tenant": {
+        "error": {
+          "alreadyUsed": "Bereits verwendeter Mandantenname",
+          "tenantKeyFormat": "Der Mandantenname sollte eine alphanumerische Zeichenfolge mit Unterstrichen sein. Erstes Alphazeichen. Beginnen Sie nicht mit \"pg_\". Maximale Länge beträgt 48 Symbole"
+        }
+      },
+      "title": "Titel",
+      "treeView": "Baumansicht",
+      "type": "Art",
+      "votes": "Stimme(n)"
+    }
+  },
+  "xm-validator-processing": {
+    "validators": {
+      "minDate": "Das ausgewählte Datum ist kleiner als das Mindestdatum ({{minDateI18n}}).",
+      "languageRequired": "",
+      "minArrayLength": "Array ist kleiner als die Mindestlänge ({{requiredLength}}).",
+      "valueMoreThanIn": "Wert ist größer als {{compareValue}}",
+      "valueLessThanIn": "Wert ist kleiner als {{compareValue}}",
+      "severalEmails": "Ungültige E-Mails oder Werte sollten durch das nächste Symbol getrennt werden: ';'",
+      "dateMoreThanIn": "Wert mehr als zulässiger Bereich",
+      "dateLessThanIn": "Der Wert ist kleiner als der zulässige Bereich"
+    }
+  }
+}

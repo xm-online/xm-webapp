@@ -14,6 +14,8 @@ src/i18n/settings.json
 src/i18n/en.json
 src/i18n/ru.json
 src/i18n/uk.json
+src/i18n/de.json
+src/i18n/it.json
 
 src/assets/mock-data
 

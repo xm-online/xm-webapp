@@ -12,6 +12,8 @@ export const HINT_SWITCH_CONFIG = {
         'en': 'Show hint',
         'ru': 'Показать подсказки',
         'uk': 'Показати підказки',
+        'de': 'Hinweis anzeigen',
+        'it': 'Mostra suggerimento',
     },
 };
 
