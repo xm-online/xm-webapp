@@ -7,6 +7,7 @@ const DEFAULT_DASHBOARD_KEY = 'DASHBOARD';
 export function buildMenuTree(dashboards: Dashboard[]): MenuItem[] {
     const result = _.orderBy(dashboards, [ 'config.orderIndex', 'config.slug' ]).reduce(
         (data, {
+            id,
             name: dashboardName,
             config: {
                 slug, hidden = false,
@@ -15,7 +16,7 @@ export function buildMenuTree(dashboards: Dashboard[]): MenuItem[] {
                 orderIndex: configOrder,
                 name: configName,
                 permission,
-            },
+            } = {},
         }) => {
             if (hidden) {
                 return data;
@@ -25,6 +26,38 @@ export function buildMenuTree(dashboards: Dashboard[]): MenuItem[] {
                 name: menuName,
                 group: { icon: groupIcon, key = DEFAULT_DASHBOARD_KEY, name: groupName, orderIndex: groupOrder } = {},
             } = configMenu;
+
+            if (!slug) {
+                console.log(`For dashboard: ${dashboardName}. Slug missing, use id: ${id}`);
+
+                const group = data.find(r => r.path == 'DASHBOARD');
+
+                if (!group) {
+                    data.push({
+                        path: 'DASHBOARD',
+                        position: groupOrder,
+                        icon: 'dashboard',
+                        title: 'Dashboards',
+                        permission: permission || 'DASHBOARD.GET_LIST',
+                        url: [ 'dashboard', `${id}` ],
+                        parent: null,
+                        children: [],
+                    });
+                } else {
+                    group.children.push({
+                        path: 'DASHBOARD',
+                        position: groupOrder,
+                        icon: groupIcon || configIcon,
+                        title: dashboardName,
+                        permission: permission || 'DASHBOARD.GET_LIST',
+                        url: [ 'dashboard', `${id}` ],
+                        parent: null,
+                        children: [],
+                    });
+                }
+
+                return data;
+            }
 
             const groupKey = key.toLowerCase();
             const parts = slug.replace(/^\/|\/$/g, '').split('/');
