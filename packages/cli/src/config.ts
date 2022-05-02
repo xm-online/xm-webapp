@@ -3,6 +3,6 @@ export class Config {
     public targetAngularConfig: string = 'angular.json';
     public extDir: string = 'src/app/ext';
     public extMask: string = this.extDir + '/*';
-    public locales: string[] = ['en', 'ru', 'uk', 'de'];
+    public locales: string[] = ['en', 'ru', 'uk', 'de', 'it'];
 
 }

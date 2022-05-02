@@ -13,6 +13,7 @@ export const HINT_SWITCH_CONFIG = {
         'ru': 'Показать подсказки',
         'uk': 'Показати підказки',
         'de': 'Hinweis anzeigen',
+        'it': 'Mostra suggerimento',
     },
 };
 
