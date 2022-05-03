@@ -28,8 +28,6 @@ export function buildMenuTree(dashboards: Dashboard[]): MenuItem[] {
             } = configMenu;
 
             if (!slug) {
-                console.log(`For dashboard: ${dashboardName}. Slug missing, use id: ${id}`);
-
                 const group = data.find(r => r.path == 'DASHBOARD');
 
                 if (!group) {
