@@ -23,6 +23,7 @@ export interface XmDateControlOptions {
     required?: boolean;
     useUtc?: boolean;
     errors?: XmControlErrorsTranslates;
+    disableFutureDates?: boolean;
 }
 
 const DEFAULT_CONFIG: XmDateControlOptions = {
@@ -40,19 +41,22 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
         <mat-form-field>
             <mat-label>{{options?.title | translate}}</mat-label>
 
-            <input (dateChange)="changeDateControl($event)"
+            <input matInput
+                   (dateChange)="changeDateControl($event)"
                    [formControl]="control"
+                   [min]="null"
+                   [max]="maxDate"
                    [matDatepicker]="picker"
                    [name]="options?.name"
                    [required]="options?.required"
-                   (click)="picker.open()"
-                   matInput>
+                   (click)="picker.open()">
             <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
 
             <mat-datepicker #picker></mat-datepicker>
 
-            <mat-error
-                    *xmControlErrors="control?.errors; translates options?.errors; message as message">{{message}}</mat-error>
+            <mat-error *xmControlErrors="control?.errors; translates options?.errors; message as message">
+                {{message}}
+            </mat-error>
 
             <button mat-button
                     *ngIf="value"
@@ -74,6 +78,8 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
         super(ngControl);
     }
 
+    public maxDate: Date | null;
+
     private _options: XmDateControlOptions = DEFAULT_CONFIG;
 
     @Input()
@@ -82,10 +88,18 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
             ...DEFAULT_CONFIG,
             errors: this.xmControlErrorsTranslates,
         });
+
+        this.maxDate = this.disablingFutureDates();
     }
 
     public get options(): XmDateControlOptions {
         return this._options;
+    }
+
+    public disablingFutureDates(): Date | null {
+        const maxDate = new Date();
+
+        return this.options?.disableFutureDates ? maxDate : null;
     }
 
     public changeDateControl({ value }: MatDatepickerInputEvent<unknown>): void {
