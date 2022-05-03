@@ -8,9 +8,11 @@ import { ContextService } from '../../../src/app/shared';
 import { ActivationEnd, Router } from '@angular/router';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { categoriesToMenuItems, dashboardsToCategories, filterByConditionDashboards } from '@xm-ngx/components/menu';
+import {
+    flatTree,
+    filterByConditionDashboards } from '@xm-ngx/components/menu';
+import { buildMenuTree } from '@xm-ngx/components/menu/nested-menu';
 import * as _ from 'lodash';
-
 
 interface UserOptions {
     roleKey: string;
@@ -21,26 +23,35 @@ interface UserOptions {
 
 const USER_MENU: MenuItem[] = [
     {
+        path: 'settings',
         position: 1,
         permission: 'ACCOUNT.GET_LIST.ITEM',
         url: ['settings'],
         icon: 'settings',
         title: 'global.menu.account.settings',
+        children: [],
+        parent: null,
     },
     {
+        path: 'password',
         position: 2,
         permission: 'ACCOUNT.PASSWORD.UPDATE',
         url: ['password'],
         icon: 'lock',
         title: 'global.menu.account.password',
+        children: [],
+        parent: null,
     },
 ];
 
 const LOGOUT_CONTROL: MenuItem = {
+    path: 'logout',
     position: 3,
     url: ['logout'],
     icon: 'logout',
     title: 'global.menu.account.logout',
+    children: [],
+    parent: null,
 };
 
 const DEFAULT: UserOptions = {
@@ -96,8 +107,8 @@ export class UserWidgetBase implements OnInit, OnDestroy {
             filter((dashboards) => Boolean(dashboards)),
             map((i) => filterByConditionDashboards(i, this.contextService)),
             map((i) => _.filter(i, (j) => (j.config?.menu?.section === 'xm-user'))),
-            map(dashboardsToCategories),
-            map(categoriesToMenuItems),
+            map(dashboards => buildMenuTree(dashboards)),
+            map(tree => flatTree(tree)),
             map((arr) => arr?.length ? arr : USER_MENU),
             shareReplay(1),
         );
