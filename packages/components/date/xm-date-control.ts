@@ -45,7 +45,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
                    (dateChange)="changeDateControl($event)"
                    [formControl]="control"
                    [min]="null"
-                   [max]="disablingFutureDates()"
+                   [max]="maxDate"
                    [matDatepicker]="picker"
                    [name]="options?.name"
                    [required]="options?.required"
@@ -78,6 +78,8 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
         super(ngControl);
     }
 
+    public maxDate: Date | null;
+
     private _options: XmDateControlOptions = DEFAULT_CONFIG;
 
     @Input()
@@ -86,6 +88,8 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
             ...DEFAULT_CONFIG,
             errors: this.xmControlErrorsTranslates,
         });
+
+        this.maxDate = this.disablingFutureDates();
     }
 
     public get options(): XmDateControlOptions {
