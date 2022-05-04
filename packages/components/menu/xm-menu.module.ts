@@ -6,6 +6,7 @@ import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MenuLinkComponent } from './menu-link.component';
 import { MenuComponent } from './menu.component';
+import { CdkTreeModule } from '@angular/cdk/tree';
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import { MenuComponent } from './menu.component';
         MatIconModule,
         XmTranslationModule,
         CommonModule,
+        CdkTreeModule,
         XmPermissionModule,
     ],
     exports: [MenuComponent, MenuLinkComponent],
