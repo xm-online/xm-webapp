@@ -142,7 +142,7 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
         // if onSuccess handler passes, close popup and pass processing to function
         if (this.onSuccess) {
             this.activeModal.close(true);
-            this.onSuccess(data, this.formData);
+            this.onSuccess(data, this.formData, location);
             // if response should be shown but there are no form provided
         } else if (data && this.functionSpec.showResponse && !this.functionSpec.contextDataForm) {
             this.activeModal.close(true);
