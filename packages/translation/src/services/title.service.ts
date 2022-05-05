@@ -1,4 +1,4 @@
-import { Inject, Injectable, LOCALE_ID } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +16,7 @@ export interface IRouteDate {
 export const DEFAULT_TITLE = 'Title';
 
 @Injectable({ providedIn: 'root' })
-export class TitleService implements OnInitialize {
+export class TitleService implements OnInitialize, OnDestroy {
 
     protected subscriptions: Subscription[] = [];
     private postfix: string;
@@ -38,6 +38,9 @@ export class TitleService implements OnInitialize {
                     this.postfix = ' - ' + c.name;
                 } else {
                     this.postfix = '';
+                }
+                if (c.showVersion) {
+                    this.postfix = this.postfix;
                 }
             }),
             this.router.events.pipe(

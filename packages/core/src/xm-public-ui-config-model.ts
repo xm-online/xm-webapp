@@ -56,5 +56,7 @@ export interface UIPublicConfig {
     defaultLayout?: ILayout[];
     idp?: {
         enabled?: boolean;
-    }
+    },
+    ribbon?: boolean;
+    showVersion?: boolean;
 }
