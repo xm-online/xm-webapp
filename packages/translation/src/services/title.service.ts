@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 import { LanguageService, Translate } from './language.service';
-import { environment } from '@xm-ngx/core/environment';
+import { environment } from '../../../../src/environments';
 
 export interface IRouteDate {
     pageTitle?: Translate;
