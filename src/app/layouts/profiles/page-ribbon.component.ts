@@ -44,13 +44,19 @@ export class PageRibbonComponent implements OnInit, OnDestroy {
         this.principal.hasAnyAuthority([SUPER_ADMIN, 'ROLE_ADMIN'])
             .then((value) => {
 
+                console.warn('here 1 %s', value);
+
                 if (value) {
 
                     this.principal.identity().then((role) => {
+                        console.warn('here 2 %s', role);
                         this.roleKey = role.roleKey;
                     });
 
                     this.principal.getAuthenticationState().pipe(take(1)).subscribe((state) => {
+
+                        console.warn('here 3 %s', state);
+
                         if (!state) {
                             this.roleKey = null;
                         }
