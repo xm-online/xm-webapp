@@ -1,4 +1,4 @@
-import { Inject, Injectable, LOCALE_ID } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 import { LanguageService, Translate } from './language.service';
+import { APP_VERSION } from '../../../../src/app/xm.constants';
 
 export interface IRouteDate {
     pageTitle?: Translate;
@@ -16,7 +17,7 @@ export interface IRouteDate {
 export const DEFAULT_TITLE = 'Title';
 
 @Injectable({ providedIn: 'root' })
-export class TitleService implements OnInitialize {
+export class TitleService implements OnInitialize, OnDestroy {
 
     protected subscriptions: Subscription[] = [];
     private postfix: string;
@@ -38,6 +39,9 @@ export class TitleService implements OnInitialize {
                     this.postfix = ' - ' + c.name;
                 } else {
                     this.postfix = '';
+                }
+                if (c.showVersion) {
+                    this.postfix = this.postfix + ` [${APP_VERSION}]`;
                 }
             }),
             this.router.events.pipe(

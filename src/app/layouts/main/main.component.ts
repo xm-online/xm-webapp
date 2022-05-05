@@ -3,6 +3,7 @@ import { UIPublicConfig, XmSessionService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 import { XmApplicationConfigService } from '../../shared/spec';
+import { APP_VERSION } from '../../xm.constants';
 
 @Component({
     selector: 'xm-main',
@@ -18,6 +19,8 @@ export class XmMainComponent implements OnInit, OnDestroy {
         private xmConfigService: XmApplicationConfigService,
         private sessionService: XmSessionService,
     ) {
+        // eslint-disable-next-line no-console
+        console.log(`app version ${APP_VERSION}`);
     }
 
     public ngOnInit(): void {
