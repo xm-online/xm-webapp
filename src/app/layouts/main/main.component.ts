@@ -3,7 +3,7 @@ import { UIPublicConfig, XmSessionService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 import { XmApplicationConfigService } from '../../shared/spec';
-import { environment } from '@xm-ngx/core/environment';
+import { environment } from '../../../../src/environments';
 
 @Component({
     selector: 'xm-main',
