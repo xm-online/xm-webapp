@@ -31,6 +31,7 @@ export interface EntityCalendarUiConfig {
 export type CalendarView = 'month' | 'week' | 'day';
 
 export type EntityDetailLayout = 'DEFAULT' | 'ALL-IN-ROW' | 'COMPACT';
+export type EntityDetailDisplayMode = 'HEAD' | 'BODY' | 'BOTH';
 
 export interface EntityUiConfig {
     typeKey: string;
@@ -43,4 +44,5 @@ export interface EntityUiConfig {
     links?: { items: EntityLinkUiConfig[] };
     calendars?: { items: EntityCalendarUiConfig[] };
     noData?: TranslationSet;
+    displayMode?: EntityDetailDisplayMode;
 }
