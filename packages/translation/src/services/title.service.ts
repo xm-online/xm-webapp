@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 import { LanguageService, Translate } from './language.service';
-import { environment } from '../../../../src/environments';
 
 export interface IRouteDate {
     pageTitle?: Translate;
@@ -41,7 +40,7 @@ export class TitleService implements OnInitialize, OnDestroy {
                     this.postfix = '';
                 }
                 if (c.showVersion) {
-                    this.postfix = this.postfix + ` [${environment?.version}]`;
+                    this.postfix = this.postfix;
                 }
             }),
             this.router.events.pipe(
