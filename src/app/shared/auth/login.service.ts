@@ -8,7 +8,7 @@ import { SessionStorageService } from 'ngx-webstorage';
 import { IDP_CLIENT, XM_EVENT_LIST } from '../../xm.constants';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { DOCUMENT, Location } from '@angular/common';
-import { IIdpClient, IIdpConfig } from '../../../../packages/core/src/xm-public-idp-config-model';
+import { IIdpClient, IIdpConfig } from '@xm-ngx/core';
 import { environment } from '@xm-ngx/core/environment';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
@@ -100,6 +100,11 @@ export class LoginService {
             || this.router.url === '/finishReset'
             || this.router.url === '/requestReset') {
             this.router.navigate(['']);
+        }
+
+
+        if (!environment?.production) {
+            console.info('[dbg] broadcast %s', XM_EVENT_LIST.XM_SUCCESS_AUTH);
         }
 
         this.eventManager.broadcast({

@@ -17,7 +17,7 @@ import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-co
 
 declare let $: any;
 
-const FUNC_CONTEXT_URL = '/api/function-contexts/';
+const FUNC_CONTEXT_URL = '`/api/function-contexts/`';
 
 @Component({
     selector: 'xm-function-call-dialog',
@@ -138,7 +138,15 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
 
     private onSuccessFunctionCall(r: any): void {
         const data = r.body && r.body.data;
-        const location = r.headers.get('location');
+        let location: string = r.headers.get('location');
+
+        if (location) {
+            location = location.split(',')
+                .filter(it => !it)
+                .map(it => it.trim())
+                .find(it => it != FUNC_CONTEXT_URL);
+        }
+
         // if onSuccess handler passes, close popup and pass processing to function
         if (this.onSuccess) {
             this.activeModal.close(true);
@@ -168,7 +176,7 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
 
     private processLocation(location: string, data: unknown): void {
         this.activeModal.close(true);
-        if (location !== FUNC_CONTEXT_URL) {
+        if (location) {
             this.router.navigate(
                 [location],
                 {queryParams: data},
