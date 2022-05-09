@@ -176,7 +176,6 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
 
     private processLocation(location: string, data: unknown): void {
         this.activeModal.close(true);
-        console.warn(location, data);
         if (location) {
             this.router.navigate(
                 [location],
