@@ -18,10 +18,22 @@ interface IValue<V> {
     value: V;
 }
 
-/** Determines input(control) options. */
+/**
+ * @deprecated
+ * Determines input(control) options.
+ **/
 interface IOptions<O> {
-    /** Input options. */
-    options: O;
+    /**
+     * @deprecated
+     * Input options.
+     **/
+    options?: O;
+}
+
+/** Determines input(control) config. */
+interface XmDynamicConfig<O> {
+    /** Input config. */
+    config?: O;
 }
 
 /**
@@ -29,11 +41,16 @@ interface IOptions<O> {
  *
  * @public
  */
-export interface XmDynamicPresentation<V = unknown, O = unknown> extends XmDynamic, IValue<V>, IOptions<O> {
+export interface XmDynamicPresentation<V = unknown, O = unknown> extends XmDynamic, IValue<V>, IOptions<O>, XmDynamicConfig<O> {
     /** {@inheritDoc IValue} */
     value: V;
-    /** {@inheritDoc IOptions.value} */
-    options: O;
+    /**
+     * @deprecated
+     * This field will deprecated
+     **/
+    options?: O;
+    /** {@inheritDoc IConfig.value} */
+    config?: O;
 }
 
 export interface XmDynamicPresentationConstructor<V = unknown, O = unknown> extends XmDynamicConstructor<XmDynamicPresentation<V, O>> {
@@ -48,8 +65,13 @@ export interface XmDynamicPresentationEntryModule extends XmDynamicEntryModule<X
 export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V, O>, OnChanges, OnInit {
     /** Component value */
     public value: V;
-    /** Component options */
+    /**
+     * @deprecated
+     * Component options
+     **/
     public options: O;
+    /** Component config */
+    public config?: O;
     /** Component ref */
     public selector: XmDynamicPresentationConstructor<V, O> | string;
     /** Instance of created object */
@@ -72,6 +94,9 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         if (changes.options) {
             this.updateOptions();
         }
+        if (changes.config) {
+            this.updateConfig();
+        }
         if (changes.selector && !changes.selector.firstChange) {
             this.createComponent().then();
         }
@@ -85,6 +110,7 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         await this.createInstance();
         this.updateValue();
         this.updateOptions();
+        this.updateConfig();
     }
 
     protected updateValue(): void {
@@ -94,10 +120,24 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         this.instance.value = this.value;
     }
 
+    protected updateConfig(): void {
+        if (!this.instance) {
+            return;
+        }
+        this.instance.config = this.config;
+    }
+
+    /**
+     * @deprecated
+     * This method will deprecated
+     */
     protected updateOptions(): void {
         if (!this.instance) {
             return;
         }
+        console.warn('Dynamic widget "options" property was deprecated use "config" instead. Make sure that your widget works');
+        this.instance.config = this.options;
+        // Field options should be removed soon
         this.instance.options = this.options;
     }
 
