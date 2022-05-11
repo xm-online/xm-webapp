@@ -12,4 +12,5 @@ export interface FunctionSpec extends BaseSpec {
     contextDataForm?: string;
     showResponse?: boolean;
     saveFunctionContext?: boolean;
+    onlyData?: boolean;
 }

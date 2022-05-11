@@ -9,9 +9,9 @@ import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { catchError, filter, finalize, share, tap } from 'rxjs/operators';
 import { getFileNameFromResponseContentDisposition, saveFile } from '../../shared/helpers/file-download-helper';
 import { XM_EVENT_LIST } from '../../xm.constants';
-import { FunctionSpec } from '../shared/function-spec.model';
-import { FunctionService } from '../shared/function.service';
-import { XmEntity } from '../shared/xm-entity.model';
+import { FunctionSpec } from '@xm-ngx/entity';
+import { FunctionService } from '@xm-ngx/entity';
+import { XmEntity } from '@xm-ngx/entity';
 import { JsonSchemaFormService } from '@ajsf/core';
 import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
 
@@ -52,7 +52,7 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
                 private alertService: XmAlertService,
                 private ref: ChangeDetectorRef,
                 private router: Router,
-                private widgetService: JsfComponentRegistryService
+                private widgetService: JsfComponentRegistryService,
     ) {
     }
 
@@ -137,7 +137,14 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
     }
 
     private onSuccessFunctionCall(r: any): void {
-        const data = r.body && r.body.data;
+
+        let data;
+        if (this?.functionSpec?.onlyData) {
+            data = r.body;
+        } else {
+            data = r.body && r.body.data;
+        }
+
         let location: string = r.headers.get('location');
 
         if (location) {
