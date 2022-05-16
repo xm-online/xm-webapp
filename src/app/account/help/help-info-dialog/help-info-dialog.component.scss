@@ -1,0 +1,20 @@
+.cl-modal {
+  position: relative;
+  .cl-header-container {
+    display:            flex;
+    align-items:        center;
+    margin-bottom:      10px;
+    h3 {
+      margin:           0;
+    }
+    .cl-copy-icon {
+      margin-left:      10px;
+      cursor:           pointer;
+    }
+  }
+  .close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}

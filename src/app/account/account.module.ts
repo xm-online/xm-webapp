@@ -5,7 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { XmSharedModule } from '../shared/shared.module';
 import {
     Activate,
-    ActivateComponent,
+    ActivateComponent, CopiedSnackBarComponent,
     HelpComponent,
     Password,
     PasswordComponent,
@@ -21,6 +21,7 @@ import {
 import { accountState } from './account.route';
 import { MarkdownModule } from 'ngx-markdown';
 import { JsonSchemaFormModule } from 'angular2-json-schema-form';
+import { HelpInfoDialogComponent } from "./help/help-info-dialog/help-info-dialog.component";
 
 @NgModule({
     imports: [
@@ -39,6 +40,8 @@ import { JsonSchemaFormModule } from 'angular2-json-schema-form';
         PasswordResetFinishComponent,
         SettingsComponent,
         HelpComponent,
+        HelpInfoDialogComponent,
+        CopiedSnackBarComponent,
     ],
     providers: [
         Activate,
@@ -46,6 +49,10 @@ import { JsonSchemaFormModule } from 'angular2-json-schema-form';
         PasswordResetInit,
         PasswordResetFinish,
         NgbActiveModal,
+    ],
+    entryComponents: [
+        HelpInfoDialogComponent,
+        CopiedSnackBarComponent,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

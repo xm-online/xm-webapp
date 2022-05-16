@@ -7,4 +7,9 @@
   <div class="card" *ngIf="!config?.content && !showLoader">
     {{'global.menu.account.help-not-provided' | translate}}
   </div>
+  <div class="card">
+    <div class="col-sm-4">
+      <button mat-button color="primary" (click)="openInfoDialog()">Browser Version</button>
+    </div>
+  </div>
 </div>

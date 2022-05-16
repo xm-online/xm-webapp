@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { XmConfigService } from '../../shared';
 import { JhiLanguageService } from 'ng-jhipster';
 import { finalize, map } from 'rxjs/operators';
+import { MatDialog } from "@angular/material/dialog";
+import { HelpInfoDialogComponent } from "./help-info-dialog/help-info-dialog.component";
 
 export interface IHelpNavLink {
     url: string;
@@ -29,6 +31,7 @@ export class HelpComponent implements OnInit {
     constructor(
         private xmConfigService: XmConfigService,
         private languageService: JhiLanguageService,
+        private dialog: MatDialog,
     ) {
         this.languageService.getCurrent().then((lang) => {
             this.lang = lang;
@@ -46,4 +49,7 @@ export class HelpComponent implements OnInit {
             });
     }
 
+    public openInfoDialog(): void {
+        this.dialog.open(HelpInfoDialogComponent);
+    }
 }
