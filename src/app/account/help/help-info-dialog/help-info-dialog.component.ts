@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class HelpInfoDialogComponent {
     public data: string = '';
-    private durationInSeconds = 4;
+    private durationInSeconds: number = 4;
 
     constructor(private snackBar: MatSnackBar) {
         this.getBrowserInfo();
@@ -17,7 +17,7 @@ export class HelpInfoDialogComponent {
     }
 
     public getBrowserInfo(): void {
-        let nAgt = navigator.userAgent;
+        const nAgt = navigator.userAgent;
         let browserName  = navigator.appName;
         let fullVersion  = ''+parseFloat(navigator.appVersion);
         let nameOffset,verOffset,ix;
