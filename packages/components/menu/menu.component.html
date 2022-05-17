@@ -1,33 +1,28 @@
-<ng-container *ngIf="categories$ | async as menu">
-  <cdk-tree [dataSource]="menu" [treeControl]="treeControl">
-    <cdk-tree-node *cdkTreeNodeDef="let node">
-      <ng-container *permitted="node.permission">
-        <a class="menu-link" routerLinkActive="active" [routerLink]="node.url">
-          <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
-          <span class="xm-menu-item-text" [title]="node?.title | translate">
-            {{node?.title | translate}}
-          </span>
-        </a>
-      </ng-container>
-    </cdk-tree-node>
+<cdk-tree [dataSource]="categories$ | async" [treeControl]="treeControl">
+  <cdk-tree-node *cdkTreeNodeDef="let node">
+    <a class="menu-link" *permitted="node.permission" routerLinkActive="active" [routerLink]="node.url">
+      <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
+      <span class="xm-menu-item-text" [title]="node?.title | translate">
+        {{node?.title | translate}}
+      </span>
+    </a>
+  </cdk-tree-node>
 
-    <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
-      <ng-container *permitted="node.permission">
-        <a class="menu-link"
-           (click)="toggle(node, $event)"
-           [class.active]="treeControl.isExpanded(node)">
-          <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
-          <span class="xm-menu-item-text">{{node?.title | translate}}</span>
-          <span class="ml-auto"></span>
-          <mat-icon [@indicatorRotate]="isNodeExpanded(node)">
-            expand_more
-          </mat-icon>
-        </a>
+  <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
+    <a class="menu-link"
+       *permitted="node.permission"
+       (click)="toggle(node, $event)"
+       [class.active]="treeControl.isExpanded(node)">
+      <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
+      <span class="xm-menu-item-text">{{node?.title | translate}}</span>
+      <span class="ml-auto"></span>
+      <mat-icon [@indicatorRotate]="isNodeExpanded(node)">
+        expand_more
+      </mat-icon>
+    </a>
 
-        <div class="menu-list" role="group" [@bodyExpansion]="isNodeExpanded(node)">
-          <ng-container cdkTreeNodeOutlet></ng-container>
-        </div>
-      </ng-container>
-    </cdk-nested-tree-node>
-  </cdk-tree>
-</ng-container>
+    <div class="menu-list" role="group" [@bodyExpansion]="isNodeExpanded(node)">
+      <ng-container cdkTreeNodeOutlet></ng-container>
+    </div>
+  </cdk-nested-tree-node>
+</cdk-tree>
