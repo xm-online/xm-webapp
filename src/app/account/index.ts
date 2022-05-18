@@ -1,6 +1,7 @@
 export * from './activate/activate.component';
 export * from './activate/activate.service';
 export * from './activate/activate.route';
+export * from './help/help-info-dialog/help-info-dialog.component';
 export * from './help/help.component';
 export * from './help/healp.route';
 export * from './password/password.component';

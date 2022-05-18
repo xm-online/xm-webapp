@@ -1,0 +1,14 @@
+<div class="cl-modal">
+  <div class="body" mat-dialog-content>
+    <div class="cl-header-container">
+      <h3 class="header">
+        Browser Version
+      </h3>
+      <mat-icon class="cl-copy-icon" (click)="copyTextToClipboard()">file_copy</mat-icon>
+    </div>
+    <p [innerHTML]="data"></p>
+    <button mat-icon-button mat-dialog-close class="close-btn">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+</div>
