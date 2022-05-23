@@ -44,8 +44,18 @@ export class DatePickerComponent implements OnInit {
     public updateValue(event: any): void {
         const value = event.value || null;
         const formatString = this.getFormat();
-        this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
-        this.jsf.updateValue(this, moment(value).format(DEF_FORMAT));
+
+        if (!this.controlValue) {
+            this.controlValueDisplayed = '';
+        } else {
+            this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
+        }
+
+        if (!value) {
+            this.jsf.updateValue(this, null);
+        } else {
+            this.jsf.updateValue(this, moment(value).format(DEF_FORMAT));
+        }
     }
 
     private getFormat(): string {
