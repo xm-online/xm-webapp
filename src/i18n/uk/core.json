@@ -724,6 +724,16 @@
     "search": "Пошук",
     "toggleNotification": "Переключити навігацію"
   },
+  "time": {
+    "now": "Щойно",
+    "minAgo": "1 хвилину тому",
+    "minsAgo": " хвилин тому",
+    "hourAgo": "1 годину тому",
+    "hoursAgo": " годин тому",
+    "yesterday": "Вчора",
+    "daysAgo": " днів тому",
+    "weeksAgo": " тиждень(-ні) тому"
+  },
   "password": {
     "form": {
       "button": "Зберегти"
