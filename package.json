@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "3.6.52",
+  "version": "3.6.53",
   "release": "3.6.0",
   "private": true,
   "description": "Xm-webapp",
@@ -122,7 +122,6 @@
     "jquery-validation": "1.19.1",
     "jqvmap": "1.5.1",
     "js-marker-clusterer": "1.0.0",
-    "jszip": "3.10.0",
     "jvectormap": "2.0.4",
     "leaflet": "1.6.0",
     "leaflet-draw": "0.4.14",
