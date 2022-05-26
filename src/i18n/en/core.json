@@ -735,6 +735,16 @@
     "search": "Search",
     "toggleNotification": "Toggle navigation"
   },
+  "time": {
+    "now": "Just now",
+    "minAgo": "1 minute ago",
+    "minsAgo": " minutes ago",
+    "hourAgo": "1 hour ago",
+    "hoursAgo": " hours ago",
+    "yesterday": "Yesterday",
+    "daysAgo": " days ago",
+    "weeksAgo": " week(s) ago"
+  },
   "password": {
     "form": {
       "button": "Save"

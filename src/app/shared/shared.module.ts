@@ -9,8 +9,8 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MarkdownModule } from 'ngx-markdown';
 
-import { UserLoginService } from '../../../packages/account/src/user-login-widget/login/user-login.service';
-import { XmUserLoginWidgetModule } from '../../../packages/account/src/user-login-widget/xm-user-login-widget.module';
+import { UserLoginService } from '@xm-ngx/account/user-login-widget/login/user-login.service';
+import { XmUserLoginWidgetModule } from '@xm-ngx/account/user-login-widget';
 import { MatModule } from '../mat.module';
 import {
     AccountService,
@@ -65,6 +65,7 @@ import { ParseByPathService } from './services/parse-by-path.service';
 import { GateSharedLibsModule } from './shared-libs.module';
 import { XmConfigService } from './spec/config.service';
 import { UserService } from './user/user.service';
+import { TimeFromPipe } from './helpers/time-from.pipe';
 
 @NgModule({
     imports: [
@@ -119,6 +120,7 @@ import { UserService } from './user/user.service';
         XmEntityStateSpecPipe,
         SafeNamePipe,
         XmEntityIconPipe,
+        TimeFromPipe,
     ],
     providers: [
         // Components
@@ -133,6 +135,7 @@ import { UserService } from './user/user.service';
         XmDateTimePipe,
         DatePipe,
         XmEntityIconPipe,
+        TimeFromPipe,
     ],
     exports: [
         // Components
@@ -171,6 +174,7 @@ import { UserService } from './user/user.service';
         XmDateTimePipe,
         DatePipe,
         XmEntityIconPipe,
+        TimeFromPipe,
         // Modules
         GateSharedLibsModule,
         MatModule,

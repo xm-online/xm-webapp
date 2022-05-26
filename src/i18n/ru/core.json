@@ -724,6 +724,16 @@
     "search": "Поиск",
     "toggleNotification": "Переключить навигацию"
   },
+  "time": {
+    "now": "Сейчас",
+    "minAgo": "1 минуту назад",
+    "minsAgo": " минуту назад",
+    "hourAgo": "1 час назад",
+    "hoursAgo": " часов назад",
+    "yesterday": "Вчера",
+    "daysAgo": " дня(-ей) назад",
+    "weeksAgo": " неделя(-ь) назад"
+  },
   "password": {
     "form": {
       "button": "Сохранить"
