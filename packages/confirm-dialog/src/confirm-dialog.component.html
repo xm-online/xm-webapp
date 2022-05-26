@@ -1,0 +1,33 @@
+<h2 mat-dialog-title *ngIf="data?.title" class="text-uppercase text-center">{{data.title | translate}}</h2>
+
+<form mat-dialog-content [formGroup]="form">
+  <ng-container *ngFor="let group of (conditionControls | async); trackBy: uniqTrackBy">
+    <ng-template
+      xmDynamicControl
+      [formControlName]="group.type"
+      [class]="group.control.class"
+      [style]="group.control.style"
+      [options]="group.control.options"
+      [selector]="group.control.selector"
+      [value]="group.control.value"
+    ></ng-template>
+  </ng-container>
+</form>
+
+<div mat-dialog-actions class="d-flex justify-content-center">
+  <button mat-button mat-dialog-close>{{'global.common.cancel' | translate}}</button>
+
+  <ng-container *ngIf="data?.controls?.length > 0; then applyTpl else confirmTpl "></ng-container>
+
+  <ng-template #applyTpl>
+    <button mat-raised-button color="primary" (click)="applyForm(form)">{{'global.common.yes' | translate}}</button>
+  </ng-template>
+
+  <ng-template #confirmTpl>
+    <button mat-raised-button color="primary" (click)="confirm()">{{'global.common.yes' | translate}}</button>
+  </ng-template>
+</div>
+
+<button mat-icon-button mat-dialog-close class="close">
+  <mat-icon>close</mat-icon>
+</button>
