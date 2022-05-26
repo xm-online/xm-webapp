@@ -972,7 +972,7 @@
   "xm-control-errors": {
     "validators": {
       "email": "Il tuo indirizzo email non è corretto.",
-      "max": "Il valore massimo è {{min}}.",
+      "max": "Il valore massimo è {{max}}.",
       "maxlength": "Non può superare i caratteri {{requiredLength}}.",
       "min": "Il valore minimo è {{min}}.",
       "minlength": "Deve contenere almeno caratteri {{requiredLength}}.",
