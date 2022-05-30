@@ -72,6 +72,9 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
 
         </mat-form-field>
     `,
+    styles: [
+        '.mat-hint { max-width: fit-content }',
+    ],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
