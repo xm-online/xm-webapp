@@ -17,10 +17,10 @@
 <div mat-dialog-actions class="d-flex justify-content-center">
   <button mat-button mat-dialog-close>{{'global.common.cancel' | translate}}</button>
 
-  <ng-container *ngIf="data?.controls?.length > 0; then applyTpl else confirmTpl "></ng-container>
+  <ng-container *ngIf="hasControls; then applyTpl else confirmTpl "></ng-container>
 
   <ng-template #applyTpl>
-    <button mat-raised-button color="primary" (click)="applyForm(form)">{{'global.common.yes' | translate}}</button>
+    <button mat-raised-button [disabled]="isFormDisabled | async" color="primary" (click)="applyForm(form)">{{'global.common.yes' | translate}}</button>
   </ng-template>
 
   <ng-template #confirmTpl>
