@@ -65,16 +65,17 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
             <mat-error
                 *xmControlErrors="formControl.errors; translates options?.errors; message as message">{{message}}</mat-error>
 
-            <mat-hint *ngIf="options.maxLength"
-                      align="end">{{getValueLength()}} / {{options.maxLength}}</mat-hint>
+            <mat-hint
+            *ngIf="options.maxLength"
+            align="end"
+            style="min-width: fit-content">
+                {{getValueLength()}} / {{options.maxLength}}
+            </mat-hint>
 
             <mat-hint [hint]="options.hint"></mat-hint>
 
         </mat-form-field>
     `,
-    styles: [
-        '.mat-hint { max-width: fit-content }',
-    ],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
