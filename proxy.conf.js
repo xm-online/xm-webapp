@@ -7,7 +7,8 @@ const PROXY_CONFIG = [
         pathRewrite: {
             [PROXY_SERVER_URL_REG]: '',
         },
-        target: "http://xm.test.xm-online.com.ua",
+        // target: "http://xm.test.xm-online.com.ua",
+        target: 'http://172.20.75.176/',
         secure: false,
         changeOrigin: true,
         logLevel: "debug"

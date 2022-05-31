@@ -1,6 +1,8 @@
 export function download(data: string, filename: string, type: string): void {
     const file = new Blob([data], {type});
+    // @ts-ignore
     if (window.navigator.msSaveOrOpenBlob) { // IE10+
+        // @ts-ignore
         window.navigator.msSaveOrOpenBlob(file, filename);
     } else { // Others
         const a = document.createElement('a');
@@ -11,6 +13,7 @@ export function download(data: string, filename: string, type: string): void {
         a.click();
         setTimeout(() => {
             document.body.removeChild(a);
+            // @ts-ignore
             window.URL.revokeObjectURL(url);
         }, 0);
     }

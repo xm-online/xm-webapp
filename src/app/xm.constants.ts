@@ -9,6 +9,7 @@ const _DEFAULT_LANG = 'en';
 const _TERMS_ERROR = 'needAcceptTermsOfConditions';
 export const IDP_CLIENT = 'idp_client';
 
+
 /**
  * System event dictionary
  * `{{XM_REGISTRATION: string; XM_USER_LIST_MODIFICATION: string}}`

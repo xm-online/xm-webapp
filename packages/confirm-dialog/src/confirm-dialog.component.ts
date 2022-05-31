@@ -48,7 +48,7 @@ export class XmConfirmDialogComponent implements OnInit {
 
     public get isFormDisabled(): Observable<boolean> {
         return this.form.statusChanges.pipe(
-            startWith<boolean>(true),
+            startWith(true),
             mapTo(this.form.invalid),
         );
     }

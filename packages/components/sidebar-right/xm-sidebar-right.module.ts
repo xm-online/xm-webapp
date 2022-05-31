@@ -16,7 +16,7 @@ import * as _ from 'lodash';
 import { Container } from './container';
 import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
 
-@Directive({ selector: '[xmContainerOutlet]' })
+@Directive({selector: '[xmContainerOutlet]'})
 export class ContainerOutletDirective {
     constructor(public viewContainerRef: ViewContainerRef) {
     }
@@ -32,7 +32,7 @@ export class ContainerOutletDirective {
 })
 export class XmSidebarRight implements OnInit, OnDestroy {
 
-    @ViewChild(ContainerOutletDirective, { static: true }) public xmContainerOutlet: ContainerOutletDirective;
+    @ViewChild(ContainerOutletDirective, {static: true}) public xmContainerOutlet: ContainerOutletDirective;
 
     @HostBinding('style.width') public width: string;
 
@@ -57,9 +57,9 @@ export class XmSidebarRight implements OnInit, OnDestroy {
             viewContainerRef.createEmbeddedView(templateRef);
             this.openStyles(config.width || this.sidebarRightService.width);
             return null;
-        } 
+        }
         return this.loadComponent(templateRef, config);
-        
+
     }
 
     public remove(): void {
@@ -71,7 +71,10 @@ export class XmSidebarRight implements OnInit, OnDestroy {
         const viewContainerRef = this.xmContainerOutlet.viewContainerRef;
         const componentFactoryResolver = config.injector.get(ComponentFactoryResolver);
         const cfr = componentFactoryResolver.resolveComponentFactory(templateRef);
-        const c = viewContainerRef.createComponent<T>(cfr, null, config.injector);
+        const c = viewContainerRef.createComponent<T>(cfr.componentType, {
+            injector: config.injector,
+            ngModuleRef: cfr['ngModule']
+        });
         _.assign(c.instance, config.data);
 
         this.openStyles(config.width || '300px');
