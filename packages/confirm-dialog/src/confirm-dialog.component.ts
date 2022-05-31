@@ -9,7 +9,7 @@ import {
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import { Observable, of } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, mapTo, startWith } from 'rxjs/operators';
 import { ConditionDirective } from '@xm-ngx/components/condition';
 
 @Component({
@@ -39,13 +39,22 @@ export class XmConfirmDialogComponent implements OnInit {
     public applyForm({ value, valid }: FormGroup): void {
         if (valid) {
             this.dialogRef.close(value);
-        } else {
-            this.form.markAllAsTouched();
         }
     }
 
     public confirm(): void {
         this.dialogRef.close(true);
+    }
+
+    public get isFormDisabled(): Observable<boolean> {
+        return this.form.statusChanges.pipe(
+            startWith<boolean>(true),
+            mapTo(this.form.invalid),
+        );
+    }
+
+    public get hasControls(): boolean {
+        return this.data?.controls?.length > 0;
     }
 
     public uniqTrackBy = (index: number, item: XmConfirmDialogGroup): string => item.type;
