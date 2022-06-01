@@ -9,6 +9,9 @@ import { Page, PageService } from '../../stores/page/page.service';
 import { Dashboard } from '../../models/dashboard.model';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';
+import { DashboardStore } from '../../stores/dashboard-store.service';
+import { of } from 'rxjs';
+import { mapTo, switchMap, tap } from 'rxjs/operators';
 
 
 @Component({
@@ -18,6 +21,7 @@ import { PageTitleService } from './page-title.service';
     providers: [PageTitleService],
 })
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
+    public childrenDashboards: Dashboard[] = [];
 
     public dashboard: Dashboard = { isPublic: false };
     public showLoader: boolean;
@@ -26,6 +30,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private cdf: ChangeDetectorRef,
+                private dashboardStore: DashboardStore,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private pageService: PageService<Page<{ slug?: string }>>,
                 loggerService: XmLoggerService,
@@ -48,16 +53,36 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
             });
 
         this.pageService.active$()
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe((page) => {
-                if (!page) {
-                    this.router.navigateByUrl(environment.notFoundUrl);
-                    return;
-                }
-                this.logger.info(`Dashboard is loaded name="${page.name}" id="${page.id}".`);
-                this.dashboard = this.loadDashboard(page);
-                this.showLoader = false;
-            });
+            .pipe(
+                tap((page) => {
+                    if (!page) {
+                        this.router.navigateByUrl(environment.notFoundUrl);
+                        return;
+                    }
+                    this.logger.info(`Dashboard is loaded name="${page.name}" id="${page.id}".`);
+                    this.dashboard = this.loadDashboard(page);
+                    this.showLoader = false;
+                }),
+                switchMap((page) => {
+                    if (!this.dashboard) {
+                        return of(page);
+                    }
+
+                    if (this.dashboard.config.slug
+                        && (this.dashboard.widgets.length == 0 || this.dashboard?.layout?.grid?.length == 0)
+                    ) {
+                        return this.dashboardStore.getByParentSlug(this.dashboard.config.slug, true).pipe(
+                            tap((childrenDashboards) => {
+                                this.childrenDashboards = childrenDashboards;
+                            }),
+                            mapTo(page),
+                        );
+                    }
+
+                    return of(page);
+                }),
+                takeUntilOnDestroy(this),
+            ).subscribe();
     }
 
     public ngOnDestroy(): void {
