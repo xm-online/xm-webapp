@@ -65,11 +65,7 @@ export class PageLocationService implements OnDestroy {
      * Return a thread on the queryParams and complete it when the page changes
      */
     public changePerPage$(): Observable<PageEntityParams> {
-        return this.change.pipe(
-            takeUntil(
-                this.router.events.pipe(filter(e => e instanceof NavigationStart)),
-            ),
-        );
+        return this.change;
     }
 
     private init(): void {
