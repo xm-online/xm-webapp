@@ -34,6 +34,10 @@ export class HelpInfoDialogComponent {
             browserName = "Microsoft Internet Explorer";
             fullVersion = nAgt.substring(verOffset+5);
         }
+        else if ((verOffset=nAgt.indexOf("Edg")) != -1 || (verOffset=nAgt.indexOf("Edge")) != -1) {
+            browserName = "Microsoft Edge";
+            fullVersion = nAgt.substring(verOffset + 4);
+        }
 // In Chrome, the true version is after "Chrome"
         else if ((verOffset=nAgt.indexOf("Chrome"))!=-1) {
             browserName = "Chrome";
