@@ -65,7 +65,7 @@ export class PageLocationService implements OnDestroy {
      * Return a thread on the queryParams and complete it when the page changes
      */
     public changePerPage$(): Observable<PageEntityParams> {
-        return this.change;
+        return this.change.asObservable();
     }
 
     private init(): void {
