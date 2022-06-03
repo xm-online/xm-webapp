@@ -35,6 +35,7 @@ export interface IDateOptions {
     initValue?: DateInitValues;
     required?: boolean;
     useUtc?: boolean;
+    firstDayOfWeek?: number;
 }
 
 type DateValue = string[] | Date[];
@@ -69,7 +70,7 @@ type DateValue = string[] | Date[];
 
             <mat-icon [owlDateTimeTrigger]="dt1" class="icon">date_range</mat-icon>
 
-            <owl-date-time #dt1 [startAt]="options?.start" [pickerType]="'calendar'"></owl-date-time>
+            <owl-date-time #dt1 [startAt]="options?.start" [firstDayOfWeek]="options?.firstDayOfWeek" [pickerType]="'calendar'"></owl-date-time>
 
             <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
