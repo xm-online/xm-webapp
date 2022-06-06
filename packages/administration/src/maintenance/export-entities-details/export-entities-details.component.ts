@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ExportEntitiesService } from '@xm-ngx/administration/maintenance/export-entities.service';
-import { XmEntitySpec, XmEntitySpecService} from '@xm-ngx/entity';
+import { XmEntitySpec, XmEntitySpecService } from '@xm-ngx/entity';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 import * as _ from 'lodash';
