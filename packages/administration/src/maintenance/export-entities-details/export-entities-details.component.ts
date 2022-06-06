@@ -39,13 +39,11 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
         this.specService.getAll().pipe(
             map(
                 cfg => cfg.map(t => {
-
                     return Object.assign(t, {
                         selected: false,
                         treeModel: this.exportEntitiesService.getInitialTreeModel(t),
                         selection: null,
                     });
-
                 })),
             takeUntilOnDestroy(this),
             finalize(() => this.showLoader = false),
