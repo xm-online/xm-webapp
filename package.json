@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "3.6.59",
+  "version": "3.6.60",
   "release": "3.6.0",
   "private": true,
   "description": "Xm-webapp",
@@ -94,7 +94,7 @@
     "angular2-uuid": "1.1.1",
     "arrive": "2.4.1",
     "bootstrap": "4.6.0",
-    "bootstrap-material-design": "4.1.1",
+    "bootstrap-material-design": "4.1.3",
     "bootstrap-notify": "3.1.3",
     "bootstrap-rtl": "3.3.4",
     "bootstrap-select": "1.13.12",
