@@ -1,9 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, NavigationStart, Params, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
 
 interface PageEntityParams extends Params, IId {
 }
@@ -19,10 +18,7 @@ export class PageLocationService implements OnDestroy {
 
     private change: BehaviorSubject<PageEntityParams>;
 
-    constructor(
-        private activatedRoute: ActivatedRoute,
-        private router: Router,
-    ) {
+    constructor(private activatedRoute: ActivatedRoute) {
         this.init();
     }
 
@@ -65,11 +61,7 @@ export class PageLocationService implements OnDestroy {
      * Return a thread on the queryParams and complete it when the page changes
      */
     public changePerPage$(): Observable<PageEntityParams> {
-        return this.change.pipe(
-            takeUntil(
-                this.router.events.pipe(filter(e => e instanceof NavigationStart)),
-            ),
-        );
+        return this.change.asObservable();
     }
 
     private init(): void {
