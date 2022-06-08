@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { XmConfigService } from '../../../../../src/app/shared';
 
 import { ExportEntitiesDetailsComponent } from './export-entities-details.component';
+import {XmEntitySpecService} from '@xm-ngx/entity';
 
 describe('ExportEntitiesDetailsComponent', () => {
     let component: ExportEntitiesDetailsComponent;
@@ -20,6 +21,7 @@ describe('ExportEntitiesDetailsComponent', () => {
                 { provide: MatDialogRef, useValue: null },
                 { provide: ExportEntitiesService, useValue: null },
                 { provide: XmConfigService, useValue: { getConfig: () => of(null), getConfigJson: () => of(null) } },
+                { provide: XmEntitySpecService, useValue: { getAll: () => of(null), getConfigJson: () => of(null) } },
             ],
             schemas: [NO_ERRORS_SCHEMA],
             declarations: [ExportEntitiesDetailsComponent, ExportSelectedEntitiesPipe],
