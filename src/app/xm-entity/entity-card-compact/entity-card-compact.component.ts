@@ -16,7 +16,7 @@ import { XmEntityService } from '../shared/xm-entity.service';
  * @privateRemarks
  * transferred from entity-detail-fab
  */
-import { EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
+import { EntityDetailDisplayMode, EntityUiConfig } from '../../shared/spec/xm-ui-config-model';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
 
 import swal from 'sweetalert2/dist/sweetalert2';
@@ -31,6 +31,7 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
 
     @ViewChild('rating', {static: false}) public rating: RatingListSectionComponent;
 
+    @Input() public displayMode?: EntityDetailDisplayMode = 'BOTH';
     @Input() public preventDefaultUpdateError?: boolean;
     @Input() public entityUiConfig: EntityUiConfig;
     @Output() public saveError: EventEmitter<boolean> = new EventEmitter<boolean>();

@@ -735,6 +735,16 @@
     "search": "Search",
     "toggleNotification": "Toggle navigation"
   },
+  "time": {
+    "now": "Just now",
+    "minAgo": "1 minute ago",
+    "minsAgo": " minutes ago",
+    "hourAgo": "1 hour ago",
+    "hoursAgo": " hours ago",
+    "yesterday": "Yesterday",
+    "daysAgo": " days ago",
+    "weeksAgo": " week(s) ago"
+  },
   "password": {
     "form": {
       "button": "Save"
@@ -972,7 +982,7 @@
   "xm-control-errors": {
     "validators": {
       "email": "Your email address is incorrect.",
-      "max": "The maximum value is {{min}}.",
+      "max": "The maximum value is {{max}}.",
       "maxlength": "Cannot exceed {{requiredLength}} characters.",
       "min": "The minimum value is {{min}}.",
       "minlength": "Must be at least {{requiredLength}} characters.",

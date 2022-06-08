@@ -1,45 +1,28 @@
-<ng-container *ngFor="let category of categories$ | async">
+<cdk-tree [dataSource]="categories$ | async" [treeControl]="treeControl">
+  <cdk-tree-node *cdkTreeNodeDef="let node">
+    <a class="menu-link" *permitted="node.permission" routerLinkActive="active" [routerLink]="node.url">
+      <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
+      <span class="xm-menu-item-text" [title]="node?.title | translate">
+        {{node?.title | translate}}
+      </span>
+    </a>
+  </cdk-tree-node>
 
-  <!-- category-link -->
-  <ng-template #categoryLink>
-    <div (submitEvent)="toggleMenu(category)"
-         *permitted="category.permission"
-         [item]="category"
-         xm-menu-link>
+  <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
+    <a class="menu-link"
+       *permitted="node.permission"
+       (click)="toggle(node, $event)"
+       [class.active]="treeControl.isExpanded(node)">
+      <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
+      <span class="xm-menu-item-text">{{node?.title | translate}}</span>
+      <span class="ml-auto"></span>
+      <mat-icon [@indicatorRotate]="isNodeExpanded(node)">
+        expand_more
+      </mat-icon>
+    </a>
+
+    <div class="menu-list" role="group" [@bodyExpansion]="isNodeExpanded(node)">
+      <ng-container cdkTreeNodeOutlet></ng-container>
     </div>
-  </ng-template>
-
-  <!-- category list -->
-  <ng-container *ngIf="!category.isLink ; else categoryLink">
-    <ng-container *ngIf="category?.children?.length">
-
-      <div (click)="toggleMenu(category)"
-           *permitted="category.permission"
-           (keyup.enter)="toggleMenu(category)"
-           [ngClass]="getCategoryState(category)"
-           class="menu-title menu-link"
-           role="button"
-           tabindex="0">
-        <mat-icon class="menu-icon">{{category.icon}}</mat-icon>
-        <span class="xm-menu-item-text" [title]="category.title | translate">{{category.title | translate}}</span>
-        <span [@indicatorRotate]="getCategoryState(category)"
-           class="mat-expansion-indicator"></span>
-      </div>
-
-      <ul [@bodyExpansion]="getCategoryState(category)"
-          [ngClass]="getCategoryState(category)"
-          class="menu-list">
-        <ng-container *ngFor="let item of category.children">
-          <li *permitted="item.permission"
-              [item]="item"
-              class="menu-item {{ item.class }}"
-              xm-menu-link>
-          </li>
-        </ng-container>
-      </ul>
-
-    </ng-container>
-  </ng-container>
-  <!-- ./category list -->
-
-</ng-container>
+  </cdk-nested-tree-node>
+</cdk-tree>

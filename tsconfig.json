@@ -36,6 +36,7 @@
       "@xm-ngx/core/environment": ["src/environments"],
       "@xm-ngx/ext/*": ["src/app/ext/*"],
       "@xm-ngx/alert": ["packages/alert"],
+      "@xm-ngx/confirm-dialog": ["packages/confirm-dialog"],
       "@xm-ngx/json-scheme-form": ["src/app/shared/jsf-extention"],
       "@xm-ngx/json-schema-form/*": ["packages/json-schema-form/*"],
       "@xm-ngx/toaster": ["src/app/shared/toaster"],
@@ -68,6 +69,6 @@
     "newLine": "lf",
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
   }
 }

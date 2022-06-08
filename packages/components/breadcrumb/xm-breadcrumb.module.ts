@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { XmBreadcrumbResolver } from './reolvers/xm-breadcrumb.resolver';
 import { XmBreadcrumbDefaultResolver } from './reolvers/xm-breadcrumb-default.resolver';
 import { MatButtonModule } from '@angular/material/button';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
         RouterModule,
         MatIconModule,
         MatButtonModule,
+        XmDynamicModule,
     ],
 })
 export class XmBreadcrumbModule {

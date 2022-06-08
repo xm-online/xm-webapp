@@ -69,6 +69,11 @@
     border-top: solid 1px #E0E0E0;
     margin-top: 5px !important;
     padding-top: 7px;
+
+  &.single {
+    border-top: none;
+    margin-top: 0 !important;
+  }
 }
 
 .card-custom {
