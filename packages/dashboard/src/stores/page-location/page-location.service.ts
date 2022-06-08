@@ -1,9 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, NavigationStart, Params, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Params, Router } from '@angular/router';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
 
 interface PageEntityParams extends Params, IId {
 }
