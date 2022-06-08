@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, Params, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Params } from '@angular/router';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
@@ -18,10 +18,7 @@ export class PageLocationService implements OnDestroy {
 
     private change: BehaviorSubject<PageEntityParams>;
 
-    constructor(
-        private activatedRoute: ActivatedRoute,
-        private router: Router,
-    ) {
+    constructor(private activatedRoute: ActivatedRoute) {
         this.init();
     }
 
