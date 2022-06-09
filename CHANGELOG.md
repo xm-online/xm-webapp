@@ -42,3 +42,6 @@ xm-navbar-toggle to xm-navbar-toggle-widget
 ```text
 Use `@xm-ngx/dashboard` to import from /packages/dashboard
 ```
+
+# 3.6.65
+- Fix export
