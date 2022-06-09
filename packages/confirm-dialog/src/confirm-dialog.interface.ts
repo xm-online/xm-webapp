@@ -24,7 +24,7 @@ export interface XmConfirmDialogConditionModel {
 export interface XmConfirmDialogGroup {
     type: string;
     condition?: string;
-    permission?: string | string[],
+    permission?: boolean | string | string[],
     control: XmConfirmDialogControlDef;
 }
 
