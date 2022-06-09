@@ -11,6 +11,8 @@ import { ValidatorProcessingService } from '@xm-ngx/components/validator-process
 import { Observable, of } from 'rxjs';
 import { map, mapTo, startWith } from 'rxjs/operators';
 import { ConditionDirective } from '@xm-ngx/components/condition';
+import { Principal } from '@xm-ngx/core/auth';
+import { coerceArray } from '@angular/cdk/coercion';
 
 @Component({
     selector: 'xm-confirm-dialog',
@@ -28,6 +30,7 @@ export class XmConfirmDialogComponent implements OnInit {
         private fb: FormBuilder,
         private dialogRef: MatDialogRef<XmConfirmDialogComponent>,
         private validatorsService: ValidatorProcessingService,
+        private principalService: Principal,
         @Inject(MAT_DIALOG_DATA) public data: XmConfirmDialogData,
     ) {}
 
@@ -81,11 +84,14 @@ export class XmConfirmDialogComponent implements OnInit {
                 }, {});
 
                 return this.data.controls.filter((value) => {
+                    if (!!value.permission) {
+                        return this.principalService.hasPrivilegesInline(coerceArray(value.permission));
+                    }
+
                     // Always show if condition or condition arguments empty
                     if (!value.condition || !values) {
                         return true;
                     }
-
 
                     return ConditionDirective.checkCondition(value.condition, values);
                 });

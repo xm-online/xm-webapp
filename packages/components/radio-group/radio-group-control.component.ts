@@ -7,6 +7,8 @@ import { clone, defaults } from 'lodash';
 import { HintText } from '@xm-ngx/components/hint/hint.interface';
 import { MatRadioChange } from '@angular/material/radio/radio';
 import { NgControl } from '@angular/forms';
+import { Principal } from '@xm-ngx/core/auth';
+import { coerceArray } from '@angular/cdk/coercion';
 
 export type XmRadioValue = boolean | string | number;
 export type XmRadioLayout = 'stack' | 'line';
@@ -23,6 +25,7 @@ export interface XmRadioControlOptions extends DataQa {
 export interface XmRadioControlOptionsItem {
     title: Translate;
     value: XmRadioValue;
+    permission?: string | string[]
 }
 
 export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
@@ -37,17 +40,18 @@ export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
 @Component({
     selector: 'xm-radio-group-control',
     template: `
-        <mat-radio-group [ngModel]="value"
-                         [ngClass]="{
-                            'xm-radio-group--line': options.layout === 'line',
-                            'xm-radio-group--stack': options.layout === 'stack'
-                         }"
-                         (change)="radioChange($event)">
-            <mat-radio-button
-                class="xm-radio-button"
-                color="primary"
-                *ngFor="let item of options.items"
-                [value]="item.value">
+        <mat-radio-group
+            *ngIf="items.length > 0"
+            [ngModel]="value"
+            [ngClass]="{
+                'xm-radio-group--line': options.layout === 'line',
+                'xm-radio-group--stack': options.layout === 'stack'
+            }"
+            (change)="radioChange($event)">
+            <mat-radio-button class="xm-radio-button"
+                              color="primary"
+                              [value]="item.value"
+                              *ngFor="let item of items">
                 {{item?.title | translate}}
             </mat-radio-button>
         </mat-radio-group>
@@ -82,8 +86,21 @@ export class XmRadioGroupControlComponent extends NgControlAccessor<XmRadioValue
         this._options = defaults({}, value, XM_RADIO_CONTROL_OPTIONS_DEFAULT);
     }
 
-    constructor(@Optional() public ngControl: NgControl) {
+    constructor(
+        @Optional() public ngControl: NgControl,
+        private principalService: Principal,
+    ) {
         super(ngControl);
+    }
+
+    public get items(): XmRadioControlOptionsItem[] {
+        return (this.options.items ?? []).filter(item => {
+            if (!item.permission) {
+                return true;
+            }
+
+            return this.principalService.hasPrivilegesInline(coerceArray(item.permission));
+        });
     }
 
     public radioChange(radio: MatRadioChange): void {
