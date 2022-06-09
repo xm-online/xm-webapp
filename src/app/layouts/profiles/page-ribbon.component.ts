@@ -11,8 +11,8 @@ import { XmApplicationConfigService } from '../../shared/spec';
 @Component({
     selector: 'xm-page-ribbon',
     template: `
-        <div class="ribbon" *ngIf="showRibbon && (ribbonEnv || roleKey)">
-            <a href="" *ngIf="ribbonEnv; else basicRibbon">{{'global.ribbon.'+ribbonEnv|translate}}</a>
+        <div class="ribbon" *ngIf="ribbonEnv || roleKey">
+            <a href="" *ngIf="ribbonEnv; else basicRibbon">{{'global.ribbon.' + ribbonEnv|translate}}</a>
             <ng-template #basicRibbon>
                 <a href="">{{roleKey}}</a>
             </ng-template>
@@ -43,8 +43,7 @@ export class PageRibbonComponent implements OnInit, OnDestroy {
 
         this.principal.hasAnyAuthority([SUPER_ADMIN, 'ROLE_ADMIN'])
             .then((value) => {
-
-                if (value) {
+                if (value && (this.showRibbon === undefined || this.showRibbon !== false)) {
 
                     this.principal.identity().then((role) => {
                         this.roleKey = role.roleKey;
