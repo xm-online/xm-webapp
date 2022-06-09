@@ -2,18 +2,18 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ExportEntitiesService } from '@xm-ngx/administration/maintenance/export-entities.service';
-import { XmEntity } from '@xm-ngx/entity';
+import { XmEntitySpec, XmEntitySpecService } from '@xm-ngx/entity';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 import * as _ from 'lodash';
 import { finalize, map } from 'rxjs/operators';
-import { XmConfigService } from '../../../../../src/app/shared';
 import { saveFile } from '../../../../../src/app/shared/helpers/file-download-helper';
 
-export interface ExportConfig extends XmEntity {
+export interface ExportConfig extends XmEntitySpec {
     selected?: boolean;
     selection?: ExportConfig[];
     treeModel?: unknown;
+    events?: unknown[];
 }
 
 @Component({
@@ -29,33 +29,27 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
     public currentSpecKey: string;
 
     constructor(
-        private service: XmConfigService,
         private exportEntitiesService: ExportEntitiesService,
         private activeModal: MatDialogRef<ExportEntitiesDetailsComponent>,
+        private specService: XmEntitySpecService,
     ) {
     }
 
     public ngOnInit(): void {
-        this.service
-            .getConfigJson('/entity/xmentityspec.yml?toJson')
-            .pipe(
-                map((config) => {
-                    if (!config) {
-                        return null;
-                    }
-                    return config.types.map(t => {
-                        return Object.assign(t, {
-                            selected: false,
-                            treeModel: this.exportEntitiesService.getInitialTreeModel(t),
-                            selection: null,
-                        });
+        this.specService.getAll().pipe(
+            map(
+                cfg => cfg.map(t => {
+                    return Object.assign(t, {
+                        selected: false,
+                        treeModel: this.exportEntitiesService.getInitialTreeModel(t),
+                        selection: null,
                     });
-                }),
-                takeUntilOnDestroy(this),
-                finalize(() => this.showLoader = false),
-            ).subscribe((config) => {
-                this.intData(config);
-            });
+                })),
+            takeUntilOnDestroy(this),
+            finalize(() => this.showLoader = false),
+        ).subscribe((config) => {
+            this.intData(config);
+        });
     }
 
     public intData(config: ExportConfig[]): void {
