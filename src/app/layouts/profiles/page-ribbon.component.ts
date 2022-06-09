@@ -12,7 +12,7 @@ import { XmApplicationConfigService } from '../../shared/spec';
     selector: 'xm-page-ribbon',
     template: `
         <div class="ribbon" *ngIf="ribbonEnv || roleKey">
-            <a href="" *ngIf="ribbonEnv; else basicRibbon">{{'global.ribbon.' + ribbonEnv|translate}}</a>
+            <a href="" *ngIf="ribbonEnv; else basicRibbon">{{'global.ribbon.'+ribbonEnv|translate}}</a>
             <ng-template #basicRibbon>
                 <a href="">{{roleKey}}</a>
             </ng-template>
