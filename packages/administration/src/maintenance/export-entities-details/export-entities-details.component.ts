@@ -38,7 +38,7 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.specService.getAll().pipe(
             map(
-                cfg => cfg.map(t => {
+                cfg => cfg?.map(t => {
                     return Object.assign(t, {
                         selected: false,
                         treeModel: this.exportEntitiesService.getInitialTreeModel(t),
