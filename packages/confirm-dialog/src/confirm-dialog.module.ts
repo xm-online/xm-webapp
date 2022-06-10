@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { ConditionModule } from '@xm-ngx/components/condition';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import { ConditionModule } from '@xm-ngx/components/condition';
         XmTranslationModule,
         XmDynamicModule,
         ConditionModule,
+        XmPermissionModule,
     ],
     exports: [XmConfirmDialogComponent],
 })
