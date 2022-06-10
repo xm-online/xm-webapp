@@ -2,15 +2,17 @@
 
 <form mat-dialog-content [formGroup]="form">
   <ng-container *ngFor="let group of (conditionControls | async); trackBy: uniqTrackBy">
-    <ng-template
-      xmDynamicControl
-      [formControlName]="group.type"
-      [class]="group.control.class"
-      [style]="group.control.style"
-      [options]="group.control.options"
-      [selector]="group.control.selector"
-      [value]="group.control.value"
-    ></ng-template>
+    <ng-container *xmPermission="group.permission">
+      <ng-template
+        xmDynamicControl
+        [formControlName]="group.type"
+        [class]="group.control.class"
+        [style]="group.control.style"
+        [options]="group.control.options"
+        [selector]="group.control.selector"
+        [value]="group.control.value"
+      ></ng-template>
+    </ng-container>
   </ng-container>
 </form>
 
