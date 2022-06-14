@@ -86,7 +86,6 @@ export class XmConfirmDialogComponent implements OnInit {
                         return true;
                     }
 
-
                     return ConditionDirective.checkCondition(value.condition, values);
                 });
             }),

@@ -23,6 +23,7 @@ export interface XmRadioControlOptions extends DataQa {
 export interface XmRadioControlOptionsItem {
     title: Translate;
     value: XmRadioValue;
+    permission?: boolean | string | string[]
 }
 
 export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
@@ -37,19 +38,22 @@ export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
 @Component({
     selector: 'xm-radio-group-control',
     template: `
-        <mat-radio-group [ngModel]="value"
-                         [ngClass]="{
-                            'xm-radio-group--line': options.layout === 'line',
-                            'xm-radio-group--stack': options.layout === 'stack'
-                         }"
-                         (change)="radioChange($event)">
-            <mat-radio-button
-                class="xm-radio-button"
-                color="primary"
-                *ngFor="let item of options.items"
-                [value]="item.value">
-                {{item?.title | translate}}
-            </mat-radio-button>
+        <mat-radio-group
+            [ngModel]="value"
+            [ngClass]="{
+                'xm-radio-group--line': options.layout === 'line',
+                'xm-radio-group--stack': options.layout === 'stack'
+            }"
+            (change)="radioChange($event)">
+            <ng-container *ngFor="let item of options.items">
+                <mat-radio-button
+                    class="xm-radio-button"
+                    color="primary"
+                    [value]="item.value"
+                    *xmPermission="item.permission">
+                    {{item?.title | translate}}
+                </mat-radio-button>
+            </ng-container>
         </mat-radio-group>
 
         <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>

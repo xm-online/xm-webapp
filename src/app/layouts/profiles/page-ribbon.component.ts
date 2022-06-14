@@ -43,8 +43,7 @@ export class PageRibbonComponent implements OnInit, OnDestroy {
 
         this.principal.hasAnyAuthority([SUPER_ADMIN, 'ROLE_ADMIN'])
             .then((value) => {
-
-                if (value) {
+                if (value && (this.showRibbon === undefined || this.showRibbon !== false)) {
 
                     this.principal.identity().then((role) => {
                         this.roleKey = role.roleKey;
