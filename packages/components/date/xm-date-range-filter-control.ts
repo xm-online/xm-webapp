@@ -7,12 +7,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { OwlDateTimeModule } from 'ng-pick-datetime';
+import { DateTimeAdapter, OwlDateTimeIntl, OwlDateTimeModule } from 'ng-pick-datetime';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { XmDateModule } from '@xm-ngx/components/date/xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
+import { TranslateService } from '@ngx-translate/core';
 
 const dateInitValues = {
     '7DaysAgo': 7,
@@ -70,7 +71,8 @@ type DateValue = string[] | Date[];
 
             <mat-icon [owlDateTimeTrigger]="dt1" class="icon">date_range</mat-icon>
 
-            <owl-date-time #dt1 [startAt]="options?.start" [firstDayOfWeek]="options?.firstDayOfWeek" [pickerType]="'calendar'"></owl-date-time>
+            <owl-date-time #dt1 [startAt]="options?.start" [firstDayOfWeek]="options?.firstDayOfWeek"
+                           [pickerType]="'calendar'"></owl-date-time>
 
             <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
@@ -83,12 +85,19 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
     @Output() public valueChange: EventEmitter<DateValue> = new EventEmitter<DateValue>();
     @Input() public options: IDateOptions;
 
-    constructor(@Optional() @Self() public ngControl: NgControl) {
+    constructor(
+        @Optional() @Self() public ngControl: NgControl,
+        private translateService: TranslateService,
+        private dateTimeAdapter: DateTimeAdapter<any>,
+        private dateTimeIntl: OwlDateTimeIntl,
+    ) {
         super(ngControl);
     }
 
     public ngOnInit(): void {
         this.setDateRange();
+        this.localizedDateRangeLabels();
+        this.dateTimeAdapter.setLocale(this.translateService.currentLang);
     }
 
 
@@ -98,8 +107,13 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
         this.valueChange.emit(v);
     }
 
+    private localizedDateRangeLabels(): void {
+        this.dateTimeIntl.rangeFromLabel = this.translateService.instant('date-time-picker.labels.from');
+        this.dateTimeIntl.rangeToLabel = this.translateService.instant('date-time-picker.labels.to');
+    }
+
     private setDateRange(): void {
-        const {initValue} = this.options;
+        const { initValue } = this.options;
 
         if (!initValue) {
             return;

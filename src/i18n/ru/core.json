@@ -214,6 +214,12 @@
     "updated": "Обновлен {{value}}",
     "widgets": "Виджеты"
   },
+  "date-time-picker": {
+    "labels": {
+      "from": "От",
+      "to": "До"
+    }
+  },
   "entity": {
     "action": {
       "back": "Назад",
