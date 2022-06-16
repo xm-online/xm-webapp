@@ -11,7 +11,7 @@
                 "success": "<strong>Your password has been reset.</strong> Please&nbsp;"
             },
             "form": {
-                "button": "Validate new password"
+                "button": "Confirm New Password"
             }
         },
         "request": {

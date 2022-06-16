@@ -86,7 +86,7 @@
         "form": {
             "signin": "sign in",
             "newpassword": "New password",
-            "confirmpassword": "New password confirmation",
+            "confirmpassword": "Re-enter New Password",
             "email": "Email",
             "oldpassword": "Old password",
             "firstname": "First name",
