@@ -1,12 +1,12 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 
-import { Observable, of, ReplaySubject } from 'rxjs';
-import { pluck, takeUntil } from 'rxjs/operators';
+import { merge, Observable, of, ReplaySubject } from 'rxjs';
+import { debounceTime, pluck, takeUntil } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
 import { ContextService } from '../../shared/context/context.service';
 import { FunctionCallDialogComponent } from '../function-call-dialog/function-call-dialog.component';
@@ -25,7 +25,7 @@ import { XM_EVENT_LIST } from '../../xm.constants';
     templateUrl: './function-list-section.component.html',
     styleUrls: ['./function-list-section.component.scss'],
 })
-export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestroy {
+export class FunctionListSectionComponent implements OnInit, OnDestroy {
 
     @Input() public xmEntityId: number;
     @Input() public functionSpecs: FunctionSpec[];
@@ -58,6 +58,16 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
             .subscribe((selected: unknown) => {
                 this.xmEntityListSelection = selected as XmEntity[];
             });
+
+        merge(
+            this.eventManager.listenTo(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS),
+            this.eventManager.listenTo(XM_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION),
+        ).pipe(
+            debounceTime(100),
+            takeUntil(this.destroyed$),
+        ).subscribe((e) => {
+            this.load();
+        });
     }
 
     public ngOnInit(): void {
@@ -67,12 +77,6 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
     public ngOnDestroy(): void {
         this.destroyed$.next(true);
         this.destroyed$.complete();
-    }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.functions && changes.functions.currentValue) {
-            this.load();
-        }
     }
 
     public onChangeState(stateKey: string): void {
@@ -118,7 +122,6 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
         modalRef.componentInstance.dialogTitle = title;
         modalRef.componentInstance.buttonTitle = title;
         modalRef.componentInstance.listSelection = this.xmEntityListSelection;
-        console.info('onCallFunction');
     }
 
     public getFunctionContext(functionSpec: FunctionSpec): FunctionContext {
