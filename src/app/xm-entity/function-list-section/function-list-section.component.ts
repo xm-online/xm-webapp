@@ -5,8 +5,8 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 
-import { merge, Observable, of, ReplaySubject } from 'rxjs';
-import { debounceTime, pluck, takeUntil } from 'rxjs/operators';
+import { Observable, of, ReplaySubject } from 'rxjs';
+import { pluck, takeUntil } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
 import { ContextService } from '../../shared/context/context.service';
 import { FunctionCallDialogComponent } from '../function-call-dialog/function-call-dialog.component';
@@ -29,11 +29,17 @@ export class FunctionListSectionComponent implements OnInit, OnDestroy {
 
     @Input() public xmEntityId: number;
     @Input() public functionSpecs: FunctionSpec[];
+    @Input() public set functionSpecsUpdates(f: FunctionSpec[]) {
+        this.functionSpecs = f;
+        this.mapFunctions();
+    }
     @Input() public listView: boolean;
     @Input() public nextStates: StateSpec[];
     @Input() public stateSpec: StateSpec;
     @Input() public xmEntitySpec: XmEntitySpec;
     @Input() public xmEntity: XmEntity;
+
+
     public initMap: boolean;
     public functionContexts: FunctionContext[];
     public defaultFunctions$: Observable<FunctionSpec[]>;
@@ -58,16 +64,6 @@ export class FunctionListSectionComponent implements OnInit, OnDestroy {
             .subscribe((selected: unknown) => {
                 this.xmEntityListSelection = selected as XmEntity[];
             });
-
-        merge(
-            this.eventManager.listenTo(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS),
-            this.eventManager.listenTo(XM_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION),
-        ).pipe(
-            debounceTime(100),
-            takeUntil(this.destroyed$),
-        ).subscribe((e) => {
-            this.load();
-        });
     }
 
     public ngOnInit(): void {
@@ -149,6 +145,10 @@ export class FunctionListSectionComponent implements OnInit, OnDestroy {
             }
         }
 
+        this.mapFunctions();
+    }
+
+    private mapFunctions(): void {
         this.defaultFunctions$ = of(this.getDefaultFunctions()).pipe(
             takeUntil(this.destroyed$),
         );
@@ -156,7 +156,6 @@ export class FunctionListSectionComponent implements OnInit, OnDestroy {
         this.customFunctions$ = of(this.getCustomFunctions()).pipe(
             takeUntil(this.destroyed$),
         );
-
     }
 
     private getContext(): void {
