@@ -60,3 +60,4 @@ export { DynamicTenantLoaderService } from './src/extentions/dynamic-tenant-load
 export { TenantModuleLoaderService } from './src/extentions/tenant-module-loader.service';
 export { XmDynamicExtensionModule, dynamicExtensionModuleInitializer } from './src/extentions/xm-dynamic-extension.module';
 export { XM_DYNAMIC_EXTENSIONS, XmDynamicExtensionEntry } from './src/extentions/xm-dynamic-extension.injectors';
+export { XmDynamicWidgetLayout } from './src/widget/xm-dynamic-widget-layout.component';
