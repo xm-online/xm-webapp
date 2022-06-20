@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,15 +25,21 @@ import { XM_EVENT_LIST } from '../../xm.constants';
     templateUrl: './function-list-section.component.html',
     styleUrls: ['./function-list-section.component.scss'],
 })
-export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestroy {
+export class FunctionListSectionComponent implements OnInit, OnDestroy {
 
     @Input() public xmEntityId: number;
     @Input() public functionSpecs: FunctionSpec[];
+    @Input() public set functionSpecsUpdates(f: FunctionSpec[]) {
+        this.functionSpecs = f;
+        this.mapFunctions();
+    }
     @Input() public listView: boolean;
     @Input() public nextStates: StateSpec[];
     @Input() public stateSpec: StateSpec;
     @Input() public xmEntitySpec: XmEntitySpec;
     @Input() public xmEntity: XmEntity;
+
+
     public initMap: boolean;
     public functionContexts: FunctionContext[];
     public defaultFunctions$: Observable<FunctionSpec[]>;
@@ -67,12 +73,6 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
     public ngOnDestroy(): void {
         this.destroyed$.next(true);
         this.destroyed$.complete();
-    }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.functions && changes.functions.currentValue) {
-            this.load();
-        }
     }
 
     public onChangeState(stateKey: string): void {
@@ -118,7 +118,6 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
         modalRef.componentInstance.dialogTitle = title;
         modalRef.componentInstance.buttonTitle = title;
         modalRef.componentInstance.listSelection = this.xmEntityListSelection;
-        console.info('onCallFunction');
     }
 
     public getFunctionContext(functionSpec: FunctionSpec): FunctionContext {
@@ -146,6 +145,10 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
             }
         }
 
+        this.mapFunctions();
+    }
+
+    private mapFunctions(): void {
         this.defaultFunctions$ = of(this.getDefaultFunctions()).pipe(
             takeUntil(this.destroyed$),
         );
@@ -153,7 +156,6 @@ export class FunctionListSectionComponent implements OnInit, OnChanges, OnDestro
         this.customFunctions$ = of(this.getCustomFunctions()).pipe(
             takeUntil(this.destroyed$),
         );
-
     }
 
     private getContext(): void {
