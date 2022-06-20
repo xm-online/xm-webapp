@@ -83,6 +83,7 @@
     "@ngx-translate/core": "11.0.1",
     "@ngx-translate/http-loader": "4.0.0",
     "@types/chartist": "0.9.46",
+    "@types/estree": "^0.0.47",
     "@types/heatmap.js": "2.0.36",
     "@xm-ngx/cli": "file:./packages/cli",
     "@xm-ngx/dashboards": "file:./packages/dashboards",
