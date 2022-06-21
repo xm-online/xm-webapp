@@ -40,11 +40,12 @@ export class StateChangeDialogComponent implements OnInit {
 
     public ngOnInit(): void {
         // TODO: think about correct way to work with context
+        const backup = $.xmEntity; // in case being set from another components
         $.xmEntity = this.xmEntity;
         if (this.nextSpec && this.nextSpec.inputSpec) {
             this.jsfAttributes = this.widgetService.buildJsfAttributes(this.nextSpec.inputSpec, this.nextSpec.inputForm);
         }
-        $.xmEntity = null;
+        $.xmEntity = backup || null;
     }
 
     public onChangeState(): void {

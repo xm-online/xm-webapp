@@ -73,7 +73,7 @@
       <div class="row row-compact">
         <xm-function-list-section-compact
           *ngIf="xmEntity || (getNextStates()?.length || xmEntitySpec.functions)"
-          [functionSpecs]="entityFunctionSpec"
+          [functionSpecsUpdates]="entityFunctionSpec"
           [nextStates]="getNextStates()"
           [stateSpec]="getState()"
           [xmEntityId]="xmEntity.id"
