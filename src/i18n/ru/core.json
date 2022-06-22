@@ -214,6 +214,12 @@
     "updated": "Обновлен {{value}}",
     "widgets": "Виджеты"
   },
+  "date-time-picker": {
+    "labels": {
+      "from": "От",
+      "to": "До"
+    }
+  },
   "entity": {
     "action": {
       "back": "Назад",
@@ -724,6 +730,16 @@
     "search": "Поиск",
     "toggleNotification": "Переключить навигацию"
   },
+  "time": {
+    "now": "Сейчас",
+    "minAgo": "1 минуту назад",
+    "minsAgo": " минуту назад",
+    "hourAgo": "1 час назад",
+    "hoursAgo": " часов назад",
+    "yesterday": "Вчера",
+    "daysAgo": " дня(-ей) назад",
+    "weeksAgo": " неделя(-ь) назад"
+  },
   "password": {
     "form": {
       "button": "Сохранить"
@@ -961,7 +977,7 @@
   "xm-control-errors": {
     "validators": {
       "email": "Ваш электронный адрес некорректный.",
-      "max": "Максимальное значение {{min}}.",
+      "max": "Максимальное значение {{max}}.",
       "maxlength": "Не может превышать {{requiredLength}} символов.",
       "min": "Минимальное значение {{min}}.",
       "minlength": "Должна состоять не менее {{requiredLength}} символов.",

@@ -152,6 +152,10 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
             );
     }
 
+    public rebuildForm(): void {
+        this.loadJsfAttr();
+    }
+
     protected loadJsfAttr(): void {
         if (this.xmEntitySpec && this.xmEntitySpec.dataSpec) {
             this.jsfAttributes = this.widgetService.buildJsfAttributes(this.xmEntitySpec.dataSpec, this.xmEntitySpec.dataForm);

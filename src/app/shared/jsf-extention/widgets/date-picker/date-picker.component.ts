@@ -35,17 +35,28 @@ export class DatePickerComponent implements OnInit {
         this.options = this.layoutNode.options || {};
         this.jsf.initializeControl(this);
         this.setLocalizedButtons();
-        if (this.controlValue) {
-            const formatString = this.getFormat();
-            this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
-        }
+        this.updateViewValue();
     }
 
     public updateValue(event: any): void {
         const value = event.value || null;
-        const formatString = this.getFormat();
-        this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
-        this.jsf.updateValue(this, moment(value).format(DEF_FORMAT));
+
+        this.updateViewValue();
+        this.updateModelValue(value);
+    }
+
+    private updateViewValue(): void {
+        this.controlValueDisplayed = this.controlValue
+            ? moment(this.controlValue).local().format(this.getFormat())
+            : '';
+    }
+
+    private updateModelValue(value: string | null): void {
+        const modelValue = value
+            ? moment(value).format(DEF_FORMAT)
+            : null;
+
+        this.jsf.updateValue(this, modelValue);
     }
 
     private getFormat(): string {

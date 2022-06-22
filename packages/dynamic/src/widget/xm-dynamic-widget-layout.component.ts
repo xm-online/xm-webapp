@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { XmDynamicLayoutBase } from './xm-dynamic-layout.base';
+import { XmLayout } from '../interfaces';
 
 @Component({
     selector: 'xm-dynamic-widget-layout, [xm-dynamic-widget-layout]',
@@ -31,5 +32,9 @@ import { XmDynamicLayoutBase } from './xm-dynamic-layout.base';
         </ng-template>
     `,
 })
-export class XmDynamicWidgetLayoutComponent extends XmDynamicLayoutBase {
+export class XmDynamicWidgetLayoutComponent extends XmDynamicLayoutBase<XmDynamicWidgetLayout> {
+}
+
+export interface XmDynamicWidgetLayout extends XmLayout {
+    config: unknown
 }

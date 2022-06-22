@@ -220,14 +220,13 @@ export class ExportEntitiesService {
     }
 
     private getCalendarsEvents(calendar: ExportConfig): unknown {
-        if (calendar.events && calendar.events.length > 0) {
+        if (calendar?.events && calendar?.events.length > 0) {
             const calendarEventsNode = {};
-            calendar.events.forEach((e: ExportConfig) => {
+            calendar?.events.forEach((e: ExportConfig) => {
                 Object.assign(calendarEventsNode, {[e.key]: null});
             });
             return calendarEventsNode;
-        } 
+        }
         return null;
-        
     }
 }
