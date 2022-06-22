@@ -63,6 +63,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
     public defineUiConfig(): void {
         this.xmConfigService.getUiConfig().subscribe((config) => {
             // TODO: for demo
+            this.config = config;
             this.tenant = config.name;
             this.defaultDetailLayoutType = config.defaultDetailLayoutType;
             this.entityUiConfig = (config && config.applications

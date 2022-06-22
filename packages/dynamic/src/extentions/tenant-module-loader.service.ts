@@ -16,7 +16,7 @@ export class TenantModuleLoaderService {
     ) {
     }
 
-        public getEntry<T>(selector: string): XmDynamicExtensionEntry<T> {
+    public getEntry<T>(selector: string): XmDynamicExtensionEntry<T> {
         const entry = _.find(_.flatMap(this.dynamicExtensions), i => i.selector == selector) as XmDynamicExtensionEntry<T>;
         if (entry == null) {
             throw new ArgumentException(`ModuleLoader The "${selector}" is not defined!`);
