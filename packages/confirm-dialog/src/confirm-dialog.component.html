@@ -1,4 +1,4 @@
-<h2 mat-dialog-title *ngIf="data?.title" class="text-uppercase text-center">{{data.title | translate}}</h2>
+<h2 mat-dialog-title *ngIf="data?.title" class="text-center">{{data.title | translate}}</h2>
 
 <form mat-dialog-content [formGroup]="form">
   <ng-container *ngFor="let group of (conditionControls | async); trackBy: uniqTrackBy">
