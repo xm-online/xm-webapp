@@ -84,7 +84,7 @@ export class TimelineComponent implements OnInit, OnChanges, OnDestroy {
     private load(): void {
         this.showLoader = true;
 
-        if (!this.xmEntityId) {
+        if (!this.xmEntityId || this.config?.disableTimeline) {
             this.showLoader = false;
             return;
         }
