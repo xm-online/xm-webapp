@@ -87,6 +87,7 @@
 
           <div *ngSwitchCase="'timeline'">
             <xm-timeline *xmPermitted="['TIMELINE.GET_LIST']"
+                         [config]="config"
                          [xmEntityId]="fetchedXmEntity?.id">
             </xm-timeline>
           </div>
