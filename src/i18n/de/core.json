@@ -1085,6 +1085,7 @@
       }
     },
     "entity-detail-fab": {
+      "new": "Neue hinzufügen",
       "edit-entity": "Redigieren",
       "new-attachment": "Neuen Anhang hinzufügen",
       "new-comment": "Neuen Kommentar hinzufügen",

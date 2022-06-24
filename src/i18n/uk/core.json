@@ -1067,6 +1067,7 @@
       }
     },
     "entity-detail-fab": {
+      "new": "Додати новий",
       "edit-entity": "Редагувати",
       "new-attachment": "Додати файл",
       "new-comment": "Додати кометар",
