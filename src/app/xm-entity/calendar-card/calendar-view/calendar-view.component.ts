@@ -21,7 +21,7 @@ import { Principal } from '@xm-ngx/core/auth';
 import {
     CALENDAR_VIEW,
     DEFAULT_CALENDAR_VIEW,
-} from '@xm-ngx/ext/ee-core-webapp-ext/module/ee-entity-calendar/ee-entity-calendar.constant';
+} from '../../../xm.constants';
 import { DEFAULT_CALENDAR_EVENT_FETCH_SIZE } from '../calendar-card.component';
 import * as moment from 'moment-timezone';
 import { Event } from '@xm-ngx/entity';
