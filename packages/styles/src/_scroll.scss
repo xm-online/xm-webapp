@@ -31,3 +31,8 @@ $xm-scrollbar-background-color: #cbcbcb !default;
     scrollbar-track-color: $xm-scrollbar-background-color;
   }
 }
+
+.cdk-global-overlay-wrapper {
+  overflow: auto;
+  pointer-events: auto!important;
+}

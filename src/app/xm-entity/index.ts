@@ -3,6 +3,7 @@ export * from './attachment-detail-dialog/attachment-detail-dialog.component';
 export * from './attachment-list/attachment-list.component';
 export * from './avatar-dialog/avatar-dialog.component';
 export * from './calendar-card/calendar-card.component';
+export * from './calendar-card/calendar-view/calendar-view.component';
 export * from './calendar-event-dialog/calendar-event-dialog.component';
 export * from './comment-card/comment-card.component';
 export * from './comment-detail-dialog/comment-detail-dialog.component';

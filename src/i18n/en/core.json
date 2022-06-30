@@ -1043,7 +1043,8 @@
         "success": "Event added successfully."
       },
       "choose-type": "Choose event type",
-      "title": "Add new event for the"
+      "title": "Add new event for the",
+      "title-edit": "Edit event for the"
     },
     "comment-detail-dialog": {
       "add": {

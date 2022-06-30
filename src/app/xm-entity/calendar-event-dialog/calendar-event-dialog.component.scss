@@ -1,0 +1,12 @@
+.event-dialog-footer {
+  justify-content: space-between;
+}
+
+
+.modal-header {
+  position: relative;
+  .modal-close {
+    position: absolute;
+    right: 0;
+  }
+}
