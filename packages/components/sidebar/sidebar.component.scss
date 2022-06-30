@@ -34,7 +34,7 @@ $xm-sidebar-backdrop-z-index: -1 !default;
     overflow-y:     auto;
     flex-direction: column;
     flex-grow:      1;
-    height:        100%;
+    height:        calc(100% - 65px);
     @include xm-scrollbar();
   }
 
