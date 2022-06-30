@@ -1090,6 +1090,7 @@
       }
     },
     "entity-detail-fab": {
+      "new": "Добавить новый",
       "edit-entity": "Редактировать",
       "new-attachment": "Добавить файл",
       "new-comment": "Добавить комментарий",
