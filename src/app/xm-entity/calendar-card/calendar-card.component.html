@@ -1,25 +1,16 @@
 <div *ngIf="calendars?.length > 0" class="card">
-  <div class="card-body ps-child">
-    <div class="row">
-      <div class="col">
-        <div class="form-group">
-          <mat-form-field>
-            <mat-select (selectionChange)="onCalendarChange(currentCalendar)"
-                        [(ngModel)]="currentCalendar"
-                        name="calendarSpec">
-              <mat-option *ngFor="let calendar of calendars"
-                          [value]="calendar">
-                {{ calendar.name | uppercase }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
+    <div class="card-body ps-child">
+      <mat-tab-group (selectedTabChange)="onCalendarChange();">
+        <mat-tab
+          *ngFor="let calendar of calendars"
+          [label]="calendar.name?.toUpperCase()">
+            <xm-calendar-view
+              [calendar]="calendar"
+              [config]="getCalendarConfig(calendar)"
+              [spec]="getCalendarSpec(calendar)"
+              [xmEntity]="xmEntity">
+            </xm-calendar-view>
+        </mat-tab>
+      </mat-tab-group>
     </div>
-
-    <div *ngFor="let calendar of calendars"
-         [hidden]="calendar.id != currentCalendar.id"
-         [id]="'xm-calendar-' + calendar.id">
-    </div>
-  </div>
 </div>

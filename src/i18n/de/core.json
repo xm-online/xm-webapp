@@ -1027,7 +1027,8 @@
         "success": "Ereignis wurde erfolgreich hinzugefügt."
       },
       "choose-type": "Ereignistyp auswählen",
-      "title": "Neues Ereignis für die"
+      "title": "Neues Ereignis für die",
+      "title-edit": "Ereignis bearbeiten für die"
     },
     "comment-detail-dialog": {
       "add": {

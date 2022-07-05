@@ -16,6 +16,7 @@ import { AttachmentListSimplifiedComponent } from './attachment-list/attachment-
 import { AttachmentListComponent } from './attachment-list/attachment-list.component';
 import { AvatarDialogComponent } from './avatar-dialog/avatar-dialog.component';
 import { CalendarCardComponent } from './calendar-card/calendar-card.component';
+import { CalendarViewComponent } from './calendar-card/calendar-view/calendar-view.component';
 import { CalendarEventDialogComponent } from './calendar-event-dialog/calendar-event-dialog.component';
 import { CommentCardComponent } from './comment-card/comment-card.component';
 import { CommentDetailDialogComponent } from './comment-detail-dialog/comment-detail-dialog.component';
@@ -63,6 +64,14 @@ import {
 
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { TagListSectionComponent } from './tag-list-section/tag-list-section.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
+import momentTimezonePlugin from '@fullcalendar/moment-timezone';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import { OwlDateTimeModule } from 'ng-pick-datetime';
+import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
 
 const MODULES = [
     StatesManagementDialogModule,
@@ -70,9 +79,18 @@ const MODULES = [
     EntityDetailDialogModule,
 ];
 
+FullCalendarModule.registerPlugins([
+    dayGridPlugin,
+    listPlugin,
+    timeGridPlugin,
+    momentTimezonePlugin,
+    interactionPlugin,
+]);
+
 @NgModule({
     imports: [
         CommonModule,
+        FullCalendarModule,
         XmSharedModule,
         RouterModule,
         ImageCropperModule,
@@ -80,6 +98,7 @@ const MODULES = [
         TagInputModule,
         MODULES,
         ModalCloseModule,
+        OwlDateTimeModule,
     ],
     declarations: [
         AreaComponent,
@@ -89,6 +108,7 @@ const MODULES = [
         AvatarDialogComponent,
         CalendarCardComponent,
         CalendarEventDialogComponent,
+        CalendarViewComponent,
         CommentCardComponent,
         CommentDetailDialogComponent,
         CommentListComponent,
@@ -171,6 +191,7 @@ const MODULES = [
         VoteService,
         XmEntityService,
         XmEntitySpecService,
+        CalendarChangeService,
     ],
 })
 export class XmEntityModule {

@@ -1027,7 +1027,8 @@
         "success": "Evento aggiunto correttamente."
       },
       "choose-type": "Scegli il tipo di evento",
-      "title": "Aggiungi nuovo evento per il"
+      "title": "Aggiungi nuovo evento per il",
+      "title-edit": "Modifica evento per il"
     },
     "comment-detail-dialog": {
       "add": {
