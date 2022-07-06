@@ -28,7 +28,7 @@ import { Event } from '@xm-ngx/entity';
 import { CalendarEventDialogComponent } from '@xm-ngx/entity/calendar-event-dialog/calendar-event-dialog.component';
 import swal, {SweetAlertType} from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
-import { CalendarOptions } from '@fullcalendar/core';
+import { CalendarOptions } from '@fullcalendar/common';
 import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
