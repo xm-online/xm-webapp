@@ -64,13 +64,13 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
         this.xmConfigService.getUiConfig().subscribe((config) => {
             // TODO: for demo
             this.config = config;
-            this.tenant = config.name;
-            this.defaultDetailLayoutType = config.defaultDetailLayoutType;
-            this.entityUiConfig = (config && config.applications
-                && config.applications.config
-                && config.applications.config.entities
-                && config.applications.config.entities
-                    .filter((e) => e.typeKey === this.xmEntity.typeKey).shift()) as EntityUiConfig;
+            this.tenant = config?.name;
+            this.defaultDetailLayoutType = config?.defaultDetailLayoutType;
+            this.entityUiConfig = (config && config?.applications
+                && config.applications?.config
+                && config.applications?.config?.entities
+                && config.applications?.config?.entities
+                    .filter((e) => e?.typeKey === this.xmEntity.typeKey).shift()) as EntityUiConfig;
         });
     }
 
