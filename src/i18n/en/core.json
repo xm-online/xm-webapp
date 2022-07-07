@@ -1445,7 +1445,10 @@
         "remove-success": "Location removed successfully.",
         "title": "Are you sure you want to delete Location?"
       },
-      "title": "Locations"
+      "not-defined": "Location not defined",
+      "add-location": "Add location",
+      "title": "Locations",
+      "title-location": "Location"
     },
     "rating-list-section": {
       "vote-error": "Your vote is not taken into account.",

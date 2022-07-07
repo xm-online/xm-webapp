@@ -1429,7 +1429,10 @@
         "remove-success": "Posizione rimossa correttamente.",
         "title": "Sei sicuro di voler eliminare la posizione?"
       },
-      "title": "Luoghi"
+      "not-defined": "Posizione non definita",
+      "add-location": "Aggiungi luogo",
+      "title": "Luoghi",
+      "title-location": "Posizione"
     },
     "rating-list-section": {
       "vote-error": "Il vostro voto non viene preso in considerazione.",
