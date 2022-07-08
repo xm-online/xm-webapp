@@ -1,6 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
@@ -13,6 +13,7 @@ import { Location } from '../shared/location.model';
 import { LocationService } from '../shared/location.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
+import { XmEntitySpec } from '@xm-ngx/entity';
 
 declare let $: any;
 declare let google: any;
@@ -20,6 +21,7 @@ declare let google: any;
 @Component({
     selector: 'xm-location-list-card',
     templateUrl: './location-list-card.component.html',
+    styleUrls: ['./location-list-card.component.scss'],
 })
 export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -46,6 +48,7 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
     @Input() public xmEntityId: number;
     @Input() public locationSpecs: LocationSpec[];
     @Input() public entityUiConfig: any;
+    @Input() public xmEntitySpec: XmEntitySpec;
     public xmEntity: XmEntity;
     public locations: Location[];
     public locationMaps: any;
@@ -144,6 +147,20 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.modificationSubscription = this.eventManager.subscribe('locationListModification',
             () => this.load());
     }
+
+    public onAddALocation(): void {
+        this.openDialog(LocationDetailDialogComponent, (modalRef) => {
+            modalRef.componentInstance.locationSpecs = this.xmEntitySpec.locations;
+        }, {size: 'lg', backdrop: 'static'});
+    }
+
+    private openDialog(dialogClass: any, operation: any, options?: any): MatDialogRef<any> {
+        const modalRef = this.modalService.open<any>(dialogClass, options ? options : {width: '500px'});
+        modalRef.componentInstance.xmEntity = this.xmEntity;
+        operation(modalRef);
+        return modalRef;
+    }
+
 
     private load(): void {
         this.locations = [];

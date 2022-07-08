@@ -1,0 +1,30 @@
+:host {
+  .location-card {
+    margin: 18px;
+    .grey-bg {
+      background-color: #F5F5F5;
+    }
+    .add-location-card-body {
+      padding: 60px 0;
+      img {
+        margin-bottom: 18px;
+      }
+      .xm-state {
+        cursor: pointer;
+        background-color: transparent;
+        border: 1px solid #81E353;
+        color: #81E353;
+      }
+    }
+    .location-name {
+      color: #19191A;
+    }
+    .remove-location {
+      color: #F11A1A;
+    }
+    .edit-location {
+      color: #1273B9;
+    }
+  }
+
+}

@@ -55,6 +55,7 @@
           <div *ngSwitchCase="'location-list-card'">
             <xm-location-list-card
               *ngIf="xmEntitySpec?.locations?.length"
+              [xmEntitySpec]="xmEntitySpec"
               [entityUiConfig]="this.entityUiConfig" [locationSpecs]="xmEntitySpec?.locations"
               [xmEntityId]="fetchedXmEntity.id">
             </xm-location-list-card>
