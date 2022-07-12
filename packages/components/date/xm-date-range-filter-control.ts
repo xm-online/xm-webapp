@@ -19,6 +19,7 @@ const dateInitValues = {
     '7DaysAgo': 7,
     '14daysAgo': 14,
     monthAgo: 30,
+    currentMonth: new Date().getDate() - 1,
 };
 
 type DateInitValues = keyof typeof dateInitValues;
@@ -119,7 +120,7 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
             return;
         }
 
-        if (!dateInitValues[initValue]) {
+        if (!(initValue in dateInitValues)) {
             console.warn(`Wrong 'initValue', it can be only one of ${Object.keys(dateInitValues)}`);
             return;
         }
