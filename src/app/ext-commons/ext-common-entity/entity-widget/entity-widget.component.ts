@@ -80,7 +80,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
         for (const xmEntitySpec of this.spec.types) {
             if (xmEntitySpec.links) {
                 for (const linkSpec of xmEntitySpec.links) {
-                    if (linkSpec.typeKey === typeKey) {
+                    if (linkSpec.typeKey === typeKey || typeKey.startsWith(linkSpec.typeKey + '.')) {
                         result[linkSpec.key] = Object.assign({}, linkSpec);
                     }
                 }
