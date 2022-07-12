@@ -21,6 +21,7 @@ import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-deta
 
 import swal from 'sweetalert2/dist/sweetalert2';
 import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'xm-entity-card-compact',
@@ -31,6 +32,7 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
 
     @ViewChild('rating', {static: false}) public rating: RatingListSectionComponent;
 
+    @Input() public navBackEnabled?: boolean;
     @Input() public displayMode?: EntityDetailDisplayMode = 'BOTH';
     @Input() public preventDefaultUpdateError?: boolean;
     @Input() public entityUiConfig: EntityUiConfig;
@@ -52,9 +54,14 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
         protected eventManager: XmEventManager,
         protected translateService: TranslateService,
         protected xmEntityService: XmEntityService,
-        protected widgetService: JsfComponentRegistryService
+        protected widgetService: JsfComponentRegistryService,
+        private location: Location,
     ) {
         super(modalService, principal, eventManager);
+    }
+
+    public onBack(): void {
+        this.location.back();
     }
 
     public ngOnInit(): void {

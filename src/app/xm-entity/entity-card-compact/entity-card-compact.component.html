@@ -5,6 +5,13 @@
   <ng-container *ngIf="displayMode === 'BOTH' || displayMode === 'HEAD'">
     <div class="card-header card-header-icon card-header-primary text-left">
       <!-- avatar is shown as a card heading, avatar editing is in the card-menu -->
+      <div class="arrow-back" *ngIf="navBackEnabled">
+        <button (click)="onBack()"
+                class="rounded-circle"
+                mat-icon-button>
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
       <ng-container *ngIf="isAvatarEnabled">
         <div *ngIf="xmEntity.avatarUrl" class="card-icon avatar">
           <img src="{{xmEntity.avatarUrl}}">
