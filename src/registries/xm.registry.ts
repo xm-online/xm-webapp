@@ -125,4 +125,8 @@ export const XM_ELEMENTS: XmDynamicEntries = [
         selector: '@xm-ngx/components/hint-switch',
         loadChildren: () => import('@xm-ngx/components/hint/hint-switch/hint-switch.module').then(m => m.HintSwitchModule),
     },
+    {
+        selector: '@xm-ngx/components/unix-time-stamp-to-spent-time',
+        loadChildren: () => import('@xm-ngx/components/date/xm-unix-time-stamp-to-spent-time-format').then(m => m.XmUnixTimeStampToSpentTimeFormatModule),
+    },
 ];

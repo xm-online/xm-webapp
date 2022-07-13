@@ -33,3 +33,8 @@ export {
     XmDateViewOptions,
     XmDateViewModule,
 } from './xm-date-view';
+
+export {
+    XmUnixTimeStampToSpentTimeFormatComponent,
+    XmUnixTimeStampToSpentTimeFormatModule,
+} from './xm-unix-time-stamp-to-spent-time-format';
