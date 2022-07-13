@@ -70,9 +70,9 @@ export class CalendarCardComponent implements OnChanges {
                     return this.xmConfigService.getUiConfig();
                 }),
                 tap((res) => {
-                    const entity: EntityUiConfig = (res.applications.config.entities || [])
-                        .find((el => el.typeKey === this.xmEntity.typeKey)) || {};
-                    this.calendarConfig = (entity.calendars && entity.calendars.items) || [];
+                    const entity: EntityUiConfig = (res?.applications?.config?.entities || [])
+                        .find((el => el?.typeKey === this.xmEntity.typeKey)) || {};
+                    this.calendarConfig = (entity?.calendars && entity?.calendars?.items) || [];
                 }),
             )
             .subscribe(() => {
