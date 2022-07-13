@@ -11,8 +11,11 @@
 
     <div class="ext-md-editor__actions">
       <div class="ext-md-editor__actions-action">
+        <button type="button" mat-icon-button (click)="onSaveMd()" *ngIf="isEditable">
+          <mat-icon>save</mat-icon>
+        </button>
         <button type="button" mat-icon-button (click)="onToggleEditor()">
-          <mat-icon>edit</mat-icon>
+          <mat-icon>{{isEditable ? 'clear' : 'edit'}}</mat-icon>
         </button>
       </div>
     </div>
@@ -20,13 +23,5 @@
 
   <div class="ext-md-editor__editor" *ngIf="isEditable">
     <td-text-editor [options]="editorOptions" [value]="componentText" #mdEditor></td-text-editor>
-
-    <div class="ext-md-editor__editor-actions">
-      <div class="ext-md-editor__editor-actions-action">
-        <button type="button" mat-button color="primary" class="btn" (click)="onSaveMd()">
-          {{ 'global.shared.ext-md-editor.save-button' | translate }}
-        </button>
-      </div>
-    </div>
   </div>
 </div>
