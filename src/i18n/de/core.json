@@ -1429,7 +1429,10 @@
         "remove-success": "Speicherort wurde erfolgreich entfernt.",
         "title": "Möchten Sie den Standort wirklich löschen?"
       },
-      "title": "Orte"
+      "not-defined": "Ort nicht definiert",
+      "add-location": "Ort hinzufügen",
+      "title": "Orte",
+      "title-location": "Ort"
     },
     "rating-list-section": {
       "vote-error": "Ihre Stimme wird nicht berücksichtigt.",
