@@ -14,6 +14,16 @@ import { LocationService } from '../shared/location.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
 import { XmEntitySpec } from '@xm-ngx/entity';
+import {
+    AUTO_STYLE,
+    animate,
+    state,
+    style,
+    transition,
+    trigger,
+} from '@angular/animations';
+
+const ANIMATION_DURATION = 300;
 
 declare let $: any;
 declare let google: any;
@@ -22,6 +32,14 @@ declare let google: any;
     selector: 'xm-location-list-card',
     templateUrl: './location-list-card.component.html',
     styleUrls: ['./location-list-card.component.scss'],
+    animations: [
+        trigger('collapse', [
+            state('false', style({ height: AUTO_STYLE, visibility: AUTO_STYLE })),
+            state('true', style({ height: '0', visibility: 'hidden' })),
+            transition('false => true', animate(ANIMATION_DURATION + 'ms ease-in')),
+            transition('true => false', animate(ANIMATION_DURATION + 'ms ease-out')),
+        ]),
+    ],
 })
 export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -54,6 +72,7 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
     public locationMaps: any;
     public noDataText: any;
     private modificationSubscription: Subscription;
+    public collapsedAddLocation = true;
 
     constructor(private xmEntityService: XmEntityService,
                 private locationService: LocationService,
@@ -161,6 +180,10 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
         return modalRef;
     }
 
+    public collapseAddLocationBlock(): void {
+        this.collapsedAddLocation = !this.collapsedAddLocation;
+    }
+
 
     private load(): void {
         this.locations = [];
@@ -170,6 +193,8 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
                 this.xmEntity = xmEntity.body;
                 if (xmEntity.body.locations) {
                     this.locations = [...xmEntity.body.locations];
+                } else {
+                    this.collapsedAddLocation = false;
                 }
             });
     }

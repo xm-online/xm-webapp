@@ -57,11 +57,13 @@
   </div>
 </div>
 <div class="location-card" *xmPermitted="['LOCATION.CREATE']">
-  <h4 class="card-title">{{'xm-entity.location-list-card.title-location'|translate}}</h4>
-  <div class="flex-row justify-content-center align-content-center grey-bg">
+  <h4 class="card-title" (click)="collapseAddLocationBlock()">
+    {{'xm-entity.location-list-card.add-location' | translate}}
+  </h4>
+  <div class="flex-row justify-content-center align-content-center grey-bg" [@collapse]="collapsedAddLocation">
     <div class="add-location-card-body d-flex flex-column align-items-center">
       <img src="../assets/img/leaflet/marker-icon-grey.svg" alt="'marker'">
-      <h6>{{'xm-entity.location-list-card.not-defined' | translate}}</h6>
+      <h6 *ngIf="locations?.length === 0">{{'xm-entity.location-list-card.not-defined' | translate}}</h6>
       <div class="xm-state" (click)="onAddALocation()">
         {{'xm-entity.location-list-card.add-location' | translate}}
       </div>
