@@ -30,7 +30,9 @@ import { EntityListCardComponent } from './entity-list-card/entity-list-card.com
 import { EntityListComponent } from './entity-list-card/entity-list/entity-list.component';
 import { EntityListFabComponent } from './entity-list-fab/entity-list-fab.component';
 import { FunctionCallDialogComponent } from './function-call-dialog/function-call-dialog.component';
-import { FunctionListSectionCompactComponent } from './function-list-section-compact/function-list-section-compact.component';
+import {
+    FunctionListSectionCompactComponent
+} from './function-list-section-compact/function-list-section-compact.component';
 import { FunctionListSectionComponent } from './function-list-section/function-list-section.component';
 import { AreaComponent } from './functions/area/area.component';
 import { OsmPolygonDialogComponent } from './functions/area/osm-polygon-dialog.component';
@@ -70,7 +72,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { OwlDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
 
 const MODULES = [

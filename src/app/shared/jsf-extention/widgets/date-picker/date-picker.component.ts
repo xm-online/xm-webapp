@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
-import { DateTimeAdapter, OwlDateTimeIntl } from 'ng-pick-datetime';
+import { DateTimeAdapter, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
 
 import { ModulesLanguageHelper } from '@xm-ngx/components/language';
 import { DatePickerOptionsModel } from './date-picker-options.model';

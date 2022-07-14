@@ -5,7 +5,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
 import { ReCaptchaModule } from 'angular2-recaptcha';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MarkdownModule } from 'ngx-markdown';
 
