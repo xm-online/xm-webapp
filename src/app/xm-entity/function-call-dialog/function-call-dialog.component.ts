@@ -126,6 +126,7 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
     }
 
     private handleError(response: any): Observable<any> {
+        console.warn(response);
         this.cancelLoader();
         if (this.onError) {
             this.onError(response);
