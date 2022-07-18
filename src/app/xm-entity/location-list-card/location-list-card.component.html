@@ -57,7 +57,7 @@
   </div>
 </div>
 <div class="location-card" *xmPermitted="['LOCATION.CREATE']">
-  <h4 class="card-title" (click)="collapseAddLocationBlock()">
+  <h4 class="card-title" (click)="collapseAddLocationBlock()" style="cursor: pointer">
     {{'xm-entity.location-list-card.add-location' | translate}}
   </h4>
   <div class="flex-row justify-content-center align-content-center grey-bg" [@collapse]="collapsedAddLocation">
