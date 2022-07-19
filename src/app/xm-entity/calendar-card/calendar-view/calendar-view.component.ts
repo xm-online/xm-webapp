@@ -176,7 +176,10 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
         if (!this.calendar.readonly) {
             const calendarApi = this.calendarComponent.getApi();
             const modifiedEvent = this.formatEventDates(event, start, end);
-            const modalRef = this.modalService.open(CalendarEventDialogComponent);
+            const modalRef = this.modalService.open(CalendarEventDialogComponent, {
+                height: '100%',
+                autoFocus: false,
+            });
             modalRef.componentInstance.xmEntity = this.xmEntity;
             modalRef.componentInstance.timezone = this.getCalendarTimezone();
             modalRef.componentInstance.event = modifiedEvent;
