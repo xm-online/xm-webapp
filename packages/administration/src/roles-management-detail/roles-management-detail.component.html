@@ -67,7 +67,7 @@
                 color="primary"
                 type="button"
                 (click)="onSave()"
-                [disabled]="readOnlyMode">
+                [disabled]="readOnlyMode || showLoader">
           <mat-icon>save</mat-icon>
           {{'entity.action.save'|translate}}
         </button>
