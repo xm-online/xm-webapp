@@ -34,7 +34,7 @@
   <div fxLayout="row wrap" fxLayoutGap="16px grid">
     <div *ngFor="let childDashboard of childrenDashboards" fxFlex="33%" fxFlex.sm="50%" fxFlex.xs="100%">
       <a [routerLink]="['/dashboard/'].concat(childDashboard.config.slug.split('/'))">
-        <mat-card *permitted="childDashboard.permission" matRipple>
+        <mat-card *permitted="childDashboard.permission || 'DASHBOARD.GET_LIST'" matRipple>
             <mat-card-subtitle>
               {{childDashboard.config.slug}}
             </mat-card-subtitle>
