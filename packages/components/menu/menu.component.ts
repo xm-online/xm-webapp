@@ -129,6 +129,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     public toggle(node: MenuItem, evt: Event): void {
         evt.preventDefault();
 
+        this.router.navigate(node.url);
+
         if (this.treeControl.isExpanded(node)) {
             this.treeControl.collapse(node);
 
