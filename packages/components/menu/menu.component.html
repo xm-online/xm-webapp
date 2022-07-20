@@ -11,14 +11,13 @@
   <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
     <a class="menu-link"
        *permitted="node.permission"
-       (click)="toggle(node, $event)"
+       (click)="groupNavigate(node, $event)"
        [class.active]="treeControl.isExpanded(node)">
       <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
       <span class="xm-menu-item-text">{{node?.title | translate}}</span>
       <span class="ml-auto"></span>
-      <mat-icon [@indicatorRotate]="isNodeExpanded(node)">
-        expand_more
-      </mat-icon>
+
+      <mat-icon class="menu-link-icon" (click)="toggle(node, $event)" [@indicatorRotate]="isNodeExpanded(node)">expand_more</mat-icon>
     </a>
 
     <div class="menu-list" role="group" [@bodyExpansion]="isNodeExpanded(node)">

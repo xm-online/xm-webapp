@@ -7,11 +7,13 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { MenuLinkComponent } from './menu-link.component';
 import { MenuComponent } from './menu.component';
 import { CdkTreeModule } from '@angular/cdk/tree';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     imports: [
         RouterModule,
         MatIconModule,
+        MatButtonModule,
         XmTranslationModule,
         CommonModule,
         CdkTreeModule,
