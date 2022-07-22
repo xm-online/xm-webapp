@@ -126,8 +126,25 @@ export class MenuComponent implements OnInit, OnDestroy {
         }
     }
 
+    public groupNavigate(node: MenuItem, evt: Event): void {
+        evt.preventDefault();
+
+        let url = node.url;
+        
+        if (_.isEmpty(node.parent)) {
+            const firstChild = _.head(node.children);
+
+            if (firstChild) {
+                url = firstChild.url;
+            }
+        }
+
+        this.router.navigate(url);
+    }
+
     public toggle(node: MenuItem, evt: Event): void {
         evt.preventDefault();
+        evt.stopPropagation();
 
         if (this.treeControl.isExpanded(node)) {
             this.treeControl.collapse(node);
