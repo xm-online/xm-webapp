@@ -87,6 +87,7 @@ import { FlexLayoutSectionComponent } from '@ajsf/material';
                                         [layout]="layoutNode.items"
                                         [dataIndex]="dataIndex"
                                         [layoutIndex]="layoutIndex"
+                                        [parentOptions]="computeOptions"
                                         [isFlexItem]="getFlexAttribute('is-flex')"
                                         [class.form-flex-column]="getFlexAttribute('flex-direction') === 'column'"
                                         [class.form-flex-row]="getFlexAttribute('flex-direction') === 'row'"
@@ -110,4 +111,12 @@ import { FlexLayoutSectionComponent } from '@ajsf/material';
     `],
 })
 export class XmFlexLayoutSectionComponent extends FlexLayoutSectionComponent {
+    get computeOptions(): Record<string, string> {
+        const computeLayout = `${this.getFlexAttribute('flex-direction')} ${this.getFlexAttribute('flex-wrap')}`;
+
+        return {
+            ...(this.options),
+            fxLayout: this.options.fxLayout ?? computeLayout,
+        };
+    }
 }
