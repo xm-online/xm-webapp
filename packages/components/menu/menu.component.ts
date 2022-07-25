@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router } from '@angular/router';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
@@ -14,7 +14,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { treeNodeSearch } from '../../shared/operators/src/tree-search';
 import { buildMenuTree } from './nested-menu';
 import { applicationsToCategory, filterByConditionDashboards } from './flat-menu';
-import { MenuItem } from '@xm-ngx/components/menu/menu.interface';
+import { MenuItem, MenuOptions } from '@xm-ngx/components/menu/menu.interface';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 @Component({
@@ -30,6 +30,17 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MenuComponent implements OnInit, OnDestroy {
+    private _config: MenuOptions;
+
+    @Input() set config(value: MenuOptions | null) {
+        this._config = _.defaultsDeep(value, {
+            'mode': 'toggle',
+        });
+    }
+    get config(): MenuOptions {
+        return this._config;
+    }
+
     public treeControl = new NestedTreeControl<MenuItem>(node => node.children);
     public categories$: Observable<MenuItem[]>;
 
@@ -130,7 +141,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         evt.preventDefault();
 
         let url = node.url;
-        
+
         if (_.isEmpty(node.parent)) {
             const firstChild = _.head(node.children);
 
@@ -140,6 +151,14 @@ export class MenuComponent implements OnInit, OnDestroy {
         }
 
         this.router.navigate(url);
+    }
+
+    public toggleOrNavigate(node: MenuItem, evt: Event): void {
+        if (this.config?.mode == 'toggle') {
+            this.toggle(node, evt);
+        } else {
+            this.groupNavigate(node, evt);
+        }
     }
 
     public toggle(node: MenuItem, evt: Event): void {

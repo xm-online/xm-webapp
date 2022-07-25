@@ -11,7 +11,7 @@
   <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
     <a class="menu-link"
        *permitted="node.permission"
-       (click)="groupNavigate(node, $event)"
+       (click)="toggleOrNavigate(node, $event)"
        [class.active]="treeControl.isExpanded(node)">
       <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
       <span class="xm-menu-item-text">{{node?.title | translate}}</span>
