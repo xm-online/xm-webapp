@@ -10,4 +10,7 @@ export interface XmDynamicWidget {
 
     /** @deprecated spec will be removed, you should provide the spec locally */
     spec?: unknown;
+    readme?: {
+        default?: string;
+    };
 }
