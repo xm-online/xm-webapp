@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FlexLayoutRootComponent } from '@ajsf/material';
 import { CdkDrag, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { XmJsonSchemaFormService } from '@xm-ngx/json-schema-form/core/xm-json-schema-form.service';
@@ -10,7 +10,16 @@ export function isNodeDraggable(node: Record<string, any>): boolean {
 @Component({
     selector: 'xm-flex-layout-root-widget',
     template: `
-        <div cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListSortPredicate]="sortPredicate.bind(this)">
+        <!-- We add specific fxLayout because fxFlex add random styles to parent  -->
+        <div [fxLayout]="parentOptions?.fxLayout"
+             [fxLayoutGap]="parentOptions?.fxLayoutGap"
+             [fxLayoutAlign]="parentOptions?.fxLayoutAlign"
+             fxFlex="auto"
+
+             cdkDropList
+             (cdkDropListDropped)="drop($event)"
+             [cdkDropListSortPredicate]="sortPredicate.bind(this)">
+
             <div cdkDrag
                  [cdkDragData]="layoutNode"
                  [cdkDragDisabled]="!isDraggable(layoutNode)"
@@ -39,7 +48,7 @@ export function isNodeDraggable(node: Record<string, any>): boolean {
     `,
     styles: [`
         .cdk-drop-list {
-            width: 100%;
+            /*width: 100%;*/
         }
 
         .cdk-drop-list-dragging:not(.cdk-drag-placeholder) {
@@ -79,6 +88,10 @@ export function isNodeDraggable(node: Record<string, any>): boolean {
     `],
 })
 export class XmFlexLayoutRootComponent extends FlexLayoutRootComponent {
+    @Input() public flexLayout: string;
+
+    @Input() public parentOptions?: Record<string, string>;
+
     constructor(
         private schemaFormService: XmJsonSchemaFormService,
     ) {
