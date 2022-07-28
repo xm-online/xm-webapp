@@ -73,6 +73,7 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
     public noDataText: any;
     private modificationSubscription: Subscription;
     public collapsedAddLocation = true;
+    public openedLocation = false;
 
     constructor(private xmEntityService: XmEntityService,
                 private locationService: LocationService,
@@ -116,6 +117,7 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public onCollapseMap(location: Location): void {
+        this.openedLocation = !this.openedLocation;
         if (this.locationMaps.hasOwnProperty(location.id)) {
             setTimeout(() => {
                 google.maps.event.trigger(this.locationMaps[location.id], 'resize');

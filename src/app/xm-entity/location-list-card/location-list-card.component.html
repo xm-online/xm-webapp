@@ -23,6 +23,7 @@
                       )</em>{{location | locationAddress}}
                 </span>
                 <span class="col-auto">
+                  <mat-icon [class.rotate-arrow]="openedLocation">keyboard_arrow_down</mat-icon>
                   <a (click)="onManage(location)"
                      *xmPermitted="['LOCATION.UPDATE']"
                      class="d-inline edit-location mr-2">Edit</a>
