@@ -54,7 +54,7 @@ const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
 
-            <mat-hint *ngIf="options.maxLength" align="end">{{value?.length}} / {{options.maxLength}}</mat-hint>
+            <mat-hint *ngIf="options.maxLength" align="end" style="min-width: fit-content">{{value?.length}} / {{options.maxLength}}</mat-hint>
 
             <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
