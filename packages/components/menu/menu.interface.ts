@@ -1,5 +1,13 @@
 import { Translate } from '@xm-ngx/translation';
 
+/**
+ * toggle: Just open like accordion
+ * click: Open like accordion and navigate to first child
+ */
+export interface MenuOptions {
+    mode: 'toggle' | 'click';
+}
+
 export interface MenuItem {
     path: string;
     /**

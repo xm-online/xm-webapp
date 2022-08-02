@@ -23,6 +23,7 @@
                       )</em>{{location | locationAddress}}
                 </span>
                 <span class="col-auto">
+                  <mat-icon [class.rotate-arrow]="openedLocation">keyboard_arrow_down</mat-icon>
                   <a (click)="onManage(location)"
                      *xmPermitted="['LOCATION.UPDATE']"
                      class="d-inline edit-location mr-2">Edit</a>
@@ -57,9 +58,12 @@
   </div>
 </div>
 <div class="location-card" *xmPermitted="['LOCATION.CREATE']">
-  <h4 class="card-title" (click)="collapseAddLocationBlock()">
-    {{'xm-entity.location-list-card.add-location' | translate}}
-  </h4>
+  <div class="row justify-content-between" (click)="collapseAddLocationBlock()" style="cursor: pointer">
+    <h4 class="card-title">
+      {{'xm-entity.location-list-card.add-location' | translate}}
+    </h4>
+    <mat-icon [class.rotate-arrow]="!collapsedAddLocation">keyboard_arrow_down</mat-icon>
+  </div>
   <div class="flex-row justify-content-center align-content-center grey-bg" [@collapse]="collapsedAddLocation">
     <div class="add-location-card-body d-flex flex-column align-items-center">
       <img src="../assets/img/leaflet/marker-icon-grey.svg" alt="'marker'">
