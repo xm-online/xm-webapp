@@ -23,7 +23,7 @@
       <h4 class="card-title">{{xmEntity.name}}</h4>
     </div>
     <div class="card-menu">
-
+      <span>{{'xm-entity.entity-data-card.current-state' | translate}}: </span>
       <xm-entity-state class="state-top" [stateSpec]="getCurrentStateSpec()"></xm-entity-state>
 
       <button [matMenuTriggerFor]="actionItems" mat-icon-button>

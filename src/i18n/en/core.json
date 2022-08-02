@@ -1090,7 +1090,8 @@
       "title": "Data",
       "update-error": "Not updated. Try again.",
       "update-success": "Updated successfully.",
-      "change-avatar": "Change Picture"
+      "change-avatar": "Change Picture",
+      "current-state": "Current status"
     },
     "entity-detail-dialog": {
       "add": {
