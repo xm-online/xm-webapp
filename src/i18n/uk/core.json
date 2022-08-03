@@ -1056,7 +1056,8 @@
       "title": "Дані",
       "update-error": "Не оновлено. Спробуйте ще раз.",
       "update-success": "Оновлено успішно.",
-      "change-avatar": "Змінити фото"
+      "change-avatar": "Змінити фото",
+      "current-state": "Поточний стан"
     },
     "entity-detail-dialog": {
       "add": {
