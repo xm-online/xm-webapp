@@ -141,17 +141,6 @@ FullCalendarModule.registerPlugins([
         AttachmentListBaseComponent,
         EntityListComponent,
     ],
-    entryComponents: [
-        AttachmentDetailDialogComponent,
-        AvatarDialogComponent,
-        CalendarEventDialogComponent,
-        CommentDetailDialogComponent,
-        FunctionCallDialogComponent,
-        StateChangeDialogComponent,
-        LinkDetailDialogComponent,
-        LocationDetailDialogComponent,
-        OsmPolygonDialogComponent,
-    ],
     exports: [
         MODULES,
         AreaComponent,
@@ -194,7 +183,7 @@ FullCalendarModule.registerPlugins([
         XmEntityService,
         XmEntitySpecService,
         CalendarChangeService,
-    ],
+    ]
 })
 export class XmEntityModule {
 }

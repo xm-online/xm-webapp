@@ -1,5 +1,5 @@
 import { Component, NgModule, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { EntityStateModule } from '@xm-ngx/entity/entity-state';
@@ -23,7 +23,7 @@ export class StatesManagementDialogComponent implements OnInit {
 
     public selectedSpec: string;
     public selectedSpecKey$: Subject<string> = new Subject<string>();
-    public formSpecSearch: FormControl;
+    public formSpecSearch: UntypedFormControl;
     public filteredSpecOptions$: Observable<XmEntitySpec[]>;
     public ratioSpec$: any;
 
@@ -41,7 +41,7 @@ export class StatesManagementDialogComponent implements OnInit {
                 tap((specs) => this.specs = specs),
             );
 
-        this.formSpecSearch = new FormControl();
+        this.formSpecSearch = new UntypedFormControl();
         this.filteredSpecOptions$ = this.formSpecSearch.valueChanges
             .pipe(
                 startWith(''),
@@ -103,8 +103,7 @@ export class StatesManagementDialogComponent implements OnInit {
     imports: [XmSharedModule, NoDataModule, EntityStateModule, ModalCloseModule],
     exports: [StatesManagementDialogComponent],
     declarations: [StatesManagementDialogComponent],
-    entryComponents: [StatesManagementDialogComponent],
-    providers: [],
+    providers: []
 })
 export class StatesManagementDialogModule {
 }

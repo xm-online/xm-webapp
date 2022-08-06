@@ -56,7 +56,6 @@ export class LinksGroupWidget {
 
 @NgModule({
     declarations: [LinksGroupWidget],
-    entryComponents: [LinksGroupWidget],
     exports: [LinksGroupWidget],
     imports: [
         CommonModule,
@@ -66,7 +65,7 @@ export class LinksGroupWidget {
         MatButtonModule,
         MatTabsModule,
         IfDashboardSlugModule,
-    ],
+    ]
 })
 export class LinksGroupWidgetModule {
     public entry: Type<XmDynamicWidget> = LinksGroupWidget;

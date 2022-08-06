@@ -38,7 +38,6 @@ export class LinksGroupButtonWidget {
 
 @NgModule({
     declarations: [LinksGroupButtonWidget],
-    entryComponents: [LinksGroupButtonWidget],
     exports: [LinksGroupButtonWidget],
     imports: [
         CommonModule,
@@ -46,7 +45,7 @@ export class LinksGroupButtonWidget {
         XmPermissionModule,
         XmTranslationModule,
         MatButtonModule,
-    ],
+    ]
 })
 export class LinksGroupButtonWidgetModule {
     public entry: Type<XmDynamicWidget> = LinksGroupButtonWidget;

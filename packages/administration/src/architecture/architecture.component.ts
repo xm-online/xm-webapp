@@ -159,8 +159,7 @@ export class ArchitectureComponent implements OnInit {
     imports: [CommonModule, XmSharedModule],
     exports: [ArchitectureComponent],
     declarations: [ArchitectureComponent],
-    entryComponents: [ArchitectureComponent],
-    providers: [],
+    providers: []
 })
 export class HighLevelArchitectureWidgetModule {
     public entry: Type<ArchitectureComponent> = ArchitectureComponent;

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { ITranslate, Locale, Translate } from '@xm-ngx/translation';
@@ -144,7 +144,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     @Input() public readonly: boolean;
     @Input() public name: string | null = null;
-    @Input() public control?: FormControl;
+    @Input() public control?: UntypedFormControl;
 
     private _options: MultiLanguageOptions = clone(MULTI_LANGUAGE_DEFAULT_OPTIONS);
 

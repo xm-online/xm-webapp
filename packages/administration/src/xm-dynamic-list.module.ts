@@ -1,7 +1,7 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnInit, Type } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
     ExtendedDynamicComponents,
@@ -57,9 +57,9 @@ import { map, shareReplay, startWith } from 'rxjs/operators';
 
 export class XmDynamicListComponent implements OnInit {
 
-    public filterControl: FormControl = new FormControl();
-    public valueControl: FormControl = new FormControl();
-    public optionsControl: FormControl = new FormControl();
+    public filterControl: UntypedFormControl = new UntypedFormControl();
+    public valueControl: UntypedFormControl = new UntypedFormControl();
+    public optionsControl: UntypedFormControl = new UntypedFormControl();
     public activeWidget: ExtendedDynamicComponents = null;
     public filteredWidgets$: Observable<ExtendedDynamicComponents[]>;
 

@@ -4,7 +4,7 @@ import {
     takeUntilOnDestroyDestroy,
 } from '@xm-ngx/shared/operators';
 
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
     ColumnsSettingStorageItem,
     ColumnsSettingStorageService,
@@ -16,7 +16,7 @@ import {
     styleUrls: [],
 })
 export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
-    public form: FormGroup;
+    public form: UntypedFormGroup;
     public columns: ColumnsSettingStorageItem[] = [];
     public isSelectedAll: boolean;
     public TRS = {
@@ -33,7 +33,7 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
 
     constructor(
         private columnsSettingStorageService: ColumnsSettingStorageService,
-        private fb: FormBuilder,
+        private fb: UntypedFormBuilder,
     ) { }
 
     public ngOnInit(): void {

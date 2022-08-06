@@ -1,9 +1,9 @@
 import { Directive, forwardRef, Input } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { XmDynamicControlDirective, XmDynamicControl } from './xm-dynamic-control.directive';
 
 export interface IFormControl<V, O> extends XmDynamicControl<V, O> {
-    control: FormControl;
+    control: UntypedFormControl;
 }
 
 @Directive({
@@ -17,7 +17,7 @@ export interface IFormControl<V, O> extends XmDynamicControl<V, O> {
 export class XmDynamicFormControlDirective<V, O> extends XmDynamicControlDirective<V, O> {
 
     /** Component value */
-    @Input() public control: FormControl;
+    @Input() public control: UntypedFormControl;
 
     /** Returns instance of created object */
     public instance: IFormControl<V, O>;

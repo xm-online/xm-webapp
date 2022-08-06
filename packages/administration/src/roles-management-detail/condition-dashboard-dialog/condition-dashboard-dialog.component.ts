@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmTextControlOptions, XmTextViewOptions } from '@xm-ngx/components/text';
 import { Dashboard, DashboardStore } from '@xm-ngx/dashboard';
@@ -55,8 +55,8 @@ export class ConditionDashboardDialogComponent implements OnInit, OnDestroy {
     public initialSelection = [];
     public allowMultiSelect = true;
     public selection = new SelectionModel<Dashboard>(this.allowMultiSelect, this.initialSelection);
-    public searchControl: FormControl = new FormControl();
-    public activeControl: FormControl = new FormControl(false);
+    public searchControl: UntypedFormControl = new UntypedFormControl();
+    public activeControl: UntypedFormControl = new UntypedFormControl(false);
     public columns: string[] = ['typeKey', 'select'];
     private dashboards: Dashboard[];
     public defaultConfig = DEFAULT_CONFIG;
