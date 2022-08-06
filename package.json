@@ -56,7 +56,7 @@
   "dependencies": {
     "@agm/core": "3.0.0-beta.0",
     "@agm/js-marker-clusterer": "1.1.0",
-    "@agm/snazzy-info-window": "1.1.0",
+    "@agm/snazzy-info-window": "3.0.0-beta.0",
     "@ajsf/core": "0.4.0-beta.2",
     "@ajsf/material": "0.4.0-beta.1",
     "@angular/animations": "13.3.11",
