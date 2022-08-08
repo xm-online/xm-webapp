@@ -1074,7 +1074,8 @@
       "title": "Dati",
       "update-error": "Non aggiornato. Riprova.",
       "update-success": "Aggiornato correttamente.",
-      "change-avatar": "Cambia immagine"
+      "change-avatar": "Cambia immagine",
+      "current-state": "Stato attuale"
     },
     "entity-detail-dialog": {
       "add": {
