@@ -5,12 +5,13 @@ import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material
 import { MatChipInputEvent } from '@angular/material/chips';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { AriaLabel, DataQa } from '@xm-ngx/shared/interfaces';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, startWith, switchMap, withLatestFrom } from 'rxjs/operators';
 import { HintText } from '@xm-ngx/components/hint';
+import { EntityCollectionFactoryService, QueryParams } from '@xm-ngx/components/entity-collection';
+import { uniqBy as _uniqBy, get as _get } from 'lodash/fp';
 
 interface XmArrayItem {
     value: string
@@ -22,7 +23,12 @@ export interface XmArrayControlOptions extends DataQa, AriaLabel {
     placeholder?: Translate;
     removable?: boolean;
     selectable?: boolean;
-    autocomplete: (string | XmArrayItem)[];
+    search?: {
+        resourceUrl: string;
+        queryParams: QueryParams;
+        pickKey: string;
+    }
+    autocomplete: string[] | XmArrayItem[];
 }
 
 export const XM_ARRAY_CONTROL_OPTIONS_DEFAULT: XmArrayControlOptions = {
@@ -39,22 +45,23 @@ export const XM_ARRAY_CONTROL_OPTIONS_DEFAULT: XmArrayControlOptions = {
     templateUrl: './xm-array-control.component.html',
 })
 export class XmArrayControlComponent extends NgFormAccessor<string[]> {
-    public inputControl: FormControl = new FormControl();
+    public searchControl: FormControl = new FormControl();
 
-    public filteredAutocomplete: Observable<{ value: string }[]>;
-    public autocompleteList: XmArrayItem[];
+    public separatorKeysCodes: number[] = [ENTER, COMMA];
+
+    public filteredItems: Observable<{ value: string }[]>;
+    public selectedItems: string[] = [];
+
+    public presetAutocomplete: XmArrayItem[] = [];
+
     @ViewChild('input') public input: ElementRef<HTMLInputElement>;
     @ViewChild('auto') public matAutocomplete: MatAutocomplete;
 
-    public separatorKeysCodes: number[] = [ENTER, COMMA];
-    public selected: string[] = [];
-
-    constructor(@Optional() @Self() public ngControl: NgControl) {
+    constructor(
+        @Optional() @Self() public ngControl: NgControl,
+        private factoryService: EntityCollectionFactoryService,
+    ) {
         super(ngControl);
-        this.filteredAutocomplete = this.inputControl.valueChanges.pipe(
-            startWith(null),
-            takeUntilOnDestroy(this),
-            map((item: string | null) => item ? this.filter(item) : (this.autocompleteList || []).slice()));
     }
 
     private _options: XmArrayControlOptions = clone(XM_ARRAY_CONTROL_OPTIONS_DEFAULT);
@@ -70,14 +77,44 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         });
 
         this._options.placeholder = this._options.placeholder || this._options.title;
-
-        this.autocompleteList = this._options.autocomplete.map(i => typeof i === 'string' ? { value: i } : i);
+        this.presetAutocomplete = this.buildItems(this._options.autocomplete);
     }
 
     public ngOnInit(): void {
         super.ngOnInit();
-        this.selected = this.control.value || [];
-        this.inputControl.validator = this.control.validator;
+
+        this.filteredItems = this.searchControl.valueChanges.pipe(startWith<string, null>(null)).pipe(
+            withLatestFrom(of(this.presetAutocomplete).pipe(
+                switchMap((autocompleteList) => {
+                    const { resourceUrl = null, queryParams = {}, pickKey = 'name' } = this.options.search;
+
+                    if (resourceUrl) {
+                        return this.factoryService.create<unknown>(resourceUrl)
+                            .query(queryParams).pipe(
+                                map(({ body: items = [] }) => items?.map(item => _get(pickKey, item))),
+                                map(items => [
+                                    ...this.buildItems(items),
+                                    ...autocompleteList,
+                                ]),
+                            );
+                    }
+
+                    return of(autocompleteList);
+                }),
+            )),
+            map(([search, items]) => {
+                items = _uniqBy('value', items);
+
+                if (search?.length > 0) {
+                    return items.filter(i => i.value.toLowerCase().indexOf(search.toLowerCase()) === 0);
+                }
+
+                return items;
+            }),
+        );
+
+        this.selectedItems = this.control.value || [];
+        this.searchControl.validator = this.control.validator;
     }
 
     public add(event: MatChipInputEvent): void {
@@ -85,48 +122,42 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         const value = event.value;
 
         if ((value || '').trim()) {
-            if (!this.selected) {
-                this.selected = [];
+            if (!this.selectedItems) {
+                this.selectedItems = [];
             }
-            this.selected.push(value.trim());
+            this.selectedItems.push(value.trim());
         }
 
         if (input) {
             input.value = '';
         }
 
-        this.inputControl.setValue(null);
-        this.change(this.selected);
+        this.searchControl.setValue(null);
+        this.change(this.selectedItems);
     }
 
     public remove(item: string): void {
-        const index = this.selected.indexOf(item);
+        const index = this.selectedItems.indexOf(item);
 
         if (index >= 0) {
-            this.selected.splice(index, 1);
+            this.selectedItems.splice(index, 1);
         }
-        this.change(this.selected);
+        this.change(this.selectedItems);
     }
 
     public select(event: MatAutocompleteSelectedEvent): void {
-        this.selected.push(event.option.viewValue);
+        this.selectedItems.push(event.option.viewValue);
         this.input.nativeElement.value = '';
-        this.inputControl.setValue(null);
-        this.change(this.selected);
+        this.searchControl.setValue(null);
+        this.change(this.selectedItems);
     }
 
-    public writeValue(value: string[]): void {
-        this.selected = value;
+    public writeValue(value: string[] | null): void {
+        this.selectedItems = value || [];
         super.writeValue(value);
     }
 
-    public ngOnDestroy(): void {
-        takeUntilOnDestroyDestroy(this);
-        super.ngOnDestroy();
-    }
-
-    private filter(value: string): XmArrayItem[] {
-        const filterValue = value.toLowerCase();
-        return this.autocompleteList.filter(i => i.value.toLowerCase().indexOf(filterValue) === 0);
+    private buildItems(items: XmArrayItem[] | string[]): XmArrayItem[] {
+        return items.map(item => typeof item === 'string' ? { value: item } : item).slice();
     }
 }
