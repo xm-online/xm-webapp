@@ -8,7 +8,7 @@ import { AriaLabel, DataQa } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 import { Observable, of } from 'rxjs';
-import { map, pluck, startWith, switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, startWith, switchMap, withLatestFrom } from 'rxjs/operators';
 import { HintText } from '@xm-ngx/components/hint';
 import { EntityCollectionFactoryService, QueryParams } from '@xm-ngx/components/entity-collection';
 import { uniqBy as _uniqBy, get as _get } from 'lodash/fp';
@@ -91,8 +91,7 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
                     if (resourceUrl) {
                         return this.factoryService.create<unknown>(resourceUrl)
                             .query(queryParams).pipe(
-                                pluck('body'),
-                                map((items) => items.map(item => _get(pickKey, item))),
+                                map(({ body: items = [] }) => items?.map(item => _get(pickKey, item))),
                                 map(items => [
                                     ...this.buildItems(items),
                                     ...autocompleteList,
