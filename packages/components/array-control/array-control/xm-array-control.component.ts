@@ -86,7 +86,7 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         this.filteredItems = this.searchControl.valueChanges.pipe(startWith<string, null>(null)).pipe(
             withLatestFrom(of(this.presetAutocomplete).pipe(
                 switchMap((autocompleteList) => {
-                    const { resourceUrl = null, queryParams = {}, pickKey = 'name' } = this.options.search || {};
+                    const { resourceUrl = null, queryParams = {}, pickKey = 'name' } = this.options?.search || {};
 
                     if (resourceUrl) {
                         return this.factoryService.create<unknown>(resourceUrl)
