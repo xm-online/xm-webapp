@@ -3,8 +3,8 @@ import { UntypedFormGroup } from '@angular/forms';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import { fromEvent } from 'rxjs';
 
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
+// import 'rxjs/add/operator/debounceTime';
+// import 'rxjs/add/operator/distinctUntilChanged';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Principal } from '@xm-ngx/core/auth';

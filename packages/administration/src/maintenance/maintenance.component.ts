@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatDialogConfig } from '@angular/material/dialog/dialog-config';
+import { MatDialogConfig } from '@angular/material/dialog';
 import { ExportEntitiesDetailsComponent } from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
 import { ImportEntitiesDetailsComponent } from '@xm-ngx/administration/maintenance/import-entities-details/import-entities-details.component';
 import { XmAlertService } from '@xm-ngx/alert';
