@@ -1,9 +1,9 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit } from '@angular/core';
 
-import * as Chartist from 'chartist';
-
 import { XmEntity, XmEntityService } from '../../../xm-entity/';
+import * as Chartist from 'chartist';
+import { LineChart } from 'chartist';
 
 @Component({
     selector: 'xm-chartist-line-widget',
@@ -38,7 +38,7 @@ export class ChartistLineWidgetComponent implements OnInit {
                 labels.push(this.firstSeries.labelSelector.split('.').reduce((a, b) => a[b], entity));
             }
 
-            const chartistLine = new Chartist.Line(
+            const chartistLine = new LineChart(
                 this.element.nativeElement.querySelector('.chartistLine'), {
                     labels,
                     series,
@@ -61,7 +61,7 @@ export class ChartistLineWidgetComponent implements OnInit {
                         dur: 700,
                         from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
                         to: data.path.clone().stringify(),
-                        easing: Chartist.Svg.Easing.easeOutQuint,
+                        easing: Chartist.easings.easeOutQuint,
                     },
                 });
             } else if (data.type === 'point') {
