@@ -36,8 +36,10 @@ export class XmAlertService {
             buttonsStyling: this.config.buttonsStyling,
             reverseButtons: this.config.reverseButtons,
             showCloseButton: this.config.showCloseButton,
-            confirmButtonClass: this.config.confirmButtonClass,
-            cancelButtonClass: this.config.cancelButtonClass,
+            customClass: {
+                confirmButton: this.config.confirmButtonClass,
+                cancelButton: this.config.cancelButtonClass,
+            },
             confirmButtonText: this.config.yesLabel,
             cancelButtonText: this.config.cancelLabel,
         };

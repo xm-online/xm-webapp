@@ -46,7 +46,7 @@
               "node_modules/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
               "node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js",
-              "node_modules/nouislider/distribute/nouislider.min.js",
+              "node_modules/nouislider/dist/nouislider.min.js",
               "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
               "node_modules/datatables/media/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
@@ -59,11 +59,11 @@
               "node_modules/jvectormap/tests/assets/jquery-jvectormap-world-mill-en.js",
               "node_modules/jquery-validation/dist/jquery.validate.min.js",
               "node_modules/leaflet/dist/leaflet.js",
-              "node_modules/leaflet.gridlayer.googlemutant/Leaflet.GoogleMutant.js",
+              "node_modules/leaflet.gridlayer.googlemutant/dist/Leaflet.GoogleMutant.js",
               "node_modules/leaflet-draw/dist/leaflet.draw.js",
               "node_modules/oboe/dist/oboe-browser.js",
               "node_modules/yamljs/dist/yaml.js",
-              "node_modules/ajv/dist/ajv.min.js"
+              "node_modules/ajv/dist/ajv.js"
             ]
           },
           "configurations": {
@@ -160,7 +160,7 @@
               "node_modules/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
               "node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js",
-              "node_modules/nouislider/distribute/nouislider.min.js",
+              "node_modules/nouislider/dist/nouislider.min.js",
               "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
               "node_modules/datatables/media/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
@@ -173,11 +173,11 @@
               "node_modules/jvectormap/tests/assets/jquery-jvectormap-world-mill-en.js",
               "node_modules/jquery-validation/dist/jquery.validate.min.js",
               "node_modules/leaflet/dist/leaflet.js",
-              "node_modules/leaflet.gridlayer.googlemutant/Leaflet.GoogleMutant.js",
+              "node_modules/leaflet.gridlayer.googlemutant/dist/Leaflet.GoogleMutant.js",
               "node_modules/leaflet-draw/dist/leaflet.draw.js",
               "node_modules/oboe/dist/oboe-browser.js",
               "node_modules/yamljs/dist/yaml.js",
-              "node_modules/ajv/dist/ajv.min.js"
+              "node_modules/ajv/dist/ajv.js"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
