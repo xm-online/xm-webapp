@@ -61,7 +61,7 @@ export class XmConfirmDialogComponent implements OnInit {
 
     public buildConditionControls(): Observable<XmConfirmDialogGroup[]> {
         return this.form.valueChanges.pipe(
-            startWith<XmConfirmDialogConditionModel, XmConfirmDialogConditionModel>(this.form.value),
+            startWith<XmConfirmDialogConditionModel, any>(this.form.value),
             map((formValues) => {
                 const values = Object.keys(formValues).reduce((acc, key) => {
                     const {
