@@ -22,14 +22,14 @@
     <!-- name Column -->
     <ng-container matColumnDef="name">
       <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'logs.table.name' | translate}}</th>
-      <td *matCellDef="let logger" class="text-left text-wrap text-break" mat-cell>{{logger.name}}</td>
+      <td *matCellDef="let logger" class="text-start text-wrap text-break" mat-cell>{{logger.name}}</td>
     </ng-container>
 
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef scope="col" mat-header-cell>{{'logs.table.level' | translate}}</th>
 
-      <td *matCellDef="let logger" class="text-right" mat-cell>
+      <td *matCellDef="let logger" class="text-end" mat-cell>
         <button (click)="changeLevel(logger.name, 'TRACE')"
                 [ngClass]="(logger.level=='TRACE') ? 'btn-danger' : 'btn-default'"
                 class="btn btn-sm">TRACE

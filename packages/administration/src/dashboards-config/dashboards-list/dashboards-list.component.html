@@ -89,7 +89,7 @@
     <!-- Actions column -->
     <ng-container [matColumnDef]="ACTIONS_COLUMN">
 
-      <th *matHeaderCellDef class="text-right" mat-header-cell scope="col">
+      <th *matHeaderCellDef class="text-end" mat-header-cell scope="col">
         <button (click)="onAdd()"
                 [matTooltip]="TRS.createDashboard | translate"
                 color="primary"
@@ -98,7 +98,7 @@
         </button>
       </th>
 
-      <td *matCellDef="let row" class="text-right" mat-cell>
+      <td *matCellDef="let row" class="text-end" mat-cell>
 
         <button (click)="onEdit(row); $event.stopPropagation()" mat-icon-button>
           <mat-icon>edit</mat-icon>

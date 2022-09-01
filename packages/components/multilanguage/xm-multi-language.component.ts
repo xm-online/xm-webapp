@@ -56,7 +56,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
     selector: 'xm-multi-language-control',
     template: `
         <mat-label *ngIf="options.title">
-            <span class="pr-2">{{ options.title | translate }}</span>
+            <span class="pe-2">{{ options.title | translate }}</span>
             <mat-icon *ngIf="options.feedback" [matTooltip]="options.feedback | translate">help</mat-icon>
         </mat-label>
 

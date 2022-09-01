@@ -1,6 +1,6 @@
 <!-- Modal used to display the threads dump -->
 <div mat-dialog-title>
-  <h3 class="modal-title text-left mt-0">{{'metrics.jvm.threads.dump.title'|translate}}</h3>
+  <h3 class="modal-title text-start mt-0">{{'metrics.jvm.threads.dump.title'|translate}}</h3>
   <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 <div mat-dialog-content>
@@ -12,7 +12,7 @@
               color="primary"
               type="button">
         {{'metrics.options.f-all' | translate}}
-        <span class="badge badge-pill pr-0">{{threadDumpAll}}</span>
+        <span class="badge badge-pill pe-0">{{threadDumpAll}}</span>
       </button>
     </div>
     <div class="col-auto">
@@ -22,7 +22,7 @@
               color="primary"
               type="button">
         {{'metrics.options.f-runnable' | translate}}
-        <span class="badge badge-pill pr-0">{{threadDumpRunnable}}</span>
+        <span class="badge badge-pill pe-0">{{threadDumpRunnable}}</span>
       </button>
     </div>
     <div class="col-auto">
@@ -32,7 +32,7 @@
               color="primary"
               type="button">
         {{'metrics.options.f-waiting' | translate}}
-        <span class="badge badge-pill pr-0">{{threadDumpWaiting}}</span>
+        <span class="badge badge-pill pe-0">{{threadDumpWaiting}}</span>
       </button>
     </div>
     <div class="col-auto">
@@ -42,7 +42,7 @@
               color="primary"
               type="button">
         {{'metrics.options.f-timed-waiting' | translate}}
-        <span class="badge badge-pill pr-0">{{threadDumpTimedWaiting}}</span>
+        <span class="badge badge-pill pe-0">{{threadDumpTimedWaiting}}</span>
       </button>
     </div>
     <div class="col-auto">
@@ -52,7 +52,7 @@
               color="primary"
               type="button">
         {{'metrics.options.f-blocked' | translate}}
-        <span class="badge badge-pill pr-0">{{threadDumpBlocked}}</span>
+        <span class="badge badge-pill pe-0">{{threadDumpBlocked}}</span>
       </button>
     </div>
   </div>
@@ -89,19 +89,19 @@
       <table class="table table-sm">
         <thead>
         <tr>
-          <th scope="col" class="text-right">{{'metrics.jvm.threads.dump.blockedtime'|translate}}</th>
-          <th scope="col" class="text-right">{{'metrics.jvm.threads.dump.blockedcount'|translate}}</th>
-          <th scope="col" class="text-right">{{'metrics.jvm.threads.dump.waitedtime'|translate}}</th>
-          <th scope="col" class="text-right">{{'metrics.jvm.threads.dump.waitedcount'|translate}}</th>
+          <th scope="col" class="text-end">{{'metrics.jvm.threads.dump.blockedtime'|translate}}</th>
+          <th scope="col" class="text-end">{{'metrics.jvm.threads.dump.blockedcount'|translate}}</th>
+          <th scope="col" class="text-end">{{'metrics.jvm.threads.dump.waitedtime'|translate}}</th>
+          <th scope="col" class="text-end">{{'metrics.jvm.threads.dump.waitedcount'|translate}}</th>
           <th scope="col">{{'metrics.jvm.threads.dump.lockname'|translate}}</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-          <td class="text-right">{{entry.value.blockedTime}}</td>
-          <td class="text-right">{{entry.value.blockedCount}}</td>
-          <td class="text-right">{{entry.value.waitedTime}}</td>
-          <td class="text-right">{{entry.value.waitedCount}}</td>
+          <td class="text-end">{{entry.value.blockedTime}}</td>
+          <td class="text-end">{{entry.value.blockedCount}}</td>
+          <td class="text-end">{{entry.value.waitedTime}}</td>
+          <td class="text-end">{{entry.value.waitedCount}}</td>
           <td style="width: 300px;"><code>{{entry.value.lockName}}</code></td>
         </tr>
         </tbody>

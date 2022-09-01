@@ -121,19 +121,19 @@
           <strong>{{'metrics.jvm.gc.title'|translate}}</strong>
           <div *ngIf="metrics.gauges['jvm.garbage.PS-MarkSweep.count']" class="row">
             <div class="col-md-9">{{'metrics.jvm.gc.marksweepcount'|translate}}</div>
-            <div class="col-md-3 text-right">{{metrics.gauges['jvm.garbage.PS-MarkSweep.count'].value}}</div>
+            <div class="col-md-3 text-end">{{metrics.gauges['jvm.garbage.PS-MarkSweep.count'].value}}</div>
           </div>
           <div *ngIf="metrics.gauges['jvm.garbage.PS-MarkSweep.time']" class="row">
             <div class="col-md-9">{{'metrics.jvm.gc.marksweeptime'|translate}}</div>
-            <div class="col-md-3 text-right">{{metrics.gauges['jvm.garbage.PS-MarkSweep.time'].value}}ms</div>
+            <div class="col-md-3 text-end">{{metrics.gauges['jvm.garbage.PS-MarkSweep.time'].value}}ms</div>
           </div>
           <div *ngIf="metrics.gauges['jvm.garbage.PS-Scavenge.count']" class="row">
             <div class="col-md-9">{{'metrics.jvm.gc.scavengecount'|translate}}</div>
-            <div class="col-md-3 text-right">{{metrics.gauges['jvm.garbage.PS-Scavenge.count'].value}}</div>
+            <div class="col-md-3 text-end">{{metrics.gauges['jvm.garbage.PS-Scavenge.count'].value}}</div>
           </div>
           <div *ngIf="metrics.gauges['jvm.garbage.PS-Scavenge.time']" class="row">
             <div class="col-md-9">{{'metrics.jvm.gc.scavengetime'|translate}}</div>
-            <div class="col-md-3 text-right">{{metrics.gauges['jvm.garbage.PS-Scavenge.time'].value}}ms</div>
+            <div class="col-md-3 text-end">{{metrics.gauges['jvm.garbage.PS-Scavenge.time'].value}}ms</div>
           </div>
         </div>
       </div>
@@ -153,10 +153,10 @@
           <tr>
             <th scope="col">{{'metrics.jvm.http.table.code'|translate}}</th>
             <th scope="col">{{'metrics.jvm.http.table.count'|translate}}</th>
-            <th scope="col" class="text-right">{{'metrics.jvm.http.table.mean'|translate}}</th>
-            <th scope="col" class="text-right"><span>{{'metrics.jvm.http.table.average'|translate}}</span> (1 min)</th>
-            <th scope="col" class="text-right"><span>{{'metrics.jvm.http.table.average'|translate}}</span> (5 min)</th>
-            <th scope="col" class="text-right"><span>{{'metrics.jvm.http.table.average'|translate}}</span> (15 min)</th>
+            <th scope="col" class="text-end">{{'metrics.jvm.http.table.mean'|translate}}</th>
+            <th scope="col" class="text-end"><span>{{'metrics.jvm.http.table.average'|translate}}</span> (1 min)</th>
+            <th scope="col" class="text-end"><span>{{'metrics.jvm.http.table.average'|translate}}</span> (5 min)</th>
+            <th scope="col" class="text-end"><span>{{'metrics.jvm.http.table.average'|translate}}</span> (15 min)</th>
           </tr>
           </thead>
           <tbody>
@@ -171,19 +171,19 @@
                 <span class="d-none">{{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.ok'].count}}</span>
               </ngb-progressbar>
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.ok'].mean_rate |
               number:'1.0-2'}}
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.ok'].m1_rate |
               number:'1.0-2'}}
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.ok'].m5_rate |
               number:'1.0-2'}}
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.ok'].m15_rate |
               number:'1.0-2'}}
             </td>
@@ -199,19 +199,19 @@
                 <span class="d-none">{{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.notFound'].count}}</span>
               </ngb-progressbar>
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.notFound'].mean_rate |
               number:'1.0-2'}}
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.notFound'].m1_rate |
               number:'1.0-2'}}
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.notFound'].m5_rate |
               number:'1.0-2'}}
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.notFound'].m15_rate |
               number:'1.0-2'}}
             </td>
@@ -227,19 +227,19 @@
                 <span class="d-none">{{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.serverError'].count}}</span>
               </ngb-progressbar>
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.serverError'].mean_rate
               | number:'1.0-2'}}
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.serverError'].m1_rate |
               number:'1.0-2'}}
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.serverError'].m5_rate |
               number:'1.0-2'}}
             </td>
-            <td class="text-right">
+            <td class="text-end">
               {{metrics.meters['com.codahale.metrics.servlet.InstrumentedFilter.responseCodes.serverError'].m15_rate |
               number:'1.0-2'}}
             </td>
@@ -254,23 +254,23 @@
           <thead>
           <tr>
             <th scope="col">{{'metrics.servicesstats.table.name'|translate}}</th>
-            <th scope="col" class="text-right">{{'metrics.servicesstats.table.count'|translate}}</th>
-            <th scope="col" class="text-right">{{'metrics.servicesstats.table.mean'|translate}}</th>
-            <th scope="col" class="text-right">{{'metrics.servicesstats.table.min'|translate}}</th>
-            <th scope="col" class="text-right">{{'metrics.servicesstats.table.p50'|translate}}</th>
-            <th scope="col" class="text-right">{{'metrics.servicesstats.table.p75'|translate}}</th>
-            <th scope="col" class="text-right">{{'metrics.servicesstats.table.p95'|translate}}</th>
-            <th scope="col" class="text-right">{{'metrics.servicesstats.table.p99'|translate}}</th>
-            <th scope="col" class="text-right">{{'metrics.servicesstats.table.max'|translate}}</th>
+            <th scope="col" class="text-end">{{'metrics.servicesstats.table.count'|translate}}</th>
+            <th scope="col" class="text-end">{{'metrics.servicesstats.table.mean'|translate}}</th>
+            <th scope="col" class="text-end">{{'metrics.servicesstats.table.min'|translate}}</th>
+            <th scope="col" class="text-end">{{'metrics.servicesstats.table.p50'|translate}}</th>
+            <th scope="col" class="text-end">{{'metrics.servicesstats.table.p75'|translate}}</th>
+            <th scope="col" class="text-end">{{'metrics.servicesstats.table.p95'|translate}}</th>
+            <th scope="col" class="text-end">{{'metrics.servicesstats.table.p99'|translate}}</th>
+            <th scope="col" class="text-end">{{'metrics.servicesstats.table.max'|translate}}</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let entry of servicesStats | keys">
             <td>{{entry.key}}</td>
-            <td class="text-right">{{entry.value.count}}</td>
-            <td class="text-right">{{entry.value.mean * 1000 | number:'1.0-0'}}</td>
-            <td class="text-right">{{entry.value.min * 1000 | number:'1.0-0'}}</td>
-            <td class="text-right">{{entry.value.p50 * 1000 | number:'1.0-0'}}</td>
+            <td class="text-end">{{entry.value.count}}</td>
+            <td class="text-end">{{entry.value.mean * 1000 | number:'1.0-0'}}</td>
+            <td class="text-end">{{entry.value.min * 1000 | number:'1.0-0'}}</td>
+            <td class="text-end">{{entry.value.p50 * 1000 | number:'1.0-0'}}</td>
             <td class="text-right">{{entry.value.p75 * 1000 | number:'1.0-0'}}</td>
             <td class="text-right">{{entry.value.p95 * 1000 | number:'1.0-0'}}</td>
             <td class="text-right">{{entry.value.p99 * 1000 | number:'1.0-0'}}</td>

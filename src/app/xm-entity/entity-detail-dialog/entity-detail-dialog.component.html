@@ -8,14 +8,14 @@
   </div>
 
   <ng-template #hasHeaderConfig>
-    <h4 class="modal-title text-left">{{jsfAttributes.entity.formHeaderTitle | translate}}</h4>
+    <h4 class="modal-title text-start">{{jsfAttributes.entity.formHeaderTitle | translate}}</h4>
   </ng-template>
 
   <ng-template #hasNotHeaderConfig>
-    <h4 *ngIf="!isEdit" class="modal-title text-left">
+    <h4 *ngIf="!isEdit" class="modal-title text-start">
       {{'xm-entity.entity-detail-dialog.add.title' | translate}}
     </h4>
-    <h4 *ngIf="isEdit" class="modal-title text-left">
+    <h4 *ngIf="isEdit" class="modal-title text-start">
       {{'xm-entity.entity-detail-dialog.edit.title' | translate}} [<strong>{{name}}</strong>]
     </h4>
   </ng-template>

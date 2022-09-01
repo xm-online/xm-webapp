@@ -1,4 +1,4 @@
-<div class="text-right">
+<div class="text-end">
   <button (click)="onAddEntitySpec()"
           [disabled]="disabled"
           [matTooltip]="('admin-config.specification-mng.editor.add-entity-spec' | translate)"
@@ -80,7 +80,7 @@
       </div>
 
       <mat-label>{{'admin-config.specification-mng.editor.data-spec' | translate}}</mat-label>
-      <div class="text-right">
+      <div class="text-end">
         <div (textChanged)="onDataSpecChanged(entitySpec, $event)"
              [mode]="'json'"
              [options]="{ highlightActiveLine: true, maxLines: 25 }"
@@ -91,7 +91,7 @@
       </div>
 
       <mat-label>{{'admin-config.specification-mng.editor.form-spec' | translate}}</mat-label>
-      <div class="text-right">
+      <div class="text-end">
         <div (textChanged)="onDataFormChanged(entitySpec, $event)"
              [mode]="'json'"
              [options]="{ highlightActiveLine: true, maxLines: 25 }"

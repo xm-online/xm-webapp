@@ -12,7 +12,7 @@
     </mat-form-field>
   </div>
 
-  <div *ngIf="!isCreate" class="text-right">
+  <div *ngIf="!isCreate" class="text-end">
     <button (click)="clear()" *ngIf="isUser" class="btn me-1 ms-auto" data-dismiss="modal" mat-button type="button">
       <span>{{'entity.action.cancel' | translate}}</span>
     </button>

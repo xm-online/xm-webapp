@@ -1,7 +1,7 @@
 <form #eventForm="ngForm" (ngSubmit)="onConfirmSave()" class="m-0" name="eventForm" novalidate role="form">
   <div class="modal-header">
     <a (click)="onCancel()" class="modal-close material-icons" href="javascript: void(0);">close</a>
-    <h4 class="modal-title text-left">
+    <h4 class="modal-title text-start">
       <ng-container *ngIf="event?.id; else tmplTitle">
         <span jhiTranslate="xm-entity.calendar-event-dialog.title-edit">Edit event for the</span>
       </ng-container>
