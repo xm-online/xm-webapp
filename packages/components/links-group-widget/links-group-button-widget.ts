@@ -22,7 +22,7 @@ import { LinksGroupWidgetConfig } from './links-group-widget';
                        [attr.data-qa]="item.dataQa || 'link-button'"
                        mat-button [ngClass]="rla.isActive ? 'mat-flat-button' : 'mat-stroked-button'"
                        color="primary"
-                       class="mr-3"
+                       class="me-3"
                        type="button">
                         {{item.title | translate}}
                     </a>

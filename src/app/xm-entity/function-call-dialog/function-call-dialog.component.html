@@ -23,7 +23,7 @@
 
   <div *ngIf="showSecondStep$ | async; else firstStep" mat-dialog-actions>
     <button (click)="onCancel()"
-            class="btn mr-1 ms-auto"
+            class="btn me-1 ms-auto"
             data-dismiss="modal"
             mat-button
             type="button">
@@ -34,7 +34,7 @@
 
   <ng-template #firstStep>
     <div mat-dialog-actions>
-      <button class="mr-1 ms-auto"
+      <button class="me-1 ms-auto"
               mat-flat-button
               type="button"
               data-dismiss="modal"

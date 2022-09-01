@@ -1,19 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+/* WARNING: Override of global ./src/styles.scss */
 
 // Fonts
 $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 @import '~@xm-ngx/styles/src/material-design-icons';
 
 // Theme
-@import './styles/theme';
-@import './styles/theming';
+@import 'vodafone-webapp-ext/styles/components/vodafone-font';
+@import 'theme';
 @import '~@xm-ngx/styles/components';
 
 @include xm-ngx-styles-theme($xm-theme);
-@include xm-theme($xm-theme);
 
 // Vendors
 @import '~@xm-ngx/styles/src/vendor/index';
+@import '~prismjs/themes/prism-okaidia';
 @include xm-angular-material-theme($xm-theme);
 @include xm-angular-material-typography();
 @include xm-vendor-xm-override();
@@ -21,19 +21,26 @@ $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 // Components
 @import 'packages/components/components-styles';
 @import 'packages/components/components-themes';
-@import '~@xm-ngx/styles/src/_loader-dizabled-container';
 @import 'packages/alert/alert';
 
 @import 'src/app/layouts/main/main-theme';
+@import 'packages/components/sidebar/sidebar-theme';
+@import 'styles/theming';
 // increase css priority with xm-body class
 .xm-body {
+  @include xm-sidebar-theme($xm-theme);
+  @include xm-theme($xm-theme);
   @include xm-components-theme($xm-theme);
   @include xm-alert-theme($xm-theme);
-
 }
+
 @include xm-layout-sidebar-with-mini($xm-theme);
 
-// BC deps below will be removed!
-// Backward compatibility
+@import 'vodafone-webapp-ext/styles/components/vodafone-toasters';
 @import 'styles/backward-compatibility';
 
+// Vodafone Components
+@import 'vodafone-webapp-ext/styles/components/vf-variables';
+@import 'vodafone-webapp-ext/styles/components/vf-root';
+@import 'vodafone-webapp-ext/styles/components/vf-navbar';
+@import 'vodafone-webapp-ext/styles/components/vf-sidebar';

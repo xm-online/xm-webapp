@@ -7,7 +7,7 @@
     <h4 *ngIf="editType === EditType.Create" class="pt-2">{{ TRS.createDashboard | translate }}</h4>
     <h4 *ngIf="editType === EditType.Edit" class="pt-2">{{ TRS.editDashboard | translate }}</h4>
 
-    <div class="d-flex flex-grow-1 pl-3">
+    <div class="d-flex flex-grow-1 ps-3">
 
       <button (click)="onAdd()"
               *ngIf="editType === EditType.Create"

@@ -1,11 +1,12 @@
 {
-  "name": "xm-webapp",
-  "short_name": "xm-webapp",
-  "theme_color": "#009688",
+  "name": "vodafone",
+  "short_name": "vodafone",
+  "theme_color": "#656869",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
+  "gcm_sender_id": "514434839318",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",

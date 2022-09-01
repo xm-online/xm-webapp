@@ -40,9 +40,9 @@
               <div (click)="onChangeState(nextState.key)"
                    *ngFor="let nextState of nextStates"
                    [style.background]="nextState.color"
-                   class="xm-state act-as-button no-wrap mr-1 mb-1"
+                   class="xm-state act-as-button no-wrap me-1 mb-1"
                    title="{{nextState.actionName | translate}}">
-                <div [style.background]="'transparent'" class="xm-state-icon mr-0">
+                <div [style.background]="'transparent'" class="xm-state-icon me-0">
                   <mat-icon>{{nextState.icon}}</mat-icon>
                 </div>
                 {{nextState.actionName | translate}}
@@ -54,7 +54,7 @@
             <ng-container *ngIf="defaultFunctions.length" class="func-compact-blk">
                   <div (click)="onCallFunction(functionSpec)"
                        *ngFor="let functionSpec of defaultFunctions"
-                          class="xm-state act-as-button  mr-1 mb-1 no-wrap func-btn"
+                          class="xm-state act-as-button  me-1 mb-1 no-wrap func-btn"
                           title="{{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}">
                     {{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}
                   </div>
