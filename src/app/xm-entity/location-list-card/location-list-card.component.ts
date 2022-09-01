@@ -34,8 +34,8 @@ declare let google: any;
     styleUrls: ['./location-list-card.component.scss'],
     animations: [
         trigger('collapse', [
-            state('false', style({ height: AUTO_STYLE, visibility: AUTO_STYLE })),
-            state('true', style({ height: '0', visibility: 'hidden' })),
+            state('false', style({height: AUTO_STYLE, visibility: AUTO_STYLE})),
+            state('true', style({height: '0', visibility: 'hidden'})),
             transition('false => true', animate(ANIMATION_DURATION + 'ms ease-in')),
             transition('true => false', animate(ANIMATION_DURATION + 'ms ease-out')),
         ]),
@@ -145,8 +145,10 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
             title: 'xm-entity.location-list-card.delete.title',
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'xm-entity.location-list-card.delete.button',
             cancelButtonText: this.translateService.instant('xm-entity.location-list-card.delete.button-cancel'),
         }).subscribe((result) => {

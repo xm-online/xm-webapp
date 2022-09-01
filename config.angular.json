@@ -12,6 +12,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "moment-timezone",
+              "moment",
+              "lodash",
+              "lodash/fp"
+            ],
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",

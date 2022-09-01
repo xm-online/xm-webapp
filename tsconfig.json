@@ -1,6 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": false,
     "strict": false,
     "importHelpers": true,
@@ -57,8 +58,10 @@
       "@xm-ngx/dashboard": ["packages/dashboard/src"],
       "@xm-ngx/dashboard/testing": ["packages/dashboard/testing"],
       "@xm-ngx/xm-balance": ["src/app/xm-balance"],
-      "@xm-ngx/components/language": ["src/app/shared/language"]
-
+      "@xm-ngx/components/language": ["src/app/shared/language"],
+      "rxjs": ["node_modules/rxjs"],
+      "rxjs/*": ["node_modules/rxjs/*"],
+      "@angular/*": ["node_modules/@angular/*"]
     },
     "inlineSources": true,
     "module": "es2020",
@@ -69,6 +72,6 @@
     "newLine": "lf",
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   }
 }

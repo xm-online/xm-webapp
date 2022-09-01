@@ -26,12 +26,12 @@ import { DEFAULT_CALENDAR_EVENT_FETCH_SIZE } from '../calendar-card.component';
 import * as moment from 'moment-timezone';
 import { Event } from '@xm-ngx/entity';
 import { CalendarEventDialogComponent } from '@xm-ngx/entity/calendar-event-dialog/calendar-event-dialog.component';
-import swal, {SweetAlertType} from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
 import { CalendarOptions } from '@fullcalendar/core';
 import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import Swal, { SweetAlertIcon } from "sweetalert2";
 
 export const DEFAULT_DAY_MAX_EVENT_ROWS = 300;
 
@@ -47,7 +47,7 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
     @Input() public config: EntityCalendarUiConfig;
     @Input() public spec: CalendarSpec;
     @Input() public xmEntity: XmEntity;
-    @ViewChild('calendar', { static: false }) public calendarComponent: FullCalendarComponent;
+    @ViewChild('calendar', {static: false}) public calendarComponent: FullCalendarComponent;
     private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
     constructor(
@@ -59,7 +59,8 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
         private eventService: EventService,
         private modalService: MatDialog,
         private calendarChangeService: CalendarChangeService,
-    ) {}
+    ) {
+    }
 
     public ngOnInit(): void {
         this.calendarChangeService.calendarChanged$
@@ -91,19 +92,19 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
             views: {
                 month: {
                     type: 'dayGridMonth',
-                    titleFormat: { year: 'numeric', month: 'long' },
+                    titleFormat: {year: 'numeric', month: 'long'},
                     buttonText: 'month',
-                    eventTimeFormat: { hour: 'numeric', minute: '2-digit' },
+                    eventTimeFormat: {hour: 'numeric', minute: '2-digit'},
                     displayEventEnd: true,
                 },
                 agendaWeek: {
                     type: 'timeGridWeek',
-                    titleFormat: { year: 'numeric', month: 'long', day: 'numeric' },
+                    titleFormat: {year: 'numeric', month: 'long', day: 'numeric'},
                     buttonText: 'week',
                 },
                 agendaDay: {
                     type: 'timeGridDay',
-                    titleFormat: { year: 'numeric', month: 'short', day: 'numeric' },
+                    titleFormat: {year: 'numeric', month: 'short', day: 'numeric'},
                     buttonText: 'day',
                 },
                 listDay: {
@@ -115,7 +116,7 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
                     buttonText: this.translateService.instant('xm-entity.calendar-card.calendar.btn-list-week'),
                 },
             },
-            events: ({ start, end }, callback): void => {
+            events: ({start, end}, callback): void => {
                 this.calendar.id && this.calendarService.getEvents(this.calendar.id, {
                     'endDate.greaterThanOrEqual':
                         `${moment(start).subtract(1, 'd').format('YYYY-MM-DD')}T${moment(start).format('HH:mm:ss')}Z`,
@@ -128,10 +129,10 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
                         () => callback([]),
                     );
             },
-            select: ({ start, end }): void => {
+            select: ({start, end}): void => {
                 this.onShowEventDialog(start, end, this.calendar, {} as Event);
             },
-            eventClick: ({ event }): void => {
+            eventClick: ({event}): void => {
                 this.onShowEventDialog(event.start, event.end, this.calendar, event.extendedProps.originEvent);
             },
             locale: this.languageService.getUserLocale(),
@@ -197,12 +198,14 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
     private onRemove(event: Event, callback?: () => void): void {
         const calendarApi = this.calendarComponent.getApi();
 
-        swal({
+        Swal.fire({
             title: this.translateService.instant('xm-entity.calendar-card.delete.title'),
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-raised-button btn-primary',
-            cancelButtonClass: 'btn mat-raised-button',
+            customClass: {
+                confirmButton: 'btn mat-raised-button btn-primary',
+                cancelButton: 'btn mat-raised-button',
+            },
             confirmButtonText: this.translateService.instant('xm-entity.calendar-card.delete.button'),
             cancelButtonText: this.translateService.instant('xm-entity.calendar-card.delete.button-cancel'),
         }).then((result) => {
@@ -224,12 +227,14 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
         });
     }
 
-    private alert(type: SweetAlertType, key: string): void {
-        swal({
-            type,
+    private alert(icon: SweetAlertIcon, key: string): void {
+        Swal.fire({
+            icon,
             text: this.translateService.instant(key),
             buttonsStyling: false,
-            confirmButtonClass: 'btn btn-primary',
+            customClass: {
+                confirmButton: 'btn btn-primary',
+            }
         });
     }
 

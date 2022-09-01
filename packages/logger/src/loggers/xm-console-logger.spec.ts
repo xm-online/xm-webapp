@@ -42,7 +42,7 @@ describe('XmConsoleLogger', () => {
             }
 
             public log$(): Observable<XmLog> {
-                return of<null>(null);
+                return of(null);
             }
         };
         service = new XmConsoleLogger('', broker);
