@@ -57,7 +57,7 @@
           <p *ngIf="xmEntityId" class="mb-2">{{'xm-entity.function-list-card.other-functions' | translate}}</p>
           <ng-container *ngFor="let functionSpec of defaultFunctions">
             <button (click)="onCallFunction(functionSpec)"
-                    class="btn btn-sm btn-primary mr-1 mt-0 mb-1 ml-0 no-wrap func-btn"
+                    class="btn btn-sm btn-primary mr-1 mt-0 mb-1 ms-0 no-wrap func-btn"
                     title="{{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}">
               {{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}
             </button>

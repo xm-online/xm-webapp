@@ -10,18 +10,18 @@
 
   <div class="col-12 col-lg-8 pl-lg-5 d-flex flex-column">
     <ng-content select="[xmNavbar]"></ng-content>
-    <div *ngIf="options?.topLogo" class="d-flex flex-row align-items-center ml-lg-5 xm-sign-in-form-top-logo px-3">
+    <div *ngIf="options?.topLogo" class="d-flex flex-row align-items-center ms-lg-5 xm-sign-in-form-top-logo px-3">
       <img [src]="options.topLogo.url">
-      <h2 class="brand text-primary ml-2">{{options.topLogo.title | translate}}</h2>
+      <h2 class="brand text-primary ms-2">{{options.topLogo.title | translate}}</h2>
     </div>
 
-    <div class="d-flex ml-lg-5 flex-grow-1 align-items-center">
+    <div class="d-flex ms-lg-5 flex-grow-1 align-items-center">
       <xm-sign-in-form (afterSignIn)="afterSignIn.emit($event)"
                        [options]="options"
                        class="d-block col-12 col-lg-4 mt-4"></xm-sign-in-form>
     </div>
 
-    <div *ngIf="options?.topLogo" class="d-flex flex-row align-items-center ml-lg-5 xm-sign-in-form-top-logo px-3">
+    <div *ngIf="options?.topLogo" class="d-flex flex-row align-items-center ms-lg-5 xm-sign-in-form-top-logo px-3">
       <!--  place keeper  -->
     </div>
   </div>

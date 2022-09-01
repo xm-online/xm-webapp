@@ -27,7 +27,7 @@ export interface LinksGroupWidgetConfig {
         <div *ngIf="config?.list">
             <nav [color]="'primary'"
                  mat-tab-nav-bar
-                 class="rounded bg-surface mb-3 font-weight-bold"
+                 class="rounded bg-surface mb-3 fw-bold"
                  role="group">
                 <ng-container *ngFor="let item of config.list">
                     <ng-container *xmIfDashboardSlug="item.permittedByDashboardSlug">
@@ -38,7 +38,7 @@ export interface LinksGroupWidgetConfig {
                            mat-tab-link
                            #rla="routerLinkActive"
                            [active]="rla.isActive"
-                           class="text-uppercase font-weight-bold"
+                           class="text-uppercase fw-bold"
                            [ngClass]="{'text-primary':rla.isActive}"
                            type="button">
                             {{item.title | translate}}

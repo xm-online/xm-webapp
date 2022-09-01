@@ -115,7 +115,7 @@
   </div>
 
   <div *ngIf="!(jsfAttributes?.entity?.formDefaultFooterHide)" mat-dialog-actions>
-    <button (click)="onCancel()" class="mr-1 ml-auto" data-dismiss="modal" mat-flat-button type="button">
+    <button (click)="onCancel()" class="mr-1 ms-auto" data-dismiss="modal" mat-flat-button type="button">
       <span *ngIf="jsfAttributes?.entity?.cancelName">{{jsfAttributes.entity.cancelName | translate}}</span>
       <span *ngIf="!jsfAttributes?.entity?.cancelName">{{'xm-entity.common.cancel' | translate}}</span>
     </button>

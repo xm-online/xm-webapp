@@ -183,7 +183,7 @@
 
 
     <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
-      <ng-container class="mr-auto flex-grow-1 flex-nowrap"
+      <ng-container class="me-auto flex-grow-1 flex-nowrap"
                     [class.hidden]="!(dataSource?.data.length > 0) || (itemsPerPage > totalItems)">
         <mat-paginator
           [pageSizeOptions]="itemsPerPageOptions"
@@ -192,7 +192,7 @@
         </mat-paginator>
       </ng-container>
 
-      <div class="ml-auto">
+      <div class="ms-auto">
         <button mat-flat-button
                 color="primary"
                 type="button"

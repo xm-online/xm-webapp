@@ -60,7 +60,7 @@
 
       <button (click)="onCancel()"
               [matTooltip]="TRS.cancel | translate"
-              class="ml-auto"
+              class="ms-auto"
               mat-icon-button>
         <mat-icon>cancel</mat-icon>
       </button>
@@ -71,8 +71,8 @@
 
   <div class="section-scroll">
     <div class="pb-3">
-      <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="font-weight-bold">{{ value.id }}</span></div>
-      <div *ngIf="value.owner">{{ TRS.owner | translate }}: <span class="font-weight-bold">{{ value.owner }}</span>
+      <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="fw-bold">{{ value.id }}</span></div>
+      <div *ngIf="value.owner">{{ TRS.owner | translate }}: <span class="fw-bold">{{ value.owner }}</span>
       </div>
     </div>
 
