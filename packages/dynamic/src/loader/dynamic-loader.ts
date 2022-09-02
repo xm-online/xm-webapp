@@ -1,5 +1,5 @@
 import { ComponentFactory, Injectable, Injector, Type } from '@angular/core';
-import { XmDynamicEntry } from '../interfaces';
+import {XmDynamicEntry, XmDynamicEntryType} from '../interfaces';
 
 @Injectable()
 export abstract class DynamicLoader {
@@ -11,6 +11,7 @@ export abstract class DynamicLoader {
     abstract loadAndResolve<T>(
         selector: string,
         options?: { injector?: Injector },
+        type?: XmDynamicEntryType
     ): Promise<ComponentFactory<T> | null> ;
 
     public abstract getEntry<T>(

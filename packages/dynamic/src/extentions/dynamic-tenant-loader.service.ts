@@ -4,7 +4,7 @@ import { TenantModuleLoaderService } from './tenant-module-loader.service';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
 import { ModuleLoader } from '../loader/module-loader';
 import { isComponentDef, isModuleDef } from '../loader/dynamic-loader.service';
-import { XmDynamicEntry, XmDynamicNgModuleFactory } from '../interfaces/xm-dynamic-entry';
+import {XmDynamicEntry, XmDynamicEntryType, XmDynamicNgModuleFactory} from '../interfaces/xm-dynamic-entry';
 
 @Injectable({
     providedIn: 'root',
@@ -26,6 +26,7 @@ export class DynamicTenantLoaderService {
     public async loadAndResolve<T>(
         selector: string,
         injector: Injector = this.moduleRef.injector,
+        type?: XmDynamicEntryType,
     ): Promise<ComponentFactory<T> | null> {
         const moduleSelector = selector.split('/')[0];
         const moduleRef = await this.loadTenantModuleRef<T>(moduleSelector, injector);
@@ -36,11 +37,12 @@ export class DynamicTenantLoaderService {
     public async getEntry<T>(
         selector: string,
         injector: Injector = this.moduleRef.injector,
+        type?: XmDynamicEntryType,
     ): Promise<XmDynamicEntry<T> | null> {
         const moduleSelector = selector.split('/')[0];
         const moduleRef = await this.loadTenantModuleRef<T>(moduleSelector, injector);
         const componentSelector = selector.split('/')[1];
-        return await this.dynamicSearcher.getEntry<T>(componentSelector, { injector: moduleRef.injector });
+        return await this.dynamicSearcher.getEntry<T>(componentSelector, { injector: moduleRef.injector }, type);
     }
 
     /**
@@ -62,12 +64,14 @@ export class DynamicTenantLoaderService {
     /**
      * @param selector - e.g. my-example-widget
      * @param moduleRef - module container
+     * @param type - type of component
      */
     public async getComponentFromInjector<T>(
         selector: string,
         moduleRef: NgModuleRef<T>,
+        type?: XmDynamicEntryType,
     ): Promise<ComponentFactory<T> | null> {
-        const moduleFac = await this.dynamicSearcher.search(selector, { injector: moduleRef.injector });
+        const moduleFac = await this.dynamicSearcher.search(selector, { injector: moduleRef.injector }, type);
 
         if (moduleFac instanceof NgModuleFactory || isModuleDef(moduleFac)) {
             const moduleFactory = await this.moduleLoaderService.loadModuleFactory<T>(moduleFac as XmDynamicNgModuleFactory<T>);

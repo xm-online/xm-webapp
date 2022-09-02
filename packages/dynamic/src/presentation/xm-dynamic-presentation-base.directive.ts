@@ -1,16 +1,6 @@
-import {
-    ComponentFactoryResolver,
-    Directive,
-    Injector,
-    OnChanges,
-    OnInit,
-    Renderer2,
-    SimpleChanges,
-    ViewContainerRef,
-} from '@angular/core';
-import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule } from '../interfaces';
+import { ComponentFactoryResolver, Directive, Injector, OnChanges, OnInit, Renderer2, SimpleChanges, ViewContainerRef } from '@angular/core';
+import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule, XmDynamicEntryType } from '../interfaces';
 import { DynamicLoader } from '../loader/dynamic-loader';
-
 
 /** Determines input(control) value. */
 interface IValue<V> {
@@ -37,7 +27,7 @@ export interface XmDynamicPresentation<V = unknown, O = unknown> extends XmDynam
 }
 
 export interface XmDynamicPresentationConstructor<V = unknown, O = unknown> extends XmDynamicConstructor<XmDynamicPresentation<V, O>> {
-    new(...args: any): XmDynamicPresentation<V, O>;
+    new (...args: any): XmDynamicPresentation<V, O>;
 }
 
 export interface XmDynamicPresentationEntryModule extends XmDynamicEntryModule<XmDynamicPresentation> {
@@ -58,12 +48,13 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
     public class: string;
     public style: string;
 
-    constructor(public viewContainerRef: ViewContainerRef,
-                public injector: Injector,
-                protected renderer: Renderer2,
-                protected loaderService: DynamicLoader,
-                protected cfr: ComponentFactoryResolver) {
-    }
+    constructor(
+        public viewContainerRef: ViewContainerRef,
+        public injector: Injector,
+        protected renderer: Renderer2,
+        protected loaderService: DynamicLoader,
+        protected cfr: ComponentFactoryResolver,
+    ) {}
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.value) {
@@ -110,7 +101,11 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
             return;
         }
 
-        const cfr = await this.loaderService.loadAndResolve<XmDynamicPresentation<V, O>>(this.selector as string, { injector: this.injector });
+        const cfr = await this.loaderService.loadAndResolve<XmDynamicPresentation<V, O>>(
+            this.selector as string,
+            { injector: this.injector },
+            XmDynamicEntryType.PRESENTATION,
+        );
 
         this.viewContainerRef.clear();
         const c = this.viewContainerRef.createComponent(cfr, 0, this.createInjector());

@@ -25,12 +25,21 @@ export class DynamicInjectionTokenSearcherService implements DynamicSearcher {
         return component.loadChildren();
     }
 
+    // getEntry('widget-component', {injector: this.injector})
     public getEntry<T>(
         selector: string,
         options: { injector?: Injector } = { injector: this.moduleRef.injector },
+        type?: string, // 'control'
     ): Promise<XmDynamicEntry<T> | null> {
-        const components = this.getAllEntries<T>(selector, options);
-        const component = components.find((i) => i.selector === selector) || null;
+        const temp = options.injector.get(XM_DYNAMIC_ENTRIES, {});
+        const components = Object.assign({}, ...temp);
+        const component = (components[type] && components[type][selector]) || components['any'][selector];
+        if(!component) {
+            console.warn(`cannot find component: ${selector}, type: ${type}`);
+        }
+        if(component && type){
+            alert(`ЄЄЄЄЄ!!!!! ${type}`);
+        }
         return Promise.resolve(component);
     }
 

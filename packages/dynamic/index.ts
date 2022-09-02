@@ -43,6 +43,7 @@ export {
     XmDynamicEntry,
     XmDynamicEntries,
     XmDynamicNgModuleFactory,
+    XmDynamicEntryType,
 } from './src/interfaces/xm-dynamic-entry';
 
 export { XmDynamicWidgetDirective, XmDynamicWidgetConfig } from './src/widget/xm-dynamic-widget.directive';

@@ -1,6 +1,6 @@
 import { ComponentFactory, Injectable, Injector, Type } from '@angular/core';
 import { DynamicTenantLoaderService } from '../extentions/dynamic-tenant-loader.service';
-import { XmDynamicEntry } from '../interfaces';
+import {XmDynamicEntry, XmDynamicEntryType} from '../interfaces';
 import { DynamicLoader } from './dynamic-loader';
 import { DynamicLoaderService } from './dynamic-loader.service';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
@@ -27,15 +27,16 @@ export class DynamicMultiLoaderService implements DynamicLoader {
     public async loadAndResolve<T>(
         selector: string,
         options?: { injector?: Injector },
+        type?: XmDynamicEntryType,
     ): Promise<ComponentFactory<T> | null> {
-        return await this.dynamicLoaderService.loadAndResolve(selector, options?.injector)
-            || await this.dynamicTenantLoaderService.loadAndResolve(selector, options?.injector);
+        return await this.dynamicLoaderService.loadAndResolve(selector, options?.injector, type)
+            || await this.dynamicTenantLoaderService.loadAndResolve(selector, options?.injector, type);
     }
 
     public async getEntry<T>(
         selector: string,
-        options?: { injector?: Injector; }): Promise<XmDynamicEntry<T>> {
-        return await this.dynamicSearcher.getEntry(selector, options)
-            || await this.dynamicTenantLoaderService.getEntry(selector, options?.injector);
+        options?: { injector?: Injector; }, type?: XmDynamicEntryType): Promise<XmDynamicEntry<T>> {
+        return await this.dynamicSearcher.getEntry(selector, options, type)
+            || await this.dynamicTenantLoaderService.getEntry(selector, options?.injector, type);
     }
 }

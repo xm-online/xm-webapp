@@ -6,4 +6,5 @@ export {
     XmDynamicEntry,
     XmDynamicEntries,
     XmDynamicNgModuleFactory,
+    XmDynamicEntryType,
 } from './xm-dynamic-entry';

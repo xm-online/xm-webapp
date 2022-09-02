@@ -1,5 +1,5 @@
 import { ComponentFactory, Injectable, Injector, NgModuleFactory, NgModuleRef, Type } from '@angular/core';
-import { XmDynamicNgModuleFactory } from '../interfaces';
+import {XmDynamicEntryType, XmDynamicNgModuleFactory} from '../interfaces';
 import { DynamicSearcher } from '../searcher/dynamic-searcher';
 import { ModuleLoader } from './module-loader';
 
@@ -27,8 +27,9 @@ export class DynamicLoaderService {
     public async loadAndResolve<T>(
         selector: string,
         injector: Injector = this.moduleRef.injector,
+        type?: XmDynamicEntryType,
     ): Promise<ComponentFactory<T> | null> {
-        const moduleFac = await this.dynamicSearcher.search(selector, { injector });
+        const moduleFac = await this.dynamicSearcher.search(selector, { injector }, type);
 
         if (moduleFac instanceof NgModuleFactory || isModuleDef(moduleFac)) {
             const moduleFactory = await this.moduleLoaderService.loadModuleFactory<T>(moduleFac as XmDynamicNgModuleFactory<T>);
@@ -37,9 +38,9 @@ export class DynamicLoaderService {
             return moduleRef.componentFactoryResolver.resolveComponentFactory(componentRef);
         } else if (isComponentDef(moduleFac)) {
             return this.moduleRef.componentFactoryResolver.resolveComponentFactory(moduleFac as Type<T>);
-        } 
+        }
         return null;
-        
+
     }
 
 }

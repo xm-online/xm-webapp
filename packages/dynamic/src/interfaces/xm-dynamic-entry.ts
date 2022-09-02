@@ -7,11 +7,17 @@ export type XmDynamicNgModuleFactory<T> = NgModuleFactory<XmDynamicEntryModule<T
 /**
  * Use this interface to declare your dynamic component
  */
+
+export enum XmDynamicEntryType {
+    WIDGET= 'WIDGET',
+    CONTROL = 'CONTROL',
+    CELL = 'CELL',
+    PRESENTATION = 'PRESENTATION'
+}
 export interface XmDynamicEntry<T = unknown> {
     selector: string;
-    loadChildren: () => XmDynamicConstructor<T>
-        | XmDynamicNgModuleFactory<T>
-        | Promise<XmDynamicConstructor<T> | XmDynamicNgModuleFactory<T>>;
+    type?: XmDynamicEntryType;
+    loadChildren: () => XmDynamicConstructor<T> | XmDynamicNgModuleFactory<T> | Promise<XmDynamicConstructor<T> | XmDynamicNgModuleFactory<T>>;
 }
 
 /**
