@@ -27,7 +27,7 @@
 
 </div>
 
-<xm-text-control (valueChange)="onFilter($event)" [options]="{title: TRS.filter }"></xm-text-control>
+<xm-text-control (valueChange)="onFilter($event)" [options]="filterOptions"></xm-text-control>
 
 <div class="table-container mb-3">
   <table (cdkDropListDropped)="dropRow($event)"

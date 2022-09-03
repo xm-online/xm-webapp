@@ -16,7 +16,7 @@
                #clientClientId="ngModel"
                placeholder="{{'clientManagement.clientId' | translate}}"
                pattern="^\s*[\w|\d\-]+\s*$"
-               [disabled]="client.id"
+               [disabled]="!!client.id"
                required>
         <mat-error *ngIf="clientClientId.hasError('required')">
           <span>{{'xm-entity.common.validation.required'|translate}}</span>

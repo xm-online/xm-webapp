@@ -78,12 +78,12 @@
 
     <xm-text-control [(ngModel)]="formGroup.name"
                      [disabled]="disabled"
-                     [options]="{ title: TRS.name }"
+                     [options]="nameOptions"
                      name="name"></xm-text-control>
 
     <xm-text-control [(ngModel)]="formGroup.typeKey"
                      [disabled]="disabled"
-                     [options]="{ title: TRS.typeKey }"
+                     [options]="typeKeyOptions"
                      name="typeKey"></xm-text-control>
 
     <mat-tab-group>

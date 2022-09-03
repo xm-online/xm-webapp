@@ -15,6 +15,7 @@ import { DashboardCollection } from '../injectors';
 import { DashboardsExportService } from './dashboards-export.service';
 import { DashboardsImportService } from './dashboards-import.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { XmTextControlOptions } from '@xm-ngx/components/text';
 
 const EXPORT_FILENAME = 'dashboards';
 const DISPLAYED_COLUMNS = [
@@ -51,6 +52,8 @@ export class DashboardsListComponent implements OnInit {
     public expanded: boolean = true;
 
     public isUpdateIndexRequired = false;
+
+    public filterOptions: XmTextControlOptions = {title: this.TRS.filter, dataQa: ''};
 
     constructor(
         protected dashboardService: DashboardCollection,
