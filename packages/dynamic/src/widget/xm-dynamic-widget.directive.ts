@@ -9,8 +9,9 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { DynamicLoader } from '../loader/dynamic-loader';
-import { XmDynamicWidget } from './xm-dynamic-widget';
+import {DynamicLoader} from '../loader/dynamic-loader';
+import {XmDynamicWidget} from './xm-dynamic-widget';
+import {XmDynamicEntryType} from "../interfaces";
 
 export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
     selector: string;
@@ -65,13 +66,14 @@ export class XmDynamicWidgetDirective implements OnChanges {
             value.selector = `${value.module}/${value.component}`;
         }
 
-        const componentFactory = await this.dynamicLoader.loadAndResolve<XmDynamicWidget>(this._layout.selector, {injector: this.injector});
+        // ext-b2b/new-organization
+        const componentFactory = await this.dynamicLoader.loadAndResolve<XmDynamicWidget>(this._layout.selector, {injector: this.injector}, XmDynamicEntryType.WIDGET);
         if (componentFactory) {
             this.createComponent(this._layout, componentFactory);
             return;
-        } 
+        }
         console.warn(`"${value.selector}" does not exist!`);
-        
+
     }
 
     private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, componentFactory: ComponentFactory<T>): void {

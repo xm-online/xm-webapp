@@ -12,16 +12,18 @@ import {DynamicMultiSearcherService} from './searcher/dynamic-multi-searcher.ser
 import {DynamicSearcher} from './searcher/dynamic-searcher';
 import {XmDynamicWidgetLayoutComponent} from './widget/xm-dynamic-widget-layout.component';
 import {XmDynamicWidgetDirective} from './widget/xm-dynamic-widget.directive';
+import {flatten} from 'lodash';
 
 export function dynamicModuleInitializer(components: XmDynamicEntries): Provider {
     const res = {'any': {}};
-    components.forEach(comp => {
+    flatten(components).forEach((comp) => {
         const type = comp.type || 'any';
         if (!res[type]) {
             res[type] = {};
         }
         res[type][comp.selector] = comp;
     });
+    // console.log('b2b', Object.keys(res), res);
     return [{provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: res}];
 
     // [comp, comp, comp]

@@ -31,7 +31,7 @@ export class DynamicTenantLoaderService {
         const moduleSelector = selector.split('/')[0];
         const moduleRef = await this.loadTenantModuleRef<T>(moduleSelector, injector);
         const componentSelector = selector.split('/')[1];
-        return await this.getComponentFromInjector<T>(componentSelector, moduleRef);
+        return await this.getComponentFromInjector<T>(componentSelector, moduleRef, type);
     }
 
     public async getEntry<T>(

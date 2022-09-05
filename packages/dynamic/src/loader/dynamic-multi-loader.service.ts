@@ -20,8 +20,9 @@ export class DynamicMultiLoaderService implements DynamicLoader {
     public async load<T>(
         selector: string,
         options?: { injector?: Injector },
+        type?: XmDynamicEntryType,
     ): Promise<Type<T> | null> {
-        return (await this.loadAndResolve(selector, options)).componentType;
+        return (await this.loadAndResolve(selector, options, type)).componentType;
     }
 
     public async loadAndResolve<T>(
