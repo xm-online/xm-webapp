@@ -31,6 +31,15 @@ https://github.com/twbs/bootstrap/releases/tag/v5.2.0
 https://getbootstrap.com/docs/5.0/migration/
 
 
+SWAL
+
+instead of swal() call
+use Swal.fire()
+
+options changes:
+type -> icon
+confirmButtonClass, etcClass -> customClass: {confirmButton, etc}
+
 
 # 3.2.3 (2021-05-27)
 
