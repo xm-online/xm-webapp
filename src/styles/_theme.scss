@@ -1,165 +1,81 @@
-// Theme Styles
-$mat-vodafone-red:              (
-                                  50: #fce0e0,
-                                  100: #f8b3b3,
-                                  200: #f38080,
-                                  300: #ee4d4d,
-                                  400: #ea2626,
-                                  500: #e60000,
-                                  600: #e30000,
-                                  700: #df0000,
-                                  800: #db0000,
-                                  900: #d50000,
-                                  A100: #fffcfc,
-                                  A200: #ffc9c9,
-                                  A400: #ff9696,
-                                  A700: #ff7d7d,
-                                  contrast: (
-                                    50: #000000,
-                                    100: #000000,
-                                    200: #000000,
-                                    300: #ffffff,
-                                    400: #ffffff,
-                                    500: #ffffff,
-                                    600: #ffffff,
-                                    700: #ffffff,
-                                    800: #ffffff,
-                                    900: #ffffff,
-                                    A100: #000000,
-                                    A200: #000000,
-                                    A400: #000000,
-                                    A700: #000000,
-                                  )
-                                );
+/*
+ * WARNING: This file can be overridden by your custom theme,
+ *          if you use the following command in your development:
+ *             node ./scripts/replace-styles.js theme your-theme.scss
+ */
 
+$mat-teal: (
+  50: #e0f2f1,
+  100: #b2dfdb,
+  200: #80cbc4,
+  300: #4db6ac,
+  400: #26a69a,
+  500: #009688,
+  600: #00897b,
+  700: #00796b,
+  800: #00695c,
+  900: #004d40,
+  A100: #a7ffeb,
+  A200: #64ffda,
+  A400: #1de9b6,
+  A700: #00bfa5,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87),
+  )
+);
 
-$mat-vodafone-dark:             (
-                                  50 : #e9eaea,
-                                  100 : #c9caca,
-                                  200 : #a5a6a7,
-                                  300 : #808283,
-                                  400 : #656869,
-                                  500 : #4a4d4e,
-                                  600 : #434647,
-                                  700 : #3a3d3d,
-                                  800 : #323435,
-                                  900 : #222525,
-                                  A100 : #7df4f4,
-                                  A200 : #4ef0f0,
-                                  A400 : #0cffff,
-                                  A700 : #00f1f1,
-                                  contrast: (
-                                    50 : #000000,
-                                    100 : #000000,
-                                    200 : #000000,
-                                    300 : #000000,
-                                    400 : #ffffff,
-                                    500 : #ffffff,
-                                    600 : #ffffff,
-                                    700 : #ffffff,
-                                    800 : #ffffff,
-                                    900 : #ffffff,
-                                    A100 : #000000,
-                                    A200 : #000000,
-                                    A400 : #000000,
-                                    A700 : #000000,
-                                  )
-                                );
+$mat-green: (
+  50: #e8f5e9,
+  100: #c8e6c9,
+  200: #a5d6a7,
+  300: #81c784,
+  400: #66bb6a,
+  500: #4caf50,
+  600: #43a047,
+  700: #388e3c,
+  800: #2e7d32,
+  900: #1b5e20,
+  A100: #b9f6ca,
+  A200: #69f0ae,
+  A400: #00e676,
+  A700: #00c853,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87),
+  )
+);
 
-$mat-vodafone-yellow:           (
-                                  50 : #fdf3e0,
-                                  100 : #f9e0b3,
-                                  200 : #f5cb80,
-                                  300 : #f1b64d,
-                                  400 : #eea726,
-                                  500 : #eb9700,
-                                  600 : #e98f00,
-                                  700 : #e58400,
-                                  800 : #e27a00,
-                                  900 : #dd6900,
-                                  A100 : #ffffff,
-                                  A200 : #ffe4d1,
-                                  A400 : #ffc69e,
-                                  A700 : #ffb785,
-                                  contrast: (
-                                    50 : #000000,
-                                    100 : #000000,
-                                    200 : #000000,
-                                    300 : #000000,
-                                    400 : #000000,
-                                    500 : #000000,
-                                    600 : #000000,
-                                    700 : #000000,
-                                    800 : #000000,
-                                    900 : #ffffff,
-                                    A100 : #000000,
-                                    A200 : #000000,
-                                    A400 : #000000,
-                                    A700 : #000000,
-                                  )
-                                );
-
-// TODO: temporary solution until we migrate to the material fully
-$mat-vodafone-green:            (
-                                  50 : #f5f6e0,
-                                  100 : #e5e9b3,
-                                  200 : #d4da80,
-                                  300 : #c2cb4d,
-                                  400 : #b5bf26,
-                                  500 : #a8b400,
-                                  600 : #a0ad00,
-                                  700 : #97a400,
-                                  800 : #8d9c00,
-                                  900 : #7d8c00,
-                                  A100 : #f6ffb8,
-                                  A200 : #efff85,
-                                  A400 : #e8ff52,
-                                  A700 : #e4ff39,
-                                  contrast: (
-                                    50 : #000000,
-                                    100 : #000000,
-                                    200 : #000000,
-                                    300 : #000000,
-                                    400 : #000000,
-                                    500 : #000000,
-                                    600 : #000000,
-                                    700 : #000000,
-                                    800 : #000000,
-                                    900 : #ffffff,
-                                    A100 : #000000,
-                                    A200 : #000000,
-                                    A400 : #000000,
-                                    A700 : #000000,
-                                  )
-                                );
-
-// Theme
-$xm-primary-palette:            $mat-vodafone-red !default;
-$xm-secondary-palette:          $mat-vodafone-dark !default;
-$xm-success-palette:            $mat-vodafone-green !default;
-$xm-warn-palette:               $mat-vodafone-yellow !default;
-
-$xm-font-family:                Vodafone, Roboto, 'Helvetica Neue', sans-serif !default;
-$xm-text:                       #434343 !default;
-$xm-enable-rounded:             true !default;
-
-// Table
-$table-accent-bg:             rgba(#000, .03) !default;
-
-// Scroll
-$xm-scrollbar-background-color: rgba(0, 0, 0, .1);
-
-// Sidebar styles
-$xm-sidebar-backdrop:           #656869 !default;
-$xm-sidebar-background:         #656869 !default;
-$xm-sidebar-sidebar-text-color: white !default;
-
-$xm-theme: (
-  sidebar-text-active-color: white,
-  sidebar-backdrop: $xm-sidebar-backdrop,
-  sidebar-background: $xm-sidebar-background,
-  sidebar-text-color: $xm-sidebar-sidebar-text-color,
-) !default;
+$xm-success-palette:       $mat-green !default;
+$xm-primary-palette:       $mat-teal !default;
+$xm-secondary-palette:     $xm-primary-palette !default;
+$xm-mat-secondary-default: A200;
+$xm-mat-secondary-lighter: A100;
+$xm-mat-secondary-darker:  A400;
 
 // Init theme
 @import '~@xm-ngx/styles/theming';
