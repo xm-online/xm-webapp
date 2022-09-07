@@ -55,13 +55,18 @@ export class XmDashboardDynamicRouteResolverGuard
                 // Add the default empty page
                 if (!_.find(this.routes, d => d.path === '')) {
                     // Redirect to first available
-                    routes.unshift({ path: '', pathMatch: 'full', canActivate: [DashboardGuard] });
+                    routes.unshift({
+                        path: '',
+                        children: [],
+                        pathMatch: 'full',
+                        canActivate: [DashboardGuard],
+                    });
                 }
 
                 // Add the default not-found page
                 if (!_.find(this.routes, d => d.path === '**')) {
                     // Redirect to first available
-                    routes.push({ path: '**', canActivate: [DashboardGuard] });
+                    routes.push({path: '**', children: [], canActivate: [DashboardGuard]});
                 }
 
                 return routes;
