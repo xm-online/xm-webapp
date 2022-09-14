@@ -6,7 +6,7 @@ import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 import { HintText } from '@xm-ngx/components/hint/hint.interface';
 import { NgControl } from '@angular/forms';
-import { MatRadioChange } from "@angular/material/radio";
+import { MatRadioChange } from '@angular/material/radio';
 
 export type XmRadioValue = boolean | string | number;
 export type XmRadioLayout = 'stack' | 'line';

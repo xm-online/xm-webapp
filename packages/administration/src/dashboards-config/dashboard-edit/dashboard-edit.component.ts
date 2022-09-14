@@ -12,7 +12,7 @@ import { delay, filter, switchMap, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../const';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig } from '../injectors';
-import { XmTextControlOptions } from "@xm-ngx/components/text";
+import { XmTextControlOptions } from '@xm-ngx/components/text';
 
 export enum EditType {
     Create = 1,

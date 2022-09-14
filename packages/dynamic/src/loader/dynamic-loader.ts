@@ -3,12 +3,12 @@ import { XmDynamicEntry } from '../interfaces';
 
 @Injectable()
 export abstract class DynamicLoader {
-    abstract load<T>(
+    public abstract load<T>(
         selector: string,
         options?: { injector?: Injector },
     ): Promise<Type<T> | null>;
 
-    abstract loadAndResolve<T>(
+    public abstract loadAndResolve<T>(
         selector: string,
         options?: { injector?: Injector },
     ): Promise<ComponentFactory<T> | null> ;

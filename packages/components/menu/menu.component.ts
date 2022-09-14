@@ -56,7 +56,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     public hasChild = (_: number, node: MenuItem): boolean => {
         return node.isLink == null ? (!!node.children && node.children.length > 0) : !node.isLink;
-    }
+    };
 
     public ngOnInit(): void {
         const dashboards$ = this.dashboardService.dashboards$().pipe(

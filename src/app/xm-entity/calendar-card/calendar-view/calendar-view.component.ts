@@ -31,7 +31,7 @@ import { CalendarOptions } from '@fullcalendar/core';
 import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import Swal, { SweetAlertIcon } from "sweetalert2";
+import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 export const DEFAULT_DAY_MAX_EVENT_ROWS = 300;
 
@@ -234,7 +234,7 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
             buttonsStyling: false,
             customClass: {
                 confirmButton: 'btn btn-primary',
-            }
+            },
         });
     }
 
