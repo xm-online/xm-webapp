@@ -69,6 +69,6 @@
     "newLine": "lf",
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   }
 }
