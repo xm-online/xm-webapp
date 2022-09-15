@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { ExamplePresentationalComponent } from './example-presentational/example-presentational.component';
 
 @NgModule({
     imports: [
         /** XmDynamicModule used for creating lazy dynamic components. */
         XmDynamicModule.forChild([
+            {
+                selector: 'example',
+                loadChildren: () => import('./example-presentational').then(m => m.ExamplePresentationModule),
+            },
             {
                 selector: 'example-widget',
                 loadChildren: () => import('./example-widget').then(m => m.ExampleWidgetModule),

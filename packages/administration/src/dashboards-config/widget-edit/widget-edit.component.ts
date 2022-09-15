@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, Type } from '@angular/core';
+import {Component, HostListener, Input, OnChanges, SimpleChanges, Type } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { DashboardWidget } from '@xm-ngx/dashboard';
@@ -10,6 +10,7 @@ import { DASHBOARDS_TRANSLATES } from '../const';
 import { EditType } from '../dashboard-edit/dashboard-edit.component';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig, WidgetCollection } from '../injectors';
+import { SchemaEditorOptions } from "./schema-editor/schema-editor.component";
 
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
@@ -18,7 +19,7 @@ export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
     templateUrl: './widget-edit.component.html',
     styleUrls: ['./widget-edit.component.scss'],
 })
-export class WidgetEditComponent {
+export class WidgetEditComponent implements OnChanges {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
     public EditType: typeof EditType = EditType;
     public formGroup: DashboardWidget = {
@@ -34,6 +35,8 @@ export class WidgetEditComponent {
     public aceEditorOptions: { title: string; height: string } = { title: '', height: 'calc(100vh - 280px)' };
 
     public editType: EditType;
+
+    public jsonEditorOptions: SchemaEditorOptions = { selector: null };
 
     constructor(
         protected readonly widgetService: WidgetCollection,
@@ -61,6 +64,13 @@ export class WidgetEditComponent {
         } else {
             this.editType = EditType.Create;
         }
+        this.ngOnChanges({});
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        this.jsonEditorOptions.selector = this.value.selector;
+        // WORKAROUND: Trigger change detection
+        this.jsonEditorOptions = {...this.jsonEditorOptions};
     }
 
     public onCancel(): void {

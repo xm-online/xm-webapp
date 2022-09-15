@@ -10,6 +10,7 @@ import { ExtThemesCommand } from './ext-themes-command';
 import { ExtThemingCommand } from './ext-theming-command';
 import { HelpCommand } from './help-command';
 import { ReplaceCommand } from './replace-command';
+import { DynamicSpecificationCommand } from "./dynamic-specification/dynamic-specification-command";
 
 export function cli(terminalArgs: string[]): void {
     if (!terminalArgs) {
@@ -37,6 +38,10 @@ export function cli(terminalArgs: string[]): void {
         }
         case 'doc': {
             new DocCommand().execute();
+            break;
+        }
+        case 'dynamic-specification': {
+            new DynamicSpecificationCommand().execute();
             break;
         }
         case 'ext-routing': {

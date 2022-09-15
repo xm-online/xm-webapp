@@ -20,6 +20,8 @@ import { SelectorTextControlComponent } from './widget-edit/selector-text-contro
 import { EDIT_WIDGET_EVENT, WidgetEditComponent } from './widget-edit/widget-edit.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { XmExpansionIndicatorModule } from '@xm-ngx/components/expansion-indicator';
+import { SchemaEditorComponent } from './widget-edit/schema-editor/schema-editor.component';
+import { SchemaFormModule } from "ngx-schema-form";
 
 @NgModule({
     imports: [
@@ -34,6 +36,7 @@ import { XmExpansionIndicatorModule } from '@xm-ngx/components/expansion-indicat
         XmDocExamplesModule,
         DragDropModule,
         XmExpansionIndicatorModule,
+        SchemaFormModule,
     ],
     exports: [
         DashboardsConfigComponent,
@@ -47,6 +50,7 @@ import { XmExpansionIndicatorModule } from '@xm-ngx/components/expansion-indicat
         DashboardsListComponent,
         DashboardsListExpandComponent,
         SelectorTextControlComponent,
+        SchemaEditorComponent,
     ],
     providers: [
         DashboardCollection,

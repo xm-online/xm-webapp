@@ -12,9 +12,12 @@ import {
 } from './navbar-dashboard-edit-widget.component';
 import { XmSharedModule } from '@xm-ngx/shared';
 
+import {
+    SchemaFormModule,
+} from "ngx-schema-form";
 
 @NgModule({
-    imports: [XmSharedModule, DashboardsModule],
+    imports: [XmSharedModule, DashboardsModule, SchemaFormModule],
     exports: [NavbarDashboardEditWidgetComponent],
     declarations: [NavbarDashboardEditWidgetComponent],
     providers: [
