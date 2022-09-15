@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JhiDateUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { createRequestOption } from '../../xm-entity/shared/request-util';
 import { XmEntity } from '../../xm-entity/shared/xm-entity.model';
 
@@ -42,7 +42,7 @@ export class AccountService {
     }
 
     public disableTFA(): Observable<HttpResponse<any>> {
-        return this.http.post(SERVER_API_URL + ACCOUNT_TFA_DISABLE_URL, {}, {observe: 'response'}).pipe(tap(() => console.debug('hi')));
+        return this.http.post(SERVER_API_URL + ACCOUNT_TFA_DISABLE_URL, {}, {observe: 'response'});
     }
 
     public getProfile(req?: any): Observable<XmEntity> {
