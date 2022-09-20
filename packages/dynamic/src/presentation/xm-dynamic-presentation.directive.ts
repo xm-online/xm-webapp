@@ -15,8 +15,13 @@ import { XmDynamicPresentationBase, XmDynamicPresentation, XmDynamicPresentation
 export class XmDynamicPresentationDirective<V, O> extends XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V, O>, OnChanges, OnInit {
     /** Component value */
     @Input() public value: V;
-    /** Component options */
+    /**
+     * @deprecated
+     * Component options
+     **/
     @Input() public options: O;
+    /** Component config */
+    @Input() public config: O;
     /** Component ref */
     @Input() public selector: XmDynamicPresentationConstructor<V, O> | string;
     /** Instance of created object */
