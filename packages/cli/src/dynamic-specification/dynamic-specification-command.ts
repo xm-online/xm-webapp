@@ -152,7 +152,7 @@ function getConfigurationSchema(classDeclaration: ClassDeclaration): object {
                             const isTraceable = !isGetter && isValuable;
                             if (isTraceable) return isTraceable;
                             console.warn('Skip Type', i.getName(), classDeclaration.getName());
-                            return true;
+                            return false;
                         })
                         .map(i => i.getValueDeclarationOrThrow())
                         .map(i => ({[i.getSymbol()?.getName() || '']: getSchema(i.getType())}))
@@ -175,7 +175,7 @@ function getConfigurationSchema(classDeclaration: ClassDeclaration): object {
                         const isTraceable = !isGetter && isValuable;
                         if (isTraceable) return isTraceable;
                         console.warn('Skip Type', i.getName(), classDeclaration.getName());
-                        return true;
+                        return false;
                     })
                     .map(i => i.getValueDeclarationOrThrow())
                     .map(i => ({[i.getSymbolOrThrow().getName()]: getSchema(i.getType())}))
