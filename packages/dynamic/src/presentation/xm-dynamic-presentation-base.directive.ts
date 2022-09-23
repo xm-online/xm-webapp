@@ -9,7 +9,7 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule } from '../interfaces';
-import { DynamicLoader } from '../loader/dynamic-loader';
+import { DynamicComponentLoaderService } from '../loader/dynamic-component-loader.service';
 
 
 /** Determines input(control) value. */
@@ -61,7 +61,7 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
     constructor(public viewContainerRef: ViewContainerRef,
                 public injector: Injector,
                 protected renderer: Renderer2,
-                protected loaderService: DynamicLoader,
+                protected loaderService: DynamicComponentLoaderService,
                 protected cfr: ComponentFactoryResolver) {
     }
 
@@ -110,10 +110,10 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
             return;
         }
 
-        const cfr = await this.loaderService.loadAndResolve<XmDynamicPresentation<V, O>>(this.selector as string, { injector: this.injector });
+        const cfr = await this.loaderService.get(this.selector as string, this.injector);
 
         this.viewContainerRef.clear();
-        const c = this.viewContainerRef.createComponent(cfr, 0, this.createInjector());
+        const c = this.viewContainerRef.createComponent(cfr, {index: 0, injector: this.createInjector()});
         this.instance = c.instance;
 
         const el = c.location.nativeElement as HTMLElement;

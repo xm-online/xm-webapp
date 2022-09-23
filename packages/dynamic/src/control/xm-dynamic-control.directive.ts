@@ -14,9 +14,9 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { XmDynamicConstructor, XmDynamicEntryModule } from '../interfaces';
-import { DynamicLoader } from '../loader/dynamic-loader';
 import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-base.directive';
 import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
+import { DynamicComponentLoaderService } from '../loader/dynamic-component-loader.service';
 
 export interface XmDynamicControl<V = unknown, O = unknown> extends XmDynamicPresentation<V, O>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
@@ -75,7 +75,7 @@ export class XmDynamicControlDirective<V, O>
         viewContainerRef: ViewContainerRef,
         injector: Injector,
         renderer: Renderer2,
-        loaderService: DynamicLoader,
+        loaderService: DynamicComponentLoaderService,
         cfr: ComponentFactoryResolver,
     ) {
         super(viewContainerRef, injector, renderer, loaderService, cfr);

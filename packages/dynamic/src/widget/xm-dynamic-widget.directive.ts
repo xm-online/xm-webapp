@@ -9,8 +9,8 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { DynamicLoader } from '../loader/dynamic-loader';
 import { XmDynamicWidget } from './xm-dynamic-widget';
+import { DynamicComponentLoaderService } from '../loader/dynamic-component-loader.service';
 
 export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
     selector: string;
@@ -33,7 +33,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
     private _layout: XmDynamicWidgetConfig;
 
     constructor(private injector: Injector,
-                private dynamicLoader: DynamicLoader,
+                private dynamicLoader: DynamicComponentLoaderService,
                 private renderer: Renderer2,
                 private viewRef: ViewContainerRef) {
     }
@@ -52,6 +52,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
+        console.log('dynamic-widget directive');
         if (changes.init && !_.isEqual(changes.init.currentValue, changes.init.previousValue)) {
             this.loadComponent().then();
         }
@@ -65,13 +66,13 @@ export class XmDynamicWidgetDirective implements OnChanges {
             value.selector = `${value.module}/${value.component}`;
         }
 
-        const componentFactory = await this.dynamicLoader.loadAndResolve<XmDynamicWidget>(this._layout.selector, {injector: this.injector});
+        const componentFactory = await this.dynamicLoader.get<XmDynamicWidget>(this._layout.selector, this.injector);
         if (componentFactory) {
             this.createComponent(this._layout, componentFactory);
             return;
-        } 
+        }
         console.warn(`"${value.selector}" does not exist!`);
-        
+
     }
 
     private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, componentFactory: ComponentFactory<T>): void {
