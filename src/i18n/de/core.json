@@ -972,7 +972,7 @@
   "xm-control-errors": {
     "validators": {
       "email": "Ihre E-Mail-Adresse ist falsch.",
-      "max": "Der Maximalwert ist {{min}}.",
+      "max": "Der Maximalwert ist {{max}}.",
       "maxlength": "Darf {{requiredLength}}-Zeichen nicht überschreiten.",
       "min": "Der Mindestwert ist {{min}}.",
       "minlength": "Muss mindestens aus {{requiredLength}}-Zeichen bestehen.",
@@ -1027,7 +1027,8 @@
         "success": "Ereignis wurde erfolgreich hinzugefügt."
       },
       "choose-type": "Ereignistyp auswählen",
-      "title": "Neues Ereignis für die"
+      "title": "Neues Ereignis für die",
+      "title-edit": "Ereignis bearbeiten für die"
     },
     "comment-detail-dialog": {
       "add": {
@@ -1073,7 +1074,8 @@
       "title": "Daten",
       "update-error": "Nicht aktualisiert. Wiederholen.",
       "update-success": "Erfolgreich aktualisiert.",
-      "change-avatar": "Bild ändern"
+      "change-avatar": "Bild ändern",
+      "current-state": "Aktueller Status"
     },
     "entity-detail-dialog": {
       "add": {
@@ -1085,6 +1087,7 @@
       }
     },
     "entity-detail-fab": {
+      "new": "Neue hinzufügen",
       "edit-entity": "Redigieren",
       "new-attachment": "Neuen Anhang hinzufügen",
       "new-comment": "Neuen Kommentar hinzufügen",
@@ -1427,7 +1430,10 @@
         "remove-success": "Speicherort wurde erfolgreich entfernt.",
         "title": "Möchten Sie den Standort wirklich löschen?"
       },
-      "title": "Orte"
+      "not-defined": "Ort nicht definiert",
+      "add-location": "Ort hinzufügen",
+      "title": "Orte",
+      "title-location": "Ort"
     },
     "rating-list-section": {
       "vote-error": "Ihre Stimme wird nicht berücksichtigt.",

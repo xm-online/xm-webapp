@@ -62,3 +62,18 @@ export const XM_MAT_DIALOG_DEFAULT_OPTIONS: MatDialogConfig = {
     ariaLabel: null,
     autoFocus: true,
 };
+
+
+export const XM_CALENDAR_VIEW = {
+    MONTH: 'month',
+    WEEK: 'week',
+    DAY: 'day',
+};
+
+export const DEFAULT_CALENDAR_VIEW = 'month';
+
+export const CALENDAR_VIEW = {
+    [XM_CALENDAR_VIEW.MONTH]: DEFAULT_CALENDAR_VIEW,
+    [XM_CALENDAR_VIEW.WEEK]: 'agendaWeek',
+    [XM_CALENDAR_VIEW.DAY]: 'agendaDay',
+};

@@ -214,6 +214,12 @@
     "updated": "Updated {{value}}",
     "widgets": "Widgets"
   },
+  "date-time-picker": {
+    "labels": {
+      "from": "From",
+      "to": "To"
+    }
+  },
   "entity": {
     "action": {
       "back": "Back",
@@ -982,7 +988,7 @@
   "xm-control-errors": {
     "validators": {
       "email": "Your email address is incorrect.",
-      "max": "The maximum value is {{min}}.",
+      "max": "The maximum value is {{max}}.",
       "maxlength": "Cannot exceed {{requiredLength}} characters.",
       "min": "The minimum value is {{min}}.",
       "minlength": "Must be at least {{requiredLength}} characters.",
@@ -1037,7 +1043,8 @@
         "success": "Event added successfully."
       },
       "choose-type": "Choose event type",
-      "title": "Add new event for the"
+      "title": "Add new event for the",
+      "title-edit": "Edit event for the"
     },
     "comment-detail-dialog": {
       "add": {
@@ -1083,7 +1090,8 @@
       "title": "Data",
       "update-error": "Not updated. Try again.",
       "update-success": "Updated successfully.",
-      "change-avatar": "Change Picture"
+      "change-avatar": "Change Picture",
+      "current-state": "Current status"
     },
     "entity-detail-dialog": {
       "add": {
@@ -1095,6 +1103,7 @@
       }
     },
     "entity-detail-fab": {
+      "new": "Add new",
       "edit-entity": "Edit",
       "new-attachment": "Add new attachment",
       "new-comment": "Add new comment",
@@ -1437,7 +1446,10 @@
         "remove-success": "Location removed successfully.",
         "title": "Are you sure you want to delete Location?"
       },
-      "title": "Locations"
+      "not-defined": "Location not defined",
+      "add-location": "Add location",
+      "title": "Locations",
+      "title-location": "Location"
     },
     "rating-list-section": {
       "vote-error": "Your vote is not taken into account.",

@@ -1,0 +1,15 @@
+:host ::ng-deep {
+  full-calendar {
+    margin-top: 10px;
+    .fc-timeGrid-view {
+      .fc-day-grid {
+        table {
+          td {
+            padding-bottom: 35px;
+            line-height: 35px;
+          }
+        }
+      }
+    }
+  }
+}

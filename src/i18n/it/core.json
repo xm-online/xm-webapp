@@ -972,7 +972,7 @@
   "xm-control-errors": {
     "validators": {
       "email": "Il tuo indirizzo email non è corretto.",
-      "max": "Il valore massimo è {{min}}.",
+      "max": "Il valore massimo è {{max}}.",
       "maxlength": "Non può superare i caratteri {{requiredLength}}.",
       "min": "Il valore minimo è {{min}}.",
       "minlength": "Deve contenere almeno caratteri {{requiredLength}}.",
@@ -1027,7 +1027,8 @@
         "success": "Evento aggiunto correttamente."
       },
       "choose-type": "Scegli il tipo di evento",
-      "title": "Aggiungi nuovo evento per il"
+      "title": "Aggiungi nuovo evento per il",
+      "title-edit": "Modifica evento per il"
     },
     "comment-detail-dialog": {
       "add": {
@@ -1073,7 +1074,8 @@
       "title": "Dati",
       "update-error": "Non aggiornato. Riprova.",
       "update-success": "Aggiornato correttamente.",
-      "change-avatar": "Cambia immagine"
+      "change-avatar": "Cambia immagine",
+      "current-state": "Stato attuale"
     },
     "entity-detail-dialog": {
       "add": {
@@ -1085,6 +1087,7 @@
       }
     },
     "entity-detail-fab": {
+      "new": "Aggiungere nuova",
       "edit-entity": "Redigere",
       "new-attachment": "Aggiungi nuovo allegato",
       "new-comment": "Aggiungi nuovo commento",
@@ -1427,7 +1430,10 @@
         "remove-success": "Posizione rimossa correttamente.",
         "title": "Sei sicuro di voler eliminare la posizione?"
       },
-      "title": "Luoghi"
+      "not-defined": "Posizione non definita",
+      "add-location": "Aggiungi luogo",
+      "title": "Luoghi",
+      "title-location": "Posizione"
     },
     "rating-list-section": {
       "vote-error": "Il vostro voto non viene preso in considerazione.",

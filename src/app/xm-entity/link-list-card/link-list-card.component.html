@@ -82,7 +82,7 @@
           <ng-container matColumnDef="delete" *ngIf="!isBackLink">
             <th scope="col" mat-header-cell *matHeaderCellDef></th>
             <td class="text-right" mat-cell *matCellDef="let link">
-              <button *permitted="'LINK.DELETE'" (click)="onRemove(link)" mat-icon-button>
+              <button *permitted="[deletePermission]" (click)="onRemove(link)" mat-icon-button>
                 <mat-icon>close</mat-icon>
               </button>
             </td>

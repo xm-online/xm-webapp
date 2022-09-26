@@ -194,10 +194,17 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     public viewToModel(value: string): void {
         if (this.transformAsObject()) {
-            this.value = {
-                ...this.value,
-                [this.selectedLng]: value,
-            };
+            if (!value) {
+                delete this.value[this.selectedLng];
+            } else {
+                this.value = {
+                    ...this.value,
+                    [this.selectedLng]: value,
+                };
+            }
+            if(_.isEmpty(this.value)) {
+                this.value = null;
+            }
         } else {
             const oldValue = (this.getValue<'array'>() ?? []);
             const langValue = { languageKey: this.selectedLng, name: value };

@@ -51,4 +51,8 @@ lerna-debug.log*
 # compdoc out
 /documentation/
 
+# xm-ngx dynamic-specification
+/src/assets/specification/
+
+
 package-lock.json

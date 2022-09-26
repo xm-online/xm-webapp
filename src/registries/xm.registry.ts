@@ -7,6 +7,7 @@ import { XM_LINK_ELEMENTS } from './xm-link.registry';
 import { XM_ENUM_ELEMENTS } from './xm-enum.registry';
 import { XM_BOOL_ELEMENTS } from './xm-bool.registry';
 import { XM_ARRAY_ELEMENTS } from './xm-array.registry';
+import { XM_TABLE_ELEMENTS } from './xm-table.registry';
 import { XM_NAVBAR_ELEMENTS } from './xm-navbar.registry';
 import { XM_DASHBOARD_ELEMENTS } from './xm-dashboard.registry';
 import { XM_ADMINISTRATION_ELEMENTS } from './xm-administration.registry';
@@ -20,6 +21,7 @@ export const XM_ELEMENTS: XmDynamicEntries = [
     ...XM_LINK_ELEMENTS,
     ...XM_ENUM_ELEMENTS,
     ...XM_ARRAY_ELEMENTS,
+    ...XM_TABLE_ELEMENTS,
     ...XM_NAVBAR_ELEMENTS,
     ...XM_DASHBOARD_ELEMENTS,
     ...XM_ADMINISTRATION_ELEMENTS,

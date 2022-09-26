@@ -5,6 +5,13 @@
   <ng-container *ngIf="displayMode === 'BOTH' || displayMode === 'HEAD'">
     <div class="card-header card-header-icon card-header-primary text-left">
       <!-- avatar is shown as a card heading, avatar editing is in the card-menu -->
+      <div class="arrow-back" *ngIf="navBackEnabled">
+        <button (click)="onBack()"
+                class="rounded-circle"
+                mat-icon-button>
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
       <ng-container *ngIf="isAvatarEnabled">
         <div *ngIf="xmEntity.avatarUrl" class="card-icon avatar">
           <img src="{{xmEntity.avatarUrl}}">
@@ -16,7 +23,7 @@
       <h4 class="card-title">{{xmEntity.name}}</h4>
     </div>
     <div class="card-menu">
-
+      <span>{{'xm-entity.entity-data-card.current-state' | translate}}: </span>
       <xm-entity-state class="state-top" [stateSpec]="getCurrentStateSpec()"></xm-entity-state>
 
       <button [matMenuTriggerFor]="actionItems" mat-icon-button>
@@ -73,7 +80,7 @@
       <div class="row row-compact">
         <xm-function-list-section-compact
           *ngIf="xmEntity || (getNextStates()?.length || xmEntitySpec.functions)"
-          [functionSpecs]="entityFunctionSpec"
+          [functionSpecsUpdates]="entityFunctionSpec"
           [nextStates]="getNextStates()"
           [stateSpec]="getState()"
           [xmEntityId]="xmEntity.id"

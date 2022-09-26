@@ -50,6 +50,11 @@ export class CalendarService {
             map((res: HttpResponse<Calendar[]>) => this.convertArrayResponse(res)));
     }
 
+    public getEvents(id: number, req?: any): Observable<Event[]> {
+        const options = createRequestOption(req);
+        return this.http.get<Event[]>(`${this.resourceUrl}/${id}/events`, {params: options, observe: 'body'});
+    }
+
     private convertResponse(res: HttpResponse<Calendar>): HttpResponse<Calendar> {
         const body: Calendar = this.convertItemFromServer(res.body);
         return res.clone({body});

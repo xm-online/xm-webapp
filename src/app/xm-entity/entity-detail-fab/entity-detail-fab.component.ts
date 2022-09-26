@@ -57,6 +57,17 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
+    private checkEntityEditPermission(config: EntityUiConfig): void {
+        if (config.editButtonPermission) {
+            this.showEditButton = false;
+            this.principal.hasPrivileges([config.editButtonPermission]).then((result) => {
+                if (result) {
+                    this.showEditButton = true;
+                }
+            });
+        }
+    }
+
     public ngOnDestroy(): void {
         this.eventManager.destroy(this.eventSubscriber);
     }
@@ -112,15 +123,13 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
     public onAddALocation(): void {
         this.openDialog(LocationDetailDialogComponent, (modalRef) => {
             modalRef.componentInstance.locationSpecs = this.xmEntitySpec.locations;
-        }, {width: '500px'});
+        }, {size: 'lg', backdrop: 'static'});
     }
 
     public onEdit(): void {
         this.openDialog(EntityDetailDialogComponent, (modalRef) => {
             modalRef.componentInstance.xmEntity = Object.assign({}, this.xmEntity);
             modalRef.componentInstance.xmEntitySpec = this.xmEntitySpec;
-        }, {
-            minWidth: '500px',
         });
     }
 
@@ -142,16 +151,5 @@ export class EntityDetailFabComponent implements OnInit, OnChanges, OnDestroy {
         modalRef.componentInstance.xmEntity = this.xmEntity;
         operation(modalRef);
         return modalRef;
-    }
-
-    private checkEntityEditPermission(config: EntityUiConfig): void {
-        if (config.editButtonPermission) {
-            this.showEditButton = false;
-            this.principal.hasPrivileges([config.editButtonPermission]).then((result) => {
-                if (result) {
-                    this.showEditButton = true;
-                }
-            });
-        }
     }
 }

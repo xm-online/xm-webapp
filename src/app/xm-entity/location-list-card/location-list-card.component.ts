@@ -1,6 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
@@ -13,6 +13,17 @@ import { Location } from '../shared/location.model';
 import { LocationService } from '../shared/location.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
+import { XmEntitySpec } from '@xm-ngx/entity';
+import {
+    AUTO_STYLE,
+    animate,
+    state,
+    style,
+    transition,
+    trigger,
+} from '@angular/animations';
+
+const ANIMATION_DURATION = 300;
 
 declare let $: any;
 declare let google: any;
@@ -20,6 +31,15 @@ declare let google: any;
 @Component({
     selector: 'xm-location-list-card',
     templateUrl: './location-list-card.component.html',
+    styleUrls: ['./location-list-card.component.scss'],
+    animations: [
+        trigger('collapse', [
+            state('false', style({ height: AUTO_STYLE, visibility: AUTO_STYLE })),
+            state('true', style({ height: '0', visibility: 'hidden' })),
+            transition('false => true', animate(ANIMATION_DURATION + 'ms ease-in')),
+            transition('true => false', animate(ANIMATION_DURATION + 'ms ease-out')),
+        ]),
+    ],
 })
 export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -46,11 +66,14 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
     @Input() public xmEntityId: number;
     @Input() public locationSpecs: LocationSpec[];
     @Input() public entityUiConfig: any;
+    @Input() public xmEntitySpec: XmEntitySpec;
     public xmEntity: XmEntity;
     public locations: Location[];
     public locationMaps: any;
     public noDataText: any;
     private modificationSubscription: Subscription;
+    public collapsedAddLocation = true;
+    public openedLocation = false;
 
     constructor(private xmEntityService: XmEntityService,
                 private locationService: LocationService,
@@ -94,6 +117,7 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public onCollapseMap(location: Location): void {
+        this.openedLocation = !this.openedLocation;
         if (this.locationMaps.hasOwnProperty(location.id)) {
             setTimeout(() => {
                 google.maps.event.trigger(this.locationMaps[location.id], 'resize');
@@ -145,6 +169,24 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
             () => this.load());
     }
 
+    public onAddALocation(): void {
+        this.openDialog(LocationDetailDialogComponent, (modalRef) => {
+            modalRef.componentInstance.locationSpecs = this.xmEntitySpec.locations;
+        }, {size: 'lg', backdrop: 'static'});
+    }
+
+    private openDialog(dialogClass: any, operation: any, options?: any): MatDialogRef<any> {
+        const modalRef = this.modalService.open<any>(dialogClass, options ? options : {width: '500px'});
+        modalRef.componentInstance.xmEntity = this.xmEntity;
+        operation(modalRef);
+        return modalRef;
+    }
+
+    public collapseAddLocationBlock(): void {
+        this.collapsedAddLocation = !this.collapsedAddLocation;
+    }
+
+
     private load(): void {
         this.locations = [];
         this.locationMaps = {};
@@ -153,6 +195,8 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
                 this.xmEntity = xmEntity.body;
                 if (xmEntity.body.locations) {
                     this.locations = [...xmEntity.body.locations];
+                } else {
+                    this.collapsedAddLocation = false;
                 }
             });
     }

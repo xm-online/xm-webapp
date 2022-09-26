@@ -1,38 +1,38 @@
-<div class="card">
-  <div class="card-header card-header-icon card-header-primary">
-    <h4 class="card-title">{{'xm-entity.location-list-card.title'|translate}}</h4>
-  </div>
-  <div class="card-body">
+<div class="location-card">
+  <h4 class="card-title">{{'xm-entity.location-list-card.title'|translate}}</h4>
+  <div>
     <div *ngIf="locations.length; else emptyTemplate"
          aria-multiselectable="false"
          class="panel-group"
          id="accordion"
          role="tablist">
       <div *ngFor="let location of locations" class="card-collapse mb-0">
-        <div (click)="onCollapseMap(location)" class="card-header" id="{{'heading-' + location.id" role="tab">
+        <div (click)="onCollapseMap(location)" id="{{'heading-' + location.id" role="tab">
           <a [attr.aria-controls]="'collapse-' + location.id"
+             class="location-name"
              aria-expanded="false"
              data-parent="#accordion"
              data-toggle="collapse"
              href="{{'#collapse-' + location.id}}"
              role="button">
-            <h4 class="panel-title">
+            <h6 class="panel-title mt-1">
               <span class="row">
                 <span class="col">
+                  <img src="../assets/img/leaflet/marker-icon-cyan.svg" alt="'marker'">
                   <em>({{getLocationSpec(location).name | translate | uppercase}}
                       )</em>{{location | locationAddress}}
                 </span>
                 <span class="col-auto">
-                  <a (click)="onRemove(location)"
-                     *xmPermitted="['LOCATION.DELETE']"
-                     class="d-inline"><mat-icon class="no-rotate">close</mat-icon></a>
+                  <mat-icon [class.rotate-arrow]="openedLocation">keyboard_arrow_down</mat-icon>
                   <a (click)="onManage(location)"
                      *xmPermitted="['LOCATION.UPDATE']"
-                     class="d-inline"><mat-icon class="no-rotate">edit</mat-icon></a>
-                  <mat-icon>keyboard_arrow_down</mat-icon>
+                     class="d-inline edit-location mr-2">Edit</a>
+                  <a (click)="onRemove(location)"
+                     *xmPermitted="['LOCATION.DELETE']"
+                     class="d-inline remove-location">Delete</a>
                 </span>
               </span>
-            </h4>
+            </h6>
           </a>
         </div>
 
@@ -55,5 +55,22 @@
     <ng-template #emptyTemplate>
       <no-data [hideImage]="true" [show]="true" [text]="noDataText"></no-data>
     </ng-template>
+  </div>
+</div>
+<div class="location-card" *xmPermitted="['LOCATION.CREATE']">
+  <div class="row justify-content-between" (click)="collapseAddLocationBlock()" style="cursor: pointer">
+    <h4 class="card-title">
+      {{'xm-entity.location-list-card.add-location' | translate}}
+    </h4>
+    <mat-icon [class.rotate-arrow]="!collapsedAddLocation">keyboard_arrow_down</mat-icon>
+  </div>
+  <div class="flex-row justify-content-center align-content-center grey-bg" [@collapse]="collapsedAddLocation">
+    <div class="add-location-card-body d-flex flex-column align-items-center">
+      <img src="../assets/img/leaflet/marker-icon-grey.svg" alt="'marker'">
+      <h6 *ngIf="locations?.length === 0">{{'xm-entity.location-list-card.not-defined' | translate}}</h6>
+      <div class="xm-state" (click)="onAddALocation()">
+        {{'xm-entity.location-list-card.add-location' | translate}}
+      </div>
+    </div>
   </div>
 </div>

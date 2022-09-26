@@ -63,13 +63,14 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
     public defineUiConfig(): void {
         this.xmConfigService.getUiConfig().subscribe((config) => {
             // TODO: for demo
-            this.tenant = config.name;
-            this.defaultDetailLayoutType = config.defaultDetailLayoutType;
-            this.entityUiConfig = (config && config.applications
-                && config.applications.config
-                && config.applications.config.entities
-                && config.applications.config.entities
-                    .filter((e) => e.typeKey === this.xmEntity.typeKey).shift()) as EntityUiConfig;
+            this.config = config;
+            this.tenant = config?.name;
+            this.defaultDetailLayoutType = config?.defaultDetailLayoutType;
+            this.entityUiConfig = (config && config?.applications
+                && config.applications?.config
+                && config.applications?.config?.entities
+                && config.applications?.config?.entities
+                    .filter((e) => e?.typeKey === this.xmEntity.typeKey).shift()) as EntityUiConfig;
         });
     }
 
@@ -84,7 +85,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
         for (const xmEntitySpec of this.spec.types) {
             if (xmEntitySpec.links) {
                 for (const linkSpec of xmEntitySpec.links) {
-                    if (linkSpec.typeKey === typeKey) {
+                    if (linkSpec.typeKey === typeKey || typeKey.startsWith(linkSpec.typeKey + '.')) {
                         result[linkSpec.key] = Object.assign({}, linkSpec);
                     }
                 }
