@@ -83,14 +83,6 @@
                               name="selector"></xm-selector-text-control>
 
     <mat-tab-group>
-<!--      <mat-tab [label]="'Editor'">-->
-<!--        <xm-schema-editor-->
-<!--          [options]="jsonEditorOptions"-->
-<!--          [ngModel]="formGroup.config"-->
-<!--          (ngModelChange)="formGroup.config = $event"-->
-<!--          [ngModelOptions]="{standalone: true}"-->
-<!--        ></xm-schema-editor>-->
-<!--      </mat-tab>-->
 
       <mat-tab [label]="'Config'">
         <xm-ace-editor-control [(ngModel)]="formGroup.config"
