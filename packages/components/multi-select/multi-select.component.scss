@@ -1,0 +1,22 @@
+// hide default filter-option for selectedAll
+.filter-option > mat-pseudo-checkbox.mat-pseudo-checkbox-disabled {
+  display: none !important;
+}
+
+mat-pseudo-checkbox, .mat-option-text {
+  float: none !important;
+}
+
+:host ::ng-deep .allSelected .multiselect-option > .mat-option-pseudo-checkbox {
+  opacity: .5;
+}
+
+:host ::ng-deep .label-touchable label {
+  pointer-events: auto;
+}
+
+.mat-error {
+  font-size:      75%;
+  margin-top:     -1rem;
+  margin-bottom:  0.5rem;
+}
