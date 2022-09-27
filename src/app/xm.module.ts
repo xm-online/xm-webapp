@@ -35,6 +35,16 @@ import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmSharedModule } from 'src/app/shared/shared.module';
 import { NgxMaskModule } from 'ngx-mask';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
+import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
+
+const formFieldOptions: MatFormFieldDefaultOptions = {
+    appearance: 'fill',
+};
+
+const paginatorOptions: MatPaginatorDefaultOptions = {
+    formFieldAppearance: 'standard',
+};
 
 @NgModule({
     imports: [
@@ -62,6 +72,54 @@ import { NgxMaskModule } from 'ngx-mask';
         NgxMaskModule.forRoot(),
         XmDynamicExtensionModule.forRoot([
             // #regionstart dynamic-extension-modules
+            {
+                selector: 'ext-common',
+                loadChildren: () => import('./ext-commons/ext-common/module/ext-common.module').then(m => m.ExtCommonModule),
+            },
+            {
+                selector: 'ext-ext-common',
+                loadChildren: () => import('./ext-commons/ext-common/module/ext-common.module').then(m => m.ExtCommonModule),
+            },
+            {
+                selector: 'ext-common-entity',
+                loadChildren: () => import('./ext-commons/ext-common-entity/module/ext-common-entity.module').then(m => m.ExtCommonEntityModule),
+            },
+            {
+                selector: 'ext-ext-common-entity',
+                loadChildren: () => import('./ext-commons/ext-common-entity/module/ext-common-entity.module').then(m => m.ExtCommonEntityModule),
+            },
+            {
+                selector: 'boards',
+                loadChildren: () => import('./ext/boards-webapp-ext/module/boards-webapp-ext.module').then(m => m.BoardsWebappExtModule),
+            },
+            {
+                selector: 'ext-boards',
+                loadChildren: () => import('./ext/boards-webapp-ext/module/boards-webapp-ext.module').then(m => m.BoardsWebappExtModule),
+            },
+            {
+                selector: 'common',
+                loadChildren: () => import('./ext/common-webapp-ext/module/common-webapp-ext.module').then(m => m.CommonWebappExtModule),
+            },
+            {
+                selector: 'ext-common',
+                loadChildren: () => import('./ext/common-webapp-ext/module/common-webapp-ext.module').then(m => m.CommonWebappExtModule),
+            },
+            {
+                selector: 'entity',
+                loadChildren: () => import('./ext/entity-webapp-ext/module/entity-webapp-ext.module').then(m => m.EntityWebappExtModule),
+            },
+            {
+                selector: 'ext-entity',
+                loadChildren: () => import('./ext/entity-webapp-ext/module/entity-webapp-ext.module').then(m => m.EntityWebappExtModule),
+            },
+            {
+                selector: 'example',
+                loadChildren: () => import('./ext/example-webapp-ext/module/example-webapp-ext.module').then(m => m.ExampleWebappExtModule),
+            },
+            {
+                selector: 'ext-example',
+                loadChildren: () => import('./ext/example-webapp-ext/module/example-webapp-ext.module').then(m => m.ExampleWebappExtModule),
+            },
             // #regionend dynamic-extension-modules
         ]),
         XmDynamicModule.forRoot(XM_ELEMENTS),
@@ -76,6 +134,8 @@ import { NgxMaskModule } from 'ngx-mask';
         UserRouteAccessService,
         CookieService,
         { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: XM_MAT_DIALOG_DEFAULT_OPTIONS },
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldOptions },
+        { provide: MAT_PAGINATOR_DEFAULT_OPTIONS, useValue: paginatorOptions },
     ],
     bootstrap: [XmMainComponent],
 })
