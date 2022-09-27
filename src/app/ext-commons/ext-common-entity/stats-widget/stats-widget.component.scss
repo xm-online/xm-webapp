@@ -42,3 +42,43 @@ $stat-card-mesure-unit: 20px;
     text-align:  center;
   }
 }
+
+.xm-stat-card {
+  border-radius: 4px;
+  padding: 0;
+
+  .mat-card-image {
+    margin: 0;
+
+    mat-icon {
+      width: 40px;
+      height: 40px;
+      font-size: 40px;
+      color: white;
+    }
+  }
+
+  .xm-stat-card-content {
+    display: flex;
+
+    & > * {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: auto;
+
+      &:first-child {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        width: 35%;
+      }
+
+      &:last-child {
+        flex-direction: column;
+        align-items: start;
+        padding: 8px;
+        width: 65%;
+      }
+    }
+  }
+}
