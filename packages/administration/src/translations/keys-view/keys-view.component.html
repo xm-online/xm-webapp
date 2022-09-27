@@ -26,7 +26,7 @@
             <div class="keys-view__col">
                 <mat-icon class="keys-view__warning-icon" *ngIf="!translationKey[1]" color="warn">warning</mat-icon>
                 <form (ngSubmit)="changeTranslate(translationKey[0])">
-                    <mat-form-field class="keys-view__input" [floatLabel]="'never'">
+                    <mat-form-field appearance="fill" class="keys-view__input" [floatLabel]="'never'">
                         <input #input="ngModel"
                                matInput
                                required

@@ -14,7 +14,7 @@ export const XM_PASSWORD_OPTIONS_DEFAULT: XmPasswordControlOptions = {
 @Component({
     selector: 'xm-password-control',
     template: `
-        <mat-form-field>
+        <mat-form-field appearance="fill">
             <mat-label>{{ options.title | translate}}</mat-label>
 
             <input [formControl]="control"

@@ -33,7 +33,7 @@
     </mat-expansion-panel-header>
 
     <div *ngIf="openedEntitySpec === index">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <input [(ngModel)]="entitySpec.key"
                [placeholder]="('admin-config.specification-mng.editor.key' | translate)"
                matInput
@@ -64,9 +64,9 @@
           </mat-checkbox>
         </div>
         <div class="col-4">
-          <mat-form-field>
-            <mat-select [(ngModel)]="entitySpec.icon"
-                        [placeholder]="('admin-config.specification-mng.editor.icon' | translate)">
+          <mat-form-field appearance="fill">
+            <mat-label>{{'admin-config.specification-mng.editor.icon' | translate}}</mat-label>
+            <mat-select [(ngModel)]="entitySpec.icon">
               <mat-select-trigger>
                 {{entitySpec.icon}}
               </mat-select-trigger>

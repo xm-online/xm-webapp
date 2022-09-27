@@ -1,5 +1,5 @@
 <div [class]="options?.htmlClass || ''">
-  <mat-form-field>
+  <mat-form-field appearance="fill">
     <mat-icon class="deep-link"
       [style.color]="selectLinkOptions?.iconColor"
       [class.disabled]="!(elementCtrl && elementCtrl['object'] && elementCtrl['object'].id)"
@@ -9,9 +9,9 @@
     >
       {{this.selectLinkOptions?.iconName}}
     </mat-icon>
+    <mat-label>{{options.noTitle ? '' : (placeholder | async)}}</mat-label>
     <mat-select [(ngModel)]="elementCtrl"
       (selectionChange)="updateValue($event)"
-      [placeholder]="options.noTitle ? '' : (placeholder | async)"
       [disabled]="(disabled$ | async) || options['readonly']"
       [required]="options?.required"
       #singleSelect

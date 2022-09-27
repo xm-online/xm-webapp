@@ -35,7 +35,7 @@ const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
 @Component({
     selector: 'xm-text-range-control',
     template: `
-        <mat-form-field>
+        <mat-form-field appearance="fill">
             <mat-label>{{options.title | translate}}</mat-label>
 
             <textarea [placeholder]="options.placeholder | translate"

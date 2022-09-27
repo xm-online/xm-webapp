@@ -40,12 +40,12 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
 @Component({
     selector: 'xm-enum-control',
     template: `
-        <mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>{{options?.title | translate}}</mat-label>
             <mat-select [formControl]="control"
                         [required]="options.required"
                         [id]="options.id"
-                        [attr.data-qa]="options.dataQa"
-                        [placeholder]="options?.title | translate">
+                        [attr.data-qa]="options.dataQa">
                 <mat-select-trigger>
                     <ng-container *ngIf="itemsMap && itemsMap[value + '']">
                         <mat-icon

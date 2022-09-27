@@ -7,10 +7,10 @@
       <div class="card-body">
         <div class="form-group">
 
-          <mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>{{'rolesManagement.permission.msName' | translate}}</mat-label>
             <mat-select #file
-                        (selectionChange)="loadSelectedExample($event, file.value)"
-                        placeholder="{{'rolesManagement.permission.msName' | translate}}">
+                        (selectionChange)="loadSelectedExample($event, file.value)">
               <mat-option disabled>
                 {{'formPlayground.selectSchema' | translate}}
               </mat-option>
@@ -21,7 +21,7 @@
           </mat-form-field>
 
           <div *ngIf="isXmForm">
-            <mat-form-field *ngIf="specs$ | async as fetchedSpecs;">
+            <mat-form-field appearance="fill" *ngIf="specs$ | async as fetchedSpecs;">
               <ng-container
                 *ngIf="fetchedSpecs; then resultData; else noData"
               ></ng-container>
@@ -48,7 +48,7 @@
               </ng-template>
             </mat-form-field>
 
-            <mat-form-field *ngIf="xmEntityForms$ | async as fetchedSpecs;">
+            <mat-form-field appearance="fill" *ngIf="xmEntityForms$ | async as fetchedSpecs;">
               <ng-container
                 *ngIf="fetchedSpecs; then resultData; else noData"
               ></ng-container>

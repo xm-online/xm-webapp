@@ -14,10 +14,10 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 @Component({
     selector: 'xm-bool-control',
     template: `
-        <mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>{{options?.title | translate}}</mat-label>
             <mat-select [formControl]="control"
                         [disabled]="disabled"
-                        [placeholder]="options?.title | translate"
                         (ngModelChange)="change($event)">
 
                 <mat-select-trigger>

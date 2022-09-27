@@ -5,7 +5,7 @@ import { XmEmailControlOptions } from './xm-email-control-options';
 @Component({
     selector: 'xm-email-control',
     template: `
-        <mat-form-field>
+        <mat-form-field appearance="fill">
             <mat-label>{{ options?.title | translate}}</mat-label>
 
             <input [formControl]="control"

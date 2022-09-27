@@ -2,7 +2,7 @@
 
 <form #editForm="ngForm" (ngSubmit)="save()" class="m-0" name="editForm" novalidate>
   <div *ngFor="let login of userLogins" class="form-group">
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <input [(ngModel)]="login.value"
              id="{{login.key}}"
              matInput

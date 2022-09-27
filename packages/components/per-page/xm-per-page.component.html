@@ -1,6 +1,6 @@
 <div class="xm-per-page">
   <div class="pager-wrapper">
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <mat-select [(ngModel)]="itemsPerPage"
                   (selectionChange)="onChangeSelect()">
         <mat-option *ngFor="let item of sizes" [value]="item">

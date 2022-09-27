@@ -9,12 +9,12 @@
   <div mat-dialog-content>
     <xm-loader [showLoader]="showLoader"></xm-loader>
     <div [hidden]="!(commentSpecs?.length > 1)" class="form-group">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'xm-entity.comment-detail-dialog.choose-type' | translate}}</mat-label>
         <mat-select [(ngModel)]="comment.typeKey"
                     [disabled]="commentSpecs?.length == 1"
                     id="field_typeKey"
-                    name="typeKey"
-                    placeholder="{{'xm-entity.comment-detail-dialog.choose-type' | translate}}">
+                    name="typeKey">
           <mat-option *ngFor="let commentSpec of commentSpecs" [value]="commentSpec.key">
             {{commentSpec.name | translate | uppercase}}
           </mat-option>
@@ -23,7 +23,7 @@
     </div>
 
     <div class="form-group">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <textarea #commentBody="ngModel"
                   [(ngModel)]="comment.message"
                   matInput

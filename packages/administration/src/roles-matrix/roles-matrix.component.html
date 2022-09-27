@@ -7,17 +7,17 @@
   <div mat-card-content>
     <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
       <div class="d-flex flex-grow-1 flex-wrap align-items-center mb-2">
-        <mat-form-field class="mr-4">
+        <mat-form-field appearance="fill" class="mr-4">
+          <mat-label>{{'rolesManagement.permission.msName' | translate}}</mat-label>
           <mat-select (selectionChange)="onChangeSort()"
-                      [(ngModel)]="sortBy.msName"
-                      placeholder="{{'rolesManagement.permission.msName' | translate}}">
+                      [(ngModel)]="sortBy.msName">
             <mat-option *ngFor="let item of entities" [value]="item">
               {{item}}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="mr-4">
+        <mat-form-field appearance="fill" class="mr-4">
           <input (change)="onChangeSort()"
                  [(ngModel)]="sortBy.query"
                  matInput
@@ -26,10 +26,10 @@
                  type="text">
         </mat-form-field>
 
-        <mat-form-field class="mr-4">
+        <mat-form-field appearance="fill" class="mr-4">
+          <mat-label>{{'rolesManagement.permission.privilegeKey' | translate}}</mat-label>
           <mat-select (selectionChange)="onChangeSort()"
-                      [(ngModel)]="sortBy.permitted_filter"
-                      placeholder="{{'rolesManagement.permission.privilegeKey' | translate}}">
+                      [(ngModel)]="sortBy.permitted_filter">
             <mat-option *ngFor="let item of permittedFilter" [value]="item.value">
               <span *ngIf="item.trans">{{'rolesManagement.permission.' + item.trans|translate}}</span>
             </mat-option>

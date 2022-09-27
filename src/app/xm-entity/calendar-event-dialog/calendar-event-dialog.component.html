@@ -17,11 +17,11 @@
     <xm-loader [showLoader]="showLoader"></xm-loader>
 
     <div class="form-group">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{'xm-entity.calendar-event-dialog.choose-type' | translate}}</mat-label>
         <mat-select #eventType="ngModel"
                     [(ngModel)]="event.typeKey"
                     name="typeKey"
-                    placeholder="{{'xm-entity.calendar-event-dialog.choose-type' | translate}}"
                     required>
           <mat-option *ngFor="let eventSpec of calendarSpec.events"
                       [value]="eventSpec.key">
@@ -37,7 +37,7 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <mat-form-field class="xm-datetime-picker">
+          <mat-form-field appearance="fill" class="xm-datetime-picker">
             <input #eventStartDate="ngModel"
                    [owlDateTimeTrigger]="dtStartDate"
                    [owlDateTime]="dtStartDate"
@@ -69,7 +69,7 @@
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <mat-form-field>
+          <mat-form-field appearance="fill">
             <input #eventEndDate="ngModel"
                    [owlDateTimeTrigger]="dtEndDate"
                    [owlDateTime]="dtEndDate"
@@ -102,7 +102,7 @@
     </div>
 
     <div class="form-group">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <input #eventTitle="ngModel"
                [(ngModel)]="event.title"
                id="field_title"
@@ -118,7 +118,7 @@
     </div>
 
     <div class="form-group">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
         <textarea [(ngModel)]="event.description"
                   id="field_description"
                   matInput

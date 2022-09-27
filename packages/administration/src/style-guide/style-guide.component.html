@@ -29,12 +29,12 @@
       <h4>Text fields</h4>
 
       <form [formGroup]="group" class="example-form">
-        <mat-form-field>
+        <mat-form-field appearance="fill">
           <mat-label>Default</mat-label>
           <input [formControl]="group.controls.default" matInput placeholder="Default Placeholder" type="email">
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field appearance="fill">
           <mat-label>Email with error</mat-label>
           <input [formControl]="group.controls.email" matInput placeholder="Ex. pat@example.com" type="email">
           <mat-error *ngIf="group.controls.email.hasError('email') && !group.controls.email.hasError('required')">

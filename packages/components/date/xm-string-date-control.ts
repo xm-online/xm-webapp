@@ -24,7 +24,7 @@ export interface XmStringDateControlOptions {
 @Component({
     selector: 'xm-string-date-control',
     template: `
-        <mat-form-field>
+        <mat-form-field appearance="fill">
             <mat-label>{{options?.title | translate}}</mat-label>
 
             <input (dateChange)="changeDateControl($event)"

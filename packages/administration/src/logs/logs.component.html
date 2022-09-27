@@ -2,17 +2,17 @@
   <h4>{{'logs.title' | translate}}</h4>
 
   <div class="d-md-flex">
-    <mat-form-field class="mr-3">
+    <mat-form-field appearance="fill" class="mr-3">
+      <mat-label>{{'metrics.options.service-name' | translate}}</mat-label>
       <mat-select (selectionChange)="getLoggers()"
-                  [(ngModel)]="selectedService"
-                  [placeholder]="'metrics.options.service-name' | translate">
+                  [(ngModel)]="selectedService">
         <mat-option *ngFor="let s of services" [value]="s.name">
           {{s.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="fill">
       <input (keyup)="applyFilter($event)" [placeholder]="'logs.filter' | translate" matInput type="text">
     </mat-form-field>
   </div>

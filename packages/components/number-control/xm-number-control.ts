@@ -45,7 +45,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
 @Component({
     selector: 'xm-number-control',
     template: `
-        <mat-form-field>
+        <mat-form-field appearance="fill">
             <mat-label>{{options.title | translate}}</mat-label>
 
             <input matInput
