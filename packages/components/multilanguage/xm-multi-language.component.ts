@@ -144,7 +144,17 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     @Input() public readonly: boolean;
     @Input() public name: string | null = null;
-    @Input() public control?: FormControl;
+
+    private _control?: FormControl;
+
+    @Input() set control(control: FormControl | null) {
+        this._control = control;
+
+        this.setDisabledState(this._control?.disabled);
+    }
+    get control(): FormControl {
+        return this._control;
+    }
 
     private _options: MultiLanguageOptions = clone(MULTI_LANGUAGE_DEFAULT_OPTIONS);
 
@@ -225,5 +235,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             this.control.markAsTouched();
             this.control.markAsDirty();
         }
+
+        this.setDisabledState(this.control.disabled);
     }
 }
