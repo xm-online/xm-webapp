@@ -6,12 +6,12 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { AriaLabel, DataQa } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
-import { clone, defaults } from 'lodash';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, share, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { HintText } from '@xm-ngx/components/hint';
 import { EntityCollectionFactoryService, QueryParams } from '@xm-ngx/components/entity-collection';
 import { uniqBy as _uniqBy, get as _get, template as _template } from 'lodash/fp';
+import * as _ from 'lodash';
 
 interface XmArrayItem {
     value: string;
@@ -67,9 +67,7 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
     private _selectedItems = new BehaviorSubject<string[]>([]);
 
     set selectedItems(items: string[]) {
-        if (this._selectedItems) {
-            this._selectedItems.next(items);
-        }
+        this._selectedItems?.next(items);
     }
     get selectedItems(): string[] {
         return this._selectedItems.getValue();
@@ -87,7 +85,7 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         super(ngControl);
     }
 
-    private _options: XmArrayControlOptions = clone(XM_ARRAY_CONTROL_OPTIONS_DEFAULT);
+    private _options: XmArrayControlOptions = _.cloneDeep(XM_ARRAY_CONTROL_OPTIONS_DEFAULT);
 
     public get options(): XmArrayControlOptions {
         return this._options;
@@ -95,7 +93,7 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
 
     @Input()
     public set options(value: XmArrayControlOptions) {
-        this._options = defaults({}, value, {
+        this._options = _.defaultsDeep({}, value, {
             ...XM_ARRAY_CONTROL_OPTIONS_DEFAULT,
         });
 
@@ -181,7 +179,7 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         const input = event.input;
         const value = (event.value ?? '').trim();
 
-        if (value && !this.selectedItems.includes(value)) {
+        if (value && this.selectedItems.includes(value)) {
             (this.selectedItems ?? []).push(value);
         }
 
@@ -194,16 +192,18 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
     }
 
     public remove(item: string): void {
-        const index = this.selectedItems.indexOf(item);
+        const selected = this.selectedItems.slice();
+        const index = selected.indexOf(item);
 
         if (index >= 0) {
-            this.selectedItems.splice(index, 1);
+            selected.splice(index, 1);
         }
+        this.selectedItems = selected;
         this.change(this.selectedItems);
     }
 
     public select(event: MatAutocompleteSelectedEvent): void {
-        this.selectedItems.push(event.option.value);
+        this.selectedItems = [...this.selectedItems, event.option.value];
         this.input.nativeElement.value = '';
         this.searchControl.setValue(null);
         this.change(this.selectedItems);

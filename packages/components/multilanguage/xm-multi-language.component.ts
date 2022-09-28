@@ -91,6 +91,11 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         (ngModelChange)="viewToModel($event)"></textarea>
 
                     <mat-hint [hint]="options.hint"></mat-hint>
+
+                    <mat-error
+                        *ngIf="control?.hasError('required') && control?.touched">
+                        {{ 'entity.validation.required' | translate }}
+                    </mat-error>
                 </mat-form-field>
             </ng-container>
 
@@ -106,6 +111,11 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         (ngModelChange)="viewToModel($event)"/>
 
                     <mat-hint [hint]="options.hint"></mat-hint>
+
+                    <mat-error
+                        *ngIf="control?.hasError('required') && control?.touched">
+                        {{ 'entity.validation.required' | translate }}
+                    </mat-error>
                 </mat-form-field>
             </ng-container>
         </ng-container>
