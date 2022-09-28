@@ -7,7 +7,7 @@
   <div mat-dialog-content>
     <xm-loader [showLoader]="showLoader"></xm-loader>
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <input matInput
                id="clientId"
                type="text"
@@ -31,7 +31,7 @@
       </mat-form-field>
     </div>
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <input matInput
                id="clientSecret"
                type="password"
@@ -43,7 +43,7 @@
       </mat-form-field>
     </div>
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>{{'clientManagement.role' | translate}}</mat-label>
         <mat-select [(ngModel)]="client.roleKey"
                     #clientAuthority="ngModel"
@@ -59,7 +59,7 @@
       </mat-form-field>
     </div>
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <input matInput
                id="validityPeriod"
                type="text"
@@ -77,7 +77,7 @@
       </mat-form-field>
     </div>
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <input matInput
                id="description"
                type="text"
@@ -88,7 +88,7 @@
       </mat-form-field>
     </div>
     <div class="form-group">
-        <mat-form-field appearance="fill" class="xm-sources-tags">
+        <mat-form-field class="xm-sources-tags">
           <mat-chip-list #chipList [attr.aria-label]="'clientManagement.scopes-add' | translate">
             <mat-chip
               color="primary"

@@ -21,7 +21,7 @@
           {{'settings.security.autoLogout' | translate}}
         </mat-checkbox>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field>
           <input [(ngModel)]="autoLogoutTime"
                  [disabled]="!autoLogoutEnabled"
                  [placeholder]="'settings.security.seconds' | translate"

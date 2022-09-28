@@ -10,7 +10,7 @@
     </div>
 
     <div *ngIf="!isEdit" [hidden]="!(availableSpecs?.length > 1)" class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>{{'xm-entity.entity-detail-dialog.add.choose-type' | translate}}</mat-label>
         <mat-select #entityType="ngModel"
                     (selectionChange)="onChangeEntityType(xmEntity.typeKey)"
@@ -30,7 +30,7 @@
     </div>
 
     <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription" class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <input #entityName="ngModel"
                [(ngModel)]="xmEntity.name"
                id="field_name"
@@ -46,7 +46,7 @@
     </div>
 
     <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription" class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <textarea [(ngModel)]="xmEntity.description"
                   matInput
                   name="description"

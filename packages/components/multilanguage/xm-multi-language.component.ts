@@ -80,7 +80,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
             </ng-container>
 
             <ng-container *ngSwitchCase="'textarea'">
-                <mat-form-field appearance="fill">
+                <mat-form-field>
                     <textarea
                         matInput
                         type="text"
@@ -95,7 +95,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
             </ng-container>
 
             <ng-container *ngSwitchDefault>
-                <mat-form-field appearance="fill">
+                <mat-form-field>
                     <input
                         matInput
                         type="text"

@@ -17,7 +17,7 @@
     <xm-loader [showLoader]="showLoader"></xm-loader>
 
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>{{'xm-entity.calendar-event-dialog.choose-type' | translate}}</mat-label>
         <mat-select #eventType="ngModel"
                     [(ngModel)]="event.typeKey"
@@ -37,7 +37,7 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <mat-form-field appearance="fill" class="xm-datetime-picker">
+          <mat-form-field class="xm-datetime-picker">
             <input #eventStartDate="ngModel"
                    [owlDateTimeTrigger]="dtStartDate"
                    [owlDateTime]="dtStartDate"
@@ -69,7 +69,7 @@
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <mat-form-field appearance="fill">
+          <mat-form-field>
             <input #eventEndDate="ngModel"
                    [owlDateTimeTrigger]="dtEndDate"
                    [owlDateTime]="dtEndDate"
@@ -102,7 +102,7 @@
     </div>
 
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <input #eventTitle="ngModel"
                [(ngModel)]="event.title"
                id="field_title"
@@ -118,7 +118,7 @@
     </div>
 
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <textarea [(ngModel)]="event.description"
                   id="field_description"
                   matInput

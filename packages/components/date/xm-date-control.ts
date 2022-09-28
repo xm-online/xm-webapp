@@ -38,7 +38,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
 @Component({
     selector: 'xm-date-control',
     template: `
-        <mat-form-field appearance="fill">
+        <mat-form-field>
             <mat-label>{{options?.title | translate}}</mat-label>
 
             <input matInput

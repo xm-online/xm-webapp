@@ -35,7 +35,7 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
 @Component({
     selector: 'xm-file-control',
     template: `
-        <mat-form-field appearance="fill">
+        <mat-form-field>
             <mat-label>{{options.title | translate}}</mat-label>
 
             <input #input

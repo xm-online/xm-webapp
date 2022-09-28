@@ -47,7 +47,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
 @Component({
     selector: 'xm-text-control',
     template: `
-        <mat-form-field appearance="fill">
+        <mat-form-field>
             <mat-label>{{options.title | translate}}</mat-label>
 
             <input matInput

@@ -11,7 +11,7 @@
     <p>{{transInfo|translate}}</p>
 
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <input [value]="permission.privilegeKey"
                disabled
                matInput
@@ -21,7 +21,7 @@
     </div>
 
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
             <textarea [(ngModel)]="condition"
                       [wordAutocomplete]="variables"
                       id="condition"

@@ -4,7 +4,7 @@
 
     <div class="row align-items-center">
       <div class="col-sm-3">
-        <mat-form-field appearance="fill">
+        <mat-form-field>
           <mat-label>{{'metrics.options.service-name' | translate}}</mat-label>
           <mat-select (selectionChange)="onServiceSelect()"
                       [(ngModel)]="selectedService">
@@ -16,7 +16,7 @@
       </div>
 
       <div class="col-sm-3">
-        <mat-form-field appearance="fill">
+        <mat-form-field>
           <mat-label>{{'metrics.options.instance-name' | translate}}</mat-label>
           <mat-select (selectionChange)="mapHealthCheck(selectedInstance)"
                       [(ngModel)]="selectedInstance">

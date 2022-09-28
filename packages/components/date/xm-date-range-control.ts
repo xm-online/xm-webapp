@@ -54,7 +54,7 @@ export const XM_DATE_RANGE_CONTROL_OPTIONS: XmDateRangeControlOptions = {
 @Component({
     selector: 'xm-date-range-control',
     template: `
-        <mat-form-field appearance="fill">
+        <mat-form-field>
             <mat-label>{{options?.title | translate}}</mat-label>
             <mat-date-range-input [formGroup]="group"
                                   [rangePicker]="picker">

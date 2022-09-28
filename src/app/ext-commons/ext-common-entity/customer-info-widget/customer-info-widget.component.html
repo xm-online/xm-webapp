@@ -15,7 +15,7 @@
       <div class="row">
         <div class="form-group col-md-4">
           <label class="mb-0" for="firstName">{{'global.form.firstname'|translate}}</label>
-          <mat-form-field appearance="fill">
+          <mat-form-field>
             <input formControlName="firstName"
                    id="firstName"
                    matInput
@@ -28,7 +28,7 @@
         </div>
         <div class="form-group col-md-4">
           <label class="mb-0" for="lastName">{{'global.form.lastname'|translate}}</label>
-          <mat-form-field appearance="fill">
+          <mat-form-field>
             <input formControlName="lastName"
                    id="lastName"
                    matInput
@@ -43,7 +43,7 @@
       <div class="row">
         <div class="form-group col-md-4">
           <label class="mb-0" for="countryCode">{{'nemondo.countryCode'|translate}}</label>
-          <mat-form-field appearance="fill">
+          <mat-form-field>
             <mat-select formControlName="countryCode"
                         id="countryCode"
                         required>
@@ -59,7 +59,7 @@
         </div>
         <div class="form-group col-md-4">
           <label class="mb-0" for="locality">{{'nemondo.locality'|translate}}</label>
-          <mat-form-field appearance="fill">
+          <mat-form-field>
             <input formControlName="locality"
                    id="locality"
                    matInput
@@ -72,7 +72,7 @@
         </div>
         <div class="form-group col-md-2">
           <label class="mb-0" for="zip">{{'nemondo.zip'|translate}}</label>
-          <mat-form-field appearance="fill">
+          <mat-form-field>
             <input formControlName="zip"
                    id="zip"
                    matInput
@@ -88,7 +88,7 @@
         <div class="col-md-8">
           <div class="form-group">
             <label for="address1">{{'nemondo.address1'|translate}}</label>
-            <mat-form-field appearance="fill">
+            <mat-form-field>
               <input formControlName="address1"
                      id="address1"
                      matInput
@@ -101,7 +101,7 @@
           </div>
           <div class="form-group">
             <label for="address2">{{'nemondo.address2'|translate}}</label>
-            <mat-form-field appearance="fill">
+            <mat-form-field>
               <input formControlName="address2"
                      id="address2"
                      matInput
@@ -112,7 +112,7 @@
         <div class="col-md-4">
           <div class="form-group">
             <label for="phone">{{'nemondo.phone'|translate}}</label>
-            <mat-form-field appearance="fill">
+            <mat-form-field>
               <input formControlName="phone"
                      id="phone"
                      matInput
@@ -124,7 +124,7 @@
           </div>
           <div *ngIf="showCurrencies" class="form-group">
             <label for="localCurrency">{{'nemondo.localCurrency'|translate}}</label>
-            <mat-form-field appearance="fill">
+            <mat-form-field>
               <mat-select formControlName="localCurrency"
                           id="localCurrency"
                           required>

@@ -11,7 +11,7 @@
     <xm-loader [showLoader]="showLoader"></xm-loader>
 
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>{{'xm-entity.attachment-detail-dialog.choose-type' | translate}}</mat-label>
         <mat-select #attachmentType="ngModel"
                     [(ngModel)]="attachment.typeKey"
@@ -30,7 +30,7 @@
     </div>
 
     <div #nameCtrl class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <input #attachmentName="ngModel"
                [(ngModel)]="attachment.name"
                [disabled]="readOnlyInputs"
@@ -47,7 +47,7 @@
     </div>
 
     <div class="form-group label-floating">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <textarea [(ngModel)]="attachment.description"
                   id="field_description"
                   matInput

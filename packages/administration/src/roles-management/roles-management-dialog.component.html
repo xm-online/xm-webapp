@@ -11,7 +11,7 @@
     <xm-loader [showLoader]="showLoader"></xm-loader>
 
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <input #fieldRoleKey="ngModel"
                [(ngModel)]="role.roleKey"
                [disabled]="!isAddMode"
@@ -33,7 +33,7 @@
 
 
     <div *ngIf="isAddMode" class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>{{'rolesManagement.basedOn' | translate}}</mat-label>
         <mat-select [(ngModel)]="role.basedOn"
                     name="authority">
@@ -44,7 +44,7 @@
     </div>
 
     <div class="form-group">
-      <mat-form-field appearance="fill">
+      <mat-form-field>
             <textarea [(ngModel)]="role.description"
                       id="field_desc"
                       matInput

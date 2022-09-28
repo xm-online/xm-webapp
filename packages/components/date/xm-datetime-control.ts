@@ -39,7 +39,7 @@ type XmDateTimeControlValue = moment.Moment | string;
 @Component({
     selector: 'xm-datetime-control',
     template: `
-        <mat-form-field appearance="fill">
+        <mat-form-field>
             <mat-label>{{options?.title | translate}}</mat-label>
 
             <input [formControl]="control"

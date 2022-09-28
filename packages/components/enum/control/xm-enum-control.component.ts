@@ -40,7 +40,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
 @Component({
     selector: 'xm-enum-control',
     template: `
-        <mat-form-field appearance="fill">
+        <mat-form-field>
             <mat-label>{{options?.title | translate}}</mat-label>
             <mat-select [formControl]="control"
                         [required]="options.required"

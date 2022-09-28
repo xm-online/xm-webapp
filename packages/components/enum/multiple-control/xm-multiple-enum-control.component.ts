@@ -26,7 +26,7 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
 @Component({
     selector: 'xm-multiple-enum-control',
     template: `
-        <mat-form-field appearance="fill">
+        <mat-form-field>
             <mat-label>{{options?.title | translate}}</mat-label>
             <mat-select [formControl]="control"
                         [required]="options.required"

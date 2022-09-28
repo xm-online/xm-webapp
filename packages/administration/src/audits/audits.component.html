@@ -5,7 +5,7 @@
     <h6>{{ 'audits.filter.title' | translate }}</h6>
     <div class="row">
       <div class="col-sm-2">
-        <mat-form-field appearance="fill">
+        <mat-form-field>
           <input (ngModelChange)="onChangeDate()"
                  [(ngModel)]="fromDate"
                  [matDatepicker]="fromDatePicker"
@@ -17,7 +17,7 @@
         </mat-form-field>
       </div>
       <div class="col-sm-2">
-        <mat-form-field appearance="fill">
+        <mat-form-field>
           <input (ngModelChange)="onChangeDate()"
                  [(ngModel)]="toDate"
                  [matDatepicker]="toDatePicker"
