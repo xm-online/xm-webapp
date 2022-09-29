@@ -20,7 +20,7 @@ export class XmDashboardDynamicRouteResolverGuard
 
     constructor(
         private dashboardStore: DashboardStore,
-        private dynamicLoader: DynamicComponentLoaderService,
+        private dynamicComponentLoaderService: DynamicComponentLoaderService,
     ) {
         super();
     }
@@ -38,6 +38,7 @@ export class XmDashboardDynamicRouteResolverGuard
         return this.getRoutes$().pipe(
             map((routes) => {
                 this.routes = routes;
+                console.log(routes);
                 return true;
             }),
             catchError(() => of(false)),
@@ -76,6 +77,7 @@ export class XmDashboardDynamicRouteResolverGuard
 
     private dashboardRoutesFactory(dashboards: Dashboard[]): Routes {
         const routeFactory: XmDashboardRouteFactory = (dashboard, slug: string) => {
+            // console.log('dashboard', dashboard);
             const selector = dashboard.config.selector || '@xm-ngx/dashboard/default-dashboard';
             return {
                 path: slug,
@@ -83,7 +85,11 @@ export class XmDashboardDynamicRouteResolverGuard
                     title: dashboard.config?.name || dashboard.name,
                     dashboard,
                 },
-                loadChildren: () => this.dynamicLoader.get(selector),
+                loadChildren: async () => {
+                    const comp = await this.dynamicComponentLoaderService.get(selector);
+                    console.log('got component', comp, 'dashboard', dashboard);
+                    return comp?.component;
+                },
             };
         };
 

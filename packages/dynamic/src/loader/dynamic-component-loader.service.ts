@@ -1,8 +1,11 @@
-import { Injectable, Injector, NgModuleRef } from '@angular/core';
+import { createNgModule, Injectable, Injector, NgModuleRef } from '@angular/core';
 import * as _ from 'lodash';
+import { tail } from 'lodash';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
 import { XmDynamicEntries, XmDynamicEntry } from '../interfaces';
 import { DynamicExtensionLoaderService } from './dynamic-extension-loader.service';
+
+export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 
 @Injectable({
     providedIn: 'root',
@@ -21,16 +24,70 @@ export class DynamicComponentLoaderService {
     // define return type
     public async get<T>(
         selector: string,
-        injector?: Injector,
+        injector: Injector = this.moduleRef.injector,
     ): Promise<any | null> {
-        // if (!injector) {
-        const module = await this.dynamicExtensionLoaderService.loadAndResolve(selector.split('/')[0], injector);
-        injector = module.injector;
-        // injector = this.moduleRef.injector;
-        // }
+        // todo: deprecated solution. we need to search only by injection token, not random string;
+        const componentInProvider = injector.get(selector, ELEMENT_NOT_FOUND);
+        if (componentInProvider !== ELEMENT_NOT_FOUND) {
+            return componentInProvider;
+        }
+        if (!selector.startsWith('@xm-ngx')) {
+            try {
+                const module = await this.dynamicExtensionLoaderService.loadAndResolve(selector.split('/')[0], injector);
+                if (module?.injector) {
+                    injector = module.injector;
+                }
+                const providerComponent = injector.get(selector.split('/')[1], ELEMENT_NOT_FOUND);
+                if (providerComponent !== ELEMENT_NOT_FOUND) {
+                    return {component: providerComponent, injector, module};
+                }
+            } catch (e) {
+                console.error(e);
+                injector = this.moduleRef.injector;
+            }
+        }
         const providers = injector.get(XM_DYNAMIC_ENTRIES, []);
         const components = _.flatMap<XmDynamicEntry<T>>([...providers, ...this.global] as XmDynamicEntry<T>[]);
-        const component = components.find((i) => i.selector === selector) || null;
-        return Promise.resolve(component ? component.loadChildren() : null);
+        const componentSelector = selector.includes('/') && !selector.startsWith('@xm-ngx') ? tail(selector.split('/')).join('/') : selector;
+        const component = components.find((i) => i.selector === componentSelector) || null;
+
+
+        // if (injector) {
+        //     if (injector.get(selector, ELEMENT_NOT_FOUND) !== ELEMENT_NOT_FOUND) {
+        //         return injector.get(selector, ELEMENT_NOT_FOUND);
+        //     }
+        //
+        // try {
+        //     const module = await this.dynamicExtensionLoaderService.loadAndResolve(selector.split('/')[0], injector);
+        //     if (module?.injector) {
+        //         injector = module.injector;
+        //     }
+        // } catch (e) {
+        //     console.error(e);
+        //     injector = this.moduleRef.injector;
+        // }
+        // injector = this.moduleRef.injector;
+        // }
+        if (!component) {
+            return null;
+        }
+        const loaded: any = await component.loadChildren();
+        if (loaded && loaded.ɵmod) {
+            console.log('create component module: ', selector);
+            const compiledModule: any = createNgModule(loaded, injector);
+            if (compiledModule?.instance?.entry) {
+                console.log('return component entry module: ', selector);
+                return {
+                    component: compiledModule.instance.entry,
+                    injector: compiledModule.injector,
+                    module: compiledModule
+                };
+            }
+            console.log('return component module: ', selector);
+            return {component: loaded, injector: compiledModule.injector, module: compiledModule};
+        }
+        console.log('return loaded module: ', selector);
+        // verify is it component or not
+        return {component: loaded, injector};
     }
 }

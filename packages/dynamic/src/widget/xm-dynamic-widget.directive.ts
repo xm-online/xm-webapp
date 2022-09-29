@@ -1,13 +1,4 @@
-import {
-    ComponentFactory,
-    Directive,
-    Injector,
-    Input,
-    OnChanges,
-    Renderer2,
-    SimpleChanges,
-    ViewContainerRef,
-} from '@angular/core';
+import { Directive, Injector, Input, OnChanges, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
 import * as _ from 'lodash';
 import { XmDynamicWidget } from './xm-dynamic-widget';
 import { DynamicComponentLoaderService } from '../loader/dynamic-component-loader.service';
@@ -66,17 +57,21 @@ export class XmDynamicWidgetDirective implements OnChanges {
             value.selector = `${value.module}/${value.component}`;
         }
 
-        const componentFactory = await this.dynamicLoader.get<XmDynamicWidget>(this._layout.selector, this.injector);
-        if (componentFactory) {
-            this.createComponent(this._layout, componentFactory);
+        const result = await this.dynamicLoader.get<XmDynamicWidget>(this._layout.selector, this.injector);
+        if (result?.component) {
+            console.log('widget creation', value.selector);
+            this.createComponent(this._layout, result);
             return;
         }
         console.warn(`"${value.selector}" does not exist!`);
 
     }
 
-    private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, componentFactory: ComponentFactory<T>): void {
-        const widget = this.viewRef.createComponent<XmDynamicWidget>(componentFactory);
+    private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, data: any): void {
+        const widget = this.viewRef.createComponent<XmDynamicWidget>(data.component, {
+            ngModuleRef: data?.module,
+            injector: data?.module?.injector
+        });
         widget.instance.config = value.config;
         widget.instance.spec = value.spec;
         // TODO: pass children layout

@@ -23,8 +23,13 @@ export class DynamicExtensionLoaderService {
         }
 
         const entry = this.tenantModuleLoaderService.getEntry<T>(selector);
+        if (!entry) {
+            return null;
+        }
+        console.log('load module: ', selector);
         const moduleCtor: XmDynamicExtensionConstructor<T> = await entry.loadChildren();
 
+        console.log('create module: ', selector);
         return createNgModule(moduleCtor, injector);
     }
 }

@@ -113,11 +113,13 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         const cfr = await this.loaderService.get(this.selector as string, this.injector);
 
         this.viewContainerRef.clear();
-        const c = this.viewContainerRef.createComponent(cfr, {index: 0, injector: this.createInjector()});
-        this.instance = c.instance;
+        if (cfr) {
+            const c: any = this.viewContainerRef.createComponent(cfr.component, {index: 0, injector: cfr?.injector || cfr.module?.injector || this.injector});
+            this.instance = c.instance;
 
-        const el = c.location.nativeElement as HTMLElement;
-        this.updateStyles(el);
+            const el = c.location.nativeElement as HTMLElement;
+            this.updateStyles(el);
+        }
     }
 
     protected updateStyles(el: HTMLElement): void {
