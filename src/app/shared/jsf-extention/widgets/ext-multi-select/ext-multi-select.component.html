@@ -1,7 +1,7 @@
 <div [class]="options?.htmlClass || ''">
   <mat-form-field>
+    <mat-label>{{options['title'] ? options['title'] : ''}}</mat-label>
     <mat-select [multiple]="true"
-      [placeholder]="options['title'] ? options['title'] : ''"
       [(ngModel)]="elementMultiCtrl"
       (selectionChange)="updateValue($event)"
       [disabled]="options['readonly']"

@@ -3,9 +3,9 @@
 
   <div class="d-md-flex">
     <mat-form-field class="mr-3">
+      <mat-label>{{'metrics.options.service-name' | translate}}</mat-label>
       <mat-select (selectionChange)="getLoggers()"
-                  [(ngModel)]="selectedService"
-                  [placeholder]="'metrics.options.service-name' | translate">
+                  [(ngModel)]="selectedService">
         <mat-option *ngFor="let s of services" [value]="s.name">
           {{s.name}}
         </mat-option>

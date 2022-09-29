@@ -35,6 +35,16 @@ import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmSharedModule } from 'src/app/shared/shared.module';
 import { NgxMaskModule } from 'ngx-mask';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
+import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
+
+const formFieldOptions: MatFormFieldDefaultOptions = {
+    appearance: 'fill',
+};
+
+const paginatorOptions: MatPaginatorDefaultOptions = {
+    formFieldAppearance: 'standard',
+};
 
 @NgModule({
     imports: [
@@ -76,6 +86,8 @@ import { NgxMaskModule } from 'ngx-mask';
         UserRouteAccessService,
         CookieService,
         { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: XM_MAT_DIALOG_DEFAULT_OPTIONS },
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldOptions },
+        { provide: MAT_PAGINATOR_DEFAULT_OPTIONS, useValue: paginatorOptions },
     ],
     bootstrap: [XmMainComponent],
 })

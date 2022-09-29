@@ -18,10 +18,10 @@
 
     <div class="form-group">
       <mat-form-field>
+        <mat-label>{{'xm-entity.calendar-event-dialog.choose-type' | translate}}</mat-label>
         <mat-select #eventType="ngModel"
                     [(ngModel)]="event.typeKey"
                     name="typeKey"
-                    placeholder="{{'xm-entity.calendar-event-dialog.choose-type' | translate}}"
                     required>
           <mat-option *ngFor="let eventSpec of calendarSpec.events"
                       [value]="eventSpec.key">

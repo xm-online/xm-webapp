@@ -91,10 +91,10 @@
 
     <div *ngIf="languages && languages.length > 0" class="form-group">
       <mat-form-field>
+        <mat-label>{{'userManagement.langKey' | translate}}</mat-label>
         <mat-select [(ngModel)]="user.langKey"
                     id="langKey"
-                    name="langKey"
-                    placeholder="{{'userManagement.langKey' | translate}}">
+                    name="langKey">
           <mat-option *ngFor="let language of languages" [value]="language">
             {{language | findLanguageFromKey}}
           </mat-option>
@@ -104,12 +104,12 @@
 
     <div class="form-group" *ngIf="userRoles !== undefined">
       <mat-form-field>
+        <mat-label>{{'userManagement.role' | translate}}</mat-label>
         <mat-select id="authority"
                     [value]="userRoles"
                     [multiple]="isMultiRole"
                     (selectionChange)="roleSelect($event.value)"
-                    name="authority"
-                    placeholder="{{'userManagement.role' | translate}}">
+                    name="authority">
           <mat-option *ngFor="let authority of authorities" [value]="authority">
             {{authority}}
           </mat-option>
