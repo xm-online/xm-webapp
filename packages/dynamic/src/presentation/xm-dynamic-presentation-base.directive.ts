@@ -101,8 +101,8 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         this.instance.options = this.options;
     }
 
-    protected createInjector(): Injector {
-        return this.injector;
+    protected createInjector(injector: Injector = this.injector): Injector {
+        return injector;
     }
 
     protected async createInstance(): Promise<void> {
@@ -114,7 +114,7 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
 
         this.viewContainerRef.clear();
         if (cfr) {
-            const c: any = this.viewContainerRef.createComponent(cfr.component, {index: 0, injector: cfr?.injector || cfr.module?.injector || this.injector});
+            const c: any = this.viewContainerRef.createComponent(cfr.component, {index: 0, injector: this.createInjector(cfr?.injector || cfr.module?.injector || this.injector)});
             this.instance = c.instance;
 
             const el = c.location.nativeElement as HTMLElement;

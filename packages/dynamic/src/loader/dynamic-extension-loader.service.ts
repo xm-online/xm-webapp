@@ -26,10 +26,8 @@ export class DynamicExtensionLoaderService {
         if (!entry) {
             return null;
         }
-        console.log('load module: ', selector);
         const moduleCtor: XmDynamicExtensionConstructor<T> = await entry.loadChildren();
 
-        console.log('create module: ', selector);
         return createNgModule(moduleCtor, injector);
     }
 }

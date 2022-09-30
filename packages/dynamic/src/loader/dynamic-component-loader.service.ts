@@ -73,20 +73,16 @@ export class DynamicComponentLoaderService {
         }
         const loaded: any = await component.loadChildren();
         if (loaded && loaded.ɵmod) {
-            console.log('create component module: ', selector);
             const compiledModule: any = createNgModule(loaded, injector);
             if (compiledModule?.instance?.entry) {
-                console.log('return component entry module: ', selector);
                 return {
                     component: compiledModule.instance.entry,
                     injector: compiledModule.injector,
                     module: compiledModule
                 };
             }
-            console.log('return component module: ', selector);
             return {component: loaded, injector: compiledModule.injector, module: compiledModule};
         }
-        console.log('return loaded module: ', selector);
         // verify is it component or not
         return {component: loaded, injector};
     }

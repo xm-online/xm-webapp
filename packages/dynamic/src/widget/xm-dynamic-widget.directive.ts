@@ -43,7 +43,6 @@ export class XmDynamicWidgetDirective implements OnChanges {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        console.log('dynamic-widget directive');
         if (changes.init && !_.isEqual(changes.init.currentValue, changes.init.previousValue)) {
             this.loadComponent().then();
         }
@@ -59,7 +58,6 @@ export class XmDynamicWidgetDirective implements OnChanges {
 
         const result = await this.dynamicLoader.get<XmDynamicWidget>(this._layout.selector, this.injector);
         if (result?.component) {
-            console.log('widget creation', value.selector);
             this.createComponent(this._layout, result);
             return;
         }

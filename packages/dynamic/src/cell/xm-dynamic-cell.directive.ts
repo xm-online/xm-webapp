@@ -93,13 +93,13 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
         }
     }
 
-    public createInjector(): Injector {
+    public createInjector(injector: Injector = this.injector): Injector {
         return Injector.create({
             providers: [
-                { provide: XM_DYNAMIC_TABLE_ROW, useValue: this.row },
-                { provide: XM_DYNAMIC_TABLE_CELL, useValue: this._cell },
+                {provide: XM_DYNAMIC_TABLE_ROW, useValue: this.row},
+                {provide: XM_DYNAMIC_TABLE_CELL, useValue: this._cell},
             ],
-            parent: this.injector,
+            parent: injector,
         });
     }
 
