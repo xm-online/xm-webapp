@@ -2,7 +2,7 @@ import { createNgModule, Inject, Injectable, Injector, NgModuleRef } from '@angu
 
 import * as _ from 'lodash';
 import { XM_DYNAMIC_EXTENSIONS } from '../dynamic.injectors';
-import { XmDynamicExtensionConstructor, XmDynamicExtensionEntry } from '../interfaces/xm-dynamic-extension.model';
+import { XmDynamicExtensionEntry } from '../interfaces/xm-dynamic-extension.model';
 
 @Injectable({
     providedIn: 'root',
@@ -30,11 +30,16 @@ export class DynamicExtensionLoaderService {
             if (!entry) {
                 return null;
             }
-            const moduleCtor: XmDynamicExtensionConstructor<T> = await entry.loadChildren();
-
-            console.log('ready to create module', selector);
-            const module = createNgModule(moduleCtor, injector);
-            this.cache[selector] = module;
+            this.cache[selector] = new Promise((resolve, reject) => {
+                entry.loadChildren().then(moduleConstructor => {
+                    console.log('ready to create module: ', selector);
+                    const module = createNgModule(moduleConstructor, injector);
+                    this.cache[selector] = module;
+                    resolve(module);
+                }).catch(err => reject(err));
+            });
+        } else if (this.cache[selector] instanceof Promise) {
+            return await this.cache[selector];
         }
         return this.cache[selector];
     }
