@@ -9,6 +9,8 @@ import { XmDynamicExtensionConstructor, XmDynamicExtensionEntry } from '../inter
 })
 export class DynamicExtensionLoaderService {
 
+    private cache: any = {};
+
     constructor(
         private moduleRef: NgModuleRef<unknown>,
         @Inject(XM_DYNAMIC_EXTENSIONS) private dynamicExtensions: XmDynamicExtensionEntry[],
@@ -22,13 +24,18 @@ export class DynamicExtensionLoaderService {
         if (!selector || typeof selector !== 'string') {
             return null;
         }
-        const entry = _.find(_.flatMap(this.dynamicExtensions), i => i.selector == selector) as XmDynamicExtensionEntry<T>;
+        if (!this.cache[selector]) {
+            const entry = _.find(_.flatMap(this.dynamicExtensions), i => i.selector == selector) as XmDynamicExtensionEntry<T>;
 
-        if (!entry) {
-            return null;
+            if (!entry) {
+                return null;
+            }
+            const moduleCtor: XmDynamicExtensionConstructor<T> = await entry.loadChildren();
+
+            console.log('ready to create module', selector);
+            const module = createNgModule(moduleCtor, injector);
+            this.cache[selector] = module;
         }
-        const moduleCtor: XmDynamicExtensionConstructor<T> = await entry.loadChildren();
-
-        return createNgModule(moduleCtor, injector);
+        return this.cache[selector];
     }
 }

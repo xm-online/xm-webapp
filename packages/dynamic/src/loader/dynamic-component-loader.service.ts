@@ -39,7 +39,8 @@ export class DynamicComponentLoaderService {
         }
         if (!selector.startsWith('@xm-ngx')) {
             try {
-                const module = await this.dynamicExtensionLoaderService.loadAndResolve(selector.split('/')[0], injector);
+                const mselector = selector.split('/')[0];
+                const module = await this.dynamicExtensionLoaderService.loadAndResolve(mselector.startsWith('ext-') ? mselector.slice(4) : mselector, injector);
                 if (module?.injector) {
                     injector = module.injector;
                 }
@@ -117,6 +118,8 @@ export class DynamicComponentLoaderService {
     }
 
     private loadModule(selector: string, injector: Injector): any {
-        return this.dynamicExtensionLoaderService.loadAndResolve(selector.split('/')[0], injector);
+        const mselector = selector.split('/')[0];
+        // Deprecated! all selectors should not contain 'ext-' prefix.
+        return this.dynamicExtensionLoaderService.loadAndResolve(mselector.startsWith('ext-') ? mselector.slice(4) : mselector, injector);
     }
 }
