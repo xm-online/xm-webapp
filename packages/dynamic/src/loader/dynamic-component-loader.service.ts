@@ -1,8 +1,6 @@
 import { createNgModule, Injectable, Injector, NgModuleRef, Type } from '@angular/core';
-import * as _ from 'lodash';
 import { tail } from 'lodash';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
-import { XmDynamicEntries, XmDynamicEntry } from '../interfaces';
 import { DynamicExtensionLoaderService } from './dynamic-extension-loader.service';
 
 export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
@@ -18,13 +16,10 @@ export interface DynamicComponentLoaderGetReturnValue {
 })
 export class DynamicComponentLoaderService {
 
-    private readonly global: XmDynamicEntries;
-
     constructor(
         private moduleRef: NgModuleRef<unknown>,
         private dynamicExtensionLoaderService: DynamicExtensionLoaderService,
     ) {
-        this.global = this.moduleRef.injector.get(XM_DYNAMIC_ENTRIES, []);
     }
 
     // define return type
@@ -54,12 +49,15 @@ export class DynamicComponentLoaderService {
             };
         }
 
-
-        // TODO: components will be inside object, not array.
-        const providers = targetInjector.get(XM_DYNAMIC_ENTRIES, []);
-        const components = _.flatMap<XmDynamicEntry<T>>([...providers, ...this.global] as XmDynamicEntry<T>[]);
         const componentSelector = selector.includes('/') && !selector.startsWith('@xm-ngx') ? tail(selector.split('/')).join('/') : selector;
-        const component = components.find((i) => i.selector === componentSelector) || null;
+        const type = 'any';
+        const temp = targetInjector.get(XM_DYNAMIC_ENTRIES, {});
+        const components = Object.assign({}, ...temp);
+        const component = (components[type] && components[type][componentSelector]) || components['any'][componentSelector];
+        // TODO: components will be inside object, not array.
+        // const providers = targetInjector.get(XM_DYNAMIC_ENTRIES, []);
+        // const components = _.flatMap<XmDynamicEntry<T>>([...providers, ...this.global] as XmDynamicEntry<T>[]);
+        // const component = components.find((i) => i.selector === componentSelector) || null;
 
         if (!component) {
             return null;

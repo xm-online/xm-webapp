@@ -10,7 +10,15 @@ import { XmDynamicWidgetLayoutComponent } from '../directive/widget/xm-dynamic-w
 import { XmDynamicWidgetDirective } from '../directive/widget/xm-dynamic-widget.directive';
 
 export function dynamicModuleInitializer(components: XmDynamicEntries): Provider {
-    return [{ provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: components }];
+    const res = {'any': {}};
+    components.forEach(comp => {
+        const type = comp.type || 'any';
+        if (!res[type]) {
+            res[type] = {};
+        }
+        res[type][comp.selector] = comp;
+    });
+    return [{provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: res}];
 }
 
 @NgModule({
