@@ -8,8 +8,8 @@ import {
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
-import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule } from '../interfaces';
-import { DynamicComponentLoaderService } from '../loader/dynamic-component-loader.service';
+import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule } from '../../interfaces';
+import { DynamicComponentLoaderService } from '../../loader/dynamic-component-loader.service';
 
 
 /** Determines input(control) value. */

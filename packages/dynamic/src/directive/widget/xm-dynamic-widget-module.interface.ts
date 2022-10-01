@@ -1,5 +1,5 @@
-import { XmDynamicConstructor } from '../interfaces/xm-dynamic-constructor';
-import { XmDynamicEntryModule } from '../interfaces/xm-dynamic-entry-module';
+import { XmDynamicConstructor } from '../../interfaces/xm-dynamic-constructor';
+import { XmDynamicEntryModule } from '../../interfaces/xm-dynamic-entry-module';
 import { XmDynamicWidget } from './xm-dynamic-widget';
 
 /**

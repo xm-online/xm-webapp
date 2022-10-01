@@ -1,26 +1,14 @@
 import { Component } from '@angular/core';
-import { XmLayout } from '../interfaces';
-import { XmDynamicLayoutBase } from '../widget/xm-dynamic-layout.base';
-import { XmDynamicPresentation } from './xm-dynamic-presentation-base.directive';
+import { XmDynamicLayoutBase } from './xm-dynamic-layout.base';
+import { XmLayout } from '../../interfaces';
 
-export interface XmPresentationLayout<V = unknown, O = unknown> extends XmLayout, XmDynamicPresentation<V, O> {
-    content?: XmPresentationLayout[];
-}
-
-/**
- * @example
- * ```
- * <xm-dynamic-presentation-layout [layouts]="[{selector: '@xm-ngx/components/xm-bool-view', value: true }]"></xm-dynamic-presentation-layout>
- * ```
- * @experimental
- */
 @Component({
-    selector: 'xm-dynamic-presentation-layout, [xmDynamicPresentationLayout]',
+    selector: 'xm-dynamic-widget-layout, [xm-dynamic-widget-layout]',
     template: `
         <ng-template #tagRef let-item="item">
             <div [class]="item.layout.class"
                  [style]="item.layout.style"
-                 xmDynamicPresentationLayout
+                 xm-dynamic-widget-layout
                  [resolveCustomParams]="resolveCustomParams"
                  [isCustomElement]="isCustomElement"
                  [layouts]="item.layout.content">
@@ -28,12 +16,10 @@ export interface XmPresentationLayout<V = unknown, O = unknown> extends XmLayout
         </ng-template>
 
         <ng-template #dynamicRef let-item="item">
-            <ng-container xmDynamicPresentation
+            <ng-container xm-dynamic-widget
                           [class]="item.layout.class"
                           [style]="item.layout.style"
-                          [selector]="item.customParams.selector"
-                          [value]="item.customParams.value"
-                          [options]="item.customParams.options">
+                          [init]="item.customParams">
             </ng-container>
         </ng-template>
 
@@ -46,5 +32,9 @@ export interface XmPresentationLayout<V = unknown, O = unknown> extends XmLayout
         </ng-template>
     `,
 })
-export class XmDynamicPresentationLayoutComponent extends XmDynamicLayoutBase<XmPresentationLayout> {
+export class XmDynamicWidgetLayoutComponent extends XmDynamicLayoutBase<XmDynamicWidgetLayout> {
+}
+
+export interface XmDynamicWidgetLayout extends XmLayout {
+    config: unknown
 }

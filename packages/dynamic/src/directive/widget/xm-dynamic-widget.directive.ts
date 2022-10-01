@@ -1,7 +1,7 @@
 import { Directive, Injector, Input, OnChanges, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
 import * as _ from 'lodash';
 import { XmDynamicWidget } from './xm-dynamic-widget';
-import { DynamicComponentLoaderService } from '../loader/dynamic-component-loader.service';
+import { DynamicComponentLoaderService } from '../../loader/dynamic-component-loader.service';
 
 export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
     selector: string;

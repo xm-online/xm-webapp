@@ -1,14 +1,26 @@
 import { Component } from '@angular/core';
-import { XmDynamicLayoutBase } from './xm-dynamic-layout.base';
-import { XmLayout } from '../interfaces';
+import { XmLayout } from '../../interfaces';
+import { XmDynamicLayoutBase } from '../widget/xm-dynamic-layout.base';
+import { XmDynamicPresentation } from './xm-dynamic-presentation-base.directive';
 
+export interface XmPresentationLayout<V = unknown, O = unknown> extends XmLayout, XmDynamicPresentation<V, O> {
+    content?: XmPresentationLayout[];
+}
+
+/**
+ * @example
+ * ```
+ * <xm-dynamic-presentation-layout [layouts]="[{selector: '@xm-ngx/components/xm-bool-view', value: true }]"></xm-dynamic-presentation-layout>
+ * ```
+ * @experimental
+ */
 @Component({
-    selector: 'xm-dynamic-widget-layout, [xm-dynamic-widget-layout]',
+    selector: 'xm-dynamic-presentation-layout, [xmDynamicPresentationLayout]',
     template: `
         <ng-template #tagRef let-item="item">
             <div [class]="item.layout.class"
                  [style]="item.layout.style"
-                 xm-dynamic-widget-layout
+                 xmDynamicPresentationLayout
                  [resolveCustomParams]="resolveCustomParams"
                  [isCustomElement]="isCustomElement"
                  [layouts]="item.layout.content">
@@ -16,10 +28,12 @@ import { XmLayout } from '../interfaces';
         </ng-template>
 
         <ng-template #dynamicRef let-item="item">
-            <ng-container xm-dynamic-widget
+            <ng-container xmDynamicPresentation
                           [class]="item.layout.class"
                           [style]="item.layout.style"
-                          [init]="item.customParams">
+                          [selector]="item.customParams.selector"
+                          [value]="item.customParams.value"
+                          [options]="item.customParams.options">
             </ng-container>
         </ng-template>
 
@@ -32,9 +46,5 @@ import { XmLayout } from '../interfaces';
         </ng-template>
     `,
 })
-export class XmDynamicWidgetLayoutComponent extends XmDynamicLayoutBase<XmDynamicWidgetLayout> {
-}
-
-export interface XmDynamicWidgetLayout extends XmLayout {
-    config: unknown
+export class XmDynamicPresentationLayoutComponent extends XmDynamicLayoutBase<XmPresentationLayout> {
 }

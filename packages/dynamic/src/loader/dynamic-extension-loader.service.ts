@@ -1,7 +1,8 @@
-import { createNgModule, Injectable, Injector, NgModuleRef } from '@angular/core';
+import { createNgModule, Inject, Injectable, Injector, NgModuleRef } from '@angular/core';
 
-import { TenantModuleLoaderService } from '../extentions/tenant-module-loader.service';
-import { XmDynamicExtensionConstructor } from '../extentions/xm-dynamic-extension.injectors';
+import * as _ from 'lodash';
+import { XM_DYNAMIC_EXTENSIONS } from '../dynamic.injectors';
+import { XmDynamicExtensionConstructor, XmDynamicExtensionEntry } from '../interfaces/xm-dynamic-extension.model';
 
 @Injectable({
     providedIn: 'root',
@@ -9,8 +10,8 @@ import { XmDynamicExtensionConstructor } from '../extentions/xm-dynamic-extensio
 export class DynamicExtensionLoaderService {
 
     constructor(
-        private tenantModuleLoaderService: TenantModuleLoaderService,
         private moduleRef: NgModuleRef<unknown>,
+        @Inject(XM_DYNAMIC_EXTENSIONS) private dynamicExtensions: XmDynamicExtensionEntry[],
     ) {
     }
 
@@ -21,8 +22,8 @@ export class DynamicExtensionLoaderService {
         if (!selector || typeof selector !== 'string') {
             return null;
         }
+        const entry = _.find(_.flatMap(this.dynamicExtensions), i => i.selector == selector) as XmDynamicExtensionEntry<T>;
 
-        const entry = this.tenantModuleLoaderService.getEntry<T>(selector);
         if (!entry) {
             return null;
         }

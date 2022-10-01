@@ -3,9 +3,9 @@ export {
     XmDynamicControl,
     XmDynamicControlConstructor,
     XmDynamicControlEntryModule,
-} from './src/control/xm-dynamic-control.directive';
+} from './src/directive/control/xm-dynamic-control.directive';
 
-export { XmDynamicFormControlDirective, IFormControl } from './src/control/xm-dynamic-form-control.directive';
+export { XmDynamicFormControlDirective, IFormControl } from './src/directive/control/xm-dynamic-form-control.directive';
 
 export { DynamicComponentLoaderService } from './src/loader/dynamic-component-loader.service';
 export { DynamicExtensionLoaderService } from './src/loader/dynamic-extension-loader.service';
@@ -16,19 +16,19 @@ export {
     XmDynamicCell,
     XmDynamicCellDirective,
     XmDynamicCellModule,
-} from './src/cell/xm-dynamic-cell.directive';
+} from './src/directive/cell/xm-dynamic-cell.directive';
 
 export {
     XmDynamicPresentationBase,
     XmDynamicPresentationEntryModule,
     XmDynamicPresentationConstructor,
     XmDynamicPresentation,
-} from './src/presentation/xm-dynamic-presentation-base.directive';
+} from './src/directive/presentation/xm-dynamic-presentation-base.directive';
 export {
     XmDynamicPresentationLayoutComponent,
     XmPresentationLayout,
-} from './src/presentation/xm-dynamic-presentation-layout.component';
-export { XmDynamicPresentationDirective } from './src/presentation/xm-dynamic-presentation.directive';
+} from './src/directive/presentation/xm-dynamic-presentation-layout.component';
+export { XmDynamicPresentationDirective } from './src/directive/presentation/xm-dynamic-presentation.directive';
 
 export { XmDynamic } from './src/interfaces/xm-dynamic';
 export { XmDynamicConstructor } from './src/interfaces/xm-dynamic-constructor';
@@ -40,18 +40,17 @@ export {
     XmDynamicNgModuleFactory,
 } from './src/interfaces/xm-dynamic-entry';
 
-export { XmDynamicWidgetDirective, XmDynamicWidgetConfig } from './src/widget/xm-dynamic-widget.directive';
-export { XmDynamicWidgetLayoutComponent } from './src/widget/xm-dynamic-widget-layout.component';
-export { XmDynamicWidget } from './src/widget/xm-dynamic-widget';
-export { XmDynamicWidgetModule } from './src/widget/xm-dynamic-widget-module.interface';
+export { XmDynamicWidgetDirective, XmDynamicWidgetConfig } from './src/directive/widget/xm-dynamic-widget.directive';
+export { XmDynamicWidgetLayoutComponent } from './src/directive/widget/xm-dynamic-widget-layout.component';
+export { XmDynamicWidget } from './src/directive/widget/xm-dynamic-widget';
+export { XmDynamicWidgetModule } from './src/directive/widget/xm-dynamic-widget-module.interface';
 
-export { XM_DYNAMIC_ENTRIES } from './src/dynamic.injectors';
+export { XM_DYNAMIC_ENTRIES, XM_DYNAMIC_EXTENSIONS } from './src/dynamic.injectors';
 
-export { XmDynamicModule, dynamicModuleInitializer } from './src/xm-dynamic.module';
+export { XmDynamicModule, dynamicModuleInitializer } from './src/module/xm-dynamic.module';
 
 export { DynamicComponents, DynamicModule } from './src/_bc';
 
-export { TenantModuleLoaderService } from './src/extentions/tenant-module-loader.service';
-export { XmDynamicExtensionModule, dynamicExtensionModuleInitializer } from './src/extentions/xm-dynamic-extension.module';
-export { XM_DYNAMIC_EXTENSIONS, XmDynamicExtensionEntry } from './src/extentions/xm-dynamic-extension.injectors';
-export { XmDynamicWidgetLayout } from './src/widget/xm-dynamic-widget-layout.component';
+export { XmDynamicExtensionModule, dynamicExtensionModuleInitializer } from './src/module/xm-dynamic-extension.module';
+export { XmDynamicExtensionEntry } from './src/interfaces/xm-dynamic-extension.model';
+export { XmDynamicWidgetLayout } from './src/directive/widget/xm-dynamic-widget-layout.component';
