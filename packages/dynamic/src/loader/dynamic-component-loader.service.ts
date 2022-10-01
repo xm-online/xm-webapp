@@ -1,4 +1,4 @@
-import { createNgModule, Injectable, Injector, NgModuleRef } from '@angular/core';
+import { createNgModule, Injectable, Injector, NgModuleRef, Type } from '@angular/core';
 import * as _ from 'lodash';
 import { tail } from 'lodash';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
@@ -6,6 +6,12 @@ import { XmDynamicEntries, XmDynamicEntry } from '../interfaces';
 import { DynamicExtensionLoaderService } from './dynamic-extension-loader.service';
 
 export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
+
+export interface DynamicComponentLoaderGetReturnValue {
+    component: Type<any>,
+    injector?: Injector,
+    module?: NgModuleRef<any>
+}
 
 @Injectable({
     providedIn: 'root',
@@ -25,7 +31,7 @@ export class DynamicComponentLoaderService {
     public async get<T>(
         selector: string,
         injector: Injector = this.moduleRef.injector,
-    ): Promise<any | null> {
+    ): Promise<DynamicComponentLoaderGetReturnValue | null> {
         // todo: deprecated solution. we need to search only by injection token, not random string;
         const componentInProvider = injector.get(selector, ELEMENT_NOT_FOUND);
         if (componentInProvider !== ELEMENT_NOT_FOUND) {
@@ -50,7 +56,6 @@ export class DynamicComponentLoaderService {
         const components = _.flatMap<XmDynamicEntry<T>>([...providers, ...this.global] as XmDynamicEntry<T>[]);
         const componentSelector = selector.includes('/') && !selector.startsWith('@xm-ngx') ? tail(selector.split('/')).join('/') : selector;
         const component = components.find((i) => i.selector === componentSelector) || null;
-
 
         // if (injector) {
         //     if (injector.get(selector, ELEMENT_NOT_FOUND) !== ELEMENT_NOT_FOUND) {
@@ -83,7 +88,35 @@ export class DynamicComponentLoaderService {
             }
             return {component: loaded, injector: compiledModule.injector, module: compiledModule};
         }
+
+
+        if (this.isSelectorIncludesExtension(selector)) {
+            injector = (await this.loadModule(selector, injector))?.injector || injector;
+        }
+
+        // const providers = injector.get(XM_DYNAMIC_ENTRIES, {});
+        // // const registry = injector.get(XM_DYNAMIC_ENTRIES, {});
+        // const components = _.flatMap<XmDynamicEntry<T>>([...providers, ...this.global] as XmDynamicEntry<T>[]);
+        // const componentSelector = selector.includes('/') && !selector.startsWith('@xm-ngx') ? tail(selector.split('/')).join('/') : selector;
+        // const component = components.find((i) => i.selector === componentSelector) || null;
+
+
+        // const [module, component] = selector.includes('/') ? selector.split('/') : ['', selector];
+        // const module = await this.dynamicExtensionLoaderService.loadAndResolve(selector.split('/')[0], injector);
+        // if (module?.injector) {
+        //     injector = module.injector;
+        // }
+
+
         // verify is it component or not
         return {component: loaded, injector};
+    }
+
+    private isSelectorIncludesExtension(selector: string): boolean {
+        return selector.includes('/');
+    }
+
+    private loadModule(selector: string, injector: Injector): any {
+        return this.dynamicExtensionLoaderService.loadAndResolve(selector.split('/')[0], injector);
     }
 }
