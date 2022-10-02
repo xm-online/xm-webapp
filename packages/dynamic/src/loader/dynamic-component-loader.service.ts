@@ -16,6 +16,8 @@ export interface DynamicComponentLoaderGetReturnValue {
 })
 export class DynamicComponentLoaderService {
 
+    private cache: Record<string, Promise<DynamicComponentLoaderGetReturnValue | null> | DynamicComponentLoaderGetReturnValue | null> = {};
+
     constructor(
         private moduleRef: NgModuleRef<unknown>,
         private dynamicExtensionLoaderService: DynamicExtensionLoaderService,
@@ -24,55 +26,80 @@ export class DynamicComponentLoaderService {
 
     // define return type
     public async get<T>(selector: string): Promise<DynamicComponentLoaderGetReturnValue | null> {
-        const isStickySelector = (selector: string): boolean => {
-            return selector.startsWith('@xm-ngx/') || !this.isSelectorIncludesExtension(selector);
-        };
-
-        const module = !isStickySelector(selector) ? await this.loadModule(selector, this.moduleRef.injector) : null;
-
-        const targetInjector = module?.injector || this.moduleRef.injector;
-
-        // TODO: Angular does not allow search/store something inside injector by string valued key.
-        // Deprecated!! Solution 1: get component by selector in provider.
-        // Example: providers: [{provide: 'my-selector', useValue: MyComponent}]
-        // todo: deprecated solution. we need to search only by injection token, not random string;
-        const componentInProviderr = targetInjector.get(isStickySelector(selector) ? selector : selector.split('/')[1], ELEMENT_NOT_FOUND);
-        if (componentInProviderr !== ELEMENT_NOT_FOUND) {
-            return {
-                component: componentInProviderr,
-                injector: targetInjector,
-                module
-            };
-        }
-
-        const componentSelector = selector.includes('/') && !selector.startsWith('@xm-ngx') ? tail(selector.split('/')).join('/') : selector;
-        const type = 'any';
-        const temp = targetInjector.get(XM_DYNAMIC_ENTRIES, {});
-        const components = Object.assign({}, ...temp);
-        const component = (components[type] && components[type][componentSelector]) || components['any'][componentSelector];
-        // TODO: components will be inside object, not array.
-        // const providers = targetInjector.get(XM_DYNAMIC_ENTRIES, []);
-        // const components = _.flatMap<XmDynamicEntry<T>>([...providers, ...this.global] as XmDynamicEntry<T>[]);
-        // const component = components.find((i) => i.selector === componentSelector) || null;
-
-        if (!component) {
-            return null;
-        }
-        const loaded: any = await component.loadChildren();
-        if (loaded && loaded.ɵmod) {
-            const compiledModule: any = createNgModule(loaded, targetInjector);
-            if (compiledModule?.instance?.entry) {
-                console.warn(`Deprecated solution. Make ${selector} standalone component`);
-                return {
-                    component: compiledModule.instance.entry,
-                    injector: compiledModule.injector,
-                    module: compiledModule
+        if (!this.cache[selector]) {
+            this.cache[selector] = new Promise(async (resolve, reject) => {
+                const isStickySelector = (selector: string): boolean => {
+                    return selector.startsWith('@xm-ngx/') || !this.isSelectorIncludesExtension(selector);
                 };
-            }
-            return {component: loaded, injector: compiledModule.injector, module: compiledModule};
-        }
 
-        return {component: loaded, injector: targetInjector};
+                const module = !isStickySelector(selector) ? await this.loadModule(selector, this.moduleRef.injector) : null;
+
+                const targetInjector = module?.injector || this.moduleRef.injector;
+
+                // TODO: Angular does not allow search/store something inside injector by string valued key.
+                // Deprecated!! Solution 1: get component by selector in provider.
+                // Example: providers: [{provide: 'my-selector', useValue: MyComponent}]
+                // todo: deprecated solution. we need to search only by injection token, not random string;
+                const componentInProviderr = targetInjector.get(isStickySelector(selector) ? selector : selector.split('/')[1], ELEMENT_NOT_FOUND);
+                if (componentInProviderr !== ELEMENT_NOT_FOUND) {
+                    const result = {
+                        component: componentInProviderr,
+                        injector: targetInjector,
+                        module
+                    };
+                    this.cache[selector] = result;
+                    resolve(result);
+                    return;
+                }
+
+                const componentSelector = selector.includes('/') && !selector.startsWith('@xm-ngx') ? tail(selector.split('/')).join('/') : selector;
+                const type = 'any';
+                const temp = targetInjector.get(XM_DYNAMIC_ENTRIES, {});
+                const components = Object.assign({}, ...temp);
+                const component = (components[type] && components[type][componentSelector]) || components['any'][componentSelector];
+                // TODO: components will be inside object, not array.
+                // const providers = targetInjector.get(XM_DYNAMIC_ENTRIES, []);
+                // const components = _.flatMap<XmDynamicEntry<T>>([...providers, ...this.global] as XmDynamicEntry<T>[]);
+                // const component = components.find((i) => i.selector === componentSelector) || null;
+
+                if (!component) {
+                    const result = null;
+                    this.cache[selector] = result;
+                    resolve(result);
+                    return;
+                }
+                const loaded: any = await component.loadChildren();
+
+                if (loaded && loaded.ɵmod) {
+                    const compiledModule: any = createNgModule(loaded, targetInjector);
+                    if (compiledModule?.instance?.entry) {
+                        console.warn(`Deprecated solution. Make ${selector} standalone component`);
+                        const result = {
+                            component: compiledModule.instance.entry,
+                            injector: compiledModule.injector,
+                            module: compiledModule
+                        };
+
+                        this.cache[selector] = result;
+                        resolve(result);
+                        return;
+                    }
+                    const result = {component: loaded, injector: compiledModule.injector, module: compiledModule};
+
+                    this.cache[selector] = result;
+                    resolve(result);
+                    return;
+                }
+
+                const result = {component: loaded, injector: targetInjector};
+                this.cache[selector] = result;
+                resolve(result);
+            });
+            return await this.cache[selector];
+        } else if (this.cache[selector] instanceof Promise) {
+            return await this.cache[selector];
+        }
+        return this.cache[selector];
     }
 
     private isSelectorIncludesExtension(selector: string): boolean {
