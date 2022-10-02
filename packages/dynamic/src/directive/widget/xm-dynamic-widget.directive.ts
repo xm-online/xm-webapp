@@ -1,4 +1,4 @@
-import { Directive, Injector, Input, OnChanges, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
+import { Directive, Input, OnChanges, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
 import * as _ from 'lodash';
 import { XmDynamicWidget } from './xm-dynamic-widget';
 import { DynamicComponentLoaderService } from '../../loader/dynamic-component-loader.service';
@@ -23,8 +23,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
     @Input() public style: string;
     private _layout: XmDynamicWidgetConfig;
 
-    constructor(private injector: Injector,
-                private dynamicLoader: DynamicComponentLoaderService,
+    constructor(private dynamicLoader: DynamicComponentLoaderService,
                 private renderer: Renderer2,
                 private viewRef: ViewContainerRef) {
     }
@@ -56,7 +55,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
             value.selector = `${value.module}/${value.component}`;
         }
 
-        const result = await this.dynamicLoader.get<XmDynamicWidget>(this._layout.selector, this.injector);
+        const result = await this.dynamicLoader.get<XmDynamicWidget>(this._layout.selector);
         if (result?.component) {
             this.createComponent(this._layout, result);
             return;

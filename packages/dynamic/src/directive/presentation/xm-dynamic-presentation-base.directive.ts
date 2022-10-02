@@ -110,7 +110,7 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
             return;
         }
 
-        const cfr = await this.loaderService.get(this.selector as string, this.injector);
+        const cfr = await this.loaderService.get(this.selector as string);
 
         this.viewContainerRef.clear();
         if (cfr) {
