@@ -37,7 +37,3 @@ $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 // Backward compatibility
 @import 'styles/backward-compatibility';
 
-@import "src/app/ext/ee-core-webapp-ext/styles/layout";
-@import "src/app/ext/ee-core-webapp-ext/styles/ee-styles";
-@import "src/app/ext/puzzle-webapp-ext/styles/puzzle-styles";
-
