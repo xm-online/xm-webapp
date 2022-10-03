@@ -3,7 +3,9 @@ import { XM_DYNAMIC_EXTENSIONS } from '../dynamic.injectors';
 import { XmDynamicExtensionEntry } from '../interfaces/xm-dynamic-extension.model';
 
 export function dynamicExtensionModuleInitializer(components: XmDynamicExtensionEntry[]): Provider {
-    return [{ provide: XM_DYNAMIC_EXTENSIONS, multi: true, useValue: components }];
+    const exts = {};
+    components.forEach(component => exts[component.selector] = component);
+    return [{provide: XM_DYNAMIC_EXTENSIONS, multi: true, useValue: exts}];
 }
 
 @NgModule()

@@ -13,7 +13,7 @@ export class DynamicExtensionLoaderService {
 
     constructor(
         private moduleRef: NgModuleRef<unknown>,
-        @Inject(XM_DYNAMIC_EXTENSIONS) private dynamicExtensions: XmDynamicExtensionEntry[],
+        @Inject(XM_DYNAMIC_EXTENSIONS) private dynamicExtensions: Record<string, XmDynamicExtensionEntry>[],
     ) {
     }
 
@@ -25,7 +25,7 @@ export class DynamicExtensionLoaderService {
             return null;
         }
         if (!this.cache[selector]) {
-            const entry = _.find(_.flatMap(this.dynamicExtensions), i => i.selector == selector) as XmDynamicExtensionEntry<T>;
+            const entry = Object.assign({}, ...this.dynamicExtensions)[selector];
 
             if (!entry) {
                 return null;
