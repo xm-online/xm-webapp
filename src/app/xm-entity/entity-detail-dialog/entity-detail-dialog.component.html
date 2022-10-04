@@ -32,12 +32,12 @@
 
     <div *ngIf="!isEdit" [hidden]="!(availableSpecs?.length > 1)" class="form-group">
       <mat-form-field>
+        <mat-label>{{'xm-entity.entity-detail-dialog.add.choose-type' | translate}}</mat-label>
         <mat-select #entityType="ngModel"
                     (selectionChange)="onChangeEntityType(null, xmEntity.typeKey)"
                     [(ngModel)]="xmEntity.typeKey"
                     id="field_typeKey"
                     name="typeKey"
-                    placeholder="{{'xm-entity.entity-detail-dialog.add.choose-type' | translate}}"
                     required>
           <mat-option *ngFor="let spec of availableSpecs"
                       [value]="spec.key">

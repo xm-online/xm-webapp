@@ -2,17 +2,17 @@
   <mat-label>{{options.title | translate}}</mat-label>
   <mat-chip-list #chipList [disabled]="control.disabled" [attr.aria-label]="options.ariaLabel">
     <mat-chip
-      *ngFor="let item of selected"
+      *ngFor="let item of compareSelectedItems | async"
       [selectable]="options.selectable"
       [removable]="options.removable"
-      (removed)="remove(item)">
-      {{item}}
+      (removed)="remove(item.value)">
+      {{item.view}}
       <mat-icon matChipRemove *ngIf="options.removable">cancel</mat-icon>
     </mat-chip>
     <input
       [placeholder]="options.placeholder | translate"
       #input
-      [formControl]="inputControl"
+      [formControl]="searchControl"
       (blur)="touch()"
       [style.visibility]="!control.disabled ? 'visible' : 'hidden'"
       [matAutocomplete]="auto"
@@ -22,8 +22,8 @@
   </mat-chip-list>
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)">
-    <mat-option *ngFor="let item of filteredAutocomplete | async" [value]="item.value">
-      {{item.value}}
+    <mat-option *ngFor="let item of filteredItems | async" [value]="item.value">
+      {{item.view}}
     </mat-option>
   </mat-autocomplete>
 

@@ -41,4 +41,8 @@ export const XM_ENUM_ELEMENTS: XmDynamicEntry[] = [
         selector: '@xm-ngx/components/radio-group-control',
         loadChildren: () => import('@xm-ngx/components/radio-group').then(m => m.XmRadioGroupControlModule),
     },
+    {
+        selector: '@xm-ngx/components/multi-select',
+        loadChildren: () => import('@xm-ngx/components/multi-select/multi-select.component').then(m => m.XmMultiSelectControlModule),
+    },
 ];

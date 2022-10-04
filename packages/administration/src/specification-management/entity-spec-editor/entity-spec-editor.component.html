@@ -65,8 +65,8 @@
         </div>
         <div class="col-4">
           <mat-form-field>
-            <mat-select [(ngModel)]="entitySpec.icon"
-                        [placeholder]="('admin-config.specification-mng.editor.icon' | translate)">
+            <mat-label>{{'admin-config.specification-mng.editor.icon' | translate}}</mat-label>
+            <mat-select [(ngModel)]="entitySpec.icon">
               <mat-select-trigger>
                 {{entitySpec.icon}}
               </mat-select-trigger>

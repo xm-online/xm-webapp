@@ -34,9 +34,9 @@
 
     <div *ngIf="isAddMode" class="form-group">
       <mat-form-field>
+        <mat-label>{{'rolesManagement.basedOn' | translate}}</mat-label>
         <mat-select [(ngModel)]="role.basedOn"
-                    name="authority"
-                    placeholder="{{'rolesManagement.basedOn' | translate}}">
+                    name="authority">
           <mat-option readonly>{{'rolesManagement.chooseRole' | translate}}</mat-option>
           <mat-option *ngFor="let item of roles" [value]="item">{{item}}</mat-option>
         </mat-select>

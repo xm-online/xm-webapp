@@ -27,11 +27,11 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
     selector: 'xm-multiple-enum-control',
     template: `
         <mat-form-field>
+            <mat-label>{{options?.title | translate}}</mat-label>
             <mat-select [formControl]="control"
                         [required]="options.required"
                         [id]="options.id"
                         [attr.data-qa]="options.dataQa"
-                        [placeholder]="options?.title | translate"
                         multiple>
                 <mat-select-trigger>
                     <ng-container *ngIf="itemsMap && itemsMap[value[0] + '']">

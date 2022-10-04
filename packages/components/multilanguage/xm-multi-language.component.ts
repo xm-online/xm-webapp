@@ -91,6 +91,11 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         (ngModelChange)="viewToModel($event)"></textarea>
 
                     <mat-hint [hint]="options.hint"></mat-hint>
+
+                    <mat-error
+                        *ngIf="control?.hasError('required') && control?.touched">
+                        {{ 'entity.validation.required' | translate }}
+                    </mat-error>
                 </mat-form-field>
             </ng-container>
 
@@ -106,6 +111,11 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         (ngModelChange)="viewToModel($event)"/>
 
                     <mat-hint [hint]="options.hint"></mat-hint>
+
+                    <mat-error
+                        *ngIf="control?.hasError('required') && control?.touched">
+                        {{ 'entity.validation.required' | translate }}
+                    </mat-error>
                 </mat-form-field>
             </ng-container>
         </ng-container>
@@ -144,7 +154,17 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     @Input() public readonly: boolean;
     @Input() public name: string | null = null;
-    @Input() public control?: UntypedFormControl;
+
+    private _control?: UntypedFormControl;
+
+    @Input() set control(control: UntypedFormControl | null) {
+        this._control = control;
+
+        this.setDisabledState(this._control?.disabled);
+    }
+    get control(): UntypedFormControl {
+        return this._control;
+    }
 
     private _options: MultiLanguageOptions = clone(MULTI_LANGUAGE_DEFAULT_OPTIONS);
 
@@ -225,5 +245,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             this.control.markAsTouched();
             this.control.markAsDirty();
         }
+
+        this.setDisabledState(this.control.disabled);
     }
 }

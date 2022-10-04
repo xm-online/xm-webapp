@@ -4,6 +4,13 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { XmArrayControlComponent } from './xm-array-control.component';
+import { EntityCollectionFactoryService, IEntityCollection } from '@xm-ngx/components/entity-collection';
+
+class StubEntityCollectionFactory {
+    public create<T>(resource: string, url?: string): IEntityCollection<T> {
+        return undefined;
+    }
+}
 
 describe('XmArrayControlComponent', () => {
     let component: XmArrayControlComponent;
@@ -15,6 +22,12 @@ describe('XmArrayControlComponent', () => {
             imports: [
                 XmTranslationTestingModule,
                 MatAutocompleteModule,
+            ],
+            providers: [
+                {
+                    provide: EntityCollectionFactoryService,
+                    useClass: StubEntityCollectionFactory,
+                },
             ],
             declarations: [XmArrayControlComponent],
         })
