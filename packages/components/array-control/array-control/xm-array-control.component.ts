@@ -135,7 +135,7 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
             switchMap(items => searchQuery.pipe(
                 map((search) => ({items, search})),
             )),
-            map(({items, search}) => {
+            map(({items, search}: any) => {
                 if (search?.length > 0) {
                     search = search.toLowerCase();
 
