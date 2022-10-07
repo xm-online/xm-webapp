@@ -28,6 +28,7 @@ export interface XmNumberControlOptions extends DataQa {
     id?: string;
     name?: string;
     required?: boolean;
+    step?: number;
     errors?: { [errorKey: string]: Translate };
 }
 
@@ -40,6 +41,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
     dataQa: 'number-control',
     name: 'number',
     required: true,
+    step: 1,
 };
 
 @Component({
@@ -55,6 +57,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
                    [id]="options.id"
                    [required]="options.required"
                    [pattern]="options.pattern"
+                   [step]="options.step"
                    type="number">
 
             <mat-error *xmControlErrors="control.errors; translates options?.errors; message as message">
