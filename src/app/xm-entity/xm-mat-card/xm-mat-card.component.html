@@ -1,12 +1,13 @@
 <ng-container *xmPermission="options.permission">
   <mat-card *xmCondition="options.condition; arguments {entity: entity}"
             [attr.data-qa]="options.dataQa || 'card-container'"
+            [ngClass]="options.cardClass"
             class="mb-3">
 
     <div class="d-flex justify-content-between">
 
       <div mat-card-title>
-        <span>{{options.title | translate}}</span>
+        <span *ngIf="options.title">{{options.title | translate}}</span>
         <ng-content select="[xmHeaderTitle]"></ng-content>
       </div>
 
@@ -38,6 +39,7 @@
 
     <mat-card-content *ngIf="entity"
                       [@bodyExpansion]="contentHidden ? 'collapsed' : 'expanded'"
+                      [ngClass]="options.contentClass"
                       class="overflow-hidden">
 
       <ng-content select="[xmContent]"></ng-content>
