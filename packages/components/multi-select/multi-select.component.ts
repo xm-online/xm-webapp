@@ -47,6 +47,7 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
             </mat-label>
 
             <mat-select multiple
+                        [compareWith]="deepCompare"
                         [formControl]="control"
                         [panelClass]="allItemsSelected() ? 'allSelected' : ''"
                         [style.background]="'transparent'"
@@ -177,6 +178,10 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
     public writeValue(value: string[]): void {
         value = this._toModel(value);
         super.writeValue(value);
+    }
+
+    public deepCompare(obj1: any, obj2: any): boolean {
+        return _.isEqual(obj1, obj2);
     }
 
     private _syncControl() {
