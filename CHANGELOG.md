@@ -30,6 +30,8 @@ carousel-item-right=> carousel-item-end
 https://github.com/twbs/bootstrap/releases/tag/v5.2.0
 https://getbootstrap.com/docs/5.0/migration/
 
+Pay attention that bootstrap classes such as col-* no longer have a padding styles.
+
 
 SWAL
 
