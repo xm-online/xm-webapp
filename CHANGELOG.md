@@ -1,6 +1,7 @@
+# 3.7.0 (2022-10-16)
 
-TODO: fill info
-bootstrap 5
+### BREAKING CHANGES
+* bootstrap 5
 As of Bootstrap 5 beta, left and right have been replaced by start and end for RTL support. Therefore the margin utilities changed for Bootstrap 5 beta:
 
 ml-auto => ms-auto (start)
@@ -33,10 +34,9 @@ https://getbootstrap.com/docs/5.0/migration/
 Pay attention that bootstrap classes such as col-* no longer have a padding styles.
 
 
-SWAL
+* SWAL
 
-instead of swal() call
-use Swal.fire()
+instead of swal() call use Swal.fire()
 
 options changes:
 type -> icon
