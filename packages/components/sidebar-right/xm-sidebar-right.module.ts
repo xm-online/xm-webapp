@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 import { Container } from './container';
 import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
 
-@Directive({ selector: '[xmContainerOutlet]' })
+@Directive({selector: '[xmContainerOutlet]'})
 export class ContainerOutletDirective {
     constructor(public viewContainerRef: ViewContainerRef) {}
 }
@@ -95,7 +95,10 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
         const viewContainerRef = this.xmContainerOutlet.viewContainerRef;
         const componentFactoryResolver = config.injector.get(ComponentFactoryResolver);
         const cfr = componentFactoryResolver.resolveComponentFactory(templateRef);
-        const c = viewContainerRef.createComponent<T>(cfr, null, config.injector);
+        const c = viewContainerRef.createComponent<T>(cfr.componentType, {
+            injector: config.injector,
+            ngModuleRef: cfr['ngModule']
+        });
         _.assign(c.instance, config.data);
 
         this.openStyles(config.width || '300px');

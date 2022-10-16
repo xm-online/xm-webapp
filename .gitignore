@@ -56,3 +56,6 @@ lerna-debug.log*
 
 
 package-lock.json
+
+# cache
+.angular

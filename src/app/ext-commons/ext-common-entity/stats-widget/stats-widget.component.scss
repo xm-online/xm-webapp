@@ -9,7 +9,7 @@ $stat-card-mesure-unit: 20px;
   margin-bottom: $stat-card-mesure-unit * 2;
 
   .card-header {
-    margin:   0 $stat-card-mesure-unit / 2;
+    margin:   0 calc($stat-card-mesure-unit / 2);
     padding:  0;
     position: relative;
   }

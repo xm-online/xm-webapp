@@ -36,7 +36,6 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
         UserLoginMgmtDialogComponent,
         UserMgmtDeleteDialogComponent,
     ],
-    providers: [],
 })
 export class UserManagementModule {
     public entry: Type<UserMgmtComponent> = UserMgmtComponent;

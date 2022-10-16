@@ -1,5 +1,5 @@
 <mat-card *ngIf="xmEntity && xmEntitySpec" [ngSwitch]="isAvatarEnabled" class="card p-0">
-  <div class="card-header card-header-icon card-header-primary text-left">
+  <div class="card-header card-header-icon card-header-primary text-start">
     <ng-container *ngSwitchCase="false">
       <div *ngIf="xmEntitySpec.icon" class="card-icon">
         <mat-icon>{{xmEntitySpec.icon}}</mat-icon>
@@ -28,7 +28,7 @@
     </mat-menu>
   </div>
 
-  <div class="container-fluid text-left mt-3 mb-3">
+  <div class="container-fluid text-start mt-3 mb-3">
     <div class="row">
       <div *ngSwitchCase="true" class="col-auto text-center">
         <div class="avatar-container-card">

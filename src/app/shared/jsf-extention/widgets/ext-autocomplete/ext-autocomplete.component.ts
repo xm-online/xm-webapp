@@ -1,10 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import { fromEvent } from 'rxjs';
 
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Principal } from '@xm-ngx/core/auth';
@@ -81,7 +79,7 @@ export class ExtAutocompleteComponent implements OnInit {
 
     public updateValueField(el: any): void {
         const item = el;
-        const fg: FormGroup = this.jsf.formGroup;
+        const fg: UntypedFormGroup = this.jsf.formGroup;
         if (this.options.relatedFields) {
             this.options.relatedFields.forEach((field) => {
                 fg.get(field.key).setValue(byString(item.object, field.value));

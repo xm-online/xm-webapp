@@ -4,12 +4,5 @@
   "peerDependencies": {
     "@xm-ngx/shared": "*",
     "@xm-ngx/core": "*"
-  },
-  "ngPackage": {
-    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "dest": "../../dist/packages/translation",
-    "lib": {
-      "entryFile": "./index.ts"
-    }
   }
 }

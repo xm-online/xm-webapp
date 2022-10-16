@@ -12,8 +12,8 @@
     </mat-form-field>
   </div>
 
-  <div *ngIf="!isCreate" class="text-right">
-    <button (click)="clear()" *ngIf="isUser" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
+  <div *ngIf="!isCreate" class="text-end">
+    <button (click)="clear()" *ngIf="isUser" class="btn me-1 ms-auto" data-dismiss="modal" mat-button type="button">
       <span>{{'entity.action.cancel' | translate}}</span>
     </button>
 

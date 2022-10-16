@@ -1,5 +1,5 @@
-import { MatDialogConfig } from '@angular/material/dialog/dialog-config';
 import { environment } from '@xm-ngx/core/environment';
+import { MatDialogConfig } from '@angular/material/dialog';
 const _DEBUG_INFO_ENABLED = true;
 
 const _DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded';
@@ -8,6 +8,7 @@ const _DEFAULT_AUTH_TOKEN = 'Basic d2ViYXBwOndlYmFwcA==';
 const _DEFAULT_LANG = 'en';
 const _TERMS_ERROR = 'needAcceptTermsOfConditions';
 export const IDP_CLIENT = 'idp_client';
+
 
 /**
  * System event dictionary

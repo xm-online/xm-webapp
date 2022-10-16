@@ -54,8 +54,10 @@ export class JhiGatewayComponent implements OnInit {
             title: 'Reload tenant configuration?',
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'Yes, reload!',
         }).subscribe((result) => result.value ? this.triggerUpdate()
             : console.info('Cancel'));
@@ -66,8 +68,10 @@ export class JhiGatewayComponent implements OnInit {
             title: 'Reload Elastic?',
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'Yes, reload!',
         }).subscribe((result) => result.value ? this.triggerUpdate('reindexTenantElastic')
             : console.info('Cancel'));
@@ -77,9 +81,9 @@ export class JhiGatewayComponent implements OnInit {
         const isValidDate = (date) => date && Object.prototype.toString.call(date) === '[object Date]' && !isNaN(date);
         if (isValidDate(date)) {
             return new Date(date as string);
-        } 
+        }
         return null;
-        
+
     }
 
     private triggerUpdate(type: 'updateTenantConfig' | 'reindexTenantElastic' = 'updateTenantConfig'): void {

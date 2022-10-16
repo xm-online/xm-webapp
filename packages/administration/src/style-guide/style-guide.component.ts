@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'xm-style-guide',
@@ -12,9 +12,9 @@ export class StyleGuideComponent implements OnInit {
     public colors: string[] = ['primary', 'secondary', 'warning', 'danger', 'success', 'surface'];
     public fonts: string[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'body', 'subheader', 'caption'];
 
-    public group: FormGroup = new FormGroup({
-        default: new FormControl(''),
-        email: new FormControl('<email>@email.ccom', [Validators.required, Validators.email]),
+    public group: UntypedFormGroup = new UntypedFormGroup({
+        default: new UntypedFormControl(''),
+        email: new UntypedFormControl('<email>@email.ccom', [Validators.required, Validators.email]),
     });
 
     public getStyles(el: Element, property: keyof CSSStyleDeclaration | string): string {

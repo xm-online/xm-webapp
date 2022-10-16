@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
-import { FormControl, NgControl } from '@angular/forms';
+import { UntypedFormControl, NgControl } from '@angular/forms';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmTextTitleOptions } from '../text-title';
@@ -101,11 +101,11 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
         }
     }
 
-    public get formControl(): FormControl {
+    public get formControl(): UntypedFormControl {
         return this.options.applyTrimForValue ? this.newControl : this.control;
     }
 
-    private newControl: FormControl = new FormControl();
+    private newControl: UntypedFormControl = new UntypedFormControl();
 
     constructor(
         @Optional() @Self() public ngControl: NgControl | null,
@@ -130,7 +130,7 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
     }
 
     private initControlWithTrimmingString(): void {
-        this.newControl = new FormControl(
+        this.newControl = new UntypedFormControl(
             this.value,
             this.validatorProcessingService.validatorsFactory(this.options?.validators),
         );

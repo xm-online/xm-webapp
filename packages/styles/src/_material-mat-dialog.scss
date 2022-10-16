@@ -20,6 +20,6 @@ $xm-mat-dialog-close-color-hover: $xm-text !default;
   }
 
   .mat-dialog-actions {
-    margin-bottom: -$xm-mat-dialog-padding / 2 !important;
+    margin-bottom: calc(0px - calc($xm-mat-dialog-padding / 2)) !important;
   }
 }

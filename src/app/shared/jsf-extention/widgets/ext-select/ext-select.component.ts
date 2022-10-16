@@ -10,7 +10,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { JsonSchemaFormComponent, JsonSchemaFormService } from '@ajsf/core';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
@@ -54,8 +54,8 @@ export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit
     public selectLinkOptions: SelectDeepLinkOptions;
     public canSeeLink: boolean;
     public elements: any = [];
-    public elementCtrl: FormControl = new FormControl();
-    public elementFilterCtrl: FormControl = new FormControl();
+    public elementCtrl: UntypedFormControl = new UntypedFormControl();
+    public elementFilterCtrl: UntypedFormControl = new UntypedFormControl();
     public filteredElements: ReplaySubject<Element[]> = new ReplaySubject<Element[]>(1);
     public placeholder: BehaviorSubject<string>;
 
@@ -133,7 +133,7 @@ export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit
 
     public updateValue(event: any): void {
         const item = this.elements.filter((e) => e.value === event.value.value)[0];
-        const fg: FormGroup = this.jsf.formGroup;
+        const fg: UntypedFormGroup = this.jsf.formGroup;
         if (this.options.relatedFields) {
             this.options.relatedFields.forEach((field) => {
                 const relativeControl = ExtSelectService.controlByKey(field.key, fg, this.dataIndex);

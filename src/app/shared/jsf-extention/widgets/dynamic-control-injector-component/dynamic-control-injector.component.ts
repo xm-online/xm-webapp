@@ -1,6 +1,6 @@
 import { JsonSchemaFormService } from '@ajsf/core';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl } from '@angular/forms';
 
 interface JsfLayoutNode {
     options?: {
@@ -20,7 +20,7 @@ interface JsfLayoutNode {
 })
 export class DynamicControlInjectorComponent implements OnInit {
     @Input() public layoutNode: JsfLayoutNode;
-    public formControl: FormControl | FormArray;
+    public formControl: UntypedFormControl | UntypedFormArray;
 
     constructor(private jsf: JsonSchemaFormService) {
     }

@@ -7,7 +7,7 @@
   <div mat-card-content>
     <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
       <div class="d-flex flex-grow-1 flex-wrap align-items-center mb-2">
-        <mat-form-field class="mr-4">
+        <mat-form-field class="me-4">
           <mat-label>{{'rolesManagement.permission.msName' | translate}}</mat-label>
           <mat-select (selectionChange)="onChangeSort()"
                       [(ngModel)]="sortBy.msName">
@@ -17,7 +17,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="mr-4">
+        <mat-form-field class="me-4">
           <input (change)="onChangeSort()"
                  [(ngModel)]="sortBy.query"
                  matInput
@@ -26,7 +26,7 @@
                  type="text">
         </mat-form-field>
 
-        <mat-form-field class="mr-4">
+        <mat-form-field class="me-4">
           <mat-label>{{'rolesManagement.permission.privilegeKey' | translate}}</mat-label>
           <mat-select (selectionChange)="onChangeSort()"
                       [(ngModel)]="sortBy.permitted_filter">
@@ -37,11 +37,11 @@
         </mat-form-field>
       </div>
 
-      <div class="d-flex flex-nowrap align-items-center justify-content-end ml-auto mb-2">
+      <div class="d-flex flex-nowrap align-items-center justify-content-end ms-auto mb-2">
         <button (click)="onCancel()"
                 *permitted="'DASHBOARD.UPDATE'"
                 [disabled]="readOnlyMode || !hasChanges"
-                class="mr-1"
+                class="me-1"
                 mat-flat-button
                 type="button">
           <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
@@ -140,7 +140,7 @@
 
       <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
         <ng-container [class.hidden]="!(dataSource?.data.length > 0) || (options.pageSize > totalItems)"
-                      class="mr-auto flex-grow-1 flex-nowrap">
+                      class="me-auto flex-grow-1 flex-nowrap">
           <mat-paginator
             [length]="totalItems"
             [pageSizeOptions]="options.pageSizeOptions"
@@ -148,11 +148,11 @@
           </mat-paginator>
         </ng-container>
 
-        <div class="ml-auto">
+        <div class="ms-auto">
           <button (click)="onCancel()"
                   *permitted="'DASHBOARD.UPDATE'"
                   [disabled]="!hasChanges"
-                  class="mr-1"
+                  class="me-1"
                   mat-flat-button
                   type="button">
             <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>

@@ -1,6 +1,6 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Input, Optional, Self, ViewChild } from '@angular/core';
-import { FormControl, NgControl } from '@angular/forms';
+import { UntypedFormControl, NgControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
@@ -57,7 +57,7 @@ export const XM_ARRAY_CONTROL_OPTIONS_DEFAULT: XmArrayControlOptions = {
     templateUrl: './xm-array-control.component.html',
 })
 export class XmArrayControlComponent extends NgFormAccessor<string[]> {
-    public searchControl: FormControl = new FormControl();
+    public searchControl: UntypedFormControl = new UntypedFormControl();
 
     public separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -135,7 +135,7 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
             switchMap(items => searchQuery.pipe(
                 map((search) => ({items, search})),
             )),
-            map(({items, search}) => {
+            map(({items, search}: any) => {
                 if (search?.length > 0) {
                     search = search.toLowerCase();
 

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -32,8 +32,8 @@ export class LocationDetailDialogComponent implements OnInit {
     @Input() public location: Location = {};
     @Input() public locationSpecs: LocationSpec[];
 
-    public form: FormGroup;
-    public formCountrySearch: FormControl;
+    public form: UntypedFormGroup;
+    public formCountrySearch: UntypedFormControl;
     public iso3166Codes: string[] = ISO3166_CODES;
     public showLoader: boolean;
     public locations: Location[];
@@ -48,7 +48,7 @@ export class LocationDetailDialogComponent implements OnInit {
                 private eventManager: XmEventManager,
                 private translateService: TranslateService,
                 private xmConfigService: XmConfigService,
-                private fb: FormBuilder) {
+                private fb: UntypedFormBuilder) {
     }
 
     public get coordinatesInvalid(): boolean {
@@ -76,7 +76,7 @@ export class LocationDetailDialogComponent implements OnInit {
 
         // init forms/form controls
         this.createForm();
-        this.formCountrySearch = new FormControl();
+        this.formCountrySearch = new UntypedFormControl();
         this.resetForm();
 
         // filter county select

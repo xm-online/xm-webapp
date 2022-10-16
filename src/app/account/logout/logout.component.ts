@@ -42,8 +42,10 @@ export class LogoutComponent implements OnInit, OnDestroy {
             showCancelButton: true,
             buttonsStyling: false,
             showCloseButton: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'global.common.yes-exit',
             cancelButtonText: 'global.common.cancel',
         }).subscribe((result) => result.value ? this.logout() : history.back());

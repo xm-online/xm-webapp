@@ -3,12 +3,5 @@
   "version": "1.0.0",
   "peerDependencies": {
     "@xm-ngx/shared": "*"
-  },
-  "ngPackage": {
-    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "dest": "../../dist/packages/dynamic",
-    "lib": {
-      "entryFile": "./index.ts"
-    }
   }
 }

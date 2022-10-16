@@ -43,7 +43,7 @@ export class ConfigVisualizerDialogComponent implements OnInit, AfterViewInit {
     }
 
     public sourceChanged(): void {
-        const canvasElement = document.getElementById('canvas');
+        const canvasElement: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement;
         try {
             const superSampling = window.devicePixelRatio || 1;
             const scale = superSampling * Math.exp(this.zoomLevel / 10);

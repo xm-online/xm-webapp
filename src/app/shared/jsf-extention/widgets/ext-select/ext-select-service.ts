@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
 import { I18nNamePipe } from '@xm-ngx/components/language';
 import { ExtSelectOptions } from './ext-select-options.model';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 
 export const URL_TEMPLATE_LITERAL = /@{(\w+(\[\])?.?)+}/g;
 
@@ -32,7 +32,7 @@ export class ExtSelectService {
         return o;
     }
 
-    public static controlByKey(key: string, rootFormGroup: FormGroup, dataIndex: number[]): AbstractControl {
+    public static controlByKey(key: string, rootFormGroup: UntypedFormGroup, dataIndex: number[]): AbstractControl {
         let fieldPath = key;
         // eslint-disable-next-line @typescript-eslint/no-for-in-array
         for (const i in dataIndex) {
