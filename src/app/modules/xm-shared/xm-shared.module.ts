@@ -26,7 +26,6 @@ import { XmEntityModule } from '@xm-ngx/entity';
         XmAlertModule,
         FormsModule,
         ReactiveFormsModule,
-        // XmAlertModule,
         XmCoreModule,
         XmTranslationModule,
         MatModule,
