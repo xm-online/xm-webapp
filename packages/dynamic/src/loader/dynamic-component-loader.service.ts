@@ -95,9 +95,6 @@ export class DynamicComponentLoaderService {
                 this.cache[selector] = result;
                 resolve(result);
             });
-            return await this.cache[selector];
-        } else if (this.cache[selector] instanceof Promise) {
-            return await this.cache[selector];
         }
         return this.cache[selector];
     }
