@@ -24,6 +24,7 @@ export interface XmDynamicCell<O = unknown> {
     field: string;
     selector: string;
     options: O;
+    config?: O;
     class: string;
     style: string;
 }
@@ -60,6 +61,7 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
         this._cell = value;
         this.selector = value?.selector;
         this.options = value?.options;
+        this.config = value?.config;
         this.class = value?.class;
         this.style = value?.style;
     }

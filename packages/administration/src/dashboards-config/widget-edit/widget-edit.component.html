@@ -78,10 +78,12 @@
 
     <xm-selector-text-control [(ngModel)]="formGroup.selector"
                               [disabled]="disabled"
+                              (valueChange)="ngOnChanges({})"
                               [options]="{ title: TRS.selector }"
                               name="selector"></xm-selector-text-control>
 
     <mat-tab-group>
+
       <mat-tab [label]="'Config'">
         <xm-ace-editor-control [(ngModel)]="formGroup.config"
                                [disabled]="disabled"

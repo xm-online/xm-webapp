@@ -8,9 +8,9 @@
       <div class="col-sm-3">
         <div class="form-group">
           <mat-form-field>
+            <mat-label>{{'metrics.options.service-name' | translate}}</mat-label>
             <mat-select (selectionChange)="onServiceSelect()"
-                        [(ngModel)]="selectedService"
-                        placeholder="{{'metrics.options.service-name' | translate}}">
+                        [(ngModel)]="selectedService">
               <mat-option *ngFor="let s of services" [value]="s.name">
                 {{s.name}}
               </mat-option>
@@ -21,10 +21,10 @@
       <div class="col-sm-3">
         <div class="form-group">
           <mat-form-field>
+            <mat-label>{{'metrics.options.instance-name' | translate}}</mat-label>
             <mat-select (selectionChange)="mapMetrics(selectedInstance)"
                         [(ngModel)]="selectedInstance"
-                        [disabled]="!(instances && instances.length)"
-                        placeholder="{{'metrics.options.instance-name' | translate}}">
+                        [disabled]="!(instances && instances.length)">
               <mat-option *ngFor="let i of instances" [value]="i.id">
                 {{i.address}}:{{i.port}} ({{i.id}})
               </mat-option>

@@ -1074,7 +1074,8 @@
       "title": "Daten",
       "update-error": "Nicht aktualisiert. Wiederholen.",
       "update-success": "Erfolgreich aktualisiert.",
-      "change-avatar": "Bild ändern"
+      "change-avatar": "Bild ändern",
+      "current-state": "Aktueller Status"
     },
     "entity-detail-dialog": {
       "add": {
@@ -1450,6 +1451,7 @@
     }
   },
   "xm-enum": {
+    "all": "Alle",
     "other": "Andere",
     "others": "Andere"
   },

@@ -9,9 +9,9 @@
     >
       {{this.selectLinkOptions?.iconName}}
     </mat-icon>
+    <mat-label>{{options.noTitle ? '' : (placeholder | async)}}</mat-label>
     <mat-select [(ngModel)]="elementCtrl"
       (selectionChange)="updateValue($event)"
-      [placeholder]="options.noTitle ? '' : (placeholder | async)"
       [disabled]="(disabled$ | async) || options['readonly']"
       [required]="options?.required"
       #singleSelect

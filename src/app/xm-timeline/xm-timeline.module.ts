@@ -6,12 +6,10 @@ import { XmSharedModule } from '@xm-ngx/shared';
 import { TimeAgoService } from './shared/time-ago.service';
 import { TimelineService } from './shared/timeline.service';
 import { TimelineComponent } from './timeline/timeline.component';
-import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
     imports: [
         CommonModule,
-        BrowserModule,
         LoaderModule,
         XmSharedModule,
     ],

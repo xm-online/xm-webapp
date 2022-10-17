@@ -33,6 +33,7 @@ export interface XmPresentationLayout<V = unknown, O = unknown> extends XmLayout
                           [style]="item.layout.style"
                           [selector]="item.customParams.selector"
                           [value]="item.customParams.value"
+                          [config]="item.customParams.config"
                           [options]="item.customParams.options">
             </ng-container>
         </ng-template>
