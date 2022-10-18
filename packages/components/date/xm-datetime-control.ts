@@ -10,12 +10,13 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateControlOptions } from './xm-date-control';
-import { OWL_DATE_TIME_FORMATS, OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { HintModule } from '@xm-ngx/components/hint';
+import { OwlMomentDateTimeModule } from '@danielmoncada/angular-datetime-picker-moment-adapter';
+import { OwlDateTimeModule, OWL_DATE_TIME_FORMATS } from '@danielmoncada/angular-datetime-picker';
 
 export interface XmDatetimeControlOptions extends XmDateControlOptions {
     ignoreSeconds: boolean;
@@ -24,8 +25,8 @@ export interface XmDatetimeControlOptions extends XmDateControlOptions {
 
 
 const MY_CUSTOM_FORMATS = {
-    fullPickerInput: 'YYYY/MM/DD HH:mm:ss',
     parseInput: 'YYYY/MM/DD HH:mm:ss',
+    fullPickerInput: 'YYYY/MM/DD HH:mm:ss',
     datePickerInput: 'YYYY/MM/DD HH:mm:ss',
     timePickerInput: 'LT',
     monthYearLabel: 'MMM YYYY',
@@ -75,9 +76,13 @@ export class XmDatetimeControl extends NgFormAccessor<XmDateTimeControlValue> im
         this.control.valueChanges.pipe(
             takeUntilOnDestroy(this),
             filter(value => !!value),
-            map(value => moment.isMoment(value) ? value : moment(value)),
+            map((value) => {
+                return moment.isMoment(value) ? value : moment(value);
+            }),
             filter(value => value.seconds() !== 0 && this.options.ignoreSeconds),
-        ).subscribe((value: moment.Moment) => this.control.patchValue(value.seconds(0)));
+        ).subscribe((value: moment.Moment) => {
+            this.control.patchValue(value.seconds(0));
+        });
     }
 
 
@@ -99,6 +104,7 @@ export class XmDatetimeControl extends NgFormAccessor<XmDateTimeControlValue> im
         CommonModule,
         MatIconModule,
         OwlDateTimeModule,
+        OwlMomentDateTimeModule,
         HintModule,
     ],
     providers: [
