@@ -1,4 +1,4 @@
-import { Directive, Input, OnChanges, OnInit } from '@angular/core';
+import { ComponentRef, Directive, Input, OnChanges, OnInit } from '@angular/core';
 import { XmDynamicPresentationBase, XmDynamicPresentation, XmDynamicPresentationConstructor } from './xm-dynamic-presentation-base.directive';
 
 /**
@@ -26,6 +26,8 @@ export class XmDynamicPresentationDirective<V, O> extends XmDynamicPresentationB
     @Input() public selector: XmDynamicPresentationConstructor<V, O> | string;
     /** Instance of created object */
     public instance: XmDynamicPresentation<V, O>;
+    /** Component ref */
+    public compRef: ComponentRef<XmDynamicPresentation<V, O>>;
 
     @Input() public class: string;
     @Input() public style: string;

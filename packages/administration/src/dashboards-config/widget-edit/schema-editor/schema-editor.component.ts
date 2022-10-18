@@ -11,7 +11,7 @@ export interface SchemaEditorOptions {
 @Component({
     selector: 'xm-schema-editor',
     templateUrl: './schema-editor.component.html',
-    styleUrls: ['./schema-editor.component.scss']
+    styleUrls: ['./schema-editor.component.scss'],
 })
 export class SchemaEditorComponent
     extends NgControlAccessor<object>
@@ -26,7 +26,7 @@ export class SchemaEditorComponent
 
     constructor(
         @Optional() @Self() public ngControl: NgControl,
-        protected readonly httpClient: HttpClient
+        protected readonly httpClient: HttpClient,
     ) {
         super(ngControl);
     }

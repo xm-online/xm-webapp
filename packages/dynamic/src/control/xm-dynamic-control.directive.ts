@@ -1,5 +1,5 @@
 import {
-    ComponentFactoryResolver,
+    ComponentFactoryResolver, ComponentRef,
     Directive,
     EventEmitter,
     forwardRef,
@@ -70,6 +70,8 @@ export class XmDynamicControlDirective<V, O>
 
     /** Returns instance of created object */
     public instance: XmDynamicControl<V, O>;
+    /** Component ref */
+    public compRef: ComponentRef<XmDynamicControl<V, O>>;
 
     constructor(
         viewContainerRef: ViewContainerRef,
@@ -144,7 +146,13 @@ export class XmDynamicControlDirective<V, O>
         if (!this.instance) {
             return;
         }
+
+        /**
+         * Since v14 you can use the corresponding method for set inputs
+         */
         this.instance.value = this.value;
+        this.compRef.setInput('value', this.value);
+
         this._onChange(this.value);
         this.valueChange.next(this.value);
     }

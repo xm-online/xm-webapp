@@ -1,4 +1,4 @@
-import { Directive, forwardRef, Input } from '@angular/core';
+import { ComponentRef, Directive, forwardRef, Input } from '@angular/core';
 import { UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { XmDynamicControlDirective, XmDynamicControl } from './xm-dynamic-control.directive';
 
@@ -21,7 +21,8 @@ export class XmDynamicFormControlDirective<V, O> extends XmDynamicControlDirecti
 
     /** Returns instance of created object */
     public instance: IFormControl<V, O>;
-
+    /** Component ref */
+    public compRef: ComponentRef<IFormControl<V, O>>;
 
     protected async createComponent(): Promise<void> {
         await super.createComponent();
@@ -32,7 +33,13 @@ export class XmDynamicFormControlDirective<V, O> extends XmDynamicControlDirecti
         if (!this.instance) {
             return;
         }
+
         this.instance.control = this.control;
+
+        /**
+         * Since v14 you can use the corresponding method for set inputs
+         */
+        this.compRef.setInput('control', this.control);
     }
 
 }

@@ -1,5 +1,5 @@
 import {
-    ComponentFactoryResolver,
+    ComponentFactoryResolver, ComponentRef,
     Directive,
     Injector,
     OnChanges,
@@ -76,6 +76,8 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
     public selector: XmDynamicPresentationConstructor<V, O> | string;
     /** Instance of created object */
     public instance: XmDynamicPresentation<V, O>;
+    /** Component ref */
+    public compRef: ComponentRef<XmDynamicPresentation<V, O>>;
 
     public class: string;
     public style: string;
@@ -117,7 +119,13 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         if (!this.instance) {
             return;
         }
+
         this.instance.value = this.value;
+
+        /**
+         * Since v14 you can use the corresponding method for set inputs
+         */
+        this.compRef.setInput('value', this.value);
     }
 
     protected updateConfig(): void {
@@ -127,6 +135,11 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         // Don't set widget config if it's null, because updateOptions method already set config
         if (this.config != null) {
             this.instance.config = this.config;
+
+            /**
+             * Since v14 you can use the corresponding method for set inputs
+             */
+            this.compRef.setInput('config', this.config);
         }
     }
 
@@ -138,10 +151,22 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         if (!this.instance) {
             return;
         }
-        console.warn('Dynamic widget "options" property was deprecated use "config" instead. Make sure that your widget works');
+
+        console.warn(`Dynamic widget ${this.selector} "options" property was deprecated use "config" instead. Make sure that your widget works`);
+
+        /**
+         * Since v14 you can use the corresponding method for set inputs
+         */
         this.instance.config = this.options;
-        // Field options should be removed soon
+        this.compRef.setInput('config', this.config);
+
+        /**
+         * @deprecated
+         *
+         * Use "config" instead of options
+         */
         this.instance.options = this.options;
+        this.compRef.setInput('options', this.options);
     }
 
     protected createInjector(): Injector {
@@ -156,10 +181,13 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         const cfr = await this.loaderService.loadAndResolve<XmDynamicPresentation<V, O>>(this.selector as string, { injector: this.injector });
 
         this.viewContainerRef.clear();
-        const c = this.viewContainerRef.createComponent(cfr, 0, this.createInjector());
-        this.instance = c.instance;
+        this.compRef = this.viewContainerRef.createComponent(cfr.componentType, {
+            index: 0,
+            injector: this.createInjector(),
+        });
+        this.instance = this.compRef.instance;
 
-        const el = c.location.nativeElement as HTMLElement;
+        const el = this.compRef.location.nativeElement as HTMLElement;
         this.updateStyles(el);
     }
 

@@ -1,5 +1,5 @@
 import {
-    ComponentFactory,
+    ComponentFactory, ComponentRef,
     Directive,
     Injector,
     Input,
@@ -31,6 +31,8 @@ export class XmDynamicWidgetDirective implements OnChanges {
     @Input() public class: string;
     @Input() public style: string;
     private _layout: XmDynamicWidgetConfig;
+
+    private compRef: ComponentRef<XmDynamicWidget>;
 
     constructor(private injector: Injector,
                 private dynamicLoader: DynamicLoader,
@@ -69,18 +71,32 @@ export class XmDynamicWidgetDirective implements OnChanges {
         if (componentFactory) {
             this.createComponent(this._layout, componentFactory);
             return;
-        } 
+        }
         console.warn(`"${value.selector}" does not exist!`);
-        
     }
 
     private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, componentFactory: ComponentFactory<T>): void {
-        const widget = this.viewRef.createComponent<XmDynamicWidget>(componentFactory);
-        widget.instance.config = value.config;
-        widget.instance.spec = value.spec;
+        this.compRef = this.viewRef.createComponent<XmDynamicWidget>(componentFactory.componentType, {
+            index: 0,
+            injector: this.injector,
+        });
+
+        /**
+         * Since v14 you can use the corresponding method for set inputs
+         */
+        this.compRef.instance.config = value.config;
+        this.compRef.setInput('config', value.config);
+
+        /**
+         * Since v14 you can use the corresponding method for set inputs
+         */
+        this.compRef.instance.spec = value.spec;
+        this.compRef.setInput('spec', value.spec);
+
+
         // TODO: pass children layout
 
-        const el = (widget.location.nativeElement as HTMLElement);
+        const el = (this.compRef.location.nativeElement as HTMLElement);
         if (this.class) {
             this.renderer.setAttribute(el, 'class', this.class);
         }
