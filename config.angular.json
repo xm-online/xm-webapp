@@ -40,7 +40,8 @@
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/styles",
-                "src/app/ext"
+                "src/app/ext",
+                "node_modules"
               ]
             },
             "scripts": [
@@ -186,7 +187,8 @@
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/styles",
-                "src/app/ext"
+                "src/app/ext",
+                "node_modules"
               ]
             },
             "styles": [
