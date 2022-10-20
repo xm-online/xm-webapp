@@ -15,7 +15,7 @@ import { AccountService, Principal } from '../../../../src/app/shared/auth';
 export class XmUserSettingsWidgetComponent implements OnInit {
     public languages$: Observable<Locale[]> = this.languageService.languages$();
 
-    @Input() public config: {hideDates: boolean}
+    @Input() public config: {hideDates: boolean};
     public timeZoneOffset: string;
     public settingsAccount: XmUser;
     public error: string;

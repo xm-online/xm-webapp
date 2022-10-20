@@ -1,0 +1,6 @@
+{
+  "dest": "../../dist/packages/core",
+  "lib": {
+    "entryFile": "./index.ts"
+  }
+}

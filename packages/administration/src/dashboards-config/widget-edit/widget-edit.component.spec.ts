@@ -16,9 +16,10 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { WidgetEditComponent } from './widget-edit.component';
+import {JsonSchemaFormModule} from '@ajsf/core';
 
 @Component({
-    selector: 'xm-text-control, xm-selector-text-control, xm-ace-editor-control',
+    selector: 'xm-schema-editor, xm-text-control, xm-selector-text-control, xm-ace-editor-control',
     template: '',
     providers: [
         {
@@ -41,6 +42,7 @@ describe('WidgetEditComponent', () => {
                 XmTranslationTestingModule,
                 HttpClientTestingModule,
                 FormsModule,
+                JsonSchemaFormModule
             ],
             declarations: [WidgetEditComponent, MockXmTextControlComponent],
             providers: [

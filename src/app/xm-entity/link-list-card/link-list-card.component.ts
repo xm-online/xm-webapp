@@ -88,8 +88,10 @@ export class LinkListCardComponent implements OnInit, OnChanges {
             title: this.translateService.instant('xm-entity.link-list-card.delete.title'),
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: this.translateService.instant('xm-entity.link-list-card.delete.button'),
         }).subscribe((result) => {
             if (result.value) {

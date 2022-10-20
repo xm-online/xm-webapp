@@ -86,6 +86,7 @@ module.exports = {
                         ignoreProperties: true,
                     },
                 ],
+                '@typescript-eslint/no-unsafe-argument': 'warn',
                 '@typescript-eslint/type-annotation-spacing': 'error',
                 '@typescript-eslint/explicit-member-accessibility': [
                     'error',

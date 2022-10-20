@@ -1,0 +1,6 @@
+{
+  "dest": "../../dist/packages/shared",
+  "lib": {
+    "entryFile": "./index.ts"
+  }
+}

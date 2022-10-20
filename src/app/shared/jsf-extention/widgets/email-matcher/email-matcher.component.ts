@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 
 import { UUID } from 'angular2-uuid';
@@ -16,8 +16,8 @@ export class EmailMatcherComponent implements OnInit {
     public controlValue: any;
     public controlNameOriginal: any;
     public controlNameMatcher: any;
-    public originalControl: FormControl = new FormControl();
-    public matcherControl: FormControl = new FormControl();
+    public originalControl: UntypedFormControl = new UntypedFormControl();
+    public matcherControl: UntypedFormControl = new UntypedFormControl();
     public options: any;
     @Input() public layoutNode: any;
 

@@ -104,10 +104,10 @@ export class EntityListComponent implements OnInit, OnDestroy {
 
         this.entityListLoadingByTemplate = this.eventManager.subscribe(
             XM_EVENT_LIST.XM_LOAD_ENTITY_LIST_WITH_TEMPLATE,
-            ({ content }) => {
-                const { query, typeKey } = content;
-                this.searchTemplateParams = { templateName: content.template, manually: true };
-                this.loadSearch(true, { query, typeKey });
+            ({content}) => {
+                const {query, typeKey} = content;
+                this.searchTemplateParams = {templateName: content.template, manually: true};
+                this.loadSearch(true, {query, typeKey});
             },
         );
     }
@@ -286,8 +286,10 @@ export class EntityListComponent implements OnInit, OnDestroy {
             title: 'xm-entity.entity-list-card.delete.title',
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'xm-entity.entity-list-card.delete.button',
             cancelButtonText: this.translateService.instant('xm-entity.entity-list-card.delete.button-cancel'),
         }).subscribe((result) => {
@@ -346,7 +348,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
     }
 
     private getModifiedOptions(entityOptions: EntityOptions, queryParams: Params) {
-        const { page, size, sort } = queryParams;
+        const {page, size, sort} = queryParams;
 
         if (size) {
             this.paginator.pageSize = Number(size);
@@ -362,7 +364,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
 
     protected loadEntitiesPaged(entityOptions: EntityOptions, setDefaultParams?: boolean, queryParams?: Params): Observable<XmEntity[]> {
         this.showLoader = true;
-        const { options, method }: any = this.getQueryOptions(entityOptions, queryParams);
+        const {options, method}: any = this.getQueryOptions(entityOptions, queryParams);
 
         return this.xmEntityService[method](options).pipe(
             tap((xmEntities: HttpResponse<XmEntity[]>) => {

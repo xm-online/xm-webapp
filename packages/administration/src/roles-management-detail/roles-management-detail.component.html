@@ -11,9 +11,9 @@
       <div class="col-sm-4 col-md-2">
         <div class="form-group">
           <mat-form-field>
+            <mat-label>{{'rolesManagement.permission.msName' | translate}}</mat-label>
             <mat-select (selectionChange)="onChangeSort()"
-                        [(ngModel)]="sortBy.msName"
-                        placeholder="{{'rolesManagement.permission.msName' | translate}}">
+                        [(ngModel)]="sortBy.msName">
               <mat-option *ngFor="let item of entities" [value]="item">{{item}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -36,9 +36,9 @@
       <div class="col-sm-4 col-md-2">
         <div class="form-group">
           <mat-form-field>
+            <mat-label>{{'rolesManagement.permission.permit' | translate}}</mat-label>
             <mat-select (selectionChange)="onChangeSort()"
-                        [(ngModel)]="sortBy.enabled"
-                        placeholder="{{'rolesManagement.permission.permit' | translate}}">
+                        [(ngModel)]="sortBy.enabled">
               <mat-option *ngFor="let item of permits" [value]="item.value">
                 <span *ngIf="item.trans">{{'rolesManagement.permission.'+item.trans|translate}}</span>
               </mat-option>
@@ -50,9 +50,9 @@
       <div class="col-sm-4 col-md-2">
         <div class="form-group">
           <mat-form-field>
+            <mat-label>{{'rolesManagement.permission.resourceCondition' | translate}}</mat-label>
             <mat-select (selectionChange)="onChangeSort()"
-                        [(ngModel)]="sortBy.condition"
-                        placeholder="{{'rolesManagement.permission.resourceCondition' | translate}}">
+                        [(ngModel)]="sortBy.condition">
               <mat-option *ngFor="let item of resourceConditions" [value]="item.value">
                 <span *ngIf="item.trans">{{'rolesManagement.permission.'+item.trans|translate}}</span>
               </mat-option>
@@ -145,7 +145,7 @@
           </th>
           <td mat-cell *matCellDef="let permission">
             <div class="d-flex flex-nowrap">
-              <div class="flex-grow-1 pr-1 pl-1">{{permission.resourceCondition}}</div>
+              <div class="flex-grow-1 pe-1 ps-1">{{permission.resourceCondition}}</div>
               <button mat-icon-button
                       color="primary"
                       (click)="onEditResource(permission)"
@@ -162,7 +162,7 @@
           </th>
           <td mat-cell *matCellDef="let permsision">
             <div class="d-flex flex-nowrap">
-              <div class="flex-grow-1 pr-1 pl-1">{{permsision.envCondition}}</div>
+              <div class="flex-grow-1 pe-1 ps-1">{{permsision.envCondition}}</div>
               <button mat-icon-button
                       color="primary"
                       (click)="onEditEnv(permsision)"
@@ -183,7 +183,7 @@
 
 
     <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
-      <ng-container class="mr-auto flex-grow-1 flex-nowrap"
+      <ng-container class="me-auto flex-grow-1 flex-nowrap"
                     [class.hidden]="!(dataSource?.data.length > 0) || (itemsPerPage > totalItems)">
         <mat-paginator
           [pageSizeOptions]="itemsPerPageOptions"
@@ -192,7 +192,7 @@
         </mat-paginator>
       </ng-container>
 
-      <div class="ml-auto">
+      <div class="ms-auto">
         <button mat-flat-button
                 color="primary"
                 type="button"

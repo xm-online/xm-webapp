@@ -23,7 +23,7 @@
   <ng-template #statesAndFunctions>
     <ng-container>
       <div class="container-fluid">
-        <div class="row mt-3 mb-3 text-left">
+        <div class="row mt-3 mb-3 text-start">
           <div *ngIf="xmEntity && nextStates?.length" class="col-sm-auto">
             <p class="mb-2">{{'xm-entity.function-list-card.current-state' | translate}}</p>
             <div class="mb-1">
@@ -37,9 +37,9 @@
               <div (click)="onChangeState(nextState.key)"
                    *ngFor="let nextState of nextStates"
                    [style.background]="nextState.color"
-                   class="xm-state act-as-button no-wrap mr-1 mb-1"
+                   class="xm-state act-as-button no-wrap me-1 mb-1"
                    title="{{nextState.actionName | translate}}">
-                <div [style.background]="'transparent'" class="xm-state-icon mr-0">
+                <div [style.background]="'transparent'" class="xm-state-icon me-0">
                   <mat-icon>{{nextState.icon}}</mat-icon>
                 </div>
                 {{nextState.actionName | translate}}
@@ -52,12 +52,12 @@
 
     <ng-container *ngIf="defaultFunctions$ | async as defaultFunctions">
       <div *ngIf="defaultFunctions.length" class="pb-3">
-        <div class="text-left">
+        <div class="text-start">
           <hr class="mt-0">
           <p *ngIf="xmEntityId" class="mb-2">{{'xm-entity.function-list-card.other-functions' | translate}}</p>
           <ng-container *ngFor="let functionSpec of defaultFunctions">
             <button (click)="onCallFunction(functionSpec)"
-                    class="btn btn-sm btn-primary mr-1 mt-0 mb-1 ml-0 no-wrap func-btn"
+                    class="btn btn-sm btn-primary me-1 mt-0 mb-1 ms-0 no-wrap func-btn"
                     title="{{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}">
               {{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}
             </button>

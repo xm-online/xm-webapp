@@ -1467,6 +1467,7 @@
     }
   },
   "xm-enum": {
+    "all": "All",
     "other": "Other",
     "others": "Others"
   },

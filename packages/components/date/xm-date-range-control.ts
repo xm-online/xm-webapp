@@ -7,7 +7,7 @@ import {
     NgModule,
     OnDestroy, Optional, Self,
 } from '@angular/core';
-import { FormControl, FormGroup, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -106,9 +106,9 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         return this._value;
     }
 
-    @Input() public group: FormGroup = new FormGroup({
-        from: new FormControl(),
-        to: new FormControl(),
+    @Input() public group: UntypedFormGroup = new UntypedFormGroup({
+        from: new UntypedFormControl(),
+        to: new UntypedFormControl(),
     });
 
     constructor(

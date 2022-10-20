@@ -1,15 +1,17 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { matExpansionAnimations } from '@angular/material/expansion';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {matExpansionAnimations} from '@angular/material/expansion';
 import {
     EditWidgetButtonsEvent,
     EditWidgetButtonsEventType,
 } from '@xm-ngx/components/edit-buttons/edit-widget-buttons.component';
 
-import { IId, JavascriptCode } from '@xm-ngx/shared/interfaces';
-import { Translate } from '@xm-ngx/translation';
-import { PageChangesStore, PageChangesStoreType } from '@xm-ngx/dashboard';
+import {IId, JavascriptCode} from '@xm-ngx/shared/interfaces';
+import {Translate} from '@xm-ngx/translation';
+import {PageChangesStore, PageChangesStoreType} from '@xm-ngx/dashboard';
 
 export interface XmMatCardOptions {
+    cardClass?: string;
+    contentClass?: string;
     editCondition: JavascriptCode;
     title: Translate;
     readonly: boolean;

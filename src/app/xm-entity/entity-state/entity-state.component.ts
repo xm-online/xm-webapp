@@ -15,8 +15,7 @@ export class EntityStateComponent {
     imports: [XmSharedModule],
     exports: [EntityStateComponent],
     declarations: [EntityStateComponent],
-    entryComponents: [EntityStateComponent],
-    providers: [],
+    providers: []
 })
 export class EntityStateModule {
 }

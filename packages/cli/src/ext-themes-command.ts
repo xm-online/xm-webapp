@@ -5,7 +5,6 @@ import * as sass from 'sass';
 import * as path from 'path';
 import { Command } from './command';
 import { Config } from './config';
-import { packageImporter } from './ext-theming/node-sass-package-importer';
 
 export class ExtThemesCommand implements Command {
     public themesPathMask: string[] = [
@@ -26,21 +25,19 @@ export class ExtThemesCommand implements Command {
             const name = matches[1];
             const outFile = `${this.destPath}/${name}.css`;
 
-            sass.render({
-                file,
-                includePaths: ['src', 'src/styles', this.config.extDir],
-                importer: packageImporter(),
+            const res = sass.compile(file, {
+                importers: [{
+                    findFileUrl(url) {
+                        if (!url.startsWith('~')) return new URL(path.join('file://', process.cwd(), 'node_modules', url));
+                        return new URL(path.join('file://', process.cwd(), 'node_modules', url.replace('~', '')));
+                    },
+                }],
+                loadPaths: ['src', 'src/styles', this.config.extDir, '.'],
                 sourceMap: false,
-                outFile: outFile,
-                outputStyle: 'compressed',
-            }, (err, res) => {
-                if (err) {
-                    console.warn(err);
-                }
-                fs.writeFileSync(outFile, res.css);
-                console.info(`Building: ${outFile}`);
             });
 
+            fs.writeFileSync(outFile, res.css);
+            console.info(`Building: ${outFile}`);
 
         }
     }

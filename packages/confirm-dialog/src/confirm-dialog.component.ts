@@ -6,7 +6,7 @@ import {
     XmConfirmDialogData,
     XmConfirmDialogGroup,
 } from './confirm-dialog.interface';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import { Observable, of } from 'rxjs';
 import { map, mapTo, startWith } from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class XmConfirmDialogComponent implements OnInit {
     public conditionControls: Observable<XmConfirmDialogGroup[]> = of([]);
 
     constructor(
-        private fb: FormBuilder,
+        private fb: UntypedFormBuilder,
         private dialogRef: MatDialogRef<XmConfirmDialogComponent>,
         private validatorsService: ValidatorProcessingService,
         @Inject(MAT_DIALOG_DATA) public data: XmConfirmDialogData,
@@ -36,7 +36,7 @@ export class XmConfirmDialogComponent implements OnInit {
         this.conditionControls = this.buildConditionControls();
     }
 
-    public applyForm({ value, valid }: FormGroup): void {
+    public applyForm({ value, valid }: UntypedFormGroup): void {
         if (valid) {
             this.dialogRef.close(value);
         }
@@ -48,7 +48,7 @@ export class XmConfirmDialogComponent implements OnInit {
 
     public get isFormDisabled(): Observable<boolean> {
         return this.form.statusChanges.pipe(
-            startWith<boolean>(true),
+            startWith(true),
             mapTo(this.form.invalid),
         );
     }
@@ -61,7 +61,7 @@ export class XmConfirmDialogComponent implements OnInit {
 
     public buildConditionControls(): Observable<XmConfirmDialogGroup[]> {
         return this.form.valueChanges.pipe(
-            startWith<XmConfirmDialogConditionModel, XmConfirmDialogConditionModel>(this.form.value),
+            startWith<XmConfirmDialogConditionModel, any>(this.form.value),
             map((formValues) => {
                 const values = Object.keys(formValues).reduce((acc, key) => {
                     const {
@@ -92,7 +92,7 @@ export class XmConfirmDialogComponent implements OnInit {
         );
     }
 
-    private buildFormGroup(controls: XmConfirmDialogControls): FormGroup {
+    private buildFormGroup(controls: XmConfirmDialogControls): UntypedFormGroup {
         return Object.entries(controls)
             .reduce((group, [key, { type, control: groupControl }]) => {
                 const { value, options: { validators = [] } } = groupControl;

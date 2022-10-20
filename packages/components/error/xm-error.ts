@@ -50,9 +50,8 @@ export class ErrorComponent implements OnInit {
         XmTranslationModule,
     ],
     exports: [ErrorComponent],
-    entryComponents: [ErrorComponent],
     declarations: [ErrorComponent],
-    providers: [],
+    providers: []
 })
 export class ErrorModule {
 }

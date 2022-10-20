@@ -1,5 +1,5 @@
 <div mat-dialog-title>
- <h4 class="modal-title text-left">{{'xm-balance.balance-detail-dialog.title' | translate}}</h4>
+ <h4 class="modal-title text-start">{{'xm-balance.balance-detail-dialog.title' | translate}}</h4>
   <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 <div mat-dialog-content>
@@ -35,7 +35,7 @@
   <no-data [show]="!pockets?.length"></no-data>
 </div>
 <div mat-dialog-actions>
-  <button class="ml-auto"
+  <button class="ms-auto"
           mat-flat-button
           data-dismiss="modal"
           type="button"

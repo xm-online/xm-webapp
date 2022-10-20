@@ -3,7 +3,7 @@
      [ngSwitch]="isAvatarEnabled"
      class="card card-custom">
   <ng-container *ngIf="displayMode === 'BOTH' || displayMode === 'HEAD'">
-    <div class="card-header card-header-icon card-header-primary text-left">
+    <div class="card-header card-header-icon card-header-primary text-start">
       <!-- avatar is shown as a card heading, avatar editing is in the card-menu -->
       <div class="arrow-back" *ngIf="navBackEnabled">
         <button (click)="onBack()"
@@ -108,7 +108,7 @@
 
     <ng-container *ngIf="displayMode === 'BOTH' || displayMode === 'BODY'">
       <div [class.single]="displayMode !== 'BOTH'"
-           class="container-fluid text-left mt-3 mb-3 card-custom-schema-compact">
+           class="container-fluid text-start mt-3 mb-3 card-custom-schema-compact">
 
       <div class="min-height card-custom-schema">
           <xm-loader [showLoader]="showLoader"></xm-loader>

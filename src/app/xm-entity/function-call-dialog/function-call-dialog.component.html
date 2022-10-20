@@ -1,6 +1,6 @@
 <form (ngSubmit)="onConfirmFunctionCall()" class="m-0" name="functionCallForm">
   <div mat-dialog-title>
-    <h4 [innerHTML]="dialogTitle | translate" class="modal-title text-left"></h4>
+    <h4 [innerHTML]="dialogTitle | translate" class="modal-title text-start"></h4>
     <xm-modal-close mat-dialog-close></xm-modal-close>
   </div>
 
@@ -23,7 +23,7 @@
 
   <div *ngIf="showSecondStep$ | async; else firstStep" mat-dialog-actions>
     <button (click)="onCancel()"
-            class="btn mr-1 ml-auto"
+            class="btn me-1 ms-auto"
             data-dismiss="modal"
             mat-button
             type="button">
@@ -34,7 +34,7 @@
 
   <ng-template #firstStep>
     <div mat-dialog-actions>
-      <button class="mr-1 ml-auto"
+      <button class="me-1 ms-auto"
               mat-flat-button
               type="button"
               data-dismiss="modal"

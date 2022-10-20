@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { I18nNamePipe } from '@xm-ngx/components/language';
 
 import { Principal } from '@xm-ngx/core/auth';
@@ -27,7 +27,7 @@ export class TextSectionComponent implements OnInit {
     }
 
     private registerFieldsChanges(): void {
-        const fg: FormGroup = this.jsf.formGroup;
+        const fg: UntypedFormGroup = this.jsf.formGroup;
         fg.valueChanges
             .pipe(startWith(''))
             .subscribe((data) => {

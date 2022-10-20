@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
     ExtendedDynamicComponents,
     WidgetListService,
@@ -27,7 +27,7 @@ export class SelectorTextControlComponent
     extends NgModelWrapper<string>
     implements XmDynamicControl<string, XmTextControlOptions>, OnInit {
     @Input() public options: XmTextControlOptions;
-    public control: FormControl = new FormControl(this.value);
+    public control: UntypedFormControl = new UntypedFormControl(this.value);
     public filteredOptions: Observable<ExtendedDynamicComponents[]>;
 
     constructor(private widgetListService: WidgetListService) {

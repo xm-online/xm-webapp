@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity/index';
@@ -87,7 +87,7 @@ export class FormPlaygroundComponent implements OnInit {
     };
     public widgets: any = {};
     public formLayout: () => void;
-    public formSpecSearch: any = new FormControl();
+    public formSpecSearch: any = new UntypedFormControl();
     public filteredSpecOptions$: Observable<XmEntitySpec[]>;
     public specs$: Observable<XmEntitySpec[]>;
     public spec$: Observable<XmEntitySpec>;

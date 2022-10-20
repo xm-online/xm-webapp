@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -23,7 +23,7 @@ export class CustomerInfoWidgetComponent implements OnInit, OnDestroy {
     public showAttachmentLoader: boolean = true;
     public uploadFileEnabled: boolean = false;
     public showCurrencies: boolean = false;
-    public form: FormGroup;
+    public form: UntypedFormGroup;
     public state: string;
     public config: any;
     public profile: Observable<any>;
@@ -35,7 +35,7 @@ export class CustomerInfoWidgetComponent implements OnInit, OnDestroy {
     private resolveStrategy: string = 'role';
     private profileUpdateInterval: number = 30000;
 
-    constructor(private fb: FormBuilder,
+    constructor(private fb: UntypedFormBuilder,
                 private principal: Principal,
                 private alertService: XmToasterService,
                 private eventManager: XmEventManager,

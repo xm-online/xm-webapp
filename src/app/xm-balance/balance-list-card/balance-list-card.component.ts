@@ -2,7 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import * as Chartist from 'chartist';
+import { PieChart } from 'chartist';
 
 import { Spec } from '..';
 import { Principal } from '../../shared/auth/principal.service';
@@ -20,7 +20,7 @@ import { MetricService } from '../shared/metric.service';
 })
 export class BalanceListCardComponent implements OnInit {
 
-    protected static buildBalancePie(balance: Balance): Chartist.IChartistPieChart {
+    protected static buildBalancePie(balance: Balance): PieChart {
         const max = balance.metrics.filter((m) => m.typeKey === 'MAX').shift();
         const total = max && max.value ? parseFloat(max.value) : balance.amount + 1;
         const options = {
@@ -30,7 +30,7 @@ export class BalanceListCardComponent implements OnInit {
             total,
             showLabel: false,
         };
-        return new Chartist.Pie('#balance-pie-' + balance.id, {
+        return new PieChart('#balance-pie-' + balance.id, {
             series: [{
                 value: total ? total : 0,
                 className: 'ct-series-f',

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import * as _ from 'lodash';
 import { BehaviorSubject, iif, merge, Observable, of, ReplaySubject } from 'rxjs';
@@ -33,8 +33,8 @@ interface ISelectOption {
 export class ExtQuerySelectComponent implements OnInit, OnDestroy {
     public settings: ISelectSettings;
     public options$: Observable<ISelectOption[]>;
-    public checkedOption: FormControl = new FormControl();
-    public queryCtrl: FormControl = new FormControl();
+    public checkedOption: UntypedFormControl = new UntypedFormControl();
+    public queryCtrl: UntypedFormControl = new UntypedFormControl();
     public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public maxDisplayedOptions: number = 50;
 

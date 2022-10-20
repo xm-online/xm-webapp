@@ -4,7 +4,7 @@ import { ShowHideColumnsSettingsComponent } from './show-hide-columns-settings.c
 import { of } from 'rxjs';
 import { XmSharedTestingModule } from '@xm-ngx/shared';
 import { ColumnsSettingStorageService } from '../../../service/columns-settings-storage.service';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -31,7 +31,7 @@ describe('ShowHideColumnsSettingsComponent', () => {
                     provide: ColumnsSettingStorageService,
                     useValue: mocks.columnsSettingStorageService,
                 },
-                FormBuilder,
+                UntypedFormBuilder,
             ],
             schemas: [NO_ERRORS_SCHEMA],
         })

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { ITranslate, Locale, Translate } from '@xm-ngx/translation';
@@ -56,7 +56,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
     selector: 'xm-multi-language-control',
     template: `
         <mat-label *ngIf="options.title">
-            <span class="pr-2">{{ options.title | translate }}</span>
+            <span class="pe-2">{{ options.title | translate }}</span>
             <mat-icon *ngIf="options.feedback" [matTooltip]="options.feedback | translate">help</mat-icon>
         </mat-label>
 
@@ -91,6 +91,11 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         (ngModelChange)="viewToModel($event)"></textarea>
 
                     <mat-hint [hint]="options.hint"></mat-hint>
+
+                    <mat-error
+                        *ngIf="control?.hasError('required') && control?.touched">
+                        {{ 'entity.validation.required' | translate }}
+                    </mat-error>
                 </mat-form-field>
             </ng-container>
 
@@ -106,6 +111,11 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         (ngModelChange)="viewToModel($event)"/>
 
                     <mat-hint [hint]="options.hint"></mat-hint>
+
+                    <mat-error
+                        *ngIf="control?.hasError('required') && control?.touched">
+                        {{ 'entity.validation.required' | translate }}
+                    </mat-error>
                 </mat-form-field>
             </ng-container>
         </ng-container>
@@ -144,7 +154,17 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     @Input() public readonly: boolean;
     @Input() public name: string | null = null;
-    @Input() public control?: FormControl;
+
+    private _control?: UntypedFormControl;
+
+    @Input() set control(control: UntypedFormControl | null) {
+        this._control = control;
+
+        this.setDisabledState(this._control?.disabled);
+    }
+    get control(): UntypedFormControl {
+        return this._control;
+    }
 
     private _options: MultiLanguageOptions = clone(MULTI_LANGUAGE_DEFAULT_OPTIONS);
 
@@ -225,5 +245,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             this.control.markAsTouched();
             this.control.markAsDirty();
         }
+
+        this.setDisabledState(this.control.disabled);
     }
 }

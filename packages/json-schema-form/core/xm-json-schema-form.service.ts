@@ -6,7 +6,7 @@ import {
     JsonSchemaFormService,
 } from '@ajsf/core';
 import { Subject } from 'rxjs';
-import { FormArray, FormControl } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl } from '@angular/forms';
 import { fixNestedBuildLayout } from '@xm-ngx/json-schema-form/shared/fix-build-layout';
 
 export interface JsonSchemaOrderChange {
@@ -40,7 +40,7 @@ export class XmJsonSchemaFormService extends JsonSchemaFormService {
                 dataIndex,
             });
 
-            if (!formArray || !(formArray instanceof FormArray)) {
+            if (!formArray || !(formArray instanceof UntypedFormArray)) {
                 return false;
             }
 
@@ -53,7 +53,7 @@ export class XmJsonSchemaFormService extends JsonSchemaFormService {
 
                         const formControl = getControl(formGroup, JsonPointer.toKey(dataPointer));
 
-                        if (formControl && formControl instanceof FormControl) {
+                        if (formControl && formControl instanceof UntypedFormControl) {
                             formControl.patchValue(index);
                         }
                     });

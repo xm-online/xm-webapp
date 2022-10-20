@@ -24,7 +24,7 @@ describe('AccountService', () => {
 
     describe('get()', () => {
         it('should call with correct URL', (done) => {
-            service.get().subscribe(done);
+            service.get().subscribe(() => done());
             const req = httpTestingController.expectOne(SERVER_API_URL + ACCOUNT_URL);
             req.flush({id: 1});
             httpTestingController.verify();
@@ -34,7 +34,7 @@ describe('AccountService', () => {
 
     describe('save()', () => {
         it('should call with correct URL', (done) => {
-            service.save({id: 100}).subscribe(done);
+            service.save({id: 100}).subscribe(() => done());
             const req = httpTestingController.expectOne(SERVER_API_URL + ACCOUNT_URL);
             req.flush({id: 1});
             httpTestingController.verify();
@@ -44,7 +44,7 @@ describe('AccountService', () => {
 
     describe('updateLogins()', () => {
         it('should call with correct URL', (done) => {
-            service.updateLogins({id: 100}).subscribe(done);
+            service.updateLogins({id: 100}).subscribe(() => done());
             const req = httpTestingController.expectOne(SERVER_API_URL + ACCOUNT_LOGIN_UPDATE_URL);
             req.flush({id: 1});
             httpTestingController.verify();
@@ -53,7 +53,7 @@ describe('AccountService', () => {
 
     describe('enableTFA()', () => {
         it('should call with correct URL', (done) => {
-            service.enableTFA('test', 'test').subscribe(done);
+            service.enableTFA('test', 'test').subscribe(() => done());
             const req = httpTestingController.expectOne(SERVER_API_URL + ACCOUNT_TFA_ENABLE_URL);
             req.flush({id: 1});
             httpTestingController.verify();
@@ -62,7 +62,7 @@ describe('AccountService', () => {
 
     describe('disableTFA()', () => {
         it('should call with correct URL', (done) => {
-            service.disableTFA().subscribe(done);
+            service.disableTFA().subscribe(() => done());
             const req = httpTestingController.expectOne(SERVER_API_URL + ACCOUNT_TFA_DISABLE_URL);
             req.flush({id: 1});
             httpTestingController.verify();

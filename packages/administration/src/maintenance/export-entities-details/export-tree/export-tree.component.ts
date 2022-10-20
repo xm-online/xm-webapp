@@ -72,7 +72,7 @@ export class ExportTreeComponent implements OnDestroy {
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
         return flatNode;
-    }
+    };
 
     public ngOnDestroy(): void {
         this.exportEntitiesService.dataChange.unsubscribe();

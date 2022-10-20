@@ -1,8 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatDialogConfig } from '@angular/material/dialog/dialog-config';
-import { ExportEntitiesDetailsComponent } from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
-import { ImportEntitiesDetailsComponent } from '@xm-ngx/administration/maintenance/import-entities-details/import-entities-details.component';
+import { MatDialogConfig } from '@angular/material/dialog';
+import {
+    ExportEntitiesDetailsComponent
+} from '@xm-ngx/administration/maintenance/export-entities-details/export-entities-details.component';
+import {
+    ImportEntitiesDetailsComponent
+} from '@xm-ngx/administration/maintenance/import-entities-details/import-entities-details.component';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
 
@@ -18,7 +22,7 @@ export class MaintenanceComponent {
 
     public isTenantCfgUpdating: boolean;
 
-    @Input() public config: { showReindex: boolean } = { showReindex: true };
+    @Input() public config: { showReindex: boolean } = {showReindex: true};
 
     constructor(
         private service: XmConfigService,
@@ -33,8 +37,10 @@ export class MaintenanceComponent {
             title: 'Warning. Elastic index will be re-indexed. Time consuming operation.',
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'Yes, reindex!',
         }).subscribe((result) => {
             if (result.value) {
@@ -52,8 +58,10 @@ export class MaintenanceComponent {
             title: 'Reload configuration for ALL tenants?',
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'Yes, reload!',
         }).subscribe((result) => {
             if (result.value) {
@@ -75,8 +83,10 @@ export class MaintenanceComponent {
             title: 'Reload tenant configuration?',
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'Yes, reload!',
         }).subscribe((result) => {
             this.isTenantCfgUpdating = true;
@@ -94,15 +104,17 @@ export class MaintenanceComponent {
     }
 
     public exportEntities(): void {
-        const options: MatDialogConfig = { ...XM_MAT_DIALOG_DEFAULT_OPTIONS, width: '960px' };
+        const options: MatDialogConfig = {...XM_MAT_DIALOG_DEFAULT_OPTIONS, width: '960px'};
         const exportDialog = this.dialog.open(ExportEntitiesDetailsComponent, options);
         exportDialog.afterClosed().subscribe((res) => {
             if (res && res === 'success') {
                 this.alertService.open({
                     title: 'xm.export-entities.message-success',
-                    type: 'success',
+                    icon: 'success',
                     showCloseButton: false,
-                    confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
+                    customClass: {
+                        confirmButton: 'mat-flat-button mat-button-base mat-primary',
+                    },
                     confirmButtonText: 'Ok',
                     width: '500px',
                 }).subscribe();
@@ -110,9 +122,11 @@ export class MaintenanceComponent {
             if (res && res !== 'success') {
                 this.alertService.open({
                     title: 'xm.export-entities.message-error',
-                    type: 'error',
+                    icon: 'error',
                     showCloseButton: false,
-                    confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
+                    customClass: {
+                        confirmButton: 'mat-flat-button mat-button-base mat-primary',
+                    },
                     confirmButtonText: 'Ok',
                     width: '500px',
                 }).subscribe();
@@ -121,15 +135,17 @@ export class MaintenanceComponent {
     }
 
     public importEntities(): void {
-        const options: MatDialogConfig = { ...XM_MAT_DIALOG_DEFAULT_OPTIONS, autoFocus: false };
+        const options: MatDialogConfig = {...XM_MAT_DIALOG_DEFAULT_OPTIONS, autoFocus: false};
         const exportDialog = this.dialog.open(ImportEntitiesDetailsComponent, options);
         exportDialog.afterClosed().subscribe((res) => {
             if (res && res === 'success') {
                 this.alertService.open({
                     title: 'xm.import-entities.message-success',
-                    type: 'success',
+                    icon: 'success',
                     showCloseButton: false,
-                    confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
+                    customClass: {
+                        confirmButton: 'mat-flat-button mat-button-base mat-primary',
+                    },
                     confirmButtonText: 'Ok',
                     width: '500px',
                 }).subscribe();
@@ -137,9 +153,11 @@ export class MaintenanceComponent {
             if (res && res !== 'success') {
                 this.alertService.open({
                     title: 'xm.import-entities.message-error',
-                    type: 'error',
+                    icon: 'error',
                     showCloseButton: false,
-                    confirmButtonClass: 'mat-flat-button mat-button-base mat-primary',
+                    customClass: {
+                        confirmButton: 'mat-flat-button mat-button-base mat-primary',
+                    },
                     confirmButtonText: 'Ok',
                     width: '500px',
                 }).subscribe();

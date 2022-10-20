@@ -33,7 +33,8 @@ export class StatesEditorComponent extends EditorUtils {
         return stateSpec.next && !!stateSpec.next.find((n) => n.stateKey === nextStateSpec.key);
     }
 
-    public onNextStateChange(stateSpec: StateSpec, event: MatSelectionListChange): void {
+    // TODO: "option" used before, possible we need to switch to options
+    public onNextStateChange(stateSpec: StateSpec, event: MatSelectionListChange & any): void {
         if (event.option.selected) {
             if (!stateSpec.next) {
                 stateSpec.next = [];

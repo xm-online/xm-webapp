@@ -59,7 +59,7 @@
     </div>
 
     <div class="col-xs-12 col-md-6" *ngIf="!checkOTP && !hideResetPasswordLink">
-      <div class="form-group text-right">
+      <div class="form-group text-end">
         <a class="forgot-link" href="javascript: void(0);" (click)="requestResetPassword()">
           {{'login.password.forgot' | translate}}
         </a>
@@ -67,7 +67,7 @@
     </div>
   </div>
 
-  <div class="text-right">
+  <div class="text-end">
     <button type="submit"
             color="primary"
             class="btn btn-primary display-block"
@@ -91,10 +91,10 @@
     </mat-form-field>
   </div>
 
-  <div class="text-right">
+  <div class="text-end">
     <button mat-button
             type="button"
-            class="btn mr-1 ml-auto"
+            class="btn me-1 ms-auto"
             [disabled]="isFormDisabled()"
             (click)="backToLogin()">
       <span>{{'login.form.otpValidateCancel' | translate}}</span>

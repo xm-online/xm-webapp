@@ -14,7 +14,7 @@
     <h4 *ngIf="editType === EditType.Create" class="pt-2">{{ TRS.addWidget | translate }}</h4>
     <h4 *ngIf="editType === EditType.Edit" class="pt-2">{{ TRS.editWidget | translate }}</h4>
 
-    <div class="d-flex flex-grow-1 pl-3">
+    <div class="d-flex flex-grow-1 ps-3">
 
       <button (click)="onAdd()"
               *ngIf="editType === EditType.Create"
@@ -59,7 +59,7 @@
 
       <button (click)="onCancel()"
               [matTooltip]="TRS.cancel | translate"
-              class="ml-auto"
+              class="ms-auto"
               mat-icon-button>
         <mat-icon>cancel</mat-icon>
       </button>
@@ -69,7 +69,7 @@
   </div>
 
   <div class="section-scroll">
-    <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="font-weight-bold">{{ value.id }}</span></div>
+    <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="fw-bold">{{ value.id }}</span></div>
 
     <xm-text-control [(ngModel)]="formGroup.name"
                      [disabled]="disabled"
@@ -78,10 +78,12 @@
 
     <xm-selector-text-control [(ngModel)]="formGroup.selector"
                               [disabled]="disabled"
+                              (valueChange)="ngOnChanges({})"
                               [options]="{ title: TRS.selector }"
                               name="selector"></xm-selector-text-control>
 
     <mat-tab-group>
+
       <mat-tab [label]="'Config'">
         <xm-ace-editor-control [(ngModel)]="formGroup.config"
                                [disabled]="disabled"

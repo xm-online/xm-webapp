@@ -24,12 +24,12 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         sortBy: string,
         navigateUrl: string[];
     } = {
-        pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
-        pageSize: TABLE_CONFIG_DEFAULT.pageSize,
-        sortDirection: 'desc',
-        sortBy: 'id',
-        navigateUrl: [],
-    };
+            pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
+            pageSize: TABLE_CONFIG_DEFAULT.pageSize,
+            sortDirection: 'desc',
+            sortBy: 'id',
+            navigateUrl: [],
+        };
     public links: Link[];
     public totalItems: number;
     public queryCount: number;
@@ -116,7 +116,7 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         return uniqueData;
     }
 
-    public onError(error: any): void {
+    public onError(error: {error: string, message: any}): void {
         this.toasterService.error(error.error, error.message, null);
     }
 
@@ -136,8 +136,10 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
             title: `Delete ${itemName}?`,
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'Yes, delete!',
         }).subscribe((result) => result.value ? this.deleteAction(id) : console.info('Cancel'));
     }
@@ -152,9 +154,9 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
                 return length;
             }
             return this.pagination.pageIndex;
-        } 
+        }
         return this.pagination.pageIndex;
-        
+
     }
 
 }
