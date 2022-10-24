@@ -39,7 +39,7 @@ export class StatesEditorComponent extends EditorUtils {
         }
         const selectedStateSpec = event.options.map((option) => ({
             stateKey: option.value.key,
-            name: JSON.parse(JSON.stringify(option.value.name)),
+            name: option.value.name,
         }));
 
         const mergeStateSpec = [...stateSpec.next, ...selectedStateSpec];
