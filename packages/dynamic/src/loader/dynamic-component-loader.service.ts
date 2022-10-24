@@ -25,16 +25,16 @@ export class DynamicComponentLoaderService {
     }
 
     // define return type
-    public async get<T>(selector: string): Promise<DynamicComponentLoaderGetReturnValue | null> {
+    public async get<T>(selector: string, injector: Injector = this.moduleRef.injector): Promise<DynamicComponentLoaderGetReturnValue | null> {
         if (!this.cache[selector]) {
             this.cache[selector] = new Promise(async (resolve, reject) => {
                 const isStickySelector = (selector: string): boolean => {
                     return selector.startsWith('@xm-ngx/') || !this.isSelectorIncludesExtension(selector);
                 };
 
-                const module = !isStickySelector(selector) ? await this.loadModule(selector, this.moduleRef.injector) : null;
+                const module = !isStickySelector(selector) ? await this.loadModule(selector, injector) : null;
 
-                const targetInjector = module?.injector || this.moduleRef.injector;
+                const targetInjector = module?.injector || injector;
 
                 // TODO: Angular does not allow search/store something inside injector by string valued key.
                 // Deprecated!! Solution 1: get component by selector in provider.
@@ -71,7 +71,7 @@ export class DynamicComponentLoaderService {
                 const loaded: any = await component.loadChildren();
 
                 if (loaded && loaded.ɵmod) {
-                    const compiledModule: any = createNgModule(loaded, targetInjector);
+                    const compiledModule: any = createNgModule(loaded, injector);
                     if (compiledModule?.instance?.entry) {
                         console.warn(`Deprecated solution. Make ${selector} standalone component`);
                         const result = {
