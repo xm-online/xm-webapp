@@ -34,18 +34,15 @@ export class DynamicComponentLoaderService {
 
                 const targetInjector = module?.injector || injector;
 
-                this.handleProviderSolution();
-                // TODO: Angular does not allow search/store something inside injector by string valued key.
-                // Deprecated!! Solution 1: get component by selector in provider.
-                // Example: providers: [{provide: 'my-selector', useValue: MyComponent}]
-                // todo: deprecated solution. we need to search only by injection token, not random string;
-                const componentInProviderr = targetInjector.get(!this.isExtSelector(selector) ? selector : selector.split('/')[1], ELEMENT_NOT_FOUND);
-                if (componentInProviderr !== ELEMENT_NOT_FOUND) {
+                // TODO: Deprecated solution
+                const providerResult = this.handleProviderSolution(selector, targetInjector);
+                if (providerResult) {
+                    console.warn(`Immediately resolve deprecated solution usage. Use XmDynamicModule.forChild() instead. Selector: ${selector}`);
                     return this.updateCache(resolve, selector, {
-                        component: componentInProviderr,
+                        component: providerResult,
                         injector: targetInjector,
                         module
-                    });
+                    })
                 }
 
                 const componentSelector = selector.includes('/') && !selector.startsWith('@xm-ngx') ? tail(selector.split('/')).join('/') : selector;
@@ -95,8 +92,16 @@ export class DynamicComponentLoaderService {
         return;
     }
 
-    private handleProviderSolution(): void {
-
+    private handleProviderSolution(selector: string, injector: Injector): any {
+        // TODO: Angular does not allow search/store something inside injector by string valued key.
+        // Deprecated!! Solution 1: get component by selector in provider.
+        // Example: providers: [{provide: 'my-selector', useValue: MyComponent}]
+        // todo: deprecated solution. we need to search only by injection token, not random string;
+        const res = injector.get(!this.isExtSelector(selector) ? selector : selector.split('/')[1], ELEMENT_NOT_FOUND);
+        if (res === ELEMENT_NOT_FOUND) {
+            return null;
+        }
+        return res;
     }
 
     private isExtSelector(selector: string): boolean {
