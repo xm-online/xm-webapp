@@ -34,20 +34,24 @@ export class DynamicComponentLoaderService {
 
                 const targetInjector = module?.injector || injector;
 
+                const updateCache = (result) => {
+                    this.cache[selector] = result;
+                    resolve(result);
+                    return;
+                }
+
+                this.handleProviderSolution();
                 // TODO: Angular does not allow search/store something inside injector by string valued key.
                 // Deprecated!! Solution 1: get component by selector in provider.
                 // Example: providers: [{provide: 'my-selector', useValue: MyComponent}]
                 // todo: deprecated solution. we need to search only by injection token, not random string;
                 const componentInProviderr = targetInjector.get(!this.isExtSelector(selector) ? selector : selector.split('/')[1], ELEMENT_NOT_FOUND);
                 if (componentInProviderr !== ELEMENT_NOT_FOUND) {
-                    const result = {
+                    return updateCache({
                         component: componentInProviderr,
                         injector: targetInjector,
                         module
-                    };
-                    this.cache[selector] = result;
-                    resolve(result);
-                    return;
+                    })
                 }
 
                 const componentSelector = selector.includes('/') && !selector.startsWith('@xm-ngx') ? tail(selector.split('/')).join('/') : selector;
@@ -61,10 +65,7 @@ export class DynamicComponentLoaderService {
                 // const component = components.find((i) => i.selector === componentSelector) || null;
 
                 if (!component) {
-                    const result = null;
-                    this.cache[selector] = result;
-                    resolve(result);
-                    return;
+                    return updateCache(null);
                 }
                 const loaded: any = await component.loadChildren();
 
@@ -72,29 +73,30 @@ export class DynamicComponentLoaderService {
                     const compiledModule: any = createNgModule(loaded, injector);
                     if (compiledModule?.instance?.entry) {
                         console.warn(`Deprecated solution. Make ${selector} standalone component`);
-                        const result = {
+                        return updateCache({
                             component: compiledModule.instance.entry,
                             injector: compiledModule.injector,
                             module: compiledModule
-                        };
-
-                        this.cache[selector] = result;
-                        resolve(result);
-                        return;
+                        });
                     }
-                    const result = {component: loaded, injector: compiledModule.injector, module: compiledModule};
-
-                    this.cache[selector] = result;
-                    resolve(result);
-                    return;
+                    return updateCache({
+                        component: loaded,
+                        injector: compiledModule.injector,
+                        module: compiledModule
+                    });
                 }
 
-                const result = {component: loaded, injector: targetInjector};
-                this.cache[selector] = result;
-                resolve(result);
+                return updateCache({
+                    component: loaded,
+                    injector: targetInjector
+                });
             });
         }
         return this.cache[selector];
+    }
+
+    private handleProviderSolution(): void {
+
     }
 
     private isExtSelector(selector: string): boolean {
