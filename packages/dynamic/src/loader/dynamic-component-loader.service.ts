@@ -45,15 +45,7 @@ export class DynamicComponentLoaderService {
                     })
                 }
 
-                const componentSelector = selector.includes('/') && !selector.startsWith('@xm-ngx') ? tail(selector.split('/')).join('/') : selector;
-                const type = 'any';
-                const temp = targetInjector.get(XM_DYNAMIC_ENTRIES, {});
-                const components = Object.assign({}, ...temp);
-                const component = (components[type] && components[type][componentSelector]) || components['any'][componentSelector];
-                // TODO: components will be inside object, not array.
-                // const providers = targetInjector.get(XM_DYNAMIC_ENTRIES, []);
-                // const components = _.flatMap<XmDynamicEntry<T>>([...providers, ...this.global] as XmDynamicEntry<T>[]);
-                // const component = components.find((i) => i.selector === componentSelector) || null;
+                const component = this.findComponentInRegistry(targetInjector, selector);
 
                 if (!component) {
                     return this.updateCache(resolve, selector, null);
@@ -102,6 +94,14 @@ export class DynamicComponentLoaderService {
             return null;
         }
         return res;
+    }
+
+    // type -> dynamic component types enum/type/etc
+    private findComponentInRegistry(injector: Injector, selector: string, type: string = 'any'): any {
+        const componentSelector = selector.includes('/') && !selector.startsWith('@xm-ngx') ? tail(selector.split('/')).join('/') : selector;
+        const temp = injector.get(XM_DYNAMIC_ENTRIES, {});
+        const components = Object.assign({}, ...temp);
+        return (components[type] && components[type][componentSelector]) || components['any'][componentSelector];
     }
 
     private isExtSelector(selector: string): boolean {
