@@ -25,14 +25,12 @@ export class DynamicComponentLoaderService {
     }
 
     // define return type
-    public async get<T>(selector: string, injector: Injector = this.moduleRef.injector): Promise<DynamicComponentLoaderGetReturnValue | null> {
+    public async get<T>(inSelector: string, injector: Injector = this.moduleRef.injector): Promise<DynamicComponentLoaderGetReturnValue | null> {
+        const selector = this.simplifyExtSelector(inSelector);
         if (!this.cache[selector]) {
-            this.cache[selector] = new Promise(async (resolve, reject) => {
-                const isStickySelector = (selector: string): boolean => {
-                    return selector.startsWith('@xm-ngx/') || !this.isSelectorIncludesExtension(selector);
-                };
+            this.cache[selector] = new Promise(async (resolve) => {
 
-                const module = !isStickySelector(selector) ? await this.loadModule(selector, injector) : null;
+                const module = this.isExtSelector(selector) ? await this.loadModule(selector, injector) : null;
 
                 const targetInjector = module?.injector || injector;
 
@@ -40,7 +38,7 @@ export class DynamicComponentLoaderService {
                 // Deprecated!! Solution 1: get component by selector in provider.
                 // Example: providers: [{provide: 'my-selector', useValue: MyComponent}]
                 // todo: deprecated solution. we need to search only by injection token, not random string;
-                const componentInProviderr = targetInjector.get(isStickySelector(selector) ? selector : selector.split('/')[1], ELEMENT_NOT_FOUND);
+                const componentInProviderr = targetInjector.get(!this.isExtSelector(selector) ? selector : selector.split('/')[1], ELEMENT_NOT_FOUND);
                 if (componentInProviderr !== ELEMENT_NOT_FOUND) {
                     const result = {
                         component: componentInProviderr,
@@ -99,13 +97,27 @@ export class DynamicComponentLoaderService {
         return this.cache[selector];
     }
 
+    private isExtSelector(selector: string): boolean {
+        return !this.isCoreComponent(selector) && this.isSelectorIncludesExtension(selector);
+    }
+
     private isSelectorIncludesExtension(selector: string): boolean {
         return selector.includes('/');
     }
 
     private loadModule(selector: string, injector: Injector): any {
-        const mselector = selector.split('/')[0];
-        // Deprecated! all selectors should not contain 'ext-' prefix.
-        return this.dynamicExtensionLoaderService.loadAndResolve(mselector.startsWith('ext-') ? mselector.slice(4) : mselector, injector);
+        return this.dynamicExtensionLoaderService.loadAndResolve(selector.split('/')[0], injector);
+    }
+
+    private isCoreComponent(selector: string): boolean {
+        return selector.startsWith('@xm-ngx/');
+    }
+
+    private simplifyExtSelector(selector: string): string {
+        if (selector.startsWith('ext-')) {
+            console.warn(`Deprecated solution! Please, remove 'ext-' from selector '${selector}'`);
+            return selector.slice(4);
+        }
+        return selector;
     }
 }
