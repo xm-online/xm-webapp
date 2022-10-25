@@ -1,6 +1,6 @@
 import { ApplicationRef, Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { DynamicExtensionLoaderService, XM_DYNAMIC_ENTRIES, XM_DYNAMIC_EXTENSIONS } from '@xm-ngx/dynamic';
+import { DynamicModulesService, XM_DYNAMIC_ENTRIES, XM_DYNAMIC_EXTENSIONS } from '@xm-ngx/dynamic';
 
 import { WidgetListService } from './widget-list.service';
 
@@ -13,7 +13,7 @@ describe('WidgetListService', () => {
                 WidgetListService,
                 { provide: XM_DYNAMIC_EXTENSIONS, useValue: [] },
                 { provide: XM_DYNAMIC_ENTRIES, useValue: [] },
-                { provide: DynamicExtensionLoaderService, useValue: null },
+                { provide: DynamicModulesService, useValue: null },
                 { provide: Injector, useValue: null },
                 { provide: ApplicationRef, useValue: null },
             ],

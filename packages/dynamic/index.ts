@@ -8,7 +8,7 @@ export {
 export { XmDynamicFormControlDirective, IFormControl } from './src/directive/control/xm-dynamic-form-control.directive';
 
 export { DynamicComponentLoaderService } from './src/loader/dynamic-component-loader.service';
-export { DynamicExtensionLoaderService } from './src/loader/dynamic-extension-loader.service';
+export { DynamicModulesService } from './src/loader/dynamic-modules.service';
 
 export {
     XM_DYNAMIC_TABLE_CELL,

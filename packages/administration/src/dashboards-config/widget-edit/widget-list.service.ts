@@ -1,6 +1,6 @@
 import { Inject, Injectable, Injector } from '@angular/core';
 import {
-    DynamicExtensionLoaderService,
+    DynamicModulesService,
     XM_DYNAMIC_ENTRIES,
     XM_DYNAMIC_EXTENSIONS,
     XmDynamicEntry,
@@ -30,7 +30,7 @@ export class WidgetListService {
     constructor(
         @Inject(XM_DYNAMIC_EXTENSIONS) private dynamicExtensions: XmDynamicExtensionEntry[],
         @Inject(XM_DYNAMIC_ENTRIES) private dynamicEntries: XmDynamicEntry[],
-        private loader: DynamicExtensionLoaderService,
+        private loader: DynamicModulesService,
         private injector: Injector,
     ) {
     }

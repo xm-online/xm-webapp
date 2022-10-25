@@ -1,7 +1,7 @@
 import { createNgModule, Injectable, Injector, NgModuleRef, Type } from '@angular/core';
 import { tail } from 'lodash';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
-import { DynamicExtensionLoaderService } from './dynamic-extension-loader.service';
+import { DynamicModulesService } from './dynamic-modules.service';
 
 export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 
@@ -20,7 +20,7 @@ export class DynamicComponentLoaderService {
 
     constructor(
         private moduleRef: NgModuleRef<unknown>,
-        private dynamicExtensionLoaderService: DynamicExtensionLoaderService,
+        private dynamicModules: DynamicModulesService,
     ) {
     }
 
@@ -32,20 +32,20 @@ export class DynamicComponentLoaderService {
 
                 const module = this.isExtSelector(selector) ? await this.loadModule(selector, injector) : null;
 
-                const targetInjector = module?.injector || injector;
+                const parentInjector = module?.injector || injector;
 
                 // TODO: Deprecated solution
-                const providerResult = this.handleProviderSolution(selector, targetInjector);
+                const providerResult = this.handleProviderSolution(selector, parentInjector);
                 if (providerResult) {
                     console.warn(`Immediately resolve deprecated solution usage. Use XmDynamicModule.forChild() instead. Selector: ${selector}`);
                     return this.updateCache(resolve, selector, {
                         component: providerResult,
-                        injector: targetInjector,
+                        injector: parentInjector,
                         module,
                     });
                 }
 
-                const component = this.findComponentInRegistry(targetInjector, selector);
+                const component = this.findComponentInRegistry(parentInjector, selector);
 
                 if (!component) {
                     return this.updateCache(resolve, selector, null);
@@ -73,7 +73,7 @@ export class DynamicComponentLoaderService {
                 // Standalone component.
                 return this.updateCache(resolve, selector, {
                     component: loaded,
-                    injector: targetInjector
+                    injector: parentInjector
                 });
             });
         }
@@ -119,7 +119,7 @@ export class DynamicComponentLoaderService {
     }
 
     private loadModule(selector: string, injector: Injector): any {
-        return this.dynamicExtensionLoaderService.loadAndResolve(selector.split('/')[0], injector);
+        return this.dynamicModules.loadAndResolve(selector.split('/')[0], injector);
     }
 
     private isCoreComponent(selector: string): boolean {

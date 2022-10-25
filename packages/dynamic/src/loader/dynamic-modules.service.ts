@@ -7,7 +7,7 @@ import { XmDynamicExtensionEntry } from '../interfaces/xm-dynamic-extension.mode
 @Injectable({
     providedIn: 'root',
 })
-export class DynamicExtensionLoaderService {
+export class DynamicModulesService {
 
     private cache: any = {};
 
