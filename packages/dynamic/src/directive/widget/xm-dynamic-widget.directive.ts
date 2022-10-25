@@ -56,7 +56,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
             value.selector = `${value.module}/${value.component}`;
         }
 
-        const result = await this.dynamicComponents.get<XmDynamicWidget>(this._layout.selector, this.injector);
+        const result = await this.dynamicComponents.get(this._layout.selector, this.injector);
         if (result?.component) {
             this.createComponent(this._layout, result);
             return;
