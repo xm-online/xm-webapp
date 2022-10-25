@@ -20,7 +20,7 @@ export class XmDashboardDynamicRouteResolverGuard
 
     constructor(
         private dashboardStore: DashboardStore,
-        private dynamicComponentLoaderService: DynamicComponentLoaderService,
+        private dynamicComponents: DynamicComponentLoaderService,
     ) {
         super();
     }
@@ -84,7 +84,7 @@ export class XmDashboardDynamicRouteResolverGuard
                     dashboard,
                 },
                 loadChildren: async () => {
-                    const comp = await this.dynamicComponentLoaderService.get(selector);
+                    const comp = await this.dynamicComponents.get(selector);
                     return comp?.component;
                 },
             };

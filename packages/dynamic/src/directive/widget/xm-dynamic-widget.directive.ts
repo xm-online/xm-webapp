@@ -23,7 +23,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
     @Input() public style: string;
     private _layout: XmDynamicWidgetConfig;
 
-    constructor(private dynamicLoader: DynamicComponentLoaderService,
+    constructor(private dynamicComponents: DynamicComponentLoaderService,
                 private renderer: Renderer2,
                 private injector: Injector,
                 private viewRef: ViewContainerRef) {
@@ -56,7 +56,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
             value.selector = `${value.module}/${value.component}`;
         }
 
-        const result = await this.dynamicLoader.get<XmDynamicWidget>(this._layout.selector, this.injector);
+        const result = await this.dynamicComponents.get<XmDynamicWidget>(this._layout.selector, this.injector);
         if (result?.component) {
             this.createComponent(this._layout, result);
             return;

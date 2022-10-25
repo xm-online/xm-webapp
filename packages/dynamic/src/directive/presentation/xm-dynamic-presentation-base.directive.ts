@@ -83,7 +83,7 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
     constructor(public viewContainerRef: ViewContainerRef,
                 public injector: Injector,
                 protected renderer: Renderer2,
-                protected loaderService: DynamicComponentLoaderService,
+                protected dynamicComponents: DynamicComponentLoaderService,
                 protected cfr: ComponentFactoryResolver) {
     }
 
@@ -150,7 +150,7 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
             return;
         }
 
-        const cfr = await this.loaderService.get(this.selector as string, this.createInjector());
+        const cfr = await this.dynamicComponents.get(this.selector as string, this.createInjector());
 
         this.viewContainerRef.clear();
         if (cfr) {

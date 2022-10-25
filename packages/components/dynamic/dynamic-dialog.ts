@@ -6,7 +6,7 @@ import { DynamicComponentLoaderService, XmDynamicPresentation } from '@xm-ngx/dy
 @Injectable()
 export class DynamicDialog {
     constructor(
-        private loaderService: DynamicComponentLoaderService,
+        private dynamicComponents: DynamicComponentLoaderService,
         private matDialog: MatDialog,
         private viewContainerRef: ViewContainerRef,
     ) {
@@ -20,7 +20,7 @@ export class DynamicDialog {
     }
 
     protected async getDialogRef<T, R>(selector: string): Promise<MatDialogRef<T, R>> {
-        const cfr = await this.loaderService.get(selector);
+        const cfr = await this.dynamicComponents.get(selector);
         return this.matDialog.open(cfr.component, {
             viewContainerRef: this.viewContainerRef,
             injector: cfr.injector,

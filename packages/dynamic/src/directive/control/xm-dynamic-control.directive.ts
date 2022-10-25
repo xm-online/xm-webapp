@@ -75,10 +75,10 @@ export class XmDynamicControlDirective<V, O>
         viewContainerRef: ViewContainerRef,
         injector: Injector,
         renderer: Renderer2,
-        loaderService: DynamicComponentLoaderService,
+        dynamicComponents: DynamicComponentLoaderService,
         cfr: ComponentFactoryResolver,
     ) {
-        super(viewContainerRef, injector, renderer, loaderService, cfr);
+        super(viewContainerRef, injector, renderer, dynamicComponents, cfr);
     }
 
     public ngOnInit(): void {
