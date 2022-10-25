@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router } from '@angular/router';
-import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import * as _ from 'lodash';
 import { combineLatest, from, Observable } from 'rxjs';
-import { filter, map, shareReplay, startWith, switchMap, take } from 'rxjs/operators';
+import { filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 
 import { ContextService, Principal } from '../../../src/app/shared';
 import { getDefaultMenuList } from './default-menu-list';
@@ -16,6 +15,7 @@ import { buildMenuTree } from './nested-menu';
 import { applicationsToCategory, filterByConditionDashboards } from './flat-menu';
 import { MenuItem, MenuOptions } from '@xm-ngx/components/menu/menu.interface';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { XmUiConfigService } from '@xm-ngx/core/config';
 
 @Component({
     selector: 'xm-menu',
@@ -48,7 +48,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         protected readonly dashboardService: DashboardStore,
         protected readonly router: Router,
         protected readonly principal: Principal,
-        protected readonly uiConfigService: XmPublicUiConfigService<{ sidebar?: { hideAdminConsole?: boolean; hideApplication?: boolean; } }>,
+        protected readonly uiConfigService: XmUiConfigService<{ sidebar?: { hideAdminConsole?: boolean; hideApplication?: boolean; } }>,
         protected readonly entityConfigService: XmEntitySpecWrapperService,
         protected readonly contextService: ContextService,
     ) {
@@ -84,9 +84,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         );
 
         const default$ = this.uiConfigService.config$().pipe(
-            take(1),
             map(i => i?.sidebar?.hideAdminConsole ? [] : getDefaultMenuList()),
-            shareReplay(1),
         );
 
         this.categories$ = combineLatest([ dashboards$, applications$, default$ ]).pipe(
