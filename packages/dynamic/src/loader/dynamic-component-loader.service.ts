@@ -41,8 +41,8 @@ export class DynamicComponentLoaderService {
                     return this.updateCache(resolve, selector, {
                         component: providerResult,
                         injector: targetInjector,
-                        module
-                    })
+                        module,
+                    });
                 }
 
                 const component = this.findComponentInRegistry(targetInjector, selector);
@@ -52,7 +52,7 @@ export class DynamicComponentLoaderService {
                 }
                 const loaded: any = await component.loadChildren();
 
-                if (loaded && loaded.ɵmod) {
+                if (this.isEntryModule(loaded)) {
                     const compiledModule: any = createNgModule(loaded, injector);
                     if (compiledModule?.instance?.entry) {
                         console.warn(`Deprecated solution. Make ${selector} standalone component`);
@@ -62,6 +62,7 @@ export class DynamicComponentLoaderService {
                             module: compiledModule
                         });
                     }
+                    // Unique case - module loader. Probably it's just for @xm-ngx/dashboard/default-dashboard module
                     return this.updateCache(resolve, selector, {
                         component: loaded,
                         injector: compiledModule.injector,
@@ -69,6 +70,7 @@ export class DynamicComponentLoaderService {
                     });
                 }
 
+                // Standalone component.
                 return this.updateCache(resolve, selector, {
                     component: loaded,
                     injector: targetInjector
@@ -76,6 +78,10 @@ export class DynamicComponentLoaderService {
             });
         }
         return this.cache[selector];
+    }
+
+    private isEntryModule(entry: any): boolean {
+        return !!entry?.ɵmod;
     }
 
     private updateCache(resolveFn: any, selector: string, result: any): any {
