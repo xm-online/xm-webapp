@@ -25,7 +25,7 @@ export class DynamicComponentLoaderService {
     }
 
     // define return type
-    public async get(inSelector: string, injector: Injector = this.moduleRef.injector): Promise<DynamicComponentLoaderGetReturnValue | null> {
+    public async find(inSelector: string, injector: Injector = this.moduleRef.injector): Promise<DynamicComponentLoaderGetReturnValue | null> {
         const selector = this.simplifyExtSelector(inSelector);
         if (!this.cache[selector]) {
             this.cache[selector] = new Promise(async (resolve) => {

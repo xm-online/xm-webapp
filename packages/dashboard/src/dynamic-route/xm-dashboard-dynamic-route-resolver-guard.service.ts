@@ -84,7 +84,7 @@ export class XmDashboardDynamicRouteResolverGuard
                     dashboard,
                 },
                 loadChildren: async () => {
-                    const comp = await this.dynamicComponents.get(selector);
+                    const comp = await this.dynamicComponents.find(selector);
                     return comp?.component;
                 },
             };
