@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "3.7.4",
+  "version": "3.7.7",
   "release": "3.7.0",
   "private": true,
   "description": "Xm-webapp",
@@ -147,7 +147,7 @@
     "ngx-google-places-autocomplete": "2.0.5",
     "ngx-img-cropper": "11.0.0",
     "ngx-markdown": "14.0.1",
-    "ngx-mask": "14.2.3",
+    "ngx-mask": "14.0.1",
     "ngx-mat-select-search": "5.0.0",
     "ngx-papaparse": "5.1.0",
     "ngx-webstorage": "10.0.1",

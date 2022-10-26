@@ -59,4 +59,5 @@ export interface UIPublicConfig {
     },
     ribbon?: boolean;
     showVersion?: boolean;
+    sidebar?: { hideAdminConsole?: boolean; hideApplication?: boolean; };
 }
