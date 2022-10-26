@@ -10,10 +10,12 @@ export type XmDynamicNgModuleFactory<T> = NgModuleFactory<XmDynamicEntryModule<T
 export interface XmDynamicEntry<T = unknown> {
     selector: string;
     type?: string;
-    loadChildren: () => XmDynamicConstructor<T>
-        | XmDynamicNgModuleFactory<T>
-        | Promise<XmDynamicConstructor<T> | XmDynamicNgModuleFactory<T>>;
+    loadChildren: () => XmDynamicEntryConstructor<T>;
 }
+
+export type XmDynamicEntryConstructor<T> = XmDynamicConstructor<T>
+    | XmDynamicNgModuleFactory<T>
+    | Promise<XmDynamicConstructor<T> | XmDynamicNgModuleFactory<T>>;
 
 /**
  * Aggregates {@link XmDynamicEntry}

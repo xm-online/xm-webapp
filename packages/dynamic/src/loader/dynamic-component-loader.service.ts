@@ -16,7 +16,7 @@ export interface DynamicComponentLoaderGetReturnValue {
 })
 export class DynamicComponentLoaderService {
 
-    private cache: Record<string, Promise<DynamicComponentLoaderGetReturnValue | null> | DynamicComponentLoaderGetReturnValue | null> = {};
+    private cache: Record<string, any> = {};
 
     constructor(
         private moduleRef: NgModuleRef<unknown>,
@@ -27,67 +27,67 @@ export class DynamicComponentLoaderService {
     // define return type
     public async find(inSelector: string, injector: Injector = this.moduleRef.injector): Promise<DynamicComponentLoaderGetReturnValue | null> {
         const selector = this.simplifyExtSelector(inSelector);
+
         if (!this.cache[selector]) {
-            this.cache[selector] = new Promise(async (resolve) => {
+            // find component
+            const module = this.isExtSelector(selector) ? await this.loadModule(selector, injector) : null;
 
-                const module = this.isExtSelector(selector) ? await this.loadModule(selector, injector) : null;
+            const parentInjector = module?.injector || injector;
 
-                const parentInjector = module?.injector || injector;
+            // TODO: Deprecated solution
+            const providerResult = this.handleProviderSolution(selector, parentInjector);
+            if (providerResult) {
+                console.warn(`Immediately resolve deprecated solution usage. Use XmDynamicModule.forChild() instead. Selector: ${selector}`);
+                return {
+                    component: providerResult,
+                    injector: parentInjector,
+                    module,
+                };
+            }
 
-                // TODO: Deprecated solution
-                const providerResult = this.handleProviderSolution(selector, parentInjector);
-                if (providerResult) {
-                    console.warn(`Immediately resolve deprecated solution usage. Use XmDynamicModule.forChild() instead. Selector: ${selector}`);
-                    return this.updateCache(resolve, selector, {
-                        component: providerResult,
-                        injector: parentInjector,
-                        module,
-                    });
-                }
-
+            this.cache[selector] = new Promise(async resolve => {
                 const component = this.findComponentInRegistry(parentInjector, selector);
 
                 if (!component) {
-                    return this.updateCache(resolve, selector, null);
+                    this.cache[selector] = null;
+                    resolve(null);
                 }
                 const loaded: any = await component.loadChildren();
-
-                if (this.isEntryModule(loaded)) {
-                    const compiledModule: any = createNgModule(loaded, injector);
-                    if (compiledModule?.instance?.entry) {
-                        console.warn(`Deprecated solution. Make ${selector} standalone component`);
-                        return this.updateCache(resolve, selector, {
-                            component: compiledModule.instance.entry,
-                            injector: compiledModule.injector,
-                            module: compiledModule
-                        });
-                    }
-                    // Unique case - module loader. Probably it's just for @xm-ngx/dashboard/default-dashboard module
-                    return this.updateCache(resolve, selector, {
-                        component: loaded,
-                        injector: compiledModule.injector,
-                        module: compiledModule
-                    });
-                }
-
-                // Standalone component.
-                return this.updateCache(resolve, selector, {
-                    component: loaded,
-                    injector: parentInjector
-                });
+                resolve(loaded);
             });
         }
-        return this.cache[selector];
+
+        return this.cache[selector].then(async loaded => {
+            if (this.isEntryModule(loaded)) {
+                const compiledModule: any = createNgModule(loaded, injector);
+                if (compiledModule?.instance?.entry) {
+                    console.warn(`Deprecated solution. Make ${selector} standalone component`);
+                    return {
+                        component: compiledModule.instance.entry,
+                        injector: compiledModule.injector,
+                        module: compiledModule,
+                    };
+                }
+                // Unique case - module loader. Probably it's just for @xm-ngx/dashboard/default-dashboard module
+                return {
+                    component: loaded,
+                    injector: compiledModule.injector,
+                    module: compiledModule,
+                };
+            }
+
+            // Standalone component.
+            const module = this.isExtSelector(selector) ? await this.loadModule(selector, injector) : null;
+            const parentInjector = module?.injector || injector;
+            return {
+                component: loaded,
+                injector: parentInjector,
+            };
+        });
     }
 
     private isEntryModule(entry: any): boolean {
         return !!entry?.ɵmod;
-    }
-
-    private updateCache(resolveFn: any, selector: string, result: any): any {
-        this.cache[selector] = result;
-        resolveFn(result);
-        return;
     }
 
     private handleProviderSolution(selector: string, injector: Injector): any {
