@@ -28,6 +28,7 @@ export class DynamicModulesService {
             const entry = Object.assign({}, ...this.dynamicExtensions)[selector];
 
             if (!entry) {
+                this.cache[selector] = null;
                 return null;
             }
             this.cache[selector] = new Promise((resolve, reject) => {
