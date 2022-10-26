@@ -119,7 +119,7 @@ export class DynamicComponentLoaderService {
     }
 
     private loadModule(selector: string, injector: Injector): any {
-        return this.dynamicModules.loadAndResolve(selector.split('/')[0], injector);
+        return this.dynamicModules.find(selector.split('/')[0], injector);
     }
 
     private isCoreComponent(selector: string): boolean {

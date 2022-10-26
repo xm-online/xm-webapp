@@ -38,7 +38,7 @@ export class WidgetListService {
     public load(): void {
         const globalWithGlobalSelector = provideFullSelector(_.flatMap(this.dynamicEntries));
         const moduleSelectors = _.flatMap(this.dynamicExtensions).map(i => i.selector);
-        const moduleLoaders = moduleSelectors.map((ext) => this.loader.loadAndResolve(ext, this.injector));
+        const moduleLoaders = moduleSelectors.map((ext) => this.loader.find(ext, this.injector));
         from(Promise.all(moduleLoaders)).subscribe((modules) => {
             const components = modules.map(i => _.flatMap(i.injector.get(XM_DYNAMIC_ENTRIES, [])));
             const componentsWithGlobalSelector = components.map((i, ix) => provideFullSelector(i, moduleSelectors[ix]));

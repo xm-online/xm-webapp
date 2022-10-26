@@ -17,7 +17,7 @@ export class DynamicModulesService {
     ) {
     }
 
-    public loadAndResolve<T>(
+    public find<T>(
         selector: string,
         injector: Injector = this.moduleRef.injector,
     ): Promise<NgModuleRef<T> | null> {
