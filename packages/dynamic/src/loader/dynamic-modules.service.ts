@@ -17,7 +17,7 @@ export class DynamicModulesService {
     ) {
     }
 
-    public async loadAndResolve<T>(
+    public loadAndResolve<T>(
         selector: string,
         injector: Injector = this.moduleRef.injector,
     ): Promise<NgModuleRef<T> | null> {
@@ -32,14 +32,11 @@ export class DynamicModulesService {
             }
             this.cache[selector] = new Promise((resolve, reject) => {
                 entry.loadChildren().then(moduleConstructor => {
-                    console.log('ready to create module: ', selector);
                     const module = createNgModule(moduleConstructor, injector);
                     this.cache[selector] = module;
                     resolve(module);
                 }).catch(err => reject(err));
             });
-        } else if (this.cache[selector] instanceof Promise) {
-            return await this.cache[selector];
         }
         return this.cache[selector];
     }
