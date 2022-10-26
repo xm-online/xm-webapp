@@ -104,9 +104,16 @@ export class DynamicComponentLoaderService {
 
     // type -> dynamic component types enum/type/etc
     private findComponentInRegistry(injector: Injector, selector: string, type: string = 'any'): any {
+
+        if(this.isCoreComponent(selector)) {
+            const xmEntries = this.moduleRef.injector.get(XM_DYNAMIC_ENTRIES, [{}]);
+            const components = Object.assign({}, ...xmEntries);
+            return (components[type] && components[type][selector]) || components['any'][selector];
+        }
+
         const componentSelector = selector.includes('/') && !selector.startsWith('@xm-ngx') ? tail(selector.split('/')).join('/') : selector;
-        const temp = injector.get(XM_DYNAMIC_ENTRIES, {});
-        const components = Object.assign({}, ...temp);
+        const entries = injector.get(XM_DYNAMIC_ENTRIES, [{}]);
+        const components = Object.assign({}, ...entries);
         return (components[type] && components[type][componentSelector]) || components['any'][componentSelector];
     }
 
