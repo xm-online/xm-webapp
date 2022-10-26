@@ -11,6 +11,7 @@ import { AttachmentSpec } from '../shared/attachment-spec.model';
 import { Attachment } from '../shared/attachment.model';
 import { AttachmentService } from '../shared/attachment.service';
 import { XmEntity } from '../shared/xm-entity.model';
+import { finalize } from 'rxjs/operators';
 
 
 const ATTACHMENT_EVENT = 'attachmentListModification';
@@ -111,10 +112,12 @@ export class AttachmentDetailDialogComponent implements OnInit {
         this.attachment.xmEntity.typeKey = this.xmEntity.typeKey;
         this.attachment.startDate = new Date().toISOString();
 
-        this.attachmentService.create(this.attachment).subscribe(() => this.onSaveSuccess(),
-            // TODO: error processing
-            (err) => console.warn(err),
-            () => this.showLoader = false);
+        this.attachmentService.create(this.attachment)
+            .pipe(
+                finalize(() => this.showLoader = false),
+            )
+            .subscribe(() => this.onSaveSuccess(),
+                (err) => console.warn(err));
     }
 
     public onCancel(): void {
