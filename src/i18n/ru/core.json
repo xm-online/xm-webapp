@@ -1594,7 +1594,7 @@
   "xm-validator-processing": {
     "validators": {
       "minDate": "Выбранная дата меньше минимальной даты ({{minDateI18n}}).",
-      "languageRequired": "",
+      "languageRequired": "Требуется хотя бы один язык",
       "minArrayLength": "Массив меньше минимальной длины ({{requiredLength}}).",
       "valueMoreThanIn": "Значение больше чем {{compareValue}}",
       "valueLessThanIn": "Значение меньше чем {{compareValue}}",
