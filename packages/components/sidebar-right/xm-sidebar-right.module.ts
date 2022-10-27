@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import {
     Component,
-    ComponentFactoryResolver,
     Directive,
     ElementRef,
     HostBinding,
     HostListener,
     NgModule,
+    NgModuleRef,
     OnDestroy,
     OnInit,
     TemplateRef,
@@ -20,7 +20,8 @@ import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service
 
 @Directive({selector: '[xmContainerOutlet]'})
 export class ContainerOutletDirective {
-    constructor(public viewContainerRef: ViewContainerRef) {}
+    constructor(public viewContainerRef: ViewContainerRef) {
+    }
 }
 
 @Component({
@@ -32,10 +33,11 @@ export class ContainerOutletDirective {
     template: '<div class="resize-divider" #resizer></div><ng-container xmContainerOutlet></ng-container>',
 })
 export class XmSidebarRightComponent implements OnInit, OnDestroy {
-    @ViewChild(ContainerOutletDirective, { static: true }) public xmContainerOutlet: ContainerOutletDirective;
+    @ViewChild(ContainerOutletDirective, {static: true}) public xmContainerOutlet: ContainerOutletDirective;
     @ViewChild('resizer') public resizerElement: ElementRef;
 
     @HostBinding('style.width') public width: string;
+
     @HostBinding('class.animate') get animate(): boolean {
         return !this.mousePressedOnResizer;
     }
@@ -54,15 +56,20 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     public onMouseUp(): void {
         this.mousePressedOnResizer = false;
     }
+
     @HostListener('document:mousedown', ['$event'])
     public onMouseDown(event: MouseEvent): void {
         if (this.resizerElement.nativeElement.contains(event.target)) {
             this.mousePressedOnResizer = true;
         }
     }
+
     private mousePressedOnResizer: boolean;
 
-    constructor(private sidebarRightService: SidebarRightService) {}
+    constructor(private sidebarRightService: SidebarRightService,
+                private moduleRef: NgModuleRef<unknown>,
+    ) {
+    }
 
     public ngOnInit(): void {
         this.sidebarRightService.setContainer(this as Container);
@@ -92,17 +99,14 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     }
 
     private loadComponent<T, D>(templateRef: Type<T>, config: SidebarRightConfig<D>): T {
-        const viewContainerRef = this.xmContainerOutlet.viewContainerRef;
-        const componentFactoryResolver = config.injector.get(ComponentFactoryResolver);
-        const cfr = componentFactoryResolver.resolveComponentFactory(templateRef);
-        const c = viewContainerRef.createComponent<T>(cfr.componentType, {
+        const component = this.xmContainerOutlet.viewContainerRef.createComponent<T>(templateRef, {
             injector: config.injector,
-            ngModuleRef: cfr['ngModule']
+            ngModuleRef: this.moduleRef,
         });
-        _.assign(c.instance, config.data);
+        _.assign(component.instance, config.data);
 
         this.openStyles(config.width || '300px');
-        return c.instance;
+        return component.instance;
     }
 
     private openStyles(width: string): void {
@@ -123,4 +127,5 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     exports: [XmSidebarRightComponent],
     imports: [CommonModule],
 })
-export class XmSidebarRightModule {}
+export class XmSidebarRightModule {
+}
