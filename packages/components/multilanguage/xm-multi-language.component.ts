@@ -1,5 +1,16 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
-import { UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    forwardRef,
+    Input,
+    OnDestroy,
+    ViewChild,
+} from '@angular/core';
+import {
+    UntypedFormControl,
+    NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { ITranslate, Locale, Translate } from '@xm-ngx/translation';
@@ -10,6 +21,8 @@ import { HintText } from '@xm-ngx/components/hint';
 import { clone } from 'lodash';
 import * as _ from 'lodash';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
+import { MatInput } from '@angular/material/input';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 export type MultiLanguageDataModel = { languageKey: string; name: string }[];
 
@@ -92,10 +105,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
 
                     <mat-hint [hint]="options.hint"></mat-hint>
 
-                    <mat-error
-                        *ngIf="control?.hasError('required') && control?.touched">
-                        {{ 'entity.validation.required' | translate }}
-                    </mat-error>
+                    <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
                 </mat-form-field>
             </ng-container>
 
@@ -112,10 +122,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
 
                     <mat-hint [hint]="options.hint"></mat-hint>
 
-                    <mat-error
-                        *ngIf="control?.hasError('required') && control?.touched">
-                        {{ 'entity.validation.required' | translate }}
-                    </mat-error>
+                    <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
                 </mat-form-field>
             </ng-container>
         </ng-container>
@@ -124,11 +131,17 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
         class: 'xm-multi-language-control',
     },
     styles: ['mat-button-toggle-group{margin-bottom: 10px;} mat-label{display:block}'],
-    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MultiLanguageComponent), multi: true}],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => MultiLanguageComponent),
+            multi: true,
+        },
+    ],
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
-    implements XmDynamicPresentation<MultiLanguageModel, MultiLanguageOptions> {
+    implements XmDynamicPresentation<MultiLanguageModel, MultiLanguageOptions>, AfterViewInit, OnDestroy {
 
     public disabledWysiwygConfig: AngularEditorConfig = {
         editable: false,
@@ -177,8 +190,19 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
         return this._options;
     }
 
+    @ViewChild(MatInput) public matInput: MatInput;
+
     constructor(private xmConfigService: XmUiConfigService<{ langs: Locale[] }>) {
         super();
+    }
+
+    public ngAfterViewInit(): void {
+        // Trick, validators apply to parent control, but mat-error required the nearest control
+        this.control.valueChanges.pipe(
+            takeUntilOnDestroy(this),
+        ).subscribe(() => {
+            this.matInput.ngControl.control.setErrors(this.control.errors);
+        });
     }
 
     public ngOnInit(): void {
@@ -186,6 +210,10 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             this.languages = config.langs;
             this.selectedLng = this.languages[0];
         });
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
     }
 
     private getValue<T extends MultiLanguageTransform>(): MultiLanguageType<T> {
