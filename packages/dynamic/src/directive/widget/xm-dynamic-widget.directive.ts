@@ -68,7 +68,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
     private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, data: any): void {
         const widget = this.viewRef.createComponent<XmDynamicWidget>(data.component, {
             ngModuleRef: data?.module,
-            injector: data?.module?.injector
+            injector: data?.injector
         });
         widget.instance.config = value.config;
         widget.instance.spec = value.spec;

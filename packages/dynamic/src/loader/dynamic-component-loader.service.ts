@@ -28,12 +28,10 @@ export class DynamicComponentLoaderService {
     public async find(inSelector: string, injector: Injector = this.moduleRef.injector): Promise<DynamicComponentLoaderGetReturnValue | null> {
         const selector = this.simplifyExtSelector(inSelector);
 
+        const module = this.isExtSelector(selector) ? await this.loadModule(selector, injector) : null;
+
+        const parentInjector = module?.injector || injector;
         if (!this.cache[selector]) {
-            // find component
-            const module = this.isExtSelector(selector) ? await this.loadModule(selector, injector) : null;
-
-            const parentInjector = module?.injector || injector;
-
             // TODO: Deprecated solution
             const providerResult = this.handleProviderSolution(selector, parentInjector);
             if (providerResult) {
@@ -57,9 +55,9 @@ export class DynamicComponentLoaderService {
             });
         }
 
-        return this.cache[selector].then(async loaded => {
+        return this.cache[selector].then(loaded => {
             if (this.isEntryModule(loaded)) {
-                const compiledModule: any = createNgModule(loaded, injector);
+                const compiledModule: any = createNgModule(loaded, parentInjector);
                 if (compiledModule?.instance?.entry) {
                     console.warn(`Deprecated solution. Make ${selector} standalone component`);
                     return {
@@ -77,8 +75,6 @@ export class DynamicComponentLoaderService {
             }
 
             // Standalone component.
-            const module = this.isExtSelector(selector) ? await this.loadModule(selector, injector) : null;
-            const parentInjector = module?.injector || injector;
             return {
                 component: loaded,
                 injector: parentInjector,
