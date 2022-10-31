@@ -7,7 +7,8 @@ import {
     XmDynamicExtensionEntry,
 } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
-import { from, Observable, Subject } from 'rxjs';
+import { uniq } from 'lodash';
+import { Observable, Subject } from 'rxjs';
 
 export interface ExtendedDynamicComponents extends XmDynamicEntry {
     globalSelector: string;
@@ -17,7 +18,7 @@ function provideFullSelector(components: XmDynamicEntry[], prefix?: string): Ext
     const append = prefix ? `${prefix}/` : '';
     return components.map((i) => {
         const globalSelector = `${append}${i.selector}`;
-        return { ...i, globalSelector };
+        return {...i, globalSelector};
     });
 }
 
@@ -36,14 +37,39 @@ export class WidgetListService {
     }
 
     public load(): void {
-        const globalWithGlobalSelector = provideFullSelector(_.flatMap(this.dynamicEntries));
-        const moduleSelectors = _.flatMap(this.dynamicExtensions).map(i => i.selector);
-        const moduleLoaders = moduleSelectors.map((ext) => this.dynamicModules.find(ext, this.injector));
-        from(Promise.all(moduleLoaders)).subscribe((modules) => {
-            const components = modules.map(i => _.flatMap(i.injector.get(XM_DYNAMIC_ENTRIES, [])));
-            const componentsWithGlobalSelector = components.map((i, ix) => provideFullSelector(i, moduleSelectors[ix]));
-            const allComponents = _.uniq(_.flatMap([...componentsWithGlobalSelector, globalWithGlobalSelector]));
-            this.widgets.next(allComponents);
-        });
+        const globalEntries = this.dynamicEntries || [];
+        const moduleSelectors = Object.keys(this.dynamicExtensions[0]);
+        const uniqModuleSelectors = uniq(moduleSelectors.map(v => v.startsWith('ext-') ? v.slice(4, v.length) : v))
+        const moduleLoaders = uniqModuleSelectors.map((ext) => {
+            const module = this.dynamicModules.find(ext, this.injector);
+            if (module) {
+                if (module instanceof Promise) {
+                    return module.then(entry => entry ? {
+                        injector: entry.injector,
+                        selector: ext
+                    } : null)
+                }
+                return {
+                    injector: (module as any).injector,
+                    selector: ext
+                }
+            }
+            return null;
+        }).filter(Boolean);
+        // Please, avoid by all ways using SUBSCRIBE inside service which cannot guarantee 100% destroy of unused observable instance.
+        // Return observable instead, make function not side effect but a part of sequence.
+        Promise.all(moduleLoaders).then(modules => {
+            const extComponents = modules.filter(Boolean).map(module => {
+                const components = module.injector.get(XM_DYNAMIC_ENTRIES, []);
+                return components.map(componentRegistry => provideFullSelector(Object.values(componentRegistry['any']), module.selector))
+            });
+            const globalComponents = globalEntries.map(entry => provideFullSelector(Object.values(entry['any'])));
+            const allComponents = _.uniq(_.flatMap([...extComponents, ...globalComponents]));
+            const widgets = Object.values(_.flatMap(allComponents).reduce((acc, v) => {
+                acc[v.globalSelector] = v;
+                return acc
+            }, {})) as any;
+            this.widgets.next(widgets);
+        })
     }
 }
