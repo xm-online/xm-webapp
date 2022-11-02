@@ -72,7 +72,7 @@
         <div *ngIf="formConfig$ | async as formConfig">
           <xm-ace-editor-control (valueChange)="generateForm($event)"
                                  *ngIf="visible.schema"
-                                 [options]="aceEditorOptions"
+                                 [config]="aceEditorOptions"
                                  [value]="formConfig"></xm-ace-editor-control>
         </div>
 

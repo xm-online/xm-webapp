@@ -26,18 +26,18 @@ export class XmIconEnumComponent implements XmDynamicPresentation<XmEnumValue, X
     @Input() public value: XmEnumValue;
 
     public icons: Icons = {};
-    private _options: XmIconEnumOptions = { items: [] };
+    private _config: XmIconEnumOptions = { items: [] };
 
-    public get options(): XmIconEnumOptions {
-        return this._options;
+    public get config(): XmIconEnumOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(options: XmIconEnumOptions) {
-        if (options?.items) {
-            this.icons = mapValues(keyBy(options.items, 'value'), 'icon');
+    public set config(config: XmIconEnumOptions) {
+        if (config?.items) {
+            this.icons = mapValues(keyBy(config.items, 'value'), 'icon');
         }
-        this._options = options;
+        this._config = config;
     }
 }
 

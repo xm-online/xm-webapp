@@ -50,33 +50,33 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     selector: 'xm-text-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options.title | translate}}</mat-label>
+            <mat-label>{{config.title | translate}}</mat-label>
 
             <input matInput
                    [formControl]="formControl"
-                   [placeholder]="options.placeholder | translate"
-                   [attr.name]="options.name"
-                   [id]="options.id"
-                   [attr.data-qa]="options.dataQa"
-                   [required]="options.required"
-                   [pattern]="options.pattern"
-                   [attr.maxlength]="options.maxLength"
-                   [attr.minlength]="options.minLength"
-                   [attr.type]="options.type">
-            <button mat-button mat-icon-button matSuffix *ngIf="options.clearButton && value !== null" (click)="change(null)">
+                   [placeholder]="config.placeholder | translate"
+                   [attr.name]="config.name"
+                   [id]="config.id"
+                   [attr.data-qa]="config.dataQa"
+                   [required]="config.required"
+                   [pattern]="config.pattern"
+                   [attr.maxlength]="config.maxLength"
+                   [attr.minlength]="config.minLength"
+                   [attr.type]="config.type">
+            <button mat-button mat-icon-button matSuffix *ngIf="config.clearButton && value !== null" (click)="change(null)">
                 <mat-icon>close</mat-icon>
             </button>
             <mat-error
-                *xmControlErrors="formControl.errors; translates options?.errors; message as message">{{message}}</mat-error>
+                *xmControlErrors="formControl.errors; translates config?.errors; message as message">{{message}}</mat-error>
 
             <mat-hint
-            *ngIf="options.maxLength"
+            *ngIf="config.maxLength"
             align="end"
             style="min-width: fit-content">
-                {{getValueLength()}} / {{options.maxLength}}
+                {{getValueLength()}} / {{config.maxLength}}
             </mat-hint>
 
-            <mat-hint [hint]="options.hint"></mat-hint>
+            <mat-hint [hint]="config.hint"></mat-hint>
 
         </mat-form-field>
     `,
@@ -85,28 +85,28 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
 })
 /** @beta */
 export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
-    implements XmDynamicControl<T, XmTextControlOptions>, OnInit, OnDestroy {
-    private _options: XmTextControlOptions = clone(XM_TEXT_CONTROL_OPTIONS_DEFAULT);
+    implements XmDynamicControl<T, XmTextControlconfig>, OnInit, OnDestroy {
+    private _config: XmTextControlOptions = clone(XM_TEXT_CONTROL_OPTIONS_DEFAULT);
 
-    public get options(): XmTextControlOptions {
-        return this._options;
+    public get config(): XmTextControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmTextControlOptions) {
-        this._options = defaults({}, value, {
-            ...XM_TEXT_CONTROL_OPTIONS_DEFAULT,
+    public set config(value: XmTextControlOptions) {
+        this._config = defaults({}, value, {
+            ...XM_TEXT_CONTROL_config_DEFAULT,
             errors: this.xmControlErrorsTranslates,
         });
-        this._options.placeholder = this._options.placeholder || this._options.title;
+        this._config.placeholder = this._config.placeholder || this._config.title;
 
-        if (this._options.disabled) {
+        if (this._config.disabled) {
             this.disabled = value.disabled;
         }
     }
 
     public get formControl(): UntypedFormControl {
-        return this.options.applyTrimForValue ? this.newControl : this.control;
+        return this.config.applyTrimForValue ? this.newControl : this.control;
     }
 
     private newControl: UntypedFormControl = new UntypedFormControl();
@@ -120,7 +120,7 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
     }
 
     public ngOnInit(): void {
-        if(this.options.applyTrimForValue) {
+        if(this.config.applyTrimForValue) {
             this.initControlWithTrimmingString();
         }
     }
@@ -136,7 +136,7 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
     private initControlWithTrimmingString(): void {
         this.newControl = new UntypedFormControl(
             this.value,
-            this.validatorProcessingService.validatorsFactory(this.options?.validators),
+            this.validatorProcessingService.validatorsFactory(this.config?.validators),
         );
 
         this.newControl.valueChanges

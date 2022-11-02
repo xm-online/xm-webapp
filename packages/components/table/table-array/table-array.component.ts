@@ -34,27 +34,27 @@ export class XmTableArrayComponent implements XmDynamicPresentation<XmTableArray
         return this._value;
     }
 
-    private _options: XmTableArrayOptions = {};
+    private _config: XmTableArrayOptions = {};
 
     @Input()
-    public set options(value: XmTableArrayOptions) {
-        this._options = defaults(value, {});
+    public set config(value: XmTableArrayOptions) {
+        this._config = defaults(value, {});
         this.syncData();
     }
 
-    public get options(): XmTableArrayOptions {
-        return this._options;
+    public get config(): XmTableArrayOptions {
+        return this._config;
     }
 
     public data: PrimitiveValue;
 
     private syncData(): void {
         if (this.value && (
-            this.options?.predicate || this.options.fieldKey
+            this.config?.predicate || this.config.fieldKey
         )) {
-            const found = _find(this.value, this.options.predicate);
+            const found = _find(this.value, this.config.predicate);
 
-            this.data = _get(found, this.options.fieldKey, null);
+            this.data = _get(found, this.config.fieldKey, null);
         }
     }
 }

@@ -33,28 +33,28 @@ export const XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT = {
 export class XmPhoneNumberControlComponent extends NgControlAccessor<string> {
     public inputValue: string;
 
-    private _options: XmPhoneNumberControlOptions = assign({}, XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT);
+    private _config: XmPhoneNumberControlOptions = assign({}, XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT);
 
-    public get options(): XmPhoneNumberControlOptions {
-        return this._options;
+    public get config(): XmPhoneNumberControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmPhoneNumberControlOptions) {
-        this._options = assign({}, XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT, value);
+    public set config(value: XmPhoneNumberControlOptions) {
+        this._config = assign({}, XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT, value);
     }
 
     public writeValue(obj: string): void {
-        if (obj?.startsWith(this._options.defaultPrefix)) {
-            obj = obj.substring(this._options.defaultPrefix.length, obj.length);
+        if (obj?.startsWith(this._config.defaultPrefix)) {
+            obj = obj.substring(this._config.defaultPrefix.length, obj.length);
         }
         super.writeValue(obj);
         this.inputValue = obj;
     }
 
     public change(v: string): void {
-        if (!v?.startsWith(this._options.defaultPrefix)) {
-            v = this._options.defaultPrefix + v;
+        if (!v?.startsWith(this._config.defaultPrefix)) {
+            v = this._config.defaultPrefix + v;
         }
         super.change(v);
     }

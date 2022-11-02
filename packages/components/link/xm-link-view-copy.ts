@@ -28,17 +28,17 @@ export const XM_LINK_VIEW_COPY_DEFAULT_OPTIONS: XmLinkViewCopyOptions = assign(
     selector: 'xm-link-view-copy',
     template: `
         <xm-text-view-container [hidden]="!fieldValue"
-                                [styleInline]="options?.styleInline">
-            <span xmLabel>{{options?.title | translate}}</span>
+                                [styleInline]="config?.styleInline">
+            <span xmLabel>{{config?.title | translate}}</span>
 
             <div xmValue>
                 <a [queryParams]="queryParams"
-                   [routerLink]="options?.routerLink">
+                   [routerLink]="config?.routerLink">
                     <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
                     <span *ngIf="fieldValue">{{fieldValue}}</span>
                 </a>
                 <xm-copy-icon [value]="copyValue"
-                              [options]="copyOptions"></xm-copy-icon>
+                              [config]="copyOptions"></xm-copy-icon>
             </div>
         </xm-text-view-container>
     `,
@@ -46,7 +46,7 @@ export const XM_LINK_VIEW_COPY_DEFAULT_OPTIONS: XmLinkViewCopyOptions = assign(
 })
 export class XmLinkViewCopyComponent extends XmLinkViewComponent implements XmDynamicPresentation<IId, XmLinkViewOptions>, OnInit, OnChanges {
     @Input() public value: IId;
-    @Input() public options: XmLinkViewCopyOptions;
+    @Input() public config: XmLinkViewCopyOptions;
     public copyValue: unknown;
     public copyOptions: XmCopyIconOptions;
     protected defaultOptions: XmLinkViewCopyOptions = clone(XM_LINK_VIEW_COPY_DEFAULT_OPTIONS);
@@ -54,7 +54,7 @@ export class XmLinkViewCopyComponent extends XmLinkViewComponent implements XmDy
     public update(): void {
         super.update();
         this.copyValue = this.value;
-        this.copyOptions = assign({}, this.defaultOptions.copy, this.options?.copy);
+        this.copyOptions = assign({}, this.defaultOptions.copy, this.config?.copy);
     }
 
     public ngOnChanges(): void {
