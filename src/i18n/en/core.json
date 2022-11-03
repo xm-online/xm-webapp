@@ -1605,7 +1605,7 @@
   "xm-validator-processing": {
     "validators": {
       "minDate": "The selected date is less than the minimum date ({{minDateI18n}}).",
-      "languageRequired": "",
+      "languageRequired": "At least one language is required",
       "minArrayLength": "Array is less then the minimum length ({{requiredLength}}).",
       "valueMoreThanIn": "Value is more than {{compareValue}}",
       "valueLessThanIn": "Value is less than {{compareValue}}",

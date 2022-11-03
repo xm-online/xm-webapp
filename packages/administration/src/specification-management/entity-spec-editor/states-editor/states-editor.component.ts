@@ -33,19 +33,18 @@ export class StatesEditorComponent extends EditorUtils {
         return stateSpec.next && !!stateSpec.next.find((n) => n.stateKey === nextStateSpec.key);
     }
 
-    // TODO: "option" used before, possible we need to switch to options
     public onNextStateChange(stateSpec: StateSpec, event: MatSelectionListChange & any): void {
-        if (event.option.selected) {
-            if (!stateSpec.next) {
-                stateSpec.next = [];
-            }
-            stateSpec.next.push({
-                stateKey: event.option.value.key,
-                name: JSON.parse(JSON.stringify(event.option.value.name)),
-            });
-        } else {
-            stateSpec.next = stateSpec.next.filter((n) => n.stateKey !== event.option.value.key);
+        if (!stateSpec.next) {
+            stateSpec.next = [];
         }
-    }
+        const selectedStateSpec = event.options.map((option) => ({
+            stateKey: option.value.key,
+            name: option.value.name,
+        }));
 
+        const mergeStateSpec = [...stateSpec.next, ...selectedStateSpec];
+        const excludeSelectedStateSpec = stateSpec.next.filter((s1) => selectedStateSpec.some(s2 => s1.stateKey === s2.stateKey));
+
+        stateSpec.next = mergeStateSpec.filter(m => !excludeSelectedStateSpec.some(e => m.stateKey === e.stateKey));
+    }
 }

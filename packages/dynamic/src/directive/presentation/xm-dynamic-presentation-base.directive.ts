@@ -124,12 +124,15 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         if (!this.instance) {
             return;
         }
-        this.instance.config = this.config;
+        // Don't set widget config if it's null, because updateOptions method already set config
+        if (this.config != null) {
+            this.instance.config = this.config;
+        }
     }
 
     /**
      * @deprecated
-     * This method will deprecated
+     * This method will deprecate
      */
     protected updateOptions(): void {
         if (!this.instance) {

@@ -1,42 +1,43 @@
-@import '~swagger-ui/dist/swagger-ui.css';
+@import 'swagger-ui/dist/swagger-ui';
 
 @mixin swagger-ui-xm-override() {
+
   /* stylelint-disable selector-class-pattern */
   #logo {
-    font-size:   30px;
+    font-size: 30px;
     font-weight: 600;
   }
 
   .xm-swagger-container {
-    margin:      0 0 20px;
+    margin: 0 0 20px;
     padding-top: 5px;
   }
 
   .swag-title {
-    font-size:   20px;
+    font-size: 20px;
     font-weight: 500;
-    margin-top:  -6px;
+    margin-top: -6px;
   }
 
   .swagger-ui .info {
-    margin:    0;
+    margin: 0;
     max-width: initial;
-    padding:   0;
+    padding: 0;
   }
 
   .swagger-ui .wrapper {
-    height:  initial;
+    height: initial;
     padding: 0;
   }
 
   .swagger-ui .main {
     background: transparent;
-    position:   relative;
-    z-index:    3;
+    position: relative;
+    z-index: 3;
   }
 
   .swagger-ui .info .title {
-    line-height:   1;
+    line-height: 1;
     margin-bottom: 20px;
   }
 
@@ -64,5 +65,6 @@
   .swagger-ui .info .title small pre {
     display: initial;
   }
+
   /* stylelint-enable selector-class-pattern */
 }
