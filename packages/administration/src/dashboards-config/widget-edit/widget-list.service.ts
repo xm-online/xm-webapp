@@ -39,7 +39,7 @@ export class WidgetListService {
     public load(): void {
         const globalEntries = this.dynamicEntries || [];
         const moduleSelectors = Object.keys(this.dynamicExtensions[0]);
-        const uniqModuleSelectors = uniq(moduleSelectors.map(v => v.startsWith('ext-') ? v.slice(4, v.length) : v))
+        const uniqModuleSelectors = uniq(moduleSelectors.map(v => v.startsWith('ext-') ? v.slice(4, v.length) : v));
         const moduleLoaders = uniqModuleSelectors.map((ext) => {
             const module = this.dynamicModules.find(ext, this.injector);
             if (module) {
@@ -47,12 +47,12 @@ export class WidgetListService {
                     return module.then(entry => entry ? {
                         injector: entry.injector,
                         selector: ext
-                    } : null)
+                    } : null);
                 }
                 return {
                     injector: (module as any).injector,
                     selector: ext
-                }
+                };
             }
             return null;
         }).filter(Boolean);
@@ -61,15 +61,15 @@ export class WidgetListService {
         Promise.all(moduleLoaders).then(modules => {
             const extComponents = modules.filter(Boolean).map(module => {
                 const components = module.injector.get(XM_DYNAMIC_ENTRIES, []);
-                return components.map(componentRegistry => provideFullSelector(Object.values(componentRegistry['any']), module.selector))
+                return components.map(componentRegistry => provideFullSelector(Object.values(componentRegistry['any']), module.selector));
             });
             const globalComponents = globalEntries.map(entry => provideFullSelector(Object.values(entry['any'])));
             const allComponents = _.uniq(_.flatMap([...extComponents, ...globalComponents]));
             const widgets = Object.values(_.flatMap(allComponents).reduce((acc, v) => {
                 acc[v.globalSelector] = v;
-                return acc
+                return acc;
             }, {})) as any;
             this.widgets.next(widgets);
-        })
+        });
     }
 }
