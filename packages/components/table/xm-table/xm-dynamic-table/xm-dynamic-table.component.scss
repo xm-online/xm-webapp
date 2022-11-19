@@ -1,0 +1,37 @@
+@import 'theme';
+
+$striped-row-color:           rgb(242, 242, 242);
+$selected-row-color:          rgb(246, 244, 255);
+
+$mat-row-height:              52px !default;
+
+table.xm-table {
+
+  tr.mat-row, tr.mat-footer-row {
+    height: $mat-row-height;
+  }
+
+  border-collapse: separate;
+
+  tr.mat-row:hover {
+    background-color: var(--bs-body-bg);
+  }
+
+  tr.loadingRow {
+    min-height: min-content;
+    height:     inherit;
+
+    & th.loadingCell {
+      padding: 0;
+      border:  none;
+    }
+  }
+}
+
+.striped {
+  background-color: $striped-row-color
+}
+
+.selected {
+  background-color: $selected-row-color
+}

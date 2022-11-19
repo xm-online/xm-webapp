@@ -16,3 +16,10 @@ export {
     XmTableDynamicColumnComponent,
     XmTableDynamicColumnModule,
 } from './column/xm-table-dynamic-column';
+
+export {
+    XmMatTableColumnDynamicCellModule,
+    XmMatTableColumnDynamicCell,
+} from './column/mat-table-column-dynamic-cell';
+
+export { XmTableModule } from './xm-table/xm-table.module';

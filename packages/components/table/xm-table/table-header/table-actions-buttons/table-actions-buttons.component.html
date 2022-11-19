@@ -1,0 +1,33 @@
+<!-- TODO refactor! It was copy from selection-header.component-->
+<div class="button-block">
+
+    <ng-container *ngIf="inlineComponents">
+        <ng-container xmDynamicPresentation
+                      *ngFor="let el of inlineComponents"
+                      [class]="el.class"
+                      [style]="el.style"
+                      [selector]="el.component"
+                      [value]="selectionModel.selected"
+                      [options]="el.options">
+        </ng-container>
+    </ng-container>
+
+    <!--        similar with menu-layout-cell-->
+    <ng-container *ngIf="groupComponents">
+        <mat-menu #actions>
+            <ng-container xmDynamicPresentation
+                          *ngFor=" let el of groupComponents"
+                          [class]="el.class"
+                          [style]="el.style"
+                          [selector]="el.component"
+                          [value]="selectionModel.selected"
+                          [options]="el.options">
+            </ng-container>
+        </mat-menu>
+
+        <button mat-icon-button
+                [matMenuTriggerFor]="actions">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+    </ng-container>
+</div>
