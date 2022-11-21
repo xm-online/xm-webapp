@@ -12,7 +12,7 @@ import { Attachment } from '../shared/attachment.model';
 import { AttachmentService } from '../shared/attachment.service';
 import { XmEntity } from '../shared/xm-entity.model';
 import { finalize } from 'rxjs/operators';
-
+import { FileTypeFallback } from '@xm-ngx/entity/attachment-detail-dialog/file-type-fallback';
 
 const ATTACHMENT_EVENT = 'attachmentListModification';
 
@@ -63,30 +63,42 @@ export class AttachmentDetailDialogComponent implements OnInit {
         }
     }
 
-    public dropFileData(files: any, nameCtrl: any): void {
+    public async dropFileData(files: any, nameCtrl: any): Promise<void> {
         if (files && files.length) {
-            this.createAttachment(files, nameCtrl);
+            await this.createAttachment(files, nameCtrl);
         }
     }
 
-    private createAttachment(files: File[], nameCtrl: any): void {
+    private async createAttachment(files: File[], nameCtrl: any): Promise<void> {
         const file = files[0];
+
+        let type = file.type;
+
+        // FIX: Windows 7z file empty type
+        if (['', undefined].includes(type)) {
+            const fallbackResponse = await FileTypeFallback.getFileType(file);
+
+            if (fallbackResponse) {
+                type = fallbackResponse.mime;
+            }
+        }
+
         // Content type validation
         const attachmentSpec = this.attachmentSpecs
             .filter((att: any) => att.key === this.attachment.typeKey).shift();
 
         if (attachmentSpec
             && attachmentSpec.contentTypes
-            && attachmentSpec.contentTypes.filter((type: string) => type === file.type).length <= 0) {
-            console.warn(`Not allowed content type ${file.type}`);
-            this.wrongFileType = file.type;
+            && attachmentSpec.contentTypes.filter((type: string) => type === type).length <= 0) {
+            console.warn(`Not allowed content type ${type}`);
+            this.wrongFileType = type;
             return;
         }
 
         this.wrongFileType = undefined;
 
         this.attachment.contentUrl = file.name;
-        this.attachment.valueContentType = file.type;
+        this.attachment.valueContentType = type;
 
         // Content assignment
         this.dataUtils.toBase64(file, (base64Data) => {
