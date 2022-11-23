@@ -209,7 +209,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     public ngAfterViewInit(): void {
         // Trick, validators apply to parent control, but mat-error required the nearest control
-        this.control.valueChanges.pipe(
+        this.control?.valueChanges.pipe(
             takeUntilOnDestroy(this),
         ).subscribe(() => {
             this.matInput.ngControl.control.setErrors(this.control.errors);
@@ -283,8 +283,8 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             this.control.setValue(this.value);
             this.control.markAsTouched();
             this.control.markAsDirty();
-        }
 
-        this.setDisabledState(this.control.disabled);
+            this.setDisabledState(this.control.disabled);
+        }
     }
 }
