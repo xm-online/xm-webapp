@@ -19,7 +19,7 @@
 </form>
 
 <div mat-dialog-actions class="d-flex justify-content-center">
-  <button mat-button mat-dialog-close>{{ (data?.cancelButtonText ? data?.cancelButtonText : 'global.common.cancel') | translate}}</button>
+  <button mat-button mat-dialog-close>{{ (data?.cancelButtonText || 'global.common.cancel') | translate}}</button>
 
   <ng-container *ngIf="hasControls; then applyTpl else confirmTpl "></ng-container>
 
