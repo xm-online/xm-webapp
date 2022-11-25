@@ -33,5 +33,7 @@ export type XmConfirmDialogControls = XmConfirmDialogGroup[];
 export interface XmConfirmDialogData {
     title?: Translate;
     subtitle?: Translate;
+    cancelButtonText?: Translate;
+    confirmButtonText?: Translate;
     controls?: XmConfirmDialogControls;
 }
