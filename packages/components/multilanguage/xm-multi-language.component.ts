@@ -56,6 +56,7 @@ export interface MultiLanguageOptions {
     transformAs: MultiLanguageTransform;
     language?: LanguageOptions;
     maxLength?: number;
+    excludeLang: string[];
 }
 
 export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
@@ -65,6 +66,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
     transformAs: 'array',
     language: null,
     maxLength: null,
+    excludeLang: [],
 };
 
 @Component({
@@ -218,7 +220,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     public ngOnInit(): void {
         this.xmConfigService.config$().pipe(take(1)).subscribe(config => {
-            this.languages = config.langs;
+            this.languages = _.difference(config.langs, this.options.excludeLang);
             this.selectedLng = this.languages[0];
         });
     }
