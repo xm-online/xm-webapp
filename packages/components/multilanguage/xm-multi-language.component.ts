@@ -56,6 +56,7 @@ export interface MultiLanguageOptions {
     transformAs: MultiLanguageTransform;
     language?: LanguageOptions;
     maxLength?: number;
+    excludeLang: string[];
 }
 
 export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
@@ -65,6 +66,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
     transformAs: 'array',
     language: null,
     maxLength: null,
+    excludeLang: [],
 };
 
 @Component({
@@ -209,7 +211,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     public ngAfterViewInit(): void {
         // Trick, validators apply to parent control, but mat-error required the nearest control
-        this.control.valueChanges.pipe(
+        this.control?.valueChanges.pipe(
             takeUntilOnDestroy(this),
         ).subscribe(() => {
             this.matInput.ngControl.control.setErrors(this.control.errors);
@@ -218,7 +220,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     public ngOnInit(): void {
         this.xmConfigService.config$().pipe(take(1)).subscribe(config => {
-            this.languages = config.langs;
+            this.languages = _.difference(config.langs, this.options.excludeLang);
             this.selectedLng = this.languages[0];
         });
     }
@@ -283,8 +285,8 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             this.control.setValue(this.value);
             this.control.markAsTouched();
             this.control.markAsDirty();
-        }
 
-        this.setDisabledState(this.control.disabled);
+            this.setDisabledState(this.control.disabled);
+        }
     }
 }
