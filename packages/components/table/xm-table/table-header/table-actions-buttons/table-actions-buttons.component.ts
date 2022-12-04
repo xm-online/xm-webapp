@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TableSelectionService } from '@xm-ngx/components/table/xm-table/selection-column/table-selection.service';
+import { TableSelectionService } from '@xm-ngx/components/table/xm-table/service/xm-table-selection-service/table-selection.service';
 
 @Component({
     selector: 'xm-table-actions-buttons',

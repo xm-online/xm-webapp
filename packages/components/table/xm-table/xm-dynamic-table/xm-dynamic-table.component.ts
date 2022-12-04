@@ -2,7 +2,7 @@ import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core'
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {TableSelectionService} from '@xm-ngx/components/table/xm-table/selection-column/table-selection.service';
+import {TableSelectionService} from '@xm-ngx/components/table/xm-table/service/xm-table-selection-service/table-selection.service';
 import {EmptyTableConfig, TableActions} from '@xm-ngx/components/table/xm-table/xm-table.model';
 
 
@@ -45,7 +45,7 @@ export class XmDynamicTableComponent implements OnInit, AfterViewInit {
 
     public ngOnInit(): void {
 
-        this.displayedColumns = this.config.columns?.map((c) => c.name || c.field);
+        this.displayedColumns = this.config.columns?.map((c) => c.key || c.name || c.field);
 
         if (this.config?.options?.selectable) {
             this.displayedColumns.unshift('select');

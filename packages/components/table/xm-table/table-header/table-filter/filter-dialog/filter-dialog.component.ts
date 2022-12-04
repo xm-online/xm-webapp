@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FormGroupLayoutFactoryService, FormGroupLayoutItem} from '@xm-ngx/components/form-layout';
 
 @Component({
     selector: 'xm-filter-dialog',
@@ -8,21 +9,41 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     styleUrls: ['./filter-dialog.component.scss'],
 })
 export class FilterDialogComponent implements OnInit {
-    public config: any;
+    public config: FormGroupLayoutItem[];
     public group: FormGroup;
+    public value: any;
 
     constructor(public dialogRef: MatDialogRef<FilterDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any,
-                public fb: FormBuilder) {
-        this.config = data;
-        this.group = this.fb.group({['data.organization.name']: []});
+                private layoutFactoryService: FormGroupLayoutFactoryService) {
+        this.config = data.config;
+        this.value = data.value;
+
     }
 
     public ngOnInit(): void {
-        console.log(this.config);
+
+        this.initForm();
+        this.group.valueChanges.subscribe(console.log)
     }
 
     public submit(): void {
-        this.dialogRef.close(this.group.value);
+        this.dialogRef.close(this.group.getRawValue());
+    }
+
+    private initForm(): void {
+        if (this.config) {
+            this.group = this.layoutFactoryService.createForm(this.config)
+        }
+        if (this.value) {
+            this.updateValue();
+        }
+
+    }
+
+    private updateValue() {
+        if (this.group) {
+            this.group.patchValue(this.value || {}, {emitEvent: false})
+        }
     }
 }

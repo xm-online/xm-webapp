@@ -1,37 +1,36 @@
 <div @fadeInOut class="header-wrapper" style="overflow: hidden">
 
-    <span>{{this.selectionModel.selected.length}} item selected</span>
-    <div class="button-block">
+  <span>{{this.selectionModel.selected?.length}} item selected</span>
+  <div class="button-block">
+    <ng-container *ngIf="inlineComponents">
+      <ng-container xmDynamicPresentation
+                    *ngFor="let el of inlineComponents"
+                    [class]="el.class"
+                    [style]="el.style"
+                    [selector]="el.component"
+                    [value]="selectionModel.selected"
+                    [options]="el.options">
+      </ng-container>
+    </ng-container>
 
-        <ng-container *ngIf="inlineComponents">
-            <ng-container xmDynamicPresentation
-                          *ngFor="let el of inlineComponents"
-                          [class]="el.class"
-                          [style]="el.style"
-                          [selector]="el.component"
-                          [value]="selectionModel.selected"
-                          [options]="el.options">
-            </ng-container>
+    <!--        similar with menu-layout-cell-->
+    <ng-container *ngIf="groupComponents">
+      <mat-menu #actions>
+        <ng-container xmDynamicPresentation
+                      *ngFor=" let el of groupComponents"
+                      [class]="el.class"
+                      [style]="el.style"
+                      [selector]="el.component"
+                      [value]="selectionModel.selected"
+                      [options]="el.options">
         </ng-container>
+      </mat-menu>
 
-<!--        similar with menu-layout-cell-->
-        <ng-container *ngIf="groupComponents">
-            <mat-menu #actions>
-                <ng-container xmDynamicPresentation
-                              *ngFor=" let el of groupComponents"
-                              [class]="el.class"
-                              [style]="el.style"
-                              [selector]="el.component"
-                              [value]="selectionModel.selected"
-                              [options]="el.options">
-                </ng-container>
-            </mat-menu>
-
-            <button mat-icon-button
-                    [matMenuTriggerFor]="actions">
-                <mat-icon>more_vert</mat-icon>
-            </button>
-        </ng-container>
-    </div>
+      <button mat-icon-button
+              [matMenuTriggerFor]="actions">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </ng-container>
+  </div>
 </div>
 

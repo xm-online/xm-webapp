@@ -1,30 +1,28 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {TableFilterService} from '@xm-ngx/components/table/xm-table/service/table-filter.service';
 import {FilterDialogComponent} from '@xm-ngx/components/table/xm-table/table-header/table-filter/filter-dialog/filter-dialog.component';
+import {RequestBuilderService} from '@xm-ngx/components/table/xm-table/service/request-builder-service/request-builder.service';
 
 @Component({
     selector: 'xm-table-filter',
     templateUrl: './table-filter.component.html',
-    styleUrls: ['./table-filter.component.scss'],
 })
-export class TableFilterComponent implements OnInit {
+export class TableFilterComponent {
     @Input() public config: any;
+    private formValue: any;
 
 
     constructor(private matDialog: MatDialog,
-                private filterService: TableFilterService) {
+                private requestBuilder: RequestBuilderService) {
     }
 
-    ngOnInit(): void {
-    }
-
-    public openFilter() {
+    public openFilter(): void {
         const dialog = this.matDialog.open(FilterDialogComponent, {
-            data: this.config,
+            data: {config: this.config, value: this.formValue}
         });
-        dialog.afterClosed().subscribe((data) => {
-            this.filterService.setFilters(data);
+        dialog.afterClosed().subscribe((query) => {
+            this.formValue = query
+            this.requestBuilder.update(query);
         });
     }
 }

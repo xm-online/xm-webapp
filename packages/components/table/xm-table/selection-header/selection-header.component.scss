@@ -14,8 +14,10 @@ height:          $mat-header-row-height;
   position:            absolute;
   top:                 0;
   width:               100%;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left:        24px;
+  padding-right:       24px;
+  color:               #0d6efd;
+  background-color:    rgb(246, 244, 255);;
 
   &::after {
     display:    inline-block;

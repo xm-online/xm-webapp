@@ -1,11 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {DataSourceAdapter} from '@xm-ngx/components/table/xm-table/service/data-source-adapter';
-import {XmTableDataSourceFactoryService} from '@xm-ngx/components/table/xm-table/service/xm-table-data-source-factory.service';
 import {Translate} from '@xm-ngx/translation';
 import {defaultsDeep} from 'lodash';
 import {Observable, of} from 'rxjs';
-import {TableColumn} from '@xm-ngx/components/table/xm-table/xm-table.model';
+import {TableColumn, TableDatasource} from '@xm-ngx/components/table/xm-table/xm-table.model';
+import {DataService} from '@xm-ngx/components/table/xm-table/service/data-service/data.service';
 
 export interface CurrentConfig {
     pagination: { pageSizeOptions: number[] };
@@ -13,6 +12,7 @@ export interface CurrentConfig {
 }
 
 export type ConfigForTable = {
+    dataSource: TableDatasource;
     pagination?: any;
     actions?: {
         forAll?: any;
@@ -42,16 +42,12 @@ export class XmTableComponent implements OnInit {
     public loading$: Observable<boolean> = of(false);
     public selected: number;
 
-    constructor(private dataSourceFactory: XmTableDataSourceFactoryService<unknown>) {
+    constructor(private dataService: DataService) {
     }
 
     public ngOnInit(): void {
-        try {
-            this.dataSource = this.dataSourceFactory.getDataSource(this._config.dataSource);
-        } catch {
-            this.dataSource = new DataSourceAdapter(new MatTableDataSource([]));
-        }
-
+        this.dataService.getData(this.config.dataSource).subscribe(data => {
+            this.dataSource = new MatTableDataSource(data);
+        });
     }
-
 }

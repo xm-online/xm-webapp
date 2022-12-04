@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { ShowHideColumnsSettingsModule } from '../show-hide-columns-setting-widget/show-hide-columns-settings.module';
 
 export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
+    tooltip?: Translate
     name: string;
     sortable: boolean;
     title: Translate;
@@ -47,7 +48,7 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
                 [disabled]="isSortable()">
                 {{column.title | translate}}
 
-                <xm-show-hide-columns-settings *ngIf="column.storageColumn"></xm-show-hide-columns-settings>
+                  <xm-show-hide-columns-settings *ngIf="column.storageColumn"></xm-show-hide-columns-settings>
             </th>
             <td mat-cell
                 [class]="column.dataClass"

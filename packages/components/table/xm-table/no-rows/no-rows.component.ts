@@ -11,7 +11,6 @@ export interface TableNoDataRawManager<T extends CdkNoDataRow = CdkNoDataRow> {
 @Component({
     selector: 'xm-no-rows',
     templateUrl: './no-rows.component.html',
-    styleUrls: ['./no-rows.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NoRowsComponent implements OnInit {
@@ -34,9 +33,7 @@ export class NoRowsComponent implements OnInit {
 
     @ViewChild(MatNoDataRow, { static: true }) public cell: MatNoDataRow;
 
-
     public ngOnInit(): void {
         this.noDataRowManager.setNoDataRow(this.cell);
     }
-
 }

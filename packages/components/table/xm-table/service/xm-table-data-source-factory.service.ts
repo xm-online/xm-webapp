@@ -35,7 +35,6 @@ export class XmTableDataSourceFactoryService<T> {
                     if (!filter) {
                         return true;
                     }
-                    console.log(data, filter);
                     let filtered = false;
                     for (const key in filter) {
                         if (key) {

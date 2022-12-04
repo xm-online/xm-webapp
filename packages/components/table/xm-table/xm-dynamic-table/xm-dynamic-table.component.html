@@ -1,5 +1,5 @@
-<section class="table-responsive"
-         *ngIf="config">
+<section *ngIf="config"
+         class="table-responsive">
 
   <xm-selection-header *ngIf="selection.selected?.length as selected"
                        [config]="config?.actions?.forGroup"></xm-selection-header>
@@ -16,24 +16,25 @@
       <xm-selection-column [dataSource]="dataSource"></xm-selection-column>
     </ng-container>
 
-    <xm-mat-table-column-dynamic-cell [column]="column"
-                                      *ngFor="let column of config.columns"
+    <xm-mat-table-column-dynamic-cell *ngFor="let column of config.columns"
+                                      [column]="column"
     ></xm-mat-table-column-dynamic-cell>
 
     <ng-container matColumnDef="loading">
       <th mat-header-cell *matHeaderCellDef
-          class="loadingCell"
-          [attr.colspan]="displayedColumns.length">
+          [attr.colspan]="displayedColumns.length"
+          class="loadingCell">
         <xm-loading-bar [visible]="true"
                         style="width:100%"></xm-loading-bar>
       </th>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row
+        *matHeaderRowDef="displayedColumns"></tr>
 
     <ng-container>
-      <tr mat-header-row *matHeaderRowDef="loading ? ['loading'] : null"
-
+      <tr mat-header-row
+          *matHeaderRowDef="loading ? ['loading'] : null"
           class="loadingRow">
         <xm-loading-bar [visible]="true"></xm-loading-bar>
       </tr>
@@ -42,13 +43,11 @@
         *matRowDef="let row; columns: displayedColumns; let odd = odd"
         [ngClass]="{'striped': odd, 'selected':selection.isSelected(row)}"></tr>
 
-
     <!-- Row shown when there is no matching data. -->
     <xm-no-rows [type]="'filter'"
                 [config]="config?.options?.noRows"
                 [colspan]="displayedColumns?.length"></xm-no-rows>
   </table>
-
 </section>
 
 <mat-paginator showFirstLastButtons
