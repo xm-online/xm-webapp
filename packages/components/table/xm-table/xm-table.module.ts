@@ -14,7 +14,11 @@ import {SelectionColumnComponent} from './selection-column/selection-column.comp
 import {XmTableComponent} from './xm-table.component';
 import {RequestBuilderService} from '@xm-ngx/components/table/xm-table/service/request-builder-service/request-builder.service';
 import {DataService} from '@xm-ngx/components/table/xm-table/service/data-service/data.service';
-import {XmEntityService} from '@xm-ngx/entity';
+import {StaticDataSource} from './service/data-sources/static-data-source';
+import {EntityDataSource} from './service/data-sources/entity-data-source';
+import {TmfApiDataSource} from '@xm-ngx/components/table/xm-table/service/data-sources/tm-api-data-source';
+import {ObjectDataSource} from '@xm-ngx/components/table/xm-table/service/data-sources/object-data-source';
+import {ApiDataSource} from '@xm-ngx/components/table/xm-table/service/data-sources/api-data-source';
 
 
 @NgModule({
@@ -38,8 +42,11 @@ import {XmEntityService} from '@xm-ngx/entity';
         TableSelectionService,
         RequestBuilderService,
         DataService,
-        {provide: 'ENTITY', useClass: XmEntityService},
-
+        {provide: 'STATIC', useClass: StaticDataSource},
+        {provide: 'ENTITY', useClass: EntityDataSource},
+        {provide: 'OBJECT', useClass: ObjectDataSource},
+        {provide: 'TMF-API', useClass: TmfApiDataSource},
+        {provide: 'API', useClass: ApiDataSource},
     ],
 })
 export class XmTableModule {
