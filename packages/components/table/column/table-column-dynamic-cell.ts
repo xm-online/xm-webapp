@@ -46,6 +46,7 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
                 [class]="column.headClass"
                 [style]="column.headStyle"
                 [disabled]="isSortable()">
+                [matTooltip]="column.tooltip | translate"
                 {{column.title | translate}}
 
                   <xm-show-hide-columns-settings *ngIf="column.storageColumn"></xm-show-hide-columns-settings>
