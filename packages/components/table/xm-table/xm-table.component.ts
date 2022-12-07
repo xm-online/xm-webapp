@@ -28,7 +28,7 @@ export type ConfigForTable = {
     templateUrl: './xm-table.component.html',
     styleUrls: ['./xm-table.component.scss'],
 })
-export class XmTableComponent implements OnInit {
+export class XmTableComponent<T> implements OnInit {
     get config(): ConfigForTable {
         return this._config;
     }
@@ -42,12 +42,14 @@ export class XmTableComponent implements OnInit {
     public loading$: Observable<boolean> = of(false);
     public selected: number;
 
-    constructor(private dataService: DataService) {
+    constructor(private dataService: DataService<T>) {
     }
 
     public ngOnInit(): void {
+
         this.dataService.getData(this.config.dataSource).subscribe(data => {
             this.dataSource = new MatTableDataSource(data);
         });
+        this.loading$ = this.dataService.loading$();
     }
 }

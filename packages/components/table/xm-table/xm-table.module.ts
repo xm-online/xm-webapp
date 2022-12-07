@@ -49,6 +49,6 @@ import {ApiDataSource} from '@xm-ngx/components/table/xm-table/service/data-sour
         {provide: 'API', useClass: ApiDataSource},
     ],
 })
-export class XmTableModule {
-    public entry: Type<XmTableComponent> = XmTableComponent;
+export class XmTableModule<T> {
+    public entry: Type<XmTableComponent<T>> = XmTableComponent;
 }
