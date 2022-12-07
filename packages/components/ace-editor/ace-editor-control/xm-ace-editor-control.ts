@@ -34,7 +34,7 @@ type AceEditorValue = string | object;
     selector: 'xm-ace-editor-control',
     template: `
         <div class="form-group">
-            <label class="control-label">{{ options.title | translate }}</label>
+            <label class="control-label" *ngIf="options?.title">{{ options.title | translate }}</label>
             <div class="ace-editor-control w-100 border"
                  [ngClass]="{ 'border-danger': error}"
                  (textChanged)="change($event)"
