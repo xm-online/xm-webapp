@@ -1,9 +1,10 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {TableSelectionService} from '@xm-ngx/components/table/xm-table/service/xm-table-selection-service/table-selection.service';
-import {EmptyTableConfig, TableActions} from '@xm-ngx/components/table/xm-table/xm-table.model';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { PaginatorParamsService } from '@xm-ngx/components/table/xm-table/service/paginator-params-service';
+import { TableSelectionService } from '@xm-ngx/components/table/xm-table/service/xm-table-selection-service/table-selection.service';
+import { EmptyTableConfig, TableActions } from '@xm-ngx/components/table/xm-table/xm-table.model';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class XmDynamicTableComponent implements OnInit, AfterViewInit {
     @Input() public loading: boolean;
     @Input() public dataSource: MatTableDataSource<unknown>;
     @Input() public config: {
-        pagination?: { pageSizeOptions: number[] };
+        pagination?: {pageSizeOptions: number[]};
         options?: any;
         columns?: any;
         actions?: TableActions
@@ -34,7 +35,8 @@ export class XmDynamicTableComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) public paginator: MatPaginator;
     @ViewChild(MatSort) public sort: MatSort;
 
-    constructor(private tableSelection: TableSelectionService<unknown>) {
+    constructor(private tableSelection: TableSelectionService<unknown>,
+                private paginatorService: PaginatorParamsService) {
         this.selection = this.tableSelection.selection;
     }
 
@@ -53,4 +55,7 @@ export class XmDynamicTableComponent implements OnInit, AfterViewInit {
     }
 
 
+    public pageChange(event: PageEvent): void {
+        this.paginatorService.setPage(event);
+    }
 }

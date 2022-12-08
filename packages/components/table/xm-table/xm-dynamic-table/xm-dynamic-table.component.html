@@ -51,5 +51,6 @@
 </section>
 
 <mat-paginator showFirstLastButtons
+               (page)="pageChange($event)"
                [pageSizeOptions]="config?.pagination.pageSizeOptions "></mat-paginator>
 
