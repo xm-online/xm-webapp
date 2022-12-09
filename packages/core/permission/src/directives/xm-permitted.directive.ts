@@ -1,7 +1,8 @@
 import { AfterContentInit, Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { XmPermissionService } from '../xm-permission.service';
 import { take } from 'rxjs/operators';
+import { switchMap } from 'rxjs/dist/types/operators';
 
 /**
  * Conditionally includes an HTML element if current user has any
@@ -27,6 +28,8 @@ import { take } from 'rxjs/operators';
 })
 export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit {
     private privilegeSubscription: Subscription;
+    private viewSubscription: Subscription;
+    private permissionChange: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
 
     constructor(private permissionService: XmPermissionService,
                 private templateRef: TemplateRef<unknown>,
@@ -60,10 +63,22 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
     public ngOnInit(): void {
         this.privilegeSubscription = this.permissionService.permissions$()
             .subscribe(() => this.updateView());
+
+        this.viewSubscription =
+            this.permissionChange.pipe(
+                switchMap((i) => this.permissionService.hasPrivileges(i)),
+                take(1),
+            ).subscribe((result) => {
+                this.viewContainerRef.clear();
+                if (result && this.xmPermittedContext()) {
+                    this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+            });
     }
 
     public ngOnDestroy(): void {
         this.privilegeSubscription?.unsubscribe();
+        this.viewSubscription?.unsubscribe();
     }
 
     public ngAfterContentInit(): void {
@@ -75,14 +90,8 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
             this.viewContainerRef.clear();
             return;
         }
-        void this.permissionService.hasPrivileges(this._xmPermitted).pipe(
-            take(1),
-        ).subscribe((result) => {
-            this.viewContainerRef.clear();
-            if (result && this.xmPermittedContext()) {
-                this.viewContainerRef.createEmbeddedView(this.templateRef);
-            }
-        });
+
+        this.permissionChange.next(this._xmPermitted);
     }
 
 }
