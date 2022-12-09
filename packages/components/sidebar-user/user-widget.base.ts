@@ -11,7 +11,7 @@ import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import {
     flatTree,
     filterByConditionDashboards } from '@xm-ngx/components/menu';
-import { buildMenuTree } from '@xm-ngx/components/menu/nested-menu';
+import { buildMenuTree } from '@xm-ngx/components/menu';
 import * as _ from 'lodash';
 
 interface UserOptions {

@@ -3,7 +3,7 @@ import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
 import {
     XM_CONTROL_ERRORS_TRANSLATES_DEFAULT,
     XmControlErrorsTranslates,
-} from '@xm-ngx/components/control-error/xm-control-errors-translates';
+} from '@xm-ngx/components/control-error';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import * as _ from 'lodash';
 

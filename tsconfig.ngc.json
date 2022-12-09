@@ -34,6 +34,13 @@
       "@xm-ngx/timeline": ["dist/timeline"],
       "@xm-ngx/timeline/*": ["dist/timeline/*"],
       "@xm-ngx/components/*": ["dist/packages/components/*"],
+      "@xm-ngx/logger/*": ["dist/packages/logger/*"],
+      "@xm-ngx/alert/*": ["dist/packages/alert/*"],
+      "@xm-ngx/account/*": ["dist/packages/account/*"],
+      "@xm-ngx/administration/*": ["dist/packages/administration/*"],
+      "@xm-ngx/dashboard/*": ["dist/packages/dashboard/*"],
+      "@xm-ngx/json-schema-form/*": ["dist/packages/json-schema-form/*"],
+      "@xm-ngx/styles/*": ["dist/packages/styles/*"],
       "@xm-ngx/translation": ["dist/packages/translation"]
     }
   },

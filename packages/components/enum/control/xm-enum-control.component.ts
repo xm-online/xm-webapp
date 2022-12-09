@@ -6,7 +6,7 @@ import { Translate } from '@xm-ngx/translation';
 import { clone, defaults, forEach, keyBy } from 'lodash';
 import { XmEnumOptionsItem, XmEnumValue } from '../value/xm-enum.component';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintText } from '@xm-ngx/components/hint';
 
 
 export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {

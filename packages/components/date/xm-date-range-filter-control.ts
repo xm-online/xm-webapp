@@ -11,7 +11,7 @@ import { DateTimeAdapter, OwlDateTimeIntl, OwlDateTimeModule } from '@danielmonc
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { XmDateModule } from '@xm-ngx/components/date/xm-date.component';
+import { XmDateModule } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { TranslateService } from '@ngx-translate/core';
 

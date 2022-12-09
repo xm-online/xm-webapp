@@ -13,7 +13,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { treeNodeSearch } from '../../shared/operators/src/tree-search';
 import { buildMenuTree } from './nested-menu';
 import { applicationsToCategory, filterByConditionDashboards } from './flat-menu';
-import { MenuItem, MenuOptions } from '@xm-ngx/components/menu/menu.interface';
+import { MenuItem, MenuOptions } from './menu.interface';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 
