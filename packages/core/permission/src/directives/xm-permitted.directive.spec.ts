@@ -58,8 +58,13 @@ describe('XmPermittedDirective', () => {
     const TEST_NO_OK = 'TEST_NOK';
 
     const pResolver = (privileges: string[] = []) => {
-        if (!privileges) {
-            console.info('No privileges passed');
+        // nullPermission
+        if (privileges == null) {
+            return of(false);
+        }
+
+        // emptyPermission
+        if (privileges.length == 0) {
             return of(false);
         }
 
