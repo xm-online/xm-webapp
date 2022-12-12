@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { TimelineCardComponent } from './timeline-card/timeline-card.component';
 import { TimeLineConfig, TimeLineConfigItem, TimeLineContext } from './timeline-config.model';
+import { NgJhipsterModule } from 'ng-jhipster';
 
 
 export interface TimelineListConfig {
@@ -150,6 +151,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         MatIconModule,
         MatChipsModule,
         MatButtonModule,
+        NgJhipsterModule,
     ],
     exports: [TimelineListComponent],
     declarations: [
