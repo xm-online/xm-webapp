@@ -4,7 +4,7 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmSharedModule } from '../../../shared/shared.module';
 import { XmBalanceModule } from '@xm-ngx/xm-balance';
 import { XmEntityModule } from '@xm-ngx/entity/xm-entity.module';
-import { XmTimelineModule } from '../../../../../packages/xm-timeline/xm-timeline.module';
+import { XmTimelineModule } from '../../../../../packages/timeline/xm-timeline.module';
 import { AvailableOfferingsWidgetComponent } from '../available-offerings-widget/available-offerings-widget.component';
 import { ChartistLineWidgetComponent } from '../chartist-line-widget/chartist-line-widget.component';
 import { CustomerInfoWidgetComponent } from '../customer-info-widget/customer-info-widget.component';
