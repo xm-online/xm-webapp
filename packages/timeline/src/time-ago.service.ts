@@ -7,7 +7,7 @@ export class TimeAgoService {
     constructor(private translateService: TranslateService) {
     }
 
-    public transform(value: string): string | any {
+    public transform(value: string): string {
         const d = new Date(value);
         const now = new Date();
         const seconds = Math.round(Math.abs((now.getTime() - d.getTime()) / 1000));
@@ -50,7 +50,7 @@ export class TimeAgoService {
         } // (days > 545)
         // ' years ago';
         return years + this.translateService.instant('xm-timeline.common.time-ago.years');
-        
+
     }
 
 }

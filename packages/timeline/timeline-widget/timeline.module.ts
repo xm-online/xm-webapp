@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { LoaderModule } from '@xm-ngx/components/loader';
-import { XmSharedModule } from '@xm-ngx/shared';
+import { XmTranslationModule } from '@xm-ngx/translation';
 
-import { TimeAgoService } from './shared/time-ago.service';
-import { TimelineService } from './shared/timeline.service';
-import { TimelineComponent } from './timeline/timeline.component';
+import { TimeAgoService } from '../src/time-ago.service';
+import { TimelineService } from '../src/timeline.service';
+import { TimelineComponent } from './timeline.component';
 
 @NgModule({
     imports: [
         CommonModule,
         LoaderModule,
-        XmSharedModule,
+        XmTranslationModule,
     ],
     declarations: [
         TimelineComponent,

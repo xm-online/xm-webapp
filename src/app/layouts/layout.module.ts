@@ -16,7 +16,7 @@ import { XmMaintenanceViewModule } from '@xm-ngx/components/maintenance';
 import { XmSidebarRightModule } from '@xm-ngx/components/sidebar-right';
 import { XmSidebarModule } from '@xm-ngx/components/sidebar';
 import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
-import { XmTimelineModule } from '../../../packages/timeline/xm-timeline.module';
+import { XmTimelineModule } from '@xm-ngx/timeline/timeline-widget';
 import { FooterComponent } from './footer/footer.component';
 import { XmMainComponent } from './main/main.component';
 import { XmNavbarModule } from './navbar/xm-navbar.module';
