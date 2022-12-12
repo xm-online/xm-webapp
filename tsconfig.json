@@ -31,7 +31,7 @@
       "@xm-ngx/core/user": ["packages/core/user"],
       "@xm-ngx/core/user/testing": ["packages/core/user/testing"],
       "@xm-ngx/core/global-error-handler": ["packages/core/global-error-handler"],
-      "@xm-ngx/core/permission": ["src/app/shared/privilege"],
+      "@xm-ngx/core/permission": ["packages/core/permission"],
       "@xm-ngx/core/permission/testing": ["packages/core/permission/testing"],
       "@xm-ngx/core/theme": ["packages/core/theme"],
       "@xm-ngx/core/environment": ["src/environments"],

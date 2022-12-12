@@ -1,6 +1,7 @@
 import { AfterContentInit, Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Principal } from '../auth/principal.service';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { XmPermissionService } from '../xm-permission.service';
+import { switchMap } from 'rxjs/operators';
 
 /**
  * Conditionally includes an HTML element if current user has any
@@ -26,8 +27,10 @@ import { Principal } from '../auth/principal.service';
 })
 export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit {
     private privilegeSubscription: Subscription;
+    private viewSubscription: Subscription;
+    private permissionChange: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
 
-    constructor(private principal: Principal,
+    constructor(private permissionService: XmPermissionService,
                 private templateRef: TemplateRef<unknown>,
                 private viewContainerRef: ViewContainerRef,
     ) {
@@ -41,7 +44,7 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
 
     @Input()
     public set xmPermitted(value: string[]) {
-        this._xmPermitted = typeof value === 'string' ? [value] : value;
+        this._xmPermitted = typeof value === 'string' ? [value] : (value || []);
         this.updateView();
     }
 
@@ -57,25 +60,36 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
     @Input() public xmPermittedContext: () => boolean = () => true;
 
     public ngOnInit(): void {
-        this.privilegeSubscription = this.principal.getAuthenticationState()
+        this.privilegeSubscription = this.permissionService.permissions$()
             .subscribe(() => this.updateView());
-    }
 
-    public ngOnDestroy(): void {
-        this.privilegeSubscription?.unsubscribe();
+        this.viewSubscription =
+            this.permissionChange.pipe(
+                switchMap((i) => this.permissionService.hasPrivileges(i)),
+            ).subscribe((result) => {
+                this.viewContainerRef.clear();
+                if (result && this.xmPermittedContext()) {
+                    this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+            });
     }
 
     public ngAfterContentInit(): void {
         this.updateView();
     }
 
+    public ngOnDestroy(): void {
+        this.privilegeSubscription?.unsubscribe();
+        this.viewSubscription?.unsubscribe();
+    }
+
     private updateView(): void {
-        void this.principal.hasPrivileges(this._xmPermitted).then((result) => {
+        if (this._xmPermitted.length === 0) {
             this.viewContainerRef.clear();
-            if (result && this.xmPermittedContext()) {
-                this.viewContainerRef.createEmbeddedView(this.templateRef);
-            }
-        });
+            return;
+        }
+
+        this.permissionChange.next(this._xmPermitted);
     }
 
 }
