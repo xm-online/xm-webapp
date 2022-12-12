@@ -21,8 +21,8 @@ export interface XmNumbersRangeControlOptions extends DataQa {
     nameTo: string,
     requiredFrom: boolean,
     requiredTo: boolean,
-    errorsFrom: {[errorKey: string]: Translate},
-    errorsTo: {[errorKey: string]: Translate},
+    errorsFrom: { [errorKey: string]: Translate },
+    errorsTo: { [errorKey: string]: Translate },
     direction: 'vertical' | 'horizontal',
 }
 
@@ -98,7 +98,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumbersRangeControlOptions = {
 })
 export class NumbersRangeControlComponent extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmNumbersRangeControlOptions> {
     constructor(@Optional() @Self() public ngControl: NgControl | null,
-                @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: {[errorKey: string]: Translate}) {
+                @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
         super(ngControl);
     }
 
