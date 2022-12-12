@@ -1,0 +1,21 @@
+<div *ngIf="item">
+  <div class="row no-gutters mt-3 mb-4 align-items-center">
+    <div class="col-md-2 col-sm-6 col-6  order-md-1 order-1">
+      <div class="item-date text-md-center text-start m-2 m-md-0">
+        {{item.startDate | date: 'dd.MM.yyyy'}}
+        <br>
+        {{item.startDate | date: 'HH:mm'}}
+      </div>
+    </div>
+    <div class="col-md-7 col-sm-12 order-md-2 order-5">
+      <div class="item-body">
+        <div *ngIf="item.messageData" [innerHTML]="item.messageData"></div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-6 order-md-3 order-2">
+      <div class="item-user text-md-center text-end m-2 m-md-0">
+        {{item.login ? item.login : 'System'}}
+      </div>
+    </div>
+  </div>
+</div>

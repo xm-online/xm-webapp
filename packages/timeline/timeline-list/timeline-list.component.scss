@@ -1,0 +1,16 @@
+.no-items {
+    margin-top: 10px;
+    font-size:  16px;
+}
+
+.more-items {
+    a {
+        color:       rgba(#000, .7);
+        font-weight: bold;
+        font-size:   18px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

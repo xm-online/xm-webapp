@@ -1,0 +1,32 @@
+<mat-card>
+  <div class="text-center" mat-card-title>
+    {{ config.title | translate}}
+  </div>
+  <mat-card-content>
+
+    <xm-loader [showLoader]="showLoader"></xm-loader>
+
+    <div class="pb-1">
+      <ng-container *ngIf="timeLines?.length > 0">
+        <ng-container *ngFor="let item of timeLines| orderBy: config.field: config.descOrder; trackBy: trackId">
+          <xm-common-timeline-card [item]="item"></xm-common-timeline-card>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="!(timeLines?.length > 0)">
+        <div class="no-items p-4 text-center">
+          {{config.noItems | translate}}
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="more-items pb-4 text-center" *ngIf="(next) && !(moreLoader)">
+      <a href="javascript: void(0);" (click)="onNextPage(next);">
+        <strong>{{config.showMore10 | translate}}</strong>
+      </a>
+    </div>
+    <div class="text-center" *ngIf="moreLoader">
+      <button class="btn btn-link btn-just-icon loading dark-loader"></button>
+    </div>
+  </mat-card-content>
+</mat-card>
