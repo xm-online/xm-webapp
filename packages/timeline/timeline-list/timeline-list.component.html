@@ -1,32 +1,31 @@
-<mat-card>
-  <div class="text-center" mat-card-title>
-    {{ config.title | translate}}
-  </div>
-  <mat-card-content>
+<xm-mat-card [entity]="entity" [options]="config">
+  <ng-container xmContent>
 
-    <xm-loader [showLoader]="showLoader"></xm-loader>
+    <xm-loader [showLoader]="isLoading"></xm-loader>
 
-    <div class="pb-1">
-      <ng-container *ngIf="timeLines?.length > 0">
-        <ng-container *ngFor="let item of timeLines| orderBy: config.field: config.descOrder; trackBy: trackId">
-          <xm-common-timeline-card [item]="item"></xm-common-timeline-card>
+    <div class="pb-1 timeline-container list-group">
+      <ng-container *ngIf="timeLines.length > 0">
+        <ng-container *ngFor="let item of timeLines | orderBy: config.field: config.descOrder; trackBy: trackId">
+          <xm-common-timeline-card class="list-group-item" [item]="item"></xm-common-timeline-card>
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="!(timeLines?.length > 0)">
-        <div class="no-items p-4 text-center">
+      <ng-container *ngIf="!(timeLines.length > 0)">
+        <div class="no-items text-center">
           {{config.noItems | translate}}
         </div>
       </ng-container>
-    </div>
 
-    <div class="more-items pb-4 text-center" *ngIf="(next) && !(moreLoader)">
-      <a href="javascript: void(0);" (click)="onNextPage(next);">
-        <strong>{{config.showMore10 | translate}}</strong>
-      </a>
+      <div class="more-items text-center" *ngIf="next">
+        <button mat-button *ngIf="next <= 1" [loading]="isMoreLoading" (click)="onNextPage(next);">
+          {{config.showMore10 | translate}}
+        </button>
+
+        <button mat-button *ngIf="next > 1" [loading]="isMoreLoading" (click)="loadAll();">
+          {{config.showMoreAll | translate}}
+        </button>
+      </div>
+
     </div>
-    <div class="text-center" *ngIf="moreLoader">
-      <button class="btn btn-link btn-just-icon loading dark-loader"></button>
-    </div>
-  </mat-card-content>
-</mat-card>
+  </ng-container>
+</xm-mat-card>

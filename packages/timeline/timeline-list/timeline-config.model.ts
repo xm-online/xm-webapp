@@ -2,7 +2,6 @@
 export class TimeLineConfig {
     constructor(public responses: TimeLineConfigItem[]) {
     }
-
     public getResponseConfigItem(tlc: any): TimeLineConfigItem {
         return this.responses.filter((r) => {
             return r.isMatch(tlc);
@@ -40,9 +39,9 @@ export class TimeLineConfigItem {
         for (i = 0; i < paths.length; ++i) {
             if (!current[paths[i]]) {
                 return undefined;
-            } 
+            }
             current = current[paths[i]];
-            
+
         }
         return current;
     }

@@ -1,16 +1,8 @@
-.no-items {
-    margin-top: 10px;
-    font-size:  16px;
-}
+@import 'theme';
+@import '~@xm-ngx/styles/src/scroll';
 
-.more-items {
-    a {
-        color:       rgba(#000, .7);
-        font-weight: bold;
-        font-size:   18px;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
+.timeline-container {
+  max-height: 400px;
+  overflow-y: auto;
+  @include xm-scrollbar();
 }

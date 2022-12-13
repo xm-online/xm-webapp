@@ -1,33 +1,4 @@
-.item-body {
-    background-color: #eee;
-    border-radius:    3px;
-    padding:          5px 10px;
-    color:            #000;
-    overflow:         hidden;
-    max-width:        100%;
-    word-wrap:        break-word;
+.item-user {
+  font-weight: bold;
 }
 
-.item-date, .item-user {
-    font-size:   12px;
-    line-height: 15px;
-    color:       #000;
-}
-
-.item-body {
-    position: relative;
-
-    @media only screen and (max-width: 768px) {
-        &:after {
-            content:       '';
-            position:      absolute;
-            right:         20px;
-            bottom:        100%;
-            width:         0;
-            height:        0;
-            border-left:   5px solid transparent;
-            border-right:  5px solid transparent;
-            border-bottom: 5px solid #eee;
-        }
-    }
-}

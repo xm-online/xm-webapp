@@ -22,6 +22,7 @@ export class Timeline {
                 public execTime?: number,
                 public browser?: string,
                 public opSystem?: string,
+                public id?: string,
     ) {
     }
 

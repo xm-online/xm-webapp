@@ -1,38 +1,41 @@
-import { Component, Input, NgModule, OnDestroy, OnInit, Type } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { of, Observable } from 'rxjs';
+import { finalize, map, switchMap } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
 import { I18nNamePipe } from '@xm-ngx/components/language';
 import { XmEntity } from '@xm-ngx/entity';
-import { TimelineService } from '@xm-ngx/timeline';
-import { LoaderModule } from '@xm-ngx/components/loader';
+import { Timeline, TimelinePage, TimelineService } from '@xm-ngx/timeline';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmConfigService } from 'src/app/shared';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatButtonModule } from '@angular/material/button';
+import { Translate } from '@xm-ngx/translation';
+import { XmMatCardOptions } from '@xm-ngx/entity/xm-mat-card';
 
-import { TimelineCardComponent } from './timeline-card/timeline-card.component';
 import { TimeLineConfig, TimeLineConfigItem, TimeLineContext } from './timeline-config.model';
-import { NgJhipsterModule } from 'ng-jhipster';
-
 
 export interface TimelineListConfig {
     descOrder?: boolean,
     field?: string,
     title: Translate,
     noItems: Translate,
-    showMore10: Translate
+    showMore10: Translate,
+    showMoreAll: Translate,
+    showSizeAtHeader?: boolean;
+    limit?: number;
 }
 
-const DEFAULT: TimelineListConfig = {
+const DEFAULT: TimelineListConfig & XmMatCardOptions = {
+    condition: '',
+    editCondition: 'false',
+    readonly: false,
+    limit: 5,
+    showSizeAtHeader: true,
     descOrder: true,
+    collapsableContent: true,
     field: 'startDate',
     title: 'xm-timeline.common.title',
     noItems: 'xm-timeline.common.no-items',
-    showMore10: 'xm-timeline.common.show-more-10'
+    showMore10: 'xm-timeline.common.show-more-10',
+    showMoreAll: 'xm-timeline.common.show-more-all',
 };
 
 @Component({
@@ -42,17 +45,15 @@ const DEFAULT: TimelineListConfig = {
 })
 export class TimelineListComponent implements OnInit, OnDestroy {
 
-    @Input() @Defaults(DEFAULT) public config: TimelineListConfig;
+    @Input() @Defaults(DEFAULT) public config: TimelineListConfig & XmMatCardOptions;
     @Input() public entity: XmEntity;
     @Input() public timeLineOptions: any;
-    @Input() public limit: number;
     @Input() public params: any;
     @Input() public filter: any;
-    public showLoader: boolean = false;
-    public moreLoader: boolean = false;
-    public timeLines: any = [];
-    public totalCount: number;
-    public next: any;
+    public isLoading: boolean = false;
+    public isMoreLoading: boolean = false;
+    public timeLines: Timeline[] = [];
+    public next: number;
     public timeLineResponseConfig: TimeLineConfig;
     public tlc: TimeLineContext;
     public currentSearch: string;
@@ -84,14 +85,41 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         takeUntilOnDestroyDestroy(this);
     }
 
-    public trackId(_index: any, item: any): any {
+    public trackId(_index: number, item: Timeline): string {
         return item.id;
     }
 
-    public onNextPage(next: any): void {
-        this.moreLoader = true;
+    public onNextPage(next: number): void {
+        this.isMoreLoading = true;
         this.timelineService.search(this.getSearchBody({ next })).pipe(
-            finalize(() => this.moreLoader = false))
+            finalize(() => this.isMoreLoading = false))
+            .subscribe((result) => {
+                this.next = result.next;
+                const timeLinesArray = result.timelines || [];
+                timeLinesArray.forEach((i) => this.processTimeLines(i));
+            });
+    }
+
+    public loadAll(): void {
+        this.isMoreLoading = true;
+        const searchAll = (next = 0): Observable<TimelinePage> => this.timelineService
+            .search(this.getSearchBody({ limit: 1000, next }))
+            .pipe(
+                switchMap((res) => {
+                    if (res.next == null) {
+                        return of(res);
+                    }
+                    return searchAll(next + 1).pipe(
+                        map(j => new TimelinePage(
+                            [...res.timelines, ...j.timelines],
+                            j.next,
+                        )),
+                    );
+                }),
+            );
+
+        searchAll().pipe(
+            finalize(() => this.isMoreLoading = false))
             .subscribe((result) => {
                 this.next = result.next;
                 const timeLinesArray = result.timelines || [];
@@ -100,9 +128,9 @@ export class TimelineListComponent implements OnInit, OnDestroy {
     }
 
     private load(): void {
-        this.showLoader = true;
+        this.isLoading = true;
         this.timelineService.search(this.getSearchBody()).pipe(
-            finalize(() => this.showLoader = false))
+            finalize(() => this.isLoading = false))
             // tslint:disable-next-line:no-identical-functions
             .subscribe((result) => {
                 this.next = result.next;
@@ -111,7 +139,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
             });
     }
 
-    private processTimeLines(item: any): any {
+    private processTimeLines(item: Timeline): void {
         this.tlc = new TimeLineContext(item);
         const respConfigEl = this.timeLineResponseConfig.getResponseConfigItem(this.tlc);
         if (respConfigEl) {
@@ -122,7 +150,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         }
     }
 
-    private bootstrapItem(item: any, config: any): any {
+    private bootstrapItem(item: Timeline, config: any): void {
         Object.assign(item, { responseBodyParsed: item.responseBody ? JSON.parse(item.responseBody) : null });
         const templateStringByLang = this.i18nNamePipe.transform(config.template, this.principal);
         const templateString = new Function('item', 'return `' + templateStringByLang + '`;')(item);
@@ -131,34 +159,16 @@ export class TimelineListComponent implements OnInit, OnDestroy {
     }
 
     private getSearchBody(options: any = {}): any {
-        return Object.assign({
-            id: this.entity.id,
-            limit: this.limit,
-            operation: this.currentSearch,
-            dateFrom: this.formFilter.dateFrom ? this.formFilter.dateFrom.toJSON() : '',
-            dateTo: this.formFilter.dateTo ? this.formFilter.dateTo.toJson() : '',
-        }, this.params || {}, options);
+        return Object.assign(
+            {
+                id: this.entity.id,
+                limit: this.config.limit,
+                operation: this.currentSearch,
+                dateFrom: this.formFilter.dateFrom ? this.formFilter.dateFrom.toJSON() : '',
+                dateTo: this.formFilter.dateTo ? this.formFilter.dateTo.toJson() : '',
+            },
+            this.params || {},
+            options,
+        );
     }
-}
-
-
-@NgModule({
-    imports: [
-        CommonModule,
-        LoaderModule,
-        XmTranslationModule,
-        MatCardModule,
-        MatIconModule,
-        MatChipsModule,
-        MatButtonModule,
-        NgJhipsterModule,
-    ],
-    exports: [TimelineListComponent],
-    declarations: [
-        TimelineListComponent,
-        TimelineCardComponent,
-    ],
-})
-export class TimelineListModule {
-    public entry: Type<TimelineListComponent> = TimelineListComponent;
 }

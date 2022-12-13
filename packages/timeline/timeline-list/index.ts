@@ -1,1 +1,2 @@
-export { TimelineListModule, TimelineListConfig } from './timeline-list.component';
+export { TimelineListConfig } from './timeline-list.component';
+export { TimelineListModule } from './timeline-list.module';

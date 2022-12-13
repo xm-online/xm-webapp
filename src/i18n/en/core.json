@@ -1481,6 +1481,7 @@
     "common": {
       "no-items": "There are no entries for this request!",
       "show-more-10": "Show more",
+      "show-more-all": "Show all",
       "title": "Chronology",
       "time-ago": {
         "day": "a day ago",

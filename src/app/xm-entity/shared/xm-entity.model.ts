@@ -11,8 +11,9 @@ import { StateSpec } from './state-spec.model';
 import { Tag } from './tag.model';
 import { Vote } from './vote.model';
 import { XmEntitySpec } from './xm-entity-spec.model';
+import { IId } from '@xm-ngx/shared/interfaces';
 
-export interface XmEntity<D = any> extends BaseEntity {
+export interface XmEntity<D = any> extends BaseEntity, IId {
     type?: XmEntitySpec;
     state?: StateSpec;
     id?: number;
