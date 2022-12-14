@@ -14,7 +14,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiConfigService, JhiDateUtils, JhiModuleConfig } from 'ng-jhipster';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 
-import { XmEntityService } from '..';
+import { XmEntityService } from '../shared';
 import { AccountService } from '@xm-ngx/xm-shared';
 import { Principal } from '@xm-ngx/xm-shared/auth/principal.service';
 import { I18nJsfPipe } from '@xm-ngx/xm-shared/language/i18n-jsf.pipe';
