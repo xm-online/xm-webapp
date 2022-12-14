@@ -37,7 +37,7 @@ export class TimelineService {
             operation: options.operation,
             next: options.next,
         };
-        return this.http.get<TimelinePage>(this.resourceUrl, {params: TimelineService.toHttpParams(params)});
+        return this.http.get<TimelinePage>(this.resourceUrl, { params: TimelineService.toHttpParams(params) });
     }
 
 }

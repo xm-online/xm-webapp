@@ -43,6 +43,8 @@
       "@xm-ngx/toaster": ["src/app/shared/toaster"],
       "@xm-ngx/logger": ["packages/logger"],
       "@xm-ngx/logger/testing": ["packages/logger/testing"],
+      "@xm-ngx/timeline": ["packages/timeline"],
+      "@xm-ngx/timeline/*": ["packages/timeline/*"],
       "@xm-ngx/shared": ["src/app/modules/xm-shared"],
       "@xm-ngx/shared/exceptions": ["packages/shared/exceptions"],
       "@xm-ngx/shared/validators": ["packages/shared/validators"],

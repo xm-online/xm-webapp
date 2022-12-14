@@ -7,6 +7,7 @@ export class HelpCommand implements Command {
         { name: 'replace', message: 'Replaces the core files.' },
         { name: 'ext-lazy-module', message: 'Places extension modules in angular.json.' },
         { name: 'ext-i18n', message: 'Combines extension translations into one file.' },
+        { name: 'dynamic-specification', message: 'Generate config widget specification.' },
         { name: 'ext-assets', message: 'Places extension assets in angular.json.' },
         { name: 'ext-themes', message: 'Builds extension themes.' },
         { name: 'ext-install', message: 'Runs `npm install` at extension directories.' },
