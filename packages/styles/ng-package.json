@@ -3,9 +3,5 @@
   "dest": "../../dist/packages/styles",
   "lib": {
     "entryFile": "./index.ts"
-  },
-  "assets": [
-    "./_components.scss",
-    "./_theming.scss"
-  ]
+  }
 }

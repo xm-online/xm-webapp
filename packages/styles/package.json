@@ -10,14 +10,6 @@
   },
   "license": "Apache-2.0",
   "dependencies": {},
-  "exports": {
-    "./theming": {
-      "sass": "./_theming.scss"
-    },
-    "./components": {
-      "sass": "./_components.scss"
-    }
-  },
   "publishConfig": {
     "access": "public"
   }
