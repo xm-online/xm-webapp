@@ -4,7 +4,7 @@ import { createRequestOption } from '@xm-ngx/entity';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from '../../xm.constants';
+import { SERVER_API_URL } from 'src/app/xm.constants';
 import { Balance } from './balance.model';
 
 @Injectable()

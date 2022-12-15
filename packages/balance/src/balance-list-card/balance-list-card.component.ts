@@ -3,15 +3,15 @@ import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core
 import { MatDialog } from '@angular/material/dialog';
 
 import { PieChart } from 'chartist';
+import { Principal } from 'src/app/shared/auth/principal.service';
 
-import { Spec } from '..';
-import { Principal } from '../../shared/auth/principal.service';
 import { BalanceDetailDialogComponent } from '../balance-detail-dialog/balance-detail-dialog.component';
 import { BalanceSpecWrapperService } from '../shared/balance-spec-wrapper.service';
 import { Balance } from '../shared/balance.model';
 import { BalanceService } from '../shared/balance.service';
 import { Metric } from '../shared/metric.model';
 import { MetricService } from '../shared/metric.service';
+import { Spec } from '../shared/spec.model';
 
 @Component({
     selector: 'xm-balance-list-card',

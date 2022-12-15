@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Pocket } from '../shared/pocket.model';
 
-import { Pocket } from '..';
 import { PocketService } from '../shared/pocket.service';
 
 @Component({

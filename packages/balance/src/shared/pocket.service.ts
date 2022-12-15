@@ -5,7 +5,7 @@ import { JhiDateUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from '../../xm.constants';
+import { SERVER_API_URL } from 'src/app/xm.constants';
 import { Pocket } from './pocket.model';
 
 @Injectable()
