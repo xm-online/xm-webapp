@@ -18,6 +18,14 @@ services:
             options:
                 tag: web-app
                 syslog-facility: local7
+    test:
+      image: trion/ng-cli-karma:15.0.3
+      volumes:
+        - ../:/app
+      command:
+        - /bin/sh
+        - -c
+        - ls && export NODE_OPTIONS="--max-old-space-size=8192" && npm run test:prod
 
 networks:
     xm2:
