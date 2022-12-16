@@ -42,7 +42,7 @@ module.exports = function(config) {
                 flags: ['--disable-web-security', '--disable-site-isolation-trials'],
             },
         },
-        singleRun: false,
+        singleRun: true,
         restartOnFileChange: true,
     });
 };
