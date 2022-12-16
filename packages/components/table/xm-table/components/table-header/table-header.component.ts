@@ -1,4 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActionComponent } from '@xm-ngx/components/table/xm-table/xm-table.model';
+import { Translate } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-table-header',
@@ -6,9 +8,9 @@ import {Component, OnInit, Input} from '@angular/core';
     styleUrls: ['./table-header.component.scss'],
 })
 export class TableHeaderComponent implements OnInit {
-    @Input() public title: any;
+    @Input() public title: Translate;
     @Input() public filters: any;
-    @Input() public actionsForAll: any;
+    @Input() public actionsForAll: ActionComponent[];
 
 
     constructor() {

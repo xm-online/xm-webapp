@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {FilterDialogComponent} from '@xm-ngx/components/table/xm-table/table-header/table-filter/filter-dialog/filter-dialog.component';
+import {FilterDialogComponent} from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/filter-dialog/filter-dialog.component';
 import {RequestBuilderService} from '@xm-ngx/components/table/xm-table/service/request-builder-service/request-builder.service';
 
 @Component({

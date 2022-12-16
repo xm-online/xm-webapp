@@ -1,56 +1,56 @@
 <section *ngIf="config"
          class="table-responsive">
 
-  <xm-selection-header *ngIf="selection.selected?.length as selected"
-                       [config]="config?.actions?.forGroup"></xm-selection-header>
+    <xm-selection-header *ngIf="selection.selected?.length as selected"
+                         [config]="config?.actions?.forGroup"></xm-selection-header>
 
-  <table mat-table
-         matSort
-         matSortDisableClear
-         [dataSource]="dataSource"
-         [matSortActive]="config?.options?.sortBy"
-         [matSortDirection]="config?.options?.sortDirection || 'asc'"
-         class="w-100 xm-table">
+    <table mat-table
+           matSort
+           matSortDisableClear
+           [dataSource]="dataSource"
+           [matSortActive]="config?.options?.sortBy"
+           [matSortDirection]="config?.options?.sortDirection || 'asc'"
+           class="w-100 xm-table">
 
-    <ng-container *ngIf="config?.options?.selectableRows || true">
-      <xm-selection-column [dataSource]="dataSource"></xm-selection-column>
-    </ng-container>
+        <ng-container *ngIf="config?.options?.selectableRows">
+            <xm-selection-column [dataSource]="dataSource"></xm-selection-column>
+        </ng-container>
 
-    <xm-mat-table-column-dynamic-cell *ngFor="let column of config.columns"
-                                      [column]="column"
-    ></xm-mat-table-column-dynamic-cell>
+        <xm-mat-table-column-dynamic-cell *ngFor="let column of config.columns"
+                                          [column]="column"
+        ></xm-mat-table-column-dynamic-cell>
 
-    <ng-container matColumnDef="loading">
-      <th mat-header-cell *matHeaderCellDef
-          [attr.colspan]="displayedColumns.length"
-          class="loadingCell">
-        <xm-loading-bar [visible]="true"
-                        style="width:100%"></xm-loading-bar>
-      </th>
-    </ng-container>
+        <ng-container matColumnDef="loading">
+            <th mat-header-cell *matHeaderCellDef
+                [attr.colspan]="displayedColumns.length"
+                class="loadingCell">
+                <xm-loading-bar [visible]="true"
+                                class="w-100"></xm-loading-bar>
+            </th>
+        </ng-container>
 
-    <tr mat-header-row
-        *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row
+            *matHeaderRowDef="displayedColumns"></tr>
 
-    <ng-container>
-      <tr mat-header-row
-          *matHeaderRowDef="loading ? ['loading'] : null"
-          class="loadingRow">
-        <xm-loading-bar [visible]="true"></xm-loading-bar>
-      </tr>
-    </ng-container>
-    <tr mat-row
-        *matRowDef="let row; columns: displayedColumns; let odd = odd"
-        [ngClass]="{'striped': odd, 'selected':selection.isSelected(row)}"></tr>
+        <ng-container>
+            <tr mat-header-row
+                *matHeaderRowDef="loading ? ['loading'] : null"
+                class="loadingRow">
+                <xm-loading-bar [visible]="true"></xm-loading-bar>
+            </tr>
+        </ng-container>
+        <tr mat-row
+            *matRowDef="let row; columns: displayedColumns; let odd = odd"
+            [ngClass]="{'striped': odd, 'selected':selection.isSelected(row)}"></tr>
 
-    <!-- Row shown when there is no matching data. -->
-    <xm-no-rows [type]="'filter'"
-                [config]="config?.options?.noRows"
-                [colspan]="displayedColumns?.length"></xm-no-rows>
-  </table>
+        <!-- Row shown when there is no matching data. -->
+        <xm-no-rows [type]="'filter'"
+                    [config]="config?.options?.noRows"
+                    [colspan]="displayedColumns?.length"></xm-no-rows>
+    </table>
 </section>
 
 <mat-paginator showFirstLastButtons
-               (page)="pageChange($event)"
+               [length]="total"
                [pageSizeOptions]="config?.pagination.pageSizeOptions "></mat-paginator>
 

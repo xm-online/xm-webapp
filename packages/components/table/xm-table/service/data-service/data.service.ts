@@ -1,24 +1,24 @@
-import {Injectable, NgModuleRef} from '@angular/core';
-import {TableDatasource} from '@xm-ngx/components/table/xm-table/xm-table.model';
-import {ArgumentException, NotSupportedException} from '@xm-ngx/shared/exceptions';
-import {Observable} from 'rxjs';
+import { Injectable, NgModuleRef } from '@angular/core';
+import { TableDatasource } from '@xm-ngx/components/table/xm-table/xm-table.model';
+import { ArgumentException, NotSupportedException } from '@xm-ngx/shared/exceptions';
+import { Observable, of } from 'rxjs';
 
 export interface XmTableDataSourceI<T> {
     loading$: () => Observable<boolean>;
     query: (config: TableDatasource) => Observable<T[]>;
 }
 
-@Injectable({providedIn: 'any'})
+@Injectable({ providedIn: 'any' })
 export class DataService<P> {
     private dataAccessService: XmTableDataSourceI<P>;
-    private _loading$: Observable<boolean>;
+    private _loading$: Observable<boolean> = of(false);
 
     constructor(private moduleRef: NgModuleRef<unknown>) {
     }
 
     public getDataAccessService(): XmTableDataSourceI<P> {
         if (!this.dataAccessService) {
-            throw new NotSupportedException('Service did not initialize. Call getData first!')
+            throw new NotSupportedException('Service did not initialize. Call getData first!');
         }
         return this.dataAccessService;
     }

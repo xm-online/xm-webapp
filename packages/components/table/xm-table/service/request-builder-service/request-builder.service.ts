@@ -1,10 +1,10 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {PageService} from '@xm-ngx/dashboard';
-import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/shared/operators';
-import {PageParamsStore} from '@xm-ngx/components/table/xm-table/service/page-params-store/page-params-store.service';
-import {filter} from 'rxjs/operators';
-import {assign, cloneDeep, forIn, isEqual, isPlainObject, transform} from 'lodash';
+import { Injectable, OnDestroy } from '@angular/core';
+import { PageParamsStore } from '@xm-ngx/components/table/xm-table/service/page-params-store/page-params-store.service';
+import { PageService } from '@xm-ngx/dashboard';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { assign, cloneDeep, forIn, isEqual, isPlainObject, transform } from 'lodash';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 const cloneDeepWithoutUndefined = (obj) => transform(obj, (r, v, k) => {
     if (v === undefined || v === '') {
@@ -18,12 +18,15 @@ export class RequestBuilderService implements OnDestroy {
     private request$: BehaviorSubject<any>;
 
     constructor(private paramsStore: PageParamsStore,
-                private pageService: PageService) {
+                private pageService: PageService,) {
         this.init();
         this.pageService.active$().pipe(
             filter(Boolean),
-            takeUntilOnDestroy(this)
-        ).subscribe(() => this.reset());
+            takeUntilOnDestroy(this),
+        ).subscribe(() => {
+            console.log('page')
+            this.reset();
+        });
     }
 
     public ngOnDestroy(): void {
@@ -31,7 +34,7 @@ export class RequestBuilderService implements OnDestroy {
         this.reset();
     }
 
-    public update(request: Partial<any>): void {
+    public update(request: Partial<any>): void {debugger
         const oldReq = cloneDeep(this.request$.getValue());
         let newRequest = assign({}, oldReq, request);
         newRequest = cloneDeepWithoutUndefined(newRequest);

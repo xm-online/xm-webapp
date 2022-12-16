@@ -1,10 +1,13 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { PaginatorParamsService } from '@xm-ngx/components/table/xm-table/service/paginator-params-service';
-import { TableSelectionService } from '@xm-ngx/components/table/xm-table/service/xm-table-selection-service/table-selection.service';
-import { EmptyTableConfig, TableActions } from '@xm-ngx/components/table/xm-table/xm-table.model';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { get } from 'lodash';
+import { merge } from 'rxjs';
+import { RequestBuilderService } from '../service/request-builder-service/request-builder.service';
+import { TableSelectionService } from '../service/xm-table-selection-service/table-selection.service';
+import { TableActions, TableOptions, TablePagination } from '../xm-table.model';
 
 
 @Component({
@@ -12,50 +15,47 @@ import { EmptyTableConfig, TableActions } from '@xm-ngx/components/table/xm-tabl
     templateUrl: './xm-dynamic-table.component.html',
     styleUrls: ['./xm-dynamic-table.component.scss'],
 })
-export class XmDynamicTableComponent implements OnInit, AfterViewInit {
+export class XmDynamicTableComponent<T> implements OnInit, AfterViewInit, OnDestroy {
     @Input() public loading: boolean;
-    @Input() public dataSource: MatTableDataSource<unknown>;
+    @Input() public dataSource: MatTableDataSource<T>;
     @Input() public config: {
-        pagination?: {pageSizeOptions: number[]};
-        options?: any;
+        pagination?: TablePagination;
+        options?: TableOptions;
         columns?: any;
         actions?: TableActions
-        selectableRows?: boolean;
-        sortDirection?: 'asc' | 'desc' | undefined;
-        sortBy?: string;
-        noRows?: {
-            initial: EmptyTableConfig,
-            filter: EmptyTableConfig,
-        }
     } = {};
 
-    public displayedColumns: any;
+    public displayedColumns: string[];
     public selection;
+    public total: number = 0;
 
     @ViewChild(MatPaginator) public paginator: MatPaginator;
     @ViewChild(MatSort) public sort: MatSort;
 
     constructor(private tableSelection: TableSelectionService<unknown>,
-                private paginatorService: PaginatorParamsService) {
+                private requestService: RequestBuilderService) {
         this.selection = this.tableSelection.selection;
     }
 
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
     public ngAfterViewInit(): void {
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
+        merge(this.sort.sortChange, this.paginator.page)
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((data) => {
+                this.requestService.update(data);
+            });
     }
 
     public ngOnInit(): void {
+        this.total = get(this.dataSource, 'data.xTotalCount'); //????????????????????????
 
         this.displayedColumns = this.config.columns?.map((c) => c.key || c.name || c.field);
 
-        if (this.config?.options?.selectable) {
+        if (this.config?.options?.selectableRows) {
             this.displayedColumns.unshift('select');
         }
-    }
-
-
-    public pageChange(event: PageEvent): void {
-        this.paginatorService.setPage(event);
     }
 }

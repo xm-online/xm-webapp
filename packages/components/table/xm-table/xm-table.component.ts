@@ -1,26 +1,26 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {Translate} from '@xm-ngx/translation';
-import {defaultsDeep} from 'lodash';
-import {Observable, of} from 'rxjs';
-import {TableColumn, TableDatasource} from '@xm-ngx/components/table/xm-table/xm-table.model';
-import {DataService} from '@xm-ngx/components/table/xm-table/service/data-service/data.service';
+import { DataSource } from '@angular/cdk/table';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { Translate } from '@xm-ngx/translation';
+import { defaultsDeep } from 'lodash';
+import { map, Observable, of } from 'rxjs';
+import { DataService } from './service/data-service/data.service';
+import { RequestBuilderService } from './service/request-builder-service/request-builder.service';
+import { TableActions, TableColumn, TableDatasource, TableOptions, TablePagination } from './xm-table.model';
 
 export interface CurrentConfig {
-    pagination: { pageSizeOptions: number[] };
+    pagination: {pageSizeOptions: number[]};
 
 }
 
 export type ConfigForTable = {
-    dataSource: TableDatasource;
-    pagination?: any;
-    actions?: {
-        forAll?: any;
-    };
-    filters?: any;
     title?: Translate;
+    dataSource: TableDatasource;
     columns?: TableColumn[];
-
+    filters?: any;
+    options?: TableOptions;
+    actions?: TableActions;
+    pagination?: TablePagination;
 }
 
 @Component({
@@ -29,6 +29,7 @@ export type ConfigForTable = {
     styleUrls: ['./xm-table.component.scss'],
 })
 export class XmTableComponent<T> implements OnInit {
+    private _config: ConfigForTable | any;
     get config(): ConfigForTable {
         return this._config;
     }
@@ -37,19 +38,28 @@ export class XmTableComponent<T> implements OnInit {
         this._config = defaultsDeep({}, value);
     }
 
-    private _config: ConfigForTable | any;
-    public dataSource;
+    public dataSource$: Observable<DataSource<T>>;
     public loading$: Observable<boolean> = of(false);
-    public selected: number;
 
-    constructor(private dataService: DataService<T>) {
+    constructor(private dataService: DataService<T>,
+                private requestService: RequestBuilderService) {
     }
 
     public ngOnInit(): void {
-
-        this.dataService.getData(this.config.dataSource).subscribe(data => {
-            this.dataSource = new MatTableDataSource(data);
-        });
+        this.initialRequestParams();
+        this.dataSource$ = this.dataService.getData(this.config.dataSource).pipe(
+            map((data: T[] & {xTotalCount?: number}) => new MatTableDataSource(data)),
+        );
         this.loading$ = this.dataService.loading$();
     }
+
+    private initialRequestParams(): void {
+        this.requestService.update({
+            active: this.config.options.sortBy,
+            direction: this.config.options.sortDirection,
+            pageIndex: 0,
+            pageSize: this.config.pagination.pageSizeOptions[0],
+        });
+    }
+
 }

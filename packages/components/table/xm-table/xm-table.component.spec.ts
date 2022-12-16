@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmTableComponent } from './xm-table.component';
 
 describe('XmTableComponent', () => {
-    let component: XmTableComponent;
-    let fixture: ComponentFixture<XmTableComponent>;
+    let component: XmTableComponent<unknown>;
+    let fixture: ComponentFixture<XmTableComponent<unknown>>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({

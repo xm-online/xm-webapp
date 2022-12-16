@@ -39,7 +39,7 @@ export interface TableColumn {
     type: string | number | boolean | 'date' | 'enum', // cell content type
     dataType?: 'path' | 'jsonPath' | 'function', // data selection type
     data?: string | JavascriptCode, // value based on [dataType]
-    component?: string, //component name that will be used for cell processing
+    selector?: string, //component name that will be used for cell processing
     sortable?: boolean, // true if column sortable
     sticky?: boolean, // true if column sticky
     selectable?: boolean, // true if column selectable
@@ -72,7 +72,7 @@ export interface TableFilter {
 export interface TableOptions {
     sortBy: string, // default fields for sorting
     sortDirection: 'desc' | 'asc', // default sorting direction
-    selectableRows: true, // true to allow checkboxes for row
+    selectableRows: boolean, // true to allow checkboxes for row
     noRows: {
         initial: EmptyTableConfig, // case , when table initially loaded empty
         filter: EmptyTableConfig // case, when table filtered empty
@@ -87,7 +87,7 @@ export interface EmptyTableConfig {
 export interface TableActions {
     forOne: ActionComponent[],
     forGroup: ActionComponent[],
-    forall: ActionComponent[]
+    forAll: ActionComponent[]
 }
 
 export interface ActionComponent {

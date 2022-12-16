@@ -3,7 +3,7 @@ import { NgModule, Type } from '@angular/core';
 import { FormLayoutModule } from '@xm-ngx/components/form-layout';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { MatModule } from '../../../../../src/app/mat.module';
+import { MatModule } from '../../../../../../src/app/mat.module';
 import { TableActionsButtonsComponent } from './table-actions-buttons/table-actions-buttons.component';
 import { TableFilterChipsComponent } from './table-filter-chips/table-filter-chips.component';
 import { TableFilterComponent } from './table-filter/table-filter.component';
