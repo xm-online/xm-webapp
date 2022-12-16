@@ -13,8 +13,8 @@ import {
     XmEntity,
     XmEntitySpec,
     XmEntitySpecWrapperService,
-} from '../../../xm-entity';
-import { FunctionCallDialogComponent } from '../../../xm-entity/function-call-dialog/function-call-dialog.component';
+} from '@xm-ngx/entity';
+import { FunctionCallDialogComponent } from '@xm-ngx/entity/function-call-dialog/function-call-dialog.component';
 import { XM_EVENT_LIST } from '../../../xm.constants';
 import { pluck, takeUntil } from 'rxjs/operators';
 

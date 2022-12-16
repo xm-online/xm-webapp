@@ -7,7 +7,7 @@ import { interval, Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, map, mergeMap, startWith, take } from 'rxjs/operators';
 
 import { Principal } from '../../../shared';
-import { Attachment, AttachmentDetailDialogComponent, AttachmentService, XmEntityService } from '../../../xm-entity';
+import { Attachment, AttachmentDetailDialogComponent, AttachmentService, XmEntityService } from '@xm-ngx/entity';
 import { XM_EVENT_LIST } from '../../../xm.constants';
 
 const ATTACHMENT_EVENT = 'attachmentListModification';

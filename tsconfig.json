@@ -110,14 +110,20 @@
       "@xm-ngx/translation/testing": [
         "packages/translation/testing"
       ],
-      "@xm-ngx/entity": [
-        "src/app/xm-entity/shared"
-      ],
       "@xm-ngx/account/*": [
         "packages/account/src/*"
       ],
+      "@xm-ngx/entity": [
+        "packages/entity"
+      ],
       "@xm-ngx/entity/*": [
-        "src/app/xm-entity/*"
+        "packages/entity/src/*"
+      ],
+      "@xm-ngx/xm-shared": [
+        "src/app/shared"
+      ],
+      "@xm-ngx/xm-shared/*": [
+        "src/app/shared/*"
       ],
       "@xm-ngx/dynamic": [
         "packages/dynamic"
