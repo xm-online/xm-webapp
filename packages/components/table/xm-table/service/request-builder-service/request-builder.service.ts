@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 const cloneDeepWithoutUndefined = (obj) => transform(obj, (r, v, k) => {
-    if (v === undefined || v === '') {
+    if (v === undefined || v === '' || v === null) {
         return;
     }
     r[k] = isPlainObject(v) ? cloneDeepWithoutUndefined(v) : v;
@@ -34,10 +34,10 @@ export class RequestBuilderService implements OnDestroy {
         this.reset();
     }
 
-    public update(request: Partial<any>): void {debugger
+    public update(request: Partial<any>): void {
         const oldReq = cloneDeep(this.request$.getValue());
         let newRequest = assign({}, oldReq, request);
-        newRequest = cloneDeepWithoutUndefined(newRequest);
+        newRequest = cloneDeepWithoutUndefined(newRequest);debugger
         if (isEqual(newRequest, oldReq)) {
             return;
         }

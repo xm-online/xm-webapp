@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { get } from 'lodash';
 import { merge } from 'rxjs';
 import { RequestBuilderService } from '../service/request-builder-service/request-builder.service';
 import { TableSelectionService } from '../service/xm-table-selection-service/table-selection.service';
-import { TableActions, TableOptions, TablePagination } from '../xm-table.model';
+import { TableActions, TableColumn, TableOptions, TablePagination } from '../xm-table.model';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class XmDynamicTableComponent<T> implements OnInit, AfterViewInit, OnDest
     @Input() public config: {
         pagination?: TablePagination;
         options?: TableOptions;
-        columns?: any;
+        columns?: TableColumn[];
         actions?: TableActions
     } = {};
 
@@ -44,7 +44,7 @@ export class XmDynamicTableComponent<T> implements OnInit, AfterViewInit, OnDest
     public ngAfterViewInit(): void {
         merge(this.sort.sortChange, this.paginator.page)
             .pipe(takeUntilOnDestroy(this))
-            .subscribe((data) => {
+            .subscribe((data: Sort | PageEvent) => {
                 this.requestService.update(data);
             });
     }
@@ -52,7 +52,7 @@ export class XmDynamicTableComponent<T> implements OnInit, AfterViewInit, OnDest
     public ngOnInit(): void {
         this.total = get(this.dataSource, 'data.xTotalCount'); //????????????????????????
 
-        this.displayedColumns = this.config.columns?.map((c) => c.key || c.name || c.field);
+        this.displayedColumns = this.config.columns?.map((c) => c.data || c.field);
 
         if (this.config?.options?.selectableRows) {
             this.displayedColumns.unshift('select');

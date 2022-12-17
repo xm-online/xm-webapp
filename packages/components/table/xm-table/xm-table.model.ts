@@ -31,6 +31,8 @@ export interface TableDatasource {
 }
 
 export interface TableColumn {
+    field: string;
+    // temporary
     key: string, // Column identifier to use in another part of configuration
     title: Translate, // Column name
     tooltip?: Translate, //Column tooltip

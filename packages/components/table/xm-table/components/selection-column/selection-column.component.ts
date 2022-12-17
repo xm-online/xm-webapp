@@ -44,7 +44,6 @@ export class SelectionColumnComponent implements OnInit {
         this.isAllSelected() ?
             this.selection.clear() :
             this.dataSource.data.forEach(row => this.selection.select(row));
-        console.log(this.selection, this.dataSource);
     }
 
 }

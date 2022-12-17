@@ -1,4 +1,4 @@
-<section class="widget-wrapper">
+<section class="widget-wrapper" *ngIf="dataSource$ | async as dataSource">
     <!--    <xm-dynamic-presentation-layout [layouts]="config.header"-->
     <!--                                    class="table-header"></xm-dynamic-presentation-layout>-->
 
@@ -7,7 +7,7 @@
                      [actionsForAll]="config.actions?.forAll"
                      class="table-header"></xm-table-header>
 
-    <xm-dynamic-table [dataSource]="dataSource$ | async"
+    <xm-dynamic-table [dataSource]="dataSource"
                       [loading]="loading$ | async"
                       [config]="config"></xm-dynamic-table>
 </section>
