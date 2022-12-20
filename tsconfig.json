@@ -87,8 +87,12 @@
       "@xm-ngx/logger/testing": [
         "packages/logger/testing"
       ],
-      "@xm-ngx/timeline": ["packages/timeline"],
-      "@xm-ngx/timeline/*": ["packages/timeline/*"],
+      "@xm-ngx/timeline": [
+        "packages/timeline"
+      ],
+      "@xm-ngx/timeline/*": [
+        "packages/timeline/*"
+      ],
       "@xm-ngx/shared": [
         "src/app/modules/xm-shared"
       ],
@@ -110,8 +114,11 @@
       "@xm-ngx/translation/testing": [
         "packages/translation/testing"
       ],
+      "@xm-ngx/account": [
+        "packages/account"
+      ],
       "@xm-ngx/account/*": [
-        "packages/account/src/*"
+        "packages/account/*"
       ],
       "@xm-ngx/entity": [
         "packages/entity"
