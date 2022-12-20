@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { UserRouteAccessService } from '../shared';
+import { UserRouteAccessService } from '@xm-ngx/xm-shared';
 import { specificationMngRoute } from './specification-mng.route';
 
 const ADMIN_CONFIG_ROUTES = [
