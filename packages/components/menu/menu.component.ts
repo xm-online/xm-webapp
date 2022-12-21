@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router } from '@angular/router';
 import { DashboardStore } from '@xm-ngx/dashboard';
@@ -16,6 +16,7 @@ import { applicationsToCategory, filterByConditionDashboards } from './flat-menu
 import { MenuItem, MenuOptions } from '@xm-ngx/components/menu/menu.interface';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmSidebarPresentationType, XmSidebarStoreService } from '../sidebar';
 
 @Component({
     selector: 'xm-menu',
@@ -29,7 +30,7 @@ import { XmUiConfigService } from '@xm-ngx/core/config';
     },
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class MenuComponent implements OnInit, OnDestroy {
+export class MenuComponent implements OnInit, AfterViewChecked, OnDestroy {
     private _config: MenuOptions;
 
     @Input() set config(value: MenuOptions | null) {
@@ -48,9 +49,10 @@ export class MenuComponent implements OnInit, OnDestroy {
         protected readonly dashboardService: DashboardStore,
         protected readonly router: Router,
         protected readonly principal: Principal,
-        protected readonly uiConfigService: XmUiConfigService<{ sidebar?: { hideAdminConsole?: boolean; hideApplication?: boolean; } }>,
+        protected readonly uiConfigService: XmUiConfigService<{ sidebar?: { hideAdminConsole?: boolean; hideApplication?: boolean; hideIfEmpty?: boolean } }>,
         protected readonly entityConfigService: XmEntitySpecWrapperService,
         protected readonly contextService: ContextService,
+        protected readonly sidebarStoreService: XmSidebarStoreService,
     ) {
     }
 
@@ -117,6 +119,20 @@ export class MenuComponent implements OnInit, OnDestroy {
                 });
             },
         );
+    }
+
+    public ngAfterViewChecked(): void {
+        this.uiConfigService.config$().pipe(
+            takeUntilOnDestroy(this),
+            filter((config) => config.sidebar?.hideIfEmpty),
+            switchMap(() => this.categories$),
+            map((categories: MenuItem[]) => {
+                if (categories.length !== 0) {
+                    this.sidebarStoreService.setPresentationType(XmSidebarPresentationType.Close);
+                }
+                return [];
+            }),
+        ).subscribe();
     }
 
     public ngOnDestroy(): void {
