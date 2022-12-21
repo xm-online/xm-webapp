@@ -1463,6 +1463,10 @@
   },
   "xm-timeline": {
     "common": {
+      "no-items": "Non ci sono voci per questa richiesta!",
+      "show-more-10": "Mostra altro",
+      "show-more-all": "Mostra",
+      "title": "Cronologia",
       "time-ago": {
         "day": "un giorno fa",
         "days": " giorni fa",

@@ -40,8 +40,8 @@ export type MultiLanguageMapModel = Record<string, string>;
 export type MultiLanguageModel = MultiLanguageListModel | MultiLanguageMapModel;
 export type MultiLanguageType<T> =
     T extends 'array' ? MultiLanguageListModel :
-    T extends 'object' ? MultiLanguageMapModel :
-    never[];
+        T extends 'object' ? MultiLanguageMapModel :
+            never[];
 
 export type MultiLanguageTransform = 'array' | 'object';
 
@@ -55,6 +55,8 @@ export interface MultiLanguageOptions {
     feedback?: string;
     transformAs: MultiLanguageTransform;
     language?: LanguageOptions;
+    maxLength?: number;
+    excludeLang: string[];
 }
 
 export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
@@ -63,6 +65,8 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
     feedback: null,
     transformAs: 'array',
     language: null,
+    maxLength: null,
+    excludeLang: [],
 };
 
 @Component({
@@ -117,8 +121,16 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         [disabled]="!selectedLng || disabled"
                         [ngModel]="modelToView()"
                         [attr.name]="name"
+                        [attr.maxlength]="options.maxLength"
                         [readonly]="readonly"
                         (ngModelChange)="viewToModel($event)"/>
+
+                    <mat-hint
+                        *ngIf="options.maxLength"
+                        align="end"
+                        style="min-width: fit-content">
+                        {{modelToView().length}} / {{options.maxLength}}
+                    </mat-hint>
 
                     <mat-hint [hint]="options.hint"></mat-hint>
 
@@ -175,6 +187,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
         this.setDisabledState(this._control?.disabled);
     }
+
     get control(): UntypedFormControl {
         return this._control;
     }
@@ -198,7 +211,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     public ngAfterViewInit(): void {
         // Trick, validators apply to parent control, but mat-error required the nearest control
-        this.control.valueChanges.pipe(
+        this.control?.valueChanges.pipe(
             takeUntilOnDestroy(this),
         ).subscribe(() => {
             this.matInput.ngControl.control.setErrors(this.control.errors);
@@ -207,7 +220,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     public ngOnInit(): void {
         this.xmConfigService.config$().pipe(take(1)).subscribe(config => {
-            this.languages = config.langs;
+            this.languages = _.difference(config.langs, this.options.excludeLang);
             this.selectedLng = this.languages[0];
         });
     }
@@ -250,12 +263,12 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
                     [this.selectedLng]: value,
                 };
             }
-            if(_.isEmpty(this.value)) {
+            if (_.isEmpty(this.value)) {
                 this.value = null;
             }
         } else {
             const oldValue = (this.getValue<'array'>() ?? []);
-            const langValue = { languageKey: this.selectedLng, name: value };
+            const langValue = {languageKey: this.selectedLng, name: value};
 
             const index = oldValue.findIndex(propEq('languageKey', this.selectedLng));
 
@@ -272,8 +285,8 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             this.control.setValue(this.value);
             this.control.markAsTouched();
             this.control.markAsDirty();
-        }
 
-        this.setDisabledState(this.control.disabled);
+            this.setDisabledState(this.control.disabled);
+        }
     }
 }

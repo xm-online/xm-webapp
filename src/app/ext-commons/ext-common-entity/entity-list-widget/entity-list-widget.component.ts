@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { LIST_DEFAULT_FIELDS } from '../../../shared/constants/default-lists-fields.constants';
-import { Spec } from '../../../xm-entity';
+import { Spec } from '@xm-ngx/entity';
 
 @Component({
     selector: 'xm-entity-list-widget',

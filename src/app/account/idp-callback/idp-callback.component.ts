@@ -44,13 +44,17 @@ export class IdpCallbackComponent implements OnDestroy {
                     this.handleErrorException(err, config, params);
                 });
             } else {
-                this.router.navigate(['']);
+                this.navigate();
             }
         });
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
+    }
+
+    protected navigate(): void {
+        this.router.navigate(['']);
     }
 
     private handleErrorException(err: IErrorTerm, config: XmUIConfig, params: Params) {
