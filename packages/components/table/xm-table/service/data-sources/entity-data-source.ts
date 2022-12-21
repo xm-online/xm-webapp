@@ -39,7 +39,7 @@ export class EntityDataSource<T> implements XmTableDataSourceI<XmEntity<T>> {
         return this._loading$.asObservable();
     }
 
-    public query(config: TableDatasource): Observable<XmEntity<T>[]> {
+    public getAll(config: TableDatasource): Observable<XmEntity<T>[]> {
 
         if (!config.options?.typeKey) {
             throw new ArgumentException('Config path dataSource.options.typeKey should be defined!');

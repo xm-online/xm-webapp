@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 
 export interface XmTableDataSourceI<T> {
     loading$: () => Observable<boolean>;
-    query: (config: TableDatasource) => Observable<T[]>;
+    getAll: (config: TableDatasource) => Observable<T[]>;
 }
 
 @Injectable({ providedIn: 'any' })
@@ -30,7 +30,7 @@ export class DataService<P> {
             throw new ArgumentException('Can`t find DataSourceService!');
         }
         this._loading$ = this.dataAccessService.loading$();
-        return this.dataAccessService.query(dataSource);
+        return this.dataAccessService.getAll(dataSource);
     }
 
     public loading$(): Observable<boolean> {

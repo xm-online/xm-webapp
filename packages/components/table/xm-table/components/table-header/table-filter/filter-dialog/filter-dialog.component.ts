@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroupLayoutFactoryService, FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 
@@ -10,11 +10,11 @@ import { FormGroupLayoutFactoryService, FormGroupLayoutItem } from '@xm-ngx/comp
 })
 export class FilterDialogComponent implements OnInit {
     public config: FormGroupLayoutItem[];
-    public group: FormGroup;
-    public value: any;
+    public group: UntypedFormGroup;
+    public value: unknown;
 
     constructor(public dialogRef: MatDialogRef<FilterDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any,
+                @Inject(MAT_DIALOG_DATA) public data: {config: FormGroupLayoutItem[], value: unknown},
                 private layoutFactoryService: FormGroupLayoutFactoryService) {
         this.config = data.config;
         this.value = data.value;

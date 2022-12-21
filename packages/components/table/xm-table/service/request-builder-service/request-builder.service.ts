@@ -17,14 +17,13 @@ const cloneDeepWithoutUndefined = (obj) => transform(obj, (r, v, k) => {
 export class RequestBuilderService implements OnDestroy {
     private request$: BehaviorSubject<any>;
 
-    constructor(private paramsStore: PageParamsStore,
+    constructor( private paramsStore: PageParamsStore,
                 private pageService: PageService,) {
         this.init();
         this.pageService.active$().pipe(
             filter(Boolean),
             takeUntilOnDestroy(this),
         ).subscribe(() => {
-            console.log('page')
             this.reset();
         });
     }
@@ -37,7 +36,7 @@ export class RequestBuilderService implements OnDestroy {
     public update(request: Partial<any>): void {
         const oldReq = cloneDeep(this.request$.getValue());
         let newRequest = assign({}, oldReq, request);
-        newRequest = cloneDeepWithoutUndefined(newRequest);debugger
+        newRequest = cloneDeepWithoutUndefined(newRequest);
         if (isEqual(newRequest, oldReq)) {
             return;
         }

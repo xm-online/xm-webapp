@@ -32,13 +32,13 @@
         <tr mat-header-row
             *matHeaderRowDef="displayedColumns"></tr>
 
-        <ng-container>
+
             <tr mat-header-row
                 *matHeaderRowDef="loading ? ['loading'] : null"
                 class="loadingRow">
                 <xm-loading-bar [visible]="true"></xm-loading-bar>
             </tr>
-        </ng-container>
+
         <tr mat-row
             *matRowDef="let row; columns: displayedColumns; let odd = odd"
             [ngClass]="{'striped': odd, 'selected':selection.isSelected(row)}"></tr>

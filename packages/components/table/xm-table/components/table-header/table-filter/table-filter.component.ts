@@ -1,8 +1,7 @@
-import {Component, Input, ViewChild} from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import {MatDialog} from '@angular/material/dialog';
-import {FilterDialogComponent} from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/filter-dialog/filter-dialog.component';
-import {RequestBuilderService} from '@xm-ngx/components/table/xm-table/service/request-builder-service/request-builder.service';
+import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { FilterDialogComponent } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/filter-dialog/filter-dialog.component';
+import { RequestBuilderService } from '@xm-ngx/components/table/xm-table/service/request-builder-service/request-builder.service';
 
 @Component({
     selector: 'xm-table-filter',
@@ -10,30 +9,28 @@ import {RequestBuilderService} from '@xm-ngx/components/table/xm-table/service/r
 })
 export class TableFilterComponent {
     @Input() public config: any;
-    private formValue: any;
+    private formValue;
 
 
     constructor(private matDialog: MatDialog,
                 private requestBuilder: RequestBuilderService) {
+        this.requestBuilder.change$().subscribe(value => this.formValue = value);
     }
 
-    @ViewChild(MatButton) public button: MatButton;
 
     public openFilter(): void {
         const dialog = this.matDialog.open(FilterDialogComponent, {
-            disableClose:false,
+            disableClose: false,
             backdropClass: [],
-            data: {config: this.config, value: this.formValue},
+            data: { config: this.config, value: this.formValue },
         });
         dialog.afterClosed().subscribe((query) => {
-            this.formValue = query;
-
+            if (query === undefined) {
+                return;
+            }
             this.requestBuilder.update(query);
         });
     }
-
-
-
 
 
     // private removeEmpty(obj) {
