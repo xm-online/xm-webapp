@@ -127,7 +127,7 @@ export class MenuComponent implements OnInit, AfterViewChecked, OnDestroy {
             filter((config) => config.sidebar?.hideIfEmpty),
             switchMap(() => this.categories$),
             map((categories: MenuItem[]) => {
-                if (categories.length !== 0) {
+                if (categories.length === 0) {
                     this.sidebarStoreService.setPresentationType(XmSidebarPresentationType.Close);
                 }
                 return [];
