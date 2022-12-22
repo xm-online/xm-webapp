@@ -15,7 +15,7 @@ import { VERSION } from '../../xm.constants';
 export class XmMainComponent implements OnInit, OnDestroy {
     public resolved$: Observable<boolean> = this.xmConfigService.isResolved();
     public isGuestLayout: boolean = true;
-    public hideIfEmpty: boolean = false;
+    public isSidebarEmpty: boolean = false;
     public config: UIPublicConfig = this.xmConfigService.getAppConfig();
 
     constructor(
@@ -34,7 +34,7 @@ export class XmMainComponent implements OnInit, OnDestroy {
         );
         this.sidebarStoreService.onPresentationChange.pipe(takeUntilOnDestroy(this)).subscribe(
             (presentationType: XmSidebarPresentationType) => 
-                this.hideIfEmpty = presentationType === XmSidebarPresentationType.Close,
+                this.isSidebarEmpty = presentationType === XmSidebarPresentationType.Close,
         );
     }
 

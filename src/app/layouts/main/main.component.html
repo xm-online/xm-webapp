@@ -5,10 +5,10 @@
 
 <div class="heatmap-container-wrapper">
   <div class="hidden-heatmap" id="heatmapContainer">
-    <div class="wrapper {{(isGuestLayout || hideIfEmpty) ? 'xm-guest-layout' : 'xm-auth-layout'}}">
+    <div class="wrapper {{(isGuestLayout || isSidebarEmpty) ? 'xm-guest-layout' : 'xm-auth-layout'}}">
       <div xmGuestBackground></div>
 
-      <xm-sidebar *ngIf="!isGuestLayout || hideIfEmpty" class="sidebar"></xm-sidebar>
+      <xm-sidebar *ngIf="!isGuestLayout && !isSidebarEmpty" class="sidebar"></xm-sidebar>
 
       <div *ngIf="resolved$ | async"
            class="main-panel xm-main-panel"
@@ -18,7 +18,7 @@
 
         <xm-navbar class="mb-3"></xm-navbar>
 
-        <div [ngClass]="((isGuestLayout || hideIfEmpty) && !config.fullWidth) ? 'container' : 'container-fluid'"
+        <div [ngClass]="((isGuestLayout || isSidebarEmpty) && !config.fullWidth) ? 'container' : 'container-fluid'"
              class="main-content xm-main-content">
           <router-outlet></router-outlet>
         </div>
