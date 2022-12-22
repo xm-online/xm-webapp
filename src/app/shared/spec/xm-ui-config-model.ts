@@ -1,4 +1,4 @@
-import { FieldOptions } from '../../xm-entity/entity-list-card/entity-list-card-options.model';
+import { FieldOptions } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
 
 export class TranslationSet {
     [language: string]: string;

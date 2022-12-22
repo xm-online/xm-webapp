@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { filter, shareReplay, takeUntil } from 'rxjs/operators';
 import { AuthRefreshTokenService } from '../../../../packages/core/auth';
-import { XmEntity } from '../../xm-entity';
+import { XmEntity } from '@xm-ngx/entity';
 
 import { AccountService } from './account.service';
 import { SUPER_ADMIN } from './auth.constants';

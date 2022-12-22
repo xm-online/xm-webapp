@@ -9,7 +9,7 @@ import { RouteLoadingDirectiveModule } from '@xm-ngx/components/route-loading';
 import { XmPasswordNeededModule } from '@xm-ngx/components/password-needed';
 import { XmRibbonModule } from '@xm-ngx/components/ribbon';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
-import { XmEntityModule } from '@xm-ngx/entity';
+import { XmEntityModule } from '@xm-ngx/entity/xm-entity.module';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmBalanceModule } from '@xm-ngx/xm-balance';
 import { XmMaintenanceViewModule } from '@xm-ngx/components/maintenance';
