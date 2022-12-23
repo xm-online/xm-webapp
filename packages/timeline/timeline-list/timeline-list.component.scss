@@ -2,7 +2,14 @@
 @import '~@xm-ngx/styles/src/scroll';
 
 .timeline-container {
-  max-height: 400px;
-  overflow-y: auto;
+  max-height:   400px;
+  overflow-y:   auto;
+  margin-left:  -1rem;
+  margin-right: -1rem;
   @include xm-scrollbar();
+
+  .list-group-item {
+    border-left:  0;
+    border-right: 0;
+  }
 }
