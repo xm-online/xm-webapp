@@ -1,14 +1,14 @@
 <ng-container *ngIf="item">
   <div class="row no-gutters">
     <div class="col-md-3 col-sm-6">
-      <div class="item-date text-md-center text-start m-2 m-md-0 small">
+      <div class="item-date text-md-center text-start mx-2 mt-1 mx-md-0 small">
         {{item.startDate | date: 'dd.MM.yyyy'}}
         <span>{{item.startDate | date: 'HH:mm'}}</span>
       </div>
     </div>
 
     <div class="col-md-9 col-sm-12">
-      <div class="item-user m-2 m-md-0">
+      <div class="item-user mx-2 mx-md-0">
         {{item.login ? item.login : 'System'}}
       </div>
       <div class="item-body">

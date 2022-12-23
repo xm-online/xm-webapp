@@ -143,6 +143,15 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
             .subscribe((value: string) => {
                 this.control.patchValue(value?.trim());
             });
+
+        this.control.valueChanges
+            .pipe(
+                takeUntilOnDestroy(this),
+                filter((value) => !value),
+            )
+            .subscribe(() => {
+                this.newControl.patchValue(null, {emitEvent: false});
+            });
     }
 
 }
