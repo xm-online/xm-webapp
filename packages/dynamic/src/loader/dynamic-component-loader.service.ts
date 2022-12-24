@@ -28,58 +28,60 @@ export class DynamicComponentLoaderService {
     public async find(inSelector: string, injector: Injector = this.moduleRef.injector): Promise<DynamicComponentLoaderGetReturnValue | null> {
         const selector = this.simplifyExtSelector(inSelector);
 
-        const module = this.isExtSelector(selector) ? await this.loadModule(selector, injector) : null;
+        return this.loadModule(selector, injector).then(module => {
 
-        const parentInjector = module?.injector || injector;
-        if (!this.cache[selector]) {
-            // TODO: Deprecated solution
-            const providerResult = this.handleProviderSolution(selector, parentInjector);
-            if (providerResult) {
-                console.warn(`Immediately resolve deprecated solution usage. Use XmDynamicModule.forChild() instead. Selector: ${selector}`);
-                return {
-                    component: providerResult,
-                    injector: parentInjector,
-                    module,
-                };
+            const parentInjector = module?.injector || injector;
+            if (!this.cache[selector]) {
+                // TODO: Deprecated solution
+                const providerResult = this.handleProviderSolution(selector, parentInjector);
+                if (providerResult) {
+                    console.warn(`Immediately resolve deprecated solution usage. Use XmDynamicModule.forChild() instead. Selector: ${selector}`);
+                    return {
+                        component: providerResult,
+                        injector: parentInjector,
+                        module,
+                    };
+                }
+
+                this.cache[selector] = new Promise(async resolve => {
+                    const component = this.findComponentInRegistry(parentInjector, selector);
+
+                    if (!component) {
+                        this.cache[selector] = null;
+                        resolve(null);
+                    }
+                    const loaded: any = await component.loadChildren();
+                    resolve(loaded);
+                });
             }
 
-            this.cache[selector] = new Promise(async resolve => {
-                const component = this.findComponentInRegistry(parentInjector, selector);
-
-                if (!component) {
-                    this.cache[selector] = null;
-                    resolve(null);
-                }
-                const loaded: any = await component.loadChildren();
-                resolve(loaded);
-            });
-        }
-
-        return this.cache[selector].then(loaded => {
-            if (this.isEntryModule(loaded)) {
-                const compiledModule: any = createNgModule(loaded, parentInjector);
-                if (compiledModule?.instance?.entry) {
-                    console.warn(`Deprecated solution. Make ${selector} standalone component`);
+            return this.cache[selector].then(loaded => {
+                if (this.isEntryModule(loaded)) {
+                    const compiledModule: any = createNgModule(loaded, parentInjector);
+                    if (compiledModule?.instance?.entry) {
+                        console.warn(`Deprecated solution. Make ${selector} standalone component`);
+                        return {
+                            component: compiledModule.instance.entry,
+                            injector: compiledModule.injector,
+                            module: compiledModule,
+                        };
+                    }
+                    // Unique case - module loader. Probably it's just for @xm-ngx/dashboard/default-dashboard module
                     return {
-                        component: compiledModule.instance.entry,
+                        component: loaded,
                         injector: compiledModule.injector,
                         module: compiledModule,
                     };
                 }
-                // Unique case - module loader. Probably it's just for @xm-ngx/dashboard/default-dashboard module
+
+                // Standalone component.
                 return {
                     component: loaded,
-                    injector: compiledModule.injector,
-                    module: compiledModule,
+                    injector: parentInjector,
                 };
-            }
+            });
+        })
 
-            // Standalone component.
-            return {
-                component: loaded,
-                injector: parentInjector,
-            };
-        });
     }
 
     private isEntryModule(entry: any): boolean {
@@ -121,8 +123,8 @@ export class DynamicComponentLoaderService {
         return selector.includes('/');
     }
 
-    private loadModule(selector: string, injector: Injector): any {
-        return this.dynamicModules.find(selector.split('/')[0], injector);
+    private async loadModule(selector: string, injector: Injector): Promise<any> {
+        return this.isExtSelector(selector) ? this.dynamicModules.find(selector.split('/')[0], injector) : null;
     }
 
     private isCoreComponent(selector: string): boolean {
