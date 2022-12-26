@@ -80,7 +80,7 @@ export class DynamicComponentLoaderService {
                     injector: parentInjector,
                 };
             });
-        })
+        });
 
     }
 
