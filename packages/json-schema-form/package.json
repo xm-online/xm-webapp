@@ -1,0 +1,18 @@
+{
+  "name": "@xm-ngx/json-schema-form",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xm-online/xm-webapp.git",
+    "directory": "packages/json-schema-form"
+  },
+  "keywords": [
+    "xm-ngx",
+    "json-schema-form"
+  ],
+  "dependencies": {
+    "@jsonforms/core": "3.0.0",
+    "@jsonforms/angular": "3.0.0",
+    "@jsonforms/angular-material": "3.0.0"
+  }
+}

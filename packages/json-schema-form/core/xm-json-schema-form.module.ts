@@ -18,7 +18,9 @@ import { fixFlexLayout } from './fix-flex-layout';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { XmFlexLayoutSectionComponent } from '@xm-ngx/json-schema-form/components/flex-layout-section.component';
-import { XmMaterialDesignFrameworkComponent } from '@xm-ngx/json-schema-form/components/material-design-framework.component';
+import {
+    XmMaterialDesignFrameworkComponent
+} from '@xm-ngx/json-schema-form/components/material-design-framework.component';
 import { XmFlexLayoutRootComponent } from '@xm-ngx/json-schema-form/components/flex-layout-root.component';
 
 
@@ -45,6 +47,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { XmJsonSchemaFormService } from '@xm-ngx/json-schema-form/core/xm-json-schema-form.service';
+
+import { JsonFormsModule } from '@jsonforms/angular';
+import { JsonFormsAngularMaterialModule } from '@jsonforms/angular-material';
 
 const _JsonSchemaFormModule = {
     ngModule: JsonSchemaFormModule,
@@ -97,7 +102,7 @@ export const ANGULAR_MATERIAL_MODULES = [
         },
     ],
 })
-export class XmJsonSchemaFormModule {
+export class OldXmJsonSchemaFormModule {
 
     /**
      Luck of ajsf architecture.
@@ -116,5 +121,17 @@ export class XmJsonSchemaFormModule {
                 break;
         }
     }
+
+}
+
+@NgModule({
+    imports: [
+        JsonFormsModule,
+        JsonFormsAngularMaterialModule,
+        OldXmJsonSchemaFormModule,
+    ],
+    exports: [OldXmJsonSchemaFormModule],
+})
+export class XmJsonSchemaFormModule {
 
 }
