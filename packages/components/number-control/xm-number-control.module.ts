@@ -9,7 +9,7 @@ import { XmDynamicControlConstructor } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
 
 import { XmNumberControl, XmNumberControlOptions } from './xm-number-control';
-import { XmNumberDirective } from '@xm-ngx/components/number-control/xm-number.directive';
+import { XmNumberDirective } from './xm-number.directive';
 
 @NgModule({
     imports: [
