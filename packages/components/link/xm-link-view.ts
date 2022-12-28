@@ -46,7 +46,7 @@ export const XM_LINK_VIEW_DEFAULT_OPTIONS: XmLinkViewOptions = assign(
 })
 export class XmLinkViewComponent extends XmLink implements XmDynamicPresentation<IId, XmLinkViewOptions>, OnInit, OnChanges {
     @Input() public value: IId;
-    @Input() public options: XmLinkViewOptions;
+    @Input() public options: XmLinkViewOptions & {options?: XmLinkOptions};
     protected defaultOptions: XmLinkViewOptions = clone(XM_LINK_VIEW_DEFAULT_OPTIONS);
 }
 
