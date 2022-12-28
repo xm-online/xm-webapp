@@ -52,7 +52,6 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
     protected defaultOptions: XmLinkOptions = clone(XM_LINK_DEFAULT_OPTIONS);
 
     public update(): void {
-        console.log('options', this.options);
         if (!this.value) {
             return;
         }
