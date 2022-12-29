@@ -46,7 +46,7 @@ type DateValue = string[] | Date[];
     selector: 'xm-date-range-filter-control',
     template: `
         <mat-form-field class="xm-custom-input-icon">
-            <mat-label>{{ options.title | translate }}</mat-label>
+            <mat-label *ngIf="options?.title">{{ options?.title | translate }}</mat-label>
 
             <div class="to-display" *ngIf="value && value.length > 0">
                 <xm-date [value]="value[0]" [options]="options"></xm-date>
