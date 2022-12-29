@@ -87,7 +87,9 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
         if (style?.includes('${')) {
             try {
                 style = _.template(style ?? '')(this.row as object ?? {});
-            } catch(e) {}
+            } catch(e) {
+                console.warn(e);
+            }
         }
 
         return style;
@@ -97,7 +99,9 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
         if (classNames?.includes('${')) {
             try {
                 classNames = _.template(classNames ?? '')(this.row as object ?? {});
-            } catch(e) {}
+            } catch(e) {
+                console.warn(e);
+            }
         }
 
         return classNames;
