@@ -6,7 +6,7 @@ import { MatModule } from '../../mat.module';
 import { XmAlertModule } from '@xm-ngx/alert';
 import { XmCoreModule } from '@xm-ngx/core';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { XmEntityModule } from '@xm-ngx/entity';
+import { XmEntityModule } from '@xm-ngx/entity/shared';
 
 @NgModule({
     imports: [
