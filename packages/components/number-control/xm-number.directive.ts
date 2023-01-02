@@ -36,7 +36,7 @@ export class XmNumberPipe implements PipeTransform {
             case XmNumberSystemType.Integer:
                 return value ? charFilter(value, '0123456789-') : value;
             case XmNumberSystemType.Rational:
-                return value ? charFilter(value, '0123456789-.') : value;
+                return value ? charFilter(value, '0123456789-.,') : value;
             default:
                 throw 'Invalid type';
         }
