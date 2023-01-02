@@ -184,7 +184,6 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     @Input() set control(control: UntypedFormControl | null) {
         this._control = control;
-
         this.setDisabledState(this._control?.disabled);
     }
 
@@ -215,6 +214,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             takeUntilOnDestroy(this),
         ).subscribe(() => {
             this.matInput.ngControl.control.setErrors(this.control.errors);
+            this.setDisabledState(this.control.disabled);
         });
     }
 
@@ -285,8 +285,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             this.control.setValue(this.value);
             this.control.markAsTouched();
             this.control.markAsDirty();
-
-            this.setDisabledState(this.control.disabled);
         }
+        this.setDisabledState(this.control.disabled);
     }
 }
