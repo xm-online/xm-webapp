@@ -22,11 +22,11 @@
                             "src/i18n",
                             "src/swagger-ui",
                             "src/robots.txt",
-                          {
-                            "glob": "**/*",
-                            "input": "./node_modules/@kolkov/angular-editor/assets/",
-                            "output": "./assets/fonts/"
-                          }
+                            {
+                              "glob": "**/*",
+                              "input": "./node_modules/@kolkov/angular-editor/assets/",
+                              "output": "./assets/fonts/"
+                            }
                         ],
                         "styles": [ "src/styles.scss" ],
                         "scripts": [
