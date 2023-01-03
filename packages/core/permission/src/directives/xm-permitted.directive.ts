@@ -88,8 +88,10 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
             this.viewContainerRef.clear();
             return;
         }
-
-        this.permissionChange.next(this._xmPermitted);
+        
+        requestAnimationFrame(() => {
+            this.permissionChange.next(this._xmPermitted);
+        });
     }
 
 }

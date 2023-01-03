@@ -10,7 +10,8 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "lodash": "4.17.21",
     "yargs": "17.6.0",
-    "sync-request": "6.1.0"
+    "got": "11.8.3"
   }
 }
