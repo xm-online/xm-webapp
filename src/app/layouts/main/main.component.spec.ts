@@ -13,6 +13,7 @@ import { Observable, of } from 'rxjs';
 import { LoginService, ModulesLanguageHelper, XmConfigService } from '../../shared';
 import { XmApplicationConfigService } from '../../shared/spec/xm-config.service';
 import { XmMainComponent } from './main.component';
+import { XmSidebarStoreService } from '@xm-ngx/components/sidebar';
 
 class Mock {
 }
@@ -79,6 +80,7 @@ describe('XmMainComponent', () => {
                     provide: LoginService,
                     useClass: Mock,
                 },
+                { provide: XmSidebarStoreService, useValue: {onPresentationChange:of(null)} }
             ],
         }).compileComponents();
     }));
