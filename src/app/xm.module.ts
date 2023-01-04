@@ -23,7 +23,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { XmLoggerWatcherService } from '@xm-ngx/logger';
 
-import { IdleLogoutService } from 'src/app/account/logout/idle-logout.service';
+import { IdleLogoutService } from '@xm-ngx/account/logout/idle-logout.service';
 import { XmMainComponent } from 'src/app/layouts';
 import { LayoutModule } from 'src/app/layouts/layout.module';
 import { XmApplicationConfigService } from 'src/app/shared/spec';
