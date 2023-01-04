@@ -4,7 +4,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 
 import { I18nNamePipe, JhiLanguageHelper, Principal } from '../shared';
-import { Spec, XmEntity, XmEntityService, XmEntitySpecWrapperService } from '../xm-entity';
+import { Spec, XmEntity, XmEntityService, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 
 declare const $: any;
 

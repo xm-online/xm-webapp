@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { filter, shareReplay, takeUntil } from 'rxjs/operators';
 import { AuthRefreshTokenService } from '../../../../packages/core/auth';
-import { XmEntity } from '../../xm-entity';
+import { XmEntity } from '@xm-ngx/entity';
 
 import { AccountService } from './account.service';
 import { SUPER_ADMIN } from './auth.constants';
@@ -70,7 +70,14 @@ export class Principal implements OnDestroy, OnInitialize {
             return Promise.resolve(false);
         }
 
-        return Promise.resolve(true);
+        //if has role but no authorities provided, return true
+        if (this.userIdentity.roleKey && !authorities?.length) {
+            return Promise.resolve(true);
+        }
+
+        const hasKey = authorities.some(it => it === this.userIdentity.roleKey);
+
+        return Promise.resolve(hasKey);
     }
 
     public hasPrivilegesInline(privileges: string[] = [], privilegesOperation: string = 'OR'): any {
@@ -91,10 +98,10 @@ export class Principal implements OnDestroy, OnInitialize {
             return false;
         } else if (privilegesOperation === 'AND') {
             return privileges.filter((el) => this.userIdentity.privileges.indexOf(el) === -1);
-        } 
+        }
         this.alertService.warning('error.privilegeOperationWrong', { name: privilegesOperation });
         return false;
-        
+
     }
 
     public hasPrivileges(privileges: string[] = [], privilegesOperation: string = 'OR'): Promise<any> {
@@ -112,7 +119,7 @@ export class Principal implements OnDestroy, OnInitialize {
     public identity(force: boolean = false, mockUser: boolean = false): Promise<any> {
         if (!force && this.promise) {
             return this.promise;
-        } 
+        }
         return this.promise = new Promise((resolve, reject) => {
             if (force === true) {
                 this.userService.forceReload();
@@ -187,7 +194,7 @@ export class Principal implements OnDestroy, OnInitialize {
                     }
                 });
         });
-        
+
     }
 
     /**
@@ -237,9 +244,9 @@ export class Principal implements OnDestroy, OnInitialize {
         }
         if (this.userIdentity.firstName || this.userIdentity.lastName) {
             return [this.userIdentity.firstName, this.userIdentity.lastName].join(' ');
-        } 
+        }
         return this.userIdentity.logins[0].login;
-        
+
     }
 
     public getDetailName(): string[] {

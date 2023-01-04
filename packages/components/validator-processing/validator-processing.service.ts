@@ -5,6 +5,7 @@ import {
     XmControlErrorsTranslates,
 } from '@xm-ngx/components/control-error/xm-control-errors-translates';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import * as _ from 'lodash';
 
 
 /***
@@ -44,8 +45,6 @@ export class ValidatorProcessingService {
         valueLessThanIn: ValidatorProcessingService.valueLessThanIn,
         valueMoreThanIn: ValidatorProcessingService.valueMoreThanIn,
         severalEmails: ValidatorProcessingService.severalEmails,
-        dateMoreThanIn: ValidatorProcessingService.dateMoreThanIn,
-        dateLessThanIn: ValidatorProcessingService.dateLessThanIn,
     };
 
     public static languageRequired(languages: string[]): ValidatorFn {
@@ -117,8 +116,8 @@ export class ValidatorProcessingService {
             if (!control.value) {
                 return null;
             }
-            let compareValue = control?.parent?.value[controlName] ?? 0;
-            const isNumber = Number.isInteger(compareValue);
+            let compareValue = _.get(control?.parent?.value, controlName) ?? 0;
+            const isNumber = Number.isInteger(Math.round(compareValue));
             if(!isNumber) {
                 compareValue = new Date(compareValue);
             }
@@ -131,7 +130,7 @@ export class ValidatorProcessingService {
                     },
                 };
             }
-            control?.parent?.controls[controlName]?.setErrors(null);
+            _.get(control?.parent?.controls, controlName)?.setErrors(null);
             return null;
         };
     }
@@ -141,8 +140,8 @@ export class ValidatorProcessingService {
             if (!control.value) {
                 return null;
             }
-            let compareValue = control?.parent?.value[controlName] ?? 0;
-            const isNumber = Number.isInteger(compareValue);
+            let compareValue = _.get(control?.parent?.value, controlName) ?? 0;
+            const isNumber = Number.isInteger(Math.round(compareValue));
 
             if(!isNumber) {
                 compareValue = new Date(compareValue);

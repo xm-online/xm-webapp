@@ -1,15 +1,26 @@
 @import 'theme';
 
 :host(.xm-sidebar-right) {
-  display:  inline-block;
-  position: fixed;
-  height:   100%;
-  width:    0;
-  right:    0;
-  top:      0;
-  bottom:   0;
-  overflow: hidden;
-  z-index:  $zindex-fixed;
-  @include transitions-property(width, 300ms, cubic-bezier(0.685, 0.0473, 0.346, 1));
-  @include xm-shadow-xs();
+    display: inline-block;
+    position: fixed;
+    height: 100%;
+    width: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: $zindex-fixed;
+    &.animate {
+        @include transitions-property(width, 300ms, cubic-bezier(0.685, 0.0473, 0.346, 1));
+    }
+    @include xm-shadow-xs();
+}
+.resize-divider {
+    width: 5px;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    cursor: ew-resize;
+    user-select: none;
+    -webkit-user-select: none;
 }

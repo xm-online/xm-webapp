@@ -35,11 +35,11 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
         sortDirection: 'asc' | 'desc',
         sortBy: string
     } = {
-        pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
-        pageSize: TABLE_CONFIG_DEFAULT.pageSize,
-        sortDirection: 'desc',
-        sortBy: 'privilegeKey',
-    };
+            pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
+            pageSize: TABLE_CONFIG_DEFAULT.pageSize,
+            sortDirection: 'desc',
+            sortBy: 'privilegeKey',
+        };
 
     public matrix: RoleMatrix;
     public totalItems: number;

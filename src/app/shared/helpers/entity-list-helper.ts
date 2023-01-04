@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { FieldOptions } from '../../xm-entity/entity-list-card/entity-list-card-options.model';
+import { FieldOptions } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
 import { transpilingForIE } from '../jsf-extention';
 import { XmEntity } from '@xm-ngx/entity';
 
@@ -32,4 +32,12 @@ export const flattenEntityWithPath = (obj: XmEntity, prefix: string = ''): any =
         }
         return acc;
     }, {});
+};
+
+export const getApplicationTypeKey = (path: string): string => {
+    if (path.includes('application')) {
+        const url = path.split('/');
+        return url[url.indexOf('application') + 1];
+    }
+    return null;
 };

@@ -1,75 +1,134 @@
-const request = require('sync-request');
+const got = require('got');
 const logger = console;
 const args = require('yargs').argv;
 const fs = require('fs');
+const _ = require('lodash');
 
 const xmurl = args.xmurl || process.env.npm_config_xmurl || process.env.xmurl || '';
 const xmgrant = args.xmgrant || process.env.npm_config_xmgrant || process.env.xmgrant || '';
 const xmauth = args.xmauth || process.env.npm_config_xmauth || process.env.xmauth || '';
 const dist = args.dist || process.env.npm_config_dist || process.env.dist || 'dist/dashboards.json';
 
-function saveJson(path, data) {
-    let dir = path.split('/');
-    dir.pop();
-    dir = dir.join('/');
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir)
+
+class JsonFile {
+    saveJson(path, data) {
+        let dir = path.split('/');
+        dir.pop();
+        dir = dir.join('/');
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+        }
+
+        fs.writeFileSync(path, JSON.stringify(data, null, 4), {encoding: 'utf8'});
     }
 
-    fs.writeFileSync(path, JSON.stringify(data, null, 4), {encoding: 'utf8'});
+    deleteFile(target) {
+        fs.unlinkSync(target);
+    }
+
+    loadFile(target) {
+        const contents = fs.readFileSync(target, {encoding: 'utf-8'});
+        const jsonContent = JSON.parse(contents);
+        return jsonContent;
+    }
 }
 
-class ExportDashboards {
-    connect(url, grant, auth) {
-        logger.debug('XM start getAccessToken');
+class ExportDashboardRepo {
 
-        const res = request('POST', url + '/uaa/oauth/token', {
+    async connect(url, grant, auth) {
+        const res = await got.post(url + '/uaa/oauth/token', {
             body: grant,
             headers: {
-                'Authorization': auth,
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+                'Authorization': auth, 'Content-Type': 'application/x-www-form-urlencoded',
+            },
         });
-        const data = JSON.parse(res.getBody());
+        const data = JSON.parse(res.body);
 
         this.url = url;
         this.accessToken = data.access_token;
         this.headers = {
-            'Authorization': 'Bearer ' + this.accessToken
+            'Authorization': 'Bearer ' + this.accessToken,
         };
-        logger.debug('XM end getAccessToken');
     }
 
-    getDashboards() {
-        logger.debug('XM start getDashboards');
-
-        const res = request('GET', this.url + '/dashboard/api/dashboards', {'headers': this.headers});
-        const data = JSON.parse(res.getBody());
-
-        logger.debug('XM end getDashboards length=' + data.length);
+    async getDashboards() {
+        const res = await got.get(this.url + '/dashboard/api/dashboards', {'headers': this.headers});
+        const data = JSON.parse(res.body);
         return data;
     }
 
-    getWidgets() {
-        logger.debug('XM start getWidgets');
-
-        const res = request('GET', this.url + '/dashboard/api/widgets', {'headers': this.headers});
-        const data = JSON.parse(res.getBody());
-
-        logger.debug('XM end getWidgets length=' + data.length);
+    async getWidgets() {
+        const res = await got.get(this.url + '/dashboard/api/widgets', {'headers': this.headers});
+        const data = JSON.parse(res.body);
         return data;
     }
 
+    async getDashboardsWithWidgets() {
+        const dashboards = await this.getDashboards();
+        const widgets = await this.getWidgets();
+        return _.map(dashboards, d => Object.assign({}, d, {
+            widgets: _.filter(widgets, w => w.dashboard == d.id),
+        }));
+    }
+
+    async dropDashboardsWithWidgets() {
+        const dashboards = await this.getDashboardsWithWidgets();
+
+        await got.delete(this.url + '/dashboard/api/dashboards/bulk', {
+            headers: this.headers,
+            json: dashboards,
+        });
+    }
+
+    async saveDashboardsWithWidgets(dashboards) {
+        await got.post(this.url + '/dashboard/api/dashboards/bulk', {
+            headers: this.headers,
+            json: dashboards,
+        });
+    }
+
+    isAllEqual(dashboardsA, dashboardsB) {
+        const errors = [];
+
+        for (let d of dashboardsA) {
+            const nDashboard = _.first(dashboardsB, nw => nw.name === d.name);
+            if (!nDashboard) {
+                errors.push('The dashboard has not been exported! name:' + d.name);
+                continue;
+            }
+
+            for (let w of d.widgets) {
+                const nWidget = _.first(nDashboard.widgets, nw => nw.name === w.name);
+                if (!nWidget) {
+                    errors.push(`The dashboard widget has not been exported! name:${d.name} widget:${w.name}`);
+                    continue;
+                }
+
+            }
+
+        }
+
+        if (errors.length !== 0) {
+            throw errors;
+        }
+
+        return true;
+    }
 }
 
-(function main() {
-    logger.info('XM start dashboards export');
-    const dashboard = new ExportDashboards();
+(async function main() {
+    logger.info('XM.main start');
+    const dashboardRepo = new ExportDashboardRepo();
+    const fileRepo = new JsonFile();
 
-    dashboard.connect(xmurl, xmgrant, xmauth);
-    const dashboards = dashboard.getDashboards();
-    const widgets = dashboard.getWidgets();
+    logger.info('XM.main.connect');
+    await dashboardRepo.connect(xmurl, xmgrant, xmauth);
 
-    saveJson(dist, {dashboards, widgets});
-    logger.info('XM end dashboards export');
+    logger.info('XM.main.load');
+    const dashboards = await dashboardRepo.getDashboardsWithWidgets();
+
+    logger.info('XM.main.save');
+    fileRepo.saveJson(dist, {dashboards});
+
+    logger.info('XM.main end');
 })();

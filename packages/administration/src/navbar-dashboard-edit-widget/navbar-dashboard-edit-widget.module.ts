@@ -12,7 +12,6 @@ import {
 } from './navbar-dashboard-edit-widget.component';
 import { XmSharedModule } from '@xm-ngx/shared';
 
-
 @NgModule({
     imports: [XmSharedModule, DashboardsModule],
     exports: [NavbarDashboardEditWidgetComponent],

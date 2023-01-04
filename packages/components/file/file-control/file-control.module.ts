@@ -7,6 +7,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { FileControlComponent } from './file-control.component';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HintModule } from '@xm-ngx/components/hint';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         MatInputModule,
         MatButtonModule,
         ReactiveFormsModule,
+        HintModule,
     ],
     exports: [FileControlComponent],
     declarations: [FileControlComponent],

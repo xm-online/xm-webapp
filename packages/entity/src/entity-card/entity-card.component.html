@@ -1,0 +1,73 @@
+<mat-card *ngIf="xmEntity && xmEntitySpec" [ngSwitch]="isAvatarEnabled" class="card p-0">
+  <div class="card-header card-header-icon card-header-primary text-start">
+    <ng-container *ngSwitchCase="false">
+      <div *ngIf="xmEntitySpec.icon" class="card-icon">
+        <mat-icon>{{xmEntitySpec.icon}}</mat-icon>
+      </div>
+    </ng-container>
+    <h4 class="card-title"><strong>{{xmEntitySpec.name | translate}}</strong> - {{xmEntity.name}}</h4>
+  </div>
+
+  <div class="card-menu">
+    <button [matMenuTriggerFor]="actionItems" mat-icon-button>
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #actionItems="matMenu" xPosition="before">
+      <button (click)="onRefresh($event)" class="btn-sm" mat-menu-item>
+        <mat-icon>refresh</mat-icon>
+        <span>{{'xm-entity.entity-list-card.refresh' | translate}}</span>
+      </button>
+
+      <ng-container>
+        <xm-function-list-section
+          [functionSpecs]="commonFunctionSpec"
+          [listView]="true">
+        </xm-function-list-section>
+      </ng-container>
+    </mat-menu>
+  </div>
+
+  <div class="container-fluid text-start mt-3 mb-3">
+    <div class="row">
+      <div *ngSwitchCase="true" class="col-auto text-center">
+        <div class="avatar-container-card">
+          <img src="{{xmEntity.avatarUrl ? xmEntity.avatarUrl : './assets/img/placeholder.png'}}">
+          <mat-icon class="avatar-container-icon"
+             *ngIf="xmEntitySpec.icon && !xmEntity.avatarUrl">{{xmEntitySpec.icon}}</mat-icon>
+          <button class="edit-avatar"
+                  mat-icon-button
+                  role="button"
+                  (click)="onAvatarChangeClick()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="col flex-grow-1">
+        <div *ngIf="xmEntity?.description">
+          <p [innerHTML]="formatDescription(xmEntity.description)" class="description m-0"></p>
+        </div>
+
+        <div *ngIf="xmEntitySpec?.ratings" class="mt-3">
+          <xm-rating-list-section [ratingSpecs]="xmEntitySpec?.ratings" [xmEntityId]="xmEntity.id">
+          </xm-rating-list-section>
+        </div>
+
+        <div *ngIf="xmEntitySpec?.tags" class="mt-3">
+          <xm-tag-list-section [tagSpecs]="xmEntitySpec?.tags" [xmEntityId]="xmEntity.id"></xm-tag-list-section>
+        </div>
+      </div>
+    </div>
+
+    <xm-function-list-section
+      *ngIf="xmEntity || (getNextStates()?.length || xmEntitySpec.functions)"
+      [functionSpecs]="entityFunctionSpec"
+      [nextStates]="getNextStates()"
+      [stateSpec]="getState()"
+      [xmEntityId]="xmEntity.id"
+      [xmEntitySpec]="xmEntitySpec"
+      [xmEntity]="xmEntity">
+    </xm-function-list-section>
+  </div>
+</mat-card>

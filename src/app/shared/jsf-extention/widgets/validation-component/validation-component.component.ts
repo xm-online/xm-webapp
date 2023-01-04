@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 import { XmEventManager } from '@xm-ngx/core';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import { fromEvent as observableFromEvent, Subscription } from 'rxjs';
@@ -25,7 +25,7 @@ export class ValidationComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.options = this.layoutNode.options || {};
         this.jsf.initializeControl(this);
-        const formGroup: FormGroup = this.jsf.formGroup;
+        const formGroup: UntypedFormGroup = this.jsf.formGroup;
 
         this.click = observableFromEvent(document, 'click').pipe(
             debounceTime(10))
@@ -64,11 +64,11 @@ export class ValidationComponent implements OnInit, OnDestroy {
 
     }
 
-    public traverseControls(form: FormGroup | FormArray, operation: any): void {
+    public traverseControls(form: UntypedFormGroup | UntypedFormArray, operation: any): void {
         Object.keys(form.controls).forEach((key: string) => {
             const abstractControl = form.controls[key];
 
-            if (abstractControl instanceof FormGroup || abstractControl instanceof FormArray) {
+            if (abstractControl instanceof UntypedFormGroup || abstractControl instanceof UntypedFormArray) {
                 this.traverseControls(abstractControl, operation);
             } else {
                 operation(abstractControl);
@@ -76,12 +76,12 @@ export class ValidationComponent implements OnInit, OnDestroy {
         });
     }
 
-    public resolveComponentByPath(group: FormGroup | FormArray, path: any): AbstractControl {
+    public resolveComponentByPath(group: UntypedFormGroup | UntypedFormArray, path: any): AbstractControl {
         const abstractControl = group.controls[path.shift()];
         if (path.length === 0) {
             return abstractControl;
         }
-        if (abstractControl instanceof FormGroup || abstractControl instanceof FormArray) {
+        if (abstractControl instanceof UntypedFormGroup || abstractControl instanceof UntypedFormArray) {
             return this.resolveComponentByPath(abstractControl, path);
         }
         return null;

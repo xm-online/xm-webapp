@@ -18,6 +18,8 @@ import { XmEmailControlOptions } from './xm-email-control-options';
                    type="email">
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
+
+            <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
     `,
 })

@@ -1,10 +1,8 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import { fromEvent } from 'rxjs';
 
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Principal } from '@xm-ngx/core/auth';
@@ -17,7 +15,7 @@ import { byString, ExtAutocompleteService } from './ext-autocomplete-service';
     templateUrl: 'ext-autocomplete.component.html',
     styleUrls: ['./ext-autocomplete.component.scss'],
 })
-export class ExtAutocompleteComponent implements OnInit {
+export class ExtAutocompleteComponent implements OnInit, AfterViewInit {
 
     @Input() public layoutNode: any;
 
@@ -42,17 +40,19 @@ export class ExtAutocompleteComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.options = this.layoutNode.options || {};
+        this.jsf.initializeControl(this);
+        this.elements = [];
+        this.fetchData(this.options);
+    }
+
+    public ngAfterViewInit(): void {
         fromEvent(this.emailRef.nativeElement, 'keyup').pipe(map((evt: any) => evt.target.value),
             debounceTime(500),
             distinctUntilChanged(),
         ).subscribe((text: string) => {
             this.trySearch(text);
         });
-
-        this.options = this.layoutNode.options || {};
-        this.jsf.initializeControl(this);
-        this.elements = [];
-        this.fetchData(this.options);
     }
 
     public getLabel(controlValue: any): string | any {
@@ -81,7 +81,7 @@ export class ExtAutocompleteComponent implements OnInit {
 
     public updateValueField(el: any): void {
         const item = el;
-        const fg: FormGroup = this.jsf.formGroup;
+        const fg: UntypedFormGroup = this.jsf.formGroup;
         if (this.options.relatedFields) {
             this.options.relatedFields.forEach((field) => {
                 fg.get(field.key).setValue(byString(item.object, field.value));

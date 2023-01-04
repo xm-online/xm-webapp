@@ -214,6 +214,12 @@
     "updated": "Обновлен {{value}}",
     "widgets": "Виджеты"
   },
+  "date-time-picker": {
+    "labels": {
+      "from": "От",
+      "to": "До"
+    }
+  },
   "entity": {
     "action": {
       "back": "Назад",
@@ -724,6 +730,16 @@
     "search": "Поиск",
     "toggleNotification": "Переключить навигацию"
   },
+  "time": {
+    "now": "Сейчас",
+    "minAgo": "1 минуту назад",
+    "minsAgo": " минуту назад",
+    "hourAgo": "1 час назад",
+    "hoursAgo": " часов назад",
+    "yesterday": "Вчера",
+    "daysAgo": " дня(-ей) назад",
+    "weeksAgo": " неделя(-ь) назад"
+  },
   "password": {
     "form": {
       "button": "Сохранить"
@@ -961,10 +977,10 @@
   "xm-control-errors": {
     "validators": {
       "email": "Ваш электронный адрес некорректный.",
-      "max": "Максимальное значение {{min}}.",
+      "max": "Максимальное значение {{max}}.",
       "maxlength": "Не может превышать {{requiredLength}} символов.",
       "min": "Минимальное значение {{min}}.",
-      "minlength": "Должна состоять не менее {{requiredLength}} символов.",
+      "minlength": "Должно содержать не менее {{requiredLength}} символов.",
       "pattern": "Поле заполнено некорректно.",
       "required": "Поле обязательное для заполнения."
     }
@@ -995,7 +1011,7 @@
       },
       "choose-type": "Выберите тип вложения",
       "title": "Добавить новое вложение для",
-      "upload": "Нажмите, чтобы загрузить или перетащите файл сюда.",
+      "upload": "Нажмите, чтобы загрузить, или перетащите файл сюда.",
       "wrong-type-error": ""
     },
     "calendar-card": {
@@ -1016,7 +1032,8 @@
         "success": "Событие добавлено успешно."
       },
       "choose-type": "Выберите тип события",
-      "title": "Добавить новое событие для"
+      "title": "Добавить новое событие для",
+      "title-edit": "Редактировать событие для"
     },
     "comment-detail-dialog": {
       "add": {
@@ -1062,7 +1079,8 @@
       "title": "Данные",
       "update-error": "Не обновлено. Попробуй еще раз.",
       "update-success": "Успешно обновлено.",
-      "change-avatar": "Изменить фото"
+      "change-avatar": "Изменить фото",
+      "current-state": "Текущий статус"
     },
     "entity-detail-dialog": {
       "add": {
@@ -1074,6 +1092,7 @@
       }
     },
     "entity-detail-fab": {
+      "new": "Добавить новый",
       "edit-entity": "Редактировать",
       "new-attachment": "Добавить файл",
       "new-comment": "Добавить комментарий",
@@ -1416,7 +1435,10 @@
         "remove-success": "Местонахождение успешно удалено.",
         "title": "Вы действительно хотите удалить местоположение?"
       },
-      "title": "Местонахождения"
+      "not-defined": "Местонахождения не определено",
+      "add-location": "Добавить местонахождение",
+      "title": "Местонахождения",
+      "title-location": "Местонахождение"
     },
     "rating-list-section": {
       "vote-error": "Ваш голос не учитывается.",
@@ -1434,6 +1456,7 @@
     }
   },
   "xm-enum": {
+    "all": "Все",
     "other": "Другое",
     "others": "Другие"
   },
@@ -1445,6 +1468,10 @@
   },
   "xm-timeline": {
     "common": {
+      "no-items": "Отсутствуют записи по данному запросу!",
+      "show-more-10": "Показать больше",
+      "show-more-all": "Показать все",
+      "title": "Хронология",
       "time-ago": {
         "day": "день назад",
         "days": " дней назад",
@@ -1571,7 +1598,7 @@
   "xm-validator-processing": {
     "validators": {
       "minDate": "Выбранная дата меньше минимальной даты ({{minDateI18n}}).",
-      "languageRequired": "",
+      "languageRequired": "Требуется хотя бы один язык",
       "minArrayLength": "Массив меньше минимальной длины ({{requiredLength}}).",
       "valueMoreThanIn": "Значение больше чем {{compareValue}}",
       "valueLessThanIn": "Значение меньше чем {{compareValue}}",

@@ -6,4 +6,5 @@ execSync('(cd ./packages/shared && npm run build)', {stdio: 'inherit'});
 execSync('(ng-packagr -p ./packages/dynamic -c tsconfig.ngc.json)', {stdio: 'inherit'});
 execSync('(ng-packagr -p ./packages/core -c tsconfig.ngc.json)', {stdio: 'inherit'});
 execSync('(ng-packagr -p ./packages/translation -c tsconfig.ngc.json)', {stdio: 'inherit'});
+// execSync('(ng-packagr -p ./packages/timeline -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/components -c tsconfig.ngc.json)', true)

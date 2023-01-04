@@ -5,7 +5,7 @@
      (wheel)="wheel($event)"
      class="modal-body frame-height"
      id="canvasHolder">
-  <div class="actions text-right">
+  <div class="actions text-end">
     <button (click)="magnifyViewport(2)"
             class="btn btn-just-icon btn-icon btn-link"
             mat-button
@@ -30,17 +30,17 @@
 
   <div class="custom-modal-footer">
     <a (click)="doDownloadPng('config-model')"
-       class="btn btn-primary mr-1"
+       class="btn btn-primary me-1"
        href="javascript: void(0);">
       {{'admin-config.common.save' | translate}} PNG
     </a>
     <a #downloadLinkSvg
        (click)="doDownloadSvg('config-model')"
-       class="btn btn-primary mr-1"
+       class="btn btn-primary me-1"
        href="javascript: void(0);">
       {{'admin-config.common.save' | translate}} SVG
     </a>
-    <button (click)="onCancel()" class="btn mr-1 ml-auto" data-dismiss="modal" mat-button type="button">
+    <button (click)="onCancel()" class="btn me-1 ms-auto" data-dismiss="modal" mat-button type="button">
       <span>{{'xm-entity.common.cancel'|translate}}</span>
     </button>
 

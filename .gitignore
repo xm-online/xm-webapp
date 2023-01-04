@@ -8,12 +8,15 @@ out-tsc/
 # local dev configuration
 local.proxy.conf.js
 .vscode/
+*.code-workspace
 
 src/i18n/ext
 src/i18n/settings.json
 src/i18n/en.json
 src/i18n/ru.json
 src/i18n/uk.json
+src/i18n/de.json
+src/i18n/it.json
 
 src/assets/mock-data
 
@@ -48,3 +51,12 @@ lerna-debug.log*
 
 # compdoc out
 /documentation/
+
+# xm-ngx dynamic-specification
+/src/assets/specification/
+
+
+package-lock.json
+
+# cache
+.angular

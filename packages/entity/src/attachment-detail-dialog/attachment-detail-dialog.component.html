@@ -1,0 +1,112 @@
+<div mat-dialog-title>
+  <h4 class="modal-title text-start">
+    <span>{{'xm-entity.attachment-detail-dialog.title'|translate}}</span>
+    [<strong>{{xmEntity.name}}</strong>]
+  </h4>
+  <xm-modal-close mat-dialog-close></xm-modal-close>
+</div>
+
+<div mat-dialog-content>
+  <form #attachmentForm="ngForm" (ngSubmit)="onConfirmSave()" class="m-0" name="attachmentForm" novalidate role="form">
+    <xm-loader [showLoader]="showLoader"></xm-loader>
+
+    <div class="form-group">
+      <mat-form-field>
+        <mat-label>{{'xm-entity.attachment-detail-dialog.choose-type' | translate}}</mat-label>
+        <mat-select #attachmentType="ngModel"
+                    [(ngModel)]="attachment.typeKey"
+                    [disabled]="attachmentSpecs?.length == 1"
+                    name="typeKey"
+                    required>
+          <mat-option *ngFor="let attachmentSpec of attachmentSpecs"
+                      [value]="attachmentSpec.key">
+            {{attachmentSpec.name | translate | uppercase}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="attachmentType.hasError('required')">
+          <span>{{'xm-entity.common.validation.required'|translate}}</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div #nameCtrl class="form-group">
+      <mat-form-field>
+        <input #attachmentName="ngModel"
+               [(ngModel)]="attachment.name"
+               [disabled]="readOnlyInputs"
+               id="field_name"
+               matInput
+               name="name"
+               placeholder="{{'xm-entity.common.fields.name' | translate}}"
+               required
+               type="text">
+        <mat-error *ngIf="attachmentName.hasError('required')">
+          <span>{{'xm-entity.common.validation.required'|translate}}</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group label-floating">
+      <mat-form-field>
+        <textarea [(ngModel)]="attachment.description"
+                  id="field_description"
+                  matInput
+                  maxlength="255"
+                  name="description"
+                  placeholder="{{'xm-entity.common.fields.description' | translate}}"
+                  rows="4">
+        </textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group text-center upload-area">
+      <div *ngIf="!attachment.valueContentType">
+        <span>{{'xm-entity.attachment-detail-dialog.upload'|translate}}</span>
+        <input (change)="setFileData($event, nameCtrl)" [accept]="acceptedFileTypes" id="uploadFile" type="file">
+        <input [(ngModel)]="attachment.content.value" class="form-control" id="field_value" name="value" required
+               type="hidden"/>
+        <input [(ngModel)]="attachment.valueContentType"
+               class="form-control"
+               id="field_valueContentType"
+               name="valueContentType"
+               type="hidden"/>
+        <div [hidden]="!(attachmentForm.controls.value?.dirty && attachmentForm.controls.value?.invalid)">
+          <small [hidden]="!attachmentForm.controls.value?.errors?.required" class="form-text text-danger">
+            <span>{{'xm-entity.common.validation.required'|translate}}</span>
+          </small>
+        </div>
+      </div>
+
+      <div *ngIf="attachment.valueContentType">
+        <span>{{attachment.contentUrl}}, {{byteSize(attachment.content.value, attachment.valueContentSize)}}</span>
+        <a (click)="attachment.content.value = null; attachment.valueContentType = '';"
+           class="text-muted"
+           href="javascript: void(0);"
+           role="button">
+          <mat-icon>close</mat-icon>
+        </a>
+      </div>
+    </div>
+    <small [hidden]="!wrongFileType" class="form-text text-danger">
+      <span>{{ "xm-entity.attachment-detail-dialog.wrong-type-error" | translate: {fileType: wrongFileType} }}</span>
+    </small>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button [disabled]="showLoader"
+          class="me-1 ms-auto"
+          mat-flat-button
+          type="button"
+          data-dismiss="modal"
+          (click)="onCancel()">
+    {{'xm-entity.common.cancel'|translate}}
+  </button>
+  <button [disabled]="attachmentForm.form.invalid || showLoader"
+          mat-flat-button
+          color="primary"
+          type="submit"
+          (click)="onConfirmSave()">
+    {{'xm-entity.common.save'|translate}}
+  </button>
+</div>

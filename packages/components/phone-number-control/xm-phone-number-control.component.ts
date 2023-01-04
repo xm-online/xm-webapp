@@ -2,8 +2,10 @@ import { Component, Input } from '@angular/core';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { Translate } from '@xm-ngx/translation';
 import { assign } from 'lodash';
+import { HintText } from '@xm-ngx/components/hint';
 
 export interface XmPhoneNumberControlOptions {
+    hint?: HintText;
     id: string;
     title: Translate;
     defaultPrefix: string;
@@ -14,6 +16,7 @@ export interface XmPhoneNumberControlOptions {
 }
 
 export const XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT = {
+    hint: null,
     id: 'phoneNumber',
     title: 'components.xm-phone-number-control.phone-number-label',
     defaultPrefix: '38',

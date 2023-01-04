@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSnackBarDismiss } from '@angular/material/snack-bar/snack-bar-ref';
+import { MatSnackBar, MatSnackBarDismiss } from '@angular/material/snack-bar';
 import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { JhiAlert, JhiAlertService } from 'ng-jhipster';
@@ -48,9 +47,9 @@ export class XmToasterService {
         if (this.useMatSnackbars) {
             // TODO: hotfix: join ToasterConfig[] with MatSnackBarDismiss
             return this.matAlert(params) as any;
-        } 
+        }
         return this.jhiAlert(params);
-        
+
     }
 
     /** @deprecated use create instead */
@@ -97,7 +96,7 @@ export class XmToasterService {
 
     protected matAlert(params: ToasterConfig): Observable<MatSnackBarDismiss> {
         const snackbar = this.matSnackBar.open(params.msg, 'x', {
-            duration: 5000,
+            duration: params.timeout || 5000,
             verticalPosition: 'top',
             horizontalPosition: 'right',
             panelClass: 'alert-' + params.type,

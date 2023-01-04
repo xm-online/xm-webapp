@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { from, Observable } from 'rxjs';
-import { SweetAlertOptions, SweetAlertResult, SweetAlertType } from 'sweetalert2';
-import swal from 'sweetalert2/dist/sweetalert2';
+import Swal, { SweetAlertOptions, SweetAlertResult, SweetAlertIcon } from 'sweetalert2';
 import { XmAlertConfigService } from './xm-alert-config.service';
 
 export interface XmAlertOptions extends Partial<SweetAlertOptions> {
-    type?: string | SweetAlertType | any;
+    icon?: string | SweetAlertIcon | any;
     text?: Translate | any;
     textOptions?: {
         value?: string;
@@ -36,8 +35,10 @@ export class XmAlertService {
             buttonsStyling: this.config.buttonsStyling,
             reverseButtons: this.config.reverseButtons,
             showCloseButton: this.config.showCloseButton,
-            confirmButtonClass: this.config.confirmButtonClass,
-            cancelButtonClass: this.config.cancelButtonClass,
+            customClass: {
+                confirmButton: this.config.confirmButtonClass,
+                cancelButton: this.config.cancelButtonClass,
+            },
             confirmButtonText: this.config.yesLabel,
             cancelButtonText: this.config.cancelLabel,
         };
@@ -45,13 +46,13 @@ export class XmAlertService {
 
         if (settings.title) {
             const opts = settings.titleOptions || {};
-
-            settings.title = this.xmTranslateService.translate(settings.title, opts);
+            // TODO: Check settings.title type
+            settings.title = this.xmTranslateService.translate(settings.title as any, opts);
         }
 
         if (settings.text) {
             const opts = settings.textOptions || {};
-            _.defaults(opts, { value: '' });
+            _.defaults(opts, {value: ''});
 
             settings.text = this.xmTranslateService.translate(settings.text, opts);
         }
@@ -63,7 +64,7 @@ export class XmAlertService {
             settings.cancelButtonText = this.xmTranslateService.translate(settings.cancelButtonText);
         }
 
-        return from(swal(settings));
+        return from(Swal.fire(settings));
     }
 
     public yesNo(settings: XmAlertOptions): Observable<XmAlertResult> {

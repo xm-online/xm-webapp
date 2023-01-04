@@ -29,13 +29,13 @@
       </ng-container>
 
       <ng-container matColumnDef="select">
-        <th mat-header-cell class="text-right border-0" *matHeaderCellDef>
+        <th mat-header-cell class="text-end border-0" *matHeaderCellDef>
           <mat-checkbox (change)="$event ? masterToggle() : null"
                         [checked]="selection.hasValue() && isAllSelected()"
                         [indeterminate]="selection.hasValue() && !isAllSelected()">
           </mat-checkbox>
         </th>
-        <td mat-cell class="text-right border-0" *matCellDef="let row">
+        <td mat-cell class="text-end border-0" *matCellDef="let row">
           <mat-checkbox (click)="$event.stopPropagation()"
                         (change)="$event ? selection.toggle(row) : null"
                         [checked]="selection.isSelected(row)">

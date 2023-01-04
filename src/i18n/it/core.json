@@ -1,0 +1,1605 @@
+{
+  "Status:": "",
+  "Unauthorized": "Hai bisogno di autorizzazione!",
+  "activate": {
+    "messages": {
+      "error": "<strong>Impossibile attivare l'utente.</strong> Si prega di utilizzare il modulo di registrazione per registrarsi.",
+      "link": "Accedi",
+      "register": "Registrazione",
+      "success": "<strong>Il tuo account utente è stato attivato.</strong> Per favore,&nbsp;"
+    },
+    "title": "Attivazione"
+  },
+  "admin-config": {
+    "common": {
+      "cancel": "Annulla",
+      "confirm": "Sei sicuro?",
+      "fields": {
+        "config": "Configurazione",
+        "id": "ID",
+        "layout": "Impaginazione",
+        "name": "Nome",
+        "owner": "Proprietario",
+        "selector": "Selettore",
+        "typeKey": "Digita chiave"
+      },
+      "menu": {
+        "dashboard-mng": "Configurazione dashboard",
+        "mini": {
+          "dashboard-mng": "D",
+          "specification-mng": "S"
+        },
+        "specification-mng": "Indicazioni",
+        "title": "Configurazione"
+      },
+      "save": "Salvare"
+    },
+    "dashboard-detail-dialog": {
+      "add": {
+        "success": "Successo",
+        "title": "Aggiungere una nuova dashboard"
+      },
+      "edit": {
+        "success": "Successo",
+        "title": "Modificare una dashboard"
+      }
+    },
+    "dashboard-list-card": {
+      "export-action": "esportazione in JSON",
+      "import-action": "importazione da JSON",
+      "title": "Dashboard"
+    },
+    "specification-mng": {
+      "editor": {
+        "add-entity-spec": "Aggiungere specifiche di entità",
+        "add-state-spec": "Aggiungi specifiche di stato",
+        "apply-changes": "Applicare le modifiche",
+        "attachments": "Allegati",
+        "color": "Colore",
+        "coming-soon": "Prossimamente...",
+        "comments": "Commenti",
+        "data-spec": "Specifica dei dati",
+        "delete": "Cancellare",
+        "form-spec": "Specifiche del modulo",
+        "functions": "Funzioni",
+        "icon": "Icona",
+        "is-abstract": "È astratto?",
+        "is-application": "L'applicazione è?",
+        "key": "Chiave",
+        "links": "Campo da golf",
+        "locations": "Luoghi",
+        "name": "Nome",
+        "next": "Prossimo",
+        "plural-name": "Nome plurale",
+        "states": "Stati"
+      },
+      "entity": {
+        "save": "Aggiornare la specifica dell'entità",
+        "title": "Entità"
+      },
+      "loading": "specifiche di caricamento...",
+      "privateui": {
+        "save": "Aggiornare le specifiche dell'interfaccia utente privata",
+        "title": "Specifica dell'interfaccia utente privata"
+      },
+      "tenant": {
+        "save": "Aggiornare la specifica del tenant",
+        "title": "Inquilino"
+      },
+      "timeline": {
+        "save": "Aggiorna la specifica Timeline",
+        "title": "Linea temporale"
+      },
+      "uaa-login": {
+        "save": "Salva specifica Login",
+        "title": "Accesso"
+      },
+      "uaa": {
+        "save": "Salva specifica UAA",
+        "title": "SAU"
+      },
+      "ui": {
+        "save": "Aggiornare le specifiche dell'interfaccia utente",
+        "title": "UI"
+      },
+      "validate": "Convalidare"
+    },
+    "widget-detail-dialog": {
+      "add": {
+        "success": "Successo",
+        "title": "Aggiungere un nuovo widget"
+      },
+      "edit": {
+        "success": "Successo",
+        "title": "Modificare un widget"
+      }
+    },
+    "widget-list-card": {
+      "title": "Widget"
+    }
+  },
+  "admin-webapp-ext": {
+    "common": {
+      "project": "",
+      "save": ""
+    }
+  },
+  "audits": {
+    "filter": {
+      "from": "Da",
+      "title": "Filtra per data",
+      "to": "A"
+    },
+    "table": {
+      "data": {
+        "remoteAddress": "Indirizzo remoto:"
+      },
+      "header": {
+        "data": "Dati aggiuntivi",
+        "date": "Dattero",
+        "principal": "Utente",
+        "status": "Stato"
+      }
+    },
+    "title": "Audit"
+  },
+  "cancel": "",
+  "clientManagement": {
+    "client": {
+      "already": {
+        "exists": "Il client con questo ID esiste già"
+      }
+    },
+    "clientId": "ID cliente",
+    "clientSecret": "Segreto client",
+    "createdBy": "Creato da",
+    "createdDate": "Data di creazione",
+    "delete": {
+      "question": "Sei sicuro di voler eliminare il client {{ id }}?"
+    },
+    "description": "Descrizione",
+    "detail": {
+      "title": "Cliente"
+    },
+    "home": {
+      "createOrEditLabel": "Creare o modificare un client",
+      "title": "Clienti"
+    },
+    "lastModifiedBy": "Modificato da",
+    "lastModifiedDate": "Data di modifica",
+    "role": "Ruolo",
+    "roleKey": "Ruolo",
+    "roles": "Ruoli",
+    "scopes-add": "Aggiungere ambiti",
+    "search-by-client-id": "Ricerca per ID cliente",
+    "validityPeriod": "Periodo di validità"
+  },
+  "commons": {
+    "required-field": ""
+  },
+  "dashboard-config-widget": {
+    "add-widget": "Aggiungi widget",
+    "cancel": "Annulla",
+    "close": "Chiudere",
+    "config": "Configurazione",
+    "copy": "Copiare",
+    "create": "Creare",
+    "create-dashboard": "Creare dashboard",
+    "created": "Creato {{valore}}",
+    "dashboard": "Cruscotto",
+    "dashboards": "Dashboard",
+    "delete": "Cancellare",
+    "deleted": "Eliminato {{value}}",
+    "duplicate": "Duplicare",
+    "edit-dashboard": "Modifica dashboard",
+    "edit-widget": "Modifica widget",
+    "empty": "Vuoto",
+    "export": "Esportazione",
+    "feedback": {
+      "error": "Non inviato. Riprova più tardi",
+      "success": "Feedback inviato con successo",
+      "tooltip": "Invia feedback"
+    },
+    "filter": "Filtro",
+    "id": "Id",
+    "import": "Importazione",
+    "layout": "Impaginazione",
+    "name": "Nome",
+    "owner": "Proprietario",
+    "project": "Progetto",
+    "save": "Salvare",
+    "saved": "Salvato {{value}}",
+    "selector": "Selettore",
+    "typeKey": "TypeKey",
+    "updated": "Aggiornato {{value}}",
+    "widgets": "Widget"
+  },
+  "entity": {
+    "action": {
+      "back": "Indietro",
+      "cancel": "Annulla",
+      "delete": "Cancellare",
+      "save": "Salvare"
+    },
+    "add": "Aggiungere",
+    "delete": {
+      "title": "Conferma operazione di eliminazione"
+    },
+    "detail": {
+      "square": "Quadrato: {{square}} m"
+    },
+    "search": "Ricerca",
+    "validation": {
+      "maxlength": "Questo campo non può essere più lungo dei caratteri {{ max }}.",
+      "required": "Questo campo è obbligatorio."
+    }
+  },
+  "error": {
+    "403": "Non sei autorizzato ad accedere alla pagina.",
+    "500": "Errore interno del server.",
+    "NotBlank": "Non vuoto",
+    "NotNull": "Il campo {{ fieldName }} non può essere vuoto!",
+    "Size": "Il campo {{ fieldName }} non soddisfa i requisiti di dimensione min/max!",
+    "Unauthorized": "Hai bisogno di autorizzazione!",
+    "accessDenied": "Accesso negato",
+    "access_denied": "Accesso negato",
+    "emailexists": "L'e-mail è già in uso!",
+    "error": {
+      "accessDenied": "Accesso negato",
+      "business": "Errore di inoltro",
+      "internalServerError": "Errore interno del server"
+    },
+    "idexists": "Un nuovo {{ entityName }} non può già avere un ID",
+    "insufficient_scope": "Ambito di applicazione insufficiente",
+    "internalServerError": "Errore interno del server",
+    "invalid_credentials": "Credenziali non valide",
+    "invalid_client": "Client non valido",
+    "invalid_grant": "Concessione non valida",
+    "invalid_request": "Richiesta non valida",
+    "invalid_scope": "Ambito non valido",
+    "invalid_token": "Token non valido",
+    "notfound": "Risorsa non trovata",
+    "privilegeInsufficient": "Privilegi insufficienti '{{ name }}'!",
+    "privilegeOperationWrong": "Operazione non supportata '{{ nome }}'!",
+    "redirect_uri_mismatch": "Reindirizzamento uri non corrispondente",
+    "server": {
+      "not": {
+        "reachable": "Server non raggiungibile"
+      }
+    },
+    "session_expired": "Sessione scaduta. Effettua il login.",
+    "unauthorized": "Non autorizzato",
+    "unauthorized_client": "Client non autorizzato",
+    "unsupported_grant_type": "Tipo di sovvenzione non supportato",
+    "unsupported_response_type": "Tipo di risposta non supportato",
+    "url": {
+      "not": {
+        "found": "Non trovato"
+      }
+    },
+    "business": "Errore di inoltro",
+    "concurrencyFailure": "Errore di richiesta parallela.",
+    "not": {
+      "enough": {
+        "credits": "Crediti insufficienti!"
+      }
+    },
+    "title": "Pagina di errore!",
+    "userexists": "Nome di accesso già utilizzato!",
+    "validation": "Errore dei parametri di input",
+    "wallet": {
+      "not": {
+        "active": "Portafoglio non attivo!"
+      }
+    }
+  },
+  "ext-common-entity": {
+    "available-offerings-widget": {
+      "action-dialog": {
+        "question": "Sei sicuro di voler <b>{{action}}</b> al <b>{{name}}</b>?"
+      }
+    },
+    "entity-fab-actions": {
+      "operation-error": "Operazione non riuscita!",
+      "operation-success": "Operazione riuscita!"
+    }
+  },
+  "ext-common": {
+    "clock-widget": {
+      "title": "Orologio"
+    },
+    "exchange-widget": {
+      "code": "Codice",
+      "course": "Corso ufficiale",
+      "currency": "Valuta",
+      "from": "Da",
+      "number-units": "Numero di unità",
+      "select-from": "Seleziona valuta da",
+      "select-to": "Seleziona la valuta per",
+      "title": "Calcolatore di scambio"
+    },
+    "sign-in-up-widget": {
+      "sign-in": "Accedi",
+      "sign-up": "Registrati"
+    },
+    "weather-widget": {
+      "humidity": "Umidità",
+      "ms": "m/s",
+      "wind-speed": "Velocità del vento"
+    }
+  },
+  "formPlayground": {
+    "definition": "Definizione",
+    "errors": "— errori derivanti da validationErrors():",
+    "liveData": "Dati in tempo reale — da onChanges():",
+    "loading": "(caricamento specifiche modulo...)",
+    "na": "N/D",
+    "output": "Prodotto",
+    "result": "Risultato",
+    "selectSchema": "SELEZIONA SCHEMA",
+    "valid": "Valevole?:"
+  },
+  "gateway": {
+    "routes": {
+      "error": "Attenzione: nessun server disponibile!",
+      "servers": "Server disponibili",
+      "service": "servizio",
+      "url": "URL"
+    },
+    "title": "Gateway"
+  },
+  "global": {
+    "actionPerformed": "Azione eseguita",
+    "all": "Tutto",
+    "common": {
+      "accept": "Accettare",
+      "are-you-sure": "Sei sicuro?",
+      "cancel": "Annulla",
+      "delete": "Cancellare",
+      "delete-message": "Rimuovere il {{valore}}?",
+      "maintenance-description": "Di solito ci vogliono alcuni minuti, altrimenti contattare l'amministratore di sistema.",
+      "maintenance-export-entities": "Esportazione dell'entità",
+      "maintenance-import-entities": "Importazione di entità",
+      "maintenance-message": "Lavori tecnici in corso... <br>Per favore, riprova più tardi.",
+      "maintenance-reindex-elastic": "Reindicizzare elastico",
+      "maintenance-update-tenant-configuration": "Aggiornare la configurazione del tenant",
+      "maintenance-update-tenants-configuration": "Aggiornare la configurazione dei tenant",
+      "no": "No",
+      "set": "Mettere",
+      "yes": "Sì",
+      "yes-exit": "Sì, esci!"
+    },
+    "field": {
+      "id": "ID"
+    },
+    "form": {
+      "confirmpassword": "Conferma della nuova password",
+      "email": "E-mail",
+      "firstname": "Nome di battesimo",
+      "language": "Lingua",
+      "lastname": "Cognome",
+      "login": "Accesso",
+      "newpassword": "Nuova password",
+      "oldpassword": "Vecchia password",
+      "otp": "Password monouso",
+      "show-password": "Mostra password",
+      "signin": "Accedi"
+    },
+    "item-count": "Visualizzazione di {{first}} - {{second}} degli elementi {{total}}.",
+    "menu": {
+      "account": {
+        "help": "Guida",
+        "help-not-provided": "Contenuto della pagina di aiuto non fornito!",
+        "logout": "Esci",
+        "mini": {
+          "password": "P",
+          "profile": "COSÌ",
+          "settings": "S"
+        },
+        "password": "Parola d’ordine",
+        "passwordSetup": "Invito al sistema",
+        "profile": "Profilo",
+        "settings": "Impostazioni"
+      },
+      "admin": {
+        "apidocs": "API",
+        "audits": "Audit",
+        "clientManagement": "Gestione dei clienti",
+        "dashboard": "Cruscotto",
+        "formPlayground": "Forma Parco giochi",
+        "gateway": "Gateway",
+        "health": "Salute",
+        "logs": "Registri",
+        "main": "Amministrazione",
+        "maintenance": "Manutenzione",
+        "metrics": "Metriche",
+        "mini": {
+          "apidocs": "Un",
+          "audits": "Un",
+          "clientManagement": "C",
+          "dashboard": "D",
+          "formPlayground": "F",
+          "gateway": "G",
+          "health": "H",
+          "logs": "L",
+          "maintenance": "M",
+          "metrics": "M",
+          "rolesManagement": "R",
+          "rolesMatrix": "R",
+          "translation": "T",
+          "userManagement": "Nel"
+        },
+        "rolesManagement": "Gestione dei ruoli",
+        "rolesMatrix": "Matrice dei ruoli",
+        "translation": "Traduzione",
+        "userManagement": "Gestione utenti"
+      },
+      "applications": {
+        "application": "Applicazione",
+        "main": "Applicazioni"
+      },
+      "dashboards": {
+        "main": "Dashboard"
+      },
+      "entities": {
+        "attachment": "Allegato",
+        "calendar": "Calendario",
+        "comment": "Commento",
+        "content": "Contenuto",
+        "country": "Paese",
+        "event": "Evento",
+        "jhipster-needle-menu-add-entry": "JHipster aggiungerà altre entità qui (non tradurre!)",
+        "link": "Collegamento",
+        "location": "Ubicazione",
+        "main": "Entità",
+        "rating": "Valutazione",
+        "tag": "Giorno",
+        "vote": "Votare",
+        "xmEntity": "Entità Xm"
+      }
+    },
+    "messages": {
+      "error": {
+        "captchaempty": "Si prega di controllare captcha.",
+        "dontmatch": "La password e la sua conferma non corrispondono!",
+        "upload-fail": "Servizio di caricamento non disponibile!"
+      },
+      "info": {
+        "authenticated": {
+          "link": "Accedi",
+          "prefix": "Se vuoi ",
+          "suffix": ", puoi provare gli account predefiniti:"
+        }
+      },
+      "validate": {
+        "captcha": {
+          "required": "Il captcha è obbligatorio."
+        },
+        "confirmpassword": {
+          "maxlength": "La password di conferma non può superare i 50 caratteri.",
+          "minlength": "La password di conferma deve contenere almeno 4 caratteri.",
+          "password-max-length": "La password di conferma non può superare i caratteri {{maxLength}}.",
+          "password-min-length": "La password di conferma deve contenere almeno {{minLength}}.",
+          "password-pattern": "La dose della password non corrisponde al modello {{pattern}}",
+          "required": "La password di conferma è obbligatoria."
+        },
+        "email": {
+          "invalid": "La tua email non è valida.",
+          "maxlength": "La tua email non può superare i 50 caratteri.",
+          "minlength": "La tua email deve essere di almeno 5 caratteri.",
+          "required": "La tua email è obbligatoria."
+        },
+        "firstname": {
+          "maxlength": "Il tuo nome non può superare i 50 caratteri",
+          "minlength": "Il tuo nome deve essere di almeno 1 carattere",
+          "required": "Il tuo nome è obbligatorio."
+        },
+        "lastname": {
+          "maxlength": "Il tuo cognome non può superare i 50 caratteri",
+          "minlength": "Il tuo cognome deve essere di almeno 1 carattere",
+          "required": "Il tuo cognome è obbligatorio."
+        },
+        "newpassword": {
+          "maxlength": "La password non può superare i 50 caratteri.",
+          "minlength": "La password deve contenere almeno 4 caratteri.",
+          "password-max-length": "La password non può superare i caratteri {{maxLength}}.",
+          "password-min-length": "La password deve contenere almeno caratteri {{minLength}}.",
+          "password-pattern": "La dose della password non corrisponde al modello {{pattern}}",
+          "required": "La password è obbligatoria.",
+          "strength": "Sicurezza della password:"
+        },
+        "oldpassword": {
+          "maxlength": "La vecchia password non può superare i 50 caratteri.",
+          "minlength": "La vecchia password deve contenere almeno 4 caratteri.",
+          "password-max-length": "La vecchia password non può superare i caratteri {{maxLength}}.",
+          "password-min-length": "La vecchia password deve contenere almeno {{minLength}}.",
+          "password-pattern": "La dose della password non corrisponde al modello {{pattern}}",
+          "required": "La vecchia password è obbligatoria."
+        }
+      }
+    },
+    "new": "Nuovo",
+    "noData": "Nessun dato!",
+    "perPage": "elementi per pagina",
+    "rest-select-none-option": "Nessuno",
+    "rest-select-placeholder-noresults": "Nessun risultato trovato",
+    "rest-select-placeholder-search": {
+      "prefix": "",
+      "simple": "Ricerca",
+      "suffix": ""
+    },
+    "rest-select-search-more": "Sono disponibili altri risultati. Perfeziona la tua query di ricerca!",
+    "ribbon": {
+      "dev": "Sviluppo"
+    },
+    "shared": {
+      "ext-md-editor": {
+        "placeholder": "Fare clic su Modifica per modificare la descrizione nel campo",
+        "placeholder-empty": "Il campo è vuoto! Fai clic su Modifica per aggiungere una descrizione nel campo",
+        "save-button": "Salvare le modifiche"
+      },
+      "privacy-and-terms-dialog": {
+        "i-agree": "Accetto i Termini di servizio e il trattamento delle mie informazioni come descritto nell'Informativa sulla privacy",
+        "title": "Privacy e termini"
+      }
+    }
+  },
+  "health": {
+    "details": {
+      "details": "Dettagli",
+      "error": "Errore",
+      "name": "Nome",
+      "properties": "Proprietà",
+      "value": "Valore"
+    },
+    "indicator": {
+      "binders": "Leganti",
+      "cassandra": "Cassandra",
+      "cdb": "CDB",
+      "configServer": "Server di configurazione dei microservizi",
+      "consul": "Console",
+      "db": "Banca dati",
+      "discoveryComposite": "Composito di individuazione",
+      "diskSpace": "Spazio su disco",
+      "elasticsearch": "Ricerca elastica",
+      "healthIndicator": "Indicatore di salute",
+      "hlr": "HLR ·",
+      "hystrix": "Hystrix ·",
+      "mail": "E-mail",
+      "refreshScope": "Ambito di aggiornamento dei microservizi"
+    },
+    "options": {
+      "done": "Chiudere",
+      "instance-name": "Istanza",
+      "service-name": "Nome del servizio"
+    },
+    "refresh": {
+      "button": "Aggiornare"
+    },
+    "stacktrace": "Stacktrace",
+    "status": {
+      "DOWN": "GIÙ",
+      "OUT_OF_SERVICE": "OUT_OF_SERVICE",
+      "UNKNOWN": "SCONOSCIUTO",
+      "UP": "SU"
+    },
+    "table": {
+      "service": "Nome del servizio",
+      "status": "Stato"
+    },
+    "title": "Controlli dello stato di salute"
+  },
+  "home": {
+    "subtitle": "Questa è la tua homepage",
+    "title": "Benvenuto!"
+  },
+  "login": {
+    "form": {
+      "button": "Accedi",
+      "hide-password": "Nascondi password",
+      "otpValidateButton": "Invia OTP",
+      "otpValidateCancel": "Annulla",
+      "password": "Parola d’ordine",
+      "rememberMe": "Ricordati di me",
+      "show-password": "Mostra password"
+    },
+    "messages": {
+      "error": {
+        "authentication": "<strong>Impossibile accedere!</strong> Controlla le tue credenziali e riprova."
+      },
+      "otp": {
+        "notification": "Inserisci una password monouso dall'e-mail"
+      },
+      "idp": {
+        "login-title": "Accedi con OAuth 2.0",
+        "wrong-key": "Chiave IDP errata o configurazione client"
+      }
+    },
+    "password": {
+      "forgot": "Hai dimenticato la password?"
+    },
+    "signin": "Accesso",
+    "signup": "Registrati",
+    "title": "Accedi"
+  },
+  "logs": {
+    "filter": "Filtro",
+    "nbloggers": "Ci sono {{ total }} logger.",
+    "table": {
+      "level": "Livello",
+      "name": "Nome"
+    },
+    "title": "Registri"
+  },
+  "mat": {
+    "paginator": {
+      "firstPageLabel": "Prima pagina",
+      "itemsPerPageLabel": "Articoli per pagina:",
+      "lastPageLabel": "Ultima pagina",
+      "nextPageLabel": "Pagina successiva",
+      "of": "di",
+      "previousPageLabel": "Pagina precedente"
+    }
+  },
+  "metrics": {
+    "datasource": {
+      "count": "Contare",
+      "max": "Max",
+      "mean": "Significare",
+      "min": "Min",
+      "p50": "p50",
+      "p75": "P75",
+      "p95": "P95",
+      "p99": "P99",
+      "title": "Statistiche DataSource (tempo in millisecondi)",
+      "usage": "Uso"
+    },
+    "jvm": {
+      "gc": {
+        "marksweepcount": "Contrassegna il conteggio sweep",
+        "marksweeptime": "Segna tempo sweep",
+        "scavengecount": "Conteggio degli scavenge",
+        "scavengetime": "Tempo di scavenge",
+        "title": "Garbage collection"
+      },
+      "http": {
+        "active": "Richieste attive:",
+        "code": {
+          "notfound": "Non trovato",
+          "ok": "Ok",
+          "servererror": "Errore del server"
+        },
+        "table": {
+          "average": "Nella media",
+          "code": "Codice",
+          "count": "Contare",
+          "mean": "Significare"
+        },
+        "title": "Richieste HTTP (eventi al secondo)",
+        "total": "Totale richieste:"
+      },
+      "memory": {
+        "heap": "Memoria heap",
+        "nonheap": "Memoria non heap",
+        "title": "Memoria",
+        "total": "Memoria totale"
+      },
+      "threads": {
+        "blocked": "Bloccato",
+        "dump": {
+          "blockedcount": "Conteggio bloccati",
+          "blockedtime": "Tempo bloccato",
+          "hide": "Nascondi Stacktrace",
+          "lockname": "Nome del lucchetto",
+          "show": "Mostra Stacktrace",
+          "title": "Dump dei thread",
+          "waitedcount": "Conteggio atteso",
+          "waitedtime": "Tempo di attesa"
+        },
+        "runnable": "Eseguibile",
+        "timedwaiting": "Attesa a tempo",
+        "title": "Discussioni",
+        "waiting": "Attesa"
+      },
+      "title": "Metriche JVM"
+    },
+    "options": {
+      "done": "Chiudere",
+      "f-all": "Tutto",
+      "f-blocked": "Bloccato",
+      "f-runnable": "Eseguibile",
+      "f-timed-waiting": "Attesa a tempo",
+      "f-waiting": "Attesa",
+      "instance-name": "Istanza",
+      "service-name": "Nome del servizio"
+    },
+    "servicesstats": {
+      "table": {
+        "count": "Contare",
+        "max": "Max",
+        "mean": "Significare",
+        "min": "Min",
+        "name": "Nome del servizio",
+        "p50": "p50",
+        "p75": "P75",
+        "p95": "P95",
+        "p99": "P99"
+      },
+      "title": "Statistiche dei servizi (tempo in millisecondo)"
+    },
+    "title": "Metriche dell'applicazione",
+    "updating": "Aggiornamento..."
+  },
+  "navbar": {
+    "notification": "Notifiche",
+    "search": "Ricerca",
+    "toggleNotification": "Attiva/disattiva navigazione"
+  },
+  "password": {
+    "form": {
+      "button": "Salvare"
+    },
+    "messages": {
+      "error": "<strong>Si è verificato un errore!</strong> Impossibile modificare la password.",
+      "success": "<strong>Password cambiata!</strong>"
+    },
+    "title": "Password per [<b>{{username}}</b>]"
+  },
+  "register": {
+    "form": {
+      "button": "Registro"
+    },
+    "messages": {
+      "error": {
+        "emailempty": "<strong>L'email non può essere vuota!</strong> Si prega di sceglierne uno.",
+        "fail": "<strong>Registrazione non riuscita!</strong> Riprova più tardi.",
+        "userexists": "<strong>Login già registrato!</strong> Si prega di sceglierne un altro."
+      },
+      "success": "<strong>Registrazione salvata!</strong> Si prega di controllare la tua e-mail per la conferma."
+    },
+    "title": "Registrazione"
+  },
+  "reset": {
+    "finish": {
+      "form": {
+        "button": "Convalida nuova password"
+      },
+      "messages": {
+        "error": "Impossibile reimpostare la password. Ricorda che una richiesta di password è valida solo per 24 ore.",
+        "info": "Scegli una nuova password",
+        "keyexpired": "La chiave di richiesta è scaduta.",
+        "keymissing": "Manca la chiave di ripristino.",
+        "keyused": "La chiave di richiesta era già utilizzata.",
+        "success": "<strong>La password è stata reimpostata.</strong> Per favore,&nbsp;"
+      },
+      "title": "Reimposta password"
+    },
+    "request": {
+      "form": {
+        "button": "Reimposta password"
+      },
+      "messages": {
+        "info": "Inserisci l'indirizzo email che hai usato per registrarti",
+        "notfound": "<strong>L'indirizzo email non è registrato!</strong> Controlla e riprova",
+        "success": "Controlla le tue e-mail per i dettagli su come reimpostare la password."
+      },
+      "title": "Reimposta la password"
+    },
+    "setup": {
+      "form": {
+        "button": "Imposta password"
+      },
+      "messages": {
+        "error": "Impossibile creare la password. Ricorda che una richiesta di password è valida solo per 24 ore.",
+        "info": "Crea una nuova password",
+        "success": "<strong>La password è stata creata.</strong> Per favore,&nbsp;"
+      },
+      "title": "Imposta la tua password"
+    }
+  },
+  "rolesManagement": {
+    "basedOn": "Basato su",
+    "chooseRole": "Scegli il ruolo",
+    "createdBy": "Creato da",
+    "createdDate": "Data di creazione",
+    "delete": {
+      "question": "Sei sicuro di voler eliminare Role '{{ roleKey }}'?"
+    },
+    "description": "Descrizione",
+    "detail": {
+      "permissions": "Autorizzazioni",
+      "title": "Ruolo"
+    },
+    "home": {
+      "labelCreate": "Crea nuovo ruolo",
+      "labelEdit": "Modifica ruolo",
+      "title": "Ruoli"
+    },
+    "key": "Chiave",
+    "lastModifiedBy": "Modificato da",
+    "lastModifiedDate": "Data di modifica",
+    "matrix": {
+      "title": "Matrice dei ruoli"
+    },
+    "ok": "Ok",
+    "permission": {
+      "checkAll": "Controlla tutto",
+      "condition": "Condizione",
+      "conditionEnvInfo": "1. utilizzare la funzionalità <br>SpEL2. utilizzare # prima della <br>variabile3. sono disponibili #subject.role, #subject.userKey #subject.login4<br>. è disponibile #env['ipAddress']",
+      "conditionResourceInfo": "1. utilizzare la funzionalità <br>SpEL2. utilizzare # prima di <br>variable3. sono disponibili #subject.role, #subject.userKey #subject.login",
+      "createCondition": "Crea condizione",
+      "desc": "Descrizione",
+      "editCondition": "Modifica condizione",
+      "envCondition": "Condizioni ambientali",
+      "msName": "Nome MS",
+      "notPermitted": "non consentito",
+      "onForbid": "Su Forbid",
+      "permit": "Permettere",
+      "permitted": "permesso",
+      "permittedAny": "almeno uno",
+      "privilegeKey": "Chiave Privilege",
+      "resourceCondition": "Condizione della risorsa"
+    },
+    "selected": "Solo selezionato",
+    "variables": "Variabili disponibili"
+  },
+  "sessions": {
+    "messages": {
+      "error": "<strong>Si è verificato un errore!</strong> Impossibile invalidare la sessione.",
+      "success": "<strong>Sessione invalidata!</strong>"
+    },
+    "table": {
+      "button": "Invalidare",
+      "date": "Dattero",
+      "ipaddress": "Indirizzo IP",
+      "useragent": "Agente utente"
+    },
+    "title": "Sessioni attive per [<b>{{username}}</b>]"
+  },
+  "settings": {
+    "form": {
+      "button": "Salvare",
+      "general": "Informazioni generali",
+      "local-time": "Ora locale: ",
+      "logins": "Account",
+      "offset-time": "Offset del fuso orario: ",
+      "utc-time": "Ora UTC: "
+    },
+    "messages": {
+      "logins": {
+        "success": "<strong>Login salvati!</strong>"
+      },
+      "success": "<strong>Impostazioni salvate!</strong>"
+    },
+    "security": {
+      "autoLogout": "Disconnessione automatica",
+      "name": "Impostazioni di sicurezza",
+      "seconds": "Secondi",
+      "twoFAStatus": "Autenticazione a due fattori"
+    }
+  },
+  "social": {
+    "register": {
+      "errorTitle": "Registrati con un account esterno",
+      "messages": {
+        "error": {
+          "fail": "<strong>Registrazione non riuscita!</strong> Si è verificato un problema durante la convalida del tuo account esterno, ti consigliamo di provare con un'altra connessione."
+        },
+        "success": "<strong>Registrazione salvata!</strong> Si prega di controllare la tua e-mail per la conferma."
+      },
+      "title": "Registrati con {{ label }}"
+    }
+  },
+  "swagger": {
+    "select-component": "Seleziona componente"
+  },
+  "tracker": {
+    "table": {
+      "ipaddress": "Indirizzo IP",
+      "page": "Pagina corrente",
+      "time": "Ore",
+      "userAgent": "Agente utente",
+      "userlogin": "Utente"
+    },
+    "title": "Attività degli utenti in tempo reale"
+  },
+  "translate-managment": {
+    "clear-cache-button": "Cancella la cache delle traduzioni correnti",
+    "download-button": "Scarica le traduzioni",
+    "filter-by-key": "Filtra per chiave",
+    "filter-by-value": "Filtra per valore",
+    "save-all-button": "Salva tutto",
+    "title": "Gestione delle traduzioni"
+  },
+  "userManagement": {
+    "activated": "Attivante",
+    "autoLogout": "Disconnessione automatica",
+    "createdBy": "Creato da",
+    "createdDate": "Data di creazione",
+    "deactivated": "Disattivato",
+    "delete": {
+      "question": "Sei sicuro di voler eliminare l'utente {{ userKey }}?"
+    },
+    "detail": {
+      "title": "Utente"
+    },
+    "error": "Errore",
+    "firstName": "Nome di battesimo",
+    "home": {
+      "createOrEditLabel": "Creare o modificare un utente",
+      "editLoginsLabel": "Aggiornare gli accessi degli utenti",
+      "title": "Gli utenti"
+    },
+    "langKey": "Lingua",
+    "lastModifiedBy": "Modificato da",
+    "lastModifiedDate": "Data di modifica",
+    "lastName": "Cognome",
+    "logins": "Account",
+    "onlineUsers": "Utenti online: ",
+    "role": "Ruolo",
+    "search-by-login": "Ricerca per login",
+    "success": "Successo",
+    "twoFADisabled": "Autenticazione a due fattori disabilitata",
+    "twoFAEnabled": "Autenticazione a due fattori abilitata",
+    "userKey": "Chiave utente"
+  },
+  "wordAutocomplete": {
+    "hint": "Immettere CTRL+SPAZIO per visualizzare la descrizione comando",
+    "noVariables": "Parola non trovare"
+  },
+  "xm-balance": {
+    "balance-detail-dialog": {
+      "title": "Dettaglio bilanciamento"
+    },
+    "balance-list-card": {
+      "title": "Saldi"
+    },
+    "common": {
+      "cancel": "Annulla",
+      "fields": {
+        "amount": "Importo",
+        "end-date": "Data di fine",
+        "label": "Etichetta",
+        "start-date": "Data di inizio"
+      }
+    }
+  },
+  "xm-bool-control": {
+    "cancel": "Annulla",
+    "false": "Falso",
+    "true": "Vero"
+  },
+  "xm-control-errors": {
+    "validators": {
+      "email": "Il tuo indirizzo email non è corretto.",
+      "max": "Il valore massimo è {{max}}.",
+      "maxlength": "Non può superare i caratteri {{requiredLength}}.",
+      "min": "Il valore minimo è {{min}}.",
+      "minlength": "Deve contenere almeno caratteri {{requiredLength}}.",
+      "pattern": "Campo compilato in modo errato.",
+      "required": "Il campo è obbligatorio."
+    }
+  },
+  "xm-entity": {
+    "attachment-card": {
+      "delete": {
+        "button": "Sì, eliminare!",
+        "button-cancel": "Annulla",
+        "remove-error": "Allegato non rimosso. Riprova.",
+        "remove-success": "Allegato rimosso correttamente.",
+        "title": "Sei sicuro di voler eliminare Allegato?"
+      },
+      "no-data": "Nessun file allegato",
+      "title": "Allegati",
+      "volume": {
+        "GB": "GB",
+        "KB": "KB",
+        "MB": "MB",
+        "PB": "Pb",
+        "TB": "Tubercolosi",
+        "bytes": "Byte"
+      }
+    },
+    "attachment-detail-dialog": {
+      "add": {
+        "success": "Allegato aggiunto correttamente."
+      },
+      "choose-type": "Scegli il tipo di allegato",
+      "title": "Aggiungere un nuovo allegato per l'oggetto",
+      "upload": "Clicca per caricare o rilasciare il file qui",
+      "wrong-type-error": ""
+    },
+    "calendar-card": {
+      "calendar": {
+        "btn-list-day": "giorno (elenco)",
+        "btn-list-week": "settimana (elenco)"
+      },
+      "delete": {
+        "button": "Sì, eliminare!",
+        "button-cancel": "Annulla",
+        "remove-error": "Evento non rimosso. Riprova.",
+        "remove-success": "Evento rimosso correttamente.",
+        "title": "Sei sicuro di voler eliminare Event?"
+      }
+    },
+    "calendar-event-dialog": {
+      "add": {
+        "success": "Evento aggiunto correttamente."
+      },
+      "choose-type": "Scegli il tipo di evento",
+      "title": "Aggiungi nuovo evento per il",
+      "title-edit": "Modifica evento per il"
+    },
+    "comment-detail-dialog": {
+      "add": {
+        "success": "Commento aggiunto correttamente."
+      },
+      "choose-type": "Scegli il tipo di commento",
+      "title": "Aggiungi nuovo commento per l'oggetto"
+    },
+    "common": {
+      "add": "Aggiungere",
+      "add-avatar": "Aggiungi Avatar",
+      "cancel": "Annulla",
+      "change-avatar": "Cambia avatar",
+      "close": "Chiudere",
+      "fields": {
+        "addressLine1": "Indirizzo riga 1",
+        "addressLine2": "Indirizzo riga 2",
+        "city": "Città",
+        "description": "Descrizione",
+        "end-date": "Data di fine",
+        "id": "ID",
+        "latitude": "Latitudine",
+        "longitude": "Longitudine",
+        "message": "Commento",
+        "name": "Nome",
+        "region": "Regione",
+        "start-date": "Data di inizio",
+        "state": "Stato",
+        "title": "Titolo",
+        "type": "Digitare",
+        "zip": "CAP"
+      },
+      "save": "Salvare",
+      "search": "Ricerca",
+      "validation": {
+        "coordinates": "Questo campo non corrisponde al formato di latitudine e longitudine.",
+        "date-time": "Questo campo dovrebbe essere una data e un'ora.",
+        "pattern": "Questo campo non corrisponde alle regole",
+        "required": "Questo campo è obbligatorio."
+      }
+    },
+    "entity-data-card": {
+      "title": "Dati",
+      "update-error": "Non aggiornato. Riprova.",
+      "update-success": "Aggiornato correttamente.",
+      "change-avatar": "Cambia immagine",
+      "current-state": "Stato attuale"
+    },
+    "entity-detail-dialog": {
+      "add": {
+        "choose-type": "Scegli il tipo di entità",
+        "title": "Aggiungere una nuova entità"
+      },
+      "edit": {
+        "title": "Modificare un'entità"
+      }
+    },
+    "entity-detail-fab": {
+      "new": "Aggiungere nuova",
+      "edit-entity": "Redigere",
+      "new-attachment": "Aggiungi nuovo allegato",
+      "new-comment": "Aggiungi nuovo commento",
+      "new-link": "Aggiungi nuovo link",
+      "new-location": "Aggiungi nuova posizione"
+    },
+    "entity-list-card": {
+      "action-dialog": {
+        "question": "Sei sicuro di voler <b>{{action}}</b> al <b>{{name}}</b>?"
+      },
+      "delete": {
+        "button": "Sì, eliminare!",
+        "button-cancel": "Annulla",
+        "remove-error": "Non rimosso. Riprova.",
+        "remove-success": "Rimosso correttamente.",
+        "title": "Sei sicuro di voler eliminare?"
+      },
+      "export": {
+        "action": {
+          "csv": "csv",
+          "downloads": "Download",
+          "xls": "xls"
+        }
+      },
+      "filters-hide": "Nascondi filtri",
+      "filters-show": "Mostra filtri",
+      "open": "Aperto",
+      "refresh": "Aggiornare"
+    },
+    "entity-list-fab": {
+      "new-generated": "Generato!"
+    },
+    "function-list-card": {
+      "change-state": {
+        "button": "Sì, cambia!",
+        "error": "Stato non modificato. Riprova.",
+        "success": "Stato modificato correttamente.",
+        "title": "Sei sicuro di voler cambiare stato?"
+      },
+      "current-state": "Stato attuale: ",
+      "general-group": "Funzioni generali",
+      "next-states": "Stati successivi disponibili durante il ciclo di vita:",
+      "other-functions": "Altre funzioni:",
+      "title": "Funzioni"
+    },
+    "link-detail-dialog": {
+      "add-link": "Aggiungere",
+      "add": {
+        "build-type-new": "Nuovo",
+        "build-type-search": "Ricerca",
+        "error": "Link non aggiunto. Riprova.",
+        "success": "Link aggiunto correttamente.",
+        "title": "Aggiungi nuovo link per il"
+      },
+      "show-more": "Mostra di più"
+    },
+    "link-list-card": {
+      "delete": {
+        "button": "Sì, eliminare!",
+        "button-cancel": "Annulla",
+        "remove-error": "Link non rimosso. Riprova.",
+        "remove-success": "Link rimosso correttamente.",
+        "title": "Sei sicuro di voler eliminare Link?"
+      },
+      "list-view": "Visualizzazione elenco",
+      "tree-view": "Vista ad albero"
+    },
+    "link-list-tree-section": {
+      "collapse": "Comprimi questo ramo"
+    },
+    "location-detail-dialog": {
+      "add": {
+        "success": "Posizione aggiunta correttamente.",
+        "title": "Aggiungere una nuova posizione per l'oggetto"
+      },
+      "choose-country": "Scegli il paese",
+      "choose-type": "Scegli il tipo di posizione (obbligatorio)",
+      "countries": {
+        "AD": "Andorra",
+        "AE": "Emirati Arabi Uniti",
+        "AF": "Afghanistan",
+        "AG": "Antigua e Barbuda",
+        "AI": "Anguilla",
+        "AL": "Albania",
+        "AM": "Armenia",
+        "AO": "Angola",
+        "AQ": "Antartide",
+        "AR": "Argentina",
+        "AS": "Samoa americane",
+        "AT": "Austria",
+        "AU": "Australia",
+        "AW": "Aruba",
+        "AX": "Isole Åland",
+        "AZ": "Azerbaigian",
+        "BA": "Bosnia ed Erzegovina",
+        "BB": "Barbados",
+        "BD": "Bangladesh",
+        "BE": "Belgio",
+        "BF": "Burkina Faso",
+        "BG": "Bulgaria",
+        "BH": "Bahrein",
+        "BI": "Burundi",
+        "BJ": "Benin",
+        "BL": "Saint-Barthélemy",
+        "BM": "Bermuda",
+        "BN": "Brunei Darussalam",
+        "BO": "Bolivia",
+        "BQ": "Bonaire, Sint Eustatius e Saba",
+        "BR": "Brasile",
+        "BS": "Bahamas",
+        "BT": "Bhutan",
+        "BV": "Isola Bouvet",
+        "BW": "Botswana",
+        "BY": "Belarus",
+        "BZ": "Belize",
+        "CA": "Canada",
+        "CC": "Isole Cocos (Keeling)",
+        "CD": "Congo, Repubblica democratica del Congo",
+        "CF": "Repubblica Centrafricana",
+        "CG": "Congo",
+        "CH": "Svizzera",
+        "CI": "Costa d’Avorio",
+        "CK": "Isole Cook",
+        "CL": "Cile",
+        "CM": "Camerun",
+        "CN": "Cina",
+        "CO": "Colombia",
+        "CR": "Costa Rica",
+        "CU": "Cuba",
+        "CV": "Capo Verde",
+        "CW": "Curaçao",
+        "CX": "Isola Christmas",
+        "CY": "Cipro",
+        "CZ": "Repubblica Ceca",
+        "DE": "Germania",
+        "DJ": "Gibuti",
+        "DK": "Danimarca",
+        "DM": "Dominica",
+        "DO": "Repubblica Dominicana",
+        "DZ": "Algeria",
+        "EC": "Ecuador",
+        "EE": "Estonia",
+        "EG": "Egitto",
+        "EH": "Sahara occidentale",
+        "ER": "Eritrea",
+        "ES": "Spagna",
+        "ET": "Etiopia",
+        "FI": "Finlandia",
+        "FJ": "Figi",
+        "FK": "Isole Falkland (Malvine)",
+        "FM": "Micronesia, Stati Federati di",
+        "FO": "Isole Faroe",
+        "FR": "Francia",
+        "GA": "Gabon",
+        "GB": "Regno Unito",
+        "GD": "Grenada",
+        "GE": "Georgia",
+        "GF": "Guyana francese",
+        "GG": "Guernsey",
+        "GH": "Ghana",
+        "GI": "Gibilterra",
+        "GL": "Groenlandia",
+        "GM": "Gambia",
+        "GN": "Guinea",
+        "GP": "Guadalupa",
+        "GQ": "Guinea Equatoriale",
+        "GR": "Grecia",
+        "GS": "Georgia del Sud e Isole Sandwich Meridionali",
+        "GT": "Guatemala",
+        "GU": "Guam",
+        "GW": "Guinea-Bissau",
+        "GY": "Guyana",
+        "HK": "Hong Kong",
+        "HM": "Isole Heard e Mcdonald",
+        "HN": "Honduras",
+        "HR": "Croazia",
+        "HT": "Haiti",
+        "HU": "Ungheria",
+        "ID": "Indonesiano",
+        "IE": "Irlanda",
+        "IL": "Israele",
+        "IM": "Isola di Man",
+        "IN": "India",
+        "IO": "Territorio britannico dell'Oceano Indiano",
+        "IQ": "Iraq",
+        "IR": "Iran, Repubblica islamica di",
+        "IS": "Islanda",
+        "IT": "Italia",
+        "JE": "Jersey",
+        "JM": "Giamaica",
+        "JO": "Giordania",
+        "JP": "Giappone",
+        "KE": "Kenia",
+        "KG": "Kirghizistan",
+        "KH": "Cambogia",
+        "KI": "Kiribati",
+        "KM": "Comore",
+        "KN": "Saint Kitts e Nevis",
+        "KP": "Corea del Nord",
+        "KR": "Corea del Sud",
+        "KW": "Kuwait",
+        "KY": "Isole Cayman",
+        "KZ": "Kazakhstan",
+        "LA": "Repubblica Democratica Popolare del Laos",
+        "LB": "Libano",
+        "LC": "Saint Lucia",
+        "LI": "Liechtenstein",
+        "LK": "Sri Lanka",
+        "LR": "Liberia",
+        "LS": "Lesotho",
+        "LT": "Lituania",
+        "LU": "Lussemburgo",
+        "LV": "Lettonia",
+        "LY": "Jamahiriya Araba Libica",
+        "MA": "Marocco",
+        "MC": "Monaco",
+        "MD": "Moldavia, Repubblica di",
+        "ME": "Montenegro",
+        "MF": "Saint Martin (parte francese)",
+        "MG": "Madagascar",
+        "MH": "Isole Marshall",
+        "MK": "Macedonia, ex Repubblica iugoslava di",
+        "ML": "Mali",
+        "MM": "Myanmar",
+        "MN": "Mongolia",
+        "MO": "Macao",
+        "MP": "Isole Marianne Settentrionali",
+        "MQ": "Martinica",
+        "MR": "Mauritania",
+        "MS": "Montserrat",
+        "MT": "Malta",
+        "MU": "Mauritius",
+        "MV": "Maldive",
+        "MW": "Malawi",
+        "MX": "Messico",
+        "MY": "Malaysia",
+        "MZ": "Mozambico",
+        "NA": "Namibia",
+        "NC": "Nuova Caledonia",
+        "NE": "Niger",
+        "NF": "Isola Norfolk",
+        "NG": "Nigeria",
+        "NI": "Nicaragua",
+        "NL": "Paesi Bassi",
+        "NO": "Norvegia",
+        "NP": "Nepal",
+        "NR": "Nauru",
+        "NU": "Niue",
+        "NZ": "Nuova Zelanda",
+        "OM": "Oman",
+        "PA": "Panama",
+        "PE": "Perù",
+        "PF": "Polinesia francese",
+        "PG": "Papua Nuova Guinea",
+        "PH": "Filippine",
+        "PK": "Pakistan",
+        "PL": "Polonia",
+        "PM": "Saint Pierre e Miquelon",
+        "PN": "Pitcairn ·",
+        "PR": "Portorico",
+        "PS": "Territori palestinesi, Occupati",
+        "PT": "Portogallo",
+        "PW": "Palazzo",
+        "PY": "Paraguay",
+        "QA": "Qatar",
+        "RE": "Riunione",
+        "RO": "Romania",
+        "RS": "Serbia",
+        "RU": "Federazione russa",
+        "RW": "Ruanda",
+        "SA": "Arabia Saudita",
+        "SB": "Isole Salomone",
+        "SC": "Seychelles",
+        "SD": "Sudan",
+        "SE": "Svezia",
+        "SG": "Singapore",
+        "SH": "Sant’Elena",
+        "SI": "Slovenia",
+        "SJ": "Svalbard e Jan Mayen",
+        "SK": "Slovacchia",
+        "SL": "Sierra Leone",
+        "SM": "San Marino",
+        "SN": "Senegal",
+        "SO": "Somalia",
+        "SR": "Suriname",
+        "SS": "Sud Sudan",
+        "ST": "Sao Tomé e Príncipe",
+        "SV": "El Salvador",
+        "SX": "Sint Maarten (parte olandese)",
+        "SY": "Repubblica araba siriana",
+        "SZ": "Swaziland",
+        "TC": "Isole Turks e Caicos",
+        "TD": "Ciad",
+        "TF": "Territori meridionali francesi",
+        "TG": "Togo",
+        "TH": "Thailandia",
+        "TJ": "Tagikistan",
+        "TK": "Tokelau",
+        "TL": "Timor Est",
+        "TM": "Turkmenistan",
+        "TN": "Tunisia",
+        "TO": "Tonga",
+        "TR": "Turchia",
+        "TT": "Trinidad e Tobago",
+        "TV": "Tuvalu",
+        "TW": "Taiwan",
+        "TZ": "Tanzania, Repubblica Unita di",
+        "UA": "Ucraina",
+        "UG": "Uganda",
+        "UM": "Isole Minori Esterne degli Stati Uniti",
+        "US": "Stati Uniti d'America",
+        "UY": "Uruguay",
+        "UZ": "Uzbekistan",
+        "VA": "Santa Sede (Stato della Città del Vaticano)",
+        "VC": "Saint Vincent e Grenadine",
+        "VE": "Venezuela",
+        "VG": "Isole Vergini, Britannica",
+        "VI": "Isole Vergini, Stati Uniti",
+        "VN": "Vietnam",
+        "VU": "Vanuatu",
+        "WF": "Wallis e Futuna",
+        "WS": "Samoa",
+        "XK": "Kosovo",
+        "YE": "Yemen",
+        "YT": "Mayotte",
+        "ZA": "Sud Africa",
+        "ZM": "Zambia",
+        "ZW": "Zimbabwe"
+      },
+      "edit": {
+        "success": "Posizione modificata correttamente.",
+        "title": "Modificare una posizione per l'oggetto"
+      }
+    },
+    "location-list-card": {
+      "delete": {
+        "button": "Sì, eliminare!",
+        "button-cancel": "Annulla",
+        "remove-error": "Posizione non rimossa. Riprova.",
+        "remove-success": "Posizione rimossa correttamente.",
+        "title": "Sei sicuro di voler eliminare la posizione?"
+      },
+      "not-defined": "Posizione non definita",
+      "add-location": "Aggiungi luogo",
+      "title": "Luoghi",
+      "title-location": "Posizione"
+    },
+    "rating-list-section": {
+      "vote-error": "Il vostro voto non viene preso in considerazione.",
+      "vote-success": "Si tiene conto del vostro voto.",
+      "votes": "Votazione(i)"
+    },
+    "states-management-dialog": {
+      "choose-state": "Scegli lo stato",
+      "title": "Dettaglio Stati"
+    },
+    "tag-list-section": {
+      "add-error": "Tag non aggiunto. Riprova.",
+      "remove-error": "Tag non rimosso. Riprova.",
+      "type-tag": "digitare tag ..."
+    }
+  },
+  "xm-enum": {
+    "all": "Tutto",
+    "other": "Altro",
+    "others": "Altri"
+  },
+  "xm-navbar-language-menu": {
+    "choose-language": "Scegli una lingua"
+  },
+  "xm-notifications": {
+    "showAll": "Visualizza tutto"
+  },
+  "xm-timeline": {
+    "common": {
+      "no-items": "Non ci sono voci per questa richiesta!",
+      "show-more-10": "Mostra altro",
+      "show-more-all": "Mostra",
+      "title": "Cronologia",
+      "time-ago": {
+        "day": "un giorno fa",
+        "days": " giorni fa",
+        "hour": "un'ora fa",
+        "hours": " ore fa",
+        "minute": "un minuto fa",
+        "minutes": " minuti fa",
+        "month": "un mese fa",
+        "months": " mesi fa",
+        "seconds": "pochi secondi fa",
+        "year": "un anno fa",
+        "years": " anni fa"
+      }
+    },
+    "timeline": {
+      "by": "presso",
+      "error": "ERRORE",
+      "more": "altri eventi della timeline...",
+      "success": "SUCCESSO",
+      "title": "Linea temporale"
+    }
+  },
+  "xm": {
+    "defaultProfile": {
+      "created": "Viene creato un nuovo profilo predefinito con identificatore {{ param }}",
+      "dashboard": "Cruscotto",
+      "delete": {
+        "question": "Sei sicuro di voler eliminare il profilo predefinito {{ id }}?"
+      },
+      "deleted": "Un profilo predefinito viene eliminato con l'identificatore {{ param }}",
+      "detail": {
+        "title": "Profilo predefinito"
+      },
+      "home": {
+        "createLabel": "Creare un nuovo profilo predefinito",
+        "createOrEditLabel": "Creare o modificare un profilo predefinito",
+        "search": "Cerca profilo predefinito",
+        "title": "Profili predefiniti"
+      },
+      "roleKey": "Chiave di ruolo",
+      "updated": "Un profilo predefinito viene aggiornato con l'identificatore {{ param }}"
+    },
+    "delete": {
+      "question": "Sei sicuro di voler eliminare [ <b>{{name}}</b> ]?"
+    },
+    "export-entities": {
+      "btn-cancel": "Annulla",
+      "btn-export": "Esportazione",
+      "details-title": "Esporta entità",
+      "message-error": "Esportazione non riuscita!",
+      "message-success": "Esportato con successo!",
+      "no-params-required": "Nessun parametro richiesto!",
+      "step-1": "Scegli typeKey dell'entità",
+      "step-2": "Scegli i parametri obbligatori"
+    },
+    "import-entities": {
+      "btn-cancel": "Annulla",
+      "btn-import": "Importazione",
+      "details-title": "Entità di importazione",
+      "file-process-error": "Il file è danneggiato o ha l'estensione .json!",
+      "message-error": "Importazione non riuscita!",
+      "message-success": "Importato con successo!",
+      "upload-btn-text": "Carica dal file JSON"
+    },
+    "profile": {
+      "created": "Viene creato un nuovo profilo con identificatore {{ param }}",
+      "dashboards": "Dashboard",
+      "delete": {
+        "question": "Sei sicuro di voler eliminare Profilo {{ id }}?"
+      },
+      "deleted": "Un profilo viene eliminato con l'identificatore {{ param }}",
+      "detail": {
+        "title": "Profilo"
+      },
+      "home": {
+        "createLabel": "Crea un nuovo profilo",
+        "createOrEditLabel": "Creare o modificare un profilo",
+        "search": "Cerca profilo",
+        "title": "Profili"
+      },
+      "login": "Accesso",
+      "updated": "Un profilo viene aggiornato con l'identificatore {{ param }}"
+    },
+    "xmEntity": {
+      "add": {
+        "chooseType": "Scegli il tipo di entità",
+        "title": "Aggiungere una nuova entità"
+      },
+      "addPhoto": "Aggiungi foto",
+      "change": "Cambiare",
+      "data": "Dati",
+      "description": "Descrizione",
+      "edit": {
+        "title": "Modificare un'entità [<b>{{name}}</b>]"
+      },
+      "endDate": "Data di fine",
+      "functions": "Funzioni",
+      "lifecycle": {
+        "nextStates": "Stati successivi disponibili durante il ciclo di vita:",
+        "title": "Ciclo di vita"
+      },
+      "listView": "Visualizzazione elenco",
+      "locations": "Luoghi",
+      "name": "Nome",
+      "redeem": {
+        "title": "Riscattare"
+      },
+      "search": "Risultato della ricerca per ",
+      "showMore": "Mostra di più",
+      "startDate": "Data di inizio",
+      "state": "Stato",
+      "tenant": {
+        "error": {
+          "alreadyUsed": "Nome tenant già utilizzato",
+          "tenantKeyFormat": "Il nome del tenant deve essere una stringa alfanumerica con caratteri di sottolineatura. Primo carattere alfa. Non iniziare con \"pg_\". La lunghezza massima è di 48 simboli"
+        }
+      },
+      "title": "Titolo",
+      "treeView": "Vista ad albero",
+      "type": "Digitare",
+      "votes": "Votazione(i)"
+    }
+  },
+  "xm-validator-processing": {
+    "validators": {
+      "minDate": "La data selezionata è inferiore alla data minima ({{minDateI18n}}).",
+      "languageRequired": "È richiesta almeno una lingua",
+      "minArrayLength": "L'array è inferiore alla lunghezza minima ({{requiredLength}}).",
+      "valueMoreThanIn": "Il valore è maggiore di {{compareValue}}",
+      "valueLessThanIn": "Il valore è minore di {{compareValue}}",
+      "severalEmails": "L'e-mail o i valori non validi devono essere separati dal simbolo successivo: ';'",
+      "dateMoreThanIn": "Valore superiore all'intervallo consentito",
+      "dateLessThanIn": "Il valore è inferiore all'intervallo consentito"
+    }
+  }
+}

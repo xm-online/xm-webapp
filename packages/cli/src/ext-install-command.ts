@@ -16,7 +16,7 @@ export class ExtInstallCommand implements Command {
             if (fs.existsSync(join(modPath, 'package.json'))) {
                 console.info('Packages installing:', modPath);
                 const npmCmd = os.platform().startsWith('win') ? 'npm.cmd' : 'npm';
-                cp.spawn(npmCmd, ['i'], { env: process.env, cwd: modPath, stdio: 'inherit' });
+                cp.spawn(npmCmd, ['i', '--legacy-peer-deps'], { env: process.env, cwd: modPath, stdio: 'inherit' });
             }
         });
     }

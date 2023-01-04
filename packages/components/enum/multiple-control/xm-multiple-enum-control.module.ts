@@ -11,6 +11,7 @@ import { XmDynamicControlConstructor } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmEnumValue } from '../value/xm-enum.component';
 import { XmMultipleEnumControlComponent } from './xm-multiple-enum-control.component';
+import { HintModule } from '@xm-ngx/components/hint';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { XmMultipleEnumControlComponent } from './xm-multiple-enum-control.compo
         ControlErrorModule,
         ReactiveFormsModule,
         XmPermissionModule,
+        HintModule,
     ],
     exports: [XmMultipleEnumControlComponent],
     declarations: [XmMultipleEnumControlComponent],

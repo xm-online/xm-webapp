@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -59,7 +59,7 @@ describe('XmTextControl', () => {
 
     it('value should be equal to form value via control', () => {
         const value = 'value2';
-        component.control = new FormControl(value);
+        component.control = new UntypedFormControl(value);
 
         expect(component.value).toBe(value);
         expect(component.control.value).toBe(value);
@@ -67,12 +67,12 @@ describe('XmTextControl', () => {
 
     it('value should be equal to form value after control change', () => {
         const value = 'value3';
-        component.control = new FormControl(null);
+        component.control = new UntypedFormControl(null);
 
         expect(component.value).toBeNull();
         expect(component.control.value).toBeNull();
 
-        component.control = new FormControl(value);
+        component.control = new UntypedFormControl(value);
         expect(component.value).toBe(value);
         expect(component.control.value).toBe(value);
     });
@@ -80,7 +80,7 @@ describe('XmTextControl', () => {
 
     it('value should be equal to form value after input value', () => {
         const value = 'value4';
-        component.control = new FormControl(null);
+        component.control = new UntypedFormControl(null);
         component.control.setValue(value);
         expect(component.value).toBe(value);
         expect(component.control.value).toBe(value);

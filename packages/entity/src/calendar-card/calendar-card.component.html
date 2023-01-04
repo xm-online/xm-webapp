@@ -1,0 +1,16 @@
+<div *ngIf="calendars?.length > 0" class="card">
+    <div class="card-body ps-child">
+      <mat-tab-group (selectedTabChange)="onCalendarChange();">
+        <mat-tab
+          *ngFor="let calendar of calendars"
+          [label]="calendar.name?.toUpperCase()">
+            <xm-calendar-view
+              [calendar]="calendar"
+              [config]="getCalendarConfig(calendar)"
+              [spec]="getCalendarSpec(calendar)"
+              [xmEntity]="xmEntity">
+            </xm-calendar-view>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+</div>

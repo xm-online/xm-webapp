@@ -1,5 +1,4 @@
 export {
-    getCellValue,
     XM_DYNAMIC_TABLE_CELL,
     XM_DYNAMIC_TABLE_ROW,
     XmDynamicCell,

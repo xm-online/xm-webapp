@@ -1,0 +1,53 @@
+<ng-container *xmPermission="options.permission">
+  <mat-card *xmCondition="options.condition; arguments {entity: entity}"
+            [attr.data-qa]="options.dataQa || 'card-container'"
+            [ngClass]="options.cardClass"
+            class="mb-3">
+
+    <div class="d-flex justify-content-between">
+
+      <div mat-card-title>
+        <span *ngIf="options.title">{{options.title | translate}}</span>
+        <ng-content select="[xmHeaderTitle]"></ng-content>
+      </div>
+
+      <div *ngIf="!options.readonly && entity?.id" class="flex-nowrap d-flex">
+        <ng-content select="[xmHeaderActions]"></ng-content>
+        <ng-container *xmPermission="options.editPermission">
+          <xm-edit-widget-buttons (cancel)="cancel.emit($event)"
+                                  (edit)="contentHidden = false"
+                                  [disableSubmit]="disableSubmit"
+                                  (isEditChange)="isEditChange.emit($event)"
+                                  (changeEvent)="onEditChange($event)"
+                                  (save)="save.emit($event)"
+                                  [disabled]="loading"
+                                  [xm-loading]="loading"
+                                  *xmCondition="options.editCondition; arguments {entity: entity}"
+                                  [(isEdit)]="isEdit">
+          </xm-edit-widget-buttons>
+        </ng-container>
+        <button (click)="contentHidden=!contentHidden"
+                *ngIf="options?.collapsableContent"
+                [disabled]="isEdit"
+                mat-icon-button>
+          <mat-icon>{{contentHidden ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}}</mat-icon>
+        </button>
+
+      </div>
+
+    </div>
+
+    <mat-card-content *ngIf="entity"
+                      [@bodyExpansion]="contentHidden ? 'collapsed' : 'expanded'"
+                      [ngClass]="options.contentClass">
+
+      <ng-content select="[xmContent]"></ng-content>
+
+    </mat-card-content>
+
+    <mat-card-actions align="center">
+      <ng-content select="[xmActions]"></ng-content>
+    </mat-card-actions>
+
+  </mat-card>
+</ng-container>

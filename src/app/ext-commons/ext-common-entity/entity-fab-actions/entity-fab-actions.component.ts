@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { Subscription } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 import { Principal } from '../../../shared';
 
 import {
@@ -13,9 +13,10 @@ import {
     XmEntity,
     XmEntitySpec,
     XmEntitySpecWrapperService,
-} from '../../../xm-entity';
-import { FunctionCallDialogComponent } from '../../../xm-entity/function-call-dialog/function-call-dialog.component';
+} from '@xm-ngx/entity';
+import { FunctionCallDialogComponent } from '@xm-ngx/entity/function-call-dialog/function-call-dialog.component';
 import { XM_EVENT_LIST } from '../../../xm.constants';
+import { pluck, takeUntil } from 'rxjs/operators';
 
 const ENTITY_SELECTED = 'xm-entity-selected';
 
@@ -38,6 +39,9 @@ export class EntityFabActionsComponent implements OnInit, OnDestroy {
     public entityId: any;
     public entityType: string;
     public routingUrl: string;
+    public xmEntityListSelection!: XmEntity[];
+
+    private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
     constructor(
         private principal: Principal,
@@ -49,6 +53,14 @@ export class EntityFabActionsComponent implements OnInit, OnDestroy {
         protected xmEntitySpecWrapperService: XmEntitySpecWrapperService,
     ) {
         this.spec = null;
+        this.eventManager.listenTo(XM_EVENT_LIST.XM_ENTITY_LIST_SELECTION_CHANGED)
+            .pipe(
+                pluck('payload', XM_EVENT_LIST.XM_ENTITY_LIST_SELECTION_CHANGED),
+                takeUntil(this.destroyed$),
+            )
+            .subscribe((selected: unknown) => {
+                this.xmEntityListSelection = selected as XmEntity[];
+            });
     }
 
     public ngOnInit(): void {
@@ -79,6 +91,8 @@ export class EntityFabActionsComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this.eventManager.destroy(this.selectedEntity);
         this.eventManager.destroy(this.createEntity);
+        this.destroyed$.next(true);
+        this.destroyed$.complete();
     }
 
     public onAddNew(item: any): void {
@@ -139,6 +153,7 @@ export class EntityFabActionsComponent implements OnInit, OnDestroy {
         modalRef.componentInstance.functionSpec = functionSpec;
         modalRef.componentInstance.dialogTitle = title;
         modalRef.componentInstance.buttonTitle = title;
+        modalRef.componentInstance.listSelection = this.xmEntityListSelection;
         modalRef.componentInstance.onSuccess = () => {
             this.eventManager.broadcast({name: XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS});
             this.toasterService.success('ext-common-entity.entity-fab-actions.operation-success');

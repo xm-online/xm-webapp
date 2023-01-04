@@ -1,0 +1,58 @@
+<div mat-dialog-content>
+  <xm-loader [showLoader]="showLoader"></xm-loader>
+
+  <div class="form-group">
+    <mat-form-field>
+      <input #searchField
+             matInput
+             placeholder="{{'xm-entity.link-detail-dialog.add.build-type-search' | translate}}"
+             type="text">
+    </mat-form-field>
+  </div>
+
+  <no-data [show]="!searchXmEntities || searchXmEntities?.length <= 0"></no-data>
+
+  <div *ngIf="searchXmEntities?.length > 0" class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"><span>{{'xm-entity.common.fields.name'|translate}}</span></th>
+        <th scope="col"><span>{{'xm-entity.common.fields.description'|translate}}</span></th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let xmEntity of searchXmEntities">
+        <td>
+          <div class="xm-avatar-img-container">
+            <img src="{{xmEntity.avatarUrl ? xmEntity.avatarUrl : './assets/img/placeholder.png'}}">
+            <mat-icon class="xm-avatar-icon" *ngIf="!xmEntity.avatarUrl && xmEntity && spec">{{ xmEntity.typeKey | xmEntityIcon: spec}}</mat-icon>
+          </div>
+        </td>
+        <td>{{xmEntity.name}}</td>
+        <td>{{xmEntity.description}}</td>
+        <td>
+          <button mat-flat-button color="primary" (click)="onAdd(xmEntity)">
+            {{'xm-entity.link-detail-dialog.add-link'|translate}}
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <button mat-flat-button color="primary" (click)="onShowMore()" *ngIf="searchXmEntities?.length < total" [disabled]="showLoader">
+        {{'xm-entity.link-detail-dialog.show-more'|translate}}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button class="ms-auto" mat-flat-button data-dismiss="modal" type="button" (click)="onCancel()">
+    {{'xm-entity.common.cancel'|translate}}
+  </button>
+</div>

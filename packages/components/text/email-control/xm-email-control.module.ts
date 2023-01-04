@@ -8,6 +8,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { XmEmailControl } from './xm-email-control';
 import { XmEmailControlOptions } from './xm-email-control-options';
+import { HintModule } from '@xm-ngx/components/hint';
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import { XmEmailControlOptions } from './xm-email-control-options';
         MatInputModule,
         ReactiveFormsModule,
         XmTranslationModule,
+        HintModule,
     ],
     exports: [XmEmailControl],
     declarations: [XmEmailControl],

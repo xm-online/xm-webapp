@@ -32,7 +32,7 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     }
 
     public getById(key: Id, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
-        return this.find(key, params);
+        return this.find(key, params, headers);
     }
 
     public find(key: Id, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {

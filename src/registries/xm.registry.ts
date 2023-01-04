@@ -7,6 +7,7 @@ import { XM_LINK_ELEMENTS } from './xm-link.registry';
 import { XM_ENUM_ELEMENTS } from './xm-enum.registry';
 import { XM_BOOL_ELEMENTS } from './xm-bool.registry';
 import { XM_ARRAY_ELEMENTS } from './xm-array.registry';
+import { XM_TABLE_ELEMENTS } from './xm-table.registry';
 import { XM_NAVBAR_ELEMENTS } from './xm-navbar.registry';
 import { XM_DASHBOARD_ELEMENTS } from './xm-dashboard.registry';
 import { XM_ADMINISTRATION_ELEMENTS } from './xm-administration.registry';
@@ -20,12 +21,17 @@ export const XM_ELEMENTS: XmDynamicEntries = [
     ...XM_LINK_ELEMENTS,
     ...XM_ENUM_ELEMENTS,
     ...XM_ARRAY_ELEMENTS,
+    ...XM_TABLE_ELEMENTS,
     ...XM_NAVBAR_ELEMENTS,
     ...XM_DASHBOARD_ELEMENTS,
     ...XM_ADMINISTRATION_ELEMENTS,
     {
         selector: '@xm-ngx/components/sidebar-logo',
         loadChildren: () => import('@xm-ngx/components/logo').then(m => m.XmLogoModule),
+    },
+    {
+        selector: '@xm-ngx/components/sidebar-image-logo',
+        loadChildren: () => import('@xm-ngx/components/logo').then(m => m.ImageLogoModule),
     },
     {
         selector: '@xm-ngx/components/sidebar-menu',
@@ -104,7 +110,23 @@ export const XM_ELEMENTS: XmDynamicEntries = [
         loadChildren: () => import('@xm-ngx/components/number-control').then(m => m.XmNumberControlModule),
     },
     {
+        selector: '@xm-ngx/components/numbers-range-control',
+        loadChildren: () => import('@xm-ngx/components/numbers-range-control').then(m => m.NumbersRangeControlModule),
+    },
+    {
         selector: '@xm-ngx/documentation/examples',
         loadChildren: () => import('../../packages/documentation/doc-examples/xm-doc-examples.module').then(m => m.XmDocExamplesModule),
+    },
+    {
+        selector: '@xm-ngx/components/xm-ace-editor-control',
+        loadChildren: () => import('@xm-ngx/components/ace-editor').then(m => m.XmAceEditorControlModule),
+    },
+    {
+        selector: '@xm-ngx/components/multilanguage',
+        loadChildren: () => import('@xm-ngx/components/multilanguage').then(m => m.MultiLanguageModule),
+    },
+    {
+        selector: '@xm-ngx/components/hint-switch',
+        loadChildren: () => import('@xm-ngx/components/hint/hint-switch/hint-switch.module').then(m => m.HintSwitchModule),
     },
 ];

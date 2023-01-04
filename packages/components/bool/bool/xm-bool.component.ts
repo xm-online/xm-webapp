@@ -8,7 +8,8 @@ import {
     SimpleChanges,
     ViewEncapsulation,
 } from '@angular/core';
-import { XmBoolOptions, XM_BOOL_VIEW_ICONS } from './xm-bool.injectors';
+import { XM_BOOL_VIEW_ICONS, XmBoolOptions } from './xm-bool.injectors';
+import { Primitive } from '@xm-ngx/shared/interfaces';
 
 export type XmBoolValue = string | boolean;
 
@@ -23,14 +24,22 @@ export type XmBoolValue = string | boolean;
 export class XmBoolComponent implements OnInit, OnChanges {
     @Input() public value: XmBoolValue;
     public icon: string;
+    private acceptableValue: Primitive[];
 
     constructor(@Inject(XM_BOOL_VIEW_ICONS) public icons: XmBoolOptions) {
     }
 
     @Input()
-    public set options(value: { icons: XmBoolOptions }) {
+    public set options(value: { icons: XmBoolOptions, acceptableValue: Primitive[] }) {
         if (value?.icons) {
             this.icons = value.icons;
+        }
+        if (value?.acceptableValue) {
+            if (Array.isArray(value.acceptableValue)) {
+                this.acceptableValue = value.acceptableValue;
+            } else {
+                this.acceptableValue = [value.acceptableValue];
+            }
         }
     }
 
@@ -47,6 +56,9 @@ export class XmBoolComponent implements OnInit, OnChanges {
     private getIcon(value: boolean | string | undefined): string {
         if (value === 'false') {
             value = false;
+        }
+        if (this.acceptableValue) {
+            return this.icons[String(this.acceptableValue.includes(value))];
         }
         return this.icons[String(Boolean(value))];
     }

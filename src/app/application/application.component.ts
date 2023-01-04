@@ -6,12 +6,12 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
+import { environment } from '@xm-ngx/core/environment';
 import { I18nNamePipe, Principal, XmConfigService } from '../shared';
 import { LIST_DEFAULT_FIELDS } from '../shared/constants/default-lists-fields.constants';
 import { DashboardStore } from '@xm-ngx/dashboard';
-import { Link, Spec, XmEntitySpec, XmEntitySpecWrapperService } from '../xm-entity';
-import { EntityListCardOptions } from '../xm-entity/entity-list-card/entity-list-card-options.model';
+import { Link, Spec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
+import { EntityListCardOptions } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
 
 @Component({
     selector: 'xm-entity',
@@ -218,13 +218,13 @@ export class ApplicationComponent implements OnInit, OnDestroy {
     protected getListConfig(): null | any {
         if (this.isSearch) {
             return this.getSearchPattern();
-        } 
+        }
         const entitiesConfig = this.uiConfig.applications && this.uiConfig.applications.config
                 && this.uiConfig.applications.config.entities;
         if (entitiesConfig) {
             return entitiesConfig.filter((c) => c.typeKey === this.typeKey).shift();
         }
-        
+
         return null;
     }
 
@@ -252,7 +252,7 @@ export class ApplicationComponent implements OnInit, OnDestroy {
     }
 
     private getTypeFromSpec(spec: Spec, typeKey: string): XmEntitySpec | undefined {
-        return spec.types.filter((t) => t.key === typeKey).shift();
+        return spec.types.filter((t) => t.key === typeKey)?.shift();
     }
 
     private getSearchConfig(idOrSlug: any): Observable<any> {
@@ -261,8 +261,8 @@ export class ApplicationComponent implements OnInit, OnDestroy {
                 map((dash) => dash && dash.config),
                 map((config) => config && config.search),
             );
-        } 
+        }
         return of('');
-        
+
     }
 }

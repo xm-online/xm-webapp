@@ -17,7 +17,7 @@ import { RouterModule } from '@angular/router';
 
 import { EntitySpecYamlService } from '@xm-ngx/administration/specification-management/entity-spec-editor/entity-spec-yaml.service';
 import { AceEditorModule, XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
-import { MultiLanguageModuleModule } from '@xm-ngx/components/multilanguage/xm-multi-language.module';
+import { MultiLanguageModule } from '@xm-ngx/components/multilanguage';
 import { StatesManagementDialogModule } from '@xm-ngx/entity/states-management-dialog';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
@@ -52,7 +52,7 @@ import { UiMngComponent } from './ui-mng/ui-mng.component';
         MatDividerModule,
         MatListModule,
         StatesManagementDialogModule,
-        MultiLanguageModuleModule,
+        MultiLanguageModule,
         MatCardModule,
         XmAceEditorControlModule,
         AceEditorModule,

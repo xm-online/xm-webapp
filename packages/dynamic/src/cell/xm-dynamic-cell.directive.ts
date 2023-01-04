@@ -11,6 +11,7 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import { getValue } from '@xm-ngx/shared/operators';
+import * as _ from 'lodash';
 import { XmDynamicPresentationBase } from '../presentation/xm-dynamic-presentation-base.directive';
 
 export const XM_DYNAMIC_TABLE_ROW = new InjectionToken<string>('XM_DYNAMIC_TABLE_ROW');
@@ -24,6 +25,7 @@ export interface XmDynamicCell<O = unknown> {
     field: string;
     selector: string;
     options: O;
+    config?: O;
     class: string;
     style: string;
 }
@@ -60,8 +62,9 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
         this._cell = value;
         this.selector = value?.selector;
         this.options = value?.options;
-        this.class = value?.class;
-        this.style = value?.style;
+        this.config = value?.config;
+        this.style = this.getStyle(value?.style);
+        this.class = this.getClass(value?.class);
     }
 
     /** @deprecated use {@link cell} instead */
@@ -78,6 +81,30 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
     @Input()
     public getCellValue(): V | null {
         return getValue(this.row, this._cell.field);
+    }
+
+    private getStyle(style?: string): string {
+        if (style?.includes('${')) {
+            try {
+                style = _.template(style ?? '')(this.row as object ?? {});
+            } catch(e) {
+                console.warn(e);
+            }
+        }
+
+        return style;
+    }
+
+    private getClass(classNames?: string): string {
+        if (classNames?.includes('${')) {
+            try {
+                classNames = _.template(classNames ?? '')(this.row as object ?? {});
+            } catch(e) {
+                console.warn(e);
+            }
+        }
+
+        return classNames;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {

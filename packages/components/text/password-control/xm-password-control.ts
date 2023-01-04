@@ -34,6 +34,8 @@ export const XM_PASSWORD_OPTIONS_DEFAULT: XmPasswordControlOptions = {
                 {{ password.type ? 'visibility' : 'visibility_off'}}</mat-icon>
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
+
+            <mat-hint [hint]="options.hint"></mat-hint>
         </mat-form-field>
     `,
 })
