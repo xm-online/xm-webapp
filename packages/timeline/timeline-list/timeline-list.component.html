@@ -15,17 +15,17 @@
           {{config.noItems | translate}}
         </div>
       </ng-container>
+    </div>
+  </ng-container>
+  <ng-container xmActions>
+    <div class="more-items text-center" *ngIf="next">
+      <button mat-button *ngIf="next <= 1" [loading]="isMoreLoading" (click)="onNextPage(next);">
+        {{config.showMore10 | translate}}
+      </button>
 
-      <div class="more-items text-center" *ngIf="next">
-        <button mat-button *ngIf="next <= 1" [loading]="isMoreLoading" (click)="onNextPage(next);">
-          {{config.showMore10 | translate}}
-        </button>
-
-        <button mat-button *ngIf="next > 1" [loading]="isMoreLoading" (click)="loadAll();">
-          {{config.showMoreAll | translate}}
-        </button>
-      </div>
-
+      <button mat-button *ngIf="next > 1" [loading]="isMoreLoading" (click)="loadAll();">
+        {{config.showMoreAll | translate}}
+      </button>
     </div>
   </ng-container>
 </xm-mat-card>

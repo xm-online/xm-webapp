@@ -15,7 +15,7 @@ const ROUTES: Routes = [
     },
     { path: 'administration', loadChildren: () => import('../../packages/administration/route/admin.module').then((m) => m.XmAdminModule) },
     { path: '', loadChildren: () => import('./home/home.module').then((m) => m.GateHomeModule) },
-    { path: '', loadChildren: () => import('./account/account.module').then((m) => m.GateAccountModule) },
+    { path: '', loadChildren: () => import('@xm-ngx/account/route').then((m) => m.GateAccountModule) },
     {
         path: 'application',
         loadChildren: () => import('./application').then((m) => m.ApplicationModule),
