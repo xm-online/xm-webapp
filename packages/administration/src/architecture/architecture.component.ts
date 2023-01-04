@@ -90,7 +90,7 @@ export class ArchitectureComponent implements OnInit {
     }
 
     private sourceChanged(): void {
-        const canvasElement = document.getElementById('canvas');
+        const canvasElement: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement;
         const superSampling = window.devicePixelRatio || 1;
         const scale = superSampling * Math.exp(this.zoomLevel / 10);
         nomnoml.draw(canvasElement, this.source, scale);
@@ -159,8 +159,7 @@ export class ArchitectureComponent implements OnInit {
     imports: [CommonModule, XmSharedModule],
     exports: [ArchitectureComponent],
     declarations: [ArchitectureComponent],
-    entryComponents: [ArchitectureComponent],
-    providers: [],
+    providers: []
 })
 export class HighLevelArchitectureWidgetModule {
     public entry: Type<ArchitectureComponent> = ArchitectureComponent;

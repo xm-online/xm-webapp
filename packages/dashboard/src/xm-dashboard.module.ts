@@ -11,6 +11,11 @@ import { DashboardStore } from './stores/dashboard-store.service';
 import { DashboardService } from './repositories/dashboard.service';
 import { WidgetService } from './repositories/widget.service';
 import { XmDashboardRoutingModule } from './xm-dashboard-routing.module';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
     imports: [
@@ -20,6 +25,11 @@ import { XmDashboardRoutingModule } from './xm-dashboard-routing.module';
         XmDashboardRoutingModule,
         LoaderModule,
         NoDataModule,
+        MatCardModule,
+        FlexLayoutModule,
+        MatButtonModule,
+        MatIconModule,
+        MatRippleModule,
     ],
     declarations: [DashboardComponent],
     exports: [],

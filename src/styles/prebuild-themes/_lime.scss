@@ -1,6 +1,6 @@
-@import '~@angular/material/theming';
+@use '~@angular/material/core/theming/palette' as mat;
 
-$xm-primary-palette:   $mat-lime;
+$xm-primary-palette:   mat.$lime-palette;
 $xm-secondary-palette: $xm-primary-palette;
 $xm-theme: ();
 

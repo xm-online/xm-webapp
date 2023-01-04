@@ -1,0 +1,130 @@
+<div *ngIf="xmEntity && xmEntitySpec"
+     [class.has-avatar]="isAvatarEnabled"
+     [ngSwitch]="isAvatarEnabled"
+     class="card card-custom">
+  <ng-container *ngIf="displayMode === 'BOTH' || displayMode === 'HEAD'">
+    <div class="card-header card-header-icon card-header-primary text-start">
+      <!-- avatar is shown as a card heading, avatar editing is in the card-menu -->
+      <div class="arrow-back" *ngIf="navBackEnabled">
+        <button (click)="onBack()"
+                class="rounded-circle"
+                mat-icon-button>
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+      <ng-container *ngIf="isAvatarEnabled">
+        <div *ngIf="xmEntity.avatarUrl" class="card-icon avatar">
+          <img src="{{xmEntity.avatarUrl}}">
+        </div>
+        <div *ngIf="!xmEntity.avatarUrl" class="card-icon">
+          <mat-icon>{{xmEntitySpec.icon ? xmEntitySpec.icon : './assets/img/placeholder.png'}}</mat-icon>
+        </div>
+      </ng-container>
+      <h4 class="card-title">{{xmEntity.name}}</h4>
+    </div>
+    <div class="card-menu">
+      <span>{{'xm-entity.entity-data-card.current-state' | translate}}: </span>
+      <xm-entity-state class="state-top" [stateSpec]="getCurrentStateSpec()"></xm-entity-state>
+
+      <button [matMenuTriggerFor]="actionItems" mat-icon-button>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #actionItems="matMenu" xPosition="before">
+        <button (click)="onRefresh($event)" class="btn-sm" mat-menu-item>
+          <mat-icon>refresh</mat-icon>
+          <span>{{'xm-entity.entity-list-card.refresh' | translate}}</span>
+        </button>
+
+        <!-- edit avatar if allowed -->
+        <ng-container *ngIf="isAvatarEnabled">
+          <button (click)="onAvatarChangeClick()" class="btn-sm" mat-menu-item>
+            <mat-icon>account_circle</mat-icon>
+            <span>{{'xm-entity.entity-data-card.change-avatar' | translate}}</span>
+          </button>
+        </ng-container>
+
+        <!-- edit entity if allowed -->
+        <div *ngIf="showEditButton">
+          <button (click)="onEdit()" *xmPermitted="['ENTITY.UPDATE']; context: xmEditContext()" class="btn-sm"
+                  mat-menu-item>
+            <mat-icon>edit</mat-icon>
+            <span>{{'xm-entity.entity-detail-fab.edit-entity' | translate }}</span>
+          </button>
+        </div>
+
+
+        <ng-container>
+          <xm-function-list-section
+            [functionSpecs]="commonFunctionSpec"
+            [listView]="true">
+          </xm-function-list-section>
+        </ng-container>
+      </mat-menu>
+    </div>
+  </ng-container>
+
+
+  <!-- TODO: Fix layout margin to follow card-body class -->
+  <div class="card-body-removed">
+    <ng-container *ngIf="displayMode === 'BOTH' || displayMode === 'HEAD'">
+      <!-- description, TODO: fix expanding of the long text -->
+      <div class="row row-compact">
+        <div *ngIf="xmEntity?.description" [class.desc-full-view]="isDescFull" class="row card-desc">
+          <div class="card-desc-inner">
+            <p [innerHTML]="formatDescription(xmEntity.description)" class="description m-0"></p>
+          </div>
+          <div (click)="isDescFull = !isDescFull" class="card-desc-toggle"></div>
+        </div>
+      </div>
+      <div class="row row-compact">
+        <xm-function-list-section-compact
+          *ngIf="xmEntity || (getNextStates()?.length || xmEntitySpec.functions)"
+          [functionSpecsUpdates]="entityFunctionSpec"
+          [nextStates]="getNextStates()"
+          [stateSpec]="getState()"
+          [xmEntityId]="xmEntity.id"
+          [xmEntitySpec]="xmEntitySpec"
+          [xmEntity]="xmEntity"
+          class="function-list">
+        </xm-function-list-section-compact>
+      </div>
+      <div class="row row-compact">
+        <div class="row row-compact">
+          <div *ngIf="xmEntitySpec?.ratings"
+               [class.hidden]="!rating?.ratingSpecs?.length"
+               class="col-auto col-compact">
+            <xm-rating-list-section #rating
+                                    [ratingSpecs]="xmEntitySpec?.ratings"
+                                    [xmEntityId]="xmEntity.id"></xm-rating-list-section>
+          </div>
+
+          <div *ngIf="xmEntitySpec?.tags" class="col-auto col-compact">
+            <xm-tag-list-section [tagSpecs]="xmEntitySpec?.tags" [xmEntityId]="xmEntity.id"></xm-tag-list-section>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="displayMode === 'BOTH' || displayMode === 'BODY'">
+      <div [class.single]="displayMode !== 'BOTH'"
+           class="container-fluid text-start mt-3 mb-3 card-custom-schema-compact">
+
+      <div class="min-height card-custom-schema">
+          <xm-loader [showLoader]="showLoader"></xm-loader>
+          <json-schema-form (formLayout)="jsfAttributes.formLayout"
+                            (onSubmit)="onSubmitForm($event)"
+                            *ngIf="jsfAttributes?.schema"
+                            [data]="jsfAttributes.data"
+                            [form]="jsfAttributes.form | i18nJsf"
+                            [framework]="'material-design'"
+                            [layout]="jsfAttributes.layout | i18nJsf"
+                            [options]="jsfAttributes.options | i18nJsf"
+                            [schema]="jsfAttributes.schema"
+                            [widgets]="jsfAttributes.widgets">
+          </json-schema-form>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

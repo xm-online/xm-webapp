@@ -1,0 +1,8 @@
+<ng-container *ngIf="session$ | async as session">
+    <a [routerLink]="session.active ? config.userRootUrl : config.rootUrl"
+       routerLinkActive="active">
+        <img [alt]="config.title | translate"
+             [src]="imgPath"/>
+    </a>
+</ng-container>
+

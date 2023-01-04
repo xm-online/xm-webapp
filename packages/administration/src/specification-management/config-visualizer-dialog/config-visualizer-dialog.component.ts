@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import * as nomnoml from 'nomnoml';
 
 import { saveFile } from '../../../../../src/app/shared/helpers/file-download-helper';
-import { Link } from '@xm-ngx/entity/index';
+import { Link } from '@xm-ngx/entity';
 
 declare let YAML: any;
 declare let skanaar: any;
@@ -43,7 +43,7 @@ export class ConfigVisualizerDialogComponent implements OnInit, AfterViewInit {
     }
 
     public sourceChanged(): void {
-        const canvasElement = document.getElementById('canvas');
+        const canvasElement: HTMLCanvasElement = document.getElementById('canvas') as HTMLCanvasElement;
         try {
             const superSampling = window.devicePixelRatio || 1;
             const scale = superSampling * Math.exp(this.zoomLevel / 10);

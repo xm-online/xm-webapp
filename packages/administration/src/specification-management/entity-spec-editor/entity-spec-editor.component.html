@@ -1,4 +1,4 @@
-<div class="text-right">
+<div class="text-end">
   <button (click)="onAddEntitySpec()"
           [disabled]="disabled"
           [matTooltip]="('admin-config.specification-mng.editor.add-entity-spec' | translate)"
@@ -41,13 +41,13 @@
       </mat-form-field>
 
       <xm-multi-language-control
-              (valueChange)="fromMultiLanguageDataModel(entitySpec.name, $event)"
+        (valueChange)="fromMultiLanguageDataModel(entitySpec.name, $event)"
         [options]="{title: ('admin-config.specification-mng.editor.name' | translate)}"
         [value]="toMultiLanguageDataModel(entitySpec.name)"
       ></xm-multi-language-control>
 
       <xm-multi-language-control
-              (valueChange)="fromMultiLanguageDataModel(entitySpec.pluralName, $event)"
+        (valueChange)="fromMultiLanguageDataModel(entitySpec.pluralName, $event)"
         [options]="{title: ('admin-config.specification-mng.editor.plural-name' | translate)}"
         [value]="toMultiLanguageDataModel(entitySpec.pluralName)"
       ></xm-multi-language-control>
@@ -65,8 +65,8 @@
         </div>
         <div class="col-4">
           <mat-form-field>
-            <mat-select [(ngModel)]="entitySpec.icon"
-                        [placeholder]="('admin-config.specification-mng.editor.icon' | translate)">
+            <mat-label>{{'admin-config.specification-mng.editor.icon' | translate}}</mat-label>
+            <mat-select [(ngModel)]="entitySpec.icon">
               <mat-select-trigger>
                 {{entitySpec.icon}}
               </mat-select-trigger>
@@ -80,7 +80,7 @@
       </div>
 
       <mat-label>{{'admin-config.specification-mng.editor.data-spec' | translate}}</mat-label>
-      <div class="text-right">
+      <div class="text-end">
         <div (textChanged)="onDataSpecChanged(entitySpec, $event)"
              [mode]="'json'"
              [options]="{ highlightActiveLine: true, maxLines: 25 }"
@@ -91,7 +91,7 @@
       </div>
 
       <mat-label>{{'admin-config.specification-mng.editor.form-spec' | translate}}</mat-label>
-      <div class="text-right">
+      <div class="text-end">
         <div (textChanged)="onDataFormChanged(entitySpec, $event)"
              [mode]="'json'"
              [options]="{ highlightActiveLine: true, maxLines: 25 }"

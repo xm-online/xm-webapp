@@ -7,6 +7,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgxMaskModule } from 'ngx-mask';
 import { XmPhoneNumberControlComponent } from './xm-phone-number-control.component';
+import { HintModule } from '@xm-ngx/components/hint';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { XmPhoneNumberControlComponent } from './xm-phone-number-control.compone
         XmTranslationModule,
         ReactiveFormsModule,
         FormsModule,
+        HintModule,
     ],
 })
 export class XmPhoneNumberControlModule {

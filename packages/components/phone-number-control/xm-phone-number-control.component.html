@@ -20,4 +20,5 @@
   <span matPrefix>{{options.defaultPrefix}}</span>
   <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
 
+  <mat-hint [hint]="options.hint"></mat-hint>
 </mat-form-field>

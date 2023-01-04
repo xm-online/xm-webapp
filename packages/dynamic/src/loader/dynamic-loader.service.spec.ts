@@ -1,4 +1,3 @@
-import { NgModuleFactoryLoader } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { DynamicSearcher } from '@xm-ngx/dynamic';
 
@@ -11,7 +10,6 @@ describe('DynamicLoaderService', () => {
         TestBed.configureTestingModule({
             providers: [
                 { provide: DynamicSearcher, useValue: null },
-                { provide: NgModuleFactoryLoader, useValue: null },
                 DynamicLoaderService,
             ],
         });

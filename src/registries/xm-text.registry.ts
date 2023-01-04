@@ -1,4 +1,5 @@
 import { XmDynamicEntry } from '@xm-ngx/dynamic';
+import { XM_ANGULAR_EDITOR_CONTROL_ELEMENTS } from './xm-angular-editor-control.registry';
 import { XM_TEXT_CONTROL_ELEMENTS } from './xm-text-control.registry';
 import { XM_TEXT_RANGE_ELEMENTS } from './xm-text-range.registry';
 
@@ -56,4 +57,5 @@ export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
         selector: '@xm-ngx/components/text-dynamic-view',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextDynamicViewModule),
     },
+    ...XM_ANGULAR_EDITOR_CONTROL_ELEMENTS,
 ];

@@ -8,9 +8,9 @@
         <div class="form-group">
 
           <mat-form-field>
+            <mat-label>{{'rolesManagement.permission.msName' | translate}}</mat-label>
             <mat-select #file
-                        (selectionChange)="loadSelectedExample($event, file.value)"
-                        placeholder="{{'rolesManagement.permission.msName' | translate}}">
+                        (selectionChange)="loadSelectedExample($event, file.value)">
               <mat-option disabled>
                 {{'formPlayground.selectSchema' | translate}}
               </mat-option>

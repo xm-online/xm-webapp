@@ -1,0 +1,13 @@
+<!--
+TODO: Json schema form rewrite configs and remove data
+ ```
+ <json-schema-form (onChanges)="changeBridge($event)"
+                  [data]="value"
+                  [framework]="'material-design'"
+                  [schema]="schema"
+                  class="json-form-hide-submit">
+ </json-schema-form>
+ ```
+-->
+
+<div [innerHTML]="entityAsString() | language : 'json' | markdown"></div>

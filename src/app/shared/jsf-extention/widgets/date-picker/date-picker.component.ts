@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
-import { DateTimeAdapter, OwlDateTimeIntl } from 'ng-pick-datetime';
+import { DateTimeAdapter, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
 
 import { ModulesLanguageHelper } from '@xm-ngx/components/language';
 import { DatePickerOptionsModel } from './date-picker-options.model';
@@ -35,17 +35,28 @@ export class DatePickerComponent implements OnInit {
         this.options = this.layoutNode.options || {};
         this.jsf.initializeControl(this);
         this.setLocalizedButtons();
-        if (this.controlValue) {
-            const formatString = this.getFormat();
-            this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
-        }
+        this.updateViewValue();
     }
 
     public updateValue(event: any): void {
         const value = event.value || null;
-        const formatString = this.getFormat();
-        this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
-        this.jsf.updateValue(this, moment(value).format(DEF_FORMAT));
+
+        this.updateViewValue();
+        this.updateModelValue(value);
+    }
+
+    private updateViewValue(): void {
+        this.controlValueDisplayed = this.controlValue
+            ? moment(this.controlValue).local().format(this.getFormat())
+            : '';
+    }
+
+    private updateModelValue(value: string | null): void {
+        const modelValue = value
+            ? moment(value).format(DEF_FORMAT)
+            : null;
+
+        this.jsf.updateValue(this, modelValue);
     }
 
     private getFormat(): string {

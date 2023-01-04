@@ -1,0 +1,82 @@
+<div *ngIf="!listView" class="mt-3">
+
+  <ng-container *ngIf="customFunctions$ | async as customFunctions">
+    <mat-tab-group (selectedTabChange)="reinitMap($event)"
+                   *ngIf="customFunctions.length > 0; else statesAndFunctions"
+                   animationDuration="0ms"
+                   mat-stretch-tabs>
+      <mat-tab [label]="'xm-entity.function-list-card.general-group' | translate">
+        <ng-container *ngIf="true; then statesAndFunctions"></ng-container>
+      </mat-tab>
+
+      <mat-tab *ngFor="let f of customFunctions; let i = index;"
+               [label]="f.name | translate"
+               [tabIndex]="f.key === 'AREA' ? 'AREA': i">
+
+<!--TODO: return back after checking that functions are functional or remove complete code of these functions
+
+        <div *ngIf="f.key === 'AREA'">
+          <xm-area *ngIf="initMap" [functionContext]="getFunctionContext(f)" [xmEntity]="xmEntity">
+          </xm-area>
+        </div>
+
+        <div *ngIf="f.key === 'EXTRACT-LINKEDIN-PROFILE' || f.key === 'ACCOUNT.EXTRACT-LINKEDIN-PROFILE'">
+          <xm-linkedin-profile [functionContext]="getFunctionContext(f)" [xmEntity]="xmEntity">
+          </xm-linkedin-profile>
+        </div>
+-->
+      </mat-tab>
+    </mat-tab-group>
+  </ng-container>
+
+  <ng-template #statesAndFunctions>
+    <ng-container>
+      <div class="container-fluid">
+        <div class="row row-compact mt-3 mb-3 text-start displayblock">
+
+
+          <ng-container *xmPermitted="['XMENTITY.STATE']">
+            <ng-container *ngIf="nextStates?.length">
+              <div (click)="onChangeState(nextState.key)"
+                   *ngFor="let nextState of nextStates"
+                   [style.background]="nextState.color"
+                   class="xm-state act-as-button no-wrap me-1 mb-1"
+                   title="{{nextState.actionName | translate}}">
+                <div [style.background]="'transparent'" class="xm-state-icon me-0">
+                  <mat-icon>{{nextState.icon}}</mat-icon>
+                </div>
+                {{nextState.actionName | translate}}
+              </div>
+            </ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="defaultFunctions$ | async as defaultFunctions">
+            <ng-container *ngIf="defaultFunctions.length" class="func-compact-blk">
+                  <div (click)="onCallFunction(functionSpec)"
+                       *ngFor="let functionSpec of defaultFunctions"
+                          class="xm-state act-as-button  me-1 mb-1 no-wrap func-btn"
+                          title="{{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}">
+                    {{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}
+                  </div>
+            </ng-container>
+          </ng-container>
+<!-- end new version -->
+
+        </div>
+      </div>
+    </ng-container>
+  </ng-template>
+</div>
+
+<ng-container *ngIf="listView && defaultFunctions$ | async as defaultFunctions">
+  <div *ngIf="defaultFunctions.length">
+    <hr class="mt-0 mb-0">
+    <button (click)="onCallFunction(functionSpec)"
+            *ngFor="let functionSpec of defaultFunctions"
+            class="btn-sm"
+            mat-menu-item>
+      {{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}
+    </button>
+    <hr class="mt-0 mb-0">
+  </div>
+</ng-container>

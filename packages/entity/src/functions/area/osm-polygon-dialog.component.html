@@ -1,0 +1,50 @@
+<div mat-dialog-title>
+  {{'xm-entity.common.search' | translate}}
+  <xm-modal-close mat-dialog-close></xm-modal-close>
+</div>
+
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <mat-form-field>
+          <input #searchString
+                 (change)="search(searchString.value)"
+                 matInput
+                 placeholder="{{'xm-entity.common.search' | translate}}"
+                 type="text">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <xm-loader [showLoader]="showLoader"></xm-loader>
+  <div *ngIf="relations" class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col"><span>{{'xm.xmEntity.name'|translate}}</span></th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let rel of relations">
+        <td>
+          <span *ngIf="rel.tags?.wikipedia">{{rel.tags?.wikipedia.substring(rel.tags?.wikipedia.indexOf(':') + 1)}}</span>
+          <span *ngIf="!rel.tags?.wikipedia">{{rel.tags?.name}}</span>
+        </td>
+        <td>
+          <button (click)="addPolygon(rel)" class="btn btn-primary rounded-circle btn-sm">
+            <span>{{'xm-entity.common.add'|translate}}</span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button class="ms-auto" mat-flat-button data-dismiss="modal" type="button" (click)="clear()">
+    {{'xm-entity.common.cancel'|translate}}
+  </button>
+</div>

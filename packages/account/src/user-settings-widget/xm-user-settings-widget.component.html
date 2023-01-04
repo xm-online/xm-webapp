@@ -51,10 +51,10 @@
       </mat-form-field>
 
       <mat-form-field *ngIf="languages$ | async as languages">
+        <mat-label>{{'global.form.language' | translate}}</mat-label>
         <mat-select [(ngModel)]="settingsAccount.langKey"
                     id="langKey"
                     name="langKey"
-                    placeholder="{{'global.form.language' | translate}}"
                     required>
           <mat-option *ngFor="let language of languages"
                       [value]="language">
@@ -80,7 +80,7 @@
         </div>
       </ng-container>
 
-      <div class="text-right">
+      <div class="text-end">
         <button *xmPermission="['ACCOUNT.UPDATE']"
                 [disabled]="settingsForm.form.invalid"
                 color="primary"

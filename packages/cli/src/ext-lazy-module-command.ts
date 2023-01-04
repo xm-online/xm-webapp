@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { Command } from './command';
 import { getDirectories } from './fs-utils';
-import fs from 'fs';
+import * as fs from 'fs';
 import { ignoreChangedFile } from './git-utils';
 
 export class ExtLazyModuleCommand implements Command {

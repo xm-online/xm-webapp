@@ -1,0 +1,6 @@
+{
+  "dest": "../../dist/packages/dynamic",
+  "lib": {
+    "entryFile": "./index.ts"
+  }
+}

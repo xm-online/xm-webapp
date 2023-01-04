@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 
@@ -30,7 +30,7 @@ export function toggleControlValidation(control: AbstractControl, active: boolea
     },
 })
 export class FormLayoutComponent {
-    @Input() public value: FormGroup;
+    @Input() public value: UntypedFormGroup;
     @Input() public options: FormLayoutItem[];
 
     public toggleControlValidation: typeof toggleControlValidation = toggleControlValidation;

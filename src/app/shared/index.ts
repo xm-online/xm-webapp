@@ -1,5 +1,5 @@
 // Backward compatibility
-export { createRequestOption } from '@xm-ngx/entity';
+export { createRequestOption } from '@xm-ngx/entity/shared';
 
 export * from './auth/csrf.service';
 export * from './auth/state-storage.service';
@@ -29,13 +29,13 @@ export * from '../../../packages/account/src/user-login-widget/login/user-login-
 export * from './client/client.model';
 export * from './client/client.service';
 export * from './spec/config.service';
+export * from './spec/password-spec.model';
 export * from './auth/user-route-access-service';
 export * from './role/role.model';
 export * from './role/role.service';
 export * from './idp/idp.component';
 
 export * from './privilege/privilege.service';
-export { XmPermittedDirective } from './privilege/xm-permitted.directive';
 
 export * from './g-map/xmGMapApiInit.directive';
 

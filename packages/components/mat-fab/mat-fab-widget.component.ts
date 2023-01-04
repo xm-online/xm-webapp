@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { ThemePalette } from '@angular/material/core/common-behaviors/color';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { clone } from 'lodash';
 import { Params } from '@angular/router';
+import { ThemePalette } from '@angular/material/core';
 
 export interface MatFabConfigBase {
     icon?: string;

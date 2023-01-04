@@ -36,11 +36,11 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         sortDirection: 'asc' | 'desc',
         sortBy: string
     } = {
-        pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
-        pageSize: TABLE_CONFIG_DEFAULT.pageSize,
-        sortDirection: 'desc',
-        sortBy: 'roleKey',
-    };
+            pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
+            pageSize: TABLE_CONFIG_DEFAULT.pageSize,
+            sortDirection: 'desc',
+            sortBy: 'roleKey',
+        };
 
     public pagination: QueryParamsPageable = {
         total: 0,

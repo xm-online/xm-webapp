@@ -12,7 +12,7 @@ import {
     Version,
     ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { I18nNamePipe } from '@xm-ngx/components/language';
 import { Principal } from '@xm-ngx/core/auth';
@@ -36,7 +36,7 @@ export class ExtMultiSelectComponent extends BaseExtSelectComponent implements O
     public version: Version = VERSION;
 
     public elementMultiCtrl: any;
-    public elementMultiFilterCtrl: FormControl = new FormControl();
+    public elementMultiFilterCtrl: UntypedFormControl = new UntypedFormControl();
     public filteredElementsMulti: ReplaySubject<Element[]> = new ReplaySubject<Element[]>(1);
     @ViewChild('multiSelect', {static: false}) public multiSelect: MatSelect;
     @Input() public layoutNode: any;
@@ -102,7 +102,7 @@ export class ExtMultiSelectComponent extends BaseExtSelectComponent implements O
         this.filteredElementsMulti
             .pipe(take(1), takeUntil(this._onDestroy))
             .subscribe(() => {
-                this.multiSelect.compareWith = (a: Element, b: Element) => a.value === b.value;
+                this.multiSelect.compareWith = (a: Element, b: Element) => a?.value === b?.value;
             });
     }
 

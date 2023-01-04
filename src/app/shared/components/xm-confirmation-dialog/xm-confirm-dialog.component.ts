@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NotImplementedException } from '@xm-ngx/shared/exceptions';
 
@@ -11,14 +11,14 @@ import { NotImplementedException } from '@xm-ngx/shared/exceptions';
 export class XmConfirmDialogComponent {
 
     @ViewChild('xmConfirmDialog', {static: false}) public tpl: ElementRef;
-    public form: FormGroup;
+    public form: UntypedFormGroup;
     public modal: MatDialogRef<any>;
     public showLoader: boolean;
     public incorrect: boolean;
     public event: any;
 
     constructor(
-        private fb: FormBuilder,
+        private fb: UntypedFormBuilder,
     ) {
         this.form = this.fb.group({password: [null, Validators.required]});
     }

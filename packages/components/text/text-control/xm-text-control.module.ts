@@ -7,6 +7,7 @@ import { XmDynamicControlConstructor, XmDynamicControlEntryModule } from '@xm-ng
 import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { XmTextControl } from './xm-text-control';
+import { HintModule } from '@xm-ngx/components/hint';
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import { XmTextControl } from './xm-text-control';
         CommonModule,
         ControlErrorModule,
         ReactiveFormsModule,
+        HintModule,
     ],
     exports: [XmTextControl],
     declarations: [XmTextControl],
