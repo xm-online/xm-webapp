@@ -29,6 +29,8 @@
       "@xm-ngx/shared/*": ["dist/packages/shared/*"],
       "@xm-ngx/core": ["dist/packages/core"],
       "@xm-ngx/core/*": ["dist/packages/core/*"],
+      "@xm-ngx/balance": ["dist/packages/balance"],
+      "@xm-ngx/entity": ["dist/packages/entity"],
       "@xm-ngx/dynamic": ["dist/packages/dynamic"],
       "@xm-ngx/dynamic/*": ["dist/packages/dynamic/*"],
       "@xm-ngx/timeline": ["dist/timeline"],

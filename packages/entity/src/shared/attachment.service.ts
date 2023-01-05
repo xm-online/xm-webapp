@@ -5,14 +5,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { createRequestOption } from './request-util';
-import { SERVER_API_URL } from 'src/app/xm.constants';
 import { Attachment } from './attachment.model';
 
 @Injectable()
 export class AttachmentService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/attachments';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/attachments';
+    private resourceUrl: string ='entity/api/attachments';
+    private resourceSearchUrl: string ='entity/api/_search/attachments';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
