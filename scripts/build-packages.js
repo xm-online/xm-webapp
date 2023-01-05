@@ -9,6 +9,8 @@ execSync('(ng-packagr -p ./packages/translation -c tsconfig.ngc.json)', {stdio: 
 execSync('(ng-packagr -p ./packages/styles -c tsconfig.ngc.json)', {stdio: 'inherit'});
 
 // TODO: Complete migration to modules.
+// execSync('(ng-packagr -p ./packages/balance -c tsconfig.ngc.json)', {stdio: 'inherit'});
+// execSync('(ng-packagr -p ./packages/entity -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/logger -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/timeline -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/account -c tsconfig.ngc.json)', {stdio: 'inherit'});
