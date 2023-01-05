@@ -18,7 +18,7 @@ const ROUTES: Routes = [
     { path: '', loadChildren: () => import('@xm-ngx/account/route').then((m) => m.GateAccountModule) },
     {
         path: 'application',
-        loadChildren: () => import('./application').then((m) => m.ApplicationModule),
+        loadChildren: () => import('../../packages/entity/application').then((m) => m.ApplicationModule),
     },
     { path: 'search', pathMatch: 'full', redirectTo: 'application/search' },
     {
@@ -30,7 +30,7 @@ const ROUTES: Routes = [
     },
     {
         path: 'public',
-        loadChildren: () => import('./xm-public/xm-public.module').then((m) => m.XmPublicModule),
+        loadChildren: () => import('@xm-ngx/dynamic/public').then((m) => m.XmPublicModule),
     },
 ];
 

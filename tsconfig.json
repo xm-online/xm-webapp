@@ -135,8 +135,8 @@
       "@xm-ngx/dynamic": [
         "packages/dynamic"
       ],
-      "@xm-ngx/dynamic/route": [
-        "packages/dynamic/route"
+      "@xm-ngx/dynamic/*": [
+        "packages/dynamic/*"
       ],
       "@xm-ngx/dashboard": [
         "packages/dashboard/src"
