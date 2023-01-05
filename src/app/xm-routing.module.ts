@@ -30,7 +30,7 @@ const ROUTES: Routes = [
     },
     {
         path: 'public',
-        loadChildren: () => import('./xm-public/xm-public.module').then((m) => m.XmPublicModule),
+        loadChildren: () => import('@xm-ngx/dynamic/public').then((m) => m.XmPublicModule),
     },
 ];
 
