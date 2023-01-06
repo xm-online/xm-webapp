@@ -19,3 +19,5 @@ export { XmTranslateService } from './src/services/xm-translate-service';
 
 export { LANGUAGES } from './src/language.constants';
 export { XmTranslationModule, HttpLoaderFactory } from './src/xm-translation.module';
+
+export * from './src/language';

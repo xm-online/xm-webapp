@@ -4,7 +4,7 @@ import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import { SidebarUserSubtitleOptions } from './sidebar-user-subtitle';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { XmUser, XmUserService } from '@xm-ngx/core/user';
-import { ContextService } from '../../../src/app/shared';
+import { ContextService } from '@xm-ngx/core';
 import { ActivationEnd, Router } from '@angular/router';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';

@@ -21,7 +21,8 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgJhipsterModule } from 'ng-jhipster';
-import { PerPageModule, WordAutocompleteModule } from '../../../../src/app/shared';
+import { PerPageModule } from '@xm-ngx/components/per-page';
+import { WordAutocompleteModule } from '@xm-ngx/components/text/input';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
 import { RoleMgmtDetailComponent } from './roles-management-detail.component';
 

@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
-import { Role } from '../../../../src/app/shared/role/role.model';
 
-import { RoleService } from '../../../../src/app/shared/role/role.service';
+import { RoleService } from '@xm-ngx/core/permission';
+import { Role } from '@xm-ngx/core/permission';
 
 @Component({
     selector: 'xm-role-mgmt-dialog',

@@ -2,11 +2,11 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { of, Observable } from 'rxjs';
 import { finalize, map, switchMap } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
-import { I18nNamePipe } from '@xm-ngx/components/language';
+import { I18nNamePipe } from '@xm-ngx/translation';
 import { XmEntity } from '@xm-ngx/entity';
 import { Timeline, TimelinePage, TimelineService } from '@xm-ngx/timeline';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { XmConfigService } from 'src/app/shared';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { Translate } from '@xm-ngx/translation';
 import { XmMatCardOptions } from '@xm-ngx/entity/xm-mat-card';
 

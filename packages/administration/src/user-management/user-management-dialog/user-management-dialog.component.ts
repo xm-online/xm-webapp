@@ -3,8 +3,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager, XmPublicUiConfigService } from '@xm-ngx/core';
 import { LanguageService } from '@xm-ngx/translation';
 import { filter, take } from 'rxjs/operators';
-import { User, UserService, XmConfigService } from '../../../../../src/app/shared';
-import { RoleService } from '../../../../../src/app/shared/role/role.service';
+import { User, UserService } from '@xm-ngx/core/user';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { RoleService } from '@xm-ngx/core/permission';
 
 import { XM_EVENT_LIST } from '../../../../../src/app/xm.constants';
 

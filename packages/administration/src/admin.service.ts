@@ -11,7 +11,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
-import { Client } from 'src/app/shared';
+import { Client } from '@xm-ngx/core/client';
 import { NotImplementedException } from '@xm-ngx/shared/exceptions';
 
 @Directive()

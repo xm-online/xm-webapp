@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { XmConfigService } from '../../../../../src/app/shared';
+import { XmConfigService } from '@xm-ngx/core/config';
 
 import { TimelineMngComponent } from './timeline-mng.component';
 

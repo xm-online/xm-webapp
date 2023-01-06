@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { LanguageModule } from '@xm-ngx/components/language';
+import { LanguageModule } from '@xm-ngx/translation';
 import { MarkdownModule } from 'ngx-markdown';
 
 import { XmUserLoginWidgetModule } from '../user-login-widget/xm-user-login-widget.module';
 import { XmUserSecuritySettingsModule } from '../user-security-settings/xm-user-security-settings.module';
 import { XmUserSettingsWidgetModule } from '../user-settings-widget/xm-user-settings-widget.module';
 
-import { XmSharedModule } from '@xm-ngx/xm-shared/shared.module';
+import { XmSharedModule } from '@xm-ngx/shared';
 import { accountState } from './account.route';
 import { ActivateComponent } from '../activate/activate.component';
 import { Activate } from '../activate/activate.service';

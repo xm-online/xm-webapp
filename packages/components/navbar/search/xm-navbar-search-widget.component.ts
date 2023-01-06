@@ -7,7 +7,7 @@ import { DashboardStore } from '@xm-ngx/dashboard';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { iif, Observable, of } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
-import { getApplicationTypeKey } from '../../../../src/app/shared/helpers/entity-list-helper';
+import { getApplicationTypeKey } from '@xm-ngx/shared/operators/entity-list-helper';
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 
 interface SearchConfig {

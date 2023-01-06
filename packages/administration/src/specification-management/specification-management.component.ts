@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Principal } from '@xm-ngx/core/auth';
 
-import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
+import { XmConfigService } from '@xm-ngx/core/config';
 
 
 @Component({

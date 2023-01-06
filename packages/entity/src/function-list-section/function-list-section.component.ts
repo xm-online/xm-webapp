@@ -8,7 +8,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Observable, of, ReplaySubject } from 'rxjs';
 import { pluck, takeUntil } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/auth';
-import { ContextService } from '@xm-ngx/xm-shared/context/context.service';
+import { ContextService } from '@xm-ngx/core';
 import { FunctionCallDialogComponent } from '../function-call-dialog/function-call-dialog.component';
 import { AreaComponent } from '../functions/area/area.component';
 import { FunctionContext } from '../shared/function-context.model';

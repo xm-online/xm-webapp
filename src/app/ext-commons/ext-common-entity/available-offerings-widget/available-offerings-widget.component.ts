@@ -5,7 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 
-import { I18nNamePipe, Principal } from '../../../shared/';
+import { Principal } from '@xm-ngx/core/auth';
+import { I18nNamePipe } from '@xm-ngx/translation';
 import { FunctionCallDialogComponent, FunctionService, XmEntity, XmEntityService } from '@xm-ngx/entity';
 import { XM_EVENT_LIST } from '../../../xm.constants';
 

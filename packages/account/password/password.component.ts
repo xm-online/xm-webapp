@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Principal } from '@xm-ngx/core/auth';
-import { PasswordSpec } from '@xm-ngx/entity';
-import { XmConfigService } from '@xm-ngx/xm-shared';
+import { PasswordSpec } from '@xm-ngx/core/config';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { ChangePassword } from './password.model';
 import { Password } from './password.service';
 

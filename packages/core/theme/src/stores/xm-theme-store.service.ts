@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-import { XmApplicationConfigService } from '../../../../../src/app/shared/spec';
+import { XmApplicationConfigService } from '@xm-ngx/core/config';
 import { StyleManagerService } from '../services/style-manager.service';
 import { ThemeColorService } from '../services/theme-color.service';
 import { ThemeSchemeState, ThemeSchemeType } from '../interfaces/theme-scheme.state';

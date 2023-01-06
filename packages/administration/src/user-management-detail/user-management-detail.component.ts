@@ -2,11 +2,12 @@ import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
-import { JhiLanguageHelper } from '@xm-ngx/components/language';
+import { JhiLanguageHelper } from '@xm-ngx/translation';
 
-import { AccountService, User, UserLogin, UserService } from '../../../../src/app/shared';
+import { User, UserService } from '@xm-ngx/core/user';
+import { AccountService } from '@xm-ngx/core/auth';
 
-import { UserLoginService } from '../../../account/user-login-widget/login/user-login.service';
+import { UserLogin, UserLoginService } from '@xm-ngx/account/user-login-widget/login/user-login.service';
 
 @Component({
     selector: 'xm-user-mgmt-detail',

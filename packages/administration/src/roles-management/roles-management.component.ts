@@ -11,9 +11,9 @@ import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { merge, Subscription } from 'rxjs';
 import { startWith, take } from 'rxjs/operators';
-import { XmConfigService } from '../../../../src/app/shared';
-import { Role } from '../../../../src/app/shared/role/role.model';
-import { RoleService } from '../../../../src/app/shared/role/role.service';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { RoleService } from '@xm-ngx/core/permission';
+import { Role } from '@xm-ngx/core/permission';
 
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
 import { RoleMgmtDialogComponent } from './roles-management-dialog.component';

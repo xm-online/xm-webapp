@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { LanguageModule } from '@xm-ngx/components/language';
+import { LanguageModule } from '@xm-ngx/translation';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmEventManager } from '@xm-ngx/core';
@@ -17,10 +17,10 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
-import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/widgets/jsf-component-registry.service';
 import * as formatString from 'string-template';
 
-import { nullSafe } from '@xm-ngx/xm-shared/jsf-extention/jsf-attributes-helper';
+import { nullSafe } from '@xm-ngx/json-schema-form/widgets/jsf-attributes-helper';
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
 import { Spec } from '../shared/spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';

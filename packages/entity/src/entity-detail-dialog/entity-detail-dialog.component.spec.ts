@@ -15,10 +15,10 @@ import { JhiConfigService, JhiDateUtils, JhiModuleConfig } from 'ng-jhipster';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 
 import { XmEntityService } from '../shared';
-import { AccountService } from '@xm-ngx/xm-shared';
-import { Principal } from '@xm-ngx/xm-shared/auth/principal.service';
-import { I18nJsfPipe } from '@xm-ngx/xm-shared/language/i18n-jsf.pipe';
-import { I18nNamePipe } from '@xm-ngx/xm-shared/language/i18n-name.pipe';
+import { AccountService } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/auth';
+import { I18nJsfPipe } from '@xm-ngx/translation';
+import { I18nNamePipe } from '@xm-ngx/translation';
 import { EntityDetailDialogComponent } from './entity-detail-dialog.component';
 
 describe('Entity detail dialog Component', () => {

@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { ReplaySubject, Subscription } from 'rxjs';
-import { Principal } from '../../../shared';
+import { Principal } from '@xm-ngx/core/auth';
 
 import {
     EntityDetailDialogComponent,

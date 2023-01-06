@@ -12,7 +12,7 @@ import { CalendarService } from '@xm-ngx/entity/shared';
 import { Event } from '@xm-ngx/entity/shared';
 import { EventService } from '@xm-ngx/entity/shared';
 import { XmEntity } from '@xm-ngx/entity/shared';
-import { buildJsfAttributes, nullSafe } from '@xm-ngx/json-scheme-form';
+import { buildJsfAttributes, nullSafe } from '@xm-ngx/json-schema-form/widgets';
 import { UUID } from 'angular2-uuid';
 import { MatDialogRef } from '@angular/material/dialog';
 

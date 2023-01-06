@@ -8,7 +8,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { Observable } from 'rxjs';
 import { finalize, map, startWith } from 'rxjs/operators';
 
-import { XmConfigService } from '@xm-ngx/xm-shared';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { LocationSpec } from '../shared/location-spec.model';
 import { Location } from '../shared/location.model';
 import { LocationService } from '../shared/location.service';

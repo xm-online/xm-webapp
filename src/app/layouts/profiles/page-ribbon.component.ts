@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 import { XM_EVENT_LIST } from '../../xm.constants';
 import { ProfileInfo } from './profile-info.model';
 import { ProfileService } from './profile.service';
-import { XmApplicationConfigService } from '../../shared/spec';
+import { XmApplicationConfigService } from '@xm-ngx/core/config';
 
 @Component({
     selector: 'xm-page-ribbon',

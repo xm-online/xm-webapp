@@ -34,7 +34,10 @@
         "packages/core"
       ],
       "@xm-ngx/core/auth": [
-        "src/app/shared/auth"
+        "packages/core/auth"
+      ],
+      "@xm-ngx/core/auth/testing": [
+        "packages/core/auth/testing"
       ],
       "@xm-ngx/core/config": [
         "packages/core/config"
@@ -47,6 +50,9 @@
       ],
       "@xm-ngx/core/user/testing": [
         "packages/core/user/testing"
+      ],
+      "@xm-ngx/core/client": [
+        "packages/core/client"
       ],
       "@xm-ngx/core/global-error-handler": [
         "packages/core/global-error-handler"
@@ -72,14 +78,14 @@
       "@xm-ngx/confirm-dialog": [
         "packages/confirm-dialog"
       ],
-      "@xm-ngx/json-scheme-form": [
-        "src/app/shared/jsf-extention"
+      "@xm-ngx/json-schema-form": [
+        "packages/json-schema-form"
       ],
       "@xm-ngx/json-schema-form/*": [
         "packages/json-schema-form/*"
       ],
       "@xm-ngx/toaster": [
-        "src/app/shared/toaster"
+        "packages/toaster"
       ],
       "@xm-ngx/logger": [
         "packages/logger"
@@ -93,6 +99,9 @@
       "@xm-ngx/timeline/*": [
         "packages/timeline/*"
       ],
+      "@xm-ngx/shared": [
+        "packages/shared"
+      ],
       "@xm-ngx/shared/exceptions": [
         "packages/shared/exceptions"
       ],
@@ -104,6 +113,9 @@
       ],
       "@xm-ngx/shared/operators": [
         "packages/shared/operators"
+      ],
+      "@xm-ngx/shared/operators/*": [
+        "packages/shared/operators/*"
       ],
       "@xm-ngx/translation": [
         "packages/translation"
@@ -122,15 +134,6 @@
       ],
       "@xm-ngx/entity/*": [
         "packages/entity/src/*"
-      ],
-      "@xm-ngx/shared": [
-        "src/app/shared/shared.module.ts"
-      ],
-      "@xm-ngx/xm-shared": [
-        "src/app/shared"
-      ],
-      "@xm-ngx/xm-shared/*": [
-        "src/app/shared/*"
       ],
       "@xm-ngx/dynamic": [
         "packages/dynamic"

@@ -4,7 +4,7 @@ import { XmEventManager } from '@xm-ngx/core';
 
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { Principal } from '@xm-ngx/xm-shared/auth/principal.service';
+import { Principal } from '@xm-ngx/core/auth';
 import { CommentSpec } from '../shared/comment-spec.model';
 import { Comment } from '../shared/comment.model';
 import { CommentService } from '../shared/comment.service';

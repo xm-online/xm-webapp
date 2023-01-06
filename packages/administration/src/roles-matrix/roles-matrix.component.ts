@@ -10,9 +10,9 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiOrderByPipe } from 'ng-jhipster';
 import { finalize } from 'rxjs/operators';
-import { XmConfigService } from '../../../../src/app/shared';
-import { RoleMatrix, RoleMatrixPermission } from '../../../../src/app/shared/role/role.model';
-import { RoleService } from '../../../../src/app/shared/role/role.service';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { RoleMatrix, RoleMatrixPermission } from '@xm-ngx/core/permission';
+import { RoleService } from '@xm-ngx/core/permission';
 
 export interface TableDisplayColumn {
     key: string,

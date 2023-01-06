@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { Client, ClientService, ClientState } from '../../../../../src/app/shared';
+import { Client, ClientService, ClientState } from '@xm-ngx/core/client';
 
 @Component({
     selector: 'xm-toggle-lock-client',

@@ -1,6 +1,23 @@
+# 3.8.0 (2023-01-6)
+
+### BREAKING CHANGES
+
+`@xm-ngx/xm-shared/shared.module` to `@xm-ngx/shared`
+`@xm-ngx/xm-shared/spec/config` to `@xm-ngx/core/config`
+XmApplicationConfigService `@xm-ngx/xm-shared/spec/config`, `src/app/shared` to `@xm-ngx/core/config`
+XmConfigService `@xm-ngx/xm-shared/spec/config` to `@xm-ngx/core/config`
+`@xm-ngx/xm-shared/auth/account.service` to `@xm-ngx/core/auth`
+[`@xm-ngx/xm-shared/auth/principal.service`, `@xm-ngx/xm-shared/auth`] to `@xm-ngx/core/auth`
+`@xm-ngx/xm-shared/user/user.model` to `@xm-ngx/core/user`
+`@xm-ngx/xm-shared/user/user.service` to `@xm-ngx/core/user`
+`@xm-ngx/xm-shared/auth/testing/mock-principal.service` to `@xm-ngx/core/auth/testing`
+ClientService `../../../../../src/app/shared` to `@xm-ngx/core/client`
+UserService to `@xm-ngx/core/user`
+
 # 3.7.0 (2022-10-16)
 
 ### BREAKING CHANGES
+
 * bootstrap 5
 As of Bootstrap 5 beta, left and right have been replaced by start and end for RTL support. Therefore the margin utilities changed for Bootstrap 5 beta:
 

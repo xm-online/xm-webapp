@@ -17,16 +17,17 @@ import {
     FieldOptions,
 } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
 import { FunctionCallDialogComponent } from '@xm-ngx/entity/function-call-dialog/function-call-dialog.component';
-import { transpilingForIE } from '@xm-ngx/json-scheme-form';
+import { transpilingForIE } from '@xm-ngx/json-schema-form/widgets';
 import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
 import { merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { flattenEntityWithPath, getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
-import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
-import { ContextService, Principal } from '@xm-ngx/xm-shared';
-import { saveFile } from '@xm-ngx/xm-shared/helpers/file-download-helper';
+import { flattenEntityWithPath, getFieldValue } from 'packages/shared/operators/entity-list-helper';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/widgets/jsf-component-registry.service';
+import { ContextService } from '@xm-ngx/core';
+import { Principal } from '@xm-ngx/core/auth';
+import { saveFile } from '@xm-ngx/shared/operators/file-download-helper';
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
 
 @Component({

@@ -4,7 +4,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { getFieldValue } from '@xm-ngx/xm-shared/helpers/entity-list-helper';
+import { getFieldValue } from '@xm-ngx/shared/operators/entity-list-helper';
 import { FieldOptions } from '../entity-list-card/entity-list-card-options.model';
 import { FullLinkSpec } from '../shared/link-spec.model';
 import { Link } from '../shared/link.model';

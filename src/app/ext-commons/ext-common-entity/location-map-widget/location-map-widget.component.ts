@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { buildMapId, buildPinSymbol } from '../../../shared/helpers/google-map-helper';
+import { buildMapId, buildPinSymbol } from '@xm-ngx/shared/operators/google-map-helper';
 import { XmEntity, XmEntityService } from '@xm-ngx/entity';
 
 declare const google: any;

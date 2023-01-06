@@ -5,8 +5,9 @@ import { Subscription } from 'rxjs';
 
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { Principal } from '@xm-ngx/core/auth';
-import { XmConfigService } from '@xm-ngx/xm-shared/spec/config.service';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { UserLogin } from './user-login.model';
+export { UserLogin } from './user-login.model';
 
 @Injectable()
 export class UserLoginService implements OnDestroy {

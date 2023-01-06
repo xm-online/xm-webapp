@@ -7,13 +7,13 @@ import { XmEventManager } from '@xm-ngx/core';
 import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { catchError, filter, finalize, share, tap } from 'rxjs/operators';
-import { getFileNameFromResponseContentDisposition, saveFile } from '@xm-ngx/xm-shared/helpers/file-download-helper';
+import { getFileNameFromResponseContentDisposition, saveFile } from '@xm-ngx/shared/operators/file-download-helper';
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
 import { FunctionSpec } from '@xm-ngx/entity';
 import { FunctionService } from '@xm-ngx/entity';
 import { XmEntity } from '@xm-ngx/entity';
 import { JsonSchemaFormService } from '@ajsf/core';
-import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/widgets/jsf-component-registry.service';
 
 declare let $: any;
 

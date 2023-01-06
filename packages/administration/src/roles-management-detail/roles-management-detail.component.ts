@@ -6,14 +6,15 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { ConditionDashboardDialogComponent } from '@xm-ngx/administration/roles-management-detail/condition-dashboard-dialog/condition-dashboard-dialog.component';
-import { JhiLanguageHelper } from '@xm-ngx/components/language';
+import { JhiLanguageHelper } from '@xm-ngx/translation';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { Role, RoleService, XmConfigService } from '../../../../src/app/shared';
-import { Permission } from '../../../../src/app/shared/role/permission.model';
+import { Role, RoleService } from '@xm-ngx/core/permission';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { Permission } from '@xm-ngx/core/permission';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
 
 @Component({

@@ -3,9 +3,9 @@ import { XmEventManager } from '@xm-ngx/core';
 import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
-import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/widgets/jsf-component-registry.service';
 
-import { nullSafe } from '@xm-ngx/xm-shared/jsf-extention/jsf-attributes-helper';
+import { nullSafe } from '@xm-ngx/json-schema-form/widgets/jsf-attributes-helper';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';
