@@ -2,11 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShowHideColumnsSettingsComponent } from './show-hide-columns-settings.component';
 import { of } from 'rxjs';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { ColumnsSettingStorageService } from '../../../service/columns-settings-storage.service';
 import { UntypedFormBuilder } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('ShowHideColumnsSettingsComponent', () => {
     let component: ShowHideColumnsSettingsComponent;
@@ -22,7 +23,8 @@ describe('ShowHideColumnsSettingsComponent', () => {
         };
         await TestBed.configureTestingModule({
             imports: [
-                XmSharedTestingModule,
+                XmTranslationTestingModule,
+                MatMenuModule,
                 BrowserAnimationsModule,
             ],
             declarations: [ShowHideColumnsSettingsComponent],

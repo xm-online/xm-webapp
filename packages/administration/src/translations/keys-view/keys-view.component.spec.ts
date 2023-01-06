@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { KeysViewComponent } from './keys-view.component';
 
@@ -10,7 +10,7 @@ describe('KeysViewComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmSharedTestingModule],
+            imports: [XmTranslationTestingModule],
             declarations: [KeysViewComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })
