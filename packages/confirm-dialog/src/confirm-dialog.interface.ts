@@ -5,6 +5,7 @@ import { ValidatorProcessingOption } from '@xm-ngx/components/validator-processi
 export interface XmConfirmDialogOptions {
     [key: string]: unknown;
     validators?: ValidatorProcessingOption[];
+    asyncValidators?: ValidatorProcessingOption[];
 }
 
 export interface XmConfirmDialogControlDef<V = unknown, O = XmConfirmDialogOptions> extends XmDynamicPresentation<V, O> {
