@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, ValidatorFn, Validators } from '@angular/forms';
 import {
     XM_CONTROL_ERRORS_TRANSLATES_DEFAULT,
     XmControlErrorsTranslates,
 } from '@xm-ngx/components/control-error/xm-control-errors-translates';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import * as _ from 'lodash';
+import Ajv from 'ajv';
 
 
 /***
@@ -47,6 +48,10 @@ export class ValidatorProcessingService {
         severalEmails: ValidatorProcessingService.severalEmails,
     };
 
+    private asyncValidators: {[key: string]: (...args: any[]) => AsyncValidatorFn} = {
+        fileDataSpec: ValidatorProcessingService.fileDataSpec,
+    };
+
     public static languageRequired(languages: string[]): ValidatorFn {
         return (control: AbstractControl) => {
             const invalidLanguages = languages.filter(lng => {
@@ -60,6 +65,44 @@ export class ValidatorProcessingService {
             return invalidLanguages.length > 0
                 ? {languageRequired: invalidLanguages}
                 : null;
+        };
+    }
+
+    public static fileDataSpec(options: {
+        path?: string,
+        schema: object,
+    }): AsyncValidatorFn {
+        return async (control: AbstractControl<FileList>) => {
+            const files = Array.from(control.value);
+
+            // Skip validators until selected files
+            if (files.length == 0) {
+                return Promise.resolve(null);
+            }
+            
+            const jsonFiles = await Promise.allSettled(files.map(file => new Response(file).json()));
+            const parsedJsonFiles = jsonFiles
+                .filter((p): p is PromiseFulfilledResult<unknown> => p.status === 'fulfilled')
+                .map(p => p.value);
+            const failedJsonFiles = jsonFiles.filter((p): p is PromiseRejectedResult => p.status === 'rejected');
+
+            if (failedJsonFiles.length > 0) {
+                return {
+                    'fileDataSpec': true,
+                };
+            }
+
+            const validate = new Ajv().compile(options?.schema ?? {});
+
+            const valid = parsedJsonFiles.some((value) => {
+                const data = _.get(value, options?.path ?? null, value);
+
+                return validate(data);
+            });
+
+            return valid ? null : {
+                fileDataSpec: true,
+            };
         };
     }
 
@@ -179,6 +222,18 @@ export class ValidatorProcessingService {
 
             return null;
         };
+    }
+
+    public asyncValidatorFactory(option: ValidatorProcessingOption): AsyncValidatorFn | null {
+        const validator = this.asyncValidators[option.type] || null;
+        return (validator && option.params) ? (validator as any)(option.params) : validator();
+    }
+
+    public asyncValidatorsFactory(options: ValidatorProcessingOption[]): AsyncValidatorFn[] {
+        if (!options) {
+            return [];
+        }
+        return options.map(option => this.asyncValidatorFactory(option)).filter((v) => Boolean(v));
     }
 
     public validatorFactory(option: ValidatorProcessingOption): ValidatorFn | null {
