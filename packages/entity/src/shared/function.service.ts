@@ -3,12 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'src/app/xm.constants';
 
 @Injectable()
 export class FunctionService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/functions';
+    private resourceUrl: string ='entity/api/functions';
 
     constructor(private http: HttpClient) {
     }
@@ -54,7 +53,7 @@ export class FunctionService {
     }
 
     private resourceEntityUrl(id: any, key: string): any {
-        return SERVER_API_URL + `entity/api/xm-entities/${id}/functions/${key}`;
+        return`entity/api/xm-entities/${id}/functions/${key}`;
     }
 
     private callXmFunction(url: string, inputContext: any = {}, headers?: HttpHeaders): Observable<HttpResponse<any>> {
@@ -79,9 +78,9 @@ export class FunctionService {
         if (type.includes('application/json')) {
             const body = this.convertItemFromServer(JSON.parse(res.body));
             return res.clone({body});
-        } 
+        }
         return Object.assign({actionType: 'download'}, res);
-        
+
     }
 
     /**

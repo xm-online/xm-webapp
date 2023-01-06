@@ -5,14 +5,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { createRequestOption } from './request-util';
-import { SERVER_API_URL } from 'src/app/xm.constants';
 import { FunctionContext } from './function-context.model';
 
 @Injectable()
 export class FunctionContextService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/function-contexts';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/function-contexts';
+    private resourceUrl: string ='entity/api/function-contexts';
+    private resourceSearchUrl: string ='entity/api/_search/function-contexts';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

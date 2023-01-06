@@ -5,13 +5,12 @@ import { JhiDateUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'src/app/xm.constants';
 import { Pocket } from './pocket.model';
 
 @Injectable()
 export class PocketService {
 
-    private resourceUrl: string = SERVER_API_URL + 'balance/api/pockets';
+    private resourceUrl: string = 'balance/api/pockets';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

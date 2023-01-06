@@ -11,7 +11,7 @@ import { XmRibbonModule } from '@xm-ngx/components/ribbon';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmEntityModule } from '@xm-ngx/entity/xm-entity.module';
 import { XmSharedModule } from '@xm-ngx/shared';
-import { XmBalanceModule } from '@xm-ngx/xm-balance';
+import { XmBalanceModule } from '@xm-ngx/balance';
 import { XmMaintenanceViewModule } from '@xm-ngx/components/maintenance';
 import { XmSidebarRightModule } from '@xm-ngx/components/sidebar-right';
 import { XmSidebarModule } from '@xm-ngx/components/sidebar';

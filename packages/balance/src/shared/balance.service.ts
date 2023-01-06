@@ -4,13 +4,12 @@ import { createRequestOption } from '@xm-ngx/entity';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'src/app/xm.constants';
 import { Balance } from './balance.model';
 
 @Injectable()
 export class BalanceService {
 
-    private resourceUrl: string = `${SERVER_API_URL }balance/api/balances`;
+    private resourceUrl: string = 'balance/api/balances';
 
     constructor(private http: HttpClient) { }
 

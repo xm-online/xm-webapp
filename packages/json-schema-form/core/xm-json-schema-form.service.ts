@@ -7,7 +7,7 @@ import {
 } from '@ajsf/core';
 import { Subject } from 'rxjs';
 import { UntypedFormArray, UntypedFormControl } from '@angular/forms';
-import { fixNestedBuildLayout } from '@xm-ngx/json-schema-form/shared/fix-build-layout';
+import { fixNestedBuildLayout } from '../shared/fix-build-layout';
 
 export interface JsonSchemaOrderChange {
     previousIndex: number;

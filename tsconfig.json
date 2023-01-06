@@ -139,7 +139,7 @@
         "packages/dynamic/*"
       ],
       "@xm-ngx/dashboard": [
-        "packages/dashboard/src"
+        "packages/dashboard"
       ],
       "@xm-ngx/dashboard/testing": [
         "packages/dashboard/testing"
@@ -149,12 +149,6 @@
       ],
       "@xm-ngx/balance/*": [
         "packages/balance/src/*"
-      ],
-      "@xm-ngx/xm-balance": [
-        "packages/balance"
-      ],
-      "@xm-ngx/components/language": [
-        "src/app/shared/language"
       ],
       "rxjs": [
         "node_modules/rxjs"
