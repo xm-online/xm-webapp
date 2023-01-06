@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmSharedModule } from '../../../shared/shared.module';
-import { XmBalanceModule } from '@xm-ngx/xm-balance';
+import { XmBalanceModule } from '@xm-ngx/balance';
 import { XmEntityModule } from '@xm-ngx/entity/xm-entity.module';
 import { XmTimelineModule } from '@xm-ngx/timeline/timeline-widget';
 import { AvailableOfferingsWidgetComponent } from '../available-offerings-widget/available-offerings-widget.component';

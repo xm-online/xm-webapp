@@ -1,8 +1,4 @@
 {
   "name": "@xm-ngx/translation",
-  "version": "1.0.0",
-  "peerDependencies": {
-    "@xm-ngx/shared": "*",
-    "@xm-ngx/core": "*"
-  }
+  "version": "1.0.0"
 }

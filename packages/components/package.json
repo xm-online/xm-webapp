@@ -3,12 +3,5 @@
   "version": "1.0.0",
   "peerDependencies": {
     "html2canvas": "1.0.0-rc.7"
-  },
-  "ngPackage": {
-    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "dest": "../../dist/packages/components",
-    "lib": {
-      "entryFile": "./index.ts"
-    }
   }
 }

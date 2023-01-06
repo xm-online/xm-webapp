@@ -5,14 +5,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { createRequestOption } from './request-util';
-import { SERVER_API_URL } from 'src/app/xm.constants';
 import { Calendar } from './calendar.model';
 
 @Injectable()
 export class CalendarService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/calendars';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/calendars';
+    private resourceUrl: string ='entity/api/calendars';
+    private resourceSearchUrl: string ='entity/api/_search/calendars';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
