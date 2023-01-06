@@ -7,6 +7,7 @@ import { ColumnsSettingStorageService } from '../../../service/columns-settings-
 import { UntypedFormBuilder } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('ShowHideColumnsSettingsComponent', () => {
     let component: ShowHideColumnsSettingsComponent;
@@ -23,6 +24,7 @@ describe('ShowHideColumnsSettingsComponent', () => {
         await TestBed.configureTestingModule({
             imports: [
                 XmTranslationTestingModule,
+                MatMenuModule,
                 BrowserAnimationsModule,
             ],
             declarations: [ShowHideColumnsSettingsComponent],

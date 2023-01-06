@@ -10,7 +10,7 @@ export {
     EVENT_CHANGE_LOCALE,
     Locale,
     SESSION_LOCALE,
-    LanguageService
+    LanguageService,
 } from './src/services/language.service';
 export { JhiLanguageHelper } from './src/services/language.helper';
 export { ModulesLanguageHelper } from './src/services/modules-language.helper';
@@ -19,11 +19,3 @@ export { XmTranslateService } from './src/services/xm-translate-service';
 
 export { LANGUAGES } from './src/language.constants';
 export { XmTranslationModule, HttpLoaderFactory } from './src/xm-translation.module';
-
-
-// Deprecated use @xm-ngx/translation/testing
-export {
-    XmTranslationTestingModule,
-    MockTranslatePipe,
-    MockTranslateService,
-} from './testing';

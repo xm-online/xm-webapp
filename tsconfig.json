@@ -93,9 +93,6 @@
       "@xm-ngx/timeline/*": [
         "packages/timeline/*"
       ],
-      "@xm-ngx/shared": [
-        "src/app/modules/xm-shared"
-      ],
       "@xm-ngx/shared/exceptions": [
         "packages/shared/exceptions"
       ],
@@ -125,6 +122,9 @@
       ],
       "@xm-ngx/entity/*": [
         "packages/entity/src/*"
+      ],
+      "@xm-ngx/shared": [
+        "src/app/shared/shared.module.ts"
       ],
       "@xm-ngx/xm-shared": [
         "src/app/shared"

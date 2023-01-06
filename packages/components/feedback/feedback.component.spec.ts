@@ -6,6 +6,7 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { FeedbackComponent } from './feedback.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('FeedbackComponent', () => {
     let component: FeedbackComponent;
@@ -14,7 +15,7 @@ describe('FeedbackComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [XmTranslationTestingModule, HttpClientTestingModule],
+            imports: [XmTranslationTestingModule, MatDialogModule, HttpClientTestingModule],
             declarations: [FeedbackComponent],
             providers: [
                 { provide: XmToasterService, useValue: null },

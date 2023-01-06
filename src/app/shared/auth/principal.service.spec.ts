@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { AuthRefreshTokenService } from '../../../../packages/core/auth';
 import { AccountService } from './account.service';
 import { Principal } from './principal.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('PrincipalService', () => {
 
@@ -36,7 +37,7 @@ describe('PrincipalService', () => {
         mockAccountService.get.and.returnValue(of(cloneDeep(mockedUser)));
 
         TestBed.configureTestingModule({
-            imports: [XmTranslationTestingModule, HttpClientTestingModule],
+            imports: [XmTranslationTestingModule, MatSnackBarModule, HttpClientTestingModule],
             providers: [
                 Principal,
                 { provide: AccountService, useValue: mockAccountService },
