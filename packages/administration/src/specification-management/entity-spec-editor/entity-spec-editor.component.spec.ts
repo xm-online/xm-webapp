@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { EntitySpecEditorComponent } from './entity-spec-editor.component';
 
@@ -10,7 +10,7 @@ describe('EntitySpecEditorComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmSharedTestingModule],
+            imports: [XmTranslationTestingModule],
             schemas: [NO_ERRORS_SCHEMA],
             declarations: [EntitySpecEditorComponent],
         })

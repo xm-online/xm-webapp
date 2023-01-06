@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { ExportTreeComponent } from './export-tree.component';
 
@@ -11,7 +11,7 @@ describe('ExportTreeComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule, XmSharedTestingModule],
+            imports: [HttpClientTestingModule, XmTranslationTestingModule],
             declarations: [ExportTreeComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })

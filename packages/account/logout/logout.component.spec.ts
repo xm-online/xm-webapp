@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEntitySpecWrapperService } from '@xm-ngx/entity';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
 import { LoginService } from '@xm-ngx/xm-shared';
 
@@ -18,7 +18,7 @@ describe('LogoutComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmSharedTestingModule, HttpClientTestingModule],
+            imports: [XmTranslationTestingModule, HttpClientTestingModule],
             declarations: [LogoutComponent],
             providers: [
                 { provide: LoginService, useValue: {} },

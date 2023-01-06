@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { XmSessionService } from '@xm-ngx/core';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { cloneDeep } from 'lodash';
 import { JhiAlertService } from 'ng-jhipster';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
@@ -36,7 +36,7 @@ describe('PrincipalService', () => {
         mockAccountService.get.and.returnValue(of(cloneDeep(mockedUser)));
 
         TestBed.configureTestingModule({
-            imports: [XmSharedTestingModule, HttpClientTestingModule],
+            imports: [XmTranslationTestingModule, HttpClientTestingModule],
             providers: [
                 Principal,
                 { provide: AccountService, useValue: mockAccountService },
