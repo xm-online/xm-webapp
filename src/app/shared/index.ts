@@ -1,22 +1,10 @@
 // Backward compatibility
 export { createRequestOption } from '@xm-ngx/entity/shared';
 
-export * from './auth/csrf.service';
-export * from './auth/state-storage.service';
-export * from './auth/account.service';
-export * from './auth/auth-jwt.service';
-export * from './auth/auth.service';
-export * from './auth/principal.service';
-export * from './auth/has-any-authority.directive';
 export * from './login/login.component';
-export * from './auth/login.service';
 export * from './register/register.component';
 export * from './register/register.service';
 
-export * from './context/context.service';
-export * from './user/account.model';
-export * from './user/user.model';
-export * from './user/user.service';
 export * from '../../../packages/account/user-login-widget/login/user-login.model';
 export * from '../../../packages/account/user-login-widget/login/user-login.service';
 export * from '../../../packages/account/user-login-widget/login/user-login-form.component';
@@ -24,12 +12,9 @@ export * from './client/client.model';
 export * from './client/client.service';
 export * from './spec/config.service';
 export * from './spec/password-spec.model';
-export * from './auth/user-route-access-service';
 export * from './role/role.model';
 export * from './role/role.service';
 export * from './idp/idp.component';
-
-export * from './privilege/privilege.service';
 
 export * from './g-map/xmGMapApiInit.directive';
 

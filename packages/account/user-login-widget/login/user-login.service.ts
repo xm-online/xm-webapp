@@ -4,7 +4,7 @@ import { JhiLanguageService } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { XmConfigService } from '@xm-ngx/xm-shared/spec/config.service';
 import { UserLogin } from './user-login.model';
 

@@ -4,13 +4,14 @@ import { async, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { LanguageService } from '@xm-ngx/translation';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { Observable, of } from 'rxjs';
 
-import { LoginService, XmConfigService } from '../../shared';
+import { LoginService } from '@xm-ngx/core/auth';
+import { XmConfigService } from '../../shared';
 import { ModulesLanguageHelper } from '@xm-ngx/translation';
 import { XmApplicationConfigService } from '../../shared/spec/xm-config.service';
 import { XmMainComponent } from './main.component';

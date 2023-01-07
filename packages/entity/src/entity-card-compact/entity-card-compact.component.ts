@@ -5,7 +5,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
-import { Principal } from '@xm-ngx/xm-shared/auth/principal.service';
+import { Principal } from '@xm-ngx/core/user';
 import { nullSafe } from '@xm-ngx/xm-shared/jsf-extention/jsf-attributes-helper';
 import { EntityCardComponent } from '../entity-card/entity-card.component';
 import { RatingListSectionComponent } from '../rating-list-section/rating-list-section.component';

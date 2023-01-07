@@ -1,17 +1,17 @@
 import { Inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthServerProvider } from './auth-jwt.service';
-import { Principal } from './principal.service';
-import { StateStorageService } from './state-storage.service';
+import { AuthServerProvider } from '@xm-ngx/core/auth';
+import { Principal } from '../../user/src/principal.service';
+import { StateStorageService } from '@xm-ngx/core/auth';
 import { SessionStorageService } from 'ngx-webstorage';
-import { IDP_CLIENT, XM_EVENT_LIST } from '../../xm.constants';
+import { IDP_CLIENT, XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { DOCUMENT, Location } from '@angular/common';
 import { IIdpClient, IIdpConfig } from '@xm-ngx/core';
 import { environment } from '@xm-ngx/core/environment';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
+import { PrivacyAndTermsDialogComponent } from '@xm-ngx/xm-shared/components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { of } from 'rxjs';
 
 @Injectable()

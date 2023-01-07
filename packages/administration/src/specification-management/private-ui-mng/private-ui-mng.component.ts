@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ConfigValidatorUtil } from '@xm-ngx/administration/specification-management/config-validator/config-validator.util';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { finalize } from 'rxjs/operators';
-import { Principal, XmConfigService } from '../../../../../src/app/shared';
+import { XmConfigService } from '../../../../../src/app/shared';
+import { Principal } from '@xm-ngx/core/user';
 
 @Component({
     selector: 'xm-private-ui-mng',

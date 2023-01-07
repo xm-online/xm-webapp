@@ -7,7 +7,8 @@ import * as _ from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, map, take, tap } from 'rxjs/operators';
 
-import { ContextService, XmConfigService } from '@xm-ngx/xm-shared';
+import { XmConfigService } from '@xm-ngx/xm-shared';
+import { ContextService } from '@xm-ngx/core/context';
 import { getFieldValue } from '@xm-ngx/xm-shared/helpers/entity-list-helper';
 import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
 

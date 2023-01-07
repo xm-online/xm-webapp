@@ -11,7 +11,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { MockEntityCollection } from '@xm-ngx/components/entity-collection/testing/mock-entity-collection';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmEventManager } from '@xm-ngx/core';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 

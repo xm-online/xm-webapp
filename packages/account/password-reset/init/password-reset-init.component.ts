@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatInput } from '@angular/material/input';
-import { AccountService } from '@xm-ngx/core/auth';
+import { AccountService } from '@xm-ngx/core/user';
 
 @Component({
     selector: 'xm-password-reset-init',

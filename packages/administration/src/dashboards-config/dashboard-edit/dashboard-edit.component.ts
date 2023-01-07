@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { XmEventManager } from '@xm-ngx/core';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { Dashboard } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';

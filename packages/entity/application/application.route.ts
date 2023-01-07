@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, Routes } from '@angular/router';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
-import { UserRouteAccessService } from '@xm-ngx/xm-shared';
+import { UserRouteAccessService } from '@xm-ngx/core/permission';
 import { ApplicationComponent } from './application.component';
 import { EntityDetailComponent } from './entity-detail.component';
 

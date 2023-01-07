@@ -7,7 +7,8 @@ import * as _ from 'lodash';
 import { combineLatest, from, Observable } from 'rxjs';
 import { filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 
-import { ContextService, Principal } from '../../../src/app/shared';
+import { ContextService } from '@xm-ngx/core/context';
+import { Principal } from '@xm-ngx/core/user';
 import { getDefaultMenuList } from './default-menu-list';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { treeNodeSearch } from '../../shared/operators/src/tree-search';

@@ -5,7 +5,7 @@ import { UserMgmtComponent } from '@xm-ngx/administration/user-management/user-m
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
-import { Principal } from '@xm-ngx/xm-shared';
+import { Principal } from '@xm-ngx/core/user';
 
 @Injectable()
 export class UserResolve implements CanActivate {

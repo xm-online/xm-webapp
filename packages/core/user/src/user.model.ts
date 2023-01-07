@@ -1,5 +1,5 @@
 import { XmUser } from '@xm-ngx/core/user';
-import { UserLogin } from '../../../../packages/account/user-login-widget/login/user-login.model';
+import { UserLogin } from '@xm-ngx/account/user-login-widget/login/user-login.model';
 
 export class User implements XmUser {
     public id?: any;

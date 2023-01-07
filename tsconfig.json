@@ -33,8 +33,11 @@
       "@xm-ngx/core": [
         "packages/core"
       ],
+      "@xm-ngx/core/context": [
+        "packages/core/context"
+      ],
       "@xm-ngx/core/auth": [
-        "src/app/shared/auth"
+        "packages/core/auth"
       ],
       "@xm-ngx/core/config": [
         "packages/core/config"

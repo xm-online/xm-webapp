@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { FunctionSpec, NextSpec, StateSpec } from '../shared';
-import { Principal } from '@xm-ngx/xm-shared/auth/principal.service';
+import { Principal } from '@xm-ngx/core/user';
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
 import { AvatarDialogComponent } from '../avatar-dialog/avatar-dialog.component';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';

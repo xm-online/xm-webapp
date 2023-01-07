@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { SERVER_API_URL } from '../../xm.constants';
+import { SERVER_API_URL } from '../../../../src/app/xm.constants';
 import { UserService } from './user.service';
 
 describe('UserService', () => {

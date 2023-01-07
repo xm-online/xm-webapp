@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { UserRouteAccessService } from '@xm-ngx/core/auth';
+import { UserRouteAccessService } from '@xm-ngx/core/permission';
 import { ActivateComponent } from './activate.component';
 
 export const activateRoute: Route = {

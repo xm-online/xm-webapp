@@ -9,11 +9,11 @@ import { LanguageService } from '@xm-ngx/translation';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { filter, shareReplay, takeUntil } from 'rxjs/operators';
-import { AuthRefreshTokenService } from '../../../../packages/core/auth';
+import { AuthRefreshTokenService } from '@xm-ngx/core/auth';
 import { XmEntity } from '@xm-ngx/entity';
 
 import { AccountService } from './account.service';
-import { SUPER_ADMIN } from './auth.constants';
+import { SUPER_ADMIN } from '../../auth/src/auth.constants';
 
 const CACHE_SIZE = 1;
 

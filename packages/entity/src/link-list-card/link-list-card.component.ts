@@ -10,7 +10,7 @@ import { FullLinkSpec } from '../shared/link-spec.model';
 import { Link } from '../shared/link.model';
 import { LinkService } from '../shared/link.service';
 import { XmEntity } from '../shared/xm-entity.model';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 
 const LINK_DELETE_PERMISSION = 'LINK.DELETE';
 

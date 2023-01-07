@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 import { JhiAlertService } from 'ng-jhipster';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { of } from 'rxjs';
-import { AuthRefreshTokenService } from '../../../../packages/core/auth';
+import { AuthRefreshTokenService } from '@xm-ngx/core/auth';
 import { AccountService } from './account.service';
 import { Principal } from './principal.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';

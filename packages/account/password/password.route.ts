@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { UserRouteAccessService } from '@xm-ngx/core/auth';
+import { UserRouteAccessService } from '@xm-ngx/core/permission';
 import { PasswordSettingsComponent } from '../password-settings/password-settings.component';
 
 export const passwordRoute: Route = {

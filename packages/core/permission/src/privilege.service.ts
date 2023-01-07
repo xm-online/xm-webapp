@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SUPER_ADMIN } from '../auth/auth.constants';
-import { Principal } from '../auth/principal.service';
-import { ParseByPathService } from '../services/parse-by-path.service';
+import { SUPER_ADMIN } from '../../auth/src/auth.constants';
+import { Principal } from '../../user/src/principal.service';
+import { ParseByPathService } from '@xm-ngx/xm-shared/services/parse-by-path.service';
 
 @Injectable()
 export class PrivilegeService {

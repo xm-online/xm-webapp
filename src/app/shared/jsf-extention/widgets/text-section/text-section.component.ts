@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { I18nNamePipe } from '@xm-ngx/translation';
 
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import { startWith } from 'rxjs/operators';
 import * as formatString from 'string-template';

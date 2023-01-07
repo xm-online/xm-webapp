@@ -4,10 +4,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
-import { AccountService } from '@xm-ngx/xm-shared/auth/account.service';
-import { Principal } from '@xm-ngx/xm-shared/auth/principal.service';
-import { User } from '@xm-ngx/xm-shared/user/user.model';
-import { UserService } from '@xm-ngx/xm-shared/user/user.service';
+import { AccountService } from '@xm-ngx/core/user';
+import { Principal } from '@xm-ngx/core/user';
+import { User } from '@xm-ngx/core/user';
+import { UserService } from '@xm-ngx/core/user';
 import { UserLoginService } from './user-login.service';
 
 @Component({

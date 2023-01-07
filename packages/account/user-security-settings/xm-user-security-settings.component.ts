@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { XmUser } from '@xm-ngx/core/user';
 import * as _ from 'lodash';
-import { AccountService, Principal } from '@xm-ngx/core/auth';
+import { AccountService, Principal } from '@xm-ngx/core/user';
 
 @Component({
     selector: 'xm-user-security-settings',

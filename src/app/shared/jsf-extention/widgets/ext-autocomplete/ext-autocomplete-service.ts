@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Principal } from '../../../auth/principal.service';
+import { Principal } from '@xm-ngx/core/user';
 import { I18nNamePipe } from '@xm-ngx/translation';
 import { ExtAutocompleteOptions } from './ext-autocomplete-options.model';
 

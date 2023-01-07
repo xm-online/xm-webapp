@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Principal } from './principal.service';
+import { Principal } from '../../user/src/principal.service';
 import { StateStorageService } from './state-storage.service';
 
 @Injectable()

@@ -11,9 +11,9 @@ import {
 } from '@angular/router';
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { Principal } from './principal.service';
-import { StateStorageService } from './state-storage.service';
-import { PermissionGuardData } from '../../../../packages/core/permission';
+import { Principal } from '@xm-ngx/core/user';
+import { StateStorageService } from '@xm-ngx/core/auth';
+import { PermissionGuardData } from '@xm-ngx/core/permission';
 
 @Injectable()
 export class UserRouteAccessService implements CanActivate, CanActivateChild, CanLoad {

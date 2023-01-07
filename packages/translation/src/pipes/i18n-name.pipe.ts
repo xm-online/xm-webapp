@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Translate } from '../services/language.service';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 
 @Pipe({name: 'i18nName'})
 export class I18nNamePipe implements PipeTransform {
