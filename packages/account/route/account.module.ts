@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { LanguageModule } from '@xm-ngx/components/language';
+import { LanguageModule } from '@xm-ngx/translation';
 import { MarkdownModule } from 'ngx-markdown';
 
 import { XmUserLoginWidgetModule } from '../user-login-widget/xm-user-login-widget.module';

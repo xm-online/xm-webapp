@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { buildFormGroup, JsonSchemaFormService, removeRecursiveReferences } from '@ajsf/core';
 
-import { JhiLanguageHelper } from '../../../index';
+import { JhiLanguageHelper } from '@xm-ngx/translation';
 import { XmConfigService } from '../../../spec/config.service';
 import { MultilingualInputOptions } from './multilingual-input-options.model';
 

@@ -10,7 +10,8 @@ import { LanguageService } from '@xm-ngx/translation';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { Observable, of } from 'rxjs';
 
-import { LoginService, ModulesLanguageHelper, XmConfigService } from '../../shared';
+import { LoginService, XmConfigService } from '../../shared';
+import { ModulesLanguageHelper } from '@xm-ngx/translation';
 import { XmApplicationConfigService } from '../../shared/spec/xm-config.service';
 import { XmMainComponent } from './main.component';
 

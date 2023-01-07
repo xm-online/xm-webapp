@@ -18,7 +18,7 @@ import { finalize, takeUntil, tap } from 'rxjs/operators';
 
 import { environment } from '@xm-ngx/core/environment';
 import { Principal } from '@xm-ngx/core/auth';
-import { I18nNamePipe } from '@xm-ngx/components/language';
+import { I18nNamePipe } from '@xm-ngx/translation';
 import { ExtSelectOptions, SelectDeepLinkOptions } from './ext-select-options.model';
 import { ExtSelectService } from './ext-select-service';
 import BaseExtSelectComponent from './base-ext-select.component';
