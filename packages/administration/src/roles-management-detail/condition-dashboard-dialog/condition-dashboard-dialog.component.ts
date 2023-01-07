@@ -6,7 +6,7 @@ import { XmTextControlOptions, XmTextViewOptions } from '@xm-ngx/components/text
 import { Dashboard, DashboardStore } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Translate } from '@xm-ngx/translation';
-import { Permission } from '../../../../../src/app/shared/role/permission.model';
+import { Permission } from '@xm-ngx/core/role';
 
 interface ConditionDashboardDialogConfig {
     privilegeKeyField: XmTextViewOptions,

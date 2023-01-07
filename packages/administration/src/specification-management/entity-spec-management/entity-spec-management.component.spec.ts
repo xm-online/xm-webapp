@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
-import { XmConfigService } from '../../../../../src/app/shared';
+import { XmConfigService } from '@xm-ngx/core/config';
 
 import { EntitySpecManagementComponent } from './entity-spec-management.component';
 

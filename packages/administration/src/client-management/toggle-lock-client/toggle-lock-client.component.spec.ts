@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { ClientService } from '../../../../../src/app/shared';
+import { ClientService } from '@xm-ngx/core/client';
 
 import { ToggleLockClientComponent } from './toggle-lock-client.component';
 

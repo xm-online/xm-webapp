@@ -11,9 +11,9 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { Observable, of } from 'rxjs';
 
 import { LoginService } from '@xm-ngx/core/auth';
-import { XmConfigService } from '../../shared';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { ModulesLanguageHelper } from '@xm-ngx/translation';
-import { XmApplicationConfigService } from '../../shared/spec/xm-config.service';
+import { XmApplicationConfigService } from '@xm-ngx/core/config';
 import { XmMainComponent } from './main.component';
 
 class Mock {

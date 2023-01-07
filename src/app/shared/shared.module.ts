@@ -20,7 +20,7 @@ import {
 import { AccountService } from '@xm-ngx/core/user';
 import { LoginService } from '@xm-ngx/core/auth';
 import { HasAnyAuthorityDirective, } from '@xm-ngx/core/permission';
-import { ClientService } from './client/client.service';
+import { ClientService } from '../../../packages/core/client/client.service';
 import {
     PrivacyAndTermsDialogComponent,
 } from './components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
@@ -60,10 +60,10 @@ import { PasswordStrengthBarComponent } from './password-strength-bar/password-s
 import { PrivilegeService } from '@xm-ngx/core/permission';
 import { RegisterComponent } from './register/register.component';
 import { RegisterService } from './register/register.service';
-import { RoleService } from './role/role.service';
+import { RoleService } from '../../../packages/core/role/role.service';
 import { ParseByPathService } from './services/parse-by-path.service';
 import { GateSharedLibsModule } from './shared-libs.module';
-import { XmConfigService } from './spec/config.service';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { UserService } from '@xm-ngx/core/user';
 import { TimeFromPipe } from './helpers/time-from.pipe';
 import {

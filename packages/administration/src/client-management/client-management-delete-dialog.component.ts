@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 
-import { Client, ClientService } from '../../../../src/app/shared';
+import { Client, ClientService } from '@xm-ngx/core/client';
 
 @Component({
     selector: 'xm-client-mgmt-delete-dialog',

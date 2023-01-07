@@ -8,8 +8,9 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { finalize, map, startWith } from 'rxjs/operators';
 
-import { Client, ClientService } from '../../../../src/app/shared';
-import { RoleService, XmConfigService } from '../../../../src/app/shared';
+import { Client, ClientService } from '@xm-ngx/core/client';
+import { RoleService } from '@xm-ngx/core/role';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { JhiLanguageHelper } from '@xm-ngx/translation';
 
 export const CLIENT_UNIQUE_ID_ERROR_CODE = 'client.already.exists';

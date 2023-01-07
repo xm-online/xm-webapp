@@ -12,7 +12,7 @@ import {
     CalendarSpec, EventService,
     XmEntity,
 } from '@xm-ngx/entity/shared';
-import { EntityCalendarUiConfig } from '@xm-ngx/xm-shared/spec';
+import { EntityCalendarUiConfig } from '@xm-ngx/core/config';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nNamePipe } from '@xm-ngx/translation';
 import { LanguageService } from '@xm-ngx/translation';

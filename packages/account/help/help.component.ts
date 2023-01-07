@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { JhiLanguageService } from 'ng-jhipster';
 import { finalize, map } from 'rxjs/operators';
 
-import { XmConfigService } from '@xm-ngx/xm-shared';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { Translate } from '@xm-ngx/translation';
 import { IHelpNavLink } from '@xm-ngx/components/navbar';
 
