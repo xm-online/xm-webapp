@@ -5,7 +5,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
-import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/widgets';
 import { NextSpec } from '../shared/state-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { XmEntityService } from '../shared/xm-entity.service';

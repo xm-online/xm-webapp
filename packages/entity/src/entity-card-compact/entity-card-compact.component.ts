@@ -6,7 +6,7 @@ import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/user';
-import { nullSafe } from '@xm-ngx/xm-shared/jsf-extention/jsf-attributes-helper';
+import { nullSafe } from '@xm-ngx/json-schema-form/widgets';
 import { EntityCardComponent } from '../entity-card/entity-card.component';
 import { RatingListSectionComponent } from '../rating-list-section/rating-list-section.component';
 import { XmEntityService } from '../shared/xm-entity.service';
@@ -20,7 +20,7 @@ import { EntityDetailDisplayMode, EntityUiConfig } from '@xm-ngx/core/config';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
 
 import swal from 'sweetalert2/dist/sweetalert2';
-import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/widgets';
 import { Location } from '@angular/common';
 
 @Component({

@@ -1,6 +1,6 @@
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { ContextService } from '@xm-ngx/core/context';
-import { transpilingForIE } from '@xm-ngx/json-scheme-form';
+import { transpilingForIE } from '@xm-ngx/json-schema-form/widgets';
 import { Dashboard } from '@xm-ngx/dashboard';
 import { MenuItem } from './menu.interface';
 import { XmEntitySpec } from '@xm-ngx/entity';

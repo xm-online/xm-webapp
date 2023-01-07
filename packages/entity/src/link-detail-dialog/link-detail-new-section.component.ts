@@ -6,9 +6,9 @@ import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
-import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/widgets';
 
-import { nullSafe } from '@xm-ngx/xm-shared/jsf-extention/jsf-attributes-helper';
+import { nullSafe } from '@xm-ngx/json-schema-form/widgets';
 import { LinkSpec } from '../shared/link-spec.model';
 import { Link } from '../shared/link.model';
 import { Spec } from '../shared/spec.model';

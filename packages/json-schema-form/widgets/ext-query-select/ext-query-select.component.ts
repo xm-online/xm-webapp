@@ -5,7 +5,7 @@ import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 import * as _ from 'lodash';
 import { BehaviorSubject, iif, merge, Observable, of, ReplaySubject } from 'rxjs';
 import { catchError, debounceTime, filter, finalize, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../src/environments/environment';
 
 interface ISelectSettings {
     title?: string;

@@ -14,7 +14,7 @@ import {
     formLayout,
     getJsfWidgets,
     processValidationMessages,
-} from '../../../../src/app/shared/jsf-extention/jsf-attributes-helper';
+} from '@xm-ngx/json-schema-form/widgets';
 import { EXAMPLES } from './example-schemas.model';
 
 interface FormsConfig {

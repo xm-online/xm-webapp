@@ -17,10 +17,10 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
-import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/widgets';
 import * as formatString from 'string-template';
 
-import { nullSafe } from '@xm-ngx/xm-shared/jsf-extention/jsf-attributes-helper';
+import { nullSafe } from '@xm-ngx/json-schema-form/widgets';
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
 import { Spec } from '../shared/spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';

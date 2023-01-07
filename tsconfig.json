@@ -81,11 +81,11 @@
       "@xm-ngx/confirm-dialog": [
         "packages/confirm-dialog"
       ],
-      "@xm-ngx/json-scheme-form": [
-        "src/app/shared/jsf-extention"
+      "@xm-ngx/json-schema-form/core": [
+        "packages/json-schema-form/core"
       ],
-      "@xm-ngx/json-schema-form/*": [
-        "packages/json-schema-form/*"
+      "@xm-ngx/json-schema-form/widgets": [
+        "packages/json-schema-form/widgets"
       ],
       "@xm-ngx/toaster": [
         "packages/toaster"
