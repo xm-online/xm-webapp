@@ -1,16 +1,16 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
-import { XmUserService } from '@xm-ngx/core/user';
+import { XmUserService } from './xm-user.service';
 import { OnInitialize } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { LanguageService } from '@xm-ngx/translation';
+import { LanguageService } from 'packages/translation/src/services/language.service';
 
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { filter, shareReplay, takeUntil } from 'rxjs/operators';
-import { AuthRefreshTokenService } from '@xm-ngx/core/auth';
-import { XmEntity } from '@xm-ngx/entity';
+import { AuthRefreshTokenService } from 'packages/core/auth/src/auth-refresh-token.service';
+import { XmEntity } from 'packages/entity/src/shared/xm-entity.model';
 
 import { AccountService } from './account.service';
 import { SUPER_ADMIN } from '../../auth/src/auth.constants';

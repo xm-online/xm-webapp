@@ -8,6 +8,6 @@ export { XmCoreAuthModule } from './src/xm-core-auth.module';
 export { LoginService } from './auth/login.service';
 export * from './src/auth.constants';
 export * from './src/auth-jwt.service';
-export * from './src/state-storage.service';
+export { StateStorageService } from './src/state-storage.service';
 export { AuthService } from './src/auth.service';
 export { CSRFService } from './src/csrf.service';

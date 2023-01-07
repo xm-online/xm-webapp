@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthServerProvider } from '@xm-ngx/core/auth';
+import { AuthServerProvider } from '../src/auth-jwt.service';
 import { Principal } from '../../user/src/principal.service';
-import { StateStorageService } from '@xm-ngx/core/auth';
+import { StateStorageService } from '../src/state-storage.service';
 import { SessionStorageService } from 'ngx-webstorage';
 import { IDP_CLIENT, XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';

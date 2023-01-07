@@ -13,7 +13,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 
 import { Principal } from '@xm-ngx/core/user';
 import { StateStorageService } from '@xm-ngx/core/auth';
-import { PermissionGuardData } from '@xm-ngx/core/permission';
+import { PermissionGuardData } from './permission.guard';
 
 @Injectable()
 export class UserRouteAccessService implements CanActivate, CanActivateChild, CanLoad {

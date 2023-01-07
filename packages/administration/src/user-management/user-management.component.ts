@@ -13,7 +13,7 @@ import { JhiParseLinks } from 'ng-jhipster';
 import { merge, Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith, switchMap } from 'rxjs/operators';
 import { User, UserService } from '@xm-ngx/core/user';
-import { Client, RoleService,  UserLogin, UserLoginService } from '../../../../src/app/shared';
+import { Client, RoleService, UserLogin, UserLoginService } from '../../../../src/app/shared';
 
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { BaseAdminListComponent } from '../admin.service';

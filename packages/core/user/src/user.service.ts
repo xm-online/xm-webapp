@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS } from '@xm-ngx/core';
-import { XmUser } from '@xm-ngx/core/user';
+import { XmUser } from './xm-user-model';
 import * as _ from 'lodash';
 import { Observable, zip } from 'rxjs';
 
