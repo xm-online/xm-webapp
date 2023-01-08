@@ -1,7 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroupLayoutFactoryService, FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
+import { CustomOverlayRef } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/overlay/custom-overlay-ref';
+import { XmRequestBuilderService } from '@xm-ngx/components/table/xm-table/service/xm-request-builder-service/xm-request-builder.service';
+import { get } from 'lodash';
 
 @Component({
     selector: 'xm-filter-dialog',
@@ -11,43 +13,41 @@ import { FormGroupLayoutFactoryService, FormGroupLayoutItem } from '@xm-ngx/comp
 export class FilterDialogComponent implements OnInit {
     public config: FormGroupLayoutItem[];
     public group: UntypedFormGroup;
-    public value: unknown;
 
-    constructor(public dialogRef: MatDialogRef<FilterDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: {config: FormGroupLayoutItem[], value: unknown},
-                private layoutFactoryService: FormGroupLayoutFactoryService) {
-        this.config = data.config;
-        this.value = data.value;
+    constructor(private layoutFactoryService: FormGroupLayoutFactoryService,
+                private requestBuilder: XmRequestBuilderService,
+                private customOverlay: CustomOverlayRef<unknown, {config: FormGroupLayoutItem[]}>,
+    ) {
+        this.requestBuilder.change$().subscribe(value => this.updateValue(value));
 
     }
 
     public ngOnInit(): void {
-
+        this.config = get(this.customOverlay, 'context.config');
         this.initForm();
     }
 
     public submit(): void {
-        this.dialogRef.close(this.group.getRawValue());
+        this.requestBuilder.update(this.group.getRawValue());
+        this.customOverlay.close(this.group.getRawValue());
     }
 
     public close(): void {
-        this.group.reset( { emitEvent: false });
-        this.dialogRef.close(this.group.getRawValue())
+        this.group.reset({ emitEvent: false });
+        this.requestBuilder.update(this.group.getRawValue());
+        this.customOverlay.close(this.group.getRawValue());
     }
 
     private initForm(): void {
         if (this.config) {
             this.group = this.layoutFactoryService.createForm(this.config);
         }
-        if (this.value) {
-            this.updateValue();
-        }
 
     }
 
-    private updateValue() {
+    private updateValue(value) {
         if (this.group) {
-            this.group.patchValue(this.value || {}, { emitEvent: false });
+            this.group.patchValue(value || {}, { emitEvent: false });
         }
     }
 }

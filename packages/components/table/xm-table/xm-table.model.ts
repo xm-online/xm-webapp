@@ -2,17 +2,17 @@ import { Translate } from '@xm-ngx/translation';
 import {JavascriptCode} from '@xm-ngx/shared/interfaces';
 
 export interface XmTableConfig {
-    title: Translate, //Table title
-    dataSource: TableDatasource, //Table data source specification
-    columns: Array<TableColumn>, //Columns configuration
-    filters: TableFilter[], // Filters configuration
-    options: TableOptions, // Table configuration
-    actions: TableActions, // Actions configuration
-    pagination: TablePagination // Pagination configuration
+    title?: Translate, //Table title
+    dataSource: XmTableDataSource, //Table data source specification
+    columns?: Array<XmTableColumn>, //Columns configuration
+    filters?: any[], // Filters configuration
+    options?: XmTableOptions, // Table configuration
+    actions?: XmTableActions, // Actions configuration
+    pagination?: XmTablePagination // Pagination configuration
 }
 
 
-export interface TableDatasource {
+export interface XmTableDataSource {
     /* data source type
     *  STATIC - in case when data defined in [data] field (default)
     *  OBJECT - in case when data will be used from the shared object [path] will define data location object
@@ -30,23 +30,22 @@ export interface TableDatasource {
     }
 }
 
-export interface TableColumn {
-    field: string;
-    // temporary
-    key: string, // Column identifier to use in another part of configuration
+export interface XmTableColumn {
+    field: string;// temporary, backward compatibility
+    //key: string, // Column identifier to use in another part of configuration
     title: Translate, // Column name
     tooltip?: Translate, //Column tooltip
-    wordWrap?: boolean; //- true allow word wrap in column header and cells
-    fixedWrap?: boolean; //- Columns with dynamic wirth based on the content by default. But with this conf table column could be fixed width
-    type: string | number | boolean | 'date' | 'enum', // cell content type
-    dataType?: 'path' | 'jsonPath' | 'function', // data selection type
+    //wordWrap?: boolean; //- true allow word wrap in column header and cells
+    //fixedWrap?: boolean; //- Columns with dynamic wirth based on the content by default. But with this conf table column could be fixed width
+    //type: string | number | boolean | 'date' | 'enum', // cell content type
+    //dataType?: 'path' | 'jsonPath' | 'function', // data selection type
     data?: string | JavascriptCode, // value based on [dataType]
     selector?: string, //component name that will be used for cell processing
     sortable?: boolean, // true if column sortable
     sticky?: boolean, // true if column sticky
     stickyEnd?: boolean
     selectable?: boolean, //- true if column selectable
-    inlineEdit?: boolean, //-true if cells should allow inline editing. Column components could provide inline edition feature optionally
+    //inlineEdit?: boolean, //-true if cells should allow inline editing. Column components could provide inline edition feature optionally
     showByDefault?: boolean, //- true if column should be shown by default when column selectable
     options?: {
         absoluteLink: string,
@@ -58,12 +57,9 @@ export interface TableColumn {
         component: string,
         items: {title: Translate, value: unknown}[],
     } | unknown
-
-    // current realisation
-    optional?: boolean
 }
 
-export interface TableFilter {
+export interface XmTableFilter {
     title?: Translate, //filter title
     component?: string, // Component name for filter processing
     query?: string // Elastic Search query template
@@ -72,7 +68,7 @@ export interface TableFilter {
     options?: unknown
 }
 
-export interface TableOptions {
+export interface XmTableOptions {
     sortBy: string, // default fields for sorting
     sortDirection: 'desc' | 'asc', // default sorting direction
     selectableRows: boolean, // true to allow checkboxes for row
@@ -87,7 +83,7 @@ export interface EmptyTableConfig {
     message: Translate
 }
 
-export interface TableActions {
+export interface XmTableActions {
     forOne: ActionComponent[],
     forGroup: ActionComponent[],
     forAll: ActionComponent[]
@@ -100,7 +96,7 @@ export interface ActionComponent {
     options: unknown
 }
 
-export interface TablePagination {
+export interface XmTablePagination {
     pageSizeOptions: number[];
 }
 

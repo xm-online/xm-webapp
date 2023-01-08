@@ -6,9 +6,9 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatModule } from '../../../../../../src/app/mat.module';
 import { TableActionsButtonsComponent } from './table-actions-buttons/table-actions-buttons.component';
 import { TableFilterChipsComponent } from './table-filter-chips/table-filter-chips.component';
+import { FilterDialogComponent } from './table-filter/filter-dialog/filter-dialog.component';
 import { TableFilterComponent } from './table-filter/table-filter.component';
 import { TableHeaderComponent } from './table-header.component';
-import { FilterDialogComponent } from './table-filter/filter-dialog/filter-dialog.component';
 
 
 @NgModule({

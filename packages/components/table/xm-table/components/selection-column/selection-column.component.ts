@@ -2,7 +2,7 @@ import {CDK_TABLE} from '@angular/cdk/table';
 import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MatColumnDef, MatTableDataSource} from '@angular/material/table';
 import {TableColumnsManager} from '@xm-ngx/components/table/column/table-columns-manager';
-import {TableSelectionService} from '@xm-ngx/components/table/xm-table/service/xm-table-selection-service/table-selection.service';
+import {XmTableSelectionService} from '@xm-ngx/components/table/xm-table/service/xm-table-selection-service/xm-table-selection.service';
 
 @Component({
     selector: 'xm-selection-column',
@@ -17,7 +17,7 @@ export class SelectionColumnComponent implements OnInit {
     public disabled: boolean;
 
     constructor(@Inject(CDK_TABLE) protected columnsManager: TableColumnsManager,
-                @Inject(TableSelectionService) private _selection: TableSelectionService<unknown>) {
+                @Inject(XmTableSelectionService) private _selection: XmTableSelectionService<unknown>) {
         this.selection = this._selection.selection;
     }
 

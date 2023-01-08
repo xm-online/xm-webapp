@@ -16,9 +16,9 @@
             <xm-selection-column [dataSource]="dataSource"></xm-selection-column>
         </ng-container>
 
-        <xm-mat-table-column-dynamic-cell *ngFor="let column of config.columns"
+        <xm-table-dynamic-columns-cell *ngFor="let column of config.columns"
                                           [column]="column"
-        ></xm-mat-table-column-dynamic-cell>
+        ></xm-table-dynamic-columns-cell>
 
         <ng-container matColumnDef="loading">
             <th mat-header-cell *matHeaderCellDef

@@ -1,13 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
-import {RequestBuilderService} from './request-builder.service';
+import {XmRequestBuilderService} from './xm-request-builder.service';
 
 describe('RequestBuilderService', () => {
-    let service: RequestBuilderService;
+    let service: XmRequestBuilderService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({});
-        service = TestBed.inject(RequestBuilderService);
+        service = TestBed.inject(XmRequestBuilderService);
     });
 
     it('should be created', () => {

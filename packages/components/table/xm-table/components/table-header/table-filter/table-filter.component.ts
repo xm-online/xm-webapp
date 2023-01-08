@@ -1,39 +1,49 @@
+import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
+import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { FilterDialogComponent } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/filter-dialog/filter-dialog.component';
-import { RequestBuilderService } from '@xm-ngx/components/table/xm-table/service/request-builder-service/request-builder.service';
+import { OverlayService } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/overlay/overlay.service';
 
 @Component({
     selector: 'xm-table-filter',
     templateUrl: './table-filter.component.html',
+    styleUrls: ['table-filter.component.scss'],
 })
 export class TableFilterComponent {
-    @Input() public config: any;
-    private formValue;
+    @Input() public config: FormGroupLayoutItem[];
 
+    constructor(private overlay: Overlay,
+                private overlayService: OverlayService) {
 
-    constructor(private matDialog: MatDialog,
-                private requestBuilder: RequestBuilderService) {
-        this.requestBuilder.change$().subscribe(value => this.formValue = value);
     }
 
-
-    public openFilter(): void {
-        const dialog = this.matDialog.open(FilterDialogComponent, {
-            disableClose: false,
-            backdropClass: [],
-            data: { config: this.config, value: this.formValue },
-        });
-        dialog.afterClosed().subscribe((query) => {
-            if (query === undefined) {
-                return;
-            }
-            this.requestBuilder.update(query);
-        });
+    public openFilter(origin: MatButton): void {
+        const overlayConfig = this.createOverlayConfig(origin);
+        this.overlayService.setOverlayConfig(overlayConfig);
+        this.overlayService.open(FilterDialogComponent, { config: this.config });
     }
 
+    private createOverlayConfig(attachTo: MatButton): OverlayConfig {
+        const positionStrategy = this.overlay
+            .position()
+            .flexibleConnectedTo(attachTo._getHostElement())
+            .withPositions([
+                {
+                    originX: 'end',
+                    originY: 'bottom',
+                    overlayX: 'start',
+                    overlayY: 'top',
+                },
+            ]);
 
-    // private removeEmpty(obj) {
-    //     return Object.fromEntries(Object.entries(obj).filter(([key, v]) => v != null));
-    // }
+        return new OverlayConfig({
+            positionStrategy,
+            scrollStrategy: this.overlay.scrollStrategies.noop(),
+            hasBackdrop: true,
+            disposeOnNavigation: true,
+            panelClass: ['menu-panel'],
+            backdropClass: 'cdk-overlay-transparent-backdrop',
+        });
+    }
 }

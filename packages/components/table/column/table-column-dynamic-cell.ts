@@ -18,7 +18,6 @@ import { CommonModule } from '@angular/common';
 import { ShowHideColumnsSettingsModule } from '../show-hide-columns-setting-widget/show-hide-columns-settings.module';
 
 export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
-    tooltip?: Translate
     name: string;
     sortable: boolean;
     title: Translate;
@@ -30,6 +29,7 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
     storageColumn?: boolean;
     headClass?: string;
     headStyle?: string;
+    tooltip?: Translate;
 }
 
 @Component({

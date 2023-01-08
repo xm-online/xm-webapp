@@ -14,7 +14,7 @@ const cloneDeepWithoutUndefined = (obj) => transform(obj, (r, v, k) => {
 });
 
 @Injectable()
-export class RequestBuilderService implements OnDestroy {
+export class XmRequestBuilderService implements OnDestroy {
     private request$: BehaviorSubject<any>;
 
     constructor( private paramsStore: PageParamsStore,

@@ -4,9 +4,16 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Translate } from '@xm-ngx/translation';
 import { defaultsDeep } from 'lodash';
 import { map, Observable, of } from 'rxjs';
-import { DataService } from './service/data-service/data.service';
-import { RequestBuilderService } from './service/request-builder-service/request-builder.service';
-import { TableActions, TableColumn, TableDatasource, TableOptions, TablePagination } from './xm-table.model';
+import { XmTableDataLoaderService } from './service/xm-table-data-service/xm-table-data-loader.service';
+import { XmRequestBuilderService } from './service/xm-request-builder-service/xm-request-builder.service';
+import {
+    XmTableActions,
+    XmTableColumn,
+    XmTableConfig,
+    XmTableDataSource,
+    XmTableOptions,
+    XmTablePagination,
+} from './xm-table.model';
 
 export interface CurrentConfig {
     pagination: {pageSizeOptions: number[]};
@@ -15,12 +22,12 @@ export interface CurrentConfig {
 
 export type ConfigForTable = {
     title?: Translate;
-    dataSource: TableDatasource;
-    columns?: TableColumn[];
+    dataSource: XmTableDataSource;
+    columns?: XmTableColumn[];
     filters?: any;
-    options?: TableOptions;
-    actions?: TableActions;
-    pagination?: TablePagination;
+    options?: XmTableOptions;
+    actions?: XmTableActions;
+    pagination?: XmTablePagination;
 }
 
 @Component({
@@ -29,20 +36,20 @@ export type ConfigForTable = {
     styleUrls: ['./xm-table.component.scss'],
 })
 export class XmTableComponent<T> implements OnInit {
-    private _config: ConfigForTable | any;
-    get config(): ConfigForTable {
+    private _config: XmTableConfig;
+    get config(): XmTableConfig {
         return this._config;
     }
 
-    @Input() set config(value: ConfigForTable) {
+    @Input() set config(value: XmTableConfig) {
         this._config = defaultsDeep({}, value);
     }
 
     public dataSource$: Observable<DataSource<T>>;
     public loading$: Observable<boolean> = of(false);
 
-    constructor(private dataService: DataService<T>,
-                private requestService: RequestBuilderService) {
+    constructor(private dataService: XmTableDataLoaderService<T>,
+                private requestService: XmRequestBuilderService) {
     }
 
     public ngOnInit(): void {

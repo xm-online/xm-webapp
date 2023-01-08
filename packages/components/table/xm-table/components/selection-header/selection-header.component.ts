@@ -1,6 +1,6 @@
 import {animate, style, transition, trigger} from '@angular/animations';
 import {Component, Input} from '@angular/core';
-import {TableSelectionService} from '@xm-ngx/components/table/xm-table/service/xm-table-selection-service/table-selection.service';
+import {XmTableSelectionService} from '@xm-ngx/components/table/xm-table/service/xm-table-selection-service/xm-table-selection.service';
 import {ActionComponent} from '@xm-ngx/components/table/xm-table/xm-table.model';
 
 
@@ -34,7 +34,7 @@ export class SelectionHeaderComponent {
 
     public selectionModel;
 
-    constructor(private selectionService: TableSelectionService<unknown>) {
+    constructor(private selectionService: XmTableSelectionService<unknown>) {
         this.selectionModel = this.selectionService.selection;
     }
 }

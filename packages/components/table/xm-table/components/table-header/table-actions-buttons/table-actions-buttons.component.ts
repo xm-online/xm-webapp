@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TableSelectionService } from '@xm-ngx/components/table/xm-table/service/xm-table-selection-service/table-selection.service';
+import { XmTableSelectionService } from '@xm-ngx/components/table/xm-table/service/xm-table-selection-service/xm-table-selection.service';
 
 @Component({
     selector: 'xm-table-actions-buttons',
@@ -13,7 +13,7 @@ export class TableActionsButtonsComponent implements OnInit {
     public groupComponents: any;
     public selectionModel: any;
 
-    constructor(selectionService: TableSelectionService<any>) {
+    constructor(selectionService: XmTableSelectionService<any>) {
         this.selectionModel = selectionService.selection;
     }
 

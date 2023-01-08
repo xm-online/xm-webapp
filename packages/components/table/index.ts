@@ -18,8 +18,8 @@ export {
 } from './column/xm-table-dynamic-column';
 
 export {
-    XmMatTableColumnDynamicCellModule,
-    XmMatTableColumnDynamicCell,
-} from './column/mat-table-column-dynamic-cell';
+    XmTableDynamicColumnsCellModule,
+    XmTableDynamicColumnsCell,
+} from './column/xm-table-dynamic-columns-cell';
 
 export { XmTableModule } from './xm-table/xm-table.module';
