@@ -2,7 +2,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 
-import { buildMapId, buildPinSymbol } from '@xm-ngx/xm-shared/helpers/google-map-helper';
+import { buildMapId, buildPinSymbol } from '@xm-ngx/shared/helpers/google-map-helper';
 import { CurrentLocationOptions } from './current-location-options.model';
 
 declare const google: any;

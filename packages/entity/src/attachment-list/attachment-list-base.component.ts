@@ -9,7 +9,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Subscription } from 'rxjs';
 import { Principal } from '@xm-ngx/core/user';
-import { saveFile, saveFileFromUrl } from '@xm-ngx/xm-shared/helpers/file-download-helper';
+import { saveFile, saveFileFromUrl } from '@xm-ngx/shared/helpers/file-download-helper';
 import { EntityUiConfig } from '@xm-ngx/core/config';
 import { DEBUG_INFO_ENABLED, XM_EVENT_LIST } from 'src/app/xm.constants';
 import { AttachmentDetailDialogComponent } from '../attachment-detail-dialog/attachment-detail-dialog.component';

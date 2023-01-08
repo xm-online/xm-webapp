@@ -6,8 +6,8 @@ import { ReCaptchaComponent } from 'angular2-recaptcha';
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { PasswordSpec } from '@xm-ngx/core/config';
-import { XM_EVENT_LIST } from '../../xm.constants';
-import { PrivacyAndTermsDialogComponent } from '../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
+import { XM_EVENT_LIST } from '../../../src/app/xm.constants';
+import { PrivacyAndTermsDialogComponent } from '../privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { RegisterService } from './register.service';
 

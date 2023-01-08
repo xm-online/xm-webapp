@@ -8,7 +8,7 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { AuthRefreshTokenService } from './auth-refresh-token.service';
 import { XmAuthenticationStoreService } from './xm-authentication-store.service';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, IDP_CLIENT } from '../../../../src/app/xm.constants';
-import { CustomUriEncoder } from '@xm-ngx/xm-shared/helpers/custom-uri-encoder';
+import { CustomUriEncoder } from '@xm-ngx/shared/helpers/custom-uri-encoder';
 import { Principal } from '../../user/src/principal.service';
 import { StateStorageService } from './state-storage.service';
 import { IIdpClient } from '../../src/xm-public-idp-config-model';

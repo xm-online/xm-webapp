@@ -10,7 +10,7 @@ import { environment } from '@xm-ngx/core/environment';
 import { I18nNamePipe } from '@xm-ngx/translation';
 import { Principal } from '@xm-ngx/core/user';
 import { XmConfigService } from '@xm-ngx/core/config';
-import { LIST_DEFAULT_FIELDS } from '@xm-ngx/xm-shared/constants/default-lists-fields.constants';
+import { LIST_DEFAULT_FIELDS } from '@xm-ngx/shared/constants/default-lists-fields.constants';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { Link, Spec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { EntityListCardOptions } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';

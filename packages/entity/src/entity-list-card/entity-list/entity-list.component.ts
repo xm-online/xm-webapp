@@ -23,11 +23,11 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
 import { merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { flattenEntityWithPath, getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
+import { flattenEntityWithPath, getFieldValue } from 'packages/shared/src/helpers/entity-list-helper';
 import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/widgets';
 import { ContextService } from '@xm-ngx/core/context';
 import { Principal } from '@xm-ngx/core/user';
-import { saveFile } from '@xm-ngx/xm-shared/helpers/file-download-helper';
+import { saveFile } from '@xm-ngx/shared/helpers/file-download-helper';
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
 
 @Component({

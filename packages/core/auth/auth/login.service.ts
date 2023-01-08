@@ -11,7 +11,7 @@ import { DOCUMENT, Location } from '@angular/common';
 import { IIdpClient, IIdpConfig } from '@xm-ngx/core';
 import { environment } from '@xm-ngx/core/environment';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { PrivacyAndTermsDialogComponent } from '@xm-ngx/xm-shared/components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
+import { PrivacyAndTermsDialogComponent } from '@xm-ngx/components/privacy-and-terms-dialog';
 import { of } from 'rxjs';
 
 @Injectable()

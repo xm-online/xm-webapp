@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { FieldOptions } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
-import { transpilingForIE } from '../../../../packages/json-schema-form/widgets';
+import { transpilingForIE } from '@xm-ngx/json-schema-form/widgets';
 import { XmEntity } from '@xm-ngx/entity';
 
 function fieldValueToString(field: FieldOptions, value: any): any {

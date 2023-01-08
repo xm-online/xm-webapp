@@ -7,7 +7,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 
 import * as _ from 'lodash';
 import { finalize, map } from 'rxjs/operators';
-import { saveFile } from '../../../../../src/app/shared/helpers/file-download-helper';
+import { saveFile } from '../../../../shared/src/helpers/file-download-helper';
 
 export interface ExportConfig extends XmEntitySpec {
     selected?: boolean;

@@ -8,7 +8,7 @@ import { UnblockLockUserModule } from '@xm-ngx/administration/user-management/un
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgJhipsterModule } from 'ng-jhipster';
-import { XmSharedModule } from '../../../../src/app/shared/shared.module';
+import { XmSharedModule } from '../../../shared/src/shared.module';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
 import { UserMgmtDialogComponent } from './user-management-dialog/user-management-dialog.component';

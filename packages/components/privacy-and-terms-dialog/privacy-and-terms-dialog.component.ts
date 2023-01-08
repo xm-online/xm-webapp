@@ -4,7 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { ITranslate, LanguageService } from '@xm-ngx/translation';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
-import { AuthServerProvider } from '../../../../../packages/core/auth/src/auth-jwt.service';
+import { AuthServerProvider } from '../../core/auth/src/auth-jwt.service';
 
 export interface PrivacyPolicyConfig {
     privacyAndTermsAcceptLabel?: string | ITranslate;

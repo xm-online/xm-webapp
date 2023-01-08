@@ -10,7 +10,7 @@ import { MarkdownModule } from 'ngx-markdown';
 
 import { UserLoginService } from '@xm-ngx/account/user-login-widget/login/user-login.service';
 import { XmUserLoginWidgetModule } from '@xm-ngx/account/user-login-widget';
-import { MatModule } from '../mat.module';
+import { MatModule } from '../../../src/app/mat.module';
 import {
     AuthServerProvider,
     AuthService,
@@ -20,12 +20,12 @@ import {
 import { AccountService } from '@xm-ngx/core/user';
 import { LoginService } from '@xm-ngx/core/auth';
 import { HasAnyAuthorityDirective, } from '@xm-ngx/core/permission';
-import { ClientService } from '../../../packages/core/client/client.service';
+import { ClientService } from '../../core/client/client.service';
 import {
     PrivacyAndTermsDialogComponent,
-} from './components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
-import { XmConfirmDialogComponent } from './components/xm-confirmation-dialog/xm-confirm-dialog.component';
-import { ContextService } from '../../../packages/core/context/context.service';
+} from '../../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
+import { XmConfirmDialogComponent } from '../../components/confirmation-dialog/xm-confirm-dialog.component';
+import { ContextService } from '../../core/context/context.service';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { FocusDirective } from './directives/focus.directive';
 import { InputPreventPasteDirective } from './directives/input-prevent-paste.directive';
@@ -35,32 +35,32 @@ import { XmCondition } from './helpers/xm-condition';
 import { XmDateTimePipe } from './helpers/xm-date-time.pipe';
 import { XmEntityIconPipe } from './helpers/xm-entity-icon.pipe';
 import { XmEntityStateSpecPipe } from './helpers/xm-entity-state-spec.pipe';
-import { IdpComponent } from './idp/idp.component';
-import { ContentTextareaComponent } from '../../../packages/json-schema-form/widgets/content-textarea/content-textarea.component';
-import { CurrentLocationComponent } from '../../../packages/json-schema-form/widgets/current-location/current-location.component';
-import { DatePickerComponent } from '../../../packages/json-schema-form/widgets/date-picker/date-picker.component';
-import { DatetimePickerComponent } from '../../../packages/json-schema-form/widgets/datetime-picker/datetime-picker.component';
-import { DatetimeUtcComponent } from '../../../packages/json-schema-form/widgets/datetime-utc/datetime-utc.component';
-import { EmailMatcherComponent } from '../../../packages/json-schema-form/widgets/email-matcher/email-matcher.component';
-import { ExtAutocompleteService } from '../../../packages/json-schema-form/widgets/ext-autocomplete/ext-autocomplete-service';
-import { ExtAutocompleteComponent } from '../../../packages/json-schema-form/widgets/ext-autocomplete/ext-autocomplete.component';
-import { ExtMdEditorComponent } from '../../../packages/json-schema-form/widgets/ext-md-editor/ext-md-editor.component';
-import { ExtMultiSelectComponent } from '../../../packages/json-schema-form/widgets/ext-multi-select/ext-multi-select.component';
-import { ExtQuerySelectComponent } from '../../../packages/json-schema-form/widgets/ext-query-select/ext-query-select.component';
-import { ExtSelectService } from '../../../packages/json-schema-form/widgets/ext-select/ext-select-service';
-import { ExtSelectComponent } from '../../../packages/json-schema-form/widgets/ext-select/ext-select.component';
-import { ExtTextareaComponent } from '../../../packages/json-schema-form/widgets/ext-textarea/ext-textarea.component';
-import { FileUploadComponent } from '../../../packages/json-schema-form/widgets/file-upload/file-upload.component';
-import { LinkFieldComponent } from '../../../packages/json-schema-form/widgets/link-field/link-field.component';
-import { MultilingualInputComponent } from '../../../packages/json-schema-form/widgets/multilingual-input/multilingual-input.component';
-import { TextSectionComponent } from '../../../packages/json-schema-form/widgets/text-section/text-section.component';
-import { ValidationComponent } from '../../../packages/json-schema-form/widgets/validation-component/validation-component.component';
-import { LoginComponent } from './login/login.component';
-import { PasswordStrengthBarComponent } from './password-strength-bar/password-strength-bar.component';
+import { IdpComponent } from '../../components/idp/idp.component';
+import { ContentTextareaComponent } from '../../json-schema-form/widgets/content-textarea/content-textarea.component';
+import { CurrentLocationComponent } from '../../json-schema-form/widgets/current-location/current-location.component';
+import { DatePickerComponent } from '../../json-schema-form/widgets/date-picker/date-picker.component';
+import { DatetimePickerComponent } from '../../json-schema-form/widgets/datetime-picker/datetime-picker.component';
+import { DatetimeUtcComponent } from '../../json-schema-form/widgets/datetime-utc/datetime-utc.component';
+import { EmailMatcherComponent } from '../../json-schema-form/widgets/email-matcher/email-matcher.component';
+import { ExtAutocompleteService } from '../../json-schema-form/widgets/ext-autocomplete/ext-autocomplete-service';
+import { ExtAutocompleteComponent } from '../../json-schema-form/widgets/ext-autocomplete/ext-autocomplete.component';
+import { ExtMdEditorComponent } from '../../json-schema-form/widgets/ext-md-editor/ext-md-editor.component';
+import { ExtMultiSelectComponent } from '../../json-schema-form/widgets/ext-multi-select/ext-multi-select.component';
+import { ExtQuerySelectComponent } from '../../json-schema-form/widgets/ext-query-select/ext-query-select.component';
+import { ExtSelectService } from '../../json-schema-form/widgets/ext-select/ext-select-service';
+import { ExtSelectComponent } from '../../json-schema-form/widgets/ext-select/ext-select.component';
+import { ExtTextareaComponent } from '../../json-schema-form/widgets/ext-textarea/ext-textarea.component';
+import { FileUploadComponent } from '../../json-schema-form/widgets/file-upload/file-upload.component';
+import { LinkFieldComponent } from '../../json-schema-form/widgets/link-field/link-field.component';
+import { MultilingualInputComponent } from '../../json-schema-form/widgets/multilingual-input/multilingual-input.component';
+import { TextSectionComponent } from '../../json-schema-form/widgets/text-section/text-section.component';
+import { ValidationComponent } from '../../json-schema-form/widgets/validation-component/validation-component.component';
+import { LoginComponent } from '../../components/login/login.component';
+import { PasswordStrengthBarComponent } from '../../components/password-strength-bar/password-strength-bar.component';
 import { PrivilegeService } from '@xm-ngx/core/permission';
-import { RegisterComponent } from './register/register.component';
-import { RegisterService } from './register/register.service';
-import { RoleService } from '../../../packages/core/role/role.service';
+import { RegisterComponent } from '../../components/register/register.component';
+import { RegisterService } from '../../components/register/register.service';
+import { RoleService } from '../../core/role/role.service';
 import { ParseByPathService } from './services/parse-by-path.service';
 import { GateSharedLibsModule } from './shared-libs.module';
 import { XmConfigService } from '@xm-ngx/core/config';
@@ -68,7 +68,7 @@ import { UserService } from '@xm-ngx/core/user';
 import { TimeFromPipe } from './helpers/time-from.pipe';
 import {
     MultilingualInputV2Component,
-} from '../../../packages/json-schema-form/widgets/multilingual-input-v2/multilingual-input-v2.component';
+} from '../../json-schema-form/widgets/multilingual-input-v2/multilingual-input-v2.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
