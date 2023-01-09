@@ -1,6 +1,8 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { CDK_TABLE } from '@angular/cdk/table';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {NoRowsComponent} from './no-rows.component';
+import { NoRowsComponent } from './no-rows.component';
 
 describe('NoRowsComponent', () => {
     let component: NoRowsComponent;
@@ -8,7 +10,11 @@ describe('NoRowsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [NoRowsComponent]
+            schemas: [NO_ERRORS_SCHEMA],
+            declarations: [NoRowsComponent],
+            providers: [
+                { provide: CDK_TABLE, useValue: { setNoDataRow: () => null } },
+            ],
         })
             .compileComponents();
 

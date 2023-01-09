@@ -12,11 +12,12 @@ export class XmTableFilterService<T> {
 
     constructor(private layoutFactoryService: FormGroupLayoutFactoryService,
     ) {
-        this.form.valueChanges.subscribe(value => this.filterChange$.next(value));
     }
 
     public createForm(config: FormGroupLayoutItem[]): UntypedFormGroup {
         this.form = this.layoutFactoryService.createForm(config);
+        this.form.valueChanges.subscribe(value => this.filterChange$.next(value));
+
         return this.form;
     }
 

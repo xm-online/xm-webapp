@@ -1,6 +1,6 @@
 <div @fadeInOut class="header-wrapper" style="overflow: hidden">
 
-  <span>{{this.selectionModel.selected?.length}} items selected</span>
+  <span>{{this.selectionModel?.selected?.length}} items selected</span>
   <div class="button-block">
     <ng-container *ngIf="inlineComponents">
       <ng-container xmDynamicPresentation
@@ -8,7 +8,7 @@
                     [class]="el.class"
                     [style]="el.style"
                     [selector]="el.component"
-                    [value]="selectionModel.selected"
+                    [value]="selectionModel?.selected"
                     [options]="el.options">
       </ng-container>
     </ng-container>
@@ -21,7 +21,7 @@
                       [class]="el.class"
                       [style]="el.style"
                       [selector]="el.component"
-                      [value]="selectionModel.selected"
+                      [value]="selectionModel?.selected"
                       [options]="el.options">
         </ng-container>
       </mat-menu>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DynamicServiceLoader } from '@xm-ngx/components/table/xm-table/service/dynamic-service-loader';
+import { XmDynamicServiceLoader } from '@xm-ngx/components/table/xm-table/service/xm-dynamic-service-loader.service';
 import { XmRequestBuilderService } from '@xm-ngx/components/table/xm-table/service/xm-request-builder-service/xm-request-builder.service';
 import { XmTableDataSource } from '@xm-ngx/components/table/xm-table/xm-table.model';
 import { ArgumentException, NotSupportedException } from '@xm-ngx/shared/exceptions';
@@ -15,7 +15,7 @@ export class XmTableDataLoaderService<P> {
     private dataManagerServiceRef: XmTableDataSourceI<P>;
     private _loading$: Observable<boolean> = of(false);
 
-    constructor(private dynamicLoader: DynamicServiceLoader,
+    constructor(private dynamicLoader: XmDynamicServiceLoader,
                 private requestBuilderService: XmRequestBuilderService) {
     }
 

@@ -1,33 +1,14 @@
 import { DataSource } from '@angular/cdk/table';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Translate } from '@xm-ngx/translation';
 import { defaultsDeep } from 'lodash';
 import { map, Observable, of } from 'rxjs';
-import { XmTableDataLoaderService } from './service/xm-table-data-service/xm-table-data-loader.service';
 import { XmRequestBuilderService } from './service/xm-request-builder-service/xm-request-builder.service';
-import {
-    XmTableActions,
-    XmTableColumn,
-    XmTableConfig,
-    XmTableDataSource,
-    XmTableOptions,
-    XmTablePagination,
-} from './xm-table.model';
+import { XmTableDataLoaderService } from './service/xm-table-data-service/xm-table-data-loader.service';
+import { XmTableConfig } from './xm-table.model';
 
 export interface CurrentConfig {
     pagination: {pageSizeOptions: number[]};
-
-}
-
-export type ConfigForTable = {
-    title?: Translate;
-    dataSource: XmTableDataSource;
-    columns?: XmTableColumn[];
-    filters?: any;
-    options?: XmTableOptions;
-    actions?: XmTableActions;
-    pagination?: XmTablePagination;
 }
 
 @Component({
@@ -54,7 +35,7 @@ export class XmTableComponent<T> implements OnInit {
 
     public ngOnInit(): void {
         this.initialRequestParams();
-        this.dataSource$ = this.dataService.getData(this.config.dataSource).pipe(
+        this.dataSource$ = this.dataService.getData(this.config?.dataSource).pipe(
             map((data: T[] & {xTotalCount?: number}) => new MatTableDataSource(data)),
         );
         this.loading$ = this.dataService.loading$();
@@ -62,10 +43,10 @@ export class XmTableComponent<T> implements OnInit {
 
     private initialRequestParams(): void {
         this.requestService.update({
-            active: this.config.options.sortBy,
-            direction: this.config.options.sortDirection,
+            active: this.config?.options?.sortBy,
+            direction: this.config?.options?.sortDirection,
             pageIndex: 0,
-            pageSize: this.config.pagination.pageSizeOptions[0],
+            pageSize: this.config?.pagination?.pageSizeOptions[0],
         });
     }
 

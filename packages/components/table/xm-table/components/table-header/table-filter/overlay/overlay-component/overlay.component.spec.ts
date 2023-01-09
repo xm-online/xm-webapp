@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CustomOverlayRef } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/overlay/custom-overlay-ref';
 
 import { OverlayComponent } from './overlay.component';
 
@@ -8,7 +9,10 @@ describe('OverlayComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [OverlayComponent],
+            imports: [OverlayComponent],
+            providers: [
+                { provide: CustomOverlayRef, useValue: {} },
+            ],
         })
             .compileComponents();
 

@@ -15,7 +15,8 @@ export class OverlayService {
         backdropClass: 'cdk-overlay-transparent-backdrop',
     });
 
-    constructor(private overlay: Overlay, private injector: Injector) {
+    constructor(private overlay: Overlay,
+                private injector: Injector) {
     }
 
     public setOverlayConfig(config: OverlayConfig): void {

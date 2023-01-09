@@ -25,7 +25,7 @@ export class SelectionColumnComponent implements OnInit {
 
     public ngOnInit(): void {
         this.columnsManager.addColumnDef(this.columnDef);
-        this.dataSource.connect().subscribe(data => {
+        this.dataSource?.connect()?.subscribe(data => {
             this.disabled = data.length === 0;
         });
     }
@@ -33,7 +33,7 @@ export class SelectionColumnComponent implements OnInit {
     /** Whether the number of selected elements matches the total number of rows. */
     public isAllSelected(): boolean {
         const numSelected = this.selection.selected.length;
-        const numRows = this.dataSource.data.length;
+        const numRows = this.dataSource?.data?.length;
         return numSelected == numRows;
     }
 
@@ -43,7 +43,7 @@ export class SelectionColumnComponent implements OnInit {
         // this._selection.toggleAll(this.isAllSelected());
         this.isAllSelected() ?
             this.selection.clear() :
-            this.dataSource.data.forEach(row => this.selection.select(row));
+            this.dataSource?.data?.forEach(row => this.selection.select(row));
     }
 
 }

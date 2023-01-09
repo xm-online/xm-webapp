@@ -2,7 +2,7 @@ import { Injectable, NgModuleRef, ProviderToken } from '@angular/core';
 import { ArgumentException } from '@xm-ngx/shared/exceptions';
 
 @Injectable({ providedIn: 'any' })
-export class DynamicServiceLoader {
+export class XmDynamicServiceLoader {
     constructor(private moduleRef: NgModuleRef<unknown>) {
     }
 

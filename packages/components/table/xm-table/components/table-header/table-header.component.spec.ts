@@ -1,6 +1,8 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
-import {TableHeaderComponent} from './table-header.component';
+import { TableHeaderComponent } from './table-header.component';
 
 describe('TableHeaderComponent', () => {
     let component: TableHeaderComponent;
@@ -8,7 +10,9 @@ describe('TableHeaderComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [TableHeaderComponent]
+            imports: [XmTranslationTestingModule],
+            schemas: [NO_ERRORS_SCHEMA],
+            declarations: [TableHeaderComponent],
         })
             .compileComponents();
 

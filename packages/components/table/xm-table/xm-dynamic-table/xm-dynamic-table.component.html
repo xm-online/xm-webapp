@@ -1,7 +1,7 @@
 <section *ngIf="config"
          class="table-responsive">
 
-    <xm-selection-header *ngIf="selection.selected?.length as selected"
+    <xm-selection-header *ngIf="selection?.selected?.length as selected"
                          [config]="config?.actions?.forGroup"></xm-selection-header>
 
     <table mat-table
@@ -52,5 +52,5 @@
 
 <mat-paginator showFirstLastButtons
                [length]="total"
-               [pageSizeOptions]="config?.pagination.pageSizeOptions "></mat-paginator>
+               [pageSizeOptions]="config?.pagination?.pageSizeOptions "></mat-paginator>
 

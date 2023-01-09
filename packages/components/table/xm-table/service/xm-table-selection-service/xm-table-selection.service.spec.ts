@@ -1,12 +1,12 @@
-import {TestBed} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {XmTableSelectionService} from './xm-table-selection.service';
+import { XmTableSelectionService } from './xm-table-selection.service';
 
 describe('TableSelectionService', () => {
     let service: XmTableSelectionService<any>;
 
     beforeEach(() => {
-        TestBed.configureTestingModule({});
+        TestBed.configureTestingModule({ providers: [XmTableSelectionService] });
         service = TestBed.inject(XmTableSelectionService);
     });
 

@@ -1,6 +1,7 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {TableFilterChipsComponent} from './table-filter-chips.component';
+import { TableFilterChipsComponent } from './table-filter-chips.component';
 
 describe('TableFilterChipsComponent', () => {
     let component: TableFilterChipsComponent;
@@ -8,7 +9,8 @@ describe('TableFilterChipsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [TableFilterChipsComponent]
+            schemas: [NO_ERRORS_SCHEMA],
+            declarations: [TableFilterChipsComponent],
         })
             .compileComponents();
 
