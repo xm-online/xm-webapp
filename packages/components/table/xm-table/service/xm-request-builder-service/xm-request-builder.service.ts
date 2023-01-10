@@ -1,4 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { QueryParams } from '@xm-ngx/components/entity-collection';
 import { PageService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { assign, cloneDeep, forIn, isEqual, isPlainObject, transform } from 'lodash';
@@ -11,11 +12,11 @@ const cloneDeepWithoutUndefined = (obj) => transform(obj, (r, v, k) => {
         return;
     }
     r[k] = isPlainObject(v) ? cloneDeepWithoutUndefined(v) : v;
-});
+}, {});
 
 @Injectable()
 export class XmRequestBuilderService implements OnDestroy {
-    private request$: BehaviorSubject<any>;
+    private request$: BehaviorSubject<QueryParams>;
 
     constructor(private paramsStore: PageParamsStore,
                 private pageService: PageService) {
@@ -33,7 +34,7 @@ export class XmRequestBuilderService implements OnDestroy {
         this.reset();
     }
 
-    public update(request: Partial<any>): void {
+    public update(request: QueryParams): void {
         const oldReq = cloneDeep(this.request$.getValue());
         let newRequest = assign({}, oldReq, request);
         newRequest = cloneDeepWithoutUndefined(newRequest);
@@ -44,7 +45,7 @@ export class XmRequestBuilderService implements OnDestroy {
         this.request$.next(newRequest);
     }
 
-    public create(): any {
+    public create(): QueryParams {
         const req = {};
         const request = this.request$.getValue();
         forIn(request, (value, key) => {
@@ -57,13 +58,13 @@ export class XmRequestBuilderService implements OnDestroy {
         return req;
     }
 
-    public change$(): Observable<any> {
+    public change$(): Observable<QueryParams> {
         return this.request$.asObservable();
     }
 
     private init(): void {
         const request = this.paramsStore.get();
-        this.request$ = new BehaviorSubject<any>(request);
+        this.request$ = new BehaviorSubject<object>(request);
     }
 
     private reset() {

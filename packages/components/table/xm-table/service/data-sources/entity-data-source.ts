@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { XmTableDataSourceI } from '@xm-ngx/components/table/xm-table/service/xm-table-data-service/xm-table-data-loader.service';
-import { XmTableDataSource } from '@xm-ngx/components/table/xm-table/xm-table.model';
+import { QueryParams } from '@xm-ngx/components/entity-collection';
 import { XmEntity, XmEntityService } from '@xm-ngx/entity';
 import { ArgumentException } from '@xm-ngx/shared/exceptions';
 import { flattenObject } from '@xm-ngx/shared/operators';
 import { assign, get, join, keys, mapKeys, split } from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { XmTableDataSource } from '../../xm-table.model';
+import { XmTableDataSourceI } from '../xm-table-data-service/xm-table-data-loader.service';
 
 const stringToObj = (query) => {
     if (!query) return null;
@@ -36,7 +37,7 @@ export class EntityDataSource<T> implements XmTableDataSourceI<XmEntity<T>> {
         return this.xmEntityService.loading$.asObservable();
     }
 
-    public getAll(query, config: XmTableDataSource): Observable<XmEntity<T>[]> {
+    public query(query: QueryParams, config: XmTableDataSource): Observable<XmEntity<T>[]> {
 
         if (!config.options?.typeKey) {
             throw new ArgumentException('Config path dataSource.options.typeKey should be defined!');

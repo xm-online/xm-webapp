@@ -7,7 +7,7 @@ import { XmRequestBuilderService } from '../xm-request-builder-service/xm-reques
 
 export interface XmTableDataSourceI<T> {
     loading$: Observable<boolean>;
-    getAll: (query: object, config: XmTableDataSource) => Observable<T[]>;
+    query: (query: object, config: XmTableDataSource) => Observable<T[]>;
 }
 
 @Injectable({ providedIn: 'any' })
@@ -34,7 +34,7 @@ export class XmTableDataLoaderService<P> {
         }
         this._loading$ = this.dataManagerServiceRef.loading$;
         return this.requestBuilderService.change$().pipe(
-            switchMap(query => this.dataManagerServiceRef.getAll(query, dataSource)),
+            switchMap(query => this.dataManagerServiceRef.query(query, dataSource)),
         );
     }
 
