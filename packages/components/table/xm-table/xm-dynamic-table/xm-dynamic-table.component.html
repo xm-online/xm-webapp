@@ -2,22 +2,22 @@
          class="table-responsive">
 
     <xm-selection-header *ngIf="selection?.selected?.length as selected"
-                         [config]="config?.actions?.forGroup"></xm-selection-header>
+                         [config]="config.actions?.forGroup"></xm-selection-header>
 
     <table mat-table
            matSort
            matSortDisableClear
            [dataSource]="dataSource"
-           [matSortActive]="config?.options?.sortBy"
-           [matSortDirection]="config?.options?.sortDirection || 'asc'"
+           [matSortActive]="config.options.sortBy"
+           [matSortDirection]="config.options?.sortDirection"
            class="w-100 xm-table">
 
-        <ng-container *ngIf="config?.options?.selectableRows">
+        <ng-container *ngIf="config.options.selectableRows">
             <xm-selection-column [dataSource]="dataSource"></xm-selection-column>
         </ng-container>
 
         <xm-table-dynamic-columns-cell *ngFor="let column of config.columns"
-                                          [column]="column"
+                                       [column]="column"
         ></xm-table-dynamic-columns-cell>
 
         <ng-container matColumnDef="loading">
@@ -33,11 +33,11 @@
             *matHeaderRowDef="displayedColumns"></tr>
 
 
-            <tr mat-header-row
-                *matHeaderRowDef="loading ? ['loading'] : null"
-                class="loadingRow">
-                <xm-loading-bar [visible]="true"></xm-loading-bar>
-            </tr>
+        <tr mat-header-row
+            *matHeaderRowDef="loading ? ['loading'] : null"
+            class="loadingRow">
+            <xm-loading-bar [visible]="true"></xm-loading-bar>
+        </tr>
 
         <tr mat-row
             *matRowDef="let row; columns: displayedColumns; let odd = odd"
@@ -45,12 +45,12 @@
 
         <!-- Row shown when there is no matching data. -->
         <xm-no-rows [type]="'filter'"
-                    [config]="config?.options?.noRows"
+                    [config]="config.options.noRows"
                     [colspan]="displayedColumns?.length"></xm-no-rows>
     </table>
 </section>
 
 <mat-paginator showFirstLastButtons
                [length]="total"
-               [pageSizeOptions]="config?.pagination?.pageSizeOptions "></mat-paginator>
+               [pageSizeOptions]="config.pagination.pageSizeOptions "></mat-paginator>
 

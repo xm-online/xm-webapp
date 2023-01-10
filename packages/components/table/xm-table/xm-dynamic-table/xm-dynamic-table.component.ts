@@ -2,13 +2,31 @@ import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { get } from 'lodash';
 import { merge } from 'rxjs';
 import { XmRequestBuilderService } from '../service/xm-request-builder-service/xm-request-builder.service';
 import { XmTableSelectionService } from '../service/xm-table-selection-service/xm-table-selection.service';
 import { XmTableActions, XmTableColumn, XmTableOptions, XmTablePagination } from '../xm-table.model';
 
+export interface DynamicTableConfig extends Partial<XmTableColumn> {
+    pagination: XmTablePagination;
+    options: XmTableOptions;
+    columns: XmTableColumn[];
+    actions: XmTableActions;
+}
+
+const DEFAULT_DYNAMIC_TABLE_CONFIG: DynamicTableConfig = {
+    options: {
+        sortBy: null,
+        sortDirection: 'asc',
+        selectableRows: null,
+        noRows: null,
+    },
+    columns: [],
+    actions: null,
+    pagination: { pageSizeOptions: [5, 10, 25] },
+};
 
 @Component({
     selector: 'xm-dynamic-table',
@@ -18,12 +36,7 @@ import { XmTableActions, XmTableColumn, XmTableOptions, XmTablePagination } from
 export class XmDynamicTableComponent<T> implements OnInit, AfterViewInit, OnDestroy {
     @Input() public loading: boolean;
     @Input() public dataSource: MatTableDataSource<T>;
-    @Input() public config: {
-        pagination?: XmTablePagination;
-        options?: XmTableOptions;
-        columns?: XmTableColumn[];
-        actions?: XmTableActions
-    } = {};
+    @Input() @Defaults(DEFAULT_DYNAMIC_TABLE_CONFIG) public config: DynamicTableConfig;
 
     public displayedColumns: string[];
     public selection;

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { XmDynamicServiceLoader } from '@xm-ngx/components/table/xm-table/service/xm-dynamic-service-loader.service';
-import { XmRequestBuilderService } from '@xm-ngx/components/table/xm-table/service/xm-request-builder-service/xm-request-builder.service';
-import { XmTableDataSource } from '@xm-ngx/components/table/xm-table/xm-table.model';
 import { ArgumentException, NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { Observable, of, switchMap } from 'rxjs';
+import { XmTableDataSource } from '../../xm-table.model';
+import { XmDynamicServiceLoader } from '../xm-dynamic-service-loader.service';
+import { XmRequestBuilderService } from '../xm-request-builder-service/xm-request-builder.service';
 
 export interface XmTableDataSourceI<T> {
     loading$: Observable<boolean>;
@@ -34,7 +34,6 @@ export class XmTableDataLoaderService<P> {
         }
         this._loading$ = this.dataManagerServiceRef.loading$;
         return this.requestBuilderService.change$().pipe(
-
             switchMap(query => this.dataManagerServiceRef.getAll(query, dataSource)),
         );
     }

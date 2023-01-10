@@ -2,10 +2,10 @@ import { Overlay } from '@angular/cdk/overlay';
 import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { OverlayService } from './overlay.service';
+import { XmOverlayService } from './xm-overlay.service';
 
-describe('OverlayService', () => {
-    let service: OverlayService;
+describe('XmOverlayService', () => {
+    let service: XmOverlayService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -14,7 +14,7 @@ describe('OverlayService', () => {
                 { provide: Injector, useValue: null },
             ],
         });
-        service = TestBed.inject(OverlayService);
+        service = TestBed.inject(XmOverlayService);
     });
 
     it('should be created', () => {

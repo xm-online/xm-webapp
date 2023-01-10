@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { FilterDialogComponent } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/filter-dialog/filter-dialog.component';
-import { OverlayService } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/overlay/overlay.service';
+import { XmOverlayService } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/overlay/xm-overlay.service';
 
 @Component({
     selector: 'xm-table-filter',
@@ -14,7 +14,7 @@ export class TableFilterComponent {
     @Input() public config: FormGroupLayoutItem[];
 
     constructor(private overlay: Overlay,
-                private overlayService: OverlayService) {
+                private overlayService: XmOverlayService) {
 
     }
 

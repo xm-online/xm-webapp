@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, TemplateRef, Type } from '@angular/core';
-import { CustomOverlayRef } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/overlay/custom-overlay-ref';
-import { MatModule } from '../../../../../../../../../src/app/mat.module';
+import { MatButtonModule } from '@angular/material/button';
+import { CustomOverlayRef } from '../custom-overlay-ref';
 
 @Component({
     selector: 'xm-overlay',
-    templateUrl: './overlay.component.html',
+    templateUrl: './xm-overlay.component.html',
     standalone: true,
     imports: [
         CommonModule,
-        MatModule,
+        MatButtonModule,
     ],
 })
-export class OverlayComponent implements OnInit {
+export class XmOverlayComponent implements OnInit {
 
     public contentType: 'template' | 'string' | 'component';
     public content: string | TemplateRef<unknown> | Type<unknown>;

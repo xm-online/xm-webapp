@@ -1,15 +1,11 @@
 import { DataSource } from '@angular/cdk/table';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { defaultsDeep } from 'lodash';
+import { Defaults } from '@xm-ngx/shared/operators';
 import { map, Observable, of } from 'rxjs';
 import { XmRequestBuilderService } from './service/xm-request-builder-service/xm-request-builder.service';
 import { XmTableDataLoaderService } from './service/xm-table-data-service/xm-table-data-loader.service';
-import { XmTableConfig } from './xm-table.model';
-
-export interface CurrentConfig {
-    pagination: {pageSizeOptions: number[]};
-}
+import { DEFAULT_XM_TABLE_CONFIG, XmTableConfig } from './xm-table.model';
 
 @Component({
     selector: 'xm-table',
@@ -17,14 +13,7 @@ export interface CurrentConfig {
     styleUrls: ['./xm-table.component.scss'],
 })
 export class XmTableComponent<T> implements OnInit {
-    private _config: XmTableConfig;
-    get config(): XmTableConfig {
-        return this._config;
-    }
-
-    @Input() set config(value: XmTableConfig) {
-        this._config = defaultsDeep({}, value);
-    }
+    @Input() @Defaults(DEFAULT_XM_TABLE_CONFIG) public config: XmTableConfig;
 
     public dataSource$: Observable<DataSource<T>>;
     public loading$: Observable<boolean> = of(false);
@@ -43,11 +32,10 @@ export class XmTableComponent<T> implements OnInit {
 
     private initialRequestParams(): void {
         this.requestService.update({
-            active: this.config?.options?.sortBy,
-            direction: this.config?.options?.sortDirection,
+            active: this.config.options?.sortBy,
+            direction: this.config.options?.sortDirection,
             pageIndex: 0,
-            pageSize: this.config?.pagination?.pageSizeOptions[0],
+            pageSize: this.config.pagination?.pageSizeOptions[0],
         });
     }
-
 }

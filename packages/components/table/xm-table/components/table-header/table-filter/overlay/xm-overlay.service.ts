@@ -2,10 +2,10 @@ import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { Injectable, Injector, TemplateRef, Type } from '@angular/core';
 import { CustomOverlayRef } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/overlay/custom-overlay-ref';
-import { OverlayComponent } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/overlay/overlay-component/overlay.component';
+import { XmOverlayComponent } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/overlay/xm-overlay-component/xm-overlay.component';
 
 @Injectable({ providedIn: 'any' })
-export class OverlayService {
+export class XmOverlayService {
     private overlayConfig: OverlayConfig = new OverlayConfig({
         hasBackdrop: true,
         positionStrategy: this.overlay.position()
@@ -29,8 +29,8 @@ export class OverlayService {
     ): CustomOverlayRef<R, T> {
         const overlayRef = this.overlay.create(this.overlayConfig);
         const myOverlayRef = new CustomOverlayRef<R, T>(overlayRef, content, data);
-        const injector = OverlayService.createInjector(myOverlayRef, this.injector);
-        overlayRef.attach(new ComponentPortal(OverlayComponent, null, injector));
+        const injector = XmOverlayService.createInjector(myOverlayRef, this.injector);
+        overlayRef.attach(new ComponentPortal(XmOverlayComponent, null, injector));
 
         return myOverlayRef;
     }

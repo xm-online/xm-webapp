@@ -1,10 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { PageParamsStore } from '@xm-ngx/components/table/xm-table/service/page-params-store/page-params-store.service';
 import { PageService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { assign, cloneDeep, forIn, isEqual, isPlainObject, transform } from 'lodash';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { PageParamsStore } from '../page-params-store/page-params-store.service';
 
 const cloneDeepWithoutUndefined = (obj) => transform(obj, (r, v, k) => {
     if (v === undefined || v === '' || v === null) {
@@ -17,8 +17,8 @@ const cloneDeepWithoutUndefined = (obj) => transform(obj, (r, v, k) => {
 export class XmRequestBuilderService implements OnDestroy {
     private request$: BehaviorSubject<any>;
 
-    constructor( private paramsStore: PageParamsStore,
-                private pageService: PageService,) {
+    constructor(private paramsStore: PageParamsStore,
+                private pageService: PageService) {
         this.init();
         this.pageService.active$().pipe(
             filter(Boolean),
