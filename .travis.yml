@@ -11,8 +11,8 @@ script:
 deploy:
   provider: script
   script:
-    - bash docker/deploy-webapp.sh
-    - bash docker/deploy-webapp-container.sh
+    - bash deploy/deploy-webapp.sh
+    - bash deploy/deploy-webapp-container.sh
 env:
   global:
     - MAX_OLD_SPACE_SIZE=4096
