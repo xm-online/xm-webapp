@@ -8,7 +8,7 @@ export IMAGE_BRANCH=$(echo -n $TRAVIS_BRANCH | sed -e 's/\//-/g')
 export PROJECT_VERSION=$(npm run-script get-version | tail -n1)
 export TAGS="$PROJECT_VERSION $PROJECT_VERSION-$TRAVIS_BUILD_NUMBER $(echo $PROJECT_VERSION | awk -F '.' '{printf $1"."$2" "$1}') latest"
 
-cp -r ./ docker/webapp-container
+cp -r ./ deploy/webapp-container
 
 #docker login -u $DOCKER_USER -p $DOCKER_PASS
 #docker build -t app-docker-img \
@@ -17,7 +17,7 @@ cp -r ./ docker/webapp-container
 #  --label build_number="$TRAVIS_BUILD_NUMBER" \
 #  --label build_url="$TRAVIS_BUILD_WEB_URL" \
 #  --label git_url="$TRAVIS_REPO_SLUG" \
-#  --label commit_message="$TRAVIS_COMMIT_MESSAGE" docker/webapp
+#  --label commit_message="$TRAVIS_COMMIT_MESSAGE" deploy/webapp
 for TAG in $TAGS; do
   echo TAG
   #  docker tag app-docker-img $DOCKER_REPO:$TAG
