@@ -4,14 +4,14 @@ if [ "$IMAGE_BRANCH" != "main" ]; then
 fi
 
 export DOCKER_REPO=$(echo -n $TRAVIS_REPO_SLUG | sed -e 's/^xm-online\//xmonline\//g')
-export DOCKER_DIR=deploy/webapp-container
+export DOCKER_DIR=deploy/webapp-dev
 export IMAGE_BRANCH=$(echo -n $TRAVIS_BRANCH | sed -e 's/\//-/g')
 export PROJECT_VERSION=$(npm run-script get-version | tail -n1)
-export TAGS="$PROJECT_VERSION $PROJECT_VERSION-$TRAVIS_BUILD_NUMBER $(echo $PROJECT_VERSION | awk -F '.' '{printf $1"."$2" "$1}') latest"
+export TAGS="$PROJECT_VERSION latest"
 
 cp -r ./ $DOCKER_DIR
 
-#docker login -u $DOCKER_USER -p $DOCKER_PASS
+docker login -u $DOCKER_USER -p $DOCKER_PASS
 docker build -t app-docker-img \
   --label commit_id="$TRAVIS_COMMIT" \
   --label version="$PROJECT_VERSION" \

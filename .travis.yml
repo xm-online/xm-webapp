@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "14.16.1"
+  - "16.13.0"
 addons:
   chrome: stable
 install: npm install
@@ -12,7 +12,7 @@ deploy:
   provider: script
   script:
     - bash deploy/deploy-webapp.sh
-    - bash deploy/deploy-webapp-container.sh
+    - bash deploy/deploy-webapp-dev.sh
 env:
   global:
     - MAX_OLD_SPACE_SIZE=4096

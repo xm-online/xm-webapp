@@ -12,7 +12,7 @@
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": "^14.15.0",
+    "node": "^16.13.0",
     "npm": ">=6.9.0 <=6.13.6",
     "yarn": ">=1.22.4 <2"
   },
@@ -50,6 +50,7 @@
     "import-jsf-exts": "node ./scripts/jsf-ext-importer.js",
     "translations": "npm run get-translations && xm-ngx ext-i18n",
     "report:bundle": "webpack-bundle-analyzer dist/stats.json",
+    "preinstall": "npm install -g typescript",
     "postinstall": "node ./scripts/build-packages.js && ngcc --properties esm5 browser module main",
     "get-version": "printf $npm_package_version"
   },
