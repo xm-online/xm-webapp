@@ -10,8 +10,9 @@ script:
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
 deploy:
   provider: script
-  script: bash docker/deploy-webapp.sh
-
+  script:
+    - bash docker/deploy-webapp.sh
+    - bash docker/deploy-webapp-container.sh
 env:
   global:
     - MAX_OLD_SPACE_SIZE=4096
