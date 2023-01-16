@@ -51,15 +51,19 @@ $border-color:           $xm-divider;
 $font-size-base:         1rem * 0.875;
 $font-family-sans-serif: $xm-font-family;
 
-$display1-size:          map_get($xm-display-1, font-size);
-$display2-size:          map_get($xm-display-2, font-size);
-$display3-size:          map_get($xm-display-3, font-size);
-$display4-size:          map_get($xm-display-4, font-size);
+$display-font-sizes: (
+                       1: map_get($xm-headline-1, font-size),
+                       2: map_get($xm-headline-2, font-size),
+                       3: map_get($xm-headline-3, font-size),
+                       4: map_get($xm-headline-4, font-size),
+                       5: map_get($xm-headline-5, font-size),
+                       6: map_get($xm-headline-6, font-size)
+                     );
 
 $font-size-lg:           $xm-font-size-lg;
 $font-size-sm:           $xm-font-size-sm;
 
-$lead-font-size:         map_get($xm-subheading-1, font-size);
+$lead-font-size:         map_get($xm-subtitle-2, font-size);
 
 // Remove border radius from bootstrap
 @if ($xm-enable-rounded == false) {

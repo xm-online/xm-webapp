@@ -58,9 +58,24 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
 
   $xm-mat-theme:   null !default;
   @if ($xm-is-dark-mode == true) {
-    $xm-mat-theme: mat.define-dark-theme($xm-mat-primary, $xm-mat-accent, $xm-mat-warn);
+    $xm-mat-theme: mat.define-dark-theme((
+      color: (
+        primary: $xm-mat-primary,
+        accent: $xm-mat-accent,
+        warn: $xm-mat-warn,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
+
   } @else {
-    $xm-mat-theme: mat.define-light-theme($xm-mat-primary, $xm-mat-accent, $xm-mat-warn);
+    $xm-mat-theme: mat.define-light-theme((
+      color: (
+        primary: $xm-mat-primary,
+        accent: $xm-mat-accent,
+        warn: $xm-mat-warn,
+      ),
+    ));
   }
 
   @include mat.all-component-themes($xm-mat-theme);
@@ -96,20 +111,20 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
 }
 
 $xm-mat-typography:        mat.define-typography-config(
-                             $font-family:  $xm-font-family,
-                             $display-4:    $xm-display-4,
-                             $display-3:    $xm-display-3,
-                             $display-2:    $xm-display-2,
-                             $display-1:    $xm-display-1,
-                             $headline:     $xm-headline,
-                             $title:        $xm-title,
-                             $subheading-2: $xm-subheading-2,
-                             $subheading-1: $xm-subheading-1,
-                             $body-2:       $xm-body-2,
-                             $body-1:       $xm-body-1,
-                             $caption:      $xm-caption,
-                             $button:       $xm-button,
-                             $input:        $xm-input
+                             $font-family: $xm-font-family,
+                             $headline-1:  $xm-headline-1,
+                             $headline-2:  $xm-headline-2,
+                             $headline-3:  $xm-headline-3,
+                             $headline-4:  $xm-headline-4,
+                             $headline-5:  $xm-headline-5,
+                             $headline-6:  $xm-headline-6,
+                             $subtitle-1:  $xm-subtitle-1,
+                             $subtitle-2:  $xm-subtitle-2,
+                             $body-1:      $xm-body-1,
+                             $body-2:      $xm-body-2,
+                             $caption:     $xm-caption,
+                             $button:      $xm-button,
+                             $overline:    $xm-overline,
                            );
 
 @mixin xm-angular-material-typography() {
@@ -118,6 +133,6 @@ $xm-mat-typography:        mat.define-typography-config(
 
 // fix: correcting indentation mat-icons in round buttons
 .mat-icon-button.rounded-circle .mat-button-wrapper {
-  display: flex;
+  display:         flex;
   justify-content: center;
 }
