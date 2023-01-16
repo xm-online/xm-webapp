@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "3.7.51",
+  "version": "3.7.52",
   "release": "3.7.0",
   "private": true,
   "description": "Xm-webapp",
@@ -12,10 +12,14 @@
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": "^14.15.0",
-    "npm": ">=6.9.0 <=6.13.6",
+    "node": ">=16.13.0",
+    "npm": ">=8.1.0",
     "yarn": ">=1.22.4 <2"
   },
+  "workspaces": [
+    "packages/*",
+    "src/app/ext/*"
+  ],
   "scripts": {
     "ng": "ng",
     "xm-ngx": "xm-ngx",
@@ -28,7 +32,7 @@
     "dev": "npm run prebuild && node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0",
     "dev-idp": "npm run prebuild && node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0 --disable-host-check  -c idp",
     "dev:aot": "npm run prebuild && ng serve --proxy-config local.proxy.conf.js --live-reload  --host=0.0.0.0 --configuration production --aot=true",
-    "prebuild": "xm-ngx ext-install && xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && xm-ngx dynamic-specification && npm run import-jsf-exts",
+    "prebuild": "xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && xm-ngx dynamic-specification && npm run import-jsf-exts",
     "build": "ng build --stats-json",
     "prebuild:prod": "npm run prebuild",
     "build:prod": "ng build --configuration production",
@@ -196,7 +200,7 @@
     "@types/jasmine": "4.3.0",
     "@types/jasminewd2": "2.0.10",
     "@types/lodash": "4.14.186",
-    "@types/node": "18.8.5",
+    "@types/node": "16.11.7",
     "@types/sass": "1.43.1",
     "@typescript-eslint/eslint-plugin": "5.36.1",
     "@typescript-eslint/parser": "5.36.1",

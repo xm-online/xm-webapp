@@ -10,7 +10,6 @@ export class HelpCommand implements Command {
         { name: 'dynamic-specification', message: 'Generate config widget specification.' },
         { name: 'ext-assets', message: 'Places extension assets in angular.json.' },
         { name: 'ext-themes', message: 'Builds extension themes.' },
-        { name: 'ext-install', message: 'Runs `npm install` at extension directories.' },
         { name: 'ext-routing', message: 'Combines extension routing.ts in the routing.ts.' },
         { name: 'ext-theming', message: 'Combines extension theming.scss in the theming.scss.' },
         { name: 'help', message: 'Lists available commands and their short descriptions.' },
