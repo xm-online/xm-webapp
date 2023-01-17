@@ -179,8 +179,11 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         const input = event.input;
         const value = (event.value ?? '').trim();
 
-        if (value && this.selectedItems.includes(value)) {
-            (this.selectedItems ?? []).push(value);
+        if (value && !this.selectedItems.includes(value)) {
+            this.selectedItems = [
+                ...(this.selectedItems ?? []),
+                value,
+            ];
         }
 
         if (input) {
