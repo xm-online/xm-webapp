@@ -8,17 +8,11 @@ export * from './auth/auth-jwt.service';
 export * from './auth/auth.service';
 export * from './auth/principal.service';
 export * from './auth/has-any-authority.directive';
-export * from './language/i18n-jsf.pipe';
-export * from './language/i18n-name.pipe';
-export * from '../../../packages/translation/src/language.constants';
-export * from '../../../packages/translation/src/services/language.helper';
-export * from '../../../packages/translation/src/services/modules-language.helper';
-export * from './language/find-language-from-key.pipe';
 export * from './login/login.component';
 export * from './auth/login.service';
 export * from './register/register.component';
 export * from './register/register.service';
-export * from '@xm-ngx/components/pagination';
+
 export * from './context/context.service';
 export * from './user/account.model';
 export * from './user/user.model';
@@ -42,7 +36,7 @@ export * from './g-map/xmGMapApiInit.directive';
 export * from './services/parse-by-path.service';
 
 export * from '../../../packages/components/loader/loader.component';
-export * from '@xm-ngx/components/per-page';
+
 export * from '../../../packages/components/no-data/no-data.component';
 export * from '../../../packages/components/maintenance/maintenance.component';
 export * from './components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';

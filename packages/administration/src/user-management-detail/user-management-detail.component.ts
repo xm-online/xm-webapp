@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
-import { JhiLanguageHelper } from '@xm-ngx/components/language';
+import { JhiLanguageHelper } from '@xm-ngx/translation';
 
 import { AccountService, User, UserLogin, UserService } from '../../../../src/app/shared';
 

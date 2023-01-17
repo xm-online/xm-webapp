@@ -7,7 +7,9 @@ import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@xm-ngx/core/environment';
-import { I18nNamePipe, Principal, XmConfigService } from '@xm-ngx/xm-shared';
+import { I18nNamePipe } from '@xm-ngx/translation';
+import { Principal } from '@xm-ngx/xm-shared';
+import { XmConfigService } from '@xm-ngx/xm-shared';
 import { LIST_DEFAULT_FIELDS } from '@xm-ngx/xm-shared/constants/default-lists-fields.constants';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { Link, Spec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
