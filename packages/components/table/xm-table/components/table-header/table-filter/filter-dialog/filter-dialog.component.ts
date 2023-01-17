@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { FormGroupLayoutFactoryService, FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
+import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { CustomOverlayRef } from '@xm-ngx/components/table/xm-table/components/table-header/table-filter/overlay/custom-overlay-ref';
-import { XmRequestBuilderService } from '@xm-ngx/components/table/xm-table/service/xm-request-builder-service/xm-request-builder.service';
+import { XmTableFilterService } from '@xm-ngx/components/table/xm-table/service/xm-table-filter.service';
 import { get } from 'lodash';
 
 @Component({
@@ -14,11 +14,9 @@ export class FilterDialogComponent implements OnInit {
     public config: FormGroupLayoutItem[];
     public group: UntypedFormGroup;
 
-    constructor(private layoutFactoryService: FormGroupLayoutFactoryService,
-                private requestBuilder: XmRequestBuilderService,
-                private customOverlay: CustomOverlayRef<unknown, {config: FormGroupLayoutItem[]}>,
+    constructor(private customOverlay: CustomOverlayRef<unknown, {config: FormGroupLayoutItem[], value: unknown}>,
+                private filterFormGroupService: XmTableFilterService<unknown>,
     ) {
-        this.requestBuilder.change$().subscribe(value => this.updateValue(value));
 
     }
 
@@ -28,26 +26,26 @@ export class FilterDialogComponent implements OnInit {
     }
 
     public submit(): void {
-        this.requestBuilder.update(this.group.getRawValue());
         this.customOverlay.close(this.group.getRawValue());
     }
 
     public close(): void {
         this.group.reset({ emitEvent: false });
-        this.requestBuilder.update(this.group.getRawValue());
         this.customOverlay.close(this.group.getRawValue());
     }
 
     private initForm(): void {
         if (this.config) {
-            this.group = this.layoutFactoryService.createForm(this.config);
+            const value = get(this.customOverlay, 'context.value');
+            const modifiedConfig = this.addValueToFormGroupConfig(this.config, value);
+            this.group = this.filterFormGroupService.createFormGroup(modifiedConfig);
         }
-
     }
 
-    private updateValue(value) {
-        if (this.group) {
-            this.group.patchValue(value || {}, { emitEvent: false });
-        }
+    private addValueToFormGroupConfig(config: FormGroupLayoutItem[], value: {[key: string]: unknown}): FormGroupLayoutItem[] {
+        return this.config.map(control => {
+            control.value = value[control.name] || null;
+            return control;
+        });
     }
 }

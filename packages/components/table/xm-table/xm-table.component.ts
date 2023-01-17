@@ -12,20 +12,20 @@ import { DEFAULT_XM_TABLE_CONFIG, XmTableConfig } from './xm-table.model';
     templateUrl: './xm-table.component.html',
     styleUrls: ['./xm-table.component.scss'],
 })
-export class XmTableComponent<T> implements OnInit {
+export class XmTableComponent implements OnInit {
     @Input() @Defaults(DEFAULT_XM_TABLE_CONFIG) public config: XmTableConfig;
 
-    public dataSource$: Observable<DataSource<T>>;
+    public dataSource$: Observable<DataSource<unknown>>;
     public loading$: Observable<boolean> = of(false);
 
-    constructor(private dataService: XmTableDataLoaderService<T>,
+    constructor(private dataService: XmTableDataLoaderService<unknown>,
                 private requestService: XmRequestBuilderService) {
     }
 
     public ngOnInit(): void {
         this.initialRequestParams();
-        this.dataSource$ = this.dataService.getData(this.config?.dataSource).pipe(
-            map((data: T[] & {xTotalCount?: number}) => new MatTableDataSource(data)),
+        this.dataSource$ = this.dataService.getData(this.config.dataSource).pipe(
+            map((data: unknown[] & {xTotalCount?: number}) => new MatTableDataSource(data)),
         );
         this.loading$ = this.dataService.loading$();
     }

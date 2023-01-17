@@ -1,6 +1,6 @@
 ::ng-deep .menu-panel {
   min-width: 112px;
-  max-width: calc(100vh - 256px);
+  max-width: calc(100vw / 2);
   overflow: auto;
   min-height: 64px;
   border-radius: 4px;

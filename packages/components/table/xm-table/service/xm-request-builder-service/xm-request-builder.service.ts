@@ -19,7 +19,8 @@ export class XmRequestBuilderService implements OnDestroy {
     private request$: BehaviorSubject<QueryParams>;
 
     constructor(private paramsStore: PageParamsStore,
-                private pageService: PageService) {
+                private pageService: PageService,
+    ) {
         this.init();
         this.pageService.active$().pipe(
             filter(Boolean),
@@ -62,7 +63,12 @@ export class XmRequestBuilderService implements OnDestroy {
         return this.request$.asObservable();
     }
 
+    public getCurrentRequest(): QueryParams {
+        return this.request$.getValue();
+    }
+
     private init(): void {
+
         const request = this.paramsStore.get();
         this.request$ = new BehaviorSubject<object>(request);
     }
@@ -70,7 +76,6 @@ export class XmRequestBuilderService implements OnDestroy {
     private reset() {
         if (this.request$) {
             this.request$.complete();
-            //TODO ??
             delete this.request$;
         }
         this.init();

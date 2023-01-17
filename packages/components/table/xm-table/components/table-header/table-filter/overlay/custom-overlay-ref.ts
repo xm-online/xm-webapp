@@ -7,7 +7,7 @@ export interface OverlayCloseEvent<R> {
 }
 
 export class CustomOverlayRef<R, T> {
-    public afterClosedEvent$ = new Subject<OverlayCloseEvent<R>>();
+    private afterClosedEvent$ = new Subject<OverlayCloseEvent<R>>();
 
     constructor(
         public overlay: OverlayRef,

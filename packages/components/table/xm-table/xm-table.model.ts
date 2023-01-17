@@ -4,7 +4,7 @@ import { Translate } from '@xm-ngx/translation';
 
 export interface XmTableConfig {
     title: Translate, //Table title
-    dataSource: XmTableDataSource, //Table data source specification
+    dataSource: any,//XmTableDataSource, //Table data source specification
     columns: Array<XmTableColumn>, //Columns configuration
     filters: FormGroupLayoutItem[], // Filters configuration
     options: XmTableOptions, // Table configuration

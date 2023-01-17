@@ -7,8 +7,8 @@ import { of } from 'rxjs';
 import { XmTableComponent } from './xm-table.component';
 
 describe('XmTableComponent', () => {
-    let component: XmTableComponent<unknown>;
-    let fixture: ComponentFixture<XmTableComponent<unknown>>;
+    let component: XmTableComponent;
+    let fixture: ComponentFixture<XmTableComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({

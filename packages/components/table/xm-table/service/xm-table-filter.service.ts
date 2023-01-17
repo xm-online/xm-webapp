@@ -1,29 +1,32 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { FormGroupLayoutFactoryService, FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
-import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'any',
 })
 export class XmTableFilterService<T> {
-    public filterChange$: Subject<T> = new Subject<T>();
-    private form: FormGroup;
+    private formGroup: UntypedFormGroup;
 
     constructor(private layoutFactoryService: FormGroupLayoutFactoryService,
     ) {
     }
 
-    public createForm(config: FormGroupLayoutItem[]): UntypedFormGroup {
-        this.form = this.layoutFactoryService.createForm(config);
-        this.form.valueChanges.subscribe(value => this.filterChange$.next(value));
-
-        return this.form;
+    public createFormGroup(config: FormGroupLayoutItem[]): UntypedFormGroup {
+        this.formGroup = this.layoutFactoryService.createForm(config);
+        return this.formGroup;
     }
 
-    public initFilter: any;
+    public setFormValue(value: T): void {
+        this.formGroup.patchValue(value);
+    }
 
-    public clearFilter(): void {
-        this.form.reset();
+    public formValueChange(): Observable<T> {
+        return this.formGroup.valueChanges;
+    }
+
+    public clearForm(): void {
+        this.formGroup.reset();
     }
 }
