@@ -19,6 +19,10 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
         return this.handle(this.httpClient.post<T>(this.url, entity, { params, observe: 'response', headers }));
     }
 
+    public patch<E, R>(entity: Partial<E>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<R>> {
+        return this.handle(this.httpClient.patch<R>(this.url, entity, { params, observe: 'response', headers }));
+    }
+
     public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
         return this.handle(this.httpClient.put<T>(this.url, entity, { params, observe: 'response', headers }));
     }
