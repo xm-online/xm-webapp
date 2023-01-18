@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { I18nNamePipe } from '@xm-ngx/components/language';
+import { I18nNamePipe } from '@xm-ngx/translation';
 
 import { Principal } from '@xm-ngx/core/auth';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';

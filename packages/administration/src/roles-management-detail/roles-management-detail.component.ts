@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { ConditionDashboardDialogComponent } from '@xm-ngx/administration/roles-management-detail/condition-dashboard-dialog/condition-dashboard-dialog.component';
-import { JhiLanguageHelper } from '@xm-ngx/components/language';
+import { JhiLanguageHelper } from '@xm-ngx/translation';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
