@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { LanguageModule } from '@xm-ngx/components/language';
+import { LanguageModule } from '@xm-ngx/translation';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmEventManager } from '@xm-ngx/core';
