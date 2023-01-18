@@ -23,6 +23,10 @@ export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmPasswordControlModule),
     },
     {
+        selector: '@xm-ngx/components/phone-control',
+        loadChildren: () => import('@xm-ngx/components/phone-number-control').then(m => m.XmPhoneNumberControlModule),
+    },
+    {
         selector: '@xm-ngx/components/text',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextModule),
     },
