@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
-import { I18nNamePipe } from '@xm-ngx/components/language';
+import { I18nNamePipe } from '@xm-ngx/translation';
 import { Principal } from '@xm-ngx/core/auth';
 import { ReplaySubject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';

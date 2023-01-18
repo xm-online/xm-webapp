@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { LanguageModule } from '@xm-ngx/components/language';
+import { LanguageModule } from '@xm-ngx/translation';
 import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
