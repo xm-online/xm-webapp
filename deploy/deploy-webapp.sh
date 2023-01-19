@@ -1,6 +1,3 @@
-# build webapp
-npm run build:prod
-
 #
 # Deploy
 #
