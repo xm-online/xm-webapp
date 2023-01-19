@@ -9,8 +9,9 @@ script:
   - npm run build:prod
   - npm run test:prod
 deploy:
+  skip_cleanup: true
   provider: script
-  script: /deploy/deploy-webapp.sh
+  script: chmod +x deploy/deploy-webapp.sh && deploy/deploy-webapp.sh
   on:
     branch: main
 env:

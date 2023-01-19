@@ -1,7 +1,7 @@
 {
   "name": "@xm-ngx/components",
   "version": "1.0.0",
-  "peerDependencies": {
+  "dependencies": {
     "html2canvas": "1.0.0-rc.7"
   }
 }
