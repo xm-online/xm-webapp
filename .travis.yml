@@ -6,11 +6,12 @@ addons:
 install: npm install
 script:
   - npm run lint
-  - npm run build:prod
-  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+  - npm run test:prod
 deploy:
   provider: script
   script: /deploy/deploy-webapp.sh
+  on:
+    branch: main
 env:
   global:
     - MAX_OLD_SPACE_SIZE=4096

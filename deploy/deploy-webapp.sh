@@ -1,3 +1,10 @@
+# build webapp
+npm run build:prod
+
+#
+# Deploy
+#
+
 docker login -u $DOCKER_USER -p $DOCKER_PASS
 
 export DOCKER_REPO=$(echo -n $TRAVIS_REPO_SLUG | sed -e 's/^xm-online\//xmonline\//g')
