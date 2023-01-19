@@ -1,14 +1,17 @@
-<mat-form-field>
+<mat-form-field [floatLabel]="settings?.floatLabel">
+  <mat-label>{{settings['title'] ? settings['title'] : ''}}</mat-label>
   <mat-select
     [formControl]="checkedOption"
-    [placeholder]="settings.title ? settings.title : ''"
     [disabled]="settings.readonly"
     [required]="layoutNode.options?.required"
   >
     <mat-option>
       <ngx-mat-select-search
         [formControl]="queryCtrl"
-        placeholderLabel="{{'global.rest-select-placeholder-search.prefix' | translate}} {{settings.minQueryLength + 1}} {{'global.rest-select-placeholder-search.suffix' | translate}}"
+        [placeholderLabel]="
+          settings?.searchPlaceholder ?
+          (settings?.searchPlaceholder | translate) :
+          (('global.rest-select-placeholder-search.prefix' | translate) + (settings.minQueryLength + 1) + ('global.rest-select-placeholder-search.suffix' | translate))"
         noEntriesFoundLabel="{{'global.rest-select-placeholder-noresults' | translate}}"
       ></ngx-mat-select-search>
     </mat-option>
