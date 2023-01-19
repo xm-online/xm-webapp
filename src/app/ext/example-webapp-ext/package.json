@@ -1,0 +1,9 @@
+{
+  "name": "@xm-ngx/example-webapp-ext",
+  "version": "1.0.0",
+  "description": "xm-online extension for the core entities",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
