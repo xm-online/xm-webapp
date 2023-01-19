@@ -8,8 +8,7 @@
     <mat-option>
       <ngx-mat-select-search
         [formControl]="queryCtrl"
-        [placeholderLabel]="
-          settings?.searchPlaceholder ?
+        [placeholderLabel]="settings?.searchPlaceholder ?
           (settings?.searchPlaceholder | translate) :
           (('global.rest-select-placeholder-search.prefix' | translate) + (settings.minQueryLength + 1) + ('global.rest-select-placeholder-search.suffix' | translate))"
         noEntriesFoundLabel="{{'global.rest-select-placeholder-noresults' | translate}}"
