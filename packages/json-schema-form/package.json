@@ -1,4 +1,8 @@
 {
   "name": "@xm-ngx/json-schema-form",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "dependencies": {
+    "@ajsf/core": "0.8.0",
+    "@ajsf/material": "0.8.0"
+  }
 }

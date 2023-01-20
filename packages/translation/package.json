@@ -1,4 +1,8 @@
 {
   "name": "@xm-ngx/translation",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "dependencies": {
+    "@ngx-translate/core": "14.0.0",
+    "@ngx-translate/http-loader": "7.0.0"
+  }
 }

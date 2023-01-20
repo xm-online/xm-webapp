@@ -21,11 +21,19 @@
   },
   "homepage": "https://github.com/xm-online/xm-webapp/tree/develop/packages/cli",
   "dependencies": {
-    "@types/node": "18.7.14",
-    "@types/node-sass": "4.11.1",
     "lodash": "4.17.21",
-    "sass": "1.54.7",
-    "typescript": "4.7.4"
+    "sass": "1.55.0",
+    "typescript": "4.8.4",
+    "ts-morph": "16.0.0",
+    "@compodoc/compodoc": "1.1.19",
+    "webpack-bundle-analyzer": "4.6.1",
+    "glob": "8.0.3",
+    "@biesbjerg/ngx-translate-extract": "7.0.4",
+    "@biesbjerg/ngx-translate-extract-marker": "1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.7",
+    "@types/node-sass": "4.11.1"
   },
   "scripts": {
     "start": "npx tsc --watch",
