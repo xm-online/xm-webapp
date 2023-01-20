@@ -1,3 +1,4 @@
+import { exec } from 'child_process';
 import { CliCommands } from './command';
 import { Config } from './config';
 import { ExtAssetsCommand } from './ext-assets-command';
@@ -37,6 +38,18 @@ export function cli(terminalArgs: string[]): void {
         }
         case 'doc': {
             new DocCommand().execute();
+            break;
+        }
+        case 'report:bundle': {
+            exec('webpack-bundle-analyzer dist/stats.json');
+            break;
+        }
+        case 'compodoc': {
+            exec('compodoc -p tsconfig.json');
+            break;
+        }
+        case 'get-translations': {
+            exec('node packages/cli/src/translation/get-translations.js');
             break;
         }
         case 'dynamic-specification': {

@@ -3,6 +3,9 @@
 | command                 | description                                            |
 |-------------------------|--------------------------------------------------------|
 | `doc`                   | Generates a documentation.                             |
+| `report:bundle`         | webpack-bundle-analyzer dist/stats.json.               |
+| `compodoc`              | compodoc -p tsconfig.json.                             |
+| `get-translations`      | translations                                           |
 | `replace`               | Replaces the core files.                               |
 | `ext-lazy-module`       | Places extension modules in angular.json.              |
 | `dynamic-specification` | Generate config widget specification.                  |

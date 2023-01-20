@@ -48,12 +48,9 @@
     "lint": "npm run lint:js",
     "lint:js": "node --max_old_space_size=4096 ./node_modules/eslint/bin/eslint.js . --ext .ts --quiet",
     "lint:sass": "stylelint */**/*.scss --quiet",
-    "docs": "compodoc -p tsconfig.json",
     "get-unwraped-labels": "node ./scripts/get-unwraped-labels.js",
-    "get-translations": "node ./scripts/get-translations.js",
     "import-jsf-exts": "node ./scripts/jsf-ext-importer.js",
-    "translations": "npm run get-translations && xm-ngx ext-i18n",
-    "report:bundle": "webpack-bundle-analyzer dist/stats.json",
+    "translations": "xm-ngx get-translations && xm-ngx ext-i18n",
     "postinstall": "node ./scripts/build-packages.js && ngcc --properties esm5 browser module main",
     "get-version": "printf $npm_package_version"
   },
