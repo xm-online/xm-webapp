@@ -20,18 +20,17 @@
     "url": "https://github.com/xm-online/xm-webapp/issues"
   },
   "homepage": "https://github.com/xm-online/xm-webapp/tree/develop/packages/cli",
-  "peerDependencies": {
-    "typescript": "4.7.4",
+  "dependencies": {
     "@types/node": "18.7.14",
-    "sass": "1.54.7",
     "@types/node-sass": "4.11.1",
     "lodash": "4.17.21",
-    "node-sass-package-importer": "5.3.2"
+    "sass": "1.54.7",
+    "typescript": "4.7.4"
   },
   "scripts": {
     "start": "npx tsc --watch",
     "build": "npx tsc",
-    "prepare" : "npm run build"
+    "prepare": "npm run build"
   },
   "files": [
     "bin",
