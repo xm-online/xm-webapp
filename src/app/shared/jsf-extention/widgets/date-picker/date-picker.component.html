@@ -1,9 +1,10 @@
 <mat-form-field class="xm-datetime-picker" [floatLabel]="options.floatLabel">
   <div class="to-display">{{controlValueDisplayed}}</div>
+  <mat-label>{{options['title'] ? options['title'] : ''}}</mat-label>
   <input matInput
          class="abs"
          [name]="controlName"
-         [placeholder]="options['title']"
+         [placeholder]="options?.placeholder | translate"
          #controlName="ngModel"
          [owlDateTime]="picker"
          [(ngModel)]="controlValue"
