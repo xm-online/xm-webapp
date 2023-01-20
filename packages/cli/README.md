@@ -9,7 +9,6 @@
 | `ext-i18n`              | Combines extension translations into one file.         |
 | `ext-assets`            | Places extension assets in angular.json.               |
 | `ext-themes`            | Builds extension themes.                               |
-| `ext-install`           | Runs `npm install` at extension directories.           |
 | `ext-routing`           | Combines extension routing.ts in the routing.ts.       |
 | `ext-theming`           | Combines extension theming.scss in the theming.scss.   |
 | `help`                  | Lists available commands and their short descriptions. |

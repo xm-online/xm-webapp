@@ -29,8 +29,8 @@
     "node-sass-package-importer": "5.3.2"
   },
   "scripts": {
-    "start": "tsc --watch",
-    "build": "tsc",
+    "start": "npx tsc --watch",
+    "build": "npx tsc",
     "prepare" : "npm run build"
   },
   "files": [
