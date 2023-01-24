@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 
 import * as moment from 'moment';
 
-import { Principal } from '../auth/principal.service';
+import { Principal } from '@xm-ngx/core/user';
 import { XmConfigService } from '../index';
 
 /**

@@ -6,7 +6,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiDataUtils } from 'ng-jhipster';
 
-import { Principal } from '@xm-ngx/xm-shared/auth/principal.service';
+import { Principal } from '@xm-ngx/core/user';
 import { AttachmentSpec } from '../shared/attachment-spec.model';
 import { Attachment } from '../shared/attachment.model';
 import { AttachmentService } from '../shared/attachment.service';

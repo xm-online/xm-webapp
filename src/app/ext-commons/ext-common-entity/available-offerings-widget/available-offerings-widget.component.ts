@@ -6,7 +6,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 
 import { I18nNamePipe } from '@xm-ngx/translation';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { FunctionCallDialogComponent, FunctionService, XmEntity, XmEntityService } from '@xm-ngx/entity';
 import { XM_EVENT_LIST } from '../../../xm.constants';
 

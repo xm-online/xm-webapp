@@ -4,7 +4,7 @@ import { XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import { defaultsDeep } from 'lodash';
-import { User, UserService } from '../../../../../src/app/shared';
+import { User, UserService } from '@xm-ngx/core/user';
 
 export interface UnblockLockUserOptions {
     title?: Translate;

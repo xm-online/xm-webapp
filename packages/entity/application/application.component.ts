@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@xm-ngx/core/environment';
 import { I18nNamePipe } from '@xm-ngx/translation';
-import { Principal } from '@xm-ngx/xm-shared';
+import { Principal } from '@xm-ngx/core/user';
 import { XmConfigService } from '@xm-ngx/xm-shared';
 import { LIST_DEFAULT_FIELDS } from '@xm-ngx/xm-shared/constants/default-lists-fields.constants';
 import { DashboardStore } from '@xm-ngx/dashboard';

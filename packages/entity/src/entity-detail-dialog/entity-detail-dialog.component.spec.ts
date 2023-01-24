@@ -15,8 +15,8 @@ import { JhiConfigService, JhiDateUtils, JhiModuleConfig } from 'ng-jhipster';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 
 import { XmEntityService } from '../shared';
-import { AccountService } from '@xm-ngx/xm-shared';
-import { Principal } from '@xm-ngx/xm-shared/auth/principal.service';
+import { AccountService } from '@xm-ngx/core/user';
+import { Principal } from '@xm-ngx/core/user';
 import { I18nJsfPipe } from '@xm-ngx/translation';
 import { I18nNamePipe } from '@xm-ngx/translation';
 import { EntityDetailDialogComponent } from './entity-detail-dialog.component';

@@ -15,7 +15,8 @@ import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
 import { HttpResponse } from '@angular/common/http';
 import { UUID } from 'angular2-uuid';
 import { I18nNamePipe } from '@xm-ngx/translation';
-import { Principal, XmConfigService } from '@xm-ngx/xm-shared';
+import { XmConfigService } from '@xm-ngx/xm-shared';
+import { Principal } from '@xm-ngx/core/user';
 import { switchMap, tap } from 'rxjs/operators';
 import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
 

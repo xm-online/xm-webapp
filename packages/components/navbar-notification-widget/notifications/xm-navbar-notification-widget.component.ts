@@ -7,7 +7,7 @@ import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import * as _ from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { Notification, NotificationUiConfig } from '../shared/notification.model';
 
 import { NotificationsService } from '../shared/notifications.service';

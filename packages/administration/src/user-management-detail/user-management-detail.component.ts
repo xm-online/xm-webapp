@@ -4,9 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
 import { JhiLanguageHelper } from '@xm-ngx/translation';
 
-import { AccountService, User, UserLogin, UserService } from '../../../../src/app/shared';
+import { AccountService, User, UserService } from '@xm-ngx/core/user';
 
 import { UserLoginService } from '../../../account/user-login-widget/login/user-login.service';
+import { UserLogin } from '../../../account/user-login-widget/login/user-login.model';
 
 @Component({
     selector: 'xm-user-mgmt-detail',

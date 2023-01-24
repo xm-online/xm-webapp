@@ -9,7 +9,7 @@ import { saveFile, saveFileFromUrl } from '@xm-ngx/xm-shared/helpers/file-downlo
 import { AttachmentSpec } from '../shared/attachment-spec.model';
 import { Attachment } from '../shared/attachment.model';
 import { AttachmentService } from '../shared/attachment.service';
-import { Principal } from '@xm-ngx/xm-shared/auth';
+import { Principal } from '@xm-ngx/core/user';
 
 
 @Component({

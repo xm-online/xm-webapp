@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserRouteAccessService } from '@xm-ngx/core/auth';
+import { UserRouteAccessService } from '@xm-ngx/core/permission';
 
 const ROUTES: Routes = [
     {

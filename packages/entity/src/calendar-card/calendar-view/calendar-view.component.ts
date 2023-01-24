@@ -17,7 +17,7 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nNamePipe } from '@xm-ngx/translation';
 import { LanguageService } from '@xm-ngx/translation';
 import { TranslateService } from '@ngx-translate/core';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import {
     CALENDAR_VIEW,
     DEFAULT_CALENDAR_VIEW,

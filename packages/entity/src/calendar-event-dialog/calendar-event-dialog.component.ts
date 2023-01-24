@@ -5,7 +5,7 @@ import { finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { XmEntitySpecWrapperService } from '@xm-ngx/entity/shared';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { CalendarSpec } from '@xm-ngx/entity/shared';
 import { Calendar } from '@xm-ngx/entity/shared';
 import { CalendarService } from '@xm-ngx/entity/shared';

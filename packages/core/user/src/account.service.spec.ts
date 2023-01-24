@@ -1,9 +1,9 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
 import {JhiDateUtils} from 'ng-jhipster';
-import {SERVER_API_URL} from '../../xm.constants';
+import {SERVER_API_URL} from '../../../../src/app/xm.constants';
 import {AccountService} from './account.service';
-import {ACCOUNT_LOGIN_UPDATE_URL, ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL} from './auth.constants';
+import {ACCOUNT_LOGIN_UPDATE_URL, ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL} from '../../auth/src/auth.constants';
 
 describe('AccountService', () => {
 

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UIPublicConfig, XmEventManager } from '@xm-ngx/core';
-import { Principal, SUPER_ADMIN } from '@xm-ngx/core/auth';
+import { SUPER_ADMIN } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { XM_EVENT_LIST } from '../../xm.constants';
