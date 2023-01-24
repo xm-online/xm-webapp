@@ -114,7 +114,7 @@ export class DashboardsListComponent implements OnInit {
         this.dashboardService.getAll().pipe(
             map(sortDashboards),
         ).subscribe((dashboards) => {
-            this.dashboardList.data = dashboards;
+            this.dashboardList.data = _.orderBy(dashboards, i=>i.config?.orderIndex);
             this.loadToEditor();
         });
     }
@@ -162,7 +162,7 @@ export class DashboardsListComponent implements OnInit {
         const prevIndex = this.dashboardList.data.findIndex((d) => d === event.item.data);
         moveItemInArray(this.dashboardList.data, prevIndex, currentIndex);
         this.dashboardList.data.forEach((dashboard, ix) => dashboard.config.orderIndex = ix + 1);
-        this.dashboardList.data = [...this.dashboardList.data];
+        this.dashboardList.data = _.orderBy(this.dashboardList.data, i=>i.config.orderIndex);
         this.isUpdateIndexRequired = true;
     }
 

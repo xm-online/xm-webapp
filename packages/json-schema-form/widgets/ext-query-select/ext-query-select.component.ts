@@ -6,9 +6,12 @@ import * as _ from 'lodash';
 import { BehaviorSubject, iif, merge, Observable, of, ReplaySubject } from 'rxjs';
 import { catchError, debounceTime, filter, finalize, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { environment } from '../../../../src/environments/environment';
+import { FloatLabelType } from '@angular/material/form-field';
 
 interface ISelectSettings {
     title?: string;
+    searchPlaceholder?: string;
+    floatLabel?: FloatLabelType;
     placeholder?: string;
     url?: string;
     minQueryLength: number;

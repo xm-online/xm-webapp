@@ -27,6 +27,9 @@ export interface IEntityCollection<T extends IId = unknown> {
     /** PUT request. Use to replace or delete entity data. */
     update(update: Partial<T>, params?: QueryParams): Observable<HttpResponse<T>>;
 
+    /** PATCH request. Use to replace entity data. */
+    patch<E, R>(update: Partial<E>, params?: QueryParams): Observable<HttpResponse<R>>;
+
     /** PUT request. Use to replace or create an entity. */
     upsert(entity: T, params?: QueryParams): Observable<HttpResponse<T>>;
 }
