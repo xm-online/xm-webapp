@@ -8,6 +8,8 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { XmTextControl } from './xm-text-control';
 import { HintModule } from '@xm-ngx/components/hint';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     imports: [
@@ -17,6 +19,8 @@ import { HintModule } from '@xm-ngx/components/hint';
         ControlErrorModule,
         ReactiveFormsModule,
         HintModule,
+        MatIconModule,
+        MatButtonModule,
     ],
     exports: [XmTextControl],
     declarations: [XmTextControl],
