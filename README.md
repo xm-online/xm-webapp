@@ -1,5 +1,7 @@
 # XM^online 2 - General Single Page Application (xm-webapp)
 
+[![Build Status](https://app.travis-ci.com/xm-online/xm-webapp.svg?branch=main)](https://app.travis-ci.com/xm-online/xm-webapp)
+
 ## Prerequisites:
 * Git - [https://git-scm.com/downloads](https://git-scm.com/downloads)
 * NPM - [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm)

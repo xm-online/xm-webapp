@@ -6,9 +6,9 @@ import { map } from 'rxjs/operators';
 import { createRequestOption } from '@xm-ngx/entity/shared/request-util';
 import { XmEntity } from '@xm-ngx/entity/shared/xm-entity.model';
 
-import { SERVER_API_URL } from '../../xm.constants';
-import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL } from './auth.constants';
-import { Account } from '../user/account.model';
+import { SERVER_API_URL } from '../../../../src/app/xm.constants';
+import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL } from '../../auth/src/auth.constants';
+import { Account } from './account.model';
 
 @Injectable({providedIn: 'root'})
 export class AccountService {

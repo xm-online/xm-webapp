@@ -11,7 +11,7 @@ import { NoDataModule } from '@xm-ngx/components/no-data';
 import { PerPageModule } from '@xm-ngx/components/per-page';
 import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
 import { WordAutocompleteModule } from './directives/word-autocomplete.directive';
-import { LanguageModule } from './language/language.module';
+import { LanguageModule } from '@xm-ngx/translation';
 import { XmCoreModule } from '@xm-ngx/core';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmAlertModule } from '@xm-ngx/alert';

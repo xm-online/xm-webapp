@@ -25,7 +25,8 @@ import { merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { flattenEntityWithPath, getFieldValue } from 'src/app/shared/helpers/entity-list-helper';
 import { JsfComponentRegistryService } from 'src/app/shared/jsf-extention/jsf-component-registry.service';
-import { ContextService, Principal } from '@xm-ngx/xm-shared';
+import { ContextService } from '@xm-ngx/core/context';
+import { Principal } from '@xm-ngx/core/user';
 import { saveFile } from '@xm-ngx/xm-shared/helpers/file-download-helper';
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
 

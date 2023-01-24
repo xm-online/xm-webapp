@@ -4,7 +4,7 @@ import { RequestCache, RequestCacheFactoryService, XmCoreConfig } from '@xm-ngx/
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { UIPrivateConfig } from './xm-ui-config-model';
-import { XmPermissionService } from '@xm-ngx/core/permission';
+import { XmPermissionService } from 'packages/core/permission/src/xm-permission.service';
 
 @Injectable()
 export class XmPrivateUiConfigService<T = UIPrivateConfig> implements OnDestroy {
@@ -39,9 +39,9 @@ export class XmPrivateUiConfigService<T = UIPrivateConfig> implements OnDestroy 
             switchMap((allow) => {
                 if (allow) {
                     return this.privateAPI();
-                } 
+                }
                 return of(null);
-                
+
             }),
         );
     }

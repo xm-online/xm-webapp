@@ -5,8 +5,8 @@ import { fromEvent } from 'rxjs';
 
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
-import { Principal } from '@xm-ngx/core/auth';
-import { I18nNamePipe } from '@xm-ngx/components/language';
+import { Principal } from '@xm-ngx/core/user';
+import { I18nNamePipe } from '@xm-ngx/translation';
 import { ExtAutocompleteOptions } from './ext-autocomplete-options.model';
 import { byString, ExtAutocompleteService } from './ext-autocomplete-service';
 

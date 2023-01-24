@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { RouteChangeAnimationModule } from '@xm-ngx/components/animations/route-change-animation';
 import { FeedbackModule } from '@xm-ngx/components/feedback';
 import { GuestBackgroundModule } from '@xm-ngx/components/guest-background/guest-background.module';
-import { LanguageModule } from '@xm-ngx/components/language';
+import { LanguageModule } from '@xm-ngx/translation';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { RouteLoadingDirectiveModule } from '@xm-ngx/components/route-loading';
 import { XmPasswordNeededModule } from '@xm-ngx/components/password-needed';

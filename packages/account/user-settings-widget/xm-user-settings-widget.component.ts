@@ -6,7 +6,7 @@ import { LanguageService, Locale, TitleService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { interval, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AccountService, Principal } from '@xm-ngx/core/auth';
+import { AccountService, Principal } from '@xm-ngx/core/user';
 
 @Component({
     selector: 'xm-user-settings-widget',

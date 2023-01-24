@@ -7,7 +7,7 @@ import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-deta
 import { Spec } from '../shared/spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { EntityUiConfig } from '@xm-ngx/xm-shared/spec';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 
 @Component({
     selector: 'xm-entity-list-fab',

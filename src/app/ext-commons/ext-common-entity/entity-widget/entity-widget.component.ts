@@ -4,7 +4,8 @@ import { XmEventManager } from '@xm-ngx/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { ContextService, XmConfigService } from '../../../shared';
+import { XmConfigService } from '../../../shared';
+import { ContextService } from '@xm-ngx/core/context';
 import { AttachmentsView, EntityDetailLayout, EntityUiConfig } from '../../../shared/spec/xm-ui-config-model';
 import { FullLinkSpec, LinkSpec, Spec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/entity';
 import { DEBUG_INFO_ENABLED } from '../../../xm.constants';

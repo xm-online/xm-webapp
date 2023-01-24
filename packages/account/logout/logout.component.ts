@@ -9,7 +9,7 @@ import { SessionStorageService } from 'ngx-webstorage';
 import { combineLatest } from 'rxjs';
 import { IIdpClient } from '../../core/src/xm-public-idp-config-model';
 
-import { LoginService } from '@xm-ngx/xm-shared';
+import { LoginService } from '@xm-ngx/core/auth';
 import { IDP_CLIENT } from '../../../src/app/xm.constants';
 
 @Component({

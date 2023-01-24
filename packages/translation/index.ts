@@ -19,3 +19,8 @@ export { XmTranslateService } from './src/services/xm-translate-service';
 
 export { LANGUAGES } from './src/language.constants';
 export { XmTranslationModule, HttpLoaderFactory } from './src/xm-translation.module';
+
+export { FindLanguageFromKeyPipe } from './src/pipes/find-language-from-key.pipe';
+export { I18nJsfPipe } from './src/pipes/i18n-jsf.pipe';
+export { I18nNamePipe } from './src/pipes/i18n-name.pipe';
+export { LanguageModule } from './src/language.module';
