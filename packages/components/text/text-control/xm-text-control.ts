@@ -26,6 +26,7 @@ export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
     minLength?: number;
     applyTrimForValue?: boolean;
     validators?: ValidatorProcessingOption[];
+    clearButton?: boolean;
 }
 
 const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
@@ -42,6 +43,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     minLength: null,
     dataQa: 'text-control',
     applyTrimForValue: false,
+    clearButton: false,
 };
 
 @Component({
@@ -61,7 +63,9 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
                    [attr.maxlength]="options.maxLength"
                    [attr.minlength]="options.minLength"
                    [attr.type]="options.type">
-
+            <button mat-button mat-icon-button matSuffix *ngIf="options.clearButton && value !== null" (click)="change(null)">
+                <mat-icon>close</mat-icon>
+            </button>
             <mat-error
                 *xmControlErrors="formControl.errors; translates options?.errors; message as message">{{message}}</mat-error>
 

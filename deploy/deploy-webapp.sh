@@ -1,6 +1,6 @@
-#
-# Deploy
-#
+echo \#
+echo \# Deploy
+echo \#
 
 docker login -u $DOCKER_USER -p $DOCKER_PASS
 
@@ -10,7 +10,7 @@ export PROJECT_VERSION="$IMAGE_BRANCH"
 export DOCKER_DIR=src/docker
 
 # use version as the name of the image
-if [ "$IMAGE_BRANCH" == "master" ] || [ "$IMAGE_BRANCH" == "main" ]; then
+if [ "$IMAGE_BRANCH" = "master" ] || [ "$IMAGE_BRANCH" = "main" ]; then
   PROJECT_VERSION=$(npm run-script get-version | tail -n1)
   TAGS="$PROJECT_VERSION $PROJECT_VERSION-$TRAVIS_BUILD_NUMBER $(echo $PROJECT_VERSION | awk -F '.' '{printf $1"."$2" "$1}') latest"
 fi
@@ -29,3 +29,5 @@ for TAG in $TAGS; do
   docker tag app-docker-img $DOCKER_REPO:$TAG
   docker push $DOCKER_REPO:$TAG
 done
+echo Tags=$TAGS
+echo Deploy completed
