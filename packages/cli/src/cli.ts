@@ -3,7 +3,6 @@ import { Config } from './config';
 import { ExtAssetsCommand } from './ext-assets-command';
 import { DocCommand } from './doc-command';
 import { ExtI18nCommand } from './ext-i18n-command';
-import { ExtInstallCommand } from './ext-install-command';
 import { ExtLazyModuleCommand } from './ext-lazy-module-command';
 import { ExtRoutingCommand } from './ext-routing-command';
 import { ExtThemesCommand } from './ext-themes-command';
@@ -54,10 +53,6 @@ export function cli(terminalArgs: string[]): void {
         }
         case 'ext-theming': {
             new ExtThemingCommand(config).execute();
-            break;
-        }
-        case 'ext-install': {
-            new ExtInstallCommand(config).execute();
             break;
         }
         case 'help':
