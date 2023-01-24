@@ -21,11 +21,14 @@
   },
   "homepage": "https://github.com/xm-online/xm-webapp/tree/develop/packages/cli",
   "dependencies": {
-    "@types/node": "18.7.14",
-    "@types/node-sass": "4.11.1",
     "lodash": "4.17.21",
     "sass": "1.54.7",
-    "typescript": "4.7.4"
+    "typescript": "4.7.4",
+    "ts-morph": "16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.7",
+    "@types/node-sass": "4.11.1"
   },
   "scripts": {
     "start": "npx tsc --watch",
