@@ -84,8 +84,8 @@
       "@xm-ngx/json-schema-form/core": [
         "packages/json-schema-form/core"
       ],
-      "@xm-ngx/json-schema-form/widgets": [
-        "packages/json-schema-form/widgets"
+      "@xm-ngx/json-schema-form/components": [
+        "packages/json-schema-form/components"
       ],
       "@xm-ngx/toaster": [
         "packages/toaster"
