@@ -1,3 +1,6 @@
+export {
+    XmTableCollectionControllerResolver,
+} from './collections/xm-table-collection-controller-resolver.service';
 
 export { IXmTableCollectionState,IXmTableCollectionController } from './collections/i-xm-table-collection-controller';
 export { XmTableArrayCollectionController,XmTableArrayCollectionControllerConfig } from './collections/xm-table-array-collection-controller';

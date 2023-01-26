@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { XmTableModule } from '@xm-ngx/components/table';
+import { XmTableComponent } from '@xm-ngx/components/table/table/xm-table.component';
 
 @Component({
     selector: 'xm-table',
@@ -7,7 +7,7 @@ import { XmTableModule } from '@xm-ngx/components/table';
         <xm-table></xm-table>
     `,
     standalone: true,
-    imports: [XmTableModule],
+    imports: [XmTableComponent],
 })
 export class MockXmTableComponent {
 }

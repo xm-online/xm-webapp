@@ -4,7 +4,6 @@ export {
     TableConfig,
 } from './table-config';
 
-
 export {
     XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT,
     XmTableColumnDynamicCellsOptions,
@@ -21,5 +20,3 @@ export {
     XmTableDynamicColumnsCellModule,
     XmTableDynamicColumnsCell,
 } from './column/xm-table-dynamic-columns-cell';
-
-export { XmTableModule } from './xm-table/xm-table.module';

@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
-import {
-    IXmTableCollectionController,
-    XmTableArrayCollectionController,
-    XmTableAtTypeCollectionController,
-    XmTableConfigCollectionController,
-    XmTableConfigController,
-    XmTableLinkedCollectionController,
-    XmTableReadOnlyArrayCollectionController,
-    XmTableRepositoryCollectionController,
-    XmTableStringArrayCollectionController,
-} from '@xm-ngx/components/table/table';
-import { lastValueFrom } from 'rxjs';
+
 import {
     XmTableReadOnlyRepositoryCollectionController,
-} from '@xm-ngx/components/table/table/controllers/collections/xm-table-read-only-repository-collection-controller';
+} from './xm-table-read-only-repository-collection-controller';
+import { XmTableConfig } from '../../interfaces/xm-table.model';
+import { XmTableConfigController } from '../config/xm-table-config-controller.service';
+import { XmTableAtTypeCollectionController } from './xm-table-at-type-collection-controller';
+import { XmTableConfigCollectionController } from './xm-table-config-collection-controller.service';
+import { XmTableReadOnlyArrayCollectionController } from './xm-table-read-only-array-collection-controller.service';
+import { XmTableStringArrayCollectionController } from './xm-table-string-array-collection-controller.service';
+import { XmTableRepositoryCollectionController } from './xm-table-repository-collection-controller.service';
+import { XmTableLinkedCollectionController } from './xm-table-linked-collection-controller';
+import { XmTableArrayCollectionController } from './xm-table-array-collection-controller';
+import { IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class XmTableCollectionControllerResolver<T> {
+export class XmTableCollectionControllerResolver<T = unknown> {
 
     constructor(
-        private configController: XmTableConfigController<{ type: string }>,
+        private configController: XmTableConfigController<XmTableConfig>,
         private arrayController: XmTableArrayCollectionController<T>,
         private atTypeController: XmTableAtTypeCollectionController<T>,
         private configCollectionController: XmTableConfigCollectionController<T>,
@@ -32,8 +32,8 @@ export class XmTableCollectionControllerResolver<T> {
     }
 
     public async get(): Promise<IXmTableCollectionController<T>> {
-        const config = await lastValueFrom(this.configController.config$());
-        const collectionType = config.type;
+        const config = await firstValueFrom(this.configController.config$());
+        const collectionType = config.collection.type;
 
         switch (collectionType) {
             case 'array':

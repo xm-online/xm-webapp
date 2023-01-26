@@ -1,10 +1,10 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { XmRequestBuilderService } from '@xm-ngx/components/table/xm-table/service/xm-request-builder-service/xm-request-builder.service';
-import { XmTableDataLoaderService } from '@xm-ngx/components/table/xm-table/service/xm-table-data-service/xm-table-data-loader.service';
 import { of } from 'rxjs';
+import { XmTableDataLoaderService } from './data/xm-table-data-loader.service';
 
 import { XmTableComponent } from './xm-table.component';
+import { XmTableFilterService } from './controllers/filters/xm-table-filter.service';
 
 describe('XmTableComponent', () => {
     let component: XmTableComponent;
@@ -15,7 +15,7 @@ describe('XmTableComponent', () => {
             schemas: [NO_ERRORS_SCHEMA],
             declarations: [XmTableComponent],
             providers: [
-                { provide: XmRequestBuilderService, useValue: { update: () => null } },
+                { provide: XmTableFilterService, useValue: { update: () => null } },
                 { provide: XmTableDataLoaderService, useValue: { getData: () => of(null), loading$: () => null } },
             ],
         })

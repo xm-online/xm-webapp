@@ -4,24 +4,24 @@ import { IEntityCollectionPageable } from '@xm-ngx/components/entity-collection'
 import { XmLogger } from '@xm-ngx/logger';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
-import {
-    IXmTableCollectionController, XmTableConfigController,
-    XmTableEntityController,
-} from '@xm-ngx/components/table/table';
+
 import {
     PAGEABLE_AND_SORTABLE_DEFAULT,
     PageableAndSortable,
 } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
-import { lastValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { XmAlertService } from '@xm-ngx/alert';
 import { cloneDeep } from 'lodash';
 import {
     XmTableRepositoryResolver,
-} from '@xm-ngx/components/table/table/repositories/xm-table-repository-resolver.service';
+} from '../../repositories/xm-table-repository-resolver.service';
 import {
     AXmTableStateCollectionController,
-} from '@xm-ngx/components/table/table/controllers/collections/a-xm-table-state-collection-controller.service';
+} from './a-xm-table-state-collection-controller.service';
 import { IId } from '@xm-ngx/shared/interfaces';
+import { XmTableConfigController } from '../config/xm-table-config-controller.service';
+import { IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 
 const TRS = {
     updated: 'ext-entity.commons.updated',
@@ -66,9 +66,9 @@ export class XmTableLinkedCollectionController<T = unknown>
     }
 
     public async load(pageableAndSortable: PageableAndSortable | null): Promise<void> {
-        this.config = await lastValueFrom(this.configController.config$());
-        this.entity = await lastValueFrom(this.entityController.entity$());
-        this.repository = this.repositoryResolver.get(this.config.resource);
+        this.config = await firstValueFrom(this.configController.config$());
+        this.entity = await firstValueFrom(this.entityController.entity$());
+        this.repository = this.repositoryResolver.get(this.config.resource, this.config.resource);
         const primaryField = this.config?.typeLink?.primaryField || 'id';
         const data: T[] = _.get(this.entity, this.config.path, '') || [];
         let keys = data.map(i => i ? i[primaryField] : null);

@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 import {
     IXmTableCollectionController,
-} from '@xm-ngx/components/table/table/controllers/collections/i-xm-table-collection-controller';
+} from './i-xm-table-collection-controller';
 import {
     XmTableConfigController,
-} from '@xm-ngx/components/table/table/controllers/config/xm-table-config-controller.service';
-import { lastValueFrom } from 'rxjs';
+} from '../config/xm-table-config-controller.service';
+import { firstValueFrom
+} from 'rxjs';
 import {
     AXmTableLocalPageableCollectionController,
-} from '@xm-ngx/components/table/table/controllers/collections/a-xm-table-local-pageable-collection-controller.service';
+} from './a-xm-table-local-pageable-collection-controller.service';
 import {
     XmTableEntityController,
-} from '@xm-ngx/components/table/table/controllers/entity/xm-table-entity-controller.service';
+} from '../entity/xm-table-entity-controller.service';
 import { cloneDeep, get, set } from 'lodash';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 
@@ -38,8 +39,8 @@ export class XmTableArrayCollectionController<T = unknown>
     }
 
     public async load(pageableAndSortable: PageableAndSortable | null): Promise<void> {
-        this.config = await lastValueFrom(this.configController.config$());
-        this.entity = await lastValueFrom(this.entityController.entity$());
+        this.config = await firstValueFrom(this.configController.config$());
+        this.entity = await firstValueFrom(this.entityController.entity$());
         const pathList = get(this.entity, this.config.path, []) as T[];
 
         // TODO: provide default value

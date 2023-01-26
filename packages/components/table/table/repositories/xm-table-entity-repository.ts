@@ -1,19 +1,39 @@
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { HttpClientRest, Pageable, QueryParams, QueryParamsPageable } from '@xm-ngx/components/entity-collection';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClientRest, QueryParams, QueryParamsPageable } from '@xm-ngx/components/entity-collection';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { XmEntity } from '@xm-ngx/entity';
 import { uuid } from '@xm-ngx/shared/operators';
 import { Injectable } from '@angular/core';
+import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+
+export interface XmTableEntityRepositoryExtra {
+    page?: number,
+    size?: number
+}
+
+export type XmTableEntityRepositoryQuery = QueryParamsPageable & XmTableEntityRepositoryExtra;
 
 @Injectable()
-export class XmTableEntityRepository<T extends XmEntity, Extra extends Pageable = Pageable>
-    extends HttpClientRest<T, Extra> {
-    public getAll(params?: QueryParams): Observable<HttpResponse<T[] & Extra>> {
+export class XmTableEntityRepository<T extends XmEntity>
+    extends HttpClientRest<T, PageableAndSortable> {
+    public get resourceUrl(): string {
+        return this.url;
+    }
+
+    public set resourceUrl(value: string) {
+        this.url = value;
+    }
+
+    constructor(httpClient: HttpClient) {
+        super(null, httpClient);
+    }
+
+    public getAll(params?: QueryParams): Observable<HttpResponse<T[] & PageableAndSortable>> {
         return super.getAll(this.getParams(params));
     }
 
-    public query(params: QueryParamsPageable): Observable<HttpResponse<T[] & Extra>> {
+    public query(params: QueryParamsPageable): Observable<HttpResponse<T[] & PageableAndSortable>> {
         return super.query(this.getParams(params));
     }
 
@@ -25,7 +45,7 @@ export class XmTableEntityRepository<T extends XmEntity, Extra extends Pageable 
     }
 
     protected getParams(params: QueryParamsPageable): QueryParamsPageable {
-        const request: QueryParamsPageable & { page?: number, size?: number } = _.clone(params);
+        const request: QueryParamsPageable & XmTableEntityRepositoryExtra = _.clone(params);
         if (request.pageSize !== undefined) {
             request.size = params.pageSize;
             delete request.pageSize;
@@ -39,9 +59,10 @@ export class XmTableEntityRepository<T extends XmEntity, Extra extends Pageable 
         return request;
     }
 
-    protected extractExtra(res: HttpResponse<T[]>): HttpResponse<T[] & Extra> {
+    protected extractExtra(res: HttpResponse<T[]>, params?: XmTableEntityRepositoryQuery): HttpResponse<T[] & PageableAndSortable> {
         const hasNextPage = res.headers.get('x-has-next');
-        let totalPageCount = 0;
+        let totalPageCount: number;
+        let body = res.body || [];
 
         if (hasNextPage === 'true') {
             totalPageCount = Infinity;
@@ -49,15 +70,18 @@ export class XmTableEntityRepository<T extends XmEntity, Extra extends Pageable 
             totalPageCount = null;
         }
 
-        const extra = {
-            // TODO: backend implementation
-            // pageIndex: res.body.page || 0,
-            pageSize: res.body?.length || 0,
-            total: totalPageCount || res.headers.get('x-total-count') || res.body?.length || 0,
-        } as Extra;
+        const extra: XmTableEntityRepositoryQuery = {
+            pageIndex: params.page || 0,
+            pageSize: params.size || body.length || 0,
+            sortBy: params.sortBy,
+            sortOrder: params.sortOrder,
+            total: totalPageCount
+                || parseInt(res.headers.get('x-total-count'))
+                || body.length || 0,
+        };
 
         const items = res.body;
-        const body = Object.assign(items, extra);
+        body = Object.assign(items, extra);
 
         return res.clone({ body });
     }

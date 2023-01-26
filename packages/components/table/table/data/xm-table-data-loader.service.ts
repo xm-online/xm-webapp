@@ -3,12 +3,14 @@ import { ArgumentException, NotSupportedException } from '@xm-ngx/shared/excepti
 import { Observable, of, switchMap } from 'rxjs';
 import { XmTableDataSource } from '../interfaces/xm-table.model';
 import { XmDynamicServiceLoader } from './xm-dynamic-service-loader.service';
-import { XmRequestBuilderService } from '@xm-ngx/components/table/table/requests/xm-request-builder.service';
+import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 
 export interface XmTableDataSourceI<T> {
     loading$: Observable<boolean>;
     query: (query: object, config: XmTableDataSource) => Observable<T[]>;
 }
+
+// "currentQuery": "typeKey:\"GROUP-MEMBER\"",
 
 @Injectable({ providedIn: 'any' })
 export class XmTableDataLoaderService<P> {
@@ -16,7 +18,7 @@ export class XmTableDataLoaderService<P> {
     private _loading$: Observable<boolean> = of(false);
 
     constructor(private dynamicLoader: XmDynamicServiceLoader,
-                private requestBuilderService: XmRequestBuilderService) {
+                private requestBuilderService: XmTableFilterController) {
     }
 
     public getDataManagerService(): XmTableDataSourceI<P> {

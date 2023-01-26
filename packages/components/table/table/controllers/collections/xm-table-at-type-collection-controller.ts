@@ -1,15 +1,15 @@
 import * as _ from 'lodash';
 
-import { lastValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
-import {
-    IXmTableCollectionController,
-    XmTableConfigController, XmTableEntityController,
-} from '@xm-ngx/components/table/table';
+
 import {
     AXmTableLocalPageableCollectionController,
-} from '@xm-ngx/components/table/table/controllers/collections/a-xm-table-local-pageable-collection-controller.service';
+} from './a-xm-table-local-pageable-collection-controller.service';
 import { Injectable } from '@angular/core';
+import { IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { XmTableConfigController } from '../config/xm-table-config-controller.service';
+import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 
 export interface AtTypeListConfig {
     key: string;
@@ -46,8 +46,8 @@ export class XmTableAtTypeCollectionController<T extends AtType = AtType>
     }
 
     public async load(pageableAndSortable: PageableAndSortable | null): Promise<void> {
-        this.config = await lastValueFrom(this.configController.config$());
-        this.entity = await lastValueFrom(this.entityController.entity$());
+        this.config = await firstValueFrom(this.configController.config$());
+        this.entity = await firstValueFrom(this.entityController.entity$());
         const primary: { [key: string]: T } = _.get(this.entity, this.config.path, {});
         let clone = _.cloneDeep(primary);
 

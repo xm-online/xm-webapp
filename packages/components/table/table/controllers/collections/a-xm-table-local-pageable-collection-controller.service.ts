@@ -6,7 +6,7 @@ import {
 import { IXmTableCollectionController } from './i-xm-table-collection-controller';
 import {
     AXmTableStateCollectionController
-} from '@xm-ngx/components/table/table/controllers/collections/a-xm-table-state-collection-controller.service';
+} from './a-xm-table-state-collection-controller.service';
 
 export abstract class AXmTableLocalPageableCollectionController<T>
     extends AXmTableStateCollectionController<T>

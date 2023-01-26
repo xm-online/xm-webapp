@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { NotSupportedException } from '@xm-ngx/shared/exceptions';
-import {
-    IXmTableCollectionController,
-    XmTableConfigController,
-    XmTableEntityController,
-} from '@xm-ngx/components/table/table';
+
 import {
     XmTableArrayCollectionControllerConfig,
-} from '@xm-ngx/components/table/table/controllers/collections/xm-table-array-collection-controller';
-import { lastValueFrom } from 'rxjs';
+} from './xm-table-array-collection-controller';
+import { firstValueFrom } from 'rxjs';
 import {
     AXmTableLocalPageableCollectionController,
-} from '@xm-ngx/components/table/table/controllers/collections/a-xm-table-local-pageable-collection-controller.service';
+} from './a-xm-table-local-pageable-collection-controller.service';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { get } from 'lodash';
+import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
+import { IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 
 @Injectable()
 export class XmTableReadOnlyArrayCollectionController<T = unknown>
@@ -39,8 +38,8 @@ export class XmTableReadOnlyArrayCollectionController<T = unknown>
     }
 
     public async load(pageableAndSortable: PageableAndSortable | null): Promise<void> {
-        this.config = await lastValueFrom(this.configController.config$());
-        this.entity = await lastValueFrom(this.entityController.entity$());
+        this.config = await firstValueFrom(this.configController.config$());
+        this.entity = await firstValueFrom(this.entityController.entity$());
         this.items = get(this.entity, this.config.path, []) as T[];
     }
 

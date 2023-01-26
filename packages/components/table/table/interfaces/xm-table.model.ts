@@ -1,22 +1,39 @@
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
+import {
+    XmTableRepositoryCollectionConfig
+} from '../controllers/collections/xm-table-read-only-repository-collection-controller';
+import {
+    PAGEABLE_AND_SORTABLE_DEFAULT,
+    PageableAndSortable
+} from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/table-empty/xm-table-empty.component';
 
 export interface XmTableConfig {
+    /** Title */
+    title: Translate,
+    /** Filters configuration */
+    filters: FormGroupLayoutItem[],
+    /** Actions configuration */
+    actions: XmTableAction[],
+    /** Selection configuration */
+    selection: XmTableAction[],
+    /** Columns configuration */
+    columns: XmTableColumn[],
+    collection: {
+        type: string | null,
+        repository: XmTableRepositoryCollectionConfig | null;
+    },
+    pageableAndSortable: PageableAndSortable,
+    options: XmTableOptions,
 
-     // repository: {
-     //     api:'',
-     //     key:'',
-     //     getAllRequest:{}
-     // }
+    // pagination: XmTablePagination // Pagination configuration
 
-    title: Translate, //Table title
-    dataSource: any,//XmTableDataSource, //Table data source specification
-    columns: Array<XmTableColumn>, //Columns configuration
-    filters: FormGroupLayoutItem[], // Filters configuration
-    options: XmTableOptions, // Table configuration
-    actions: XmTableActions, // Actions configuration
-    pagination: XmTablePagination // Pagination configuration
+
+    //Table title
+    // options: XmTableOptions, // Table configuration
+    // dataSource: any,//XmTableDataSource, //Table data source specification
 }
 
 
@@ -39,6 +56,7 @@ export interface XmTableDataSource {
 }
 
 export interface XmTableColumn {
+    name: string;// temporary, backward compatibility
     field: string;// temporary, backward compatibility
     //key: string, // Column identifier to use in another part of configuration
     title: Translate, // Column name
@@ -77,46 +95,44 @@ export interface XmTableFilter {
 }
 
 export interface XmTableOptions {
-    sortBy: string, // default fields for sorting
-    sortDirection: 'desc' | 'asc', // default sorting direction
-    selectableRows: boolean, // true to allow checkboxes for row
-    noRows: EmptyRows
+    // sortBy: string, // default fields for sorting
+    // sortDirection: 'desc' | 'asc', // default sorting direction
+    isRowSelectable: boolean, // true to allow checkboxes for row
+    noRows: XmTableEmptyRows
 }
 
-export interface EmptyRows {
-    initial: EmptyTableConfig, // case , when table initially loaded empty
-    filter: EmptyTableConfig // case, when table filtered empty
-}
 
 export interface EmptyTableConfig {
     image: string,
     message: Translate
 }
 
-export interface XmTableActions {
-    forOne: ActionComponent[],
-    forGroup: ActionComponent[],
-    forAll: ActionComponent[]
-}
-
-export interface ActionComponent {
+export interface XmTableAction {
     component: string,
     inline: boolean,
     icon: string,
     options: unknown
 }
 
-export interface XmTablePagination {
-    pageSizeOptions: number[];
-}
 
-export const DEFAULT_XM_TABLE_CONFIG: XmTableConfig = {
-    title: '',
-    dataSource: null,
-    columns: [],
+export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
+    options: {
+        isRowSelectable: false,
+        noRows: DEFAULT_NO_ROWS_CONFIG,
+    },
+    title: null,
+    actions: [],
+    selection: [],
     filters: [],
-    options: null,
-    actions: null,
-    pagination: { pageSizeOptions: [5, 10, 25] },
+    columns: [],
+    collection: {
+        type: null,
+        repository: null,
+    },
+    pageableAndSortable: PAGEABLE_AND_SORTABLE_DEFAULT,
+
+    // dataSource: null,
+    // options: null,
+    // page: { pageSizeOptions: [5, 10, 25] },
 };
 

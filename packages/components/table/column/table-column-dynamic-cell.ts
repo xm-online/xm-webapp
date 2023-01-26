@@ -16,6 +16,7 @@ import { XmDynamicCell, XmDynamicCellModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { CommonModule } from '@angular/common';
 import { ShowHideColumnsSettingsModule } from '../show-hide-columns-setting-widget/show-hide-columns-settings.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
     name: string;
@@ -45,8 +46,8 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
                 mat-sort-header
                 [class]="column.headClass"
                 [style]="column.headStyle"
-                [disabled]="isSortable()">
                 [matTooltip]="column.tooltip | translate"
+                [disabled]="isSortable()">
                 {{column.title | translate}}
 
                   <xm-show-hide-columns-settings *ngIf="column.storageColumn"></xm-show-hide-columns-settings>
@@ -118,6 +119,7 @@ export class TableColumnDynamicCell implements OnDestroy, OnInit {
         XmTranslationModule,
         MatSortModule,
         ShowHideColumnsSettingsModule,
+        MatTooltipModule,
     ],
     exports: [TableColumnDynamicCell],
     declarations: [TableColumnDynamicCell],
