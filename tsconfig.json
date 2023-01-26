@@ -33,6 +33,9 @@
       "@xm-ngx/core": [
         "packages/core"
       ],
+      "@xm-ngx/core/client": [
+        "packages/core/client"
+      ],
       "@xm-ngx/core/context": [
         "packages/core/context"
       ],
@@ -63,6 +66,9 @@
       "@xm-ngx/core/theme": [
         "packages/core/theme"
       ],
+      "@xm-ngx/core/role": [
+        "packages/core/role"
+      ],
       "@xm-ngx/core/environment": [
         "src/environments"
       ],
@@ -82,7 +88,7 @@
         "packages/json-schema-form/*"
       ],
       "@xm-ngx/toaster": [
-        "src/app/shared/toaster"
+        "packages/toaster"
       ],
       "@xm-ngx/logger": [
         "packages/logger"

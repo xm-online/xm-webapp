@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UIPublicConfig, XmSessionService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
-import { XmApplicationConfigService } from '../../shared/spec';
+import { XmApplicationConfigService } from '@xm-ngx/core/config';
 import { VERSION } from '../../xm.constants';
 
 

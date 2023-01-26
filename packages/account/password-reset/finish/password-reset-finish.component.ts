@@ -5,10 +5,10 @@ import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthServerProvider } from '@xm-ngx/core/auth';
-import { PasswordSpec } from '@xm-ngx/entity';
+import { PasswordSpec } from '@xm-ngx/core/config';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { XmConfigService } from '@xm-ngx/xm-shared';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../../../src/app/xm.constants';
 import { PasswordResetFinish } from './password-reset-finish.service';
 

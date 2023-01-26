@@ -11,7 +11,7 @@ import {
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
-import { XmConfigService } from '../spec/config.service';
+import { XmConfigService } from '@xm-ngx/core/config';
 
 declare global {
     interface Window {google: { maps: any }}

@@ -13,7 +13,7 @@ import { JhiParseLinks } from 'ng-jhipster';
 import { merge, Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith, switchMap } from 'rxjs/operators';
 
-import { Client, ClientService } from '../../../../src/app/shared';
+import { Client, ClientService } from '@xm-ngx/core/client';
 import { BaseAdminListComponent } from '../admin.service';
 import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dialog.component';
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';

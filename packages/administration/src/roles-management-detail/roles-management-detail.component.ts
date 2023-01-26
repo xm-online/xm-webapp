@@ -12,8 +12,9 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { Role, RoleService, XmConfigService } from '../../../../src/app/shared';
-import { Permission } from '../../../../src/app/shared/role/permission.model';
+import { Role, RoleService } from '@xm-ngx/core/role';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { Permission } from '@xm-ngx/core/role';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
 
 @Component({

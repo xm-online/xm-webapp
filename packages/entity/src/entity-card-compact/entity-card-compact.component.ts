@@ -16,7 +16,7 @@ import { XmEntityService } from '../shared/xm-entity.service';
  * @privateRemarks
  * transferred from entity-detail-fab
  */
-import { EntityDetailDisplayMode, EntityUiConfig } from '@xm-ngx/xm-shared/spec/xm-ui-config-model';
+import { EntityDetailDisplayMode, EntityUiConfig } from '@xm-ngx/core/config';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
 
 import swal from 'sweetalert2/dist/sweetalert2';
