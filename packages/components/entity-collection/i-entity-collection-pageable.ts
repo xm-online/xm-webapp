@@ -6,7 +6,7 @@ import { IEntityCollection, QueryParams } from './i-entity-collection';
 
 export interface Sortable {
     /** Sort by the fields. */
-    sortBy?: string[] | string;
+    sortBy?: string[] | string | null;
     /** Sort order. */
     sortOrder?: SortDirection;
 }
@@ -19,6 +19,17 @@ export interface Pageable {
     /** The <pageSize> is the number of items on the requested page. */
     pageSize?: number;
 }
+
+export interface PageableAndSortable extends Pageable, Sortable {
+}
+
+export const PAGEABLE_AND_SORTABLE_DEFAULT: PageableAndSortable = {
+    pageIndex: 0,
+    pageSize: 0,
+    total: 0,
+    sortOrder: 'asc',
+    sortBy: null,
+};
 
 export type QueryParamsPageable = QueryParams & Pageable & Sortable;
 
