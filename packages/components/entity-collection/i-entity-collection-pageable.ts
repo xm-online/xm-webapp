@@ -43,6 +43,9 @@ export interface IEntityCollectionPageable<T extends IId = unknown, Extra extend
     /** PUT request. Use to replace or delete entity data. */
     update(update: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>>;
 
+    /** PATCH request. Use to replace entity data. */
+    patch<E, R>(update: Partial<E>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<R>>;
+
     /** PUT request. Use to replace or create an entity. */
     upsert(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>>;
 }

@@ -14,7 +14,7 @@ import {
     formLayout,
     getJsfWidgets,
     processValidationMessages,
-} from '@xm-ngx/json-schema-form/widgets';
+} from '@xm-ngx/json-schema-form/components';
 import { EXAMPLES } from './example-schemas.model';
 
 interface FormsConfig {

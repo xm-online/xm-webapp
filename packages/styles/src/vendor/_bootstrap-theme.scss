@@ -68,6 +68,6 @@ $lead-font-size:         map_get($xm-subheading-1, font-size);
   $border-radius-sm: 0;
 }
 
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';

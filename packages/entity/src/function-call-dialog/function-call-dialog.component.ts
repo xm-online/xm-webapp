@@ -13,7 +13,7 @@ import { FunctionSpec } from '@xm-ngx/entity';
 import { FunctionService } from '@xm-ngx/entity';
 import { XmEntity } from '@xm-ngx/entity';
 import { JsonSchemaFormService } from '@ajsf/core';
-import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/widgets';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
 
 declare let $: any;
 
