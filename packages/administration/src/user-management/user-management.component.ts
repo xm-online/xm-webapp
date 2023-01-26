@@ -13,7 +13,9 @@ import { JhiParseLinks } from 'ng-jhipster';
 import { merge, Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith, switchMap } from 'rxjs/operators';
 import { User, UserService } from '@xm-ngx/core/user';
-import { Client, RoleService, UserLogin, UserLoginService } from '../../../../src/app/shared';
+import { RoleService } from '@xm-ngx/core/role';
+import { UserLogin, UserLoginService } from '@xm-ngx/account/user-login-widget';
+import { Client } from '@xm-ngx/core/client';
 
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { BaseAdminListComponent } from '../admin.service';

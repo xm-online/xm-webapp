@@ -28,7 +28,7 @@ import { XmLoggerWatcherService } from '@xm-ngx/logger';
 import { IdleLogoutService } from '@xm-ngx/account/logout/idle-logout.service';
 import { XmMainComponent } from 'src/app/layouts';
 import { LayoutModule } from 'src/app/layouts/layout.module';
-import { XmApplicationConfigService } from 'src/app/shared/spec';
+import { XmApplicationConfigService } from '@xm-ngx/core/config';
 import { XmRoutingModule } from 'src/app/xm-routing.module';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
 import { XM_ELEMENTS } from 'src/registries/xm.registry';

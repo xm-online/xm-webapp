@@ -8,7 +8,7 @@ import { combineLatest } from 'rxjs';
 import { TERMS_ERROR } from '../../xm.constants';
 import { LoginService } from '@xm-ngx/core/auth';
 import { StateStorageService } from '@xm-ngx/core/auth';
-import { XmConfigService } from '../spec/config.service';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { DOCUMENT } from '@angular/common';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';

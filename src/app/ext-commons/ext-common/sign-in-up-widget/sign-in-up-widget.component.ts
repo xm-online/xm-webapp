@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 
 import { XM_EVENT_LIST } from '../../../xm.constants';
 import { LanguageService } from '@xm-ngx/translation';
-import { XmConfigService } from '../../../shared';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { XmUIConfig } from '@xm-ngx/core/config';
 
 @Component({

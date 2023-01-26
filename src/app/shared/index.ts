@@ -5,15 +5,6 @@ export * from './login/login.component';
 export * from './register/register.component';
 export * from './register/register.service';
 
-export * from '../../../packages/account/user-login-widget/login/user-login.model';
-export * from '../../../packages/account/user-login-widget/login/user-login.service';
-export * from '../../../packages/account/user-login-widget/login/user-login-form.component';
-export * from './client/client.model';
-export * from './client/client.service';
-export * from './spec/config.service';
-export * from './spec/password-spec.model';
-export * from './role/role.model';
-export * from './role/role.service';
 export * from './idp/idp.component';
 
 export * from './g-map/xmGMapApiInit.directive';
