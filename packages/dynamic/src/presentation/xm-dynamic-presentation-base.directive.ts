@@ -183,6 +183,7 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         this.viewContainerRef.clear();
         this.compRef = this.viewContainerRef.createComponent(cfr.componentType, {
             index: 0,
+            ngModuleRef: cfr['ngModule'],
             injector: this.createInjector(),
         });
         this.instance = this.compRef.instance;

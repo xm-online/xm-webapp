@@ -67,17 +67,18 @@ export class XmDynamicWidgetDirective implements OnChanges {
             value.selector = `${value.module}/${value.component}`;
         }
 
-        const componentFactory = await this.dynamicLoader.loadAndResolve<XmDynamicWidget>(this._layout.selector, {injector: this.injector});
-        if (componentFactory) {
-            this.createComponent(this._layout, componentFactory);
+        const cfr = await this.dynamicLoader.loadAndResolve<XmDynamicWidget>(this._layout.selector, {injector: this.injector});
+        if (cfr) {
+            this.createComponent(this._layout, cfr);
             return;
         }
         console.warn(`"${value.selector}" does not exist!`);
     }
 
-    private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, componentFactory: ComponentFactory<T>): void {
-        this.compRef = this.viewRef.createComponent<XmDynamicWidget>(componentFactory.componentType, {
+    private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, cfr: ComponentFactory<T>): void {
+        this.compRef = this.viewRef.createComponent<XmDynamicWidget>(cfr.componentType, {
             index: 0,
+            ngModuleRef: cfr['ngModule'],
             injector: this.injector,
         });
 
