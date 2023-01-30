@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
@@ -85,6 +85,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
         OwlNativeDateTimeModule,
         ModalCloseModule,
         AngularEditorModule,
+        CommonModule,
     ],
     declarations: [
         // Components
@@ -176,7 +177,6 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
         SafeNamePipe,
         XmEntityStateSpecPipe,
         XmDateTimePipe,
-        DatePipe,
         XmEntityIconPipe,
         TimeFromPipe,
         // Modules
