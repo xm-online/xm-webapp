@@ -1,6 +1,6 @@
 export { XmUserService } from './src/xm-user.service';
 export { XmUser, XmUserLogin, XmUserPermission } from './src/xm-user-model';
-
+export { UserService } from './src/user.service';
 export { Principal } from './src/principal.service';
 export { AccountService } from './src/account.service';
 
