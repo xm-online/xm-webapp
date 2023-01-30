@@ -126,13 +126,13 @@ export class XmInlineControlComponent extends NgModelWrapper<unknown> implements
     }
 
     public get modeChanges(): Observable<XmInlineControlMode> {
-        return this._mode.asObservable().pipe(shareReplay());
+        return this._mode.asObservable().pipe(shareReplay(1));
     }
 
     public get isEditMode(): Observable<boolean> {
         return this.modeChanges.pipe(
             map((mode) => mode == XmInlineControlMode.edit),
-            shareReplay(),
+            shareReplay(1),
         );
     }
 
