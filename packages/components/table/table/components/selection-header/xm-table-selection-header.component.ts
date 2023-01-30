@@ -1,5 +1,5 @@
-import {animate, style, transition, trigger} from '@angular/animations';
-import {Component, Input} from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { XmTableAction } from '../../interfaces/xm-table.model';
 import {
     XmTableSelectionService,
@@ -9,6 +9,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { NgForOf, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { tap } from 'rxjs/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 
 @Component({
@@ -18,8 +20,8 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
     styleUrls: ['./xm-table-selection-header.component.scss'],
     animations: [
         trigger('fadeInOut', [
-            transition(':enter', [style({ opacity: 0 }), animate('500ms')]),
-            transition(':leave', [animate('500ms')]),
+            transition(':enter', [style({ opacity: 0 }), animate('250ms')]),
+            transition(':leave', [animate('150ms')]),
         ]),
     ],
     imports: [
@@ -31,7 +33,7 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
         XmDynamicModule,
     ],
 })
-export class XmTableSelectionHeaderComponent {
+export class XmTableSelectionHeaderComponent implements OnInit, OnDestroy {
     public inlineComponents: XmTableAction[];
     public groupComponents: XmTableAction[];
 
@@ -48,9 +50,23 @@ export class XmTableSelectionHeaderComponent {
         this.groupComponents = this._config?.filter(node => !node.inline);
     }
 
+    public isVisible: boolean;
     public selectionModel;
 
     constructor(private selectionService: XmTableSelectionService<unknown>) {
         this.selectionModel = this.selectionService.selection;
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
+    public ngOnInit(): void {
+        this.selectionService.selection.changed.pipe(
+            tap((select) => {
+                this.isVisible = !select.source.isEmpty();
+            }),
+            takeUntilOnDestroy(this),
+        ).subscribe();
     }
 }

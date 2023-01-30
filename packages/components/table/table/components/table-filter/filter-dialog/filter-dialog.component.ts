@@ -6,6 +6,7 @@ import { XmTableFilterService } from '../../../controllers/filters/xm-table-filt
 import { get } from 'lodash';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { EntitiesFilterWidgetModule } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget';
 
 @Component({
     selector: 'xm-filter-dialog',
@@ -16,10 +17,11 @@ import { MatButtonModule } from '@angular/material/button';
         MatDialogModule,
         FormLayoutModule,
         MatButtonModule,
+        EntitiesFilterWidgetModule,
     ],
 })
 export class FilterDialogComponent implements OnInit {
-    public config: FormGroupLayoutItem[];
+    public config: any;
     public group: UntypedFormGroup;
 
     constructor(private customOverlay: CustomOverlayRef<unknown, {config: FormGroupLayoutItem[], value: unknown}>,

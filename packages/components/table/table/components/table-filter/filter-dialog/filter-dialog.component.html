@@ -1,11 +1,14 @@
-<dav mat-dialog-title>Some CHIPS</dav>
 <mat-dialog-content>
-  <xm-form-layout [options]="config"
-                  [value]="group"></xm-form-layout>
+<!--  <xm-form-layout [options]="config"-->
+<!--                  [value]="group"></xm-form-layout>-->
+
+  <xm-filters-control-request [options]="config"
+                              class="xm-filters-control">
+  </xm-filters-control-request>
 
 </mat-dialog-content>
 <mat-dialog-actions class="actionButtons">
-  <a>LEARN MORE</a>
+<!--  <a>LEARN MORE</a>-->
   <div>
     <button mat-button
             (click)="close()">

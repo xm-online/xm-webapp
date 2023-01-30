@@ -5,7 +5,7 @@ import {
 } from './interfaces/xm-table.model';
 import { MatCardModule } from '@angular/material/card';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { AsyncPipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import {
     XmTableFilterComponent,
 } from './components/table-filter/xm-table-filter.component';
@@ -49,8 +49,8 @@ import {
 import * as _ from 'lodash';
 import { defaultsDeep } from 'lodash';
 import {
-    XmTableLoadingComponent
-} from './components/xm-table-loading.component';
+    XmTableLoadingColumnComponent
+} from './components/xm-table-loading-column.component';
 
 function getConfig(value: Partial<XmTableConfig>): XmTableConfig {
     const config = defaultsDeep({}, value, XM_TABLE_CONFIG_DEFAULT) as XmTableConfig;
@@ -69,6 +69,7 @@ interface IXmTableContext {
     templateUrl: './xm-table.component.html',
     styleUrls: ['./xm-table.component.scss'],
     standalone: true,
+    host: { class: 'xm-table' },
     imports: [
         MatCardModule,
         XmTranslationModule,
@@ -87,7 +88,8 @@ interface IXmTableContext {
         TableColumnDynamicCellModule,
         NgForOf,
         XmTableSelectionColumnComponent,
-        XmTableLoadingComponent,
+        XmTableLoadingColumnComponent,
+        NgClass,
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,
