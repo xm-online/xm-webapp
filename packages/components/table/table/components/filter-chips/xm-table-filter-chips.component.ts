@@ -1,18 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EntitiesFilterWidgetModule } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget';
 import { NgIf } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'xm-table-filter-chips',
     standalone: true,
-    templateUrl: './table-filter-chips.component.html',
-    styleUrls: ['./table-filter-chips.component.scss'],
+    templateUrl: './xm-table-filter-chips.component.html',
+    styleUrls: ['./xm-table-filter-chips.component.scss'],
     imports: [
         EntitiesFilterWidgetModule,
-        NgIf
+        NgIf,
+        MatButtonModule
     ]
 })
-export class TableFilterChipsComponent implements OnInit {
+export class XmTableFilterChipsComponent implements OnInit {
 
     @Input() public config: any;
 

@@ -1,0 +1,12 @@
+:host {
+  display:    flex;
+  max-height: 56px;
+}
+
+
+.xm-taable-filter {
+  display:   flex;
+  flex-grow: 1;
+  overflow:  hidden;
+  flex-wrap: nowrap;
+}

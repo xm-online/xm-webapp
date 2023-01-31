@@ -1,20 +1,20 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroupLayoutFactoryService } from '@xm-ngx/components/form-layout';
-import { CustomOverlayRef } from '../overlay/custom-overlay-ref';
+import { CustomOverlayRef } from '../../../../../overlay/custom-overlay-ref';
 import { of } from 'rxjs';
 
-import { FilterDialogComponent } from './filter-dialog.component';
+import { XmTableFilterDialogComponent } from './xm-table-filter-dialog.component';
 import { XmTableFilterService } from '../../../controllers/filters/xm-table-filter.service';
 
 describe('FilterDialogComponent', () => {
-    let component: FilterDialogComponent;
-    let fixture: ComponentFixture<FilterDialogComponent>;
+    let component: XmTableFilterDialogComponent;
+    let fixture: ComponentFixture<XmTableFilterDialogComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [FilterDialogComponent],
+            declarations: [XmTableFilterDialogComponent],
             providers: [
                 { provide: FormGroupLayoutFactoryService, useValue: null },
                 { provide: XmTableFilterService, useValue: { change$: () => of() } },
@@ -23,7 +23,7 @@ describe('FilterDialogComponent', () => {
         })
             .compileComponents();
 
-        fixture = TestBed.createComponent(FilterDialogComponent);
+        fixture = TestBed.createComponent(XmTableFilterDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

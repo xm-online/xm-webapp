@@ -1,9 +1,10 @@
-<div #theElementYouWantToCheck>
+<div class="Text" #theElementYouWantToCheck>
 <xm-filters-control-request [options]="config"
                             class="xm-filters-control">
 </xm-filters-control-request>
 </div>
 
-<button *ngIf="checkOverflow(theElementYouWantToCheck)"> More </button>
+<button mat-button
+        *ngIf="checkOverflow(theElementYouWantToCheck)"> More </button>
 <!--(requestChange)="OnFilterValueChange($event)"-->
 <!--[loading]="loading"-->

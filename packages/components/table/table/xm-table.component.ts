@@ -8,13 +8,13 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import {
     XmTableFilterComponent,
-} from './components/table-filter/xm-table-filter.component';
+} from './components/filter/xm-table-filter.component';
 import {
-    TableFilterChipsComponent,
-} from './components/table-filter-chips/table-filter-chips.component';
+    XmTableFilterChipsComponent,
+} from './components/filter-chips/xm-table-filter-chips.component';
 import {
-    TableActionsButtonsComponent,
-} from './components/table-actions-buttons/table-actions-buttons.component';
+    XmTableActionsButtonsComponent,
+} from './components/actions-buttons/xm-table-actions-buttons.component';
 import {
     XmTableCollectionControllerResolver,
     XM_TABLE_CONTROLLERS,
@@ -33,7 +33,7 @@ import {
     XmTableSelectionHeaderComponent,
 } from './components/selection-header/xm-table-selection-header.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { XmTableEmptyComponent } from './components/table-empty/xm-table-empty.component';
+import { XmTableEmptyComponent } from './components/empty/xm-table-empty.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Observable } from 'rxjs';
@@ -45,7 +45,7 @@ import {
     SelectTableColumn,
     XM_TABLE_SELECTION_COLUMN_DEFAULT,
     XmTableSelectionColumnComponent,
-} from './components/selection-column/selection-column.component';
+} from './components/selection-column/xm-table-selection-column.component';
 import * as _ from 'lodash';
 import { defaultsDeep } from 'lodash';
 import {
@@ -76,8 +76,8 @@ interface IXmTableContext {
         NgIf,
         JsonPipe,
         XmTableFilterComponent,
-        TableFilterChipsComponent,
-        TableActionsButtonsComponent,
+        XmTableFilterChipsComponent,
+        XmTableActionsButtonsComponent,
         XmTableSelectionHeaderComponent,
         MatPaginatorModule,
         XmTableEmptyComponent,

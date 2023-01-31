@@ -9,8 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
     selector: 'xm-table-actions-buttons',
     standalone: true,
-    templateUrl: './table-actions-buttons.component.html',
-    styleUrls: ['./table-actions-buttons.component.scss'],
+    templateUrl: './xm-table-actions-buttons.component.html',
+    styleUrls: ['./xm-table-actions-buttons.component.scss'],
     imports: [
         MatMenuModule,
         MatIconModule,
@@ -20,7 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
         NgIf
     ]
 })
-export class TableActionsButtonsComponent implements OnInit {
+export class XmTableActionsButtonsComponent implements OnInit {
     @Input() public config: any;
 
 

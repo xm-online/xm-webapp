@@ -1,26 +1,26 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TableActionsButtonsComponent } from './table-actions-buttons.component';
+import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.component';
 import {
     XmTableSelectionService
 } from '../../controllers/selections/xm-table-selection.service';
 
 describe('TableActionsButtonsComponent', () => {
-    let component: TableActionsButtonsComponent;
-    let fixture: ComponentFixture<TableActionsButtonsComponent>;
+    let component: XmTableActionsButtonsComponent;
+    let fixture: ComponentFixture<XmTableActionsButtonsComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [TableActionsButtonsComponent],
+            declarations: [XmTableActionsButtonsComponent],
             providers: [
                 { provide: XmTableSelectionService, useValue: {} },
             ],
         })
             .compileComponents();
 
-        fixture = TestBed.createComponent(TableActionsButtonsComponent);
+        fixture = TestBed.createComponent(XmTableActionsButtonsComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

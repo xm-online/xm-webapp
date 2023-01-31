@@ -1,20 +1,20 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TableFilterChipsComponent } from './table-filter-chips.component';
+import { XmTableFilterChipsComponent } from './xm-table-filter-chips.component';
 
 describe('TableFilterChipsComponent', () => {
-    let component: TableFilterChipsComponent;
-    let fixture: ComponentFixture<TableFilterChipsComponent>;
+    let component: XmTableFilterChipsComponent;
+    let fixture: ComponentFixture<XmTableFilterChipsComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [TableFilterChipsComponent],
+            declarations: [XmTableFilterChipsComponent],
         })
             .compileComponents();
 
-        fixture = TestBed.createComponent(TableFilterChipsComponent);
+        fixture = TestBed.createComponent(XmTableFilterChipsComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

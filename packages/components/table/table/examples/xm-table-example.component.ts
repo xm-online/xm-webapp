@@ -19,7 +19,7 @@ export class XmTableExampleComponent {
         columns: [
             {
                 selector: '@xm-ngx/components/text',
-                title:'Name',
+                title: 'Name',
                 field: 'name',
                 sortable: true,
                 sticky: true,

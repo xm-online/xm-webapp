@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { FormGroupLayoutItem, FormLayoutModule } from '@xm-ngx/components/form-layout';
-import { CustomOverlayRef } from '../overlay/custom-overlay-ref';
+import { CustomOverlayRef } from '@xm-ngx/components/overlay/custom-overlay-ref';
 import { XmTableFilterService } from '../../../controllers/filters/xm-table-filter.service';
 import { get } from 'lodash';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -11,8 +11,8 @@ import { EntitiesFilterWidgetModule } from '@xm-ngx/ext/entity-webapp-ext/module
 @Component({
     selector: 'xm-filter-dialog',
     standalone: true,
-    templateUrl: './filter-dialog.component.html',
-    styleUrls: ['./filter-dialog.component.scss'],
+    templateUrl: './xm-table-filter-dialog.component.html',
+    styleUrls: ['./xm-table-filter-dialog.component.scss'],
     imports: [
         MatDialogModule,
         FormLayoutModule,
@@ -20,7 +20,7 @@ import { EntitiesFilterWidgetModule } from '@xm-ngx/ext/entity-webapp-ext/module
         EntitiesFilterWidgetModule,
     ],
 })
-export class FilterDialogComponent implements OnInit {
+export class XmTableFilterDialogComponent implements OnInit {
     public config: any;
     public group: UntypedFormGroup;
 
