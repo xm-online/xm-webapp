@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as glob from 'glob';
 
+export const isFile = (source: string): boolean => fs.existsSync(source);
 export const isDirectory = (source: string): boolean => fs.lstatSync(source).isDirectory();
 
 export const getDirectories = (source: string): string[] => glob.sync(source).filter(isDirectory);

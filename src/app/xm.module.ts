@@ -31,7 +31,7 @@ import { LayoutModule } from 'src/app/layouts/layout.module';
 import { XmApplicationConfigService } from '@xm-ngx/core/config';
 import { XmRoutingModule } from 'src/app/xm-routing.module';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
-import { XM_ELEMENTS } from 'src/registries/xm.registry';
+
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
@@ -76,7 +76,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
             // #regionstart dynamic-extension-modules
             // #regionend dynamic-extension-modules
         ]),
-        XmDynamicModule.forRoot(XM_ELEMENTS),
+        XmDynamicModule.forRoot(),
         LayoutModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],

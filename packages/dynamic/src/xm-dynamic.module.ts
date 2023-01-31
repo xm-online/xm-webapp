@@ -38,7 +38,7 @@ export function dynamicModuleInitializer(components: XmDynamicEntries): Provider
     providers: [],
 })
 export class XmDynamicModule {
-    public static forRoot(components: XmDynamicEntries): ModuleWithProviders<XmDynamicModule> {
+    public static forRoot(components: XmDynamicEntries = []): ModuleWithProviders<XmDynamicModule> {
         return {
             ngModule: XmDynamicModule,
             providers: [

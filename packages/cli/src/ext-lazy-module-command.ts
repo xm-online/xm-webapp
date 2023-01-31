@@ -1,12 +1,13 @@
 import * as _ from 'lodash';
 import { Command } from './command';
-import { getDirectories } from './fs-utils';
+import { getDirectories, isFile } from './fs-utils';
 import * as fs from 'fs';
 import { ignoreChangedFile } from './git-utils';
 
 export class ExtLazyModuleCommand implements Command {
 
     public sources: string[] = [
+        'packages/*',
         'src/app/ext-commons/*',
         'src/app/ext/*',
     ];
@@ -39,16 +40,30 @@ export class ExtLazyModuleCommand implements Command {
     public updateAngularJsonLazyModules(): string {
         const extDirs = this.getAllDirectories();
         const modules: string[] = [];
-        _.forEach(extDirs, (i) => {
-            const directory = i.slice(i.lastIndexOf('/'), i.length).replace('/', '');
-            const className = directory.split('-').map((e) => e[0].toUpperCase() + e.slice(1)).join('') + 'Module';
-            const path = i.replace('src/app', '.') + `/module/${directory}.module`;
-            const selector = directory.replace('-webapp-ext', '');
-            const template = this.template(selector, path, className);
+        _.forEach(extDirs, (directoryPath) => {
+            const directoryName = directoryPath.slice(directoryPath.lastIndexOf('/'), directoryPath.length).replace('/', '');
+            const className = directoryName.split('-').map((e) => e[0].toUpperCase() + e.slice(1)).join('') + 'Module';
+            const modulePath = directoryPath + `/module/${directoryName}.module`;
+
+            if (!isFile(modulePath + '.ts')) {
+                return;
+            }
+
+            let selector = directoryName.replace('-webapp-ext', '');
+
+            // TODO:WORKAROUND: resolve company name, after migration to packages change to import by path
+            if (directoryPath.startsWith('packages/')) {
+                selector = '@xm-ngx/' + selector;
+            }
+
+            const template = this.template(selector, modulePath, className);
             modules.push(template);
-            console.info(`Update xm.module.ts selector: "${selector}", lazyModules: "${path}"`);
-            /** Backward compatibility: ext- will be removed in the next release. */
-            modules.push(this.template('ext-' + selector, path, className));
+            console.info(`Update xm.module.ts selector: "${selector}", lazyModules: "${modulePath}", className: "${className}"`);
+
+            if (!directoryPath.startsWith('packages/')) {
+                /** Backward compatibility: ext- will be removed in the next release. */
+                modules.push(this.template('ext-' + selector, modulePath, className));
+            }
         });
         return modules.join('');
     }
