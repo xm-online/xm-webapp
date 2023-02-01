@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { buildMapId, buildPinSymbol } from '../../../shared/helpers/google-map-helper';
-import { XmEntity, XmEntityService } from '../../../xm-entity/';
+import { XmEntity, XmEntityService } from '@xm-ngx/entity';
 
 declare const google: any;
 declare const MarkerClusterer: any;

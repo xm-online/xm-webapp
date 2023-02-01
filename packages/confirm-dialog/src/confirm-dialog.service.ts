@@ -15,12 +15,14 @@ export class XmConfirmDialogService {
     ) {
     }
 
-    public open(title?: Translate, controls?: XmConfirmDialogControls, subtitle?: Translate): MatDialogRef<any> {
+    public open(title?: Translate, controls?: XmConfirmDialogControls, subtitle?: Translate, cancelButtonText?: Translate, confirmButtonText?: Translate): MatDialogRef<any> {
         this.dialogRef = this.matDialog.open<XmConfirmDialogComponent, XmConfirmDialogData>(XmConfirmDialogComponent, {
             data: {
                 title,
                 controls,
-                subtitle
+                subtitle,
+                cancelButtonText,
+                confirmButtonText,
             },
         });
 

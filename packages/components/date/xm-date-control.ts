@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
-import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error/xm-control-errors-translates';
+import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
@@ -23,6 +23,7 @@ export interface XmDateControlOptions {
     useUtc?: boolean;
     errors?: XmControlErrorsTranslates;
     disableFutureDates?: boolean;
+    dateNow?: boolean;
 }
 
 const DEFAULT_CONFIG: XmDateControlOptions = {
@@ -43,7 +44,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
             <input matInput
                    (dateChange)="changeDateControl($event)"
                    [formControl]="control"
-                   [min]="null"
+                   [min]="options?.dateNow ? dateNow : undefined"
                    [max]="maxDate"
                    [matDatepicker]="picker"
                    [name]="options?.name"
@@ -76,6 +77,8 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
                 @Inject(XM_CONTROL_ERRORS_TRANSLATES) private xmControlErrorsTranslates: {[errorKey: string]: Translate}) {
         super(ngControl);
     }
+
+    public dateNow = new Date(Date.now());
 
     public maxDate: Date | null;
 

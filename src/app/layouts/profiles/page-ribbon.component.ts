@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UIPublicConfig, XmEventManager } from '@xm-ngx/core';
-import { Principal, SUPER_ADMIN } from '@xm-ngx/core/auth';
+import { SUPER_ADMIN } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { XM_EVENT_LIST } from '../../xm.constants';
 import { ProfileInfo } from './profile-info.model';
 import { ProfileService } from './profile.service';
-import { XmApplicationConfigService } from '../../shared/spec';
+import { XmApplicationConfigService } from '@xm-ngx/core/config';
 
 @Component({
     selector: 'xm-page-ribbon',

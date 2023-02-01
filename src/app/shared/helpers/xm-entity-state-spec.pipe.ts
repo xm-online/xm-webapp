@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Spec } from '../../xm-entity';
+import { Spec } from '@xm-ngx/entity';
 
 @Pipe({name: 'xmEntityStateSpec'})
 export class XmEntityStateSpecPipe implements PipeTransform {

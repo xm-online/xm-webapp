@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Principal } from '@xm-ngx/core/auth';
-import { I18nNamePipe } from '@xm-ngx/components/language';
+import { Principal } from '@xm-ngx/core/user';
+import { I18nNamePipe } from '@xm-ngx/translation';
 import { ExtSelectOptions } from './ext-select-options.model';
 import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 

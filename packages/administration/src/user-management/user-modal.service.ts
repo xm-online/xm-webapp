@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { User, UserService } from '../../../../src/app/shared';
+import { User, UserService } from '@xm-ngx/core/user';
 
 @Injectable()
 export class UserModalService {
@@ -29,9 +29,9 @@ export class UserModalService {
                     this.isOpen = false;
                 });
             return null;
-        } 
+        }
         return this.userModalRef(component, new User());
-        
+
     }
 
     public userModalRef(component: any, user: User): MatDialogRef<any> {

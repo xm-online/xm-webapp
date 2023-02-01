@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SpecificationManagementComponent } from '@xm-ngx/administration/specification-management/specification-management.component';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
-import { XmConfigService } from '../../../../../src/app/shared';
+import { XmConfigService } from '@xm-ngx/core/config';
 
 @Component({
     selector: 'xm-uaa-login-mng',

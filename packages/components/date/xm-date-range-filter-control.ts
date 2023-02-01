@@ -5,13 +5,13 @@ import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } f
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { XmTranslationModule } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { DateTimeAdapter, OwlDateTimeIntl, OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { XmDateModule } from '@xm-ngx/components/date/xm-date.component';
+import { XmDateModule } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -26,7 +26,7 @@ type DateInitValues = keyof typeof dateInitValues;
 
 export interface IDateOptions {
     hint?: HintText;
-    title?: string;
+    title?: Translate | string;
     min?: DateValue;
     max?: DateValue;
     start?: DateValue;
@@ -46,6 +46,8 @@ type DateValue = string[] | Date[];
     selector: 'xm-date-range-filter-control',
     template: `
         <mat-form-field class="xm-custom-input-icon">
+            <mat-label *ngIf="options?.title">{{ options?.title | translate }}</mat-label>
+
             <div class="to-display" *ngIf="value && value.length > 0">
                 <xm-date [value]="value[0]" [options]="options"></xm-date>
                 ~
@@ -61,7 +63,6 @@ type DateValue = string[] | Date[];
                    [owlDateTimeTrigger]="dt1"
                    [owlDateTime]="dt1"
                    [disabled]="disabled"
-                   [placeholder]="options.title | translate"
                    [required]="options?.required"
                    class="abs"
                    matInput>

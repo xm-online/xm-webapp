@@ -1,7 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit } from '@angular/core';
 
-import { XmEntity, XmEntityService } from '../../../xm-entity/';
+import { XmEntity, XmEntityService } from '@xm-ngx/entity';
 import * as Chartist from 'chartist';
 import { LineChart } from 'chartist';
 

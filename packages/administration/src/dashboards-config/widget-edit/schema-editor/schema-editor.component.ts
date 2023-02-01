@@ -1,9 +1,8 @@
-import {Component, Input, OnChanges, OnInit, Optional, Self, SimpleChanges} from '@angular/core';
-import {NgControlAccessor} from '@xm-ngx/components/ng-accessor';
-import {NgControl} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
-import {DynamicComponentSpecEntity} from '@xm-ngx/cli';
-import * as _ from 'lodash';
+import { Component, Input, OnChanges, OnInit, Optional, Self, SimpleChanges } from '@angular/core';
+import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
+import { NgControl } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { DynamicComponentSpecEntity } from '@xm-ngx/cli';
 
 export interface SchemaEditorOptions {
     selector: string;
@@ -21,7 +20,9 @@ export class SchemaEditorComponent
     @Input() public options: SchemaEditorOptions;
     public componentSpecification: DynamicComponentSpecEntity[] = [];
 
-    public schema: object;
+    public entity?: DynamicComponentSpecEntity;
+
+    public entityAsString = (): string => JSON.stringify(this.entity, null,2);
 
     constructor(
         @Optional() @Self() public ngControl: NgControl,
@@ -34,32 +35,15 @@ export class SchemaEditorComponent
         this.httpClient.get<DynamicComponentSpecEntity[]>('/assets/specification/dynamic_components_spec_output.json')
             .subscribe(res => {
                 this.componentSpecification = res;
-                this.ngOnChanges({});
+                this.ngOnChanges(null);
             });
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.options) {
-            if (this.options.selector) {
-                this.schema = this.componentSpecification
-                    .find(i => i.selector == this.options.selector)
-                    ?.configurationSchema;
-            } else
-                this.schema = null;
-        }
+        if (this.options.selector) {
+            this.entity = this.componentSpecification
+                .find(i => i.selector == this.options.selector);
+        } else
+            this.entity = null;
     }
-
-    public changeBridge(value: object): void {
-        // WORKAROUND: AJSF has a bug. After the data change it set `{}` with `value` interchangeable 5 times.
-        if (_.isEmpty(value)) {
-            return;
-        }
-
-        if (_.isEqual(this.value, value)) {
-            return;
-        }
-
-        this.change(value);
-    }
-
 }

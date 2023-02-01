@@ -19,20 +19,14 @@ export class ExtThemesCommand implements Command {
     public execute(): void {
         console.info('Building custom theme scss files.');
 
-        const files: string[] = _.flatten(_.map(this.themesPathMask, (themePath) => glob.sync(themePath, {sync: true})));
+        const files: string[] = _.flatten(_.map(this.themesPathMask, (themePath) => glob.sync(themePath, { sync: true })));
         for (const file of files) {
             const matches = /^_?([a-zA-Z-0-9]+).scss$/.exec(path.basename(file)) || [];
             const name = matches[1];
             const outFile = `${this.destPath}/${name}.css`;
 
             const res = sass.compile(file, {
-                importers: [{
-                    findFileUrl(url) {
-                        if (!url.startsWith('~')) return new URL(path.join('file://', process.cwd(), 'node_modules', url));
-                        return new URL(path.join('file://', process.cwd(), 'node_modules', url.replace('~', '')));
-                    },
-                }],
-                loadPaths: ['src', 'src/styles', this.config.extDir, '.'],
+                loadPaths: ['src', 'src/styles', this.config.extDir, '.', 'node_modules'],
                 sourceMap: false,
             });
 

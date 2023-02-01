@@ -1,8 +1,8 @@
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
-import { ContextService } from '../../../src/app/shared';
+import { ContextService } from '@xm-ngx/core/context';
 import { transpilingForIE } from '@xm-ngx/json-scheme-form';
 import { Dashboard } from '@xm-ngx/dashboard';
-import { MenuItem } from '@xm-ngx/components/menu/menu.interface';
+import { MenuItem } from './menu.interface';
 import { XmEntitySpec } from '@xm-ngx/entity';
 import * as _ from 'lodash';
 

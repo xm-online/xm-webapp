@@ -2,8 +2,8 @@ import { buildFormGroup, JsonSchemaFormService, removeRecursiveReferences } from
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
-import { JhiLanguageHelper } from '../../../index';
-import { XmConfigService } from '../../../spec/config.service';
+import { JhiLanguageHelper } from '@xm-ngx/translation';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { MultilingualInputV2Options } from './multilingual-input-v2-options.model';
 
 @Component({

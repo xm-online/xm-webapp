@@ -4,7 +4,7 @@
            type="text"
            #emailRef
            [ngModel]="searchLabel"
-           placeholder="email"
+           [placeholder]="options?.placeholder | translate"
            (keyup)="showAutocomplete = false;"
            (blur)="hideAutocomplete();"
            name="{{controlName}}">

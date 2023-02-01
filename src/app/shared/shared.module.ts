@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
@@ -12,20 +12,20 @@ import { UserLoginService } from '@xm-ngx/account/user-login-widget/login/user-l
 import { XmUserLoginWidgetModule } from '@xm-ngx/account/user-login-widget';
 import { MatModule } from '../mat.module';
 import {
-    AccountService,
     AuthServerProvider,
     AuthService,
     CSRFService,
-    HasAnyAuthorityDirective,
-    LoginService,
     StateStorageService,
-} from './auth';
-import { ClientService } from './client/client.service';
+} from '@xm-ngx/core/auth';
+import { AccountService } from '@xm-ngx/core/user';
+import { LoginService } from '@xm-ngx/core/auth';
+import { HasAnyAuthorityDirective, } from '@xm-ngx/core/permission';
+import { ClientService } from '../../../packages/core/client/client.service';
 import {
     PrivacyAndTermsDialogComponent,
 } from './components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfirmDialogComponent } from './components/xm-confirmation-dialog/xm-confirm-dialog.component';
-import { ContextService } from './context/context.service';
+import { ContextService } from '../../../packages/core/context/context.service';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { FocusDirective } from './directives/focus.directive';
 import { InputPreventPasteDirective } from './directives/input-prevent-paste.directive';
@@ -57,14 +57,14 @@ import { TextSectionComponent } from './jsf-extention/widgets/text-section/text-
 import { ValidationComponent } from './jsf-extention/widgets/validation-component/validation-component.component';
 import { LoginComponent } from './login/login.component';
 import { PasswordStrengthBarComponent } from './password-strength-bar/password-strength-bar.component';
-import { PrivilegeService } from './privilege';
+import { PrivilegeService } from '@xm-ngx/core/permission';
 import { RegisterComponent } from './register/register.component';
 import { RegisterService } from './register/register.service';
-import { RoleService } from './role/role.service';
+import { RoleService } from '../../../packages/core/role/role.service';
 import { ParseByPathService } from './services/parse-by-path.service';
 import { GateSharedLibsModule } from './shared-libs.module';
-import { XmConfigService } from './spec/config.service';
-import { UserService } from './user/user.service';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { UserService } from '@xm-ngx/core/user';
 import { TimeFromPipe } from './helpers/time-from.pipe';
 import {
     MultilingualInputV2Component,
@@ -85,6 +85,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
         OwlNativeDateTimeModule,
         ModalCloseModule,
         AngularEditorModule,
+        CommonModule,
     ],
     declarations: [
         // Components
@@ -176,7 +177,6 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
         SafeNamePipe,
         XmEntityStateSpecPipe,
         XmDateTimePipe,
-        DatePipe,
         XmEntityIconPipe,
         TimeFromPipe,
         // Modules

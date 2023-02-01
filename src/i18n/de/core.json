@@ -1463,6 +1463,10 @@
   },
   "xm-timeline": {
     "common": {
+      "no-items": "Es gibt keine Einträge für diese Anfrage!",
+      "show-more-10": "Mehr anzeigen",
+      "show-more-all": "Mehr",
+      "title": "Chronologie",
       "time-ago": {
         "day": "vor einem Tag",
         "days": " Tage",

@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { ReplaySubject, Subscription } from 'rxjs';
-import { Principal } from '../../../shared';
+import { Principal } from '@xm-ngx/core/user';
 
 import {
     EntityDetailDialogComponent,
@@ -13,8 +13,8 @@ import {
     XmEntity,
     XmEntitySpec,
     XmEntitySpecWrapperService,
-} from '../../../xm-entity';
-import { FunctionCallDialogComponent } from '../../../xm-entity/function-call-dialog/function-call-dialog.component';
+} from '@xm-ngx/entity';
+import { FunctionCallDialogComponent } from '@xm-ngx/entity/function-call-dialog/function-call-dialog.component';
 import { XM_EVENT_LIST } from '../../../xm.constants';
 import { pluck, takeUntil } from 'rxjs/operators';
 

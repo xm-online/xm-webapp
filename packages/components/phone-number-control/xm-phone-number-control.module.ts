@@ -26,4 +26,5 @@ import { HintModule } from '@xm-ngx/components/hint';
     ],
 })
 export class XmPhoneNumberControlModule {
+    public entry = XmPhoneNumberControlComponent;
 }

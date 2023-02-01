@@ -110,6 +110,10 @@ export const XM_ELEMENTS: XmDynamicEntries = [
         loadChildren: () => import('@xm-ngx/components/number-control').then(m => m.XmNumberControlModule),
     },
     {
+        selector: '@xm-ngx/components/numbers-range-control',
+        loadChildren: () => import('@xm-ngx/components/numbers-range-control').then(m => m.NumbersRangeControlModule),
+    },
+    {
         selector: '@xm-ngx/documentation/examples',
         loadChildren: () => import('../../packages/documentation/doc-examples/xm-doc-examples.module').then(m => m.XmDocExamplesModule),
     },
@@ -125,4 +129,8 @@ export const XM_ELEMENTS: XmDynamicEntries = [
         selector: '@xm-ngx/components/hint-switch',
         loadChildren: () => import('@xm-ngx/components/hint/hint-switch/hint-switch.module').then(m => m.HintSwitchModule),
     },
+    {
+        selector: '@xm-ngx/components/inline-control',
+        loadChildren: () => import('@xm-ngx/components/inline-control/inline-control.component').then(m => m.XmInlineControlComponent),
+    }
 ];

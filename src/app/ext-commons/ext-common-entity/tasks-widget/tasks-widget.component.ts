@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 
-import { EntityDetailDialogComponent, Spec, XmEntity, XmEntityService, XmEntitySpec } from '../../../xm-entity';
+import { EntityDetailDialogComponent, Spec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/entity';
 
 function sort(a: any, b: any): number {
     if (a.typeKey < b.typeKey) {

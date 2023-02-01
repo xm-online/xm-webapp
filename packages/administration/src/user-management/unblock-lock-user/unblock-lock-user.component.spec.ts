@@ -4,7 +4,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
-import { UserService } from '../../../../../src/app/shared';
+import { UserService } from '@xm-ngx/core/user';
 
 import { UnblockLockUserComponent } from './unblock-lock-user.component';
 
