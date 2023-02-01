@@ -7,7 +7,9 @@ import { ignoreChangedFile } from './git-utils';
 export class ExtLazyModuleCommand implements Command {
 
     public sources: string[] = [
-        'src/app/ext-commons/*',
+        // TODO:WORKAROUND: integrate packages compilation and import via npm.workspace
+        'packages/ext-common',
+        'packages/ext-common-entity',
         'src/app/ext/*',
     ];
 
