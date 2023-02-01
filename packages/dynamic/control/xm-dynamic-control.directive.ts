@@ -1,5 +1,4 @@
 import {
-    ComponentFactoryResolver,
     Directive,
     EventEmitter,
     forwardRef,
@@ -13,10 +12,10 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { XmDynamicConstructor, XmDynamicEntryModule } from '../../interfaces';
+import { XmDynamicConstructor, XmDynamicEntryModule } from '../src/interfaces';
 import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-base.directive';
 import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
-import { DynamicComponentLoaderService } from '../../loader/dynamic-component-loader.service';
+import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
 
 export interface XmDynamicControl<V = unknown, O = unknown> extends XmDynamicPresentation<V, O>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
@@ -75,10 +74,9 @@ export class XmDynamicControlDirective<V, O>
         viewContainerRef: ViewContainerRef,
         injector: Injector,
         renderer: Renderer2,
-        dynamicComponents: DynamicComponentLoaderService,
-        cfr: ComponentFactoryResolver,
+        dynamicComponents: XmDynamicComponentRegistry
     ) {
-        super(viewContainerRef, injector, renderer, dynamicComponents, cfr);
+        super(viewContainerRef, injector, renderer, dynamicComponents);
     }
 
     public ngOnInit(): void {

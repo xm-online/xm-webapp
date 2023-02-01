@@ -1,24 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
-import { XmDynamicControlDirective } from '../directive/control/xm-dynamic-control.directive';
-import { XmDynamicFormControlDirective } from '../directive/control/xm-dynamic-form-control.directive';
+import { XmDynamicControlDirective } from '../../control/xm-dynamic-control.directive';
+import { XmDynamicFormControlDirective } from '../../control/xm-dynamic-form-control.directive';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
 import { XmDynamicEntries } from '../interfaces/xm-dynamic-entry';
-import { XmDynamicPresentationLayoutComponent } from '../directive/presentation/xm-dynamic-presentation-layout.component';
-import { XmDynamicPresentationDirective } from '../directive/presentation/xm-dynamic-presentation.directive';
-import { XmDynamicWidgetLayoutComponent } from '../directive/widget/xm-dynamic-widget-layout.component';
-import { XmDynamicWidgetDirective } from '../directive/widget/xm-dynamic-widget.directive';
+import { XmDynamicPresentationLayoutComponent } from '../../presentation/xm-dynamic-presentation-layout.component';
+import { XmDynamicPresentationDirective } from '../../presentation/xm-dynamic-presentation.directive';
+import { XmDynamicWidgetLayoutComponent } from '../../widget/xm-dynamic-widget-layout.component';
+import { XmDynamicWidgetDirective } from '../../widget/xm-dynamic-widget.directive';
+import { XmDynamicComponentRegistry } from '@xm-ngx/dynamic/src/loader/xm-dynamic-component-registry.service';
+import { XmDynamicModuleRegistry } from '@xm-ngx/dynamic/src/loader/xm-dynamic-module-registry.service';
 
 export function dynamicModuleInitializer(components: XmDynamicEntries): Provider {
-    const res = {'any': {}};
-    components.forEach(comp => {
-        const type = comp.type || 'any';
-        if (!res[type]) {
-            res[type] = {};
-        }
-        res[type][comp.selector] = comp;
-    });
-    return [{provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: res}];
+    return [{provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: components}];
 }
 
 @NgModule({
@@ -46,8 +40,9 @@ export class XmDynamicModule {
         return {
             ngModule: XmDynamicModule,
             providers: [
-                dynamicModuleInitializer(components),
-            ],
+                XmDynamicComponentRegistry,
+                XmDynamicModuleRegistry,
+                dynamicModuleInitializer(components)],
         };
     }
 

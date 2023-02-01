@@ -1,7 +1,10 @@
 import { Directive, Injector, Input, OnChanges, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
 import * as _ from 'lodash';
 import { XmDynamicWidget } from './xm-dynamic-widget';
-import { DynamicComponentLoaderService } from '../../loader/dynamic-component-loader.service';
+import {
+    XmDynamicComponentRecord,
+    XmDynamicComponentRegistry,
+} from '../src/loader/xm-dynamic-component-registry.service';
 
 export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
     selector: string;
@@ -23,7 +26,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
     @Input() public style: string;
     private _layout: XmDynamicWidgetConfig;
 
-    constructor(private dynamicComponents: DynamicComponentLoaderService,
+    constructor(private dynamicComponents: XmDynamicComponentRegistry,
                 private renderer: Renderer2,
                 private injector: Injector,
                 private viewRef: ViewContainerRef) {
@@ -56,19 +59,19 @@ export class XmDynamicWidgetDirective implements OnChanges {
             value.selector = `${value.module}/${value.component}`;
         }
 
-        const result = await this.dynamicComponents.find(this._layout.selector, this.injector);
-        if (result?.component) {
+        try {
+            const result = await this.dynamicComponents.find<XmDynamicWidget>(this._layout.selector, this.injector);
             this.createComponent(this._layout, result);
-            return;
+        } catch (err: unknown) {
+            // eslint-disable-next-line no-console
+            console.error(`"${value.selector}" does not exist!`);
         }
-        console.warn(`"${value.selector}" does not exist!`);
-
     }
 
-    private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, data: any): void {
-        const widget = this.viewRef.createComponent<XmDynamicWidget>(data.component, {
-            ngModuleRef: data?.module,
-            injector: data?.injector
+    private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, data: XmDynamicComponentRecord<XmDynamicWidget>): void {
+        const widget = this.viewRef.createComponent<XmDynamicWidget>(data.componentType, {
+            ngModuleRef: data?.ngModuleRef,
+            injector: data?.injector,
         });
         widget.instance.config = value.config;
         widget.instance.spec = value.spec;

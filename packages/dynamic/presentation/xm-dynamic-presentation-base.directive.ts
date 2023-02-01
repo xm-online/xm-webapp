@@ -1,15 +1,6 @@
-import {
-    ComponentFactoryResolver,
-    Directive,
-    Injector,
-    OnChanges,
-    OnInit,
-    Renderer2,
-    SimpleChanges,
-    ViewContainerRef,
-} from '@angular/core';
-import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule } from '../../interfaces';
-import { DynamicComponentLoaderService } from '../../loader/dynamic-component-loader.service';
+import { Directive, Injector, OnChanges, OnInit, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
+import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule } from '../src/interfaces';
+import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
 
 
 /** Determines input(control) value. */
@@ -83,8 +74,7 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
     constructor(public viewContainerRef: ViewContainerRef,
                 public injector: Injector,
                 protected renderer: Renderer2,
-                protected dynamicComponents: DynamicComponentLoaderService,
-                protected cfr: ComponentFactoryResolver) {
+                protected dynamicComponents: XmDynamicComponentRegistry) {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -153,20 +143,21 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
             return;
         }
 
-        const entry = await this.dynamicComponents.find(this.selector as string, this.createInjector());
+        const entry = await this.dynamicComponents.find<XmDynamicPresentation<V, O>>(
+            this.selector as string, this.createInjector());
 
         this.viewContainerRef.clear();
-        if (entry) {
-            const c: any = this.viewContainerRef.createComponent(entry.component, {
-                index: 0,
-                ngModuleRef: entry.module,
-                injector: this.createInjector(entry?.injector || entry.module?.injector)
-            });
-            this.instance = c.instance;
 
-            const el = c.location.nativeElement as HTMLElement;
-            this.updateStyles(el);
-        }
+        const c = this.viewContainerRef.createComponent(entry.componentType, {
+            index: 0,
+            ngModuleRef: entry.ngModuleRef,
+            injector: this.createInjector(entry.injector),
+        });
+
+        this.instance = c.instance;
+
+        const el = c.location.nativeElement as HTMLElement;
+        this.updateStyles(el);
     }
 
     protected updateStyles(el: HTMLElement): void {
