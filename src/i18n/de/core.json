@@ -237,6 +237,7 @@
   "error": {
     "403": "Sie sind nicht berechtigt, auf die Seite zuzugreifen.",
     "500": "Interner Serverfehler.",
+    "413": "Dateigrößenbeschränkung des Servers überschritten",
     "NotBlank": "Nicht leer",
     "NotNull": "Feld {{ fieldName }} darf nicht leer sein!",
     "Size": "Feld {{ fieldName }} erfüllt nicht die Mindest-/Maximalgrößenanforderungen!",
