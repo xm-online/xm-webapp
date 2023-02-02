@@ -64,7 +64,6 @@ export const XM_MAT_DIALOG_DEFAULT_OPTIONS: MatDialogConfig = {
     autoFocus: true,
 };
 
-
 export const XM_CALENDAR_VIEW = {
     MONTH: 'month',
     WEEK: 'week',
@@ -72,7 +71,6 @@ export const XM_CALENDAR_VIEW = {
 };
 
 export const DEFAULT_CALENDAR_VIEW = 'month';
-
 export const CALENDAR_VIEW = {
     [XM_CALENDAR_VIEW.MONTH]: DEFAULT_CALENDAR_VIEW,
     [XM_CALENDAR_VIEW.WEEK]: 'agendaWeek',
