@@ -1,0 +1,20 @@
+/**
+  * Use the command `xm-ngx ext-themes` to compile this example.scss.
+  * The compiled themes are placed in the `src/assets/themes/` directory.
+  */
+@use '@angular/material' as mat;
+
+/**
+  * Override primary color with $mat-yellow
+  */
+$xm-primary-palette: mat.$orange-palette;
+
+/**
+  * Override and aable dark styles
+  */
+$xm-is-dark-mode: true;
+
+/**
+ * Import all styles.
+ */
+@import 'styles';

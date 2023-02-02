@@ -19,6 +19,7 @@
               "lodash/fp"
             ],
             "outputPath": "dist",
+            "inlineStyleLanguage": "scss",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
