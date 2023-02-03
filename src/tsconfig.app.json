@@ -11,7 +11,7 @@
     "./polyfills.ts"
   ],
   "include": [
-    "src/**/*.ts"
+    "./**/*.ts"
   ],
   "exclude": [
     "../test.ts",
