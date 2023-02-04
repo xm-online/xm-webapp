@@ -4,7 +4,6 @@
   "newProjectRoot": "projects",
   "projects": {
     "xm-webapp": {
-    
       "root": "",
       "sourceRoot": "",
       "prefix": "xm",
