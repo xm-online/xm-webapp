@@ -7,7 +7,7 @@ import { XmUserLoginWidgetModule } from '../user-login-widget/xm-user-login-widg
 import { XmUserSecuritySettingsModule } from '../user-security-settings/xm-user-security-settings.module';
 import { XmUserSettingsWidgetModule } from '../user-settings-widget/xm-user-settings-widget.module';
 
-import { XmSharedModule } from '@xm-ngx/xm-shared/shared.module';
+import { XmSharedModule } from '@xm-ngx/shared';
 import { accountState } from './account.route';
 import { ActivateComponent } from '../activate/activate.component';
 import { Activate } from '../activate/activate.service';

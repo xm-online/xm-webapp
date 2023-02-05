@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FlexLayoutRootComponent } from '@ajsf/material';
 import { CdkDrag, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { XmJsonSchemaFormService } from '@xm-ngx/json-schema-form/core/xm-json-schema-form.service';
+import { XmJsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 
 export function isNodeDraggable(node: Record<string, any>): boolean {
     return node?.arrayItem && node?.type !== '$ref' && node?.arrayItemType === 'list' && node?.options?.orderable !== false;
