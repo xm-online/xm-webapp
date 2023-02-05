@@ -52,9 +52,11 @@ export class XmTableFilterComponent implements OnDestroy {
     }
 
     private createOverlayConfig(attachTo: MatButton): OverlayConfig {
-        const positionStrategy = this.overlay
-            .position()
+
+        const strategy = this.overlay.position()
             .flexibleConnectedTo(attachTo._getHostElement())
+            .withFlexibleDimensions(true)
+            .withGrowAfterOpen(true)
             .withPositions([
                 {
                     originX: 'end',
@@ -62,15 +64,15 @@ export class XmTableFilterComponent implements OnDestroy {
                     overlayX: 'start',
                     overlayY: 'top',
                 },
-            ]);
+
+            ])
+            .withLockedPosition(true);
 
         return new OverlayConfig({
-            positionStrategy,
-            scrollStrategy: this.overlay.scrollStrategies.noop(),
-            hasBackdrop: true,
+            scrollStrategy: this.overlay.scrollStrategies.reposition(),
             disposeOnNavigation: true,
-            panelClass: ['menu-panel'],
-            backdropClass: 'cdk-overlay-transparent-backdrop',
+            hasBackdrop: true,
+            positionStrategy: strategy,
         });
     }
 
