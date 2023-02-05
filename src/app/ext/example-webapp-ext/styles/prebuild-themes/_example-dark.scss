@@ -10,9 +10,12 @@
 $xm-primary-palette: mat.$orange-palette;
 
 /**
-  * Override and aable dark styles
+  * Override and enable dark styles
   */
 $xm-is-dark-mode: true;
+$xm-background:                 #111111;
+$xm-surface:                    #424242;
+$xm-text:                       rgba(#ffffff, 1);
 
 /**
  * Import all styles.
