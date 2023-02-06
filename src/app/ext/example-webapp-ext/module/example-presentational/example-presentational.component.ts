@@ -1,7 +1,8 @@
-import {Component, Input} from '@angular/core';
-import {XmDynamicPresentation} from '@xm-ngx/dynamic';
-import {Translate} from '@xm-ngx/translation';
-import {Defaults} from '@xm-ngx/shared/operators';
+import { Component, Input } from '@angular/core';
+import { XmDynamicPresentation } from '@xm-ngx/dynamic';
+import { Translate } from '@xm-ngx/translation';
+import { Defaults } from '@xm-ngx/shared/operators';
+import { CommonModule } from '@angular/common';
 
 export interface ExamplePresentationalComponentConfig {
     title: Translate
@@ -14,7 +15,9 @@ export const EXAMPLE_PRESENTATIONAL_COMPONENT_DEFAULT_CONFIG: ExamplePresentatio
 @Component({
     selector: 'xm-example-presentational',
     templateUrl: './example-presentational.component.html',
-    styleUrls: ['./example-presentational.component.scss']
+    styleUrls: ['./example-presentational.component.scss'],
+    standalone: true,
+    imports: [CommonModule],
 })
 export class ExamplePresentationalComponent implements XmDynamicPresentation<null, ExamplePresentationalComponentConfig> {
     @Input() @Defaults(null)
@@ -22,5 +25,4 @@ export class ExamplePresentationalComponent implements XmDynamicPresentation<nul
 
     @Input() @Defaults(EXAMPLE_PRESENTATIONAL_COMPONENT_DEFAULT_CONFIG)
     public config: ExamplePresentationalComponentConfig;
-    public options: ExamplePresentationalComponentConfig;
 }
