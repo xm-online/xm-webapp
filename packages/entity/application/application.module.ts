@@ -4,7 +4,7 @@ import { XmBalanceModule } from '@xm-ngx/balance';
 import { TagInputModule } from 'ngx-chips';
 
 import { RatingModule } from '@xm-ngx/components/rating';
-import { XmSharedModule } from '@xm-ngx/xm-shared/shared.module';
+import { XmSharedModule } from '@xm-ngx/shared';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmEntityModule } from '@xm-ngx/entity/xm-entity.module';
 import { ApplicationComponent } from './application.component';
