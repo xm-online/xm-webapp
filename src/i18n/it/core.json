@@ -237,6 +237,7 @@
   "error": {
     "403": "Non sei autorizzato ad accedere alla pagina.",
     "500": "Errore interno del server.",
+    "413": "Limite della dimensione del file del server superato",
     "NotBlank": "Non vuoto",
     "NotNull": "Il campo {{ fieldName }} non può essere vuoto!",
     "Size": "Il campo {{ fieldName }} non soddisfa i requisiti di dimensione min/max!",
