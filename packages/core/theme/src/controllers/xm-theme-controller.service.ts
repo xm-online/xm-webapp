@@ -1,10 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, Subscription } from 'rxjs';
 import { ThemeSchemeService } from '../services/theme-scheme.service';
 import { XmThemeStore } from '../stores/xm-theme-store.service';
 import { ColorSchemeService } from '../services/color-scheme.service';
 import { XmTheme } from '../interfaces/xm.theme';
-import { map } from 'rxjs';
 import { StyleManagerService } from '../services/style-manager.service';
 import { ThemeColorService } from '../services/theme-color.service';
 import { XmApplicationConfigService } from '@xm-ngx/core/config';
@@ -37,8 +36,9 @@ export class XmThemeController implements OnDestroy {
             .subscribe((e) => {
                 if (e === 'dark') {
                     this.isDark = true;
+                } else {
+                    this.isDark = false;
                 }
-                this.isDark = false;
                 this.updateStyleTheme(this.activeTheme.value);
             });
     }

@@ -45,16 +45,17 @@ export const XM_APPEARANCE_THEME_WIDGET_CONFIG_DEFAULT: XmAppearanceThemeWidgetC
         <mat-card class="mb-3">
             <div mat-card-title>Appearance</div>
 
-            Appearance:
-            <mat-radio-group [(ngModel)]="lightDarkThemeStrategy"
+            <h6>Appearance:</h6>
+            <mat-radio-group [(ngModel)]="appearanceStrategy"
                              [disabled]="loading"
+                             class="grid-flow mb-3"
                              (ngModelChange)="updateTheme()">
                 <mat-radio-button [value]="'light'">{{'light'}}</mat-radio-button>
                 <mat-radio-button [value]="'dark'">{{'dark'}}</mat-radio-button>
                 <mat-radio-button [value]="'auto'">{{'auto'}}</mat-radio-button>
             </mat-radio-group>
 
-            Accent color:
+            <h6>Accent color:</h6>
             <mat-radio-group [(ngModel)]="selectedTheme"
                              [disabled]="loading"
                              (ngModelChange)="updateTheme()"
@@ -86,7 +87,7 @@ export class XmUserAppearanceThemeWidget implements OnInit {
 
     public loading: boolean;
     public selectedTheme: XmTheme;
-    public lightDarkThemeStrategy: AppearanceStrategy = 'light';
+    public appearanceStrategy: AppearanceStrategy;
 
     constructor(
         private themeManager: XmThemeController,
@@ -95,7 +96,7 @@ export class XmUserAppearanceThemeWidget implements OnInit {
 
     public ngOnInit(): void {
         this.selectedTheme = this.themeManager.get();
-        this.lightDarkThemeStrategy = this.selectedTheme.appearanceStrategy;
+        this.appearanceStrategy = this.selectedTheme.appearanceStrategy;
     }
 
     public updateTheme(): void {
@@ -104,7 +105,7 @@ export class XmUserAppearanceThemeWidget implements OnInit {
         }
 
         const theme = cloneDeep(this.selectedTheme);
-        theme.appearanceStrategy = this.lightDarkThemeStrategy;
+        theme.appearanceStrategy = this.appearanceStrategy;
 
         this.loading = true;
         this.themeManager.set(theme)
