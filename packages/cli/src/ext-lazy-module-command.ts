@@ -47,8 +47,6 @@ export class ExtLazyModuleCommand implements Command {
             const template = this.template(selector, path, className);
             modules.push(template);
             console.info(`Update xm.module.ts selector: "${selector}", lazyModules: "${path}"`);
-            /** Backward compatibility: ext- will be removed in the next release. */
-            modules.push(this.template('ext-' + selector, path, className));
         });
         return modules.join('');
     }
