@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { buildMapId } from '@xm-ngx/xm-shared/helpers/google-map-helper';
+import { buildMapId } from '@xm-ngx/shared/helpers/google-map-helper';
 import { FunctionContext } from '../../shared/function-context.model';
 import { FunctionContextService } from '../../shared/function-context.service';
 import { XmEntity } from '../../shared/xm-entity.model';

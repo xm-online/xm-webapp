@@ -5,7 +5,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { saveFile, saveFileFromUrl } from '@xm-ngx/xm-shared/helpers/file-download-helper';
+import { saveFile, saveFileFromUrl } from '@xm-ngx/shared/helpers/file-download-helper';
 import { AttachmentSpec } from '../shared/attachment-spec.model';
 import { Attachment } from '../shared/attachment.model';
 import { AttachmentService } from '../shared/attachment.service';

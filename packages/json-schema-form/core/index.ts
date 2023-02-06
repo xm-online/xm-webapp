@@ -1,5 +1,4 @@
-// TODO: WORKAROUND:
-//  Resolve "@xm-ngx/json-scheme-form": ["src/app/shared/jsf-extention"],
-//  To "@xm-ngx/json-scheme-form": ["packages/json-schema-form"],
-export * from '../index';
-
+export { JsonSchemaFormService } from '@ajsf/core';
+export { XmJsonSchemaFormModule } from './xm-json-schema-form.module';
+export { JsfAttributes } from './jsf.attributes';
+export { XmJsonSchemaFormService, JsonSchemaOrderChange } from './xm-json-schema-form.service';
