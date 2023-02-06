@@ -35,7 +35,7 @@ import { XM_ELEMENTS } from 'src/registries/xm.registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { XmSharedModule } from 'src/app/shared/shared.module';
+import { XmSharedModule } from 'packages/shared/src/shared.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';

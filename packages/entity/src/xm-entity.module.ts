@@ -8,7 +8,7 @@ import { StatesManagementDialogModule } from '@xm-ngx/entity/states-management-d
 import { TagInputModule } from 'ngx-chips';
 import { ImageCropperModule } from 'ngx-img-cropper';
 
-import { XmSharedModule } from '@xm-ngx/xm-shared/shared.module';
+import { XmSharedModule } from '@xm-ngx/shared';
 import { AttachmentCardComponent } from './attachment-card/attachment-card.component';
 import { AttachmentDetailDialogComponent } from './attachment-detail-dialog/attachment-detail-dialog.component';
 import { AttachmentListBaseComponent } from './attachment-list/attachment-list-base.component';
