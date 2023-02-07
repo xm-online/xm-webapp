@@ -50,7 +50,6 @@ export class ExtLazyModuleCommand implements Command {
             }
 
             let selector = directoryName.replace('-webapp-ext', '');
-
             // TODO:WORKAROUND: resolve company name, after migration to packages change to import by path
             if (directoryPath.startsWith('packages/')) {
                 selector = '@xm-ngx/' + selector;
@@ -61,7 +60,7 @@ export class ExtLazyModuleCommand implements Command {
             console.info(`Update xm.module.ts selector: "${selector}", lazyModules: "${modulePath}", className: "${className}"`);
 
             if (!directoryPath.startsWith('packages/')) {
-                /** Backward compatibility: ext- will be removed in the next release. */
+                // TODO:WORKAROUND:Backward compatibility: ext- will be removed in the next release.
                 modules.push(this.template('ext-' + selector, modulePath, className));
             }
         });
