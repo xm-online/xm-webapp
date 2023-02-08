@@ -1,23 +1,30 @@
 import { APP_INITIALIZER, Injectable, Provider, StaticProvider } from '@angular/core';
 import { MaintenanceService } from '@xm-ngx/components/maintenance';
-import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap, take } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmThemeController } from './xm-theme-controller.service';
 import { XmTheme } from '../interfaces/xm.theme';
+import { XmApplicationConfigService } from '@xm-ngx/core/config';
 
 export function themeInitializer(
     config: XmPublicUiConfigService<XmTheme>,
     themeService: XmThemeController,
     maintenanceService: MaintenanceService,
+    applicationConfigService: XmApplicationConfigService,
 ): () => Promise<void> {
-    return (): Promise<void> => new XmThemeLoader(config, themeService, maintenanceService).tryLoadDefaultThemeFromConfig();
+    return (): Promise<void> => new XmThemeLoader(
+        config,
+        themeService,
+        maintenanceService,
+        applicationConfigService,
+    ).tryLoadDefaultThemeFromConfig();
 }
 
 export const THEME_PROVIDER_FACTORY: StaticProvider = {
     provide: APP_INITIALIZER,
     useFactory: themeInitializer,
-    deps: [XmPublicUiConfigService, XmThemeController, MaintenanceService],
+    deps: [XmPublicUiConfigService, XmThemeController, MaintenanceService, XmApplicationConfigService],
     multi: true,
 };
 
@@ -35,6 +42,7 @@ export class XmThemeLoader {
         private configService: XmPublicUiConfigService<XmTheme>,
         private themeManager: XmThemeController,
         private maintenanceService: MaintenanceService,
+        private applicationConfigService: XmApplicationConfigService,
     ) {
     }
 
@@ -42,6 +50,8 @@ export class XmThemeLoader {
         return this.configService.config$().pipe(
             switchMap((c) => this.loadTheme(c)),
             take(1),
+            // TODO: WORKAROUND: Invert service import and provide guards for application start
+            tap(() => this.applicationConfigService.setResolved(true)),
             catchError((err) => {
                 this.maintenanceService.setMaintenanceProgress(true);
                 return throwError(err);
@@ -50,20 +60,28 @@ export class XmThemeLoader {
     }
 
     private loadTheme(rawOptions: Partial<XmTheme> & { theme?: string }): Observable<void> {
-        const options: XmTheme = {
-            name: rawOptions.name || rawOptions.theme || 'example',
-            lightTheme: rawOptions.lightTheme || rawOptions.theme || 'example',
-            darkTheme: rawOptions.darkTheme || rawOptions.theme || 'example-dark',
-            themeColor: rawOptions.themeColor || '#009688',
-            themeStrategy: rawOptions.themeStrategy || 'THEME',
-            appearanceStrategy: rawOptions.appearanceStrategy || 'auto',
-        };
+        let theme: XmTheme | null;
 
-        const existingTheme = this.themeManager.get();
-        if (existingTheme != null) {
-            return this.themeManager.set(existingTheme);
+        // Local storage theme
+        if (this.themeManager.get()) {
+            theme = this.themeManager.get();
+        }
+        // Config theme
+        else if (rawOptions.theme != null) {
+            theme = {
+                name: rawOptions.theme,
+                lightTheme: rawOptions.lightTheme || rawOptions.theme,
+                darkTheme: rawOptions.darkTheme || rawOptions.theme,
+                themeColor: rawOptions.themeColor || null,
+                themeStrategy: rawOptions.themeStrategy || 'THEME',
+                appearanceStrategy: rawOptions.appearanceStrategy || 'auto',
+            };
         }
 
-        return this.themeManager.set(options);
+        if (theme == null) {
+            return of(undefined);
+        }
+
+        return this.themeManager.set(theme);
     }
 }

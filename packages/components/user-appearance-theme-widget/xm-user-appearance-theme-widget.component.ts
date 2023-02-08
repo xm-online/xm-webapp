@@ -6,7 +6,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { Defaults } from '@xm-ngx/shared/operators';
 import { XmTheme, XmThemeController } from '@xm-ngx/core/theme';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, find } from 'lodash';
 import { finalize } from 'rxjs';
 import { AppearanceStrategy } from '@xm-ngx/core/theme/src/interfaces/xm.theme';
 
@@ -95,7 +95,12 @@ export class XmUserAppearanceThemeWidget implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.selectedTheme = this.themeManager.get();
+        const activeTheme = this.themeManager.get();
+        if(activeTheme == null){
+            return;
+        }
+
+        this.selectedTheme = find(this.config.themes, {name: activeTheme.name});
         this.appearanceStrategy = this.selectedTheme.appearanceStrategy;
     }
 

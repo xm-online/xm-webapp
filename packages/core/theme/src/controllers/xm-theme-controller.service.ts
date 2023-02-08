@@ -6,20 +6,18 @@ import { ColorSchemeService } from '../services/color-scheme.service';
 import { XmTheme } from '../interfaces/xm.theme';
 import { StyleManagerService } from '../services/style-manager.service';
 import { ThemeColorService } from '../services/theme-color.service';
-import { XmApplicationConfigService } from '@xm-ngx/core/config';
 
 @Injectable({
     providedIn: 'root',
 })
 /**
  * Manages light and dark themes
- * @beta
  */
 export class XmThemeController implements OnDestroy {
     private subscription: Subscription;
 
     private activeTheme: BehaviorSubject<XmTheme | null>;
-    private isDark: boolean;
+    private isBrowserDark: boolean;
 
     constructor(
         private themeSchemeService: ThemeSchemeService,
@@ -27,19 +25,22 @@ export class XmThemeController implements OnDestroy {
         private themeStore: XmThemeStore,
         private styleManager: StyleManagerService,
         private themeColorService: ThemeColorService,
-        private applicationConfigService: XmApplicationConfigService,
     ) {
         this.activeTheme = new BehaviorSubject<XmTheme | null>(this.themeStore.get());
-        this.isDark = this.themeSchemeService.getBrowserTheme() == 'dark';
+        this.isBrowserDark = this.themeSchemeService.getBrowserTheme() == 'dark';
 
         this.subscription = this.themeSchemeService.browserThemeChange$()
             .subscribe((e) => {
                 if (e === 'dark') {
-                    this.isDark = true;
+                    this.isBrowserDark = true;
                 } else {
-                    this.isDark = false;
+                    this.isBrowserDark = false;
                 }
-                this.updateStyleTheme(this.activeTheme.value);
+                const theme = this.activeTheme.value;
+                if (theme == null) {
+                    return;
+                }
+                this.updateStyleTheme(theme);
             });
     }
 
@@ -50,7 +51,7 @@ export class XmThemeController implements OnDestroy {
     public isDark$(): Observable<boolean> {
         return this.activeTheme$().pipe(
             map((_) => {
-                return this.isDark;
+                return this.isBrowserDark;
             }),
         );
     }
@@ -77,34 +78,24 @@ export class XmThemeController implements OnDestroy {
         return of(undefined);
     }
 
-    public get(): XmTheme {
+    public get(): XmTheme | null {
         return this.activeTheme.value;
     }
 
     private updateStyleTheme(theme: XmTheme): void {
         let file = theme.lightTheme;
-        if (this.isDark || theme.appearanceStrategy == 'dark') {
+        const isThemeAllowDark = theme.appearanceStrategy == 'dark' || theme.appearanceStrategy == 'auto';
+        const isThemeDark = theme.appearanceStrategy == 'dark';
+        if (isThemeAllowDark && (this.isBrowserDark || isThemeDark)) {
             file = theme.darkTheme;
         }
 
         if (theme.themeStrategy === 'TENANT_ONLY') {
             this.styleManager.set('theme', `assets/css/${file}.css`);
-            this.applicationConfigServiceBC();
+        } else {
+            this.styleManager.set('theme', `/assets/themes/${file}.css`);
         }
 
-        this.styleManager.set('theme', this.getUrl(file));
-        this.applicationConfigServiceBC();
         this.activeTheme.next(theme);
-    }
-
-    private getUrl(theme: string): string {
-        return `/assets/themes/${theme}.css`;
-    }
-
-    /**
-     * Backward compatibility
-     */
-    private applicationConfigServiceBC(): void {
-        this.applicationConfigService.setResolved(true);
     }
 }

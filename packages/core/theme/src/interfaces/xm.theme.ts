@@ -5,7 +5,7 @@ export interface XmTheme {
     name: string,
     lightTheme: string,
     darkTheme: string,
-    themeColor: string,
+     themeColor: string | null,
     themeStrategy: ThemeStrategy,
     appearanceStrategy: AppearanceStrategy,
 }
