@@ -63,7 +63,7 @@ export class XmDynamicComponentRegistry {
         const componentType = this.handleProviderSolution<T>(selector, injector);
         if (componentType) {
             // eslint-disable-next-line no-console
-            console.error(`Deprecated solution. Will be removed in v5.0.0. Use XmDynamicModule.forChild() instead. Selector: ${selector}`);
+            console.error(`Deprecated solution. Will be removed in v5.0.0. Use XmDynamicModule.forChild() instead. selector=${selector}.`);
             return {
                 injector: injector,
                 componentType: componentType,
@@ -164,10 +164,10 @@ export class XmDynamicComponentRegistry {
 
     private simplifyExtSelector(selector: string): string {
         // TODO:WORKAROUND: check for duplication ext-ext-common
-        const isExtNotAPartOfName = !this.dynamicModules.contains('ext-'+selector);
+        const isExtNotAPartOfName = !this.dynamicModules.contains('ext-' + selector.split('/')[0]);
         if (selector.startsWith('ext-') && isExtNotAPartOfName) {
             // eslint-disable-next-line no-console
-            console.error(`Deprecated solution! Will be removed in v5.0.0. Please, remove 'ext-' from selector '${selector}'.`);
+            console.error(`Deprecated solution. Will be removed in v5.0.0. Please, remove 'ext-' from selector='${selector}'.`);
 
             // TODO: ext-common and common issue
             //   .slice(4);
