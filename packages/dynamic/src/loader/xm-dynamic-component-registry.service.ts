@@ -32,10 +32,10 @@ export class XmDynamicComponentRegistry {
         injector: Injector = this.moduleRef.injector,
     ): Promise<XmDynamicComponentRecord<T>> {
         const fullSelector = this.simplifyExtSelector(inSelector);
-
-        if (this.cache[fullSelector]) {
-            return this.cache[fullSelector] as Promise<XmDynamicComponentRecord<T>>;
-        }
+        // TODO: Components are being resolved in any context and cannot be cached
+        // if (this.cache[fullSelector]) {
+        //     return this.cache[fullSelector] as Promise<XmDynamicComponentRecord<T>>;
+        // }
 
         if (this.isModuleSelector(fullSelector)) {
             return this.cache[fullSelector] = this.loadModule<T>(fullSelector, injector);

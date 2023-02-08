@@ -38,9 +38,10 @@ export class XmDynamicModuleRegistry {
         selector: string,
         injector: Injector = this.moduleRef.injector,
     ): Promise<NgModuleRef<T>> {
-        if (this.cache[selector]) {
-            return this.cache[selector] as Promise<NgModuleRef<T>>;
-        }
+        // TODO: Components are being resolved in any context and cannot be cached
+        // if (this.cache[selector]) {
+        //     return this.cache[selector] as Promise<NgModuleRef<T>>;
+        // }
 
         const entry = this.dynamicExtensionsMap[selector];
         if (!entry) {
