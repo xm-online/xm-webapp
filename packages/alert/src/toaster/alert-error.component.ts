@@ -181,6 +181,10 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 }
                 break;
             }
+            case 413: {
+                this.showError(null, 'error.413');
+                break;
+            }
             default: {
                 this.defaultErrorHandler(content);
             }

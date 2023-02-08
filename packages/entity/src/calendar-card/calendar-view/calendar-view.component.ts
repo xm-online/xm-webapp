@@ -32,6 +32,11 @@ import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-vie
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import listPlugin from '@fullcalendar/list';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import momentTimezonePlugin from '@fullcalendar/moment-timezone';
+import interactionPlugin from '@fullcalendar/interaction';
 
 export const DEFAULT_DAY_MAX_EVENT_ROWS = 300;
 
@@ -84,6 +89,13 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
                 center: 'month,agendaWeek,agendaDay,listDay,listWeek',
                 right: 'prev,next,today',
             },
+            plugins:[
+                dayGridPlugin,
+                listPlugin,
+                timeGridPlugin,
+                momentTimezonePlugin,
+                interactionPlugin,
+            ],
             buttonIcons: {
                 prev: 'left-single-arrow',
                 next: 'right-single-arrow',

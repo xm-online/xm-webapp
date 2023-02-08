@@ -15,7 +15,7 @@ import { LanguageModule } from '@xm-ngx/translation';
 import { XmCoreModule } from '@xm-ngx/core';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmAlertModule } from '@xm-ngx/alert';
-import { MatModule } from '../mat.module';
+import { MatModule } from '../../../src/app/mat.module';
 
 @NgModule({
     imports: [
