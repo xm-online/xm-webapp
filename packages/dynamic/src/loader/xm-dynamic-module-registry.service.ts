@@ -26,6 +26,10 @@ export class XmDynamicModuleRegistry {
         this.dynamicExtensionsMap = keyBy(uniqued, 'selector');
     }
 
+    public contains(selector: string): boolean {
+        return this.dynamicExtensionsMap[selector] != null;
+    }
+
     /**
      *
      * @throws NotFoundException

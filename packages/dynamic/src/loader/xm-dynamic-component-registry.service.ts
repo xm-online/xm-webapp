@@ -62,7 +62,8 @@ export class XmDynamicComponentRegistry {
 
         const componentType = this.handleProviderSolution<T>(selector, injector);
         if (componentType) {
-            console.warn(`Immediately resolve deprecated solution usage. Use XmDynamicModule.forChild() instead. Selector: ${selector}`);
+            // eslint-disable-next-line no-console
+            console.error(`Deprecated solution. Will be removed in v5.0.0. Use XmDynamicModule.forChild() instead. Selector: ${selector}`);
             return {
                 injector: injector,
                 componentType: componentType,
@@ -82,7 +83,8 @@ export class XmDynamicComponentRegistry {
         if (this.isEntryModule(loaded)) {
             const compiledModule = createNgModule<XmDynamicEntryModule<T>>(loaded as Type<XmDynamicEntryModule<T>>, injector);
             if (compiledModule?.instance?.entry) {
-                console.warn(`Deprecated solution. Make selector=${selector} standalone component`);
+                // eslint-disable-next-line no-console
+                console.error(`Deprecated solution. Will be removed in v5.0.0. Make selector=${selector} a standalone component`);
                 return {
                     componentType: compiledModule.instance.entry,
                     injector: compiledModule.injector,
@@ -110,9 +112,13 @@ export class XmDynamicComponentRegistry {
     }
 
     /**
-     * @example providers: [{ provide: 'my-selector', useValue: MyComponent }]
+     * @example providers:
+     * ```
+     * [{ provide: 'my-selector', useValue: MyComponent }]
+     * ```
      * @deprecated Angular does not allow search/store something inside injector by string valued key.
      *   deprecated solution. we need to search only by injection token, not random string;
+     * Will be removed in v5.0.0
      */
     private handleProviderSolution<T>(selector: string, injector: Injector): XmDynamicConstructor<T> | null {
         const res = injector.get(selector as any, ELEMENT_NOT_FOUND);
@@ -157,9 +163,11 @@ export class XmDynamicComponentRegistry {
     }
 
     private simplifyExtSelector(selector: string): string {
-
-        if (selector.startsWith('ext-')) {
-            console.warn(`Deprecated solution! Please, remove 'ext-' from selector '${selector}'.`);
+        // TODO:WORKAROUND: check for duplication ext-ext-common
+        const isExtNotAPartOfName = !this.dynamicModules.contains('ext-'+selector);
+        if (selector.startsWith('ext-') && isExtNotAPartOfName) {
+            // eslint-disable-next-line no-console
+            console.error(`Deprecated solution! Will be removed in v5.0.0. Please, remove 'ext-' from selector '${selector}'.`);
 
             // TODO: ext-common and common issue
             //   .slice(4);
