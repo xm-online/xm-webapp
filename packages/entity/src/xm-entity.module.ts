@@ -67,11 +67,6 @@ import {
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { TagListSectionComponent } from './tag-list-section/tag-list-section.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import listPlugin from '@fullcalendar/list';
-import momentTimezonePlugin from '@fullcalendar/moment-timezone';
-import timeGridPlugin from '@fullcalendar/timegrid';
 import { OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
 
@@ -80,14 +75,6 @@ const MODULES = [
     EntityStateModule,
     EntityDetailDialogModule,
 ];
-
-FullCalendarModule.registerPlugins([
-    dayGridPlugin,
-    listPlugin,
-    timeGridPlugin,
-    momentTimezonePlugin,
-    interactionPlugin,
-]);
 
 @NgModule({
     imports: [

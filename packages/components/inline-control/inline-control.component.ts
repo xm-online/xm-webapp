@@ -1,4 +1,4 @@
-import { OverlayModule, Overlay, OverlayRef, ViewportRuler } from '@angular/cdk/overlay';
+import { OverlayModule, Overlay, OverlayRef, ViewportRuler, ConnectedPosition } from '@angular/cdk/overlay';
 import { PortalModule, TemplatePortal } from '@angular/cdk/portal';
 import { EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -23,9 +23,13 @@ export interface XmInlineControlDynamicView<C, V> extends XmInlineControlDynamic
     value: V;
 }
 
+export interface XmInlineControlEditConfig {
+    position?: Partial<ConnectedPosition>;
+}
+
 export interface XmInlineControlConfig {
     view: XmInlineControlDynamicView<unknown, unknown>;
-    edit: XmInlineControlDynamic<unknown>;
+    edit: XmInlineControlDynamic<XmInlineControlEditConfig>;
 }
 
 export type XmInlineControlValue = unknown;
@@ -110,8 +114,8 @@ export class XmInlineControlComponent extends NgModelWrapper<unknown> implements
         return this.ngZone.runOutsideAngular(() => this.elementRef.nativeElement);
     } 
 
-    public get selectOverlayElement(): HTMLElement | null {
-        return this.ngZone.runOutsideAngular(() => document.getElementsByClassName('mat-select-panel')?.[0] as HTMLElement | null);
+    public get listboxElement(): HTMLElement | null {
+        return this.ngZone.runOutsideAngular(() => document.querySelector('[role="listbox"]'));
     }
 
     public newValue: unknown;
@@ -153,10 +157,15 @@ export class XmInlineControlComponent extends NgModelWrapper<unknown> implements
                 switchMap((isEditMode: boolean) => fromEvent(document, 'click').pipe(
                     filter(() => isEditMode),
                     filter((evt) => {
+                        const node = evt.target as Node;
+
                         const outsideClicked = (
-                            this.hostElement.contains(evt.target as Node) === false
-                            && this.overlayRef.overlayElement.contains(evt.target as Node) === false
+                            !this.hostElement.contains(node) && !this.overlayRef.overlayElement.contains(node)
                         );
+
+                        if (this.listboxElement) {
+                            return outsideClicked && !this.listboxElement.contains(node);
+                        }
                         
                         return outsideClicked;
                     }),
@@ -185,14 +194,13 @@ export class XmInlineControlComponent extends NgModelWrapper<unknown> implements
             .withFlexibleDimensions(true)
             .withGrowAfterOpen(true)
             .withPositions([
-                {
+                _.defaults((this.config?.edit?.config?.position ?? {}), {
                     offsetY: 0,
                     originX: 'start',
                     originY: 'bottom',
                     overlayX: 'start',
                     overlayY: 'top',
-                },
-
+                }),
             ])
             .withLockedPosition(true);
 
