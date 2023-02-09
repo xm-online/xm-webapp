@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 /**
@@ -16,17 +15,6 @@ export class StyleManagerService {
 
     public set(key: string, href: string): void {
         getLinkElementForKey(key).setAttribute('href', href);
-    }
-
-    public setAsync(key: string, href: string): Observable<void> {
-        const el = getLinkElementForKey(key);
-        el.setAttribute('href', href);
-        return new Observable<void>((res) => {
-            el.addEventListener('load', () => {
-                res.next();
-                res.complete();
-            });
-        });
     }
 }
 
