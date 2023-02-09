@@ -1,4 +1,5 @@
 import { ComponentRef, Directive, Injector, OnChanges, OnInit, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
+import { setComponentInput } from '../shared/set-component-input';
 import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule } from '../src/interfaces';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
 
@@ -111,12 +112,8 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         if (!this.instance) {
             return;
         }
-        try {
-            this.compRef.setInput('value', this.value);
-        } catch (error) {
-            console.warn(error);
-            this.instance.value = this.value;
-        }
+
+        setComponentInput(this.compRef, 'value', this.value);
     }
 
     protected updateConfig(): void {
@@ -125,12 +122,7 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         }
         // Don't set widget config if it's null, because updateOptions method already set config
         if (this.config != null) {
-            try {
-                this.compRef.setInput('config', this.config);
-            } catch (error) {
-                console.warn(error);
-                this.instance.config = this.config;
-            }
+            setComponentInput(this.compRef, 'config', this.config);
         }
     }
 
@@ -144,20 +136,9 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         }
         console.warn('Dynamic widget "options" property was deprecated use "config" instead. Make sure that your widget works');
 
-        try {
-            this.compRef.setInput('config', this.options);
-        } catch (error) {
-            console.warn(error);
-            this.instance.config = this.options;
-        }
-
+        setComponentInput(this.compRef, 'config', this.options);
         // Field options should be removed soon
-        try {
-            this.compRef.setInput('options', this.options);
-        } catch (error) {
-            console.warn(error);
-            this.instance.options = this.options;
-        }
+        setComponentInput(this.compRef, 'options', this.options);
     }
 
     protected createInjector(injector: Injector = this.injector): Injector {

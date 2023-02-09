@@ -16,6 +16,7 @@ import { XmDynamicConstructor, XmDynamicEntryModule } from '../src/interfaces';
 import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-base.directive';
 import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
+import { setComponentInput } from '../shared/set-component-input';
 
 export interface XmDynamicControl<V = unknown, O = unknown> extends XmDynamicPresentation<V, O>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
@@ -144,12 +145,9 @@ export class XmDynamicControlDirective<V, O>
         if (!this.instance) {
             return;
         }
-        try {
-            this.compRef.setInput('value', this.value);
-        } catch (error) {
-            console.warn(error);
-            this.instance.value = this.value;
-        }
+  
+        setComponentInput(this.compRef, 'value', this.value);
+
         this._onChange(this.value);
         this.valueChange.next(this.value);
     }

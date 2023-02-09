@@ -5,6 +5,7 @@ import {
     XmDynamicComponentRecord,
     XmDynamicComponentRegistry,
 } from '../src/loader/xm-dynamic-component-registry.service';
+import { setComponentInput } from '../shared/set-component-input';
 
 export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
     selector: string;
@@ -76,19 +77,8 @@ export class XmDynamicWidgetDirective implements OnChanges {
             injector: data.injector,
         });
         
-        try {
-            this.compRef.setInput('config', value.config);
-        } catch (error) {
-            console.warn(error);
-            this.compRef.instance.config = value.config;
-        }
-
-        try {
-            this.compRef.setInput('spec', value.spec);
-        } catch (error) {
-            console.warn(error);
-            this.compRef.instance.spec = value.spec;
-        }
+        setComponentInput(this.compRef, 'config', value.config);
+        setComponentInput(this.compRef, 'spec', value.spec);
 
         // TODO: pass children layout
         const el = (this.compRef.location.nativeElement as HTMLElement);
