@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { XmLayout } from '../interfaces';
+import { XmLayout } from '../src/interfaces';
 import { XmDynamicLayoutBase } from '../widget/xm-dynamic-layout.base';
 import { XmDynamicPresentation } from './xm-dynamic-presentation-base.directive';
 

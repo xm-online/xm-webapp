@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, NgZone } from '@angular/core';
 
 import { AuthServerProvider } from '@xm-ngx/core/auth';
 import { environment } from '@xm-ngx/core/environment';
@@ -40,6 +40,7 @@ export class JhiDocsComponent implements AfterViewInit {
     constructor(
         private http: HttpClient,
         private auth: AuthServerProvider,
+        private ngZone: NgZone
     ) {
     }
 
@@ -66,34 +67,37 @@ export class JhiDocsComponent implements AfterViewInit {
             prefix = this.config.swaggerResources.find(swaggerResource => swaggerResource.location === resource)?.name;
         }
 
-        SwaggerUI({
-            dom_id: '#swaggerHolder',
-            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
-            url: `${environment.serverApiUrl}${resource}`,
-            docExpansion: 'none',
-            apisSorter: 'alpha',
-            showRequestHeaders: false,
-            validatorUrl: null,
-            configs: {
-                preFetch: (req) => {
-                    if (prefix) {
-                        try {
-                            const url = new URL(req.url);
-                            if (!url.pathname.startsWith(prefix)) {
-                                url.pathname = prefix + url.pathname;
-                                req.url = url.toString();
+        this.ngZone.runOutsideAngular(() => {
+            SwaggerUI({
+                dom_id: '#swaggerHolder',
+                supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+                url: `${environment.serverApiUrl}${resource}`,
+                docExpansion: 'none',
+                apisSorter: 'alpha',
+                showRequestHeaders: false,
+                validatorUrl: null,
+                configs: {
+                    preFetch: (req) => {
+                        if (prefix) {
+                            try {
+                                const url = new URL(req.url);
+                                if (!url.pathname.startsWith(prefix)) {
+                                    url.pathname = prefix + url.pathname;
+                                    req.url = url.toString();
+                                }
+                            } catch (e) {
                             }
-                        } catch (e) {
                         }
-                    }
 
-                    if (authToken) {
-                        req.headers.Authorization = `Bearer ${authToken}`;
-                    }
-                    return req;
+                        if (authToken) {
+                            req.headers.Authorization = `Bearer ${authToken}`;
+                        }
+                        return req;
+                    },
                 },
-            },
+            });
         });
+
     }
 
 }
