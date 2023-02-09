@@ -144,7 +144,12 @@ export class XmDynamicControlDirective<V, O>
         if (!this.instance) {
             return;
         }
-        this.compRef.setInput('value', this.value);
+        try {
+            this.compRef.setInput('value', this.value);
+        } catch (error) {
+            console.warn(error);
+            this.instance.value = this.value;
+        }
         this._onChange(this.value);
         this.valueChange.next(this.value);
     }
