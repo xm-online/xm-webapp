@@ -11,6 +11,7 @@ import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { ThemeSchemeType } from '@xm-ngx/core/theme';
 
 interface SwitchThemeOptionsTheme {
@@ -46,7 +47,7 @@ export const XM_THEME_KEY = 'XM_SWITCH_THEME_KEY';
         </ng-container>
     `,
 })
-export class SwitchThemeWidget implements OnInit {
+export class SwitchThemeWidget implements OnInit, XmDynamicWidget {
     public config: SwitchThemeOptions;
     public loading: boolean;
     public nextTheme: SwitchThemeOptionsTheme;

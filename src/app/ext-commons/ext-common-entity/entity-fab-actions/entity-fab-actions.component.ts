@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -29,7 +29,7 @@ export class EntityFabActionsComponent implements OnInit, OnDestroy {
 
     public selectedEntity: Subscription;
     public createEntity: Subscription;
-    public config: any;
+    @Input() public config: any;
     public buttons: any [] = [];
     public mainButton: any;
     public role: string;

@@ -9,6 +9,7 @@ import { iif, Observable, of } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
 import { getApplicationTypeKey } from '../../../shared/src/helpers/entity-list-helper';
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 interface SearchConfig {
     search: {
@@ -47,7 +48,7 @@ interface SearchConfig {
     styleUrls: ['./xm-navbar-search-widget.component.scss'],
 })
 
-export class XmNavbarSearchWidget implements OnInit {
+export class XmNavbarSearchWidget implements OnInit, XmDynamicWidget {
     @Input() @Defaults({}) public config: { permission: string[] };
 
     public searchMask: string = '';

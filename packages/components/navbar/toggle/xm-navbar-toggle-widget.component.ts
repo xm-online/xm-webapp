@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-navbar-toggle-widget',
@@ -18,7 +19,9 @@ import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core'
     encapsulation: ViewEncapsulation.None,
 })
 
-export class XmNavbarToggleWidget implements OnInit {
+export class XmNavbarToggleWidget implements OnInit, XmDynamicWidget {
+    @Input() public config: unknown;
+
     protected mobileMenuVisible: boolean = false;
     private sidebarVisible: boolean;
 
