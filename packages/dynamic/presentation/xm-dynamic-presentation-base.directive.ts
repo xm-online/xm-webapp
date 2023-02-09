@@ -111,7 +111,12 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         if (!this.instance) {
             return;
         }
-        this.compRef.setInput('value', this.value);
+        try {
+            this.compRef.setInput('value', this.value);
+        } catch (error) {
+            console.warn(error);
+            this.instance.value = this.value;
+        }
     }
 
     protected updateConfig(): void {
@@ -120,7 +125,12 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         }
         // Don't set widget config if it's null, because updateOptions method already set config
         if (this.config != null) {
-            this.compRef.setInput('config', this.config);
+            try {
+                this.compRef.setInput('config', this.config);
+            } catch (error) {
+                console.warn(error);
+                this.instance.config = this.config;
+            }
         }
     }
 
@@ -134,9 +144,20 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         }
         console.warn('Dynamic widget "options" property was deprecated use "config" instead. Make sure that your widget works');
 
-        this.compRef.setInput('config', this.options);
+        try {
+            this.compRef.setInput('config', this.options);
+        } catch (error) {
+            console.warn(error);
+            this.instance.config = this.options;
+        }
+
         // Field options should be removed soon
-        this.compRef.setInput('options', this.options);
+        try {
+            this.compRef.setInput('options', this.options);
+        } catch (error) {
+            console.warn(error);
+            this.instance.options = this.options;
+        }
     }
 
     protected createInjector(injector: Injector = this.injector): Injector {

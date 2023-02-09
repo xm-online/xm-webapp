@@ -21,12 +21,11 @@ export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget
     selector: 'xm-dynamic-widget, [xm-dynamic-widget]',
 })
 export class XmDynamicWidgetDirective implements OnChanges {
-    private _layout: XmDynamicWidgetConfig;
 
     @Input() public class: string;
     @Input() public style: string;
+    private _layout: XmDynamicWidgetConfig;
 
-    /** Component reference */
     public compRef: ComponentRef<XmDynamicWidget>;
 
     constructor(private dynamicComponents: XmDynamicComponentRegistry,
@@ -76,8 +75,20 @@ export class XmDynamicWidgetDirective implements OnChanges {
             ngModuleRef: data.ngModuleRef,
             injector: data.injector,
         });
-        this.compRef.setInput('config', value.config);
-        this.compRef.setInput('spec', value.spec);
+        
+        try {
+            this.compRef.setInput('config', value.config);
+        } catch (error) {
+            console.warn(error);
+            this.compRef.instance.config = value.config;
+        }
+
+        try {
+            this.compRef.setInput('spec', value.spec);
+        } catch (error) {
+            console.warn(error);
+            this.compRef.instance.spec = value.spec;
+        }
 
         // TODO: pass children layout
         const el = (this.compRef.location.nativeElement as HTMLElement);
