@@ -89,11 +89,10 @@
     </div>
     <div class="form-group">
         <mat-form-field class="xm-sources-tags">
-          <mat-chip-list #chipList [attr.aria-label]="'clientManagement.scopes-add' | translate">
+          <mat-chip-grid #chipList [attr.aria-label]="'clientManagement.scopes-add' | translate">
             <mat-chip
               color="primary"
               *ngFor="let scope of scopes"
-              [selectable]="true"
               [removable]="true"
               (removed)="remove(scope)">
               {{scope}}
@@ -107,7 +106,7 @@
               [matChipInputFor]="chipList"
               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
               (matChipInputTokenEnd)="add($event)">
-          </mat-chip-list>
+          </mat-chip-grid>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
             <mat-option *ngFor="let scope of filteredScopes | async" [value]="scope">
               {{scope}}

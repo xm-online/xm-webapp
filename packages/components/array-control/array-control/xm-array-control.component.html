@@ -1,14 +1,14 @@
 <mat-form-field>
   <mat-label>{{config.title | translate}}</mat-label>
-  <mat-chip-list #chipList [disabled]="control.disabled" [attr.aria-label]="config.ariaLabel">
-    <mat-chip
+  <mat-chip-grid #chipList [disabled]="control.disabled" [attr.aria-label]="config.ariaLabel">
+    <mat-chip-option
       *ngFor="let item of compareSelectedItems | async"
       [selectable]="config.selectable"
       [removable]="config.removable"
       (removed)="remove(item.value)">
       {{item.view}}
       <mat-icon matChipRemove *ngIf="config.removable">cancel</mat-icon>
-    </mat-chip>
+    </mat-chip-option>
     <input
       [placeholder]="config.placeholder | translate"
       #input
@@ -19,7 +19,7 @@
       [matChipInputFor]="chipList"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="add($event)">
-  </mat-chip-list>
+  </mat-chip-grid>
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)">
     <mat-option *ngFor="let item of filteredItems | async" [value]="item.value">
