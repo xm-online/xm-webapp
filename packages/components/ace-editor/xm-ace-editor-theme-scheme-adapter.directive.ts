@@ -1,6 +1,6 @@
 import { Directive, Input, NgModule, OnDestroy, OnInit, Self } from '@angular/core';
 import { XmAceEditorDirective } from './xm-ace-editor.directive';
-import { XmThemeStore } from '@xm-ngx/core/theme';
+import { XmThemeController } from '@xm-ngx/core/theme';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 @Directive({
@@ -12,7 +12,7 @@ export class XmAceEditorThemeSchemeAdapterDirective implements OnDestroy, OnInit
 
     constructor(
         @Self() private xmAceEditor: XmAceEditorDirective,
-        private themeStore: XmThemeStore,
+        private themeStore: XmThemeController,
     ) {
     }
 
@@ -21,10 +21,10 @@ export class XmAceEditorThemeSchemeAdapterDirective implements OnDestroy, OnInit
     }
 
     public ngOnInit(): void {
-        this.themeStore.activeThemeSchemeChange$()
+        this.themeStore.isDark$()
             .pipe(takeUntilOnDestroy(this))
-            .subscribe((scheme) => {
-                this.xmAceEditor.theme = scheme.isDark ? this.onDarkTheme : this.onLightTheme;
+            .subscribe((isDark) => {
+                this.xmAceEditor.theme = isDark ? this.onDarkTheme : this.onLightTheme;
             });
     }
 }

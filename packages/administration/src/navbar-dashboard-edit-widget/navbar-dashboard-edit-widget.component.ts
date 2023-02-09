@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+    DashboardEditComponent,
     DashboardEditorService,
     DASHBOARDS_TRANSLATES,
     DashboardsExportService,
     DashboardsImportService,
-    DashboardsManagerService,
+    DashboardsManagerService, WidgetEditComponent,
 } from '@xm-ngx/administration/dashboards-config';
 import { DashboardConfig } from '@xm-ngx/administration/dashboards-config/injectors';
 import { XmEventManager } from '@xm-ngx/core';
@@ -37,6 +38,15 @@ export enum NavbarDashboardEditState {
         DashboardEditorService,
         DashboardsExportService,
         DashboardsImportService,
+        {
+            provide: DashboardConfig,
+            useValue: {
+                dashboardRef: DashboardEditComponent,
+                widgetRef: WidgetEditComponent,
+                EDIT_DASHBOARD_EVENT: NAVBAR_EDIT_DASHBOARD_EVENT,
+                EDIT_WIDGET_EVENT: NAVBAR_EDIT_WIDGET_EVENT,
+            },
+        },
         { provide: DashboardsManagerService, useValue: { setActiveWidget: () => null } },
     ],
 })
