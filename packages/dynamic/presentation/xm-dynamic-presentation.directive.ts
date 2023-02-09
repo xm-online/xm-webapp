@@ -24,8 +24,6 @@ export class XmDynamicPresentationDirective<V, O> extends XmDynamicPresentationB
     @Input() public config: O;
     /** Component ref */
     @Input() public selector: XmDynamicPresentationConstructor<V, O> | string;
-    /** Instance of created object */
-    public instance: XmDynamicPresentation<V, O>;
 
     @Input() public class: string;
     @Input() public style: string;

@@ -1,4 +1,4 @@
-import { Directive, Injector, OnChanges, OnInit, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
+import { ComponentRef, Directive, Injector, OnChanges, OnInit, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
 import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule } from '../src/interfaces';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
 
@@ -63,13 +63,17 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
     public options: O;
     /** Component config */
     public config?: O;
-    /** Component ref */
+    /** Component selector */
     public selector: XmDynamicPresentationConstructor<V, O> | string;
-    /** Instance of created object */
-    public instance: XmDynamicPresentation<V, O>;
+    /** Component reference */
+    public compRef: ComponentRef<XmDynamicPresentation<V, O>>;
 
     public class: string;
     public style: string;
+
+    get instance(): XmDynamicPresentation<V, O> {
+        return this.compRef?.instance;
+    }
 
     constructor(public viewContainerRef: ViewContainerRef,
                 public injector: Injector,
@@ -107,7 +111,7 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         if (!this.instance) {
             return;
         }
-        this.instance.value = this.value;
+        this.compRef.setInput('value', this.value);
     }
 
     protected updateConfig(): void {
@@ -116,7 +120,7 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         }
         // Don't set widget config if it's null, because updateOptions method already set config
         if (this.config != null) {
-            this.instance.config = this.config;
+            this.compRef.setInput('config', this.config);
         }
     }
 
@@ -129,9 +133,10 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
             return;
         }
         console.warn('Dynamic widget "options" property was deprecated use "config" instead. Make sure that your widget works');
-        this.instance.config = this.options;
+
+        this.compRef.setInput('config', this.options);
         // Field options should be removed soon
-        this.instance.options = this.options;
+        this.compRef.setInput('options', this.options);
     }
 
     protected createInjector(injector: Injector = this.injector): Injector {
@@ -148,15 +153,13 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
 
         this.viewContainerRef.clear();
 
-        const c = this.viewContainerRef.createComponent(entry.componentType, {
+        this.compRef = this.viewContainerRef.createComponent(entry.componentType, {
             index: 0,
             ngModuleRef: entry.ngModuleRef,
             injector: entry.injector,
         });
 
-        this.instance = c.instance;
-
-        const el = c.location.nativeElement as HTMLElement;
+        const el = this.compRef.location.nativeElement as HTMLElement;
         this.updateStyles(el);
     }
 

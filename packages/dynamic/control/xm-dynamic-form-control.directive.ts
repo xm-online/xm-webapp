@@ -20,8 +20,9 @@ export class XmDynamicFormControlDirective<V, O> extends XmDynamicControlDirecti
     @Input() public control: UntypedFormControl;
 
     /** Returns instance of created object */
-    public instance: IFormControl<V, O>;
-
+    get instance(): IFormControl<V, O> {
+        return super.instance as IFormControl<V, O>;
+    }
 
     protected async createComponent(): Promise<void> {
         await super.createComponent();
@@ -32,7 +33,7 @@ export class XmDynamicFormControlDirective<V, O> extends XmDynamicControlDirecti
         if (!this.instance) {
             return;
         }
-        this.instance.control = this.control;
+        this.compRef.setInput('control', this.control);
     }
 
 }

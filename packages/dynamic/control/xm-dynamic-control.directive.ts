@@ -67,8 +67,9 @@ export class XmDynamicControlDirective<V, O>
     /** Component value changes */
     @Output() public valueChange: EventEmitter<V> = new EventEmitter<V>();
 
-    /** Returns instance of created object */
-    public instance: XmDynamicControl<V, O>;
+    get instance(): XmDynamicControl<V, O> {
+        return super.instance as XmDynamicControl<V, O>;
+    }
 
     constructor(
         viewContainerRef: ViewContainerRef,
@@ -78,6 +79,7 @@ export class XmDynamicControlDirective<V, O>
     ) {
         super(viewContainerRef, injector, renderer, dynamicComponents);
     }
+    
 
     public ngOnInit(): void {
         this.createComponent().then();
