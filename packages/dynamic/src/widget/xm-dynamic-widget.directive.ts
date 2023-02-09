@@ -82,21 +82,10 @@ export class XmDynamicWidgetDirective implements OnChanges {
             injector: this.injector,
         });
 
-        /**
-         * Since v14 you can use the corresponding method for set inputs
-         */
-        this.compRef.instance.config = value.config;
         this.compRef.setInput('config', value.config);
-
-        /**
-         * Since v14 you can use the corresponding method for set inputs
-         */
-        this.compRef.instance.spec = value.spec;
         this.compRef.setInput('spec', value.spec);
 
-
         // TODO: pass children layout
-
         const el = (this.compRef.location.nativeElement as HTMLElement);
         if (this.class) {
             this.renderer.setAttribute(el, 'class', this.class);

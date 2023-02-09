@@ -120,11 +120,6 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
             return;
         }
 
-        this.instance.value = this.value;
-
-        /**
-         * Since v14 you can use the corresponding method for set inputs
-         */
         this.compRef.setInput('value', this.value);
     }
 
@@ -132,13 +127,9 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
         if (!this.instance) {
             return;
         }
+        
         // Don't set widget config if it's null, because updateOptions method already set config
         if (this.config != null) {
-            this.instance.config = this.config;
-
-            /**
-             * Since v14 you can use the corresponding method for set inputs
-             */
             this.compRef.setInput('config', this.config);
         }
     }
@@ -154,18 +145,12 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
 
         console.warn(`Dynamic widget ${this.selector} "options" property was deprecated use "config" instead. Make sure that your widget works`);
 
-        /**
-         * Since v14 you can use the corresponding method for set inputs
-         */
-        this.instance.config = this.options;
         this.compRef.setInput('config', this.config);
-
         /**
          * @deprecated
          *
          * Use "config" instead of options
          */
-        this.instance.options = this.options;
         this.compRef.setInput('options', this.options);
     }
 

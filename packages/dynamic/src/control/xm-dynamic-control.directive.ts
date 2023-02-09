@@ -147,10 +147,6 @@ export class XmDynamicControlDirective<V, O>
             return;
         }
 
-        /**
-         * Since v14 you can use the corresponding method for set inputs
-         */
-        this.instance.value = this.value;
         this.compRef.setInput('value', this.value);
 
         this._onChange(this.value);

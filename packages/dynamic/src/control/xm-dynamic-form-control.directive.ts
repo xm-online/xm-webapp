@@ -34,11 +34,6 @@ export class XmDynamicFormControlDirective<V, O> extends XmDynamicControlDirecti
             return;
         }
 
-        this.instance.control = this.control;
-
-        /**
-         * Since v14 you can use the corresponding method for set inputs
-         */
         this.compRef.setInput('control', this.control);
     }
 
