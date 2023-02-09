@@ -1,10 +1,11 @@
 import { HttpResponse } from '@angular/common/http';
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 
 import { DashboardWidget, WidgetService } from '@xm-ngx/dashboard';
 import { TdTextEditorComponent } from '@covalent/text-editor';
 import { ITranslate } from '@xm-ngx/translation';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 export interface MdEditorOptions {
     autofocus?: boolean;
@@ -25,9 +26,9 @@ export interface MdWidgetConfig {
     templateUrl: './md-widget.component.html',
     styleUrls: ['./md-widget.component.scss'],
 })
-export class MdWidgetComponent implements AfterViewInit, OnDestroy {
+export class MdWidgetComponent implements AfterViewInit, OnDestroy, XmDynamicWidget {
 
-    public config: { id: number, name: string | ITranslate };
+    @Input() public config: { id: number, name: string | ITranslate };
     public widgetConfig: MdWidgetConfig;
     public isEditMode: boolean;
     public editorOptions: MdEditorOptions = {

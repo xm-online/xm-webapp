@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { XmUser, XmUserService } from '@xm-ngx/core/user';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-user-login-widget',
     templateUrl: './xm-user-login-widget.component.html',
 })
-export class XmUserLoginWidgetComponent implements OnInit {
+export class XmUserLoginWidgetComponent implements OnInit, XmDynamicWidget {
+
+    @Input() public config: unknown;
 
     public user$: Observable<XmUser>;
 
