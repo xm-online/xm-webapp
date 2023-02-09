@@ -10,4 +10,6 @@ TODO: Json schema form rewrite configs and remove data
  ```
 -->
 
+<mat-error *ngIf="errors">{{errors | json}}</mat-error>
+
 <div [innerHTML]="entityAsString() | language : 'json' | markdown"></div>

@@ -54,9 +54,13 @@ function getSelector(classDeclaration: ClassDeclaration): string {
         return '';
     }
 
-    const selector = stringLiteral.getLiteralValue();
+    let selector = stringLiteral.getLiteralValue();
     if (!selector) {
         return '';
+    }
+
+    if(selector.startsWith('xm-')){
+        selector = selector.replace(/^xm-/, '');
     }
 
     const file = classDeclaration.getSourceFile();
@@ -207,7 +211,7 @@ function getConfigurationSchema(classDeclaration: ClassDeclaration): object {
         console.warn('Unknown type', nonNullableType.getText(), classDeclaration.getName());
         return {
             title: nonNullableType.getSymbol()?.getName() || 'Unknown type!',
-            'type': 'string',
+            'type': 'object',
             'default': 'Unknown type!',
             'readOnly': true
         };

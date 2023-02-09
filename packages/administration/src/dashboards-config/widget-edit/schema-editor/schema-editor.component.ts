@@ -3,6 +3,7 @@ import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { NgControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DynamicComponentSpecEntity } from '@xm-ngx/cli';
+import Ajv from 'ajv';
 
 export interface SchemaEditorOptions {
     selector: string;
@@ -21,8 +22,7 @@ export class SchemaEditorComponent
     public componentSpecification: DynamicComponentSpecEntity[] = [];
 
     public entity?: DynamicComponentSpecEntity;
-
-    public entityAsString = (): string => JSON.stringify(this.entity, null,2);
+    public errors: object[];
 
     constructor(
         @Optional() @Self() public ngControl: NgControl,
@@ -30,6 +30,8 @@ export class SchemaEditorComponent
     ) {
         super(ngControl);
     }
+
+    public entityAsString = (): string => JSON.stringify(this.entity, null, 2);
 
     public ngOnInit(): void {
         this.httpClient.get<DynamicComponentSpecEntity[]>('/assets/specification/dynamic_components_spec_output.json')
@@ -45,5 +47,23 @@ export class SchemaEditorComponent
                 .find(i => i.selector == this.options.selector);
         } else
             this.entity = null;
+
+        if (!this.entity) {
+            return;
+        }
+        const ajv = new Ajv({
+            allErrors: true,
+            verbose: true,
+            strict: true,
+        });
+
+        const validate = ajv.compile(this.entity.configurationSchema);
+        validate(this.value);
+        this.errors = validate.errors;
+    }
+
+    public override writeValue(value: object): void {
+        super.writeValue(value);
+        this.ngOnChanges(null);
     }
 }
