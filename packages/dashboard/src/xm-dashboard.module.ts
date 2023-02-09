@@ -32,7 +32,6 @@ import { MatRippleModule } from '@angular/material/core';
         MatRippleModule,
     ],
     declarations: [DashboardComponent],
-    exports: [],
     providers: [WidgetService, PendingChangesGuard],
 })
 export class XmDashboardModule {
