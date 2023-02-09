@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 import { Translate } from '@xm-ngx/translation';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 export interface IHelpNavLink {
     url: string;
@@ -26,7 +27,9 @@ export interface IHelpNavLink {
     `,
     styleUrls: ['./xm-navbar-help-link-widget.component.scss'],
 })
-export class XmNavbarHelpLinkWidget implements OnInit {
+export class XmNavbarHelpLinkWidget implements OnInit, XmDynamicWidget {
+    @Input() public config: unknown;
+
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
     public helpConfig: {
         navLink: IHelpNavLink;

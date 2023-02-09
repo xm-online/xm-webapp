@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 
 import { WeatherService } from './weather.service';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-weather-widget',
     templateUrl: './weather-widget.component.html',
     styleUrls: ['./weather-widget.component.scss'],
 })
-export class WeatherWidgetComponent implements OnInit {
+export class WeatherWidgetComponent implements OnInit, XmDynamicWidget {
 
-    public config: any;
+    @Input() public config: any;
     public weather: any = {};
     public showLoader: boolean = true;
 
