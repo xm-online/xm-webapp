@@ -8,6 +8,10 @@ export function setComponentInput<T>(compRef: ComponentRef<T>, name: string, val
         compRef.setInput(name, value);
     } else {
         console.warn(`No @Input() decorator present for ${compRef.componentType.name}, used deprecated method`);
-        compRef.instance[name] = value;
+        try {
+            compRef.instance[name] = value;
+        } catch (error) {
+            console.warn(error);
+        }
     }
 }
