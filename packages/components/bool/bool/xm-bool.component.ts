@@ -30,7 +30,7 @@ export class XmBoolComponent implements OnInit, OnChanges {
     }
 
     @Input()
-    public set options(value: { icons: XmBoolOptions, acceptableValue: Primitive[] }) {
+    public set config(value: { icons: XmBoolOptions, acceptableValue: Primitive[] }) {
         if (value?.icons) {
             this.icons = value.icons;
         }

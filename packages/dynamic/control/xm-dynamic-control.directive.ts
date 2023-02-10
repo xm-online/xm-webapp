@@ -96,6 +96,9 @@ export class XmDynamicControlDirective<V, O>
         if (changes.options) {
             this.updateOptions();
         }
+        if (changes.config) {
+            this.updateConfig();
+        }
         if (changes.selector && !changes.selector.firstChange) {
             this.createComponent().then();
         }
@@ -131,6 +134,7 @@ export class XmDynamicControlDirective<V, O>
         this.updateRegisterOnChange();
         this.updateRegisterOnTouched();
         this.updateOptions();
+        this.updateConfig();
         this.updateDisable();
     }
 

@@ -2,15 +2,15 @@
 
 <mat-dialog-content>
   <div class="row g-3  align-items-center">
-    <xm-text-view [options]="defaultConfig.privilegeKeyField"
+    <xm-text-view [config]="defaultConfig.privilegeKeyField"
                   [value]="permission?.privilegeKey"
                   class="col-12 col-md-6"></xm-text-view>
-    <xm-text-view [options]="defaultConfig.roleField"
+    <xm-text-view [config]="defaultConfig.roleField"
                   [value]="permission?.roleKey"
                   class="col-12 col-md-6"></xm-text-view>
   </div>
   <div class="row align-items-center">
-    <xm-text-control [options]="defaultConfig.searchControl"
+    <xm-text-control [config]="defaultConfig.searchControl"
                      [formControl]="searchControl"
                      class="col-12 col-md-6"></xm-text-control>
     <mat-slide-toggle [formControl]="activeControl"

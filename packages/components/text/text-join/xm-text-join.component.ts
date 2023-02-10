@@ -34,7 +34,7 @@ export interface XmTextJoinValueOptions {
 })
 export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknown, XmTextJoinValueOptions> {
     @Input() public value: unknown;
-    @Input() public options: XmTextJoinValueOptions;
+    @Input() public config: XmTextJoinValueOptions;
     public joinValue: string;
 
     constructor(
@@ -44,7 +44,7 @@ export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknow
     }
 
     public ngOnInit(): void {
-        this.joinValue = this.joinTemplates(this.options.templates || []);
+        this.joinValue = this.joinTemplates(this.config.templates || []);
     }
 
     public joinTemplates(templates: XmTextJoinValueOptionsTemplate[]): string {
@@ -75,7 +75,7 @@ export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknow
             fields.push(translates);
         }
 
-        return _.join(_.compact(fields), this.options.joinSymbol || ', ');
+        return _.join(_.compact(fields), this.config.joinSymbol || ', ');
     }
 }
 

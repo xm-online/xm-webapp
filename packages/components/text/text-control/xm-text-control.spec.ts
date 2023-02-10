@@ -88,9 +88,9 @@ describe('XmTextControl', () => {
 
     it('value should be changed from input', () => {
         const value = 'value5';
-        component.options.id = 'id';
+        component.config.id = 'id';
         fixture.detectChanges();
-        const input: HTMLInputElement = document.getElementById(component.options.id) as HTMLInputElement;
+        const input: HTMLInputElement = document.getElementById(component.config.id) as HTMLInputElement;
         input.value = value;
         input.dispatchEvent(new Event('input'));
         fixture.detectChanges();
@@ -101,14 +101,14 @@ describe('XmTextControl', () => {
     });
 
     it('should set formControl as newControl when applyTrimForValue equal true', () => {
-        component.options.applyTrimForValue = true;
+        component.config.applyTrimForValue = true;
 
         expect(component.formControl)
             .toEqual((component as any).newControl);
     });
 
     it('should set formControl as control when applyTrimForValue equal false', () => {
-        component.options.applyTrimForValue = false;
+        component.config.applyTrimForValue = false;
 
         expect(component.formControl)
             .toEqual((component as any).control);
@@ -117,7 +117,7 @@ describe('XmTextControl', () => {
     describe('ngOnInit', () => {
         it('should call initControlWithTrimmingString when applyTrimForValue equal true', () => {
             spyOn((component as any), 'initControlWithTrimmingString');
-            component.options.applyTrimForValue = true;
+            component.config.applyTrimForValue = true;
             component.ngOnInit();
 
             expect((component as any).initControlWithTrimmingString)
@@ -126,7 +126,7 @@ describe('XmTextControl', () => {
 
         it('should NOT call initControlWithTrimmingString when applyTrimForValue equal false', () => {
             spyOn((component as any), 'initControlWithTrimmingString');
-            component.options.applyTrimForValue = false;
+            component.config.applyTrimForValue = false;
             component.ngOnInit();
 
             expect((component as any).initControlWithTrimmingString)
@@ -171,7 +171,7 @@ describe('XmTextControl', () => {
             (component as any).initControlWithTrimmingString();
 
             expect(validatorProcessingServiceMock.validatorsFactory)
-                .toHaveBeenCalledWith(component.options?.validators);
+                .toHaveBeenCalledWith(component.config?.validators);
         });
 
         it('should trim value from newControl and patch to control', () => {

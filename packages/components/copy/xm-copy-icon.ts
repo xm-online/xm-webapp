@@ -33,7 +33,7 @@ export const XM_COPY_ICON_OPTIONS: XmCopyIconOptions = {
 })
 export class XmCopyIconComponent implements XmDynamicPresentation<unknown, XmCopyIconOptions>, OnInit, OnChanges {
     @Input() public value: unknown;
-    @Input() public options: XmCopyIconOptions = clone(XM_COPY_ICON_OPTIONS);
+    @Input() public config: XmCopyIconOptions = clone(XM_COPY_ICON_OPTIONS);
 
     public copyValue: string;
 
@@ -45,7 +45,7 @@ export class XmCopyIconComponent implements XmDynamicPresentation<unknown, XmCop
 
     public update(): void {
         this.copyValue = this.translate.translate(
-            this.options?.template || XM_COPY_ICON_OPTIONS.template,
+            this.config?.template || XM_COPY_ICON_OPTIONS.template,
             { value: this.value },
         );
     }
@@ -59,9 +59,9 @@ export class XmCopyIconComponent implements XmDynamicPresentation<unknown, XmCop
     }
 
     public OnCopied(isCopied: boolean): void {
-        if (isCopied && this.options?.copiedMessage) {
+        if (isCopied && this.config?.copiedMessage) {
             this.snackBar.open(
-                this.translate.translate(this.options.copiedMessage, { value: this.value }),
+                this.translate.translate(this.config.copiedMessage, { value: this.value }),
                 null,
                 { duration: 1400 });
         }

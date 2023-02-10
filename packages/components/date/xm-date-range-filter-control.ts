@@ -46,24 +46,24 @@ type DateValue = string[] | Date[];
     selector: 'xm-date-range-filter-control',
     template: `
         <mat-form-field class="xm-custom-input-icon">
-            <mat-label *ngIf="options?.title">{{ options?.title | translate }}</mat-label>
+            <mat-label *ngIf="config?.title">{{ config?.title | translate }}</mat-label>
 
             <div class="to-display" *ngIf="value && value.length > 0">
-                <xm-date [value]="value[0]" [options]="options"></xm-date>
+                <xm-date [value]="value[0]" [config]="config"></xm-date>
                 ~
-                <xm-date [value]="value[1]" [options]="options"></xm-date>
+                <xm-date [value]="value[1]" [config]="config"></xm-date>
             </div>
 
             <input #dateControl='ngModel'
                    [(ngModel)]="value"
-                   [min]="options?.min"
-                   [max]="options?.max"
+                   [min]="config?.min"
+                   [max]="config?.max"
                    [selectMode]="'range'"
                    (ngModelChange)="change($event)"
                    [owlDateTimeTrigger]="dt1"
                    [owlDateTime]="dt1"
                    [disabled]="disabled"
-                   [required]="options?.required"
+                   [required]="config?.required"
                    class="abs"
                    matInput>
             <mat-error *ngIf="dateControl.invalid">{{'common-webapp-ext.validation.required' | translate}}</mat-error>
@@ -73,10 +73,10 @@ type DateValue = string[] | Date[];
 
             <mat-icon [owlDateTimeTrigger]="dt1" class="icon">date_range</mat-icon>
 
-            <owl-date-time #dt1 [startAt]="options?.start" [firstDayOfWeek]="options?.firstDayOfWeek"
+            <owl-date-time #dt1 [startAt]="config?.start" [firstDayOfWeek]="config?.firstDayOfWeek"
                            [pickerType]="'calendar'"></owl-date-time>
 
-            <mat-hint [hint]="options.hint"></mat-hint>
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
     styleUrls: ['./date.control.scss'],
@@ -85,7 +85,7 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
     implements XmDynamicControl<DateValue, IDateOptions>, OnInit {
 
     @Output() public valueChange: EventEmitter<DateValue> = new EventEmitter<DateValue>();
-    @Input() public options: IDateOptions;
+    @Input() public config: IDateOptions;
 
     constructor(
         @Optional() @Self() public ngControl: NgControl,
@@ -115,7 +115,7 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
     }
 
     private setDateRange(): void {
-        const { initValue } = this.options;
+        const { initValue } = this.config;
 
         if (!initValue) {
             return;

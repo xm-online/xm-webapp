@@ -27,11 +27,11 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
     selector: 'xm-multiple-enum-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options?.title | translate}}</mat-label>
+            <mat-label>{{config?.title | translate}}</mat-label>
             <mat-select [formControl]="control"
-                        [required]="options.required"
-                        [id]="options.id"
-                        [attr.data-qa]="options.dataQa"
+                        [required]="config.required"
+                        [id]="config.id"
+                        [attr.data-qa]="config.dataQa"
                         multiple>
                 <mat-select-trigger>
                     <ng-container *ngIf="itemsMap && itemsMap[value[0] + '']">
@@ -55,7 +55,7 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
 
-            <mat-hint [hint]="options.hint"></mat-hint>
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
     encapsulation: ViewEncapsulation.None,
@@ -66,24 +66,24 @@ export class XmMultipleEnumControlComponent
     implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: {[value: string]: XmEnumControlOptionsItem};
-    private _options: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
+    private _config: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
 
     public get value(): XmEnumValue[] {
         return this._value == undefined ? [] : this._value;
     }
 
-    @ Input()
+    @Input()
     public set value(data: XmEnumValue[] | undefined) {
         this._value = data;
     }
 
-    public get options(): XmMultipleEnumControlOptions {
-        return this._options;
+    public get config(): XmMultipleEnumControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmMultipleEnumControlOptions) {
-        this._options = defaults({}, value, XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
+    public set config(value: XmMultipleEnumControlOptions) {
+        this._config = defaults({}, value, XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
         this.itemsList = value.items;
         forEach(this.itemsList, (item) => {
             if (item.value === undefined) {

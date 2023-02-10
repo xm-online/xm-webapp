@@ -13,7 +13,7 @@ export class XmBreadcrumbComponent {
 
     @HostBinding('class') public class = 'xm-breadcrumb';
 
-    @Input() public options: XmBreadcrumbOptions;
+    @Input() public config: XmBreadcrumbOptions;
 
     public breadcrumbs$: Observable<XmBreadcrumb[]>;
 
