@@ -1,0 +1,15 @@
+:host {
+  .grid-flow {
+    display:               grid;
+    grid-gap:              10px;
+    grid-template-columns: repeat(auto-fill, 92px);
+  }
+
+  .color-container {
+    --theme-fill-color: #000;
+  }
+
+  .color-container ::ng-deep .mat-radio-outer-circle {
+    background-color: var(--theme-fill-color);
+  }
+}

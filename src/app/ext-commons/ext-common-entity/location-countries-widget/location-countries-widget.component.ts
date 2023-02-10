@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 
 import { TableData } from './md-table.component';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 declare const $: any;
 
@@ -8,9 +9,9 @@ declare const $: any;
     selector: 'xm-location-countries-widget',
     templateUrl: './location-countries-widget.component.html',
 })
-export class LocationCountriesWidgetComponent implements OnInit, AfterViewInit {
+export class LocationCountriesWidgetComponent implements OnInit, AfterViewInit, XmDynamicWidget {
 
-    public config: any;
+    @Input() public config: any;
     public tasks: any[];
     public tableData: TableData;
 

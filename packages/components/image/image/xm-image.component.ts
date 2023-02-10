@@ -23,14 +23,14 @@ export const XM_IMAGE_OPTIONS_DEFAULT: XmImageOptions = {
 export class XmImageComponent {
     @Input() public value: string;
 
-    private _options: XmImageOptions = clone(XM_IMAGE_OPTIONS_DEFAULT);
+    private _config: XmImageOptions = clone(XM_IMAGE_OPTIONS_DEFAULT);
 
-    public get options(): XmImageOptions {
-        return this._options;
+    public get config(): XmImageOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmImageOptions) {
-        this._options = defaults(value, XM_IMAGE_OPTIONS_DEFAULT);
+    public set config(value: XmImageOptions) {
+        this._config = defaults(value, XM_IMAGE_OPTIONS_DEFAULT);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
@@ -9,14 +9,15 @@ import { ContextService } from '@xm-ngx/core/context';
 import { AttachmentsView, EntityDetailLayout, EntityUiConfig } from '../../../../../packages/core/config/xm-ui-config-model';
 import { FullLinkSpec, LinkSpec, Spec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/entity';
 import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-entity-widget',
     templateUrl: './entity-widget.component.html',
 })
-export class EntityWidgetComponent implements OnInit, OnDestroy {
+export class EntityWidgetComponent implements OnInit, OnDestroy, XmDynamicWidget {
 
-    public config: any;
+    @Input() public config: any;
     public grid: any;
     public xmEntity: XmEntity;
     public xmEntitySpec: XmEntitySpec;

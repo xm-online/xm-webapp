@@ -7,12 +7,13 @@ import * as _ from 'lodash';
 import { interval, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AccountService, Principal } from '@xm-ngx/core/user';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-user-settings-widget',
     templateUrl: './xm-user-settings-widget.component.html',
 })
-export class XmUserSettingsWidgetComponent implements OnInit {
+export class XmUserSettingsWidgetComponent implements OnInit, XmDynamicWidget {
     public languages$: Observable<Locale[]> = this.languageService.languages$();
 
     @Input() public config: {hideDates: boolean};

@@ -20,22 +20,22 @@ export const CURRENCY_DEFAULT: ICurrencyOptions = {
 
 @Component({
     selector: 'xm-currency-value',
-    template: '{{ value | currency:_options.currencyCode:_options.display:_options.digitsInfo:_options.locale }}',
+    template: '{{ value | currency : config.currencyCode : config.display : config.digitsInfo : config.locale }}',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class CurrencyValueComponent implements XmDynamicPresentation<string, ICurrencyOptions> {
 
     @Input() public value: string;
-    public _options: ICurrencyOptions;
+    private _config: ICurrencyOptions;
 
-    public get options(): ICurrencyOptions {
-        return this._options;
+    public get config(): ICurrencyOptions {
+        return this._config;
     }
 
     @Input()
     public set options(value: ICurrencyOptions) {
-        this._options = _.defaults({}, value, CURRENCY_DEFAULT);
+        this._config = _.defaults({}, value, CURRENCY_DEFAULT);
     }
 
 }

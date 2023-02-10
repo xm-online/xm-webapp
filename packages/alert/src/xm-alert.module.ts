@@ -13,6 +13,7 @@ import { XmAlertService } from './xm-alert.service';
         JhiAlertErrorComponent,
     ],
     exports: [
+        XmAlertComponent,
         JhiAlertErrorComponent,
     ],
     imports: [

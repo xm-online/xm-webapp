@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-iframe-widget',
     templateUrl: './iframe-widget.component.html',
 })
-export class IframeWidgetComponent implements OnInit {
+export class IframeWidgetComponent implements OnInit, XmDynamicWidget {
 
     public name: any;
     public url: any;
-    public config: any;
+    @Input() public config: any;
 
     constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute) {
     }

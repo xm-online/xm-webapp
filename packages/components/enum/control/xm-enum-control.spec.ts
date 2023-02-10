@@ -48,7 +48,7 @@ describe('XmEnumControlComponent', () => {
     it('value boolean should be equal to options.items[0] value', () => {
         const value = false;
         const title = 'False';
-        component.options = { dataQa: '', items: [{ value, title }, { value: '1', title: '1' }] };
+        component.config = { dataQa: '', items: [{ value, title }, { value: '1', title: '1' }] };
         component.value = value;
         fixture.detectChanges();
         expect(component.value).toBe(value);
@@ -59,7 +59,7 @@ describe('XmEnumControlComponent', () => {
         const value = 'false';
         const title = 'False';
         component.value = value;
-        component.options = { dataQa: '', items: [{ value, title }, { value: 1, title: '1' }] };
+        component.config = { dataQa: '', items: [{ value, title }, { value: 1, title: '1' }] };
         fixture.detectChanges();
         expect(component.value).toBe(value);
         expect(component.itemsMap[String(value)].value).toBe(value);
@@ -69,7 +69,7 @@ describe('XmEnumControlComponent', () => {
         const value = 1;
         const title = 'False';
         component.value = value;
-        component.options = { dataQa: '', items: [{ value, title }, { value: 1, title: '1' }] };
+        component.config = { dataQa: '', items: [{ value, title }, { value: 1, title: '1' }] };
         fixture.detectChanges();
         expect(component.value).toBe(value);
         expect(component.itemsMap[String(value)].value).toBe(value);
@@ -79,7 +79,7 @@ describe('XmEnumControlComponent', () => {
         const value = 0;
         const title = 'False';
         component.value = value;
-        component.options = { dataQa: '', items: [{ value, title }, { value: 1, title: '1' }] };
+        component.config = { dataQa: '', items: [{ value, title }, { value: 1, title: '1' }] };
         fixture.detectChanges();
         expect(component.value).toBe(value);
         expect(component.itemsMap[String(value)].value).toBe(value);

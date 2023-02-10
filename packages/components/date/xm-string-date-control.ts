@@ -24,13 +24,13 @@ export interface XmStringDateControlOptions {
     selector: 'xm-string-date-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options?.title | translate}}</mat-label>
+            <mat-label>{{config?.title | translate}}</mat-label>
 
             <input (dateChange)="changeDateControl($event)"
                    [formControl]="control"
                    [matDatepicker]="picker"
-                   [name]="options?.name"
-                   [required]="options?.required"
+                   [name]="config?.name"
+                   [required]="config?.required"
                    (click)="picker.open()"
                    matInput>
             <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
@@ -49,12 +49,12 @@ export interface XmStringDateControlOptions {
                 <mat-icon>close</mat-icon>
             </button>
 
-            <mat-hint [hint]="options.hint"></mat-hint>
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
 })
 export class XmStringDateControl extends NgFormAccessor<XmDateValue> {
-    @Input() public options: XmStringDateControlOptions;
+    @Input() public config: XmStringDateControlOptions;
 
     public changeDateControl({ value }: MatDatepickerInputEvent<Date>): void {
         const onlyDate = new Date(

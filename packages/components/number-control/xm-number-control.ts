@@ -41,24 +41,24 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
     selector: 'xm-number-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options.title | translate}}</mat-label>
+            <mat-label>{{config.title | translate}}</mat-label>
 
             <input matInput
                    [formControl]="control"
-                   [placeholder]="options.placeholder | translate"
-                   [name]="options.name"
-                   [id]="options.id"
-                   [required]="options.required"
-                   [pattern]="options.pattern"
-                   [xm-number]="options.type"
-                   [step]="options.step"
+                   [placeholder]="config.placeholder | translate"
+                   [name]="config.name"
+                   [id]="config.id"
+                   [required]="config.required"
+                   [pattern]="config.pattern"
+                   [xm-number]="config.type"
+                   [step]="config.step"
                    type="number">
 
-            <mat-error *xmControlErrors="control.errors; translates options?.errors; message as message">
+            <mat-error *xmControlErrors="control.errors; translates config?.errors; message as message">
                 {{message}}
             </mat-error>
 
-            <mat-hint [hint]="options.hint"></mat-hint>
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
     encapsulation: ViewEncapsulation.None,
@@ -70,19 +70,19 @@ export class XmNumberControl extends NgFormAccessor<Primitive> implements XmDyna
         super(ngControl);
     }
 
-    private _options: XmNumberControlOptions = XM_NUMBER_CONTROL_DEFAULT_OPTIONS;
+    private _config: XmNumberControlOptions = XM_NUMBER_CONTROL_DEFAULT_OPTIONS;
 
-    public get options(): XmNumberControlOptions {
-        return this._options;
+    public get config(): XmNumberControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmNumberControlOptions) {
-        this._options = defaults({}, value, {
+    public set config(value: XmNumberControlOptions) {
+        this._config = defaults({}, value, {
             ...XM_NUMBER_CONTROL_DEFAULT_OPTIONS,
             errors: this.xmControlErrorsTranslates,
         });
-        this._options.placeholder = this._options.placeholder || this._options.title;
+        this._config.placeholder = this._config.placeholder || this._config.title;
     }
 }
 

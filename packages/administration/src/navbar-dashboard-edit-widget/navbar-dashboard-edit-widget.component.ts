@@ -1,16 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
+    DashboardEditComponent,
     DashboardEditorService,
     DASHBOARDS_TRANSLATES,
     DashboardsExportService,
     DashboardsImportService,
-    DashboardsManagerService,
+    DashboardsManagerService, WidgetEditComponent,
 } from '@xm-ngx/administration/dashboards-config';
 import { DashboardConfig } from '@xm-ngx/administration/dashboards-config/injectors';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard, DashboardStore, PageService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { skip, take } from 'rxjs/operators';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 export const NAVBAR_EDIT_DASHBOARD_EVENT = 'NAVBAR_EDIT_DASHBOARD_EVENT';
 export const NAVBAR_EDIT_WIDGET_EVENT = 'NAVBAR_EDIT_WIDGET_EVENT';
@@ -37,10 +39,21 @@ export enum NavbarDashboardEditState {
         DashboardEditorService,
         DashboardsExportService,
         DashboardsImportService,
+        {
+            provide: DashboardConfig,
+            useValue: {
+                dashboardRef: DashboardEditComponent,
+                widgetRef: WidgetEditComponent,
+                EDIT_DASHBOARD_EVENT: NAVBAR_EDIT_DASHBOARD_EVENT,
+                EDIT_WIDGET_EVENT: NAVBAR_EDIT_WIDGET_EVENT,
+            },
+        },
         { provide: DashboardsManagerService, useValue: { setActiveWidget: () => null } },
     ],
 })
-export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy {
+export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, XmDynamicWidget {
+    @Input() public config: unknown;
+
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
 
     public page: Dashboard;

@@ -6,4 +6,3 @@ export { AccountService } from './src/account.service';
 
 export * from './src/account.model';
 export * from './src/user.model';
-export * from './src/user.service';

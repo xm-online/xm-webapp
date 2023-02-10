@@ -8,5 +8,5 @@ import { Translate } from '@xm-ngx/translation';
 })
 export class XmTextTranslateComponent implements XmDynamicPresentation<Translate, undefined> {
     @Input() public value: Translate;
-    @Input() public options: undefined;
+    @Input() public config: undefined;
 }

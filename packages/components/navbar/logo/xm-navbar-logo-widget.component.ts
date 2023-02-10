@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-navbar-logo-widget',
@@ -19,7 +20,10 @@ import { filter } from 'rxjs/operators';
     `,
     styleUrls: ['./xm-navbar-logo-widget.component.scss'],
 })
-export class XmNavbarLogoWidget implements OnInit, OnDestroy {
+export class XmNavbarLogoWidget implements OnInit, OnDestroy, XmDynamicWidget {
+
+    @Input() public config: unknown;
+
     public tenantLogoUrl: string = '../assets/img/logo-xm-online.png';
     public tenantName: string;
     public showLogo: boolean = false;

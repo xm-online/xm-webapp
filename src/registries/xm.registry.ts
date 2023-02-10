@@ -132,5 +132,9 @@ export const XM_ELEMENTS: XmDynamicEntries = [
     {
         selector: '@xm-ngx/components/inline-control',
         loadChildren: () => import('@xm-ngx/components/inline-control/inline-control.component').then(m => m.XmInlineControlComponent),
-    }
+    },
+    {
+        selector: '@xm-ngx/components/user-appearance-theme-widget',
+        loadChildren: () => import('@xm-ngx/components/user-appearance-theme-widget').then(m => m.XmUserAppearanceThemeWidget),
+    },
 ];
