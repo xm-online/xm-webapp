@@ -44,7 +44,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
             <input matInput
                    (dateChange)="changeDateControl($event)"
                    [formControl]="control"
-                   [min]="options?.dateNow ? dateNow : undefined"
+                   [min]="config?.dateNow ? dateNow : undefined"
                    [max]="maxDate"
                    [matDatepicker]="picker"
                    [name]="config?.name"

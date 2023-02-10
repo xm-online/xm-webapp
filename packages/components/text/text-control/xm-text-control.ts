@@ -85,7 +85,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
 })
 /** @beta */
 export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
-    implements XmDynamicControl<T, XmTextControlconfig>, OnInit, OnDestroy {
+    implements XmDynamicControl<T, XmTextControlOptions>, OnInit, OnDestroy {
     private _config: XmTextControlOptions = clone(XM_TEXT_CONTROL_OPTIONS_DEFAULT);
 
     public get config(): XmTextControlOptions {
@@ -95,7 +95,7 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
     @Input()
     public set config(value: XmTextControlOptions) {
         this._config = defaults({}, value, {
-            ...XM_TEXT_CONTROL_config_DEFAULT,
+            ...XM_TEXT_CONTROL_OPTIONS_DEFAULT,
             errors: this.xmControlErrorsTranslates,
         });
         this._config.placeholder = this._config.placeholder || this._config.title;
