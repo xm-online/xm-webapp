@@ -43,6 +43,7 @@ export class WidgetListService {
         const components = modules.map(i => _.flatMap(i.injector.get(XM_DYNAMIC_ENTRIES, [])));
         const componentsWithGlobalSelector = components.map((i, ix) => provideFullSelector(i, moduleSelectors[ix]));
         const allComponents = _.uniq(_.flatMap([...componentsWithGlobalSelector, globalWithGlobalSelector]));
-        this.widgets.next(allComponents);
+        const withOUtExtPrefix = allComponents.filter(i => !i.selector.startsWith('ext-'));
+        this.widgets.next(withOUtExtPrefix);
     }
 }

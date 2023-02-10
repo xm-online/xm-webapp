@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, Optional, Self, SimpleChanges } fr
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { NgControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { DynamicComponentSpecEntity } from '@xm-ngx/cli';
+import { DynamicComponentSpecEntity, DynamicComponentsSpecOutput } from '@xm-ngx/cli';
 import Ajv from 'ajv';
 
 export interface SchemaEditorOptions {
@@ -34,9 +34,9 @@ export class SchemaEditorComponent
     public entityAsString = (): string => JSON.stringify(this.entity, null, 2);
 
     public ngOnInit(): void {
-        this.httpClient.get<DynamicComponentSpecEntity[]>('/assets/specification/dynamic_components_spec_output.json')
+        this.httpClient.get<DynamicComponentsSpecOutput>('/assets/specification/dynamic_components_spec_output.json')
             .subscribe(res => {
-                this.componentSpecification = res;
+                this.componentSpecification = res.components;
                 this.ngOnChanges(null);
             });
     }

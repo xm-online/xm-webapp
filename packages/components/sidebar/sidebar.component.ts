@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { XmLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { get } from 'lodash';
@@ -12,6 +12,8 @@ interface SidebarConfig {
     layout: XmLayout[]
 }
 
+
+interface XmSidebarUiConfig extends XmUIConfig { sidebar: SidebarConfig }
 export const XM_SIDEBAR_PRESENTATION_STATE_CLASSES = {
     [XmSidebarPresentationType.Close]: 'xm-sidebar-presentation-close',
     [XmSidebarPresentationType.Open]: 'xm-sidebar-presentation-open',
@@ -34,7 +36,7 @@ export class XmSidebarComponent implements OnInit, OnDestroy {
 
     constructor(
         private xmSidebarStoreService: XmSidebarStoreService,
-        private xmConfigService: XmUiConfigService<{ sidebar: SidebarConfig }>,
+        private xmConfigService: XmUiConfigService<XmSidebarUiConfig>,
     ) {
     }
 

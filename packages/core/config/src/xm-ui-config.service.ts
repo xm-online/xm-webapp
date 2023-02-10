@@ -19,19 +19,19 @@ export class XmUiConfigService<T extends XmUIConfig = XmUIConfig> {
             this.publicUiConfigService.config$(),
             this.privateUiConfigService.config$().pipe(startWith(null), catchError(() => of(null))),
         ]).pipe(
-            map((res) => _.merge.apply(null, res)),
-            switchMap((config: XmUIConfig) => {
+            map((res) => _.merge.apply(null, res) as T),
+            switchMap((config: T) => {
                 if(config && config.idp && config.idp.enabled) {
                     return this.publicIdpConfigService
                         .config$()
                         .pipe(
                             startWith(null),
-                            map((idpConfig: IIdpConfig) => _.merge(config, idpConfig)),
+                            map((idpConfig: IIdpConfig) => _.merge(config, idpConfig) as T),
                             catchError(() => of(null)),
                         );
-                } 
+                }
                 return of(config);
-                
+
             }),
         );
     }

@@ -53,7 +53,7 @@ export interface UIPublicConfig {
         fullMatch?: boolean;
         searchPanel?: boolean;
     };
-    defaultLayout?: ILayout[];
+    defaultLayout?: ILayout[] | any;
     idp?: {
         enabled?: boolean;
     },

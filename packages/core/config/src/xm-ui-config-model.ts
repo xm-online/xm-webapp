@@ -4,7 +4,5 @@ export interface UIPrivateConfig {
     favicon?: string;
 }
 
-interface IUIConfig extends UIPublicConfig, UIPrivateConfig {
+export interface XmUIConfig extends UIPublicConfig, UIPrivateConfig {
 }
-
-export type XmUIConfig = IUIConfig | any;
