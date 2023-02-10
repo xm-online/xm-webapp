@@ -1,5 +1,6 @@
 import { Directive, forwardRef, Input } from '@angular/core';
 import { UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { setComponentInput } from '../shared/set-component-input';
 import { XmDynamicControlDirective, XmDynamicControl } from './xm-dynamic-control.directive';
 
 export interface IFormControl<V, O> extends XmDynamicControl<V, O> {
@@ -20,8 +21,9 @@ export class XmDynamicFormControlDirective<V, O> extends XmDynamicControlDirecti
     @Input() public control: UntypedFormControl;
 
     /** Returns instance of created object */
-    public instance: IFormControl<V, O>;
-
+    get instance(): IFormControl<V, O> {
+        return super.instance as IFormControl<V, O>;
+    }
 
     protected async createComponent(): Promise<void> {
         await super.createComponent();
@@ -32,7 +34,7 @@ export class XmDynamicFormControlDirective<V, O> extends XmDynamicControlDirecti
         if (!this.instance) {
             return;
         }
-        this.instance.control = this.control;
+        setComponentInput(this.compRef, 'control', this.control);
     }
 
 }

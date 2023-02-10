@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule, OnInit, Type } from '@angular/core';
+import { Component, Input, NgModule, OnInit, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -48,7 +48,7 @@ export const XM_THEME_KEY = 'XM_SWITCH_THEME_KEY';
     `,
 })
 export class SwitchThemeWidget implements OnInit, XmDynamicWidget {
-    public config: SwitchThemeOptions;
+    @Input() public config: SwitchThemeOptions;
     public loading: boolean;
     public nextTheme: SwitchThemeOptionsTheme;
 
