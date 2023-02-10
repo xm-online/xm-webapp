@@ -78,12 +78,12 @@
 
     <xm-text-control [(ngModel)]="formGroup.name"
                      [disabled]="disabled"
-                     [options]="nameOptions"
+                     [config]="nameOptions"
                      name="name"></xm-text-control>
 
     <xm-text-control [(ngModel)]="formGroup.typeKey"
                      [disabled]="disabled"
-                     [options]="typeKeyOptions"
+                     [config]="typeKeyOptions"
                      name="typeKey"></xm-text-control>
 
     <mat-tab-group>
@@ -95,7 +95,7 @@
       <mat-tab [label]="TRS.config | translate">
         <xm-ace-editor-control [(ngModel)]="formGroup.config"
                                [disabled]="disabled"
-                               [options]="aceEditorOptions"
+                               [config]="aceEditorOptions"
                                name="config">
         </xm-ace-editor-control>
       </mat-tab>
@@ -103,7 +103,7 @@
       <mat-tab [label]="TRS.layout | translate">
         <xm-ace-editor-control [(ngModel)]="formGroup.layout"
                                [disabled]="disabled"
-                               [options]="aceEditorOptions"
+                               [config]="aceEditorOptions"
                                name="layout">
         </xm-ace-editor-control>
       </mat-tab>

@@ -21,17 +21,17 @@ const DEFAULT_OPTIONS = {
     templateUrl: './unblock-lock-user.component.html',
 })
 export class UnblockLockUserComponent {
-    public get options(): UnblockLockUserOptions {
-        return this._options;
+    public get config(): UnblockLockUserOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: UnblockLockUserOptions) {
-        this._options = defaultsDeep(value, DEFAULT_OPTIONS);
+    public set config(value: UnblockLockUserOptions) {
+        this._config = defaultsDeep(value, DEFAULT_OPTIONS);
     }
 
     @Input() public user: User;
-    private _options: UnblockLockUserOptions = DEFAULT_OPTIONS;
+    private _config: UnblockLockUserOptions = DEFAULT_OPTIONS;
 
     constructor(
         protected alertService: XmAlertService,
@@ -46,8 +46,8 @@ export class UnblockLockUserComponent {
     public changeState(user: User): void {
         this.alertService.open({
             title: user.activated
-                ? this.xmTranslationService.translate(this.options.blockUserMessage || 'Block user?')
-                : this.xmTranslationService.translate(this.options.unBlockUserMessage || 'Unblock user?'),
+                ? this.xmTranslationService.translate(this.config.blockUserMessage || 'Block user?')
+                : this.xmTranslationService.translate(this.config.unBlockUserMessage || 'Unblock user?'),
             showCancelButton: true,
             buttonsStyling: false,
             customClass: {

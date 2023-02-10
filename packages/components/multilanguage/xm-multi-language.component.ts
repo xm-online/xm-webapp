@@ -40,8 +40,8 @@ export type MultiLanguageMapModel = Record<string, string>;
 export type MultiLanguageModel = MultiLanguageListModel | MultiLanguageMapModel;
 export type MultiLanguageType<T> =
     T extends 'array' ? MultiLanguageListModel :
-        T extends 'object' ? MultiLanguageMapModel :
-            never[];
+    T extends 'object' ? MultiLanguageMapModel :
+    never[];
 
 export type MultiLanguageTransform = 'array' | 'object';
 
@@ -72,16 +72,16 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
 @Component({
     selector: 'xm-multi-language-control',
     template: `
-        <mat-label *ngIf="options.title">
-            <span class="pe-2">{{ options.title | translate }}</span>
-            <mat-icon *ngIf="options.feedback" [matTooltip]="options.feedback | translate">help</mat-icon>
+        <mat-label *ngIf="config.title">
+            <span class="pe-2">{{ config.title | translate }}</span>
+            <mat-icon *ngIf="config.feedback" [matTooltip]="config.feedback | translate">help</mat-icon>
         </mat-label>
 
         <mat-button-toggle-group [(ngModel)]="selectedLng">
             <mat-button-toggle *ngFor="let k of languages" [value]="k">{{k}}</mat-button-toggle>
         </mat-button-toggle-group>
 
-        <ng-container [ngSwitch]="options.language?.type">
+        <ng-container [ngSwitch]="config.language?.type">
             <ng-container *ngSwitchCase="'wysiwyg'">
                 <angular-editor
                     *ngIf="!selectedLng || disabled;else wysiwigEditor"
@@ -107,7 +107,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         [ngModel]="modelToView()"
                         (ngModelChange)="viewToModel($event)"></textarea>
 
-                    <mat-hint [hint]="options.hint"></mat-hint>
+                    <mat-hint [hint]="config.hint"></mat-hint>
 
                     <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
                 </mat-form-field>
@@ -121,18 +121,18 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         [disabled]="!selectedLng || disabled"
                         [ngModel]="modelToView()"
                         [attr.name]="name"
-                        [attr.maxlength]="options.maxLength"
+                        [attr.maxlength]="config.maxLength"
                         [readonly]="readonly"
                         (ngModelChange)="viewToModel($event)"/>
 
                     <mat-hint
-                        *ngIf="options.maxLength"
+                        *ngIf="config.maxLength"
                         align="end"
                         style="min-width: fit-content">
-                        {{modelToView().length}} / {{options.maxLength}}
+                        {{modelToView().length}} / {{config.maxLength}}
                     </mat-hint>
 
-                    <mat-hint [hint]="options.hint"></mat-hint>
+                    <mat-hint [hint]="config.hint"></mat-hint>
 
                     <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
                 </mat-form-field>
@@ -191,15 +191,15 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
         return this._control;
     }
 
-    private _options: MultiLanguageOptions = clone(MULTI_LANGUAGE_DEFAULT_OPTIONS);
+    private _config: MultiLanguageOptions = clone(MULTI_LANGUAGE_DEFAULT_OPTIONS);
 
     @Input()
-    public set options(value: MultiLanguageOptions) {
-        this._options = _.defaults({}, value, MULTI_LANGUAGE_DEFAULT_OPTIONS);
+    public set config(value: MultiLanguageOptions) {
+        this._config = _.defaults({}, value, MULTI_LANGUAGE_DEFAULT_OPTIONS);
     }
 
-    public get options(): MultiLanguageOptions {
-        return this._options;
+    public get config(): MultiLanguageOptions {
+        return this._config;
     }
 
     @ViewChild(MatInput) public matInput: MatInput;
@@ -220,7 +220,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
 
     public ngOnInit(): void {
         this.xmConfigService.config$().pipe(take(1)).subscribe(config => {
-            this.languages = _.difference(config.langs, this.options.excludeLang);
+            this.languages = _.difference(config.langs, this.config.excludeLang);
             this.selectedLng = this.languages[0];
         });
     }
@@ -234,7 +234,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
     }
 
     private transformAsObject() {
-        return this.options?.transformAs === 'object';
+        return this.config?.transformAs === 'object';
     }
 
     public modelToView(): string {

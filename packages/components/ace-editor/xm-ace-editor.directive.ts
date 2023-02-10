@@ -28,12 +28,16 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
         this.initEvents();
     }
 
-    public _options: O;
+    public _config: O;
 
     @Input()
-    public set options(options: O) {
-        this._options = options;
+    public set config(options: O) {
+        this._config = options;
         this.editor.setOptions(options || {});
+    }
+
+    public get config(): O {
+        return this._config;
     }
 
     public _readOnly: boolean = false;
@@ -86,7 +90,7 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
     }
 
     public init(): void {
-        this.editor.setOptions(this._options || {});
+        this.editor.setOptions(this.config || {});
         this.editor.setTheme(`ace/theme/${this._theme}`);
         this.editor.getSession().setMode(`ace/mode/${this._mode}`);
         this.editor.setHighlightActiveLine(this._highlightActiveLine);

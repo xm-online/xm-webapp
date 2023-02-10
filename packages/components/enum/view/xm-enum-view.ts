@@ -17,8 +17,8 @@ export interface XmEnumViewOptions extends XmEnumOptions {
     selector: 'xm-enum-view',
     template: `
         <xm-text-view-container>
-            <span xmLabel>{{options.title | translate}}</span>
-            <span xmValue><xm-enum [value]="value" [options]="options"></xm-enum></span>
+            <span xmLabel>{{config.title | translate}}</span>
+            <span xmValue><xm-enum [value]="value" [config]="config"></xm-enum></span>
         </xm-text-view-container>
     `,
     encapsulation: ViewEncapsulation.None,
@@ -26,7 +26,7 @@ export interface XmEnumViewOptions extends XmEnumOptions {
 })
 export class XmEnumView implements XmDynamicPresentation<string, XmEnumViewOptions> {
     @Input() public value: string;
-    @Input() public options: XmEnumViewOptions = { items: [] };
+    @Input() public config: XmEnumViewOptions = { items: [] };
 }
 
 @NgModule({

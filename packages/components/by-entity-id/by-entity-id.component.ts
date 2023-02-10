@@ -26,16 +26,16 @@ export const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
 @Component({
     selector: 'xm-by-entity-id',
     template: `
-        <xm-text-view-container [hidden]="!fieldValue" [styleInline]="options?.styleInline">
-            <span xmLabel>{{options?.title | translate}}</span>
+        <xm-text-view-container [hidden]="!fieldValue" [styleInline]="config?.styleInline">
+            <span xmLabel>{{config?.title | translate}}</span>
             <span xmValue>{{fieldValue}}</span>
         </xm-text-view-container>
     `,
 })
 export class ByEntityIdComponent extends ByEntityIdValueComponent implements OnInit, OnChanges {
 
-    /** {@inheritDoc XmDynamicPresentation.options} */
-    @Input() public options: ByEntityIdOptions;
+    /** {@inheritDoc XmDynamicPresentation.config} */
+    @Input() public config: ByEntityIdOptions;
 
     /** {@inheritDoc XmDynamicPresentation.value} */
     @Input() public value: Id;

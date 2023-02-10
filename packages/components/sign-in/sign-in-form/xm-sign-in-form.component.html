@@ -4,9 +4,9 @@
 
   <div class="sign-in-form-subtitle">{{ options.subtitle | translate}}</div>
 
-  <xm-email-control [options]="options.username" formControlName="username"></xm-email-control>
+  <xm-email-control [config]="options.username" formControlName="username"></xm-email-control>
 
-  <xm-password-control [options]="options.password" formControlName="password"></xm-password-control>
+  <xm-password-control [config]="options.password" formControlName="password"></xm-password-control>
 
   <div class="xm-sign-in-form-error-block">
     <mat-error *ngIf="error$ | async as error">
@@ -23,7 +23,7 @@
     {{'login.form.button' | translate}}
   </button>
   <div *ngIf="options.rememberMe" class="mt-3">
-    <xm-checkbox-control [options]="options.rememberMe"
+    <xm-checkbox-control [config]="options.rememberMe"
                          formControlName="rememberMe"></xm-checkbox-control>
   </div>
 

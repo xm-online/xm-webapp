@@ -40,15 +40,15 @@ type XmDateTimeControlValue = moment.Moment | string;
     selector: 'xm-datetime-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options?.title | translate}}</mat-label>
+            <mat-label>{{config?.title | translate}}</mat-label>
 
             <input [formControl]="control"
                    [owlDateTime]="dt1"
                    [owlDateTimeTrigger]="dt1"
-                   [name]="options?.name"
-                   [required]="options?.required"
+                   [name]="config?.name"
+                   [required]="config?.required"
                    matInput>
-            <owl-date-time #dt1 [startAt]="options?.startAt || null">
+            <owl-date-time #dt1 [startAt]="config?.startAt || null">
             </owl-date-time>
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
@@ -63,12 +63,12 @@ type XmDateTimeControlValue = moment.Moment | string;
                 <mat-icon>close</mat-icon>
             </button>
 
-            <mat-hint [hint]="options.hint"></mat-hint>
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
 })
 export class XmDatetimeControl extends NgFormAccessor<XmDateTimeControlValue> implements OnInit, OnDestroy {
-    @Input() public options: XmDatetimeControlOptions;
+    @Input() public config: XmDatetimeControlOptions;
 
     public ngOnInit(): void {
         super.ngOnInit();
@@ -79,7 +79,7 @@ export class XmDatetimeControl extends NgFormAccessor<XmDateTimeControlValue> im
             map((value) => {
                 return moment.isMoment(value) ? value : moment(value);
             }),
-            filter(value => value.seconds() !== 0 && this.options.ignoreSeconds),
+            filter(value => value.seconds() !== 0 && this.config.ignoreSeconds),
         ).subscribe((value: moment.Moment) => {
             this.control.patchValue(value.seconds(0));
         });

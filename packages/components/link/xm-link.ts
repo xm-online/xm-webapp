@@ -34,9 +34,9 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
     selector: 'xm-link',
     template: `
         <a [queryParams]="queryParams"
-           [routerLink]="options?.routerLink || options?.options?.routerLink"
-           [style]="options?.style || options?.options?.style">
-            <mat-icon *ngIf="options?.valueIcon || options?.options?.valueIcon">{{options.valueIcon || options?.options?.valueIcon}}</mat-icon>
+           [routerLink]="config?.routerLink || config?.config?.routerLink"
+           [style]="config?.style || config?.config?.style">
+            <mat-icon *ngIf="config?.valueIcon || config?.config?.valueIcon">{{config.valueIcon || config?.config?.valueIcon}}</mat-icon>
             <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
             <span *ngIf="fieldValue">{{fieldValue}}</span>
         </a>
@@ -45,7 +45,7 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
 })
 export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit, OnChanges {
     @Input() public value: IId;
-    @Input() public options: XmLinkOptions & { options?: XmLinkOptions };
+    @Input() public config: XmLinkOptions & { config?: XmLinkOptions };
     public fieldTitle: Translate;
     public fieldValue: unknown;
     public queryParams: { [key: string]: unknown };
@@ -55,9 +55,9 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
         if (!this.value) {
             return;
         }
-        this.fieldValue = get(this.value, this.options?.valueField || this.options?.options?.valueField || this.defaultOptions.valueField, null);
-        this.fieldTitle = this.options?.valueTitle || this.options?.options?.valueTitle;
-        this.queryParams = transformByMap(this.value, this.options?.queryParamsFromEntityFields || this.options?.options?.queryParamsFromEntityFields || this.defaultOptions.queryParamsFromEntityFields);
+        this.fieldValue = get(this.value, this.config?.valueField || this.config?.config?.valueField || this.defaultOptions.valueField, null);
+        this.fieldTitle = this.config?.valueTitle || this.config?.config?.valueTitle;
+        this.queryParams = transformByMap(this.value, this.config?.queryParamsFromEntityFields || this.config?.config?.queryParamsFromEntityFields || this.defaultOptions.queryParamsFromEntityFields);
     }
 
     public ngOnChanges(): void {
