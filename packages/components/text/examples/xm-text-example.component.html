@@ -1,11 +1,11 @@
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/email-control', options: emailControlOptions}">
   <xm-code isBlock>@xm-ngx/components/email-control</xm-code>
-  <xm-email-control [options]="emailControlOptions"></xm-email-control>
+  <xm-email-control [config]="emailControlOptions"></xm-email-control>
 </xm-code-container>
 
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/password-control', options: passwordControlOptions}">
   <xm-code isBlock>@xm-ngx/components/password-control</xm-code>
-  <xm-password-control [options]="passwordControlOptions"></xm-password-control>
+  <xm-password-control [config]="passwordControlOptions"></xm-password-control>
 </xm-code-container>
 
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text'}">
@@ -15,7 +15,7 @@
 
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-title'}">
   <xm-code isBlock>@xm-ngx/components/text-title</xm-code>
-  <xm-text-title [options]="{title: 'text'}"></xm-text-title>
+  <xm-text-title [config]="{title: 'text'}"></xm-text-title>
 </xm-code-container>
 
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-translate'}">
@@ -25,7 +25,7 @@
 
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-control', options: textControlOptions}">
   <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
-  <xm-text-control [options]="textControlOptions"></xm-text-control>
+  <xm-text-control [config]="textControlOptions"></xm-text-control>
 </xm-code-container>
 
 <!-- TODO: research table row
@@ -36,22 +36,22 @@
 -->
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-range-control', options: textRangeOptions}">
   <xm-code isBlock>@xm-ngx/components/text-range-control</xm-code>
-  <xm-text-range-control [options]="textRangeOptions"></xm-text-range-control>
+  <xm-text-range-control [config]="textRangeOptions"></xm-text-range-control>
 </xm-code-container>
 
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-view', options: textViewOptions}">
   <xm-code isBlock>@xm-ngx/components/text-view</xm-code>
-  <xm-text-view [options]="textViewOptions"></xm-text-view>
+  <xm-text-view [config]="textViewOptions"></xm-text-view>
 </xm-code-container>
 
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-dynamic-view', options: textDynamicOptions}">
   <xm-code isBlock>@xm-ngx/components/text-dynamic-view</xm-code>
-  <xm-text-dynamic-view value="hello" [options]="textDynamicOptions"></xm-text-dynamic-view>
+  <xm-text-dynamic-view value="hello" [config]="textDynamicOptions"></xm-text-dynamic-view>
 </xm-code-container>
 
 <xm-code-container>
   <div>xm-labeled-view-container</div>
-  <xm-labeled-view-container [options]="{title: { en: 'Label text' }}">text</xm-labeled-view-container>
+  <xm-labeled-view-container [config]="{title: { en: 'Label text' }}">text</xm-labeled-view-container>
 </xm-code-container>
 
 <h3>ng-accessor</h3>
@@ -61,31 +61,31 @@
   <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
   <xm-text-control [value]="'test'"
                    (valueChange)="ngModelValue = $event"
-                   [options]="textControlOptions"></xm-text-control>
+                   [config]="textControlOptions"></xm-text-control>
 </xm-code-container>
 
 <h6>ngModel - {{ngModelValue}}</h6>
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-control', options: textControlOptions}">
   <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
-  <xm-text-control [(ngModel)]="ngModelValue" [options]="textControlOptions"></xm-text-control>
+  <xm-text-control [(ngModel)]="ngModelValue" [config]="textControlOptions"></xm-text-control>
 </xm-code-container>
 
 <h6>formControl({{formControl.status}}) - {{formControl.value}}</h6>
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-control', options: textControlOptions}">
   <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
-  <xm-text-control [formControl]="formControl" [options]="textControlOptions"></xm-text-control>
+  <xm-text-control [formControl]="formControl" [config]="textControlOptions"></xm-text-control>
 </xm-code-container>
 
 <h6>formGroup({{formGroup.status}}) - {{formGroup.value | json}}</h6>
 <form [formGroup]="formGroup">
   <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-control', options: textControlOptions}">
     <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
-    <xm-text-control formControlName="control" [options]="textControlOptions"></xm-text-control>
+    <xm-text-control formControlName="control" [config]="textControlOptions"></xm-text-control>
   </xm-code-container>
 </form>
 
 <h6>formControl(trim value option - trims the space at the beginning/end) - "{{formControl.value}}"</h6>
 <xm-code-container [xmCodeContainerJson]="{selector: '@xm-ngx/components/text-control', options: textControlWithTrimOptions}">
   <xm-code isBlock>@xm-ngx/components/text-control</xm-code>
-  <xm-text-control [formControl]="formControl" [options]="textControlWithTrimOptions"></xm-text-control>
+  <xm-text-control [formControl]="formControl" [config]="textControlWithTrimOptions"></xm-text-control>
 </xm-code-container>
