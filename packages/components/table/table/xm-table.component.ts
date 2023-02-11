@@ -3,9 +3,9 @@ import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from './interfaces/xm-table.mo
 import { MatCardModule } from '@angular/material/card';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { XmTableFilterButtonComponent } from './components/filters-button/xm-table-filter-button.component';
-import { XmTableFilterInlineComponent } from './components/filters-inline/xm-table-filter-inline.component';
-import { XmTableActionsButtonsComponent } from './components/actions-buttons/xm-table-actions-buttons.component';
+import { XmTableFilterButtonComponent } from './components/xm-table-filter-button.component';
+import { XmTableFilterInlineComponent } from './components/xm-table-filter-inline.component';
+import { XmTableActionsButtonsComponent } from './components/xm-table-actions-buttons.component';
 import {
     IXmTableCollectionController,
     IXmTableCollectionState,
@@ -15,10 +15,9 @@ import {
 } from './controllers';
 import { XmTableSelectionService } from './controllers/selections/xm-table-selection.service';
 import { XmTableFilterController } from './controllers/filters/xm-table-filter-controller.service';
-import { XmTableDataLoaderService } from './data/xm-table-data-loader.service';
 import { XmTableSelectionHeaderComponent } from './components/selection-header/xm-table-selection-header.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { XmTableEmptyComponent } from './components/empty/xm-table-empty.component';
+import { XmTableEmptyComponent } from './components/xm-table-empty.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Observable, switchMap } from 'rxjs';
@@ -30,7 +29,7 @@ import {
     SelectTableColumn,
     XM_TABLE_SELECTION_COLUMN_DEFAULT,
     XmTableSelectionColumnComponent,
-} from './components/selection-column/xm-table-selection-column.component';
+} from './components/xm-table-selection-column.component';
 import * as _ from 'lodash';
 import { defaultsDeep } from 'lodash';
 import { XmTableLoadingColumnComponent } from './components/xm-table-loading-column.component';
@@ -84,7 +83,6 @@ interface IXmTableContext {
         ...XM_TABLE_CONTROLLERS,
         XmTableSelectionService,
         XmTableFilterController,
-        XmTableDataLoaderService,
         ColumnsSettingStorageService,
     ],
 })

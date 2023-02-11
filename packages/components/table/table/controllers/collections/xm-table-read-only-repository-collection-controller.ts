@@ -11,7 +11,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 import {
     XmTableRepositoryResolver,
-} from '../../repositories/xm-table-repository-resolver.service';
+} from '../repositories/xm-table-repository-resolver.service';
 import { cloneDeep } from 'lodash';
 import {
     AXmTableStateCollectionController

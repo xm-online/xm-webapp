@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {
-    FiltersControlComponent,
+    XmTableFiltersControlComponent,
     FiltersControlValue
-} from '@xm-ngx/components/table/table/components/filters-control/filters-control.component';
+} from '@xm-ngx/components/table/table/components/xm-table-filters-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 
 import * as _ from 'lodash';
@@ -31,12 +31,12 @@ export interface FiltersControlRequestOptions extends FormatWithConfigOptions {
     `,
     standalone: true,
     imports: [
-        FiltersControlComponent
+        XmTableFiltersControlComponent
     ]
 })
-export class FiltersControlRequestComponent implements OnChanges {
-    @ViewChild(FiltersControlComponent)
-    public filtersControl: FiltersControlComponent;
+export class XmTableFiltersControlRequestComponent implements OnChanges {
+    @ViewChild(XmTableFiltersControlComponent)
+    public filtersControl: XmTableFiltersControlComponent;
 
     @Input() public request: FiltersControlValue;
     @Output() public requestChange: EventEmitter<FiltersControlValue> = new EventEmitter<FiltersControlValue>();

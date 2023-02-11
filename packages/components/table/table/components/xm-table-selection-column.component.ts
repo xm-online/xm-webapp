@@ -1,8 +1,8 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/cdk/table';
 import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { TableColumn } from '../../../column/table-column-dynamic-cell';
-import { XmTableSelectionService } from '../../controllers/selections/xm-table-selection.service';
+import { TableColumn } from '../../column/table-column-dynamic-cell';
+import { XmTableSelectionService } from '../controllers/selections/xm-table-selection.service';
 import { XmCheckboxControlModule } from '@xm-ngx/components/bool';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';

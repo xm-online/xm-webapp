@@ -15,7 +15,27 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 
 @Component({
     selector: 'xm-table-selection-header',
-    templateUrl: './xm-table-selection-header.component.html',
+    template: `
+        <div *ngIf="isVisible"
+             @fadeInOut
+             class="header-wrapper"
+             style="overflow: hidden">
+
+            <span>{{this.selectionModel?.selected?.length}} items selected</span>
+
+            <ng-container *ngIf="inlineComponents">
+                <ng-container xmDynamicPresentation
+                              *ngFor="let el of inlineComponents"
+                              [class]="el.class"
+                              [style]="el.style"
+                              [selector]="el.component"
+                              [value]="selectionModel?.selected"
+                              [options]="el.options">
+                </ng-container>
+            </ng-container>
+
+        </div>
+    `,
     standalone: true,
     styleUrls: ['./xm-table-selection-header.component.scss'],
     animations: [

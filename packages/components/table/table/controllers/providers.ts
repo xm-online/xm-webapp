@@ -13,8 +13,8 @@ import {
 } from './collections/xm-table-collection-controller-resolver.service';
 import {
     XmTableRepositoryResolver
-} from '../repositories/xm-table-repository-resolver.service';
-import { XmTableEntityRepository } from '../repositories/xm-table-entity-repository';
+} from './repositories/xm-table-repository-resolver.service';
+import { XmTableEntityRepository } from './repositories/xm-table-entity-repository';
 import {
     XmTableReadOnlyRepositoryCollectionController
 } from './collections/xm-table-read-only-repository-collection-controller';

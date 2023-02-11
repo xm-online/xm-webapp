@@ -8,7 +8,7 @@ import {
     PAGEABLE_AND_SORTABLE_DEFAULT,
     PageableAndSortable
 } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
-import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/empty/xm-table-empty.component';
+import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table-empty.component';
 import { TableColumn } from '../../column/table-column-dynamic-cell';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination {

@@ -2,20 +2,38 @@ import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
-import { XmTableFilterDialogComponent } from './filter-dialog/xm-table-filter-dialog.component';
-import { XmOverlayService } from '../../../../overlay/xm-overlay.service';
+import { XmTableFilterDialogComponent } from './xm-table-filter-dialog.component';
+import { XmOverlayService } from '../../../overlay/xm-overlay.service';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { filter, map } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import {
     XmTableFilterController
-} from '../../controllers/filters/xm-table-filter-controller.service';
+} from '../controllers/filters/xm-table-filter-controller.service';
 
 @Component({
     selector: 'xm-table-filter-button',
     standalone: true,
-    templateUrl: './xm-table-filter-button.component.html',
-    styleUrls: ['xm-table-filter-button.component.scss'],
+    template: `
+        <button mat-icon-button
+                #origin
+                (click)="openFilter(origin)">
+            <mat-icon>filter_list</mat-icon>
+        </button>
+    `,
+    styles: [`
+    ::ng-deep .menu-panel {
+  min-width: 112px;
+  max-width: calc(100vw / 2);
+  overflow: auto;
+  min-height: 64px;
+  border-radius: 4px;
+  outline: 0;
+  background: white;
+  padding: 9px;
+}
+
+    `],
     imports: [
         MatButtonModule,
         MatIconModule,

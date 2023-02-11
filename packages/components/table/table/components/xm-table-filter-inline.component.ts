@@ -2,8 +2,8 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import {
-    FiltersControlRequestComponent
-} from '@xm-ngx/components/table/table/components/filters-control-request/filters-control-request.component';
+    XmTableFiltersControlRequestComponent
+} from '@xm-ngx/components/table/table/components/xm-table-filters-control-request.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import {
     FiltersControlRequestOptions
@@ -33,18 +33,18 @@ const DEFAULT_CONFIG: FiltersControlRequestOptions = {
     standalone: true,
     host: { class:'xm-table-filter-inline' },
     template: `
-        <div class="filter-container" #elementRef>
-            <xm-filters-control-request [request]="request"
-                                        (requestChange)="onSearch($event)"
-                                        [options]="config">
-            </xm-filters-control-request>
-        </div>
+<!--        <div class="filter-container" #elementRef>-->
+<!--            <xm-filters-control-request [request]="request"-->
+<!--                                        (requestChange)="onSearch($event)"-->
+<!--                                        [options]="config">-->
+<!--            </xm-filters-control-request>-->
+<!--        </div>-->
 
-        <button mat-button
-                [matBadge]=""
-                *ngIf="checkOverflow()">
-            More
-        </button>
+<!--        <button mat-button-->
+<!--                [matBadge]=""-->
+<!--                *ngIf="checkOverflow()">-->
+<!--            More-->
+<!--        </button>-->
     `,
     styles: [`
         :host(.xm-table-filter-inline) {
@@ -69,7 +69,7 @@ const DEFAULT_CONFIG: FiltersControlRequestOptions = {
     imports: [
         NgIf,
         MatButtonModule,
-        FiltersControlRequestComponent,
+        XmTableFiltersControlRequestComponent,
         MatBadgeModule,
     ],
 })
@@ -84,8 +84,8 @@ export class XmTableFilterInlineComponent {
             || element.offsetWidth < element.scrollWidth;
     }
 
-    @ViewChild(FiltersControlRequestComponent, { static: true })
-    public filtersControlRequestCmp: FiltersControlRequestComponent;
+    @ViewChild(XmTableFiltersControlRequestComponent, { static: true })
+    public filtersControlRequestCmp: XmTableFiltersControlRequestComponent;
 
     public get config(): FiltersControlRequestOptions {
         return this._config;

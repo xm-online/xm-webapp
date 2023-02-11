@@ -42,7 +42,7 @@ export interface FiltersControlValue extends Pageable {
         AsyncPipe,
     ],
 })
-export class FiltersControlComponent<T = FiltersControlValue> extends NgControlAccessor<T> implements OnInit, OnChanges, OnDestroy {
+export class XmTableFiltersControlComponent<T = FiltersControlValue> extends NgControlAccessor<T> implements OnInit, OnChanges, OnDestroy {
     public formGroup: UntypedFormGroup;
 
     @Input() public containerClass: string;

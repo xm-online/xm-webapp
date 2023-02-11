@@ -15,7 +15,7 @@ import { cloneDeep } from 'lodash';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import {
     XmTableRepositoryResolver,
-} from '../../repositories/xm-table-repository-resolver.service';
+} from '../repositories/xm-table-repository-resolver.service';
 import {
     XmTableRepositoryCollectionConfig,
 } from './xm-table-read-only-repository-collection-controller';

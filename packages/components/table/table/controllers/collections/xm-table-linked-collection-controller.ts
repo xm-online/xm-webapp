@@ -14,7 +14,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { cloneDeep } from 'lodash';
 import {
     XmTableRepositoryResolver,
-} from '../../repositories/xm-table-repository-resolver.service';
+} from '../repositories/xm-table-repository-resolver.service';
 import {
     AXmTableStateCollectionController,
 } from './a-xm-table-state-collection-controller.service';

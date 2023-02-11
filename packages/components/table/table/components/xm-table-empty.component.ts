@@ -4,7 +4,7 @@ import { MatNoDataRow, MatTableModule } from '@angular/material/table';
 
 import { Defaults } from '@xm-ngx/shared/operators';
 import { Translate } from '@xm-ngx/translation';
-import { EmptyTableConfig } from '../../interfaces/xm-table.model';
+import { EmptyTableConfig } from '../interfaces/xm-table.model';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 
 export interface TableNoDataRawManager<T extends CdkNoDataRow = CdkNoDataRow> {
@@ -31,7 +31,16 @@ export const DEFAULT_NO_ROWS_CONFIG: XmTableEmptyRows = {
 
 @Component({
     selector: 'xm-table-empty',
-    templateUrl: './xm-table-empty.component.html',
+    template: `
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell"
+                [attr.colspan]="colspan" >
+                <no-data [imageUrl]="image"
+                         [show]="true"
+                         [text]="text"></no-data>
+            </td>
+        </tr>
+    `,
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [

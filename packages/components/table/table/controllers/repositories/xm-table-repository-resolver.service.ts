@@ -6,7 +6,6 @@ import { XmTableEntityRepository } from './xm-table-entity-repository';
 
 @Injectable()
 export class XmTableRepositoryResolver<T> {
-
     constructor(
         private entityRepository: XmTableEntityRepository<T>,
     ) {
