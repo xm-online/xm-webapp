@@ -1,10 +1,11 @@
-import { Directive, Injector, Input, OnChanges, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
+import { ComponentRef, Directive, Injector, Input, OnChanges, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
 import * as _ from 'lodash';
 import { XmDynamicWidget } from './xm-dynamic-widget';
 import {
     XmDynamicComponentRecord,
     XmDynamicComponentRegistry,
 } from '../src/loader/xm-dynamic-component-registry.service';
+import { setComponentInput } from '../shared/set-component-input';
 
 export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
     selector: string;
@@ -25,6 +26,8 @@ export class XmDynamicWidgetDirective implements OnChanges {
     @Input() public class: string;
     @Input() public style: string;
     private _layout: XmDynamicWidgetConfig;
+
+    public compRef: ComponentRef<XmDynamicWidget>;
 
     constructor(private dynamicComponents: XmDynamicComponentRegistry,
                 private renderer: Renderer2,
@@ -69,15 +72,16 @@ export class XmDynamicWidgetDirective implements OnChanges {
     }
 
     private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, data: XmDynamicComponentRecord<XmDynamicWidget>): void {
-        const widget = this.viewRef.createComponent<XmDynamicWidget>(data.componentType, {
+        this.compRef = this.viewRef.createComponent<XmDynamicWidget>(data.componentType, {
             ngModuleRef: data.ngModuleRef,
             injector: data.injector,
         });
-        widget.instance.config = value.config;
-        widget.instance.spec = value.spec;
-        // TODO: pass children layout
+        
+        setComponentInput(this.compRef, 'config', value.config);
+        setComponentInput(this.compRef, 'spec', value.spec);
 
-        const el = (widget.location.nativeElement as HTMLElement);
+        // TODO: pass children layout
+        const el = (this.compRef.location.nativeElement as HTMLElement);
         if (this.class) {
             this.renderer.setAttribute(el, 'class', this.class);
         }

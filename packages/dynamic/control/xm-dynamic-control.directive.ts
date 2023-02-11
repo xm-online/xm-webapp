@@ -16,6 +16,7 @@ import { XmDynamicConstructor, XmDynamicEntryModule } from '../src/interfaces';
 import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-base.directive';
 import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
+import { setComponentInput } from '../shared/set-component-input';
 
 export interface XmDynamicControl<V = unknown, O = unknown> extends XmDynamicPresentation<V, O>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
@@ -67,8 +68,9 @@ export class XmDynamicControlDirective<V, O>
     /** Component value changes */
     @Output() public valueChange: EventEmitter<V> = new EventEmitter<V>();
 
-    /** Returns instance of created object */
-    public instance: XmDynamicControl<V, O>;
+    get instance(): XmDynamicControl<V, O> {
+        return super.instance as XmDynamicControl<V, O>;
+    }
 
     constructor(
         viewContainerRef: ViewContainerRef,
@@ -78,6 +80,7 @@ export class XmDynamicControlDirective<V, O>
     ) {
         super(viewContainerRef, injector, renderer, dynamicComponents);
     }
+    
 
     public ngOnInit(): void {
         this.createComponent().then();
@@ -146,7 +149,9 @@ export class XmDynamicControlDirective<V, O>
         if (!this.instance) {
             return;
         }
-        this.instance.value = this.value;
+  
+        setComponentInput(this.compRef, 'value', this.value);
+
         this._onChange(this.value);
         this.valueChange.next(this.value);
     }

@@ -34,7 +34,7 @@ export class CurrencyValueComponent implements XmDynamicPresentation<string, ICu
     }
 
     @Input()
-    public set options(value: ICurrencyOptions) {
+    public set config(value: ICurrencyOptions) {
         this._config = _.defaults({}, value, CURRENCY_DEFAULT);
     }
 
