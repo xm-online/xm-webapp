@@ -12,16 +12,16 @@ import {
 } from '../../controllers/filters/xm-table-filter-controller.service';
 
 @Component({
-    selector: 'xm-table-filter',
+    selector: 'xm-table-filter-button',
     standalone: true,
-    templateUrl: './xm-table-filter.component.html',
-    styleUrls: ['xm-table-filter.component.scss'],
+    templateUrl: './xm-table-filter-button.component.html',
+    styleUrls: ['xm-table-filter-button.component.scss'],
     imports: [
         MatButtonModule,
         MatIconModule,
     ],
 })
-export class XmTableFilterComponent implements OnDestroy {
+export class XmTableFilterButtonComponent implements OnDestroy {
     @Input() public config: FormGroupLayoutItem[];
 
     constructor(private overlay: Overlay,

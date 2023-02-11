@@ -6,8 +6,9 @@ import { XmTableFilterService } from '../../../controllers/filters/xm-table-filt
 import { get } from 'lodash';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { EntitiesFilterWidgetModule } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget';
-
+import {
+    FiltersControlRequestComponent
+} from '@xm-ngx/components/table/table/components/filters-control-request/filters-control-request.component';
 @Component({
     selector: 'xm-filter-dialog',
     standalone: true,
@@ -17,7 +18,7 @@ import { EntitiesFilterWidgetModule } from '@xm-ngx/ext/entity-webapp-ext/module
         MatDialogModule,
         FormLayoutModule,
         MatButtonModule,
-        EntitiesFilterWidgetModule,
+        FiltersControlRequestComponent,
     ],
 })
 export class XmTableFilterDialogComponent implements OnInit {

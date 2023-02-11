@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, } from './interfaces/xm-table.model';
+import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from './interfaces/xm-table.model';
 import { MatCardModule } from '@angular/material/card';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { XmTableFilterComponent, } from './components/filter/xm-table-filter.component';
-import { XmTableFilterChipsComponent, } from './components/filter-chips/xm-table-filter-chips.component';
-import { XmTableActionsButtonsComponent, } from './components/actions-buttons/xm-table-actions-buttons.component';
+import { XmTableFilterButtonComponent } from './components/filters-button/xm-table-filter-button.component';
+import { XmTableFilterInlineComponent } from './components/filters-inline/xm-table-filter-inline.component';
+import { XmTableActionsButtonsComponent } from './components/actions-buttons/xm-table-actions-buttons.component';
 import {
     IXmTableCollectionController,
     IXmTableCollectionState,
@@ -13,10 +13,10 @@ import {
     XmTableCollectionControllerResolver,
     XmTableConfigController,
 } from './controllers';
-import { XmTableSelectionService, } from './controllers/selections/xm-table-selection.service';
-import { XmTableFilterController, } from './controllers/filters/xm-table-filter-controller.service';
+import { XmTableSelectionService } from './controllers/selections/xm-table-selection.service';
+import { XmTableFilterController } from './controllers/filters/xm-table-filter-controller.service';
 import { XmTableDataLoaderService } from './data/xm-table-data-loader.service';
-import { XmTableSelectionHeaderComponent, } from './components/selection-header/xm-table-selection-header.component';
+import { XmTableSelectionHeaderComponent } from './components/selection-header/xm-table-selection-header.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { XmTableEmptyComponent } from './components/empty/xm-table-empty.component';
 import { MatTableModule } from '@angular/material/table';
@@ -36,8 +36,9 @@ import { defaultsDeep } from 'lodash';
 import { XmTableLoadingColumnComponent } from './components/xm-table-loading-column.component';
 import {
     ColumnsSettingStorageItem,
-    ColumnsSettingStorageService
+    ColumnsSettingStorageService,
 } from '@xm-ngx/components/table/service/columns-settings-storage.service';
+import { XmTableHeaderComponent } from '@xm-ngx/components/table/table/components/xm-table-header.component';
 
 function getConfig(value: Partial<XmTableConfig>): XmTableConfig {
     const config = defaultsDeep({}, value, XM_TABLE_CONFIG_DEFAULT) as XmTableConfig;
@@ -62,8 +63,8 @@ interface IXmTableContext {
         XmTranslationModule,
         NgIf,
         JsonPipe,
-        XmTableFilterComponent,
-        XmTableFilterChipsComponent,
+        XmTableFilterButtonComponent,
+        XmTableFilterInlineComponent,
         XmTableActionsButtonsComponent,
         XmTableSelectionHeaderComponent,
         MatPaginatorModule,
@@ -77,6 +78,7 @@ interface IXmTableContext {
         XmTableSelectionColumnComponent,
         XmTableLoadingColumnComponent,
         NgClass,
+        XmTableHeaderComponent,
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,
@@ -121,7 +123,7 @@ export class XmTableComponent implements OnInit {
         this.context$ = this.controller.state$()
             .pipe(
                 switchMap(i => this.columnsSettingStorageService.getStore().pipe(
-                    map((a) => ([i, a])))
+                    map((a) => ([i, a]))),
                 ),
                 map(([state, a]: any) => {
                     return ({
@@ -140,7 +142,7 @@ export class XmTableComponent implements OnInit {
     public GetDisplayedColumns(): ColumnsSettingStorageItem[] {
         const displayedColumns = this._config.columns;
         // if (this._config.options.isRowSelectable) {
-            // displayedColumns.unshift(this.selectColumn);
+        // displayedColumns.unshift(this.selectColumn);
         // }
         return displayedColumns.map(i => ({
             name: i.name || i.field,

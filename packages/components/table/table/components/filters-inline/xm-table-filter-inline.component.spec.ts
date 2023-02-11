@@ -1,20 +1,20 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { XmTableFilterChipsComponent } from './xm-table-filter-chips.component';
+import { XmTableFilterInlineComponent } from './xm-table-filter-inline.component';
 
 describe('TableFilterChipsComponent', () => {
-    let component: XmTableFilterChipsComponent;
-    let fixture: ComponentFixture<XmTableFilterChipsComponent>;
+    let component: XmTableFilterInlineComponent;
+    let fixture: ComponentFixture<XmTableFilterInlineComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [XmTableFilterChipsComponent],
+            declarations: [XmTableFilterInlineComponent],
         })
             .compileComponents();
 
-        fixture = TestBed.createComponent(XmTableFilterChipsComponent);
+        fixture = TestBed.createComponent(XmTableFilterInlineComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

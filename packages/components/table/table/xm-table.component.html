@@ -2,21 +2,21 @@
 
   <mat-card class="no-horizontal-paddings mb-3">
 
-    <div class="xm-table-header">
+    <xm-table-header>
 
       <div *ngIf="config.title">
         <h5 class="no-margin">{{config.title | translate}}</h5>
       </div>
 
-      <xm-table-filter [config]="{filters:config.filters}"></xm-table-filter>
+      <xm-table-filter-button [config]="{filters:config.filters}"></xm-table-filter-button>
 
-      <xm-table-filter-chips [config]="{filters:config.filters}"></xm-table-filter-chips>
+      <xm-table-filter-inline [config]="{filters:config.filters}"></xm-table-filter-inline>
 
       <xm-table-actions-buttons
         class="push-self-right"
         [config]="config.actions"></xm-table-actions-buttons>
 
-    </div>
+    </xm-table-header>
 
     <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
 
@@ -70,3 +70,4 @@
 
   </mat-card>
 </ng-container>
+

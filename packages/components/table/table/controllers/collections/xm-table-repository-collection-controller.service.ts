@@ -10,7 +10,7 @@ import {
     PAGEABLE_AND_SORTABLE_DEFAULT,
     PageableAndSortable,
 } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
-// import { formatWithConfig } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/format';
+
 import { cloneDeep } from 'lodash';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import {

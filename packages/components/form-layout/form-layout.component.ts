@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
+import { CommonModule } from '@angular/common';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { ConditionModule } from '@xm-ngx/components/condition';
 
 export interface FormLayoutItem extends FormGroupLayoutItem {
     selector: string;
@@ -9,7 +12,6 @@ export interface FormLayoutItem extends FormGroupLayoutItem {
     style: string;
     class: string;
 }
-
 
 export function toggleControlValidation(control: AbstractControl, active: boolean): void {
     if (active && control.disabled) {
@@ -25,9 +27,14 @@ export function toggleControlValidation(control: AbstractControl, active: boolea
 @Component({
     selector: 'xm-form-layout, [xm-form-layout]',
     templateUrl: './form-layout.component.html',
-    host: {
-        class: 'row',
-    },
+    host: {class:'xm-form-layout'},
+    standalone:true,
+    imports:[
+        CommonModule,
+        XmDynamicModule,
+        ConditionModule,
+        ReactiveFormsModule,
+    ],
 })
 export class FormLayoutComponent {
     @Input() public value: UntypedFormGroup;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IEntityCollectionPageable } from '@xm-ngx/components/entity-collection';
-import { formatWithConfig } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/format';
+
 import { NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { take } from 'rxjs/operators';
 
@@ -20,6 +20,7 @@ import { XmTableConfig } from '../../interfaces/xm-table.model';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
+import { formatWithConfig } from '@xm-ngx/shared/operators';
 
 export interface XmTableRepositoryCollectionConfig {
     query: { [key: string]: string },
