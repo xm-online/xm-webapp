@@ -102,6 +102,7 @@ export class XmTableComponent implements OnInit {
     constructor(
         private collectionControllerResolver: XmTableCollectionControllerResolver,
         private configController: XmTableConfigController,
+        private tableFilterController: XmTableFilterController,
         private columnsSettingStorageService: ColumnsSettingStorageService,
     ) {
     }
@@ -120,6 +121,12 @@ export class XmTableComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.configController.change(this.config);
         this.controller = await this.collectionControllerResolver.get();
+
+        this.tableFilterController.change$().pipe()
+            .subscribe((res) => {
+                this.controller.load(res as any);
+            });
+
         this.context$ = this.controller.state$()
             .pipe(
                 switchMap(i => this.columnsSettingStorageService.getStore().pipe(
@@ -128,7 +135,7 @@ export class XmTableComponent implements OnInit {
                 map(([state, a]: any) => {
                     return ({
                         collection: state,
-                        settings: { displayedColumns: _.map(_.filter(a,i=>!i.hidden), i => i.name) },
+                        settings: { displayedColumns: _.map(_.filter(a, i => !i.hidden), i => i.name) },
                     } as IXmTableContext);
                 }),
                 tap((ctx) => {

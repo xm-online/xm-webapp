@@ -12,22 +12,13 @@ import { cloneDeep, defaultsDeep } from 'lodash';
 import {
     FiltersControlValue
 } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/filters-control/filters-control.component';
-import { merge, Subject } from 'rxjs';
-import {
-    PageEntitiesRequestService
-} from '@xm-ngx/ext/entity-webapp-ext/module/page-entity-widget/request/page-entities-request.service';
-import {
-    PageEntitiesStore
-} from '@xm-ngx/ext/entity-webapp-ext/module/page-entity-widget/entities/page-entities-store';
-import {
-    EntitiesFilterStoreService
-} from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-store-widget/entities-filter-store.service';
-import { debounceTime, delay, map } from 'rxjs/dist/types/operators';
+import { debounceTime, delay, map, merge, Subject } from 'rxjs';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import {
-    cloneDeepWithoutUndefined
-} from '@xm-ngx/ext/entity-webapp-ext/module/page-entity-widget/request/page-entities-request-builder.service';
 import * as _ from 'lodash';
+import { XmTableCollectionControllerResolver } from '@xm-ngx/components/table/table';
+import {
+    XmTableFilterController
+} from '@xm-ngx/components/table/table/controllers/filters/xm-table-filter-controller.service';
 
 const DEFAULT_CONFIG: FiltersControlRequestOptions = {
     submitInvalidForm: false,
@@ -43,7 +34,9 @@ const DEFAULT_CONFIG: FiltersControlRequestOptions = {
     host: { class:'xm-table-filter-inline' },
     template: `
         <div class="filter-container" #elementRef>
-            <xm-filters-control-request [options]="config">
+            <xm-filters-control-request [request]="request"
+                                        (requestChange)="onSearch($event)"
+                                        [options]="config">
             </xm-filters-control-request>
         </div>
 
@@ -119,14 +112,12 @@ export class XmTableFilterInlineComponent {
     public hasFilters = false;
 
     constructor(
-        protected entitiesRequestBuilder: PageEntitiesRequestService<FiltersControlValue>,
-        protected entitiesService: PageEntitiesStore,
-        protected entitiesFilterStoreService: EntitiesFilterStoreService,
+        protected entitiesRequestBuilder: XmTableFilterController,
+        // protected entitiesService: PageEntitiesStore,
+        private collectionControllerResolver: XmTableCollectionControllerResolver,
+        // protected entitiesFilterStoreService: EntitiesFilterStoreService,
     ) {
-        this.entitiesService.loading$().pipe(
-            delay(0),
-            takeUntilOnDestroy(this),
-        ).subscribe((loading) => this.loading = loading);
+
 
     }
 
@@ -145,7 +136,7 @@ export class XmTableFilterInlineComponent {
         this.search$.next(true);
 
         if (this.config?.filterStoreKey) {
-            this.entitiesFilterStoreService.put(this.config.filterStoreKey, cloneDeepWithoutUndefined(req));
+            // this.entitiesFilterStoreService.put(this.config.filterStoreKey, cloneDeepWithoutUndefined(req));
         }
     }
 
@@ -158,14 +149,21 @@ export class XmTableFilterInlineComponent {
         takeUntilOnDestroyDestroy(this);
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
+        const controller = await this.collectionControllerResolver.get();
+
+        controller.state$().pipe(
+            delay(0),
+            takeUntilOnDestroy(this),
+        ).subscribe((loading) => this.loading = loading.loading);
+
         this.entitiesRequestBuilder.change$().pipe(
             takeUntilOnDestroy(this),
         ).subscribe((value) => {
             if (_.isEqual(value, this.request)) {
                 return;
             }
-            this.value = value;
+            this.value = value as any;
         });
 
         merge(
@@ -176,7 +174,7 @@ export class XmTableFilterInlineComponent {
             debounceTime(700),
         ).subscribe((res) => {
             this.entitiesRequestBuilder.update(res);
-            this.entitiesService.reload();
+            controller.load(null);
         });
     }
 

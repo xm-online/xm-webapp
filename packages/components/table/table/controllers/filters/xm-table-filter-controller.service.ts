@@ -1,11 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { QueryParams } from '@xm-ngx/components/entity-collection';
-import { PageService } from '@xm-ngx/dashboard';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { assign, cloneDeep, forIn, isEqual, isPlainObject, transform } from 'lodash';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { PageParamsStore } from '../../params/page-params-store.service';
 
 const cloneDeepWithoutUndefined = (obj) => transform(obj, (r, v, k) => {
     if (v === undefined || v === '' || v === null) {
@@ -18,21 +15,13 @@ const cloneDeepWithoutUndefined = (obj) => transform(obj, (r, v, k) => {
 export class XmTableFilterController implements OnDestroy {
     private request$: BehaviorSubject<QueryParams>;
 
-    constructor(private paramsStore: PageParamsStore,
-                private pageService: PageService,
-    ) {
-        this.init();
-        this.pageService.active$().pipe(
-            filter(Boolean),
-            takeUntilOnDestroy(this),
-        ).subscribe(() => {
-            this.reset();
-        });
+
+    constructor() {
+        this.request$ = new BehaviorSubject<object>(null);
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
-        this.reset();
     }
 
     public update(request: QueryParams): void {
@@ -42,7 +31,6 @@ export class XmTableFilterController implements OnDestroy {
         if (isEqual(newRequest, oldReq)) {
             return;
         }
-        this.paramsStore.store(newRequest);
         this.request$.next(newRequest);
     }
 
@@ -67,17 +55,4 @@ export class XmTableFilterController implements OnDestroy {
         return this.request$.getValue();
     }
 
-    private init(): void {
-
-        const request = this.paramsStore.get();
-        this.request$ = new BehaviorSubject<object>(request);
-    }
-
-    private reset() {
-        if (this.request$) {
-            this.request$.complete();
-            delete this.request$;
-        }
-        this.init();
-    }
 }
