@@ -6,3 +6,4 @@ export * from './dashboard-editor.service';
 export * from './dashboards-list/dashboards-export.service';
 export * from './dashboards-list/dashboards-import.service';
 export * from './dashboards-manager.service';
+export { JsonToYamlDirective } from '@xm-ngx/administration/dashboards-config/widget-edit/json-to-yaml.directive';

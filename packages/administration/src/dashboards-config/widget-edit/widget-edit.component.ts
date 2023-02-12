@@ -1,4 +1,4 @@
-import {Component, HostListener, Input, OnChanges, SimpleChanges, Type } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, SimpleChanges, Type } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { DashboardWidget } from '@xm-ngx/dashboard';
@@ -11,6 +11,7 @@ import { EditType } from '../dashboard-edit/dashboard-edit.component';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig, WidgetCollection } from '../injectors';
 import { SchemaEditorOptions } from './schema-editor/schema-editor.component';
+import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
@@ -32,7 +33,11 @@ export class WidgetEditComponent implements OnChanges {
     public dashboardEditComponentType: Type<unknown> = this.dashboardConfig.dashboardRef;
     public EDIT_EVENT: string = this.dashboardConfig.EDIT_WIDGET_EVENT;
 
-    public aceEditorOptions: { title: string; height: string } = { title: '', height: 'calc(100vh - 280px)' };
+    public aceEditorOptions: XmAceEditorControlOptions = {
+        mode: 'yaml',
+        title: '',
+        height: 'calc(100vh - 280px)',
+    };
 
     public editType: EditType;
 
@@ -49,7 +54,7 @@ export class WidgetEditComponent implements OnChanges {
         this.loading$ = this.widgetService.loading$.pipe(tap((i) => this.disabled = i));
     }
 
-    private _value: DashboardWidget = {config: null, selector: null};
+    private _value: DashboardWidget = { config: null, selector: null };
 
     public get value(): DashboardWidget {
         return this._value;
@@ -70,7 +75,7 @@ export class WidgetEditComponent implements OnChanges {
     public ngOnChanges(changes: SimpleChanges): void {
         this.jsonEditorOptions.selector = this.value.selector;
         // WORKAROUND: Trigger change detection
-        this.jsonEditorOptions = {...this.jsonEditorOptions};
+        this.jsonEditorOptions = { ...this.jsonEditorOptions };
     }
 
     public onCancel(): void {

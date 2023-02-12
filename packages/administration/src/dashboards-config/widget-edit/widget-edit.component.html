@@ -85,7 +85,8 @@
     <mat-tab-group>
 
       <mat-tab [label]="'Config'">
-        <xm-ace-editor-control [(ngModel)]="formGroup.config"
+        <xm-ace-editor-control [json-to-yaml]="formGroup.config"
+                               (json-to-yaml)="formGroup.config = $event"
                                [disabled]="disabled"
                                [config]="aceEditorOptions"
                                name="layout">
