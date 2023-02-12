@@ -2,7 +2,7 @@ import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
-import { XmTableFilterDialogComponent } from './xm-table-filter-dialog.component';
+import { XmTableFilterButtonDialogComponent } from './xm-table-filter-button-dialog.component';
 import { XmOverlayService } from '../../../overlay/xm-overlay.service';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { filter, map } from 'rxjs/operators';
@@ -52,7 +52,7 @@ export class XmTableFilterButtonComponent implements OnDestroy {
         const overlayConfig = this.createOverlayConfig(origin);
         this.overlayService.setOverlayConfig(overlayConfig);
         const overlayRef = this.overlayService.open(
-            XmTableFilterDialogComponent,
+            XmTableFilterButtonDialogComponent,
             {
                 config: this.config,
                 value: this.requestBuilder.getCurrentRequest(),

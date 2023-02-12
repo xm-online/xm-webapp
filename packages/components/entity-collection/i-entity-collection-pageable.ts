@@ -31,7 +31,7 @@ export const PAGEABLE_AND_SORTABLE_DEFAULT: PageableAndSortable = {
     sortBy: null,
 };
 
-export type QueryParamsPageable = QueryParams & Pageable & Sortable;
+export type QueryParamsPageable = QueryParams & PageableAndSortable;
 
 export interface IEntityCollectionPageable<T extends IId = unknown, Extra extends Pageable = Pageable>
     extends IEntityCollection<IId> {

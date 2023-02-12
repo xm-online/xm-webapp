@@ -38,6 +38,7 @@ import {
     ColumnsSettingStorageService,
 } from '@xm-ngx/components/table/service/columns-settings-storage.service';
 import { XmTableHeaderComponent } from '@xm-ngx/components/table/table/components/xm-table-header.component';
+import { format } from '@xm-ngx/shared/operators';
 
 function getConfig(value: Partial<XmTableConfig>): XmTableConfig {
     const config = defaultsDeep({}, value, XM_TABLE_CONFIG_DEFAULT) as XmTableConfig;
@@ -122,7 +123,8 @@ export class XmTableComponent implements OnInit {
 
         this.tableFilterController.change$().pipe()
             .subscribe((res) => {
-                this.controller.load(res as any);
+
+                this.controller.load({...format(this.config.filtersToRequest, res), ...this.getPagination()});
             });
 
         this.context$ = this.controller.state$()
@@ -157,12 +159,16 @@ export class XmTableComponent implements OnInit {
     }
 
     public updatePagination(): void {
+        this.controller.load(this.getPagination());
+    }
+
+    public getPagination(): any {
         const sortBy = this.context.settings.displayedColumns.find((i) => i === this.sort.active);
         const sortOrder = this.sort.direction;
         const pageIndex = this.paginator.pageIndex;
         const pageSize = this.paginator.pageSize;
         const total = this.paginator.length;
         const pageAndSort: Pageable & Sortable = { pageIndex, pageSize, sortOrder, sortBy, total };
-        this.controller.load(pageAndSort);
+       return pageAndSort;
     }
 }

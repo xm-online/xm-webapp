@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-    IEntityCollectionPageable,
-} from '@xm-ngx/components/entity-collection';
+import { IEntityCollectionPageable, QueryParamsPageable, } from '@xm-ngx/components/entity-collection';
 import { firstValueFrom } from 'rxjs';
-import {
-    IXmTableCollectionController,
-} from './i-xm-table-collection-controller';
+import { IXmTableCollectionController, } from './i-xm-table-collection-controller';
 import {
     PAGEABLE_AND_SORTABLE_DEFAULT,
     PageableAndSortable,
@@ -13,16 +9,10 @@ import {
 
 import { cloneDeep } from 'lodash';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
-import {
-    XmTableRepositoryResolver,
-} from '../repositories/xm-table-repository-resolver.service';
-import {
-    XmTableRepositoryCollectionConfig,
-} from './xm-table-read-only-repository-collection-controller';
+import { XmTableRepositoryResolver, } from '../repositories/xm-table-repository-resolver.service';
+import { XmTableRepositoryCollectionConfig, } from './xm-table-read-only-repository-collection-controller';
 import { NotSupportedException } from '@xm-ngx/shared/exceptions';
-import {
-    AXmTableStateCollectionController
-} from './a-xm-table-state-collection-controller.service';
+import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
 import { XmTableConfig } from '../../interfaces/xm-table.model';
 
@@ -30,7 +20,7 @@ import { XmTableConfig } from '../../interfaces/xm-table.model';
 export class XmTableRepositoryCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
-    private repository: IEntityCollectionPageable<T, PageableAndSortable>;
+    public repository: IEntityCollectionPageable<T, PageableAndSortable>;
     public config: XmTableRepositoryCollectionConfig;
     public entity: object;
 
@@ -42,7 +32,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         super();
     }
 
-    public async load(pageableAndSortable: PageableAndSortable | null): Promise<void> {
+    public async load(pageableAndSortable: QueryParamsPageable | null): Promise<void> {
         if (pageableAndSortable == null) {
             pageableAndSortable = PAGEABLE_AND_SORTABLE_DEFAULT;
         }
@@ -56,6 +46,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         // const query: object = formatWithConfig(this.entity, { format2: this.config.query });
 
         this.changePartial({ loading: true, pageableAndSortable: pageableAndSortable });
+
         this.repository
             .query({ ...this.config.query, ...pageableAndSortable })
             .pipe(take(1))
@@ -89,7 +80,12 @@ export class XmTableRepositoryCollectionController<T = unknown>
     }
 
     public edit(prev: T, curr: T): void {
-        throw new NotSupportedException();
+        this.changePartial({ loading: true });
+        this.repository.update(curr)
+            .subscribe(
+                (_) => this.changePartial({ loading: false }),
+                () => this.changePartial({ loading: false }),
+                () => this.changePartial({ loading: false }));
     }
 
     public remove(item: T): void {

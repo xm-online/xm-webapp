@@ -20,6 +20,7 @@ export interface XmTableConfig {
     /** Title */
     title: Translate,
     /** Filters configuration */
+    filtersToRequest?: any,
     filters: FormGroupLayoutItem[],
     /** Actions configuration */
     actions: XmTableAction[],
