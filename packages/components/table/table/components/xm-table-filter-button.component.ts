@@ -2,10 +2,10 @@ import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
-import { XmTableFilterButtonDialogComponent } from './xm-table-filter-button-dialog.component';
+import { XmOverlayResponse, XmTableFilterButtonDialogComponent } from './xm-table-filter-button-dialog.component';
 import { XmOverlayService } from '../../../overlay/xm-overlay.service';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { ButtonSpinnerModule } from '@xm-ngx/components/button-spinner';
@@ -22,7 +22,6 @@ import { ButtonSpinnerModule } from '@xm-ngx/components/button-spinner';
             <mat-icon>filter_list</mat-icon>
         </button>
     `,
-    styles: [``],
     imports: [
         MatButtonModule,
         MatIconModule,
@@ -42,7 +41,7 @@ export class XmTableFilterButtonComponent implements OnDestroy {
     public openFilter(origin: MatButton): void {
         const overlayConfig = this.createOverlayConfig(origin);
         this.overlayService.setOverlayConfig(overlayConfig);
-        const overlayRef = this.overlayService.open(
+        const overlayRef = this.overlayService.open<XmOverlayResponse>(
             XmTableFilterButtonDialogComponent,
             {
                 config: this.config,
@@ -50,9 +49,10 @@ export class XmTableFilterButtonComponent implements OnDestroy {
             });
 
         overlayRef.afterClosed$.pipe(
-            map(value => value.data),
+            filter(i => i.data.state != 'cancel'),
+            map(res => res.data),
             takeUntilOnDestroy(this),
-        ).subscribe(value => this.requestBuilder.update(value));
+        ).subscribe(res => this.requestBuilder.update(res.result));
     }
 
     public ngOnDestroy(): void {

@@ -13,7 +13,7 @@ const cloneDeepWithoutUndefined = (obj) => transform(obj, (r, v, k) => {
 
 function jsObjectToQueryParams(request: object): object {
     const req = {};
-    forIn(request, (value, key) => {
+    forIn(request, (value: any, key) => {
         if (value instanceof Date) {
             req[key] = value.toISOString();
         } else if (value !== undefined && value !== '' && value !== null) {
