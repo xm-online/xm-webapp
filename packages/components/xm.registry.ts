@@ -1,30 +1,6 @@
-import { XmDynamicEntries } from '@xm-ngx/dynamic';
-import { XM_DATE_ELEMENTS } from './xm-date.registry';
-import { XM_HTML_ELEMENTS } from './xm-html.registry';
-import { XM_TEXT_ELEMENTS } from './xm-text.registry';
-import { XM_COPY_ELEMENTS } from './xm-copy.registry';
-import { XM_LINK_ELEMENTS } from './xm-link.registry';
-import { XM_ENUM_ELEMENTS } from './xm-enum.registry';
-import { XM_BOOL_ELEMENTS } from './xm-bool.registry';
-import { XM_ARRAY_ELEMENTS } from './xm-array.registry';
-import { XM_TABLE_ELEMENTS } from './xm-table.registry';
-import { XM_NAVBAR_ELEMENTS } from './xm-navbar.registry';
-import { XM_DASHBOARD_ELEMENTS } from './xm-dashboard.registry';
-import { XM_ADMINISTRATION_ELEMENTS } from './xm-administration.registry';
+import { XmDynamicEntry } from '@xm-ngx/dynamic';
 
-export const XM_ELEMENTS: XmDynamicEntries = [
-    ...XM_DATE_ELEMENTS,
-    ...XM_HTML_ELEMENTS,
-    ...XM_TEXT_ELEMENTS,
-    ...XM_BOOL_ELEMENTS,
-    ...XM_COPY_ELEMENTS,
-    ...XM_LINK_ELEMENTS,
-    ...XM_ENUM_ELEMENTS,
-    ...XM_ARRAY_ELEMENTS,
-    ...XM_TABLE_ELEMENTS,
-    ...XM_NAVBAR_ELEMENTS,
-    ...XM_DASHBOARD_ELEMENTS,
-    ...XM_ADMINISTRATION_ELEMENTS,
+export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     {
         selector: '@xm-ngx/components/sidebar-logo',
         loadChildren: () => import('@xm-ngx/components/logo').then(m => m.XmLogoModule),
@@ -115,7 +91,7 @@ export const XM_ELEMENTS: XmDynamicEntries = [
     },
     {
         selector: '@xm-ngx/documentation/examples',
-        loadChildren: () => import('../../packages/documentation/doc-examples/xm-doc-examples.module').then(m => m.XmDocExamplesModule),
+        loadChildren: () => import('../documentation/doc-examples/xm-doc-examples.module').then(m => m.XmDocExamplesModule),
     },
     {
         selector: '@xm-ngx/components/xm-ace-editor-control',
