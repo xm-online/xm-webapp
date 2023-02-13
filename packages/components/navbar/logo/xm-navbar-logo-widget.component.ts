@@ -1,11 +1,17 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
-import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
+
+/** TODO: Migrate to widgets. */
+export interface NavbarLogoUIConfig extends XmUIConfig {
+    name: string;
+    logoUrl: string;
+}
 
 @Component({
     selector: 'xm-navbar-logo-widget',
@@ -22,7 +28,7 @@ import { XmDynamicWidget } from '@xm-ngx/dynamic';
 })
 export class XmNavbarLogoWidget implements OnInit, OnDestroy, XmDynamicWidget {
 
-    @Input() public config: unknown;
+    @Input() public config: NavbarLogoUIConfig;
 
     public tenantLogoUrl: string = '../assets/img/logo-xm-online.png';
     public tenantName: string;
@@ -31,7 +37,7 @@ export class XmNavbarLogoWidget implements OnInit, OnDestroy, XmDynamicWidget {
     private version: string;
 
     constructor(
-        private xmUiConfigService: XmUiConfigService,
+        private xmUiConfigService: XmUiConfigService<NavbarLogoUIConfig>,
         private xmSessionService: XmSessionService,
     ) {
     }
