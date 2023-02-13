@@ -1,9 +1,9 @@
-// TODO make dark mode ???
 $mat-header-row-height: 56px !default;
 
 .header-wrapper {
-height:          $mat-header-row-height;
+  height:              $mat-header-row-height;
 
+  overflow: hidden;
   border-width:        0;
   border-bottom-width: 1px;
   border-style:        solid;
@@ -17,7 +17,7 @@ height:          $mat-header-row-height;
   padding-left:        24px;
   padding-right:       24px;
   color:               #0d6efd;
-  background-color:    rgb(246, 244, 255);;
+  background-color:    rgb(246, 244, 255);
 
   &::after {
     display:    inline-block;

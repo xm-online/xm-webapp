@@ -16,7 +16,6 @@ import { MatButtonModule } from '@angular/material/button';
                           [style]="el.style"
                           [selector]="el.component"
                           [options]="el.options">
-                <!--                          [value]="selectionModel.selected"-->
             </ng-container>
         </ng-container>
     `,
@@ -27,7 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
         NgForOf,
         MatButtonModule,
         NgIf,
-    ]
+    ],
 })
 export class XmTableActionsButtonsComponent {
     @Input() public config: any;

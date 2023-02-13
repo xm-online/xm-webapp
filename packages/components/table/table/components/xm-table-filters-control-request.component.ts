@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import {
-    XmTableFiltersControlComponent,
-    FiltersControlValue
+    FiltersControlValue,
+    XmTableFiltersControlComponent
 } from '@xm-ngx/components/table/table/components/xm-table-filters-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 

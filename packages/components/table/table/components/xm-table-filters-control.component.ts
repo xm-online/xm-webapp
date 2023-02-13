@@ -10,14 +10,14 @@ import {
     Self,
     SimpleChanges,
 } from '@angular/core';
-import { UntypedFormGroup, NgControl } from '@angular/forms';
+import { NgControl, UntypedFormGroup } from '@angular/forms';
 import { Pageable } from '@xm-ngx/components/entity-collection';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { FormGroupLayoutFactoryService, FormLayoutItem, FormLayoutModule } from '@xm-ngx/components/form-layout';
 import * as _ from 'lodash';
+import { isEqual, isNil, omitBy } from 'lodash';
 import { BehaviorSubject, combineLatestWith, Observable, Subject, Subscription } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { isEqual, isNil, omitBy } from 'lodash';
 import { AsyncPipe, NgIf } from '@angular/common';
 
 export interface FiltersControlValue extends Pageable {
@@ -132,7 +132,7 @@ export class XmTableFiltersControlComponent<T = FiltersControlValue> extends NgC
 
     private updateValue(): void {
         if (this.formGroup) {
-            this.formGroup.patchValue(this.value || {}, {emitEvent: false});
+            this.formGroup.patchValue(this.value || {}, { emitEvent: false });
         }
     }
 

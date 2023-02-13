@@ -4,9 +4,7 @@ import {
     PageableAndSortable,
 } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { IXmTableCollectionController } from './i-xm-table-collection-controller';
-import {
-    AXmTableStateCollectionController
-} from './a-xm-table-state-collection-controller.service';
+import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 
 export abstract class AXmTableLocalPageableCollectionController<T>
     extends AXmTableStateCollectionController<T>

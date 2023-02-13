@@ -28,7 +28,10 @@
   .overflow-wrap {
     max-width: 100%;
     overflow:  auto;
-    display:   block;
+
+    > table {
+      width: 100%;
+    }
   }
 
   ::ng-deep .mat-table-sticky-border-elem-right {
@@ -38,6 +41,5 @@
   ::ng-deep .mat-table-sticky-border-elem-left {
     border-right: 1px solid #e0e0e0;
   }
-
 
 }

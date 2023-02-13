@@ -8,8 +8,9 @@ import { Injectable } from '@angular/core';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 
 export interface XmTableEntityRepositoryExtra {
-    page?: number,
-    size?: number
+    page: number,
+    size: number;
+    sort: string;
 }
 
 export type XmTableEntityRepositoryQuery = QueryParamsPageable & XmTableEntityRepositoryExtra;
@@ -17,16 +18,16 @@ export type XmTableEntityRepositoryQuery = QueryParamsPageable & XmTableEntityRe
 @Injectable()
 export class XmTableEntityRepository<T extends XmEntity>
     extends HttpClientRest<T, PageableAndSortable> {
+    constructor(httpClient: HttpClient) {
+        super(null, httpClient);
+    }
+
     public get resourceUrl(): string {
         return this.url;
     }
 
     public set resourceUrl(value: string) {
         this.url = value;
-    }
-
-    constructor(httpClient: HttpClient) {
-        super(null, httpClient);
     }
 
     public getAll(params?: QueryParams): Observable<HttpResponse<T[] & PageableAndSortable>> {
@@ -45,18 +46,14 @@ export class XmTableEntityRepository<T extends XmEntity>
     }
 
     protected getParams(params: QueryParamsPageable): QueryParamsPageable {
-        const request: QueryParamsPageable & XmTableEntityRepositoryExtra = _.clone(params);
-        if (request.pageSize !== undefined) {
-            request.size = params.pageSize;
-            delete request.pageSize;
-        }
 
-        if (request.pageIndex !== undefined) {
-            request.page = params.pageIndex;
-            delete request.pageIndex;
-        }
+        const extra: XmTableEntityRepositoryExtra = {
+            size: params.pageSize,
+            sort: `${params.sortBy},${params.sortOrder}`,
+            page: params.pageIndex,
+        };
 
-        return request;
+        return _.merge(params, extra);
     }
 
     protected extractExtra(res: HttpResponse<T[]>, params?: XmTableEntityRepositoryQuery): HttpResponse<T[] & PageableAndSortable> {
@@ -70,7 +67,7 @@ export class XmTableEntityRepository<T extends XmEntity>
             totalPageCount = null;
         }
 
-        const extra: XmTableEntityRepositoryQuery = {
+        const extra: QueryParamsPageable = {
             pageIndex: params.page || 0,
             pageSize: params.size || body.length || 0,
             sortBy: params.sortBy,

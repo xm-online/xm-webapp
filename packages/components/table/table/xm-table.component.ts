@@ -20,11 +20,10 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { XmTableEmptyComponent } from './components/xm-table-empty.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { Observable, switchMap } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { XmTableDynamicColumnModule } from '../column/xm-table-dynamic-column';
 import { TableColumnDynamicCellModule } from '../column/table-column-dynamic-cell';
-import { map, tap } from 'rxjs/operators';
-import { Pageable, Sortable } from '@xm-ngx/components/entity-collection';
+import { map } from 'rxjs/operators';
 import {
     SelectTableColumn,
     XM_TABLE_SELECTION_COLUMN_DEFAULT,
@@ -39,12 +38,22 @@ import {
 } from '@xm-ngx/components/table/service/columns-settings-storage.service';
 import { XmTableHeaderComponent } from '@xm-ngx/components/table/table/components/xm-table-header.component';
 import { format } from '@xm-ngx/shared/operators';
+import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 
 function getConfig(value: Partial<XmTableConfig>): XmTableConfig {
     const config = defaultsDeep({}, value, XM_TABLE_CONFIG_DEFAULT) as XmTableConfig;
     config.columns.forEach(c => c.name = c.name || c.field);
     config.pageableAndSortable.sortBy = config.pageableAndSortable.sortBy || config.columns[0].name;
     return config;
+}
+
+function GetDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[] {
+    const displayedColumns = config.columns;
+    return displayedColumns.map(i => ({
+        name: i.name || i.field,
+        hidden: false,
+        title: i.title,
+    }));
 }
 
 interface IXmTableContext {
@@ -89,13 +98,11 @@ interface IXmTableContext {
 })
 export class XmTableComponent implements OnInit {
     public context$: Observable<IXmTableContext>;
+    public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
     public selectColumn: SelectTableColumn = _.cloneDeep(XM_TABLE_SELECTION_COLUMN_DEFAULT);
     @ViewChild(MatPaginator, { static: false }) public paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) public sort: MatSort;
-    private context: IXmTableContext;
 
-    // public dataSource$: Observable<DataSource<unknown>>;
-    // public loading$: Observable<boolean> = of(false);
     private controller: IXmTableCollectionController<unknown>;
 
     constructor(
@@ -115,60 +122,50 @@ export class XmTableComponent implements OnInit {
     @Input()
     public set config(value: XmTableConfig | Partial<XmTableConfig>) {
         this._config = getConfig(value);
+        this.configController.change(this.config);
+        this.columnsSettingStorageService.updateStore(GetDisplayedColumns(this._config));
+        this.pageableAndSortable$.next(this._config.pageableAndSortable);
     }
 
     public async ngOnInit(): Promise<void> {
-        this.configController.change(this.config);
         this.controller = await this.collectionControllerResolver.get();
 
-        this.tableFilterController.change$().pipe()
-            .subscribe((res) => {
+        this.context$ = combineLatest([
+            this.controller.state$(),
+            this.columnsSettingStorageService.getStore()]).pipe(
+            map(([state, a]) => {
+                return ({
+                    collection: state,
+                    settings: { displayedColumns: _.map(_.filter(a, i => !i.hidden), i => i.name) },
+                } as IXmTableContext);
+            }),
+        );
 
-                this.controller.load({...format(this.config.filtersToRequest, res), ...this.getPagination()});
+
+        combineLatest([
+            this.tableFilterController.change$(),
+            this.pageableAndSortable$,
+        ])
+            .subscribe(([queryParams, pageableAndSortable]) => {
+
+                let req = {};
+
+                if (this.config.filtersToRequest) {
+                    req = _.merge({}, req, format(this.config.filtersToRequest, queryParams));
+                }
+
+                req = _.merge({}, req, pageableAndSortable);
+                this.controller.load(req);
             });
-
-        this.context$ = this.controller.state$()
-            .pipe(
-                switchMap(i => this.columnsSettingStorageService.getStore().pipe(
-                    map((a) => ([i, a]))),
-                ),
-                map(([state, a]: any) => {
-                    return ({
-                        collection: state,
-                        settings: { displayedColumns: _.map(_.filter(a, i => !i.hidden), i => i.name) },
-                    } as IXmTableContext);
-                }),
-                tap((ctx) => {
-                    this.context = ctx;
-                }),
-            );
-        this.controller.load(this._config.pageableAndSortable);
-        this.columnsSettingStorageService.updateStore(this.GetDisplayedColumns());
-    }
-
-    public GetDisplayedColumns(): ColumnsSettingStorageItem[] {
-        const displayedColumns = this._config.columns;
-        // if (this._config.options.isRowSelectable) {
-        // displayedColumns.unshift(this.selectColumn);
-        // }
-        return displayedColumns.map(i => ({
-            name: i.name || i.field,
-            hidden: false,
-            title: i.title,
-        }));
     }
 
     public updatePagination(): void {
-        this.controller.load(this.getPagination());
-    }
-
-    public getPagination(): any {
-        const sortBy = this.context.settings.displayedColumns.find((i) => i === this.sort.active);
+        const sortBy = this._config.columns.find((i) => i.name === this.sort.active).name;
         const sortOrder = this.sort.direction;
         const pageIndex = this.paginator.pageIndex;
         const pageSize = this.paginator.pageSize;
         const total = this.paginator.length;
-        const pageAndSort: Pageable & Sortable = { pageIndex, pageSize, sortOrder, sortBy, total };
-       return pageAndSort;
+        const pageAndSort: PageableAndSortable = { pageIndex, pageSize, sortOrder, sortBy, total };
+        this.pageableAndSortable$.next(pageAndSort);
     }
 }

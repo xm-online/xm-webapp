@@ -28,7 +28,7 @@ export class XmTableEditCellComponent implements OnInit {
 
     constructor(
         @Inject(XM_DYNAMIC_TABLE_ROW) private row: any,
-    @Inject(XM_DYNAMIC_TABLE_CELL) private cell: any,
+        @Inject(XM_DYNAMIC_TABLE_CELL) private cell: any,
         private collectionControllerResolver: XmTableCollectionControllerResolver) {
     }
 

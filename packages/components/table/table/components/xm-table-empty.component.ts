@@ -34,7 +34,7 @@ export const DEFAULT_NO_ROWS_CONFIG: XmTableEmptyRows = {
     template: `
         <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell"
-                [attr.colspan]="colspan" >
+                [attr.colspan]="colspan">
                 <no-data [imageUrl]="image"
                          [show]="true"
                          [text]="text"></no-data>
@@ -53,17 +53,16 @@ export class XmTableEmptyComponent implements OnInit {
     public text: Translate;
     @Input() public colspan: number;
     @Input() @Defaults(DEFAULT_NO_ROWS_CONFIG) public config: XmTableEmptyRows;
+    @ViewChild(MatNoDataRow, { static: true }) public cell: MatNoDataRow;
+
+    constructor(@Inject(CDK_TABLE) protected noDataRowManager: TableNoDataRawManager) {
+    }
 
     @Input()
     public set type(value: 'initial' | 'filter') {
         this.image = this.config[value].image;
         this.text = this.config[value].message;
     }
-
-    constructor(@Inject(CDK_TABLE) protected noDataRowManager: TableNoDataRawManager) {
-    }
-
-    @ViewChild(MatNoDataRow, { static: true }) public cell: MatNoDataRow;
 
     public ngOnInit(): void {
         this.noDataRowManager.setNoDataRow(this.cell);

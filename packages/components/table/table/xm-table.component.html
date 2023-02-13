@@ -8,7 +8,9 @@
         <h5 class="no-margin">{{config.title | translate}}</h5>
       </div>
 
-      <xm-table-filter-button [config]="{filters:config.filters}"></xm-table-filter-button>
+      <xm-table-filter-button [config]="{filters:config.filters}"
+                              [loading]="context.collection.loading"
+      ></xm-table-filter-button>
 
       <xm-table-filter-inline [config]="{filters:config.filters}"></xm-table-filter-inline>
 
@@ -20,44 +22,45 @@
 
     <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
 
-    <table mat-table
-           class="overflow-wrap"
-           matSort
-           (matSortChange)="updatePagination()"
-           [matSortActive]="context.collection.pageableAndSortable.sortBy"
-           [matSortDirection]="context.collection.pageableAndSortable.sortOrder"
-           matSortDisableClear
-           [dataSource]="context.collection.items">
+    <div class="overflow-wrap">
+      <table mat-table
+             matSort
+             (matSortChange)="updatePagination()"
+             [matSortActive]="context.collection.pageableAndSortable.sortBy"
+             [matSortDirection]="context.collection.pageableAndSortable.sortOrder"
+             matSortDisableClear
+             [dataSource]="context.collection.items">
 
-      <xm-table-loading-column [isLoading]="context.collection.loading"
-                               #tableLoadingRow
-                               [size]="context.settings.displayedColumns.length"></xm-table-loading-column>
+        <xm-table-loading-column [isLoading]="context.collection.loading"
+                                 #tableLoadingRow
+                                 [size]="context.settings.displayedColumns.length"></xm-table-loading-column>
 
-      <xm-table-empty [config]="config.options.noRows"
-                      [colspan]="context.settings.displayedColumns.length"
-                      [type]="'initial'"></xm-table-empty>
+        <xm-table-empty [config]="config.options.noRows"
+                        [colspan]="context.settings.displayedColumns.length"
+                        [type]="'initial'"></xm-table-empty>
 
-      <xm-table-selection-column [column]="selectColumn"
-                                 #selectionRow
-                                 [rows]="context.collection.items"></xm-table-selection-column>
+        <xm-table-selection-column [column]="selectColumn"
+                                   #selectionRow
+                                   [rows]="context.collection.items"></xm-table-selection-column>
 
-      <xm-table-column-dynamic-cell [column]="column"
-                                    *ngFor="let column of config.columns"></xm-table-column-dynamic-cell>
+        <xm-table-column-dynamic-cell [column]="column"
+                                      *ngFor="let column of config.columns"></xm-table-column-dynamic-cell>
 
-      <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row></tr>
+        <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row></tr>
 
-      <!-- TODO:WORKAROUND: MatTable throws an error when mat-header-row lazy created. -->
-      <tr mat-header-row class="xm-table-loading-row" *matHeaderRowDef="[tableLoadingRow.config.name]"></tr>
+        <!-- TODO:WORKAROUND: MatTable throws an error when mat-header-row lazy created. -->
+        <tr mat-header-row class="xm-table-loading-row" *matHeaderRowDef="[tableLoadingRow.config.name]"></tr>
 
-      <tr *matRowDef="let row; columns: context.settings.displayedColumns"
-          class="xm-table-hoverable-row xm-table-row-background"
-          [ngClass]="{
+        <tr *matRowDef="let row; columns: context.settings.displayedColumns"
+            class="xm-table-hoverable-row xm-table-row-background"
+            [ngClass]="{
             'xm-table-row-selected' : selectionRow.selection.isSelected(row),
             'xm-table-row-loading' : context.collection.loading
           }"
-          mat-row></tr>
+            mat-row></tr>
 
-    </table>
+      </table>
+    </div>
 
     <mat-paginator showFirstLastButtons
                    (page)="updatePagination()"

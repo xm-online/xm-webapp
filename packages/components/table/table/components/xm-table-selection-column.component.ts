@@ -53,7 +53,7 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: SelectTableColumn = {
             .select-table-column__single-line-height {
                 overflow: initial;
             }
-           `,
+        `,
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
@@ -68,6 +68,7 @@ export class XmTableSelectionColumnComponent<T> implements OnInit, OnDestroy {
     public selection: SelectionModel<T>;
     @Input() public rows: T[] = [];
     @Input() public disabled: boolean;
+    @Input() public column: SelectTableColumn;
     @ViewChild(CdkColumnDef, { static: true }) private readonly _columnDef: CdkColumnDef;
     @ViewChild(CdkCellDef, { static: true }) private readonly _cell: CdkCellDef;
     @ViewChild(CdkHeaderCellDef, { static: true }) private readonly _headerCell: CdkHeaderCellDef;
@@ -77,9 +78,6 @@ export class XmTableSelectionColumnComponent<T> implements OnInit, OnDestroy {
         @Inject(XmTableSelectionService) private _selection: XmTableSelectionService<T>,
     ) {
     }
-
-
-    @Input() public column: SelectTableColumn;
 
     public ngOnInit(): void {
         this.selection = this._selection.selection;

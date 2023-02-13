@@ -8,13 +8,13 @@ import { MatBadgeModule } from '@angular/material/badge';
 import {
     FiltersControlRequestOptions
 } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/filters-control-request/filters-control-request.component';
+import * as _ from 'lodash';
 import { cloneDeep, defaultsDeep } from 'lodash';
 import {
     FiltersControlValue
 } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/filters-control/filters-control.component';
 import { debounceTime, delay, map, merge, Subject } from 'rxjs';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import * as _ from 'lodash';
 import { XmTableCollectionControllerResolver } from '@xm-ngx/components/table/table';
 import {
     XmTableFilterController
@@ -31,20 +31,20 @@ const DEFAULT_CONFIG: FiltersControlRequestOptions = {
 @Component({
     selector: 'xm-table-filter-inline',
     standalone: true,
-    host: { class:'xm-table-filter-inline' },
+    host: { class: 'xm-table-filter-inline' },
     template: `
-<!--        <div class="filter-container" #elementRef>-->
-<!--            <xm-filters-control-request [request]="request"-->
-<!--                                        (requestChange)="onSearch($event)"-->
-<!--                                        [options]="config">-->
-<!--            </xm-filters-control-request>-->
-<!--        </div>-->
+        <!--        <div class="filter-container" #elementRef>-->
+        <!--            <xm-filters-control-request [request]="request"-->
+        <!--                                        (requestChange)="onSearch($event)"-->
+        <!--                                        [options]="config">-->
+        <!--            </xm-filters-control-request>-->
+        <!--        </div>-->
 
-<!--        <button mat-button-->
-<!--                [matBadge]=""-->
-<!--                *ngIf="checkOverflow()">-->
-<!--            More-->
-<!--        </button>-->
+        <!--        <button mat-button-->
+        <!--                [matBadge]=""-->
+        <!--                *ngIf="checkOverflow()">-->
+        <!--            More-->
+        <!--        </button>-->
     `,
     styles: [`
         :host(.xm-table-filter-inline) {
@@ -74,18 +74,32 @@ const DEFAULT_CONFIG: FiltersControlRequestOptions = {
     ],
 })
 export class XmTableFilterInlineComponent {
-    @ViewChild('elementRef', {static: true}) public rt: ElementRef;
+    @ViewChild('elementRef', { static: true }) public rt: ElementRef;
 
     // @Input() public config: any;
-
-    public checkOverflow(): boolean {
-        const element = this.rt.nativeElement;
-        return element.offsetHeight < element.scrollHeight
-            || element.offsetWidth < element.scrollWidth;
-    }
-
     @ViewChild(XmTableFiltersControlRequestComponent, { static: true })
     public filtersControlRequestCmp: XmTableFiltersControlRequestComponent;
+    public filterExpand: boolean = true;
+    public disabled: boolean;
+    public loading: boolean;
+    public value: FiltersControlValue;
+    public clear$: Subject<void> = new Subject();
+    public requestDefault: FiltersControlValue;
+    public hasFilters = false;
+    protected search$: Subject<boolean> = new Subject<boolean>();
+    protected request: FiltersControlValue = null;
+
+    constructor(
+        protected entitiesRequestBuilder: XmTableFilterController,
+        // protected entitiesService: PageEntitiesStore,
+        private collectionControllerResolver: XmTableCollectionControllerResolver,
+        // protected entitiesFilterStoreService: EntitiesFilterStoreService,
+    ) {
+
+
+    }
+
+    protected _config: FiltersControlRequestOptions = DEFAULT_CONFIG;
 
     public get config(): FiltersControlRequestOptions {
         return this._config;
@@ -97,28 +111,10 @@ export class XmTableFilterInlineComponent {
         this.filterExpand = !value.isOnlyExpand;
     }
 
-    protected _config: FiltersControlRequestOptions = DEFAULT_CONFIG;
-
-    public filterExpand: boolean = true;
-    public disabled: boolean;
-    public loading: boolean;
-    public value: FiltersControlValue;
-    protected search$: Subject<boolean> = new Subject<boolean>();
-    protected request: FiltersControlValue = null;
-
-    public clear$: Subject<void> = new Subject();
-
-    public requestDefault: FiltersControlValue;
-    public hasFilters = false;
-
-    constructor(
-        protected entitiesRequestBuilder: XmTableFilterController,
-        // protected entitiesService: PageEntitiesStore,
-        private collectionControllerResolver: XmTableCollectionControllerResolver,
-        // protected entitiesFilterStoreService: EntitiesFilterStoreService,
-    ) {
-
-
+    public checkOverflow(): boolean {
+        const element = this.rt.nativeElement;
+        return element.offsetHeight < element.scrollHeight
+            || element.offsetWidth < element.scrollWidth;
     }
 
     public onSearch(req = this.request): void {

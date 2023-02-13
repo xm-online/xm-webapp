@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { LoadingBarModule } from '@xm-ngx/components/loading-bar';
 import { MatTableModule } from '@angular/material/table';
 import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/cdk/table';
@@ -16,7 +16,7 @@ import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/c
             <td mat-cell *matCellDef [attr.colspan]="size"></td>
         </ng-container>
     `,
-    styles:[`
+    styles: [`
         th.loadingCell {
             padding: 0;
             border: none;
@@ -49,6 +49,7 @@ export class XmTableLoadingColumnComponent<T> implements OnInit, OnDestroy {
         this._columnDef.headerCell = this._headerCell;
         this._table.addColumnDef(this._columnDef);
     }
+
     public ngOnDestroy(): void {
         this._table.removeColumnDef(this._columnDef);
     }
