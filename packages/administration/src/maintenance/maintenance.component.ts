@@ -10,7 +10,7 @@ import {
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { XmConfigService } from '../../../../src/app/shared/spec/config.service';
+import { XmConfigService } from '@xm-ngx/core/config';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from '../../../../src/app/xm.constants';
 
 @Component({

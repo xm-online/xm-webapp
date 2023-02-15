@@ -5,14 +5,14 @@ import { finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { XmEntitySpecWrapperService } from '@xm-ngx/entity/shared';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { CalendarSpec } from '@xm-ngx/entity/shared';
 import { Calendar } from '@xm-ngx/entity/shared';
 import { CalendarService } from '@xm-ngx/entity/shared';
 import { Event } from '@xm-ngx/entity/shared';
 import { EventService } from '@xm-ngx/entity/shared';
 import { XmEntity } from '@xm-ngx/entity/shared';
-import { buildJsfAttributes, nullSafe } from '@xm-ngx/json-scheme-form';
+import { buildJsfAttributes, nullSafe } from '@xm-ngx/json-schema-form/components';
 import { UUID } from 'angular2-uuid';
 import { MatDialogRef } from '@angular/material/dialog';
 

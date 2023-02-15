@@ -9,16 +9,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiConfigService, JhiDateUtils, JhiModuleConfig } from 'ng-jhipster';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 
 import { XmEntityService } from '../shared';
-import { AccountService } from '@xm-ngx/xm-shared';
-import { Principal } from '@xm-ngx/xm-shared/auth/principal.service';
-import { I18nJsfPipe } from '@xm-ngx/xm-shared/language/i18n-jsf.pipe';
-import { I18nNamePipe } from '@xm-ngx/xm-shared/language/i18n-name.pipe';
+import { AccountService } from '@xm-ngx/core/user';
+import { Principal } from '@xm-ngx/core/user';
+import { I18nJsfPipe } from '@xm-ngx/translation';
+import { I18nNamePipe } from '@xm-ngx/translation';
 import { EntityDetailDialogComponent } from './entity-detail-dialog.component';
 
 describe('Entity detail dialog Component', () => {
@@ -30,7 +30,7 @@ describe('Entity detail dialog Component', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                XmSharedTestingModule,
+                XmTranslationTestingModule,
                 FormsModule,
                 MatSelectModule,
                 NoopAnimationsModule,

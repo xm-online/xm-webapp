@@ -31,7 +31,7 @@ export function toggleControlValidation(control: AbstractControl, active: boolea
 })
 export class FormLayoutComponent {
     @Input() public value: UntypedFormGroup;
-    @Input() public options: FormLayoutItem[];
+    @Input() public config: FormLayoutItem[];
 
     public toggleControlValidation: typeof toggleControlValidation = toggleControlValidation;
 }

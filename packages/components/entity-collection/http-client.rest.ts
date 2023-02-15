@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { IEntityCollectionPageable, Pageable } from './i-entity-collection-pageable';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -15,8 +15,24 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
         this.url = `${plural}`;
     }
 
+    public request<R>(method: string, body?: unknown, params?: HttpParams, headers?: HttpHeaders): Observable<R> {
+        const req = this.httpClient.request<R>(method, this.url, {
+            body,
+            params,
+            headers,
+            responseType: 'json',
+            observe: 'body',
+        });
+
+        return this.handle<R>(req);
+    }
+
     public create(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
         return this.handle(this.httpClient.post<T>(this.url, entity, { params, observe: 'response', headers }));
+    }
+
+    public patch<E, R>(entity: Partial<E>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<R>> {
+        return this.handle(this.httpClient.patch<R>(this.url, entity, { params, observe: 'response', headers }));
     }
 
     public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {

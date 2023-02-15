@@ -10,14 +10,14 @@ export interface XmLabeledContainerOptions {
 @Component({
     selector: 'xm-labeled-view-container',
     template: `
-        <xm-text-view-container [styleInline]="this.options?.labelStyle === 'inline'">
-            <span xmLabel>{{options?.title | translate}}</span>
+        <xm-text-view-container [styleInline]="this.config?.labelStyle === 'inline'">
+            <span xmLabel>{{config?.title | translate}}</span>
             <span xmValue><ng-content></ng-content></span>
         </xm-text-view-container>
     `,
 })
 export class XmLabeledViewContainerComponent {
-    @Input() public options: XmLabeledContainerOptions;
+    @Input() public config: XmLabeledContainerOptions;
 }
 
 @NgModule({

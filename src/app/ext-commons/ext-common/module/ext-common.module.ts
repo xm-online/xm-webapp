@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 
-import { XmSharedModule } from '../../../shared/shared.module';
+import { XmSharedModule } from '@xm-ngx/shared';
 import { ClockWidgetComponent } from '../clock-widget/clock-widget.component';
 import { ExchangeWidgetComponent } from '../exchange-widget/exchange-widget.component';
 import { FinanceService } from '../exchange-widget/finance.service';

@@ -1,4 +1,4 @@
-@use '~@angular/material/core/theming/palette' as mat;
+@use '@angular/material' as mat;
 
 $xm-primary-palette:   mat.$grey-palette;
 $xm-secondary-palette: $xm-primary-palette;

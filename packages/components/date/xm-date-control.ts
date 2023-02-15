@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
-import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error/xm-control-errors-translates';
+import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
@@ -23,6 +23,7 @@ export interface XmDateControlOptions {
     useUtc?: boolean;
     errors?: XmControlErrorsTranslates;
     disableFutureDates?: boolean;
+    dateNow?: boolean;
 }
 
 const DEFAULT_CONFIG: XmDateControlOptions = {
@@ -38,22 +39,22 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
     selector: 'xm-date-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options?.title | translate}}</mat-label>
+            <mat-label>{{config?.title | translate}}</mat-label>
 
             <input matInput
                    (dateChange)="changeDateControl($event)"
                    [formControl]="control"
-                   [min]="null"
+                   [min]="config?.dateNow ? dateNow : undefined"
                    [max]="maxDate"
                    [matDatepicker]="picker"
-                   [name]="options?.name"
-                   [required]="options?.required"
+                   [name]="config?.name"
+                   [required]="config?.required"
                    (click)="picker.open()">
             <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
 
             <mat-datepicker #picker></mat-datepicker>
 
-            <mat-error *xmControlErrors="control?.errors; translates options?.errors; message as message">
+            <mat-error *xmControlErrors="control?.errors; translates config?.errors; message as message">
                 {{message}}
             </mat-error>
 
@@ -67,7 +68,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
                 <mat-icon>close</mat-icon>
             </button>
 
-            <mat-hint [hint]="options.hint"></mat-hint>
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
 })
@@ -77,13 +78,15 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
         super(ngControl);
     }
 
+    public dateNow = new Date(Date.now());
+
     public maxDate: Date | null;
 
-    private _options: XmDateControlOptions = DEFAULT_CONFIG;
+    private _config: XmDateControlOptions = DEFAULT_CONFIG;
 
     @Input()
-    public set options(value: XmDateControlOptions) {
-        this._options = defaults(value, {
+    public set config(value: XmDateControlOptions) {
+        this._config = defaults(value, {
             ...DEFAULT_CONFIG,
             errors: this.xmControlErrorsTranslates,
         });
@@ -91,19 +94,19 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
         this.maxDate = this.disablingFutureDates();
     }
 
-    public get options(): XmDateControlOptions {
-        return this._options;
+    public get config(): XmDateControlOptions {
+        return this._config;
     }
 
     public disablingFutureDates(): Date | null {
         const maxDate = new Date();
 
-        return this.options?.disableFutureDates ? maxDate : null;
+        return this.config?.disableFutureDates ? maxDate : null;
     }
 
     public changeDateControl({ value }: MatDatepickerInputEvent<unknown>): void {
         if (value instanceof Date) {
-            if (this.options?.useUtc) {
+            if (this.config?.useUtc) {
                 const utcDate = new Date(
                     Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()),
                 );

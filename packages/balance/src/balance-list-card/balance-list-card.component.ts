@@ -3,7 +3,6 @@ import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core
 import { MatDialog } from '@angular/material/dialog';
 
 import { PieChart } from 'chartist';
-import { Principal } from 'src/app/shared/auth/principal.service';
 
 import { BalanceDetailDialogComponent } from '../balance-detail-dialog/balance-detail-dialog.component';
 import { BalanceSpecWrapperService } from '../shared/balance-spec-wrapper.service';
@@ -53,8 +52,7 @@ export class BalanceListCardComponent implements OnInit {
     constructor(protected balanceService: BalanceService,
                 protected balanceSpecWrapperService: BalanceSpecWrapperService,
                 protected metricService: MetricService,
-                protected modalService: MatDialog,
-                protected principal: Principal) {
+                protected modalService: MatDialog) {
     }
 
     public ngOnInit(): void {

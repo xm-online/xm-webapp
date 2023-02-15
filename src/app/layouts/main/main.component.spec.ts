@@ -4,14 +4,16 @@ import { async, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { LanguageService } from '@xm-ngx/translation';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { Observable, of } from 'rxjs';
 
-import { LoginService, ModulesLanguageHelper, XmConfigService } from '../../shared';
-import { XmApplicationConfigService } from '../../shared/spec/xm-config.service';
+import { LoginService } from '@xm-ngx/core/auth';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { ModulesLanguageHelper } from '@xm-ngx/translation';
+import { XmApplicationConfigService } from '@xm-ngx/core/config';
 import { XmMainComponent } from './main.component';
 
 class Mock {

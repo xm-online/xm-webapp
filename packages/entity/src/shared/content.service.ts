@@ -4,13 +4,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { createRequestOption } from './request-util';
-import { SERVER_API_URL } from 'src/app/xm.constants';
 import { Content } from './content.model';
 
 @Injectable()
 export class ContentService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/contents';
+    private resourceUrl: string ='entity/api/contents';
 
     constructor(private http: HttpClient) {
     }

@@ -1,4 +1,4 @@
-import { EntityLinkUiConfig } from '@xm-ngx/xm-shared/spec';
+import { EntityLinkUiConfig } from '@xm-ngx/core/config';
 import { BaseSpec } from './base-spec';
 
 export interface LinkSpec extends BaseSpec {

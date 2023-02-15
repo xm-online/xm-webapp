@@ -5,14 +5,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { createRequestOption } from './request-util';
-import { SERVER_API_URL } from 'src/app/xm.constants';
 import { Vote } from './vote.model';
 
 @Injectable()
 export class VoteService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/votes';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/votes';
+    private resourceUrl: string ='entity/api/votes';
+    private resourceSearchUrl: string ='entity/api/_search/votes';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }

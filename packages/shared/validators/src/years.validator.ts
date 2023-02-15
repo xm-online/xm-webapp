@@ -13,7 +13,17 @@ export function yearsValidator(years: number): ValidatorFn {
         const value = control.value;
         const date = new Date(value);
         const today = new Date();
-        const currentYears = today.getFullYear() - date.getFullYear();
+        let currentYears = today.getFullYear() - date.getFullYear();
+        if (date.getMonth() > today.getMonth()) {
+            currentYears--;
+        }
+        else {
+            if (date.getMonth() === today.getMonth()) {
+                if (date.getDate() > today.getDate()) {
+                    currentYears--;
+                }
+            }
+        }
         return !isNaN(currentYears) && currentYears < years ? { years: { years: years, actual: currentYears } } : null;
     };
 }

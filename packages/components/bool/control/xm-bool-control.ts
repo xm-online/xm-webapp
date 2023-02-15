@@ -15,7 +15,7 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
     selector: 'xm-bool-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options?.title | translate}}</mat-label>
+            <mat-label>{{config?.title | translate}}</mat-label>
             <mat-select [formControl]="control"
                         [disabled]="disabled"
                         (ngModelChange)="change($event)">
@@ -47,7 +47,7 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmBoolControl extends NgFormAccessor<boolean> implements XmDynamicControl<boolean, { title?: Translate }> {
-    @Input() public options: { title?: string };
+    @Input() public config: { title?: string };
 }
 
 @NgModule({

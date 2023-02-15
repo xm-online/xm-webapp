@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { ReplaySubject, Subscription } from 'rxjs';
-import { Principal } from '../../../shared';
+import { Principal } from '@xm-ngx/core/user';
 
 import {
     EntityDetailDialogComponent,
@@ -29,7 +29,7 @@ export class EntityFabActionsComponent implements OnInit, OnDestroy {
 
     public selectedEntity: Subscription;
     public createEntity: Subscription;
-    public config: any;
+    @Input() public config: any;
     public buttons: any [] = [];
     public mainButton: any;
     public role: string;

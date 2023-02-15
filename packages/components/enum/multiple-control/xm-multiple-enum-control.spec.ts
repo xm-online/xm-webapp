@@ -48,7 +48,7 @@ describe('XmMultipleEnumControlComponent', () => {
     it('value boolean should be equal to options.items[i] value', () => {
         const value = false;
         const title = 'False';
-        component.options = { dataQa: '', items: [{ value, title }, { value: '1', title: '1' }] };
+        component.config = { dataQa: '', items: [{ value, title }, { value: '1', title: '1' }] };
         component.value = [value];
         fixture.detectChanges();
         expect(component.value).toEqual([value]);
@@ -59,7 +59,7 @@ describe('XmMultipleEnumControlComponent', () => {
         const value = 'false';
         const title = 'False';
         component.value = [value];
-        component.options = { dataQa: '', items: [{ value, title }, { value: 1, title: '1' }] };
+        component.config = { dataQa: '', items: [{ value, title }, { value: 1, title: '1' }] };
         fixture.detectChanges();
         expect(component.value).toEqual([value]);
         expect(component.itemsMap[String(value)].value).toBe(value);
@@ -70,7 +70,7 @@ describe('XmMultipleEnumControlComponent', () => {
         const value = 1;
         const title = 'False';
         component.value = [value];
-        component.options = { dataQa: '', items: [{ value, title }, { value: 2, title: '1' }] };
+        component.config = { dataQa: '', items: [{ value, title }, { value: 2, title: '1' }] };
         fixture.detectChanges();
         expect(component.value).toEqual([value]);
         expect(component.itemsMap[String(value)].value).toBe(value);
@@ -80,7 +80,7 @@ describe('XmMultipleEnumControlComponent', () => {
         const value = 0;
         const title = 'False';
         component.value = [value];
-        component.options = { dataQa: '', items: [{ value: 1, title: '1' }, { value, title }] };
+        component.config = { dataQa: '', items: [{ value: 1, title: '1' }, { value, title }] };
         fixture.detectChanges();
         expect(component.value).toEqual([value]);
         expect(component.itemsMap[String(value)].value).toBe(value);
@@ -90,7 +90,7 @@ describe('XmMultipleEnumControlComponent', () => {
         const value = [1, 2, 3];
         const title = 'False';
         component.value = value;
-        component.options = {
+        component.config = {
             dataQa: '',
             items: [{ value: value[0], title }, { value: value[1], title: '1' }, { value: value[2], title: '2' }],
         };

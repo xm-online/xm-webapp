@@ -6,8 +6,8 @@ import { XM_EVENT_LIST } from 'src/app/xm.constants';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
 import { Spec } from '../shared/spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
-import { EntityUiConfig } from '@xm-ngx/xm-shared/spec';
-import { Principal } from '@xm-ngx/core/auth';
+import { EntityUiConfig } from '@xm-ngx/core/config';
+import { Principal } from '@xm-ngx/core/user';
 
 @Component({
     selector: 'xm-entity-list-fab',
