@@ -24,7 +24,9 @@
     "lodash": "4.17.21",
     "sass": "1.54.7",
     "typescript": "4.7.4",
-    "ts-morph": "16.0.0"
+    "ts-morph": "16.0.0",
+    "conventional-changelog": "3.1.25",
+    "conventional-changelog-cli": "2.2.2"
   },
   "devDependencies": {
     "@types/node": "16.11.7",
@@ -33,7 +35,8 @@
   "scripts": {
     "start": "npx tsc --watch",
     "build": "npx tsc",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "files": [
     "bin",
