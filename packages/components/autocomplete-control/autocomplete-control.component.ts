@@ -99,10 +99,22 @@ const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
                     {{'common-webapp-ext.buttons.cancel' | translate}}
                 </mat-option>
 
-                <mat-option *ngFor="let s of list | async"
-                            [value]="s.value">
-                    {{s.view | translate}}
-                </mat-option>
+                <ng-container *ngIf="(list | async)?.length > 0; then listing else selected">
+                    
+                </ng-container>
+
+                <ng-template #listing>
+                    <mat-option *ngFor="let s of list | async"
+                                [value]="s.value">
+                        {{s.view | translate}}
+                    </mat-option>
+                </ng-template>
+                
+                <ng-template #selected>
+                    <mat-option *ngIf="value" [value]="value">
+                        {{value}}
+                    </mat-option>
+                </ng-template>
             </mat-select>
 
             <mat-hint [hint]="config.hint"></mat-hint>
