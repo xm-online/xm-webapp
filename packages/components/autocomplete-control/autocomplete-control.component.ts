@@ -14,12 +14,13 @@ import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { LanguageService, Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap, tap, filter, shareReplay } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap, tap, filter, shareReplay, finalize } from 'rxjs/operators';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
 import { format } from '@xm-ngx/shared/operators';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 export interface XmAutocompleteControlMapper {
     // Interpolated string as ${name}
@@ -84,11 +85,14 @@ const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
             <mat-select [disabled]="disabled"
                         [value]="value"
                         (selectionChange)="change($event.value)">
+                
                 <mat-option>
                     <ngx-mat-select-search [formControl]="searchQueryControl"
                                            [placeholderLabel]="config.searchPlaceholder | translate"
                                            [noEntriesFoundLabel]="config.notFoundSearchPlaceholder | translate"></ngx-mat-select-search>
                 </mat-option>
+
+                <mat-progress-bar mode="indeterminate" *ngIf="loading | async"></mat-progress-bar>
 
                 <mat-option [hidden]="!value" (click)="deselect()">
                     <mat-icon>close</mat-icon>
@@ -108,6 +112,7 @@ const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
         MatFormFieldModule,
         MatSelectModule,
         NgxMatSelectSearchModule,
+        MatProgressBarModule,
         ReactiveFormsModule,
         XmTranslationModule,
         MatIconModule,
@@ -133,12 +138,18 @@ export class XmAutocompleteControlComponent extends NgModelWrapper<string> imple
     public searchQueryControl = new FormControl('');
     public list = of<XmAutocompleteControlListItem[]>([]);
 
+    private _loading = new BehaviorSubject<boolean>(false);
+    public get loading(): Observable<boolean> {
+        return this._loading.asObservable().pipe(shareReplay(1));
+    }
+
     public ngOnInit(): void {
         this.list = this.searchQueryControl.valueChanges.pipe(
             startWith<string>(null),
             distinctUntilChanged(),
             debounceTime(300),
             filter((value) => !_.isEmpty(value) || this.config?.searchIfEmpty),
+            tap(() => this._loading.next(true)),
             switchMap((searchQuery) => {
                 const locale = this.languageService.locale;
                 const languages = this.languageService.languages;
@@ -181,7 +192,8 @@ export class XmAutocompleteControlComponent extends NgModelWrapper<string> imple
                             }
                             
                             return [];
-                        })
+                        }),
+                        finalize(() => this._loading.next(false)),
                     );
                 }
 
