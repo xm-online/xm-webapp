@@ -74,7 +74,7 @@ export class IdpCallbackComponent implements OnDestroy {
         }
     }
 
-    private extractTermConfig(config: XmUIConfig, key: string) {
+    private extractTermConfig(config: object, key: string) {
         let result = null;
         if(config instanceof Array) {
             for(let i = 0; i < config.length; i++) {

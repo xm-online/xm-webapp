@@ -7,13 +7,14 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 import * as _ from 'lodash';
 import { Observable, zip } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
+import { XmUIConfig } from '@xm-ngx/core/config';
 
 interface PublicSlugLayout {
     slug: string;
     layout: (XmLayout & { config?: unknown }) [];
 }
 
-interface PublicConfig {
+interface PublicConfig extends XmUIConfig {
     public: {
         routes: PublicSlugLayout[];
     };

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
-import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardBase, DashboardWidget } from '@xm-ngx/dashboard';
 import { XmLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -19,7 +19,7 @@ interface HomeRootLayouts extends XmLayout {
     domain: string | string[];
 }
 
-interface HomeConfig {
+interface HomeConfig extends XmUIConfig {
     root?: {
         layouts: HomeRootLayouts[];
     };
