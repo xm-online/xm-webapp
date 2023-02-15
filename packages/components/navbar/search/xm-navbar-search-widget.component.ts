@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
-import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { iif, Observable, of } from 'rxjs';
@@ -11,7 +11,7 @@ import { getApplicationTypeKey } from '../../../shared/src/helpers/entity-list-h
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
-interface SearchConfig {
+interface SearchConfig extends XmUIConfig {
     search: {
         searchFullMatch: boolean;
         searchPanel: boolean;

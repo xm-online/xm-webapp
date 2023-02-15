@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { XmLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { filter } from 'rxjs/operators';
 
-interface XmNavbarConfig {
+interface XmNavbarConfig extends XmUIConfig {
     favicon: string;
     navbar: { layout: XmLayout[]; version: number };
 }
