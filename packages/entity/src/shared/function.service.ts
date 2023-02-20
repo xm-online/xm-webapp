@@ -75,7 +75,7 @@ export class FunctionService {
 
     private convertResponse(res: HttpResponse<any>): HttpResponse<any> {
         const type = res.headers.get('content-type');
-        if (type.includes('application/json')) {
+        if (type && type.includes('application/json')) {
             const body = this.convertItemFromServer(JSON.parse(res.body));
             return res.clone({body});
         }
