@@ -5,7 +5,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule, MatRippleModule, NativeDateAdapter } from '@angular/material/core';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -33,6 +33,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { XmMatPaginatorInt } from './xm.mat-paginator-int';
+
+export class CustomDateAdapter extends NativeDateAdapter {
+    public override getFirstDayOfWeek(): number {
+        return 1;
+    }
+}
 
 @NgModule({
     imports: [
@@ -106,6 +112,8 @@ import { XmMatPaginatorInt } from './xm.mat-paginator-int';
     providers: [{
         provide: MatPaginatorIntl,
         useClass: XmMatPaginatorInt,
-    }],
+    },
+    { provide: DateAdapter, useClass: CustomDateAdapter },
+    ],
 })
 export class MatModule {}
