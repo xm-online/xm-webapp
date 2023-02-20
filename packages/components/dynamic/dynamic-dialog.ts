@@ -21,7 +21,7 @@ export class DynamicDialog {
     }
 
     protected async getDialogRef<T, R>(selector: string): Promise<MatDialogRef<T, R>> {
-        const dialogComponent = await this.dynamicComponents.find<T>(selector,  this.injector);
+        const dialogComponent = await this.dynamicComponents.find<T>(selector, this.injector);
         return this.matDialog.open(dialogComponent.componentType,
             {
                 viewContainerRef: this.viewContainerRef,
