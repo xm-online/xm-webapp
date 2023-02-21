@@ -44,10 +44,12 @@ export class XmPhoneNumberControlComponent extends NgControlAccessor<string> {
         this._config = assign({}, XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT, value);
     }
 
+    public set value(value: string) {
+        this.inputValue = this.trimPrefix(value);
+    }
+
     public writeValue(obj: string): void {
-        if (obj?.startsWith(this._config.defaultPrefix)) {
-            obj = obj.substring(this._config.defaultPrefix.length, obj.length);
-        }
+        obj = this.trimPrefix(obj);
         super.writeValue(obj);
         this.inputValue = obj;
     }
@@ -57,5 +59,13 @@ export class XmPhoneNumberControlComponent extends NgControlAccessor<string> {
             v = this._config.defaultPrefix + v;
         }
         super.change(v);
+    }
+
+    private trimPrefix(value: string): string {
+        if (value?.startsWith(this._config.defaultPrefix)) {
+            value = value.substring(this._config.defaultPrefix.length, value.length);
+        }
+
+        return value;
     }
 }
