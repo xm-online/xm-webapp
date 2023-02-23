@@ -20,7 +20,7 @@ import { LinksGroupWidgetConfig } from './links-group-widget';
                        routerLinkActive="active"
                        #rla="routerLinkActive"
                        [attr.data-qa]="item.dataQa || 'link-button'"
-                       mat-button [ngClass]="rla.isActive ? 'mat-flat-button' : 'mat-stroked-button'"
+                       mat-button [ngClass]="rla.isActive ? 'mdc-button--raise mat-mdc-raised-button' : ''"
                        color="primary"
                        class="me-3"
                        type="button">
