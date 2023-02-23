@@ -24,7 +24,7 @@ export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/phone-control',
-        loadChildren: () => import('@xm-ngx/components/phone-number-control').then(m => m.XmPhoneNumberControlModule),
+        loadChildren: () => import('@xm-ngx/components/phone-number-control').then(m => m.XmPhoneNumberControlComponent),
     },
     {
         selector: '@xm-ngx/components/text',

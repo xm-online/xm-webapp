@@ -9,6 +9,8 @@
          [ngModel]="inputValue"
          [disabled]="ngControl?.disabled || disabled"
          [pattern]="config.pattern"
+         onPasteRemovePrefix
+         [onPasteRemovePrefixPrefix]="config.defaultPrefix"
          [placeHolderCharacter]="config.placeHolderCharacter"
          [showMaskTyped]="true"
          autocomplete="tel"
