@@ -8,5 +8,5 @@ export interface DataQa {
      * text-control
      * submit-button
      */
-    dataQa: string;
+    dataQa?: string;
 }
