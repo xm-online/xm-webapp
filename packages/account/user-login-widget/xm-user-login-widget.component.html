@@ -1,7 +1,9 @@
 <mat-card *xmPermission="['TENANT.LOGIN.GET_LIST']" class="mb-3">
+  <mat-card-header>
   <mat-card-title>
     {{'settings.form.logins' | translate}}
   </mat-card-title>
+  </mat-card-header>
   <mat-card-content>
     <xm-user-login-form [user]="user$ | async"></xm-user-login-form>
   </mat-card-content>

@@ -1,5 +1,5 @@
 <mat-card class="mb-3">
-  <mat-card-title>{{'settings.form.general' | translate}}</mat-card-title>
+  <mat-card-header><mat-card-title>{{'settings.form.general' | translate}}</mat-card-title></mat-card-header>
 
   <mat-card-content *ngIf="settingsAccount">
     <form #settingsForm="ngForm" (ngSubmit)="save()" name="form" novalidate role="form">
