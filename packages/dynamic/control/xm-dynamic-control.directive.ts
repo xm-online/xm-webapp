@@ -160,10 +160,7 @@ export class XmDynamicControlDirective<V, O>
         if (!this.instance || typeof this.instance.registerOnChange !== 'function') {
             return;
         }
-        this.instance.registerOnChange((args) => {
-            this.value = args;
-            this.updateValue();
-        });
+        this.instance.registerOnChange((args) => this._onChange(args));
     }
 
     protected updateRegisterOnTouched(): void {
