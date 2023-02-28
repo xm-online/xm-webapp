@@ -14,12 +14,10 @@ export class TranslateDirective extends NgxTranslateDirective implements OnDestr
         this.translateParams = value;
     }
 
-    // eslint-disable-next-line
-    // @ts-ignore
     @Input() public set translate(value: string) {
         if (value) {
             if (typeof value === 'object') {
-                value = value[this._translateService.currentLang];
+                value = value && value[this._translateService.currentLang];
             }
 
             this.key = value;

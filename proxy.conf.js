@@ -7,11 +7,11 @@ const PROXY_CONFIG = [
         pathRewrite: {
             [PROXY_SERVER_URL_REG]: '',
         },
-        target: "http://xm.test.xm-online.com.ua",
+        target: 'https://xm.dev.xm-online.com/',
         secure: false,
         changeOrigin: true,
-        logLevel: "debug"
-    }
+        logLevel: 'debug',
+    },
 ];
 
 module.exports = PROXY_CONFIG;

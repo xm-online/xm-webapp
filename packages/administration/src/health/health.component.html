@@ -5,9 +5,9 @@
     <div class="row align-items-center">
       <div class="col-sm-3">
         <mat-form-field>
+          <mat-label>{{'metrics.options.service-name' | translate}}</mat-label>
           <mat-select (selectionChange)="onServiceSelect()"
-                      [(ngModel)]="selectedService"
-                      placeholder="{{'metrics.options.service-name' | translate}}">
+                      [(ngModel)]="selectedService">
             <mat-option *ngFor="let s of services" [value]="s.name">
               {{s.name}}
             </mat-option>
@@ -17,9 +17,9 @@
 
       <div class="col-sm-3">
         <mat-form-field>
+          <mat-label>{{'metrics.options.instance-name' | translate}}</mat-label>
           <mat-select (selectionChange)="mapHealthCheck(selectedInstance)"
-                      [(ngModel)]="selectedInstance"
-                      placeholder="{{'metrics.options.instance-name' | translate}}">
+                      [(ngModel)]="selectedInstance">
             <mat-option *ngFor="let i of instances" [value]="i.id">
               {{i.address}}:{{i.port}} ({{i.id}})
             </mat-option>
@@ -47,14 +47,14 @@
       <!-- service -->
       <ng-container matColumnDef="service">
         <th *matHeaderCellDef scope="col" mat-header-cell>{{'health.table.service' | translate}}</th>
-        <td *matCellDef="let health" class="text-left text-wrap text-break"
+        <td *matCellDef="let health" class="text-start text-wrap text-break"
             mat-cell>{{'health.indicator.' + baseName(health.name) | translate}} {{subSystemName(health.name)}}</td>
       </ng-container>
 
       <!-- status -->
       <ng-container matColumnDef="status">
         <th *matHeaderCellDef scope="col" mat-header-cell>{{'health.table.status' | translate}}</th>
-        <td *matCellDef="let health" class="text-left text-wrap text-break" mat-cell>
+        <td *matCellDef="let health" class="text-start text-wrap text-break" mat-cell>
                <span [class.badge-danger]="health.status === 'DOWN'"
                      [class.badge-default]="health.status === 'OUT_OF_SERVICE'"
                      [class.badge-success]="health.status === 'UP'"
@@ -68,7 +68,7 @@
       <!-- details -->
       <ng-container matColumnDef="details">
         <th *matHeaderCellDef scope="col" mat-header-cell>{{'health.details.details' | translate}}</th>
-        <td *matCellDef="let health" class="text-left text-wrap text-break" mat-cell>
+        <td *matCellDef="let health" class="text-start text-wrap text-break" mat-cell>
           <div class="view-action">
             <button (click)="showHealth(health)"
                     *ngIf="health.details || health.error"

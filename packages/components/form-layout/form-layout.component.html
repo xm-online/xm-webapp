@@ -1,4 +1,4 @@
-<ng-template [ngForOf]="options"
+<ng-template [ngForOf]="config"
              let-item
              ngFor>
   <ng-template (conditionCheck)="toggleControlValidation(value.controls[item.name], $event)"

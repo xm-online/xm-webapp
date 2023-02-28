@@ -4,7 +4,7 @@ import { XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import { defaultsDeep } from 'lodash';
-import { User, UserService } from '../../../../../src/app/shared';
+import { User, UserService } from '@xm-ngx/core/user';
 
 export interface UnblockLockUserOptions {
     title?: Translate;
@@ -21,54 +21,58 @@ const DEFAULT_OPTIONS = {
     templateUrl: './unblock-lock-user.component.html',
 })
 export class UnblockLockUserComponent {
-    public get options(): UnblockLockUserOptions {
-        return this._options;
+    public get config(): UnblockLockUserOptions {
+        return this._config;
     }
 
-    @Input() public set options(value: UnblockLockUserOptions) {
-        this._options = defaultsDeep(value, DEFAULT_OPTIONS);
+    @Input()
+    public set config(value: UnblockLockUserOptions) {
+        this._config = defaultsDeep(value, DEFAULT_OPTIONS);
     }
+
     @Input() public user: User;
-     private _options: UnblockLockUserOptions = DEFAULT_OPTIONS;
+    private _config: UnblockLockUserOptions = DEFAULT_OPTIONS;
 
-     constructor(
+    constructor(
         protected alertService: XmAlertService,
         protected toasterService: XmToasterService,
         private userService: UserService,
         private xmTranslationService: XmTranslateService,
         @Optional() @Inject(XM_DYNAMIC_TABLE_ROW) row: User,
-     ) {
-         this.user = row;
-     }
+    ) {
+        this.user = row;
+    }
 
-     public changeState(user: User): void {
-         this.alertService.open({
-             title: user.activated
-                 ? this.xmTranslationService.translate(this.options.blockUserMessage || 'Block user?')
-                 : this.xmTranslationService.translate(this.options.unBlockUserMessage || 'Unblock user?'),
-             showCancelButton: true,
-             buttonsStyling: false,
-             confirmButtonClass: 'btn mat-button btn-primary',
-             cancelButtonClass: 'btn mat-button',
-             confirmButtonText: this.xmTranslationService.translate('global.common.yes'),
-         }).subscribe((result) => result.value ?
-             this.changeUserState(user) :
-             console.info('Cancel'));
-     }
+    public changeState(user: User): void {
+        this.alertService.open({
+            title: user.activated
+                ? this.xmTranslationService.translate(this.config.blockUserMessage || 'Block user?')
+                : this.xmTranslationService.translate(this.config.unBlockUserMessage || 'Unblock user?'),
+            showCancelButton: true,
+            buttonsStyling: false,
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
+            confirmButtonText: this.xmTranslationService.translate('global.common.yes'),
+        }).subscribe((result) => result.value ?
+            this.changeUserState(user) :
+            console.info('Cancel'));
+    }
 
 
-     private changeUserState(user: User): void {
-         const isActivate = user.activated;
-         const unblock$ = this.userService.unblock(user);
-         const block$ = this.userService.block(user);
-         const api = isActivate ? block$: unblock$;
+    private changeUserState(user: User): void {
+        const isActivate = user.activated;
+        const unblock$ = this.userService.unblock(user);
+        const block$ = this.userService.block(user);
+        const api = isActivate ? block$ : unblock$;
 
-         api.subscribe(() => {
-             user.activated = !isActivate;
-             this.toasterService.success('userManagement.success');
-         }, () => {
-             this.toasterService.error('userManagement.error');
-         });
-     }
+        api.subscribe(() => {
+            user.activated = !isActivate;
+            this.toasterService.success('userManagement.success');
+        }, () => {
+            this.toasterService.error('userManagement.error');
+        });
+    }
 
 }

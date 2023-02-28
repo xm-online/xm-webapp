@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Feed } from './feed.model';
 import { FeedService } from './feed.service';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-news-widget',
     templateUrl: './news-widget.component.html',
 })
-export class NewsWidgetComponent implements OnInit {
+export class NewsWidgetComponent implements OnInit, XmDynamicWidget {
 
     public feed: Feed;
     public name: string;
     public url: string;
     public size: number;
-    public config: any;
+    @Input() public config: any;
     public stats: any[];
 
     constructor(private feedService: FeedService) {

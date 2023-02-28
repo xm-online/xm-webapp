@@ -12,7 +12,8 @@
   /**
    * fix layout problem between material flex and ajsf
    */
-  json-schema-form flex-layout-root-widget.form-flex-column > div {
+  json-schema-form flex-layout-root-widget.form-flex-column > div,
+  json-schema-form xm-flex-layout-root-widget > div.form-flex-column > div {
     flex: 1 1 100% !important;
   }
 }

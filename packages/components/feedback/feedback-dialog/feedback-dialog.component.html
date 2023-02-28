@@ -7,26 +7,26 @@
   <p>{{TRS.feedbackDetails | translate}}</p>
 
   <xm-text-control [(ngModel)]="data.topic"
-                   [options]="{title: TRS.title, maxLength: 100, required: false}">
+                   [config]="{title: TRS.title, maxLength: 100, required: false}">
   </xm-text-control>
 
   <xm-text-range-control [(ngModel)]="data.message"
-                         [options]="{title: TRS.description, rows:'7', maxLength: 500, required: true}">
+                         [config]="{title: TRS.description, rows:'7', maxLength: 500, required: true}">
   </xm-text-range-control>
 
-  <xm-labeled-view-container [options]="{title: TRS.image}">
-    <xm-checkbox-control [(ngModel)]="attachImage" [options]="{title: TRS.attachImage}"></xm-checkbox-control>
+  <xm-labeled-view-container [config]="{title: TRS.image}">
+    <xm-checkbox-control [(ngModel)]="attachImage" [config]="{title: TRS.attachImage}"></xm-checkbox-control>
 
     <xm-image [value]="data.image"
               class="w-100 text-center"
               *ngIf="attachImage"
-              [options]="{imageStyle: 'max-height: 200px'}"></xm-image>
+              [config]="{imageStyle: 'max-height: 200px'}"></xm-image>
   </xm-labeled-view-container>
 
 </div>
 
 <div mat-dialog-actions>
-  <button class="ml-auto"
+  <button class="ms-auto"
           mat-flat-button
           color="primary"
           [disabled]="!data.message.length"

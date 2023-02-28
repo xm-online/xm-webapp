@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import {
     Component,
-    ComponentFactoryResolver,
     Directive,
+    ElementRef,
     HostBinding,
+    HostListener,
     NgModule,
+    NgModuleRef,
     OnDestroy,
     OnInit,
     TemplateRef,
@@ -16,7 +18,7 @@ import * as _ from 'lodash';
 import { Container } from './container';
 import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
 
-@Directive({ selector: '[xmContainerOutlet]' })
+@Directive({selector: '[xmContainerOutlet]'})
 export class ContainerOutletDirective {
     constructor(public viewContainerRef: ViewContainerRef) {
     }
@@ -28,15 +30,45 @@ export class ContainerOutletDirective {
     host: {
         class: 'xm-sidebar-right',
     },
-    template: '<ng-container xmContainerOutlet></ng-container>',
+    template: '<div class="resize-divider" #resizer></div><ng-container xmContainerOutlet></ng-container>',
 })
-export class XmSidebarRight implements OnInit, OnDestroy {
-
-    @ViewChild(ContainerOutletDirective, { static: true }) public xmContainerOutlet: ContainerOutletDirective;
+export class XmSidebarRightComponent implements OnInit, OnDestroy {
+    @ViewChild(ContainerOutletDirective, {static: true}) public xmContainerOutlet: ContainerOutletDirective;
+    @ViewChild('resizer') public resizerElement: ElementRef;
 
     @HostBinding('style.width') public width: string;
 
-    constructor(private sidebarRightService: SidebarRightService) {
+    @HostBinding('class.animate') get animate(): boolean {
+        return !this.mousePressedOnResizer;
+    }
+
+    @HostListener('document:mousemove', ['$event'])
+    public onMouseMove(event: MouseEvent): void {
+        if (this.mousePressedOnResizer) {
+            const vw = window.screen.width / 100;
+            const newWidthInPx = window.screen.width - event.x;
+            const newWidth = newWidthInPx / vw;
+            this.width = newWidth < 30 ? '30vw' : `${newWidth}vw`;
+        }
+    }
+
+    @HostListener('document:mouseup', ['$event'])
+    public onMouseUp(): void {
+        this.mousePressedOnResizer = false;
+    }
+
+    @HostListener('document:mousedown', ['$event'])
+    public onMouseDown(event: MouseEvent): void {
+        if (this.resizerElement.nativeElement.contains(event.target)) {
+            this.mousePressedOnResizer = true;
+        }
+    }
+
+    private mousePressedOnResizer: boolean;
+
+    constructor(private sidebarRightService: SidebarRightService,
+                private moduleRef: NgModuleRef<unknown>,
+    ) {
     }
 
     public ngOnInit(): void {
@@ -57,9 +89,8 @@ export class XmSidebarRight implements OnInit, OnDestroy {
             viewContainerRef.createEmbeddedView(templateRef);
             this.openStyles(config.width || this.sidebarRightService.width);
             return null;
-        } 
+        }
         return this.loadComponent(templateRef, config);
-        
     }
 
     public remove(): void {
@@ -68,14 +99,14 @@ export class XmSidebarRight implements OnInit, OnDestroy {
     }
 
     private loadComponent<T, D>(templateRef: Type<T>, config: SidebarRightConfig<D>): T {
-        const viewContainerRef = this.xmContainerOutlet.viewContainerRef;
-        const componentFactoryResolver = config.injector.get(ComponentFactoryResolver);
-        const cfr = componentFactoryResolver.resolveComponentFactory(templateRef);
-        const c = viewContainerRef.createComponent<T>(cfr, null, config.injector);
-        _.assign(c.instance, config.data);
+        const component = this.xmContainerOutlet.viewContainerRef.createComponent<T>(templateRef, {
+            injector: config.injector,
+            ngModuleRef: this.moduleRef,
+        });
+        _.assign(component.instance, config.data);
 
         this.openStyles(config.width || '300px');
-        return c.instance;
+        return component.instance;
     }
 
     private openStyles(width: string): void {
@@ -92,8 +123,8 @@ export class XmSidebarRight implements OnInit, OnDestroy {
 }
 
 @NgModule({
-    declarations: [XmSidebarRight, ContainerOutletDirective],
-    exports: [XmSidebarRight],
+    declarations: [XmSidebarRightComponent, ContainerOutletDirective],
+    exports: [XmSidebarRightComponent],
     imports: [CommonModule],
 })
 export class XmSidebarRightModule {

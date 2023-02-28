@@ -6,22 +6,24 @@ import { XmEmailControlOptions } from './xm-email-control-options';
     selector: 'xm-email-control',
     template: `
         <mat-form-field>
-            <mat-label>{{ options?.title | translate}}</mat-label>
+            <mat-label>{{ config?.title | translate}}</mat-label>
 
             <input [formControl]="control"
-                   [id]="options?.id"
-                   [required]="options?.required"
+                   [id]="config?.id"
+                   [required]="config?.required"
                    autocomplete="email"
-                   [attr.data-qa]="options?.dataQa || 'email-input'"
+                   [attr.data-qa]="config?.dataQa || 'email-input'"
                    matInput
                    name="email"
                    type="email">
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
+
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
 })
 export class XmEmailControl extends NgFormAccessor<string> {
-    @Input() public options: XmEmailControlOptions;
+    @Input() public config: XmEmailControlOptions;
 }
 

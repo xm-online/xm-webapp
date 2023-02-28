@@ -15,13 +15,13 @@ export const XM_PASSWORD_OPTIONS_DEFAULT: XmPasswordControlOptions = {
     selector: 'xm-password-control',
     template: `
         <mat-form-field>
-            <mat-label>{{ options.title | translate}}</mat-label>
+            <mat-label>{{ config.title | translate}}</mat-label>
 
             <input [formControl]="control"
-                   [id]="options.id"
-                   [required]="options.required"
-                   [autocomplete]="options.autocomplete"
-                   [attr.data-qa]="options.dataQa"
+                   [id]="config.id"
+                   [required]="config.required"
+                   [autocomplete]="config.autocomplete"
+                   [attr.data-qa]="config.dataQa"
                    matInput
                    [type]="'password'"
                    #password
@@ -34,19 +34,21 @@ export const XM_PASSWORD_OPTIONS_DEFAULT: XmPasswordControlOptions = {
                 {{ password.type ? 'visibility' : 'visibility_off'}}</mat-icon>
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
+
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
 })
 export class XmPasswordControl extends NgFormAccessor<string> {
-    private _options: XmPasswordControlOptions = _.clone(XM_PASSWORD_OPTIONS_DEFAULT);
+    private _config: XmPasswordControlOptions = _.clone(XM_PASSWORD_OPTIONS_DEFAULT);
 
-    public get options(): XmPasswordControlOptions {
-        return this._options;
+    public get config(): XmPasswordControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmPasswordControlOptions) {
-        this._options = _.defaultsDeep(value, XM_PASSWORD_OPTIONS_DEFAULT);
+    public set config(value: XmPasswordControlOptions) {
+        this._config = _.defaultsDeep(value, XM_PASSWORD_OPTIONS_DEFAULT);
     }
 }
 

@@ -27,7 +27,7 @@ export function takeUntilOnDestroy<T>(instance: TakeUntilOnDestroyInstance): Mon
         instance.__takeUntilOnDestroy$ = new Subject<void>();
     }
 
-    return takeUntil(instance.__takeUntilOnDestroy$);
+    return takeUntil<T>(instance.__takeUntilOnDestroy$);
 }
 
 /**

@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmUiConfigService } from '@xm-ngx/core/config';
-import { XmUserService } from '@xm-ngx/core/user';
+import { XmUiConfigService } from 'packages/core/config/src/xm-ui-config.service';
+import { XmUserService } from 'packages/core/user/src/xm-user.service';
 import { OnInitialize } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { SessionStorageService } from 'ngx-webstorage';
@@ -25,6 +25,8 @@ export interface ITranslate {
     en?: string;
     ru?: string;
     uk?: string;
+    de?: string;
+    it?: string;
 
     [locale: string]: string;
 }
@@ -47,7 +49,7 @@ export type Translate = ITranslate | string;
 export const EVENT_CHANGE_LOCALE = 'TRANSLATION.EVENT_CHANGE_LOCALE';
 export const SESSION_LOCALE = 'currentLang';
 
-export type Locale = string | 'en' | 'ru' | 'uk';
+export type Locale = string | 'en' | 'ru' | 'uk' | 'de' | 'it';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService implements OnDestroy, OnInitialize {

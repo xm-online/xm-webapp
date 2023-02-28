@@ -6,8 +6,12 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
         /** XmDynamicModule used for creating lazy dynamic components. */
         XmDynamicModule.forChild([
             {
+                selector: 'example-presentational',
+                loadChildren: () => import('./example-presentational').then(m => m.ExamplePresentationalComponent),
+            },
+            {
                 selector: 'example-widget',
-                loadChildren: () => import('./example-widget').then(m => m.ExampleWidgetModule),
+                loadChildren: () => import('./example-widget').then(m => m.ExampleWidgetComponent),
             },
         ]),
     ],

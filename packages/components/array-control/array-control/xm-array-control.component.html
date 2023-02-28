@@ -1,18 +1,18 @@
 <mat-form-field>
-  <mat-label>{{options.title | translate}}</mat-label>
-  <mat-chip-list #chipList [disabled]="control.disabled" [attr.aria-label]="options.ariaLabel">
+  <mat-label>{{config.title | translate}}</mat-label>
+  <mat-chip-list #chipList [disabled]="control.disabled" [attr.aria-label]="config.ariaLabel">
     <mat-chip
-      *ngFor="let item of selected"
-      [selectable]="options.selectable"
-      [removable]="options.removable"
-      (removed)="remove(item)">
-      {{item}}
-      <mat-icon matChipRemove *ngIf="options.removable">cancel</mat-icon>
+      *ngFor="let item of compareSelectedItems | async"
+      [selectable]="config.selectable"
+      [removable]="config.removable"
+      (removed)="remove(item.value)">
+      {{item.view}}
+      <mat-icon matChipRemove *ngIf="config.removable">cancel</mat-icon>
     </mat-chip>
     <input
-      [placeholder]="options.placeholder | translate"
+      [placeholder]="config.placeholder | translate"
       #input
-      [formControl]="inputControl"
+      [formControl]="searchControl"
       (blur)="touch()"
       [style.visibility]="!control.disabled ? 'visible' : 'hidden'"
       [matAutocomplete]="auto"
@@ -22,11 +22,12 @@
   </mat-chip-list>
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)">
-    <mat-option *ngFor="let item of filteredAutocomplete | async" [value]="item.value">
-      {{item.value}}
+    <mat-option *ngFor="let item of filteredItems | async" [value]="item.value">
+      {{item.view}}
     </mat-option>
   </mat-autocomplete>
 
   <mat-error *xmControlErrors="control.errors; message as message">{{message}}</mat-error>
 
+  <mat-hint [hint]="config.hint"></mat-hint>
 </mat-form-field>

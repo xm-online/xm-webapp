@@ -4,10 +4,17 @@
   </button>
   <mat-menu #menu="matMenu" (closed)="onClosedMenu()">
     <mat-selection-list formControlName="columns">
+      <mat-list-option
+        checkboxPosition='before'
+        [selected]="isSelectedAll"
+        (click)="$event.stopPropagation(); toggleSelectAll()">
+        {{TRS.selectAll | translate}}
+      </mat-list-option>
       <mat-list-option *ngFor="let column of columns"
                        [value]="column"
+                       [selected]="!column.hidden"
                        checkboxPosition='before'
-                       (click)="$event.stopPropagation();"
+                       (click)="$event.stopPropagation(); setSelectedAll()"
       >{{column.title | translate}}
       </mat-list-option>
     </mat-selection-list>

@@ -1,0 +1,95 @@
+<mat-card class="mb-3">
+  <mat-card-title>{{'settings.form.general' | translate}}</mat-card-title>
+
+  <mat-card-content *ngIf="settingsAccount">
+    <form #settingsForm="ngForm" (ngSubmit)="save()" name="form" novalidate role="form">
+
+      <div *ngIf="success" [innerHTML]="'settings.messages.success' | translate" class="alert alert-success"></div>
+
+      <mat-form-field>
+        <input #firstNameInput="ngModel"
+               [(ngModel)]="settingsAccount.firstName"
+               id="firstName"
+               matInput
+               maxlength=50
+               minlength=1
+               name="firstName"
+               placeholder="{{'global.form.firstname' | translate}}"
+               required
+               type="text">
+        <mat-error *ngIf="firstNameInput.hasError('required')">
+          <span>{{'global.messages.validate.firstname.required' | translate}}</span>
+        </mat-error>
+        <mat-error *ngIf="firstNameInput.hasError('minlength')">
+          <span>{{'global.messages.validate.firstname.minlength' | translate}}</span>
+        </mat-error>
+        <mat-error *ngIf="firstNameInput.hasError('maxlength')">
+          <span>{{'global.messages.validate.firstname.maxlength' | translate}}</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input #lastNameInput="ngModel"
+               [(ngModel)]="settingsAccount.lastName"
+               id="lastName"
+               matInput
+               maxlength=50
+               minlength=1
+               name="lastName"
+               placeholder="{{'global.form.lastname' | translate}}"
+               required
+               type="text">
+        <mat-error *ngIf="lastNameInput.hasError('required')">
+          <span>{{'global.messages.validate.lastname.required' | translate}}</span>
+        </mat-error>
+        <mat-error *ngIf="lastNameInput.hasError('minlength')">
+          <span>{{'global.messages.validate.lastname.minlength' | translate}}</span>
+        </mat-error>
+        <mat-error *ngIf="lastNameInput.hasError('maxlength')">
+          <span>{{'global.messages.validate.lastname.maxlength' | translate}}</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="languages$ | async as languages">
+        <mat-label>{{'global.form.language' | translate}}</mat-label>
+        <mat-select [(ngModel)]="settingsAccount.langKey"
+                    id="langKey"
+                    name="langKey"
+                    required>
+          <mat-option *ngFor="let language of languages"
+                      [value]="language">
+            {{language | findLanguageFromKey}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <ng-container *ngIf="clock$ | async as clock">
+        <div class="form-group" *ngIf="!config?.hideDates">
+          <div>
+            <strong>{{'settings.form.utc-time' | translate}}</strong>
+            {{clock | date: 'full' : '+00:00'}}
+          </div>
+          <div>
+            <strong>{{'settings.form.local-time' | translate}}</strong>
+            {{clock | date: 'full'}}
+          </div>
+          <div>
+            <strong>{{'settings.form.offset-time' | translate}}</strong>
+            {{timeZoneOffset}}
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="text-end">
+        <button *xmPermission="['ACCOUNT.UPDATE']"
+                [disabled]="settingsForm.form.invalid"
+                color="primary"
+                mat-flat-button
+                type="submit">
+          <span>{{'settings.form.button' | translate}}</span>
+        </button>
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>

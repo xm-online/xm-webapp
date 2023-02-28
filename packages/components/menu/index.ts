@@ -1,7 +1,7 @@
 export { XmMenuModule } from './xm-menu.module';
-export { MenuCategory, MenuItem } from './menu-models';
+export { buildMenuTree } from './nested-menu';
+export { MenuItem } from './menu.interface';
 export {
-    categoriesToMenuItems,
-    dashboardsToCategories,
+    flatTree,
     filterByConditionDashboards,
-} from './menu.component';
+} from './flat-menu';

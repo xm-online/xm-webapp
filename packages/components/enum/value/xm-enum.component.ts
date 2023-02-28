@@ -30,21 +30,21 @@ export class XmEnumComponent implements XmDynamicPresentation<XmEnumValue, XmEnu
     @Input() public value: XmEnumValue;
 
     public titles: Titles = {};
-    private _options: XmEnumOptions = { items: [] };
+    private _config: XmEnumOptions = { items: [] };
 
-    public get options(): XmEnumOptions {
-        return this._options;
+    public get config(): XmEnumOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(options: XmEnumOptions) {
-        if (options?.titles) {
-            this.titles = options?.titles;
+    public set config(config: XmEnumOptions) {
+        if (config?.titles) {
+            this.titles = config?.titles;
             console.warn('"titles" is deprecated use "items" instead!');
-        } else if (options.items) {
-            this.titles = mapValues(keyBy(options.items, 'value'), 'title');
+        } else if (config.items) {
+            this.titles = mapValues(keyBy(config.items, 'value'), 'title');
         }
-        this._options = options;
+        this._config = config;
     }
 }
 

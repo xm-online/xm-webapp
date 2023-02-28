@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor/ng-form-accessor';
 
 @Component({
@@ -17,8 +17,8 @@ export class TestAccessorComponent extends NgFormAccessor<unknown> {
 export class TestContainer {
     @ViewChild(TestAccessorComponent) public child: TestAccessorComponent;
     public testValue: unknown;
-    public testForm: FormControl;
-    public testGroup: FormGroup;
+    public testForm: UntypedFormControl;
+    public testGroup: UntypedFormGroup;
 }
 
 function createTestComponent(template: string): ComponentFixture<TestContainer> {
@@ -139,7 +139,7 @@ describe('NgFormAccessorUI', () => {
             const template = '<test-accessor [formControl]="testForm"></test-accessor>';
             const fixture = createTestComponent(template);
             const container = fixture.componentInstance;
-            container.testForm = new FormControl();
+            container.testForm = new UntypedFormControl();
             fixture.detectChanges();
             const child = fixture.componentInstance.child;
             container.testForm.patchValue(value);
@@ -156,7 +156,7 @@ describe('NgFormAccessorUI', () => {
             const fixture = createTestComponent(template);
 
             const container = fixture.componentInstance;
-            container.testForm = new FormControl();
+            container.testForm = new UntypedFormControl();
             fixture.detectChanges();
             const child = fixture.componentInstance.child;
             const spy = spyOn(child.valueChange, 'emit');
@@ -179,8 +179,8 @@ describe('NgFormAccessorUI', () => {
             const template = '<form [formGroup]="testGroup"><test-accessor formControlName="control"></test-accessor></form>';
             const fixture = createTestComponent(template);
             const container = fixture.componentInstance;
-            const control = new FormControl();
-            container.testGroup = new FormGroup({ control });
+            const control = new UntypedFormControl();
+            container.testGroup = new UntypedFormGroup({ control });
             fixture.detectChanges();
             const child = fixture.componentInstance.child;
             container.testGroup.controls.control.patchValue(value);
@@ -197,8 +197,8 @@ describe('NgFormAccessorUI', () => {
             const fixture = createTestComponent(template);
 
             const container = fixture.componentInstance;
-            const control = new FormControl();
-            container.testGroup = new FormGroup({ control });
+            const control = new UntypedFormControl();
+            container.testGroup = new UntypedFormGroup({ control });
             fixture.detectChanges();
             const child = fixture.componentInstance.child;
             const spy = spyOn(child.valueChange, 'emit');

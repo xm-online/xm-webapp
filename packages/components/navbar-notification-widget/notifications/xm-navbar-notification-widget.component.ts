@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -7,12 +7,13 @@ import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import * as _ from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { Notification, NotificationUiConfig } from '../shared/notification.model';
 
 import { NotificationsService } from '../shared/notifications.service';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 const DEFAULT_PRIVILEGES = ['XMENTITY.SEARCH', 'XMENTITY.SEARCH.QUERY', 'XMENTITY.SEARCH.TEMPLATE'];
 const DEF_NOTIFY_COUNT = 5;
@@ -22,9 +23,9 @@ const DEF_NOTIFY_COUNT = 5;
     templateUrl: './xm-navbar-notification-widget.component.html',
     styleUrls: ['./xm-navbar-notification-widget.component.scss'],
 })
-export class XmNavbarNotificationWidget implements OnInit, OnDestroy {
+export class XmNavbarNotificationWidget implements OnInit, OnDestroy, XmDynamicWidget {
 
-    public config: NotificationUiConfig;
+    @Input() public config: NotificationUiConfig;
     public isOpened: boolean;
     public showCount: number;
     public notifications: Notification[];

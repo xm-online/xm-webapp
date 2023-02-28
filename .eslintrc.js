@@ -86,6 +86,7 @@ module.exports = {
                         ignoreProperties: true,
                     },
                 ],
+                '@typescript-eslint/no-unsafe-argument': 'warn',
                 '@typescript-eslint/type-annotation-spacing': 'error',
                 '@typescript-eslint/explicit-member-accessibility': [
                     'error',
@@ -94,6 +95,12 @@ module.exports = {
                             constructors: 'off',
                             accessors: 'off',
                         },
+                    },
+                ],
+                '@typescript-eslint/no-empty-interface': [
+                    'error',
+                    {
+                        'allowSingleExtends': true,
                     },
                 ],
                 '@angular-eslint/component-class-suffix': [

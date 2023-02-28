@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
-import { MenuItem } from './menu-models';
+import { MenuItem } from './menu.interface';
 
 @Component({
     selector: 'xm-menu-link, [xm-menu-link]',

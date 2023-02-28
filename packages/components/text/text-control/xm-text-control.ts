@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
-import { FormControl, NgControl } from '@angular/forms';
+import { UntypedFormControl, NgControl } from '@angular/forms';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmTextTitleOptions } from '../text-title';
@@ -10,8 +10,10 @@ import { clone, defaults } from 'lodash';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { ValidatorProcessingOption, ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import { filter } from 'rxjs/operators';
+import { HintText } from '@xm-ngx/components/hint';
 
 export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
+    hint?: HintText;
     type?: string;
     placeholder?: Translate;
     pattern?: string;
@@ -24,9 +26,11 @@ export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
     minLength?: number;
     applyTrimForValue?: boolean;
     validators?: ValidatorProcessingOption[];
+    clearButton?: boolean;
 }
 
 const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
+    hint: null,
     title: '',
     placeholder: '',
     type: 'text',
@@ -39,31 +43,40 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     minLength: null,
     dataQa: 'text-control',
     applyTrimForValue: false,
+    clearButton: false,
 };
 
 @Component({
     selector: 'xm-text-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options.title | translate}}</mat-label>
+            <mat-label>{{config.title | translate}}</mat-label>
 
             <input matInput
                    [formControl]="formControl"
-                   [placeholder]="options.placeholder | translate"
-                   [attr.name]="options.name"
-                   [id]="options.id"
-                   [attr.data-qa]="options.dataQa"
-                   [required]="options.required"
-                   [pattern]="options.pattern"
-                   [attr.maxlength]="options.maxLength"
-                   [attr.minlength]="options.minLength"
-                   [attr.type]="options.type">
-
+                   [placeholder]="config.placeholder | translate"
+                   [attr.name]="config.name"
+                   [id]="config.id"
+                   [attr.data-qa]="config.dataQa"
+                   [required]="config.required"
+                   [pattern]="config.pattern"
+                   [attr.maxlength]="config.maxLength"
+                   [attr.minlength]="config.minLength"
+                   [attr.type]="config.type">
+            <button mat-button mat-icon-button matSuffix *ngIf="config.clearButton && value !== null" (click)="change(null)">
+                <mat-icon>close</mat-icon>
+            </button>
             <mat-error
-                *xmControlErrors="formControl.errors; translates options?.errors; message as message">{{message}}</mat-error>
+                *xmControlErrors="formControl.errors; translates config?.errors; message as message">{{message}}</mat-error>
 
-            <mat-hint *ngIf="options.maxLength"
-                      align="end">{{getValueLength()}} / {{options.maxLength}}</mat-hint>
+            <mat-hint
+            *ngIf="config.maxLength"
+            align="end"
+            style="min-width: fit-content">
+                {{getValueLength()}} / {{config.maxLength}}
+            </mat-hint>
+
+            <mat-hint [hint]="config.hint"></mat-hint>
 
         </mat-form-field>
     `,
@@ -73,30 +86,30 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
 /** @beta */
 export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
     implements XmDynamicControl<T, XmTextControlOptions>, OnInit, OnDestroy {
-    private _options: XmTextControlOptions = clone(XM_TEXT_CONTROL_OPTIONS_DEFAULT);
+    private _config: XmTextControlOptions = clone(XM_TEXT_CONTROL_OPTIONS_DEFAULT);
 
-    public get options(): XmTextControlOptions {
-        return this._options;
+    public get config(): XmTextControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmTextControlOptions) {
-        this._options = defaults({}, value, {
+    public set config(value: XmTextControlOptions) {
+        this._config = defaults({}, value, {
             ...XM_TEXT_CONTROL_OPTIONS_DEFAULT,
             errors: this.xmControlErrorsTranslates,
         });
-        this._options.placeholder = this._options.placeholder || this._options.title;
+        this._config.placeholder = this._config.placeholder || this._config.title;
 
-        if (this._options.disabled) {
+        if (this._config.disabled) {
             this.disabled = value.disabled;
         }
     }
 
-    public get formControl(): FormControl {
-        return this.options.applyTrimForValue ? this.newControl : this.control;
+    public get formControl(): UntypedFormControl {
+        return this.config.applyTrimForValue ? this.newControl : this.control;
     }
 
-    private newControl: FormControl = new FormControl();
+    private newControl: UntypedFormControl = new UntypedFormControl();
 
     constructor(
         @Optional() @Self() public ngControl: NgControl | null,
@@ -107,7 +120,7 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
     }
 
     public ngOnInit(): void {
-        if(this.options.applyTrimForValue) {
+        if(this.config.applyTrimForValue) {
             this.initControlWithTrimmingString();
         }
     }
@@ -121,9 +134,9 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
     }
 
     private initControlWithTrimmingString(): void {
-        this.newControl = new FormControl(
+        this.newControl = new UntypedFormControl(
             this.value,
-            this.validatorProcessingService.validatorsFactory(this.options?.validators),
+            this.validatorProcessingService.validatorsFactory(this.config?.validators),
         );
 
         this.newControl.valueChanges
@@ -133,6 +146,15 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
             )
             .subscribe((value: string) => {
                 this.control.patchValue(value?.trim());
+            });
+
+        this.control.valueChanges
+            .pipe(
+                takeUntilOnDestroy(this),
+                filter((value) => !value),
+            )
+            .subscribe(() => {
+                this.newControl.patchValue(null, {emitEvent: false});
             });
     }
 

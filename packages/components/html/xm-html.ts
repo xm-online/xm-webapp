@@ -15,16 +15,16 @@ export class XmHtmlComponent {
     constructor(private translationService: XmTranslateService) {
     }
 
-    private _options: XmHtmlOptions;
+    private _config: XmHtmlOptions;
 
-    public get options(): XmHtmlOptions {
-        return this._options;
+    public get config(): XmHtmlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmHtmlOptions) {
-        this._options = value;
-        this.html = this.translationService.translate(this._options?.html);
+    public set config(value: XmHtmlOptions) {
+        this._config = value;
+        this.html = this.translationService.translate(this.config?.html);
     }
 }
 

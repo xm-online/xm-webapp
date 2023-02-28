@@ -1,0 +1,166 @@
+<form #eventForm="ngForm" (ngSubmit)="onConfirmSave()" class="m-0" name="eventForm" novalidate role="form">
+  <div class="modal-header">
+    <a (click)="onCancel()" class="modal-close material-icons" href="javascript: void(0);">close</a>
+    <h4 class="modal-title text-start">
+      <ng-container *ngIf="event?.id; else tmplTitle">
+        <span jhiTranslate="xm-entity.calendar-event-dialog.title-edit">Edit event for the</span>
+      </ng-container>
+
+      <ng-template #tmplTitle>
+        <span jhiTranslate="xm-entity.calendar-event-dialog.title">Add new event for the</span>
+      </ng-template>
+
+      [<b>{{xmEntity.name}}</b>]
+    </h4>
+  </div>
+  <div class="modal-body">
+    <xm-loader [showLoader]="showLoader"></xm-loader>
+
+    <div class="form-group">
+      <mat-form-field>
+        <mat-label>{{'xm-entity.calendar-event-dialog.choose-type' | translate}}</mat-label>
+        <mat-select #eventType="ngModel"
+                    [(ngModel)]="event.typeKey"
+                    name="typeKey"
+                    required>
+          <mat-option *ngFor="let eventSpec of calendarSpec.events"
+                      [value]="eventSpec.key">
+            <span [style.borderColor]="eventSpec.color">{{eventSpec?.name | i18nName: principal | uppercase}}</span>
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="eventType.hasError('required')">
+          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <mat-form-field class="xm-datetime-picker">
+            <input #eventStartDate="ngModel"
+                   [owlDateTimeTrigger]="dtStartDate"
+                   [owlDateTime]="dtStartDate"
+                   [max]="event.endDate"
+                   [(ngModel)]="event.startDate"
+                   id="field_startDate"
+                   matInput
+                   name="startDate"
+                   placeholder="{{'xm-entity.common.fields.start-date' | translate}}"
+                   required
+                   (dateTimeChange)="eventStartDateChange($event)">
+            <button mat-button
+                    type="button"
+                    class="btn btn-sm btn-link btn-icon btn-just-icon picker-trigger"
+                    [owlDateTimeTrigger]="dtStartDate"
+                    matSuffix>
+              <mat-icon>event</mat-icon>
+            </button>
+            <owl-date-time pickerType="both"
+                           #dtStartDate></owl-date-time>
+            <mat-error *ngIf="eventStartDate.hasError('required')">
+              <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+            </mat-error>
+            <mat-error *ngIf="eventStartDate.hasError('ZonedDateTimelocal')">
+              <span jhiTranslate="xm-entity.common.validation.date-time">This field should be a date and time.</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <mat-form-field>
+            <input #eventEndDate="ngModel"
+                   [owlDateTimeTrigger]="dtEndDate"
+                   [owlDateTime]="dtEndDate"
+                   [min]="event.startDate"
+                   [(ngModel)]="event.endDate"
+                   id="field_endDate"
+                   matInput
+                   name="endDate"
+                   placeholder="{{'xm-entity.common.fields.end-date' | translate}}"
+                   required
+                   (dateTimeChange)="eventEndDateChange($event)">
+            <button mat-button
+                    type="button"
+                    class="btn btn-sm btn-link btn-icon btn-just-icon picker-trigger"
+                    [owlDateTimeTrigger]="dtEndDate"
+                    matSuffix>
+              <mat-icon>event</mat-icon>
+            </button>
+            <owl-date-time pickerType="both"
+                           #dtEndDate></owl-date-time>
+            <mat-error *ngIf="eventEndDate.hasError('required')">
+              <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+            </mat-error>
+            <mat-error *ngIf="eventEndDate.hasError('ZonedDateTimelocal')">
+              <span jhiTranslate="xm-entity.common.validation.date-time">This field should be a date and time.</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field>
+        <input #eventTitle="ngModel"
+               [(ngModel)]="event.title"
+               id="field_title"
+               matInput
+               name="title"
+               placeholder="{{'xm-entity.common.fields.title' | translate}}"
+               required
+               type="text">
+        <mat-error *ngIf="eventTitle.hasError('required')">
+          <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field>
+        <textarea [(ngModel)]="event.description"
+                  id="field_description"
+                  matInput
+                  name="description"
+                  placeholder="{{'xm-entity.common.fields.description' | translate}}"
+                  rows="4">
+        </textarea>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="jsfAttributes?.schema" class="form-group min-height">
+      <json-schema-form (formLayout)="jsfAttributes.formLayout"
+                        *ngIf="jsfAttributes?.schema"
+                        [data]="jsfAttributes.data"
+                        [form]="jsfAttributes.form | i18nJsf :principal"
+                        [framework]="'material-design'"
+                        [layout]="jsfAttributes.layout | i18nJsf :principal"
+                        [options]="jsfAttributes.options | i18nJsf :principal"
+                        [schema]="jsfAttributes.schema"
+                        [widgets]="jsfAttributes.widgets"
+                        (onChanges)="onChangeSchemaForm($event)"
+                        class="json-form-hide-submit"
+      >
+      </json-schema-form>
+    </div>
+
+  </div>
+
+  <div class="modal-footer event-dialog-footer">
+    <button *ngIf="event.id; else tmplDelete" (click)="onRemove()" class="btn btn-primary" data-dismiss="modal" mat-raised-button type="button">
+      <span jhiTranslate="entity.action.delete">Delete</span>
+    </button>
+    <ng-template #tmplDelete><div></div></ng-template>
+
+    <div>
+      <button (click)="onCancel()" class="btn me-1" data-dismiss="modal" mat-raised-button type="button">
+        <span jhiTranslate="xm-entity.common.cancel">Cancel</span>
+      </button>
+
+      <button [disabled]="eventForm.form.invalid || showLoader" class="btn btn-primary" mat-raised-button type="submit">
+        <span jhiTranslate="xm-entity.common.save">Save</span>
+      </button>
+    </div>
+  </div>
+</form>

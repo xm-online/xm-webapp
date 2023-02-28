@@ -1,6 +1,6 @@
 <form #editForm="ngForm" (ngSubmit)="onSave()" *ngIf="role" class="m-0" name="editForm" novalidate role="form">
   <div mat-dialog-title>
-    <h4 class="modal-title text-left">
+    <h4 class="modal-title text-start">
       <span *ngIf="isAddMode">{{'rolesManagement.home.labelCreate'|translate}}</span>
       <span *ngIf="!isAddMode">{{'rolesManagement.home.labelEdit'|translate}}</span>
     </h4>
@@ -34,9 +34,9 @@
 
     <div *ngIf="isAddMode" class="form-group">
       <mat-form-field>
+        <mat-label>{{'rolesManagement.basedOn' | translate}}</mat-label>
         <mat-select [(ngModel)]="role.basedOn"
-                    name="authority"
-                    placeholder="{{'rolesManagement.basedOn' | translate}}">
+                    name="authority">
           <mat-option readonly>{{'rolesManagement.chooseRole' | translate}}</mat-option>
           <mat-option *ngFor="let item of roles" [value]="item">{{item}}</mat-option>
         </mat-select>
@@ -56,7 +56,7 @@
   </div>
 
   <div mat-dialog-actions>
-    <button class="mr-1 ml-auto" (click)="onClose()" data-dismiss="modal" mat-flat-button type="button">
+    <button class="me-1 ms-auto" (click)="onClose()" data-dismiss="modal" mat-flat-button type="button">
       <span class="fa fa-ban"></span>&nbsp;<span
      >{{'entity.action.cancel'|translate}}</span>
     </button>

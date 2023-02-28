@@ -24,7 +24,7 @@ $swal2-cancel-button-background-color:  $xm-secondary;
 $swal2-cancel-button-color:             $xm-text-on-secondary;
 $swal2-cancel-button-font-size:         $xm-font-size-sm;
 
-@import '~sweetalert2/src/sweetalert2';
+@import 'sweetalert2/src/sweetalert2';
 
 @mixin sweetalert2-xm-override() {
 

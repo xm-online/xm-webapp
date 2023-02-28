@@ -11,6 +11,7 @@ export type CliCommands = 'ext-assets'
     | 'ext-lazy-module'
     | 'replace'
     | 'doc'
+    | 'dynamic-specification'
     | 'ext-routing'
     | 'ext-theming'
     | 'ext-themes';

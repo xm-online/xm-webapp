@@ -4,7 +4,7 @@ import { combineLatest, Observable, ReplaySubject, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 import { KeysExtractorOptions, TranslationStoreService } from './services/translation-store.service';
-import { Config, TranslationService } from './services/translation.service';
+import { XmLanguageUiConfig, TranslationService } from './services/translation.service';
 
 const coreName = 'core';
 
@@ -32,7 +32,7 @@ export class TranslationComponent implements OnInit {
         this.initGetTranslations();
     }
 
-    private loadConfig(): Observable<Config> {
+    private loadConfig(): Observable<XmLanguageUiConfig> {
         return this.translationService.loadConfig().pipe(
             map((res) => {
                 res.exts = [coreName, ...res.exts];

@@ -1,0 +1,10 @@
+:host(.xm-confirm-dialog) {
+  display: block;
+  position: relative;
+
+  .close {
+    position: absolute;
+    top: -24px;
+    right: -24px;
+  }
+}

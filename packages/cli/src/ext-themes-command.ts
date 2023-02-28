@@ -5,7 +5,6 @@ import * as sass from 'sass';
 import * as path from 'path';
 import { Command } from './command';
 import { Config } from './config';
-import { packageImporter } from './ext-theming/node-sass-package-importer';
 
 export class ExtThemesCommand implements Command {
     public themesPathMask: string[] = [
@@ -20,27 +19,19 @@ export class ExtThemesCommand implements Command {
     public execute(): void {
         console.info('Building custom theme scss files.');
 
-        const files: string[] = _.flatten(_.map(this.themesPathMask, (themePath) => glob.sync(themePath, {sync: true})));
+        const files: string[] = _.flatten(_.map(this.themesPathMask, (themePath) => glob.sync(themePath, { sync: true })));
         for (const file of files) {
             const matches = /^_?([a-zA-Z-0-9]+).scss$/.exec(path.basename(file)) || [];
             const name = matches[1];
             const outFile = `${this.destPath}/${name}.css`;
 
-            sass.render({
-                file,
-                includePaths: ['src', 'src/styles', this.config.extDir],
-                importer: packageImporter(),
+            const res = sass.compile(file, {
+                loadPaths: ['src', 'src/styles', this.config.extDir, '.', 'node_modules'],
                 sourceMap: false,
-                outFile: outFile,
-                outputStyle: 'compressed',
-            }, (err, res) => {
-                if (err) {
-                    console.warn(err);
-                }
-                fs.writeFileSync(outFile, res.css);
-                console.info(`Building: ${outFile}`);
             });
 
+            fs.writeFileSync(outFile, res.css);
+            console.info(`Building: ${outFile}`);
 
         }
     }

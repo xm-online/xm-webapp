@@ -1,19 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
 // Fonts
-$material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
-@import '~@xm-ngx/styles/src/material-design-icons';
+$material-icons-font-path: '/assets/fonts/material-design-icons-v5.woff2';
+@import '@xm-ngx/styles/src/material-design-icons';
 
 // Theme
 @import './styles/theme';
 @import './styles/theming';
-@import '~@xm-ngx/styles/components';
+@import '@xm-ngx/styles/components';
 
 @include xm-ngx-styles-theme($xm-theme);
 @include xm-theme($xm-theme);
 
 // Vendors
-@import '~@xm-ngx/styles/src/vendor/index';
+@import '@xm-ngx/styles/src/vendor/index';
 @include xm-angular-material-theme($xm-theme);
 @include xm-angular-material-typography();
 @include xm-vendor-xm-override();
@@ -21,7 +21,7 @@ $material-icons-font-path: '~assets/fonts/material-design-icons-v5.woff2';
 // Components
 @import 'packages/components/components-styles';
 @import 'packages/components/components-themes';
-@import '~@xm-ngx/styles/src/_loader-dizabled-container.scss';
+@import '@xm-ngx/styles/src/_loader-dizabled-container';
 @import 'packages/alert/alert';
 
 @import 'src/app/layouts/main/main-theme';

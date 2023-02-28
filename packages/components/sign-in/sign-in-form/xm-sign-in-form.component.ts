@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { XmSignInFormOptions } from '@xm-ngx/components/sign-in/sign-in-form/xm-sign-in-form.options';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
@@ -13,10 +13,10 @@ import { SignInForm, SignInService } from './sign-in.service';
 })
 export class XmSignInFormComponent {
 
-    public group: FormGroup = new FormGroup({
-        username: new FormControl(),
-        password: new FormControl(),
-        rememberMe: new FormControl(true),
+    public group: UntypedFormGroup = new UntypedFormGroup({
+        username: new UntypedFormControl(),
+        password: new UntypedFormControl(),
+        rememberMe: new UntypedFormControl(true),
     });
 
     public error$: Subject<string | null> = new Subject<string | null>();

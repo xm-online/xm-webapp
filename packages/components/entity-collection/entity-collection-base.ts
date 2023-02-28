@@ -18,6 +18,11 @@ export class EntityCollectionBase<T extends IId = unknown, Extra extends Pageabl
             .pipe(map((res) => res.body));
     }
 
+    public patch<E, R>(entity: Partial<E>, params?: QueryParams, headers?: HttpHeaders): Observable<R> {
+        return this.collection.patch<E, R>(entity, params, headers)
+            .pipe(map((res) => res.body));
+    }
+
     public delete(id: Id, params?: QueryParams, headers?: HttpHeaders): Observable<unknown> {
         return this.collection.delete(id, params, headers)
             .pipe(map((res) => res.body));

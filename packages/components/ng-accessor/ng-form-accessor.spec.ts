@@ -1,5 +1,5 @@
 import { fakeAsync } from '@angular/core/testing';
-import { FormControl, FormControlDirective } from '@angular/forms';
+import { UntypedFormControl, FormControlDirective } from '@angular/forms';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor/ng-form-accessor';
 
 describe('NgFormAccessor', () => {
@@ -10,7 +10,7 @@ describe('NgFormAccessor', () => {
         });
 
         it('should create and set control', () => {
-            const control = new FormControl();
+            const control = new UntypedFormControl();
             const ngControl: FormControlDirective = new FormControlDirective(null, null, null, null);
             const spy = spyOnProperty(ngControl, 'control').and.returnValue(control);
             const directive = new NgFormAccessor(ngControl);
@@ -25,7 +25,7 @@ describe('NgFormAccessor', () => {
     describe('FormControlDirective passes FormControl via constructor', () => {
         it('change() sets value to FormControl and emits valueChange', () => {
             const newValue = 'newValue';
-            const control = new FormControl();
+            const control = new UntypedFormControl();
             const controlDirective = new FormControlDirective(null, null, null, null);
             spyOnProperty(controlDirective, 'control', 'get').and.returnValue(control);
 
@@ -46,7 +46,7 @@ describe('NgFormAccessor', () => {
 
         it('FormControl valueChange triggers writeValue() and not emits valueChange', fakeAsync(() => {
             const newValue = 'newValue';
-            const control = new FormControl();
+            const control = new UntypedFormControl();
             const controlDirective = new FormControlDirective(null, null, null, null);
             spyOnProperty(controlDirective, 'control', 'get').and.returnValue(control);
 
@@ -67,7 +67,7 @@ describe('NgFormAccessor', () => {
 
     describe('control', () => {
         it('new value triggers a valueChange', () => {
-            const control = new FormControl();
+            const control = new UntypedFormControl();
             const directive = new NgFormAccessor(null);
             directive.control = control;
 
@@ -82,7 +82,7 @@ describe('NgFormAccessor', () => {
 
         it('same value triggers a valueChange', () => {
             const sameValue = 'sameValue';
-            const control = new FormControl(sameValue);
+            const control = new UntypedFormControl(sameValue);
             const directive = new NgFormAccessor(null);
             directive.control = control;
 
@@ -96,7 +96,7 @@ describe('NgFormAccessor', () => {
 
     describe('value', () => {
         it('new value triggers a valueChange', () => {
-            const control = new FormControl();
+            const control = new UntypedFormControl();
             const directive = new NgFormAccessor(null);
             directive.control = control;
 
@@ -111,7 +111,7 @@ describe('NgFormAccessor', () => {
 
         it('same value triggers a valueChange', () => {
             const sameValue = 'sameValue';
-            const control = new FormControl(sameValue);
+            const control = new UntypedFormControl(sameValue);
             const directive = new NgFormAccessor(null);
             directive.control = control;
 
@@ -125,7 +125,7 @@ describe('NgFormAccessor', () => {
 
     describe('change', () => {
         it('new value triggers a valueChange', () => {
-            const control = new FormControl();
+            const control = new UntypedFormControl();
             const directive = new NgFormAccessor(null);
             directive.control = control;
 
@@ -140,7 +140,7 @@ describe('NgFormAccessor', () => {
 
         it('same value not triggers a valueChange', () => {
             const sameValue = 'sameValue';
-            const control = new FormControl(sameValue);
+            const control = new UntypedFormControl(sameValue);
             const directive = new NgFormAccessor(null);
             directive.control = control;
 

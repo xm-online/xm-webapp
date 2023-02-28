@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { XmEventManager } from '@xm-ngx/core';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { Dashboard } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
@@ -12,6 +12,7 @@ import { delay, filter, switchMap, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../const';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig } from '../injectors';
+import { XmTextControlOptions } from '@xm-ngx/components/text';
 
 export enum EditType {
     Create = 1,
@@ -40,6 +41,8 @@ export class DashboardEditComponent {
 
     public editType: EditType;
     public widgetEditComponentType: Type<unknown> = this.dashboardConfig.widgetRef;
+    public nameOptions: XmTextControlOptions = { title: this.TRS.name, dataQa: '' };
+    public typeKeyOptions: XmTextControlOptions = { title: this.TRS.typeKey, dataQa: '' };
 
     constructor(protected readonly dashboardService: DashboardCollection,
                 protected readonly editorService: DashboardEditorService,

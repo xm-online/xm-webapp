@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ConfigValidatorUtil } from '@xm-ngx/administration/specification-management/config-validator/config-validator.util';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { finalize } from 'rxjs/operators';
-import { XmConfigService } from '../../../../../src/app/shared';
+import { XmConfigService } from '@xm-ngx/core/config';
 
 @Component({
     selector: 'xm-ui-mng',

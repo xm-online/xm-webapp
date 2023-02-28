@@ -1,8 +1,9 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-navbar-arrow-back-widget',
@@ -15,9 +16,10 @@ import { Observable } from 'rxjs';
         </button>
     `,
 })
-export class XmNavbarArrowBackWidget implements OnInit, OnDestroy {
+export class XmNavbarArrowBackWidget implements OnInit, OnDestroy, XmDynamicWidget {
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
+    @Input() public config: unknown;
     private previousPath: string;
     private backStep: number = 0;
 

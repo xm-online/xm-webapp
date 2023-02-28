@@ -12,7 +12,10 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { merge, Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith, switchMap } from 'rxjs/operators';
-import { Client, RoleService, User, UserLogin, UserLoginService, UserService } from '../../../../src/app/shared';
+import { User, UserService } from '@xm-ngx/core/user';
+import { RoleService } from '@xm-ngx/core/role';
+import { UserLogin, UserLoginService } from '@xm-ngx/account/user-login-widget';
+import { Client } from '@xm-ngx/core/client';
 
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { BaseAdminListComponent } from '../admin.service';
@@ -35,8 +38,8 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
     public onlineUsers: number = 0;
 
     public dataSource: MatTableDataSource<User> = new MatTableDataSource<User>([]);
-    @ViewChild(MatSort, { static: true }) public matSort: MatSort;
-    @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) public matSort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
 
     public displayedColumns: string[] = [
         'id',
@@ -136,8 +139,10 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
             title: 'Enable 2FA?',
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'Yes, Enable',
         }).subscribe((result) => result.value ?
             this.userService.enable2FA(user.userKey, this.getRegistrationEmail(user))
@@ -155,8 +160,10 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
             title: 'Disable 2FA?',
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'Yes, Disable',
         }).subscribe((result) => result.value ?
             this.userService.disable2FA(user.userKey)
@@ -224,21 +231,21 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
     }
 
     public onAdd(): void {
-        this.modalService.open(UserMgmtDialogComponent, { width: '500px' });
+        this.modalService.open(UserMgmtDialogComponent, {width: '500px'});
     }
 
     public onEdit(user: User): void {
-        const modalRef = this.modalService.open(UserMgmtDialogComponent, { width: '500px' });
+        const modalRef = this.modalService.open(UserMgmtDialogComponent, {width: '500px'});
         modalRef.componentInstance.selectedUser = user;
     }
 
     public onLoginEdit(user: User): void {
-        const modalRef = this.modalService.open(UserLoginMgmtDialogComponent, { width: '500px' });
+        const modalRef = this.modalService.open(UserLoginMgmtDialogComponent, {width: '500px'});
         modalRef.componentInstance.user = user;
     }
 
     public onDelete(user: User): void {
-        const modalRef = this.modalService.open(UserMgmtDeleteDialogComponent, { width: '500px' });
+        const modalRef = this.modalService.open(UserMgmtDeleteDialogComponent, {width: '500px'});
         modalRef.componentInstance.user = user;
     }
 
@@ -247,9 +254,9 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         this.showLoader = true;
         if (this.login && this.login.trim()) {
             return this.loadFilteredUsers();
-        } 
+        }
         return this.loadUsers();
-        
+
     }
 
     protected updateRoute(): void {

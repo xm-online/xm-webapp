@@ -1,8 +1,8 @@
-import * as AJV from 'ajv';
 
 import { ConfigError } from './config-error.model';
 import { SCHEMA } from './schema';
 import { SCHEMA_SPEC } from './schema-spec';
+import Ajv from 'ajv';
 
 declare let YAML: any;
 
@@ -41,12 +41,13 @@ export class ConfigValidatorUtil {
 
     private static validateObjectBySchema(object: any, schema: any, path?: string): ConfigError[] {
         const errors = [];
-        const validate = new AJV({allErrors: true}).compile(schema);
+        const validate = new Ajv({allErrors: true}).compile(schema);
         const valid = validate(object);
         if (!valid) {
             validate.errors.forEach((err) => errors.push({
                 message: err.message,
-                path: (path ? path : '') + err.dataPath,
+                // TODO: previously used dataPath instead of instancePath
+                path: (path ? path : '') + err.instancePath,
             }));
         }
         return errors;

@@ -1,19 +1,20 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 
+import { XmEntity, XmEntityService } from '@xm-ngx/entity';
 import * as Chartist from 'chartist';
-
-import { XmEntity, XmEntityService } from '../../../xm-entity/';
+import { LineChart } from 'chartist';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-chartist-line-widget',
     templateUrl: './chartist-line-widget.component.html',
 })
-export class ChartistLineWidgetComponent implements OnInit {
+export class ChartistLineWidgetComponent implements OnInit, XmDynamicWidget {
 
     public name: any;
     public firstSeries: any;
-    public config: any;
+    @Input() public config: any;
 
     constructor(
         private xmEntityService: XmEntityService,
@@ -38,7 +39,7 @@ export class ChartistLineWidgetComponent implements OnInit {
                 labels.push(this.firstSeries.labelSelector.split('.').reduce((a, b) => a[b], entity));
             }
 
-            const chartistLine = new Chartist.Line(
+            const chartistLine = new LineChart(
                 this.element.nativeElement.querySelector('.chartistLine'), {
                     labels,
                     series,
@@ -61,7 +62,7 @@ export class ChartistLineWidgetComponent implements OnInit {
                         dur: 700,
                         from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
                         to: data.path.clone().stringify(),
-                        easing: Chartist.Svg.Easing.easeOutQuint,
+                        easing: Chartist.easings.easeOutQuint,
                     },
                 });
             } else if (data.type === 'point') {

@@ -1,21 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { ContextService, XmConfigService } from '../../../shared';
-import { AttachmentsView, EntityDetailLayout, EntityUiConfig } from '../../../shared/spec/xm-ui-config-model';
-import { FullLinkSpec, LinkSpec, Spec, XmEntity, XmEntityService, XmEntitySpec } from '../../../xm-entity';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { ContextService } from '@xm-ngx/core/context';
+import { AttachmentsView, EntityDetailLayout, EntityUiConfig } from '../../../../../packages/core/config/xm-ui-config-model';
+import { FullLinkSpec, LinkSpec, Spec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/entity';
 import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-entity-widget',
     templateUrl: './entity-widget.component.html',
 })
-export class EntityWidgetComponent implements OnInit, OnDestroy {
+export class EntityWidgetComponent implements OnInit, OnDestroy, XmDynamicWidget {
 
-    public config: any;
+    @Input() public config: any;
     public grid: any;
     public xmEntity: XmEntity;
     public xmEntitySpec: XmEntitySpec;
@@ -63,13 +65,14 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
     public defineUiConfig(): void {
         this.xmConfigService.getUiConfig().subscribe((config) => {
             // TODO: for demo
-            this.tenant = config.name;
-            this.defaultDetailLayoutType = config.defaultDetailLayoutType;
-            this.entityUiConfig = (config && config.applications
-                && config.applications.config
-                && config.applications.config.entities
-                && config.applications.config.entities
-                    .filter((e) => e.typeKey === this.xmEntity.typeKey).shift()) as EntityUiConfig;
+            this.config = config;
+            this.tenant = config?.name;
+            this.defaultDetailLayoutType = config?.defaultDetailLayoutType;
+            this.entityUiConfig = (config && config?.applications
+                && config.applications?.config
+                && config.applications?.config?.entities
+                && config.applications?.config?.entities
+                    .filter((e) => e?.typeKey === this.xmEntity.typeKey).shift()) as EntityUiConfig;
         });
     }
 
@@ -84,7 +87,7 @@ export class EntityWidgetComponent implements OnInit, OnDestroy {
         for (const xmEntitySpec of this.spec.types) {
             if (xmEntitySpec.links) {
                 for (const linkSpec of xmEntitySpec.links) {
-                    if (linkSpec.typeKey === typeKey) {
+                    if (linkSpec.typeKey === typeKey || typeKey.startsWith(linkSpec.typeKey + '.')) {
                         result[linkSpec.key] = Object.assign({}, linkSpec);
                     }
                 }

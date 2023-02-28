@@ -41,7 +41,7 @@ export class ButtonSpinnerDirective implements OnChanges {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (!changes.loading) {
+        if (!changes.hasOwnProperty('loading')) {
             return;
         }
 
@@ -50,6 +50,7 @@ export class ButtonSpinnerDirective implements OnChanges {
             this.matButton.disabled = true;
             this.createSpinner();
         } else if (!changes.loading.firstChange) {
+            this.matButton._elementRef.nativeElement.classList.remove('mat-loading');
             this.matButton.disabled = this.disabled;
             this.destroySpinner();
         }

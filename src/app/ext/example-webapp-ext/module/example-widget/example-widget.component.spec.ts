@@ -8,7 +8,7 @@ describe('ExampleWidgetComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ExampleWidgetComponent],
+            imports: [ExampleWidgetComponent],
         })
             .compileComponents();
     }));

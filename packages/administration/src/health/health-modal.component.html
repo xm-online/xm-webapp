@@ -1,5 +1,5 @@
 <div mat-dialog-title>
- <h3 class="modal-title text-left mt-0" id="showHealthLabel">
+ <h3 class="modal-title text-start mt-0" id="showHealthLabel">
     {{'health.indicator.' + baseName(currentHealth.name) | translate}}
     {{subSystemName(currentHealth.name)}}
   </h3>
@@ -22,7 +22,7 @@
 <div mat-dialog-actions>
   <button mat-flat-button
           data-dismiss="modal"
-          class="ml-auto"
+          class="ms-auto"
           color="primary"
           type="button"
           (click)="activeModal.close(false)">

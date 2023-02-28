@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
@@ -11,13 +11,13 @@ import { Subscription } from 'rxjs';
 export class XmPasswordNeededComponent implements OnInit, OnDestroy {
 
     @ViewChild('passwordNeeded', {static: false}) public tpl: TemplateRef<any>;
-    public form: FormGroup;
+    public form: UntypedFormGroup;
     public modal: MatDialogRef<any>;
     public showLoader: boolean;
     public incorrect: boolean;
     public event: any;
     private eventManagerSubscription: Subscription;
-    constructor(private fb: FormBuilder,
+    constructor(private fb: UntypedFormBuilder,
                 private modalService: MatDialog,
                 private eventManager: XmEventManager) {
         this.form = this.fb.group({password: [null, Validators.required]});

@@ -32,6 +32,23 @@ export class DashboardStore {
         );
     }
 
+    public getByParentSlug(slug: string, skipHidden = false): Observable<DashboardWithWidgets[] | null> {
+        return this.dashboards$().pipe(
+            map<Dashboard[] | null, Dashboard[]>((ds) => ds || []),
+            map((ds) => _.orderBy(ds.filter((d) => {
+                if (skipHidden && d.config?.hidden) {
+                    return false;
+                }
+
+                if (d.config.slug.includes(':')) {
+                    return false;
+                }
+
+                return !!(d.config.slug !== slug && (d.config && d.config.slug.startsWith(slug)));
+            }), [ 'config.orderIndex', 'config.slug' ])),
+        );
+    }
+
     public forceReload(): void {
         this._dashboards.forceReload();
     }
@@ -77,9 +94,9 @@ export class DashboardStore {
                     return this.getFromCache(d.id);
                 }
                 return this.getAndCache(d.id);
-            } 
+            }
             return of(d);
-            
+
         });
     }
 

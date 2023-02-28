@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { LanguageService, Locale } from '@xm-ngx/translation';
 import { Observable } from 'rxjs';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { XmLanguageUiConfig } from '@xm-ngx/administration/translations/services/translation.service';
 
 @Component({
     selector: 'xm-navbar-language-menu-widget',
@@ -27,12 +29,14 @@ import { Observable } from 'rxjs';
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class XmNavbarLanguageMenuWidget implements OnInit {
+export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
+    @Input() public config: unknown;
+
     public languages: Locale[];
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
     constructor(
-        private xmUiConfigService: XmUiConfigService,
+        private xmUiConfigService: XmUiConfigService<XmLanguageUiConfig>,
         private xmSessionService: XmSessionService,
         public languageService: LanguageService,
     ) {

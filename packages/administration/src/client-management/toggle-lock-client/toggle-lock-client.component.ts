@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { Client, ClientService, ClientState } from '../../../../../src/app/shared';
+import { Client, ClientService, ClientState } from '@xm-ngx/core/client';
 
 @Component({
     selector: 'xm-toggle-lock-client',
@@ -24,8 +24,10 @@ export class ToggleLockClientComponent {
             title: isActivate ? 'Block client?' : 'Unblock client?',
             showCancelButton: true,
             buttonsStyling: false,
-            confirmButtonClass: 'btn mat-button btn-primary',
-            cancelButtonClass: 'btn mat-button',
+            customClass: {
+                confirmButton: 'btn mat-button btn-primary',
+                cancelButton: 'btn mat-button',
+            },
             confirmButtonText: 'Yes',
         }).subscribe((result) => result.value ?
             this.changeUserState(client) :

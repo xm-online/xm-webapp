@@ -1,6 +1,6 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, NgForm } from '@angular/forms';
+import { UntypedFormControl, NgForm } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -8,7 +8,10 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { finalize, map, startWith } from 'rxjs/operators';
 
-import { Client, ClientService, JhiLanguageHelper, RoleService, XmConfigService } from '../../../../src/app/shared';
+import { Client, ClientService } from '@xm-ngx/core/client';
+import { RoleService } from '@xm-ngx/core/role';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { JhiLanguageHelper } from '@xm-ngx/translation';
 
 export const CLIENT_UNIQUE_ID_ERROR_CODE = 'client.already.exists';
 
@@ -35,7 +38,7 @@ export class ClientMgmtDialogComponent implements OnInit {
     public clientIdNotUnique: boolean;
     public scopesVariants: any[] = [];
     public separatorKeysCodes: number[] = [ENTER, COMMA];
-    public scopeCtrl: FormControl = new FormControl();
+    public scopeCtrl: UntypedFormControl = new UntypedFormControl();
     public filteredScopes: Observable<string[]>;
 
     constructor(public activeModal: MatDialogRef<ClientMgmtDialogComponent>,

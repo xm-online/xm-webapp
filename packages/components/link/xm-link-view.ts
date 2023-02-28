@@ -29,15 +29,15 @@ export const XM_LINK_VIEW_DEFAULT_OPTIONS: XmLinkViewOptions = assign(
 @Component({
     selector: 'xm-link-view',
     template: `
-        <xm-text-view-container [hidden]="!fieldValue" [styleInline]="options?.styleInline">
-            <span xmLabel>{{options?.title | translate}}</span>
+        <xm-text-view-container [hidden]="!fieldValue" [styleInline]="config?.styleInline">
+            <span xmLabel>{{config?.title | translate}}</span>
 
             <div xmValue>
                 <a [queryParams]="queryParams"
-                   [routerLink]="options?.routerLink">
+                   [routerLink]="config?.routerLink">
                     <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
-                    <span *ngIf="options?.valueField">{{fieldValue}}</span>
-                    <mat-icon *ngIf="options?.icon">{{options.icon}}</mat-icon>
+                    <span *ngIf="config?.valueField">{{fieldValue}}</span>
+                    <mat-icon *ngIf="config?.icon">{{config.icon}}</mat-icon>
                 </a>
             </div>
         </xm-text-view-container>
@@ -46,7 +46,7 @@ export const XM_LINK_VIEW_DEFAULT_OPTIONS: XmLinkViewOptions = assign(
 })
 export class XmLinkViewComponent extends XmLink implements XmDynamicPresentation<IId, XmLinkViewOptions>, OnInit, OnChanges {
     @Input() public value: IId;
-    @Input() public options: XmLinkViewOptions;
+    @Input() public config: XmLinkViewOptions & {config?: XmLinkOptions};
     protected defaultOptions: XmLinkViewOptions = clone(XM_LINK_VIEW_DEFAULT_OPTIONS);
 }
 

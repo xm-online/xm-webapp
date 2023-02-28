@@ -5,24 +5,28 @@ import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } f
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { XmTranslationModule } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { OwlDateTimeModule } from 'ng-pick-datetime';
+import { DateTimeAdapter, OwlDateTimeIntl, OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { XmDateModule } from '@xm-ngx/components/date/xm-date.component';
+import { XmDateModule } from './xm-date.component';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
+import { TranslateService } from '@ngx-translate/core';
 
 const dateInitValues = {
     '7DaysAgo': 7,
     '14daysAgo': 14,
     monthAgo: 30,
+    currentMonth: new Date().getDate() - 1,
 };
 
 type DateInitValues = keyof typeof dateInitValues;
 
 export interface IDateOptions {
-    title?: string;
+    hint?: HintText;
+    title?: Translate | string;
     min?: DateValue;
     max?: DateValue;
     start?: DateValue;
@@ -33,6 +37,7 @@ export interface IDateOptions {
     initValue?: DateInitValues;
     required?: boolean;
     useUtc?: boolean;
+    firstDayOfWeek?: number;
 }
 
 type DateValue = string[] | Date[];
@@ -41,23 +46,24 @@ type DateValue = string[] | Date[];
     selector: 'xm-date-range-filter-control',
     template: `
         <mat-form-field class="xm-custom-input-icon">
+            <mat-label *ngIf="config?.title">{{ config?.title | translate }}</mat-label>
+
             <div class="to-display" *ngIf="value && value.length > 0">
-                <xm-date [value]="value[0]" [options]="options"></xm-date>
+                <xm-date [value]="value[0]" [config]="config"></xm-date>
                 ~
-                <xm-date [value]="value[1]" [options]="options"></xm-date>
+                <xm-date [value]="value[1]" [config]="config"></xm-date>
             </div>
 
             <input #dateControl='ngModel'
                    [(ngModel)]="value"
-                   [min]="options?.min"
-                   [max]="options?.max"
+                   [min]="config?.min"
+                   [max]="config?.max"
                    [selectMode]="'range'"
                    (ngModelChange)="change($event)"
                    [owlDateTimeTrigger]="dt1"
                    [owlDateTime]="dt1"
                    [disabled]="disabled"
-                   [placeholder]="options.title | translate"
-                   [required]="options?.required"
+                   [required]="config?.required"
                    class="abs"
                    matInput>
             <mat-error *ngIf="dateControl.invalid">{{'common-webapp-ext.validation.required' | translate}}</mat-error>
@@ -67,7 +73,10 @@ type DateValue = string[] | Date[];
 
             <mat-icon [owlDateTimeTrigger]="dt1" class="icon">date_range</mat-icon>
 
-            <owl-date-time #dt1 [startAt]="options?.start" [pickerType]="'calendar'"></owl-date-time>
+            <owl-date-time #dt1 [startAt]="config?.start" [firstDayOfWeek]="config?.firstDayOfWeek"
+                           [pickerType]="'calendar'"></owl-date-time>
+
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
     styleUrls: ['./date.control.scss'],
@@ -76,14 +85,21 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
     implements XmDynamicControl<DateValue, IDateOptions>, OnInit {
 
     @Output() public valueChange: EventEmitter<DateValue> = new EventEmitter<DateValue>();
-    @Input() public options: IDateOptions;
+    @Input() public config: IDateOptions;
 
-    constructor(@Optional() @Self() public ngControl: NgControl) {
+    constructor(
+        @Optional() @Self() public ngControl: NgControl,
+        private translateService: TranslateService,
+        private dateTimeAdapter: DateTimeAdapter<any>,
+        private dateTimeIntl: OwlDateTimeIntl,
+    ) {
         super(ngControl);
     }
 
     public ngOnInit(): void {
         this.setDateRange();
+        this.localizedDateRangeLabels();
+        this.dateTimeAdapter.setLocale(this.translateService.currentLang);
     }
 
 
@@ -93,14 +109,19 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
         this.valueChange.emit(v);
     }
 
+    private localizedDateRangeLabels(): void {
+        this.dateTimeIntl.rangeFromLabel = this.translateService.instant('date-time-picker.labels.from');
+        this.dateTimeIntl.rangeToLabel = this.translateService.instant('date-time-picker.labels.to');
+    }
+
     private setDateRange(): void {
-        const {initValue} = this.options;
+        const { initValue } = this.config;
 
         if (!initValue) {
             return;
         }
 
-        if (!dateInitValues[initValue]) {
+        if (!(initValue in dateInitValues)) {
             console.warn(`Wrong 'initValue', it can be only one of ${Object.keys(dateInitValues)}`);
             return;
         }
@@ -126,6 +147,7 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
         MatButtonModule,
         CommonModule,
         XmDateModule,
+        HintModule,
     ],
     exports: [DateRangeFilterControlComponent],
     declarations: [DateRangeFilterControlComponent],

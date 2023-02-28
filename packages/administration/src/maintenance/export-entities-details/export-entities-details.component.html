@@ -9,20 +9,20 @@
     <div class="row flex-nowrap">
       <div class="col">
         <div class="export-col-title mb-3">
-          <button class="mat-elevation-z0 mr-2" type="button" color="primary" mat-mini-fab>1</button>
+          <button class="mat-elevation-z0 me-2" type="button" color="primary" mat-mini-fab>1</button>
           {{'xm.export-entities.step-1' | translate}}:
         </div>
       </div>
       <div class="col">
         <div class="export-col-title mb-3">
-          <button class="mat-elevation-z0 mr-2" type="button" color="primary" mat-mini-fab>2</button>
+          <button class="mat-elevation-z0 me-2" type="button" color="primary" mat-mini-fab>2</button>
           {{'xm.export-entities.step-2' | translate}}:
         </div>
       </div>
     </div>
 
-    <div class="row flex-nowrap pl-3 pr-3">
-      <div class="col selector-col mr-3">
+    <div class="row flex-nowrap ps-3 pe-3">
+      <div class="col selector-col me-3">
         <div class="selector-bg" mat-dialog-content>
           <mat-selection-list [(ngModel)]="selectedSpecs" (selectionChange)="onSelectionChange()" [multiple]="false">
             <mat-list-option [value]="type.key" checkboxPosition="before" *ngFor="let type of config">
@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <div class="col selector-col ml-3">
+      <div class="col selector-col ms-3">
         <div class="selector-bg pt-2" mat-dialog-content>
           <ng-container *ngIf="config">
             <xm-export-tree [selectedSpec]="spec"
@@ -52,7 +52,7 @@
     </div>
 
     <div class="selector-selected mt-3" *ngIf="(config | exportSelectedEntities) as selected">
-      <span class="p-2 mt-1 mb-1 mr-2" *ngFor="let type of selected">{{type.key}}</span>
+      <span class="p-2 mt-1 mb-1 me-2" *ngFor="let type of selected">{{type.key}}</span>
     </div>
   </div>
 

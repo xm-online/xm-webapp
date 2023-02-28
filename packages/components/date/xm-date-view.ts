@@ -17,23 +17,23 @@ export interface XmDateViewOptions extends XmDateOptions {
     selector: 'xm-date-view',
     template: `
         <xm-text-view-container [styleInline]="styleInline">
-            <span xmLabel>{{options?.title | translate}}</span>
-            <xm-date xmValue [value]="value" [options]="options"></xm-date>
+            <span xmLabel>{{config?.title | translate}}</span>
+            <xm-date xmValue [value]="value" [config]="config"></xm-date>
         </xm-text-view-container>
     `,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmDateView implements XmDynamicPresentation<XmDateValue, XmDateViewOptions>, OnInit, OnChanges {
     @Input() public value: XmDateValue;
-    @Input() public options: XmDateViewOptions;
+    @Input() public config: XmDateViewOptions;
     public styleInline: boolean;
 
     public ngOnInit(): void {
-        this.styleInline = Boolean(this.options?.textStyle);
+        this.styleInline = Boolean(this.config?.textStyle);
     }
 
     public ngOnChanges(): void {
-        this.styleInline = Boolean(this.options?.textStyle);
+        this.styleInline = Boolean(this.config?.textStyle);
     }
 }
 

@@ -19,14 +19,14 @@ export const XM_LINK_BUTTON_DEFAULT_OPTIONS = {
 })
 export class XmLinkButtonComponent {
 
-    private _options: XmLinkButtonOptions = clone(XM_LINK_BUTTON_DEFAULT_OPTIONS);
+    private _config: XmLinkButtonOptions = clone(XM_LINK_BUTTON_DEFAULT_OPTIONS);
 
-    public get options(): XmLinkButtonOptions {
-        return this._options;
+    public get config(): XmLinkButtonOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmLinkButtonOptions) {
-        this._options = _.defaults({}, value, XM_LINK_BUTTON_DEFAULT_OPTIONS);
+    public set config(value: XmLinkButtonOptions) {
+        this._config = _.defaults({}, value, XM_LINK_BUTTON_DEFAULT_OPTIONS);
     }
 }

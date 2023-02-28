@@ -1,17 +1,18 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit } from '@angular/core';
 
 import { TwitterTimelineService } from './twitter-timeline.service';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-twitter-timeline-widget',
     templateUrl: './twitter-timeline-widget.component.html',
 })
-export class TwitterTimelineWidgetComponent implements OnInit, AfterViewInit {
+export class TwitterTimelineWidgetComponent implements OnInit, AfterViewInit, XmDynamicWidget {
 
     @Input() public dataSrc: object;
     @Input() public opts: object;
 
-    public config: any;
+    @Input() public config: any;
 
     constructor(private element: ElementRef,
                 private twitterTimelineService: TwitterTimelineService,

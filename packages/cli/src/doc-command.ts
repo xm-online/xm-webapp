@@ -1,7 +1,7 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import * as glob from 'glob';
 import * as _ from 'lodash';
-import path from 'path';
+import * as path from 'path';
 import { Command } from './command';
 import { ignoreChangedFile } from './git-utils';
 

@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 $xm-mat-secondary-default: 500 !default;
 $xm-mat-secondary-lighter: 100 !default;
@@ -42,7 +42,7 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
   }
 }
 
-@include mat-core();
+@include mat.core();
 
 @mixin xm-angular-material-theme($theme) {
   $primary:        map-get($theme, primary-palette);
@@ -50,23 +50,20 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
   $warn:           map-get($theme, warn-palette);
 
   // TODO: pass $default, $light and $dark
-  $xm-mat-primary: mat-palette($primary);
-  $xm-mat-accent:  mat-palette(
+  $xm-mat-primary: mat.define-palette($primary);
+  $xm-mat-accent:  mat.define-palette(
                        $secondary,
-                       $xm-mat-secondary-default,
-                       $xm-mat-secondary-lighter,
-                       $xm-mat-secondary-darker,
-                       $xm-mat-secondary-text);
-  $xm-mat-warn:    mat-palette($warn);
+                       $xm-mat-secondary-default);
+  $xm-mat-warn:    mat.define-palette($warn);
 
   $xm-mat-theme:   null !default;
   @if ($xm-is-dark-mode == true) {
-    $xm-mat-theme: mat-dark-theme($xm-mat-primary, $xm-mat-accent, $xm-mat-warn);
+    $xm-mat-theme: mat.define-dark-theme($xm-mat-primary, $xm-mat-accent, $xm-mat-warn);
   } @else {
-    $xm-mat-theme: mat-light-theme($xm-mat-primary, $xm-mat-accent, $xm-mat-warn);
+    $xm-mat-theme: mat.define-light-theme($xm-mat-primary, $xm-mat-accent, $xm-mat-warn);
   }
 
-  @include angular-material-theme($xm-mat-theme);
+  @include mat.all-component-themes($xm-mat-theme);
 }
 
 @mixin angular-material-xm-override() {
@@ -98,7 +95,7 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
 
 }
 
-$xm-mat-typography:        mat-typography-config(
+$xm-mat-typography:        mat.define-typography-config(
                              $font-family:  $xm-font-family,
                              $display-4:    $xm-display-4,
                              $display-3:    $xm-display-3,
@@ -116,7 +113,7 @@ $xm-mat-typography:        mat-typography-config(
                            );
 
 @mixin xm-angular-material-typography() {
-  @include angular-material-typography($xm-mat-typography);
+  @include mat.all-component-typographies($xm-mat-typography);
 }
 
 // fix: correcting indentation mat-icons in round buttons

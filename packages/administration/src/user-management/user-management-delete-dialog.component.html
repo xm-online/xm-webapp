@@ -1,6 +1,6 @@
 <form (ngSubmit)="confirmDelete(user.userKey)" class="m-0" name="deleteForm">
   <div mat-dialog-title>
-    <h4 class="modal-title text-left">{{'entity.delete.title'|translate}}</h4>
+    <h4 class="modal-title text-start">{{'entity.delete.title'|translate}}</h4>
     <xm-modal-close mat-dialog-close></xm-modal-close>
   </div>
   <div mat-dialog-content>
@@ -10,7 +10,7 @@
     </p>
   </div>
   <div mat-dialog-actions>
-    <button class="mr-1 ml-auto" data-dismiss="modal" mat-flat-button type="button" (click)="clear()">
+    <button class="me-1 ms-auto" data-dismiss="modal" mat-flat-button type="button" (click)="clear()">
       <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
     </button>
     <button [disabled]="showLoader" mat-flat-button color="warn" type="submit">
