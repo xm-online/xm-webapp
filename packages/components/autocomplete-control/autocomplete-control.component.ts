@@ -17,7 +17,7 @@ import { LanguageService, Translate, XmTranslationModule } from '@xm-ngx/transla
 import * as _ from 'lodash';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap, tap, filter, shareReplay, finalize } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap, tap, shareReplay, finalize } from 'rxjs/operators';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
 import { format } from '@xm-ngx/shared/operators';
@@ -185,9 +185,13 @@ export class XmAutocompleteControlComponent extends NgModelWrapper<object | stri
 
     public ngOnInit(): void {
         const selectedValue = this.refreshValue.pipe(
-            filter(value => !_.isEmpty(value)),
-            map(value => this.normalizeCollection(value)),
-            switchMap((normalizeSelectedValues) => {
+            switchMap((value) => {
+                if (_.isEmpty(value)) {
+                    return of([]);
+                }
+
+                const normalizeSelectedValues = this.normalizeCollection(value);
+
                 if (!this.fetchSelected) {
                     this.fetchSelected = this.fetchSelectedValues(normalizeSelectedValues).pipe(
                         // When request is failed, use selected value
@@ -241,7 +245,7 @@ export class XmAutocompleteControlComponent extends NgModelWrapper<object | stri
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value.previousValue == null && !_.isEmpty(changes.value.currentValue)) {
+        if (changes.value.isFirstChange() || (changes.value.previousValue == null && !_.isEmpty(changes.value.currentValue))) {
             this.refreshValue.next(this.value);
         }
     }
