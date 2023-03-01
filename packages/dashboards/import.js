@@ -7,7 +7,10 @@ const _ = require('lodash');
 const xmurl = args.xmurl || process.env.npm_config_xmurl || process.env.xmurl || '';
 const xmgrant = args.xmgrant || process.env.npm_config_xmgrant || process.env.xmgrant || '';
 const xmauth = args.xmauth || process.env.npm_config_xmauth || process.env.xmauth || '';
-const target = args.target || process.env.npm_config_target || process.env.target || 'dist/dashboards.json';
+const filePath =
+    args.target || process.env.npm_config_target || process.env.target ||
+    args.dist || process.env.npm_config_dist || process.env.dist
+    || 'dist/dashboards.json';
 const deleteFile = args.deleteFile || process.env.npm_config_deleteFile || process.env.deleteFile || false;
 
 class JsonFile {
@@ -105,7 +108,7 @@ class ExportDashboardRepo {
                 }
 
             }
-
+            logger.info('Dashboard transferred: ' + d.name);
         }
 
         if (errors.length !== 0) {
@@ -116,17 +119,36 @@ class ExportDashboardRepo {
     }
 }
 
-(async function main() {
+async function exportMain() {
+    logger.info('XM.main start');
+    const dashboardRepo = new ExportDashboardRepo();
+    const fileRepo = new JsonFile();
+
+    logger.info('XM.main.connect');
+    await dashboardRepo.connect(xmurl, xmgrant, xmauth);
+    logger.info('XM.main.connected');
+
+    logger.info('XM.main.load');
+    const dashboards = await dashboardRepo.getDashboardsWithWidgets();
+
+    logger.info('XM.main.save');
+    fileRepo.saveJson(filePath, {dashboards});
+
+    logger.info('XM.main end');
+}
+
+async function importMain() {
     logger.info('XM.main start');
     const dashboardRepo = new ExportDashboardRepo();
     const fileRepo = new JsonFile();
 
     logger.info('XM.main.load start');
-    const dashboards = fileRepo.loadFile(target).dashboards;
+    const dashboards = fileRepo.loadFile(filePath).dashboards;
     logger.info(`XM.main.load end dashboards.length=${dashboards.length}`);
 
     logger.info('XM.main.connect');
     await dashboardRepo.connect(xmurl, xmgrant, xmauth);
+    logger.info('XM.main.connected');
 
     logger.info('XM.main.drop');
     await dashboardRepo.dropDashboardsWithWidgets();
@@ -147,8 +169,10 @@ class ExportDashboardRepo {
 
     if (deleteFile) {
         logger.info('XM.main.delete');
-        fileRepo.deleteFile(target);
+        fileRepo.deleteFile(filePath);
     }
 
     logger.info('XM.main end');
-})();
+}
+
+importMain().then();

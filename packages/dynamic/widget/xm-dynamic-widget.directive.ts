@@ -67,6 +67,8 @@ export class XmDynamicWidgetDirective implements OnChanges {
             this.createComponent(this._layout, result);
         } catch (err: unknown) {
             // eslint-disable-next-line no-console
+            console.error(err); // This log required in case of error in constructor of component
+            // eslint-disable-next-line no-console
             console.error(`"The selector=${value.selector}" does not exist!`);
         }
     }
