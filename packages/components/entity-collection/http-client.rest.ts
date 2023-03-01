@@ -15,7 +15,16 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
         this.url = `${plural}`;
     }
 
-    public request<R>(method: string, body?: unknown, params?: HttpParams, headers?: HttpHeaders): Observable<R> {
+    public request<R>(
+        method: string, 
+        body?: unknown, 
+        params?: HttpParams | {
+            [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
+        }, 
+        headers?: HttpHeaders | {
+            [header: string]: string | string[];
+        },
+    ): Observable<R> {
         const req = this.httpClient.request<R>(method, this.url, {
             body,
             params,

@@ -21,7 +21,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, startWith, switchM
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
 import { format } from '@xm-ngx/shared/operators';
-import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { coerceArray } from '@angular/flex-layout';
 
@@ -292,9 +292,7 @@ export class XmAutocompleteControlComponent extends NgModelWrapper<object | stri
             return this.collectionFactory.create(resourceUrl).request(
                 resourceMethod,
                 httpBody,
-                new HttpParams({
-                    fromObject: httpParams,
-                }),
+                httpParams,
                 new HttpHeaders(headers),
             ).pipe(
                 map((data) => {

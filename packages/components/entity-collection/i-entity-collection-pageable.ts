@@ -26,7 +26,16 @@ export interface IEntityCollectionPageable<T extends IId = unknown, Extra extend
     extends IEntityCollection<IId> {
 
     /** Manual request */
-    request<R>(method: string, body?: unknown, params?: HttpParams, headers?: HttpHeaders): Observable<R>;
+    request<R>(
+        method: string, 
+        body?: unknown, 
+            params?: HttpParams | {
+            [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
+        }, 
+        headers?: HttpHeaders | {
+            [header: string]: string | string[];
+        },
+    ): Observable<R>;
 
     /** POST request. Use to create an entity. */
     create(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>>;
