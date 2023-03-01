@@ -56,6 +56,7 @@ export interface XmAutocompleteControlConfig {
     multiple: boolean;
     extractByKey?: string;
     itemMapper: XmAutocompleteControlMapper;
+    skipFetchSelected: boolean;
     autoSelectFirst: boolean;
     searchPlaceholder?: Translate;
     notFoundSearchPlaceholder?: Translate;
@@ -75,6 +76,7 @@ const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
         queryParams: {},
         body: {},
     },
+    skipFetchSelected: false,
     multiple: false,
     autoSelectFirst: false,
     extractByKey: null,
@@ -191,13 +193,16 @@ export class XmAutocompleteControlComponent extends NgModelWrapper<object | stri
                 }
 
                 const normalizeSelectedValues = this.normalizeCollection(value);
+                const defaultSelected = of(normalizeSelectedValues);
 
                 if (!this.fetchSelected) {
-                    this.fetchSelected = this.fetchSelectedValues(normalizeSelectedValues).pipe(
-                        // When request is failed, use selected value
-                        catchError(() => of(normalizeSelectedValues)),
-                        shareReplay(1),
-                    );
+                    this.fetchSelected = this.config.skipFetchSelected 
+                        ? defaultSelected
+                        : this.fetchSelectedValues(normalizeSelectedValues).pipe(
+                            // When request is failed, use selected value
+                            catchError(() => defaultSelected),
+                            shareReplay(1),
+                        );
                 }
                 
                 return this.fetchSelected;
