@@ -5,7 +5,7 @@ import {NavigationEnd, Router} from '@angular/router';
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/shared/operators';
 import {HeatmapService} from './heatmap.service';
 import {CommonModule} from '@angular/common';
-import {Principal} from '@xm-ngx/core/auth';
+import {Principal} from '@xm-ngx/core/user';
 
 @Component({
     selector: 'xm-navbar-dashboard-edit-widget',

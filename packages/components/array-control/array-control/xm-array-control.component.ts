@@ -85,20 +85,20 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         super(ngControl);
     }
 
-    private _options: XmArrayControlOptions = _.cloneDeep(XM_ARRAY_CONTROL_OPTIONS_DEFAULT);
+    private _config: XmArrayControlOptions = _.cloneDeep(XM_ARRAY_CONTROL_OPTIONS_DEFAULT);
 
-    public get options(): XmArrayControlOptions {
-        return this._options;
+    public get config(): XmArrayControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmArrayControlOptions) {
-        this._options = _.defaultsDeep({}, value, {
+    public set config(value: XmArrayControlOptions) {
+        this._config = _.defaultsDeep({}, value, {
             ...XM_ARRAY_CONTROL_OPTIONS_DEFAULT,
         });
 
-        this._options.placeholder = this._options.placeholder || this._options.title;
-        this.presetAutocomplete = this.buildItems(this._options.autocomplete);
+        this._config.placeholder = this._config.placeholder || this._config.title;
+        this.presetAutocomplete = this.buildItems(this._config.autocomplete);
     }
 
     public ngOnInit(): void {
@@ -107,7 +107,7 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         const searchQuery = this.searchControl.valueChanges.pipe(startWith<string, null>(null));
         const fetchAutocompleteItems = of(this.presetAutocomplete).pipe(
             switchMap((autocompleteList) => {
-                const { resourceUrl, queryParams, displayFn, pickKey } = this.options?.search || {};
+                const { resourceUrl, queryParams, displayFn, pickKey } = this.config?.search || {};
 
                 if (resourceUrl) {
                     return this.factoryService.create<unknown>(resourceUrl)
@@ -172,15 +172,18 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
     }
 
     public add(event: MatChipInputEvent): void {
-        if (this.options.onlySuggestSelect) {
+        if (this.config.onlySuggestSelect) {
             return;
         }
 
         const input = event.input;
         const value = (event.value ?? '').trim();
 
-        if (value && this.selectedItems.includes(value)) {
-            (this.selectedItems ?? []).push(value);
+        if (value && !this.selectedItems.includes(value)) {
+            this.selectedItems = [
+                ...(this.selectedItems ?? []),
+                value,
+            ];
         }
 
         if (input) {

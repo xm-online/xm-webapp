@@ -41,11 +41,11 @@ export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
         <mat-radio-group
             [ngModel]="value"
             [ngClass]="{
-                'xm-radio-group--line': options.layout === 'line',
-                'xm-radio-group--stack': options.layout === 'stack'
+                'xm-radio-group--line': config.layout === 'line',
+                'xm-radio-group--stack': config.layout === 'stack'
             }"
             (change)="radioChange($event)">
-            <ng-container *ngFor="let item of options.items">
+            <ng-container *ngFor="let item of config.items">
                 <mat-radio-button
                     class="xm-radio-button"
                     color="primary"
@@ -66,7 +66,7 @@ export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
     },
 })
 export class XmRadioGroupControlComponent extends NgControlAccessor<XmRadioValue> implements XmDynamicControl<XmRadioValue, XmRadioControlOptions> {
-    private _options: XmRadioControlOptions = clone(XM_RADIO_CONTROL_OPTIONS_DEFAULT);
+    private _config: XmRadioControlOptions = clone(XM_RADIO_CONTROL_OPTIONS_DEFAULT);
 
     public get value(): XmRadioValue {
         return this._value;
@@ -77,13 +77,13 @@ export class XmRadioGroupControlComponent extends NgControlAccessor<XmRadioValue
         this._value = value;
     }
 
-    public get options(): XmRadioControlOptions {
-        return this._options;
+    public get config(): XmRadioControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmRadioControlOptions) {
-        this._options = defaults({}, value, XM_RADIO_CONTROL_OPTIONS_DEFAULT);
+    public set config(value: XmRadioControlOptions) {
+        this._config = defaults({}, value, XM_RADIO_CONTROL_OPTIONS_DEFAULT);
     }
 
     constructor(@Optional() public ngControl: NgControl) {

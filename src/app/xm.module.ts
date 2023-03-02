@@ -9,7 +9,9 @@ import { XmAlertModule } from '@xm-ngx/alert';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 import { XmCoreModule } from '@xm-ngx/core';
-import { AuthServerProvider, Principal, UserRouteAccessService, XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { AuthServerProvider, XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
+import { UserRouteAccessService } from '@xm-ngx/core/permission';
 import { XmCoreConfigModule } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
 import { globalErrorHandlerFactory } from '@xm-ngx/core/global-error-handler';
@@ -22,28 +24,41 @@ import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { XmLoggerWatcherService } from '@xm-ngx/logger';
-
-import { IdleLogoutService } from 'src/app/account/logout/idle-logout.service';
-import { XmMainComponent } from 'src/app/layouts';
-import { LayoutModule } from 'src/app/layouts/layout.module';
-import { XmApplicationConfigService } from 'src/app/shared/spec';
-import { XmRoutingModule } from 'src/app/xm-routing.module';
-import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
-import { XM_ELEMENTS } from 'src/registries/xm.registry';
-import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
-import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
-import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { XmSharedModule } from 'src/app/shared/shared.module';
-import { NgxMaskModule } from 'ngx-mask';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
+import { NgxMaskModule } from 'ngx-mask';
+import { XM_DATE_ELEMENTS } from 'packages/components/xm-date.registry';
+import { XM_HTML_ELEMENTS } from 'packages/components/xm-html.registry';
+import { XM_TEXT_ELEMENTS } from 'packages/components/xm-text.registry';
+import { XM_BOOL_ELEMENTS } from 'packages/components/xm-bool.registry';
+import { XM_COPY_ELEMENTS } from 'packages/components/xm-copy.registry';
+import { XM_LINK_ELEMENTS } from 'packages/components/xm-link.registry';
+import { XM_ENUM_ELEMENTS } from 'packages/components/xm-enum.registry';
+import { XM_ARRAY_ELEMENTS } from 'packages/components/xm-array.registry';
+import { XM_TABLE_ELEMENTS } from 'packages/components/xm-table.registry';
+import { XM_NAVBAR_ELEMENTS } from 'packages/components/xm-navbar.registry';
+import { XM_DASHBOARD_ELEMENTS } from 'packages/dashboard/xm-dashboard.registry';
+import { XM_ADMINISTRATION_ELEMENTS } from 'packages/administration/xm-administration.registry';
+import { XM_COMPONENTS_ELEMENTS } from 'packages/components/xm.registry';
+import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
+import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
+
+import { IdleLogoutService } from '@xm-ngx/account/logout/idle-logout.service';
+import { XmMainComponent } from 'src/app/layouts';
+import { LayoutModule } from 'src/app/layouts/layout.module';
+import { XmApplicationConfigService } from '@xm-ngx/core/config';
+import { XmRoutingModule } from 'src/app/xm-routing.module';
+import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
+
+import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import { XmSharedModule } from 'packages/shared/src/shared.module';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
     appearance: 'fill',
 };
 
 const paginatorOptions: MatPaginatorDefaultOptions = {
-    formFieldAppearance: 'standard',
+    formFieldAppearance: 'outline',
 };
 
 @NgModule({
@@ -74,7 +89,21 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
             // #regionstart dynamic-extension-modules
             // #regionend dynamic-extension-modules
         ]),
-        XmDynamicModule.forRoot(XM_ELEMENTS),
+        XmDynamicModule.forRoot([].concat(
+            XM_DATE_ELEMENTS,
+            XM_HTML_ELEMENTS,
+            XM_TEXT_ELEMENTS,
+            XM_BOOL_ELEMENTS,
+            XM_COPY_ELEMENTS,
+            XM_LINK_ELEMENTS,
+            XM_ENUM_ELEMENTS,
+            XM_ARRAY_ELEMENTS,
+            XM_TABLE_ELEMENTS,
+            XM_NAVBAR_ELEMENTS,
+            XM_DASHBOARD_ELEMENTS,
+            XM_ADMINISTRATION_ELEMENTS,
+            XM_COMPONENTS_ELEMENTS,
+        )),
         LayoutModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],

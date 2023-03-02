@@ -5,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardEditorService, DashboardsManagerService } from '@xm-ngx/administration/dashboards-config';
 import { DashboardCollection, WidgetCollection } from '@xm-ngx/administration/dashboards-config/injectors';
 import { MockEntityCollection } from '@xm-ngx/components/entity-collection/testing/mock-entity-collection';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardsListExpandComponent } from './dashboards-list-expand.component';
 
@@ -15,7 +15,7 @@ describe('DashboardsListExpandComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmSharedTestingModule, HttpClientTestingModule, NoopAnimationsModule],
+            imports: [XmTranslationTestingModule, HttpClientTestingModule, NoopAnimationsModule],
             declarations: [DashboardsListExpandComponent],
             providers: [
                 { provide: DashboardsManagerService, useValue: { activeWidget: null } },

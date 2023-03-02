@@ -6,7 +6,7 @@ import { Translate } from '@xm-ngx/translation';
 import { clone, defaults, forEach, keyBy } from 'lodash';
 import { XmEnumOptionsItem, XmEnumValue } from '../value/xm-enum.component';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintText } from '@xm-ngx/components/hint';
 
 
 export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
@@ -41,11 +41,11 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
     selector: 'xm-enum-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options?.title | translate}}</mat-label>
+            <mat-label>{{config?.title | translate}}</mat-label>
             <mat-select [formControl]="control"
-                        [required]="options.required"
-                        [id]="options.id"
-                        [attr.data-qa]="options.dataQa">
+                        [required]="config.required"
+                        [id]="config.id"
+                        [attr.data-qa]="config.dataQa">
                 <mat-select-trigger>
                     <ng-container *ngIf="itemsMap && itemsMap[value + '']">
                         <mat-icon
@@ -58,10 +58,10 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
                     </ng-container>
                 </mat-select-trigger>
 
-                <ng-container *ngIf="options.showClearButton">
+                <ng-container *ngIf="config.showClearButton">
                     <mat-option [hidden]="value === undefined || value === null || value === ''">
                         <mat-icon>close</mat-icon>
-                        {{ options.clearButtonText | translate}}
+                        {{ config.clearButtonText | translate}}
                     </mat-option>
                 </ng-container>
 
@@ -75,7 +75,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
 
-            <mat-hint [hint]="options.hint"></mat-hint>
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
     encapsulation: ViewEncapsulation.None,
@@ -86,15 +86,15 @@ export class XmEnumControlComponent
     implements XmDynamicControl<XmEnumValue, XmEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: {[value: string]: XmEnumControlOptionsItem};
-    private _options: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);
+    private _config: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);
 
-    public get options(): XmEnumControlOptions {
-        return this._options;
+    public get config(): XmEnumControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmEnumControlOptions) {
-        this._options = defaults({}, value, XM_ENUM_CONTROL_OPTIONS_DEFAULT);
+    public set config(value: XmEnumControlOptions) {
+        this._config = defaults({}, value, XM_ENUM_CONTROL_OPTIONS_DEFAULT);
         this.itemsList = value.items || value.enum;
         forEach(this.itemsList, (item) => {
             if (item.value === undefined) {

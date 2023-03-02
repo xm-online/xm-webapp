@@ -4,13 +4,12 @@ import { createRequestOption } from '@xm-ngx/entity';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SERVER_API_URL } from 'src/app/xm.constants';
 import { Metric } from './metric.model';
 
 @Injectable()
 export class MetricService {
 
-    private resourceUrl: string = SERVER_API_URL + 'balance/api/metrics';
+    private resourceUrl: string = 'balance/api/metrics';
 
     constructor(private http: HttpClient) {
     }

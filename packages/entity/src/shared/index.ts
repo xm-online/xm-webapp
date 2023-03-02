@@ -34,8 +34,6 @@ export * from './location.model';
 export * from './location.service';
 export * from './location-spec.model';
 
-export * from '@xm-ngx/xm-shared/spec/password-spec.model';
-
 export * from './rating.model';
 export * from './rating.service';
 export * from './rating-spec.model';

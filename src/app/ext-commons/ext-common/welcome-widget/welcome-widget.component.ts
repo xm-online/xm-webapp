@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'xm-welcome-widget',
     templateUrl: './welcome-widget.component.html',
 })
 export class WelcomeWidgetComponent {
-    public config: any;
+    @Input() public config: any;
 }

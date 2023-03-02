@@ -4,14 +4,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { createRequestOption } from './request-util';
-import { SERVER_API_URL } from 'src/app/xm.constants';
 import { Location } from './location.model';
 
 @Injectable()
 export class LocationService {
 
-    private resourceUrl: string = SERVER_API_URL + 'entity/api/locations';
-    private resourceSearchUrl: string = SERVER_API_URL + 'entity/api/_search/locations';
+    private resourceUrl: string ='entity/api/locations';
+    private resourceSearchUrl: string ='entity/api/_search/locations';
 
     constructor(private http: HttpClient) {
     }

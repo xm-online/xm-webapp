@@ -1,28 +1,24 @@
-export {
-    ThemeSchemeState,
-    ThemeSchemeType,
-} from './src/interfaces/theme-scheme.state';
-
 export { ColorSchemeService, ColorSchemeType } from './src/services/color-scheme.service';
 export { StyleManagerService } from './src/services/style-manager.service';
 export { ThemeColorService } from './src/services/theme-color.service';
 export {
     ThemeSchemeService,
+    ThemeSchemeType,
 } from './src/services/theme-scheme.service';
+
 export {
-    DarkThemeManagerConfig,
-    XmDarkThemeManager,
-} from './src/services/xm-dark-theme-manager';
+    XmThemeController,
+} from './src/controllers/xm-theme-controller.service';
+
 export {
     themeInitializerFactory,
     THEME_PROVIDER_FACTORY,
     themeInitializer,
-    XmThemeConfig,
     XmThemeLoader,
-} from './src/services/xm-theme-loader.service';
+} from './src/controllers/xm-theme-loader.service';
 
 export {
-    THEME_STRATEGY,
-    XmTheme,
     XmThemeStore,
 } from './src/stores/xm-theme-store.service';
+
+export { XmTheme } from './src/interfaces/xm.theme';

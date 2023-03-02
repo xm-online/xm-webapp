@@ -7,7 +7,7 @@
 
 .title-part {
   display:   inline-block;
-  font-size: map-get($xm-title, font-size);
+  font-size: map-get($xm-headline-6, font-size);
   position:  relative;
   @include truncate(300px);
 }

@@ -12,7 +12,7 @@
     "downlevelIteration": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "target": "es2020",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -33,8 +33,14 @@
       "@xm-ngx/core": [
         "packages/core"
       ],
+      "@xm-ngx/core/client": [
+        "packages/core/client"
+      ],
+      "@xm-ngx/core/context": [
+        "packages/core/context"
+      ],
       "@xm-ngx/core/auth": [
-        "src/app/shared/auth"
+        "packages/core/auth"
       ],
       "@xm-ngx/core/config": [
         "packages/core/config"
@@ -60,6 +66,9 @@
       "@xm-ngx/core/theme": [
         "packages/core/theme"
       ],
+      "@xm-ngx/core/role": [
+        "packages/core/role"
+      ],
       "@xm-ngx/core/environment": [
         "src/environments"
       ],
@@ -72,14 +81,14 @@
       "@xm-ngx/confirm-dialog": [
         "packages/confirm-dialog"
       ],
-      "@xm-ngx/json-scheme-form": [
-        "src/app/shared/jsf-extention"
+      "@xm-ngx/json-schema-form/core": [
+        "packages/json-schema-form/core"
       ],
-      "@xm-ngx/json-schema-form/*": [
-        "packages/json-schema-form/*"
+      "@xm-ngx/json-schema-form/components": [
+        "packages/json-schema-form/components"
       ],
       "@xm-ngx/toaster": [
-        "src/app/shared/toaster"
+        "packages/toaster"
       ],
       "@xm-ngx/logger": [
         "packages/logger"
@@ -87,10 +96,17 @@
       "@xm-ngx/logger/testing": [
         "packages/logger/testing"
       ],
-      "@xm-ngx/timeline": ["packages/timeline"],
-      "@xm-ngx/timeline/*": ["packages/timeline/*"],
+      "@xm-ngx/timeline": [
+        "packages/timeline"
+      ],
+      "@xm-ngx/timeline/*": [
+        "packages/timeline/*"
+      ],
       "@xm-ngx/shared": [
-        "src/app/modules/xm-shared"
+        "packages/shared/src"
+      ],
+      "@xm-ngx/shared/*": [
+        "packages/shared/src/*"
       ],
       "@xm-ngx/shared/exceptions": [
         "packages/shared/exceptions"
@@ -110,8 +126,11 @@
       "@xm-ngx/translation/testing": [
         "packages/translation/testing"
       ],
+      "@xm-ngx/account": [
+        "packages/account"
+      ],
       "@xm-ngx/account/*": [
-        "packages/account/src/*"
+        "packages/account/*"
       ],
       "@xm-ngx/entity": [
         "packages/entity"
@@ -119,20 +138,14 @@
       "@xm-ngx/entity/*": [
         "packages/entity/src/*"
       ],
-      "@xm-ngx/xm-shared": [
-        "src/app/shared"
-      ],
-      "@xm-ngx/xm-shared/*": [
-        "src/app/shared/*"
-      ],
       "@xm-ngx/dynamic": [
         "packages/dynamic"
       ],
-      "@xm-ngx/dynamic/route": [
-        "packages/dynamic/route"
+      "@xm-ngx/dynamic/*": [
+        "packages/dynamic/*"
       ],
       "@xm-ngx/dashboard": [
-        "packages/dashboard/src"
+        "packages/dashboard"
       ],
       "@xm-ngx/dashboard/testing": [
         "packages/dashboard/testing"
@@ -142,12 +155,6 @@
       ],
       "@xm-ngx/balance/*": [
         "packages/balance/src/*"
-      ],
-      "@xm-ngx/xm-balance": [
-        "packages/balance"
-      ],
-      "@xm-ngx/components/language": [
-        "src/app/shared/language"
       ],
       "rxjs": [
         "node_modules/rxjs"
@@ -168,6 +175,7 @@
     "newLine": "lf",
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "useDefineForClassFields": false
   }
 }

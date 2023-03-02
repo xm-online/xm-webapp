@@ -1,12 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UIPublicConfig, XmEventManager } from '@xm-ngx/core';
-import { Principal, SUPER_ADMIN } from '@xm-ngx/core/auth';
+import { XmEventManager } from '@xm-ngx/core';
+import { SUPER_ADMIN } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { XM_EVENT_LIST } from '../../xm.constants';
 import { ProfileInfo } from './profile-info.model';
 import { ProfileService } from './profile.service';
-import { XmApplicationConfigService } from '../../shared/spec';
+import { XmApplicationConfigService, XmUIConfig } from '@xm-ngx/core/config';
+
+export interface PageRibbonXmUIConfig extends XmUIConfig {
+    ribbon: boolean;
+}
 
 @Component({
     selector: 'xm-page-ribbon',
@@ -32,9 +37,9 @@ export class PageRibbonComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private profileService: ProfileService,
         private eventManager: XmEventManager,
-        private xmConfigService: XmApplicationConfigService,
+        private xmConfigService: XmApplicationConfigService<PageRibbonXmUIConfig>,
     ) {
-        const config: UIPublicConfig = this.xmConfigService.getAppConfig();
+        const config = this.xmConfigService.getAppConfig();
         this.showRibbon = config?.ribbon;
         this.registerChangeAuth();
     }

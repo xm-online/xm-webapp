@@ -21,7 +21,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
         this.show = value;
         if (!this.noDisableParent) {
             this.elementRef.nativeElement
-                .parentElement.classList[value ? 'add' : 'remove']('xm-disabled');
+                .parentElement?.classList[value ? 'add' : 'remove']('xm-disabled');
         }
     }
 
@@ -33,6 +33,6 @@ export class LoaderComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.elementRef.nativeElement
-            .parentElement.classList.remove('xm-disabled');
+            .parentElement?.classList.remove('xm-disabled');
     }
 }

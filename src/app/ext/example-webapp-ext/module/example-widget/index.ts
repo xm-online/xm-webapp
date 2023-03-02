@@ -1,3 +1,5 @@
 export {
-    ExampleWidgetModule,
-} from './example-widget.module';
+    ExampleWidgetComponent,
+    ExampleWidgetComponentConfig,
+    EXAMPLE_WIDGET_COMPONENT_DEFAULT_CONFIG,
+} from './example-widget.component';

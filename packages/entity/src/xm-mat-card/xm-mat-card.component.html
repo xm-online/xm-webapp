@@ -4,7 +4,7 @@
             [ngClass]="options.cardClass"
             class="mb-3">
 
-    <div class="d-flex justify-content-between">
+    <mat-card-header class="d-flex justify-content-between">
 
       <div mat-card-title>
         <span *ngIf="options.title">{{options.title | translate}}</span>
@@ -35,7 +35,7 @@
 
       </div>
 
-    </div>
+    </mat-card-header>
 
     <mat-card-content *ngIf="entity"
                       [@bodyExpansion]="contentHidden ? 'collapsed' : 'expanded'"

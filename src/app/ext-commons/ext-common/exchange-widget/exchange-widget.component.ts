@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { FinanceService } from './finance.service';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 declare let $: any;
 
@@ -9,10 +10,10 @@ declare let $: any;
     templateUrl: './exchange-widget.component.html',
     styleUrls: ['./exchange-widget.component.scss'],
 })
-export class ExchangeWidgetComponent implements OnInit {
+export class ExchangeWidgetComponent implements OnInit, XmDynamicWidget {
 
     public isShowCalc: boolean = false;
-    public config: any;
+    @Input() public config: any;
 
     public calc: any = {fromValue: 1};
     public currency: any = {};
@@ -51,13 +52,13 @@ export class ExchangeWidgetComponent implements OnInit {
             const code = to + '_' + from;
             const rate = this.currency.rates.filter((r) => r.hasOwnProperty(code)).shift();
             return rate ? 1 / rate[code].val : null;
-        } 
+        }
         const code1 = this.currency.from + '_' + from;
         const code2 = this.currency.from + '_' + to;
         const rate1 = this.currency.rates.filter((r) => r.hasOwnProperty(code1)).shift();
         const rate2 = this.currency.rates.filter((r) => r.hasOwnProperty(code2)).shift();
         return rate1 && rate2 ? rate1[code1].val / rate2[code2].val : null;
-        
+
     }
 
     public onChangeCalc(): void {

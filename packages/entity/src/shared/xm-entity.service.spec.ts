@@ -1,15 +1,14 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { JhiDateUtils } from 'ng-jhipster';
-import { SERVER_API_URL } from 'src/app/xm.constants';
 import { XmEntityService } from './xm-entity.service';
 
 describe('XmEntityService', () => {
-    const v2ResourceUrl = `/${SERVER_API_URL}entity/api/v2/xm-entities`;
-    const resourceUrl = `/${SERVER_API_URL}entity/api/xm-entities`;
-    const resourceSearchUrl = `/${SERVER_API_URL}entity/api/_search/xm-entities`;
-    const resourceProfileUrl = `/${SERVER_API_URL}entity/api/profile`;
-    const resourceSearchTemplateUrl = `/${SERVER_API_URL}entity/api/_search-with-template/xm-entities`;
+    const v2ResourceUrl = '/entity/api/v2/xm-entities';
+    const resourceUrl = '/entity/api/xm-entities';
+    const resourceSearchUrl = '/entity/api/_search/xm-entities';
+    const resourceProfileUrl = '/entity/api/profile';
+    const resourceSearchTemplateUrl = '/entity/api/_search-with-template/xm-entities';
     const getEntitiesByIdUrl = '/entity/api/xm-entities-by-ids';
 
     let service: XmEntityService;
@@ -35,7 +34,7 @@ describe('XmEntityService', () => {
         it('should call find() with correct url', (done) => {
             const id = 123;
             service.find(id).subscribe(() => done());
-            const req = httpTestingController.expectOne(`${SERVER_API_URL + resourceUrl}/${id}`);
+            const req = httpTestingController.expectOne(`${resourceUrl}/${id}`);
             req.flush({ id: 123 });
         });
 

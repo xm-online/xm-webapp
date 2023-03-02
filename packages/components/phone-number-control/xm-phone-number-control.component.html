@@ -1,24 +1,26 @@
 <mat-form-field>
 
-  <mat-label>{{ options.title | translate}}</mat-label>
+  <mat-label>{{ config.title | translate}}</mat-label>
 
   <input (blur)="touch(value)"
          (ngModelChange)="change($event)"
-         [id]="options.id"
-         [mask]="options.mask"
+         [id]="config.id"
+         [mask]="config.mask"
          [ngModel]="inputValue"
          [disabled]="ngControl?.disabled || disabled"
-         [pattern]="options.pattern"
-         [placeHolderCharacter]="options.placeHolderCharacter"
+         [pattern]="config.pattern"
+         onPasteRemovePrefix
+         [onPasteRemovePrefixPrefix]="config.defaultPrefix"
+         [placeHolderCharacter]="config.placeHolderCharacter"
          [showMaskTyped]="true"
          autocomplete="tel"
          matInput
          name="phoneNumber"
-         [required]="options.required"
+         [required]="config.required"
          type="tel">
 
-  <span matPrefix>{{options.defaultPrefix}}</span>
+  <span matPrefix>{{config.defaultPrefix}}</span>
   <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
 
-  <mat-hint [hint]="options.hint"></mat-hint>
+  <mat-hint [hint]="config.hint"></mat-hint>
 </mat-form-field>

@@ -12,12 +12,12 @@ import {
     CalendarSpec, EventService,
     XmEntity,
 } from '@xm-ngx/entity/shared';
-import { EntityCalendarUiConfig } from '@xm-ngx/xm-shared/spec';
+import { EntityCalendarUiConfig } from '@xm-ngx/core/config';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { I18nNamePipe } from '@xm-ngx/components/language';
+import { I18nNamePipe } from '@xm-ngx/translation';
 import { LanguageService } from '@xm-ngx/translation';
 import { TranslateService } from '@ngx-translate/core';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import {
     CALENDAR_VIEW,
     DEFAULT_CALENDAR_VIEW,
@@ -32,6 +32,11 @@ import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-vie
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import listPlugin from '@fullcalendar/list';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import momentTimezonePlugin from '@fullcalendar/moment-timezone';
+import interactionPlugin from '@fullcalendar/interaction';
 
 export const DEFAULT_DAY_MAX_EVENT_ROWS = 300;
 
@@ -84,6 +89,13 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
                 center: 'month,agendaWeek,agendaDay,listDay,listWeek',
                 right: 'prev,next,today',
             },
+            plugins:[
+                dayGridPlugin,
+                listPlugin,
+                timeGridPlugin,
+                momentTimezonePlugin,
+                interactionPlugin,
+            ],
             buttonIcons: {
                 prev: 'left-single-arrow',
                 next: 'right-single-arrow',

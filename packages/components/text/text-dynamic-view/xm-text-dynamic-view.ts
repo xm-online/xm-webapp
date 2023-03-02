@@ -19,19 +19,20 @@ export interface XmTextDynamicOptions extends XmTextTitleOptions {
 @Component({
     selector: 'xm-text-dynamic-view',
     template: `
-        <xm-text-view-container [styleInline]="this.options?.textStyle === 'inline'">
-            <span xmLabel>{{options.title | translate}}</span>
+        <xm-text-view-container [styleInline]="config?.textStyle === 'inline'">
+            <span xmLabel>{{config.title | translate}}</span>
             <span xmDynamicPresentation
                   xmValue
-                  [selector]="options.selector"
+                  [selector]="config.selector"
                   [value]="value"
-                  [options]="options.options"></span>
+                  [config]="config.options"
+                  [options]="config.options"></span>
         </xm-text-view-container>
     `,
 })
 export class XmTextDynamicView implements XmDynamicPresentation<Primitive, XmTextDynamicOptions> {
     @Input() public value: Primitive;
-    @Input() public options: XmTextDynamicOptions;
+    @Input() public config: XmTextDynamicOptions;
 }
 
 @NgModule({

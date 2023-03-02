@@ -17,22 +17,22 @@ export type XmDateValue = string | Date;
 
 @Component({
     selector: 'xm-date',
-    template: '{{ value | date:options.format:options.timezone:options.locale }}',
+    template: '{{ value | date : config.format : config.timezone : config.locale }}',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmDateComponent implements XmDynamicPresentation<XmDateValue, XmDateOptions> {
     @Input() public value: XmDateValue;
 
-    protected _options: XmDateOptions = {};
+    protected _config: XmDateOptions = {};
 
-    public get options(): XmDateOptions {
-        return this._options;
+    public get config(): XmDateOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmDateOptions) {
-        this._options = defaults(value, {});
+    public set config(value: XmDateOptions) {
+        this._config = defaults(value, {});
     }
 }
 

@@ -282,6 +282,7 @@
       }
     },
     "403": "You are not authorized to access the page.",
+    "413": "Server's file size limit exceeded",
     "500": "Internal Server Error.",
     "business": "Forwarding error",
     "concurrencyFailure": "Parallel request error.",

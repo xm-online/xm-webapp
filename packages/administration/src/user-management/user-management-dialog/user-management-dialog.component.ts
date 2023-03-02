@@ -3,10 +3,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager, XmPublicUiConfigService } from '@xm-ngx/core';
 import { LanguageService } from '@xm-ngx/translation';
 import { filter, take } from 'rxjs/operators';
-import { User, UserService, XmConfigService } from '../../../../../src/app/shared';
-import { RoleService } from '../../../../../src/app/shared/role/role.service';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { User, UserService } from '@xm-ngx/core/user';
+import { RoleService } from '@xm-ngx/core/role';
 
 import { XM_EVENT_LIST } from '../../../../../src/app/xm.constants';
+import { XmLanguageUiConfig } from '@xm-ngx/administration/translations/services/translation.service';
 
 @Component({
     selector: 'xm-user-mgmt-dialog',
@@ -27,7 +29,7 @@ export class UserMgmtDialogComponent implements OnInit {
         public activeModal: MatDialogRef<UserMgmtDialogComponent>,
         private languageService: LanguageService,
         private configService: XmConfigService,
-        private xmConfigService: XmPublicUiConfigService,
+        private xmConfigService: XmPublicUiConfigService<XmLanguageUiConfig>,
         private userService: UserService,
         private roleService: RoleService,
         private eventManager: XmEventManager,

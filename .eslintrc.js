@@ -97,6 +97,12 @@ module.exports = {
                         },
                     },
                 ],
+                '@typescript-eslint/no-empty-interface': [
+                    'error',
+                    {
+                        'allowSingleExtends': true,
+                    },
+                ],
                 '@angular-eslint/component-class-suffix': [
                     'warn',
                     {

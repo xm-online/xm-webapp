@@ -1,5 +1,5 @@
 import { Dashboard } from '@xm-ngx/dashboard';
-import { MenuItem } from '@xm-ngx/components/menu/menu.interface';
+import { MenuItem } from './menu.interface';
 import * as _ from 'lodash';
 
 const DEFAULT_DASHBOARD_KEY = 'DASHBOARD';

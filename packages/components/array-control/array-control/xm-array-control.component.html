@@ -1,16 +1,16 @@
 <mat-form-field>
-  <mat-label>{{options.title | translate}}</mat-label>
-  <mat-chip-list #chipList [disabled]="control.disabled" [attr.aria-label]="options.ariaLabel">
-    <mat-chip
+  <mat-label>{{config.title | translate}}</mat-label>
+  <mat-chip-grid #chipList [disabled]="control.disabled" [attr.aria-label]="config.ariaLabel">
+    <mat-chip-option
       *ngFor="let item of compareSelectedItems | async"
-      [selectable]="options.selectable"
-      [removable]="options.removable"
+      [selectable]="config.selectable"
+      [removable]="config.removable"
       (removed)="remove(item.value)">
       {{item.view}}
-      <mat-icon matChipRemove *ngIf="options.removable">cancel</mat-icon>
-    </mat-chip>
+      <mat-icon matChipRemove *ngIf="config.removable">cancel</mat-icon>
+    </mat-chip-option>
     <input
-      [placeholder]="options.placeholder | translate"
+      [placeholder]="config.placeholder | translate"
       #input
       [formControl]="searchControl"
       (blur)="touch()"
@@ -19,7 +19,7 @@
       [matChipInputFor]="chipList"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="add($event)">
-  </mat-chip-list>
+  </mat-chip-grid>
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)">
     <mat-option *ngFor="let item of filteredItems | async" [value]="item.value">
@@ -29,5 +29,5 @@
 
   <mat-error *xmControlErrors="control.errors; message as message">{{message}}</mat-error>
 
-  <mat-hint [hint]="options.hint"></mat-hint>
+  <mat-hint [hint]="config.hint"></mat-hint>
 </mat-form-field>

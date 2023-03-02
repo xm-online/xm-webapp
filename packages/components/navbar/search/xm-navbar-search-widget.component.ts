@@ -2,15 +2,16 @@ import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
-import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { iif, Observable, of } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
-import { getApplicationTypeKey } from '../../../../src/app/shared/helpers/entity-list-helper';
+import { getApplicationTypeKey } from '../../../shared/src/helpers/entity-list-helper';
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
-interface SearchConfig {
+interface SearchConfig extends XmUIConfig {
     search: {
         searchFullMatch: boolean;
         searchPanel: boolean;
@@ -47,7 +48,7 @@ interface SearchConfig {
     styleUrls: ['./xm-navbar-search-widget.component.scss'],
 })
 
-export class XmNavbarSearchWidget implements OnInit {
+export class XmNavbarSearchWidget implements OnInit, XmDynamicWidget {
     @Input() @Defaults({}) public config: { permission: string[] };
 
     public searchMask: string = '';
