@@ -58,7 +58,7 @@ const formFieldOptions: MatFormFieldDefaultOptions = {
 };
 
 const paginatorOptions: MatPaginatorDefaultOptions = {
-    formFieldAppearance: 'standard',
+    formFieldAppearance: 'outline',
 };
 
 @NgModule({

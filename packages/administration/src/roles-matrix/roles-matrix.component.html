@@ -61,14 +61,14 @@
     <div class="material-datatables table-responsive xm-role-matrix-table">
 
       <div *ngIf="hiddenRoles" class="d-flex flex-wrap mb-4">
-        <mat-chip-list>
+        <mat-chip-listbox>
           <mat-chip (removed)="onViewRole(item)"
                     *ngFor="let item of hiddenRoles"
                     [removable]="true">
             {{item.role}}
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
-        </mat-chip-list>
+        </mat-chip-listbox>
       </div>
 
       <div class="table-responsive">
@@ -106,12 +106,12 @@
             <ng-container *ngFor="let role of matrix?.roles; index as i">
               <ng-container [matColumnDef]="role">
                 <th *matHeaderCellDef scope="col" mat-header-cell>
-                  <mat-chip-list class="mt-2 mb-2 d-block">
+                  <mat-chip-grid class="mt-2 mb-2 d-block">
                     <mat-chip (removed)="onHideRole(role, i)" removable>
                       {{role}}
                       <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
-                  </mat-chip-list>
+                  </mat-chip-grid>
                   <div class="mt-2 mb-2">
                     <mat-slide-toggle (change)="onAllChanged(role, $event);"
                                       [checked]="isAllChecked(role)"
