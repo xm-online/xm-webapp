@@ -2,6 +2,7 @@
 *.iml
 node_modules/
 dist/
+lib/
 !src/swagger-ui/dist/
 out-tsc/
 .DS_Store

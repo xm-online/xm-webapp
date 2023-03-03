@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/packages/confirm-dialog",
+  "dest": "../../lib/packages/confirm-dialog",
   "lib": {
     "entryFile": "./index.ts"
   }
