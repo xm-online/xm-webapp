@@ -1,6 +1,6 @@
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Component, ElementRef, Input, OnDestroy } from '@angular/core';
-import { MatIconButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { XmOverlayResponse, XmTableFilterButtonDialogComponent } from './xm-table-filter-button-dialog.component';
 import { XmOverlayService } from '../../../overlay/xm-overlay.service';
@@ -23,7 +23,7 @@ import { ButtonSpinnerModule } from '@xm-ngx/components/button-spinner';
     `,
     imports: [
         MatIconModule,
-        MatIconButton,
+        MatButtonModule,
         ButtonSpinnerModule,
     ],
 })
