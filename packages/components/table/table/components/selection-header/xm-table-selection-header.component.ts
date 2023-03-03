@@ -1,12 +1,11 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { XmTableAction } from '../../interfaces/xm-table.model';
 import { XmTableSelectionService, } from '../../controllers/selections/xm-table-selection.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgForOf, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { XmDynamicModule, XmPresentationLayout } from '@xm-ngx/dynamic';
 import { tap } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
@@ -19,14 +18,14 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 
             <span>{{this.selectionModel?.selected?.length}} items selected</span>
 
-            <ng-container *ngIf="inlineComponents">
+            <ng-container *ngIf="config">
                 <ng-container xmDynamicPresentation
-                              *ngFor="let el of inlineComponents"
+                              *ngFor="let el of config"
                               [class]="el.class"
                               [style]="el.style"
-                              [selector]="el.component"
+                              [selector]="el.selector"
                               [value]="selectionModel?.selected"
-                              [options]="el.options">
+                              [options]="el.config">
                 </ng-container>
             </ng-container>
 
@@ -50,8 +49,6 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
     ],
 })
 export class XmTableSelectionHeaderComponent implements OnInit, OnDestroy {
-    public inlineComponents: XmTableAction[];
-    public groupComponents: XmTableAction[];
     public isVisible: boolean;
     public selectionModel;
 
@@ -59,17 +56,15 @@ export class XmTableSelectionHeaderComponent implements OnInit, OnDestroy {
         this.selectionModel = this.selectionService.selection;
     }
 
-    private _config: XmTableAction[];
+    private _config: XmPresentationLayout[];
 
-    public get config(): XmTableAction[] {
+    public get config(): XmPresentationLayout[] {
         return this._config;
     }
 
     @Input()
-    public set config(value: XmTableAction[]) {
+    public set config(value: XmPresentationLayout[]) {
         this._config = value;
-        this.inlineComponents = this._config?.filter(node => node.inline);
-        this.groupComponents = this._config?.filter(node => !node.inline);
     }
 
     public ngOnDestroy(): void {

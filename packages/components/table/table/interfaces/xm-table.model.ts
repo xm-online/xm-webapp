@@ -10,6 +10,7 @@ import {
 } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table-empty.component';
 import { TableColumn } from '../../column/table-column-dynamic-cell';
+import { XmPresentationLayout } from '@xm-ngx/dynamic';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination {
     pageSizeOptions: number[],
@@ -23,9 +24,9 @@ export interface XmTableConfig {
     filtersToRequest?: any,
     filters: FormGroupLayoutItem[],
     /** Actions configuration */
-    actions: XmTableAction[],
+    actions: XmPresentationLayout[],
     /** Selection configuration */
-    selection: XmTableAction[],
+    selection: XmPresentationLayout[],
     /** Columns configuration */
     columns: TableColumn[],
     collection: {
@@ -82,13 +83,6 @@ export interface XmTableOptions {
 export interface EmptyTableConfig {
     image: string,
     message: Translate
-}
-
-export interface XmTableAction {
-    component: string,
-    inline: boolean,
-    icon: string,
-    options: unknown
 }
 
 

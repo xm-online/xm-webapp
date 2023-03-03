@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { XmDynamicModule, XmPresentationLayout } from '@xm-ngx/dynamic';
 import { NgForOf, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -9,13 +9,13 @@ import { MatButtonModule } from '@angular/material/button';
     selector: 'xm-table-actions-buttons',
     standalone: true,
     template: `
-        <ng-container *ngIf="inlineComponents">
+        <ng-container *ngIf="config">
             <ng-container xmDynamicPresentation
-                          *ngFor="let el of inlineComponents"
+                          *ngFor="let el of config"
                           [class]="el.class"
                           [style]="el.style"
-                          [selector]="el.component"
-                          [options]="el.options">
+                          [selector]="el.selector"
+                          [config]="el.config">
             </ng-container>
         </ng-container>
     `,
@@ -29,7 +29,5 @@ import { MatButtonModule } from '@angular/material/button';
     ],
 })
 export class XmTableActionsButtonsComponent {
-    @Input() public config: any;
-
-    public inlineComponents: any;
+    @Input() public config: XmPresentationLayout[];
 }

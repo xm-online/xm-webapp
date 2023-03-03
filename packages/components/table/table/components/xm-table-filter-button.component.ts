@@ -1,6 +1,6 @@
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
-import { Component, Input, OnDestroy } from '@angular/core';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { Component, ElementRef, Input, OnDestroy } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { XmOverlayResponse, XmTableFilterButtonDialogComponent } from './xm-table-filter-button-dialog.component';
 import { XmOverlayService } from '../../../overlay/xm-overlay.service';
@@ -23,7 +23,6 @@ import { ButtonSpinnerModule } from '@xm-ngx/components/button-spinner';
         </button>
     `,
     imports: [
-        MatButtonModule,
         MatIconModule,
         ButtonSpinnerModule,
     ],
@@ -33,13 +32,37 @@ export class XmTableFilterButtonComponent implements OnDestroy {
     @Input() public loading: boolean;
 
     constructor(private overlay: Overlay,
+                private elementRef: ElementRef,
                 private overlayService: XmOverlayService,
                 private requestBuilder: XmTableFilterController) {
 
     }
 
-    public openFilter(origin: MatButton): void {
-        const overlayConfig = this.createOverlayConfig(origin);
+    public openFilter(origin: MatIconButton): void {
+        const strategy = this.overlay
+            .position()
+            .flexibleConnectedTo(this.elementRef)
+            .withFlexibleDimensions(true)
+            .withGrowAfterOpen(true)
+            .withPositions([
+                {
+                    offsetY: 0,
+                    originX: 'start',
+                    originY: 'top',
+                    overlayX: 'start',
+                    overlayY: 'top',
+                },
+            ])
+            .withLockedPosition(true)
+        ;
+
+        const overlayConfig = new OverlayConfig({
+            scrollStrategy: this.overlay.scrollStrategies.reposition(),
+            disposeOnNavigation: true,
+            hasBackdrop: true,
+            positionStrategy: strategy,
+        });
+
         this.overlayService.setOverlayConfig(overlayConfig);
         const overlayRef = this.overlayService.open<XmOverlayResponse>(
             XmTableFilterButtonDialogComponent,
@@ -57,30 +80,5 @@ export class XmTableFilterButtonComponent implements OnDestroy {
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
-    }
-
-    private createOverlayConfig(attachTo: MatButton): OverlayConfig {
-
-        const strategy = this.overlay.position()
-            .flexibleConnectedTo(attachTo._elementRef)
-            .withFlexibleDimensions(true)
-            .withGrowAfterOpen(true)
-            .withPositions([
-                {
-                    originX: 'end',
-                    originY: 'bottom',
-                    overlayX: 'start',
-                    overlayY: 'top',
-                },
-
-            ])
-            .withLockedPosition(true);
-
-        return new OverlayConfig({
-            scrollStrategy: this.overlay.scrollStrategies.reposition(),
-            disposeOnNavigation: true,
-            hasBackdrop: true,
-            positionStrategy: strategy,
-        });
     }
 }
