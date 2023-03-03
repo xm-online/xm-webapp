@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "release": "4.0.0",
   "private": true,
   "description": "Xm-webapp",
@@ -143,7 +143,7 @@
     "ngx-img-cropper": "11.0.0",
     "ngx-markdown": "14.0.1",
     "ngx-mask": "14.2.4",
-    "ngx-mat-select-search": "5.0.0",
+    "ngx-mat-select-search": "7.0.0",
     "ngx-papaparse": "5.1.0",
     "ngx-webstorage": "10.0.1",
     "nomnoml": "0.6.2",

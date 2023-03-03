@@ -17,14 +17,15 @@ import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { LanguageService, Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap, tap, shareReplay, finalize, filter } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap, tap, finalize } from 'rxjs/operators';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
-import { format, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { HttpHeaders } from '@angular/common/http';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { coerceArray } from '@angular/flex-layout';
+import { MatOption } from '@angular/material/core';
 
 export interface XmAutocompleteControlMapper {
     // Interpolated string as ${name}
@@ -36,7 +37,7 @@ export type XmAutocompleteControlParams = Record<string, string>;
 export type XmAutocompleteControlBody = Record<string, string>;
 
 export interface XmAutocompleteControlListItem {
-    value: string;
+    value: unknown;
     view: string;
 }
 
@@ -57,9 +58,11 @@ export interface XmAutocompleteControlConfig {
     filterFetchedData?: boolean;
     multiple: boolean;
     extractByKey?: string;
+    compareMap: Record<string, unknown>;
     itemMapper: XmAutocompleteControlMapper;
     skipUpdateWhileMismatch?: boolean;
     skipFetchSelected?: boolean;
+    valueAsJson?: boolean;
     autoSelectFirst: boolean;
     searchPlaceholder?: Translate;
     notFoundSearchPlaceholder?: Translate;
@@ -83,8 +86,10 @@ const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
     skipFetchSelected: false,
     skipUpdateWhileMismatch: false,
     multiple: false,
+    valueAsJson: false,
     autoSelectFirst: false,
     extractByKey: null,
+    compareMap: null,
     itemMapper: {
         displayFn: '${name}',
         valueByKey: '${name}',
@@ -103,8 +108,9 @@ const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
             <mat-select [multiple]="config?.multiple"
                         [disabled]="disabled"
                         [ngModel]="selected"
+                        [compareWith]="optionCompare"
                         (selectionChange)="change($event.value)">
-                
+
                 <mat-option>
                     <ngx-mat-select-search 
                         [clearSearchInput]="false"
@@ -115,7 +121,7 @@ const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
 
                 <mat-progress-bar mode="indeterminate" *ngIf="loading | async"></mat-progress-bar>
 
-                <div class="mat-option" [hidden]="!selected" (click)="deselect()">
+                <div class="mat-mdc-option" [hidden]="!selected" (click)="deselect()">
                     <mat-icon>close</mat-icon>
                     {{'common-webapp-ext.buttons.cancel' | translate}}
                 </div>
@@ -148,7 +154,7 @@ const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
     providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteControlComponent), multi: true } ],
 })
 export class XmAutocompleteControlComponent extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {
-    private refreshValue = new BehaviorSubject<object | string>(null);
+    private refreshValue = new Subject<unknown>();
 
     private displayFn: _.TemplateExecutor;
     private valueByKey: _.TemplateExecutor;
@@ -177,13 +183,17 @@ export class XmAutocompleteControlComponent extends NgModelWrapper<object | stri
         return this._selected;
     }
 
-    private fetchSelectedCache: Observable<XmAutocompleteControlListItem[]>;
+    private requestCache: Observable<XmAutocompleteControlListItem[]>;
 
     private collectionFactory = inject(EntityCollectionFactoryService);
     private languageService = inject(LanguageService);
 
     public searchQueryControl = new FormControl('');
-    public list = of<XmAutocompleteControlListItem[]>([]);
+
+    private fetchedList = new BehaviorSubject<XmAutocompleteControlListItem[]>([]);
+    private searchedList = new BehaviorSubject<XmAutocompleteControlListItem[]>([]);
+
+    public list = new BehaviorSubject<XmAutocompleteControlListItem[]>([]);
 
     private _loading = new BehaviorSubject<boolean>(false);
     public get loading(): Observable<boolean> {
@@ -191,66 +201,86 @@ export class XmAutocompleteControlComponent extends NgModelWrapper<object | stri
     }
 
     public ngOnInit(): void {
-        const alreadyFetched = this.fetchedChanges();
-
-        const fetchSelected = this.refreshValue.pipe(
-            filter((value) => !_.isEmpty(value)),
-            map((value) => this.normalizeCollection(value)),
-            switchMap((normalizeSelectedValues) => {
-                if (!this.fetchSelectedCache) {
-                    this.fetchSelectedCache = this.fetchSelectedValues(normalizeSelectedValues).pipe(
-                        tap((fetchedSelectedValues) => {
-                            alreadyFetched(normalizeSelectedValues, fetchedSelectedValues);
-                        }),
-                        shareReplay(1),
-                    );
-                }
-
-                return this.fetchSelectedCache;
-            }),
-        );
-
-        const searchResult = this.searchQueryControl.valueChanges.pipe(
-            startWith<string>(null),
-            distinctUntilChanged(),
-            debounceTime(300),
-            switchMap((searchQuery) => {
-                if (_.isEmpty(searchQuery)) {
+        this.refreshValue.pipe(
+            startWith(null),
+            switchMap((value) => {
+                if (_.isEmpty(value)) {
                     return of([]);
                 }
 
+                const normalizeSelectedValues = this.normalizeCollection(value);
+
+                if (!this.requestCache) {
+                    this.requestCache = this.fetchSelectedValues(normalizeSelectedValues).pipe(
+                        tap((fetchedSelectedValues) => {
+                        // If we received more data than requested, trying filter them
+                            if (fetchedSelectedValues > normalizeSelectedValues && this.config.filterFetchedData) {
+                                fetchedSelectedValues = _.intersectionBy(fetchedSelectedValues, normalizeSelectedValues, 'value');
+                            }
+                        
+                            if (fetchedSelectedValues > normalizeSelectedValues && this.config.skipUpdateWhileMismatch) {
+                                return;
+                            }
+            
+                            this.change(this.unwrapValues(fetchedSelectedValues));
+                        }),
+                    );
+                }
+
+                return this.requestCache;
+            }),
+            tap(values => {
+                this.fetchedList.next(values);
+            }),
+            takeUntilOnDestroy(this),
+        ).subscribe();
+
+        this.searchQueryControl.valueChanges.pipe(
+            distinctUntilChanged(),
+            debounceTime(300),
+            switchMap((searchQuery) => {
                 return this.searchByQuery(searchQuery).pipe(
                     catchError(() => of([])),
                 );
             }),
-            shareReplay(1),
-        );
+            tap(values => {
+                this.searchedList.next(values);
+            }),
+            takeUntilOnDestroy(this),
+        ).subscribe();
 
-        this.list = combineLatest([
-            fetchSelected,
-            searchResult,
+        combineLatest([
+            this.fetchedList,
+            this.searchedList,
         ]).pipe(
             map(([fetchedSelectedValues, search]) => {
                 return _.differenceWith(fetchedSelectedValues, search, _.isEqual).concat(search);
             }),
-            tap((list) => {
-                if (this.config?.autoSelectFirst) {
-                    this.autoSelectSingle(list);
-                }
+            tap((values) => {
+                this.list.next(values);
             }),
-            shareReplay(1),
-        );
+            takeUntilOnDestroy(this),
+        ).subscribe();
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        this.refreshValue.next(this.value);
+        if (changes.value.previousValue == null && changes.value.currentValue == null && changes.value.isFirstChange()) {
+            this.refreshValue.next(changes.value.currentValue);
+        }
+
+        if (this.list.value.length <= 0 && changes.value.previousValue == null 
+            && !_.isEmpty(changes.value.currentValue) 
+            && !changes.value.isFirstChange()
+        ) {            
+            this.refreshValue.next(changes.value.currentValue);
+        }
     }
 
     private searchByQuery(searchQuery: string): Observable<XmAutocompleteControlListItem[]> {
         const { queryParams, body} = this.config?.search || {};
 
-        const httpParams = format<XmAutocompleteControlParams>(queryParams, this.getSearchCriteriaContext(searchQuery));
-        const httpBody = format<XmAutocompleteControlBody>(body, this.getSearchCriteriaContext(searchQuery));
+        const httpParams = this.format(queryParams, this.getSearchCriteriaContext(searchQuery));
+        const httpBody = this.format(body, this.getSearchCriteriaContext(searchQuery));
 
         return this.buildRequest(httpParams, httpBody);
     }
@@ -262,8 +292,8 @@ export class XmAutocompleteControlComponent extends NgModelWrapper<object | stri
 
         const { queryParams, body } = this.config?.fetchSelectedByCriteria || {};
 
-        const httpParams = format<XmAutocompleteControlParams>(queryParams, this.getSearchCriteriaContext(values));
-        const httpBody = format<XmAutocompleteControlParams>(body, this.getSearchCriteriaContext(values));
+        const httpParams = this.format(queryParams, this.getSearchCriteriaContext(values));
+        const httpBody = this.format(body, this.getSearchCriteriaContext(values));
         
         return this.buildRequest(httpParams, httpBody).pipe(
             catchError(() => of(values)),
@@ -314,56 +344,57 @@ export class XmAutocompleteControlComponent extends NgModelWrapper<object | stri
         return of([]);
     }
 
+    private format(params: XmAutocompleteControlParams, context: unknown): XmAutocompleteControlParams {
+        return _.omitBy(format<XmAutocompleteControlParams>(params, context), _.isEmpty);
+    }
+
     private normalizeModel(item: object | string): XmAutocompleteControlListItem {
+        let value = item;
+        
+        if (_.isObject(item)) {
+            const compiled = this.valueByKey(item);
+
+            if (this.config.valueAsJson) {
+                try {
+                    value = JSON.parse(compiled);
+                } catch (error) {}
+            } else {
+                value = compiled;
+            }
+        }
+
         return {
-            value: _.isObject(item) ? this.valueByKey(item) : item,
+            value,
             view: _.isObject(item) ? this.displayFn(item) : item,
         };
     }
 
-    private normalizeCollection(collection: object | string): XmAutocompleteControlListItem[] {
+    private normalizeCollection(collection: unknown): XmAutocompleteControlListItem[] {
         return coerceArray(collection)
             .filter(value => !_.isEmpty(value))
-            .map((item) => this.normalizeModel(item));
+            .map((item) => this.normalizeModel(item as object));
     }
 
-    private autoSelectSingle(list: XmAutocompleteControlListItem[]) {
-        if (list.length == 1) {
-            const [first] = list;
+    private unwrapValues(list: XmAutocompleteControlListItem[]): unknown | unknown[] {
+        const unwrapSelected = list?.map(({ value }) => value) ?? [];
 
-            this.change(first.value);
+        return this.config.multiple 
+            ? unwrapSelected 
+            : unwrapSelected?.[0];
+    }
+
+    public optionCompare = (option: MatOption | object, selection: MatOption | object): boolean => {
+        if (this.config?.compareMap) {
+            const o1 = format<object>(this.config.compareMap, (option instanceof MatOption ? option.value : option) ?? {});
+            const o2 = format<object>(this.config.compareMap, (selection instanceof MatOption ? selection.value : selection) ?? {});
+
+            return _.isMatch(o1, o2);
         }
-    }
 
-    public fetchedChanges(): (selectedValue: XmAutocompleteControlListItem[], fetchedValue: XmAutocompleteControlListItem[]) => void {
-        let hasAlreadyValue = false;
-        
-        return (selectedValue: XmAutocompleteControlListItem[], fetchedValue: XmAutocompleteControlListItem[]) => {
-            if (hasAlreadyValue) {
-                return;
-            }
+        return option === selection;
+    };
 
-            if (fetchedValue > selectedValue && this.config.filterFetchedData) {
-                fetchedValue = _.intersectionBy(fetchedValue, selectedValue, 'value');
-            }
-
-            hasAlreadyValue = true;
-
-            if (fetchedValue > selectedValue && this.config.skipUpdateWhileMismatch) {
-                return;
-            }
-
-            const unwrapSelected = fetchedValue?.map(({ value }) => value) ?? [];
-            const selected = this.config.multiple 
-                ? unwrapSelected 
-                : unwrapSelected?.[0];
-
-
-            this.change(selected);
-        };
-    }
-
-    public change(value: object | string): void {
+    public change(value: any): void {
         this.selected = value;
         this.value = value;
 
