@@ -102,8 +102,6 @@ const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
     standalone: true,
     selector: 'xm-autocomplete-control',
     template: `
-    {{selected | json}}
-    {{value | json}}
         <mat-form-field>
             <mat-label *ngIf="config?.title">{{ config?.title | translate }}</mat-label>
 
