@@ -38,7 +38,7 @@ export class XmTableFilterButtonComponent implements OnDestroy {
 
     }
 
-    public openFilter(origin: MatIconButton): void {
+    public openFilter(): void {
         const strategy = this.overlay
             .position()
             .flexibleConnectedTo(this.elementRef)
