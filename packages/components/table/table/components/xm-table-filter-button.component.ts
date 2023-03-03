@@ -15,15 +15,15 @@ import { ButtonSpinnerModule } from '@xm-ngx/components/button-spinner';
     standalone: true,
     template: `
         <button mat-icon-button
-                #origin
                 [loading]="loading"
                 [disabled]="loading"
-                (click)="openFilter(origin)">
+                (click)="openFilter()">
             <mat-icon>filter_list</mat-icon>
         </button>
     `,
     imports: [
         MatIconModule,
+        MatIconButton,
         ButtonSpinnerModule,
     ],
 })
