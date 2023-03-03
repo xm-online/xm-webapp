@@ -21,15 +21,31 @@
 * Padding for angular-material table
 */
 th.mat-header-cell:first-of-type,
-td.mat-cell:first-of-type,
+td.mat-mdc-cell:first-of-type,
 td.mat-footer-cell:first-of-type {
   padding-right: 16px;
-  padding-left: 16px;
+  padding-left:  16px;
+}
+
+td.mat-mdc-cell {
+  padding-left:  1rem;
+  padding-right: 1rem;
 }
 
 .mat-card.mb-4 {
   padding-top: 0px;
-  margin-top: 20px;
-  display: inline-block;
+  margin-top:  20px;
+  display:     inline-block;
+  width:       100%;
+}
+
+/*
+* angular 15 migration
+*/
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-card-header-text {
   width: 100%;
 }

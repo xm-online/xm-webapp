@@ -1,5 +1,5 @@
 <mat-card *xmPermission="['ACCOUNT.TFA.DISABLE']" class="mb-3">
-  <mat-card-title>{{'settings.security.name' | translate}}</mat-card-title>
+  <mat-card-header><mat-card-title>{{'settings.security.name' | translate}}</mat-card-title></mat-card-header>
 
   <mat-card-content>
     <form #settingsForm="ngForm" (ngSubmit)="updateSecuritySettings()" name="securityCfgForm" novalidate

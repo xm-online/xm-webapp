@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { IEntityCollectionPageable, Pageable } from './i-entity-collection-pageable';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -13,6 +13,27 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     public constructor(public readonly plural: string,
                        public readonly httpClient: HttpClient) {
         this.url = `${plural}`;
+    }
+
+    public request<R>(
+        method: string, 
+        body?: unknown, 
+        params?: HttpParams | {
+            [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
+        }, 
+        headers?: HttpHeaders | {
+            [header: string]: string | string[];
+        },
+    ): Observable<R> {
+        const req = this.httpClient.request<R>(method, this.url, {
+            body,
+            params,
+            headers,
+            responseType: 'json',
+            observe: 'body',
+        });
+
+        return this.handle<R>(req);
     }
 
     public create(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {

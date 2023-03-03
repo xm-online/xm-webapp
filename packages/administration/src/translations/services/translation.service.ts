@@ -6,8 +6,9 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { fromStringToObject } from './helpers';
 import { ExtractorFromBackend } from './translation-store.service';
+import { XmUIConfig } from '@xm-ngx/core/config';
 
-export interface Config {
+export interface XmLanguageUiConfig extends XmUIConfig {
     exts: string[];
     langs: string[];
 }
@@ -24,8 +25,8 @@ export class TranslationService {
         return this.httpClient.get<{}>(path);
     }
 
-    public loadConfig(): Observable<Config> {
-        return this.httpClient.get<Config>('./i18n/settings.json');
+    public loadConfig(): Observable<XmLanguageUiConfig> {
+        return this.httpClient.get<XmLanguageUiConfig>('./i18n/settings.json');
     }
 
     public getCombinedKeys(keysName: string, additionalKeys: ExtractorFromBackend): Observable<{}> {

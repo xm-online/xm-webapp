@@ -14,6 +14,11 @@ import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { take } from 'rxjs/operators';
 
+export interface XmLoginFormUIConfig extends XmUIConfig {
+    hideRememberMe: boolean;
+    hideResetPasswordLink: boolean;
+}
+
 @Component({
     selector: 'xm-login',
     templateUrl: './login.component.html',
@@ -40,12 +45,12 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
     public floatLabel: boolean;
     public sendingLogin: boolean;
     public checkTermsOfConditions: boolean;
-    public uiConfig: XmUIConfig;
+    public uiConfig: XmLoginFormUIConfig;
 
     constructor(
         protected eventManager: XmEventManager,
         protected xmConfigService: XmConfigService,
-        protected xmUiConfigService: XmUiConfigService,
+        protected xmUiConfigService: XmUiConfigService<XmLoginFormUIConfig>,
         protected loginService: LoginService,
         protected stateStorageService: StateStorageService,
         protected elementRef: ElementRef,

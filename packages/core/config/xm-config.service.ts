@@ -2,16 +2,16 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 
 @Injectable()
-export class XmApplicationConfigService<T = unknown> implements OnDestroy {
+export class XmApplicationConfigService<T extends XmUIConfig = XmUIConfig> implements OnDestroy {
 
     public resolved$: BehaviorSubject<boolean>;
     private appConfig: T;
 
     constructor(
-        private configService: XmUiConfigService,
+        private configService: XmUiConfigService<T>,
     ) {
         this.resolved$ = new BehaviorSubject<boolean>(false);
         this.configService.config$()

@@ -65,7 +65,7 @@
               {{tl.login}}
             </h6>
 
-            <mat-chip-list class="timeline-chips-list">
+            <mat-chip-listbox class="timeline-chips-list">
               <mat-chip class="success" *ngIf="tl.httpStatusCode < 300">
                 {{'xm-timeline.timeline.success'|translate}}
               </mat-chip>
@@ -78,7 +78,7 @@
               <mat-chip *ngIf="tl.requestHeaders['x-forwarded-for']">
                 {{tl.requestHeaders['x-forwarded-for']}}
               </mat-chip>
-            </mat-chip-list>
+            </mat-chip-listbox>
 
             <div *ngIf="!template && (tl.requestBody || tl.responseBody)" class="timeline-body">
               <span>{{tl.requestBody}}</span>&nbsp;

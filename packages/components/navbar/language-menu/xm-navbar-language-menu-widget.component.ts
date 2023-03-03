@@ -5,6 +5,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 import { LanguageService, Locale } from '@xm-ngx/translation';
 import { Observable } from 'rxjs';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { XmLanguageUiConfig } from '@xm-ngx/administration/translations/services/translation.service';
 
 @Component({
     selector: 'xm-navbar-language-menu-widget',
@@ -35,7 +36,7 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
     constructor(
-        private xmUiConfigService: XmUiConfigService,
+        private xmUiConfigService: XmUiConfigService<XmLanguageUiConfig>,
         private xmSessionService: XmSessionService,
         public languageService: LanguageService,
     ) {
