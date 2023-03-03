@@ -62,7 +62,7 @@ export class XmTableFilterButtonComponent implements OnDestroy {
     private createOverlayConfig(attachTo: MatButton): OverlayConfig {
 
         const strategy = this.overlay.position()
-            .flexibleConnectedTo(attachTo._getHostElement())
+            .flexibleConnectedTo(attachTo._elementRef)
             .withFlexibleDimensions(true)
             .withGrowAfterOpen(true)
             .withPositions([
