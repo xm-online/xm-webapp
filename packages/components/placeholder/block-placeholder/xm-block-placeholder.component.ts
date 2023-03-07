@@ -9,6 +9,6 @@ import { Component, HostBinding, Input } from '@angular/core';
     styleUrls: ['./xm-block-placeholder.scss'],
 })
 export class XmBlockPlaceholderComponent {
-    @Input() @HostBinding('style.width') public width: string = '100%';
+    @Input() @HostBinding('style.width') public width: string = 'initial';
     @Input() @HostBinding('style.height') public height: string = '2rem';
 }

@@ -5,6 +5,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 import { combineLatest, Observable } from 'rxjs';
 import { delay, filter, shareReplay, startWith } from 'rxjs/operators';
 import { getServerEnvironment } from './get-current-env';
+import { CommonModule } from '@angular/common';
 
 
 function changeFavicon(url: string): void {
@@ -17,8 +18,10 @@ function changeFavicon(url: string): void {
 
 @Component({
     selector: 'xm-ribbon',
+    standalone: true,
     templateUrl: './xm-ribbon.component.html',
     styleUrls: ['./xm-ribbon.component.scss'],
+    imports: [CommonModule],
 })
 export class XmRibbonComponent implements OnInit, OnDestroy {
     @Input() public environment: IEnvironment = environment;

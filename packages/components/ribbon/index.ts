@@ -1,1 +1,1 @@
-export { XmRibbonModule } from './xm-ribbon.module';
+export { XmRibbonComponent } from './xm-ribbon.component';
