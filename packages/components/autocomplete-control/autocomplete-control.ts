@@ -235,7 +235,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             .map((item) => this.normalizeModel(item as object));
     }
 
-    private unwrapValues(list: XmAutocompleteControlListItem[]): unknown | unknown[] {
+    protected unwrapValues(list: XmAutocompleteControlListItem[]): unknown | unknown[] {
         const unwrapSelected = list?.map(({ value }) => value) ?? [];
 
         return this.config.multiple 

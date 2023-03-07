@@ -136,7 +136,7 @@ export class XmAutocompleteTableControlComponent extends XmAutocompleteControl {
 
         this.selection.toggle(row);
 
-        this.change(this.selection.selected);
+        this.change(this.unwrapValues(this.selection.selected));
     }
   
     public toggleAllRows(): void {
@@ -150,6 +150,6 @@ export class XmAutocompleteTableControlComponent extends XmAutocompleteControl {
             this.selection.select(...this.list.value);
         }
 
-        this.change(this.selection.selected);
+        this.change(this.unwrapValues(this.selection.selected));
     }
 }

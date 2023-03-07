@@ -22,6 +22,7 @@ export interface XmTableColumnDynamicCellsOptions {
         sortable: boolean;
         selector: string;
         options: unknown;
+        config: unknown;
     },
 
     /** dynamic body cell <td> */
@@ -36,6 +37,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
     headStyle: '',
     head: {
         options: { title: '' },
+        config: { title: '' },
         selector: '@xm-ngx/components/text-title',
         class: '',
         sortable: false,
@@ -66,7 +68,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
                     [style]="column.headStyle">
                     <ng-container xmDynamicPresentation
                                   [selector]="column.head.selector"
-                                  [config]="column.head.options"
+                                  [config]="column.head.config || column.head.options"
                                   [options]="column.head.options"></ng-container>
                 </th>
             </ng-template>
@@ -80,7 +82,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
                     [style]="column.headStyle">
                     <ng-container xmDynamicPresentation
                                   [selector]="column.head.selector"
-                                  [config]="column.head.options"
+                                  [config]="column.head.config || column.head.options"
                                   [options]="column.head.options"></ng-container>
                 </th>
             </ng-template>
