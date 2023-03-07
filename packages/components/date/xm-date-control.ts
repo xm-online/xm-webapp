@@ -50,22 +50,23 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
                    [name]="config?.name"
                    [required]="config?.required"
                    (click)="picker.open()">
-            <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
 
-            <mat-datepicker #picker></mat-datepicker>
+            <div matSuffix>
+                <button *ngIf="value"
+                        mat-icon-button
+                        [disabled]="control.disabled"
+                        aria-label="Clear"
+                        (click)="control.patchValue(''); control.markAsDirty()">
+                    <mat-icon>close</mat-icon>
+                </button>
+
+                <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </div>
 
             <mat-error *xmControlErrors="control?.errors; translates config?.errors; message as message">
                 {{message}}
             </mat-error>
-
-            <button *ngIf="value"
-                    matSuffix
-                    mat-icon-button
-                    [disabled]="control.disabled"
-                    aria-label="Clear"
-                    (click)="control.patchValue(''); control.markAsDirty()">
-                <mat-icon>close</mat-icon>
-            </button>
 
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
