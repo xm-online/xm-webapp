@@ -51,8 +51,8 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
                    [required]="config?.required"
                    (click)="picker.open()">
 
-            <div matSuffix>
-                <button *ngIf="value"
+            <div matSuffix class="d-flex">
+                <button *ngIf="value && !disabled"
                         mat-icon-button
                         [disabled]="control.disabled"
                         aria-label="Clear"
