@@ -1,6 +1,5 @@
 export {
     XmStringDateControl,
-    XmStringDateControlModule,
 } from './xm-string-date-control';
 
 export {

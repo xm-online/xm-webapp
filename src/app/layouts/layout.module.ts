@@ -7,7 +7,7 @@ import { LanguageModule } from '@xm-ngx/translation';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { RouteLoadingDirectiveModule } from '@xm-ngx/components/route-loading';
 import { XmPasswordNeededModule } from '@xm-ngx/components/password-needed';
-import { XmRibbonModule } from '@xm-ngx/components/ribbon';
+import { XmRibbonComponent } from '@xm-ngx/components/ribbon';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmEntityModule } from '@xm-ngx/entity/xm-entity.module';
 import { XmSharedModule } from '@xm-ngx/shared';
@@ -35,7 +35,7 @@ import { PageRibbonComponent } from './profiles/page-ribbon.component';
         RouterModule,
         XmSidebarModule.forRoot(),
         XmSidebarRightModule,
-        XmRibbonModule,
+        XmRibbonComponent,
         XmSharedModule,
         XmDynamicModule,
         FeedbackModule,
