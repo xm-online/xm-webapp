@@ -58,8 +58,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
                 {{message}}
             </mat-error>
 
-            <button mat-button
-                    *ngIf="value"
+            <button *ngIf="value"
                     matSuffix
                     mat-icon-button
                     [disabled]="control.disabled"
