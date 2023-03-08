@@ -8,6 +8,7 @@ import { MockUserService } from '@xm-ngx/core/user/testing';
 
 import { LanguageService } from './language.service';
 import { XmLoggerService } from '@xm-ngx/logger';
+import { MockXmLogger } from '@xm-ngx/logger/testing';
 
 describe('LanguageService', () => {
     beforeEach(() => TestBed.configureTestingModule({
@@ -16,7 +17,7 @@ describe('LanguageService', () => {
             { provide: XmUiConfigService, useClass: MockUiConfigService },
             { provide: XmUserService, useClass: MockUserService },
             { provide: SessionStorageService, useValue: null },
-            XmLoggerService,
+            { provide: XmLoggerService, useClass: MockXmLogger },
         ],
     }));
 
