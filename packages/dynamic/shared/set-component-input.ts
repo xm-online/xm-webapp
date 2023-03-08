@@ -7,7 +7,8 @@ export function setComponentInput<T>(compRef: ComponentRef<T>, name: string, val
     if (inputs && inputs[name]) {
         compRef.setInput(name, value);
     } else {
-        console.warn(`No @Input() decorator present for ${compRef.componentType.name}, used deprecated method`);
+        console.warn(`No @Input() decorator present for component=${compRef.componentType.name}, field=${name}, used deprecated method.`);
+        
         try {
             compRef.instance[name] = value;
         } catch (error) {
