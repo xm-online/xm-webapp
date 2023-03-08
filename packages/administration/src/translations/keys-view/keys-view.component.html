@@ -36,7 +36,6 @@
                         <ng-container matSuffix>
                             <button class="keys-view__button"
                                     *ngIf="unSave[translationKey[0]]"
-                                    mat-button
                                     mat-icon-button
                                     type="button"
                                     (click)="resetInput(translationKey[0])">
@@ -44,7 +43,6 @@
                             </button>
                             <button class="keys-view__button"
                                     *ngIf="unSave[translationKey[0]]"
-                                    mat-button
                                     mat-icon-button
                                     type="submit"
                                     [disabled]="input.invalid">
