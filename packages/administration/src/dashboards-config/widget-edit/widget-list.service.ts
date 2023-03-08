@@ -37,7 +37,10 @@ export class WidgetListService {
 
     public async load(): Promise<void> {
         const globalWithGlobalSelector = provideFullSelector(_.flatMap(this.dynamicEntries));
-        const moduleSelectors = _.flatMap(this.dynamicExtensions).map(i => i.selector);
+        const moduleSelectors = _.flatMap(this.dynamicExtensions).map(i => i.selector)
+            // TODO:WORKAROUND: remove modules with ext-prefix. Remove after ext- prefix creation will be removed
+            .filter(i => !i.startsWith('ext-'))
+        ;
         const moduleLoaders = moduleSelectors.map((ext) => this.dynamicModules.find(ext, this.injector));
         const modules = await Promise.all(moduleLoaders);
         const components = modules.map(i => _.flatMap(i.injector.get(XM_DYNAMIC_ENTRIES, [])));
