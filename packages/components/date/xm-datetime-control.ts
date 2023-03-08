@@ -53,8 +53,7 @@ type XmDateTimeControlValue = moment.Moment | string;
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
 
-            <button mat-button
-                    *ngIf="value"
+            <button *ngIf="value"
                     matSuffix
                     mat-icon-button
                     [disabled]="control.disabled"
