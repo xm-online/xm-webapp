@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Type } from '@angular/core';
+import { Component, Input, OnInit, Output, Type, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { DashboardWidget } from '@xm-ngx/dashboard';
@@ -33,6 +33,7 @@ export class DashboardsListExpandComponent implements OnInit {
 
     @Input() public dashboardId: Id;
     @Input() public widgetEditComponentType: Type<unknown> = WidgetEditComponent;
+    @Output() public loadedWidgets = new EventEmitter<DashboardWidget[]>();
 
     public widgetsList: MatTableDataSource<DashboardWidget>;
 
@@ -51,6 +52,7 @@ export class DashboardsListExpandComponent implements OnInit {
             map((widgets) => new MatTableDataSource(widgets)),
         ).subscribe((i) => {
             this.widgetsList = i;
+            this.loadedWidgets.emit(i.data);
             this.loadToEditor();
         });
     }
