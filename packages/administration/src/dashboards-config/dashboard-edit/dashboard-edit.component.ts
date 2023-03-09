@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, Type } from '@angular/core';
+import { Component, HostListener, Input, Type, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
@@ -14,6 +14,7 @@ import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig } from '../injectors';
 import { XmTextControlOptions } from '@xm-ngx/components/text';
 import { copyToClipboard, readFromClipboard } from '@xm-ngx/shared/helpers/clipboard-helper';
+import { DashboardsListExpandComponent } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
 
 export enum EditType {
     Create = 1,
@@ -44,6 +45,9 @@ export class DashboardEditComponent {
     public widgetEditComponentType: Type<unknown> = this.dashboardConfig.widgetRef;
     public nameOptions: XmTextControlOptions = { title: this.TRS.name, dataQa: '' };
     public typeKeyOptions: XmTextControlOptions = { title: this.TRS.typeKey, dataQa: '' };
+
+    // Used only for copy functional
+    @ViewChild(DashboardsListExpandComponent) public widgetsCompRef: DashboardsListExpandComponent;
 
     constructor(protected readonly dashboardService: DashboardCollection,
                 protected readonly editorService: DashboardEditorService,
@@ -77,22 +81,11 @@ export class DashboardEditComponent {
         this.editorService.close();
     }
 
-    public loadedWidgets(dasboardWidgets: DashboardWidget[]): void {
-        const widgets = this.getUnbindedWidgets(dasboardWidgets);
-        
-        this.value = _.merge(this.value, {
-            widgets,
-        });
-    }
-
     public onAdd(): void {
         const req: any = this.formGroup;
         // TODO: improve BE
         req.isPublic = false;
         req.owner = this.principal.getUserKey();
-
-        // Don't know how this.formGroup updated,  I'll delete it
-        delete req.widgets;
 
         this.dashboardService.create(req).pipe(
             tap((res) => {
@@ -160,7 +153,11 @@ export class DashboardEditComponent {
     }
 
     public async onCopyToClipboard(): Promise<void> {
-        const text = JSON.stringify(this.formGroup);
+        const data = _.cloneDeep(this.formGroup);
+
+        _.set(data, 'widgets', this.widgetsCompRef?.widgetsList?.data.slice());
+
+        const text = JSON.stringify(data);
 
         await copyToClipboard(text);
     }
