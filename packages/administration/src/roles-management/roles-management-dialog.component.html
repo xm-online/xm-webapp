@@ -1,10 +1,10 @@
 <form #editForm="ngForm" (ngSubmit)="onSave()" *ngIf="role" class="m-0" name="editForm" novalidate role="form">
-  <div mat-dialog-title>
+  <div mat-dialog-title class="d-flex align-items-center">
     <h4 class="modal-title text-start">
       <span *ngIf="isAddMode">{{'rolesManagement.home.labelCreate'|translate}}</span>
       <span *ngIf="!isAddMode">{{'rolesManagement.home.labelEdit'|translate}}</span>
     </h4>
-    <xm-modal-close mat-dialog-close></xm-modal-close>
+    <xm-modal-close class="ms-auto" mat-dialog-close></xm-modal-close>
   </div>
 
   <div mat-dialog-content>

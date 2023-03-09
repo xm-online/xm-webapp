@@ -6,25 +6,31 @@
 <section class="keys-view__wrapper">
     <header class="keys-view__header">
         <div class="keys-view__col">
-            <input matInput
-                   [placeholder]="'translate-managment.filter-by-key' | translate"
-                   [(ngModel)]="filters.byKey"
-                   [ngModelOptions]="{standalone: true}"
-                   (ngModelChange)="changeFilter()">
+            <mat-form-field>
+                <mat-label>{{'translate-managment.filter-by-key' | translate}}</mat-label>
+                <input matInput
+                    [placeholder]="'translate-managment.filter-by-key' | translate"
+                    [(ngModel)]="filters.byKey"
+                    [ngModelOptions]="{standalone: true}"
+                    (ngModelChange)="changeFilter()">
+            </mat-form-field>
         </div>
         <div class="keys-view__col">
-            <input matInput
-                   [placeholder]="'translate-managment.filter-by-value' | translate"
-                   [(ngModel)]="filters.byValue"
-                   [ngModelOptions]="{standalone: true}"
-                   (ngModelChange)="changeFilter()">
+            <mat-form-field>
+                <mat-label>{{'translate-managment.filter-by-value' | translate}}</mat-label>
+
+                <input matInput
+                    [placeholder]="'translate-managment.filter-by-value' | translate"
+                    [(ngModel)]="filters.byValue"
+                    [ngModelOptions]="{standalone: true}"
+                    (ngModelChange)="changeFilter()">
+            </mat-form-field>
         </div>
     </header>
     <cdk-virtual-scroll-viewport itemSize="76" class="keys-view__virtual-scroll">
         <div class="keys-view__row" *cdkVirtualFor="let translationKey of filterTranslationKeys || translationKeys">
             <div class="keys-view__col">{{translationKey[0]}}</div>
             <div class="keys-view__col">
-                <mat-icon class="keys-view__warning-icon" *ngIf="!translationKey[1]" color="warn">warning</mat-icon>
                 <form (ngSubmit)="changeTranslate(translationKey[0])">
                     <mat-form-field class="keys-view__input" [floatLabel]="'never'">
                         <input #input="ngModel"
@@ -49,6 +55,11 @@
                                 <mat-icon>save</mat-icon>
                             </button>
                         </ng-container>
+
+                        <span matIconPrefix>
+                            <mat-icon *ngIf="!translationKey[1]" color="warn">warning</mat-icon>
+                        </span>
+
                         <mat-error *ngIf="input.hasError('required')">
                             {{'commons.required-field' | translate}}
                         </mat-error>
