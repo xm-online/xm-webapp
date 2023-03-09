@@ -1,4 +1,4 @@
-<div class="my-3 d-flex justify-content-between">
+<div class="m-3 d-flex justify-content-between">
   <h4>{{ TRS.dashboards | translate }}</h4>
 
   <div>
@@ -138,13 +138,12 @@
         mat-row></tr>
 
   </table>
+</div>
 
-  <div class="w-100 py-3">
-    <button (click)="onAdd()" class="mx-auto d-block" color="primary" mat-flat-button>
-      <mat-icon>add</mat-icon>
-      {{ TRS.createDashboard | translate }}
-    </button>
-  </div>
-
+<div class="w-100 py-3">
+  <button (click)="onAdd()" class="mx-auto d-block" color="primary" mat-flat-button>
+    <mat-icon>add</mat-icon>
+    {{ TRS.createDashboard | translate }}
+  </button>
 </div>
 

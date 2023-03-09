@@ -21,12 +21,12 @@ $xm-avatar-img-container-width:  $xm-avatar-img-container-size !default;
     border-radius: $xm-avatar-img-container-radius;
     color:         $xm-avatar-img-container-color;
     display:       block;
-    left:          0;
+    left:          50%;
     position:      absolute;
     right:         0;
     text-align:    center;
     top:           50%;
-    transform:     translateY(-50%);
+    transform:     translate(-50%, -50%);
   }
 
   .xm-avatar-img-container > img {
