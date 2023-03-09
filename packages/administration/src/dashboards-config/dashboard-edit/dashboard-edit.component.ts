@@ -4,7 +4,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/user';
-import { Dashboard } from '@xm-ngx/dashboard';
+import { Dashboard, DashboardWidget } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
@@ -13,6 +13,7 @@ import { DASHBOARDS_TRANSLATES } from '../const';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig } from '../injectors';
 import { XmTextControlOptions } from '@xm-ngx/components/text';
+import { copyToClipboard, readFromClipboard } from '@xm-ngx/shared/helpers/clipboard-helper';
 
 export enum EditType {
     Create = 1,
@@ -76,11 +77,22 @@ export class DashboardEditComponent {
         this.editorService.close();
     }
 
+    public loadedWidgets(dasboardWidgets: DashboardWidget[]): void {
+        const widgets = this.getUnbindedWidgets(dasboardWidgets);
+        
+        this.value = _.merge(this.value, {
+            widgets,
+        });
+    }
+
     public onAdd(): void {
         const req: any = this.formGroup;
         // TODO: improve BE
         req.isPublic = false;
         req.owner = this.principal.getUserKey();
+
+        // Don't know how this.formGroup updated,  I'll delete it
+        delete req.widgets;
 
         this.dashboardService.create(req).pipe(
             tap((res) => {
@@ -117,11 +129,7 @@ export class DashboardEditComponent {
         this.dashboardService.getById(req.id as number).subscribe((d) => {
             req.id = null;
             req.name = `${req.name} ${this.translateService.instant(DASHBOARDS_TRANSLATES.copy)}`;
-            req.widgets = d.widgets.map((w) => {
-                delete w.id;
-                delete w.dashboard;
-                return w;
-            });
+            req.widgets = this.getUnbindedWidgets(d.widgets);
 
             this.onAdd();
         });
@@ -151,13 +159,15 @@ export class DashboardEditComponent {
         return false;
     }
 
-    public onCopyToClipboard(): void {
+    public async onCopyToClipboard(): Promise<void> {
         const text = JSON.stringify(this.formGroup);
-        navigator.clipboard.writeText(text);
+
+        await copyToClipboard(text);
     }
 
     public async onPasteFromClipboard(): Promise<void> {
-        const text = await navigator.clipboard.readText();
+        const text = await readFromClipboard();
+
         let config: Dashboard;
         try {
             config = JSON.parse(text);
@@ -166,5 +176,13 @@ export class DashboardEditComponent {
         }
         delete config.id;
         this.value = _.merge(this.value, config);
+    }
+
+    private getUnbindedWidgets(widgets: DashboardWidget[]): DashboardWidget[] {
+        return widgets.map((w) => {
+            delete w.id;
+            delete w.dashboard;
+            return w;
+        });
     }
 }
