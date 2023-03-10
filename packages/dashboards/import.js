@@ -22,7 +22,7 @@ class JsonFile {
             fs.mkdirSync(dir);
         }
 
-        fs.writeFileSync(path, JSON.stringify(data, null, 4), {encoding: 'utf8'});
+        fs.writeFileSync(path, JSON.stringify(data, null, 2), {encoding: 'utf8'});
     }
 
     deleteFile(target) {
