@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, OnInit, Type, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { XM_COPY_ICON_OPTIONS, XmCopyIconModule, XmCopyIconOptions } from '@xm-ngx/components/copy';
 import {
@@ -26,6 +26,14 @@ export const XM_LINK_VIEW_COPY_DEFAULT_OPTIONS: XmLinkViewCopyOptions = assign(
 
 @Component({
     selector: 'xm-link-view-copy',
+    standalone: true,
+    imports: [
+        CommonModule,
+        XmTextViewModule,
+        XmTranslationModule,
+        RouterModule,
+        XmCopyIconModule,
+    ],
     template: `
         <xm-text-view-container [hidden]="!fieldValue"
                                 [styleInline]="config?.styleInline">
@@ -64,19 +72,4 @@ export class XmLinkViewCopyComponent extends XmLinkViewComponent implements XmDy
     public ngOnInit(): void {
         super.ngOnInit();
     }
-}
-
-@NgModule({
-    declarations: [XmLinkViewCopyComponent],
-    exports: [XmLinkViewCopyComponent],
-    imports: [
-        CommonModule,
-        XmTextViewModule,
-        XmTranslationModule,
-        RouterModule,
-        XmCopyIconModule,
-    ],
-})
-export class XmLinkViewCopyModule {
-    public entry: Type<XmLinkViewCopyComponent> = XmLinkViewCopyComponent;
 }
