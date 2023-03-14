@@ -12,8 +12,7 @@ describe('XmLinkButtonComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [XmTranslationTestingModule, HttpClientTestingModule, RouterTestingModule],
-            declarations: [XmLinkButtonComponent],
+            imports: [XmLinkButtonComponent, XmTranslationTestingModule, HttpClientTestingModule, RouterTestingModule],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();

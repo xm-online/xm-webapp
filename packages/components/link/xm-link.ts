@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, OnInit, Type, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
@@ -32,6 +32,13 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
 
 @Component({
     selector: 'xm-link',
+    standalone: true,
+    imports: [
+        CommonModule,
+        RouterModule,
+        XmTranslationModule,
+        MatIconModule,
+    ],
     template: `
         <a [queryParams]="queryParams"
            [routerLink]="config?.routerLink || config?.config?.routerLink"
@@ -67,18 +74,4 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
     public ngOnInit(): void {
         this.update();
     }
-}
-
-@NgModule({
-    declarations: [XmLink],
-    exports: [XmLink],
-    imports: [
-        CommonModule,
-        RouterModule,
-        XmTranslationModule,
-        MatIconModule,
-    ],
-})
-export class XmLinkModule {
-    public entry: Type<XmLink> = XmLink;
 }
