@@ -15,6 +15,8 @@ import { XmConfigService } from '@xm-ngx/core/config';
 import { ModulesLanguageHelper } from '@xm-ngx/translation';
 import { XmApplicationConfigService } from '@xm-ngx/core/config';
 import { XmMainComponent } from './main.component';
+import { XmLoggerService } from '@xm-ngx/logger';
+import { MockXmLogger } from '@xm-ngx/logger/testing';
 
 class Mock {
 }
@@ -81,6 +83,7 @@ describe('XmMainComponent', () => {
                     provide: LoginService,
                     useClass: Mock,
                 },
+                { provide: XmLoggerService, useClass: MockXmLogger },
             ],
         }).compileComponents();
     }));
