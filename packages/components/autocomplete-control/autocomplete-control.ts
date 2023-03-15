@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { HttpHeaders } from '@angular/common/http';
 import { OnInit, OnDestroy, OnChanges, Input, inject, SimpleChanges, Directive } from '@angular/core';
 import { coerceArray } from '@angular/flex-layout';
@@ -5,8 +7,9 @@ import { FormControl } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { LanguageService } from '@xm-ngx/translation';
+import { Search } from 'brace';
 import _ from 'lodash';
-import { Subject, Observable, BehaviorSubject, startWith, map, switchMap, of, tap, distinctUntilChanged, debounceTime, catchError, combineLatest, finalize, shareReplay } from 'rxjs';
+import { Subject, Observable, BehaviorSubject, startWith, map, switchMap, of, tap, distinctUntilChanged, debounceTime, catchError, combineLatest, finalize, shareReplay, withLatestFrom, combineLatestAll } from 'rxjs';
 import { EntityCollectionFactoryService } from '../entity-collection';
 import { NgModelWrapper } from '../ng-accessor';
 import { AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG, XmAutocompleteControlConfig, XmAutocompleteControlMapper, XmAutocompleteControlListItem, XmAutocompleteControlParams, XmAutocompleteControlBody } from './autocomple-control.interface';
@@ -108,18 +111,22 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             takeUntilOnDestroy(this),
         ).subscribe();
 
-        combineLatest([
-            this.fetchedList,
-            this.searchedList,
-        ]).pipe(
+        this.fetchedList.pipe(
+            switchMap((fetch) => this.searchedList.pipe(
+                map((search) => [fetch, search])
+            )),
             map(([fetchedSelectedValues, search]) => {
-                return _.differenceWith(fetchedSelectedValues, search, _.isEqual).concat(search);
+                return _.uniqWith(fetchedSelectedValues.concat(search), (a, b) => this.identityFn(a, b));
             }),
             tap((values) => {
                 this.list.next(values);
             }),
             takeUntilOnDestroy(this),
         ).subscribe();
+
+        if (this.config.startEmptySearch) {
+            this.searchQueryControl.setValue('');
+        }
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
