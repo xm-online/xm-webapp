@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
@@ -22,6 +21,19 @@ export interface XmStringDateControlOptions {
 
 @Component({
     selector: 'xm-string-date-control',
+    standalone: true,
+    imports: [
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatInputModule,
+        XmTranslationModule,
+        ControlErrorModule,
+        MatButtonModule,
+        CommonModule,
+        MatIconModule,
+        HintModule,
+    ],
     template: `
         <mat-form-field>
             <mat-label>{{config?.title | translate}}</mat-label>
@@ -39,8 +51,7 @@ export interface XmStringDateControlOptions {
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
 
-            <button mat-button
-                    *ngIf="value"
+            <button *ngIf="value"
                     matSuffix
                     mat-icon-button
                     [disabled]="control.disabled"
@@ -62,24 +73,4 @@ export class XmStringDateControl extends NgFormAccessor<XmDateValue> {
         ).toISOString().split('T')[0];
         this.control.setValue(onlyDate);
     }
-}
-
-@NgModule({
-    imports: [
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatInputModule,
-        XmTranslationModule,
-        ControlErrorModule,
-        MatButtonModule,
-        CommonModule,
-        MatIconModule,
-        HintModule,
-    ],
-    exports: [XmStringDateControl],
-    declarations: [XmStringDateControl],
-})
-export class XmStringDateControlModule implements XmDynamicEntryModule<XmDynamicControl<XmDateValue, XmStringDateControlOptions>> {
-    public entry: XmDynamicControlConstructor<XmDateValue, XmStringDateControlOptions> = XmStringDateControl;
 }

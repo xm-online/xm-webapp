@@ -45,7 +45,9 @@
 
     </mat-card-content>
 
-    <mat-card-actions align="center">
+    <mat-card-actions #actionsContainer
+                      [style]="actionsContainer.childElementCount == 0 ? 'min-height:0' : ''"
+                      align="center">
       <ng-content select="[xmActions]"></ng-content>
     </mat-card-actions>
 

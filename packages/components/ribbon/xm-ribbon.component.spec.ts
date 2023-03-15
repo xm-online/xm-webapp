@@ -11,7 +11,7 @@ describe('XmRibbonComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [XmRibbonComponent],
+            imports: [XmRibbonComponent],
             providers: [{ provide: XmUiConfigService, useClass: MockUiConfigService }],
             schemas: [NO_ERRORS_SCHEMA],
         })

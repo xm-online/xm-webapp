@@ -72,7 +72,7 @@ export const XM_DATE_RANGE_CONTROL_OPTIONS: XmDateRangeControlOptions = {
 
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 
-            <button mat-button mat-icon-button matSuffix *ngIf="value !== null" (click)="change(null)">
+            <button mat-icon-button matSuffix *ngIf="value !== null" (click)="change(null)">
                 <mat-icon>close</mat-icon>
             </button>
 

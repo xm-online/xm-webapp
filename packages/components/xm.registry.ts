@@ -35,7 +35,7 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/xm-ribbon',
-        loadChildren: () => import('@xm-ngx/components/ribbon').then(m => m.XmRibbonModule),
+        loadChildren: () => import('@xm-ngx/components/ribbon').then(m => m.XmRibbonComponent),
     },
     {
         selector: '@xm-ngx/components/mat-fab',
@@ -51,11 +51,11 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/links-group-widget',
-        loadChildren: () => import('@xm-ngx/components/links-group-widget').then(m => m.LinksGroupWidgetModule),
+        loadChildren: () => import('@xm-ngx/components/links-group-widget').then(m => m.LinksGroupWidget),
     },
     {
         selector: '@xm-ngx/components/links-group-button-widget',
-        loadChildren: () => import('@xm-ngx/components/links-group-widget').then(m => m.LinksGroupButtonWidgetModule),
+        loadChildren: () => import('@xm-ngx/components/links-group-widget').then(m => m.LinksGroupButtonWidget),
     },
     {
         selector: '@xm-ngx/components/by-entity-id',

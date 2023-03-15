@@ -35,7 +35,6 @@
               <button
                 (click)="login=''; searchByLogin()"
                 *ngIf="login"
-                mat-button
                 mat-icon-button
                 matSuffix
                 type="button">
@@ -161,8 +160,7 @@
 
 <div class="xm-fab">
   <button (click)="onAdd()" *permitted="'USER.CREATE'"
-          class="btn btn-icon btn-just-icon rounded-circle btn-lg"
-          mat-button>
+          mat-fab>
     <mat-icon>add</mat-icon>
   </button>
 </div>

@@ -63,7 +63,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
                    [attr.maxlength]="config.maxLength"
                    [attr.minlength]="config.minLength"
                    [attr.type]="config.type">
-            <button mat-button mat-icon-button matSuffix *ngIf="config.clearButton && value !== null" (click)="change(null)">
+            <button mat-icon-button matSuffix *ngIf="config.clearButton && value !== null" (click)="change(null)">
                 <mat-icon>close</mat-icon>
             </button>
             <mat-error

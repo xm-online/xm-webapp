@@ -9,7 +9,7 @@ import { XmDynamicWidget } from '@xm-ngx/dynamic';
                 class="navbar-toggler btn btn-icon btn-just-icon btn-link btn-no-ripple"
                 mat-icon-button
                 type="button">
-            <span class="sr-only">Toggle navigation</span>
+            <span class="visually-hidden">Toggle navigation</span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>

@@ -1,10 +1,10 @@
-import { Component, HostListener, Input, Type } from '@angular/core';
+import { Component, HostListener, Input, Type, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/user';
-import { Dashboard } from '@xm-ngx/dashboard';
+import { Dashboard, DashboardWidget } from '@xm-ngx/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
@@ -13,6 +13,8 @@ import { DASHBOARDS_TRANSLATES } from '../const';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig } from '../injectors';
 import { XmTextControlOptions } from '@xm-ngx/components/text';
+import { copyToClipboard, readFromClipboard } from '@xm-ngx/shared/helpers/clipboard-helper';
+import { DashboardsListExpandComponent } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
 
 export enum EditType {
     Create = 1,
@@ -43,6 +45,9 @@ export class DashboardEditComponent {
     public widgetEditComponentType: Type<unknown> = this.dashboardConfig.widgetRef;
     public nameOptions: XmTextControlOptions = { title: this.TRS.name, dataQa: '' };
     public typeKeyOptions: XmTextControlOptions = { title: this.TRS.typeKey, dataQa: '' };
+
+    // Used only for copy functional
+    @ViewChild(DashboardsListExpandComponent) public widgetsCompRef: DashboardsListExpandComponent;
 
     constructor(protected readonly dashboardService: DashboardCollection,
                 protected readonly editorService: DashboardEditorService,
@@ -117,11 +122,7 @@ export class DashboardEditComponent {
         this.dashboardService.getById(req.id as number).subscribe((d) => {
             req.id = null;
             req.name = `${req.name} ${this.translateService.instant(DASHBOARDS_TRANSLATES.copy)}`;
-            req.widgets = d.widgets.map((w) => {
-                delete w.id;
-                delete w.dashboard;
-                return w;
-            });
+            req.widgets = this.getUnbindedWidgets(d.widgets);
 
             this.onAdd();
         });
@@ -151,13 +152,19 @@ export class DashboardEditComponent {
         return false;
     }
 
-    public onCopyToClipboard(): void {
-        const text = JSON.stringify(this.formGroup);
-        navigator.clipboard.writeText(text);
+    public async onCopyToClipboard(): Promise<void> {
+        const data = _.cloneDeep(this.formGroup);
+
+        _.set(data, 'widgets', this.widgetsCompRef?.widgetsList?.data.slice());
+
+        const text = JSON.stringify(data);
+
+        await copyToClipboard(text);
     }
 
     public async onPasteFromClipboard(): Promise<void> {
-        const text = await navigator.clipboard.readText();
+        const text = await readFromClipboard();
+
         let config: Dashboard;
         try {
             config = JSON.parse(text);
@@ -166,5 +173,13 @@ export class DashboardEditComponent {
         }
         delete config.id;
         this.value = _.merge(this.value, config);
+    }
+
+    private getUnbindedWidgets(widgets: DashboardWidget[]): DashboardWidget[] {
+        return widgets.map((w) => {
+            delete w.id;
+            delete w.dashboard;
+            return w;
+        });
     }
 }
