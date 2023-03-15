@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { HttpHeaders } from '@angular/common/http';
 import { OnInit, OnDestroy, OnChanges, Input, inject, SimpleChanges, Directive } from '@angular/core';
 import { coerceArray } from '@angular/flex-layout';
@@ -7,9 +5,8 @@ import { FormControl } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { LanguageService } from '@xm-ngx/translation';
-import { Search } from 'brace';
 import _ from 'lodash';
-import { Subject, Observable, BehaviorSubject, startWith, map, switchMap, of, tap, distinctUntilChanged, debounceTime, catchError, combineLatest, finalize, shareReplay, withLatestFrom, combineLatestAll } from 'rxjs';
+import { Subject, Observable, BehaviorSubject, startWith, map, switchMap, of, tap, distinctUntilChanged, debounceTime, catchError, finalize, shareReplay } from 'rxjs';
 import { EntityCollectionFactoryService } from '../entity-collection';
 import { NgModelWrapper } from '../ng-accessor';
 import { AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG, XmAutocompleteControlConfig, XmAutocompleteControlMapper, XmAutocompleteControlListItem, XmAutocompleteControlParams, XmAutocompleteControlBody } from './autocomple-control.interface';
