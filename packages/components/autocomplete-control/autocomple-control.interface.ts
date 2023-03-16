@@ -33,6 +33,7 @@ export interface XmAutocompleteControlConfig {
     };
     filterFetchedData?: boolean;
     multiple: boolean;
+    startEmptySearch?: boolean;
     extractByKey?: string;
     compareMap: Record<string, unknown>;
     itemMapper: XmAutocompleteControlMapper;
@@ -59,6 +60,7 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
         queryParams: {},
         body: {},
     },
+    startEmptySearch: true,
     filterFetchedData: false,
     skipFetchSelected: false,
     skipUpdateWhileMismatch: false,
