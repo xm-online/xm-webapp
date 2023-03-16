@@ -79,7 +79,10 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.calendar && changes.calendar.currentValue) {
-            this.initCalendar();
+            console.warn(changes.calendar.currentValue);
+            requestAnimationFrame(() => {
+                this.initCalendar();
+            });
         }
     }
 
