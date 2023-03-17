@@ -1,6 +1,6 @@
 <form #eventForm="ngForm" (ngSubmit)="onConfirmSave()" class="m-0" name="eventForm" novalidate role="form">
-  <div class="modal-header">
-    <a (click)="onCancel()" class="modal-close material-icons" href="javascript: void(0);">close</a>
+  <div mat-dialog-title class="modal-header">
+    <xm-modal-close mat-dialog-close></xm-modal-close>
     <h4 class="modal-title text-start">
       <ng-container *ngIf="event?.id; else tmplTitle">
         <span jhiTranslate="xm-entity.calendar-event-dialog.title-edit">Edit event for the</span>
@@ -13,7 +13,7 @@
       [<b>{{xmEntity.name}}</b>]
     </h4>
   </div>
-  <div class="modal-body">
+  <div mat-dialog-content class="modal-body">
     <xm-loader [showLoader]="showLoader"></xm-loader>
 
     <div class="form-group">
@@ -101,7 +101,7 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" [hidden]="calendarUiSpec?.hideTitle">
       <mat-form-field>
         <input #eventTitle="ngModel"
                [(ngModel)]="event.title"
@@ -117,7 +117,7 @@
       </mat-form-field>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" [hidden]="calendarUiSpec?.hideDescription">
       <mat-form-field>
         <textarea [(ngModel)]="event.description"
                   id="field_description"
@@ -140,26 +140,25 @@
                         [schema]="jsfAttributes.schema"
                         [widgets]="jsfAttributes.widgets"
                         (onChanges)="onChangeSchemaForm($event)"
-                        class="json-form-hide-submit"
-      >
+                        class="json-form-hide-submit">
       </json-schema-form>
     </div>
 
   </div>
 
-  <div class="modal-footer event-dialog-footer">
-    <button *ngIf="event.id; else tmplDelete" (click)="onRemove()" class="btn btn-primary" data-dismiss="modal" mat-raised-button type="button">
-      <span jhiTranslate="entity.action.delete">Delete</span>
+  <div mat-dialog-actions align="end" class="modal-footer event-dialog-footer">
+    <button *ngIf="event.id; else tmplDelete" (click)="onRemove()" color="primary" data-dismiss="modal" mat-flat-button type="button">
+      {{'entity.action.delete' | translate}}
     </button>
     <ng-template #tmplDelete><div></div></ng-template>
 
     <div>
-      <button (click)="onCancel()" class="btn me-1" data-dismiss="modal" mat-raised-button type="button">
-        <span jhiTranslate="xm-entity.common.cancel">Cancel</span>
+      <button (click)="onCancel()" class="me-1" data-dismiss="modal" mat-flat-button type="button">
+        {{'xm-entity.common.cancel' | translate}}
       </button>
 
-      <button [disabled]="eventForm.form.invalid || showLoader" class="btn btn-primary" mat-raised-button type="submit">
-        <span jhiTranslate="xm-entity.common.save">Save</span>
+      <button [disabled]="eventForm.form.invalid || showLoader" color="primary" mat-flat-button type="submit">
+        {{'xm-entity.common.save' | translate}}
       </button>
     </div>
   </div>

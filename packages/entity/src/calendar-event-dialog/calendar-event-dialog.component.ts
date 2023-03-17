@@ -15,8 +15,10 @@ import { XmEntity } from '@xm-ngx/entity/shared';
 import { buildJsfAttributes, nullSafe } from '@xm-ngx/json-schema-form/components';
 import { UUID } from 'angular2-uuid';
 import { MatDialogRef } from '@angular/material/dialog';
-
-declare let swal: any;
+import { XmUiConfigService } from '@xm-ngx/core/config';
+import { firstValueFrom } from 'rxjs';
+import { XmAlertService } from '@xm-ngx/alert';
+import { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
     selector: 'xm-calendar-event-dialog',
@@ -35,6 +37,8 @@ export class CalendarEventDialogComponent implements OnInit {
 
     public showLoader: boolean;
     public jsfAttributes: any;
+    public uiSpec!: any;
+    public calendarUiSpec!: any;
     private eventSpec: any;
 
     constructor(
@@ -44,10 +48,15 @@ export class CalendarEventDialogComponent implements OnInit {
         private calendarService: CalendarService,
         private translateService: TranslateService,
         public principal: Principal,
+        private publicUiSpecService: XmUiConfigService,
+        private alertService: XmAlertService,
     ) {}
 
     public ngOnInit(): void {
         const event: any = (this.calendarSpec.events.length && this.calendarSpec.events[0]) || {};
+        if(!this.event.typeKey && (this.calendarSpec?.events?.length === 1)) {
+            this.event.typeKey = event.key;
+        }
         event.dataTypeKey && this.xmEntitySpecWrapperService
             .xmSpecByKey(event.dataTypeKey)
             .subscribe((spec) => {
@@ -56,6 +65,8 @@ export class CalendarEventDialogComponent implements OnInit {
                     this.loadJSFAttributes();
                 }
             });
+
+        void this.getCalendarUiSpec();
     }
 
     public onChangeSchemaForm(data: any): void {
@@ -129,12 +140,38 @@ export class CalendarEventDialogComponent implements OnInit {
         this.onAddEvent();
     }
 
-    private alert(type: string, key: string): void {
-        swal({
-            type,
+    private alert(icon: SweetAlertIcon, key: string): void {
+        this.alertService.open({
+            icon,
             text: this.translateService.instant(key),
             buttonsStyling: false,
-            confirmButtonClass: 'btn btn-primary',
+            customClass: {
+                confirmButton: 'btn btn-primary',
+            },
         });
+    }
+
+    private async getCalendarUiSpec(): Promise<void> {
+        this.uiSpec = await firstValueFrom((this.publicUiSpecService.config$()));
+        const entityUiSpec = this.uiSpec?.applications?.config?.entities?.find((s) => s.typeKey === this.xmEntity.typeKey);
+        if (entityUiSpec) {
+            this.calendarUiSpec = entityUiSpec?.calendars?.items?.find((c) => c.typeKey === this.calendarSpec.key);
+        }
+        this.updateAccessibilityFOrTitleAndDescription();
+    }
+
+    private updateAccessibilityFOrTitleAndDescription(): void {
+        if (this.calendarUiSpec?.hideTitle) {
+            this.event = {
+                ...this.event,
+                title: '###',
+            };
+        }
+        if(this.calendarUiSpec?.hideDescription) {
+            this.event = {
+                ...this.event,
+                description: '',
+            };
+        }
     }
 }

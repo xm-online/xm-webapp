@@ -31,12 +31,13 @@ import { CalendarOptions } from '@fullcalendar/core';
 import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import Swal, { SweetAlertIcon } from 'sweetalert2';
+import { SweetAlertIcon } from 'sweetalert2';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import interactionPlugin from '@fullcalendar/interaction';
+import { XmAlertService } from '@xm-ngx/alert';
 
 export const DEFAULT_DAY_MAX_EVENT_ROWS = 300;
 
@@ -64,6 +65,7 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
         private eventService: EventService,
         private modalService: MatDialog,
         private calendarChangeService: CalendarChangeService,
+        private alertService: XmAlertService,
     ) {
     }
 
@@ -77,7 +79,9 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.calendar && changes.calendar.currentValue) {
-            this.initCalendar();
+            requestAnimationFrame(() => {
+                this.initCalendar();
+            });
         }
     }
 
@@ -190,7 +194,6 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
             const calendarApi = this.calendarComponent.getApi();
             const modifiedEvent = this.formatEventDates(event, start, end);
             const modalRef = this.modalService.open(CalendarEventDialogComponent, {
-                height: '100%',
                 autoFocus: false,
             });
             modalRef.componentInstance.xmEntity = this.xmEntity;
@@ -209,22 +212,18 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
 
     private onRemove(event: Event, callback?: () => void): void {
         const calendarApi = this.calendarComponent.getApi();
-
-        Swal.fire({
+        this.alertService.open({
             title: this.translateService.instant('xm-entity.calendar-card.delete.title'),
-            showCancelButton: true,
             buttonsStyling: false,
             customClass: {
-                confirmButton: 'btn mat-raised-button btn-primary',
-                cancelButton: 'btn mat-raised-button',
+                confirmButton: 'btn btn-primary',
             },
             confirmButtonText: this.translateService.instant('xm-entity.calendar-card.delete.button'),
             cancelButtonText: this.translateService.instant('xm-entity.calendar-card.delete.button-cancel'),
-        }).then((result) => {
+        }).subscribe((result) => {
             if (!result.value) {
                 return;
             }
-
             this.eventService.delete(event.id).subscribe(
                 () => {
                     if (typeof callback === 'function') {
@@ -240,7 +239,7 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     private alert(icon: SweetAlertIcon, key: string): void {
-        Swal.fire({
+        this.alertService.open({
             icon,
             text: this.translateService.instant(key),
             buttonsStyling: false,
