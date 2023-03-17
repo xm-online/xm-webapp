@@ -1,0 +1,4 @@
+<mat-form-field>
+  <input matInput [value]="controlValue" [placeholder]="options?.placeholder | translate" #geoInput/>
+</mat-form-field>
+<ng-template (gMapApiReady)="onAfterGMapApiInit()" [libraries]="['places']" [language]="lang" xmGMapApiInit></ng-template>

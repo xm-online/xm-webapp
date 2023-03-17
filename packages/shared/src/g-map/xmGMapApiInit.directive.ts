@@ -24,6 +24,7 @@ declare global {
 export class XmGMapApiInitDirective implements OnInit, OnDestroy {
     @Output() public gMapApiReady: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Input() public libraries: string[] = ['geometry'];
+    @Input() public language!: string;
     private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
     private statusLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -70,9 +71,9 @@ export class XmGMapApiInitDirective implements OnInit, OnDestroy {
 
     private loadGoogleMapApi(apiKey: string): void {
         const scriptNode = document.createElement('script');
-        const apiLibraries = this.libraries.length ? `&libraries=${this.libraries.join(',')}` : '';
-
-        scriptNode.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}${apiLibraries}`;
+        const apiLibraries = this.libraries.length ? `&libraries=${this.libraries}` : '';
+        const language = this.language ? `&language=${this.language}` : '';
+        scriptNode.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}${apiLibraries}${language}`;
         scriptNode.onload = (): void => this.statusLoaded.next(true);
 
         document.getElementsByTagName('head')[0].appendChild(scriptNode);
