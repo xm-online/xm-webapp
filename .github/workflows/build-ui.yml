@@ -9,7 +9,7 @@ on:
     branches:
       - main
       - master
-      - XM1-34877]
+      - XM1-34877
 
 jobs:
   build:
