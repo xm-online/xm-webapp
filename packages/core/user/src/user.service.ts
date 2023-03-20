@@ -110,4 +110,8 @@ export class UserService<T extends XmUser = any> {
     public block(user: { userKey?: string | number }): Observable<void> {
         return this.http.put<void>(`/uaa/api/users/${user.userKey}/block`, null);
     }
+
+    public getUsersByFilter(query: string): Observable<T[]> {
+        return this.http.get<T[]>('/uaa/api/users/filter?'+query);
+    }
 }
