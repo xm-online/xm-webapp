@@ -1,4 +1,11 @@
-<mat-form-field>
-  <input matInput [value]="controlValue" [placeholder]="options?.placeholder | translate" #geoInput/>
+<mat-form-field [floatLabel]="options?.floatLabel">
+  <mat-label>{{options.title | translate}}</mat-label>
+  <input matInput
+         [required]="options?.required"
+         [disabled]="options?.disabled"
+         [placeholder]="options?.placeholder | translate"
+         [value]="modelValue"
+         #geoInput/>
 </mat-form-field>
-<ng-template (gMapApiReady)="onAfterGMapApiInit()" [libraries]="['places']" [language]="lang" xmGMapApiInit></ng-template>
+
+<ng-template (gMapApiReady)="onAfterGMapApiInit()" xmGMapApiInit></ng-template>
