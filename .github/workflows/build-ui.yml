@@ -4,11 +4,12 @@ env:
   DOCKER_USER: somelchuk
   DOCKER_REPO: docker.io/xmonline/xm-webapp
 
-branches:
-  only:
-    - master
-    - main
-    - XM1-34877
+on:
+  push:
+    branches:
+      - master
+      - main
+      - XM1-34877
 
 jobs:
   build:
