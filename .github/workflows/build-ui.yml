@@ -7,9 +7,9 @@ env:
 on:
   push:
     branches:
-      - master
       - main
-      - XM1-34877
+      - master
+      - XM1-34877]
 
 jobs:
   build:
@@ -52,7 +52,6 @@ jobs:
             docker tag app-docker-img $DOCKER_REPO:$TAG;
             docker push $DOCKER_REPO:$TAG;
           done
-        with:
 
       - name: Build finish
         run : echo "Build Finished Successfully!"
