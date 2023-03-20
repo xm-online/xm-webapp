@@ -1,4 +1,4 @@
-name: build-ui
+name: build
 
 env:
   DOCKER_USER: somelchuk
