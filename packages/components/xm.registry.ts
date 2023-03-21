@@ -113,4 +113,8 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
         selector: '@xm-ngx/components/user-appearance-theme-widget',
         loadChildren: () => import('@xm-ngx/components/user-appearance-theme-widget').then(m => m.XmUserAppearanceThemeWidget),
     },
+    {
+        selector: '@xm-ngx/components/view-permission',
+        loadChildren: () => import('@xm-ngx/components/view-permission/view-permission.component').then(m => m.ViewPermissionComponent),
+    }
 ];
