@@ -32,10 +32,10 @@ jobs:
           DOCKER_REPO: ${{ env.DOCKER_REPO }}
           DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
-          GITHUB_EVENT: ${{ github.event }}
+          GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           echo $GITHUB_CONTEXT
-          echo $GITHUB_EVENT 
+          echo $GITHUB_COMMIT_MESSAGE 
         # run: |
         #   npm install
         #   npm run lint
