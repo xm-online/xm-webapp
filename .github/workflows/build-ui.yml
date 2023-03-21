@@ -38,33 +38,26 @@ jobs:
           TRAVIS_REPO_SLUG: ${{ github.repository }}
           TRAVIS_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
-          echo $TRAVIS_BRANCH
-          echo $TRAVIS_COMMIT
-          echo $TRAVIS_BUILD_NUMBER
-          echo $TRAVIS_BUILD_WEB_URL
-          echo $TRAVIS_REPO_SLUG
-          echo $TRAVIS_COMMIT_MESSAGE
-        # run: |
-        #   npm install
-        #   npm run lint
-        #   npm run build:prod
-        #   npm run test:prod
-        #   docker login -u $DOCKER_USER -p $DOCKER_PASS
-        #   export DOCKER_REPO=$DOCKER_REPO
-        #   export IMAGE_BRANCH=$(echo -n $TRAVIS_BRANCH | sed -e 's/\//-/g')
-        #   export PROJECT_VERSION="$IMAGE_BRANCH"
-        #   if [ "$IMAGE_BRANCH" == "master" ] || [ "$IMAGE_BRANCH" == "main" ];
-        #   then
-        #     PROJECT_VERSION=$(npm run-script get-version| tail -n1);
-        #     TAGS="$PROJECT_VERSION $PROJECT_VERSION-$GITHUB_JOB $(echo $PROJECT_VERSION | awk -F '.' '{printf $1"."$2" "$1}') latest";
-        #   fi
-        #   cp -r dist/ src/docker/
-        #   docker build -t app-docker-img --label commit_id="$TRAVIS_COMMIT" --label version="$PROJECT_VERSION" --label build_number="$TRAVIS_BUILD_NUMBER" --label build_url="$TRAVIS_BUILD_WEB_URL" --label git_url="$TRAVIS_REPO_SLUG" --label commit_message="$TRAVIS_COMMIT_MESSAGE" src/docker
-        #   for TAG in $TAGS;
-        #   do
-        #     docker tag app-docker-img $DOCKER_REPO:$TAG;
-        #     docker push $DOCKER_REPO:$TAG;
-        #   done
+          npm install
+          npm run lint
+          npm run build:prod
+          npm run test:prod
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          export DOCKER_REPO=$DOCKER_REPO
+          export IMAGE_BRANCH=$(echo -n $TRAVIS_BRANCH | sed -e 's/\//-/g')
+          export PROJECT_VERSION="$IMAGE_BRANCH"
+          if [ "$IMAGE_BRANCH" == "master" ] || [ "$IMAGE_BRANCH" == "main" ];
+          then
+            PROJECT_VERSION=$(npm run-script get-version| tail -n1);
+            TAGS="$PROJECT_VERSION $PROJECT_VERSION-$GITHUB_JOB $(echo $PROJECT_VERSION | awk -F '.' '{printf $1"."$2" "$1}') latest";
+          fi
+          cp -r dist/ src/docker/
+          docker build -t app-docker-img --label commit_id="$TRAVIS_COMMIT" --label version="$PROJECT_VERSION" --label build_number="$TRAVIS_BUILD_NUMBER" --label build_url="$TRAVIS_BUILD_WEB_URL" --label git_url="$TRAVIS_REPO_SLUG" --label commit_message="$TRAVIS_COMMIT_MESSAGE" src/docker
+          for TAG in $TAGS;
+          do
+            docker tag app-docker-img $DOCKER_REPO:$TAG;
+            docker push $DOCKER_REPO:$TAG;
+          done
 
       - name: Build finish
         run : echo "Build Finished Successfully!"
