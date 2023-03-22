@@ -50,7 +50,7 @@ export class XmGMapApiInitDirective implements OnInit, OnDestroy {
             this.xmConfigService
                 .getConfigJson('/webapp/settings-public.yml?toJson&processed=true')
                 .pipe(
-                    tap((publicConfig) => this.loadGoogleMapApi(publicConfig?.apiKey, publicConfig?.googleApiConfig)),
+                    tap((publicConfig) => this.loadGoogleMapApi(publicConfig?.googleApiKey, publicConfig?.googleApiConfig)),
                     takeUntil(this.destroyed$),
                 ).subscribe();
         }
