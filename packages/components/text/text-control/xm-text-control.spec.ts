@@ -20,9 +20,9 @@ describe('XmTextControl', () => {
         };
 
         TestBed.configureTestingModule({
-            declarations: [XmTextControl],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [
+                XmTextControl,
                 XmTranslationTestingModule,
                 MatFormFieldModule,
                 MatInputModule,
