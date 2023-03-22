@@ -1,7 +1,6 @@
 name: build-ui
 
 env:
-  DOCKER_USER: somelchuk
   DOCKER_REPO: docker.io/xmonline/xm-webapp
 
 on:
@@ -9,6 +8,7 @@ on:
     branches:
       - main
       - master
+      - LTS-3-6
 
 jobs:
   build:
@@ -27,9 +27,9 @@ jobs:
 
       - name: Install dependencies and build
         env:
-          DOCKER_USER: ${{ env.DOCKER_USER }}
-          DOCKER_REPO: ${{ env.DOCKER_REPO }}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+          DOCKER_REPO: ${{ env.DOCKER_REPO }}
           TRAVIS_BRANCH: ${{ github.ref }}
           TRAVIS_COMMIT: ${{ github.event.head_commit.id }}
           TRAVIS_BUILD_NUMBER: ${{ github.run_number }}
