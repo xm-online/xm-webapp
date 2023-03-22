@@ -116,7 +116,6 @@ export class XmDynamicControlDirective<V, O>
 
     public writeValue(obj: V): void {
         this.value = obj;
-        this.updateValue();
     }
 
     public setDisabledState?(isDisabled: boolean): void {
@@ -161,8 +160,8 @@ export class XmDynamicControlDirective<V, O>
             return;
         }
         this.instance.registerOnChange((args) => {
-            this.value = args;
-            this.updateValue();
+            this._onChange(args);
+            this.valueChange.next(args);
         });
     }
 
