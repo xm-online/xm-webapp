@@ -5,7 +5,7 @@ import { EDIT_DASHBOARD_EVENT } from '@xm-ngx/administration/dashboards-config/c
 import { XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
 import { XmBoolModule } from '@xm-ngx/components/bool';
 import { LoaderModule } from '@xm-ngx/components/loader';
-import { XmTextControlModule } from '@xm-ngx/components/text';
+import { XmTextControl } from '@xm-ngx/components/text';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDocExamplesModule } from '../../../documentation/doc-examples/xm-doc-examples.module';
@@ -32,7 +32,7 @@ import { MarkdownModule } from 'ngx-markdown';
         LoaderModule,
         XmBoolModule,
         XmAceEditorControlModule,
-        XmTextControlModule,
+        XmTextControl,
         RouterModule,
         XmDocExamplesModule,
         DragDropModule,

@@ -30,6 +30,7 @@ export interface XmTextJoinValueOptions {
 @Component({
     selector: 'xm-text-join',
     template: '{{joinValue}}',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknown, XmTextJoinValueOptions> {
@@ -77,12 +78,4 @@ export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknow
 
         return _.join(_.compact(fields), this.config.joinSymbol || ', ');
     }
-}
-
-@NgModule({
-    exports: [XmTextJoinComponent],
-    declarations: [XmTextJoinComponent],
-})
-export class XmTextJoinModule implements XmDynamicPresentationEntryModule {
-    public entry: XmDynamicPresentationConstructor = XmTextJoinComponent;
 }
