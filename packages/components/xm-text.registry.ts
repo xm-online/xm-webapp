@@ -2,13 +2,6 @@ import { XmDynamicEntry } from '@xm-ngx/dynamic';
 import { XM_ANGULAR_EDITOR_CONTROL_ELEMENTS } from '@xm-ngx/components/xm-angular-editor-control.registry';
 import { XM_TEXT_CONTROL_ELEMENTS } from './xm-text-control.registry';
 import { XM_TEXT_RANGE_ELEMENTS } from './xm-text-range.registry';
-import {
-    XmEmailControl,
-    XmPasswordControl,
-    XmTextComponent,
-    XmTextDynamicView,
-    XmTextJoinComponent
-} from '@xm-ngx/components/text';
 
 export const XM_TEXT_TITLE_ENTRY: XmDynamicEntry = {
     selector: '@xm-ngx/components/text-title',

@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, NgModule, OnInit, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { ConditionDirective } from '@xm-ngx/components/condition';
 import { XmTextTitleOptions } from '../text-title';
 import {
     XM_DYNAMIC_TABLE_ROW,
     XmDynamicPresentation,
-    XmDynamicPresentationConstructor,
-    XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { XmTranslateService } from '@xm-ngx/translation';
