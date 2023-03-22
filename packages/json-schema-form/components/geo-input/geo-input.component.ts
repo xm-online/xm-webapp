@@ -1,6 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { GeoInputOptions } from './geo-input.model';
 import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 declare let google: any;
 
@@ -28,35 +30,62 @@ interface IPlaceValueGeometry {
     selector: 'geo-input',
     templateUrl: './geo-input.component.html',
 })
-export class GeoInputComponent implements OnInit {
+export class GeoInputComponent implements AfterViewInit, OnDestroy {
     public controlValue!: string;
     public modelValue: string = '';
     public options: GeoInputOptions;
+    public apiReady: BehaviorSubject<{gMapReady: boolean, viewReady: boolean}> = new BehaviorSubject<{gMapReady: boolean; viewReady: boolean}>(null);
+    protected destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
     @Input() public layoutNode: any;
     @ViewChild('geoInput') public geoInput: any;
 
     constructor(
         private jsf: JsonSchemaFormService,
+        private changeDetectorRef: ChangeDetectorRef,
     ) {
+        this.apiReady.pipe(takeUntil(this.destroyed$)).subscribe((state) => {
+            if (state?.gMapReady && state?.gMapReady) {
+                requestAnimationFrame(() => {
+                    this.initGeoinput();
+                });
+            }
+        });
     }
 
-    public ngOnInit(): void {
+    public ngOnDestroy(): void {
+        this.destroyed$.next(true);
+        this.destroyed$.complete();
+    }
+
+    public ngAfterViewInit(): void {
         this.options = this.layoutNode?.options || {};
+        this.jsf.initializeControl(this);
+        this.apiReady.next({
+            ...this.apiReady.value,
+            viewReady: true,
+        });
     }
 
     public onAfterGMapApiInit(): void {
-        this.getPlaceAutocomplete();
+        this.apiReady.next({
+            ...this.apiReady.value,
+            gMapReady: true,
+        });
+    }
 
-        this.jsf.initializeControl(this);
+    public initGeoinput(): void {
         if (this.controlValue) {
             const dataValue: IPlaceValue = JSON.parse(this.controlValue);
             this.modelValue = dataValue?.formatted_address;
+            this.changeDetectorRef.detectChanges();
         }
+        this.getPlaceAutocomplete();
     }
 
     private getPlaceAutocomplete() {
-        const autocomplete = new google.maps.places.Autocomplete(this.geoInput?.nativeElement, {types: this.options.predictionType || ['address']});
+        const types = this.options?.predictionType || ['address'];
+        const autocomplete = new google.maps.places.Autocomplete(this.geoInput?.nativeElement, {types});
         google.maps.event.addListener(autocomplete, 'place_changed', () => {
             const place = autocomplete.getPlace();
             this.invokeEvent(place);
