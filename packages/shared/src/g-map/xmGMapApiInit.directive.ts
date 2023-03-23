@@ -9,14 +9,18 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 
 import { XmConfigService } from '@xm-ngx/core/config';
+import { LanguageService, Locale } from '@xm-ngx/translation';
 
 declare global {
     interface Window {google: { maps: any }}
 }
-
+type LocaleCode = string | 'en-us' | 'ru-ru' | 'uk-ua' | 'de-de' | 'it';
+interface IGoogleApiCfg {
+    libraries?: string[];
+}
 @Directive({
     selector: '[xmGMapApiInit]',
 })
@@ -24,6 +28,7 @@ declare global {
 export class XmGMapApiInitDirective implements OnInit, OnDestroy {
     @Output() public gMapApiReady: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Input() public libraries: string[] = ['geometry'];
+    public lang!: LocaleCode;
     private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
     private statusLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -31,7 +36,11 @@ export class XmGMapApiInitDirective implements OnInit, OnDestroy {
         private templateRef: TemplateRef<any>,
         private viewContainerRef: ViewContainerRef,
         private xmConfigService: XmConfigService,
+        private languageService: LanguageService,
     ) {
+        this.languageService.locale$.subscribe((l) => {
+            this.lang = this.getMamLangCode(l);
+        });
     }
 
     public ngOnInit(): void {
@@ -41,8 +50,7 @@ export class XmGMapApiInitDirective implements OnInit, OnDestroy {
             this.xmConfigService
                 .getConfigJson('/webapp/settings-public.yml?toJson&processed=true')
                 .pipe(
-                    map((res) => res.googleApiKey ? res.googleApiKey : ''),
-                    tap((apiKey) => this.loadGoogleMapApi(apiKey)),
+                    tap((publicConfig) => this.loadGoogleMapApi(publicConfig?.googleApiKey, publicConfig?.googleApiConfig)),
                     takeUntil(this.destroyed$),
                 ).subscribe();
         }
@@ -68,13 +76,33 @@ export class XmGMapApiInitDirective implements OnInit, OnDestroy {
         }
     }
 
-    private loadGoogleMapApi(apiKey: string): void {
+    private loadGoogleMapApi(apiKey: string, config?: IGoogleApiCfg): void {
+        const apiKeyValue = apiKey || '';
         const scriptNode = document.createElement('script');
-        const apiLibraries = this.libraries.length ? `&libraries=${this.libraries.join(',')}` : '';
-
-        scriptNode.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}${apiLibraries}`;
+        const apiLibraries = this.getLibrariesParam(config);
+        const language = this.lang ? `&language=${this.lang}` : '';
+        scriptNode.src = `https://maps.googleapis.com/maps/api/js?key=${apiKeyValue}${apiLibraries}${language}`;
         scriptNode.onload = (): void => this.statusLoaded.next(true);
 
         document.getElementsByTagName('head')[0].appendChild(scriptNode);
+    }
+
+    private getLibrariesParam(config?: IGoogleApiCfg): string {
+        const libs = config?.libraries || this.libraries;
+        return libs.length ? `&libraries=${libs}` : '';
+    }
+
+    private getMamLangCode(l: Locale = 'en'): LocaleCode {
+        switch (l) {
+            case 'en': {
+                return `${l}-us`;
+            }
+            case 'uk': {
+                return `${l}-ua`;
+            }
+            default: {
+                return `${l}-${l}`;
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@ import { MultilingualInputComponent } from './multilingual-input/multilingual-in
 import { TextSectionComponent } from './text-section/text-section.component';
 import { ValidationComponent } from './validation-component/validation-component.component';
 import { MultilingualInputV2Component } from './multilingual-input-v2/multilingual-input-v2.component';
+import { GeoInputComponent } from './geo-input/geo-input.component';
 
 declare const $: any;
 declare let Babili: any;
@@ -47,6 +48,7 @@ export const getJsfWidgets = (): any => {
         'text-section': TextSectionComponent,
         'file-upload': FileUploadComponent,
         'dynamic-control': DynamicControlInjectorComponent,
+        'geo-input': GeoInputComponent,
     };
 };
 
