@@ -1,9 +1,10 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'xm-loader',
     templateUrl: './loader.component.html',
     styleUrls: ['./loader.component.scss'],
+    encapsulation: ViewEncapsulation.Emulated,
 })
 export class LoaderComponent implements OnInit, OnDestroy {
 

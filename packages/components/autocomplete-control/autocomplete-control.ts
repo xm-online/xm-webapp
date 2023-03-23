@@ -6,14 +6,14 @@ import { MatOption } from '@angular/material/core';
 import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { LanguageService } from '@xm-ngx/translation';
 import _ from 'lodash';
-import { Subject, Observable, BehaviorSubject, startWith, map, switchMap, of, tap, distinctUntilChanged, debounceTime, catchError, combineLatest, finalize, shareReplay } from 'rxjs';
+import { Subject, Observable, BehaviorSubject, startWith, map, switchMap, of, tap, distinctUntilChanged, debounceTime, catchError, finalize, shareReplay } from 'rxjs';
 import { EntityCollectionFactoryService } from '../entity-collection';
 import { NgModelWrapper } from '../ng-accessor';
 import { AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG, XmAutocompleteControlConfig, XmAutocompleteControlMapper, XmAutocompleteControlListItem, XmAutocompleteControlParams, XmAutocompleteControlBody } from './autocomple-control.interface';
 
 @Directive()
 export class XmAutocompleteControl extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {
-    private refreshValue = new Subject<unknown>();
+    private refreshValue = new Subject<void>();
 
     private displayFn: _.TemplateExecutor;
     private valueByKey: _.TemplateExecutor;
@@ -62,12 +62,12 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     public ngOnInit(): void {
         this.refreshValue.pipe(
             startWith(null),
-            switchMap((value) => {
-                if (_.isEmpty(value)) {
+            switchMap(() => {
+                if (_.isEmpty(this.value)) {
                     return of([]);
                 }
 
-                const normalizeSelectedValues = this.normalizeCollection(value);
+                const normalizeSelectedValues = this.normalizeCollection(this.value);
 
                 if (!this.requestCache) {
                     this.requestCache = this.fetchSelectedValues(normalizeSelectedValues).pipe(
@@ -108,30 +108,27 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             takeUntilOnDestroy(this),
         ).subscribe();
 
-        combineLatest([
-            this.fetchedList,
-            this.searchedList,
-        ]).pipe(
+        this.fetchedList.pipe(
+            switchMap((fetch) => this.searchedList.pipe(
+                map((search) => [fetch, search])
+            )),
             map(([fetchedSelectedValues, search]) => {
-                return _.differenceWith(fetchedSelectedValues, search, _.isEqual).concat(search);
+                return _.uniqWith(fetchedSelectedValues.concat(search), (a, b) => this.identityFn(a, b));
             }),
             tap((values) => {
                 this.list.next(values);
             }),
             takeUntilOnDestroy(this),
         ).subscribe();
+
+        if (this.config.startEmptySearch) {
+            this.searchQueryControl.setValue('');
+        }
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value.previousValue == null && changes.value.currentValue == null && changes.value.isFirstChange()) {
-            this.refreshValue.next(changes.value.currentValue);
-        }
-
-        if (this.list.value.length <= 0 && changes.value.previousValue == null 
-            && !_.isEmpty(changes.value.currentValue) 
-            && !changes.value.isFirstChange()
-        ) {            
-            this.refreshValue.next(changes.value.currentValue);
+        if (this.list.value.length <= 0) {            
+            this.refreshValue.next();
         }
     }
 

@@ -95,7 +95,7 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
 
             <mat-hint [hint]="config?.hint"></mat-hint>
         </mat-form-field>
-        <mat-error *ngIf="required && selectedValues.length === 0 && control.touched">
+        <mat-error *ngIf="required && selectedLength === 0 && control.touched">
             {{ 'entity.validation.required' | translate }}
         </mat-error>
     `,
