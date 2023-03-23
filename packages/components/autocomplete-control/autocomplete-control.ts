@@ -13,7 +13,7 @@ import { AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG, XmAutocompleteControlConfig, XmAut
 
 @Directive()
 export class XmAutocompleteControl extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {
-    private refreshValue = new Subject<unknown>();
+    private refreshValue = new Subject<void>();
 
     private displayFn: _.TemplateExecutor;
     private valueByKey: _.TemplateExecutor;
@@ -62,12 +62,12 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     public ngOnInit(): void {
         this.refreshValue.pipe(
             startWith(null),
-            switchMap((value) => {
-                if (_.isEmpty(value)) {
+            switchMap(() => {
+                if (_.isEmpty(this.value)) {
                     return of([]);
                 }
 
-                const normalizeSelectedValues = this.normalizeCollection(value);
+                const normalizeSelectedValues = this.normalizeCollection(this.value);
 
                 if (!this.requestCache) {
                     this.requestCache = this.fetchSelectedValues(normalizeSelectedValues).pipe(
@@ -127,15 +127,8 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.value.previousValue == null && changes.value.currentValue == null && changes.value.isFirstChange()) {
-            this.refreshValue.next(changes.value.currentValue);
-        }
-
-        if (this.list.value.length <= 0 && changes.value.previousValue == null 
-            && !_.isEmpty(changes.value.currentValue) 
-            && !changes.value.isFirstChange()
-        ) {            
-            this.refreshValue.next(changes.value.currentValue);
+        if (this.list.value.length <= 0) {            
+            this.refreshValue.next();
         }
     }
 
