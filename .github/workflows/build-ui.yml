@@ -4,11 +4,20 @@ env:
   DOCKER_REPO: docker.io/xmonline/xm-webapp
 
 on:
+  workflow_dispatch:
+    # inputs:
+      # git-ref:
+        # description: Git Branch  
+        # required: true
+        # default: 'main'
   push:
     branches:
       - main
       - master
       - LTS-3-6
+  # pull_request:
+  #   branches: [main, master, LTS-3-6]
+  #   types: [opened,edited,reopened,synchronize]
 
 jobs:
   build:
