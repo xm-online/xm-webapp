@@ -5,19 +5,14 @@ env:
 
 on:
   workflow_dispatch:
-    # inputs:
-      # git-ref:
-        # description: Git Branch  
-        # required: true
-        # default: 'main'
   push:
     branches:
       - main
       - master
       - LTS-3-6
-  # pull_request:
-  #   branches: [main, master, LTS-3-6]
-  #   types: [opened,edited,reopened,synchronize]
+  pull_request:
+    branches: [main, master, LTS-3-6]
+    types: [unlocked]
 
 jobs:
   build:
