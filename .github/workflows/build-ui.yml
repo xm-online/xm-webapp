@@ -10,9 +10,8 @@ on:
       - main
       - master
       - LTS-3-6
-  pull_request:
-    branches: [main, master, LTS-3-6]
-    types: [unlocked]
+  pull_request_review:
+  #   types: [submitted]
 
 jobs:
   build:
