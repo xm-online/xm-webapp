@@ -3,7 +3,7 @@ import { XmUser } from '@xm-ngx/core/user';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { get } from 'lodash';
 import { CommonModule } from '@angular/common';
-import { XmMenuModule } from '@xm-ngx/components/menu';
+import { MenuComponent } from '@xm-ngx/components/menu';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 
@@ -33,7 +33,7 @@ export interface SidebarUserSubtitleOptions {
     `,
     imports: [
         CommonModule,
-        XmMenuModule,
+        MenuComponent,
         XmPermissionModule,
         XmTranslationModule,
         XmDynamicModule,

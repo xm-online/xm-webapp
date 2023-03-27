@@ -8,11 +8,12 @@ import { XmUserService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { XmMenuModule } from '@xm-ngx/components/menu';
+import { MenuComponent } from '@xm-ngx/components/menu';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { SidebarUserSubtitle } from '@xm-ngx/components/sidebar-user/sidebar-user-subtitle';
+import { MenuLinkComponent } from '@xm-ngx/components/menu/menu-link.component';
 
 
 @Component({
@@ -25,11 +26,12 @@ import { SidebarUserSubtitle } from '@xm-ngx/components/sidebar-user/sidebar-use
     ],
     imports: [
         CommonModule,
-        XmMenuModule,
+        MenuComponent,
+        MenuLinkComponent,
         XmPermissionModule,
         XmTranslationModule,
         XmDynamicModule,
-        SidebarUserSubtitle
+        SidebarUserSubtitle,
     ],
     standalone: true,
 })

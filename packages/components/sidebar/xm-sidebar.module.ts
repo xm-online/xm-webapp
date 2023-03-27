@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { XmLogoModule } from '@xm-ngx/components/logo';
-import { XmMenuModule } from '@xm-ngx/components/menu';
+import { LogoComponent } from '@xm-ngx/components/logo';
+import { MenuComponent } from '@xm-ngx/components/menu';
 import { XmPoweredByModule } from '@xm-ngx/components/powered-by';
 import { SidebarUserComponent } from '@xm-ngx/components/sidebar-user';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
@@ -21,9 +21,9 @@ export const XM_SIDEBAR_KEY = 'xm-widget-sidebar';
     imports: [
         RouterModule,
         CommonModule,
-        XmLogoModule,
+        LogoComponent,
         SidebarUserComponent,
-        XmMenuModule,
+        MenuComponent,
         XmPoweredByModule,
         XmDynamicModule,
         MatDividerModule,
