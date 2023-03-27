@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import * as _ from 'lodash';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { XmAceEditorDirective, XmAceEditorThemeSchemeAdapterModule } from '@xm-ngx/components/ace-editor';
+import { XmAceEditorDirective } from '../xm-ace-editor.directive';
+import { XmAceEditorThemeSchemeAdapterModule } from '../xm-ace-editor-theme-scheme-adapter.directive';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
