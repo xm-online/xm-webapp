@@ -15,7 +15,8 @@ describe('LogoComponent', () => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
             providers: [{ provide: XmUiConfigService, useClass: MockUiConfigService }],
-            imports: [LogoComponent, XmTranslationTestingModule, HttpClientTestingModule],
+            imports: [XmTranslationTestingModule, HttpClientTestingModule],
+            declarations: [LogoComponent],
         })
             .compileComponents();
     }));

@@ -16,11 +16,11 @@ export const XM_TEXT_TRANSLATE_ENTRY: XmDynamicEntry = {
 export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
     {
         selector: '@xm-ngx/components/email-control',
-        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmEmailControl),
+        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmEmailControlModule),
     },
     {
         selector: '@xm-ngx/components/password-control',
-        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmPasswordControl),
+        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmPasswordControlModule),
     },
     {
         selector: '@xm-ngx/components/phone-control',
@@ -28,22 +28,22 @@ export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/text',
-        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextComponent),
+        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextModule),
     },
     {
         /** @deprecated use `@xm-ngx/components/text` instead */
         selector: '@xm-ngx/components/text-value',
-        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextComponent),
+        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextModule),
     },
     ...XM_TEXT_CONTROL_ELEMENTS,
     {
         selector: '@xm-ngx/components/text-join',
-        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextJoinComponent),
+        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextJoinModule),
     },
     {
         /** @deprecated use `@xm-ngx/components/text-join-value` instead */
         selector: '@xm-ngx/components/text-join-value',
-        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextJoinComponent),
+        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextJoinModule),
     },
     ...XM_TEXT_RANGE_ELEMENTS,
     XM_TEXT_TITLE_ENTRY,
@@ -59,7 +59,7 @@ export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/text-dynamic-view',
-        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextDynamicView),
+        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextDynamicViewModule),
     },
     ...XM_ANGULAR_EDITOR_CONTROL_ELEMENTS,
 ];

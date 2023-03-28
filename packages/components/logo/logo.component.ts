@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule, OnInit, Type } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ISession, XmSessionService } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
@@ -37,12 +37,6 @@ function optionsConfigToLogo(config: XmUIConfig): LogoOptions {
 
 @Component({
     selector: 'xm-logo',
-    imports: [
-        RouterModule,
-        CommonModule,
-        XmTranslationModule,
-    ],
-    standalone: true,
     templateUrl: './logo.component.html',
     styleUrls: ['./logo.component.scss'],
     host: { class: 'xm-logo' },
@@ -66,4 +60,17 @@ export class LogoComponent implements OnInit {
         this.session$ = this.sessionService.get();
     }
 
+}
+
+@NgModule({
+    imports: [
+        RouterModule,
+        CommonModule,
+        XmTranslationModule,
+    ],
+    declarations: [LogoComponent],
+    exports: [LogoComponent],
+})
+export class XmLogoModule {
+    public entry: Type<LogoComponent> = LogoComponent;
 }

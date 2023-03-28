@@ -6,8 +6,6 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
 
 /** TODO: Migrate to widgets. */
 export interface NavbarLogoUIConfig extends XmUIConfig {
@@ -26,11 +24,6 @@ export interface NavbarLogoUIConfig extends XmUIConfig {
             </a>
         </div>
     `,
-    imports: [
-        RouterModule,
-        CommonModule,
-    ],
-    standalone: true,
     styleUrls: ['./xm-navbar-logo-widget.component.scss'],
 })
 export class XmNavbarLogoWidget implements OnInit, OnDestroy, XmDynamicWidget {

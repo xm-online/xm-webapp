@@ -3,15 +3,15 @@ import { XmDynamicEntry } from '@xm-ngx/dynamic';
 export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     {
         selector: '@xm-ngx/components/sidebar-logo',
-        loadChildren: () => import('@xm-ngx/components/logo').then(m => m.LogoComponent),
+        loadChildren: () => import('@xm-ngx/components/logo').then(m => m.XmLogoModule),
     },
     {
         selector: '@xm-ngx/components/sidebar-image-logo',
-        loadChildren: () => import('@xm-ngx/components/logo').then(m => m.ImageLogoComponent),
+        loadChildren: () => import('@xm-ngx/components/logo').then(m => m.ImageLogoModule),
     },
     {
         selector: '@xm-ngx/components/sidebar-menu',
-        loadChildren: () => import('@xm-ngx/components/menu').then(m => m.MenuComponent),
+        loadChildren: () => import('@xm-ngx/components/menu').then(m => m.XmMenuModule),
     },
     {
         selector: '@xm-ngx/components/breadcrumb',
@@ -19,7 +19,7 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/navbar-user-widget',
-        loadChildren: () => import('@xm-ngx/components/navbar-user-widget').then(m => m.NavbarUserWidgetComponent),
+        loadChildren: () => import('@xm-ngx/components/navbar-user-widget').then(m => m.NavbarUserWidgetModule),
     },
     {
         selector: '@xm-ngx/components/navbar-heatmap-widget',
@@ -95,15 +95,15 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/xm-ace-editor-control',
-        loadChildren: () => import('@xm-ngx/components/ace-editor').then(m => m.XmAceEditorControlComponent),
+        loadChildren: () => import('@xm-ngx/components/ace-editor').then(m => m.XmAceEditorControlModule),
     },
     {
         selector: '@xm-ngx/components/multilanguage',
-        loadChildren: () => import('@xm-ngx/components/multilanguage').then(m => m.MultiLanguageComponent),
+        loadChildren: () => import('@xm-ngx/components/multilanguage').then(m => m.MultiLanguageModule),
     },
     {
         selector: '@xm-ngx/components/hint-switch',
-        loadChildren: () => import('@xm-ngx/components/hint/hint-switch/hint-switch.component').then(m => m.HintSwitchComponent),
+        loadChildren: () => import('@xm-ngx/components/hint/hint-switch/hint-switch.module').then(m => m.HintSwitchModule),
     },
     {
         selector: '@xm-ngx/components/inline-control',

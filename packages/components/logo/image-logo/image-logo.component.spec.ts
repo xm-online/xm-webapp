@@ -5,7 +5,6 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
 
 import { ImageLogoComponent } from './image-logo.component';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ImageLogoComponent', () => {
     let component: ImageLogoComponent;
@@ -14,7 +13,8 @@ describe('ImageLogoComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [ImageLogoComponent, RouterTestingModule, XmTranslationTestingModule],
+            imports: [XmTranslationTestingModule],
+            declarations: [ImageLogoComponent],
             providers: [{ provide: XmSessionService, useValue: { get: () => of({}) } }],
         })
             .compileComponents();

@@ -1,15 +1,8 @@
 import { Component, ElementRef, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
-import { MatButtonModule } from '@angular/material/button';
-import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 @Component({
     selector: 'xm-navbar-toggle-widget',
-    imports: [
-        MatButtonModule,
-        XmPermissionModule,
-    ],
-    standalone: true,
     template: `
         <button *xmIfSession
                 (click)="sidebarToggle()"

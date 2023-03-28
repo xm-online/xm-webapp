@@ -3,9 +3,6 @@ import { ISession, XmSessionService } from '@xm-ngx/core';
 import { Defaults, randomInt } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
 import { SPA_AUTH_ROOT_URL, SPA_ROOT_URL } from '../logo.component';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { XmTranslationModule } from '@xm-ngx/translation';
 
 interface ImageLogoConfig {
     title: string;
@@ -24,12 +21,6 @@ const DEFAULT: ImageLogoConfig = {
 @Component({
     selector: 'xm-image-logo',
     templateUrl: './image-logo.component.html',
-    imports: [
-        CommonModule,
-        RouterModule,
-        XmTranslationModule,
-    ],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageLogoComponent implements OnInit {

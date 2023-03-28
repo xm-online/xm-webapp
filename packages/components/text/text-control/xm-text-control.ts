@@ -1,20 +1,16 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
-import { UntypedFormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
+import { UntypedFormControl, NgControl } from '@angular/forms';
+import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmTextTitleOptions } from '../text-title';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { ValidatorProcessingOption, ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import { filter } from 'rxjs/operators';
-import { HintModule, HintText } from '@xm-ngx/components/hint';
-import { MatInputModule } from '@angular/material/input';
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { HintText } from '@xm-ngx/components/hint';
 
 export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
     hint?: HintText;
@@ -84,17 +80,6 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
 
         </mat-form-field>
     `,
-    imports: [
-        MatInputModule,
-        XmTranslationModule,
-        CommonModule,
-        ControlErrorModule,
-        ReactiveFormsModule,
-        HintModule,
-        MatIconModule,
-        MatButtonModule,
-    ],
-    standalone: true,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })

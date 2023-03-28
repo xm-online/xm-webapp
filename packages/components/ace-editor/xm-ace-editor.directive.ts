@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, NgModule, OnDestroy, Output } from '@angular/core';
 import * as ace from 'brace';
 import { Editor } from 'brace';
 
@@ -13,7 +13,6 @@ import 'brace/theme/tomorrow_night';
 
 @Directive({
     selector: '[xmAceEditor]',
-    standalone: true,
 })
 export class XmAceEditorDirective<O = unknown> implements OnDestroy {
 
@@ -121,4 +120,11 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
         this.oldText = newVal;
     }
 
+}
+
+@NgModule({
+    exports: [XmAceEditorDirective],
+    declarations: [XmAceEditorDirective],
+})
+export class AceEditorModule {
 }

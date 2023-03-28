@@ -1,3 +1,3 @@
-export { LogoComponent } from './logo.component';
-export { ImageLogoComponent } from './image-logo/image-logo.component';
+export { XmLogoModule } from './logo.component';
+export { ImageLogoModule } from './image-logo/image-logo.module';
 

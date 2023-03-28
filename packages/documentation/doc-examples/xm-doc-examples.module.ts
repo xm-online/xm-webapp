@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
-import { XmTextControl } from '@xm-ngx/components/text';
+import { XmTextControlModule } from '@xm-ngx/components/text';
 import { MarkdownModule } from 'ngx-markdown';
 import { XmDocExamplesComponent } from './xm-doc-examples.component';
 
@@ -18,7 +18,7 @@ import { XmDocExamplesComponent } from './xm-doc-examples.component';
     exports: [XmDocExamplesComponent],
     imports: [
         CommonModule,
-        XmTextControl,
+        XmTextControlModule,
         MatButtonModule,
         MatTabsModule,
         MarkdownModule,

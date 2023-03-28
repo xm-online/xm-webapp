@@ -1,8 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, NgModule } from '@angular/core';
 import { XmTextTitleOptions } from '../text-title';
 import {
     XmDynamicModule,
     XmDynamicPresentation,
+    XmDynamicPresentationConstructor,
+    XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
 import { Primitive } from '@xm-ngx/shared/interfaces';
 import { XmTranslationModule } from '@xm-ngx/translation';
@@ -27,10 +29,17 @@ export interface XmTextDynamicOptions extends XmTextTitleOptions {
                   [options]="config.options"></span>
         </xm-text-view-container>
     `,
-    imports: [XmTranslationModule, XmTextViewModule, XmDynamicModule],
-    standalone: true,
 })
 export class XmTextDynamicView implements XmDynamicPresentation<Primitive, XmTextDynamicOptions> {
     @Input() public value: Primitive;
     @Input() public config: XmTextDynamicOptions;
+}
+
+@NgModule({
+    imports: [XmTranslationModule, XmTextViewModule, XmDynamicModule],
+    exports: [XmTextDynamicView],
+    declarations: [XmTextDynamicView],
+})
+export class XmTextDynamicViewModule implements XmDynamicPresentationEntryModule {
+    public entry: XmDynamicPresentationConstructor = XmTextDynamicView;
 }

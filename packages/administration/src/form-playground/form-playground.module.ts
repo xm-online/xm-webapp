@@ -8,7 +8,7 @@ import { LanguageModule } from '@xm-ngx/translation';
 import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { XmAceEditorDirective, XmAceEditorControlComponent } from '@xm-ngx/components/ace-editor';
+import { AceEditorModule, XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
 import { FormPlaygroundComponent } from './form-playground.component';
 
 @NgModule({
@@ -23,8 +23,8 @@ import { FormPlaygroundComponent } from './form-playground.component';
         LanguageModule,
         XmJsonSchemaFormModule,
         ReactiveFormsModule,
-        XmAceEditorDirective,
-        XmAceEditorControlComponent,
+        AceEditorModule,
+        XmAceEditorControlModule,
     ],
     exports: [FormPlaygroundComponent],
     declarations: [FormPlaygroundComponent],

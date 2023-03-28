@@ -1,12 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { MenuItem } from './menu.interface';
-import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { XmTranslationModule } from '@xm-ngx/translation';
-import { CommonModule } from '@angular/common';
-import { CdkTreeModule } from '@angular/cdk/tree';
-import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 @Component({
     selector: 'xm-menu-link, [xm-menu-link]',
@@ -21,16 +14,6 @@ import { XmPermissionModule } from '@xm-ngx/core/permission';
             <ng-content></ng-content>
         </a>
     `,
-    standalone: true,
-    imports: [
-        RouterModule,
-        MatIconModule,
-        MatButtonModule,
-        XmTranslationModule,
-        CommonModule,
-        CdkTreeModule,
-        XmPermissionModule,
-    ],
     changeDetection: ChangeDetectionStrategy.Default,
     encapsulation: ViewEncapsulation.None,
 })

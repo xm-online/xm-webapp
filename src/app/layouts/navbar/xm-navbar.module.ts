@@ -1,31 +1,31 @@
 import { NgModule } from '@angular/core';
 import {
-    XmNavbarArrowBackWidget,
-    XmNavbarHelpLinkWidget,
-    XmNavbarLanguageMenuWidget,
-    XmNavbarLogoWidget,
-    XmNavbarSearchWidget,
-    XmNavbarTitleWidget,
-    XmNavbarToggleWidget,
+    XmNavbarArrowBackWidgetModule,
+    XmNavbarHelpLinkWidgetModule,
+    XmNavbarLanguageMenuWidgetModule,
+    XmNavbarLogoWidgetModule,
+    XmNavbarSearchWidgetModule,
+    XmNavbarTitleWidgetModule,
+    XmNavbarToggleWidgetModule,
 } from '@xm-ngx/components/navbar';
 import { NavbarComponent } from './navbar.component';
 import { CommonModule } from '@angular/common';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
-import { XmNavbarNotificationWidget } from '@xm-ngx/components/navbar-notification-widget';
+import { XmNavbarNotificationWidgetModule } from '@xm-ngx/components/navbar-notification-widget';
 
 
 @NgModule({
     imports: [
         CommonModule,
         XmDynamicModule,
-        XmNavbarArrowBackWidget,
-        XmNavbarTitleWidget,
-        XmNavbarSearchWidget,
-        XmNavbarHelpLinkWidget,
-        XmNavbarLanguageMenuWidget,
-        XmNavbarLogoWidget,
-        XmNavbarToggleWidget,
-        XmNavbarNotificationWidget,
+        XmNavbarArrowBackWidgetModule,
+        XmNavbarTitleWidgetModule,
+        XmNavbarSearchWidgetModule,
+        XmNavbarHelpLinkWidgetModule,
+        XmNavbarLanguageMenuWidgetModule,
+        XmNavbarLogoWidgetModule,
+        XmNavbarToggleWidgetModule,
+        XmNavbarNotificationWidgetModule,
     ],
     exports: [NavbarComponent],
     declarations: [NavbarComponent],

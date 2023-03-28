@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import * as _ from 'lodash';
@@ -10,18 +10,13 @@ import { filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { ContextService } from '@xm-ngx/core/context';
 import { Principal } from '@xm-ngx/core/user';
 import { getDefaultMenuList } from './default-menu-list';
-import { CdkTreeModule, NestedTreeControl } from '@angular/cdk/tree';
+import { NestedTreeControl } from '@angular/cdk/tree';
 import { treeNodeSearch } from '../../shared/operators/src/tree-search';
 import { buildMenuTree } from './nested-menu';
 import { applicationsToCategory, filterByConditionDashboards } from './flat-menu';
 import { MenuItem, MenuOptions } from './menu.interface';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmUiConfigService } from '@xm-ngx/core/config';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { XmTranslationModule } from '@xm-ngx/translation';
-import { CommonModule } from '@angular/common';
-import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 @Component({
     selector: 'xm-menu',
@@ -33,16 +28,6 @@ import { XmPermissionModule } from '@xm-ngx/core/permission';
     host: {
         class: 'xm-menu',
     },
-    imports: [
-        RouterModule,
-        MatIconModule,
-        MatButtonModule,
-        XmTranslationModule,
-        CommonModule,
-        CdkTreeModule,
-        XmPermissionModule,
-    ],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MenuComponent implements OnInit, OnDestroy {

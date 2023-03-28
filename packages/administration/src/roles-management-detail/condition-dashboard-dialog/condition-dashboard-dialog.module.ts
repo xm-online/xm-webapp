@@ -11,7 +11,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { ConditionDashboardDialogComponent } from '@xm-ngx/administration/roles-management-detail/condition-dashboard-dialog/condition-dashboard-dialog.component';
-import { XmTextControl, XmTextViewModule } from '@xm-ngx/components/text';
+import { XmTextControlModule, XmTextViewModule } from '@xm-ngx/components/text';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
 @NgModule({
@@ -28,7 +28,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
         XmTranslationModule,
         MatCheckboxModule,
         MatDialogModule,
-        XmTextControl,
+        XmTextControlModule,
         ReactiveFormsModule,
         MatSlideToggleModule,
         MatIconModule,
