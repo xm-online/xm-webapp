@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { XmCheckboxControlModule } from '@xm-ngx/components/bool';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
-import { XmEmailControlModule, XmPasswordControlModule } from '@xm-ngx/components/text';
+import { XmEmailControl, XmPasswordControl } from '@xm-ngx/components/text';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmSignInFormComponent } from './xm-sign-in-form.component';
 
@@ -15,8 +15,8 @@ import { XmSignInFormComponent } from './xm-sign-in-form.component';
     exports: [XmSignInFormComponent],
     imports: [
         CommonModule,
-        XmEmailControlModule,
-        XmPasswordControlModule,
+        XmEmailControl,
+        XmPasswordControl,
         ReactiveFormsModule,
         XmTranslationModule,
         MatButtonModule,

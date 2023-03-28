@@ -1,4 +1,4 @@
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmTextViewModule } from '../text-view';
 
@@ -15,15 +15,9 @@ export interface XmLabeledContainerOptions {
             <span xmValue><ng-content></ng-content></span>
         </xm-text-view-container>
     `,
+    standalone: true,
+    imports: [XmTranslationModule, XmTextViewModule],
 })
 export class XmLabeledViewContainerComponent {
     @Input() public config: XmLabeledContainerOptions;
-}
-
-@NgModule({
-    imports: [XmTranslationModule, XmTextViewModule],
-    exports: [XmLabeledViewContainerComponent],
-    declarations: [XmLabeledViewContainerComponent],
-})
-export class XmLabeledViewContainerModule {
 }

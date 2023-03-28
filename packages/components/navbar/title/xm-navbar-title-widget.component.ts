@@ -6,6 +6,7 @@ import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { filter } from 'rxjs/operators';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { CommonModule } from '@angular/common';
 
 interface RouteData {
     pageTitle?: Translate;
@@ -16,6 +17,10 @@ interface RouteData {
 @Component({
     selector: 'xm-navbar-title-widget',
     styleUrls: ['./xm-navbar-title-widget.component.scss'],
+    imports: [
+        CommonModule,
+    ],
+    standalone: true,
     template: `
         <div *ngIf="routeData && title"
              class="title-part px-3">

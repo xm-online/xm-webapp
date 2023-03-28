@@ -2,6 +2,13 @@ import { Component, Input } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import * as _ from 'lodash';
 import { XmPasswordControlOptions } from './xm-password-control-options';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatIconModule } from '@angular/material/icon';
+import { HintModule } from '@xm-ngx/components/hint';
 
 export const XM_PASSWORD_OPTIONS_DEFAULT: XmPasswordControlOptions = {
     id: 'password',
@@ -38,6 +45,16 @@ export const XM_PASSWORD_OPTIONS_DEFAULT: XmPasswordControlOptions = {
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
+    imports: [
+        MatFormFieldModule,
+        ControlErrorModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        XmTranslationModule,
+        MatIconModule,
+        HintModule,
+    ],
+    standalone: true
 })
 export class XmPasswordControl extends NgFormAccessor<string> {
     private _config: XmPasswordControlOptions = _.clone(XM_PASSWORD_OPTIONS_DEFAULT);

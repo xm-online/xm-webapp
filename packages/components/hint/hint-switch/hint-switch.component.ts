@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import * as _ from 'lodash';
-import { Translate } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { HintService } from '../hint.service';
+import { CommonModule } from '@angular/common';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 export interface HintSwitchConfig {
     title: Translate;
@@ -20,6 +22,12 @@ export const HINT_SWITCH_CONFIG = {
 @Component({
     selector: 'xm-hint-switch',
     templateUrl: './hint-switch.component.html',
+    imports: [
+        CommonModule,
+        MatSlideToggleModule,
+        XmTranslationModule,
+    ],
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HintSwitchComponent {
