@@ -18,5 +18,6 @@ export * from './ext-md-editor/ext-md-editor.component';
 export * from './email-matcher/email-matcher.component';
 export * from './text-section/text-section.component';
 export * from './file-upload/file-upload.component';
+export * from './geo-input/geo-input.component';
 export * from './dynamic-control-injector-component/dynamic-control-injector.component';
 export * from './dynamic-control-injector-component/dynamic-control-injector.module';

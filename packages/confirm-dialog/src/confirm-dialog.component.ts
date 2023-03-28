@@ -95,7 +95,7 @@ export class XmConfirmDialogComponent implements OnInit {
     private buildFormGroup(controls: XmConfirmDialogControls): UntypedFormGroup {
         return Object.entries(controls)
             .reduce((group, [key, { type, control: groupControl }]) => {
-                const { value, options: { validators = [], asyncValidators = [] } = {} } = groupControl;
+                const { value, config: { validators = [], asyncValidators = [] } = {} } = groupControl;
 
                 const control = this.fb.control(value);
 
