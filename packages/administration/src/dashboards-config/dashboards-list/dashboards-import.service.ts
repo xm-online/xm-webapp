@@ -47,7 +47,7 @@ export class DashboardsImportService {
                     timeout: 1500,
                     text: 'Success',
                     type: 'success',
-                }))
+                }));
             }),
             finalize(() => this.loader.next(false)),
         );
