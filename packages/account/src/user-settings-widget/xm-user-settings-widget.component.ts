@@ -50,7 +50,11 @@ export class XmUserSettingsWidgetComponent implements OnInit {
     }
 
     public save(): void {
-        this.accountService.save(this.settingsAccount).subscribe(() => {
+        const settingsAccount: Partial<XmUser> = _.cloneDeep(this.settingsAccount);
+        delete settingsAccount.authorities;
+        delete settingsAccount.permissions;
+
+        this.accountService.save(settingsAccount).subscribe(() => {
             this.error = null;
             this.success = 'OK';
             this.principal.identity(true).then((account) => {
