@@ -8,9 +8,10 @@
     "directory": "packages/cli"
   },
   "scripts": {
+    "build-storybook": "yarn docs:json && build-storybook",
+    "create-symlink": "test ! -e angular.json && ln -s ../../angular.json angular.json || echo 'angular.json already exists'",
     "docs:json": "compodoc -p ../../tsconfig.json -e json -d . --disableRoutesGraph",
-    "storybook": "cp ../../angular.json angular.json && yarn docs:json && start-storybook -p 6006",
-    "build-storybook": "yarn docs:json && build-storybook"
+    "storybook": "yarn docs:json && yarn create-symlink &&start-storybook -p 6006 -c .storybook"
   },
   "keywords": [
     "xm-ngx",
@@ -19,10 +20,13 @@
   "author": "Andrii Andrusevych",
   "license": "Apache-2.0",
   "dependencies": {
+    "@babel/runtime": "^7.21.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.3",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-essentials": "^6.5.16",
     "@storybook/addon-interactions": "^6.5.16",

@@ -5,7 +5,7 @@ module.exports = {
   "core": {
     "builder": "@storybook/builder-webpack5"
   },
-  docs: {
+  "docs": {
     autodocs: true
   }
 };
