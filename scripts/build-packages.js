@@ -1,7 +1,25 @@
 // TODO: Migrate to bazel or nx or lerna or angular workspace or alternative
-const {execSync} = require('child_process');
+const { execSync } = require('child_process');
+const fs = require('fs');
 
-execSync('(cd ./packages/cli && npm run build)', {stdio: 'inherit'});
+async function updateNamespace() {
+  try {
+    const data = await fs.promises.readFile('node_modules/preact/compat/src/index.d.ts', 'utf8');
+    const updatedData = data.replace(/React/g, 'React2');
+    await fs.promises.writeFile('node_modules/preact/compat/src/index.d.ts', updatedData, 'utf8');
+    console.log('Namespace name successfully updated.');
+  } catch (err) {
+    console.error('Error reading or writing the file:', err);
+  }
+}
+
+async function main() {
+  await new Promise((resolve) => setTimeout(resolve, 10000));
+  await updateNamespace();
+  execSync('(cd ./packages/cli && npm run build)', { stdio: 'inherit' });
+}
+
+main();
 // TODO: Complete migration to modules.
 // execSync('(cd ./packages/shared && npm run build)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/dynamic -c tsconfig.ngc.json)', {stdio: 'inherit'});

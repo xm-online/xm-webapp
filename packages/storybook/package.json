@@ -1,0 +1,36 @@
+{
+  "name": "@xm-ngx/storybook",
+  "version": "1.0.0",
+  "description": "An npm package for seamless integration of the Storybook library into your @xm-ngx work project, enabling efficient component development and documentation.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xm-online/xm-webapp.git",
+    "directory": "packages/cli"
+  },
+  "scripts": {
+    "docs:json": "compodoc -p ../../tsconfig.json -e json -d . --disableRoutesGraph",
+    "storybook": "cp ../../angular.json angular.json && yarn docs:json && start-storybook -p 6006",
+    "build-storybook": "yarn docs:json && build-storybook"
+  },
+  "keywords": [
+    "xm-ngx",
+    "storybook"
+  ],
+  "author": "Andrii Andrusevych",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^6.5.16",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/addon-interactions": "^6.5.16",
+    "@storybook/addon-links": "^6.5.16",
+    "@storybook/angular": "^6.5.16",
+    "@storybook/builder-webpack5": "^6.5.16",
+    "@storybook/manager-webpack5": "^6.5.16",
+    "@storybook/testing-library": "^0.0.13",
+    "eslint-plugin-storybook": "^0.6.10"
+  }
+}

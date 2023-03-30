@@ -60,3 +60,4 @@ package-lock.json
 
 # cache
 .angular
+/packages/storybook/documentation.json
