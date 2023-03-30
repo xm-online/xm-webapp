@@ -11,7 +11,7 @@
     "build-storybook": "yarn docs:json && build-storybook",
     "create-symlink": "test ! -e angular.json && ln -s ../../angular.json angular.json || echo 'angular.json already exists'",
     "docs:json": "compodoc -p ../../tsconfig.json -e json -d . --disableRoutesGraph",
-    "storybook": "yarn docs:json && yarn create-symlink &&start-storybook -p 6006 -c .storybook"
+    "storybook": "yarn create-symlink &&start-storybook -p 6006 -c .storybook"
   },
   "keywords": [
     "xm-ngx",
@@ -35,6 +35,7 @@
     "@storybook/builder-webpack5": "^6.5.16",
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
+    "babel-loader": "^9.1.2",
     "eslint-plugin-storybook": "^0.6.10"
   }
 }

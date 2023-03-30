@@ -19,7 +19,8 @@
     "environments",
     "./**/*.spec.ts",
     "./**/*.e2e-spec.ts",
-    "./**/*.po.ts"
+    "./**/*.po.ts",
+    "**/*.stories.*"
   ],
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,

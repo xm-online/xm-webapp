@@ -7,14 +7,14 @@
     "allowSyntheticDefaultImports": true
   },
   "exclude": [
-    "../src/test.ts",
-    "../src/**/*.spec.ts",
-    "../projects/**/*.spec.ts",
-    "../src/**/*.e2e-spec.ts"
+    "../../../src/test.ts",
+    "../../../src/**/*.spec.ts",
+    "../../../projects/**/*.spec.ts",
+    "../../../src/**/*.e2e-spec.ts"
   ],
   "include": [
-    "../src/**/*",
-    "../projects/**/*"
+    "../../../src/**/*",
+    "../../../projects/**/*"
   ],
   "files": [
     "./typings.d.ts"
