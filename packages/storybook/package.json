@@ -8,10 +8,10 @@
     "directory": "packages/cli"
   },
   "scripts": {
-    "build-storybook": "yarn docs:json && build-storybook",
+    "build-storybook": "npm run docs:json && build-storybook",
     "create-symlink": "test ! -e angular.json && ln -s ../../angular.json angular.json || echo 'angular.json already exists'",
     "docs:json": "compodoc -p ../../tsconfig.json -e json -d . --disableRoutesGraph",
-    "storybook": "yarn create-symlink &&start-storybook -p 6006 -c .storybook"
+    "storybook": "npm run create-symlink && npm run docs:json && start-storybook -p 6006 -c .storybook"
   },
   "keywords": [
     "xm-ngx",
@@ -36,6 +36,7 @@
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
     "babel-loader": "^9.1.2",
-    "eslint-plugin-storybook": "^0.6.10"
+    "eslint-plugin-storybook": "^0.6.10",
+    "raw-loader": "^1.0.0"
   }
 }
