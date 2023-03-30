@@ -5,7 +5,7 @@ const fs = require('fs');
 async function updateNamespace() {
   try {
     const data = await fs.promises.readFile('node_modules/preact/compat/src/index.d.ts', 'utf8');
-    const updatedData = data.replace(/React/g, 'React2');
+    const updatedData = data.replace(/\bReact\b(?!2)/g, 'React2');
     await fs.promises.writeFile('node_modules/preact/compat/src/index.d.ts', updatedData, 'utf8');
     console.log('Namespace name successfully updated.');
   } catch (err) {
@@ -14,7 +14,6 @@ async function updateNamespace() {
 }
 
 async function main() {
-  await new Promise((resolve) => setTimeout(resolve, 10000));
   await updateNamespace();
   execSync('(cd ./packages/cli && npm run build)', { stdio: 'inherit' });
 }

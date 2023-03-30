@@ -161,4 +161,5 @@ module.exports = {
             rules: {},
         },
     ],
+    extends: ['plugin:storybook/recommended'],
 };
