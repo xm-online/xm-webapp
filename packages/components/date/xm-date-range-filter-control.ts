@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, NgModule, OnInit, Optional, Output, Self } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Optional, Output, Self } from '@angular/core';
 import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
-import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } from '@xm-ngx/dynamic';
+import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -11,7 +11,7 @@ import { DateTimeAdapter, OwlDateTimeIntl, OwlDateTimeModule } from '@danielmonc
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { XmDateModule } from './xm-date.component';
+import { XmDate } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -79,6 +79,22 @@ type DateValue = string[] | Date[];
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
+    imports: [
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatInputModule,
+        XmTranslationModule,
+        ControlErrorModule,
+        FormsModule,
+        OwlDateTimeModule,
+        MatIconModule,
+        MatButtonModule,
+        CommonModule,
+        XmDate,
+        HintModule,
+    ],
+    standalone: true,
     styleUrls: ['./date.control.scss'],
 })
 export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue>
@@ -131,27 +147,4 @@ export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue
         this.value = [new Date(now.setDate(pastDate)), new Date()];
         this.change(this.value);
     }
-}
-
-@NgModule({
-    imports: [
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatInputModule,
-        XmTranslationModule,
-        ControlErrorModule,
-        FormsModule,
-        OwlDateTimeModule,
-        MatIconModule,
-        MatButtonModule,
-        CommonModule,
-        XmDateModule,
-        HintModule,
-    ],
-    exports: [DateRangeFilterControlComponent],
-    declarations: [DateRangeFilterControlComponent],
-})
-export class XmDateRangeFilterControlModule implements XmDynamicEntryModule<XmDynamicControl<DateValue>> {
-    public entry: XmDynamicControlConstructor<DateValue> = DateRangeFilterControlComponent;
 }

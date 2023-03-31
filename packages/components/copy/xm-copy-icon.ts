@@ -30,6 +30,13 @@ export const XM_COPY_ICON_OPTIONS: XmCopyIconOptions = {
             <mat-icon>content_copy</mat-icon>
         </button>
     `,
+    imports: [
+        MatIconModule,
+        ClipboardModule,
+        MatButtonModule,
+        CommonModule,
+    ],
+    standalone: true,
 })
 export class XmCopyIconComponent implements XmDynamicPresentation<unknown, XmCopyIconOptions>, OnInit, OnChanges {
     @Input() public value: unknown;
@@ -66,18 +73,4 @@ export class XmCopyIconComponent implements XmDynamicPresentation<unknown, XmCop
                 { duration: 1400 });
         }
     }
-}
-
-@NgModule({
-    imports: [
-        MatIconModule,
-        ClipboardModule,
-        MatButtonModule,
-        CommonModule,
-    ],
-    exports: [XmCopyIconComponent],
-    declarations: [XmCopyIconComponent],
-})
-export class XmCopyIconModule {
-    public entry: Type<XmCopyIconComponent> = XmCopyIconComponent;
 }

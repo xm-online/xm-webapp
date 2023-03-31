@@ -3,39 +3,39 @@ import { XmDynamicEntry } from '@xm-ngx/dynamic';
 export const XM_ENUM_ELEMENTS: XmDynamicEntry[] = [
     {
         selector: '@xm-ngx/components/enum',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumModule),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumComponent),
     },
     {
         /** @deprecated use `@xm-ngx/components/enum` instead */
         selector: '@xm-ngx/components/enum-value',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumModule),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumComponent),
     },
 
     {
         selector: '@xm-ngx/components/enum-view',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumViewModule),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumView),
     },
     {
         /** @deprecated use `@xm-ngx/components/enum-view` instead */
         selector: '@xm-ngx/components/xm-enum-view',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumViewModule),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumView),
     },
     {
         selector: '@xm-ngx/components/enum-control',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlModule),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlComponent),
     },
     {
         /** @deprecated use `@xm-ngx/components/enum-control` instead */
         selector: '@xm-ngx/components/xm-enum-control',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlModule),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlComponent),
     },
     {
         selector: '@xm-ngx/components/multiple-enum-control',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmMultipleEnumControlModule),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmMultipleEnumControlComponent),
     },
     {
         selector: '@xm-ngx/components/icon-enum',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmIconEnumModule),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmIconEnumComponent),
     },
     {
         selector: '@xm-ngx/components/radio-group-control',
