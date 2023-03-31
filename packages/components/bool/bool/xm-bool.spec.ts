@@ -10,10 +10,21 @@ describe('XmBoolComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [XmBoolComponent],
-            providers: [{ provide: XM_BOOL_VIEW_ICONS, useValue: { true: 'true', false: 'false' } }],
+            imports: [XmBoolComponent],
             schemas: [NO_ERRORS_SCHEMA],
-        }).compileComponents();
+        })
+            .overrideComponent(
+                XmBoolComponent,
+                {
+                    set: {
+                        providers: [{
+                            provide: XM_BOOL_VIEW_ICONS,
+                            useValue: { true: 'true', false: 'false' },
+                        }],
+                    },
+                },
+            )
+            .compileComponents();
     }));
 
     beforeEach(() => {

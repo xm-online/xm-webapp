@@ -5,6 +5,8 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { XmArrayControl } from './xm-array-control.component';
 import { EntityCollectionFactoryService, IEntityCollection } from '@xm-ngx/components/entity-collection';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 class StubEntityCollectionFactory {
     public create<T>(resource: string, url?: string): IEntityCollection<T> {
@@ -22,6 +24,9 @@ describe('XmArrayControlComponent', () => {
             imports: [
                 XmTranslationTestingModule,
                 MatAutocompleteModule,
+                XmArrayControl,
+                NoopAnimationsModule,
+                ControlErrorModule.forRoot(null)
             ],
             providers: [
                 {
@@ -29,7 +34,7 @@ describe('XmArrayControlComponent', () => {
                     useClass: StubEntityCollectionFactory,
                 },
             ],
-            declarations: [XmArrayControl],
+            declarations: [],
         })
             .compileComponents();
     });

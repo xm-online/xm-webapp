@@ -18,9 +18,10 @@ describe('XmEnumControlComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [XmEnumControl],
+            declarations: [],
             providers: [{ provide: XmPermissionService, useClass: MockPermissionService }],
             imports: [
+                XmEnumControl,
                 CommonModule,
                 MatIconModule,
                 XmTranslationTestingModule,

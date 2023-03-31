@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { XmAngularEditorControl } from './xm-angular-editor-control.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AngularEditorControlComponent', () => {
     let component: XmAngularEditorControl;
@@ -8,7 +9,7 @@ describe('AngularEditorControlComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [XmAngularEditorControl],
+            imports: [XmAngularEditorControl, HttpClientTestingModule],
         })
             .compileComponents();
     });
