@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { XmCodeModule } from '@xm-ngx/components/code';
 import {
-    XmDateControlModule,
-    XmDateModule,
-    XmDateRangeControlModule,
-    XmDateViewModule,
+    XmDateControl,
+    XmDateComponent,
+    XmDateRangeControl,
+    XmDateView,
 } from '@xm-ngx/components/date';
 import { XmDateExampleComponent } from '@xm-ngx/components/date/examples/xm-date-example.component';
 
 
 @NgModule({
     imports: [
-        XmDateModule,
-        XmDateViewModule,
-        XmDateControlModule,
-        XmDateRangeControlModule,
+        XmDateComponent,
+        XmDateView,
+        XmDateControl,
+        XmDateRangeControl,
         XmCodeModule,
     ],
     exports: [XmDateExampleComponent],

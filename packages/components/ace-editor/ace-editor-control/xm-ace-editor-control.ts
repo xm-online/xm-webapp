@@ -72,7 +72,7 @@ type AceEditorValue = string | object;
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmAceEditorControlComponent extends NgControlAccessor<AceEditorValue> {
+export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
     public error: boolean = false;
     private _config: XmAceEditorControlOptions = XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS;
 

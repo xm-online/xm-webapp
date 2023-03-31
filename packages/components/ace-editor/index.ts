@@ -1,6 +1,6 @@
 export {
     XmAceEditorControlOptions,
-    XmAceEditorControlComponent,
+    XmAceEditorControl,
 } from './ace-editor-control/xm-ace-editor-control';
 
 export {

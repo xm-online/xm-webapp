@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -7,7 +7,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateControlOptions } from './xm-date-control';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
@@ -38,6 +37,24 @@ type XmDateTimeControlValue = moment.Moment | string;
 
 @Component({
     selector: 'xm-datetime-control',
+    imports: [
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatInputModule,
+        XmTranslationModule,
+        ControlErrorModule,
+        MatButtonModule,
+        CommonModule,
+        MatIconModule,
+        OwlDateTimeModule,
+        OwlMomentDateTimeModule,
+        HintModule,
+    ],
+    providers: [
+        {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS},
+    ],
+    standalone: true,
     template: `
         <mat-form-field>
             <mat-label>{{config?.title | translate}}</mat-label>
@@ -89,29 +106,4 @@ export class XmDatetimeControl extends NgFormAccessor<XmDateTimeControlValue> im
         super.ngOnDestroy();
         takeUntilOnDestroyDestroy(this);
     }
-}
-
-@NgModule({
-    imports: [
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatInputModule,
-        XmTranslationModule,
-        ControlErrorModule,
-        MatButtonModule,
-        CommonModule,
-        MatIconModule,
-        OwlDateTimeModule,
-        OwlMomentDateTimeModule,
-        HintModule,
-    ],
-    providers: [
-        {provide: OWL_DATE_TIME_FORMATS, useValue: MY_CUSTOM_FORMATS},
-    ],
-    exports: [XmDatetimeControl],
-    declarations: [XmDatetimeControl],
-})
-export class XmDatetimeControlModule implements XmDynamicEntryModule<XmDynamicControl<XmDateTimeControlValue, XmDatetimeControlOptions>> {
-    public entry: XmDynamicControlConstructor<XmDateTimeControlValue, XmDatetimeControlOptions> = XmDatetimeControl;
 }

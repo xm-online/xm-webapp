@@ -3,8 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
-import { XmArrayControlComponent } from './xm-array-control.component';
+import { XmArrayControl } from './xm-array-control.component';
 import { EntityCollectionFactoryService, IEntityCollection } from '@xm-ngx/components/entity-collection';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 class StubEntityCollectionFactory {
     public create<T>(resource: string, url?: string): IEntityCollection<T> {
@@ -13,8 +15,8 @@ class StubEntityCollectionFactory {
 }
 
 describe('XmArrayControlComponent', () => {
-    let component: XmArrayControlComponent;
-    let fixture: ComponentFixture<XmArrayControlComponent>;
+    let component: XmArrayControl;
+    let fixture: ComponentFixture<XmArrayControl>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -22,6 +24,9 @@ describe('XmArrayControlComponent', () => {
             imports: [
                 XmTranslationTestingModule,
                 MatAutocompleteModule,
+                XmArrayControl,
+                NoopAnimationsModule,
+                ControlErrorModule.forRoot(null)
             ],
             providers: [
                 {
@@ -29,13 +34,13 @@ describe('XmArrayControlComponent', () => {
                     useClass: StubEntityCollectionFactory,
                 },
             ],
-            declarations: [XmArrayControlComponent],
+            declarations: [],
         })
             .compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(XmArrayControlComponent);
+        fixture = TestBed.createComponent(XmArrayControl);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
