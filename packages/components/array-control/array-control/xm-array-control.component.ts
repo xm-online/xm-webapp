@@ -72,7 +72,7 @@ export const XM_ARRAY_CONTROL_OPTIONS_DEFAULT: XmArrayControlOptions = {
     ],
     standalone: true,
 })
-export class XmArrayControlComponent extends NgFormAccessor<string[]> {
+export class XmArrayControl extends NgFormAccessor<string[]> {
     public searchControl: UntypedFormControl = new UntypedFormControl();
 
     public separatorKeysCodes: number[] = [ENTER, COMMA];

@@ -1,4 +1,4 @@
 export {
     XmTextRangeControlOptions,
-    XmTextRangeControlComponent,
+    XmTextRangeControl,
 } from './xm-text-range-control.component';

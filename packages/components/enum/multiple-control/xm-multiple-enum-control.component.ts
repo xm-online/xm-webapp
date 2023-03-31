@@ -82,7 +82,7 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmMultipleEnumControlComponent
+export class XmMultipleEnumControl
     extends NgFormAccessor<XmEnumValue[] | undefined>
     implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];

@@ -95,7 +95,7 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/xm-ace-editor-control',
-        loadChildren: () => import('@xm-ngx/components/ace-editor').then(m => m.XmAceEditorControlComponent),
+        loadChildren: () => import('@xm-ngx/components/ace-editor').then(m => m.XmAceEditorControl),
     },
     {
         selector: '@xm-ngx/components/multilanguage',

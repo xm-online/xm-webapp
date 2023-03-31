@@ -11,7 +11,7 @@ import { DateTimeAdapter, OwlDateTimeIntl, OwlDateTimeModule } from '@danielmonc
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { XmDate } from './xm-date.component';
+import { XmDateComponent } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -91,13 +91,13 @@ type DateValue = string[] | Date[];
         MatIconModule,
         MatButtonModule,
         CommonModule,
-        XmDate,
+        XmDateComponent,
         HintModule,
     ],
     standalone: true,
     styleUrls: ['./date.control.scss'],
 })
-export class DateRangeFilterControlComponent extends NgControlAccessor<DateValue>
+export class DateRangeFilterControl extends NgControlAccessor<DateValue>
     implements XmDynamicControl<DateValue, IDateOptions>, OnInit {
 
     @Output() public valueChange: EventEmitter<DateValue> = new EventEmitter<DateValue>();

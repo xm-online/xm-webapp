@@ -13,7 +13,7 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import {
     XmLabeledViewContainerComponent,
     XmTextControl,
-    XmTextRangeControlComponent,
+    XmTextRangeControl,
 } from '@xm-ngx/components/text';
 import { XmImageModule } from '@xm-ngx/components/image';
 import { XmTranslationModule } from '@xm-ngx/translation';
@@ -37,7 +37,7 @@ import { XmPermissionModule } from '../../core/permission';
         XmImageModule,
         XmLoadingModule,
         XmCheckboxControl,
-        XmTextRangeControlComponent,
+        XmTextRangeControl,
         XmLabeledViewContainerComponent,
         XmPermissionModule,
     ],

@@ -101,7 +101,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmEnumControlComponent
+export class XmEnumControl
     extends NgFormAccessor<XmEnumValue>
     implements XmDynamicControl<XmEnumValue, XmEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];

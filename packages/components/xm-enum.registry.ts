@@ -22,16 +22,16 @@ export const XM_ENUM_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/enum-control',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlComponent),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControl),
     },
     {
         /** @deprecated use `@xm-ngx/components/enum-control` instead */
         selector: '@xm-ngx/components/xm-enum-control',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControlComponent),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControl),
     },
     {
         selector: '@xm-ngx/components/multiple-enum-control',
-        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmMultipleEnumControlComponent),
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmMultipleEnumControl),
     },
     {
         selector: '@xm-ngx/components/icon-enum',

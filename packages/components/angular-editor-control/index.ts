@@ -1,1 +1,1 @@
-export { AngularEditorControlComponent } from './angular-editor-control.component';
+export { XmAngularEditorControl } from './xm-angular-editor-control.component';

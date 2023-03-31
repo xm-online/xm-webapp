@@ -10,7 +10,7 @@ import {
     XmTextDynamicView,
     XmTextJoinComponent,
     XmTextComponent,
-    XmTextRangeControlComponent,
+    XmTextRangeControl,
     XmTextTitleModule,
     XmTextTranslateModule,
     XmTextViewModule,
@@ -23,7 +23,7 @@ import { XmTextExampleComponent } from './xm-text-example.component';
     exports: [XmTextExampleComponent],
     imports: [
         CommonModule,
-        XmTextRangeControlComponent,
+        XmTextRangeControl,
         XmCodeModule,
         XmTextControl,
         XmEmailControl,

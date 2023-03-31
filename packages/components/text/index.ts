@@ -25,7 +25,7 @@ export {
 
 export {
     XmTextRangeControlOptions,
-    XmTextRangeControlComponent,
+    XmTextRangeControl,
 } from './text-range-control';
 
 export {

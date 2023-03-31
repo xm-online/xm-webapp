@@ -78,7 +78,7 @@ const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 /** @beta */
-export class XmTextRangeControlComponent extends NgFormAccessor<string> {
+export class XmTextRangeControl extends NgFormAccessor<string> {
     private _config: XmTextRangeControlOptions = clone(XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT);
 
     public get config(): XmTextRangeControlOptions {

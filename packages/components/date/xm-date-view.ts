@@ -4,7 +4,7 @@ import {
     XmDynamicPresentation,
 } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-import { XmDate, XmDateOptions, XmDateValue } from './xm-date.component';
+import { XmDateComponent, XmDateOptions, XmDateValue } from './xm-date.component';
 
 export interface XmDateViewOptions extends XmDateOptions {
     title?: Translate;
@@ -13,7 +13,7 @@ export interface XmDateViewOptions extends XmDateOptions {
 
 @Component({
     selector: 'xm-date-view',
-    imports: [XmTranslationModule, XmDate, XmTextViewModule],
+    imports: [XmTranslationModule, XmDateComponent, XmTextViewModule],
     standalone: true,
     template: `
         <xm-text-view-container [styleInline]="styleInline">

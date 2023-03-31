@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EDIT_DASHBOARD_EVENT } from '@xm-ngx/administration/dashboards-config/const';
-import { XmAceEditorControlComponent } from '@xm-ngx/components/ace-editor';
+import { XmAceEditorControl } from '@xm-ngx/components/ace-editor';
 import { XmBoolComponent } from '@xm-ngx/components/bool';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmTextControl } from '@xm-ngx/components/text';
@@ -31,7 +31,7 @@ import { MarkdownModule } from 'ngx-markdown';
         XmSharedModule,
         LoaderModule,
         XmBoolComponent,
-        XmAceEditorControlComponent,
+        XmAceEditorControl,
         XmTextControl,
         RouterModule,
         XmDocExamplesModule,

@@ -20,7 +20,7 @@ export {
 } from './xm-date-range-control';
 
 export {
-    DateRangeFilterControlComponent,
+    DateRangeFilterControl,
 } from './xm-date-range-filter-control';
 
 export {

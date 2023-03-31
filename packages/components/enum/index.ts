@@ -2,8 +2,8 @@ export { XmIconEnumComponent, XmIconEnumOptions, XmIconEnumOptionsItem } from '.
 
 export { XmEnumComponent, XmEnumOptions, XmEnumValue } from './value/xm-enum.component';
 
-export { XmEnumControlOptionsItem, XmEnumControlOptions, XmEnumControlComponent } from './control/xm-enum-control.component';
+export { XmEnumControlOptionsItem, XmEnumControlOptions, XmEnumControl } from './control/xm-enum-control.component';
 
-export { XmMultipleEnumControlOptions, XmMultipleEnumControlComponent } from './multiple-control/xm-multiple-enum-control.component';
+export { XmMultipleEnumControlOptions, XmMultipleEnumControl } from './multiple-control/xm-multiple-enum-control.component';
 
 export { XmEnumViewOptions, XmEnumView } from './view/xm-enum-view';
