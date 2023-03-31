@@ -11,7 +11,8 @@
     "build-storybook": "npm run docs:json && build-storybook",
     "create-symlink": "test ! -e angular.json && ln -s ../../angular.json angular.json || echo 'angular.json already exists'",
     "docs:json": "compodoc -p ../../tsconfig.json -e json -d . --disableRoutesGraph",
-    "storybook": "npm run create-symlink && npm run docs:json && start-storybook -p 6006 -c .storybook"
+    "storybook": "npm run create-symlink && npm run docs:json && start-storybook -p 6006 -c .storybook",
+    "storybook-self": "start-storybook -p 6006 -c .storybook"
   },
   "keywords": [
     "xm-ngx",
