@@ -368,7 +368,8 @@
       "no": "No",
       "set": "Mettere",
       "yes": "Sì",
-      "yes-exit": "Sì, esci!"
+      "yes-exit": "Sì, esci!",
+      "dbclick-to-edit": "Fai doppio clic per modificare"
     },
     "field": {
       "id": "ID"
