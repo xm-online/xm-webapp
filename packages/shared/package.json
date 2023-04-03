@@ -1,5 +1,5 @@
 {
-  "name": "@xm-ngx/shared",
+  "name": "@todo-xm-ngx/shared",
   "version": "1.0.0",
   "scripts": {
     "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
