@@ -9,7 +9,7 @@ export interface XmTextConfig {
 
 @Component({
     selector: 'xm-text',
-    template: '{{value | xmTemplate}}',
+    template: '{{value | xmTemplate : config?.template}}',
     imports: [XmTemplatePipe],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
