@@ -1,5 +1,5 @@
 {
-  "name": "@xm-ngx/components",
+  "name": "@todo-xm-ngx/components",
   "version": "1.0.0",
   "dependencies": {
     "html2canvas": "1.0.0-rc.7"
