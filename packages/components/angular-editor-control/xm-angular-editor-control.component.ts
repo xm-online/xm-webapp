@@ -1,12 +1,20 @@
 import { Component, Input } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { ControlValueAccessor, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'xm-angular-editor-control',
-    templateUrl: './angular-editor-control.component.html',
+    templateUrl: './xm-angular-editor-control.component.html',
+    imports: [
+        CommonModule,
+        AngularEditorModule,
+        ReactiveFormsModule,
+        FormsModule,
+    ],
+    standalone: true,
 })
-export class AngularEditorControlComponent implements ControlValueAccessor {
+export class XmAngularEditorControl implements ControlValueAccessor {
     @Input() public options: never;
     public value: string;
     public disable: boolean;

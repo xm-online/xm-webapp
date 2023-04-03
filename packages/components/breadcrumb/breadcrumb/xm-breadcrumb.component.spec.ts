@@ -11,7 +11,7 @@ describe('XmBreadcrumbComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             providers: [{ provide: XmBreadcrumbStore, useClass: MockXmBreadcrumbStore }],
-            declarations: [XmBreadcrumbComponent],
+            imports: [XmBreadcrumbComponent],
         })
             .compileComponents();
     });

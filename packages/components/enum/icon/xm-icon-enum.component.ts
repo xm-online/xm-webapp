@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { keyBy, mapValues } from 'lodash';
 import { XmEnumValue } from '../value/xm-enum.component';
+import { MatIconModule } from '@angular/material/icon';
 
 type Icons = { [value: string]: string };
 
@@ -19,6 +20,8 @@ export interface XmIconEnumOptions {
     template: `
         <mat-icon>{{(icons[value + ''] || value)}}</mat-icon>
     `,
+    imports: [MatIconModule],
+    standalone: true,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })

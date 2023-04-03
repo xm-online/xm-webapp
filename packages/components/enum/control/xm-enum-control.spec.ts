@@ -6,21 +6,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmEnumControlComponent } from '@xm-ngx/components/enum';
+import { XmEnumControl } from '@xm-ngx/components/enum';
 import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
 describe('XmEnumControlComponent', () => {
-    let component: XmEnumControlComponent;
-    let fixture: ComponentFixture<XmEnumControlComponent>;
+    let component: XmEnumControl;
+    let fixture: ComponentFixture<XmEnumControl>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [XmEnumControlComponent],
+            declarations: [],
             providers: [{ provide: XmPermissionService, useClass: MockPermissionService }],
             imports: [
+                XmEnumControl,
                 CommonModule,
                 MatIconModule,
                 XmTranslationTestingModule,
@@ -36,7 +37,7 @@ describe('XmEnumControlComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent<XmEnumControlComponent>(XmEnumControlComponent);
+        fixture = TestBed.createComponent<XmEnumControl>(XmEnumControl);
         component = fixture.componentInstance;
     });
 

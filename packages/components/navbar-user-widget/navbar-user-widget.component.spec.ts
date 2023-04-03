@@ -21,13 +21,13 @@ describe('NavbarUserWidgetComponent', () => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
             imports: [
+                NavbarUserWidgetComponent,
                 MatMenuModule,
                 XmTranslationTestingModule,
                 HttpClientTestingModule,
                 RouterTestingModule,
                 NoopAnimationsModule,
             ],
-            declarations: [NavbarUserWidgetComponent],
             providers: [
                 { provide: DashboardStore, useClass: MockDashboardStore },
                 { provide: XmUserService, useClass: MockUserService },

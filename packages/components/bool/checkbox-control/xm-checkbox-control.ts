@@ -2,8 +2,13 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
-import { Translate } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface XmCheckboxControlOptions extends DataQa {
     title: Translate;
@@ -49,6 +54,15 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
             }
         `,
     ],
+    imports: [
+        MatCheckboxModule,
+        XmTranslationModule,
+        CommonModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatIconModule,
+    ],
+    standalone: true,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })

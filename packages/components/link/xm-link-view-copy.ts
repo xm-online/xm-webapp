@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { XM_COPY_ICON_OPTIONS, XmCopyIconModule, XmCopyIconOptions } from '@xm-ngx/components/copy';
+import { XM_COPY_ICON_OPTIONS, XmCopyIconComponent, XmCopyIconOptions } from '@xm-ngx/components/copy';
 import {
     XM_LINK_VIEW_DEFAULT_OPTIONS,
     XmLinkViewOptions,
@@ -32,7 +32,7 @@ export const XM_LINK_VIEW_COPY_DEFAULT_OPTIONS: XmLinkViewCopyOptions = assign(
         XmTextViewModule,
         XmTranslationModule,
         RouterModule,
-        XmCopyIconModule,
+        XmCopyIconComponent,
     ],
     template: `
         <xm-text-view-container [hidden]="!fieldValue"
