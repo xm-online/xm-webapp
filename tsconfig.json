@@ -120,6 +120,9 @@
       "@xm-ngx/shared/operators": [
         "packages/shared/operators"
       ],
+      "@xm-ngx/shared/pipes": [
+        "packages/shared/pipes"
+      ],
       "@xm-ngx/translation": [
         "packages/translation"
       ],
