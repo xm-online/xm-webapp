@@ -151,7 +151,6 @@ export class XmDynamicControlDirective<V, O>
   
         setComponentInput(this.compRef, 'value', this.value);
 
-        this._onChange(this.value);
         this.valueChange.next(this.value);
     }
 
