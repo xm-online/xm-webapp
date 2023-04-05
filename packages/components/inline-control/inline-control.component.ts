@@ -1,4 +1,4 @@
-import { OverlayModule, Overlay, OverlayRef, ViewportRuler, ConnectedPosition } from '@angular/cdk/overlay';
+import { OverlayModule, Overlay, OverlayRef, ViewportRuler } from '@angular/cdk/overlay';
 import { PortalModule, TemplatePortal } from '@angular/cdk/portal';
 import { EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -26,13 +26,9 @@ export interface XmInlineControlDynamicView<C, V> extends XmInlineControlDynamic
     value: V;
 }
 
-export interface XmInlineControlEditConfig {
-    position?: Partial<ConnectedPosition>;
-}
-
 export interface XmInlineControlConfig {
     view: XmInlineControlDynamicView<unknown, unknown>;
-    edit: XmInlineControlDynamic<XmInlineControlEditConfig>;
+    edit: XmInlineControlDynamic<unknown>;
 }
 
 export type XmInlineControlValue = unknown;
@@ -210,16 +206,45 @@ export class XmInlineControlComponent extends NgModelWrapper<unknown> implements
             .withFlexibleDimensions(true)
             .withGrowAfterOpen(true)
             .withPositions([
-                _.defaults((this.config?.edit?.config?.position ?? {}), {
+                // Right
+                {
                     offsetY: 0,
                     offsetX: 10,
                     originX: 'end',
                     originY: 'center',
                     overlayX: 'start',
                     overlayY: 'center',
-                }),
+                },
+                // Left
+                {
+                    offsetY: 0,
+                    offsetX: -10,
+                    originX: 'start',
+                    originY: 'center',
+                    overlayX: 'end',
+                    overlayY: 'center',
+                },
+                // Bottom
+                {
+                    offsetY: 10,
+                    offsetX: 0,
+                    originX: 'center',
+                    originY: 'bottom',
+                    overlayX: 'center',
+                    overlayY: 'top',
+                },
+                // Top
+                {
+                    offsetY: -10,
+                    offsetX: 0,
+                    originX: 'center',
+                    originY: 'top',
+                    overlayX: 'center',
+                    overlayY: 'bottom',
+                }
             ])
-            .withLockedPosition(true);
+            .withLockedPosition(true)
+            .withPush(true);
 
         this.overlayRef = this.overlay.create({
             scrollStrategy: this.overlay.scrollStrategies.reposition(),
