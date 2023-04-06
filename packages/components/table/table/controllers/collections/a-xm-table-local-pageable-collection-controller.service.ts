@@ -3,7 +3,7 @@ import {
     PAGEABLE_AND_SORTABLE_DEFAULT,
     PageableAndSortable,
 } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
-import { IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { FilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 
 export abstract class AXmTableLocalPageableCollectionController<T>
@@ -51,7 +51,7 @@ export abstract class AXmTableLocalPageableCollectionController<T>
             throw new Error('Invalid index.');
     }
 
-    public abstract load(pageableAndSortable: PageableAndSortable | null): void ;
+    public abstract load(request: FilterQueryParams): void ;
 
     public remove(item: T): void {
         this.items = this.items.filter((i) => i !== item);

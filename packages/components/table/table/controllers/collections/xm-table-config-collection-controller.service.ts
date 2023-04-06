@@ -4,10 +4,9 @@ import {
     AXmTableLocalPageableCollectionController,
 } from './a-xm-table-local-pageable-collection-controller.service';
 
-import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { get } from 'lodash';
 import { NotSupportedException } from '@xm-ngx/shared/exceptions';
-import { IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { FilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 
 export interface XmTableConfigCollectionControllerConfig {
@@ -27,7 +26,7 @@ export class XmTableConfigCollectionController<T = unknown>
         super();
     }
 
-    public async load(pageableAndSortable: PageableAndSortable | null): Promise<void> {
+    public async load(request: FilterQueryParams): Promise<void> {
         this.config = await firstValueFrom(this.configController.config$());
         this.items = get(this.config, this.config.path, []) as T[];
     }

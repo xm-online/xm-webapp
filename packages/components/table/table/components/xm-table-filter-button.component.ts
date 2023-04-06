@@ -61,6 +61,7 @@ export class XmTableFilterButtonComponent implements OnDestroy {
             disposeOnNavigation: true,
             hasBackdrop: true,
             positionStrategy: strategy,
+            width: '50%',
         });
 
         this.overlayService.setOverlayConfig(overlayConfig);

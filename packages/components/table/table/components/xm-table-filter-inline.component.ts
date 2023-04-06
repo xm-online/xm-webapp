@@ -1,24 +1,21 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { ChangeDetectorRef, Component, ElementRef, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import {
-    XmTableFiltersControlRequestComponent
-} from '@xm-ngx/components/table/table/components/xm-table-filters-control-request.component';
+import { XmTableFiltersControlRequestComponent } from '@xm-ngx/components/table/table/components/xm-table-filters-control-request.component';
 import { MatBadgeModule } from '@angular/material/badge';
-import {
-    FiltersControlRequestOptions
-} from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/filters-control-request/filters-control-request.component';
+import { FiltersControlRequestOptions } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/filters-control-request/filters-control-request.component';
 import * as _ from 'lodash';
-import { cloneDeep, defaultsDeep } from 'lodash';
-import {
-    FiltersControlValue
-} from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/filters-control/filters-control.component';
-import { debounceTime, delay, map, merge, Subject } from 'rxjs';
+import { defaultsDeep } from 'lodash';
+import { FiltersControlValue } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/filters-control/filters-control.component';
+import { delay } from 'rxjs';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmTableCollectionControllerResolver } from '@xm-ngx/components/table/table';
-import {
-    XmTableFilterController
-} from '@xm-ngx/components/table/table/controllers/filters/xm-table-filter-controller.service';
+import { XmTableFilterController } from '@xm-ngx/components/table/table/controllers/filters/xm-table-filter-controller.service';
+import { MatChipsModule } from '@angular/material/chips';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { ChipsControlConfig } from '@xm-ngx/components/table/table/components/chips-control/chips-control.component';
 
 const DEFAULT_CONFIG: FiltersControlRequestOptions = {
     submitInvalidForm: false,
@@ -27,24 +24,63 @@ const DEFAULT_CONFIG: FiltersControlRequestOptions = {
     filtersClass: '',
 };
 
+export interface XmTableFilterInline {
+    title: Translate,
+    value: string,
+    name?: string,
+}
 
 @Component({
     selector: 'xm-table-filter-inline',
     standalone: true,
-    host: { class: 'xm-table-filter-inline' },
+    host: {class: 'xm-table-filter-inline'},
     template: `
-        <!--        <div class="filter-container" #elementRef>-->
-        <!--            <xm-filters-control-request [request]="request"-->
-        <!--                                        (requestChange)="onSearch($event)"-->
-        <!--                                        [options]="config">-->
-        <!--            </xm-filters-control-request>-->
-        <!--        </div>-->
+        <button
+            class=" me-2"
+            mat-raised-button
+            *ngIf="activeFilters?.length"
+            (click)="removeAll()"
+        >
+            {{'table.filter.button.reset' | translate}}
+        </button>
 
-        <!--        <button mat-button-->
-        <!--                [matBadge]=""-->
-        <!--                *ngIf="checkOverflow()">-->
-        <!--            More-->
-        <!--        </button>-->
+        <div class="filter-container" #elementRef>
+            <mat-chip-listbox class="chip-listbox" [selectable]="false">
+                <mat-chip-option *ngFor="let filter of activeFilters"
+                                 (removed)="remove(filter)"
+                                 [removable]="true"
+                                 color="accent"
+                                 selected
+                                 class="chip-option">
+                    {{filter?.title | translate}}: {{filter.value}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip-option>
+            </mat-chip-listbox>
+        </div>
+
+        <button
+            class="ms-1"
+            mat-raised-button
+            *ngIf="hiddenFilters?.length"
+            [matMenuTriggerFor]="hiddenChips"
+            [matBadge]="hiddenFilters?.length"
+        >
+            {{'table.filter.button.more' | translate}}
+        </button>
+
+        <mat-menu #hiddenChips>
+            <mat-chip-listbox class="chip-listbox ps-1 pe-1" [selectable]="false">
+                <mat-chip-option *ngFor="let filter of hiddenFilters; let i = index"
+                                 (removed)="remove(filter, i)"
+                                 [removable]="true"
+                                 selected
+                                 color="accent"
+                                 class="chip-option">
+                    {{filter.title | translate}}: {{filter.value}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip-option>
+            </mat-chip-listbox>
+        </mat-menu>
     `,
     styles: [`
         :host(.xm-table-filter-inline) {
@@ -54,10 +90,19 @@ const DEFAULT_CONFIG: FiltersControlRequestOptions = {
             min-width: 0;
         }
 
-        ::ng-deep .xm-form-layout {
-            display: flex;
-            flex-directon: row;
-            gap: .5rem;
+        ::ng-deep .xm-table-filter-inline .mdc-evolution-chip-set__chips {
+            flex-wrap: nowrap;
+        }
+
+        ::ng-deep .chip-listbox .mdc-evolution-chip__cell--primary,
+        ::ng-deep .chip-listbox .mdc-evolution-chip__action--primary,
+        ::ng-deep .chip-listbox .mat-mdc-chip-action-label {
+            overflow: hidden !important;
+            cursor: default;
+        }
+
+        .chip-option {
+            max-width: 260px;
         }
 
         .filter-container {
@@ -67,37 +112,22 @@ const DEFAULT_CONFIG: FiltersControlRequestOptions = {
         }
     `],
     imports: [
-        NgIf,
+        CommonModule,
         MatButtonModule,
         XmTableFiltersControlRequestComponent,
         MatBadgeModule,
+        MatChipsModule,
+        XmTranslationModule,
+        MatIconModule,
+        MatMenuModule
     ],
 })
 export class XmTableFilterInlineComponent {
-    @ViewChild('elementRef', { static: true }) public rt: ElementRef;
-
-    // @Input() public config: any;
-    @ViewChild(XmTableFiltersControlRequestComponent, { static: true })
-    public filtersControlRequestCmp: XmTableFiltersControlRequestComponent;
     public filterExpand: boolean = true;
     public disabled: boolean;
     public loading: boolean;
     public value: FiltersControlValue;
-    public clear$: Subject<void> = new Subject();
-    public requestDefault: FiltersControlValue;
-    public hasFilters = false;
-    protected search$: Subject<boolean> = new Subject<boolean>();
     protected request: FiltersControlValue = null;
-
-    constructor(
-        protected entitiesRequestBuilder: XmTableFilterController,
-        // protected entitiesService: PageEntitiesStore,
-        private collectionControllerResolver: XmTableCollectionControllerResolver,
-        // protected entitiesFilterStoreService: EntitiesFilterStoreService,
-    ) {
-
-
-    }
 
     protected _config: FiltersControlRequestOptions = DEFAULT_CONFIG;
 
@@ -111,38 +141,15 @@ export class XmTableFilterInlineComponent {
         this.filterExpand = !value.isOnlyExpand;
     }
 
-    public checkOverflow(): boolean {
-        const element = this.rt.nativeElement;
-        return element.offsetHeight < element.scrollHeight
-            || element.offsetWidth < element.scrollWidth;
-    }
+    public activeFilters: XmTableFilterInline[] = [];
+    public hiddenFilters: XmTableFilterInline[] = [];
 
-    public onSearch(req = this.request): void {
-        // Check if it is a first initialisation
-        if (this.request !== null) {
-            // Reset page index to first page
-            req.pageIndex = 0;
-        }
-        this.request = req;
-
-        if (!this.requestDefault) {
-            this.requestDefault = cloneDeep(req);
-        }
-
-        this.search$.next(true);
-
-        if (this.config?.filterStoreKey) {
-            // this.entitiesFilterStoreService.put(this.config.filterStoreKey, cloneDeepWithoutUndefined(req));
-        }
-    }
-
-    public onClear(): void {
-        this.clear$.next();
-        this.filtersControlRequestCmp?.filtersControl?.clearForm();
-    }
-
-    public ngOnDestroy(): void {
-        takeUntilOnDestroyDestroy(this);
+    constructor(
+        protected entitiesRequestBuilder: XmTableFilterController,
+        private collectionControllerResolver: XmTableCollectionControllerResolver,
+        private elementRef: ElementRef,
+        private ref: ChangeDetectorRef
+    ) {
     }
 
     public async ngOnInit(): Promise<void> {
@@ -159,19 +166,92 @@ export class XmTableFilterInlineComponent {
             if (_.isEqual(value, this.request)) {
                 return;
             }
-            this.value = value as any;
-        });
+            this.value = value as FiltersControlValue;
 
-        merge(
-            this.search$.pipe(map(() => this.request)),
-            this.clear$.pipe(map(() => this.requestDefault)),
-        ).pipe(
-            takeUntilOnDestroy(this),
-            debounceTime(700),
-        ).subscribe((res) => {
-            this.entitiesRequestBuilder.update(res);
-            controller.load(null);
+            const chipsFilters = this.getChipsFilters();
+            this.activeFilters = (this.config.filters as any)?.filter(filter =>
+                !_.isEmpty(this.value[filter.name]) && filter.name !== this.chipsFiltersConfig?.name)
+                .map(filter => {
+                    return ({
+                        ...filter,
+                        title: filter.options?.title,
+                        value: this.value[filter.name],
+                    });
+                });
+            this.activeFilters = chipsFilters.concat(this.activeFilters);
+
+            this.setFilters();
         });
     }
 
+    public setFilters(): void {
+        this.hiddenFilters = [];
+        const container = this.elementRef.nativeElement;
+        this.ref.detectChanges();
+        const chips = container.querySelectorAll('.chip-option');
+
+        const PADDING_FILTER_CONTAINER = 100;
+        let chipsWidth = PADDING_FILTER_CONTAINER;
+        let slicedIndex = 0;
+
+        chips.forEach((item, i) => {
+            chipsWidth += item.clientWidth;
+            if (chipsWidth > container.offsetWidth && !slicedIndex) {
+                slicedIndex = i;
+            }
+        });
+
+        if (slicedIndex) {
+            this.hiddenFilters = this.activeFilters.slice(slicedIndex);
+            this.activeFilters = this.activeFilters.slice(0, slicedIndex);
+        }
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
+    public remove(filter: XmTableFilterInline, i?: number): void {
+        if(filter.name.startsWith('chips')) {
+            const itemCount = filter.name.split('_')[1];
+            this.value[this.chipsFiltersConfig?.name] = (this.value[this.chipsFiltersConfig?.name] as string[]).filter((item, i) => i !== +itemCount);
+        } else {
+            this.value[filter.name] = null;
+        }
+
+        this.entitiesRequestBuilder.update(this.value);
+    }
+
+    public removeAll(): void {
+        Object.keys(this.value).forEach(item => {
+            this.value[item] = null;
+        });
+        this.entitiesRequestBuilder.update(this.value);
+    }
+
+    private get chipsFiltersConfig(): {
+        name: string,
+        options: ChipsControlConfig
+    } {
+        return (this.config.filters as any)
+            .find((filter) => !!this.value[filter.name]
+                && filter.options?.elasticType === 'chips'
+                || filter.name === 'chips'
+            );
+    }
+
+    private getChipsFilters(): XmTableFilterInline[] {
+        const filterChipsConfig = this.chipsFiltersConfig;
+        const filterChipsValue = this.value[filterChipsConfig?.name] as string[];
+        return filterChipsConfig?.options?.items
+            .filter((item, i) => !!filterChipsValue[i])
+            .map((filter, i) => {
+                return ({
+                    ...filter,
+                    name: 'chips_' + i,
+                    title: filter.title,
+                    value: filterChipsValue[i],
+                });
+            });
+    }
 }

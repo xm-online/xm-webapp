@@ -56,7 +56,6 @@ export class XmDynamicWidgetDirective implements OnChanges {
 
     private async loadComponent(): Promise<void> {
         const value = this._layout;
-
         // Join module and component into selector
         if (!value.selector) {
             value.selector = `${value.module}/${value.component}`;
@@ -78,7 +77,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
             ngModuleRef: data.ngModuleRef,
             injector: data.injector,
         });
-        
+
         setComponentInput(this.compRef, 'config', value.config);
         setComponentInput(this.compRef, 'spec', value.spec);
 

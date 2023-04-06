@@ -1,12 +1,11 @@
 import {
     Component,
     Input,
-    OnInit,
     Optional,
     SkipSelf
 } from '@angular/core';
 import {
-    AbstractControl,
+    FormArray,
     NgControl, ReactiveFormsModule,
 } from '@angular/forms';
 import {
@@ -17,26 +16,52 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { MatChipSelectionChange, MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { interpolate } from '@xm-ngx/shared/operators';
 import { MatInputModule } from '@angular/material/input';
+import { Defaults, interpolate } from '@xm-ngx/shared/operators';
 
 export interface ChipsControlConfig {
-    title: Translate,
-    elasticTemplateRequest: string,
+    elasticType: string,
+    title?: Translate,
+    elasticTemplateRequest?: string,
+    items?: any[],
 }
+
+export const ChipsControlConfigDefault: ChipsControlConfig = {
+    elasticType: 'chips'
+};
 
 @Component({
     standalone: true,
     selector: 'xm-chips-control',
     template: `
-        <mat-chip-listbox>
-            <mat-chip-option
-                [selected]="!!control.value"
-                (selectionChange)="selectionChange($event)">
-                {{config.title | translate}}
-            </mat-chip-option>
-            <input type="text" hidden [formControl]="control">
-        </mat-chip-listbox>
+        <!--        TODO: should remove after review-->
+        <!--        <mat-chip-listbox class="mb-2">-->
+        <!--            <mat-chip-option-->
+        <!--                color="accent"-->
+        <!--                class="chip-option"-->
+        <!--                [selected]="!!control.value"-->
+        <!--                (selectionChange)="selectionChange($event)">-->
+        <!--                {{config.title | translate}}-->
+        <!--            </mat-chip-option>-->
+        <!--            <input type="text" hidden [formControl]="control">-->
+        <!--        </mat-chip-listbox>-->
+        <!--        (change)="change($event)"-->
+        <div class="col-12 mb-3">
+            <mat-chip-listbox
+                [multiple]="true"
+                (change)="change($event)"
+                [formControl]="control"
+            >
+                <mat-chip-option *ngFor="let option of config.items"
+                                 color="accent"
+                                 class="chip-option"
+                                 [value]="getInterpolatedValue(option.value)"
+                >
+                    {{option.title | translate}}
+                </mat-chip-option>
+                <input type="text" hidden>
+            </mat-chip-listbox>
+        </div>
     `,
     styleUrls: ['./chips-control.component.scss'],
     imports: [
@@ -49,9 +74,12 @@ export interface ChipsControlConfig {
         MatInputModule
     ]
 })
-export class ChipsControlComponent extends NgModelWrapper<string | null> implements OnInit {
-    @Input() public config: ChipsControlConfig;
-    public control: AbstractControl;
+export class ChipsControlComponent extends NgModelWrapper<string[]> {
+    @Input() @Defaults(ChipsControlConfigDefault)
+    public config: ChipsControlConfig;
+
+    public control: FormArray = new FormArray([]);
+    public selected: boolean;
 
     constructor(
         @Optional() @SkipSelf() public ngControl: NgControl,
@@ -62,19 +90,13 @@ export class ChipsControlComponent extends NgModelWrapper<string | null> impleme
         }
     }
 
-    public ngOnInit(): void {
-        this.control = this.ngControl?.control;
-    }
-
-    public selectionChange(event: MatChipSelectionChange): void {
-        const value = event.selected
-            ? interpolate(
-                this.config.elasticTemplateRequest,
-                null
-            )
-            : null;
-
+    public change(event: any | MatChipSelectionChange): void {
+        const value = event.value;
         this._onChange(value);
         this.valueChange.next(value);
+    }
+
+    public getInterpolatedValue(value: string): string {
+        return interpolate(value, null);
     }
 }

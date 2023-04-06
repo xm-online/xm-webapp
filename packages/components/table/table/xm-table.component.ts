@@ -30,15 +30,17 @@ import {
     XmTableSelectionColumnComponent,
 } from './components/xm-table-selection-column.component';
 import * as _ from 'lodash';
-import { defaultsDeep } from 'lodash';
+import {
+    defaultsDeep,
+} from 'lodash';
 import { XmTableLoadingColumnComponent } from './components/xm-table-loading-column.component';
 import {
     ColumnsSettingStorageItem,
     ColumnsSettingStorageService,
 } from '@xm-ngx/components/table/service/columns-settings-storage.service';
 import { XmTableHeaderComponent } from '@xm-ngx/components/table/table/components/xm-table-header.component';
-import { format } from '@xm-ngx/shared/operators';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { ActivatedRoute, Router } from '@angular/router';
 
 function getConfig(value: Partial<XmTableConfig>): XmTableConfig {
     const config = defaultsDeep({}, value, XM_TABLE_CONFIG_DEFAULT) as XmTableConfig;
@@ -66,7 +68,7 @@ interface IXmTableContext {
     templateUrl: './xm-table.component.html',
     styleUrls: ['./xm-table.component.scss'],
     standalone: true,
-    host: { class: 'xm-table' },
+    host: {class: 'xm-table'},
     imports: [
         MatCardModule,
         XmTranslationModule,
@@ -97,22 +99,6 @@ interface IXmTableContext {
     ],
 })
 export class XmTableComponent implements OnInit {
-    public context$: Observable<IXmTableContext>;
-    public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
-    public selectColumn: SelectTableColumn = _.cloneDeep(XM_TABLE_SELECTION_COLUMN_DEFAULT);
-    @ViewChild(MatPaginator, { static: false }) public paginator: MatPaginator;
-    @ViewChild(MatSort, { static: false }) public sort: MatSort;
-
-    private controller: IXmTableCollectionController<unknown>;
-
-    constructor(
-        private collectionControllerResolver: XmTableCollectionControllerResolver,
-        private configController: XmTableConfigController,
-        private tableFilterController: XmTableFilterController,
-        private columnsSettingStorageService: ColumnsSettingStorageService,
-    ) {
-    }
-
     private _config: XmTableConfig;
 
     public get config(): XmTableConfig | Partial<XmTableConfig> {
@@ -127,6 +113,24 @@ export class XmTableComponent implements OnInit {
         this.pageableAndSortable$.next(this._config.pageableAndSortable);
     }
 
+    public context$: Observable<IXmTableContext>;
+    public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
+    public selectColumn: SelectTableColumn = _.cloneDeep(XM_TABLE_SELECTION_COLUMN_DEFAULT);
+    @ViewChild(MatPaginator, {static: false}) public paginator: MatPaginator;
+    @ViewChild(MatSort, {static: false}) public sort: MatSort;
+
+    private controller: IXmTableCollectionController<unknown>;
+
+    constructor(
+        private collectionControllerResolver: XmTableCollectionControllerResolver,
+        private configController: XmTableConfigController,
+        private tableFilterController: XmTableFilterController,
+        private columnsSettingStorageService: ColumnsSettingStorageService,
+        public router: Router,
+        private activatedRoute: ActivatedRoute
+    ) {
+    }
+
     public async ngOnInit(): Promise<void> {
         this.controller = await this.collectionControllerResolver.get();
 
@@ -136,26 +140,20 @@ export class XmTableComponent implements OnInit {
             map(([state, a]) => {
                 return ({
                     collection: state,
-                    settings: { displayedColumns: _.map(_.filter(a, i => !i.hidden), i => i.name) },
+                    settings: {displayedColumns: _.map(_.filter(a, i => !i.hidden), i => i.name)},
                 } as IXmTableContext);
             }),
         );
 
+        this.initFilterParams();
 
         combineLatest([
             this.tableFilterController.change$(),
             this.pageableAndSortable$,
         ])
-            .subscribe(([queryParams, pageableAndSortable]) => {
-
-                let req = {};
-
-                if (this.config.filtersToRequest) {
-                    req = _.merge({}, req, format(this.config.filtersToRequest, queryParams));
-                }
-
-                req = _.merge({}, req, pageableAndSortable);
-                this.controller.load(req);
+            .subscribe(([filterParams, pageableAndSortable]) => {
+                const queryParams = _.merge({}, {pageableAndSortable}, {filterParams});
+                this.controller.load(queryParams);
             });
     }
 
@@ -165,7 +163,12 @@ export class XmTableComponent implements OnInit {
         const pageIndex = this.paginator.pageIndex;
         const pageSize = this.paginator.pageSize;
         const total = this.paginator.length;
-        const pageAndSort: PageableAndSortable = { pageIndex, pageSize, sortOrder, sortBy, total };
+        const pageAndSort: PageableAndSortable = {pageIndex, pageSize, sortOrder, sortBy, total};
         this.pageableAndSortable$.next(pageAndSort);
+    }
+
+    private initFilterParams(): void {
+        const queryParams = this.activatedRoute.snapshot.queryParams;
+        this.tableFilterController.update(queryParams);
     }
 }

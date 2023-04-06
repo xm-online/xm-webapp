@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 import {
+    FilterQueryParams,
     IXmTableCollectionController,
 } from './i-xm-table-collection-controller';
 import {
@@ -15,7 +16,6 @@ import {
     XmTableEntityController,
 } from '../entity/xm-table-entity-controller.service';
 import { cloneDeep, get, set } from 'lodash';
-import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 
 export interface XmTableArrayCollectionControllerConfig {
     path: string;
@@ -38,7 +38,7 @@ export class XmTableArrayCollectionController<T = unknown>
         super();
     }
 
-    public async load(pageableAndSortable: PageableAndSortable | null): Promise<void> {
+    public async load(request: FilterQueryParams): Promise<void> {
         this.config = await firstValueFrom(this.configController.config$());
         this.entity = await firstValueFrom(this.entityController.entity$());
         const pathList = get(this.entity, this.config.path, []) as T[];
