@@ -50,7 +50,7 @@ export class XmTableFilterButtonComponent implements OnDestroy {
                     originX: 'start',
                     originY: 'top',
                     overlayX: 'start',
-                    overlayY: 'top',
+                    overlayY: 'top'
                 },
             ])
             .withLockedPosition(true)
@@ -62,6 +62,9 @@ export class XmTableFilterButtonComponent implements OnDestroy {
             hasBackdrop: true,
             positionStrategy: strategy,
             width: '50%',
+            minWidth: 480,
+            backdropClass: 'xm-table-filter-overlay',
+            panelClass: 'xm-table-filter-overlay',
         });
 
         this.overlayService.setOverlayConfig(overlayConfig);

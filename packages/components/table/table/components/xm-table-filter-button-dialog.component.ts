@@ -32,7 +32,7 @@ export interface XmOverlayResponse {
                 </button>
             </div>
 
-            <mat-dialog-content>
+            <mat-dialog-content class="mt-2 mb-2 d-block">
                 <xm-filters-control-request [options]="config"
                                             [request]="group"
                                             (requestChange)="group = $event"
@@ -40,7 +40,7 @@ export interface XmOverlayResponse {
                 </xm-filters-control-request>
             </mat-dialog-content>
 
-            <mat-dialog-actions align="end" class="d-flex justify-content-end pb-3">
+            <mat-dialog-actions align="end" class="d-flex justify-content-end">
                 <button mat-button
                         class="me-3"
                         (click)="reset()">
@@ -59,15 +59,16 @@ export interface XmOverlayResponse {
         </div>
     `,
     styles: [`
-        /*TODO: should remove*/
-        ::ng-deep .xm-form-layout {
-            /*display: grid;*/
-            /*grid-template-columns: 1fr auto;*/
-            /*gap: 1rem;*/
-        }
-
         .filter-dialog button {
             text-transform: uppercase;
+        }
+
+        ::ng-deep .xm-table-filter-overlay {
+            display: block;
+        }
+
+        .filter-dialog {
+            border-radius: 20px !important;
         }
     `],
     imports: [

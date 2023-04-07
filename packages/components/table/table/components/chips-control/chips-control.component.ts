@@ -13,7 +13,7 @@ import {
 } from '@xm-ngx/components/ng-accessor';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-import { MatChipSelectionChange, MatChipsModule } from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -46,10 +46,10 @@ export const ChipsControlConfigDefault: ChipsControlConfig = {
         <!--            <input type="text" hidden [formControl]="control">-->
         <!--        </mat-chip-listbox>-->
         <!--        (change)="change($event)"-->
+<!--        [selected]="!!option.value"-->
         <div class="col-12 mb-3">
             <mat-chip-listbox
                 [multiple]="true"
-                (change)="change($event)"
                 [formControl]="control"
             >
                 <mat-chip-option *ngFor="let option of config.items"
@@ -88,12 +88,6 @@ export class ChipsControlComponent extends NgModelWrapper<string[]> {
         if (this.ngControl) {
             this.ngControl.valueAccessor = this;
         }
-    }
-
-    public change(event: any | MatChipSelectionChange): void {
-        const value = event.value;
-        this._onChange(value);
-        this.valueChange.next(value);
     }
 
     public getInterpolatedValue(value: string): string {

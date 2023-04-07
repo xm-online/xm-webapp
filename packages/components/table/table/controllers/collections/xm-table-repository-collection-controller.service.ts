@@ -20,12 +20,6 @@ import { format } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { TABLE_FILTERS_ELASTIC } from '@xm-ngx/ext/common-webapp-ext/table-filter';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { Column } from '@xm-ngx/ext/common-webapp-ext/table';
-
-// export const chipsElastic = (value: string[], o: Column): string => {
-//
-//     return from + to;
-// };
 
 @Injectable()
 export class XmTableRepositoryCollectionController<T = unknown>
