@@ -25,7 +25,7 @@ export class XmJsonSchemaFormService extends JsonSchemaFormService {
         layoutIndex: number[],
         dataIndex: number[]
     }, previousIndex: number, currentIndex: number): boolean {
-        const { moveNodePointers }: { moveNodePointers: string[] } = this.formOptions;
+        const { moveNodePointers = [] }: { moveNodePointers: string[] } = this.formOptions ?? {};
 
         const moved = this.moveArrayItem({
             layoutNode: layout[previousIndex],
