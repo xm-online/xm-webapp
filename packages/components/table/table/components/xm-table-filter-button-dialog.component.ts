@@ -63,7 +63,7 @@ export interface XmOverlayResponse {
             text-transform: uppercase;
         }
 
-        ::ng-deep .cdk-overlay-pane {
+        ::ng-deep .xm-table-filter-overlay {
             display: block;
         }
 
