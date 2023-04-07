@@ -225,6 +225,7 @@ export class XmTableFilterInlineComponent {
     }
 
     public removeAll(): void {
+        console.log(this.value);
         Object.keys(this.value).forEach(item => {
             this.value[item] = null;
         });
@@ -243,7 +244,7 @@ export class XmTableFilterInlineComponent {
     }
 
     private getChipsFilters(): XmTableFilterInline[] {
-        const filterChipsValue = this.value[this.chipsFiltersConfig?.name] as string[];
+        const filterChipsValue = this.value[this.chipsFiltersConfig?.name] as string[] || [];
 
         return filterChipsValue.map((value, i) => {
             const title = this.chipsFiltersConfig?.options?.items
