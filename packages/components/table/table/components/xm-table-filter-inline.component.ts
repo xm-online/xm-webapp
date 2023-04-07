@@ -8,14 +8,16 @@ import * as _ from 'lodash';
 import { defaultsDeep } from 'lodash';
 import { FiltersControlValue } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/filters-control/filters-control.component';
 import { delay } from 'rxjs';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { interpolate, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmTableCollectionControllerResolver } from '@xm-ngx/components/table/table';
 import { XmTableFilterController } from '@xm-ngx/components/table/table/controllers/filters/xm-table-filter-controller.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { ChipsControlConfig } from '@xm-ngx/components/table/table/components/chips-control/chips-control.component';
+import {
+    ChipsControlConfig,
+} from '@xm-ngx/components/table/table/components/chips-control/chips-control.component';
 
 const DEFAULT_CONFIG: FiltersControlRequestOptions = {
     submitInvalidForm: false,
@@ -70,8 +72,8 @@ export interface XmTableFilterInline {
 
         <mat-menu #hiddenChips>
             <mat-chip-listbox class="chip-listbox ps-1 pe-1" [selectable]="false">
-                <mat-chip-option *ngFor="let filter of hiddenFilters; let i = index"
-                                 (removed)="remove(filter, i)"
+                <mat-chip-option *ngFor="let filter of hiddenFilters"
+                                 (removed)="remove(filter)"
                                  [removable]="true"
                                  selected
                                  color="accent"
@@ -211,10 +213,10 @@ export class XmTableFilterInlineComponent {
         takeUntilOnDestroyDestroy(this);
     }
 
-    public remove(filter: XmTableFilterInline, i?: number): void {
+    public remove(filter: XmTableFilterInline): void {
         if(filter.name.startsWith('chips')) {
-            const itemCount = filter.name.split('_')[1];
-            this.value[this.chipsFiltersConfig?.name] = (this.value[this.chipsFiltersConfig?.name] as string[]).filter((item, i) => i !== +itemCount);
+            this.value[this.chipsFiltersConfig?.name] = (this.value[this.chipsFiltersConfig?.name] as string[])
+                .filter((value) => !this.isEqualValue(filter.value, value));
         } else {
             this.value[filter.name] = null;
         }
@@ -241,17 +243,20 @@ export class XmTableFilterInlineComponent {
     }
 
     private getChipsFilters(): XmTableFilterInline[] {
-        const filterChipsConfig = this.chipsFiltersConfig;
-        const filterChipsValue = this.value[filterChipsConfig?.name] as string[];
-        return filterChipsConfig?.options?.items
-            .filter((item, i) => !!filterChipsValue[i])
-            .map((filter, i) => {
-                return ({
-                    ...filter,
-                    name: 'chips_' + i,
-                    title: filter.title,
-                    value: filterChipsValue[i],
-                });
-            });
+        const filterChipsValue = this.value[this.chipsFiltersConfig?.name] as string[];
+
+        return filterChipsValue.map((value, i) => {
+            const title = this.chipsFiltersConfig?.options?.items
+                .find(item => this.isEqualValue(item.value, value))?.title;
+            return {
+                value,
+                title,
+                name: 'chips_' + i
+            };
+        });
+    }
+
+    private isEqualValue(filterValue: string, configValue: string): boolean {
+        return interpolate(filterValue, null) === interpolate(configValue, null);
     }
 }
