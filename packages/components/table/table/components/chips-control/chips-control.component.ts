@@ -26,11 +26,6 @@ export interface ChipsControlConfig {
     items?: any[],
 }
 
-export interface ChipsValue {
-    index: number,
-    value: string
-}
-
 export const ChipsControlConfigDefault: ChipsControlConfig = {
     elasticType: 'chips'
 };
@@ -79,7 +74,7 @@ export const ChipsControlConfigDefault: ChipsControlConfig = {
         MatInputModule
     ]
 })
-export class ChipsControlComponent extends NgModelWrapper<any> {
+export class ChipsControlComponent extends NgModelWrapper<string[]> {
     @Input() @Defaults(ChipsControlConfigDefault)
     public config: ChipsControlConfig;
 
