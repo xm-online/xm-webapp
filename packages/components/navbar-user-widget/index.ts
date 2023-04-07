@@ -1,1 +1,1 @@
-export { NavbarUserWidgetModule } from './navbar-user-widget.module';
+export { NavbarUserWidgetComponent } from './navbar-user-widget.component';

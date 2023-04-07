@@ -12,7 +12,7 @@ export interface FiltersControlRequestOptions extends FormatWithConfigOptions {
     submitInvalidForm: boolean;
     isOnlyExpand: boolean;
     filters: FormLayoutItem[];
-    filtersClass: string;
+    filtersClass?: string;
     filterStoreKey?: string;
 }
 

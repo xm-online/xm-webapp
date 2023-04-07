@@ -17,12 +17,20 @@ export interface XmTableWithColumnDynamicCellOptionsPagination {
     hidePagination: boolean
 }
 
+export interface XmTableConfigFilters extends FormGroupLayoutItem {
+    options: {
+        title: Translate,
+        elasticType?: string,
+        elasticTemplateRequest?: string,
+    }
+}
+
 export interface XmTableConfig {
     /** Title */
     title: Translate,
     /** Filters configuration */
     filtersToRequest?: any,
-    filters: FormGroupLayoutItem[],
+    filters: XmTableConfigFilters[],
     /** Actions configuration */
     actions: XmPresentationLayout[],
     /** Selection configuration */
@@ -35,7 +43,8 @@ export interface XmTableConfig {
     },
     pageableAndSortable: PageableAndSortable & XmTableWithColumnDynamicCellOptionsPagination,
     options: XmTableOptions,
-
+    format?: any,
+    filtersClass?: string,
     // pagination: XmTablePagination // Pagination configuration
 
 
@@ -106,7 +115,7 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
             hidePagination: false,
         }
     },
-
+    filtersClass: 'row',
     // dataSource: null,
     // options: null,
     // page: { pageSizeOptions: [5, 10, 25] },

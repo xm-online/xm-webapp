@@ -1,5 +1,4 @@
 export {
-    XmCopyIconModule,
     XmCopyIconComponent,
     XM_COPY_ICON_OPTIONS,
     XmCopyIconOptions,

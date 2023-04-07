@@ -7,10 +7,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { XmCheckboxControlModule } from '@xm-ngx/components/bool';
+import { XmCheckboxControl } from '@xm-ngx/components/bool';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
-import { XmLabeledViewContainerModule, XmTextControlModule, XmTextRangeControlModule } from '@xm-ngx/components/text';
+import {
+    XmLabeledViewContainerComponent,
+    XmTextControl,
+    XmTextRangeControl,
+} from '@xm-ngx/components/text';
 import { XmImageModule } from '@xm-ngx/components/image';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
@@ -29,12 +33,12 @@ import { XmPermissionModule } from '../../core/permission';
         MatIconModule,
         CommonModule,
         ModalCloseModule,
-        XmTextControlModule,
+        XmTextControl,
         XmImageModule,
         XmLoadingModule,
-        XmCheckboxControlModule,
-        XmTextRangeControlModule,
-        XmLabeledViewContainerModule,
+        XmCheckboxControl,
+        XmTextRangeControl,
+        XmLabeledViewContainerComponent,
         XmPermissionModule,
     ],
     exports: [FeedbackComponent],

@@ -27,8 +27,8 @@ import { XmAutocompleteControlListItem } from './autocomple-control.interface';
     template: `
         <mat-form-field>
             <mat-label>{{config.title | translate}}</mat-label>
-            <input 
-                matInput 
+            <input
+                matInput
                 [formControl]="searchQueryControl"
                 [placeholder]="config.title | translate">
         </mat-form-field>
@@ -41,7 +41,7 @@ import { XmAutocompleteControlListItem } from './autocomple-control.interface';
             <table mat-table [dataSource]="list">
                 <ng-container [matColumnDef]="selectionColumnName">
                     <th mat-header-cell [style.width.px]="width" *matHeaderCellDef>
-                        <mat-checkbox 
+                        <mat-checkbox
                             *ngIf="config.multiple && (list | async)?.length > 0"
                             (change)="$event ? toggleAllRows() : null"
                             [checked]="isAllChecked()"
@@ -50,7 +50,7 @@ import { XmAutocompleteControlListItem } from './autocomple-control.interface';
                         </mat-checkbox>
                     </th>
                     <td mat-cell [style.width.px]="width" *matCellDef="let row">
-                        <mat-checkbox 
+                        <mat-checkbox
                             (click)="$event.stopPropagation()"
                             (change)="$event ? toggleRow(row) : null"
                             [disabled]="disabled"
@@ -89,9 +89,9 @@ import { XmAutocompleteControlListItem } from './autocomple-control.interface';
         CommonModule,
         HintModule,
     ],
-    providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteTableControlComponent), multi: true } ],
+    providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteTableControl), multi: true } ],
 })
-export class XmAutocompleteTableControlComponent extends XmAutocompleteControl {
+export class XmAutocompleteTableControl extends XmAutocompleteControl {
     public width = 44;
     public selectionColumnName = '_selection';
 
@@ -100,7 +100,7 @@ export class XmAutocompleteTableControlComponent extends XmAutocompleteControl {
     }
 
     public selection: SelectionModel<XmAutocompleteControlListItem>;
-  
+
     public isAllIndeterminate(): boolean {
         return this.selection.hasValue() && !this.isAllSelected();
     }
@@ -138,7 +138,7 @@ export class XmAutocompleteTableControlComponent extends XmAutocompleteControl {
 
         this.change(this.unwrapValues(this.selection.selected));
     }
-  
+
     public toggleAllRows(): void {
         if (this.disabled) {
             return;

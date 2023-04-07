@@ -18,7 +18,7 @@ import {
 } from './a-xm-table-state-collection-controller.service';
 import { XmTableConfig } from '../../interfaces/xm-table.model';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
-import { IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { FilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 import { formatWithConfig } from '@xm-ngx/shared/operators';
 
@@ -44,7 +44,7 @@ export class XmTableReadOnlyRepositoryCollectionController<T = unknown>
         super();
     }
 
-    public async load(pageableAndSortable: PageableAndSortable | null): Promise<void> {
+    public async load(request: FilterQueryParams): Promise<void> {
         this.config = (await firstValueFrom(this.configController.config$())).collection.repository;
         this.entity = await firstValueFrom(this.entityController.entity$());
         this.repository = this.repositoryResolver.get(this.config.resourceHandleKey, this.config.resourceUrl);

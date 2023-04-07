@@ -3,10 +3,10 @@ import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/c
 import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TableColumn } from '../../column/table-column-dynamic-cell';
 import { XmTableSelectionService } from '../controllers/selections/xm-table-selection.service';
-import { XmCheckboxControlModule } from '@xm-ngx/components/bool';
+import { XmCheckboxControl } from '@xm-ngx/components/bool';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 export interface SelectTableColumn extends TableColumn {
     width: string
@@ -58,10 +58,10 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: SelectTableColumn = {
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
     imports: [
-        XmCheckboxControlModule,
+        XmCheckboxControl,
         MatCheckboxModule,
         MatTableModule,
-        NgIf,
+        CommonModule,
     ],
 })
 export class XmTableSelectionColumnComponent<T> implements OnInit, OnDestroy {

@@ -6,21 +6,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmMultipleEnumControlComponent } from '@xm-ngx/components/enum/multiple-control/xm-multiple-enum-control.component';
+import { XmMultipleEnumControl } from '@xm-ngx/components/enum/multiple-control/xm-multiple-enum-control.component';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 describe('XmMultipleEnumControlComponent', () => {
-    let component: XmMultipleEnumControlComponent;
-    let fixture: ComponentFixture<XmMultipleEnumControlComponent>;
+    let component: XmMultipleEnumControl;
+    let fixture: ComponentFixture<XmMultipleEnumControl>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [XmMultipleEnumControlComponent],
+            declarations: [],
             providers: [{ provide: XmPermissionService, useClass: MockPermissionService }],
             imports: [
+                XmMultipleEnumControl,
                 CommonModule,
                 MatIconModule,
                 XmTranslationTestingModule,
@@ -36,7 +37,7 @@ describe('XmMultipleEnumControlComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent<XmMultipleEnumControlComponent>(XmMultipleEnumControlComponent);
+        fixture = TestBed.createComponent<XmMultipleEnumControl>(XmMultipleEnumControl);
         component = fixture.componentInstance;
     });
 

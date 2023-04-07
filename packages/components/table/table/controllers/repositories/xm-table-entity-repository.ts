@@ -46,7 +46,6 @@ export class XmTableEntityRepository<T extends XmEntity>
     }
 
     protected getParams(params: QueryParamsPageable): QueryParamsPageable {
-
         const extra: XmTableEntityRepositoryExtra = {
             size: params.pageSize,
             sort: `${params.sortBy},${params.sortOrder}`,

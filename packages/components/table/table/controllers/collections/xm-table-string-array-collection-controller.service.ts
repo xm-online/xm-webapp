@@ -7,9 +7,8 @@ import {
 } from './a-xm-table-local-pageable-collection-controller.service';
 
 import { cloneDeep, set } from 'lodash';
-import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { firstValueFrom } from 'rxjs';
-import { IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { FilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 import { XmTableArrayCollectionControllerConfig } from './xm-table-array-collection-controller';
@@ -36,7 +35,7 @@ export class XmTableStringArrayCollectionController<T extends StringArrayListMan
         super();
     }
 
-    public async load(pageableAndSortable: PageableAndSortable | null): Promise<void> {
+    public async load(request: FilterQueryParams): Promise<void> {
         this.config = await firstValueFrom(this.configController.config$());
         this.entity = await firstValueFrom(this.entityController.entity$());
         const primary = _.get(this.entity, this.config.path, []);

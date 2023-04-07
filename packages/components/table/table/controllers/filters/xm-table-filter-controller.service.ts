@@ -27,7 +27,6 @@ function jsObjectToQueryParams(request: object): object {
 export class XmTableFilterController implements OnDestroy {
     private request$: BehaviorSubject<QueryParams>;
 
-
     constructor() {
         this.request$ = new BehaviorSubject<object>({});
     }
@@ -55,5 +54,4 @@ export class XmTableFilterController implements OnDestroy {
     public getCurrentRequest(): QueryParams {
         return this.request$.getValue();
     }
-
 }

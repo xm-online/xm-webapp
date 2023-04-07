@@ -1,20 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AngularEditorControlComponent } from './angular-editor-control.component';
+import { XmAngularEditorControl } from './xm-angular-editor-control.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AngularEditorControlComponent', () => {
-    let component: AngularEditorControlComponent;
-    let fixture: ComponentFixture<AngularEditorControlComponent>;
+    let component: XmAngularEditorControl;
+    let fixture: ComponentFixture<XmAngularEditorControl>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [AngularEditorControlComponent],
+            imports: [XmAngularEditorControl, HttpClientTestingModule],
         })
             .compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AngularEditorControlComponent);
+        fixture = TestBed.createComponent(XmAngularEditorControl);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

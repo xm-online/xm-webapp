@@ -8,11 +8,11 @@
         <h5 class="no-margin">{{config.title | translate}}</h5>
       </div>
 
-      <xm-table-filter-button [config]="{filters:config.filters}"
+      <xm-table-filter-button [config]="config"
                               [loading]="context.collection.loading"
       ></xm-table-filter-button>
 
-<!--      <xm-table-filter-inline [config]="{filters:config.filters}"></xm-table-filter-inline>-->
+      <xm-table-filter-inline [config]="{filters:config.filters}"></xm-table-filter-inline>
 
       <xm-table-actions-buttons
         class="push-self-right"

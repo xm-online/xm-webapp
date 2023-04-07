@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IEntityCollectionPageable, QueryParamsPageable, } from '@xm-ngx/components/entity-collection';
 import { firstValueFrom } from 'rxjs';
-import { IXmTableCollectionController, } from './i-xm-table-collection-controller';
+import { FilterQueryParams, IXmTableCollectionController, } from './i-xm-table-collection-controller';
 import {
     PAGEABLE_AND_SORTABLE_DEFAULT,
     PageableAndSortable,
 } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 
-import { cloneDeep } from 'lodash';
+import { cloneDeep, get } from 'lodash';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmTableRepositoryResolver, } from '../repositories/xm-table-repository-resolver.service';
 import { XmTableRepositoryCollectionConfig, } from './xm-table-read-only-repository-collection-controller';
@@ -15,40 +15,59 @@ import { NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
 import { XmTableConfig } from '../../interfaces/xm-table.model';
+import { QueryParams } from '@xm-ngx/ext/common-webapp-ext/utils';
+import { format } from '@xm-ngx/shared/operators';
+import * as _ from 'lodash';
+import { TABLE_FILTERS_ELASTIC } from '@xm-ngx/ext/common-webapp-ext/table-filter';
+import { ActivatedRoute, Router } from '@angular/router';
+// import { Column } from '@xm-ngx/ext/common-webapp-ext/table';
+
+// export const chipsElastic = (value: string[], o: Column): string => {
+//
+//     return from + to;
+// };
 
 @Injectable()
 export class XmTableRepositoryCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
     public repository: IEntityCollectionPageable<T, PageableAndSortable>;
-    public config: XmTableRepositoryCollectionConfig;
+    public config: XmTableConfig;
     public entity: object;
 
     constructor(
         private configController: XmTableConfigController<XmTableConfig>,
-        // private entityController: XmTableEntityController<object>,
         protected repositoryResolver: XmTableRepositoryResolver<T>,
+        public router: Router,
+        private activatedRoute: ActivatedRoute
     ) {
         super();
     }
 
-    public async load(pageableAndSortable: QueryParamsPageable | null): Promise<void> {
-        if (pageableAndSortable == null) {
-            pageableAndSortable = PAGEABLE_AND_SORTABLE_DEFAULT;
+    public async load(request: FilterQueryParams): Promise<void> {
+        if (_.isEmpty(request.pageableAndSortable)) {
+            request.pageableAndSortable = PAGEABLE_AND_SORTABLE_DEFAULT;
         }
-        const tableConfig = await firstValueFrom(this.configController.config$());
-        this.config = tableConfig.collection.repository;
-
+        this.config = await firstValueFrom(this.configController.config$());
+        const repositoryConfig: XmTableRepositoryCollectionConfig = this.config.collection.repository;
         // TODO: replace entity with query
         // this.entity = await firstValueFrom(this.entityController.entity$());
-        this.repository = this.repositoryResolver.get(this.config.resourceHandleKey, this.config.resourceUrl);
+        this.repository = this.repositoryResolver.get(repositoryConfig.resourceHandleKey, repositoryConfig.resourceUrl);
 
-        // const query: object = formatWithConfig(this.entity, { format2: this.config.query });
+        const queryParams = this.getQueryParams(request);
 
-        this.changePartial({ loading: true, pageableAndSortable: pageableAndSortable });
+        this.changePartial({ loading: true, pageableAndSortable: queryParams });
+
+        this.router.navigate(
+            [],
+            {
+                relativeTo: this.activatedRoute,
+                queryParams,
+            },
+        );
 
         this.repository
-            .query({ ...this.config.query, ...pageableAndSortable })
+            .query({ ...repositoryConfig.query, ...queryParams })
             .pipe(take(1))
             .subscribe(
                 (res) => {
@@ -99,4 +118,82 @@ export class XmTableRepositoryCollectionController<T = unknown>
     public save(): void {
         throw new NotSupportedException();
     }
+
+    private createFiltersToRequest(
+        queryParams: QueryParamsPageable,
+        filterParams: QueryParamsPageable
+    ): QueryParams & PageableAndSortable {
+        const filtersToRequest: { query: string } = format(this.config.filtersToRequest, filterParams);
+        return _.merge(
+            {},
+            queryParams,
+            filtersToRequest,
+        );
+    }
+
+    private createElasticTypeFiltersToRequest(
+        queryParams: QueryParamsPageable,
+        filterParams: QueryParamsPageable
+    ): QueryParams & PageableAndSortable {
+        const typeKey = this.config.collection?.repository?.query?.typeKey;
+        const searchArr = _.filter(this.config.filters, item => !_.isEmpty(filterParams[item.name]))
+            .map((item) => {
+                return item.options?.elasticType === 'chips'
+                    ? `${filterParams[item.name]?.join(' AND ')}`
+                    : this.getElastic(filterParams[item.name], {
+                        field: item.name,
+                        elasticType: item.options?.elasticType
+                    });
+            });
+
+        if (typeKey) {
+            searchArr.push(`typeKey: ${typeKey}`);
+        }
+        const query = searchArr.join(' AND ');
+
+        return _.merge(
+            {},
+            queryParams,
+            {
+                query
+            },
+        );
+    }
+
+    private createQueryParams(
+        pageableAndSortable: PageableAndSortable,
+        filterParams: QueryParamsPageable
+    ): QueryParams & PageableAndSortable {
+        const {pageIndex, pageSize, sortBy, sortOrder} = pageableAndSortable;
+        const pageParams = {
+            pageIndex,
+            pageSize,
+            sortBy,
+            sortOrder
+        };
+
+        return _.merge(
+            {},
+            pageParams,
+            filterParams,
+        );
+    }
+
+    private getQueryParams(request: FilterQueryParams): QueryParamsPageable {
+        const {pageableAndSortable, filterParams} = request;
+        let queryParams = this.createQueryParams(pageableAndSortable, filterParams);
+        if (this.config.filtersToRequest) {
+            queryParams = this.createFiltersToRequest(queryParams, filterParams);
+        } else {
+            queryParams = this.createElasticTypeFiltersToRequest(queryParams, filterParams);
+        }
+        return queryParams;
+    }
+
+    private getElastic (value: string | number, filter: { field: string, elasticType: string }): (
+        value: string | number, filter: { field: string, elasticType: string }
+    ) => string {
+        const fn = TABLE_FILTERS_ELASTIC[get(filter, 'elasticType', '')];
+        return fn ? fn(value, filter) : null;
+    };
 }

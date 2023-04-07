@@ -12,7 +12,6 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
 
-
 export interface XmOverlayResponse {
     state: 'cancel' | 'submit' | 'reset';
     result: object;
@@ -22,7 +21,7 @@ export interface XmOverlayResponse {
     selector: 'xm-filter-dialog',
     standalone: true,
     template: `
-        <div class="shadow p-3 bg-surface rounded">
+        <div class="shadow p-3 bg-surface rounded filter-dialog">
             <div class="d-flex justify-content-end">
                 <button (click)="close()"
                         class="mat-dialog-close"
@@ -43,25 +42,32 @@ export interface XmOverlayResponse {
 
             <mat-dialog-actions align="end" class="d-flex justify-content-end pb-3">
                 <button mat-button
-                        (click)="close()">
-                    {{'global.reset' | translate}}
+                        class="me-3"
+                        (click)="reset()">
+                    {{'table.filter.button.reset' | translate}}
                 </button>
 
                 <button mat-button
+                        mat-raised-button
                         cdkFocusInitial
                         color="primary"
                         [disabled]="group?.invalid"
                         (click)="submit()">
-                    {{'navbar.search' | translate}}
+                    {{'table.filter.button.search' | translate}}
                 </button>
             </mat-dialog-actions>
         </div>
     `,
     styles: [`
+        /*TODO: should remove*/
         ::ng-deep .xm-form-layout {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 1rem;
+            /*display: grid;*/
+            /*grid-template-columns: 1fr auto;*/
+            /*gap: 1rem;*/
+        }
+
+        .filter-dialog button {
+            text-transform: uppercase;
         }
     `],
     imports: [
@@ -89,14 +95,17 @@ export class XmTableFilterButtonDialogComponent implements OnInit {
     }
 
     public submit(): void {
-        this.customOverlay.close({ result: this.group, state: 'submit' });
+        this.customOverlay.close({result: this.group, state: 'submit'});
     }
 
     public reset(): void {
-        this.customOverlay.close({ result: this.group, state: 'reset' });
+        Object.keys(this.group).forEach(key => {
+            this.group[key] = null;
+        });
+        this.customOverlay.close({result: this.group, state: 'reset'});
     }
 
     public close(): void {
-        this.customOverlay.close({ result: this.group, state: 'cancel' });
+        this.customOverlay.close({result: this.group, state: 'cancel'});
     }
 }

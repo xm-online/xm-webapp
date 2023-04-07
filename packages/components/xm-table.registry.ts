@@ -18,4 +18,8 @@ export const XM_TABLE_ELEMENTS: XmDynamicEntry[] = [
         selector: '@xm-ngx/components/edit-chips',
         loadChildren: () => import('@xm-ngx/components/table/table/components/xm-table-edit-cell.component').then(m => XmTableControlComponent)
     },
+    {
+        selector: '@xm-ngx/components/chips-control',
+        loadChildren: () => import('@xm-ngx/components/table/table/components/chips-control/chips-control.component').then(m => m.ChipsControlComponent)
+    },
 ];
