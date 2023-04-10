@@ -38,7 +38,7 @@ export interface XmTableFilterInline {
     host: {class: 'xm-table-filter-inline'},
     template: `
         <button
-            class=" me-2"
+            class="btn-remove me-2"
             mat-raised-button
             *ngIf="activeFilters?.length"
             (click)="removeAll()"
@@ -47,7 +47,7 @@ export interface XmTableFilterInline {
         </button>
 
         <div class="filter-container" #elementRef>
-            <mat-chip-listbox class="chip-listbox" [selectable]="false">
+            <mat-chip-listbox class="chip-listbox" [selectable]="false" [multiple]="true">
                 <mat-chip-option *ngFor="let filter of activeFilters"
                                  (removed)="remove(filter)"
                                  [removable]="true"
@@ -71,7 +71,7 @@ export interface XmTableFilterInline {
         </button>
 
         <mat-menu #hiddenChips>
-            <mat-chip-listbox class="chip-listbox ps-1 pe-1" [selectable]="false">
+            <mat-chip-listbox class="chip-listbox ps-1 pe-1" [selectable]="false" [multiple]="true">
                 <mat-chip-option *ngFor="let filter of hiddenFilters"
                                  (removed)="remove(filter)"
                                  [removable]="true"
@@ -88,7 +88,6 @@ export interface XmTableFilterInline {
         :host(.xm-table-filter-inline) {
             display: flex;
             flex-grow: 1;
-            /* TODO:WORKAROUND: fix flex calculation */
             min-width: 0;
         }
 
@@ -191,6 +190,7 @@ export class XmTableFilterInlineComponent {
         const container = this.elementRef.nativeElement;
         this.ref.detectChanges();
         const chips = container.querySelectorAll('.chip-option');
+        const filterContainer = container.querySelector('.filter-container');
 
         const PADDING_FILTER_CONTAINER = 100;
         let chipsWidth = PADDING_FILTER_CONTAINER;
@@ -198,7 +198,7 @@ export class XmTableFilterInlineComponent {
 
         chips.forEach((item, i) => {
             chipsWidth += item.clientWidth;
-            if (chipsWidth > container.offsetWidth && !slicedIndex) {
+            if (chipsWidth > filterContainer.offsetWidth && !slicedIndex) {
                 slicedIndex = i;
             }
         });
@@ -214,9 +214,8 @@ export class XmTableFilterInlineComponent {
     }
 
     public remove(filter: XmTableFilterInline): void {
-        if(filter.name.startsWith('chips')) {
-            this.value[this.chipsFiltersConfig?.name] = (this.value[this.chipsFiltersConfig?.name] as string[])
-                .filter((value) => !this.isEqualValue(filter.value, value));
+        if (filter.name.startsWith('chips')) {
+            this.value[this.chipsFiltersConfig?.name] = this.listChipsValue.filter((value) => !this.isEqualValue(filter.value, value));
         } else {
             this.value[filter.name] = null;
         }
@@ -242,10 +241,16 @@ export class XmTableFilterInlineComponent {
             );
     }
 
-    private getChipsFilters(): XmTableFilterInline[] {
-        const filterChipsValue = this.value[this.chipsFiltersConfig?.name] as string[] || [];
+    private get listChipsValue(): string[] {
+        const chipsValue = this.value[this.chipsFiltersConfig?.name] as string[];
+        if (!chipsValue) {
+            return [];
+        }
+        return Array.isArray(chipsValue) ? chipsValue : [chipsValue];
+    }
 
-        return filterChipsValue.map((value, i) => {
+    private getChipsFilters(): XmTableFilterInline[] {
+        return this.listChipsValue.map((value, i) => {
             const title = this.chipsFiltersConfig?.options?.items
                 .find(item => this.isEqualValue(item.value, value))?.title;
             return {

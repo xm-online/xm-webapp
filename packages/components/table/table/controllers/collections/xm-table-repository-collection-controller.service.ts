@@ -133,7 +133,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         const searchArr = _.filter(this.config.filters, item => !_.isEmpty(filterParams[item.name]))
             .map((item) => {
                 return item.options?.elasticType === 'chips'
-                    ? `${filterParams[item.name]?.join(' AND ')}`
+                    ? `${Array.isArray(filterParams[item.name]) ? filterParams[item.name]?.join(' AND ') : filterParams[item.name]}`
                     : this.getElastic(filterParams[item.name], {
                         field: item.name,
                         elasticType: item.options?.elasticType

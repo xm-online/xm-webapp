@@ -35,7 +35,6 @@ export class XmTableFilterButtonComponent implements OnDestroy {
                 private elementRef: ElementRef,
                 private overlayService: XmOverlayService,
                 private requestBuilder: XmTableFilterController) {
-
     }
 
     public openFilter(): void {
@@ -63,7 +62,6 @@ export class XmTableFilterButtonComponent implements OnDestroy {
             positionStrategy: strategy,
             width: '50%',
             minWidth: 480,
-            backdropClass: 'xm-table-filter-overlay',
             panelClass: 'xm-table-filter-overlay',
         });
 
