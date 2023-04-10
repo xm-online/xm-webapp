@@ -225,7 +225,6 @@ export class XmTableFilterInlineComponent {
     }
 
     public removeAll(): void {
-        console.log(this.value);
         Object.keys(this.value).forEach(item => {
             this.value[item] = null;
         });
