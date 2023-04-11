@@ -14,7 +14,7 @@ import { XmTableRepositoryCollectionConfig, } from './xm-table-read-only-reposit
 import { NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
-import { XmTableConfig } from '../../interfaces/xm-table.model';
+import { XmTableConfig, XmTableConfigFilters } from '../../interfaces/xm-table.model';
 import { QueryParams } from '@xm-ngx/ext/common-webapp-ext/utils';
 import { format } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
@@ -56,7 +56,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
             [],
             {
                 relativeTo: this.activatedRoute,
-                queryParams,
+                queryParams: this.getQueryParamsWithoutIgnoreValues(queryParams),
             },
         );
 
@@ -133,7 +133,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         const searchArr = _.filter(this.config.filters, item => !_.isEmpty(filterParams[item.name]))
             .map((item) => {
                 return item.options?.elasticType === 'chips'
-                    ? `${Array.isArray(filterParams[item.name]) ? filterParams[item.name]?.join(' AND ') : filterParams[item.name]}`
+                    ? this.getElasticQueryChips(filterParams, item)
                     : this.getElastic(filterParams[item.name], {
                         field: item.name,
                         elasticType: item.options?.elasticType
@@ -156,7 +156,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
 
     private createQueryParams(
         pageableAndSortable: PageableAndSortable,
-        filterParams: QueryParamsPageable
+        filterParams?: QueryParamsPageable
     ): QueryParams & PageableAndSortable {
         const {pageIndex, pageSize, sortBy, sortOrder} = pageableAndSortable;
         const pageParams = {
@@ -168,8 +168,8 @@ export class XmTableRepositoryCollectionController<T = unknown>
 
         return _.merge(
             {},
-            pageParams,
             filterParams,
+            pageParams,
         );
     }
 
@@ -184,10 +184,23 @@ export class XmTableRepositoryCollectionController<T = unknown>
         return queryParams;
     }
 
-    private getElastic (value: string | number, filter: { field: string, elasticType: string }): (
+    private getQueryParamsWithoutIgnoreValues(queryParams: QueryParamsPageable, ignoreParams: string[] = ['query']) {
+        return Object.keys(queryParams).reduce((acc, curr) => {
+            if (!ignoreParams.includes(curr)) {
+                acc[curr] = queryParams[curr];
+            }
+            return acc;
+        }, {});
+    }
+
+    private getElastic(value: string | number, filter: { field: string, elasticType: string }): (
         value: string | number, filter: { field: string, elasticType: string }
     ) => string {
         const fn = TABLE_FILTERS_ELASTIC[get(filter, 'elasticType', '')];
         return fn ? fn(value, filter) : null;
     };
+
+    private getElasticQueryChips(filterParams: QueryParamsPageable, item: XmTableConfigFilters): string {
+        return `${Array.isArray(filterParams[item.name]) ? filterParams[item.name]?.join(' AND ') : filterParams[item.name]}`;
+    }
 }

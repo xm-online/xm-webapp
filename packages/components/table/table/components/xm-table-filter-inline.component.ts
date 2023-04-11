@@ -37,15 +37,6 @@ export interface XmTableFilterInline {
     standalone: true,
     host: {class: 'xm-table-filter-inline'},
     template: `
-        <button
-            class="btn-remove me-2"
-            mat-raised-button
-            *ngIf="activeFilters?.length"
-            (click)="removeAll()"
-        >
-            {{'table.filter.button.reset' | translate}}
-        </button>
-
         <div class="filter-container" #elementRef>
             <mat-chip-listbox class="chip-listbox" [selectable]="false" [multiple]="true">
                 <mat-chip-option *ngFor="let filter of activeFilters"
@@ -57,12 +48,20 @@ export interface XmTableFilterInline {
                     {{filter?.title | translate}}: {{filter.value}}
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip-option>
+                <button
+                    class="btn-clear-all ms-2"
+                    mat-button
+                    *ngIf="activeFilters?.length"
+                    (click)="removeAll()"
+                >
+                    {{'table.filter.button.clearAll' | translate}}
+                </button>
             </mat-chip-listbox>
         </div>
 
         <button
             class="ms-1"
-            mat-raised-button
+            mat-button
             *ngIf="hiddenFilters?.length"
             [matMenuTriggerFor]="hiddenChips"
             [matBadge]="hiddenFilters?.length"
@@ -89,6 +88,10 @@ export interface XmTableFilterInline {
             display: flex;
             flex-grow: 1;
             min-width: 0;
+        }
+
+        :host(.xm-table-filter-inline) button {
+            text-transform: uppercase;
         }
 
         ::ng-deep .xm-table-filter-inline .mdc-evolution-chip-set__chips {
@@ -190,9 +193,10 @@ export class XmTableFilterInlineComponent {
         const container = this.elementRef.nativeElement;
         this.ref.detectChanges();
         const chips = container.querySelectorAll('.chip-option');
+        const btn = container.querySelector('.btn-clear-all');
         const filterContainer = container.querySelector('.filter-container');
 
-        const PADDING_FILTER_CONTAINER = 100;
+        const PADDING_FILTER_CONTAINER = btn?.clientWidth ? 100 + btn.clientWidth : 0;
         let chipsWidth = PADDING_FILTER_CONTAINER;
         let slicedIndex = 0;
 

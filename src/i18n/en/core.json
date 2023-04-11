@@ -1625,6 +1625,7 @@
       "button": {
         "search": "Search",
         "reset": "Reset",
+        "clearAll": "Clear all",
         "more": "More"
       }
     }
