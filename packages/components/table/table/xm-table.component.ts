@@ -170,5 +170,6 @@ export class XmTableComponent implements OnInit {
     private initFilterParams(): void {
         const queryParams = this.activatedRoute.snapshot.queryParams;
         this.tableFilterController.update(queryParams);
+        this.pageableAndSortable$.next(queryParams);
     }
 }

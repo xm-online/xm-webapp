@@ -34,19 +34,6 @@ export const ChipsControlConfigDefault: ChipsControlConfig = {
     standalone: true,
     selector: 'xm-chips-control',
     template: `
-        <!--        TODO: should remove after review-->
-        <!--        <mat-chip-listbox class="mb-2">-->
-        <!--            <mat-chip-option-->
-        <!--                color="accent"-->
-        <!--                class="chip-option"-->
-        <!--                [selected]="!!control.value"-->
-        <!--                (selectionChange)="selectionChange($event)">-->
-        <!--                {{config.title | translate}}-->
-        <!--            </mat-chip-option>-->
-        <!--            <input type="text" hidden [formControl]="control">-->
-        <!--        </mat-chip-listbox>-->
-        <!--        (change)="change($event)"-->
-<!--        [selected]="!!option.value"-->
         <div class="col-12 mb-3">
             <mat-chip-listbox
                 [multiple]="true"
