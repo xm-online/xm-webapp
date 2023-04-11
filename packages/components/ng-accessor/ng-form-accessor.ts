@@ -6,7 +6,13 @@ import { ArgumentException } from '@xm-ngx/shared/exceptions';
 
 @Directive()
 /**
- * @beta
+ * @deprecated
+ * Use NgControlAccessor
+ * 
+ * NgControlAccessor mark your component as reactive control.
+ * 
+ * This control accessor does the same as NgControlAccessor, except has input control.
+ * This means that inside the control we accept another control, it's incorrect behavior
  */
 export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, OnDestroy {
     private valueSubscription: Subscription;
