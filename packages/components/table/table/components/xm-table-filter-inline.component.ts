@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 import { defaultsDeep } from 'lodash';
 import { FiltersControlValue } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/filters-control/filters-control.component';
 import { delay } from 'rxjs';
-import { interpolate, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { formatWithConfig, interpolate, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmTableCollectionControllerResolver } from '@xm-ngx/components/table/table';
 import { XmTableFilterController } from '@xm-ngx/components/table/table/controllers/filters/xm-table-filter-controller.service';
 import { MatChipsModule } from '@angular/material/chips';
@@ -170,7 +170,7 @@ export class XmTableFilterInlineComponent {
             if (_.isEqual(value, this.request)) {
                 return;
             }
-            this.value = value as FiltersControlValue;
+            this.value = formatWithConfig(value, this.config);
 
             const chipsFilters = this.getChipsFilters();
             this.activeFilters = (this.config.filters as any)?.filter(filter =>
