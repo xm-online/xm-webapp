@@ -1,5 +1,5 @@
-import {Command} from '../command';
-import {ClassDeclaration, Node, Project, SymbolFlags, SyntaxKind, Type} from 'ts-morph';
+import { Command } from '../command';
+import { ClassDeclaration, Node, Project, SymbolFlags, SyntaxKind, Type } from 'ts-morph';
 import fs from 'fs';
 
 export interface DynamicComponentSpecEntity {
@@ -91,7 +91,7 @@ function getCompatibleTypes(classDeclaration: ClassDeclaration): string[] {
         'XmDynamicWidget',
         'XmDynamicPresentation',
         'XmDynamicControl',
-        'XmDynamicCell'
+        'XmDynamicCell',
     ];
     const compatibles: string[] = [];
 
@@ -114,22 +114,41 @@ function getConfigurationSchema(classDeclaration: ClassDeclaration): object {
             return {
                 title: nonNullableType.getSymbol()?.getName(),
                 type: 'array',
-                items: getSchema(nonNullableType.getArrayElementTypeOrThrow())
+                items: getSchema(nonNullableType.getArrayElementTypeOrThrow()),
             };
         } else if (nonNullableType.isBoolean()) {
             return {
                 title: nonNullableType.getSymbol()?.getName(),
-                type: nonNullableType.getText()
+                type: nonNullableType.getText(),
+            };
+
+        } else if (nonNullableType.isBooleanLiteral()) {
+            return {
+                title: nonNullableType.getSymbol()?.getName(),
+                type: nonNullableType.getText(),
             };
         } else if (nonNullableType.isNumber()) {
             return {
                 title: nonNullableType.getSymbol()?.getName(),
-                type: nonNullableType.getText()
+                type: nonNullableType.getText(),
             };
         } else if (nonNullableType.isString()) {
             return {
                 title: nonNullableType.getSymbol()?.getName(),
-                type: nonNullableType.getText()
+                type: nonNullableType.getText(),
+            };
+        } else if (nonNullableType.isStringLiteral()) {
+            return {
+                title: nonNullableType.getSymbol()?.getName(),
+                type: 'string',
+            };
+        } else if (nonNullableType.isUnknown()
+            || nonNullableType.isUndefined()
+            || nonNullableType.isAny()
+        ) {
+            return {
+                title: nonNullableType.getSymbol()?.getName(),
+                type: 'object',
             };
         } else if (
             nonNullableType.isClass() ||
@@ -141,7 +160,7 @@ function getConfigurationSchema(classDeclaration: ClassDeclaration): object {
             const name = nonNullableType.getSymbol()?.getName() + '';
             if (!definitions[name]) {
                 // WORKAROUND: to mark property as a defined for recursion
-                definitions[name] = {'__mock__': '__mock__'};
+                definitions[name] = { '__mock__': '__mock__' };
                 definitions[name] = {
                     title: nonNullableType.getSymbol()?.getName(),
                     type: 'object',
@@ -155,8 +174,8 @@ function getConfigurationSchema(classDeclaration: ClassDeclaration): object {
                             return false;
                         })
                         .map(i => i.getValueDeclarationOrThrow())
-                        .map(i => ({[i.getSymbol()?.getName() || '']: getSchema(i.getType())}))
-                        .reduce((p, c) => (Object.assign(p, c)), {})
+                        .map(i => ({ [i.getSymbol()?.getName() || '']: getSchema(i.getType()) }))
+                        .reduce((p, c) => (Object.assign(p, c)), {}),
                 };
             }
             return {
@@ -178,29 +197,29 @@ function getConfigurationSchema(classDeclaration: ClassDeclaration): object {
                         return false;
                     })
                     .map(i => i.getValueDeclarationOrThrow())
-                    .map(i => ({[i.getSymbolOrThrow().getName()]: getSchema(i.getType())}))
-                    .reduce((p, c) => (Object.assign(p, c)), {})
+                    .map(i => ({ [i.getSymbolOrThrow().getName()]: getSchema(i.getType()) }))
+                    .reduce((p, c) => (Object.assign(p, c)), {}),
             };
         } else if (nonNullableType.isEnum()) {
             return {
                 title: nonNullableType.getSymbol()?.getName(),
                 type: 'string',
                 enum: nonNullableType.getUnionTypes()
-                    .map(t => t.getLiteralValueOrThrow())
+                    .map(t => t.getLiteralValueOrThrow()),
             };
         } else if (nonNullableType.isUnion()) {
             return {
                 title: nonNullableType.getSymbol()?.getName(),
                 'type': 'object',
                 'oneOf': nonNullableType.getUnionTypes()
-                    .map(i => getSchema(i))
+                    .map(i => getSchema(i)),
             };
         } else if (nonNullableType.isIntersection()) {
             return {
                 title: nonNullableType.getSymbol()?.getName(),
                 'type': 'object',
                 'allOf': nonNullableType.getIntersectionTypes()
-                    .map(i => getSchema(i))
+                    .map(i => getSchema(i)),
             };
         }
 
@@ -209,7 +228,7 @@ function getConfigurationSchema(classDeclaration: ClassDeclaration): object {
             title: nonNullableType.getSymbol()?.getName() || 'Unknown type!',
             'type': 'string',
             'default': 'Unknown type!',
-            'readOnly': true
+            'readOnly': true,
         };
     }
 
@@ -217,8 +236,8 @@ function getConfigurationSchema(classDeclaration: ClassDeclaration): object {
     if (!config) {
         return {};
     }
-    const schema = Object.assign({properties: {}}, getSchema(config.getType()));
-    return Object.assign(schema, {definitions});
+    const schema = Object.assign({ properties: {} }, getSchema(config.getType()));
+    return Object.assign(schema, { definitions });
 }
 
 export class DynamicSpecificationCommand implements Command {
@@ -240,13 +259,13 @@ export class DynamicSpecificationCommand implements Command {
                     name: getName(dynamicClase),
                     selector: getSelector(dynamicClase),
                     compatibles: getCompatibleTypes(dynamicClase),
-                    configurationSchema: getConfigurationSchema(dynamicClase)
+                    configurationSchema: getConfigurationSchema(dynamicClase),
                 });
             }
         }
         fs.writeFileSync(
             'src/assets/specification/dynamic_components_spec_output.json',
-            JSON.stringify(dynamicComponentSpecs, undefined, 2)
+            JSON.stringify(dynamicComponentSpecs, undefined, 2),
         );
     }
 }
