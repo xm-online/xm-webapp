@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
-import { Translate } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { keyBy, mapValues } from 'lodash';
 
 type Titles = { [value: string]: Translate } | Translate[];
@@ -23,6 +23,8 @@ export interface XmEnumOptions {
     template: `
         {{(titles[value + ''] || value) | translate}}
     `,
+    imports: [XmTranslationModule],
+    standalone: true,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })

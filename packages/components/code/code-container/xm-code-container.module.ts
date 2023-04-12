@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { XmCodeContainerJsonModule } from './xm-code-container-json.directive';
-import { XmCopyIconModule } from '@xm-ngx/components/copy';
+import { XmCopyIconComponent } from '@xm-ngx/components/copy';
 import { XmCodeContainerComponent } from './xm-code-container.component';
 
 @NgModule({
     imports: [
-        XmCopyIconModule,
+        XmCopyIconComponent,
     ],
     exports: [
         XmCodeContainerComponent,

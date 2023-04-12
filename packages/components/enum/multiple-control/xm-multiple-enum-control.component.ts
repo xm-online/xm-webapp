@@ -6,7 +6,15 @@ import { clone, defaults, forEach, keyBy } from 'lodash';
 import { XmEnumControlOptionsItem } from '../control/xm-enum-control.component';
 import { XmEnumValue } from '../value/xm-enum.component';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
-import { HintText } from '@xm-ngx/components/hint';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 export interface XmMultipleEnumControlOptions extends XmEnumViewOptions, DataQa {
     id?: string;
@@ -58,10 +66,23 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
+    imports: [
+        XmTranslationModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule,
+        MatIconModule,
+        CommonModule,
+        ControlErrorModule,
+        ReactiveFormsModule,
+        XmPermissionModule,
+        HintModule,
+    ],
+    standalone: true,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmMultipleEnumControlComponent
+export class XmMultipleEnumControl
     extends NgFormAccessor<XmEnumValue[] | undefined>
     implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];

@@ -2,13 +2,28 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { LanguageService, Locale } from '@xm-ngx/translation';
+import { LanguageModule, LanguageService, Locale, XmTranslationModule } from '@xm-ngx/translation';
 import { Observable } from 'rxjs';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { XmLanguageUiConfig } from '@xm-ngx/administration/translations/services/translation.service';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
     selector: 'xm-navbar-language-menu-widget',
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        XmTranslationModule,
+        LanguageModule,
+        MatMenuModule,
+    ],
+    standalone: true,
     template: `
         <button *ngIf="!(isSessionActive$ | async)"
                 mat-button

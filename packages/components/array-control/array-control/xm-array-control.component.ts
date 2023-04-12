@@ -1,17 +1,21 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Input, Optional, Self, ViewChild } from '@angular/core';
-import { UntypedFormControl, NgControl } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { UntypedFormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocomplete, MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { AriaLabel, DataQa } from '@xm-ngx/shared/interfaces';
-import { Translate } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, share, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { HintText } from '@xm-ngx/components/hint';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { EntityCollectionFactoryService, QueryParams } from '@xm-ngx/components/entity-collection';
 import { uniqBy as _uniqBy, get as _get, template as _template } from 'lodash/fp';
 import * as _ from 'lodash';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
 
 interface XmArrayItem {
     value: string;
@@ -55,8 +59,20 @@ export const XM_ARRAY_CONTROL_OPTIONS_DEFAULT: XmArrayControlOptions = {
 @Component({
     selector: 'xm-array-control',
     templateUrl: './xm-array-control.component.html',
+    imports: [
+        CommonModule,
+        MatFormFieldModule,
+        MatChipsModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        ControlErrorModule,
+        XmTranslationModule,
+        HintModule,
+    ],
+    standalone: true,
 })
-export class XmArrayControlComponent extends NgFormAccessor<string[]> {
+export class XmArrayControl extends NgFormAccessor<string[]> {
     public searchControl: UntypedFormControl = new UntypedFormControl();
 
     public separatorKeysCodes: number[] = [ENTER, COMMA];

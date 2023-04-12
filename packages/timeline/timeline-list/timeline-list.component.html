@@ -27,5 +27,15 @@
         {{config.showMoreAll | translate}}
       </button>
     </div>
+
+    <div class="more-items text-center" *ngIf="config?.version===2">
+      <button mat-button *ngIf="nextV2 > 0" [loading]="isMoreLoading" (click)="onNextPageV2();">
+        {{config.showMore10 | translate}}
+      </button>
+
+      <button mat-button *ngIf="nextV2 > 1" [loading]="isMoreLoading" (click)="loadAllV2();">
+        {{config.showMoreAll | translate}}
+      </button>
+    </div>
   </ng-container>
 </xm-mat-card>

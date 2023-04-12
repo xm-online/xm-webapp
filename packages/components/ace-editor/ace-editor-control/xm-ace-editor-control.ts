@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import * as _ from 'lodash';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmAceEditorDirective } from '../xm-ace-editor.directive';
+import { XmAceEditorThemeSchemeAdapterModule } from '../xm-ace-editor-theme-scheme-adapter.directive';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
 
 export interface XmAceEditorControlOptions {
     id?: string;
@@ -32,6 +38,15 @@ type AceEditorValue = string | object;
 
 @Component({
     selector: 'xm-ace-editor-control',
+    imports: [
+        XmTranslationModule,
+        XmAceEditorDirective,
+        CommonModule,
+        MatFormFieldModule,
+        ControlErrorModule,
+        XmAceEditorThemeSchemeAdapterModule,
+    ],
+    standalone: true,
     template: `
         <div class="form-group">
             <label class="control-label" *ngIf="config?.title">{{ config.title | translate }}</label>
@@ -57,7 +72,7 @@ type AceEditorValue = string | object;
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmAceEditorControlComponent extends NgControlAccessor<AceEditorValue> {
+export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
     public error: boolean = false;
     private _config: XmAceEditorControlOptions = XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS;
 

@@ -16,8 +16,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { EntitySpecYamlService } from '@xm-ngx/administration/specification-management/entity-spec-editor/entity-spec-yaml.service';
-import { AceEditorModule, XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
-import { MultiLanguageModule } from '@xm-ngx/components/multilanguage';
+import { XmAceEditorDirective, XmAceEditorControl } from '@xm-ngx/components/ace-editor';
+import { MultiLanguageComponent } from '@xm-ngx/components/multilanguage';
 import { StatesManagementDialogModule } from '@xm-ngx/entity/states-management-dialog';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
@@ -52,10 +52,10 @@ import { UiMngComponent } from './ui-mng/ui-mng.component';
         MatDividerModule,
         MatListModule,
         StatesManagementDialogModule,
-        MultiLanguageModule,
+        MultiLanguageComponent,
         MatCardModule,
-        XmAceEditorControlModule,
-        AceEditorModule,
+        XmAceEditorControl,
+        XmAceEditorDirective,
     ],
     exports: [SpecificationManagementComponent],
     declarations: [

@@ -1,7 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { XmUser } from '@xm-ngx/core/user';
-import { Translate } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { get } from 'lodash';
+import { CommonModule } from '@angular/common';
+import { MenuComponent } from '@xm-ngx/components/menu';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
 
 export interface SidebarUserSubtitleOptions {
     selector: string,
@@ -27,8 +31,15 @@ export interface SidebarUserSubtitleOptions {
             </ng-template>
         </ng-container>
     `,
+    imports: [
+        CommonModule,
+        MenuComponent,
+        XmPermissionModule,
+        XmTranslationModule,
+        XmDynamicModule,
+    ],
+    standalone: true,
 })
-
 export class SidebarUserSubtitle {
 
     @Input() public options: SidebarUserSubtitleOptions;

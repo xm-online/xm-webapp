@@ -9,20 +9,26 @@ import {
 } from '@angular/core';
 import {
     UntypedFormControl,
-    NG_VALUE_ACCESSOR,
+    NG_VALUE_ACCESSOR, FormsModule, ReactiveFormsModule,
 } from '@angular/forms';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
-import { ITranslate, Locale, Translate } from '@xm-ngx/translation';
+import { ITranslate, Locale, Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { propEq } from 'lodash/fp';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { take } from 'rxjs/operators';
-import { HintText } from '@xm-ngx/components/hint';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { clone } from 'lodash';
 import * as _ from 'lodash';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
-import { MatInput } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
 
 export type MultiLanguageDataModel = { languageKey: string; name: string }[];
 
@@ -142,6 +148,21 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
     host: {
         class: 'xm-multi-language-control',
     },
+    imports: [
+        CommonModule,
+        XmTranslationModule,
+        FormsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatButtonToggleModule,
+        MatIconModule,
+        MatTooltipModule,
+        AngularEditorModule,
+        HintModule,
+        ControlErrorModule,
+        ReactiveFormsModule,
+    ],
+    standalone: true,
     styles: ['mat-button-toggle-group{margin-bottom: 10px;} mat-label{display:block}'],
     providers: [
         {

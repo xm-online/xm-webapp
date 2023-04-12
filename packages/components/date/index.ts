@@ -3,7 +3,6 @@ export {
 } from './xm-string-date-control';
 
 export {
-    XmDateModule,
     XmDateComponent,
     XmDateOptions,
     XmDateValue,
@@ -12,23 +11,19 @@ export {
 export {
     XmDateControl,
     XmDateControlOptions,
-    XmDateControlModule,
 } from './xm-date-control';
 
 export {
     XmDateRangeControl,
     XmDateRangeControlOptions,
     XmDateRangeControlValue,
-    XmDateRangeControlModule,
 } from './xm-date-range-control';
 
 export {
-    DateRangeFilterControlComponent,
-    XmDateRangeFilterControlModule,
+    DateRangeFilterControl,
 } from './xm-date-range-filter-control';
 
 export {
     XmDateView,
     XmDateViewOptions,
-    XmDateViewModule,
 } from './xm-date-view';
