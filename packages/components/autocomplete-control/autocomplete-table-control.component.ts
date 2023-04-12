@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import {
     Component,
     forwardRef,
+    Pipe,
+    PipeTransform,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,6 +22,26 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
 import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmAutocompleteControlListItem } from './autocomple-control.interface';
+import { XmEntity } from '@xm-ngx/entity';
+import { distinctUntilChanged, Observable, of, startWith, switchMap } from 'rxjs';
+
+@Pipe({
+    standalone: true,
+    name: 'rowCheckedPipe',
+    pure: true,
+})
+export class RowCheckedPipe implements PipeTransform {
+    public transform(
+        value: XmAutocompleteControlListItem, 
+        selection: SelectionModel<XmAutocompleteControlListItem>
+    ): Observable<boolean> {
+        return selection.changed.pipe(
+            startWith(null),
+            switchMap(() => of(selection.isSelected(value))),
+            distinctUntilChanged(),
+        );
+    }
+}
 
 @Component({
     standalone: true,
@@ -38,7 +60,7 @@ import { XmAutocompleteControlListItem } from './autocomple-control.interface';
         </div>
 
         <div [style.height.px]="config.height" class="overflow-auto">
-            <table mat-table [dataSource]="list">
+            <table mat-table [dataSource]="list" [trackBy]="trackBy.bind(this)">
                 <ng-container [matColumnDef]="selectionColumnName">
                     <th mat-header-cell [style.width.px]="width" *matHeaderCellDef>
                         <mat-checkbox
@@ -50,12 +72,12 @@ import { XmAutocompleteControlListItem } from './autocomple-control.interface';
                         </mat-checkbox>
                     </th>
                     <td mat-cell [style.width.px]="width" *matCellDef="let row">
-                        <mat-checkbox
+                        <mat-checkbox 
                             (click)="$event.stopPropagation()"
                             (change)="$event ? toggleRow(row) : null"
                             [disabled]="disabled"
-                            [checked]="isChecked(row)">
-                        </mat-checkbox>
+                            [checked]="row | rowCheckedPipe : selection | async"
+                        ></mat-checkbox>
                     </td>
                 </ng-container>
 
@@ -88,6 +110,7 @@ import { XmAutocompleteControlListItem } from './autocomple-control.interface';
         MatIconModule,
         CommonModule,
         HintModule,
+        RowCheckedPipe,
     ],
     providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteTableControl), multi: true } ],
 })
@@ -101,28 +124,30 @@ export class XmAutocompleteTableControl extends XmAutocompleteControl {
 
     public selection: SelectionModel<XmAutocompleteControlListItem>;
 
-    public isAllIndeterminate(): boolean {
-        return this.selection.hasValue() && !this.isAllSelected();
-    }
-
-    public isAllChecked(): boolean {
-        return this.selection.hasValue() && this.isAllSelected();
-    }
-
-    public isChecked(row: XmAutocompleteControlListItem): boolean {
-        return this.selection.isSelected(row);
-    }
-
     public ngOnInit(): void {
         super.ngOnInit();
 
-        this.selection = new SelectionModel<XmAutocompleteControlListItem>(true, [], true, this.identityFn);
+        this.selection = new SelectionModel<XmAutocompleteControlListItem>(this.config.multiple, [], true, this.identityFn);
 
         this.fetchedList.pipe(
             takeUntilOnDestroy(this),
         ).subscribe(values => {
             this.selection.select(...values );
         });
+    }
+
+    public trackBy = (index: number, item: XmEntity<unknown>) => {
+        const { id = index } = this.identity<{ id: string; }>(item) ?? {};
+
+        return id;
+    }
+
+    public isAllIndeterminate(): boolean {
+        return this.selection.hasValue() && !this.isAllSelected();
+    }
+
+    public isAllChecked(): boolean {
+        return this.selection.hasValue() && this.isAllSelected();
     }
 
     public isAllSelected(): boolean {
