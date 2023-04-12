@@ -115,9 +115,8 @@ export class XmTableRepositoryCollectionController<T = unknown>
 
     private createFiltersToRequest(
         queryParams: QueryParamsPageable,
-        filterParams: QueryParamsPageable
     ): QueryParams & PageableAndSortable {
-        const filtersToRequest: { query: string } = format(this.config.filtersToRequest, filterParams);
+        const filtersToRequest: { query: string } = format(this.config.filtersToRequest, queryParams);
         return _.merge(
             {},
             queryParams,
@@ -127,14 +126,13 @@ export class XmTableRepositoryCollectionController<T = unknown>
 
     private createElasticTypeFiltersToRequest(
         queryParams: QueryParamsPageable,
-        filterParams: QueryParamsPageable
     ): QueryParams & PageableAndSortable {
         const typeKey = this.config.collection?.repository?.query?.typeKey;
-        const searchArr = _.filter(this.config.filters, item => !_.isEmpty(filterParams[item.name]))
+        const searchArr = _.filter(this.config.filters, item => !_.isEmpty(queryParams[item.name]))
             .map((item) => {
                 return item.options?.elasticType === 'chips'
-                    ? this.getElasticQueryChips(filterParams, item)
-                    : this.getElastic(filterParams[item.name], {
+                    ? this.getElasticQueryChips(queryParams, item)
+                    : this.getElastic(queryParams[item.name], {
                         field: item.name,
                         elasticType: item.options?.elasticType
                     });
@@ -177,9 +175,9 @@ export class XmTableRepositoryCollectionController<T = unknown>
         const {pageableAndSortable, filterParams} = request;
         let queryParams = this.createQueryParams(pageableAndSortable, filterParams);
         if (this.config.filtersToRequest) {
-            queryParams = this.createFiltersToRequest(queryParams, filterParams);
+            queryParams = this.createFiltersToRequest(queryParams);
         } else {
-            queryParams = this.createElasticTypeFiltersToRequest(queryParams, filterParams);
+            queryParams = this.createElasticTypeFiltersToRequest(queryParams);
         }
         return queryParams;
     }

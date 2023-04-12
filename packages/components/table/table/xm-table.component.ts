@@ -110,7 +110,6 @@ export class XmTableComponent implements OnInit {
         this._config = getConfig(value);
         this.configController.change(this.config);
         this.columnsSettingStorageService.updateStore(GetDisplayedColumns(this._config));
-        this.pageableAndSortable$.next(this._config.pageableAndSortable);
     }
 
     public context$: Observable<IXmTableContext>;
@@ -169,7 +168,24 @@ export class XmTableComponent implements OnInit {
 
     private initFilterParams(): void {
         const queryParams = this.activatedRoute.snapshot.queryParams;
-        this.tableFilterController.update(queryParams);
-        this.pageableAndSortable$.next(queryParams);
+        const pageAndSortKeys = Object.keys(_.merge(
+            XM_TABLE_CONFIG_DEFAULT.pageableAndSortable,
+            this.config.pageableAndSortable
+        ));
+        const separatedQueryParams = {
+            pageAndSortQueryParams: {},
+            filterQueryParams: {}
+        }
+
+        Object.keys(queryParams).forEach(key => {
+           if(pageAndSortKeys.includes(key)) {
+               separatedQueryParams.pageAndSortQueryParams[key] = queryParams[key];
+           } else {
+               separatedQueryParams.filterQueryParams[key] = queryParams[key];
+           }
+        });
+
+        this.tableFilterController.update(separatedQueryParams.filterQueryParams);
+        this.pageableAndSortable$.next(_.merge({}, this.config.pageableAndSortable, separatedQueryParams.pageAndSortQueryParams));
     }
 }

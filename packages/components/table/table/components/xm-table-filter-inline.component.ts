@@ -190,13 +190,14 @@ export class XmTableFilterInlineComponent {
 
     public setFilters(): void {
         this.hiddenFilters = [];
-        const container = this.elementRef.nativeElement;
         this.ref.detectChanges();
+
+        const container = this.elementRef.nativeElement;
         const chips = container.querySelectorAll('.chip-option');
         const btn = container.querySelector('.btn-clear-all');
         const filterContainer = container.querySelector('.filter-container');
 
-        const PADDING_FILTER_CONTAINER = btn?.clientWidth ? 100 + btn.clientWidth : 0;
+        const PADDING_FILTER_CONTAINER = btn?.clientWidth ? 100 + btn.clientWidth : 100;
         let chipsWidth = PADDING_FILTER_CONTAINER;
         let slicedIndex = 0;
 
