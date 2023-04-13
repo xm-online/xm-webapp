@@ -9,24 +9,24 @@
 
     <div class="form-group">
       <mat-form-field>
+        <mat-label>{{'global.field.id' | translate}}</mat-label>
         <input [(ngModel)]="user.id"
                disabled
                id="id"
                matInput
                name="id"
-               placeholder="{{'global.field.id' | translate}}"
                type="text">
       </mat-form-field>
     </div>
 
     <div class="form-group">
       <mat-form-field>
+        <mat-label>{{'userManagement.userKey' | translate}}</mat-label>
         <input [(ngModel)]="user.userKey"
                disabled
                id="userKey"
                matInput
                name="userKey"
-               placeholder="{{'userManagement.userKey' | translate}}"
                type="text">
       </mat-form-field>
     </div>
@@ -37,13 +37,13 @@
 
     <div class="form-group">
       <mat-form-field>
+        <mat-label>{{'userManagement.firstName' | translate}}</mat-label>
         <input #firstNameInput="ngModel"
                [(ngModel)]="user.firstName"
                id="firstName"
                matInput
                maxlength="50"
                name="firstName"
-               placeholder="{{'userManagement.firstName' | translate}}"
                type="text">
         <mat-error *ngIf="firstNameInput.hasError('maxlength')">
           <span>{{'entity.validation.maxlength'|translate}}</span>
@@ -53,13 +53,13 @@
 
     <div class="form-group">
       <mat-form-field>
+        <mat-label>{{'userManagement.lastName' | translate}}</mat-label>
         <input #lastNameInput="ngModel"
                [(ngModel)]="user.lastName"
                id="lastName"
                matInput
                maxlength="50"
                name="lastName"
-               placeholder="{{'userManagement.lastName' | translate}}"
                type="text">
         <mat-error *ngIf="lastNameInput.hasError('maxlength')">
           <span>{{'entity.validation.maxlength'|translate}}</span>

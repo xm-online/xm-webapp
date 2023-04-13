@@ -8,13 +8,13 @@
     <xm-loader [showLoader]="showLoader"></xm-loader>
     <div class="form-group">
       <mat-form-field>
+        <mat-label>{{'clientManagement.clientId' | translate}}</mat-label>
         <input matInput
                id="clientId"
                type="text"
                name="clientId"
                [(ngModel)]="client.clientId"
                #clientClientId="ngModel"
-               placeholder="{{'clientManagement.clientId' | translate}}"
                pattern="^\s*[\w|\d\-]+\s*$"
                [disabled]="!!client.id"
                required>
@@ -32,14 +32,13 @@
     </div>
     <div class="form-group">
       <mat-form-field>
+        <mat-label>{{'clientManagement.clientSecret' | translate}}</mat-label>
         <input matInput
                id="clientSecret"
                type="password"
                name="clientSecret"
                [(ngModel)]="client.clientSecret"
-               #clientClientSecret="ngModel"
-               placeholder="{{'clientManagement.clientSecret' | translate}}">
-
+               #clientClientSecret="ngModel">
       </mat-form-field>
     </div>
     <div class="form-group">
@@ -60,6 +59,7 @@
     </div>
     <div class="form-group">
       <mat-form-field>
+        <mat-label>{{'clientManagement.validityPeriod' | translate}}</mat-label>
         <input matInput
                id="validityPeriod"
                type="text"
@@ -67,8 +67,7 @@
                [(ngModel)]="client.accessTokenValiditySeconds"
                #clientValidityPeriod="ngModel"
                pattern="^\d+$"
-               maxlength="9"
-               placeholder="{{'clientManagement.validityPeriod' | translate}}">
+               maxlength="9">
         <mat-error *ngIf="clientValidityPeriod.hasError('pattern')">
               <span>{{'xm-entity.common.validation.pattern'|translate}}</span>:
                      &nbsp;&nbsp;
@@ -78,13 +77,13 @@
     </div>
     <div class="form-group">
       <mat-form-field>
+        <mat-label>{{'clientManagement.description' | translate}}</mat-label>
         <input matInput
                id="description"
                type="text"
                name="description"
                [(ngModel)]="client.description"
-               #clientDescription="ngModel"
-               placeholder="{{'clientManagement.description' | translate}}">
+               #clientDescription="ngModel">
       </mat-form-field>
     </div>
     <div class="form-group">
@@ -98,8 +97,8 @@
               {{scope}}
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
+            <mat-label>{{'clientManagement.scopes-add' | translate}}</mat-label>
             <input
-              placeholder="{{'clientManagement.scopes-add' | translate}}"
               #scopeInput
               [formControl]="scopeCtrl"
               [matAutocomplete]="auto"

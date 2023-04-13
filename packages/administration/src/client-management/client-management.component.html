@@ -13,11 +13,11 @@
           class="col-12 px-0 col-md-3 d-flex flex-nowrap align-items-center"
           novalidate>
       <mat-form-field>
+        <mat-label>{{'clientManagement.search-by-client-id' | translate}}</mat-label>
         <input
           [(ngModel)]="clientId"
           matInput
           name="client-id"
-          placeholder="{{'clientManagement.search-by-client-id' | translate}}"
           type="text">
         <button
           (click)="clientId=''; filterByClientId()"
