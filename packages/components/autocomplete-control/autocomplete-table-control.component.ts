@@ -136,11 +136,11 @@ export class XmAutocompleteTableControl extends XmAutocompleteControl {
         });
     }
 
-    public trackBy = (index: number, item: XmEntity<unknown>) => {
+    public trackBy = (index: number, item: XmEntity<unknown>): string | number => {
         const { id = index } = this.identity<{ id: string; }>(item) ?? {};
 
         return id;
-    }
+    };
 
     public isAllIndeterminate(): boolean {
         return this.selection.hasValue() && !this.isAllSelected();
