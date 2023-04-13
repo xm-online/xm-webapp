@@ -14,6 +14,7 @@ import { XmTableLinkedCollectionController } from './xm-table-linked-collection-
 import { XmTableArrayCollectionController } from './xm-table-array-collection-controller';
 import { IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { firstValueFrom } from 'rxjs';
+import { XmTableElasticSearchCollectionController } from '@xm-ngx/components/table/table/controllers/collections/xm-table-elastic-search-collection-controller.service';
 
 @Injectable()
 export class XmTableCollectionControllerResolver<T = unknown> {
@@ -28,6 +29,7 @@ export class XmTableCollectionControllerResolver<T = unknown> {
         private repositoryController: XmTableRepositoryCollectionController<T>,
         private readOnlyrepositoryController: XmTableReadOnlyRepositoryCollectionController<T>,
         private stringArrayController: XmTableStringArrayCollectionController<any>,
+        private elasticSearchCollectionController: XmTableElasticSearchCollectionController<T>
     ) {
     }
 
@@ -52,6 +54,8 @@ export class XmTableCollectionControllerResolver<T = unknown> {
                 return this.linkedController;
             case 'config':
                 return this.configCollectionController;
+            case 'elasticSearch':
+                return this.elasticSearchCollectionController;
             default:
                 throw new Error('Invalid type' + collectionType);
         }

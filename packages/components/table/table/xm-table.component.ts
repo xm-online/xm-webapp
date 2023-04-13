@@ -49,7 +49,7 @@ function getConfig(value: Partial<XmTableConfig>): XmTableConfig {
     return config;
 }
 
-function GetDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[] {
+function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[] {
     const displayedColumns = config.columns;
     return displayedColumns.map(i => ({
         name: i.name || i.field,
@@ -108,8 +108,8 @@ export class XmTableComponent implements OnInit {
     @Input()
     public set config(value: XmTableConfig | Partial<XmTableConfig>) {
         this._config = getConfig(value);
-        this.configController.change(this.config);
-        this.columnsSettingStorageService.updateStore(GetDisplayedColumns(this._config));
+        this.configController.change(this._config);
+        this.columnsSettingStorageService.updateStore(getDisplayedColumns(this._config));
     }
 
     public context$: Observable<IXmTableContext>;
@@ -175,14 +175,14 @@ export class XmTableComponent implements OnInit {
         const separatedQueryParams = {
             pageAndSortQueryParams: {},
             filterQueryParams: {}
-        }
+        };
 
         Object.keys(queryParams).forEach(key => {
-           if(pageAndSortKeys.includes(key)) {
-               separatedQueryParams.pageAndSortQueryParams[key] = queryParams[key];
-           } else {
-               separatedQueryParams.filterQueryParams[key] = queryParams[key];
-           }
+            if (pageAndSortKeys.includes(key)) {
+                separatedQueryParams.pageAndSortQueryParams[key] = queryParams[key];
+            } else {
+                separatedQueryParams.filterQueryParams[key] = queryParams[key];
+            }
         });
 
         this.tableFilterController.update(separatedQueryParams.filterQueryParams);
