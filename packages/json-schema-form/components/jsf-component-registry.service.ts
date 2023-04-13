@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { buildJsfAttributes, getJsfWidgets } from './jsf-attributes-helper';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class JsfComponentRegistryService {
 

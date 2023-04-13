@@ -374,7 +374,8 @@
       "no": "No",
       "set": "Set",
       "yes": "Yes",
-      "yes-exit": "Yes, exit!"
+      "yes-exit": "Yes, exit!",
+      "dbclick-to-edit": "Double click to edit"
     },
     "field": {
       "id": "ID"

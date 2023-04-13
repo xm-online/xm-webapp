@@ -1,4 +1,4 @@
-import { OverlayModule, Overlay, OverlayRef, ViewportRuler, ConnectedPosition } from '@angular/cdk/overlay';
+import { OverlayModule, Overlay, OverlayRef, ViewportRuler } from '@angular/cdk/overlay';
 import { PortalModule, TemplatePortal } from '@angular/cdk/portal';
 import { EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -13,23 +13,22 @@ import { NgModelWrapper } from '../ng-accessor';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import _ from 'lodash';
+import { MatCardModule } from '@angular/material/card';
 
 export interface XmInlineControlDynamic<C> {
     selector: string;
     config: C;
+    style: string;
+    class: string;
 }
 
 export interface XmInlineControlDynamicView<C, V> extends XmInlineControlDynamic<C> {
     value: V;
 }
 
-export interface XmInlineControlEditConfig {
-    position?: Partial<ConnectedPosition>;
-}
-
 export interface XmInlineControlConfig {
     view: XmInlineControlDynamicView<unknown, unknown>;
-    edit: XmInlineControlDynamic<XmInlineControlEditConfig>;
+    edit: XmInlineControlDynamic<unknown>;
 }
 
 export type XmInlineControlValue = unknown;
@@ -43,38 +42,46 @@ export enum XmInlineControlMode {
     standalone: true,
     selector: 'xm-inline-control',
     template: `
-        <ng-container [ngSwitch]="isEditMode | async">
-            <ng-container *ngSwitchCase="true">
-                <ng-template
-                    xmDynamicControl
-                    [selector]="config?.edit?.selector"
-                    [config]="config?.edit?.config"
-                    [options]="config?.edit?.config"
-                    [value]="value"
-                    [disabled]="disabled"
-                    (valueChange)="changeValue($event)"></ng-template>
-            </ng-container>
+        <ng-container *ngIf="isEditMode | async"></ng-container>
 
-            <ng-container *ngSwitchDefault>
-                <ng-template
-                    xmDynamicPresentation
-                    [selector]="config?.view.selector" 
-                    [config]="config?.view?.config"
-                    [options]="config?.view?.config"
-                    [value]="value ?? config?.view?.value"></ng-template>
-            </ng-container>
-        </ng-container>
+        <span [matTooltip]="'global.common.dbclick-to-edit' | translate">
+            <ng-template
+                xmDynamicPresentation
+                [style]="config?.view?.style"
+                [class]="config?.view?.class"
+                [selector]="config?.view.selector" 
+                [config]="config?.view?.config"
+                [options]="config?.view?.config"
+                [value]="value ?? config?.view?.value"></ng-template>
+        </span>
 
         <ng-template #buttons>
-            <div class="shadow p-1 bg-white rounded">
-                <button mat-icon-button color="primary" [matTooltip]="'xm-entity.common.save' | translate" (click)="save()">
-                    <mat-icon>check</mat-icon>
-                </button>
-                <div class="vr"></div>
-                <button mat-icon-button (click)="close()" [matTooltip]="'xm-entity.common.close' | translate">
-                    <mat-icon>cancel</mat-icon>
-                </button>
-            </div>
+            <mat-card>
+                <mat-card-content>
+                    <ng-template
+                        xmDynamicControl
+                        [style]="config?.edit?.style"
+                        [class]="config?.edit?.class"
+                        [selector]="config?.edit?.selector"
+                        [config]="config?.edit?.config"
+                        [options]="config?.edit?.config"
+                        [value]="value"
+                        [disabled]="disabled"
+                        (valueChange)="changeValue($event)"></ng-template>
+                </mat-card-content>
+
+                <mat-card-actions align="end" class="shadow p-1 bg-white rounded">
+                    <button mat-button (click)="close()">
+                        <mat-icon>cancel</mat-icon> {{ 'xm-entity.common.close' | translate }}
+                    </button>
+
+                    <div class="vr m-2"></div>
+                    
+                    <button mat-button color="primary" (click)="save()">
+                        <mat-icon>check</mat-icon> {{ 'xm-entity.common.save' | translate }}
+                    </button>
+                </mat-card-actions>
+            </mat-card>
         </ng-template>
     `,
     providers: [
@@ -91,6 +98,7 @@ export enum XmInlineControlMode {
         XmDynamicModule,
         OverlayModule,
         PortalModule,
+        MatCardModule,
         MatButtonModule,
         MatIconModule,
         MatTooltipModule,
@@ -112,6 +120,10 @@ export class XmInlineControlComponent extends NgModelWrapper<unknown> implements
 
     public get hostElement(): HTMLElement | null {
         return this.ngZone.runOutsideAngular(() => this.elementRef.nativeElement);
+    } 
+
+    public get buttonsElement(): HTMLElement | null {
+        return this.ngZone.runOutsideAngular(() => this.buttons.elementRef.nativeElement);
     } 
 
     public get listboxElement(): HTMLElement | null {
@@ -194,15 +206,45 @@ export class XmInlineControlComponent extends NgModelWrapper<unknown> implements
             .withFlexibleDimensions(true)
             .withGrowAfterOpen(true)
             .withPositions([
-                _.defaults((this.config?.edit?.config?.position ?? {}), {
+                // Right
+                {
                     offsetY: 0,
-                    originX: 'start',
-                    originY: 'bottom',
+                    offsetX: 10,
+                    originX: 'end',
+                    originY: 'center',
                     overlayX: 'start',
+                    overlayY: 'center',
+                },
+                // Left
+                {
+                    offsetY: 0,
+                    offsetX: -10,
+                    originX: 'start',
+                    originY: 'center',
+                    overlayX: 'end',
+                    overlayY: 'center',
+                },
+                // Bottom
+                {
+                    offsetY: 10,
+                    offsetX: 0,
+                    originX: 'center',
+                    originY: 'bottom',
+                    overlayX: 'center',
                     overlayY: 'top',
-                }),
+                },
+                // Top
+                {
+                    offsetY: -10,
+                    offsetX: 0,
+                    originX: 'center',
+                    originY: 'top',
+                    overlayX: 'center',
+                    overlayY: 'bottom',
+                }
             ])
-            .withLockedPosition(true);
+            .withLockedPosition(true)
+            .withPush(true);
 
         this.overlayRef = this.overlay.create({
             scrollStrategy: this.overlay.scrollStrategies.reposition(),

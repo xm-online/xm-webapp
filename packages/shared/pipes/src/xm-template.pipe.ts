@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as _ from 'lodash';
-import { Primitive } from '../interfaces';
+import { Primitive } from '@xm-ngx/shared/interfaces';
 
 @Pipe({
-    name: 'template',
+    name: 'xmTemplate',
     standalone: true,
 })
 export class XmTemplatePipe implements PipeTransform {

@@ -1,4 +1,3 @@
-export { XmConfirmDialogModule } from './src/confirm-dialog.module';
 export { XmConfirmDialogService } from './src/confirm-dialog.service';
 export {
     XmConfirmDialogControls,

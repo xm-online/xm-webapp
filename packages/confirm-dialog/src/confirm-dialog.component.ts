@@ -1,24 +1,42 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import {
     XmConfirmDialogConditionModel,
     XmConfirmDialogControls,
     XmConfirmDialogData,
     XmConfirmDialogGroup,
 } from './confirm-dialog.interface';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import { Observable, of } from 'rxjs';
 import { map, mapTo, startWith } from 'rxjs/operators';
-import { ConditionDirective } from '@xm-ngx/components/condition';
+import { ConditionDirective, ConditionModule } from '@xm-ngx/components/condition';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 @Component({
+    standalone: true,
     selector: 'xm-confirm-dialog',
     templateUrl: './confirm-dialog.component.html',
     styleUrls: ['./confirm-dialog.component.scss'],
     host: {
         class: 'xm-confirm-dialog',
     },
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatIconModule,
+        XmTranslationModule,
+        XmDynamicModule,
+        ConditionModule,
+        XmPermissionModule,
+    ]
 })
 export class XmConfirmDialogComponent implements OnInit {
     public form = this.fb.group({});
