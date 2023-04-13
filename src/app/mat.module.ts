@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -34,6 +34,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { XmMatPaginatorInt } from './xm.mat-paginator-int';
 
+@Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
     public override getFirstDayOfWeek(): number {
         return 1;

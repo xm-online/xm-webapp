@@ -21,7 +21,8 @@ export class XmDynamicModuleRegistry {
         const duplicates = filter(flattened, (o, i) =>
             find(flattened, (e) => e.selector == o.selector, i + 1)
         ) as XmDynamicExtensionEntry[];
-        duplicates.forEach(i => console.warn(`Module with the same selector=${i.selector}.`));
+        // eslint-disable-next-line no-console
+        duplicates.forEach(i => console.error(`Module with the same selector=${i.selector}.`));
         const uniqued = uniqBy(flattened, 'selector');
         this.dynamicExtensionsMap = keyBy(uniqued, 'selector');
     }
