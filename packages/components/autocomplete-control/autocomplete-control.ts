@@ -67,9 +67,9 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
                     return of([]);
                 }
 
-                const normalizeSelectedValues = this.normalizeCollection(this.value);
-
                 if (!this.requestCache) {
+                    const normalizeSelectedValues = this.normalizeCollection(this.value);
+
                     this.requestCache = this.fetchSelectedValues(normalizeSelectedValues).pipe(
                         tap((fetchedSelectedValues) => {
                             // If we received more data than requested, trying filter them
@@ -83,9 +83,10 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             
                             this.change(this.unwrapValues(fetchedSelectedValues));
                         }),
+                        shareReplay(1),
                     );
                 }
-
+                
                 return this.requestCache;
             }),
             tap(values => {
@@ -126,10 +127,8 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         }
     }
 
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (this.list.value.length <= 0) {            
-            this.refreshValue.next();
-        }
+    public ngOnChanges(changes: SimpleChanges): void {           
+        this.refreshValue.next();
     }
 
     private searchByQuery(searchQuery: string): Observable<XmAutocompleteControlListItem[]> {
