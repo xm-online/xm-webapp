@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
@@ -6,9 +6,10 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { interval, Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, map, mergeMap, startWith, take } from 'rxjs/operators';
 
-import { Principal } from '../../../shared';
-import { Attachment, AttachmentDetailDialogComponent, AttachmentService, XmEntityService } from '../../../xm-entity';
+import { Principal } from '@xm-ngx/core/user';
+import { Attachment, AttachmentDetailDialogComponent, AttachmentService, XmEntityService } from '@xm-ngx/entity';
 import { XM_EVENT_LIST } from '../../../xm.constants';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 const ATTACHMENT_EVENT = 'attachmentListModification';
 
@@ -17,7 +18,7 @@ const ATTACHMENT_EVENT = 'attachmentListModification';
     templateUrl: './customer-info-widget.component.html',
     styleUrls: ['./customer-info-widget.component.scss'],
 })
-export class CustomerInfoWidgetComponent implements OnInit, OnDestroy {
+export class CustomerInfoWidgetComponent implements OnInit, OnDestroy, XmDynamicWidget {
 
     public attachments: Observable<Attachment[]>;
     public showAttachmentLoader: boolean = true;
@@ -25,7 +26,7 @@ export class CustomerInfoWidgetComponent implements OnInit, OnDestroy {
     public showCurrencies: boolean = false;
     public form: UntypedFormGroup;
     public state: string;
-    public config: any;
+    @Input() public config: any;
     public profile: Observable<any>;
     public countries: any[] = [{code: 'US', name: 'United States'}];
     public currencies: string[] = ['USD', 'EUR'];

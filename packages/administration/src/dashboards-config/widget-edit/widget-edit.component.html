@@ -73,7 +73,7 @@
 
     <xm-text-control [(ngModel)]="formGroup.name"
                      [disabled]="disabled"
-                     [options]="{ title: TRS.name }"
+                     [config]="{ title: TRS.name }"
                      name="name"></xm-text-control>
 
     <xm-selector-text-control [(ngModel)]="formGroup.selector"
@@ -87,13 +87,27 @@
       <mat-tab [label]="'Config'">
         <xm-ace-editor-control [(ngModel)]="formGroup.config"
                                [disabled]="disabled"
-                               [options]="aceEditorOptions"
+                               [config]="aceEditorOptions"
                                name="layout">
         </xm-ace-editor-control>
       </mat-tab>
 
+      <mat-tab [label]="'Editor'">
+        <xm-schema-editor
+          [options]="jsonEditorOptions"
+          [ngModel]="formGroup.config"
+          (ngModelChange)="formGroup.config = $event"
+          [ngModelOptions]="{standalone: true}"
+        ></xm-schema-editor>
+      </mat-tab>
+
       <mat-tab [label]="'Docs'">
         <xm-doc-examples></xm-doc-examples>
+        <ng-template mat-tab-label>
+          Docs <a [routerLink]="'/dashboard/ui-docs'">
+          <mat-icon>open_in_new</mat-icon>
+        </a>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
 

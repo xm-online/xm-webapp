@@ -5,7 +5,7 @@ import { ExportEntitiesService } from '@xm-ngx/administration/maintenance/export
 import { ExportSelectedEntitiesPipe } from '@xm-ngx/administration/maintenance/export-selected-entities.pipe';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
-import { XmConfigService } from '../../../../../src/app/shared';
+import { XmConfigService } from '@xm-ngx/core/config';
 
 import { ExportEntitiesDetailsComponent } from './export-entities-details.component';
 import {XmEntitySpecService} from '@xm-ngx/entity';

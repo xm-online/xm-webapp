@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
-import { FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity/index';
+import { FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ import {
     formLayout,
     getJsfWidgets,
     processValidationMessages,
-} from '../../../../src/app/shared/jsf-extention/jsf-attributes-helper';
+} from '@xm-ngx/json-schema-form/components';
 import { EXAMPLES } from './example-schemas.model';
 
 interface FormsConfig {

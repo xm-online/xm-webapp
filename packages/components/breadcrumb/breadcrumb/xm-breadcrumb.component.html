@@ -11,8 +11,8 @@
 
     <ng-template #pageTitle>
       <xm-dynamic-presentation-layout
-        *ngIf="options?.lastSegmentLayout; else text"
-        [layouts]="options?.lastSegmentLayout"></xm-dynamic-presentation-layout>
+        *ngIf="config?.lastSegmentLayout; else text"
+        [layouts]="config?.lastSegmentLayout"></xm-dynamic-presentation-layout>
 
       <ng-template #text><h5 class="mb-0 d-inline mx-3">{{ breadcrumb.label | translate }}</h5></ng-template>
     </ng-template>

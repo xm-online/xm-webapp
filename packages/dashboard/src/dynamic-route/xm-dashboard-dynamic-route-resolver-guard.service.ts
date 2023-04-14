@@ -8,7 +8,7 @@ import { XmDynamicRouteResolverGuard } from '@xm-ngx/dynamic/route';
 import { DashboardStore } from '../stores/dashboard-store.service';
 import { Dashboard } from '../models/dashboard.model';
 import { DashboardGuard } from '../guards/dashboard.guard';
-import { DynamicComponentLoaderService } from '@xm-ngx/dynamic';
+import { XmDynamicComponentRegistry } from '@xm-ngx/dynamic';
 import { XmDashboardRouteFactory, xmDashboardRoutesFactory } from './xm-dashboard-routes.factory';
 
 
@@ -20,7 +20,7 @@ export class XmDashboardDynamicRouteResolverGuard
 
     constructor(
         private dashboardStore: DashboardStore,
-        private dynamicComponents: DynamicComponentLoaderService,
+        private dynamicComponents: XmDynamicComponentRegistry,
     ) {
         super();
     }
@@ -85,7 +85,7 @@ export class XmDashboardDynamicRouteResolverGuard
                 },
                 loadChildren: async () => {
                     const comp = await this.dynamicComponents.find(selector);
-                    return comp?.component;
+                    return comp.componentType;
                 },
             };
         };

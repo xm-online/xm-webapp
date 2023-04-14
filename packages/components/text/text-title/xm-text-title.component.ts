@@ -13,20 +13,20 @@ export const XM_TEXT_TITLE_OPTIONS_DEFAULT = {
 
 @Component({
     selector: 'xm-text-title',
-    template: '{{options.title | translate}}',
+    template: '{{config.title | translate}}',
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmTextTitleComponent implements XmDynamicPresentation<undefined, XmTextTitleOptions> {
     @Input() public value: undefined;
 
-    private _options: XmTextTitleOptions = _.clone(XM_TEXT_TITLE_OPTIONS_DEFAULT);
+    private _config: XmTextTitleOptions = _.clone(XM_TEXT_TITLE_OPTIONS_DEFAULT);
 
-    public get options(): XmTextTitleOptions {
-        return this._options;
+    public get config(): XmTextTitleOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmTextTitleOptions) {
-        this._options = _.defaults(value, XM_TEXT_TITLE_OPTIONS_DEFAULT);
+    public set config(value: XmTextTitleOptions) {
+        this._config = _.defaults(value, XM_TEXT_TITLE_OPTIONS_DEFAULT);
     }
 }

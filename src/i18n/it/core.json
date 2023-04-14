@@ -237,6 +237,7 @@
   "error": {
     "403": "Non sei autorizzato ad accedere alla pagina.",
     "500": "Errore interno del server.",
+    "413": "Limite della dimensione del file del server superato",
     "NotBlank": "Non vuoto",
     "NotNull": "Il campo {{ fieldName }} non può essere vuoto!",
     "Size": "Il campo {{ fieldName }} non soddisfa i requisiti di dimensione min/max!",
@@ -367,7 +368,8 @@
       "no": "No",
       "set": "Mettere",
       "yes": "Sì",
-      "yes-exit": "Sì, esci!"
+      "yes-exit": "Sì, esci!",
+      "dbclick-to-edit": "Fai doppio clic per modificare"
     },
     "field": {
       "id": "ID"
@@ -1463,6 +1465,10 @@
   },
   "xm-timeline": {
     "common": {
+      "no-items": "Non ci sono voci per questa richiesta!",
+      "show-more-10": "Mostra altro",
+      "show-more-all": "Mostra",
+      "title": "Cronologia",
       "time-ago": {
         "day": "un giorno fa",
         "days": " giorni fa",

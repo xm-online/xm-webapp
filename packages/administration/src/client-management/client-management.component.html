@@ -2,7 +2,9 @@
 
   <xm-loader [showLoader]="showLoader"></xm-loader>
 
+  <mat-card-header>
   <h4 mat-card-title>{{'clientManagement.home.title' | translate}}</h4>
+    </mat-card-header>
 
   <div mat-card-content>
 
@@ -21,7 +23,6 @@
           (click)="clientId=''; filterByClientId()"
           *ngIf="clientId"
           class="mb-1"
-          mat-button
           mat-icon-button
           matSuffix
           type="button">
@@ -127,8 +128,7 @@
 <div class="xm-fab">
   <button (click)="onAdd()"
           *xmPermitted="['CLIENT.CREATE']"
-          class="btn btn-primary btn-icon btn-just-icon rounded-circle btn-lg"
-          mat-button>
+          mat-fab>
     <mat-icon>add</mat-icon>
   </button>
 </div>

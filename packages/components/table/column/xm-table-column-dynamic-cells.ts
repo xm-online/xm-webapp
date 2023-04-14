@@ -6,7 +6,7 @@ import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableM
 import { TableColumnsManager } from './table-columns-manager';
 import { XmDynamicCell, XmDynamicCellModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
-import { XmTextTitleComponent, XmTextTitleModule } from '@xm-ngx/components/text';
+import { XmTextTitleModule } from '@xm-ngx/components/text';
 
 
 export interface XmTableColumnDynamicCellsOptions {
@@ -22,6 +22,7 @@ export interface XmTableColumnDynamicCellsOptions {
         sortable: boolean;
         selector: string;
         options: unknown;
+        config: unknown;
     },
 
     /** dynamic body cell <td> */
@@ -36,7 +37,8 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
     headStyle: '',
     head: {
         options: { title: '' },
-        selector: 'xm-table-column-dynamic-cells/text-title',
+        config: { title: '' },
+        selector: '@xm-ngx/components/text-title',
         class: '',
         sortable: false,
         style: '',
@@ -66,6 +68,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
                     [style]="column.headStyle">
                     <ng-container xmDynamicPresentation
                                   [selector]="column.head.selector"
+                                  [config]="column.head.config || column.head.options"
                                   [options]="column.head.options"></ng-container>
                 </th>
             </ng-template>
@@ -79,6 +82,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
                     [style]="column.headStyle">
                     <ng-container xmDynamicPresentation
                                   [selector]="column.head.selector"
+                                  [config]="column.head.config || column.head.options"
                                   [options]="column.head.options"></ng-container>
                 </th>
             </ng-template>
@@ -148,10 +152,6 @@ export class XmTableColumnDynamicCellsComponent {
         XmDynamicCellModule,
         XmDynamicModule,
         XmTextTitleModule,
-        XmDynamicModule.forChild([{
-            selector: 'xm-table-column-dynamic-cells/text-title',
-            loadChildren: () => XmTextTitleComponent,
-        }]),
         CommonModule,
     ],
     exports: [XmTableColumnDynamicCellsComponent],

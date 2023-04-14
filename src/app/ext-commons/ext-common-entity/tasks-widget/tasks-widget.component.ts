@@ -1,10 +1,11 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 
-import { EntityDetailDialogComponent, Spec, XmEntity, XmEntityService, XmEntitySpec } from '../../../xm-entity';
+import { EntityDetailDialogComponent, Spec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/entity';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 function sort(a: any, b: any): number {
     if (a.typeKey < b.typeKey) {
@@ -20,9 +21,9 @@ function sort(a: any, b: any): number {
     selector: 'xm-tasks-widget',
     templateUrl: './tasks-widget.component.html',
 })
-export class TasksWidgetComponent implements OnInit, OnDestroy {
+export class TasksWidgetComponent implements OnInit, OnDestroy, XmDynamicWidget {
 
-    public config: any;
+    @Input() public config: any;
     public spec: Spec;
     public tasks: any[];
     public activeId: number = 0;

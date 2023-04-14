@@ -1,7 +1,4 @@
 {
   "name": "@xm-ngx/dynamic",
-  "version": "1.0.0",
-  "peerDependencies": {
-    "@xm-ngx/shared": "*"
-  }
+  "version": "1.0.0"
 }

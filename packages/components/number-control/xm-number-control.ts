@@ -1,24 +1,15 @@
-import { CommonModule } from '@angular/common';
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    Input,
-    NgModule,
-    Optional,
-    Self,
-    ViewEncapsulation,
-} from '@angular/core';
-import { NgControl, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
+import { ChangeDetectionStrategy, Component, Inject, Input, Optional, Self, ViewEncapsulation, } from '@angular/core';
+import { NgControl } from '@angular/forms';
+import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 
-import { XmDynamicControl, XmDynamicControlConstructor } from '@xm-ngx/dynamic';
+import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { Translate } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
-import { HintModule, HintText } from '@xm-ngx/components/hint';
+import { HintText } from '@xm-ngx/components/hint';
+
+import { XmNumberSystemType } from './xm-number.directive';
 
 export interface XmNumberControlOptions extends DataQa {
     hint?: HintText;
@@ -30,6 +21,7 @@ export interface XmNumberControlOptions extends DataQa {
     required?: boolean;
     step?: number;
     errors?: { [errorKey: string]: Translate };
+    type?: XmNumberSystemType
 }
 
 const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
@@ -41,6 +33,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
     dataQa: 'number-control',
     name: 'number',
     required: true,
+    type: XmNumberSystemType.Rational,
     step: 1,
 };
 
@@ -48,23 +41,24 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
     selector: 'xm-number-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options.title | translate}}</mat-label>
+            <mat-label>{{config.title | translate}}</mat-label>
 
             <input matInput
                    [formControl]="control"
-                   [placeholder]="options.placeholder | translate"
-                   [name]="options.name"
-                   [id]="options.id"
-                   [required]="options.required"
-                   [pattern]="options.pattern"
-                   [step]="options.step"
+                   [placeholder]="config.placeholder | translate"
+                   [name]="config.name"
+                   [id]="config.id"
+                   [required]="config.required"
+                   [pattern]="config.pattern"
+                   [xm-number]="config.type"
+                   [step]="config.step"
                    type="number">
 
-            <mat-error *xmControlErrors="control.errors; translates options?.errors; message as message">
+            <mat-error *xmControlErrors="control.errors; translates config?.errors; message as message">
                 {{message}}
             </mat-error>
 
-            <mat-hint [hint]="options.hint"></mat-hint>
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
     encapsulation: ViewEncapsulation.None,
@@ -76,31 +70,19 @@ export class XmNumberControl extends NgFormAccessor<Primitive> implements XmDyna
         super(ngControl);
     }
 
-    private _options: XmNumberControlOptions = XM_NUMBER_CONTROL_DEFAULT_OPTIONS;
+    private _config: XmNumberControlOptions = XM_NUMBER_CONTROL_DEFAULT_OPTIONS;
 
-    public get options(): XmNumberControlOptions {
-        return this._options;
+    public get config(): XmNumberControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmNumberControlOptions) {
-        this._options = defaults({}, value, { ...XM_NUMBER_CONTROL_DEFAULT_OPTIONS, errors: this.xmControlErrorsTranslates });
-        this._options.placeholder = this._options.placeholder || this._options.title;
+    public set config(value: XmNumberControlOptions) {
+        this._config = defaults({}, value, {
+            ...XM_NUMBER_CONTROL_DEFAULT_OPTIONS,
+            errors: this.xmControlErrorsTranslates,
+        });
+        this._config.placeholder = this._config.placeholder || this._config.title;
     }
 }
 
-@NgModule({
-    imports: [
-        MatInputModule,
-        XmTranslationModule,
-        CommonModule,
-        ControlErrorModule,
-        ReactiveFormsModule,
-        HintModule,
-    ],
-    exports: [XmNumberControl],
-    declarations: [XmNumberControl],
-})
-export class XmNumberControlModule {
-    public readonly entry: XmDynamicControlConstructor<Primitive, XmNumberControlOptions> = XmNumberControl;
-}

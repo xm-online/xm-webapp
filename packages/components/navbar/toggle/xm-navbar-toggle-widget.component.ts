@@ -1,14 +1,22 @@
-import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { MatButtonModule } from '@angular/material/button';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 @Component({
     selector: 'xm-navbar-toggle-widget',
+    imports: [
+        MatButtonModule,
+        XmPermissionModule,
+    ],
+    standalone: true,
     template: `
         <button *xmIfSession
                 (click)="sidebarToggle()"
                 class="navbar-toggler btn btn-icon btn-just-icon btn-link btn-no-ripple"
                 mat-icon-button
                 type="button">
-            <span class="sr-only">Toggle navigation</span>
+            <span class="visually-hidden">Toggle navigation</span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
@@ -18,7 +26,9 @@ import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core'
     encapsulation: ViewEncapsulation.None,
 })
 
-export class XmNavbarToggleWidget implements OnInit {
+export class XmNavbarToggleWidget implements OnInit, XmDynamicWidget {
+    @Input() public config: unknown;
+
     protected mobileMenuVisible: boolean = false;
     private sidebarVisible: boolean;
 

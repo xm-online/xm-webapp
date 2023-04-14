@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { XmSharedTestingModule } from '@xm-ngx/shared';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardsConfigComponent } from './dashboards-config.component';
 
@@ -11,7 +11,7 @@ describe('DashboardsConfigComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmSharedTestingModule, HttpClientTestingModule],
+            imports: [XmTranslationTestingModule, HttpClientTestingModule],
             declarations: [DashboardsConfigComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })

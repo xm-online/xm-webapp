@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import * as _ from 'lodash';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmAceEditorDirective } from '../xm-ace-editor.directive';
+import { XmAceEditorThemeSchemeAdapterModule } from '../xm-ace-editor-theme-scheme-adapter.directive';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
 
 export interface XmAceEditorControlOptions {
     id?: string;
@@ -32,22 +38,31 @@ type AceEditorValue = string | object;
 
 @Component({
     selector: 'xm-ace-editor-control',
+    imports: [
+        XmTranslationModule,
+        XmAceEditorDirective,
+        CommonModule,
+        MatFormFieldModule,
+        ControlErrorModule,
+        XmAceEditorThemeSchemeAdapterModule,
+    ],
+    standalone: true,
     template: `
         <div class="form-group">
-            <label class="control-label" *ngIf="options?.title">{{ options.title | translate }}</label>
+            <label class="control-label" *ngIf="config?.title">{{ config.title | translate }}</label>
             <div class="ace-editor-control w-100 border"
                  [ngClass]="{ 'border-danger': error}"
                  (textChanged)="change($event)"
                  [autoUpdateContent]="true"
-                 [mode]="options.mode"
+                 [mode]="config.mode"
                  [readOnly]="disabled"
                  [text]="_value"
-                 [options]="options.options"
-                 [attr.id]="options.id"
-                 [attr.name]="options.name"
-                 [style.height]="options.height"
-                 [onLightTheme]="options.theme"
-                 [onDarkTheme]="options.darkTheme"
+                 [config]="config.options"
+                 [attr.id]="config.id"
+                 [attr.name]="config.name"
+                 [style.height]="config.height"
+                 [onLightTheme]="config.theme"
+                 [onDarkTheme]="config.darkTheme"
                  xmAceEditorThemeSchemeAdapter
                  xmAceEditor>
             </div>
@@ -57,23 +72,23 @@ type AceEditorValue = string | object;
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmAceEditorControlComponent extends NgControlAccessor<AceEditorValue> {
+export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
     public error: boolean = false;
-    private _options: XmAceEditorControlOptions = XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS;
+    private _config: XmAceEditorControlOptions = XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS;
 
-    public get options(): XmAceEditorControlOptions {
-        return this._options;
+    public get config(): XmAceEditorControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmAceEditorControlOptions) {
-        this._options = _.defaults({}, value, XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS);
+    public set config(value: XmAceEditorControlOptions) {
+        this._config = _.defaults({}, value, XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS);
     }
 
     public _value: string;
 
     public get value(): AceEditorValue {
-        if (this._options.mode === 'json') {
+        if (this._config.mode === 'json') {
             return JSON.parse(this._value);
         }
 
@@ -90,7 +105,7 @@ export class XmAceEditorControlComponent extends NgControlAccessor<AceEditorValu
     }
 
     public change(v: AceEditorValue): void {
-        if (this.options.mode === 'json') {
+        if (this._config.mode === 'json') {
             try {
                 v = JSON.parse(v as string);
                 this.error = false;

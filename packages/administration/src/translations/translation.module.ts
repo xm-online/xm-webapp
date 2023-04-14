@@ -11,12 +11,14 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { KeysViewComponent } from './keys-view/keys-view.component';
 import { TranslationComponent } from './translation.component';
 import { TranslationService } from './services/translation.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
     imports: [
         MatButtonModule,
         MatCardModule,
         MatButtonModule,
+        MatFormFieldModule,
         MatButtonToggleModule,
         MatInputModule,
         MatIconModule,

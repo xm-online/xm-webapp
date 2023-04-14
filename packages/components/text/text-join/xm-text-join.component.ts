@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, NgModule, OnInit, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { ConditionDirective } from '@xm-ngx/components/condition';
 import { XmTextTitleOptions } from '../text-title';
 import {
     XM_DYNAMIC_TABLE_ROW,
     XmDynamicPresentation,
-    XmDynamicPresentationConstructor,
-    XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
 import { XmTranslateService } from '@xm-ngx/translation';
@@ -30,11 +28,12 @@ export interface XmTextJoinValueOptions {
 @Component({
     selector: 'xm-text-join',
     template: '{{joinValue}}',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknown, XmTextJoinValueOptions> {
     @Input() public value: unknown;
-    @Input() public options: XmTextJoinValueOptions;
+    @Input() public config: XmTextJoinValueOptions;
     public joinValue: string;
 
     constructor(
@@ -44,7 +43,7 @@ export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknow
     }
 
     public ngOnInit(): void {
-        this.joinValue = this.joinTemplates(this.options.templates || []);
+        this.joinValue = this.joinTemplates(this.config.templates || []);
     }
 
     public joinTemplates(templates: XmTextJoinValueOptionsTemplate[]): string {
@@ -75,14 +74,6 @@ export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknow
             fields.push(translates);
         }
 
-        return _.join(_.compact(fields), this.options.joinSymbol || ', ');
+        return _.join(_.compact(fields), this.config.joinSymbol || ', ');
     }
-}
-
-@NgModule({
-    exports: [XmTextJoinComponent],
-    declarations: [XmTextJoinComponent],
-})
-export class XmTextJoinModule implements XmDynamicPresentationEntryModule {
-    public entry: XmDynamicPresentationConstructor = XmTextJoinComponent;
 }

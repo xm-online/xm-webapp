@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { SortDirection } from '@angular/material/sort';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { Observable } from 'rxjs';
@@ -25,6 +25,18 @@ export type QueryParamsPageable = QueryParams & Pageable & Sortable;
 export interface IEntityCollectionPageable<T extends IId = unknown, Extra extends Pageable = Pageable>
     extends IEntityCollection<IId> {
 
+    /** Manual request */
+    request<R>(
+        method: string, 
+        body?: unknown, 
+            params?: HttpParams | {
+            [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
+        }, 
+        headers?: HttpHeaders | {
+            [header: string]: string | string[];
+        },
+    ): Observable<R>;
+
     /** POST request. Use to create an entity. */
     create(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>>;
 
@@ -42,6 +54,9 @@ export interface IEntityCollectionPageable<T extends IId = unknown, Extra extend
 
     /** PUT request. Use to replace or delete entity data. */
     update(update: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>>;
+
+    /** PATCH request. Use to replace entity data. */
+    patch<E, R>(update: Partial<E>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<R>>;
 
     /** PUT request. Use to replace or create an entity. */
     upsert(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>>;

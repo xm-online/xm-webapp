@@ -1,22 +1,24 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 
-import { I18nNamePipe, Principal } from '../../../shared/';
-import { FunctionCallDialogComponent, FunctionService, XmEntity, XmEntityService } from '../../../xm-entity/';
+import { I18nNamePipe } from '@xm-ngx/translation';
+import { Principal } from '@xm-ngx/core/user';
+import { FunctionCallDialogComponent, FunctionService, XmEntity, XmEntityService } from '@xm-ngx/entity';
 import { XM_EVENT_LIST } from '../../../xm.constants';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-available-offerings-widget',
     templateUrl: './available-offerings-widget.component.html',
     styleUrls: ['./available-offerings-widget.component.scss'],
 })
-export class AvailableOfferingsWidgetComponent implements OnInit, OnDestroy {
+export class AvailableOfferingsWidgetComponent implements OnInit, OnDestroy, XmDynamicWidget {
 
-    public config: any;
+    @Input() public config: any;
     public offerings: any[];
     public rowSize: number;
     public rows: any[];

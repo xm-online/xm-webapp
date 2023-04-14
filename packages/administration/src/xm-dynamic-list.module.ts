@@ -7,8 +7,8 @@ import {
     ExtendedDynamicComponents,
     WidgetListService,
 } from '@xm-ngx/administration/dashboards-config/widget-edit/widget-list.service';
-import { XmTextControlModule } from '@xm-ngx/components/text';
-import { XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
+import { XmTextControl } from '@xm-ngx/components/text';
+import { XmAceEditorControl } from '@xm-ngx/components/ace-editor';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { map, shareReplay, startWith } from 'rxjs/operators';
     selector: 'xm-dynamic-list-widget',
     template: `
         <xm-text-control [formControl]="filterControl"
-                         [options]="{title: 'Filter by the selector'}"></xm-text-control>
+                         [config]="{title: 'Filter by the selector'}"></xm-text-control>
 
         <section class="row">
 
@@ -45,9 +45,9 @@ import { map, shareReplay, startWith } from 'rxjs/operators';
 
             <div *ngIf="activeWidget" class="col-5">
                 <xm-ace-editor-control [formControl]="valueControl"
-                                       [options]="{title: 'Value'}"></xm-ace-editor-control>
+                                       [config]="{title: 'Value'}"></xm-ace-editor-control>
                 <xm-ace-editor-control [formControl]="optionsControl"
-                                       [options]="{title: 'Options'}"></xm-ace-editor-control>
+                                       [config]="{title: 'Options'}"></xm-ace-editor-control>
             </div>
 
         </section>
@@ -92,12 +92,12 @@ export class XmDynamicListComponent implements OnInit {
     declarations: [XmDynamicListComponent],
     imports: [
         CommonModule,
-        XmTextControlModule,
+        XmTextControl,
         ReactiveFormsModule,
         XmDynamicModule,
         MatButtonModule,
         ScrollingModule,
-        XmAceEditorControlModule,
+        XmAceEditorControl,
     ],
 })
 export class XmDynamicListModule {

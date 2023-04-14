@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { keyBy, mapValues } from 'lodash';
 import { XmEnumValue } from '../value/xm-enum.component';
+import { MatIconModule } from '@angular/material/icon';
 
 type Icons = { [value: string]: string };
 
@@ -19,6 +20,8 @@ export interface XmIconEnumOptions {
     template: `
         <mat-icon>{{(icons[value + ''] || value)}}</mat-icon>
     `,
+    imports: [MatIconModule],
+    standalone: true,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
@@ -26,18 +29,18 @@ export class XmIconEnumComponent implements XmDynamicPresentation<XmEnumValue, X
     @Input() public value: XmEnumValue;
 
     public icons: Icons = {};
-    private _options: XmIconEnumOptions = { items: [] };
+    private _config: XmIconEnumOptions = { items: [] };
 
-    public get options(): XmIconEnumOptions {
-        return this._options;
+    public get config(): XmIconEnumOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(options: XmIconEnumOptions) {
-        if (options?.items) {
-            this.icons = mapValues(keyBy(options.items, 'value'), 'icon');
+    public set config(config: XmIconEnumOptions) {
+        if (config?.items) {
+            this.icons = mapValues(keyBy(config.items, 'value'), 'icon');
         }
-        this._options = options;
+        this._config = config;
     }
 }
 

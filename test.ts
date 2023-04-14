@@ -19,8 +19,3 @@ getTestBed().initTestEnvironment(
     BrowserDynamicTestingModule,
     platformBrowserDynamicTesting(),
 );
-// Then we find all the tests.
-let context = require.context('./packages', true, /\.spec\.ts$/);
-context.keys().map(context);
-context = require.context('./src', true, /\.spec\.ts$/);
-context.keys().map(context);

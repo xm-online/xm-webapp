@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmUiConfigService } from '@xm-ngx/core/config';
-import { XmUserService } from '@xm-ngx/core/user';
+import { XmUiConfigService } from 'packages/core/config/src/xm-ui-config.service';
+import { XmUserService } from 'packages/core/user/src/xm-user.service';
 import { OnInitialize } from '@xm-ngx/shared/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { SessionStorageService } from 'ngx-webstorage';
@@ -12,6 +12,7 @@ import * as moment from 'moment';
 
 import { getBrowserLocale } from '../operators/getBrowserLocale';
 import { LANGUAGES } from '../language.constants';
+import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 
 /**
  * Translates as json
@@ -60,13 +61,17 @@ export class LanguageService implements OnDestroy, OnInitialize {
     protected userLocale: string | undefined;
     protected configLocale: string | undefined;
 
+    private logger: XmLogger;
+
     constructor(
         protected eventManager: XmEventManager,
         protected translate: TranslateService,
         protected userService: XmUserService,
         protected configService: XmUiConfigService<{ langs: Locale[] }>,
+        private loggerService: XmLoggerService,
         protected sessionStorage: SessionStorageService,
     ) {
+        this.logger = this.loggerService.create({ name: 'LanguageService' });
         this.$locale = new BehaviorSubject<Locale | null>(null);
         this.locale$ = this.$locale.asObservable();
         this.onUserLocale();
@@ -85,7 +90,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
 
     public set locale(value: Locale) {
         this.update(value);
-        console.info('TRANSLATION Locale changed:', value);
+        this.logger.debug(`Change locale. locale="${value}".`);
     }
 
     /** Get default languages list */

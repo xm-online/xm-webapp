@@ -1,10 +1,12 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, Input, OnInit } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { filter } from 'rxjs/operators';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { CommonModule } from '@angular/common';
 
 interface RouteData {
     pageTitle?: Translate;
@@ -15,6 +17,10 @@ interface RouteData {
 @Component({
     selector: 'xm-navbar-title-widget',
     styleUrls: ['./xm-navbar-title-widget.component.scss'],
+    imports: [
+        CommonModule,
+    ],
+    standalone: true,
     template: `
         <div *ngIf="routeData && title"
              class="title-part px-3">
@@ -25,7 +31,10 @@ interface RouteData {
     `,
 })
 
-export class XmNavbarTitleWidget implements OnInit, DoCheck {
+export class XmNavbarTitleWidget implements OnInit, DoCheck, XmDynamicWidget {
+
+    @Input() public config: unknown;
+
     public routeData: RouteData = {};
     public titleContent: string;
     public title: string;

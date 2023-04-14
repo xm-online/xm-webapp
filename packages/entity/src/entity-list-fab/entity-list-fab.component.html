@@ -1,0 +1,7 @@
+<div *ngIf="xmEntitySpec && showAddButton" class="xm-fab">
+  <button (click)="onAddNew()"
+          *xmPermitted="['XMENTITY.CREATE']"
+          mat-fab>
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EDIT_DASHBOARD_EVENT } from '@xm-ngx/administration/dashboards-config/const';
-import { XmAceEditorControlModule } from '@xm-ngx/components/ace-editor';
-import { XmBoolModule } from '@xm-ngx/components/bool';
+import { XmAceEditorControl } from '@xm-ngx/components/ace-editor';
+import { XmBoolComponent } from '@xm-ngx/components/bool';
 import { LoaderModule } from '@xm-ngx/components/loader';
-import { XmTextControlModule } from '@xm-ngx/components/text';
+import { XmTextControl } from '@xm-ngx/components/text';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDocExamplesModule } from '../../../documentation/doc-examples/xm-doc-examples.module';
@@ -22,6 +22,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { XmExpansionIndicatorModule } from '@xm-ngx/components/expansion-indicator';
 import { SchemaEditorComponent } from './widget-edit/schema-editor/schema-editor.component';
 import {JsonSchemaFormModule} from '@ajsf/core';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
     imports: [
@@ -29,14 +30,15 @@ import {JsonSchemaFormModule} from '@ajsf/core';
         CommonModule,
         XmSharedModule,
         LoaderModule,
-        XmBoolModule,
-        XmAceEditorControlModule,
-        XmTextControlModule,
+        XmBoolComponent,
+        XmAceEditorControl,
+        XmTextControl,
         RouterModule,
         XmDocExamplesModule,
         DragDropModule,
         XmExpansionIndicatorModule,
-        JsonSchemaFormModule
+        JsonSchemaFormModule,
+        MarkdownModule
     ],
     exports: [
         DashboardsConfigComponent,

@@ -8,6 +8,7 @@ out-tsc/
 # local dev configuration
 local.proxy.conf.js
 .vscode/
+*.code-workspace
 
 src/i18n/ext
 src/i18n/settings.json

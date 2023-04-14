@@ -1,17 +1,21 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Input, Optional, Self, ViewChild } from '@angular/core';
-import { UntypedFormControl, NgControl } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { UntypedFormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocomplete, MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { AriaLabel, DataQa } from '@xm-ngx/shared/interfaces';
-import { Translate } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, share, shareReplay, startWith, switchMap } from 'rxjs/operators';
-import { HintText } from '@xm-ngx/components/hint';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { EntityCollectionFactoryService, QueryParams } from '@xm-ngx/components/entity-collection';
 import { uniqBy as _uniqBy, get as _get, template as _template } from 'lodash/fp';
 import * as _ from 'lodash';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
 
 interface XmArrayItem {
     value: string;
@@ -55,8 +59,20 @@ export const XM_ARRAY_CONTROL_OPTIONS_DEFAULT: XmArrayControlOptions = {
 @Component({
     selector: 'xm-array-control',
     templateUrl: './xm-array-control.component.html',
+    imports: [
+        CommonModule,
+        MatFormFieldModule,
+        MatChipsModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        ControlErrorModule,
+        XmTranslationModule,
+        HintModule,
+    ],
+    standalone: true,
 })
-export class XmArrayControlComponent extends NgFormAccessor<string[]> {
+export class XmArrayControl extends NgFormAccessor<string[]> {
     public searchControl: UntypedFormControl = new UntypedFormControl();
 
     public separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -85,20 +101,20 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         super(ngControl);
     }
 
-    private _options: XmArrayControlOptions = _.cloneDeep(XM_ARRAY_CONTROL_OPTIONS_DEFAULT);
+    private _config: XmArrayControlOptions = _.cloneDeep(XM_ARRAY_CONTROL_OPTIONS_DEFAULT);
 
-    public get options(): XmArrayControlOptions {
-        return this._options;
+    public get config(): XmArrayControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmArrayControlOptions) {
-        this._options = _.defaultsDeep({}, value, {
+    public set config(value: XmArrayControlOptions) {
+        this._config = _.defaultsDeep({}, value, {
             ...XM_ARRAY_CONTROL_OPTIONS_DEFAULT,
         });
 
-        this._options.placeholder = this._options.placeholder || this._options.title;
-        this.presetAutocomplete = this.buildItems(this._options.autocomplete);
+        this._config.placeholder = this._config.placeholder || this._config.title;
+        this.presetAutocomplete = this.buildItems(this._config.autocomplete);
     }
 
     public ngOnInit(): void {
@@ -107,7 +123,7 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
         const searchQuery = this.searchControl.valueChanges.pipe(startWith<string, null>(null));
         const fetchAutocompleteItems = of(this.presetAutocomplete).pipe(
             switchMap((autocompleteList) => {
-                const { resourceUrl, queryParams, displayFn, pickKey } = this.options?.search || {};
+                const { resourceUrl, queryParams, displayFn, pickKey } = this.config?.search || {};
 
                 if (resourceUrl) {
                     return this.factoryService.create<unknown>(resourceUrl)
@@ -172,15 +188,18 @@ export class XmArrayControlComponent extends NgFormAccessor<string[]> {
     }
 
     public add(event: MatChipInputEvent): void {
-        if (this.options.onlySuggestSelect) {
+        if (this.config.onlySuggestSelect) {
             return;
         }
 
         const input = event.input;
         const value = (event.value ?? '').trim();
 
-        if (value && this.selectedItems.includes(value)) {
-            (this.selectedItems ?? []).push(value);
+        if (value && !this.selectedItems.includes(value)) {
+            this.selectedItems = [
+                ...(this.selectedItems ?? []),
+                value,
+            ];
         }
 
         if (input) {

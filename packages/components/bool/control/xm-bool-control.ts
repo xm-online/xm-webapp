@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { XmDynamicControl, XmDynamicPresentationConstructor, XmDynamicPresentationEntryModule } from '@xm-ngx/dynamic';
+import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 
@@ -15,7 +15,7 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
     selector: 'xm-bool-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options?.title | translate}}</mat-label>
+            <mat-label>{{config?.title | translate}}</mat-label>
             <mat-select [formControl]="control"
                         [disabled]="disabled"
                         (ngModelChange)="change($event)">
@@ -44,13 +44,6 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
         </mat-form-field>
     `,
-    changeDetection: ChangeDetectionStrategy.Default,
-})
-export class XmBoolControl extends NgFormAccessor<boolean> implements XmDynamicControl<boolean, { title?: Translate }> {
-    @Input() public options: { title?: string };
-}
-
-@NgModule({
     imports: [
         MatOptionModule,
         MatIconModule,
@@ -62,10 +55,9 @@ export class XmBoolControl extends NgFormAccessor<boolean> implements XmDynamicC
         CommonModule,
         ReactiveFormsModule,
     ],
-    exports: [XmBoolControl],
-    declarations: [XmBoolControl],
-    providers: [],
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmBoolControlModule implements XmDynamicPresentationEntryModule {
-    public entry: XmDynamicPresentationConstructor = XmBoolControl;
+export class XmBoolControl extends NgFormAccessor<boolean> implements XmDynamicControl<boolean, { title?: Translate }> {
+    @Input() public config: { title?: string };
 }

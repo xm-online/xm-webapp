@@ -1,0 +1,45 @@
+<mat-form-field [floatLabel]="settings?.floatLabel">
+  <mat-label>{{settings['title'] ? settings['title'] : ''}}</mat-label>
+  <mat-select
+    [formControl]="checkedOption"
+    [disabled]="settings.readonly"
+    [required]="layoutNode.options?.required"
+  >
+    <mat-option>
+      <ngx-mat-select-search
+        [formControl]="queryCtrl"
+        [placeholderLabel]="settings?.searchPlaceholder ? (settings?.searchPlaceholder | translate) : (('global.rest-select-placeholder-search.prefix' | translate) + (settings.minQueryLength + 1) + ('global.rest-select-placeholder-search.suffix' | translate))"
+        noEntriesFoundLabel="{{'global.rest-select-placeholder-noresults' | translate}}"
+      ></ngx-mat-select-search>
+    </mat-option>
+
+    <ng-container *ngIf="(options$ | async) as options; else emptyOption">
+      <ng-container *ngIf="options.length; else emptyOption">
+        <mat-option
+          *ngFor="let option of options"
+          [value]="option.value"
+        >
+          {{option.label}}
+        </mat-option>
+
+        <mat-option disabled *ngIf="options.length > maxDisplayedOptions">
+          {{'global.rest-select-search-more' | translate}}
+        </mat-option>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #emptyOption>
+      <mat-option disabled>
+        {{'global.rest-select-placeholder-noresults' | translate}}
+      </mat-option>
+    </ng-template>
+
+    <ng-container *ngIf="loading$ | async">
+      <div class="mat-select-spinner">
+        <mat-label>
+          <mat-spinner diameter="20"></mat-spinner>
+        </mat-label>
+      </div>
+    </ng-container>
+  </mat-select>
+</mat-form-field>

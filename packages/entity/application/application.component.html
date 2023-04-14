@@ -1,0 +1,11 @@
+<xm-entity-list-card
+  *ngIf="options && spec"
+  class="d-flex flex-column px-3"
+  [options]="options"
+  [searchTemplateParams]="searchParams?.templateName ? searchParams : null"
+  [spec]="spec">
+</xm-entity-list-card>
+
+<xm-entity-list-fab class="d-block w-100 py-5 mt-3"
+                    *ngIf="entityType && spec" [spec]="spec" [xmEntitySpec]="entityType" [uiConfig]="uiConfig">
+</xm-entity-list-fab>

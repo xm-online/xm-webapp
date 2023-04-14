@@ -1,4 +1,4 @@
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmTextViewModule } from '../text-view';
 
@@ -10,20 +10,14 @@ export interface XmLabeledContainerOptions {
 @Component({
     selector: 'xm-labeled-view-container',
     template: `
-        <xm-text-view-container [styleInline]="this.options?.labelStyle === 'inline'">
-            <span xmLabel>{{options?.title | translate}}</span>
+        <xm-text-view-container [styleInline]="this.config?.labelStyle === 'inline'">
+            <span xmLabel>{{config?.title | translate}}</span>
             <span xmValue><ng-content></ng-content></span>
         </xm-text-view-container>
     `,
+    standalone: true,
+    imports: [XmTranslationModule, XmTextViewModule],
 })
 export class XmLabeledViewContainerComponent {
-    @Input() public options: XmLabeledContainerOptions;
-}
-
-@NgModule({
-    imports: [XmTranslationModule, XmTextViewModule],
-    exports: [XmLabeledViewContainerComponent],
-    declarations: [XmLabeledViewContainerComponent],
-})
-export class XmLabeledViewContainerModule {
+    @Input() public config: XmLabeledContainerOptions;
 }

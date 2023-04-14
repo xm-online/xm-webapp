@@ -1,19 +1,20 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 
-import { XmEntity, XmEntityService } from '../../../xm-entity/';
+import { XmEntity, XmEntityService } from '@xm-ngx/entity';
 import * as Chartist from 'chartist';
 import { LineChart } from 'chartist';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-chartist-line-widget',
     templateUrl: './chartist-line-widget.component.html',
 })
-export class ChartistLineWidgetComponent implements OnInit {
+export class ChartistLineWidgetComponent implements OnInit, XmDynamicWidget {
 
     public name: any;
     public firstSeries: any;
-    public config: any;
+    @Input() public config: any;
 
     constructor(
         private xmEntityService: XmEntityService,

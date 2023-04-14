@@ -10,16 +10,16 @@ import {
 } from '@ajsf/material';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RU_INTL } from '@xm-ngx/json-schema-form/locale/ru-config';
-import { UK_INTL } from '@xm-ngx/json-schema-form/locale/uk-config';
+import { RU_INTL } from '../locale/ru-config';
+import { UK_INTL } from '../locale/uk-config';
 import { LanguageService } from '@xm-ngx/translation';
-import { XmMaterialDesignFramework } from '@xm-ngx/json-schema-form/core/material-design-framework';
+import { XmMaterialDesignFramework } from '../core/material-design-framework';
 import { fixFlexLayout } from './fix-flex-layout';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { XmFlexLayoutSectionComponent } from '@xm-ngx/json-schema-form/components/flex-layout-section.component';
-import { XmMaterialDesignFrameworkComponent } from '@xm-ngx/json-schema-form/components/material-design-framework.component';
-import { XmFlexLayoutRootComponent } from '@xm-ngx/json-schema-form/components/flex-layout-root.component';
+import { XmFlexLayoutSectionComponent } from '../components/flex-layout-section.component';
+import { XmMaterialDesignFrameworkComponent } from '../components/material-design-framework.component';
+import { XmFlexLayoutRootComponent } from '../components/flex-layout-root.component';
 
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -44,7 +44,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { XmJsonSchemaFormService } from '@xm-ngx/json-schema-form/core/xm-json-schema-form.service';
+import { XmJsonSchemaFormService } from '../core/xm-json-schema-form.service';
 
 const _JsonSchemaFormModule = {
     ngModule: JsonSchemaFormModule,

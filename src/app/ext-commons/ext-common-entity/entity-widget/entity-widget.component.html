@@ -1,4 +1,4 @@
-<ng-container *ngIf="xmEntity$ | async as fetchedXmEntity; else loading ">
+<div class="container-fluid" *ngIf="xmEntity$ | async as fetchedXmEntity; else loading ">
   <ng-container
     *ngIf="fetchedXmEntity; then cardsData; else noData"
   ></ng-container>
@@ -108,7 +108,7 @@
   <ng-template #noData>
     <no-data [show]="true"></no-data>
   </ng-template>
-</ng-container>
+</div>
 
 <ng-template #loading>
   <xm-loader [showLoader]="true"></xm-loader>

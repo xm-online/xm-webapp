@@ -1,35 +1,19 @@
 language: node_js
 node_js:
-  - "14.16.1"
+  - "16.13.0"
 addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+  chrome: stable
+install: npm install
 script:
-  - set -e
-  - npm install --save-dev
   - npm run lint
-  - npm run prebuild
-  - npm run build-aot
-  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - export DOCKER_REPO=$(echo  -n $TRAVIS_REPO_SLUG | sed -e 's/^xm-online\//xmonline\//g')
-  - export IMAGE_BRANCH=$(echo -n $TRAVIS_BRANCH | sed -e 's/\//-/g')
-  - export PROJECT_VERSION="$IMAGE_BRANCH"
-  - if [ "$IMAGE_BRANCH" == "master" ] || [ "$IMAGE_BRANCH" == "main" ];
-    then
-      PROJECT_VERSION=$(npm run-script get-version| tail -n1);
-      TAGS="$PROJECT_VERSION $PROJECT_VERSION-$TRAVIS_BUILD_NUMBER $(echo $PROJECT_VERSION | awk -F '.' '{printf $1"."$2" "$1}') latest";
-    fi
-  - cp -r dist/ src/docker/
-  - docker build -t app-docker-img --label commit_id="$TRAVIS_COMMIT" --label version="$PROJECT_VERSION" --label build_number="$TRAVIS_BUILD_NUMBER" --label build_url="$TRAVIS_BUILD_WEB_URL" --label git_url="$TRAVIS_REPO_SLUG" --label commit_message="$TRAVIS_COMMIT_MESSAGE" src/docker
-  - for TAG in $TAGS;
-    do
-      docker tag app-docker-img $DOCKER_REPO:$TAG;
-      docker push $DOCKER_REPO:$TAG;
-    done
+  - npm run build:prod
+  - npm run test:prod
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: chmod +x deploy/deploy-webapp.sh && deploy/deploy-webapp.sh
+  on:
+    branch: main
 env:
   global:
     - secure: RME46HLcdu71DhtLfPIdPNib4XzANuGuGWJcrB94BUT9ixWdEtt4HQuJdyfQVRNa5JoB5LaOvXmHk1LQcn7cDDTChAjVrjZDqU1vpiqLpoJx0seLaYKtyRy1rFbuTjbOeqEWpwGVOGFIqZ4RZhDureTa+djZXCL6z+uJIDTKi/xKTH8PqxrcwxogNfBP5ECBCVDUxu3iXiXPDrksRCoVjBuPeq0QRiZ5xaexpQwru7+kEzmx3k8B+5Whk4b6ld96Lkbad8O08ib6EAwBpZ08t1O5jmqQCHabsRyn7sp3qtJYuJTvlJE9jSwE+SK9MTTUbHgedpMnaUq5kcbmkzZWp9WE2TrzDg+CAqpnAX/vcFWh8SkjflNzY2rlyrWjddpTOntB62z3/aJPuCzckav3TBUXZiW8qgLYWXLL16t+dg2QpxNNngusuc5+QAcMj6K8vqqMiFMJDAxqxdPKwJgZmaiXdct8jkUaa2xdIZjTB9X+V47pKaTb6J4BbN1G6uCFQuCsHj6e+8hFx4goLd0OGB9NnLrCUrOD5fGo384s5yAjZ+Yp22/WZ4CcrdXBAb22oml2imdgbg9CUVzJAbLznKko0w6TTnb55gOpXqjj8RJLsdKxnXPnw+G9PREGTmdi8PymYapsxG52GYfxuYbseyb1I4JQqhNifKYi+UO3mBs=

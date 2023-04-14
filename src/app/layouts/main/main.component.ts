@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UIPublicConfig, XmSessionService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
-import { XmApplicationConfigService } from '../../shared/spec';
+import { XmApplicationConfigService } from '@xm-ngx/core/config';
 import { VERSION } from '../../xm.constants';
+import { XmLoggerService } from '@xm-ngx/logger';
 
 
 @Component({
@@ -18,10 +19,11 @@ export class XmMainComponent implements OnInit, OnDestroy {
 
     constructor(
         private xmConfigService: XmApplicationConfigService,
+        private loggerService: XmLoggerService,
         private sessionService: XmSessionService,
     ) {
-        // eslint-disable-next-line no-console
-        console.log(`app version ${VERSION}`);
+        const logger = this.loggerService.create({ name: 'XmMainComponent' });
+        logger.info(`Application version. version="${VERSION}".`);
     }
 
     public ngOnInit(): void {

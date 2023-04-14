@@ -10,14 +10,24 @@ import {
 } from '@angular/core';
 import { XM_BOOL_VIEW_ICONS, XmBoolOptions } from './xm-bool.injectors';
 import { Primitive } from '@xm-ngx/shared/interfaces';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 export type XmBoolValue = string | boolean;
+
+const XM_BOOL_VIEW_ICONS_DEFAULT: XmBoolOptions = {
+    true: 'done',
+    false: 'remove',
+};
 
 @Component({
     selector: 'xm-bool-view, bool-value, xm-bool',
     template: `
         <mat-icon>{{ icon }}</mat-icon>
     `,
+    imports: [MatIconModule, CommonModule],
+    standalone: true,
+    providers: [{ provide: XM_BOOL_VIEW_ICONS, useValue: XM_BOOL_VIEW_ICONS_DEFAULT }],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
@@ -30,7 +40,7 @@ export class XmBoolComponent implements OnInit, OnChanges {
     }
 
     @Input()
-    public set options(value: { icons: XmBoolOptions, acceptableValue: Primitive[] }) {
+    public set config(value: { icons: XmBoolOptions, acceptableValue: Primitive[] }) {
         if (value?.icons) {
             this.icons = value.icons;
         }

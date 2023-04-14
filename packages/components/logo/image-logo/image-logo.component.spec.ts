@@ -1,10 +1,11 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmSessionService } from '@xm-ngx/core';
-import { XmTranslationTestingModule } from '@xm-ngx/translation';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
 
 import { ImageLogoComponent } from './image-logo.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ImageLogoComponent', () => {
     let component: ImageLogoComponent;
@@ -13,8 +14,7 @@ describe('ImageLogoComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [XmTranslationTestingModule],
-            declarations: [ImageLogoComponent],
+            imports: [ImageLogoComponent, RouterTestingModule, XmTranslationTestingModule],
             providers: [{ provide: XmSessionService, useValue: { get: () => of({}) } }],
         })
             .compileComponents();

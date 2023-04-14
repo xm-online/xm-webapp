@@ -237,6 +237,7 @@
   "error": {
     "403": "Sie sind nicht berechtigt, auf die Seite zuzugreifen.",
     "500": "Interner Serverfehler.",
+    "413": "Dateigrößenbeschränkung des Servers überschritten",
     "NotBlank": "Nicht leer",
     "NotNull": "Feld {{ fieldName }} darf nicht leer sein!",
     "Size": "Feld {{ fieldName }} erfüllt nicht die Mindest-/Maximalgrößenanforderungen!",
@@ -367,7 +368,8 @@
       "no": "Nein",
       "set": "Garnitur",
       "yes": "Ja",
-      "yes-exit": "Ja, Steig aus!"
+      "yes-exit": "Ja, Steig aus!",
+      "dbclick-to-edit": "Zum Bearbeiten doppelklicken"
     },
     "field": {
       "id": "ID"
@@ -1463,6 +1465,10 @@
   },
   "xm-timeline": {
     "common": {
+      "no-items": "Es gibt keine Einträge für diese Anfrage!",
+      "show-more-10": "Mehr anzeigen",
+      "show-more-all": "Mehr",
+      "title": "Chronologie",
       "time-ago": {
         "day": "vor einem Tag",
         "days": " Tage",

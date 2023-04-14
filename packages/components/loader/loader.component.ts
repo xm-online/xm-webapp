@@ -1,9 +1,10 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'xm-loader',
     templateUrl: './loader.component.html',
     styleUrls: ['./loader.component.scss'],
+    encapsulation: ViewEncapsulation.Emulated,
 })
 export class LoaderComponent implements OnInit, OnDestroy {
 
@@ -21,7 +22,7 @@ export class LoaderComponent implements OnInit, OnDestroy {
         this.show = value;
         if (!this.noDisableParent) {
             this.elementRef.nativeElement
-                .parentElement.classList[value ? 'add' : 'remove']('xm-disabled');
+                .parentElement?.classList[value ? 'add' : 'remove']('xm-disabled');
         }
     }
 
@@ -33,6 +34,6 @@ export class LoaderComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.elementRef.nativeElement
-            .parentElement.classList.remove('xm-disabled');
+            .parentElement?.classList.remove('xm-disabled');
     }
 }

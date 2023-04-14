@@ -9,7 +9,7 @@ import { UIPublicConfig } from './xm-public-ui-config-model';
 @Injectable({
     providedIn: 'root',
 })
-export class XmPublicUiConfigService<T = UIPublicConfig> implements OnDestroy {
+export class XmPublicUiConfigService<T extends UIPublicConfig = UIPublicConfig> implements OnDestroy {
     public readonly UI_PUBLIC_CONFIG_URL: string;
 
     private requestCache: RequestCache<T>;

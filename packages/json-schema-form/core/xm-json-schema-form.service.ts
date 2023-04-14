@@ -7,7 +7,7 @@ import {
 } from '@ajsf/core';
 import { Subject } from 'rxjs';
 import { UntypedFormArray, UntypedFormControl } from '@angular/forms';
-import { fixNestedBuildLayout } from '@xm-ngx/json-schema-form/shared/fix-build-layout';
+import { fixNestedBuildLayout } from '../shared/fix-build-layout';
 
 export interface JsonSchemaOrderChange {
     previousIndex: number;
@@ -25,7 +25,7 @@ export class XmJsonSchemaFormService extends JsonSchemaFormService {
         layoutIndex: number[],
         dataIndex: number[]
     }, previousIndex: number, currentIndex: number): boolean {
-        const { moveNodePointers }: { moveNodePointers: string[] } = this.formOptions;
+        const { moveNodePointers = [] }: { moveNodePointers: string[] } = this.formOptions ?? {};
 
         const moved = this.moveArrayItem({
             layoutNode: layout[previousIndex],

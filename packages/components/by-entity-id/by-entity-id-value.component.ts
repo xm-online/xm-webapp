@@ -38,8 +38,8 @@ export const BY_ENTITY_ID_VALUE_OPTIONS: ByEntityIdValueOptions = {
 export class ByEntityIdValueComponent
 implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges {
 
-    /** {@inheritDoc XmDynamicPresentation.options} */
-    @Input() public options: ByEntityIdValueOptions;
+    /** {@inheritDoc XmDynamicPresentation.config} */
+    @Input() public config: ByEntityIdValueOptions;
     /** {@inheritDoc XmDynamicPresentation.value} */
     @Input() public value: Id;
 
@@ -75,7 +75,7 @@ implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges 
      */
     protected update(): void {
         if (this.value) {
-            const resourceUrl = this.options?.resourceUrl || this.defaultOptions.resourceUrl;
+            const resourceUrl = this.config?.resourceUrl || this.defaultOptions.resourceUrl;
             const collection = this.factoryService.create<unknown>(resourceUrl);
 
             if (this.subsription) {
@@ -84,7 +84,7 @@ implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges 
             }
 
             this.subsription = collection.getById(this.value).subscribe((res) =>
-                this.fieldValue = this.getEntityField(res.body, this.options?.entityField),
+                this.fieldValue = this.getEntityField(res.body, this.config?.entityField),
             );
         } else {
             this.fieldValue = '';

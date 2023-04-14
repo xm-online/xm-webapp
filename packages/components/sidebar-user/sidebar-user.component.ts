@@ -5,8 +5,15 @@ import { MenuItem } from '../menu/menu.interface';
 import { UserWidgetBase } from './user-widget.base';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { XmUserService } from '@xm-ngx/core/user';
-import { ContextService } from '../../../src/app/shared';
+import { ContextService } from '@xm-ngx/core/context';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MenuComponent } from '@xm-ngx/components/menu';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { SidebarUserSubtitle } from '@xm-ngx/components/sidebar-user/sidebar-user-subtitle';
+import { MenuLinkComponent } from '@xm-ngx/components/menu/menu-link.component';
 
 
 @Component({
@@ -17,6 +24,16 @@ import { Router } from '@angular/router';
         matExpansionAnimations.bodyExpansion,
         matExpansionAnimations.indicatorRotate,
     ],
+    imports: [
+        CommonModule,
+        MenuComponent,
+        MenuLinkComponent,
+        XmPermissionModule,
+        XmTranslationModule,
+        XmDynamicModule,
+        SidebarUserSubtitle,
+    ],
+    standalone: true,
 })
 export class SidebarUserComponent extends UserWidgetBase {
 

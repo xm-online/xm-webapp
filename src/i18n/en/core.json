@@ -282,6 +282,7 @@
       }
     },
     "403": "You are not authorized to access the page.",
+    "413": "Server's file size limit exceeded",
     "500": "Internal Server Error.",
     "business": "Forwarding error",
     "concurrencyFailure": "Parallel request error.",
@@ -373,7 +374,8 @@
       "no": "No",
       "set": "Set",
       "yes": "Yes",
-      "yes-exit": "Yes, exit!"
+      "yes-exit": "Yes, exit!",
+      "dbclick-to-edit": "Double click to edit"
     },
     "field": {
       "id": "ID"
@@ -1479,6 +1481,10 @@
   },
   "xm-timeline": {
     "common": {
+      "no-items": "There are no entries for this request!",
+      "show-more-10": "Show more",
+      "show-more-all": "Show all",
+      "title": "Chronology",
       "time-ago": {
         "day": "a day ago",
         "days": " days ago",
