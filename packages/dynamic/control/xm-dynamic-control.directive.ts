@@ -154,6 +154,14 @@ export class XmDynamicControlDirective<V, O>
         this.valueChange.next(this.value);
     }
 
+    protected updateWriteValue(obj: V): void {
+        if (!this.instance || typeof this.instance.writeValue !== 'function') {
+            return;
+        }
+
+        this.instance.writeValue(obj);
+    }
+
     protected updateRegisterOnChange(): void {
         if (!this.instance || typeof this.instance.registerOnChange !== 'function') {
             return;
