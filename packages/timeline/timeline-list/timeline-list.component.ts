@@ -209,7 +209,10 @@ export class TimelineListComponent implements OnInit, OnDestroy {
 
     private generateTimelines(items: TimeLineItem[]) {
         for (const item of items) {
-            this.timeLines.push(this.createView(item));
+            const viewItem: any = this.createView(item);
+            if (viewItem.messageData) {
+                this.timeLines.push(viewItem);
+            }
         }
     }
 
