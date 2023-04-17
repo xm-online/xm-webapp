@@ -214,6 +214,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
                 this.timeLines.push(viewItem);
             }
         }
+        this.timeLines = this.timeLines.sort((a, b) => new Date(a.startDate).getTime() < new Date(b.startDate).getTime() ? 1 : -1);
     }
 
     private createView(item): Timeline {
