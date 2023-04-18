@@ -10,6 +10,7 @@ import { XmPresentationLayout } from '@xm-ngx/dynamic';
 import { HttpParams } from '@angular/common/http';
 import { SortDirection } from '@angular/material/sort';
 import { IColumnDefault, IColumnFilter } from '@xm-ngx/ext/common-webapp-ext/table';
+import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination {
     pageSizeOptions: number[],
@@ -93,14 +94,6 @@ export interface EmptyTableConfig {
     message: Translate
 }
 
-export const PAGEABLE_AND_SORTABLE_DEFAULT: PageableAndSortable = {
-    pageIndex: 0,
-    pageSize: 0,
-    total: 0,
-    sortOrder: 'asc',
-    sortBy: null,
-};
-
 export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     options: {
         isRowSelectable: false,
@@ -145,9 +138,6 @@ export interface Pageable {
     pageIndex?: number;
     /** The <pageSize> is the number of items on the requested page. */
     pageSize?: number;
-}
-
-export interface PageableAndSortable extends Pageable, Sortable {
 }
 
 export type QueryParamsPageable = QueryParams & PageableAndSortable;

@@ -11,8 +11,6 @@ import { NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
 import {
-    PageableAndSortable,
-    PAGEABLE_AND_SORTABLE_DEFAULT,
     QueryParams,
     XmTableConfig,
     XmTableConfigFilters
@@ -21,6 +19,7 @@ import { format } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TABLE_FILTERS_ELASTIC } from '../filters/xm-table-filter-const';
+import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 
 @Injectable()
 export class XmTableElasticSearchCollectionController<T = unknown>
