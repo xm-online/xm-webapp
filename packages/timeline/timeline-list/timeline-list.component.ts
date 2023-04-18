@@ -254,7 +254,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
     private fillTimelineTemplate(item, templateName: Translate): TimeLineItem {
         const templateStringByLang = this.i18nNamePipe.transform(templateName, this.principal);
         const templateString: string = new Function('item', 'return `' + templateStringByLang + '`;')(item);
-        Object.assign(item, {messageData: templateString, userKey: item.entityAfter?.updatedBy});
+        Object.assign(item, {messageData: templateString});
         return item;
     }
 
