@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IEntityCollectionPageable, QueryParamsPageable, } from '@xm-ngx/components/entity-collection';
+import { IEntityCollectionPageable, QueryParams, QueryParamsPageable, } from '@xm-ngx/components/entity-collection';
 import { firstValueFrom } from 'rxjs';
 import { FilterQueryParams, IXmTableCollectionController, } from './i-xm-table-collection-controller';
 
@@ -11,7 +11,6 @@ import { NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
 import {
-    QueryParams,
     XmTableConfig,
     XmTableConfigFilters
 } from '../../interfaces/xm-table.model';
@@ -44,8 +43,6 @@ export class XmTableRepositoryCollectionController<T = unknown>
         }
         this.config = await firstValueFrom(this.configController.config$());
         const repositoryConfig: XmTableRepositoryCollectionConfig = this.config.collection.repository;
-        // TODO: replace entity with query
-        // this.entity = await firstValueFrom(this.entityController.entity$());
         this.repository = this.repositoryResolver.get(repositoryConfig.resourceHandleKey, repositoryConfig.resourceUrl);
 
         const queryParams = this.getQueryParams(request);

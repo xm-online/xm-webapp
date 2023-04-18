@@ -7,10 +7,9 @@ import {
 import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table-empty.component';
 import { TableColumn } from '../../column/table-column-dynamic-cell';
 import { XmPresentationLayout } from '@xm-ngx/dynamic';
-import { HttpParams } from '@angular/common/http';
-import { SortDirection } from '@angular/material/sort';
 import { IColumnDefault, IColumnFilter } from '@xm-ngx/ext/common-webapp-ext/table';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { QueryParams } from '@xm-ngx/components/entity-collection';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination {
     pageSizeOptions: number[],
@@ -119,26 +118,6 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     // options: null,
     // page: { pageSizeOptions: [5, 10, 25] },
 };
-
-export type QueryParams = HttpParams | {
-    [param: string]: (string | string[] | number) | any;
-};
-
-export interface Sortable {
-    /** Sort by the fields. */
-    sortBy?: string[] | string | null;
-    /** Sort order. */
-    sortOrder?: SortDirection;
-}
-
-export interface Pageable {
-    /** The <total> is the number of items that match the request. */
-    total?: number;
-    /** The <pageIndex> is the number of the requested page. */
-    pageIndex?: number;
-    /** The <pageSize> is the number of items on the requested page. */
-    pageSize?: number;
-}
 
 export type QueryParamsPageable = QueryParams & PageableAndSortable;
 
