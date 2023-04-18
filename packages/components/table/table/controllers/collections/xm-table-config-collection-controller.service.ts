@@ -1,4 +1,4 @@
-import { Injectable, Injector, ViewContainerRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import {
     AXmTableLocalPageableCollectionController,
@@ -8,7 +8,6 @@ import { NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { FilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import _ from 'lodash';
-import { XmDynamicComponentRegistry } from '@xm-ngx/dynamic';
 
 export interface XmTableConfigCollectionControllerConfig {
     path: string;
@@ -24,9 +23,6 @@ export class XmTableConfigCollectionController<T = unknown>
 
     constructor(
         private configController: XmTableConfigController<XmTableConfigCollectionControllerConfig>,
-        private dynamicComponents: XmDynamicComponentRegistry,
-        private injector: Injector,
-        private viewContainerRef: ViewContainerRef,
     ) {
         super();
     }
@@ -34,19 +30,6 @@ export class XmTableConfigCollectionController<T = unknown>
     public async load(request: FilterQueryParams): Promise<void> {
         this.config = await firstValueFrom(this.configController.config$());
         this.items = _.get(this.config, this.config.path, []) as T[];
-
-        //TODO: check
-        const entry = await this.dynamicComponents.find<T>('boards/teams-away-days-widget', this.injector);
-
-        this.viewContainerRef.clear();
-
-        const componentRef = this.viewContainerRef.createComponent(entry.componentType, {
-            index: 0,
-            ngModuleRef: entry.ngModuleRef,
-            injector: entry.injector,
-        });
-
-        componentRef.instance;
     }
 
     public save(): void {

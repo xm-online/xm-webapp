@@ -4,13 +4,12 @@ import { Translate } from '@xm-ngx/translation';
 import {
     XmTableRepositoryCollectionConfig
 } from '../controllers/collections/xm-table-read-only-repository-collection-controller';
-import {
-    PAGEABLE_AND_SORTABLE_DEFAULT,
-    PageableAndSortable
-} from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table-empty.component';
 import { TableColumn } from '../../column/table-column-dynamic-cell';
 import { XmPresentationLayout } from '@xm-ngx/dynamic';
+import { HttpParams } from '@angular/common/http';
+import { SortDirection } from '@angular/material/sort';
+import { IColumnDefault, IColumnFilter } from '@xm-ngx/ext/common-webapp-ext/table';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination {
     pageSizeOptions: number[],
@@ -94,6 +93,13 @@ export interface EmptyTableConfig {
     message: Translate
 }
 
+export const PAGEABLE_AND_SORTABLE_DEFAULT: PageableAndSortable = {
+    pageIndex: 0,
+    pageSize: 0,
+    total: 0,
+    sortOrder: 'asc',
+    sortBy: null,
+};
 
 export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     options: {
@@ -120,4 +126,33 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     // options: null,
     // page: { pageSizeOptions: [5, 10, 25] },
 };
+
+export type QueryParams = HttpParams | {
+    [param: string]: (string | string[] | number) | any;
+};
+
+export interface Sortable {
+    /** Sort by the fields. */
+    sortBy?: string[] | string | null;
+    /** Sort order. */
+    sortOrder?: SortDirection;
+}
+
+export interface Pageable {
+    /** The <total> is the number of items that match the request. */
+    total?: number;
+    /** The <pageIndex> is the number of the requested page. */
+    pageIndex?: number;
+    /** The <pageSize> is the number of items on the requested page. */
+    pageSize?: number;
+}
+
+export interface PageableAndSortable extends Pageable, Sortable {
+}
+
+export type QueryParamsPageable = QueryParams & PageableAndSortable;
+
+export type Column = IColumnDefault & IColumnFilter;
+
+export type Columns = Column[];
 
