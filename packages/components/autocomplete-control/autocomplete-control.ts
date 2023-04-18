@@ -240,10 +240,14 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             : unwrapSelected?.[0];
     }
 
+    protected identity<T>(item: unknown): T {
+        return format(this.config.compareMap, item);
+    }
+
     public identityFn = (option: MatOption | object, selection: MatOption | object): boolean => {
         if (this.config?.compareMap) {
-            const o1 = format<object>(this.config.compareMap, (option instanceof MatOption ? option.value : option) ?? {});
-            const o2 = format<object>(this.config.compareMap, (selection instanceof MatOption ? selection.value : selection) ?? {});
+            const o1 = this.identity<object>((option instanceof MatOption ? option.value : option) ?? {});
+            const o2 = this.identity<object>((selection instanceof MatOption ? selection.value : selection) ?? {});
 
             return _.isMatch(o1, o2);
         }

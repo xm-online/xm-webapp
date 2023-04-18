@@ -18,9 +18,9 @@
                matInput
                name="roleKey"
                pattern="^\s*[\w|\d]+\s*$"
-               placeholder="{{'rolesManagement.key' | translate}}"
-               required
-               type="text">
+               type="text"
+               required>
+        <mat-label>{{'rolesManagement.key' | translate}}</mat-label>
         <mat-error *ngIf="fieldRoleKey.hasError('required')">
           <span>{{'xm-entity.common.validation.required'|translate}}</span>
         </mat-error>
@@ -45,11 +45,11 @@
 
     <div class="form-group">
       <mat-form-field>
+            <mat-label>{{'rolesManagement.description' | translate}}</mat-label>
             <textarea [(ngModel)]="role.description"
                       id="field_desc"
                       matInput
                       name="desc"
-                      placeholder="{{'rolesManagement.description' | translate}}"
                       rows="4"></textarea>
       </mat-form-field>
     </div>
