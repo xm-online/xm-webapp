@@ -13,7 +13,8 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input (keyup)="applyFilter($event)" [placeholder]="'logs.filter' | translate" matInput type="text">
+      <mat-label>{{'logs.filter' | translate}}</mat-label>
+      <input (keyup)="applyFilter($event)" matInput type="text">
     </mat-form-field>
   </div>
 

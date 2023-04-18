@@ -26,11 +26,11 @@
         <div class="d-flex flex-nowrap align-items-center">
           <div class="pe-1">
             <mat-form-field>
+              <mat-label>{{'userManagement.search-by-login' | translate}}</mat-label>
               <input
                 [(ngModel)]="login"
                 matInput
                 name="user-login"
-                placeholder="{{'userManagement.search-by-login' | translate}}"
                 type="text">
               <button
                 (click)="login=''; searchByLogin()"
