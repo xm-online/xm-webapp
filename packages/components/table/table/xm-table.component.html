@@ -43,8 +43,8 @@
                                    #selectionRow
                                    [rows]="context.collection.items"></xm-table-selection-column>
 
-        <xm-table-column-dynamic-cell [column]="column"
-                                      *ngFor="let column of config.columns"></xm-table-column-dynamic-cell>
+        <xm-table-column-dynamic-cell *ngFor="let column of config.columns"
+                                      [column]="column"></xm-table-column-dynamic-cell>
 
         <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row></tr>
 

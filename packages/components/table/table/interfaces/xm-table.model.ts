@@ -4,13 +4,12 @@ import { Translate } from '@xm-ngx/translation';
 import {
     XmTableRepositoryCollectionConfig
 } from '../controllers/collections/xm-table-read-only-repository-collection-controller';
-import {
-    PAGEABLE_AND_SORTABLE_DEFAULT,
-    PageableAndSortable
-} from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table-empty.component';
 import { TableColumn } from '../../column/table-column-dynamic-cell';
 import { XmPresentationLayout } from '@xm-ngx/dynamic';
+import { IColumnDefault, IColumnFilter } from '@xm-ngx/ext/common-webapp-ext/table';
+import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { QueryParams } from '@xm-ngx/components/entity-collection';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination {
     pageSizeOptions: number[],
@@ -94,7 +93,6 @@ export interface EmptyTableConfig {
     message: Translate
 }
 
-
 export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     options: {
         isRowSelectable: false,
@@ -120,4 +118,10 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     // options: null,
     // page: { pageSizeOptions: [5, 10, 25] },
 };
+
+export type QueryParamsPageable = QueryParams & PageableAndSortable;
+
+export type Column = IColumnDefault & IColumnFilter;
+
+export type Columns = Column[];
 

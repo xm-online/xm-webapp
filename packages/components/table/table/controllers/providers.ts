@@ -18,9 +18,12 @@ import { XmTableEntityRepository } from './repositories/xm-table-entity-reposito
 import {
     XmTableReadOnlyRepositoryCollectionController
 } from './collections/xm-table-read-only-repository-collection-controller';
+import { XmTableElasticSearchCollectionController } from './collections/xm-table-elastic-search-collection-controller.service';
+import { XmTableElasticSearchRepository } from './repositories/xm-table-elastic-search-repository';
 
 export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmTableEntityRepository,
+    XmTableElasticSearchRepository,
     XmTableRepositoryResolver,
 
     XmTableConfigController,
@@ -36,4 +39,5 @@ export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmTableReadOnlyRepositoryCollectionController,
     XmTableRepositoryCollectionController,
     XmTableStringArrayCollectionController,
+    XmTableElasticSearchCollectionController
 ];

@@ -16,12 +16,12 @@ import {
 } from '../../interfaces/xm-table.model';
 import { format } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
-import { TABLE_FILTERS_ELASTIC } from '../filters/xm-table-filter-const';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TABLE_FILTERS_ELASTIC } from '../filters/xm-table-filter-const';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 
 @Injectable()
-export class XmTableRepositoryCollectionController<T = unknown>
+export class XmTableElasticSearchCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
     public repository: IEntityCollectionPageable<T, PageableAndSortable>;
@@ -125,7 +125,6 @@ export class XmTableRepositoryCollectionController<T = unknown>
         queryParams: QueryParamsPageable,
         filterParams: QueryParams,
     ): QueryParamsPageable {
-        const typeKey = this.config.collection?.repository?.query?.typeKey;
         const searchArr = Object.keys(filterParams)
             .filter(key => !_.isEmpty(filterParams[key]))
             .map(key => {
@@ -136,9 +135,6 @@ export class XmTableRepositoryCollectionController<T = unknown>
                 });
             });
 
-        if (typeKey) {
-            searchArr.push(`typeKey: ${typeKey}`);
-        }
         const query = searchArr.join(' AND ');
 
         return _.merge(
