@@ -157,7 +157,7 @@ export class XmTableComponent implements OnInit {
     }
 
     public updatePagination(): void {
-        const sortBy = this._config.columns.find((i) => i.name === this.sort.active).name;
+        const sortBy = this._config.columns.find((i) => i.name === this.sort.active)?.name;
         const sortOrder = this.sort.direction;
         const pageIndex = this.paginator.pageIndex;
         const pageSize = this.paginator.pageSize;

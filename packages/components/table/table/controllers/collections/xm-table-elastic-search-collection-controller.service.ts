@@ -21,10 +21,6 @@ import * as _ from 'lodash';
 import { TABLE_FILTERS_ELASTIC } from '@xm-ngx/ext/common-webapp-ext/table-filter';
 import { ActivatedRoute, Router } from '@angular/router';
 
-export interface ElasticSearchCollectionConfig extends XmTableConfig {
-    elasticSearchRequest: any;
-}
-
 @Injectable()
 export class XmTableElasticSearchCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
@@ -64,22 +60,20 @@ export class XmTableElasticSearchCollectionController<T = unknown>
             },
         );
 
-        this.config.filtersToRequest.size = request.pageableAndSortable.pageSize;
-
         this.repository
-            .request('POST', this.config.filtersToRequest)
+            .query({ ...repositoryConfig.query, ...queryParams })
             .pipe(take(1))
             .subscribe(
                 (res) => {
                     this.change({
                         loading: false,
-                        items: res['hits']['hits'],
+                        items: res.body,
                         pageableAndSortable: {
-                            total: res['hits']['total']['value'],
-                            pageSize: request.pageableAndSortable.pageSize,
-                            pageIndex: request.pageableAndSortable.pageIndex,
-                            sortBy: request.pageableAndSortable.sortBy,
-                            sortOrder: request.pageableAndSortable.sortOrder,
+                            total: res.body.total,
+                            pageSize: res.body.pageSize,
+                            pageIndex: res.body.pageIndex,
+                            sortBy: res.body.sortBy,
+                            sortOrder: res.body.sortOrder,
                         },
                         error: null,
                     });
@@ -132,21 +126,20 @@ export class XmTableElasticSearchCollectionController<T = unknown>
 
     private createElasticTypeFiltersToRequest(
         queryParams: QueryParamsPageable,
+        filterParams: QueryParams,
     ): QueryParams & PageableAndSortable {
-        const typeKey = this.config.collection?.repository?.query?.typeKey;
-        const searchArr = _.filter(this.config.filters, item => !_.isEmpty(queryParams[item.name]))
-            .map((item) => {
-                return item.options?.elasticType === 'chips'
-                    ? this.getElasticQueryChips(queryParams, item)
-                    : this.getElastic(queryParams[item.name], {
-                        field: item.name,
-                        elasticType: item.options?.elasticType
-                    });
-            });
+        const searchArr = Object.keys(filterParams)
+            .filter(key => !_.isEmpty(filterParams[key]))
+            .map(key => {
+            const configFilter = this.config.filters?.find(filter => key === filter.name) || {} as XmTableConfigFilters;
+            return configFilter.options?.elasticType === 'chips'
+                ? this.getElasticQueryChips(filterParams, configFilter)
+                : this.getElastic(filterParams[key], {
+                    field: key,
+                    elasticType: configFilter.options?.elasticType
+                });
+        });
 
-        if (typeKey) {
-            searchArr.push(`typeKey: ${typeKey}`);
-        }
         const query = searchArr.join(' AND ');
 
         return _.merge(
@@ -183,7 +176,7 @@ export class XmTableElasticSearchCollectionController<T = unknown>
         if (this.config.filtersToRequest) {
             queryParams = this.createFiltersToRequest(queryParams);
         } else {
-            queryParams = this.createElasticTypeFiltersToRequest(queryParams);
+            queryParams = this.createElasticTypeFiltersToRequest(queryParams, filterParams);
         }
         return queryParams;
     }

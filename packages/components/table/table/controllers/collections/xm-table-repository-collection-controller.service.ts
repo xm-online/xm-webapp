@@ -126,17 +126,20 @@ export class XmTableRepositoryCollectionController<T = unknown>
 
     private createElasticTypeFiltersToRequest(
         queryParams: QueryParamsPageable,
+        filterParams: QueryParams,
     ): QueryParams & PageableAndSortable {
         const typeKey = this.config.collection?.repository?.query?.typeKey;
-        const searchArr = _.filter(this.config.filters, item => !_.isEmpty(queryParams[item.name]))
-            .map((item) => {
-                return item.options?.elasticType === 'chips'
-                    ? this.getElasticQueryChips(queryParams, item)
-                    : this.getElastic(queryParams[item.name], {
-                        field: item.name,
-                        elasticType: item.options?.elasticType
-                    });
-            });
+        const searchArr = Object.keys(filterParams)
+            .filter(key => !_.isEmpty(filterParams[key]))
+            .map(key => {
+            const configFilter = this.config.filters?.find(filter => key === filter.name) || {} as XmTableConfigFilters;
+            return configFilter.options?.elasticType === 'chips'
+                ? this.getElasticQueryChips(filterParams, configFilter)
+                : this.getElastic(filterParams[key], {
+                    field: key,
+                    elasticType: configFilter.options?.elasticType
+                });
+        });
 
         if (typeKey) {
             searchArr.push(`typeKey: ${typeKey}`);
@@ -177,7 +180,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         if (this.config.filtersToRequest) {
             queryParams = this.createFiltersToRequest(queryParams);
         } else {
-            queryParams = this.createElasticTypeFiltersToRequest(queryParams);
+            queryParams = this.createElasticTypeFiltersToRequest(queryParams, filterParams);
         }
         return queryParams;
     }
