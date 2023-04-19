@@ -1,7 +1,11 @@
 export function copyToClipboard(text: string): Promise<void> {
-    if (navigator.clipboard && window.isSecureContext) {
-        return navigator.clipboard.writeText(text);
-    } 
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        }
+    } catch (error) {
+        console.warn(error);
+    }
 
     return new Promise((resolve, reject) => {
         try {
@@ -14,10 +18,14 @@ export function copyToClipboard(text: string): Promise<void> {
     });
 }
 
-export function readFromClipboard(): Promise<string> {
-    if (navigator.clipboard && window.isSecureContext) {
-        return navigator.clipboard.readText();
-    } 
+export function readFromClipboard(): Promise<unknown> {
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.readText();
+        }
+    } catch (error) {
+        console.warn(error);
+    }
 
     return new Promise((resolve, reject) => {
         try {
