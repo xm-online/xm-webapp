@@ -18,11 +18,11 @@
         </mat-form-field>
 
         <mat-form-field class="me-4">
+          <mat-label>{{'rolesManagement.permission.privilegeKey' | translate}}</mat-label>
           <input (change)="onChangeSort()"
                  [(ngModel)]="sortBy.query"
                  matInput
                  name="search"
-                 placeholder="{{'rolesManagement.permission.privilegeKey' | translate}}"
                  type="text">
         </mat-form-field>
 

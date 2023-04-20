@@ -12,6 +12,7 @@ export interface XmConfirmDialogControlDef<V = unknown, O = XmConfirmDialogOptio
     selector: string;
     class?: string;
     style?: string;
+    disabled?: boolean;
 }
 
 export interface XmConfirmDialogConditionModel {
@@ -30,6 +31,7 @@ export interface XmConfirmDialogGroup {
 }
 
 export type XmConfirmDialogControls = XmConfirmDialogGroup[];
+export type XmConfirmDialogComputedData = XmConfirmDialogData & { hasControls: boolean };
 
 export interface XmConfirmDialogData {
     title?: Translate;
@@ -37,4 +39,5 @@ export interface XmConfirmDialogData {
     cancelButtonText?: Translate;
     confirmButtonText?: Translate;
     controls?: XmConfirmDialogControls;
+    isManualClose?: boolean;
 }

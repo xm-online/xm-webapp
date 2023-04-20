@@ -7,6 +7,7 @@
       <div *ngIf="success" [innerHTML]="'settings.messages.success' | translate" class="alert alert-success"></div>
 
       <mat-form-field>
+        <mat-label>{{'global.form.firstname' | translate}}</mat-label>
         <input #firstNameInput="ngModel"
                [(ngModel)]="settingsAccount.firstName"
                id="firstName"
@@ -14,7 +15,6 @@
                maxlength=50
                minlength=1
                name="firstName"
-               placeholder="{{'global.form.firstname' | translate}}"
                required
                type="text">
         <mat-error *ngIf="firstNameInput.hasError('required')">
@@ -29,6 +29,7 @@
       </mat-form-field>
 
       <mat-form-field>
+        <mat-label>{{'global.form.lastname' | translate}}</mat-label>
         <input #lastNameInput="ngModel"
                [(ngModel)]="settingsAccount.lastName"
                id="lastName"
@@ -36,7 +37,6 @@
                maxlength=50
                minlength=1
                name="lastName"
-               placeholder="{{'global.form.lastname' | translate}}"
                required
                type="text">
         <mat-error *ngIf="lastNameInput.hasError('required')">

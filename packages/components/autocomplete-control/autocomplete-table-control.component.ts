@@ -13,14 +13,13 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { HintModule } from '@xm-ngx/components/hint';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { XmAutocompleteControl } from './autocomplete-control';
 import { MatInputModule } from '@angular/material/input';
 import { XmTableColumnDynamicCellsModule } from '../table';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
-import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmAutocompleteControlListItem } from './autocomple-control.interface';
 import { XmEntity } from '@xm-ngx/entity';
 import { distinctUntilChanged, Observable, of, startWith, switchMap } from 'rxjs';
@@ -53,11 +52,11 @@ export class RowCheckedPipe implements PipeTransform {
                 matInput
                 [formControl]="searchQueryControl"
                 [placeholder]="config.title | translate">
-        </mat-form-field>
 
-        <div class="mt-1 mb-1" style="height: var(--mdc-linear-progress-track-height, 4px)">
-            <mat-progress-bar mode="indeterminate" *ngIf="loading | async"></mat-progress-bar>
-        </div>
+            <div matSuffix class="ms-3 me-3">
+                <mat-progress-spinner diameter="24" mode="indeterminate" *ngIf="loading | async"></mat-progress-spinner>
+            </div>
+        </mat-form-field>
 
         <div [style.height.px]="config.height" class="overflow-auto">
             <table mat-table [dataSource]="list" [trackBy]="trackBy.bind(this)">
@@ -100,7 +99,7 @@ export class RowCheckedPipe implements PipeTransform {
         MatInputModule,
         MatSelectModule,
         NgxMatSelectSearchModule,
-        MatProgressBarModule,
+        MatProgressSpinnerModule,
         ReactiveFormsModule,
         FormsModule,
         XmTableColumnDynamicCellsModule,
@@ -122,22 +121,8 @@ export class XmAutocompleteTableControl extends XmAutocompleteControl {
         return [this.selectionColumnName].concat(this.config.columns.map(c => c.name));
     }
 
-    public selection: SelectionModel<XmAutocompleteControlListItem>;
-
-    public ngOnInit(): void {
-        super.ngOnInit();
-
-        this.selection = new SelectionModel<XmAutocompleteControlListItem>(this.config.multiple, [], true, this.identityFn);
-
-        this.fetchedList.pipe(
-            takeUntilOnDestroy(this),
-        ).subscribe(values => {
-            this.selection.select(...values );
-        });
-    }
-
     public trackBy = (index: number, item: XmEntity<unknown>): string | number => {
-        const { id = index } = this.identity<{ id: string; }>(item) ?? {};
+        const { id = index } = this.identityFormat<{ id: string; }>(item) ?? {};
 
         return id;
     };
@@ -161,7 +146,7 @@ export class XmAutocompleteTableControl extends XmAutocompleteControl {
 
         this.selection.toggle(row);
 
-        this.change(this.unwrapValues(this.selection.selected));
+        this.change(this.selection.selected);
     }
 
     public toggleAllRows(): void {
@@ -175,6 +160,6 @@ export class XmAutocompleteTableControl extends XmAutocompleteControl {
             this.selection.select(...this.list.value);
         }
 
-        this.change(this.unwrapValues(this.selection.selected));
+        this.change(this.selection.selected);
     }
 }
