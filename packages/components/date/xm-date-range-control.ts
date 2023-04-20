@@ -70,11 +70,12 @@ export const XM_DATE_RANGE_CONTROL_OPTIONS: XmDateRangeControlOptions = {
                        [name]="config?.toName">
             </mat-date-range-input>
 
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-
-            <button mat-icon-button matSuffix *ngIf="value !== null" (click)="change(null)">
-                <mat-icon>close</mat-icon>
-            </button>
+            <span matSuffix class="d-flex">
+                <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+                <button mat-icon-button *ngIf="value !== null" (click)="change(null)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </span>
 
             <mat-date-range-picker #picker></mat-date-range-picker>
 
