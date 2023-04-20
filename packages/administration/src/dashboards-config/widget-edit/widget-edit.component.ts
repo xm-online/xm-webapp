@@ -147,11 +147,18 @@ export class WidgetEditComponent implements OnChanges {
         const text = await readFromClipboard();
 
         let config: DashboardWidget;
-        try {
-            config = JSON.parse(text);
-        } catch (e) {
-            return;
+
+        if (_.isString(text)) {
+            try {
+                config = JSON.parse(text);
+            } catch (e) {
+                console.warn(e);
+                return;
+            }
+        } else if (_.isObject(text)) {
+            config = text as DashboardWidget;
         }
+
         delete config.id;
         delete config.dashboard.id;
         this.value = _.merge(this.value, config);
