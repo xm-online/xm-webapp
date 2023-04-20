@@ -9,7 +9,7 @@ import { XmDynamicRouteResolverGuard } from './xm-dynamic-route-resolver-guard.s
         RouterModule.forChild([
             {
                 path: '',
-                canMatch: [XmDynamicRouteResolverGuard],
+                canLoad: [XmDynamicRouteResolverGuard],
                 canActivate: [XmDynamicRouteResolverGuard],
                 canDeactivate: [XmDynamicRouteResolverGuard],
                 loadChildren: () => Promise.resolve(XmDynamicRouteProviderModule),
