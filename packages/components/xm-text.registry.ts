@@ -61,5 +61,9 @@ export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
         selector: '@xm-ngx/components/text-dynamic-view',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextDynamicView),
     },
+    {
+        selector: '@xm-ngx/components/text-cell',
+        loadChildren: () => import('./text/text-cell/text-cell.component').then(m => m.XmTextCellComponent),
+    },
     ...XM_ANGULAR_EDITOR_CONTROL_ELEMENTS,
 ];
