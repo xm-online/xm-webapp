@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanLoad, RouterStateSnapshot, Routes } from '@angular/router';
+import {
+    ActivatedRouteSnapshot,
+    CanActivate,
+    CanDeactivate,
+    CanMatch,
+    Routes,
+} from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ArgumentException } from '@xm-ngx/shared/exceptions';
@@ -15,7 +21,7 @@ import { XmDashboardRouteFactory, xmDashboardRoutesFactory } from './xm-dashboar
 @Injectable()
 export class XmDashboardDynamicRouteResolverGuard
     extends XmDynamicRouteResolverGuard
-    implements CanLoad, CanActivate {
+    implements CanMatch, CanActivate, CanDeactivate<unknown> {
     private routes: Routes | null = null;
 
     constructor(
@@ -25,16 +31,22 @@ export class XmDashboardDynamicRouteResolverGuard
         super();
     }
 
-    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    public canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
         delete route.routeConfig['_loadedConfig'];
-        return this.canLoad();
+        return this.canMatch();
+    }
+
+    public canDeactivate(_: unknown, route: ActivatedRouteSnapshot): Observable<boolean> {
+        delete route.routeConfig['_loadedConfig'];
+        this.routes = [];
+        return of(true);
     }
 
     public getRoutes(): Routes | null {
         return this.routes;
     }
 
-    public canLoad(): Observable<boolean> {
+    public canMatch(): Observable<boolean> {
         return this.getRoutes$().pipe(
             map((routes) => {
                 this.routes = routes;
