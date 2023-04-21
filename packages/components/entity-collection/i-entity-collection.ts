@@ -13,7 +13,7 @@ export interface IEntityCollection<T extends IId = unknown> {
     request<R>(
         method: string, 
         body?: unknown, 
-            params?: HttpParams | {
+        params?: HttpParams | {
             [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
         }, 
         headers?: HttpHeaders | {
