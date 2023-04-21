@@ -241,7 +241,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
             }
         }
         if (changedParams.length > 1) {
-            const template = changedParams.toString();
+            const template = changedParams.toString().replace(/,/g, ' ');
             this.fillTimelineTemplate(item, template);
         }
     }
