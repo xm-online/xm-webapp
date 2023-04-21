@@ -368,7 +368,8 @@
       "no": "Nein",
       "set": "Garnitur",
       "yes": "Ja",
-      "yes-exit": "Ja, Steig aus!"
+      "yes-exit": "Ja, Steig aus!",
+      "dbclick-to-edit": "Zum Bearbeiten doppelklicken"
     },
     "field": {
       "id": "ID"

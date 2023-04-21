@@ -31,12 +31,12 @@
 
     <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription" class="form-group">
       <mat-form-field>
+        <mat-label>{{'xm-entity.common.fields.name' | translate}}</mat-label>
         <input #entityName="ngModel"
                [(ngModel)]="xmEntity.name"
                id="field_name"
                matInput
                name="name"
-               placeholder="{{'xm-entity.common.fields.name' | translate}}"
                required
                type="text">
         <mat-error *ngIf="entityName.hasError('required')">
@@ -47,10 +47,10 @@
 
     <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription" class="form-group">
       <mat-form-field>
+        <mat-label>{{'xm-entity.common.fields.description' | translate}}</mat-label>
         <textarea [(ngModel)]="xmEntity.description"
                   matInput
                   name="description"
-                  placeholder="{{'xm-entity.common.fields.description' | translate}}"
                   rows="4">
         </textarea>
       </mat-form-field>

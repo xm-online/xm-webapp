@@ -31,13 +31,13 @@ export interface XmAutocompleteControlConfig {
         body: XmAutocompleteControlParams;
         queryParams: XmAutocompleteControlParams;
     };
-    filterFetchedData?: boolean;
     multiple: boolean;
     startEmptySearch?: boolean;
     extractByKey?: string;
     compareMap: Record<string, unknown>;
     itemMapper: XmAutocompleteControlMapper;
-    skipUpdateWhileMismatch?: boolean;
+    mergeControlValues?: boolean;
+    pickIntersectSelected?: boolean;
     skipFetchSelected?: boolean;
     valueAsJson?: boolean;
     columns: XmTableColumnDynamicCellsOptions[];
@@ -61,9 +61,9 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
         body: {},
     },
     startEmptySearch: true,
-    filterFetchedData: false,
+    mergeControlValues: false,
+    pickIntersectSelected: false,
     skipFetchSelected: false,
-    skipUpdateWhileMismatch: false,
     multiple: false,
     valueAsJson: false,
     extractByKey: null,

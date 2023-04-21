@@ -1,7 +1,10 @@
 /* tslint:disable:max-classes-per-file */
+import { XmEntity } from '@xm-ngx/entity';
+
 export class TimeLineConfig {
     constructor(public responses: TimeLineConfigItem[]) {
     }
+
     public getResponseConfigItem(tlc: any): TimeLineConfigItem {
         return this.responses.filter((r) => {
             return r.isMatch(tlc);
@@ -50,4 +53,17 @@ export class TimeLineConfigItem {
 export class TimeLineContext {
     constructor(public response?: any) {
     }
+}
+
+export interface TimeLineItem {
+    entityAfter: XmEntity,
+    entityBefore: XmEntity,
+    aggregateId: string,
+}
+export interface TimeLineServiceConfig{
+    aggregateId: number,
+    source: string,
+    sort: string,
+    size: number,
+    page: number,
 }

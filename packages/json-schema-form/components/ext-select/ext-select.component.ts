@@ -132,18 +132,8 @@ export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit
     }
 
     public updateValue(event: any): void {
-        const item = this.elements.filter((e) => e.value === event.value.value)[0];
-        const fg: UntypedFormGroup = this.jsf.formGroup;
-        if (this.options.relatedFields) {
-            this.options.relatedFields.forEach((field) => {
-                const relativeControl = ExtSelectService.controlByKey(field.key, fg, this.dataIndex);
-                if (relativeControl) {
-                    const value = ExtSelectService.byString(item.object, field.value);
-                    relativeControl.setValue(value);
-                    relativeControl.updateValueAndValidity({emitEvent: true});
-                }
-            });
-        }
+        const item = this.elements.find((e) => e.value === event.value.value);
+        this.processRelatedFields(item);
         if (this.layoutNode.dataType === 'array') {
             this.jsf.updateValue(this, [item.value]);
         } else {
@@ -155,6 +145,20 @@ export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit
             }
         }
         this.controlValue = event.value.value;
+    }
+
+    private processRelatedFields(item) {
+        if (this.options.relatedFields && item) {
+            const fg: UntypedFormGroup = this.jsf.formGroup;
+            this.options.relatedFields.forEach((field) => {
+                const relativeControl = ExtSelectService.controlByKey(field.key, fg, this.dataIndex);
+                if (relativeControl) {
+                    const value = ExtSelectService.byString(item.object, field.value);
+                    relativeControl.setValue(value);
+                    relativeControl.updateValueAndValidity({emitEvent: true});
+                }
+            });
+        }
     }
 
     public onNavigate(e: Event): void {
@@ -220,6 +224,8 @@ export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit
                 () => {
                     if (this.controlValue) {
                         this.jsf.updateValue(this, this.controlValue);
+                        const item = this.elements?.find((e) => e.value === this.controlValue);
+                        this.processRelatedFields(item);
                     }
                 },
                 (error) => console.warn(error));

@@ -307,6 +307,6 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             this.control.markAsTouched();
             this.control.markAsDirty();
         }
-        this.setDisabledState(this.control.disabled);
+        this.setDisabledState(this.control?.disabled);
     }
 }

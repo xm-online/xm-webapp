@@ -10,8 +10,8 @@
                  [(ngModel)]="fromDate"
                  [matDatepicker]="fromDatePicker"
                  matInput
-                 placeholder="{{'audits.filter.from' | translate}}"
                  required>
+          <mat-label>{{'audits.filter.from' | translate}}</mat-label>
           <mat-datepicker-toggle [for]="fromDatePicker" matSuffix></mat-datepicker-toggle>
           <mat-datepicker #fromDatePicker></mat-datepicker>
         </mat-form-field>
@@ -22,8 +22,8 @@
                  [(ngModel)]="toDate"
                  [matDatepicker]="toDatePicker"
                  matInput
-                 placeholder="{{'audits.filter.to' | translate}}"
                  required>
+          <mat-label>{{'audits.filter.to' | translate}}</mat-label>
           <mat-datepicker-toggle [for]="toDatePicker" matSuffix></mat-datepicker-toggle>
           <mat-datepicker #toDatePicker></mat-datepicker>
         </mat-form-field>

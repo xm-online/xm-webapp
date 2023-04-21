@@ -21,32 +21,37 @@
           </mat-form-field>
 
           <div *ngIf="isXmForm">
-            <mat-form-field *ngIf="specs$ | async as fetchedSpecs;">
-              <ng-container
-                *ngIf="fetchedSpecs; then resultData; else noData"
-              ></ng-container>
+
+            <div *ngIf="specs$ | async as fetchedSpecs;">
+
+              <ng-container *ngIf="fetchedSpecs; then resultData; else noData"></ng-container>
+
               <ng-template #resultData>
-                <mat-select
-                  (selectionChange)="onEntitySelect($event.value)"
-                  [(ngModel)]="selectedSpec"
-                  placeholder="{{'xm-entity.states-management-dialog.choose-state' | translate}}"
-                >
-                  <mat-option>
-                    <ngx-mat-select-search
-                      [formControl]="formSpecSearch"
-                      [placeholderLabel]="'global.rest-select-placeholder-search.simple' | translate"
-                      [noEntriesFoundLabel]="'global.rest-select-placeholder-noresults' | translate"
-                    ></ngx-mat-select-search>
-                  </mat-option>
-                  <mat-option *ngFor="let option of filteredSpecOptions$ | async" [value]="option.key">
-                    {{ option.key }}
-                  </mat-option>
-                </mat-select>
+                <mat-form-field>
+                  <mat-label>{{'xm-entity.states-management-dialog.choose-state' | translate}}</mat-label>
+                  <mat-select
+                    (selectionChange)="onEntitySelect($event.value)"
+                    [(ngModel)]="selectedSpec"
+                  >
+                    <mat-option>
+                      <ngx-mat-select-search
+                        [formControl]="formSpecSearch"
+                        [placeholderLabel]="'global.rest-select-placeholder-search.simple' | translate"
+                        [noEntriesFoundLabel]="'global.rest-select-placeholder-noresults' | translate"
+                      ></ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngFor="let option of filteredSpecOptions$ | async" [value]="option.key">
+                      {{ option.key }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </ng-template>
+
               <ng-template #noData>
                 <mat-card>No data</mat-card>
               </ng-template>
-            </mat-form-field>
+
+            </div>
 
             <mat-form-field *ngIf="xmEntityForms$ | async as fetchedSpecs;">
               <ng-container

@@ -5,6 +5,7 @@ import {
     Injector,
     Input,
     OnChanges,
+    OnDestroy,
     OnInit,
     Output,
     Renderer2,
@@ -17,6 +18,7 @@ import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-b
 import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
 import { setComponentInput } from '../shared/set-component-input';
+import { from, ReplaySubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 export interface XmDynamicControl<V = unknown, O = unknown> extends XmDynamicPresentation<V, O>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
@@ -51,7 +53,10 @@ export interface XmDynamicControlEntryModule<V = unknown, O = unknown> extends X
 })
 export class XmDynamicControlDirective<V, O>
     extends XmDynamicPresentationDirective<V, O>
-    implements ControlValueAccessor, XmDynamicControl<V, O>, OnInit, OnChanges {
+    implements ControlValueAccessor, XmDynamicControl<V, O>, OnInit, OnChanges, OnDestroy {
+    private unsubscribe = new Subject<void>();
+
+    private controlValue = new ReplaySubject<V>(1);
 
     /** Component value */
     @Input() public value: V;
@@ -83,7 +88,16 @@ export class XmDynamicControlDirective<V, O>
     
 
     public ngOnInit(): void {
-        this.createComponent().then();
+        from(this.createComponent()).pipe(
+            /**
+             * We need this because createComponent is async
+             */
+            switchMap(() => this.controlValue.asObservable()),
+            tap(value => {
+                this.updateWriteValue(value);
+            }),
+            takeUntil(this.unsubscribe),
+        ).subscribe();
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -104,6 +118,11 @@ export class XmDynamicControlDirective<V, O>
         }
     }
 
+    public ngOnDestroy(): void {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
+    }
+
     public registerOnChange(fn: (v: V) => void): void {
         this._onChange = fn;
         this.updateRegisterOnChange();
@@ -116,6 +135,7 @@ export class XmDynamicControlDirective<V, O>
 
     public writeValue(obj: V): void {
         this.value = obj;
+        this.controlValue.next(obj);
     }
 
     public setDisabledState?(isDisabled: boolean): void {
@@ -151,8 +171,15 @@ export class XmDynamicControlDirective<V, O>
   
         setComponentInput(this.compRef, 'value', this.value);
 
-        this._onChange(this.value);
         this.valueChange.next(this.value);
+    }
+
+    protected updateWriteValue(obj: V): void {
+        if (!this.instance || typeof this.instance.writeValue !== 'function') {
+            return;
+        }
+
+        this.instance.writeValue(obj);
     }
 
     protected updateRegisterOnChange(): void {
