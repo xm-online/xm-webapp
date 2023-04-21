@@ -13,8 +13,10 @@ export interface TableNoDataRawManager<T extends CdkNoDataRow = CdkNoDataRow> {
 
 
 export interface XmTableEmptyRows {
-    initial: XmTableEmptyConfig, // case , when table initially loaded empty
-    filter: XmTableEmptyConfig // case, when table filtered empty
+    /** case , when table initially loaded empty */
+    initial: XmTableEmptyConfig,
+    /** case, when table filtered empty */
+    filter: XmTableEmptyConfig
 }
 
 export const DEFAULT_NO_ROWS_CONFIG: XmTableEmptyRows = {

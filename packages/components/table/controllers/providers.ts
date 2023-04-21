@@ -39,5 +39,5 @@ export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmTableReadOnlyRepositoryCollectionController,
     XmTableRepositoryCollectionController,
     XmTableStringArrayCollectionController,
-    XmTableElasticSearchCollectionController
+    XmTableElasticSearchCollectionController,
 ];

@@ -11,11 +11,13 @@ import {
     nestedPropElastic,
     strictNumberElastic,
     strictNumberOrContainsStringElastic,
-    strictStringElastic, templateElastic, userDelegationElastic,
-    userFullnameElastic
+    strictStringElastic,
+    templateElastic,
+    userDelegationElastic,
+    userFullnameElastic,
 } from './xm-table-filter-elastic';
 
-export const TABLE_FILTERS_ELASTIC = {
+export const Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY = {
     default: containsElastic,
     nestedProp: nestedPropElastic,
     link: strictNumberOrContainsStringElastic,

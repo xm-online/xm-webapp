@@ -16,7 +16,7 @@ import {
 } from '../../interfaces/xm-table.model';
 import { format } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
-import { TABLE_FILTERS_ELASTIC } from '../filters/xm-table-filter-const';
+import { Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY } from '../filters/xm-table-filters-elastic-string-query';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 
@@ -190,7 +190,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
     }
 
     private getElastic(value: string | number, filter: { field: string, elasticType: string }): string {
-        const fn = TABLE_FILTERS_ELASTIC[get(filter, 'elasticType', '')];
+        const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[get(filter, 'elasticType', '')];
         return fn ? fn(value, filter) : null;
     };
 }

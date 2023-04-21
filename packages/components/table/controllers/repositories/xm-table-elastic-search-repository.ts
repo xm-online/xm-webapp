@@ -52,9 +52,9 @@ export class XmTableElasticSearchRepository<T extends XmEntity>
         return this.handle(
             this.httpClient.post<T[] & HttpResponse<T[] & PageableAndSortable>>(this.url, params, {
                 observe: 'response',
-                headers
+                headers,
             }).pipe(
-                map(res => this.extractExtra(res, params as XmTableElasticSearchRepositoryRequest)),
+                map(res => this.extractExtra(res, params )),
             ),
         );
     }
@@ -73,15 +73,15 @@ export class XmTableElasticSearchRepository<T extends XmEntity>
             query = params.query && {
                 query: {
                     query_string: {
-                        query: params.query
-                    }
-                }
-            }
+                        query: params.query,
+                    },
+                },
+            };
         }
 
         return _.merge(
             query,
-            extra
+            extra,
         );
     }
 

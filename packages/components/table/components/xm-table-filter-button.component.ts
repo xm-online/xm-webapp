@@ -49,7 +49,7 @@ export class XmTableFilterButtonComponent implements OnDestroy {
                     originX: 'start',
                     originY: 'top',
                     overlayX: 'start',
-                    overlayY: 'top'
+                    overlayY: 'top',
                 },
             ])
             .withLockedPosition(true)

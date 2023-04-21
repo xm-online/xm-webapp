@@ -23,6 +23,11 @@ export class XmTableExampleComponent {
                 field: 'name',
                 sortable: true,
                 sticky: true,
+                name: 'name',
+                dataClass: 'string',
+                dataStyle: 'data',
+                class: 'data',
+                style: 'data',
             },
         ],
         collection: {

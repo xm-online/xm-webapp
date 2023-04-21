@@ -16,7 +16,7 @@ import { HintModule } from '@xm-ngx/components/hint';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { XmAutocompleteControl } from './autocomplete-control';
 import { MatInputModule } from '@angular/material/input';
-import { XmTableColumnDynamicCellsModule } from '../table';
+import { XmTableColumnDynamicCellsComponent } from '../table';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -32,7 +32,7 @@ import { distinctUntilChanged, Observable, of, startWith, switchMap } from 'rxjs
 })
 export class RowCheckedPipe implements PipeTransform {
     public transform(
-        value: XmAutocompleteControlListItem, 
+        value: XmAutocompleteControlListItem,
         selection: SelectionModel<XmAutocompleteControlListItem>
     ): Observable<boolean> {
         return selection.changed.pipe(
@@ -72,7 +72,7 @@ export class RowCheckedPipe implements PipeTransform {
                         </mat-checkbox>
                     </th>
                     <td mat-cell [style.width.px]="width" *matCellDef="let row">
-                        <mat-checkbox 
+                        <mat-checkbox
                             (click)="$event.stopPropagation()"
                             (change)="$event ? toggleRow(row) : null"
                             [disabled]="disabled"
@@ -103,7 +103,7 @@ export class RowCheckedPipe implements PipeTransform {
         MatProgressBarModule,
         ReactiveFormsModule,
         FormsModule,
-        XmTableColumnDynamicCellsModule,
+        XmTableColumnDynamicCellsComponent,
         MatCheckboxModule,
         MatTableModule,
         XmTranslationModule,

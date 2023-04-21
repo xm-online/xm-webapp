@@ -150,8 +150,8 @@ export class XmTableFilterInlineComponent {
     constructor(
         protected entitiesRequestBuilder: XmTableFilterController,
         private collectionControllerResolver: XmTableCollectionControllerResolver,
-        private elementRef: ElementRef,
-        private ref: ChangeDetectorRef
+        private elementRef: ElementRef<HTMLElement>,
+        private ref: ChangeDetectorRef,
     ) {
     }
 
@@ -194,7 +194,7 @@ export class XmTableFilterInlineComponent {
         const container = this.elementRef.nativeElement;
         const chips = container.querySelectorAll('.chip-option');
         const btn = container.querySelector('.btn-clear-all');
-        const filterContainer = container.querySelector('.filter-container');
+        const filterContainer = container.querySelector<HTMLElement>('.filter-container');
 
         const PADDING_FILTER_CONTAINER = btn?.clientWidth ? 100 + btn.clientWidth : 100;
         let chipsWidth = PADDING_FILTER_CONTAINER;

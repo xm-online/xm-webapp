@@ -15,7 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
-import { XmTableColumnDynamicCell } from '@xm-ngx/components/table/column/xm-table-column-dynamic-cell.component';
+import { XmTableColumnDynamicCell } from '@xm-ngx/components/table/columns/xm-table-column-dynamic-cell.component';
 import { PerPageModule } from '@xm-ngx/components/per-page';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';

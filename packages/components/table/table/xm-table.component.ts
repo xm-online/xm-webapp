@@ -21,10 +21,10 @@ import { XmTableEmptyComponent } from '@xm-ngx/components/table/components/xm-ta
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
-import { XmTableDynamicColumnModule } from '../column/xm-table-dynamic-column';
+import { XmTableDynamicColumnComponent } from '../columns/xm-table-dynamic-column.component';
 import {
     XmTableColumnDynamicCell
-} from '../column/xm-table-column-dynamic-cell.component';
+} from '../columns/xm-table-column-dynamic-cell.component';
 import { map } from 'rxjs/operators';
 import {
     SelectTableColumn,
@@ -38,8 +38,8 @@ import {
 import { XmTableLoadingColumnComponent } from '@xm-ngx/components/table/components/xm-table-loading-column.component';
 import {
     ColumnsSettingStorageItem,
-    ColumnsSettingStorageService,
-} from '@xm-ngx/components/table/service/columns-settings-storage.service';
+    XmTableColumnsSettingStorageService,
+} from '@xm-ngx/components/table/services/xm-table-columns-setting-storage.service';
 import { XmTableHeaderComponent } from '@xm-ngx/components/table/components/xm-table-header.component';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -85,7 +85,7 @@ interface IXmTableContext {
         MatTableModule,
         MatSortModule,
         AsyncPipe,
-        XmTableDynamicColumnModule,
+        XmTableDynamicColumnComponent,
         XmTableColumnDynamicCell,
         NgForOf,
         XmTableSelectionColumnComponent,
@@ -97,7 +97,7 @@ interface IXmTableContext {
         ...XM_TABLE_CONTROLLERS,
         XmTableSelectionService,
         XmTableFilterController,
-        ColumnsSettingStorageService,
+        XmTableColumnsSettingStorageService,
     ],
 })
 export class XmTableComponent implements OnInit {
@@ -126,7 +126,7 @@ export class XmTableComponent implements OnInit {
         private collectionControllerResolver: XmTableCollectionControllerResolver,
         private configController: XmTableConfigController,
         private tableFilterController: XmTableFilterController,
-        private columnsSettingStorageService: ColumnsSettingStorageService,
+        private columnsSettingStorageService: XmTableColumnsSettingStorageService,
         public router: Router,
         private activatedRoute: ActivatedRoute
     ) {

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 export class XmTableEntityController<T = unknown> {
 
     public entity$(): Observable<T> {
-    // TODO:FEATURE: support entity in context
+        // TODO:FEATURE: support entity in context
         return null;
     }
 
