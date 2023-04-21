@@ -63,7 +63,7 @@ export interface TimeLineItem {
 export interface TimeLineServiceConfig{
     aggregateId: number,
     source: string,
-    sort: string,
+    sort?: string,
     size: number,
     page: number,
 }

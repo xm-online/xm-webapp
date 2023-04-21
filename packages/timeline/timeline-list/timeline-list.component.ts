@@ -337,8 +337,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         return {
             aggregateId: this.entity.id,
             source: 'db',
-            sort: options.sort || 'startDate',
-            size: options.size,
+            size: options?.size || 5,
             page: options.page || 0,
         };
     }
