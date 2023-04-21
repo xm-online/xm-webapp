@@ -4,6 +4,8 @@ import { AccountService, Principal } from '@xm-ngx/core/user';
 import { MockPrincipalService } from '@xm-ngx/core/user/testing';
 
 import { XmUserSecuritySettingsComponent } from './xm-user-security-settings.component';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('XmUserSecuritySettingsComponent', () => {
     let component: XmUserSecuritySettingsComponent;
@@ -15,7 +17,7 @@ describe('XmUserSecuritySettingsComponent', () => {
                 { provide: Principal, useClass: MockPrincipalService },
                 { provide: AccountService, useValue: null },
             ],
-            imports: [XmUserSecuritySettingsComponent],
+            imports: [XmUserSecuritySettingsComponent, XmTranslationTestingModule, HttpClientTestingModule],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();
