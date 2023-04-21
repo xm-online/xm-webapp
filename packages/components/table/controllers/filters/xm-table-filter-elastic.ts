@@ -1,7 +1,7 @@
 import { XmEntity } from '@xm-ngx/entity';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { XmTableColumn } from '@xm-ngx/components/table/column/xm-table-column-dynamic-cell.component';
+import { XmTableColumn } from '@xm-ngx/components/table/columns/xm-table-column-dynamic-cell.component';
 
 export function escapeQuotes(str: string): string {
     return (str + '').replace(/[\\"']/g, '\\$&')
@@ -12,6 +12,7 @@ export function escapeQuotes(str: string): string {
 }
 
 export const entityElastic = (v: XmEntity, o: XmTableColumn): string => `${o.field}: ${v.id}`;
+
 export const entitySelectElastic = (v: XmEntity, o: XmTableColumn): string => `${o.field}: ${v}`;
 
 export const strictNumberElastic = (v: string | number, o: XmTableColumn): string => `${o.field}: ${v.toString().trim()}`;
@@ -25,9 +26,9 @@ export const booleanElastic = (v: string | boolean | null, o: XmTableColumn): st
     return `(NOT ${o.field}: true)`;
 };
 
-export const containsElastic = (v: string, o: { field?: string }): string => `${o.field}: *${escapeQuotes(v.toString().trim())}*`;
+export const containsElastic = (v: string, o: XmTableColumn): string => `${o.field}: *${escapeQuotes(v.toString().trim())}*`;
 
-export const multiSelectElastic = (v: string[], o: { field?: string }): string => {
+export const multiSelectElastic = (v: string[], o: XmTableColumn): string => {
     if (v.length === 0) {
         return '';
     }
@@ -76,7 +77,7 @@ export const dateElastic = ([f, t]: Date[], o: XmTableColumn & { includeFullDay?
     return from + to;
 };
 
-export const userDelegationElastic = (v: string, o: { field?: string }): string => {
+export const userDelegationElastic = (v: string, o: XmTableColumn): string => {
     const requestNames: string[] = v.split(';');
     return multiSelectElastic(requestNames, o);
 };
