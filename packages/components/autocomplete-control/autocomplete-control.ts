@@ -1,23 +1,18 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { HttpHeaders } from '@angular/common/http';
 import { OnInit, OnDestroy, OnChanges, Input, inject, SimpleChanges, Directive } from '@angular/core';
 import { coerceArray } from '@angular/flex-layout';
 import { FormControl } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
 import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { LanguageService } from '@xm-ngx/translation';
 import _ from 'lodash';
-import { Subject, Observable, BehaviorSubject, startWith, map, switchMap, of, tap, distinctUntilChanged, debounceTime, catchError, finalize, shareReplay } from 'rxjs';
+import { Observable, BehaviorSubject, startWith, map, switchMap, of, tap, distinctUntilChanged, debounceTime, catchError, finalize, shareReplay, pairwise, filter } from 'rxjs';
 import { EntityCollectionFactoryService } from '../entity-collection';
 import { NgModelWrapper } from '../ng-accessor';
 import { AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG, XmAutocompleteControlConfig, XmAutocompleteControlMapper, XmAutocompleteControlListItem, XmAutocompleteControlParams, XmAutocompleteControlBody } from './autocomple-control.interface';
 
 @Directive()
 export class XmAutocompleteControl extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {
-    private refreshValue = new Subject<void>();
-
-    private displayFn: _.TemplateExecutor;
-    private valueByKey: _.TemplateExecutor;
-
     private _config: XmAutocompleteControlConfig = AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG;
 
     @Input()
@@ -27,22 +22,27 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         const { displayFn, valueByKey } = format<XmAutocompleteControlMapper>(this.config?.itemMapper, this.getLocaleContext());
 
         this.displayFn = _.template(displayFn);
-        this.valueByKey = _.template(valueByKey);
+        this.valueByKey = _.isObject(valueByKey) 
+            ? _.template(JSON.stringify(valueByKey))
+            : _.template(valueByKey);
     }
     public get config(): XmAutocompleteControlConfig {
         return this._config;
     }
 
-    private _selected: unknown | unknown[];
+    private _updateValues = new BehaviorSubject<unknown[]>(null);
 
-    public set selected(value: unknown | unknown[]) {
-        this._selected = value;
+    public set updateValues(value: unknown[]) {
+        this._updateValues.next(_.cloneDeep(value));
     }
-    public get selected(): unknown | unknown[] {
-        return this._selected;
+    public get updateValues(): unknown[] {
+        return this._updateValues.value;
     }
 
-    private requestCache: Observable<XmAutocompleteControlListItem[]>;
+    public updateValuesChnaged = this._updateValues.asObservable();
+
+    private displayFn: _.TemplateExecutor;
+    private valueByKey: _.TemplateExecutor;
 
     private collectionFactory = inject(EntityCollectionFactoryService);
     private languageService = inject(LanguageService);
@@ -59,37 +59,57 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         return this._loading.asObservable().pipe(shareReplay(1));
     }
 
+    public selection: SelectionModel<XmAutocompleteControlListItem>;
+    public selected: unknown | unknown[];
+
     public ngOnInit(): void {
-        this.refreshValue.pipe(
-            startWith(null),
-            switchMap(() => {
-                if (_.isEmpty(this.value)) {
-                    return of([]);
-                }
+        this.selection = new SelectionModel<XmAutocompleteControlListItem>(this.config.multiple, [], true, this.identityFn);
+ 
+        this.selection.changed.asObservable().pipe(
+            tap((changed) => {
+                const selected = changed.source.selected;
 
-                const normalizeSelectedValues = this.normalizeCollection(this.value);
-
-                if (!this.requestCache) {
-                    this.requestCache = this.fetchSelectedValues(normalizeSelectedValues).pipe(
-                        tap((fetchedSelectedValues) => {
-                            // If we received more data than requested, trying filter them
-                            if (fetchedSelectedValues > normalizeSelectedValues && this.config.filterFetchedData) {
-                                fetchedSelectedValues = _.intersectionBy(fetchedSelectedValues, normalizeSelectedValues, 'value');
-                            }
-                        
-                            if (fetchedSelectedValues > normalizeSelectedValues && this.config.skipUpdateWhileMismatch) {
-                                return;
-                            }
-            
-                            this.change(this.unwrapValues(fetchedSelectedValues));
-                        }),
-                    );
-                }
-
-                return this.requestCache;
+                this.selected = this.config.multiple
+                    ? selected
+                    : selected?.[0];
             }),
-            tap(values => {
-                this.fetchedList.next(values);
+            takeUntilOnDestroy(this),
+        ).subscribe();
+
+        this.updateValuesChnaged.pipe(
+            startWith(null),
+            pairwise(),
+            filter(([prev, curr]) => this.hasNewValues(prev, curr)),
+            switchMap(([__, selectedValues]) => {
+                const normalizeSelectedValues = this.normalizeValues(selectedValues);
+
+                if (this.config.skipFetchSelected) {
+                    return of(normalizeSelectedValues);
+                }
+
+                return this.fetchSelectedValues(normalizeSelectedValues).pipe(
+                    map((fetchedSelectedValues) => {
+                        // If we received more data than requested, trying filter them
+                        if (fetchedSelectedValues.length > normalizeSelectedValues.length && this.config.pickIntersectSelected) {
+                            return _.intersectionBy(fetchedSelectedValues, normalizeSelectedValues, 'value');
+                        }
+
+                        return fetchedSelectedValues;
+                    }),
+                    shareReplay(1),
+                );
+            }),
+            tap(fetchedSelectedValues => {
+                if (this.config.multiple) {
+                    this.selection.select(...fetchedSelectedValues);
+                } else {
+                    const [firstFetched] = fetchedSelectedValues;
+
+                    if (firstFetched) {
+                        this.selection.select(...[firstFetched]);
+                    }
+                }
+                this.fetchedList.next(fetchedSelectedValues);
             }),
             takeUntilOnDestroy(this),
         ).subscribe();
@@ -113,7 +133,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
                 map((search) => [fetch, search])
             )),
             map(([fetchedSelectedValues, search]) => {
-                return _.uniqWith(fetchedSelectedValues.concat(search), (a, b) => this.identityFn(a, b));
+                return this.uniqByIdentity(fetchedSelectedValues, search);
             }),
             tap((values) => {
                 this.list.next(values);
@@ -127,29 +147,45 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (this.list.value.length <= 0) {            
-            this.refreshValue.next();
+        // Prevent make another request
+        if (this.list.value.length <= 0) {  
+            this.updateValues = changes?.value?.currentValue;
         }
+    }
+
+    public writeValue(value: unknown[]): void {
+        this.updateValues = value;
+    }
+
+    private uniqByIdentity(source: XmAutocompleteControlListItem[], target: XmAutocompleteControlListItem[]): XmAutocompleteControlListItem[] {
+        return _.uniqWith(source.concat(target), (a, b) => this.identityFn(a, b));
+    }
+
+    private hasNewValues(prev: unknown[], curr: unknown[]): boolean {
+        if (_.isEmpty(curr)) {
+            return false;
+        }
+
+        const unwrapPrev = this.unwrapValues(this.normalizeValues(prev));
+        const unwrapCurr = this.unwrapValues(this.normalizeValues(curr));
+
+        return !_.isEqual(unwrapPrev, unwrapCurr);
     }
 
     private searchByQuery(searchQuery: string): Observable<XmAutocompleteControlListItem[]> {
         const { queryParams, body} = this.config?.search || {};
 
-        const httpParams = this.format(queryParams, this.getSearchCriteriaContext(searchQuery));
-        const httpBody = this.format(body, this.getSearchCriteriaContext(searchQuery));
+        const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(searchQuery));
+        const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(searchQuery));
 
         return this.buildRequest(httpParams, httpBody);
     }
 
     private fetchSelectedValues(values: XmAutocompleteControlListItem[]): Observable<XmAutocompleteControlListItem[]> {
-        if (this.config.skipFetchSelected) {
-            return of(values);
-        }
-
         const { queryParams, body } = this.config?.fetchSelectedByCriteria || {};
 
-        const httpParams = this.format(queryParams, this.getSearchCriteriaContext(values));
-        const httpBody = this.format(body, this.getSearchCriteriaContext(values));
+        const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(values));
+        const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(values));
         
         return this.buildRequest(httpParams, httpBody).pipe(
             catchError(() => of(values)),
@@ -191,7 +227,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
                     return data;
                 }),
                 map(collection => {
-                    return this.normalizeCollection(collection);
+                    return this.normalizeValues(collection);
                 }),
                 finalize(() => this._loading.next(false)),
             );
@@ -200,50 +236,66 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         return of([]);
     }
 
-    private format(params: XmAutocompleteControlParams, context: unknown): XmAutocompleteControlParams {
+    private formatRequestParams(params: XmAutocompleteControlParams, context: unknown): XmAutocompleteControlParams {
         return _.omitBy(format<XmAutocompleteControlParams>(params, context), _.isEmpty);
     }
 
-    private normalizeModel(item: object | string): XmAutocompleteControlListItem {
-        let value = item;
-        
-        if (_.isObject(item)) {
-            const compiled = this.valueByKey(item);
-
-            if (this.config.valueAsJson) {
-                try {
-                    value = JSON.parse(compiled);
-                } catch (error) {}
-            } else {
-                value = compiled;
-            }
-        }
-
-        return {
-            value,
-            view: _.isObject(item) ? this.displayFn(item) : item,
-            data: item,
-        };
-    }
-
-    private normalizeCollection(collection: unknown): XmAutocompleteControlListItem[] {
+    private normalizeValues(collection: unknown): XmAutocompleteControlListItem[] {
         return coerceArray(collection)
             .filter(value => !_.isEmpty(value))
-            .map((item) => this.normalizeModel(item as object));
+            .map((item: any) => {        
+                if (_.isObject(item)) {
+                    const stringOrObject = this.valueByKey(item);
+
+                    let value = stringOrObject;
+        
+                    if (this.config.valueAsJson) {
+                        try {
+                            value = JSON.parse(stringOrObject);
+                        } catch (error) {}
+                    }
+
+                    return {
+                        value,
+                        view: this.displayFn(item),
+                        data: item,
+                    };
+                }
+        
+                return {
+                    value: item,
+                    view: item,
+                    data: item,
+                };
+            });
     }
 
-    protected unwrapValues(list: XmAutocompleteControlListItem[]): unknown | unknown[] {
-        const unwrapSelected = list?.map(({ value }) => value) ?? [];
+    protected unwrapValues(valueOrValues: XmAutocompleteControlListItem | XmAutocompleteControlListItem[]): unknown | unknown[] {
+        if (_.isArray(valueOrValues)) {
+            const unwrapSelected = valueOrValues?.map(({ value }) => value) ?? [];
 
-        return this.config.multiple 
-            ? unwrapSelected 
-            : unwrapSelected?.[0];
+            return this.config.multiple 
+                ? unwrapSelected 
+                : unwrapSelected?.[0];
+        }
+        
+        const { value } = valueOrValues;
+
+        return value;
     }
 
-    public identityFn = (option: MatOption | object, selection: MatOption | object): boolean => {
+    protected identityFormat<T>(item: unknown): T {
+        return format(this.config.compareMap, item);
+    }
+
+    public identityFn = (option: XmAutocompleteControlListItem, selection: XmAutocompleteControlListItem): boolean => {
+        if (_.isEmpty(option) || _.isEmpty(selection)) {
+            return false;
+        }
+
         if (this.config?.compareMap) {
-            const o1 = format<object>(this.config.compareMap, (option instanceof MatOption ? option.value : option) ?? {});
-            const o2 = format<object>(this.config.compareMap, (selection instanceof MatOption ? selection.value : selection) ?? {});
+            const o1 = this.identityFormat<object>(option);
+            const o2 = this.identityFormat<object>(selection);
 
             return _.isMatch(o1, o2);
         }
@@ -259,8 +311,15 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         super.setDisabledState(isDisabled);
     }
 
-    public change(value: any): void {
-        this.selected = value;
+    public change(normalizeValues: any): void {   
+        let value = normalizeValues;
+
+        if (this.config.multiple && this.config.mergeControlValues) {
+            value = this.uniqByIdentity(this.normalizeValues(this.value), normalizeValues);
+        }
+
+        value = this.unwrapValues(value);
+
         this.value = value;
 
         this._onChange(value);

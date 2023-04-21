@@ -209,8 +209,12 @@ export class TimelineListComponent implements OnInit, OnDestroy {
 
     private generateTimelines(items: TimeLineItem[]) {
         for (const item of items) {
-            this.timeLines.push(this.createView(item));
+            const viewItem: any = this.createView(item);
+            if (viewItem.messageData) {
+                this.timeLines.push(viewItem);
+            }
         }
+        this.timeLines = this.timeLines.sort((a, b) => new Date(a.startDate).getTime() < new Date(b.startDate).getTime() ? 1 : -1);
     }
 
     private createView(item): Timeline {
@@ -250,7 +254,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
     private fillTimelineTemplate(item, templateName: Translate): TimeLineItem {
         const templateStringByLang = this.i18nNamePipe.transform(templateName, this.principal);
         const templateString: string = new Function('item', 'return `' + templateStringByLang + '`;')(item);
-        Object.assign(item, {messageData: templateString, login: item.entityAfter?.updatedBy});
+        Object.assign(item, {messageData: templateString});
         return item;
     }
 
