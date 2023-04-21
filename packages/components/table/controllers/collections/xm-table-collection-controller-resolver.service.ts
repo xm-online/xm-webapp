@@ -14,7 +14,7 @@ import { XmTableLinkedCollectionController } from './xm-table-linked-collection-
 import { XmTableArrayCollectionController } from './xm-table-array-collection-controller';
 import { IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { firstValueFrom } from 'rxjs';
-import { XmTableElasticSearchCollectionController } from '@xm-ngx/components/table/table/controllers/collections/xm-table-elastic-search-collection-controller.service';
+import { XmTableElasticSearchCollectionController } from '@xm-ngx/components/table/controllers/collections/xm-table-elastic-search-collection-controller.service';
 
 @Injectable()
 export class XmTableCollectionControllerResolver<T = unknown> {

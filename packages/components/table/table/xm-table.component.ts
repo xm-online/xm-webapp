@@ -1,44 +1,46 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from './interfaces/xm-table.model';
+import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from '@xm-ngx/components/table/interfaces/xm-table.model';
 import { MatCardModule } from '@angular/material/card';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { XmTableFilterButtonComponent } from './components/xm-table-filter-button.component';
-import { XmTableFilterInlineComponent } from './components/xm-table-filter-inline.component';
-import { XmTableActionsButtonsComponent } from './components/xm-table-actions-buttons.component';
+import { XmTableFilterButtonComponent } from '@xm-ngx/components/table/components/xm-table-filter-button.component';
+import { XmTableFilterInlineComponent } from '@xm-ngx/components/table/components/xm-table-filter-inline.component';
+import { XmTableActionsButtonsComponent } from '@xm-ngx/components/table/components/xm-table-actions-buttons.component';
 import {
     IXmTableCollectionController,
     IXmTableCollectionState,
     XM_TABLE_CONTROLLERS,
     XmTableCollectionControllerResolver,
     XmTableConfigController,
-} from './controllers';
-import { XmTableSelectionService } from './controllers/selections/xm-table-selection.service';
-import { XmTableFilterController } from './controllers/filters/xm-table-filter-controller.service';
-import { XmTableSelectionHeaderComponent } from './components/selection-header/xm-table-selection-header.component';
+} from '../controllers';
+import { XmTableSelectionService } from '@xm-ngx/components/table/controllers/selections/xm-table-selection.service';
+import { XmTableFilterController } from '@xm-ngx/components/table/controllers/filters/xm-table-filter-controller.service';
+import { XmTableSelectionHeaderComponent } from '@xm-ngx/components/table/components/selection-header/xm-table-selection-header.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { XmTableEmptyComponent } from './components/xm-table-empty.component';
+import { XmTableEmptyComponent } from '@xm-ngx/components/table/components/xm-table-empty.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { XmTableDynamicColumnModule } from '../column/xm-table-dynamic-column';
-import { TableColumnDynamicCellModule } from '../column/table-column-dynamic-cell';
+import {
+    XmTableColumnDynamicCell
+} from '../column/xm-table-column-dynamic-cell.component';
 import { map } from 'rxjs/operators';
 import {
     SelectTableColumn,
     XM_TABLE_SELECTION_COLUMN_DEFAULT,
     XmTableSelectionColumnComponent,
-} from './components/xm-table-selection-column.component';
+} from '@xm-ngx/components/table/components/xm-table-selection-column.component';
 import * as _ from 'lodash';
 import {
     defaultsDeep,
 } from 'lodash';
-import { XmTableLoadingColumnComponent } from './components/xm-table-loading-column.component';
+import { XmTableLoadingColumnComponent } from '@xm-ngx/components/table/components/xm-table-loading-column.component';
 import {
     ColumnsSettingStorageItem,
     ColumnsSettingStorageService,
 } from '@xm-ngx/components/table/service/columns-settings-storage.service';
-import { XmTableHeaderComponent } from '@xm-ngx/components/table/table/components/xm-table-header.component';
+import { XmTableHeaderComponent } from '@xm-ngx/components/table/components/xm-table-header.component';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -84,7 +86,7 @@ interface IXmTableContext {
         MatSortModule,
         AsyncPipe,
         XmTableDynamicColumnModule,
-        TableColumnDynamicCellModule,
+        XmTableColumnDynamicCell,
         NgForOf,
         XmTableSelectionColumnComponent,
         XmTableLoadingColumnComponent,

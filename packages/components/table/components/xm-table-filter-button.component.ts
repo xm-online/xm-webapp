@@ -3,7 +3,7 @@ import { Component, ElementRef, Input, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { XmOverlayResponse, XmTableFilterButtonDialogComponent } from './xm-table-filter-button-dialog.component';
-import { XmOverlayService } from '../../../overlay/xm-overlay.service';
+import { XmOverlayService } from '../../overlay/xm-overlay.service';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { filter, map } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';

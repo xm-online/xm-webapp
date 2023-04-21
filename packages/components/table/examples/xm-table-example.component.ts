@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { XmTableComponent } from '../xm-table.component';
+import { XmTableComponent } from '../table/xm-table.component';
 import { XmTableConfig } from '../interfaces/xm-table.model';
 
 @Component({

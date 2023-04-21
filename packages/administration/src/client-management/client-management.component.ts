@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
-import { TableColumn } from '@xm-ngx/components/table/column/table-column-dynamic-cell';
+import { XmTableColumn } from '@xm-ngx/components/table/column/xm-table-column-dynamic-cell.component';
 import { XmEventManager } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -44,7 +44,7 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
         'actions',
     ];
     private eventSubscriber: Subscription;
-    @Input() public config: { columns: TableColumn[] };
+    @Input() public config: { columns: XmTableColumn[] };
 
     constructor(
         protected clientService: ClientService,

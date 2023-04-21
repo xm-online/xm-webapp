@@ -7,7 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import {
     XmTableFiltersControlRequestComponent,
-} from '@xm-ngx/components/table/table/components/xm-table-filters-control-request.component';
+} from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';

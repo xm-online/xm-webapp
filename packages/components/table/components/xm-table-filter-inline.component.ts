@@ -1,23 +1,22 @@
 import { ChangeDetectorRef, Component, ElementRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { XmTableFiltersControlRequestComponent } from '@xm-ngx/components/table/table/components/xm-table-filters-control-request.component';
+import { FiltersControlRequestOptions, XmTableFiltersControlRequestComponent } from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
 import { MatBadgeModule } from '@angular/material/badge';
-import { FiltersControlRequestOptions } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/filters-control-request/filters-control-request.component';
 import * as _ from 'lodash';
 import { defaultsDeep } from 'lodash';
-import { FiltersControlValue } from '@xm-ngx/ext/entity-webapp-ext/module/entities-filter-widget/filters-control/filters-control.component';
 import { delay } from 'rxjs';
 import { formatWithConfig, interpolate, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmTableCollectionControllerResolver } from '@xm-ngx/components/table/table';
-import { XmTableFilterController } from '@xm-ngx/components/table/table/controllers/filters/xm-table-filter-controller.service';
+import { XmTableFilterController } from '@xm-ngx/components/table/controllers/filters/xm-table-filter-controller.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import {
     ChipsControlConfig,
-} from '@xm-ngx/components/table/table/components/chips-control/chips-control.component';
+} from '@xm-ngx/components/table/components/chips-control/chips-control.component';
+import { FiltersControlValue } from './xm-table-filters-control.component';
 
 const DEFAULT_CONFIG: FiltersControlRequestOptions = {
     submitInvalidForm: false,

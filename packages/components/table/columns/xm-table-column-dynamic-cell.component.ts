@@ -4,21 +4,20 @@ import {
     Component,
     Inject,
     Input,
-    NgModule,
     OnDestroy,
     OnInit,
     ViewChild,
 } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule } from '@angular/material/table';
-import { TableColumnsManager } from './table-columns-manager';
+import { XmTableColumnsManager } from './xm-table-columns-manager';
 import { XmDynamicCell, XmDynamicCellModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { CommonModule } from '@angular/common';
 import { ShowHideColumnsSettingsModule } from '../show-hide-columns-setting-widget/show-hide-columns-settings.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
+export interface XmTableColumn<O = unknown> extends XmDynamicCell<O> {
     name: string;
     sortable: boolean;
     title: Translate;
@@ -62,28 +61,38 @@ export interface TableColumn<O = unknown> extends XmDynamicCell<O> {
             </td>
         </ng-container>
     `,
+    imports: [
+        CommonModule,
+        MatTableModule,
+        XmDynamicCellModule,
+        XmTranslationModule,
+        MatSortModule,
+        ShowHideColumnsSettingsModule,
+        MatTooltipModule,
+    ],
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 /**
  * @beta
  */
-export class TableColumnDynamicCell implements OnDestroy, OnInit {
+export class XmTableColumnDynamicCell implements OnDestroy, OnInit {
     @ViewChild(MatCellDef, { static: true }) public cell: MatCellDef;
     @ViewChild(MatColumnDef, { static: true }) public columnDef: MatColumnDef;
     @ViewChild(MatHeaderCellDef, { static: true }) public headerCell: MatHeaderCellDef;
     @ViewChild(MatFooterCellDef, { static: true }) public footerCell: MatFooterCellDef;
 
-    constructor(@Inject(CDK_TABLE) protected columnsManager: TableColumnsManager) {
+    constructor(@Inject(CDK_TABLE) protected columnsManager: XmTableColumnsManager) {
     }
 
-    protected _column: TableColumn;
+    protected _column: XmTableColumn;
 
-    public get column(): TableColumn {
+    public get column(): XmTableColumn {
         return this._column;
     }
 
     @Input()
-    public set column(c: TableColumn) {
+    public set column(c: XmTableColumn) {
         this._column = c;
     }
 
@@ -109,20 +118,4 @@ export class TableColumnDynamicCell implements OnDestroy, OnInit {
             this.columnDef.name = this._column.name || this._column.field;
         }
     }
-}
-
-@NgModule({
-    imports: [
-        CommonModule,
-        MatTableModule,
-        XmDynamicCellModule,
-        XmTranslationModule,
-        MatSortModule,
-        ShowHideColumnsSettingsModule,
-        MatTooltipModule,
-    ],
-    exports: [TableColumnDynamicCell],
-    declarations: [TableColumnDynamicCell],
-})
-export class TableColumnDynamicCellModule {
 }

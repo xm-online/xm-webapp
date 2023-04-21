@@ -3,7 +3,7 @@ import {
     IEntityCollection,
 } from '@xm-ngx/components/entity-collection';
 import { XmTableEntityRepository } from './xm-table-entity-repository';
-import { XmTableElasticSearchRepository } from '@xm-ngx/components/table/table/controllers/repositories/xm-table-elastic-search-repository';
+import { XmTableElasticSearchRepository } from '@xm-ngx/components/table/controllers/repositories/xm-table-elastic-search-repository';
 
 @Injectable()
 export class XmTableRepositoryResolver<T> {

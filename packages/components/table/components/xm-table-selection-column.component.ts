@@ -1,14 +1,14 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/cdk/table';
 import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { TableColumn } from '../../column/table-column-dynamic-cell';
+import { XmTableColumn } from '../../column/xm-table-column-dynamic-cell.component';
 import { XmTableSelectionService } from '../controllers/selections/xm-table-selection.service';
 import { XmCheckboxControl } from '@xm-ngx/components/bool';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 
-export interface SelectTableColumn extends TableColumn {
+export interface SelectTableColumn extends XmTableColumn {
     width: string
 }
 
