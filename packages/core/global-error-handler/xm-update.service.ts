@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { XmLogger } from '@xm-ngx/logger';
+import { interval } from 'rxjs';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 
 @Injectable({ providedIn: 'root' })
-export class XmUpdateService {
+export class XmUpdateService implements OnDestroy {
     constructor(
         private swUpdate: SwUpdate,
         private xmLogger: XmLogger,
@@ -36,6 +38,14 @@ export class XmUpdateService {
             }
         });
 
+        interval(60 * 60 * 1000)
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(() => this.swUpdate.checkForUpdate().then());
+
         this.swUpdate.checkForUpdate().then();
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
     }
 }
