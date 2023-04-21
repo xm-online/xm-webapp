@@ -15,7 +15,7 @@ describe('XmUserSecuritySettingsComponent', () => {
                 { provide: Principal, useClass: MockPrincipalService },
                 { provide: AccountService, useValue: null },
             ],
-            declarations: [XmUserSecuritySettingsComponent],
+            imports: [XmUserSecuritySettingsComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();

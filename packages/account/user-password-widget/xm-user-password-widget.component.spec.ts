@@ -9,7 +9,7 @@ describe('XmUserPasswordWidgetComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [XmUserPasswordWidgetComponent],
+            imports: [XmUserPasswordWidgetComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();

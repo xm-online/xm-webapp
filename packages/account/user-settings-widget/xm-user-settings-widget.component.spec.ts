@@ -13,7 +13,7 @@ describe('XmUserSettingsWidgetComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmTranslationTestingModule],
+            imports: [XmTranslationTestingModule, XmUserSettingsWidgetComponent],
             providers: [
                 { provide: Principal, useClass: MockPrincipalService },
                 { provide: LanguageService, useClass: MockLanguageService },
@@ -21,7 +21,6 @@ describe('XmUserSettingsWidgetComponent', () => {
                 { provide: AccountService, useValue: null },
             ],
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [XmUserSettingsWidgetComponent],
         })
             .compileComponents();
     }));
