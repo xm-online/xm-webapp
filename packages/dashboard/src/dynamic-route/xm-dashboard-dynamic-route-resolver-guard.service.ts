@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-    ActivatedRouteSnapshot,
-    Routes,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Routes, } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ArgumentException } from '@xm-ngx/shared/exceptions';
@@ -27,22 +24,25 @@ export class XmDashboardDynamicRouteResolverGuard
         super();
     }
 
-    public canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-        delete route.routeConfig['_loadedConfig'];
+    public override canActivate(): Observable<boolean> {
         return this.canLoad();
     }
 
-    public canDeactivate(_: unknown, route: ActivatedRouteSnapshot): Observable<boolean> {
-        delete route.routeConfig['_loadedConfig'];
+    public override canDeactivate(_: unknown, route: ActivatedRouteSnapshot): Observable<boolean> {
+        delete route.routeConfig['_loadedRoutes'];
         this.routes = null;
         return of(true);
     }
 
-    public getRoutes(): Routes | null {
+    public override getRoutes(): Routes | null {
         return this.routes;
     }
 
-    public canLoad(): Observable<boolean> {
+    public override canLoad(): Observable<boolean> {
+        if (this.routes != null) {
+            return of(true);
+        }
+
         return this.getRoutes$().pipe(
             map((routes) => {
                 this.routes = routes;
@@ -74,7 +74,7 @@ export class XmDashboardDynamicRouteResolverGuard
                 // Add the default not-found page
                 if (!_.find(this.routes, d => d.path === '**')) {
                     // Redirect to first available
-                    routes.push({path: '**', children: [], canActivate: [DashboardGuard]});
+                    routes.push({ path: '**', children: [], canActivate: [DashboardGuard] });
                 }
 
                 return routes;
