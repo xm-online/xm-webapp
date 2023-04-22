@@ -1,29 +1,36 @@
+let selectors = new Map();
+let isFirstIterationAnyFileMatchCache = null;
+
 module.exports = {
     meta: {
         type: 'problem',
         docs: {
             description: 'Selectors must be unique across Angular files',
-            category: 'Possible Errors',
-            recommended: true,
+            recommended: 'error',
         },
-        fixable: null,
         schema: [],
     },
-    create: function (context) {
-        const selectors = new Map();
+    create(context) {
+        const path = context.getPhysicalFilename();
+        if (isFirstIterationAnyFileMatchCache === null) {
+            isFirstIterationAnyFileMatchCache = path;
+        } else if (isFirstIterationAnyFileMatchCache === path) {
+            // Clear cache because the same file runs second time
+            selectors = new Map();
+            isFirstIterationAnyFileMatchCache = null;
+        }
+
         return {
-            'CallExpression[callee.property.name="selector"]'(node) {
-                const selectorNode = node.arguments[0];
-                const selector = selectorNode.value;
-                const fileName = context.getFilename();
-                const existingFile = selectors.get(selector);
+            'Decorator[expression.callee.name=Component] Property:matches([key.name=selector]) :matches(Literal, TemplateElement)'(node) {
+                const fileName = `${path}:${node.loc.start.line}:${node.loc.start.column}`;
+                const existingFile = selectors.get(node.value);
                 if (existingFile && existingFile !== fileName) {
                     context.report({
-                        node: selectorNode,
-                        message: `Selector "${selector}" is already used in "${existingFile}".`,
+                        node,
+                        message: `Selector "${node.value}" is already used in "${existingFile}".`,
                     });
                 } else {
-                    selectors.set(selector, fileName);
+                    selectors.set(node.value, fileName);
                 }
             },
         };

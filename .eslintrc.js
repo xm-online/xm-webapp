@@ -41,7 +41,7 @@ module.exports = {
             plugins: [
                 '@typescript-eslint',
                 'eslint-plugin-tsdoc',
-                '@xm-ngx',
+                '@xm-ngx/eslint-plugin',
             ],
             parserOptions: {
                 project: [
