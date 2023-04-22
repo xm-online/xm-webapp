@@ -12,7 +12,7 @@ describe('XmUserLoginWidgetComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [{ provide: XmUserService, useClass: MockUserService }],
-            declarations: [XmUserLoginWidgetComponent],
+            imports: [XmUserLoginWidgetComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();

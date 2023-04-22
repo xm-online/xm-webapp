@@ -9,5 +9,4 @@ export {
 
 export {
     XmAceEditorThemeSchemeAdapterDirective,
-    XmAceEditorThemeSchemeAdapterModule,
 } from './xm-ace-editor-theme-scheme-adapter.directive';

@@ -9,7 +9,7 @@ export type TimelineItemData = {
 }
 
 @Component({
-    selector: 'xm-common-timeline-card',
+    selector: 'xm-timeline-card',
     templateUrl: './timeline-card.component.html',
     styleUrls: ['./timeline-card.component.scss'],
 })

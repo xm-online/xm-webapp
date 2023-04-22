@@ -1,1 +1,1 @@
-export { XmUserSettingsWidgetModule } from './xm-user-settings-widget.module';
+export { XmUserSettingsWidgetComponent } from './xm-user-settings-widget.component';

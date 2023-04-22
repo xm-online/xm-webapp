@@ -3,7 +3,7 @@ import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import * as _ from 'lodash';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmAceEditorDirective } from '../xm-ace-editor.directive';
-import { XmAceEditorThemeSchemeAdapterModule } from '../xm-ace-editor-theme-scheme-adapter.directive';
+import { XmAceEditorThemeSchemeAdapterDirective } from '../xm-ace-editor-theme-scheme-adapter.directive';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
@@ -44,7 +44,7 @@ type AceEditorValue = string | object;
         CommonModule,
         MatFormFieldModule,
         ControlErrorModule,
-        XmAceEditorThemeSchemeAdapterModule,
+        XmAceEditorThemeSchemeAdapterDirective,
     ],
     standalone: true,
     template: `
