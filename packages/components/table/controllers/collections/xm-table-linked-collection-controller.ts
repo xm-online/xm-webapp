@@ -68,7 +68,7 @@ export class XmTableLinkedCollectionController<T = unknown>
     public async load(request: FilterQueryParams): Promise<void> {
         this.config = await firstValueFrom(this.configController.config$());
         this.entity = await firstValueFrom(this.entityController.entity$());
-        this.repository = this.repositoryResolver.get(this.config.resource, this.config.resource);
+        this.repository = this.repositoryResolver.get(this.config.resource);
         const primaryField = this.config?.typeLink?.primaryField || 'id';
         const data: T[] = _.get(this.entity, this.config.path, '') || [];
         let keys = data.map(i => i ? i[primaryField] : null);

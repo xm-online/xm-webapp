@@ -6,12 +6,13 @@ import {
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 
 import * as _ from 'lodash';
-import { formatWithConfig, FormatWithConfigOptions } from '@xm-ngx/shared/operators/src/format-with-config';
+import { format } from '@xm-ngx/shared/operators';
 
-export interface FiltersControlRequestOptions extends FormatWithConfigOptions {
+export interface FiltersControlRequestOptions {
     submitInvalidForm: boolean;
     isOnlyExpand: boolean;
     filters: FormLayoutItem[];
+    format?: unknown;
     filtersClass?: string;
     filterStoreKey?: string;
 }
@@ -72,7 +73,7 @@ export class XmTableFiltersControlRequestComponent implements OnChanges {
             _.set(rawRequest, filter.name, value);
         });
 
-        return formatWithConfig(rawRequest, this.options);
+        return format(rawRequest, this.options.format);
     }
 
 }

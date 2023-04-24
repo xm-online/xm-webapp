@@ -9,7 +9,7 @@ import { XmTableElasticSearchRepository } from '@xm-ngx/components/table/control
 export class XmTableRepositoryResolver<T> {
     constructor(
         private entityRepository: XmTableEntityRepository<T>,
-        private elasticSearchRepository: XmTableElasticSearchRepository<T>
+        private elasticSearchRepository: XmTableElasticSearchRepository<T>,
     ) {
     }
 

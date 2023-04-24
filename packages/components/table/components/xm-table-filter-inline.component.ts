@@ -6,7 +6,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import * as _ from 'lodash';
 import { defaultsDeep } from 'lodash';
 import { delay } from 'rxjs';
-import { formatWithConfig, interpolate, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { format, interpolate, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmTableCollectionControllerResolver } from '@xm-ngx/components/table/table';
 import { XmTableFilterController } from '@xm-ngx/components/table/controllers/filters/xm-table-filter-controller.service';
 import { MatChipsModule } from '@angular/material/chips';
@@ -169,7 +169,7 @@ export class XmTableFilterInlineComponent {
             if (_.isEqual(value, this.request)) {
                 return;
             }
-            this.value = formatWithConfig(value, this.config);
+            this.value = format(value, this.config.format);
 
             const chipsFilters = this.getChipsFilters();
             this.activeFilters = (this.config.filters as any)?.filter(filter =>

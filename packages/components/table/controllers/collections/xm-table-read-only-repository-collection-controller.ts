@@ -20,7 +20,7 @@ import { XmTableConfig } from '../../interfaces/xm-table.model';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { FilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
-import { formatWithConfig } from '@xm-ngx/shared/operators';
+import { format } from '@xm-ngx/shared/operators';
 
 export interface XmTableRepositoryCollectionConfig {
     query: { [key: string]: string },
@@ -47,8 +47,8 @@ export class XmTableReadOnlyRepositoryCollectionController<T = unknown>
     public async load(request: FilterQueryParams): Promise<void> {
         this.config = (await firstValueFrom(this.configController.config$())).collection.repository;
         this.entity = await firstValueFrom(this.entityController.entity$());
-        this.repository = this.repositoryResolver.get(this.config.resourceHandleKey, this.config.resourceUrl);
-        const query: object = formatWithConfig(this.entity, { format2: this.config.query });
+        this.repository = this.repositoryResolver.get(this.config.resourceHandleKey);
+        const query: object = format(this.entity, this.config.query);
 
         this.changePartial({ loading: true });
         this.repository

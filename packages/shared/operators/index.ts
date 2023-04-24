@@ -11,4 +11,3 @@ export { transformByMap } from './src/transform-by-map';
 export { uuid } from './src/uuid';
 export { Interpolate, interpolate } from './src/interpolate';
 export { randomInt } from './src/random-int';
-export { formatWithConfig } from './src/format-with-config';
