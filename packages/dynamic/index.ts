@@ -53,4 +53,4 @@ export { XmDynamicExtensionModule, dynamicExtensionModuleInitializer } from './s
 export { XmDynamicExtensionEntry } from './src/interfaces/xm-dynamic-extension.model';
 export { XmDynamicWidgetLayout } from './widget/xm-dynamic-widget-layout.component';
 
-export { XmDynamicServiceFactory } from './services/xm-dynamic-service-factory.service';
+export { XmDynamicServiceFactory, XmDynamicService } from './services/xm-dynamic-service-factory.service';

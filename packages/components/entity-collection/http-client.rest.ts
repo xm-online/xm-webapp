@@ -5,14 +5,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { QueryParams } from './i-entity-collection';
 
+export interface XmRepositoryConfig{resourceUrl: string}
+
 export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pageable> implements IEntityCollectionPageable<T, Extra> {
 
     public readonly loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public readonly url: string;
 
-    public constructor(public readonly plural: string,
-                       public readonly httpClient: HttpClient) {
-        this.url = `${plural}`;
+    public get url(): string{
+        return this.resourceUrl();
+    }
+
+    public constructor(protected plural: string,
+                       protected readonly httpClient: HttpClient) {
+    }
+
+    protected resourceUrl(): string{
+        return this.plural;
     }
 
     public request<R>(

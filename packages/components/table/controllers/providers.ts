@@ -13,13 +13,13 @@ import {
 } from './collections/xm-table-collection-controller-resolver.service';
 import {
     XmTableRepositoryResolver
-} from './repositories/xm-table-repository-resolver.service';
-import { XmTableEntityRepository } from './repositories/xm-table-entity-repository';
+} from '@xm-ngx/components/table/repositories/xm-table-repository-resolver.service';
+import { XmTableEntityRepository } from '@xm-ngx/components/table/repositories/xm-table-entity-repository';
 import {
     XmTableReadOnlyRepositoryCollectionController
 } from './collections/xm-table-read-only-repository-collection-controller';
 import { XmTableElasticSearchCollectionController } from './collections/xm-table-elastic-search-collection-controller.service';
-import { XmTableElasticSearchRepository } from './repositories/xm-table-elastic-search-repository';
+import { XmTableElasticSearchRepository } from '@xm-ngx/components/table/repositories/xm-table-elastic-search-repository';
 
 export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmTableEntityRepository,

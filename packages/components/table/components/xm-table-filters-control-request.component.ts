@@ -9,8 +9,8 @@ import * as _ from 'lodash';
 import { format } from '@xm-ngx/shared/operators';
 
 export interface FiltersControlRequestOptions {
-    submitInvalidForm: boolean;
-    isOnlyExpand: boolean;
+    submitInvalidForm?: boolean;
+    isOnlyExpand?: boolean;
     filters: FormLayoutItem[];
     format?: unknown;
     filtersClass?: string;

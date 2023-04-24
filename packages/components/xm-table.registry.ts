@@ -3,6 +3,14 @@ import { XmTableControlComponent } from '@xm-ngx/components/table/components/xm-
 
 export const XM_TABLE_ELEMENTS: XmDynamicEntry[] = [
     {
+        selector: '@xm-ngx/repositories/entity',
+        loadChildren: () => import('@xm-ngx/components/table/repositories/xm-table-entity-repository').then(m => m.XmTableEntityRepository),
+    },
+    {
+        selector: '@xm-ngx/repositories/elastic',
+        loadChildren: () => import('@xm-ngx/components/table/repositories/xm-table-elastic-search-repository').then(m => m.XmTableElasticSearchRepository),
+    },
+    {
         selector: '@xm-ngx/components/table-array',
         loadChildren: () => import('@xm-ngx/components/table/table-array').then(m => m.XmTableArrayModule),
     },

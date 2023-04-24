@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { HttpClientRest, QueryParamsPageable } from '@xm-ngx/components/entity-collection';
+import { HttpClientRest, QueryParamsPageable, XmRepositoryConfig } from '@xm-ngx/components/entity-collection';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { XmEntity } from '@xm-ngx/entity';
@@ -7,8 +7,7 @@ import { Injectable } from '@angular/core';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { map } from 'rxjs/operators';
 import { SortDirection } from '@angular/material/sort';
-import { XmTableConfigController } from '@xm-ngx/components/table/controllers';
-import { XmTableConfig } from '@xm-ngx/components/table/interfaces/xm-table.model';
+import { XmDynamicService } from '@xm-ngx/dynamic';
 
 export interface XmTableElasticSearchRepositoryExtraSort {
     [key: string]: SortDirection;
@@ -36,10 +35,17 @@ export type XmTableElasticSearchRepositoryRequest = QueryParamsPageable
 
 @Injectable()
 export class XmTableElasticSearchRepository<T extends XmEntity>
-    extends HttpClientRest<T, PageableAndSortable> {
+    extends HttpClientRest<T, PageableAndSortable>
+    implements XmDynamicService<XmRepositoryConfig> {
 
-    constructor(httpClient: HttpClient, config: XmTableConfigController<XmTableConfig>) {
-        super(config.config.collection.repository.resourceUrl, httpClient);
+    constructor(httpClient: HttpClient) {
+        super(null, httpClient);
+    }
+
+    public config: XmRepositoryConfig;
+
+    protected override resourceUrl(): string{
+        return this.config.resourceUrl;
     }
 
     public query(queryParams: XmTableElasticSearchRepositoryQueryParamsPageable, headers?: HttpHeaders): Observable<HttpResponse<T[] & PageableAndSortable>> {

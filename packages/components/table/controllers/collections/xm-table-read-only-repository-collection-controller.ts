@@ -9,13 +9,9 @@ import {
     PageableAndSortable,
 } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { firstValueFrom } from 'rxjs';
-import {
-    XmTableRepositoryResolver,
-} from '../repositories/xm-table-repository-resolver.service';
+import { XmTableRepositoryResolver, } from '@xm-ngx/components/table/repositories/xm-table-repository-resolver.service';
 import { cloneDeep } from 'lodash';
-import {
-    AXmTableStateCollectionController
-} from './a-xm-table-state-collection-controller.service';
+import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { XmTableConfig } from '../../interfaces/xm-table.model';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { FilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
@@ -23,9 +19,11 @@ import { XmTableEntityController } from '../entity/xm-table-entity-controller.se
 import { format } from '@xm-ngx/shared/operators';
 
 export interface XmTableRepositoryCollectionConfig {
-    query: { [key: string]: string },
-    resourceUrl: string,
-    resourceHandleKey: string,
+    config: {
+        query: { [key: string]: string },
+        resourceUrl: string,
+    },
+    selector: string,
 }
 
 @Injectable()
@@ -33,8 +31,8 @@ export class XmTableReadOnlyRepositoryCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
     public config: XmTableRepositoryCollectionConfig;
-    private repository: IEntityCollectionPageable<T, PageableAndSortable>;
     public entity: object;
+    private repository: IEntityCollectionPageable<T, PageableAndSortable>;
 
     constructor(
         private configController: XmTableConfigController<XmTableConfig>,
@@ -47,8 +45,8 @@ export class XmTableReadOnlyRepositoryCollectionController<T = unknown>
     public async load(request: FilterQueryParams): Promise<void> {
         this.config = (await firstValueFrom(this.configController.config$())).collection.repository;
         this.entity = await firstValueFrom(this.entityController.entity$());
-        this.repository = this.repositoryResolver.get(this.config.resourceHandleKey);
-        const query: object = format(this.entity, this.config.query);
+        this.repository = await this.repositoryResolver.get();
+        const query: object = format(this.entity, this.config.config.query);
 
         this.changePartial({ loading: true });
         this.repository

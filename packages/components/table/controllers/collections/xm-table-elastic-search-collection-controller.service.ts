@@ -5,7 +5,7 @@ import { FilterQueryParams, IXmTableCollectionController, } from './i-xm-table-c
 
 import { cloneDeep, get } from 'lodash';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
-import { XmTableRepositoryResolver, } from '../repositories/xm-table-repository-resolver.service';
+import { XmTableRepositoryResolver, } from '@xm-ngx/components/table/repositories/xm-table-repository-resolver.service';
 import { XmTableRepositoryCollectionConfig, } from './xm-table-read-only-repository-collection-controller';
 import { NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
@@ -43,7 +43,7 @@ export class XmTableElasticSearchCollectionController<T = unknown>
         }
         this.config = await firstValueFrom(this.configController.config$());
         const repositoryConfig: XmTableRepositoryCollectionConfig = this.config.collection.repository;
-        this.repository = this.repositoryResolver.get(repositoryConfig.resourceHandleKey);
+        this.repository = await this.repositoryResolver.get();
 
         const queryParams = this.getQueryParams(request);
 
@@ -58,7 +58,7 @@ export class XmTableElasticSearchCollectionController<T = unknown>
         );
 
         this.repository
-            .query({...repositoryConfig.query, ...queryParams})
+            .query({...repositoryConfig.config.query, ...queryParams})
             .pipe(take(1))
             .subscribe(
                 (res) => {
@@ -128,7 +128,7 @@ export class XmTableElasticSearchCollectionController<T = unknown>
         const searchArr = Object.keys(filterParams)
             .filter(key => !_.isEmpty(filterParams[key]))
             .map(key => {
-                const configFilter = this.config.filters?.find(filter => key === filter.name) || {} as XmTableConfigFilters;
+                const configFilter = (this.config.filters?.find(filter => key === filter.name) || {}) as XmTableConfigFilters;
                 return this.getElastic(filterParams[key], {
                     field: key,
                     elasticType: configFilter.options?.elasticType

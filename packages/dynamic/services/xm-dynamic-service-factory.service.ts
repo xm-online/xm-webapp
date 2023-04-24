@@ -1,6 +1,10 @@
 import { Injectable, Injector, Type } from '@angular/core';
 import { XmDynamicComponentRegistry } from '@xm-ngx/dynamic/src/loader/xm-dynamic-component-registry.service';
 
+export interface XmDynamicService<T = unknown> {
+    config: T
+}
+
 @Injectable()
 export class XmDynamicServiceFactory {
     constructor(

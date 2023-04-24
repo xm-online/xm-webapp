@@ -33,12 +33,14 @@ export class XmTableExampleComponent {
         collection: {
             type: 'repository',
             repository: {
-                query: {
-                    typeKey: 'TEAM',
-                    sortBy: 'name',
-                },
+                config:{
+                    query: {
+                        typeKey: 'TEAM',
+                        sortBy: 'name',
+                    },
                 resourceUrl: 'entity/api/xm-entities',
-                resourceHandleKey: 'xm-entity',
+                },
+                selector: '@xm-ngx/repositories/entity',
             },
         },
     };

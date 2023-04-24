@@ -9,6 +9,9 @@ import { XmPresentationLayout } from '@xm-ngx/dynamic';
 
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { XmTableColumn } from '@xm-ngx/components/table/columns/xm-table-column-dynamic-cell.component';
+import {
+    FiltersControlRequestOptions
+} from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination {
     pageSizeOptions: number[],
@@ -23,12 +26,11 @@ export interface XmTableConfigFilters extends FormGroupLayoutItem {
     }
 }
 
-export interface XmTableConfig {
+export interface XmTableConfig extends FiltersControlRequestOptions {
     /** Title */
     title: Translate,
     /** Filters configuration */
     filtersToRequest?: object | unknown,
-    filters: XmTableConfigFilters[],
     /** Actions configuration */
     actions: XmPresentationLayout[],
     /** Selection configuration */
@@ -41,9 +43,7 @@ export interface XmTableConfig {
     },
     pageableAndSortable: PageableAndSortable & XmTableWithColumnDynamicCellOptionsPagination,
     options: XmTableOptions,
-    format?: any,
     filtersClass?: string,
-
 }
 
 export interface XmTableOptions {

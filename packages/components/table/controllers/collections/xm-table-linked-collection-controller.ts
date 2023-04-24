@@ -14,7 +14,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { cloneDeep } from 'lodash';
 import {
     XmTableRepositoryResolver,
-} from '../repositories/xm-table-repository-resolver.service';
+} from '@xm-ngx/components/table/repositories/xm-table-repository-resolver.service';
 import {
     AXmTableStateCollectionController,
 } from './a-xm-table-state-collection-controller.service';
@@ -68,7 +68,7 @@ export class XmTableLinkedCollectionController<T = unknown>
     public async load(request: FilterQueryParams): Promise<void> {
         this.config = await firstValueFrom(this.configController.config$());
         this.entity = await firstValueFrom(this.entityController.entity$());
-        this.repository = this.repositoryResolver.get(this.config.resource);
+        this.repository = await this.repositoryResolver.get();
         const primaryField = this.config?.typeLink?.primaryField || 'id';
         const data: T[] = _.get(this.entity, this.config.path, '') || [];
         let keys = data.map(i => i ? i[primaryField] : null);
