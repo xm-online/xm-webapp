@@ -39,7 +39,7 @@ export class XmTableExampleComponent {
                     },
                     resourceUrl: 'entity/api/xm-entities',
                 },
-                selector: '@xm-ngx/repositories/entity',
+                selector: '@xm-ngx/components/entity-repository',
             },
         },
     };
