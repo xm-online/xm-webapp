@@ -13,13 +13,11 @@ export class XmTableRepositoryResolver<T> {
     ) {
     }
 
-    public get(collectionType: string, resourceUrl: string): IEntityCollection<T> {
+    public get(collectionType: string): IEntityCollection<T> {
         switch (collectionType) {
             case 'xm-entity':
-                this.entityRepository.resourceUrl = resourceUrl;
                 return this.entityRepository;
             case 'elastic-search':
-                this.elasticSearchRepository.resourceUrl = resourceUrl;
                 return this.elasticSearchRepository;
             default:
                 throw new Error('Invalid type' + collectionType);

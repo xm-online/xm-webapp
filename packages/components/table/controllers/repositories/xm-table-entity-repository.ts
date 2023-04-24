@@ -6,6 +6,8 @@ import { XmEntity } from '@xm-ngx/entity';
 import { uuid } from '@xm-ngx/shared/operators';
 import { Injectable } from '@angular/core';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { XmTableConfigController } from '../config/xm-table-config-controller.service';
+import { XmTableConfig } from '@xm-ngx/components/table/interfaces/xm-table.model';
 
 export interface XmTableEntityRepositoryExtra {
     page: number,
@@ -18,16 +20,8 @@ export type XmTableEntityRepositoryQuery = QueryParamsPageable & XmTableEntityRe
 @Injectable()
 export class XmTableEntityRepository<T extends XmEntity>
     extends HttpClientRest<T, PageableAndSortable> {
-    constructor(httpClient: HttpClient) {
-        super(null, httpClient);
-    }
-
-    public get resourceUrl(): string {
-        return this.url;
-    }
-
-    public set resourceUrl(value: string) {
-        this.url = value;
+    constructor(httpClient: HttpClient, config: XmTableConfigController<XmTableConfig>) {
+        super(config.config.collection.repository.resourceUrl, httpClient);
     }
 
     public getAll(params?: QueryParams): Observable<HttpResponse<T[] & PageableAndSortable>> {

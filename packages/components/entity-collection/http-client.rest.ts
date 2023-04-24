@@ -8,7 +8,7 @@ import { QueryParams } from './i-entity-collection';
 export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pageable> implements IEntityCollectionPageable<T, Extra> {
 
     public readonly loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public url: string;
+    public readonly url: string;
 
     public constructor(public readonly plural: string,
                        public readonly httpClient: HttpClient) {
@@ -16,11 +16,11 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     }
 
     public request<R>(
-        method: string, 
-        body?: unknown, 
+        method: string,
+        body?: unknown,
         params?: HttpParams | {
             [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-        }, 
+        },
         headers?: HttpHeaders | {
             [header: string]: string | string[];
         },

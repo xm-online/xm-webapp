@@ -43,7 +43,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         }
         this.config = await firstValueFrom(this.configController.config$());
         const repositoryConfig: XmTableRepositoryCollectionConfig = this.config.collection.repository;
-        this.repository = this.repositoryResolver.get(repositoryConfig.resourceHandleKey, repositoryConfig.resourceUrl);
+        this.repository = this.repositoryResolver.get(repositoryConfig.resourceHandleKey);
 
         const queryParams = this.getQueryParams(request);
 
