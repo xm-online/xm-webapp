@@ -27,8 +27,8 @@
     "ts-morph": "16.0.0",
     "conventional-changelog": "3.1.25",
     "conventional-changelog-cli": "2.2.2",
-    "@commitlint/cli": "17.4.3",
-    "@commitlint/config-conventional": "17.4.3",
+    "@commitlint/cli": "17.6.1",
+    "@commitlint/config-conventional": "17.6.1",
     "husky": "8.0.3"
   },
   "devDependencies": {
