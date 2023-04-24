@@ -1,0 +1,22 @@
+<ng-container [ngSwitch]="contentType">
+
+    <ng-container *ngSwitchCase="'string'">
+        <div class="modal-content">
+            <div class="box">
+                <div [innerHTML]="content"></div>
+            </div>
+        </div>
+        <button mat-button (click)="close()" aria-label="close">
+        </button>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'template'">
+        <ng-container *ngTemplateOutlet="content; context: context"></ng-container>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'component'">
+        <ng-container *ngComponentOutlet="content"></ng-container>
+    </ng-container>
+
+</ng-container>
+

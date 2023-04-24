@@ -14,7 +14,7 @@ export const COLUMNS_SETTING_STORE_NAME = '[columns setting] store';
 @Injectable({
     providedIn: 'root',
 })
-export class ColumnsSettingStorageService {
+export class XmTableColumnsSettingStorageService {
     private store: BehaviorSubject<ColumnsSettingStorageItem[]> =
         new BehaviorSubject<ColumnsSettingStorageItem[]>(this.localStorage.retrieve(COLUMNS_SETTING_STORE_NAME) || null);
 

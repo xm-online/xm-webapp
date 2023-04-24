@@ -17,7 +17,7 @@ import { XmDynamicConstructor, XmDynamicEntryModule } from '../src/interfaces';
 import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-base.directive';
 import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
-import { setComponentInput } from '../shared/set-component-input';
+import { setComponentInput } from '../operators/set-component-input';
 import { from, ReplaySubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 export interface XmDynamicControl<V = unknown, O = unknown> extends XmDynamicPresentation<V, O>, ControlValueAccessor {
@@ -85,7 +85,7 @@ export class XmDynamicControlDirective<V, O>
     ) {
         super(viewContainerRef, injector, renderer, dynamicComponents);
     }
-    
+
 
     public ngOnInit(): void {
         from(this.createComponent()).pipe(
@@ -168,7 +168,7 @@ export class XmDynamicControlDirective<V, O>
         if (!this.instance) {
             return;
         }
-  
+
         setComponentInput(this.compRef, 'value', this.value);
 
         this.valueChange.next(this.value);

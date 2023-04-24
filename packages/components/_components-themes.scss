@@ -10,6 +10,7 @@
 @import 'multilanguage/xm-angular-editor-theme';
 @import 'navbar/search/xm-navbar-search-widget-theme';
 @import 'sidebar/sidebar-theme';
+@import 'table/table/xm-table-theme';
 
 @mixin xm-components-theme($xm-theme) {
   @include xm-sidebar-theme($xm-theme);
@@ -24,4 +25,5 @@
   @include xm-code-theme($xm-theme);
   @include xm-block-placeholder-theme($xm-theme);
   @include xm-navbar-search-widget-theme($xm-theme);
+  @include xm-table-theme($xm-theme);
 }

@@ -4,7 +4,7 @@
   <ng-template (conditionCheck)="toggleControlValidation(value.controls[item.name], $event)"
                [xmConditionArguments]="{form: value.value}"
                [xmCondition]="item.condition">
-    <ng-template [class]="item.class || 'col-12'"
+    <ng-template [class]="item.class"
                  [control]="value.controls[item.name]"
                  [formControl]="value.controls[item.name]"
                  [value]="value.controls[item.name].value"

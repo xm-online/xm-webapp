@@ -23,6 +23,13 @@ ruleTester.run('angular-selector-unique-rule', rule, {
       `,
             filename: 'app.component2.ts',
         },
+        {
+            code: `
+        @Component({selector: 'app-component2'})
+         class AppComponent3 {}
+      `,
+            filename: 'app.component2.ts',
+        },
     ],
     invalid: [{
         code: `

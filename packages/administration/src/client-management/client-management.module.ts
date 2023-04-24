@@ -15,7 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
-import { TableColumnDynamicCellModule } from '@xm-ngx/components/table/column/table-column-dynamic-cell';
+import { XmTableColumnDynamicCell } from '@xm-ngx/components/table/columns/xm-table-column-dynamic-cell.component';
 import { PerPageModule } from '@xm-ngx/components/per-page';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
@@ -50,7 +50,7 @@ import { ToggleLockClientComponent } from './toggle-lock-client/toggle-lock-clie
         MatSortModule,
         MatPaginatorModule,
         ModalCloseModule,
-        TableColumnDynamicCellModule,
+        XmTableColumnDynamicCell,
     ],
     exports: [ClientMgmtComponent],
     declarations: [ClientMgmtComponent, ClientMgmtDeleteDialogComponent, ClientMgmtDialogComponent, ToggleLockClientComponent],

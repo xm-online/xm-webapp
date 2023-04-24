@@ -1,9 +1,9 @@
 import { CDK_TABLE } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, NgModule, ViewChild } from '@angular/core';
+import { Component, Inject, Input, ViewChild } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule } from '@angular/material/table';
-import { TableColumnsManager } from './table-columns-manager';
+import { XmTableColumnsManager } from './xm-table-columns-manager';
 import { XmDynamicCell, XmDynamicCellModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 import { XmTextTitleModule } from '@xm-ngx/components/text';
@@ -57,6 +57,15 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
 
 @Component({
     selector: 'xm-table-column-dynamic-cells',
+    imports: [
+        MatTableModule,
+        MatSortModule,
+        XmDynamicCellModule,
+        XmDynamicModule,
+        XmTextTitleModule,
+        CommonModule,
+    ],
+    standalone: true,
     template: `
         <ng-container matColumnDef>
 
@@ -111,7 +120,7 @@ export class XmTableColumnDynamicCellsComponent {
     @ViewChild(MatHeaderCellDef, { static: true }) protected headerCell: MatHeaderCellDef;
     @ViewChild(MatFooterCellDef, { static: true }) protected footerCell: MatFooterCellDef;
 
-    constructor(@Inject(CDK_TABLE) protected columnsManager: TableColumnsManager) {
+    constructor(@Inject(CDK_TABLE) protected columnsManager: XmTableColumnsManager) {
     }
 
     protected _column: XmTableColumnDynamicCellsOptions = _.cloneDeep(XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT);
@@ -143,19 +152,4 @@ export class XmTableColumnDynamicCellsComponent {
             this.columnDef.name = this._column.name || this._column.body.field;
         }
     }
-}
-
-@NgModule({
-    imports: [
-        MatTableModule,
-        MatSortModule,
-        XmDynamicCellModule,
-        XmDynamicModule,
-        XmTextTitleModule,
-        CommonModule,
-    ],
-    exports: [XmTableColumnDynamicCellsComponent],
-    declarations: [XmTableColumnDynamicCellsComponent],
-})
-export class XmTableColumnDynamicCellsModule {
 }

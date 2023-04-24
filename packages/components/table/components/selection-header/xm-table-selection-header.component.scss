@@ -1,0 +1,27 @@
+$mat-header-row-height: 56px !default;
+
+.header-wrapper {
+  height:              $mat-header-row-height;
+
+  overflow: hidden;
+  border-width:        0;
+  border-bottom-width: 1px;
+  border-style:        solid;
+  display:             flex;
+  align-items:         center;
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+  background-color:    white;
+  position:            absolute;
+  top:                 0;
+  width:               100%;
+  padding-left:        24px;
+  padding-right:       24px;
+  color:               #0d6efd;
+  background-color:    rgb(246, 244, 255);
+
+  &::after {
+    display:    inline-block;
+    min-height: inherit;
+    content:    '';
+  }
+}
