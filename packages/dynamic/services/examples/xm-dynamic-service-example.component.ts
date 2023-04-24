@@ -1,5 +1,6 @@
-import { Component, Injectable, Injector, OnInit, Type } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { XM_DYNAMIC_ENTRIES, XmDynamicComponentRegistry } from '@xm-ngx/dynamic';
+import { XmDynamicServiceFactory } from '@xm-ngx/dynamic/services/xm-dynamic-service-factory.service';
 
 @Injectable()
 abstract class AMyFavoriteService {
@@ -10,20 +11,6 @@ abstract class AMyFavoriteService {
 class MyFavoriteService extends AMyFavoriteService {
     public hello(): void {
         console.info('hello');
-    }
-}
-
-@Injectable()
-class XmDynamicServiceFactory {
-    constructor(private injector: Injector) {
-    }
-
-    public factory<T>(serviceConstructor: Type<T> | any): T {
-        const injector = Injector.create({
-            providers: [serviceConstructor],
-            parent: this.injector,
-        });
-        return injector.get<T>(serviceConstructor);
     }
 }
 
@@ -42,15 +29,12 @@ class XmDynamicServiceFactory {
 })
 export class XmDynamicServiceExampleComponent implements OnInit {
     constructor(
-        private xmDynamicComponentRegistry: XmDynamicComponentRegistry,
         private xmDynamicService: XmDynamicServiceFactory,
-        private injector: Injector,
     ) {
     }
 
     public async ngOnInit(): Promise<void> {
-        const serviceConstructor = await this.xmDynamicComponentRegistry.find<AMyFavoriteService>('my-favorite-service', this.injector);
-        const service = this.xmDynamicService.factory<AMyFavoriteService>(serviceConstructor.componentType);
+        const service = await this.xmDynamicService.findAndFactory<AMyFavoriteService>('my-favorite-service');
         service.hello();
     }
 }

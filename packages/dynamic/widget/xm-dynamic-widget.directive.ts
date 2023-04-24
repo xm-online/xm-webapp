@@ -5,7 +5,7 @@ import {
     XmDynamicComponentRecord,
     XmDynamicComponentRegistry,
 } from '../src/loader/xm-dynamic-component-registry.service';
-import { setComponentInput } from '../shared/set-component-input';
+import { setComponentInput } from '../operators/set-component-input';
 
 export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
     selector: string;
@@ -78,7 +78,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
             ngModuleRef: data.ngModuleRef,
             injector: data.injector,
         });
-        
+
         setComponentInput(this.compRef, 'config', value.config);
         setComponentInput(this.compRef, 'spec', value.spec);
 
