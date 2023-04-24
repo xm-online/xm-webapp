@@ -21,7 +21,7 @@ module.exports = {
         }
 
         return {
-            'Decorator[expression.callee.name=Component] Property:matches([key.name=selector]) :matches(Literal, TemplateElement)'(node) {
+            'ExportNamedDeclaration > ClassDeclaration > Decorator[expression.callee.name=Component] Property:matches([key.name=selector]) :matches(Literal, TemplateElement)'(node) {
                 const fileName = `${path}:${node.loc.start.line}:${node.loc.start.column}`;
                 const existingFile = selectors.get(node.value);
                 if (existingFile && existingFile !== fileName) {
