@@ -234,10 +234,7 @@ export class XmTableFilterInlineComponent {
         this.entitiesRequestBuilder.update(this.value);
     }
 
-    private get chipsFiltersConfig(): {
-        name: string,
-        options: ChipsControlConfig
-    } {
+    private get chipsFiltersConfig(): { name: string, options: ChipsControlConfig } {
         return (this.config.filters as any)
             .find((filter) => !!this.value[filter.name]
                 && filter.options?.elasticType === 'chips'

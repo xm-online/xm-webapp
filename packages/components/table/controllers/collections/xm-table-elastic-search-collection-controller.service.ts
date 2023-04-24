@@ -188,5 +188,5 @@ export class XmTableElasticSearchCollectionController<T = unknown>
     private getElastic(value: string | number, filter: { field: string, elasticType: string }): string {
         const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[get(filter, 'elasticType', '')];
         return fn ? fn(value, filter) : null;
-    };
+    }
 }

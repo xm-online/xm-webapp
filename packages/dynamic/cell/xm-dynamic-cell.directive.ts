@@ -24,7 +24,7 @@ export const XM_DYNAMIC_TABLE_CELL = new InjectionToken<string>('XM_DYNAMIC_TABL
 export interface XmDynamicCell<O = unknown> {
     field: string;
     selector: string;
-    /** @depricated use config instead */
+    /** @deprecated use config instead */
     options?: O;
     config?: O;
     class: string;
