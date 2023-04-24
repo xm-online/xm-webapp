@@ -8,7 +8,7 @@ import {CommonModule} from '@angular/common';
 import {Principal} from '@xm-ngx/core/user';
 
 @Component({
-    selector: 'xm-navbar-dashboard-edit-widget',
+    selector: 'xm-navbar-heatmap-widget',
     template: `
         <button mat-icon-button
                 class="heatmap-icon"
