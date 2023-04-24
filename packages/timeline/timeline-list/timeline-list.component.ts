@@ -245,7 +245,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
             }
         }
         if (changedParams.length > 1) {
-            const template = changedParams.toString();
+            const template = changedParams.toString().replace(/,/g, ' ');
             this.fillTimelineTemplate(item, template);
         }
 
@@ -337,8 +337,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         return {
             aggregateId: this.entity.id,
             source: 'db',
-            sort: options.sort || 'startDate',
-            size: options.size,
+            size: options?.size || 5,
             page: options.page || 0,
         };
     }
