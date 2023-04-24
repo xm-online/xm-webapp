@@ -44,7 +44,7 @@ export const userFullnameElastic = (v: string, o: XmTableColumn): string => {
 };
 
 export const multiElastic = (v: string, o: XmTableColumn & { filter?: { elasticFields?: string[] } }): string => {
-    const parts = _.map(o.filter.elasticFields, (field) => containsElastic(v, {field}));
+    const parts = _.map(o.filter.elasticFields, (field) => containsElastic(v, {field} as XmTableColumn));
     return `(${_.join(parts, 'OR')})`;
 };
 
@@ -84,4 +84,4 @@ export const userDelegationElastic = (v: string, o: XmTableColumn): string => {
 
 export const elasticQueryChips = (value: unknown): string => {
     return `${Array.isArray(value) ? value?.join(' AND ') : value}`;
-}
+};
