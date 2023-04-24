@@ -14,7 +14,8 @@ import {
     XmDynamicComponentRecord,
     XmDynamicComponentRegistry,
 } from '../src/loader/xm-dynamic-component-registry.service';
-import { setComponentInput } from '../shared/set-component-input';
+
+import { setComponentInput } from '../operators/set-component-input';
 import { NotFoundException } from '@xm-ngx/shared/exceptions';
 
 export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {

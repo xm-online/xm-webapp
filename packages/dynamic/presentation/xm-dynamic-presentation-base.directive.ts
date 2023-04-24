@@ -1,5 +1,5 @@
 import { ComponentRef, Directive, Injector, OnChanges, OnInit, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
-import { setComponentInput } from '../shared/set-component-input';
+import { setComponentInput } from '../operators/set-component-input';
 import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule } from '../src/interfaces';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
 
