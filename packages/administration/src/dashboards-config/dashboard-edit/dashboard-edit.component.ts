@@ -166,12 +166,21 @@ export class DashboardEditComponent {
         const text = await readFromClipboard();
 
         let config: Dashboard;
-        try {
-            config = JSON.parse(text);
-        } catch (e) {
-            return;
+
+        if (_.isString(text)) {
+            try {
+                config = JSON.parse(text);
+            } catch (e) {
+                console.warn(e);
+                return;
+            }
+        } else if (_.isObject(text)) {
+            config = text as Dashboard;
         }
+        
         delete config.id;
+        config.widgets = this.getUnbindedWidgets(config.widgets);
+        
         this.value = _.merge(this.value, config);
     }
 

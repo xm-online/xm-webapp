@@ -20,12 +20,15 @@ import { XmAutocompleteControl } from './autocomplete-control';
     template: `
         <mat-form-field>
             <mat-label *ngIf="config?.title">{{ config?.title | translate }}</mat-label>
-
+            
             <mat-select [multiple]="config?.multiple"
                         [disabled]="disabled"
                         [ngModel]="selected"
                         [compareWith]="identityFn"
                         (selectionChange)="change($event.value)">
+                <div class="loader">
+                    <mat-progress-bar mode="indeterminate" *ngIf="loading | async"></mat-progress-bar>
+                </div>
 
                 <mat-option>
                     <ngx-mat-select-search 
@@ -34,12 +37,8 @@ import { XmAutocompleteControl } from './autocomplete-control';
                         [placeholderLabel]="config.searchPlaceholder | translate"
                         [noEntriesFoundLabel]="config.notFoundSearchPlaceholder | translate"></ngx-mat-select-search>
                 </mat-option>
-
-                <div class="mt-1 mb-1" style="height: var(--mdc-linear-progress-track-height, 4px)">
-                    <mat-progress-bar mode="indeterminate" *ngIf="loading | async"></mat-progress-bar>
-                </div>
                 
-                <div class="mat-mdc-option" [hidden]="!selected" (click)="deselect()">
+                <div class="mat-mdc-option" [hidden]="!selection.selected" (click)="deselect()">
                     <mat-icon>close</mat-icon>
                     {{'common-webapp-ext.buttons.cancel' | translate}}
                 </div>
@@ -48,7 +47,7 @@ import { XmAutocompleteControl } from './autocomplete-control';
 
                 <ng-template #listing>
                     <mat-option *ngFor="let s of list | async"
-                                [value]="s.value">
+                                [value]="s">
                         {{s.view | translate}}
                     </mat-option>
                 </ng-template>
@@ -57,6 +56,16 @@ import { XmAutocompleteControl } from './autocomplete-control';
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
+    styles: [`
+        .loader {
+            height: var(--mdc-linear-progress-track-height, 4px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2;
+        }
+    `],
     imports: [
         MatFormFieldModule,
         MatSelectModule,
@@ -71,5 +80,4 @@ import { XmAutocompleteControl } from './autocomplete-control';
     ],
     providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteControlComponent), multi: true } ],
 })
-export class XmAutocompleteControlComponent extends XmAutocompleteControl {
-}
+export class XmAutocompleteControlComponent extends XmAutocompleteControl {}

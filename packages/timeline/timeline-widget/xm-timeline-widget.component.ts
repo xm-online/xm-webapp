@@ -10,11 +10,11 @@ import { TimelinePage } from '../src/timeline-page.model';
 const TL_REFRESH_EVENT = XM_EVENT_LIST.XM_REFRESH_TIMELINE;
 
 @Component({
-    selector: 'xm-timeline',
-    templateUrl: './timeline.component.html',
-    styleUrls: ['./timeline.component.scss'],
+    selector: 'xm-timeline-widget',
+    templateUrl: './xm-timeline-widget.component.html',
+    styleUrls: ['./xm-timeline-widget.component.scss'],
 })
-export class TimelineComponent implements OnInit, OnChanges, OnDestroy {
+export class XmTimelineWidgetComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() public xmEntityId: number = 0;
     @Input() public limit: number;

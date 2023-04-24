@@ -1,4 +1,13 @@
-import { ComponentRef, Directive, Injector, Input, OnChanges, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
+import {
+    ComponentRef,
+    Directive,
+    Injector,
+    Input,
+    OnChanges,
+    Renderer2,
+    SimpleChanges,
+    ViewContainerRef,
+} from '@angular/core';
 import * as _ from 'lodash';
 import { XmDynamicWidget } from './xm-dynamic-widget';
 import {
@@ -6,6 +15,7 @@ import {
     XmDynamicComponentRegistry,
 } from '../src/loader/xm-dynamic-component-registry.service';
 import { setComponentInput } from '../shared/set-component-input';
+import { NotFoundException } from '@xm-ngx/shared/exceptions';
 
 export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
     selector: string;
@@ -25,9 +35,8 @@ export class XmDynamicWidgetDirective implements OnChanges {
 
     @Input() public class: string;
     @Input() public style: string;
-    private _layout: XmDynamicWidgetConfig;
-
     public compRef: ComponentRef<XmDynamicWidget>;
+    private _layout: XmDynamicWidgetConfig;
 
     constructor(private dynamicComponents: XmDynamicComponentRegistry,
                 private renderer: Renderer2,
@@ -65,10 +74,13 @@ export class XmDynamicWidgetDirective implements OnChanges {
             const result = await this.dynamicComponents.find<XmDynamicWidget>(this._layout.selector, this.injector);
             this.createComponent(this._layout, result);
         } catch (err: unknown) {
+            if (err instanceof NotFoundException) {
+                // eslint-disable-next-line no-console
+                console.error(`"The selector=${value.selector}" does not exist!`);
+                return;
+            }
             // eslint-disable-next-line no-console
             console.error(err); // This log required in case of error in constructor of component
-            // eslint-disable-next-line no-console
-            console.error(`"The selector=${value.selector}" does not exist!`);
         }
     }
 
