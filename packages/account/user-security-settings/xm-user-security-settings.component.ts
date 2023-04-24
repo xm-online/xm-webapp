@@ -2,10 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { XmUser } from '@xm-ngx/core/user';
 import * as _ from 'lodash';
 import { AccountService, Principal } from '@xm-ngx/core/user';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'xm-user-security-settings',
     templateUrl: './xm-user-security-settings.component.html',
+    imports: [CommonModule, MatCardModule, XmTranslationModule, XmPermissionModule, MatCheckboxModule, FormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+    standalone: true,
 })
 export class XmUserSecuritySettingsComponent implements OnInit {
 

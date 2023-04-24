@@ -1,1 +1,1 @@
-export { XmTimelineModule } from './timeline.module';
+export { XmTimelineModule } from './xm-timeline.module';
