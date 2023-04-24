@@ -13,16 +13,16 @@ import { Injectable } from '@angular/core';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { XmDynamicService } from '@xm-ngx/dynamic';
 
-export interface XmTableEntityRepositoryExtra {
+export interface XmEntityRepositoryExtra {
     page: number,
     size: number;
     sort: string;
 }
 
-export type XmTableEntityRepositoryQuery = QueryParamsPageable & XmTableEntityRepositoryExtra;
+export type XmEntityRepositoryQuery = QueryParamsPageable & XmEntityRepositoryExtra;
 
 @Injectable()
-export class XmTableEntityRepository<T extends XmEntity>
+export class XmEntityRepository<T extends XmEntity>
     extends HttpClientRest<T, PageableAndSortable>
     implements XmDynamicService<XmRepositoryConfig> {
     constructor(httpClient: HttpClient) {
@@ -51,7 +51,7 @@ export class XmTableEntityRepository<T extends XmEntity>
     }
 
     protected getParams(params: QueryParamsPageable): QueryParamsPageable {
-        const extra: XmTableEntityRepositoryExtra = {
+        const extra: XmEntityRepositoryExtra = {
             size: params.pageSize,
             sort: `${params.sortBy},${params.sortOrder}`,
             page: params.pageIndex,
@@ -60,7 +60,7 @@ export class XmTableEntityRepository<T extends XmEntity>
         return _.merge(params, extra);
     }
 
-    protected extractExtra(res: HttpResponse<T[]>, params?: XmTableEntityRepositoryQuery): HttpResponse<T[] & PageableAndSortable> {
+    protected extractExtra(res: HttpResponse<T[]>, params?: XmEntityRepositoryQuery): HttpResponse<T[] & PageableAndSortable> {
         const hasNextPage = res.headers.get('x-has-next');
         let totalPageCount: number;
         let body = res.body || [];

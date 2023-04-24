@@ -14,16 +14,16 @@ import {
 import {
     XmTableRepositoryResolver
 } from '@xm-ngx/components/table/repositories/xm-table-repository-resolver.service';
-import { XmTableEntityRepository } from '@xm-ngx/components/table/repositories/xm-table-entity-repository';
+import { XmEntityRepository } from '@xm-ngx/components/table/repositories/xm-entity-repository.service';
 import {
     XmTableReadOnlyRepositoryCollectionController
 } from './collections/xm-table-read-only-repository-collection-controller';
 import { XmTableElasticSearchCollectionController } from './collections/xm-table-elastic-search-collection-controller.service';
-import { XmTableElasticSearchRepository } from '@xm-ngx/components/table/repositories/xm-table-elastic-search-repository';
+import { XmElasticSearchRepository } from '@xm-ngx/components/table/repositories/xm-elastic-search-repository.service';
 
 export const XM_TABLE_CONTROLLERS: Provider[] = [
-    XmTableEntityRepository,
-    XmTableElasticSearchRepository,
+    XmEntityRepository,
+    XmElasticSearchRepository,
     XmTableRepositoryResolver,
 
     XmTableConfigController,

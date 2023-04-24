@@ -11,7 +11,6 @@ import { XmTableConfig } from '../interfaces/xm-table.model';
     ],
     standalone: true,
 })
-
 export class XmTableExampleComponent {
     public configExample: Partial<XmTableConfig> = {
         title: 'Teams',
@@ -33,12 +32,12 @@ export class XmTableExampleComponent {
         collection: {
             type: 'repository',
             repository: {
-                config:{
+                config: {
                     query: {
                         typeKey: 'TEAM',
                         sortBy: 'name',
                     },
-                resourceUrl: 'entity/api/xm-entities',
+                    resourceUrl: 'entity/api/xm-entities',
                 },
                 selector: '@xm-ngx/repositories/entity',
             },
