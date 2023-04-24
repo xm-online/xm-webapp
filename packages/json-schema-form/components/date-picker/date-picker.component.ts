@@ -11,7 +11,7 @@ import * as moment from 'moment';
 const DEF_FORMAT = 'YYYY-MM-DD';
 
 @Component({
-    selector: 'xm-ajfs-datetime-picker',
+    selector: 'xm-ajfs-date-picker',
     templateUrl: './date-picker.component.html',
     styleUrls: ['./date-picker.component.scss'],
 })

@@ -41,6 +41,7 @@ module.exports = {
             plugins: [
                 '@typescript-eslint',
                 'eslint-plugin-tsdoc',
+                '@xm-ngx/eslint-plugin',
             ],
             parserOptions: {
                 project: [
@@ -55,6 +56,7 @@ module.exports = {
                 'plugin:@angular-eslint/template/process-inline-templates',
             ],
             rules: {
+                '@xm-ngx/angular-selector-unique-rule': 'error',
                 indent: ['error', 4, {
                     SwitchCase: 1,
                     FunctionDeclaration: {
