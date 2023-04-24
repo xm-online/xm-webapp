@@ -1,1 +1,1 @@
-export { XmUserSecuritySettingsModule } from './xm-user-security-settings.module';
+export { XmUserSecuritySettingsComponent } from './xm-user-security-settings.component';

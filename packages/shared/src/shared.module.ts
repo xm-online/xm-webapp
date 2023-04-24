@@ -9,7 +9,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MarkdownModule } from 'ngx-markdown';
 
 import { UserLoginService } from '@xm-ngx/account/user-login-widget/login/user-login.service';
-import { XmUserLoginWidgetModule } from '@xm-ngx/account/user-login-widget';
+import { UserLoginFormComponent, XmUserLoginWidgetComponent } from '@xm-ngx/account/user-login-widget';
 import { MatModule } from '../../../src/app/mat.module';
 import {
     AuthServerProvider,
@@ -75,7 +75,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 @NgModule({
     imports: [
         XmJsonSchemaFormModule,
-        XmUserLoginWidgetModule,
+        XmUserLoginWidgetComponent,
+        UserLoginFormComponent,
         GateSharedLibsModule,
         ReCaptchaModule,
         MarkdownModule.forChild(),
@@ -186,7 +187,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
         GateSharedLibsModule,
         MatModule,
         GooglePlaceModule,
-        XmUserLoginWidgetModule,
+        XmUserLoginWidgetComponent,
+        UserLoginFormComponent,
         XmJsonSchemaFormModule,
     ],
 })

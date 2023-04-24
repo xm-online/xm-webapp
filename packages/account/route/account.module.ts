@@ -3,10 +3,6 @@ import { RouterModule } from '@angular/router';
 import { LanguageModule } from '@xm-ngx/translation';
 import { MarkdownModule } from 'ngx-markdown';
 
-import { XmUserLoginWidgetModule } from '../user-login-widget/xm-user-login-widget.module';
-import { XmUserSecuritySettingsModule } from '../user-security-settings/xm-user-security-settings.module';
-import { XmUserSettingsWidgetModule } from '../user-settings-widget/xm-user-settings-widget.module';
-
 import { XmSharedModule } from '@xm-ngx/shared';
 import { accountState } from './account.route';
 import { ActivateComponent } from '../activate/activate.component';
@@ -24,6 +20,9 @@ import { LoginErrorComponent } from '../login-error/login-error.component';
 import { Password } from '../password/password.service';
 import { SettingsComponent } from '../settings/settings.component';
 import { SignUpComponent } from '../sign-up/sign-up.component';
+import { XmUserSettingsWidgetComponent } from '@xm-ngx/account/user-settings-widget';
+import { XmUserSecuritySettingsComponent } from '@xm-ngx/account/user-security-settings';
+import { XmUserLoginWidgetComponent } from '@xm-ngx/account/user-login-widget';
 
 
 @NgModule({
@@ -32,9 +31,9 @@ import { SignUpComponent } from '../sign-up/sign-up.component';
         XmSharedModule,
         RouterModule.forChild(accountState),
         LanguageModule,
-        XmUserSettingsWidgetModule,
-        XmUserSecuritySettingsModule,
-        XmUserLoginWidgetModule,
+        XmUserSettingsWidgetComponent,
+        XmUserSecuritySettingsComponent,
+        XmUserLoginWidgetComponent,
         MarkdownModule,
     ],
     declarations: [
