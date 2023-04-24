@@ -1,17 +1,27 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { XmUser } from '@xm-ngx/core/user';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { LanguageService, Locale, TitleService } from '@xm-ngx/translation';
+import { LanguageModule, LanguageService, Locale, TitleService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { interval, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AccountService, Principal } from '@xm-ngx/core/user';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'xm-user-settings-widget',
     templateUrl: './xm-user-settings-widget.component.html',
+    imports: [CommonModule, MatCardModule, TranslateModule, MatFormFieldModule, MatInputModule, FormsModule, XmPermissionModule, MatSelectModule, MatButtonModule, LanguageModule],
+    standalone: true,
 })
 export class XmUserSettingsWidgetComponent implements OnInit, XmDynamicWidget {
     public languages$: Observable<Locale[]> = this.languageService.languages$();

@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { TimeAgoService } from '../src/time-ago.service';
 import { TimelineService } from '../src/timeline.service';
-import { TimelineComponent } from './timeline.component';
+import { XmTimelineWidgetComponent } from './xm-timeline-widget.component';
 
 @NgModule({
     imports: [
@@ -22,10 +22,10 @@ import { TimelineComponent } from './timeline.component';
         MatButtonModule,
     ],
     declarations: [
-        TimelineComponent,
+        XmTimelineWidgetComponent,
     ],
     exports: [
-        TimelineComponent,
+        XmTimelineWidgetComponent,
     ],
     providers: [
         TimeAgoService,
