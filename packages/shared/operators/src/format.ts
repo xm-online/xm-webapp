@@ -1,6 +1,10 @@
 import { interpolate } from './interpolate';
 import * as _ from 'lodash';
 
+export interface XmFormatTemplateRecursive {
+    [key: string]: string | XmFormatTemplateRecursive;
+}
+
 /**
  * Converts the data with the provided template
  *
@@ -40,7 +44,7 @@ import * as _ from 'lodash';
  * ```
  * @alpha
  */
-export function format<T>(template: object | unknown, entity: unknown): T {
+export function format<T>(template: XmFormatTemplateRecursive, entity: unknown): T {
     const res = {} as T;
     for (const key in template as object) {
         if (Object.prototype.hasOwnProperty.call(template, key)) {
@@ -57,10 +61,10 @@ export function format<T>(template: object | unknown, entity: unknown): T {
     return res;
 }
 
-function formatArray<T = unknown>(template: Array<T>, entity: unknown): Array<T> {
-    const res = [];
+function formatArray<T = unknown>(template: Array<XmFormatTemplateRecursive>, entity: unknown): Array<T> {
+    const res: T[] = [];
     template.forEach(item => {
-        res.push(format(item, entity));
+        res.push(format<T>(item, entity));
     });
     return res;
 }
