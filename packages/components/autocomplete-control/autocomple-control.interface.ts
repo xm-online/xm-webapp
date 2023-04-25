@@ -3,7 +3,7 @@ import { HintText } from '../hint';
 import { XmTableColumnDynamicCellsOptions } from '../table';
 import { XmFormatTemplateRecursive } from '@xm-ngx/shared/operators';
 
-export interface XmAutocompleteControlMapper extends XmFormatTemplateRecursive {
+export interface XmAutocompleteControlMapper {
     // Interpolated string as ${name}
     displayFn: string;
     valueByKey: string;
