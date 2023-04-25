@@ -1,6 +1,6 @@
-import { formatJs } from './format-js';
+import { xmFormatJs } from './xm-format-js';
 
-describe('formatJs', () => {
+describe('xmFormatJs', () => {
     it('Some text sample', () => {
         const template = {
             entity: '"Some text"',
@@ -15,7 +15,7 @@ describe('formatJs', () => {
             entity: { some_unique_field: 'Random value' },
         };
 
-        const result = formatJs(template, context);
+        const result = xmFormatJs(template, context);
 
         const expectation = {
             entity: 'Some text',

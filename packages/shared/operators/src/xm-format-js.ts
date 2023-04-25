@@ -31,7 +31,7 @@ export interface XmFormatJsTemplateRecursive {
  *     entity:{some_unique_field: 'Random value'}
  *  }
  *
- * const res = formatJs(template, context);
+ * const res = xmFormatJs(template, context);
  * // Result:
  * // {
  * //    entity: 'Some text',
@@ -43,17 +43,17 @@ export interface XmFormatJsTemplateRecursive {
  * // };
  * ```
  */
-export function formatJs<T>(template: XmFormatJsTemplateRecursive, context: object): T {
+export function xmFormatJs<T>(template: XmFormatJsTemplateRecursive, context: unknown): T {
     const res = {} as T;
     for (const key in template) {
         if (Object.prototype.hasOwnProperty.call(template, key)) {
             const value = template[key];
             if (typeof value === 'string') {
-                res[key] = interpolate(value, context);
+                res[key] = interpolate(`{{${value}}}`, context as object);
             } else if (value instanceof Array<XmFormatJsTemplateRecursive>) {
-                res[key] = _.map(value, item => formatJs<T>(item, context));
+                res[key] = _.map(value, item => xmFormatJs<T>(item, context));
             } else if (typeof value === 'object') {
-                res[key] = formatJs(value, context);
+                res[key] = xmFormatJs(value, context);
             }
         }
     }
