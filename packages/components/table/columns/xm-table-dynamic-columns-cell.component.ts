@@ -6,7 +6,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { XmDynamicCellModule } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { XmTableColumnDynamicCell } from './xm-table-column-dynamic-cell.component';
+import { XmTableColumnDynamicCellComponent } from './xm-table-column-dynamic-cell.component';
 import { XmTableColumnsManager } from './xm-table-columns-manager';
 
 @Component({
@@ -47,8 +47,7 @@ import { XmTableColumnsManager } from './xm-table-columns-manager';
     styles: ['th, td{padding:0 16px}', 'th{font-weight: bold; text-align:center}'],
     changeDetection: ChangeDetectionStrategy.Default,
 })
-
-export class XmTableDynamicColumnsCell extends XmTableColumnDynamicCell implements OnDestroy, OnInit {
+export class XmTableDynamicColumnsCellComponent extends XmTableColumnDynamicCellComponent implements OnDestroy, OnInit {
     constructor(@Inject(CDK_TABLE) protected columnsManager: XmTableColumnsManager) {
         super(columnsManager);
     }

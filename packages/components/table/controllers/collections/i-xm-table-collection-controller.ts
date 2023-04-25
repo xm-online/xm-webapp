@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import {
     PageableAndSortable,
-    QueryParamsPageable
+    QueryParamsPageable,
 } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 
 export interface IXmTableCollectionState<T> {
@@ -11,7 +11,7 @@ export interface IXmTableCollectionState<T> {
     pageableAndSortable: PageableAndSortable;
 }
 
-export interface FilterQueryParams {
+export interface XmFilterQueryParams {
     pageableAndSortable: PageableAndSortable | null,
     filterParams: QueryParamsPageable,
 }
@@ -20,7 +20,7 @@ export interface IXmTableCollectionController<T> {
 
     state$(): Observable<IXmTableCollectionState<T>>;
 
-    load(queryParams: FilterQueryParams): void;
+    load(queryParams: XmFilterQueryParams): void;
 
     reset(): void;
 

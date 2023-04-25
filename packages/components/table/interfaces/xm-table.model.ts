@@ -12,6 +12,7 @@ import { XmTableColumn } from '@xm-ngx/components/table/columns/xm-table-column-
 import {
     FiltersControlRequestOptions
 } from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
+import { XmFormatJsTemplateRecursive } from '@xm-ngx/shared/operators';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination {
     pageSizeOptions: number[],
@@ -29,8 +30,6 @@ export interface XmTableConfigFilters extends FormGroupLayoutItem {
 export interface XmTableConfig extends FiltersControlRequestOptions {
     /** Title */
     title: Translate,
-    /** Filters configuration */
-    filtersToRequest?: object | unknown,
     /** Actions configuration */
     actions: XmPresentationLayout[],
     /** Selection configuration */
@@ -39,6 +38,7 @@ export interface XmTableConfig extends FiltersControlRequestOptions {
     columns: XmTableColumn[],
     collection: {
         type: string | null,
+        paramsToRequest?: XmFormatJsTemplateRecursive,
         repository: XmTableRepositoryCollectionConfig | null;
     },
     pageableAndSortable: PageableAndSortable & XmTableWithColumnDynamicCellOptionsPagination,

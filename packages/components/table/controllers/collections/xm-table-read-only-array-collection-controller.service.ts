@@ -10,7 +10,7 @@ import {
 } from './a-xm-table-local-pageable-collection-controller.service';
 import { get } from 'lodash';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
-import { FilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 
 @Injectable()
@@ -36,7 +36,7 @@ export class XmTableReadOnlyArrayCollectionController<T = unknown>
         super();
     }
 
-    public async load(request: FilterQueryParams): Promise<void> {
+    public async load(request: XmFilterQueryParams): Promise<void> {
         this.config = await firstValueFrom(this.configController.config$());
         this.entity = await firstValueFrom(this.entityController.entity$());
         this.items = get(this.entity, this.config.path, []) as T[];

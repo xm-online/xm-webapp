@@ -76,7 +76,7 @@ export interface XmTableColumn<O = unknown> extends XmDynamicCell<O> {
 /**
  * @beta
  */
-export class XmTableColumnDynamicCell implements OnDestroy, OnInit {
+export class XmTableColumnDynamicCellComponent implements OnDestroy, OnInit {
     @ViewChild(MatCellDef, { static: true }) public cell: MatCellDef;
     @ViewChild(MatColumnDef, { static: true }) public columnDef: MatColumnDef;
     @ViewChild(MatHeaderCellDef, { static: true }) public headerCell: MatHeaderCellDef;
