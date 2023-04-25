@@ -134,7 +134,7 @@ export class XmTableFilterInlineComponent {
     public filterExpand: boolean = true;
     public disabled: boolean;
     public loading: boolean;
-    public value: FiltersControlValue;
+    public value: FiltersControlValue = {};
     protected request: FiltersControlValue = null;
 
     protected _config: FiltersControlRequestOptions = DEFAULT_CONFIG;
@@ -182,7 +182,7 @@ export class XmTableFilterInlineComponent {
                 .map((filter) => {
                     return ({
                         ...filter,
-                        title: filter.config?.title,
+                        title: filter.options?.title,
                         value: this.value[filter.name],
                     }) as XmTableFilterInline;
                 });
@@ -229,21 +229,21 @@ export class XmTableFilterInlineComponent {
             this.value[filter.name] = null;
         }
 
-        this.entitiesRequestBuilder.update(this.value);
+        this.entitiesRequestBuilder.set(this.value);
     }
 
     public removeAll(): void {
         Object.keys(this.value).forEach(item => {
             this.value[item] = null;
         });
-        this.entitiesRequestBuilder.update(this.value);
+        this.entitiesRequestBuilder.set(this.value);
     }
 
     private get chipsFiltersConfig(): { name: string, options: ChipsControlConfig } {
         return (this.config.filters as any)
             .find((filter) => !!this.value[filter.name]
                 && filter.options?.elasticType === 'chips'
-                || filter.name === 'chips'
+                || filter.name === 'chips',
             );
     }
 
@@ -262,7 +262,7 @@ export class XmTableFilterInlineComponent {
             return {
                 value,
                 title,
-                name: 'chips_' + i
+                name: 'chips_' + i,
             };
         });
     }

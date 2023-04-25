@@ -1,1 +1,1 @@
-export { XmTableArrayModule, XmTableArrayComponent, XmTableArrayOptions } from './table-array.component';
+export { XmTableArrayComponent, XmTableArrayOptions } from './table-array.component';

@@ -15,7 +15,7 @@ export const XM_TABLE_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/table-array',
-        loadChildren: () => import('packages/components/table/cells/table-array').then(m => m.XmTableArrayModule),
+        loadChildren: () => import('packages/components/table/cells/table-array').then(m => m.XmTableArrayComponent),
     },
     {
         selector: '@xm-ngx/components/table',

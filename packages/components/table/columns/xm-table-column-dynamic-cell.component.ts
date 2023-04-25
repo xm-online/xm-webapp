@@ -14,7 +14,7 @@ import { XmTableColumnsManager } from './xm-table-columns-manager';
 import { XmDynamicCell, XmDynamicCellModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { CommonModule } from '@angular/common';
-import { ShowHideColumnsSettingsModule } from '../show-hide-columns-setting-widget/show-hide-columns-settings.module';
+import { ShowHideColumnsSettingsComponent } from '../cells/show-hide-columns-settings/show-hide-columns-settings.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface XmTableColumn<O = unknown> extends XmDynamicCell<O> {
@@ -67,7 +67,7 @@ export interface XmTableColumn<O = unknown> extends XmDynamicCell<O> {
         XmDynamicCellModule,
         XmTranslationModule,
         MatSortModule,
-        ShowHideColumnsSettingsModule,
+        ShowHideColumnsSettingsComponent,
         MatTooltipModule,
     ],
     standalone: true,

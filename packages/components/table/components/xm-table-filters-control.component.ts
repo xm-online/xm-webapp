@@ -11,7 +11,6 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import { NgControl, UntypedFormGroup } from '@angular/forms';
-import { Pageable } from '@xm-ngx/components/entity-collection';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { FormGroupLayoutFactoryService, FormLayoutItem, FormLayoutModule } from '@xm-ngx/components/form-layout';
 import * as _ from 'lodash';
@@ -19,8 +18,9 @@ import { isEqual, isNil, omitBy } from 'lodash';
 import { BehaviorSubject, combineLatestWith, Observable, Subject, Subscription } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { AsyncPipe, NgIf } from '@angular/common';
+import { QueryParams } from '@xm-ngx/components/entity-collection';
 
-export interface FiltersControlValue extends Pageable {
+export interface FiltersControlValue extends QueryParams {
     [key: string]: string | object | number;
 }
 
