@@ -20,14 +20,11 @@ import { MatInputModule } from '@angular/material/input';
 import { Defaults, interpolate } from '@xm-ngx/shared/operators';
 
 export interface ChipsControlConfig {
-    elasticType: string,
     title?: Translate,
-    elasticTemplateRequest?: string,
     items?: any[],
 }
 
 export const ChipsControlConfigDefault: ChipsControlConfig = {
-    elasticType: 'chips'
 };
 
 @Component({

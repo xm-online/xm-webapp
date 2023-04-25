@@ -2,7 +2,7 @@ import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 
 import { Translate } from '@xm-ngx/translation';
 import {
-    XmTableRepositoryCollectionConfig
+    XmTableRepositoryCollectionConfig,
 } from '../controllers/collections/xm-table-read-only-repository-collection-controller';
 import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table-empty.component';
 import { XmPresentationLayout } from '@xm-ngx/dynamic';
@@ -22,8 +22,6 @@ export interface XmTableWithColumnDynamicCellOptionsPagination {
 export interface XmTableConfigFilters extends FormGroupLayoutItem {
     options: {
         title: Translate,
-        elasticType?: string,
-        elasticTemplateRequest?: string,
     }
 }
 
