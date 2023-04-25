@@ -6,7 +6,12 @@ import { MatBadgeModule } from '@angular/material/badge';
 import * as _ from 'lodash';
 import { defaultsDeep } from 'lodash';
 import { delay } from 'rxjs';
-import { format, interpolate, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import {
+    interpolate,
+    takeUntilOnDestroy,
+    takeUntilOnDestroyDestroy,
+
+} from '@xm-ngx/shared/operators';
 import { XmTableCollectionControllerResolver } from '@xm-ngx/components/table/table';
 import { XmTableFilterController } from '@xm-ngx/components/table/controllers/filters/xm-table-filter-controller.service';
 import { MatChipsModule } from '@angular/material/chips';
@@ -122,7 +127,7 @@ export interface XmTableFilterInline {
         MatChipsModule,
         XmTranslationModule,
         MatIconModule,
-        MatMenuModule
+        MatMenuModule,
     ],
 })
 export class XmTableFilterInlineComponent {
@@ -169,17 +174,17 @@ export class XmTableFilterInlineComponent {
             if (_.isEqual(value, this.request)) {
                 return;
             }
-            this.value = format(value, this.config.format);
 
             const chipsFilters = this.getChipsFilters();
-            this.activeFilters = (this.config.filters as any)?.filter(filter =>
-                !_.isEmpty(this.value[filter.name]) && filter.name !== this.chipsFiltersConfig?.name)
-                .map(filter => {
+            this.activeFilters = (this.config.filters as any)
+                .filter(filter => !_.isEmpty(this.value[filter.name])
+                    && filter.name !== this.chipsFiltersConfig?.name)
+                .map((filter) => {
                     return ({
                         ...filter,
-                        title: filter.options?.title,
+                        title: filter.config?.title,
                         value: this.value[filter.name],
-                    });
+                    }) as XmTableFilterInline;
                 });
             this.activeFilters = chipsFilters.concat(this.activeFilters);
 

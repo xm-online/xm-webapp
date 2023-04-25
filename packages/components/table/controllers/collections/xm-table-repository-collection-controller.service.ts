@@ -1,23 +1,18 @@
 import { Injectable } from '@angular/core';
-import { IEntityCollectionPageable, QueryParams, QueryParamsPageable, } from '@xm-ngx/components/entity-collection';
+import { IEntityCollectionPageable, } from '@xm-ngx/components/entity-collection';
 import { firstValueFrom } from 'rxjs';
-import { FilterQueryParams, IXmTableCollectionController, } from './i-xm-table-collection-controller';
+import { XmFilterQueryParams, IXmTableCollectionController, } from './i-xm-table-collection-controller';
 
-import { cloneDeep, get } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmTableRepositoryResolver, } from '@xm-ngx/components/table/repositories/xm-table-repository-resolver.service';
-import { XmTableRepositoryCollectionConfig, } from './xm-table-read-only-repository-collection-controller';
 import { NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
 import {
     XmTableConfig,
-    XmTableConfigFilters
 } from '../../interfaces/xm-table.model';
-import { format } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
-import { Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY } from '../filters/xm-table-filters-elastic-string-query';
-import { ActivatedRoute, Router } from '@angular/router';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 
 @Injectable()
@@ -26,39 +21,26 @@ export class XmTableRepositoryCollectionController<T = unknown>
     implements IXmTableCollectionController<T> {
     public repository: IEntityCollectionPageable<T, PageableAndSortable>;
     public config: XmTableConfig;
-    public entity: object;
 
     constructor(
         private configController: XmTableConfigController<XmTableConfig>,
         protected repositoryResolver: XmTableRepositoryResolver<T>,
-        public router: Router,
-        private activatedRoute: ActivatedRoute
     ) {
         super();
     }
 
-    public async load(request: FilterQueryParams): Promise<void> {
+    public async load(request: XmFilterQueryParams): Promise<void> {
         if (_.isEmpty(request.pageableAndSortable)) {
             request.pageableAndSortable = PAGEABLE_AND_SORTABLE_DEFAULT;
         }
         this.config = await firstValueFrom(this.configController.config$());
-        const repositoryConfig: XmTableRepositoryCollectionConfig = this.config.collection.repository;
+
         this.repository = await this.repositoryResolver.get();
 
-        const queryParams = this.getQueryParams(request);
-
-        this.changePartial({loading: true, pageableAndSortable: queryParams});
-
-        this.router.navigate(
-            [],
-            {
-                relativeTo: this.activatedRoute,
-                queryParams: this.getQueryParamsWithoutIgnoreValues(queryParams),
-            },
-        );
+        this.changePartial({loading: true, pageableAndSortable: request.pageableAndSortable});
 
         this.repository
-            .query({...repositoryConfig.config.query, ...queryParams})
+            .query(request)
             .pipe(take(1))
             .subscribe(
                 (res) => {
@@ -108,89 +90,5 @@ export class XmTableRepositoryCollectionController<T = unknown>
 
     public save(): void {
         throw new NotSupportedException();
-    }
-
-    private createFiltersToRequest(
-        queryParams: QueryParamsPageable,
-    ): QueryParamsPageable {
-        const filtersToRequest: { query: string } = format(this.config.filtersToRequest, queryParams);
-        return _.merge(
-            {},
-            queryParams,
-            filtersToRequest,
-        );
-    }
-
-    private createElasticTypeFiltersToRequest(
-        queryParams: QueryParamsPageable,
-        filterParams: QueryParams,
-    ): QueryParamsPageable {
-        const typeKey = this.config.collection?.repository?.config.query?.typeKey;
-        const searchArr = Object.keys(filterParams)
-            .filter(key => !_.isEmpty(filterParams[key]))
-            .map(key => {
-                const configFilter = (this.config.filters?.find(filter => key === filter.name) || {}) as XmTableConfigFilters;
-                return this.getElastic(filterParams[key], {
-                    field: key,
-                    elasticType: configFilter.options?.elasticType
-                });
-            });
-
-        if (typeKey) {
-            searchArr.push(`typeKey: ${typeKey}`);
-        }
-        const query = searchArr.join(' AND ');
-
-        return _.merge(
-            {},
-            queryParams,
-            {
-                query
-            },
-        );
-    }
-
-    private createQueryParams(
-        pageableAndSortable: PageableAndSortable,
-        filterParams?: QueryParamsPageable
-    ): QueryParamsPageable {
-        const {pageIndex, pageSize, sortBy, sortOrder} = pageableAndSortable;
-        const pageParams = {
-            pageIndex,
-            pageSize,
-            sortBy,
-            sortOrder
-        };
-
-        return _.merge(
-            {},
-            filterParams,
-            pageParams,
-        );
-    }
-
-    private getQueryParams(request: FilterQueryParams): QueryParamsPageable {
-        const {pageableAndSortable, filterParams} = request;
-        let queryParams = this.createQueryParams(pageableAndSortable, filterParams);
-        if (this.config.filtersToRequest) {
-            queryParams = this.createFiltersToRequest(queryParams);
-        } else {
-            queryParams = this.createElasticTypeFiltersToRequest(queryParams, filterParams);
-        }
-        return queryParams;
-    }
-
-    private getQueryParamsWithoutIgnoreValues(queryParams: QueryParamsPageable, ignoreParams: string[] = ['query']) {
-        return Object.keys(queryParams).reduce((acc, curr) => {
-            if (!ignoreParams.includes(curr)) {
-                acc[curr] = queryParams[curr];
-            }
-            return acc;
-        }, {});
-    }
-
-    private getElastic(value: string | number, filter: { field: string, elasticType: string }): string {
-        const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[get(filter, 'elasticType', '')];
-        return fn ? fn(value, filter) : null;
     }
 }

@@ -71,7 +71,8 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
         repository: null,
     },
     pageableAndSortable: {
-        ...PAGEABLE_AND_SORTABLE_DEFAULT, ...{
+        ...PAGEABLE_AND_SORTABLE_DEFAULT,
+        ...{
             pageSizeOptions: [],
             hidePagination: false,
         },
