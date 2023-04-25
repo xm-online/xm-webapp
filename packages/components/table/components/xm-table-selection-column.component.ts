@@ -17,7 +17,6 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: SelectTableColumn = {
     dataClass: '',
     dataStyle: '',
     field: '',
-    options: undefined,
     selector: '',
     sortable: false,
     style: '',

@@ -2,7 +2,7 @@ import {
     Component,
     Input,
     Optional,
-    SkipSelf
+    SkipSelf,
 } from '@angular/core';
 import {
     FormArray,
@@ -58,8 +58,8 @@ export const ChipsControlConfigDefault: ChipsControlConfig = {
         XmTranslationModule,
         MatChipsModule,
         MatIconModule,
-        MatInputModule
-    ]
+        MatInputModule,
+    ],
 })
 export class ChipsControlComponent extends NgModelWrapper<string[]> {
     @Input() @Defaults(ChipsControlConfigDefault)

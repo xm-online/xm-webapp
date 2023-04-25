@@ -27,7 +27,7 @@ export class XmTableCollectionControllerResolver<T = unknown> {
         private linkedController: XmTableLinkedCollectionController<T>,
         private readOnlyArrayController: XmTableReadOnlyArrayCollectionController<T>,
         private repositoryController: XmTableRepositoryCollectionController<T>,
-        private readOnlyrepositoryController: XmTableReadOnlyRepositoryCollectionController<T>,
+        private readOnlyRepositoryCollectionController: XmTableReadOnlyRepositoryCollectionController<T>,
         private stringArrayController: XmTableStringArrayCollectionController<any>,
         private elasticSearchCollectionController: XmTableElasticSearchCollectionController<T>
     ) {
@@ -49,7 +49,7 @@ export class XmTableCollectionControllerResolver<T = unknown> {
             case 'repository':
                 return this.repositoryController;
             case 'readOnlyRepository':
-                return this.readOnlyrepositoryController;
+                return this.readOnlyRepositoryCollectionController;
             case 'link':
                 return this.linkedController;
             case 'config':

@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { ButtonSpinnerModule } from '@xm-ngx/components/button-spinner';
 import {
-    FiltersControlRequestOptions
+    FiltersControlRequestOptions,
 } from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
 
 @Component({
@@ -36,7 +36,7 @@ export class XmTableFilterButtonComponent implements OnDestroy {
     constructor(private overlay: Overlay,
                 private elementRef: ElementRef,
                 private overlayService: XmOverlayService,
-                private requestBuilder: XmTableFilterController) {
+                private tableFilterController: XmTableFilterController) {
     }
 
     public openFilter(): void {
@@ -72,14 +72,14 @@ export class XmTableFilterButtonComponent implements OnDestroy {
             XmTableFilterButtonDialogComponent,
             {
                 config: this.config,
-                value: this.requestBuilder.getCurrentRequest(),
+                value: this.tableFilterController.get(),
             });
 
         overlayRef.afterClosed$.pipe(
             filter(i => i.data.state != 'cancel'),
             map(res => res.data),
             takeUntilOnDestroy(this),
-        ).subscribe(res => this.requestBuilder.update(res.result));
+        ).subscribe(res => this.tableFilterController.update(res.result));
     }
 
     public ngOnDestroy(): void {

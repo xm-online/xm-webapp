@@ -23,7 +23,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { XmTableDynamicColumnComponent } from '../columns/xm-table-dynamic-column.component';
 import {
-    XmTableColumnDynamicCell
+    XmTableColumnDynamicCellComponent
 } from '../columns/xm-table-column-dynamic-cell.component';
 import { map } from 'rxjs/operators';
 import {
@@ -39,7 +39,7 @@ import { XmTableLoadingColumnComponent } from '@xm-ngx/components/table/componen
 import {
     ColumnsSettingStorageItem,
     XmTableColumnsSettingStorageService,
-} from '@xm-ngx/components/table/services/xm-table-columns-setting-storage.service';
+} from '@xm-ngx/components/table/controllers/config/xm-table-columns-setting-storage.service';
 import { XmTableHeaderComponent } from '@xm-ngx/components/table/components/xm-table-header.component';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -86,7 +86,7 @@ interface IXmTableContext {
         MatSortModule,
         AsyncPipe,
         XmTableDynamicColumnComponent,
-        XmTableColumnDynamicCell,
+        XmTableColumnDynamicCellComponent,
         NgForOf,
         XmTableSelectionColumnComponent,
         XmTableLoadingColumnComponent,

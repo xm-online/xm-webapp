@@ -171,7 +171,6 @@ export class XmTableFiltersControlComponent<T = FiltersControlValue> extends NgC
         }
     }
 
-
 }
 
 
