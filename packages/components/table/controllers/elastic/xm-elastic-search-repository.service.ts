@@ -1,12 +1,6 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import {
-    HttpClientRest,
-    QueryParams,
-    QueryParamsPageable,
-    XmRepositoryConfig
-} from '@xm-ngx/components/entity-collection';
+import { HttpClientRest, QueryParamsPageable, XmRepositoryConfig } from '@xm-ngx/components/entity-collection';
 import * as _ from 'lodash';
-import { get } from 'lodash';
 import { Observable } from 'rxjs';
 import { XmEntity } from '@xm-ngx/entity';
 import { Injectable } from '@angular/core';
@@ -15,12 +9,10 @@ import { map } from 'rxjs/operators';
 import { SortDirection } from '@angular/material/sort';
 import { XmDynamicService } from '@xm-ngx/dynamic';
 import { XmFilterQueryParams } from '@xm-ngx/components/table/controllers/collections/i-xm-table-collection-controller';
+import { XmFormatJsTemplateRecursive } from '@xm-ngx/shared/operators';
 import {
-    Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY,
-} from '@xm-ngx/components/table/controllers/elastic/xm-table-filters-elastic-string-query';
-import { XmTableConfig, XmTableConfigFilters } from '@xm-ngx/components/table/interfaces/xm-table.model';
-import { xmFormatJs, XmFormatJsTemplateRecursive } from '@xm-ngx/shared/operators';
-import { XmTableConfigController } from '@xm-ngx/components/table/controllers';
+    XmElasticRequestBuilder
+} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-request-builder.service';
 
 export interface XmElasticSearchRepositoryExtraSort {
     [key: string]: SortDirection;
@@ -42,6 +34,10 @@ export interface XmTableElasticSearchRepositoryQuery {
 
 export type XmElasticSearchRepositoryQueryParamsPageable = { query: string } & QueryParamsPageable;
 
+export interface XmEntityRepositoryConfig extends XmRepositoryConfig{
+    paramsToRequest: XmFormatJsTemplateRecursive;
+}
+
 export type XmElasticSearchRepositoryRequest = QueryParamsPageable
     & XmTableElasticSearchRepositoryExtra
     & XmTableElasticSearchRepositoryQuery;
@@ -51,16 +47,16 @@ export class XmElasticSearchRepository<T extends XmEntity>
     extends HttpClientRest<T, PageableAndSortable>
     implements XmDynamicService<XmRepositoryConfig> {
 
-    public config: XmRepositoryConfig & { paramsToRequest: XmFormatJsTemplateRecursive };
+    public config: XmEntityRepositoryConfig;
 
-    constructor(httpClient: HttpClient, private configController: XmTableConfigController<XmTableConfig>) {
+    constructor(httpClient: HttpClient, private requestBuilder: XmElasticRequestBuilder) {
         super(null, httpClient);
     }
 
-    public query(request: XmElasticSearchRepositoryQueryParamsPageable, headers?: HttpHeaders): Observable<HttpResponse<T[] & PageableAndSortable>> {
-        const queryParams = this.getQueryParams(request as any);
+    public query(request: XmFilterQueryParams, headers?: HttpHeaders): Observable<HttpResponse<T[] & PageableAndSortable>> {
+        const queryParams = this.requestBuilder.getQueryParams(request, this.config);
 
-        const params = this.getParams(queryParams as any);
+        const params = this.getParams(queryParams);
         return this.handle(
             this.httpClient.post<T[] & HttpResponse<T[] & PageableAndSortable>>(this.url, params, {
                 observe: 'response',
@@ -119,79 +115,4 @@ export class XmElasticSearchRepository<T extends XmEntity>
 
         return res.clone({ body });
     }
-
-    private getQueryParams(request: XmFilterQueryParams): QueryParamsPageable {
-        const { pageableAndSortable, filterParams } = request;
-        let queryParams = this.createQueryParams(pageableAndSortable, filterParams);
-        if (this.config.paramsToRequest) {
-            queryParams = this.createFiltersToRequest(queryParams);
-        } else {
-            queryParams = this.createElasticTypeFiltersToRequest(queryParams, filterParams);
-        }
-        return queryParams;
-    }
-
-
-    private getElastic(value: string | number, filter: { field: string, elasticType: string }): string {
-        const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[get(filter, 'elasticType', '')];
-        return fn ? fn(value, filter) : null;
-    }
-
-    private createQueryParams(
-        pageableAndSortable: PageableAndSortable,
-        filterParams?: QueryParamsPageable
-    ): QueryParamsPageable {
-        const { pageIndex, pageSize, sortBy, sortOrder } = pageableAndSortable;
-        const pageParams = {
-            pageIndex,
-            pageSize,
-            sortBy,
-            sortOrder,
-        };
-
-        return _.merge(
-            {},
-            filterParams,
-            pageParams,
-        );
-    }
-
-
-    private createElasticTypeFiltersToRequest(
-        queryParams: QueryParamsPageable,
-        filterParams: QueryParams,
-    ): QueryParamsPageable {
-        const searchArr = Object.keys(filterParams)
-            .filter(key => !_.isEmpty(filterParams[key]))
-            .map(key => {
-                const configFilter = (this.configController.config.filters?.find(filter => key === filter.name) || {}) as XmTableConfigFilters;
-
-                return this.getElastic(filterParams[key], {
-                    field: key,
-                    elasticType: configFilter['elasticType']
-                });
-            });
-
-        const query = searchArr.join(' AND ');
-
-        return _.merge(
-            {},
-            queryParams,
-            {
-                query
-            },
-        );
-    }
-
-    private createFiltersToRequest(
-        queryParams: QueryParamsPageable,
-    ): QueryParamsPageable {
-        const filtersToRequest: { query: string } = xmFormatJs(this.config.paramsToRequest, { queryParams });
-        return _.merge(
-            {},
-            queryParams,
-            filtersToRequest,
-        );
-    }
-
 }

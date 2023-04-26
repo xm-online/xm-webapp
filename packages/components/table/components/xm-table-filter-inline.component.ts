@@ -174,6 +174,7 @@ export class XmTableFilterInlineComponent {
             if (_.isEqual(value, this.request)) {
                 return;
             }
+            this.value = value;
 
             const chipsFilters = this.getChipsFilters();
             this.activeFilters = (this.config.filters as any)
