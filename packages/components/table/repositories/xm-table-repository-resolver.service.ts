@@ -1,0 +1,22 @@
+import { Injectable } from '@angular/core';
+import { IEntityCollection, XmRepositoryConfig, } from '@xm-ngx/components/entity-collection';
+import { XmDynamicService, XmDynamicServiceFactory } from '@xm-ngx/dynamic';
+import { XmTableConfigController } from '../controllers/config/xm-table-config-controller.service';
+import { XmTableConfig } from '@xm-ngx/components/table/interfaces/xm-table.model';
+
+@Injectable()
+export class XmTableRepositoryResolver<T> {
+    constructor(
+        private config: XmTableConfigController<XmTableConfig>,
+        private xmDynamicServiceFactory: XmDynamicServiceFactory,
+    ) {
+    }
+
+    public async get(): Promise<IEntityCollection<T>> {
+        const repoConfig = this.config.config.collection.repository;
+        const repository = await this.xmDynamicServiceFactory.findAndFactory<IEntityCollection<T> & XmDynamicService<XmRepositoryConfig>>(repoConfig.selector);
+        repository.config = repoConfig.config;
+
+        return repository;
+    }
+}

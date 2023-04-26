@@ -7,8 +7,8 @@ import {
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
     ColumnsSettingStorageItem,
-    ColumnsSettingStorageService,
-} from '../../../service/columns-settings-storage.service';
+    XmTableColumnsSettingStorageService,
+} from '../../../services/xm-table-columns-setting-storage.service';
 
 @Component({
     selector: 'xm-show-hide-columns-settings',
@@ -32,7 +32,7 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
     }
 
     constructor(
-        private columnsSettingStorageService: ColumnsSettingStorageService,
+        private columnsSettingStorageService: XmTableColumnsSettingStorageService,
         private fb: UntypedFormBuilder,
     ) { }
 

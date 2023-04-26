@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ShowHideColumnsSettingsComponent } from './show-hide-columns-settings.component';
 import { of } from 'rxjs';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
-import { ColumnsSettingStorageService } from '../../../service/columns-settings-storage.service';
+import { XmTableColumnsSettingStorageService } from '../../../services/xm-table-columns-setting-storage.service';
 import { UntypedFormBuilder } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,7 +30,7 @@ describe('ShowHideColumnsSettingsComponent', () => {
             declarations: [ShowHideColumnsSettingsComponent],
             providers: [
                 {
-                    provide: ColumnsSettingStorageService,
+                    provide: XmTableColumnsSettingStorageService,
                     useValue: mocks.columnsSettingStorageService,
                 },
                 UntypedFormBuilder,
