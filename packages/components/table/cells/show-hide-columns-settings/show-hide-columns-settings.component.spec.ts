@@ -21,12 +21,18 @@ describe('ShowHideColumnsSettingsComponent', () => {
                 updateStore: jasmine.createSpy('updateStore'),
             },
         };
+
+        TestBed.overrideComponent(ShowHideColumnsSettingsComponent, {
+            remove: { imports: [XmTranslationTestingModule] },
+            add: { imports: [XmTranslationTestingModule] },
+        });
+
         await TestBed.configureTestingModule({
             imports: [
                 XmTranslationTestingModule,
                 MatMenuModule,
                 BrowserAnimationsModule,
-                ShowHideColumnsSettingsComponent
+                ShowHideColumnsSettingsComponent,
             ],
             providers: [
                 {
