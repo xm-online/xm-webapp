@@ -26,8 +26,8 @@ describe('ShowHideColumnsSettingsComponent', () => {
                 XmTranslationTestingModule,
                 MatMenuModule,
                 BrowserAnimationsModule,
+                ShowHideColumnsSettingsComponent
             ],
-            declarations: [ShowHideColumnsSettingsComponent],
             providers: [
                 {
                     provide: XmTableColumnsSettingStorageService,

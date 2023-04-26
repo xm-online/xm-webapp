@@ -44,7 +44,7 @@ export interface XmFormatTemplateRecursive {
  * ```
  * @alpha
  */
-export function format<T>(template: XmFormatTemplateRecursive  | any, entity: unknown): T {
+export function format<T>(template: XmFormatTemplateRecursive | any, entity: unknown): T {
     const res = {} as T;
     for (const key in template as object) {
         if (Object.prototype.hasOwnProperty.call(template, key)) {
