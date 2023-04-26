@@ -286,7 +286,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         if (before && after === undefined) {
             return { action: 'deleted', value: before };
         }
-        if ((before && after) && before !== after) {
+        if (!Array.isArray(before) && !Array.isArray(after) && (before && after) && before !== after) {
             return { action: 'update', value: after };
         }
         return { action: 'no-prop', value: null };
