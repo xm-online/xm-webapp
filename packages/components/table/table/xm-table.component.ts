@@ -152,15 +152,12 @@ export class XmTableComponent implements OnInit {
         ])
             .subscribe(([filterParams, pageableAndSortable]) => {
                 const queryParams = _.merge({}, { pageableAndSortable }, { filterParams });
-
                 this.queryParamsStoreService.set(queryParams);
 
                 this.controller.load(queryParams);
             });
 
-        const queryParams = this.queryParamsStoreService.get();
-        this.tableFilterController.set(queryParams.filterParams);
-        this.pageableAndSortable$.next(_.merge({}, this.config.pageableAndSortable, queryParams.pageableAndSortable));
+        this.initQueryParams();
     }
 
     public updatePagination(): void {
@@ -171,5 +168,18 @@ export class XmTableComponent implements OnInit {
         const total = this.paginator.length;
         const pageAndSort: PageableAndSortable = { pageIndex, pageSize, sortOrder, sortBy, total };
         this.pageableAndSortable$.next(pageAndSort);
+    }
+
+    private initQueryParams(): void {
+        const queryParams = this.queryParamsStoreService.get();
+        this.tableFilterController.set(queryParams.filterParams);
+        const { pageIndex, pageSize, sortBy, sortOrder } = this.config.pageableAndSortable;
+        const pageParams = {
+            pageIndex,
+            pageSize,
+            sortBy,
+            sortOrder,
+        };
+        this.pageableAndSortable$.next(_.merge({}, pageParams, queryParams.pageableAndSortable));
     }
 }
