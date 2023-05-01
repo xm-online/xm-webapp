@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, NgModule, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import {
     XmDynamicPresentation,
-    XmDynamicPresentationConstructor,
-    XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
 import { defaults, get as _get, find as _find } from 'lodash';
 
@@ -19,6 +17,8 @@ export type XmTableArrayValue = unknown[];
 @Component({
     selector: 'xm-table-array',
     template: '{{ data  }}',
+    imports: [CommonModule],
+    standalone: true,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
@@ -57,13 +57,4 @@ export class XmTableArrayComponent implements XmDynamicPresentation<XmTableArray
             this.data = _get(found, this.config.fieldKey, null);
         }
     }
-}
-
-@NgModule({
-    exports: [XmTableArrayComponent],
-    declarations: [XmTableArrayComponent],
-    imports: [CommonModule],
-})
-export class XmTableArrayModule implements XmDynamicPresentationEntryModule {
-    public entry: XmDynamicPresentationConstructor = XmTableArrayComponent;
 }

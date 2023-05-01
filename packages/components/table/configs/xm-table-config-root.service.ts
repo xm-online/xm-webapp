@@ -17,7 +17,7 @@ export const TABLE_CONFIG_DEFAULT: ITableConfig = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class TableConfig implements ITableConfig {
+export class XmTableConfigRoot implements ITableConfig {
     public sortDirection: 'asc' | 'desc' = TABLE_CONFIG_DEFAULT.sortDirection;
     public sortBy: string = TABLE_CONFIG_DEFAULT.sortBy;
     public pageSizeOptions: number[] = TABLE_CONFIG_DEFAULT.pageSizeOptions;

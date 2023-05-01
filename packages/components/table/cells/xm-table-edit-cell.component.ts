@@ -35,7 +35,7 @@ export class XmTableEditCellComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         const collection = await this.collectionControllerResolver.get();
         if (!(collection instanceof XmTableRepositoryCollectionController)) {
-            console.warn('XmTableEditCellComponent not support table type');
+            console.warn('XmTableEditCellComponent not support table type.');
             return;
         }
         this.collection = collection;

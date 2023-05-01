@@ -2,7 +2,7 @@ import {
     Component,
     Input,
     Optional,
-    SkipSelf
+    SkipSelf,
 } from '@angular/core';
 import {
     FormArray,
@@ -20,14 +20,11 @@ import { MatInputModule } from '@angular/material/input';
 import { Defaults, interpolate } from '@xm-ngx/shared/operators';
 
 export interface ChipsControlConfig {
-    elasticType: string,
     title?: Translate,
-    elasticTemplateRequest?: string,
     items?: any[],
 }
 
 export const ChipsControlConfigDefault: ChipsControlConfig = {
-    elasticType: 'chips'
 };
 
 @Component({
@@ -58,8 +55,8 @@ export const ChipsControlConfigDefault: ChipsControlConfig = {
         XmTranslationModule,
         MatChipsModule,
         MatIconModule,
-        MatInputModule
-    ]
+        MatInputModule,
+    ],
 })
 export class ChipsControlComponent extends NgModelWrapper<string[]> {
     @Input() @Defaults(ChipsControlConfigDefault)

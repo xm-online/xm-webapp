@@ -10,7 +10,15 @@
   }
 
   .xm-table tr.xm-table-hoverable-row:hover {
+    $xm-surface: map-get($xm-theme, surface);
+    background:  $xm-surface;
+  }
+
+  .header-container {
     $xm-surface:      map-get($xm-theme, surface);
-    background: $xm-surface;
+    $xm-primary:      map-get($xm-theme, primary);
+
+    color:            $xm-primary;
+    background-color: lighten($xm-primary, 20%);
   }
 }

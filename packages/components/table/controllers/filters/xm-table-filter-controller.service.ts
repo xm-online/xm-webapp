@@ -1,57 +1,47 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { QueryParams } from '@xm-ngx/components/entity-collection';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { assign, cloneDeep, forIn, isPlainObject, transform } from 'lodash';
+import { assign, cloneDeep, isPlainObject, transform } from 'lodash';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { FiltersControlValue } from '../../components/xm-table-filters-control.component';
 
-const cloneDeepWithoutUndefined = (obj) => transform(obj, (r, v, k) => {
-    if (v === undefined || v === '' || v === null) {
-        return;
-    }
-    r[k] = isPlainObject(v) ? cloneDeepWithoutUndefined(v) : v;
-}, {});
-
-function jsObjectToQueryParams(request: object): object {
-    const req = {};
-    forIn(request, (value: any, key) => {
-        if (value instanceof Date) {
-            req[key] = value.toISOString();
-        } else if (value !== undefined && value !== '' && value !== null) {
-            req[key] = value;
+function cloneDeepWithoutUndefined(obj) {
+    return transform(obj, (r, v, k) => {
+        if (v === undefined || v === '' || v === null) {
+            return;
         }
-    });
-    return req;
+        r[k] = isPlainObject(v) ? cloneDeepWithoutUndefined(v) : v;
+    }, {});
 }
 
 @Injectable()
-export class XmTableFilterController implements OnDestroy {
-    private request$: BehaviorSubject<QueryParams>;
+export class XmTableFilterController<T extends FiltersControlValue = FiltersControlValue> implements OnDestroy {
+    private request$: BehaviorSubject<T>;
 
     constructor() {
-        this.request$ = new BehaviorSubject<object>({});
+        this.request$ = new BehaviorSubject<T>({} as T);
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
 
-    public update(request: QueryParams): void {
-        const oldReq = cloneDeep(this.request$.getValue());
-        let newRequest = assign({}, oldReq, request);
-        newRequest = cloneDeepWithoutUndefined(newRequest);
+    public set(request: T): void {
+        const newRequest = cloneDeepWithoutUndefined(request) as T;
         this.request$.next(newRequest);
     }
 
-    public create(): QueryParams {
-        const request = this.request$.getValue();
-        return jsObjectToQueryParams(request);
+    public update(request: T): void {
+        const oldReq = cloneDeep(this.request$.getValue());
+        let newRequest = assign({}, oldReq, cloneDeep(request));
+        newRequest = cloneDeepWithoutUndefined(newRequest) as T;
+        this.request$.next(newRequest);
     }
 
-    public change$(): Observable<QueryParams> {
+    public change$(): Observable<T> {
         return this.request$.asObservable();
     }
 
-    public getCurrentRequest(): QueryParams {
+    public get(): T {
         return this.request$.getValue();
     }
 }
