@@ -5,7 +5,7 @@ import { NotImplementedException } from '@xm-ngx/shared/exceptions';
 
 
 @Component({
-    selector: 'xm-confirm-dialog',
+    selector: 'xm-confirmation-dialog',
     templateUrl: './xm-confirm-dialog.component.html',
 })
 export class XmConfirmDialogComponent {

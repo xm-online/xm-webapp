@@ -1,0 +1,16 @@
+.chip-option {
+  overflow: hidden;
+}
+
+::ng-deep .chip-option {
+  .mdc-evolution-chip__cell--primary,
+  .mdc-evolution-chip__action--primary,
+  .mat-mdc-chip-action-label {
+    overflow: hidden !important;
+    width: 100%;
+  }
+
+  .mdc-evolution-chip__action--primary {
+    width: 100%;
+  }
+}
