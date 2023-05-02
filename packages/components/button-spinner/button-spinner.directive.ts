@@ -5,11 +5,12 @@ import {
     Directive,
     Input,
     OnChanges,
+    Optional,
     Renderer2,
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { ThemePalette } from '@angular/material/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
@@ -32,12 +33,14 @@ export class ButtonSpinnerDirective implements OnChanges {
     @Input() public height: number;
 
     constructor(
-        private matButton: MatButton,
+       @Optional() private matButton: MatButton,
+       @Optional() private matIconButton: MatIconButton,
         private componentFactoryResolver: ComponentFactoryResolver,
         private viewContainerRef: ViewContainerRef,
         private renderer: Renderer2,
     ) {
         this.spinnerFactory = this.componentFactoryResolver.resolveComponentFactory(MatProgressSpinner);
+        this.matButton = this.matButton || this.matIconButton;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {

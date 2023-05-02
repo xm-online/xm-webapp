@@ -46,7 +46,6 @@ export class TimelineService {
             params: {
                 aggregateId: options.aggregateId,
                 source: 'db',
-                sort: 'startDate',
                 size: options.size || this.LIMIT,
                 page: options.page || 0,
             },

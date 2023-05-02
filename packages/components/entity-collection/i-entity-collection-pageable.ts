@@ -6,7 +6,7 @@ import { IEntityCollection, QueryParams } from './i-entity-collection';
 
 export interface Sortable {
     /** Sort by the fields. */
-    sortBy?: string[] | string;
+    sortBy?: string[] | string | null;
     /** Sort order. */
     sortOrder?: SortDirection;
 }
@@ -20,18 +20,29 @@ export interface Pageable {
     pageSize?: number;
 }
 
-export type QueryParamsPageable = QueryParams & Pageable & Sortable;
+export interface PageableAndSortable extends Pageable, Sortable {
+}
+
+export const PAGEABLE_AND_SORTABLE_DEFAULT: PageableAndSortable = {
+    pageIndex: 0,
+    pageSize: 0,
+    total: 0,
+    sortOrder: 'asc',
+    sortBy: null,
+};
+
+export interface QueryParamsPageable extends QueryParams, PageableAndSortable{}
 
 export interface IEntityCollectionPageable<T extends IId = unknown, Extra extends Pageable = Pageable>
     extends IEntityCollection<IId> {
 
     /** Manual request */
     request<R>(
-        method: string, 
-        body?: unknown, 
+        method: string,
+        body?: unknown,
             params?: HttpParams | {
             [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-        }, 
+        },
         headers?: HttpHeaders | {
             [header: string]: string | string[];
         },

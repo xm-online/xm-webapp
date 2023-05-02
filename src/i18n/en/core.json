@@ -1619,5 +1619,15 @@
       "dateMoreThanIn": "Value more then allowable range",
       "dateLessThanIn": "Value is less than allowable range"
     }
+  },
+  "table": {
+    "filter": {
+      "button": {
+        "search": "Search",
+        "reset": "Reset",
+        "clearAll": "Clear all",
+        "more": "More"
+      }
+    }
   }
 }

@@ -1,1 +1,1 @@
-export { XmUserPasswordWidgetModule } from './xm-user-password-widget.module';
+export { XmUserPasswordWidgetComponent } from './xm-user-password-widget.component';

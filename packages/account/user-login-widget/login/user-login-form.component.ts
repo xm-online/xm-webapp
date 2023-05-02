@@ -1,18 +1,24 @@
 import { Component, Input, OnChanges, Optional } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
-import { AccountService } from '@xm-ngx/core/user';
-import { Principal } from '@xm-ngx/core/user';
-import { User } from '@xm-ngx/core/user';
-import { UserService } from '@xm-ngx/core/user';
+import { AccountService, Principal, User, UserService } from '@xm-ngx/core/user';
 import { UserLoginService } from './user-login.service';
+import { CommonModule } from '@angular/common';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatCardModule } from '@angular/material/card';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'xm-user-login-form',
     templateUrl: './user-login-form.component.html',
+    standalone: true,
+    imports: [CommonModule, XmTranslationModule, MatCardModule, XmPermissionModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule],
 })
 export class UserLoginFormComponent implements OnChanges {
 
@@ -87,7 +93,7 @@ export class UserLoginFormComponent implements OnChanges {
 
         this.userLoginService.getAllLogins().then((allLogins) => {
             Object.keys(allLogins).forEach((typeKey) => {
-                this.userLogins.push({key: typeKey, name: this.userLoginService.getName(typeKey)});
+                this.userLogins.push({ key: typeKey, name: this.userLoginService.getName(typeKey) });
             });
             if (this.user.logins) {
                 this.user.logins.forEach((login) => {
@@ -105,7 +111,7 @@ export class UserLoginFormComponent implements OnChanges {
         this.isSaving = false;
         this.success = true;
         if (this.isUser) {
-            this.eventManager.broadcast({name: XM_EVENT_LIST.XM_USER_LIST_MODIFICATION, content: 'OK'});
+            this.eventManager.broadcast({ name: XM_EVENT_LIST.XM_USER_LIST_MODIFICATION, content: 'OK' });
             this.activeModal.close(result);
         } else {
             this.principal.identity(true).then((account) => {

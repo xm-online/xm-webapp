@@ -52,3 +52,5 @@ export { XmDynamicModule, dynamicModuleInitializer } from './src/module/xm-dynam
 export { XmDynamicExtensionModule, dynamicExtensionModuleInitializer } from './src/module/xm-dynamic-extension.module';
 export { XmDynamicExtensionEntry } from './src/interfaces/xm-dynamic-extension.model';
 export { XmDynamicWidgetLayout } from './widget/xm-dynamic-widget-layout.component';
+
+export { XmDynamicServiceFactory, XmDynamicService } from './services/xm-dynamic-service-factory.service';

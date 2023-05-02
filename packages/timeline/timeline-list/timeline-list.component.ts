@@ -59,7 +59,7 @@ const DEFAULT: TimelineListConfig & XmMatCardOptions = {
 };
 
 @Component({
-    selector: 'xm-common-timeline-list',
+    selector: 'xm-timeline-list',
     templateUrl: './timeline-list.component.html',
     styleUrls: ['./timeline-list.component.scss'],
 })
@@ -114,19 +114,20 @@ export class TimelineListComponent implements OnInit, OnDestroy {
 
     public onNextPage(next: number): void {
         this.isMoreLoading = true;
-        this.timelineService.search(this.getSearchBody({next})).pipe(
+        this.timelineService.search(this.getSearchBody({ next })).pipe(
             finalize(() => this.isMoreLoading = false))
             .subscribe((result) => {
                 this.next = result.next;
                 const timeLinesArray = result.timelines || [];
                 timeLinesArray.forEach((i) => this.processTimeLines(i));
+                this.sortTimeLines();
             });
     }
 
     public loadAll(): void {
         this.isMoreLoading = true;
         const searchAll = (next = 0): Observable<TimelinePage> => this.timelineService
-            .search(this.getSearchBody({limit: 1000, next}))
+            .search(this.getSearchBody({ limit: 1000, next }))
             .pipe(
                 switchMap((res) => {
                     if (res.next == null) {
@@ -146,12 +147,14 @@ export class TimelineListComponent implements OnInit, OnDestroy {
             .subscribe((result) => {
                 this.next = result.next;
                 const timeLinesArray = result.timelines || [];
+                this.timeLines = [];
                 timeLinesArray.forEach((i) => this.processTimeLines(i));
+                this.sortTimeLines();
             });
     }
 
     public loadAllV2(): void {
-        this.timelineService.searchV2(this.getSearchBodyV2({size: this.totalCount, page: 0}))
+        this.timelineService.searchV2(this.getSearchBodyV2({ size: this.totalCount, page: 0 }))
             .pipe(
                 tap((resp: HttpResponse<any>) => {
                     this.totalCount = parseInt(resp.headers.get('X-Total-Count'));
@@ -160,13 +163,14 @@ export class TimelineListComponent implements OnInit, OnDestroy {
                 pluck('body'),
                 finalize(() => this.isMoreLoading = false))
             .subscribe((res: TimeLineItem[]) => {
+                this.timeLines = [];
                 this.generateTimelines(res);
             });
     }
 
     public onNextPageV2(): void {
         this.page = this.page + 1;
-        this.timelineService.searchV2(this.getSearchBodyV2({size: this.config.limit, page: this.page}))
+        this.timelineService.searchV2(this.getSearchBodyV2({ size: this.config.limit, page: this.page }))
             .pipe(
                 tap((resp: HttpResponse<any>) => {
                     this.totalCount = parseInt(resp.headers.get('X-Total-Count'));
@@ -189,11 +193,12 @@ export class TimelineListComponent implements OnInit, OnDestroy {
                     this.next = result.next;
                     const timeLinesArray = result.timelines || [];
                     timeLinesArray.forEach((i) => this.processTimeLines(i));
+                    this.sortTimeLines();
                 });
         }
         if (this.config?.version && this.config.version === 2) {
 
-            this.timelineService.searchV2(this.getSearchBodyV2({size: this.config?.limit}))
+            this.timelineService.searchV2(this.getSearchBodyV2({ size: this.config?.limit }))
                 .pipe(
                     tap((resp: HttpResponse<any>) => {
                         this.totalCount = parseInt(resp.headers.get('X-Total-Count'));
@@ -214,15 +219,14 @@ export class TimelineListComponent implements OnInit, OnDestroy {
                 this.timeLines.push(viewItem);
             }
         }
+        this.sortTimeLines();
+    }
+
+    private sortTimeLines(): void {
         this.timeLines = this.timeLines.sort((a, b) => new Date(a.startDate).getTime() < new Date(b.startDate).getTime() ? 1 : -1);
     }
 
     private createView(item): Timeline {
-        this.addTimeLineChanges(item);
-        return item;
-    }
-
-    private addTimeLineChanges(item: TimeLineItem) {
         const responses = this.config['responses'];
         const paramsToCheck = Object.keys(responses);
         const changedParams = [];
@@ -241,20 +245,21 @@ export class TimelineListComponent implements OnInit, OnDestroy {
             }
         }
         if (changedParams.length > 1) {
-            const template = changedParams.toString();
+            const template = changedParams.toString().replace(/,/g, ' ');
             this.fillTimelineTemplate(item, template);
         }
+
+        return item;
     }
 
     private createTemplateString(templateName): any {
         return this.i18nNamePipe.transform(templateName, this.principal) || '';
     }
 
-
     private fillTimelineTemplate(item, templateName: Translate): TimeLineItem {
         const templateStringByLang = this.i18nNamePipe.transform(templateName, this.principal);
         const templateString: string = new Function('item', 'return `' + templateStringByLang + '`;')(item);
-        Object.assign(item, {messageData: templateString});
+        Object.assign(item, { messageData: templateString });
         return item;
     }
 
@@ -262,29 +267,29 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         const after = this.getParamValue(item.entityAfter, param);
         const before = this.getParamValue(item.entityBefore, param);
         if (Array.isArray(after) && after.length && before === undefined) {
-            return {action: 'new', value: after.length};
+            return { action: 'new', value: after.length };
         }
         if (Array.isArray(before) && before.length && after === undefined) {
-            return {action: 'deleted', value: ' deleted'};
+            return { action: 'deleted', value: ' deleted' };
         }
         if (Array.isArray(before) && Array.isArray(after)) {
             if (after.length > before.length) {
-                return {action: 'update', value: after.length};
+                return { action: 'update', value: after.length };
             }
             if (before?.length > after?.length) {
-                return {action: 'deleted', value: after.length};
+                return { action: 'deleted', value: after.length };
             }
         }
         if (!before && after) {
-            return {action: 'new', value: after};
+            return { action: 'new', value: after };
         }
         if (before && after === undefined) {
-            return {action: 'deleted', value: before};
+            return { action: 'deleted', value: before };
         }
-        if ((before && after) && before !== after) {
-            return {action: 'update', value: after};
+        if (!Array.isArray(before) && !Array.isArray(after) && (before && after) && before !== after) {
+            return { action: 'update', value: after };
         }
-        return {action: 'no-prop', value: null};
+        return { action: 'no-prop', value: null };
     }
 
     private getParamValue(obj, propertyString: string): unknown {
@@ -299,24 +304,19 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         return obj ? obj : undefined;
     }
 
-
     private processTimeLines(item: Timeline): void {
         this.tlc = new TimeLineContext(item);
         const respConfigEl = this.timeLineResponseConfig.getResponseConfigItem(this.tlc);
         if (respConfigEl) {
-            this.bootstrapItem(item, respConfigEl);
+            Object.assign(item, { responseBodyParsed: item.responseBody ? JSON.parse(item.responseBody) : null });
+            const templateStringByLang = this.i18nNamePipe.transform(respConfigEl.template, this.principal);
+            const templateString = new Function('item', 'return `' + templateStringByLang + '`;')(item);
+            Object.assign(item, { messageData: templateString });
+            this.timeLines.push(item);
         } else {
-            Object.assign(item, {messageData: item.responseBody ? item.responseBody : ''});
+            Object.assign(item, { messageData: item.responseBody ? item.responseBody : '' });
             this.timeLines.push(item);
         }
-    }
-
-    private bootstrapItem(item: Timeline, config: any): void {
-        Object.assign(item, {responseBodyParsed: item.responseBody ? JSON.parse(item.responseBody) : null});
-        const templateStringByLang = this.i18nNamePipe.transform(config.template, this.principal);
-        const templateString = new Function('item', 'return `' + templateStringByLang + '`;')(item);
-        Object.assign(item, {messageData: templateString});
-        this.timeLines.push(item);
     }
 
     private getSearchBody(options: any = {}): any {
@@ -337,8 +337,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         return {
             aggregateId: this.entity.id,
             source: 'db',
-            sort: options.sort || 'startDate',
-            size: options.size,
+            size: options?.size || 5,
             page: options.page || 0,
         };
     }
