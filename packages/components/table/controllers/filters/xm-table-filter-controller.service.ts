@@ -37,6 +37,10 @@ export class XmTableFilterController<T extends FiltersControlValue = FiltersCont
         this.request$.next(newRequest);
     }
 
+    public refresh(): void {
+        this.request$.next(cloneDeep(this.get()));
+    }
+
     public change$(): Observable<T> {
         return this.request$.asObservable();
     }

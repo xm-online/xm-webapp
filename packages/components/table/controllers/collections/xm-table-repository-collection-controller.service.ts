@@ -14,6 +14,7 @@ import {
 } from '../../interfaces/xm-table.model';
 import * as _ from 'lodash';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { XmTableFilterController } from '../filters/xm-table-filter-controller.service';
 
 @Injectable()
 export class XmTableRepositoryCollectionController<T = unknown>
@@ -24,6 +25,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
 
     constructor(
         private configController: XmTableConfigController<XmTableConfig>,
+        private tableFilterController: XmTableFilterController,
         protected repositoryResolver: XmTableRepositoryResolver<T>,
     ) {
         super();
@@ -75,7 +77,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         this.changePartial({loading: true});
         this.repository.update(curr)
             .subscribe(
-                (_) => this.changePartial({loading: false}),
+                (_) => this.tableFilterController.refresh(),
                 () => this.changePartial({loading: false}),
                 () => this.changePartial({loading: false}));
     }

@@ -27,7 +27,7 @@ export abstract class AXmTableStateCollectionController<T> {
     }
 
     public changePartial(state: Partial<IXmTableCollectionState<T>>): void {
-        const prevState = this._state;
+        const prevState = this._state.value;
         const newSate = assign({}, prevState, state) as IXmTableCollectionState<T>;
         this._state.next(cloneDeep(newSate));
     }

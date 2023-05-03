@@ -17,7 +17,7 @@ import { cloneDeep, set } from 'lodash';
     imports: [XmInlineControlComponent, FormsModule],
     template: `
         <xm-inline-control [config]="config"
-                           (valueChange)="onSaveEntity($event)"
+                           (saveValue)="onSaveEntity($event)"
                            [ngModel]="value"></xm-inline-control>
     `,
 })
@@ -42,6 +42,7 @@ export class XmTableEditCellComponent implements OnInit {
     }
 
     public onSaveEntity($event: unknown): void {
+        console.log($event);
         let row = cloneDeep(this.row);
         row = set(row, this.cell.field, $event);
         this.collection.edit(this.row, row);
