@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { XmTranslationModule } from '@xm-ngx/translation';
+import { SignPageFooter } from '../sign-in-up-v2.model';
 
 @Component({
     selector: 'xm-sign-in-up-footer',
@@ -13,5 +14,5 @@ import { XmTranslationModule } from '@xm-ngx/translation';
     ],
 })
 export class SignInUpFooterComponent {
-    @Input() public config: any;
+    @Input() public config: SignPageFooter;
 }

@@ -21,6 +21,7 @@ import { PhoneFormatterPipe } from './phone-formater.pipe';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmToasterService } from '@xm-ngx/toaster';
+import { SignPageFormConfig } from '../sign-in-up-v2.model';
 
 const REMAINING_TIME = 120;
 
@@ -41,7 +42,7 @@ const REMAINING_TIME = 120;
     ],
 })
 export class LoginTfaComponent implements OnInit, OnDestroy {
-    @Input() public config: any;
+    @Input() public config: SignPageFormConfig;
     @Input() public loginLabel: string;
     @Input() public phone: string;
     @Output() public returnPrevAction: EventEmitter<string> = new EventEmitter<string>();
@@ -61,9 +62,9 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.startTimer();
-        this.route.queryParams.pipe().subscribe((res)=>{
+        this.route.queryParams.pipe().subscribe((res) => {
             this.phone = this.signInUpService.getDestination();
-            if(!this.phone) {
+            if (!this.phone) {
                 this.backToLogin();
             }
         })
@@ -88,7 +89,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
     }
 
     public loginTFA(): void {
-        this.loading=true;
+        this.loading = true;
         const credentials = {
             grant_type: 'tfa_otp_token',
             otp: this.otp,
@@ -96,7 +97,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
         };
         this.signInUpService.loginTFA(credentials).pipe(takeUntilOnDestroy(this)).subscribe((res) => {
             const tfaChannel = 'Phone';
-            this.loading=false;
+            this.loading = false;
             this.stateStorageService.storeDestinationState(
                 {
                     name: 'otpConfirmation',
@@ -107,8 +108,8 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
                 },
                 {},
                 {name: 'login'});
-        },(error)=>{
-            this.loading=false;
+        }, (error) => {
+            this.loading = false;
             this.showError(error.error);
         });
     }
@@ -119,7 +120,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
     }
 
     public backToLogin(): void {
-        this.router.navigate([''],{queryParams: {page: 'SIGN-IN'}});
+        this.router.navigate([''], {queryParams: {page: 'SIGN-IN'}});
         this.returnPrevAction.emit('SIGN-IN');
         this.signInUpService.changeView('SIGN-IN');
     }

@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
     name: 'timeFormat',
-    standalone:true,
+    standalone: true,
 })
 export class TimeFormatPipe implements PipeTransform {
     public transform(time: number): string {

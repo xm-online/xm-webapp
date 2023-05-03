@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
-import { Subscription } from 'rxjs';
 import { LanguageService, XmTranslationModule } from '@xm-ngx/translation';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { XmDynamicModule, XmDynamicWidget } from '@xm-ngx/dynamic';
@@ -40,8 +39,6 @@ export class SignInUpV2WidgetComponent implements OnInit, OnDestroy, XmDynamicWi
     @Input() public config: SignPageConfig;
     public isLoginFormView: boolean = true;
     public loginLabel: string;
-    private registrationSuccessSubscription: Subscription;
-    private changeLanguageSubscriber: Subscription;
     public OTPloaded: boolean = false;
     public token: string = '';
     public phone: string = '';
@@ -58,21 +55,17 @@ export class SignInUpV2WidgetComponent implements OnInit, OnDestroy, XmDynamicWi
     }
 
     public ngOnInit(): void {
-        debugger
-        this.config;
         this.signInUpService.getView().pipe().subscribe((res: string) => {
             this.state = res;
         })
-        this.route.queryParams.pipe().subscribe((res)=>{
-            if(res.page) {
+        this.route.queryParams.pipe().subscribe((res) => {
+            if (res.page) {
                 this.signInUpService.changeView(res.page);
             }
         })
     }
 
     public ngOnDestroy(): void {
-        this.registrationSuccessSubscription.unsubscribe();
-        this.changeLanguageSubscriber.unsubscribe();
         takeUntilOnDestroyDestroy(this);
     }
 

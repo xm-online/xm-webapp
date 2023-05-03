@@ -1,29 +1,32 @@
 import { Translate } from '@xm-ngx/translation';
 
 export interface SignPageConfig {
-    styles?:{
+    styles?: {
         minHeight?: string,
         borderRadius?: string,
     },
     marketing?: MarketingConfig,
-    footer?: {
-        showLanguageSelector?: true,
-        links?: SignPageLinkConfig[]
-    },
-    forms:SignPageFormConfig[],
+    footer?: SignPageFooter,
+    forms: SignPageFormConfig[],
 }
 
-export interface SignPageFormConfig{
-    key:string,
-    selector:string,
-    condition:string,
-    next?:string,
-    title?:Translate
-    config?:unknown,
+export interface SignPageFormConfig {
+    key: string,
+    selector: string,
+    condition: string,
+    next?: string,
+    title?: Translate,
+    config?: any,
 }
-export interface SignPageLinkConfig{
-    title:Translate,
-    url:string
+
+export interface SignPageLinkConfig {
+    title: Translate,
+    url: string
+}
+
+export interface SignPageFooter {
+    showLanguageSelector?: true,
+    links?: SignPageLinkConfig[]
 }
 
 export interface MarketingConfig {
@@ -34,5 +37,5 @@ export interface MarketingConfig {
     color?: string,
     backgroundImage?: string,
     backgroundColor?: string,
-    html?:string,
+    html?: string,
 }

@@ -1,8 +1,10 @@
-.footer-link-block{
+.footer-link-block {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 }
+
 @media only screen and (min-width: 1018px) {
+  justify-content: flex-start;
 }
 

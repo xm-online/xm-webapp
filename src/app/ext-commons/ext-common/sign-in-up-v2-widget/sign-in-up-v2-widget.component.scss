@@ -12,12 +12,6 @@
   }
 }
 
-/*.signin-page{
-  background: none;
-  width: 100%;
-  height: 100%;
-}*/
-
 :host-context(.new-home-page) {
   border-radius: 20px;
   position: relative;
@@ -32,26 +26,26 @@
 .sign-in-body {
   width: 100%;
 }
-.card-title{
+
+.card-title {
   text-align: center;
 }
 
-.language-holder{
+.language-holder {
   position: absolute;
-  top:0;
+  top: 0;
   right: 0;
   padding: 20px;
 }
 
-.new-sign-in{
+.new-sign-in {
   width: 100%;
   padding: 1rem;
 }
 
-.footer-link-block{
+.footer-link-block {
   justify-content: flex-start;
 }
-
 
 
 //media
@@ -68,19 +62,19 @@
     min-width: 50%;
   }
   .new-sign-in {
-   /* width: 50%;
-    min-width: 50%;*/
+    /* width: 50%;
+     min-width: 50%;*/
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 3rem;
   }
-  .card-title{
+  .card-title {
     text-align: left;
   }
 
-  .marketing+.new-sign-in{
+  .marketing + .new-sign-in {
     width: 50%;
     min-width: 50%
   }

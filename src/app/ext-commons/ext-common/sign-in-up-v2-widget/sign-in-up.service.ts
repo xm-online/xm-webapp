@@ -4,10 +4,12 @@ import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../../xm.constants'
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CustomUriEncoder } from '@xm-ngx/shared/helpers/custom-uri-encoder';
 import {
-    ACCESS_TOKEN, AuthRefreshTokenService,
+    ACCESS_TOKEN,
+    AuthRefreshTokenService,
     AuthTokenResponse,
     REFRESH_TOKEN,
-    TOKEN_URL, XmAuthenticationRepository,
+    TOKEN_URL,
+    XmAuthenticationRepository,
     XmAuthenticationStoreService
 } from '@xm-ngx/core/auth';
 import { map, tap } from 'rxjs/operators';
@@ -26,7 +28,7 @@ export class SignInUpService {
     private otpId: number;
     private token: string;
     private credentials;
-    public state:BehaviorSubject<string>;
+    public state: BehaviorSubject<string>;
     private currentView = new BehaviorSubject<string>('SIGN-IN');
 
     constructor(private storeService: XmAuthenticationStoreService,
@@ -128,6 +130,7 @@ export class SignInUpService {
             this.sessionService.clear();
         });
     }
+
     public refreshToken(): Observable<AuthTokenResponse> {
         return this.authenticationRepository.refreshToken();
     }

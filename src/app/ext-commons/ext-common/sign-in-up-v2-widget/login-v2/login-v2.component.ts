@@ -1,10 +1,4 @@
-import {
-    Component,
-    EventEmitter,
-    Input,
-    OnDestroy,
-    Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { XmUIConfig } from '@xm-ngx/core/config';
 import { CommonModule } from '@angular/common';
@@ -18,6 +12,7 @@ import { XmEmailControl, XmPasswordControl } from '@xm-ngx/components/text';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { XmToasterService } from '@xm-ngx/toaster';
+import { SignPageFormConfig } from '../sign-in-up-v2.model';
 
 export interface XmLoginFormUIConfig extends XmUIConfig {
     hideRememberMe: boolean;
@@ -43,7 +38,7 @@ export interface XmLoginFormUIConfig extends XmUIConfig {
 })
 export class LoginV2Component implements OnDestroy {
     @Input() public loginLabel: string;
-    @Input() public config: any;
+    @Input() public config: SignPageFormConfig;
     @Output() public changeStateEvent: EventEmitter<string> = new EventEmitter<string>();
     public isShowPassword: boolean = false;
     public authenticationError: boolean;
@@ -71,7 +66,7 @@ export class LoginV2Component implements OnDestroy {
         takeUntilOnDestroyDestroy(this);
     }
 
-    public login(): void | null {
+    public login(): void {
         this.loading = true;
         this.authenticationError = false;
         this.signInUpService.login(this.createLoginData()).pipe(takeUntilOnDestroy(this), finalize(() => {
@@ -83,9 +78,9 @@ export class LoginV2Component implements OnDestroy {
             }
             if (!res.otpId) {
                 this.signInUpService.updateTokens(res, true);
-            }else{
+            } else {
                 this.changeStateEvent.emit(res);
-                this.router.navigate([''],{queryParams: {page: this.config.next}});
+                this.router.navigate([''], {queryParams: {page: this.config.next}});
                 this.signInUpService.changeView(this.config.next);
             }
         }, (error) => {
@@ -115,6 +110,7 @@ export class LoginV2Component implements OnDestroy {
     public registration(): void {
         this.router.navigate(['', 'sign-up']);
     }
+
     private showError(error: string): void {
         this.xmToasterService.create({
             type: 'danger',

@@ -21,7 +21,7 @@ export class PhoneFormatterPipe implements PipeTransform {
             cleanedValue.slice(2, 5),
             cleanedValue.slice(5, 8),
             cleanedValue.slice(8, 10),
-            cleanedValue.slice(10,12),
+            cleanedValue.slice(10, 12),
         ].join('-');
         return `+${formattedNumber}`;
     }
