@@ -38,6 +38,8 @@ import { LoginTfaComponent } from '../sign-in-up-v2-widget/login-tfa/login-tfa.c
             { selector: 'xm-widget-twitter-timeline', loadChildren: () => TwitterTimelineWidgetComponent },
             { selector: 'xm-widget-weather', loadChildren: () => WeatherWidgetComponent },
             { selector: 'xm-widget-welcome', loadChildren: () => WelcomeWidgetComponent },
+            { selector: 'xm-login-v2', loadChildren: () => LoginV2Component },
+            { selector: 'xm-login-tfa', loadChildren: () => LoginTfaComponent },
         ]),
         CovalentTextEditorModule,
     ],
