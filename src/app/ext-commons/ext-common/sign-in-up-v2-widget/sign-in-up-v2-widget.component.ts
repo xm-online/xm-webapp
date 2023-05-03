@@ -13,7 +13,7 @@ import { SignInUpFooterComponent } from './sign-in-up-footer/sign-in-up-footer.c
 import { XmNavbarLanguageMenuWidget } from '@xm-ngx/components/navbar';
 import { LoginTfaComponent } from './login-tfa/login-tfa.component';
 import { SignInUpService } from './sign-in-up.service';
-import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { SignPageConfig } from './sign-in-up-v2.model';
 
 @Component({
@@ -55,10 +55,10 @@ export class SignInUpV2WidgetComponent implements OnInit, OnDestroy, XmDynamicWi
     }
 
     public ngOnInit(): void {
-        this.signInUpService.getView().pipe().subscribe((res: string) => {
+        this.signInUpService.getView().pipe(takeUntilOnDestroy(this)).subscribe((res: string) => {
             this.state = res;
         })
-        this.route.queryParams.pipe().subscribe((res) => {
+        this.route.queryParams.pipe(takeUntilOnDestroy(this)).subscribe((res) => {
             if (res.page) {
                 this.signInUpService.changeView(res.page);
             }
