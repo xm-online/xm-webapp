@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { QueryParams } from './i-entity-collection';
 
-export interface XmRepositoryConfig{resourceUrl: string}
+export interface XmRepositoryConfig {resourceUrl: string}
 
 export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pageable> implements IEntityCollectionPageable<T, Extra> {
 

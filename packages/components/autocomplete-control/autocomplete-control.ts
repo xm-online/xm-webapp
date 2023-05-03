@@ -311,23 +311,21 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         super.setDisabledState(isDisabled);
     }
 
-    public change(normalizeValues: any): void {   
+    public change(normalizeValues: any): void {
         let value = normalizeValues;
 
-        if (this.config.multiple && this.config.mergeControlValues) {
-            value = this.uniqByIdentity(this.normalizeValues(this.value), normalizeValues);
+        if (value != null) {
+            if (this.config.multiple && this.config.mergeControlValues) {
+                value = this.uniqByIdentity(this.normalizeValues(this.value), normalizeValues);
+            }
+    
+            value = this.unwrapValues(value);
         }
-
-        value = this.unwrapValues(value);
 
         this.value = value;
 
         this._onChange(value);
         this.valueChange.next(value);
-    }
-
-    public deselect(): void {
-        this.change(null);
     }
 
     public ngOnDestroy(): void {
