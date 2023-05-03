@@ -42,7 +42,6 @@ export class XmTableEditCellComponent implements OnInit {
     }
 
     public onSaveEntity($event: unknown): void {
-        console.log($event);
         let row = cloneDeep(this.row);
         row = set(row, this.cell.field, $event);
         this.collection.edit(this.row, row);
