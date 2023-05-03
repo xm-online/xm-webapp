@@ -6,6 +6,7 @@ export * from './md-widget/md-widget.component';
 export * from './news-widget/feed.service';
 export * from './news-widget/news-widget.component';
 export * from './sign-in-up-widget/sign-in-up-widget.component';
+export * from './sign-in-up-v2-widget/sign-in-up-v2-widget.component';
 export * from './twitter-timeline-widget/twitter-timeline.service';
 export * from './twitter-timeline-widget/twitter-timeline-widget.component';
 export * from './weather-widget/weather.service';

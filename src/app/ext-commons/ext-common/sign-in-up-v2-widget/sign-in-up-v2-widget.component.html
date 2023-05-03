@@ -1,0 +1,33 @@
+<div class="signin-page"
+     [style.min-height]="config?.styles?.minHeight"
+     [style.background-color]="config?.marketing?.backgroundColor"
+     [style.border-radius]="config?.styles?.borderRadius">
+  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 marketing" *ngIf="config?.marketing">
+    <xm-sign-in-marketing class="sign-in-marketing"
+                          [config]="config?.marketing"
+                          [borderRadius]="config?.styles?.borderRadius">
+    </xm-sign-in-marketing>
+  </div>
+  <div class="new-sign-in col-sm-12 col-md-12 col-lg-6 col-xl-6">
+    <div class="sign-in-body">
+      <ng-container *ngIf="config.forms && config.forms.length">
+        <ng-container *ngFor="let form of config.forms">
+          <ng-container *ngIf="state===form.key">
+            <ng-container *ngIf="state===form.key" xm-dynamic-widget
+                          [class]="'block-holder'"
+                          [init]="{selector: form.selector, config: form}">
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<div class="row d-flex justify-content-between align-items-center">
+  <div class="col-sm-12 col-md-6">
+    <xm-navbar-language-menu-widget></xm-navbar-language-menu-widget>
+  </div>
+  <div class="col-sm-12 col-md-6">
+    <xm-sign-in-up-footer *ngIf="config.footer" [config]="config.footer"></xm-sign-in-up-footer>
+  </div>
+</div>

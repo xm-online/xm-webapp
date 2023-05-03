@@ -18,6 +18,9 @@ import { TwitterTimelineService } from '../twitter-timeline-widget/twitter-timel
 import { WeatherWidgetComponent } from '../weather-widget/weather-widget.component';
 import { WeatherService } from '../weather-widget/weather.service';
 import { WelcomeWidgetComponent } from '../welcome-widget/welcome-widget.component';
+import { SignInUpV2WidgetComponent } from '../sign-in-up-v2-widget/sign-in-up-v2-widget.component';
+import { LoginV2Component } from '../sign-in-up-v2-widget/login-v2/login-v2.component';
+import { LoginTfaComponent } from '../sign-in-up-v2-widget/login-tfa/login-tfa.component';
 
 @NgModule({
     imports: [
@@ -31,6 +34,7 @@ import { WelcomeWidgetComponent } from '../welcome-widget/welcome-widget.compone
             { selector: 'xm-widget-md', loadChildren: () => MdWidgetComponent },
             { selector: 'xm-widget-news', loadChildren: () => NewsWidgetComponent },
             { selector: 'xm-widget-sign-in-up', loadChildren: () => SignInUpWidgetComponent },
+            { selector: 'xm-widget-sign-in-up-v2', loadChildren: () => SignInUpV2WidgetComponent },
             { selector: 'xm-widget-twitter-timeline', loadChildren: () => TwitterTimelineWidgetComponent },
             { selector: 'xm-widget-weather', loadChildren: () => WeatherWidgetComponent },
             { selector: 'xm-widget-welcome', loadChildren: () => WelcomeWidgetComponent },
