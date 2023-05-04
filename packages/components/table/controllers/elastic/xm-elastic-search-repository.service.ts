@@ -8,6 +8,11 @@ import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-enti
 import { map } from 'rxjs/operators';
 import { SortDirection } from '@angular/material/sort';
 import { XmDynamicService } from '@xm-ngx/dynamic';
+import { XmFilterQueryParams } from '@xm-ngx/components/table/controllers/collections/i-xm-table-collection-controller';
+import { XmFormatJsTemplateRecursive } from '@xm-ngx/shared/operators';
+import {
+    XmElasticRequestBuilder
+} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-request-builder.service';
 
 export interface XmElasticSearchRepositoryExtraSort {
     [key: string]: SortDirection;
@@ -27,7 +32,11 @@ export interface XmTableElasticSearchRepositoryQuery {
     },
 }
 
-export type XmElasticSearchRepositoryQueryParamsPageable = {query: string} & QueryParamsPageable;
+export type XmElasticSearchRepositoryQueryParamsPageable = { query: string } & QueryParamsPageable;
+
+export interface XmEntityRepositoryConfig extends XmRepositoryConfig{
+    paramsToRequest: XmFormatJsTemplateRecursive;
+}
 
 export type XmElasticSearchRepositoryRequest = QueryParamsPageable
     & XmTableElasticSearchRepositoryExtra
@@ -38,31 +47,33 @@ export class XmElasticSearchRepository<T extends XmEntity>
     extends HttpClientRest<T, PageableAndSortable>
     implements XmDynamicService<XmRepositoryConfig> {
 
-    constructor(httpClient: HttpClient) {
+    public config: XmEntityRepositoryConfig;
+
+    constructor(httpClient: HttpClient, private requestBuilder: XmElasticRequestBuilder) {
         super(null, httpClient);
     }
 
-    public config: XmRepositoryConfig;
+    public query(request: XmFilterQueryParams, headers?: HttpHeaders): Observable<HttpResponse<T[] & PageableAndSortable>> {
+        const queryParams = this.requestBuilder.getQueryParams(request, this.config);
 
-    protected override resourceUrl(): string{
-        return this.config.resourceUrl;
-    }
-
-    public query(queryParams: XmElasticSearchRepositoryQueryParamsPageable, headers?: HttpHeaders): Observable<HttpResponse<T[] & PageableAndSortable>> {
         const params = this.getParams(queryParams);
         return this.handle(
             this.httpClient.post<T[] & HttpResponse<T[] & PageableAndSortable>>(this.url, params, {
                 observe: 'response',
                 headers,
             }).pipe(
-                map(res => this.extractExtra(res, params )),
+                map(res => this.extractExtra(res, params)),
             ),
         );
     }
 
+    protected override resourceUrl(): string {
+        return this.config.resourceUrl;
+    }
+
     protected getParams(params: XmElasticSearchRepositoryQueryParamsPageable): XmElasticSearchRepositoryRequest {
         const sortArr = Array.isArray(params.sortBy) ? params.sortBy : [params.sortBy];
-        const sort = sortArr.map(item => ({[`${item?.replace('_source.', '')}.keyword`]: params.sortOrder}));
+        const sort = sortArr.map(item => ({ [`${item?.replace('_source.', '')}.keyword`]: params.sortOrder }));
         const extra: XmTableElasticSearchRepositoryExtra = {
             size: params.pageSize,
             from: params.pageIndex,
@@ -70,7 +81,7 @@ export class XmElasticSearchRepository<T extends XmEntity>
         };
 
         let query: XmTableElasticSearchRepositoryQuery;
-        if(params.query) {
+        if (params.query) {
             query = params.query && {
                 query: {
                     query_string: {
@@ -102,6 +113,6 @@ export class XmElasticSearchRepository<T extends XmEntity>
         const items = res.body['hits']['hits'];
         const body = Object.assign(items, extra);
 
-        return res.clone({body});
+        return res.clone({ body });
     }
 }

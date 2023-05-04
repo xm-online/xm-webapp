@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
     Component,
-    forwardRef
+    forwardRef,
+    ViewChild
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -21,11 +22,12 @@ import { XmAutocompleteControl } from './autocomplete-control';
         <mat-form-field>
             <mat-label *ngIf="config?.title">{{ config?.title | translate }}</mat-label>
             
-            <mat-select [multiple]="config?.multiple"
-                        [disabled]="disabled"
-                        [ngModel]="selected"
-                        [compareWith]="identityFn"
-                        (selectionChange)="change($event.value)">
+            <mat-select 
+                [multiple]="config?.multiple"
+                [disabled]="disabled"
+                [ngModel]="selected"
+                [compareWith]="identityFn"
+                (selectionChange)="change($event.value)">
                 <div class="loader">
                     <mat-progress-bar mode="indeterminate" *ngIf="loading | async"></mat-progress-bar>
                 </div>
@@ -80,4 +82,13 @@ import { XmAutocompleteControl } from './autocomplete-control';
     ],
     providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteControlComponent), multi: true } ],
 })
-export class XmAutocompleteControlComponent extends XmAutocompleteControl {}
+export class XmAutocompleteControlComponent extends XmAutocompleteControl {
+    @ViewChild(MatSelect) public matSelect: MatSelect;
+
+    public deselect(): void {
+        this.selection.clear();
+        this.change(null);
+
+        this.matSelect.close();
+    }
+}

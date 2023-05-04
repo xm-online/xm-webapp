@@ -5,7 +5,7 @@ import {
 } from './a-xm-table-local-pageable-collection-controller.service';
 
 import { NotSupportedException } from '@xm-ngx/shared/exceptions';
-import { FilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import _ from 'lodash';
 
@@ -27,7 +27,7 @@ export class XmTableConfigCollectionController<T = unknown>
         super();
     }
 
-    public async load(request: FilterQueryParams): Promise<void> {
+    public async load(request: XmFilterQueryParams): Promise<void> {
         this.config = await firstValueFrom(this.configController.config$());
         this.items = _.get(this.config, this.config.path, []) as T[];
     }

@@ -6,7 +6,7 @@ import {
     AXmTableLocalPageableCollectionController,
 } from './a-xm-table-local-pageable-collection-controller.service';
 import { Injectable } from '@angular/core';
-import { FilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 
@@ -44,7 +44,7 @@ export class XmTableAtTypeCollectionController<T extends AtType = AtType>
         super();
     }
 
-    public async load(request: FilterQueryParams): Promise<void> {
+    public async load(request: XmFilterQueryParams): Promise<void> {
         this.config = await firstValueFrom(this.configController.config$());
         this.entity = await firstValueFrom(this.entityController.entity$());
         const primary: { [key: string]: T } = _.get(this.entity, this.config.path, {});

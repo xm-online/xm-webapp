@@ -12,6 +12,13 @@ import { uuid } from '@xm-ngx/shared/operators';
 import { Injectable } from '@angular/core';
 import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { XmDynamicService } from '@xm-ngx/dynamic';
+import { XmFilterQueryParams } from '../controllers/collections/i-xm-table-collection-controller';
+import {
+    XmEntityRepositoryConfig,
+} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-search-repository.service';
+import {
+    XmElasticRequestBuilder
+} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-request-builder.service';
 
 export interface XmEntityRepositoryExtra {
     page: number,
@@ -21,25 +28,31 @@ export interface XmEntityRepositoryExtra {
 
 export type XmEntityRepositoryQuery = QueryParamsPageable & XmEntityRepositoryExtra;
 
+export type XmEntityRepositoryCustomConfig = XmEntityRepositoryConfig & {
+    updateResourceUrl: string;
+}
+
 @Injectable()
 export class XmEntityRepository<T extends XmEntity>
     extends HttpClientRest<T, PageableAndSortable>
     implements XmDynamicService<XmRepositoryConfig> {
-    constructor(httpClient: HttpClient) {
+    public config: XmEntityRepositoryCustomConfig;
+
+    constructor(httpClient: HttpClient, private requestBuilder: XmElasticRequestBuilder) {
         super(null, httpClient);
     }
 
-    public config: {resourceUrl: string};
-
-    protected override resourceUrl(): string{
-        return this.config.resourceUrl;
+    public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
+        const url = this.config.updateResourceUrl ?? this.url;
+        
+        return this.handle(this.httpClient.put<T>(url, entity, { params, observe: 'response', headers }));
     }
 
-    public getAll(params?: QueryParams): Observable<HttpResponse<T[] & PageableAndSortable>> {
+    public getAll(params?: XmFilterQueryParams): Observable<HttpResponse<T[] & PageableAndSortable>> {
         return super.getAll(this.getParams(params));
     }
 
-    public query(params: QueryParamsPageable): Observable<HttpResponse<T[] & PageableAndSortable>> {
+    public query(params: XmFilterQueryParams): Observable<HttpResponse<T[] & PageableAndSortable>> {
         return super.query(this.getParams(params));
     }
 
@@ -50,7 +63,13 @@ export class XmEntityRepository<T extends XmEntity>
         return super.create(entity, params, headers);
     }
 
-    protected getParams(params: QueryParamsPageable): QueryParamsPageable {
+    protected override resourceUrl(): string {
+        return this.config.resourceUrl;
+    }
+
+    protected getParams(request: XmFilterQueryParams): QueryParamsPageable {
+        const params = this.requestBuilder.getQueryParams(request, this.config);
+
         const extra: XmEntityRepositoryExtra = {
             size: params.pageSize,
             sort: `${params.sortBy},${params.sortOrder}`,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 import {
-    FilterQueryParams,
+    XmFilterQueryParams,
     IXmTableCollectionController,
 } from './i-xm-table-collection-controller';
 import {
@@ -38,7 +38,7 @@ export class XmTableArrayCollectionController<T = unknown>
         super();
     }
 
-    public async load(request: FilterQueryParams): Promise<void> {
+    public async load(request: XmFilterQueryParams): Promise<void> {
         this.config = await firstValueFrom(this.configController.config$());
         this.entity = await firstValueFrom(this.entityController.entity$());
         const pathList = get(this.entity, this.config.path, []) as T[];

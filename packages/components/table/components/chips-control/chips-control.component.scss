@@ -2,7 +2,7 @@
   overflow: hidden;
 }
 
-::ng-deep .chip-option {
+:host ::ng-deep .chip-option {
   .mdc-evolution-chip__cell--primary,
   .mdc-evolution-chip__action--primary,
   .mat-mdc-chip-action-label {

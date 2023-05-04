@@ -14,7 +14,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
     template: `
         <div *ngIf="isVisible"
              @fadeInOut
-             class="header-wrapper">
+             class="header-container">
 
             <span>{{this.selectionModel?.selected?.length}} items selected</span>
 

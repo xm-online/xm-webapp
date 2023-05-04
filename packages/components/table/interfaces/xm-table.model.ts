@@ -2,7 +2,7 @@ import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 
 import { Translate } from '@xm-ngx/translation';
 import {
-    XmTableRepositoryCollectionConfig
+    XmTableRepositoryCollectionConfig,
 } from '../controllers/collections/xm-table-read-only-repository-collection-controller';
 import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table-empty.component';
 import { XmPresentationLayout } from '@xm-ngx/dynamic';
@@ -12,6 +12,7 @@ import { XmTableColumn } from '@xm-ngx/components/table/columns/xm-table-column-
 import {
     FiltersControlRequestOptions
 } from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
+import { XmFormatJsTemplateRecursive } from '@xm-ngx/shared/operators';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination {
     pageSizeOptions: number[],
@@ -21,16 +22,12 @@ export interface XmTableWithColumnDynamicCellOptionsPagination {
 export interface XmTableConfigFilters extends FormGroupLayoutItem {
     options: {
         title: Translate,
-        elasticType?: string,
-        elasticTemplateRequest?: string,
     }
 }
 
 export interface XmTableConfig extends FiltersControlRequestOptions {
     /** Title */
     title: Translate,
-    /** Filters configuration */
-    filtersToRequest?: object | unknown,
     /** Actions configuration */
     actions: XmPresentationLayout[],
     /** Selection configuration */
@@ -39,6 +36,7 @@ export interface XmTableConfig extends FiltersControlRequestOptions {
     columns: XmTableColumn[],
     collection: {
         type: string | null,
+        paramsToRequest?: XmFormatJsTemplateRecursive,
         repository: XmTableRepositoryCollectionConfig | null;
     },
     pageableAndSortable: PageableAndSortable & XmTableWithColumnDynamicCellOptionsPagination,
@@ -71,7 +69,8 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
         repository: null,
     },
     pageableAndSortable: {
-        ...PAGEABLE_AND_SORTABLE_DEFAULT, ...{
+        ...PAGEABLE_AND_SORTABLE_DEFAULT,
+        ...{
             pageSizeOptions: [],
             hidePagination: false,
         },

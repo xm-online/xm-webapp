@@ -31,18 +31,18 @@ export const PAGEABLE_AND_SORTABLE_DEFAULT: PageableAndSortable = {
     sortBy: null,
 };
 
-export type QueryParamsPageable = QueryParams & PageableAndSortable;
+export interface QueryParamsPageable extends QueryParams, PageableAndSortable{}
 
 export interface IEntityCollectionPageable<T extends IId = unknown, Extra extends Pageable = Pageable>
     extends IEntityCollection<IId> {
 
     /** Manual request */
     request<R>(
-        method: string, 
-        body?: unknown, 
+        method: string,
+        body?: unknown,
             params?: HttpParams | {
             [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-        }, 
+        },
         headers?: HttpHeaders | {
             [header: string]: string | string[];
         },

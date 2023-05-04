@@ -5,14 +5,10 @@ import {
 } from '@xm-ngx/components/table/components/xm-table-filters-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 
-import * as _ from 'lodash';
-import { format } from '@xm-ngx/shared/operators';
-
 export interface FiltersControlRequestOptions {
     submitInvalidForm?: boolean;
     isOnlyExpand?: boolean;
     filters: FormLayoutItem[];
-    format?: unknown;
     filtersClass?: string;
     filterStoreKey?: string;
 }
@@ -57,7 +53,6 @@ export class XmTableFiltersControlRequestComponent implements OnChanges {
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.request) {
-            // TODO: transform data from request to value
             this.value = this.request;
         }
     }
@@ -67,13 +62,7 @@ export class XmTableFiltersControlRequestComponent implements OnChanges {
             return null;
         }
 
-        const rawRequest = {};
-        this.options.filters.forEach((filter) => {
-            const value = values[filter.name];
-            _.set(rawRequest, filter.name, value);
-        });
-
-        return format(rawRequest, this.options.format);
+        return values;
     }
 
 }

@@ -13,17 +13,17 @@ export class XmDynamicServiceFactory {
     ) {
     }
 
-    public factory<T>(serviceConstructor: Type<T> | any): T {
+    public factory<T>(serviceConstructor: Type<T> | any, parentInjector = this.injector): T {
         const injector = Injector.create({
             providers: [serviceConstructor],
-            parent: this.injector,
+            parent: parentInjector,
         });
         return injector.get<T>(serviceConstructor);
     }
 
     public async findAndFactory<T>(selector: string, injector = this.injector): Promise<T> {
         const serviceConstructor = await this.xmDynamicComponentRegistry.find<Type<T>>(selector, injector);
-        return this.factory<T>(serviceConstructor.componentType);
+        return this.factory<T>(serviceConstructor.componentType, injector);
     }
 
 

@@ -17,7 +17,7 @@ import { cloneDeep, set } from 'lodash';
     imports: [XmInlineControlComponent, FormsModule],
     template: `
         <xm-inline-control [config]="config"
-                           (valueChange)="onSaveEntity($event)"
+                           (saveValue)="onSaveEntity($event)"
                            [ngModel]="value"></xm-inline-control>
     `,
 })
@@ -35,7 +35,7 @@ export class XmTableEditCellComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         const collection = await this.collectionControllerResolver.get();
         if (!(collection instanceof XmTableRepositoryCollectionController)) {
-            console.warn('XmTableEditCellComponent not support table type');
+            console.warn('XmTableEditCellComponent not support table type.');
             return;
         }
         this.collection = collection;

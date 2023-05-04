@@ -4,16 +4,34 @@ import {
     takeUntilOnDestroyDestroy,
 } from '@xm-ngx/shared/operators';
 
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
     ColumnsSettingStorageItem,
     XmTableColumnsSettingStorageService,
-} from '../../../services/xm-table-columns-setting-storage.service';
+} from '../../controllers/config/xm-table-columns-setting-storage.service';
+import { CommonModule } from '@angular/common';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
     selector: 'xm-show-hide-columns-settings',
     templateUrl: './show-hide-columns-settings.component.html',
     styleUrls: [],
+    imports: [
+        CommonModule,
+        XmTranslationModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatListModule,
+    ],
+    standalone: true,
 })
 export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
     public form: UntypedFormGroup;

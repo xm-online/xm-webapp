@@ -1,20 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroupLayoutItem, FormLayoutModule } from '@xm-ngx/components/form-layout';
+import { Component } from '@angular/core';
+import { FormLayoutModule } from '@xm-ngx/components/form-layout';
 import { CustomOverlayRef } from '@xm-ngx/components/overlay/custom-overlay-ref';
 
-import { get } from 'lodash';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import {
+    FiltersControlRequestOptions,
     XmTableFiltersControlRequestComponent,
 } from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
+import { FiltersControlValue } from '@xm-ngx/components/table/components/xm-table-filters-control.component';
 
 export interface XmOverlayResponse {
     state: 'cancel' | 'submit' | 'reset';
-    result: object;
+    result: FiltersControlValue;
+}
+
+
+export interface XmFilterButtonDialog {
+    config: FiltersControlRequestOptions,
+    value: FiltersControlValue
 }
 
 @Component({
@@ -36,6 +43,7 @@ export interface XmOverlayResponse {
                 <xm-filters-control-request [options]="config"
                                             [request]="group"
                                             (requestChange)="group = $event"
+                                            #formContainer
                                             class="xm-filters-control">
                 </xm-filters-control-request>
             </mat-dialog-content>
@@ -51,7 +59,7 @@ export interface XmOverlayResponse {
                         mat-raised-button
                         cdkFocusInitial
                         color="primary"
-                        [disabled]="group?.invalid"
+                        [disabled]="formContainer.disabled"
                         (click)="submit()">
                     {{'table.filter.button.search' | translate}}
                 </button>
@@ -81,17 +89,14 @@ export interface XmOverlayResponse {
         MatIconModule,
     ],
 })
-export class XmTableFilterButtonDialogComponent implements OnInit {
-    public config: any;
-    public group: any;
+export class XmTableFilterButtonDialogComponent {
+    public config: FiltersControlRequestOptions;
+    public group: FiltersControlValue;
 
     constructor(
-        private customOverlay: CustomOverlayRef<XmOverlayResponse, { config: FormGroupLayoutItem[], value: unknown }>,
+        private customOverlay: CustomOverlayRef<XmOverlayResponse, XmFilterButtonDialog>,
     ) {
-    }
-
-    public ngOnInit(): void {
-        this.config = get(this.customOverlay, 'context.config');
+        this.config = this.customOverlay.context.config;
         this.group = this.customOverlay.context.value;
     }
 
@@ -100,10 +105,7 @@ export class XmTableFilterButtonDialogComponent implements OnInit {
     }
 
     public reset(): void {
-        Object.keys(this.group).forEach(key => {
-            this.group[key] = null;
-        });
-        this.customOverlay.close({result: this.group, state: 'reset'});
+        this.customOverlay.close({result: {}, state: 'reset'});
     }
 
     public close(): void {

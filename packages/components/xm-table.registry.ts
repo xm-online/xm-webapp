@@ -7,7 +7,7 @@ export const XM_TABLE_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/elastic-repository',
-        loadChildren: () => import('@xm-ngx/components/table/repositories/xm-elastic-search-repository.service').then(m => m.XmElasticSearchRepository),
+        loadChildren: () => import('@xm-ngx/components/table/controllers/elastic/xm-elastic-search-repository.service').then(m => m.XmElasticSearchRepository),
     },
     {
         selector: '@xm-ngx/components/http-repository',
@@ -15,7 +15,7 @@ export const XM_TABLE_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/table-array',
-        loadChildren: () => import('@xm-ngx/components/table/table-array').then(m => m.XmTableArrayModule),
+        loadChildren: () => import('packages/components/table/cells/table-array').then(m => m.XmTableArrayComponent),
     },
     {
         selector: '@xm-ngx/components/table',
@@ -23,7 +23,7 @@ export const XM_TABLE_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/table-edit-cell',
-        loadChildren: () => import('@xm-ngx/components/table/components/xm-table-edit-cell.component').then(m => m.XmTableEditCellComponent)
+        loadChildren: () => import('@xm-ngx/components/table/cells/xm-table-edit-cell.component').then(m => m.XmTableEditCellComponent)
     },
     {
         selector: '@xm-ngx/components/edit-chips',

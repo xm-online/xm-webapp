@@ -1,7 +1,11 @@
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Component, ElementRef, Input, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { XmOverlayResponse, XmTableFilterButtonDialogComponent } from './xm-table-filter-button-dialog.component';
+import {
+    XmFilterButtonDialog,
+    XmOverlayResponse,
+    XmTableFilterButtonDialogComponent,
+} from './xm-table-filter-button-dialog.component';
 import { XmOverlayService } from '../../overlay/xm-overlay.service';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { filter, map } from 'rxjs/operators';
@@ -9,8 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { ButtonSpinnerModule } from '@xm-ngx/components/button-spinner';
 import {
-    FiltersControlRequestOptions
+    FiltersControlRequestOptions,
 } from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
+import { FiltersControlValue } from '@xm-ngx/components/table/components/xm-table-filters-control.component';
 
 @Component({
     selector: 'xm-table-filter-button',
@@ -36,7 +41,7 @@ export class XmTableFilterButtonComponent implements OnDestroy {
     constructor(private overlay: Overlay,
                 private elementRef: ElementRef,
                 private overlayService: XmOverlayService,
-                private requestBuilder: XmTableFilterController) {
+                private tableFilterController: XmTableFilterController<FiltersControlValue>) {
     }
 
     public openFilter(): void {
@@ -68,18 +73,18 @@ export class XmTableFilterButtonComponent implements OnDestroy {
         });
 
         this.overlayService.setOverlayConfig(overlayConfig);
-        const overlayRef = this.overlayService.open<XmOverlayResponse>(
+        const overlayRef = this.overlayService.open<XmOverlayResponse, XmFilterButtonDialog>(
             XmTableFilterButtonDialogComponent,
             {
                 config: this.config,
-                value: this.requestBuilder.getCurrentRequest(),
+                value: this.tableFilterController.get(),
             });
 
         overlayRef.afterClosed$.pipe(
             filter(i => i.data.state != 'cancel'),
             map(res => res.data),
             takeUntilOnDestroy(this),
-        ).subscribe(res => this.requestBuilder.update(res.result));
+        ).subscribe(res => this.tableFilterController.set(res.result));
     }
 
     public ngOnDestroy(): void {

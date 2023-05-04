@@ -1,8 +1,8 @@
 export {
     TABLE_CONFIG_DEFAULT,
     ITableConfig,
-    TableConfig,
-} from './configs/table-config';
+    XmTableConfigRoot,
+} from './configs/xm-table-config-root.service';
 
 export {
     XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT,
@@ -15,5 +15,5 @@ export {
 } from './columns/xm-table-dynamic-column.component';
 
 export {
-    XmTableDynamicColumnsCell,
-} from './columns/xm-table-dynamic-columns-cell';
+    XmTableDynamicColumnsCellComponent,
+} from './columns/xm-table-dynamic-columns-cell.component';
