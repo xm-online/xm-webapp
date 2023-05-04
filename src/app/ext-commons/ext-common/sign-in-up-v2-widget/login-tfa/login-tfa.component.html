@@ -1,12 +1,12 @@
 <div class="header-block">
   <h1 class="title pb-mob">{{config.title|translate}}</h1>
   <h3 class="sub-title mb-1">{{'login-page.tfa.code-number' | translate}}</h3>
-  <h3 class="number pb-mob">{{phone|phoneFormatter}}</h3>
+  <h3 class="number pb-mob">{{phone| mask: '+000-000-00-00'}}</h3>
 </div>
 <div class="form-block pb-mob">
   <h3 class="sub-title">{{'login-page.tfa.code-sms' | translate}}</h3>
   <div class="otp-block pb-4">
-    <letters-control (submitEvent)="setValue($event)" [config]="{mask:'000000'}"></letters-control>
+    <letters-control (submitEvent)="setValue($event)" [config]="{mask:'000000'}" ></letters-control>
   </div>
   <div class="timer-block pb-mob">
     <h3 class="timer">{{remainingTime| timeFormat }}</h3>

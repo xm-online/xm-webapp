@@ -17,12 +17,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { LettersControl } from '@xm-ngx/ext/b2c-webapp-ext/components/otp-confirm/otp-confirm-v2.component';
 import { SignInUpService } from '../sign-in-up.service';
 import { StateStorageService } from '@xm-ngx/core/auth';
-import { PhoneFormatterPipe } from './phone-formater.pipe';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { SignPageFormConfig } from '../sign-in-up-v2.model';
 import { take } from 'rxjs/operators';
+import { NgxMaskModule } from 'ngx-mask';
 
 const REMAINING_TIME = 120;
 
@@ -39,7 +39,7 @@ const REMAINING_TIME = 120;
         TimeFormatPipe,
         MatButtonModule,
         LettersControl,
-        PhoneFormatterPipe,
+        NgxMaskModule,
     ],
 })
 export class LoginTfaComponent implements OnInit, OnDestroy {
@@ -63,9 +63,8 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.startTimer();
-        this.route.queryParams.pipe().subscribe((res) => {
-            this.phone = this.signInUpService.getDestination();
-            if (!this.phone) {
+        this.route.queryParams.pipe(takeUntilOnDestroy(this)).subscribe((res) => {
+            if (!this.signInUpService.getDestination()) {
                 this.backToLogin();
             }
         })
@@ -79,6 +78,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
     }
 
     private startTimer(): void {
+        clearInterval(this.countdownTimer);
         this.remainingTime = REMAINING_TIME; // 2 minutes in seconds
         this.countdownTimer = setInterval(() => {
             this.remainingTime--;
@@ -131,8 +131,15 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
     }
 
     public resendSms(): void {
-        this.signInUpService.reLogin().pipe(takeUntilOnDestroy(this)).subscribe();
-        this.remainingTime = REMAINING_TIME;
+        this.loading = true;
+        this.signInUpService.reLogin().pipe(takeUntilOnDestroy(this)).subscribe(()=>{
+            this.loading = false;
+            this.startTimer();
+        },(error)=>{
+            this.loading = false;
+            this.showError(error.error);
+        });
+
     }
 
     private showError(error: string): void {

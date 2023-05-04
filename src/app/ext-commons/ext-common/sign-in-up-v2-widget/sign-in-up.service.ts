@@ -42,11 +42,7 @@ export class SignInUpService {
     public login(credentials: any): Observable<any> {
         this.credentials = credentials;
         const data = this.createRequestData(credentials);
-        return this.getAccessToken(data, DEFAULT_HEADERS, credentials.rememberMe).pipe(
-            tap((resp) => {
-                //this.changeView('SIGN-TFA');
-            }),
-        );
+        return this.getAccessToken(data, DEFAULT_HEADERS, credentials.rememberMe);
     }
 
     public loginTFA(credentials: any): Observable<any> {
