@@ -18,8 +18,14 @@ import { XmEntityRepository } from '@xm-ngx/components/table/repositories/xm-ent
 import {
     XmTableReadOnlyRepositoryCollectionController
 } from './collections/xm-table-read-only-repository-collection-controller';
-import { XmTableElasticSearchCollectionController } from './collections/xm-table-elastic-search-collection-controller.service';
-import { XmElasticSearchRepository } from '@xm-ngx/components/table/repositories/xm-elastic-search-repository.service';
+import { XmTableElasticSearchCollectionController } from '@xm-ngx/components/table/controllers/elastic/xm-table-elastic-search-collection-controller.service';
+import {
+    XmElasticSearchRepository
+} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-search-repository.service';
+import { XmTableQueryParamsStoreService } from '@xm-ngx/components/table/controllers/filters/xm-table-query-params-store.service';
+import {
+    XmElasticRequestBuilder
+} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-request-builder.service';
 
 export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmEntityRepository,
@@ -40,4 +46,8 @@ export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmTableRepositoryCollectionController,
     XmTableStringArrayCollectionController,
     XmTableElasticSearchCollectionController,
+
+    XmTableQueryParamsStoreService,
+
+    XmElasticRequestBuilder,
 ];

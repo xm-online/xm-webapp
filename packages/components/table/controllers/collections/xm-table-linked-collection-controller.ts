@@ -20,8 +20,9 @@ import {
 } from './a-xm-table-state-collection-controller.service';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
-import { FilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
+import { filter } from 'rxjs/operators';
 
 const TRS = {
     updated: 'ext-entity.commons.updated',
@@ -46,7 +47,7 @@ export interface LinkListConfig {
 }
 
 @Injectable()
-export class XmTableLinkedCollectionController<T = unknown>
+export class XmTableLinkedCollectionController<T extends IId & {name?: string} = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
     public entity: IId;
@@ -65,7 +66,7 @@ export class XmTableLinkedCollectionController<T = unknown>
         super();
     }
 
-    public async load(request: FilterQueryParams): Promise<void> {
+    public async load(request: XmFilterQueryParams): Promise<void> {
         this.config = await firstValueFrom(this.configController.config$());
         this.entity = await firstValueFrom(this.entityController.entity$());
         this.repository = await this.repositoryResolver.get();
@@ -140,27 +141,27 @@ export class XmTableLinkedCollectionController<T = unknown>
     }
 
     public add(item: T): void {
-        // if (item.id) {
-        //     this._add(item);
-        // } else {
-        //     this._create(item);
-        // }
+        if (item.id) {
+            this._add(item);
+        } else {
+            this._create(item);
+        }
     }
 
     public remove(item: T, options?: _.Dictionary<any>): void {
-        // const primaryField = this.config?.typeLink?.primaryField || 'id';
-        // this.alert.deleteSubItem(_.merge({ textOptions: { value: item.name } }, options)).pipe(
-        //     filter((i) => i.value),
-        // ).subscribe(() => {
-        //     this.dataList = this.dataList.filter((i) => i !== item);
-        //     this.entityCollection.delete(item.id);
-        //     this.toaster.create({
-        //         type: 'success',
-        //         text: TRS.deleted,
-        //         textOptions: { value: String(item.name || item[primaryField]) },
-        //     }).subscribe();
-        //     this.change(this.dataList);
-        // });
+        const primaryField = this.config?.typeLink?.primaryField || 'id';
+        this.alert.delete(_.merge({ textOptions: { value: item.name } }, options)).pipe(
+            filter((i) => i.value),
+        ).subscribe(() => {
+            const items = this.items.filter((i) => i !== item);
+            this.repository.delete(item.id);
+            this.toaster.create({
+                type: 'success',
+                text: TRS.deleted,
+                textOptions: { value: String(item.name || item[primaryField]) },
+            }).subscribe();
+            this.changePartial({items: items});
+        });
     }
 
     public edit(item: T, newItem: T): void {
@@ -181,33 +182,33 @@ export class XmTableLinkedCollectionController<T = unknown>
         this.load(null);
     }
 
-    // private _create(item: T): void {
-    //     // const primaryField = this.config?.typeLink?.primaryField || 'id';
-    //     this.repository.create(item).subscribe((res) => {
-    //         this.toaster.create({
-    //             type: 'success',
-    //             text: TRS.added,
-    //             // textOptions: { value: String(item.name || item[primaryField]) },
-    //         }).subscribe();
-    //         this._add(_.assign(item, res));
-    //     });
-    // }
+    private _create(item: T): void {
+        // const primaryField = this.config?.typeLink?.primaryField || 'id';
+        this.repository.create(item).subscribe((res) => {
+            this.toaster.create({
+                type: 'success',
+                text: TRS.added,
+                // textOptions: { value: String(item.name || item[primaryField]) },
+            }).subscribe();
+            this._add(_.assign(item, res));
+        });
+    }
 
-    // private _add(item: T): void {
-    //     const primaryField = this.config?.typeLink?.primaryField || 'id';
-    //     if (this.items.find(i => i[primaryField] === item[primaryField])) {
-    //         this.toaster.create({
-    //             type: 'warning',
-    //             text: TRS.alreadyExist,
-    //             // textOptions: { value: String(item.name || item[primaryField]) },
-    //         }).subscribe();
-    //         return;
-    //     }
-    //
-    //     const items = this.items;
-    //     items.push(item);
-    //     this.changePartial({ items });
-    // }
+    private _add(item: T): void {
+        const primaryField = this.config?.typeLink?.primaryField || 'id';
+        if (this.items.find(i => i[primaryField] === item[primaryField])) {
+            this.toaster.create({
+                type: 'warning',
+                text: TRS.alreadyExist,
+                // textOptions: { value: String(item.name || item[primaryField]) },
+            }).subscribe();
+            return;
+        }
+
+        const items = this.items;
+        items.push(item);
+        this.changePartial({ items });
+    }
 
     private getProperties(): LinkListProperties[] {
         const primaryField = this.config?.typeLink?.primaryField || 'id';

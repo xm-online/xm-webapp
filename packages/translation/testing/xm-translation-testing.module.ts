@@ -34,17 +34,16 @@ export class MockXmTranslateService {
 /** @public */
 export class MockLanguageService {
     public languages = [];
+    public getDefaultLocale: () => [];
 
     public languages$: (i: string) => Observable<string[]> = () => of([]);
 }
 
 @NgModule({
     declarations: [MockTranslatePipe],
-    exports: [
-        MockTranslatePipe,
-    ],
+    exports: [MockTranslatePipe,],
     providers: [
-        { provide: LanguageService, useClass: MockTranslatePipe },
+        { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslatePipe, useClass: MockTranslatePipe },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: XmTranslateService, useClass: MockXmTranslateService },

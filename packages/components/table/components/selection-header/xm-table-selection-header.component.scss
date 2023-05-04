@@ -1,6 +1,6 @@
 $mat-header-row-height: 56px !default;
 
-.header-wrapper {
+.header-container {
   height:              $mat-header-row-height;
 
   overflow: hidden;
@@ -10,14 +10,11 @@ $mat-header-row-height: 56px !default;
   display:             flex;
   align-items:         center;
   border-bottom-color: rgba(0, 0, 0, 0.12);
-  background-color:    white;
   position:            absolute;
   top:                 0;
   width:               100%;
   padding-left:        24px;
   padding-right:       24px;
-  color:               #0d6efd;
-  background-color:    rgb(246, 244, 255);
 
   &::after {
     display:    inline-block;

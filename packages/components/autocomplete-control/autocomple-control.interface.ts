@@ -1,6 +1,7 @@
 import { Translate } from '@xm-ngx/translation';
 import { HintText } from '../hint';
 import { XmTableColumnDynamicCellsOptions } from '../table';
+import { XmFormatTemplateRecursive } from '@xm-ngx/shared/operators';
 
 export interface XmAutocompleteControlMapper {
     // Interpolated string as ${name}
@@ -34,7 +35,7 @@ export interface XmAutocompleteControlConfig {
     multiple: boolean;
     startEmptySearch?: boolean;
     extractByKey?: string;
-    compareMap: Record<string, unknown>;
+    compareMap: XmFormatTemplateRecursive;
     itemMapper: XmAutocompleteControlMapper;
     mergeControlValues?: boolean;
     pickIntersectSelected?: boolean;
