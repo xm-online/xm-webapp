@@ -22,6 +22,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { SignPageFormConfig } from '../sign-in-up-v2.model';
+import { take } from 'rxjs/dist/types/operators';
 
 const REMAINING_TIME = 120;
 
@@ -138,7 +139,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
         this.xmToasterService.create({
             type: 'danger',
             text: error,
-        }).subscribe();
+        }).pipe(takeUntilOnDestroy(this),take(1)).subscribe();
     }
 
 }

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { XmUIConfig } from '@xm-ngx/core/config';
 import { CommonModule } from '@angular/common';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { finalize } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatInputModule } from '@angular/material/input';
 import { XmSharedModule } from '@xm-ngx/shared';
@@ -115,7 +115,7 @@ export class LoginV2Component implements OnDestroy {
         this.xmToasterService.create({
             type: 'danger',
             text: error,
-        }).subscribe();
+        }).pipe(takeUntilOnDestroy(this),take(1)).subscribe();
     }
 }
 
