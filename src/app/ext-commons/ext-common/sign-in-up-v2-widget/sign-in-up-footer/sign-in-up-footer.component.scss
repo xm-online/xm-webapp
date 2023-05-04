@@ -1,12 +1,12 @@
 .footer-link-block {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 }
 
 @media only screen and (min-width: 1018px) {
   .footer-link-block {
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
 }
 

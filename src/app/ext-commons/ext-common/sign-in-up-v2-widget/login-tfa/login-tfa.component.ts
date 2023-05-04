@@ -117,7 +117,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
 
 
     public isFormDisabled(): boolean {
-        return this.otp?.length < 6 && this.remainingTime > 0;
+        return this.otp?.length < 6 || this.remainingTime === 0;
     }
 
     public backToLogin(): void {
