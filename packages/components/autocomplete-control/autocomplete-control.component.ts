@@ -13,6 +13,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { HintModule } from '@xm-ngx/components/hint';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { XmAutocompleteControl } from './autocomplete-control';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
 
 @Component({
     standalone: true,
@@ -20,24 +21,25 @@ import { XmAutocompleteControl } from './autocomplete-control';
     template: `
         <mat-form-field>
             <mat-label *ngIf="config?.title">{{ config?.title | translate }}</mat-label>
-            
+
             <mat-select [multiple]="config?.multiple"
                         [disabled]="disabled"
                         [ngModel]="selected"
                         [compareWith]="identityFn"
+                        [required]="config.required"
                         (selectionChange)="change($event.value)">
                 <div class="loader">
                     <mat-progress-bar mode="indeterminate" *ngIf="loading | async"></mat-progress-bar>
                 </div>
 
                 <mat-option>
-                    <ngx-mat-select-search 
+                    <ngx-mat-select-search
                         [clearSearchInput]="false"
                         [formControl]="searchQueryControl"
                         [placeholderLabel]="config.searchPlaceholder | translate"
                         [noEntriesFoundLabel]="config.notFoundSearchPlaceholder | translate"></ngx-mat-select-search>
                 </mat-option>
-                
+
                 <div class="mat-mdc-option" [hidden]="!selection.selected" (click)="deselect()">
                     <mat-icon>close</mat-icon>
                     {{'common-webapp-ext.buttons.cancel' | translate}}
@@ -52,6 +54,9 @@ import { XmAutocompleteControl } from './autocomplete-control';
                     </mat-option>
                 </ng-template>
             </mat-select>
+
+            <mat-error
+                *xmControlErrors="ngControl.control?.errors; translates (config.errors || messageErrors); message as message">{{message}}</mat-error>
 
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
@@ -77,6 +82,7 @@ import { XmAutocompleteControl } from './autocomplete-control';
         MatIconModule,
         CommonModule,
         HintModule,
+        ControlErrorModule
     ],
     providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteControlComponent), multi: true } ],
 })
