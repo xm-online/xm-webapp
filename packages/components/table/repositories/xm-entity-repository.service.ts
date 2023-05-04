@@ -28,14 +28,24 @@ export interface XmEntityRepositoryExtra {
 
 export type XmEntityRepositoryQuery = QueryParamsPageable & XmEntityRepositoryExtra;
 
+export type XmEntityRepositoryCustomConfig = XmEntityRepositoryConfig & {
+    updateResourceUrl: string;
+}
+
 @Injectable()
 export class XmEntityRepository<T extends XmEntity>
     extends HttpClientRest<T, PageableAndSortable>
     implements XmDynamicService<XmRepositoryConfig> {
-    public config: XmEntityRepositoryConfig;
+    public config: XmEntityRepositoryCustomConfig;
 
     constructor(httpClient: HttpClient, private requestBuilder: XmElasticRequestBuilder) {
         super(null, httpClient);
+    }
+
+    public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
+        const url = this.config.updateResourceUrl ?? this.url;
+        
+        return this.handle(this.httpClient.put<T>(url, entity, { params, observe: 'response', headers }));
     }
 
     public getAll(params?: XmFilterQueryParams): Observable<HttpResponse<T[] & PageableAndSortable>> {

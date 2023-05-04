@@ -17,7 +17,7 @@ import { cloneDeep, set } from 'lodash';
     imports: [XmInlineControlComponent, FormsModule],
     template: `
         <xm-inline-control [config]="config"
-                           (valueChange)="onSaveEntity($event)"
+                           (saveValue)="onSaveEntity($event)"
                            [ngModel]="value"></xm-inline-control>
     `,
 })
