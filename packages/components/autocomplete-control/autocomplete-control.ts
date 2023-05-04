@@ -166,7 +166,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         this.searchQueryControl.valueChanges.pipe(
             distinctUntilChanged(),
             debounceTime(300),
-            filter(searchQuery => (searchQuery?.length >= this.config.startFromCharSearch) || !this.searchedList.getValue().length),
+            filter(searchQuery => searchQuery?.length === 0 || (searchQuery?.length >= this.config.startFromCharSearch)),
             switchMap((searchQuery) => {
                 return this.searchByQuery(searchQuery).pipe(
                     catchError(() => of([])),

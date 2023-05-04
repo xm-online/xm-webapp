@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import {
     Component,
-    forwardRef
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import * as _ from 'lodash';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { HintModule } from '@xm-ngx/components/hint';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -56,7 +54,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
             </mat-select>
 
             <mat-error
-                *xmControlErrors="ngControl.control?.errors; translates (config.errors || messageErrors); message as message">{{message}}</mat-error>
+                *xmControlErrors="ngControl?.control?.errors; translates (config.errors || messageErrors); message as message">{{message}}</mat-error>
 
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
@@ -84,6 +82,5 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
         HintModule,
         ControlErrorModule
     ],
-    providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteControlComponent), multi: true } ],
 })
 export class XmAutocompleteControlComponent extends XmAutocompleteControl {}
