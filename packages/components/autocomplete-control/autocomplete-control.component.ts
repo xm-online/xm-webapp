@@ -84,7 +84,11 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
         HintModule,
         ControlErrorModule
     ],
-    providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteControlComponent), multi: true } ],
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => XmAutocompleteControlComponent),
+        multi: true
+    }],
 })
 export class XmAutocompleteControlComponent extends XmAutocompleteControl {
     @ViewChild(MatSelect) public matSelect: MatSelect;
