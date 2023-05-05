@@ -22,7 +22,7 @@ $mat-card-border-radius: 24px !default;
   border-radius: $mat-card-border-radius;
 }
 
-@mixin xm-mat-card-bordered-rounded(){
+@mixin xm-mat-card-bordered-rounded($theme) {
   //TODO:
   // Components should be defined outline via global variable
   // Follow angular updates and migrate with angular and google on material 3 design
