@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
     Component,
+    forwardRef,
+    ViewChild
 } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { HintModule } from '@xm-ngx/components/hint';
@@ -82,5 +84,15 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
         HintModule,
         ControlErrorModule
     ],
+    providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteControlComponent), multi: true } ],
 })
-export class XmAutocompleteControlComponent extends XmAutocompleteControl {}
+export class XmAutocompleteControlComponent extends XmAutocompleteControl {
+    @ViewChild(MatSelect) public matSelect: MatSelect;
+
+    public deselect(): void {
+        this.selection.clear();
+        this.change(null);
+        this.matSelect.value = null;
+        this.matSelect.close();
+    }
+}
