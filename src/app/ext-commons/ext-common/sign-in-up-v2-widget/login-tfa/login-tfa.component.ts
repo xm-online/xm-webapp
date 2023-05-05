@@ -53,6 +53,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
     public loading: boolean = false;
     @ViewChildren('digitInput') public digitInputs!: QueryList<ElementRef>;
     public otp: string = '';
+    public authenticationError = false;
 
     constructor(protected signInUpService: SignInUpService,
                 protected router: Router,
@@ -64,7 +65,8 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.startTimer();
         this.route.queryParams.pipe(takeUntilOnDestroy(this)).subscribe((res) => {
-            if (!this.signInUpService.getDestination()) {
+            this.phone = this.signInUpService.getDestination();
+            if (!this.phone) {
                 this.backToLogin();
             }
         })
@@ -111,6 +113,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
                 {name: 'login'});
         }, (error) => {
             this.loading = false;
+            this.authenticationError = true;
             this.showError(error.error);
         });
     }
@@ -132,10 +135,10 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
 
     public resendSms(): void {
         this.loading = true;
-        this.signInUpService.reLogin().pipe(takeUntilOnDestroy(this)).subscribe(()=>{
+        this.signInUpService.reLogin().pipe(takeUntilOnDestroy(this)).subscribe(() => {
             this.loading = false;
             this.startTimer();
-        },(error)=>{
+        }, (error) => {
             this.loading = false;
             this.showError(error.error);
         });

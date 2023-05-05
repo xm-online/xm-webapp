@@ -64,6 +64,15 @@
 .pb-mob {
   padding-bottom: 1.5rem;
 }
+.notification-error{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  right: 0;
+}
+.timer-block{
+  position: relative;
+}
 
 @media only screen and (min-width: 1018px) {
   .pb-mob {

@@ -73,20 +73,25 @@ export class LoginV2Component implements OnDestroy {
             this.loading = false;
         })).subscribe((res) => {
             this.loading = false;
-            if (this.config && this.config?.next) {
-                res.next = this.config.next;
-            }
-            if (!res.otpId) {
-                this.signInUpService.updateTokens(res, true);
-            } else {
-                this.changeStateEvent.emit(res);
-                this.router.navigate([''], {queryParams: {page: this.config.next}});
-                this.signInUpService.changeView(this.config.next);
-            }
+            this.changeState(res);
         }, (error) => {
             this.loading = false;
+            this.authenticationError = true;
             this.showError(error.error);
         });
+    }
+
+    private changeState(res) {
+        if (this.config && this.config?.next) {
+            res.next = this.config.next;
+        }
+        if (!res.otpId) {
+            this.signInUpService.updateTokens(res, true);
+        } else {
+            this.changeStateEvent.emit(res);
+            this.router.navigate([''], {queryParams: {page: this.config.next}});
+            this.signInUpService.changeView(this.config.next);
+        }
     }
 
 
@@ -115,7 +120,7 @@ export class LoginV2Component implements OnDestroy {
         this.xmToasterService.create({
             type: 'danger',
             text: error,
-        }).pipe(takeUntilOnDestroy(this),take(1)).subscribe();
+        }).pipe(takeUntilOnDestroy(this), take(1)).subscribe();
     }
 }
 
