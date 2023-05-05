@@ -18,6 +18,7 @@ import { LinksGroupWidgetConfig } from './links-group-widget';
         XmTranslationModule,
         MatButtonModule,
     ],
+    styleUrls:['./links-group-button-widget.scss'],
     template: `
         <div *ngIf="config?.list" class="mb-3">
             <nav class="xm-button-group p-3 bg-surface"
