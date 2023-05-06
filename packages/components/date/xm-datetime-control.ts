@@ -99,7 +99,7 @@ export interface XmDateTimeControlParts {
     `]
 })
 export class XmDateTimeControlFieldComponent implements ControlValueAccessor, MatFormFieldControl<XmDateTimeControlValue>, OnInit, OnDestroy {
-    static nextId = 0;
+    public static nextId = 0;
 
     @ViewChild('dateInputRef') public dateInput: ElementRef<HTMLInputElement>;
     @ViewChild('timeInputRef') public timeInput: ElementRef<HTMLInputElement>;
@@ -121,7 +121,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
     public controlType = 'datetime-control';
     public id = `datetime-control-${XmDateTimeControlFieldComponent.nextId++}`;
 
-    get empty() {
+    get empty(): boolean {
         const {
             value: { date, time },
         } = this.datetime;
@@ -129,11 +129,11 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         return !date && !time;
     }
 
-    get shouldLabelFloat() {
+    get shouldLabelFloat(): boolean {
         return this.focused || !this.empty;
     }
 
-    @Input() picker: MatDatepickerPanel<MatDatepickerInput<any>, any>;
+    @Input() public picker: MatDatepickerPanel<MatDatepickerInput<any>, any>;
 
     @Input()
     set placeholder(value: string) {
@@ -251,9 +251,10 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         }
     }
 
-    public setDescribedByIds(ids: string[]) {}
+    // @ts-ignore
+    public setDescribedByIds(ids: string[]): void {}
 
-    public onContainerClick() {
+    public onContainerClick(): void {
         if (this.datetime.controls.date.valid) {
             this.focusMonitor.focusVia(this.timeInput, 'program');
         } else {
@@ -277,8 +278,10 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         this.onTouched = fn;
     }
 
-    public onChange = (_: any) => {};
-    public onTouched = () => {};
+    // @ts-ignore
+    public onChange = (_: any): void => {};
+    // @ts-ignore
+    public onTouched = (): void => {};
 
     public parseTime(value: string): { hours: number; minutes: number; } {
         let time = value.match(/(\d?\d):?(\d?\d?)/);
@@ -295,8 +298,8 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
           
         return {
             hours: h,
-            minutes: m
-        }	
+            minutes: m,
+        };
       }
 
     public change(): void {
