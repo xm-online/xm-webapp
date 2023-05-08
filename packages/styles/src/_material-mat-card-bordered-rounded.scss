@@ -1,0 +1,38 @@
+
+$mat-card-bordered-color: rgba(0, 0, 0, .12) !default;
+$mat-card-border-radius: 24px !default;
+
+@mixin material-stroked-border-color() {
+  border-top-width:    1px;
+  border-top-style:    solid;
+  border-top-color:    $mat-card-bordered-color;
+  border-right-width:  1px;
+  border-right-style:  solid;
+  border-right-color:  $mat-card-bordered-color;
+  border-left-width:   1px;
+  border-left-style:   solid;
+  border-left-color:   $mat-card-bordered-color;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: $mat-card-bordered-color;
+  box-shadow: none;
+}
+
+@mixin material-border-rounded() {
+  border-radius: $mat-card-border-radius;
+}
+
+@mixin xm-mat-card-bordered-rounded($theme) {
+  //TODO:
+  // Components should be defined outline via global variable
+  // Follow angular updates and migrate with angular and google on material 3 design
+
+  .mat-expansion-panel:not([class*=mdc-elevation-z]){
+    @include material-stroked-border-color();
+  }
+
+  .mdc-card:not([class*=mdc-elevation-z]) {
+    @include material-stroked-border-color();
+    @include material-border-rounded();
+  }
+}

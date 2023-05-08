@@ -1,0 +1,81 @@
+.field-block {
+  display: flex;
+}
+
+.digit-input {
+  width: 37px;
+  padding: 7px 7px;
+  text-align: center;
+  background: none;
+  border: none;
+  font-size: 15px;
+  outline: none;
+  font-weight: bold;
+}
+
+.input-holder {
+  position: relative;
+  margin-right: 14px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    height: 3px;
+    background: #000;
+    border-radius: 2px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+
+  }
+}
+
+.digit-input:focus {
+  &:after {
+    background: red;
+  }
+}
+
+.sub-title {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.number {
+  color: red;
+}
+
+.text-end {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn.size-xl {
+  padding: 16px 10px;
+  border-radius: 9px;
+  font-size: 20px;
+  height: auto;
+}
+
+.timer-text {
+  opacity: .8;
+}
+
+.pb-mob {
+  padding-bottom: 1.5rem;
+}
+.notification-error{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  right: 0;
+}
+.timer-block{
+  position: relative;
+}
+
+@media only screen and (min-width: 1018px) {
+  .pb-mob {
+    padding-bottom: 3rem;
+  }
+}

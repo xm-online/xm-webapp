@@ -1,0 +1,15 @@
+<div class="card marketing-card p-4" *ngIf="config"
+     [style.background-image]="'url('+config?.backgroundImage+')'"
+     [style.background-color]="config?.backgroundColor"
+     [style.color]="config?.color"
+     [style.border-radius]="borderRadius">
+  <div class="logo">
+    <div class="logo-holder" *ngIf="config?.logo?.logoUrl">
+      <img class="logo-img" width="auto" height="40" [src]="config?.logo?.logoUrl" alt="SVG Image">
+    </div>
+    <h1 class="logo-text px-2" *ngIf="config?.logo?.text">{{config?.logo?.text}}</h1>
+  </div>
+  <div class="html" *ngIf="config?.html">
+    <div [innerHTML]="config?.html"></div>
+  </div>
+</div>

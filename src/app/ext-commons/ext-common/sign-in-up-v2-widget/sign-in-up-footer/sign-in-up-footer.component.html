@@ -1,0 +1,7 @@
+<ng-container *ngIf="config">
+  <div class="footer-link-block">
+    <span class="footer-link p-2" *ngFor=" let link of config.links">
+      <a [href]="link.url">{{link.title|translate}} </a>
+    </span>
+  </div>
+</ng-container>

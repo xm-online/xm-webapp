@@ -1,0 +1,53 @@
+<div class="block">
+  <h3 class="card-title pb-mob">{{config?.title| translate}}</h3>
+  <xm-loader [absolute]="true" [showLoader]="loading"></xm-loader>
+  <form [formGroup]="group" class="form-block pb-mob" role="form" *ngIf="!checkOTP" autocomplete="off">
+    <xm-email-control [config]="config?.config?.username"
+                      formControlName="username">
+    </xm-email-control>
+    <xm-password-control [config]="config?.config?.password"
+                         formControlName="password">
+    </xm-password-control>
+    <div class="row align-items-center">
+      <div class="col-xs-12 col-md-6" *ngIf="!checkOTP && config?.config?.showForgotPassword">
+        <div class="form-group pb-mob p-relative">
+          <a class="forgot-link" href="javascript: void(0);" (click)="requestResetPassword()">
+            {{'login.password.forgot' | translate}}
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="text-end-block">
+      <div class="alert alert-danger"
+           *ngIf="authenticationError"
+           [innerHTML]="(config?.error| translate)||('login.messages.error.authentication' | translate)"></div>
+      <div class="row">
+        <div class="col-12 pb-1">
+          <button mat-flat-button type="button" (click)="login()" color="primary"
+                  class="btn display-block size-xl"
+                  [ngClass]="{'loading' : loading}"
+                  [disabled]="isFormDisabled()">
+            <span>{{config?.primaryButton|translate}}</span>
+          </button>
+        </div>
+      </div>
+      <div class="row" *ngIf="config?.config?.rememberMe">
+        <div class="remember">
+          <mat-checkbox class="remember-me" color="primary" formControlName="rememberMe"
+                        name="rememberMe"
+                        [disabled]="isFormDisabled()">
+            <span>{{'login.form.rememberMe' | translate}}</span>
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row" *ngIf="config?.config?.showSingUp">
+    <div class="col-12 registration">
+      <p>{{'login-page.tfa.signUp-no-account' | translate}}
+        <strong><a href="javascript: void(0);" (click)="registration()">
+          {{'login-page.tfa.signUp' | translate}}</a></strong>
+      </p>
+    </div>
+  </div>
+</div>
