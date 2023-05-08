@@ -251,9 +251,6 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         }
     }
 
-    // @ts-ignore
-    public setDescribedByIds(ids: string[]): void {}
-
     public onContainerClick(): void {
         if (this.datetime.controls.date.valid) {
             this.focusMonitor.focusVia(this.timeInput, 'program');
@@ -278,9 +275,13 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         this.onTouched = fn;
     }
 
-    // @ts-ignore
+    /// eslint-disable-next-line no-empty-function
+    public setDescribedByIds(ids: string[]): void {}
+
+    // eslint-disable-next-line no-empty-function
     public onChange = (_: any): void => {};
-    // @ts-ignore
+
+    // eslint-disable-next-line no-empty-function
     public onTouched = (): void => {};
 
     public parseTime(value: string): { hours: number; minutes: number; } {
@@ -300,7 +301,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
             hours: h,
             minutes: m,
         };
-      }
+    }
 
     public change(): void {
         const {
