@@ -2,6 +2,7 @@ import { Translate } from '@xm-ngx/translation';
 import { HintText } from '../hint';
 import { XmTableColumnDynamicCellsOptions } from '../table';
 import { XmFormatTemplateRecursive } from '@xm-ngx/shared/operators';
+import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error';
 
 export interface XmAutocompleteControlMapper {
     // Interpolated string as ${name}
@@ -45,6 +46,9 @@ export interface XmAutocompleteControlConfig {
     height: number;
     searchPlaceholder?: Translate;
     notFoundSearchPlaceholder?: Translate;
+    startFromCharSearch?: number;
+    errors?: XmControlErrorsTranslates;
+    required?: boolean;
 }
 
 export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
@@ -77,4 +81,6 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
     height: 400,
     searchPlaceholder: 'global.rest-select-placeholder-noresults',
     notFoundSearchPlaceholder: 'global.rest-select-placeholder-search.simple',
+    startFromCharSearch: 0,
+    required: false,
 };
