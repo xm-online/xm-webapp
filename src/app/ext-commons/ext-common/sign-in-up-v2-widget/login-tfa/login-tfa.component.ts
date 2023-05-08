@@ -22,7 +22,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { SignPageFormConfig } from '../sign-in-up-v2.model';
 import { take } from 'rxjs/operators';
 import { NgxMaskModule } from 'ngx-mask';
-import { LettersControl } from '../../../../../../packages/components/letter-control/letter-control';
+import { LettersControl } from '@xm-ngx/components/letter-control/letter-control';
 
 const REMAINING_TIME = 120;
 
@@ -38,8 +38,8 @@ const REMAINING_TIME = 120;
         XmTranslationModule,
         TimeFormatPipe,
         MatButtonModule,
-        LettersControl,
         NgxMaskModule,
+        LettersControl,
     ],
 })
 export class LoginTfaComponent implements OnInit, OnDestroy {
