@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
@@ -17,10 +18,11 @@ import { LinksGroupWidgetConfig } from './links-group-widget';
         XmPermissionModule,
         XmTranslationModule,
         MatButtonModule,
+        MatCardModule,
     ],
     template: `
-        <div *ngIf="config?.list" class="mb-3">
-            <nav class="xm-button-group p-3 bg-surface"
+        <mat-card *ngIf="config?.list" class="mb-3">
+            <nav class="xm-button-group p-3"
                  role="group">
                 <ng-container *ngFor="let item of config.list">
                     <a [routerLink]="item.routerLink"
@@ -36,7 +38,7 @@ import { LinksGroupWidgetConfig } from './links-group-widget';
                     </a>
                 </ng-container>
             </nav>
-        </div>
+        </mat-card>
     `,
 })
 export class LinksGroupButtonWidget implements XmDynamicWidget {
