@@ -1,0 +1,35 @@
+.marketing-card {
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: none;
+  margin: 0;
+}
+
+.logo {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.html {
+  align-self: flex-start;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+@media only screen and (min-width: 1018px) {
+  .marketing-card {
+    height: 100%;
+  }
+  .sign-in-marketing{
+    width: 50%;
+  }
+}
