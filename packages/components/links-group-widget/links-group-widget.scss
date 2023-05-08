@@ -1,0 +1,11 @@
+@use "@xm-ngx/styles/components" as xm;
+
+:host(xm-links-group-widget) nav.mat-mdc-tab-nav-bar.mat-mdc-tab-header {
+  @include xm.material-stroked-border-color();
+  @include xm.material-border-rounded();
+}
+
+:host(xm-links-group-widget) nav.xm-button-group {
+  @include xm.material-stroked-border-color();
+  @include xm.material-border-rounded();
+}

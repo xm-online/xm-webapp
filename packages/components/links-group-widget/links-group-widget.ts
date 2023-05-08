@@ -33,10 +33,12 @@ export interface LinksGroupWidgetConfig {
         MatTabsModule,
         IfDashboardSlugModule,
     ],
+    styleUrls:['./links-group-widget.scss'],
     template: `
         <div *ngIf="config?.list" class="bg-surface mb-3 overflow-hidden">
             <nav [color]="'primary'"
                  mat-tab-nav-bar
+                 [tabPanel]="tabPanel"
                  mat-stretch-tabs="false"
                  mat-align-tabs="start"
                  role="group">
@@ -56,6 +58,7 @@ export interface LinksGroupWidgetConfig {
                     </ng-container>
                 </ng-container>
             </nav>
+            <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
         </div>
     `,
 })

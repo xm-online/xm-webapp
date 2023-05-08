@@ -21,9 +21,9 @@ import { NotFoundException } from '@xm-ngx/shared/exceptions';
 export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
     selector: string;
     /** @deprecated use selector instead */
-    module: string;
+    module?: string;
     /** @deprecated use selector instead */
-    component: string;
+    component?: string;
     config: C;
     /** @deprecated spec will be removed, you should provide the spec locally */
     spec?: S;
