@@ -1,15 +1,48 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { HttpHeaders } from '@angular/common/http';
-import { OnInit, OnDestroy, OnChanges, Input, inject, SimpleChanges, Directive } from '@angular/core';
+import {
+    OnInit,
+    OnDestroy,
+    OnChanges,
+    Input,
+    inject,
+    SimpleChanges,
+    Directive,
+    Optional,
+    SkipSelf
+} from '@angular/core';
 import { coerceArray } from '@angular/flex-layout';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgControl } from '@angular/forms';
 import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { LanguageService } from '@xm-ngx/translation';
 import _ from 'lodash';
-import { Observable, BehaviorSubject, startWith, map, switchMap, of, tap, distinctUntilChanged, debounceTime, catchError, finalize, shareReplay, pairwise, filter } from 'rxjs';
+import {
+    Observable,
+    BehaviorSubject,
+    startWith,
+    map,
+    switchMap,
+    of,
+    tap,
+    distinctUntilChanged,
+    debounceTime,
+    catchError,
+    finalize,
+    shareReplay,
+    pairwise,
+    filter
+} from 'rxjs';
 import { EntityCollectionFactoryService } from '../entity-collection';
 import { NgModelWrapper } from '../ng-accessor';
-import { AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG, XmAutocompleteControlConfig, XmAutocompleteControlMapper, XmAutocompleteControlListItem, XmAutocompleteControlParams, XmAutocompleteControlBody } from './autocomple-control.interface';
+import {
+    AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG,
+    XmAutocompleteControlConfig,
+    XmAutocompleteControlMapper,
+    XmAutocompleteControlListItem,
+    XmAutocompleteControlParams,
+    XmAutocompleteControlBody
+} from './autocomple-control.interface';
+import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
 @Directive()
 export class XmAutocompleteControl extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {
@@ -19,13 +52,17 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     public set config(value: XmAutocompleteControlConfig) {
         this._config = _.defaultsDeep(value, AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG) as XmAutocompleteControlConfig;
 
-        const { displayFn, valueByKey } = format<XmAutocompleteControlMapper>(this.config?.itemMapper, this.getLocaleContext());
+        const {
+            displayFn,
+            valueByKey
+        } = format<XmAutocompleteControlMapper>(this.config?.itemMapper, this.getLocaleContext());
 
         this.displayFn = _.template(displayFn);
-        this.valueByKey = _.isObject(valueByKey) 
+        this.valueByKey = _.isObject(valueByKey)
             ? _.template(JSON.stringify(valueByKey))
             : _.template(valueByKey);
     }
+
     public get config(): XmAutocompleteControlConfig {
         return this._config;
     }
@@ -35,6 +72,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     public set updateValues(value: unknown[]) {
         this._updateValues.next(_.cloneDeep(value));
     }
+
     public get updateValues(): unknown[] {
         return this._updateValues.value;
     }
@@ -62,9 +100,20 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     public selection: SelectionModel<XmAutocompleteControlListItem>;
     public selected: unknown | unknown[];
 
+    public messageErrors = XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES;
+
+    constructor(
+        @Optional() @SkipSelf() public ngControl: NgControl,
+    ) {
+        super();
+        if (this.ngControl) {
+            this.ngControl.valueAccessor = this;
+        }
+    }
+
     public ngOnInit(): void {
         this.selection = new SelectionModel<XmAutocompleteControlListItem>(this.config.multiple, [], true, this.identityFn);
- 
+
         this.selection.changed.asObservable().pipe(
             tap((changed) => {
                 const selected = changed.source.selected;
@@ -117,6 +166,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         this.searchQueryControl.valueChanges.pipe(
             distinctUntilChanged(),
             debounceTime(300),
+            filter(searchQuery => searchQuery?.length === 0 || (searchQuery?.length >= this.config.startFromCharSearch)),
             switchMap((searchQuery) => {
                 return this.searchByQuery(searchQuery).pipe(
                     catchError(() => of([])),
@@ -148,7 +198,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
     public ngOnChanges(changes: SimpleChanges): void {
         // Prevent make another request
-        if (this.list.value.length <= 0) {  
+        if (this.list.value.length <= 0) {
             this.updateValues = changes?.value?.currentValue;
         }
     }
@@ -173,7 +223,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     private searchByQuery(searchQuery: string): Observable<XmAutocompleteControlListItem[]> {
-        const { queryParams, body} = this.config?.search || {};
+        const {queryParams, body} = this.config?.search || {};
 
         const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(searchQuery));
         const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(searchQuery));
@@ -182,24 +232,24 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     private fetchSelectedValues(values: XmAutocompleteControlListItem[]): Observable<XmAutocompleteControlListItem[]> {
-        const { queryParams, body } = this.config?.fetchSelectedByCriteria || {};
+        const {queryParams, body} = this.config?.fetchSelectedByCriteria || {};
 
         const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(values));
         const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(values));
-        
+
         return this.buildRequest(httpParams, httpBody).pipe(
             catchError(() => of(values)),
         );
     }
 
     private getSearchCriteriaContext(search: unknown): Record<string, unknown> {
-        return { 
+        return {
             search, ...this.getLocaleContext(),
         };
     }
 
     private getLocaleContext(): Record<string, string | string[]> {
-        const { locale, languages } = this.languageService;
+        const {locale, languages} = this.languageService;
 
         return {
             locale,
@@ -210,7 +260,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     private buildRequest(httpParams: XmAutocompleteControlParams, httpBody: XmAutocompleteControlBody): Observable<XmAutocompleteControlListItem[]> {
         this._loading.next(true);
 
-        const { resourceUrl, resourceMethod, headers } = this.config?.search || {};
+        const {resourceUrl, resourceMethod, headers} = this.config?.search || {};
 
         if (resourceUrl) {
             return this.collectionFactory.create(resourceUrl).request(
@@ -223,7 +273,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
                     if (this.config?.extractByKey) {
                         return _.get(data, this.config?.extractByKey, []);
                     }
-                    
+
                     return data;
                 }),
                 map(collection => {
@@ -243,16 +293,17 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     private normalizeValues(collection: unknown): XmAutocompleteControlListItem[] {
         return coerceArray(collection)
             .filter(value => !_.isEmpty(value))
-            .map((item: any) => {        
+            .map((item: any) => {
                 if (_.isObject(item)) {
                     const stringOrObject = this.valueByKey(item);
 
                     let value = stringOrObject;
-        
+
                     if (this.config.valueAsJson) {
                         try {
                             value = JSON.parse(stringOrObject);
-                        } catch (error) {}
+                        } catch (error) {
+                        }
                     }
 
                     return {
@@ -261,7 +312,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
                         data: item,
                     };
                 }
-        
+
                 return {
                     value: item,
                     view: item,
@@ -272,14 +323,14 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
     protected unwrapValues(valueOrValues: XmAutocompleteControlListItem | XmAutocompleteControlListItem[]): unknown | unknown[] {
         if (_.isArray(valueOrValues)) {
-            const unwrapSelected = valueOrValues?.map(({ value }) => value) ?? [];
+            const unwrapSelected = valueOrValues?.map(({value}) => value) ?? [];
 
-            return this.config.multiple 
-                ? unwrapSelected 
+            return this.config.multiple
+                ? unwrapSelected
                 : unwrapSelected?.[0];
         }
-        
-        const { value } = valueOrValues;
+
+        const {value} = valueOrValues;
 
         return value;
     }
@@ -304,9 +355,9 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     };
 
     public setDisabledState(isDisabled: boolean): void {
-        isDisabled 
-            ? this.searchQueryControl.disable({ emitEvent: false })
-            : this.searchQueryControl.enable({ emitEvent: false });
+        isDisabled
+            ? this.searchQueryControl.disable({emitEvent: false})
+            : this.searchQueryControl.enable({emitEvent: false});
 
         super.setDisabledState(isDisabled);
     }
@@ -318,7 +369,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             if (this.config.multiple && this.config.mergeControlValues) {
                 value = this.uniqByIdentity(this.normalizeValues(this.value), normalizeValues);
             }
-    
+
             value = this.unwrapValues(value);
         }
 
