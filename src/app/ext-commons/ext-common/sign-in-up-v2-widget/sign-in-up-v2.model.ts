@@ -14,7 +14,7 @@ export interface SignPageFormConfig {
     key: string,
     selector: string,
     condition: string,
-    primaryButton?:Translate,
+    primaryButton?: Translate,
     next?: string,
     error?: Translate,
     title?: Translate,

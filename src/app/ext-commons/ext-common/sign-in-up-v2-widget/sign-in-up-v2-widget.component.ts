@@ -57,12 +57,12 @@ export class SignInUpV2WidgetComponent implements OnInit, OnDestroy, XmDynamicWi
     public ngOnInit(): void {
         this.signInUpService.getView().pipe(takeUntilOnDestroy(this)).subscribe((res: string) => {
             this.state = res;
-        })
+        });
         this.route.queryParams.pipe(takeUntilOnDestroy(this)).subscribe((res) => {
             if (res.page) {
                 this.signInUpService.changeView(res.page);
             }
-        })
+        });
     }
 
     public ngOnDestroy(): void {

@@ -14,7 +14,6 @@ import { CommonModule } from '@angular/common';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { TimeFormatPipe } from './time-format.pipe';
 import { MatButtonModule } from '@angular/material/button';
-import { LettersControl } from '@xm-ngx/ext/b2c-webapp-ext/components/otp-confirm/otp-confirm-v2.component';
 import { SignInUpService } from '../sign-in-up.service';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -23,6 +22,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { SignPageFormConfig } from '../sign-in-up-v2.model';
 import { take } from 'rxjs/operators';
 import { NgxMaskModule } from 'ngx-mask';
+import { LettersControl } from '../../../../../../packages/components/letter-control/letter-control';
 
 const REMAINING_TIME = 120;
 
@@ -69,7 +69,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
             if (!this.phone) {
                 this.backToLogin();
             }
-        })
+        });
     }
 
     public ngOnDestroy(): void {
