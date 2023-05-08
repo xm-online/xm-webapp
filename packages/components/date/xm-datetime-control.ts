@@ -50,8 +50,8 @@ export interface XmDateTimeControlParts {
     providers: [
         {
             provide: MatFormFieldControl,
-            useExisting: XmDateTimeControlFieldComponent
-        }
+            useExisting: XmDateTimeControlFieldComponent,
+        },
     ],
     template: `
         <div
@@ -96,7 +96,7 @@ export interface XmDateTimeControlParts {
         .xm-datetime-time {
             width: 45px;
         }
-    `]
+    `],
 })
 export class XmDateTimeControlFieldComponent implements ControlValueAccessor, MatFormFieldControl<XmDateTimeControlValue>, OnInit, OnDestroy {
     public static nextId = 0;
@@ -113,7 +113,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
 
     public datetime = this.fb.group({
         date: this.fb.control<Date | string | number>('', [Validators.required]),
-        time: this.fb.control<string>('', [Validators.required])
+        time: this.fb.control<string>('', [Validators.required]),
     });
     public stateChanges = new Subject<void>();
     public focused = false;
@@ -275,23 +275,23 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         this.onTouched = fn;
     }
 
-    /// eslint-disable-next-line no-empty-function
+    // eslint-disable-next-line
     public setDescribedByIds(ids: string[]): void {}
 
-    // eslint-disable-next-line no-empty-function
+    // eslint-disable-next-line
     public onChange = (_: any): void => {};
 
-    // eslint-disable-next-line no-empty-function
+    // eslint-disable-next-line
     public onTouched = (): void => {};
 
     public parseTime(value: string): { hours: number; minutes: number; } {
-        let time = value.match(/(\d?\d):?(\d?\d?)/);
+        let time = /(\d?\d):?(\d?\d?)/.exec(value);
 
         let h = parseInt(time[1], 10);
         let m = parseInt(time[2], 10) || 0;
           
         if (h > 24) {
-            time = value.match(/(\d)(\d?\d?)/);
+            time = /(\d)(\d?\d?)/.exec(value);
 
             h = parseInt(time[1], 10);
             m = parseInt(time[2], 10) || 0;
@@ -350,8 +350,8 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => XmDateTimeControlComponent),
-            multi: true
-        }
+            multi: true,
+        },
     ],
     template: `
         <mat-form-field>
