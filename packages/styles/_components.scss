@@ -15,6 +15,7 @@
 @import './src/word-autocomplete';
 @import './src/material-mat-dialog';
 @import './src/autocomplite-inputs-transparent';
+@import './src/material-mat-card-bordered-rounded';
 
 @mixin xm-ngx-styles-theme($theme) {
 
@@ -29,5 +30,5 @@
   @include xm-state($theme);
   @include xm-word($theme);
   @include xm-mat-dialog($theme);
-
+  @include xm-mat-card-bordered-rounded($theme);
 }
