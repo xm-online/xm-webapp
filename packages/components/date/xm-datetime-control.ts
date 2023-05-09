@@ -6,7 +6,7 @@ import { MatDatepickerInput, MatDatepickerModule, MatDatepickerPanel } from '@an
 import { MatFormField, MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { ControlErrorModule, XmControlErrorsTranslates } from '@xm-ngx/components/control-error';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { HintModule } from '@xm-ngx/components/hint';
@@ -16,10 +16,12 @@ import { distinctUntilChanged, Subject, tap } from 'rxjs';
 import { NgxMaskModule } from 'ngx-mask';
 import _ from 'lodash';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '../validator-processing';
 
 export interface XmDateTimeControlConfig {
     title?: Translate;
     hint?: Translate;
+    errors?: XmControlErrorsTranslates;
     required?: boolean;
 }
 
@@ -62,12 +64,6 @@ const dateTimeValidator = (localeId: string) => {
             return { 'datetime': true };
         }
 
-        const { hours, minutes } = parseTime(time);
-    
-        if (`${hours}`.length != 2 || `${minutes}`.length != 2) {
-            return { 'datetime': true };
-        }
-
         try {
             formatDate(date, 'fullDate', localeId);
         } catch (error) {
@@ -80,6 +76,7 @@ const dateTimeValidator = (localeId: string) => {
 
 @Component({
     selector: 'xm-datetime-control-field',
+    exportAs: 'dateTimeField',
     standalone: true,
     imports: [
         MatFormFieldModule,
@@ -125,7 +122,7 @@ const dateTimeValidator = (localeId: string) => {
                     formControlName="time"
                     placeholder="00:00"
                     mask="Hh:mm"
-                    [validation]="false"
+                    [validation]="true"
                     (keyup.backspace)="autoFocusPrev(datetime.controls.time, dateInputRef)"
                     #timeInputRef />
             </span>
@@ -226,9 +223,12 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
             const h = date.getHours();
             const m = date.getMinutes();
 
+            const hh = h < 10 ? `0${h}` : h;
+            const mm = m < 10 ? `0${m}` : m;
+
             this.datetime.setValue({
                 date: date,
-                time: `${h}:${m}`,
+                time: `${hh}:${mm}`,
             }, { emitEvent: false });
         } else {
             this.datetime.setValue({ date: '', time: '' }, { emitEvent: false });
@@ -250,7 +250,8 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
     public ngOnInit(): void {
         this.datetime.statusChanges.pipe(
             tap(() => {
-                this.ngControl.control.setErrors(this.datetime.errors);
+                const errors = this.getNestedErrors(this.datetime.errors);
+                this.ngControl.control.setErrors(errors);
             }),
             takeUntilOnDestroy(this),
         ).subscribe();
@@ -280,6 +281,21 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
 
         this.stateChanges.complete();
         this.focusMonitor.stopMonitoring(this.elementRef);
+    }
+
+    private getNestedErrors(groupErrors: ValidationErrors | null): Record<string, ValidationErrors> | null {
+        const errors = Object.entries(this.datetime.controls).reduce((acc, [controlName, control]) => {
+            if (control.errors != null) {
+                return {
+                    ...acc,
+                    [controlName]: control.errors,
+                };
+            }
+
+            return acc;
+        }, _.clone(groupErrors) ?? {});
+
+        return Object.keys(errors).length > 0 ? errors : null;
     }
 
     public onFocusIn(): void {
@@ -398,6 +414,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         <mat-form-field>
             <mat-label *ngIf="config?.title">{{config.title | translate}}</mat-label>
             <xm-datetime-control-field 
+                #field="dateTimeField"
                 [picker]="picker"
                 [ngModel]="value"
                 [disabled]="disabled"
@@ -406,18 +423,22 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
             </xm-datetime-control-field>
 
             <mat-datepicker-toggle matIconPrefix [for]="picker"></mat-datepicker-toggle>
-            <button mat-icon-button matSuffix [disabled]="disabled" *ngIf="value" (click)="reset()">
+            <button mat-icon-button matSuffix [disabled]="disabled" *ngIf="!field?.empty" (click)="reset()">
                 <mat-icon>close</mat-icon>
             </button>
-            
             <mat-datepicker restoreFocus="false" #picker></mat-datepicker>
 
             <mat-hint [hint]="config?.hint"></mat-hint>
+        
+            <mat-error
+                *xmControlErrors="field?.ngControl?.control?.errors; translates (config.errors || messageErrors); message as message">{{message}}</mat-error>
         </mat-form-field>
     `,
 })
 export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControlValue> {
     @Input() public config: XmDateTimeControlConfig;
+
+    public messageErrors = XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES;
 
     public change(value: XmDateTimeControlValue): void {
         super.change(value);
