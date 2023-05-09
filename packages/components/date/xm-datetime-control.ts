@@ -121,7 +121,7 @@ const dateTimeValidator = (localeId: string) => {
                     matInput
                     formControlName="time"
                     placeholder="00:00"
-                    mask="Hh:mm"
+                    mask="Hh:mM"
                     [validation]="true"
                     (keyup.backspace)="autoFocusPrev(datetime.controls.time, dateInputRef)"
                     #timeInputRef />
