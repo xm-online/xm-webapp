@@ -1,12 +1,12 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, forwardRef, inject, Input, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormsModule, NgControl, NG_VALUE_ACCESSOR, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, inject, Input, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormsModule, NgControl, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerInput, MatDatepickerModule, MatDatepickerPanel } from '@angular/material/datepicker';
 import { MatFormField, MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ControlErrorModule, XmControlErrorsTranslates } from '@xm-ngx/components/control-error';
+import { ControlErrorModule, XmControlErrorsTranslates, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { HintModule } from '@xm-ngx/components/hint';
@@ -16,7 +16,6 @@ import { distinctUntilChanged, Subject, tap } from 'rxjs';
 import { NgxMaskModule } from 'ngx-mask';
 import _ from 'lodash';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '../validator-processing';
 
 export interface XmDateTimeControlConfig {
     title?: Translate;
@@ -121,7 +120,7 @@ const dateTimeValidator = (localeId: string) => {
                     matInput
                     formControlName="time"
                     placeholder="00:00"
-                    mask="Hh:mM"
+                    mask="Hh:m0"
                     [validation]="true"
                     (keyup.backspace)="autoFocusPrev(datetime.controls.time, dateInputRef)"
                     #timeInputRef />
@@ -237,8 +236,11 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         this.stateChanges.next();
     }
 
+    // Display parent errors
+    @Input() public hasErrors: ValidationErrors | null;
+
     get errorState(): boolean {
-        return this.datetime.invalid && this.touched;
+        return (this.datetime.invalid && this.touched) || (this.hasErrors != null);
     }
 
     constructor() {
@@ -251,7 +253,9 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         this.datetime.statusChanges.pipe(
             tap(() => {
                 const errors = this.getNestedErrors(this.datetime.errors);
+
                 this.ngControl.control.setErrors(errors);
+                this.ngControl.control.updateValueAndValidity();
             }),
             takeUntilOnDestroy(this),
         ).subscribe();
@@ -384,6 +388,10 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
 
         this.onChange(date);
     }
+
+    public reset(): void {
+        this.datetime.reset({ date: '', time: ''});
+    }
 }
 
 @Component({
@@ -403,19 +411,13 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         MatIconModule,
         HintModule,
     ],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => XmDateTimeControlComponent),
-            multi: true,
-        },
-    ],
     template: `
         <mat-form-field>
             <mat-label *ngIf="config?.title">{{config.title | translate}}</mat-label>
             <xm-datetime-control-field 
                 #field="dateTimeField"
                 [picker]="picker"
+                [hasErrors]="ngControl?.control?.errors"
                 [ngModel]="value"
                 [disabled]="disabled"
                 [required]="config?.required"
@@ -423,28 +425,36 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
             </xm-datetime-control-field>
 
             <mat-datepicker-toggle matIconPrefix [for]="picker"></mat-datepicker-toggle>
-            <button mat-icon-button matSuffix [disabled]="disabled" *ngIf="!field?.empty" (click)="reset()">
+            <button mat-icon-button matSuffix [disabled]="disabled" *ngIf="!field?.empty" (click)="field.reset()">
                 <mat-icon>close</mat-icon>
             </button>
             <mat-datepicker restoreFocus="false" #picker></mat-datepicker>
 
             <mat-hint [hint]="config?.hint"></mat-hint>
-        
+
             <mat-error
-                *xmControlErrors="field?.ngControl?.control?.errors; translates (config.errors || messageErrors); message as message">{{message}}</mat-error>
+                *xmControlErrors="getAllErrors(field?.ngControl?.control, ngControl?.control); translates (config.errors || messageErrors); message as message">{{message}}</mat-error>
         </mat-form-field>
     `,
 })
 export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControlValue> {
+    public ngControl = inject(NgControl, { optional: true, self: true });
+    public messageErrors = inject<XmControlErrorsTranslates>(XM_CONTROL_ERRORS_TRANSLATES);
+
     @Input() public config: XmDateTimeControlConfig;
 
-    public messageErrors = XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES;
+    constructor() {
+        super();
 
-    public change(value: XmDateTimeControlValue): void {
-        super.change(value);
+        if (this.ngControl != null) {
+            this.ngControl.valueAccessor = this;
+        }
     }
 
-    public reset(): void {
-        this.change(null);
+    public getAllErrors(c1: AbstractControl<unknown>, c2: AbstractControl<unknown>): ValidationErrors | null {
+        return {
+            ...(c1?.errors ?? {}),
+            ...(c2?.errors ?? {}),
+        };
     }
 }
