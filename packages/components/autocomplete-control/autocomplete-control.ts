@@ -9,7 +9,7 @@ import {
     SimpleChanges,
     Directive,
     Optional,
-    SkipSelf
+    SkipSelf,
 } from '@angular/core';
 import { coerceArray } from '@angular/flex-layout';
 import { FormControl, NgControl } from '@angular/forms';
@@ -30,7 +30,7 @@ import {
     finalize,
     shareReplay,
     pairwise,
-    filter
+    filter,
 } from 'rxjs';
 import { EntityCollectionFactoryService } from '../entity-collection';
 import { NgModelWrapper } from '../ng-accessor';
@@ -40,7 +40,7 @@ import {
     XmAutocompleteControlMapper,
     XmAutocompleteControlListItem,
     XmAutocompleteControlParams,
-    XmAutocompleteControlBody
+    XmAutocompleteControlBody,
 } from './autocomple-control.interface';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
@@ -54,7 +54,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
         const {
             displayFn,
-            valueByKey
+            valueByKey,
         } = format<XmAutocompleteControlMapper>(this.config?.itemMapper, this.getLocaleContext());
 
         this.displayFn = _.template(displayFn);
@@ -180,7 +180,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
         this.fetchedList.pipe(
             switchMap((fetch) => this.searchedList.pipe(
-                map((search) => [fetch, search])
+                map((search) => [fetch, search]),
             )),
             map(([fetchedSelectedValues, search]) => {
                 return this.uniqByIdentity(fetchedSelectedValues, search);
@@ -197,6 +197,10 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
+        if (_.isEmpty(changes?.value?.currentValue)) {
+            this.selection?.clear();
+        }
+
         // Prevent make another request
         if (this.list.value.length <= 0) {
             this.updateValues = changes?.value?.currentValue;
@@ -204,6 +208,10 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     public writeValue(value: unknown[]): void {
+        if (_.isEmpty(value)) {
+            this.selection?.clear();
+        }
+
         this.updateValues = value;
     }
 
