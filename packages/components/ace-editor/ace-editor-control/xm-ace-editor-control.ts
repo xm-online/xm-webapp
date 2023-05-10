@@ -16,6 +16,7 @@ export interface XmAceEditorControlOptions {
     height?: string;
     theme?: string;
     darkTheme?: string;
+    enableInitialFocus?: boolean;
     options?: {
         highlightActiveLine?: boolean;
         maxLines?: number;
@@ -32,6 +33,7 @@ const XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS: XmAceEditorControlOptions = {
     height: '200px',
     theme: 'chrome',
     darkTheme: 'tomorrow_night',
+    enableInitialFocus: false,
 };
 
 type AceEditorValue = string | object;
@@ -53,6 +55,7 @@ type AceEditorValue = string | object;
             <div class="ace-editor-control w-100 border"
                  [ngClass]="{ 'border-danger': error}"
                  (textChanged)="change($event)"
+                 [enableInitialFocus]="config.enableInitialFocus"
                  [autoUpdateContent]="true"
                  [mode]="config.mode"
                  [readOnly]="disabled"
