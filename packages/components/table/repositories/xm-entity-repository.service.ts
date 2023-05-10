@@ -70,6 +70,10 @@ export class XmEntityRepository<T extends XmEntity>
     protected getParams(request: XmFilterQueryParams): QueryParamsPageable {
         const params = this.requestBuilder.getQueryParams(request, this.config);
 
+        if (this.config.useOnlySpecifiedParams) {
+            return params;
+        }
+
         const extra: XmEntityRepositoryExtra = {
             size: params.pageSize,
             sort: `${params.sortBy},${params.sortOrder}`,
