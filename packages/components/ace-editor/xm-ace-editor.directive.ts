@@ -17,6 +17,7 @@ import 'brace/theme/tomorrow_night';
 })
 export class XmAceEditorDirective<O = unknown> implements OnDestroy {
 
+    public _alreadyFocused = false;
     public _highlightActiveLine: boolean = true;
     public _showGutter: boolean = true;
     public editor: Editor;
@@ -69,6 +70,12 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
         this._autoUpdateContent = status;
     }
 
+    public _enableInitialFocus: boolean = false;
+
+    @Input() set enableInitialFocus(value: boolean) {
+        this._enableInitialFocus = value;
+    }
+
     @Input() set text(text: string) {
         if (!text) {
             text = '';
@@ -77,8 +84,11 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
         if (this._autoUpdateContent === true) {
             this.editor.setValue(text);
             this.editor.clearSelection();
-            this.editor.focus();
-            this.editor.moveCursorTo(0, 0);
+
+            // text updated while typing, so we focus cursor on editor only once
+            if (this._enableInitialFocus) {
+                this.initialFocusOnEditor();
+            }
         }
     }
 
@@ -87,6 +97,15 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
             this.editor.resize(true);
             this.editor.scrollToLine(line, true, true, () => undefined);
             this.editor.gotoLine(line, 0, true);
+        }
+    }
+
+    public initialFocusOnEditor(): void {
+        if (!this._alreadyFocused) {
+            this.editor.focus();
+            this.editor.moveCursorTo(0, 0);
+
+            this._alreadyFocused = true;
         }
     }
 
