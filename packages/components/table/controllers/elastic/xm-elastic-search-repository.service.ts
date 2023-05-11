@@ -36,6 +36,7 @@ export type XmElasticSearchRepositoryQueryParamsPageable = { query: string } & Q
 
 export interface XmEntityRepositoryConfig extends XmRepositoryConfig{
     paramsToRequest: XmFormatJsTemplateRecursive;
+    useOnlySpecifiedParams: boolean;
 }
 
 export type XmElasticSearchRepositoryRequest = QueryParamsPageable

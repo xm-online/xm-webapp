@@ -27,11 +27,11 @@ export class XmElasticRequestBuilder {
     protected config: XmEntityRepositoryConfig;
 
     public getQueryParams(request: XmFilterQueryParams, config: any): XmElasticSearchRepositoryQueryParamsPageable {
-        this.config = config;
+        this.config = _.cloneDeep(config);
         const { pageableAndSortable, filterParams } = request;
         let queryParams = this.createQueryParams(pageableAndSortable, filterParams);
         if (this.config.paramsToRequest) {
-            queryParams = this.createFiltersToRequest(queryParams);
+            queryParams = this.createFiltersToRequest(queryParams, this.config.useOnlySpecifiedParams);
         } else {
             queryParams = this.createElasticTypeFiltersToRequest(queryParams, filterParams);
         }
@@ -88,8 +88,14 @@ export class XmElasticRequestBuilder {
 
     private createFiltersToRequest(
         queryParams: QueryParamsPageable,
+        skipMerge = false,
     ): XmElasticSearchRepositoryQueryParamsPageable {
         const filtersToRequest: { query: string } = xmFormatJs(this.config.paramsToRequest, { queryParams });
+
+        if (skipMerge) {
+            return filtersToRequest;
+        }
+
         return _.merge(
             {},
             queryParams,

@@ -17,6 +17,7 @@ export class XmTableQueryParamsStoreService {
             {
                 relativeTo: this.activatedRoute,
                 queryParams: { json: JSON.stringify(queryParams) },
+                queryParamsHandling: 'merge'
             },
         );
 
