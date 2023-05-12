@@ -32,7 +32,7 @@ import { distinctUntilChanged, Observable, of, startWith, switchMap } from 'rxjs
 export class RowCheckedPipe implements PipeTransform {
     public transform(
         value: XmAutocompleteControlListItem,
-        selection: SelectionModel<XmAutocompleteControlListItem>
+        selection: SelectionModel<XmAutocompleteControlListItem>,
     ): Observable<boolean> {
         return selection.changed.pipe(
             startWith(null),

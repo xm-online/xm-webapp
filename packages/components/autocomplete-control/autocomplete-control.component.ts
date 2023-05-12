@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
     Component,
     forwardRef,
-    ViewChild
+    ViewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -82,12 +82,12 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
         MatIconModule,
         CommonModule,
         HintModule,
-        ControlErrorModule
+        ControlErrorModule,
     ],
     providers: [{
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => XmAutocompleteControlComponent),
-        multi: true
+        multi: true,
     }],
 })
 export class XmAutocompleteControlComponent extends XmAutocompleteControl {
