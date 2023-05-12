@@ -110,6 +110,6 @@ export class XmTextCellComponent implements OnInit, XmDynamicPresentation<unknow
             return _.get(objectOrValue, path, '');
         }
 
-        return _.get(value, path, value);
+        return _.get(value, path, _.isObjectLike(value) ? '' : value);
     }
 }
