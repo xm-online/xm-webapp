@@ -9,6 +9,7 @@ import 'brace/mode/json';
 import 'brace/mode/yaml';
 import 'brace/theme/chrome';
 import 'brace/theme/tomorrow_night';
+import _ from 'lodash';
 
 
 @Directive({
@@ -81,7 +82,7 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
             text = '';
         }
 
-        if (this._autoUpdateContent === true) {
+        if (this._autoUpdateContent === true && !_.isEqual(text, this.editor.getValue())) {
             this.editor.setValue(text);
             this.editor.clearSelection();
 
@@ -131,12 +132,11 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
 
     private updateValue(): void {
         const newVal = this.editor.getValue();
-        if (newVal === this.oldText) {
-            return;
-        }
-        if (typeof this.oldText !== 'undefined') {
+        
+        if (this.oldText != null) {
             this.textChanged.emit(newVal);
         }
+
         this.oldText = newVal;
     }
 

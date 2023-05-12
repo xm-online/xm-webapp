@@ -128,25 +128,28 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         this.updateValuesChnaged.pipe(
             startWith(null),
             pairwise(),
-            filter(([prev, curr]) => this.hasNewValues(prev, curr)),
-            switchMap(([__, selectedValues]) => {
-                const normalizeSelectedValues = this.normalizeValues(selectedValues);
+            switchMap(([prev, curr]) => {
+                const normalizeSelectedValues = this.normalizeValues(curr);
 
-                if (this.config.skipFetchSelected) {
-                    return of(normalizeSelectedValues);
+                if (this.hasNewValues(prev, curr)) {
+                    if (this.config.skipFetchSelected) {
+                        return of(normalizeSelectedValues);
+                    }
+
+                    return this.fetchSelectedValues(normalizeSelectedValues).pipe(
+                        map((fetchedSelectedValues) => {
+                            // If we received more data than requested, trying filter them
+                            if (fetchedSelectedValues.length > normalizeSelectedValues.length && this.config.pickIntersectSelected) {
+                                return _.intersectionBy(fetchedSelectedValues, normalizeSelectedValues, 'value');
+                            }
+
+                            return fetchedSelectedValues;
+                        }),
+                        shareReplay(1),
+                    );
                 }
-
-                return this.fetchSelectedValues(normalizeSelectedValues).pipe(
-                    map((fetchedSelectedValues) => {
-                        // If we received more data than requested, trying filter them
-                        if (fetchedSelectedValues.length > normalizeSelectedValues.length && this.config.pickIntersectSelected) {
-                            return _.intersectionBy(fetchedSelectedValues, normalizeSelectedValues, 'value');
-                        }
-
-                        return fetchedSelectedValues;
-                    }),
-                    shareReplay(1),
-                );
+                
+                return of(normalizeSelectedValues);
             }),
             tap(fetchedSelectedValues => {
                 if (this.config.multiple) {
@@ -197,9 +200,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (_.isEmpty(changes?.value?.currentValue)) {
-            this.selection?.clear();
-        }
+        this.clearEmptyValue(changes?.value?.currentValue);
 
         // Prevent make another request
         if (this.list.value.length <= 0) {
@@ -208,11 +209,15 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     public writeValue(value: unknown[]): void {
+        this.clearEmptyValue(value);
+
+        this.updateValues = value;
+    }
+
+    private clearEmptyValue(value: unknown | unknown[]): void {
         if (_.isEmpty(value)) {
             this.selection?.clear();
         }
-
-        this.updateValues = value;
     }
 
     private uniqByIdentity(source: XmAutocompleteControlListItem[], target: XmAutocompleteControlListItem[]): XmAutocompleteControlListItem[] {
@@ -220,10 +225,6 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     private hasNewValues(prev: unknown[], curr: unknown[]): boolean {
-        if (_.isEmpty(curr)) {
-            return false;
-        }
-
         const unwrapPrev = this.unwrapValues(this.normalizeValues(prev));
         const unwrapCurr = this.unwrapValues(this.normalizeValues(curr));
 
