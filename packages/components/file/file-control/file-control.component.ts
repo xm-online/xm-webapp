@@ -57,12 +57,16 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
 
-            <button (click)="input.click()"
-                    color="primary"
-                    matSuffix
-                    mat-button>{{'ext-entity.image-widget.change-image' | translate}}</button>
+            <button 
+                class="me-2"
+                matSuffix
+                mat-button
+                color="primary"
+                (click)="input.click()">
+                {{'ext-entity.image-widget.change-image' | translate}}
 
-            <mat-icon matSuffix>attach_file</mat-icon>
+                <mat-icon>attach_file</mat-icon>
+            </button>
 
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>

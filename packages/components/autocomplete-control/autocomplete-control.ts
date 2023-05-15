@@ -67,15 +67,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         return this._config;
     }
 
-    private _updateValues = new BehaviorSubject<unknown[]>(null);
-
-    public set updateValues(value: unknown[]) {
-        this._updateValues.next(_.cloneDeep(value));
-    }
-
-    public get updateValues(): unknown[] {
-        return this._updateValues.value;
-    }
+    private _updateValues = new BehaviorSubject<{ emit: boolean; value: unknown[] }>(null);
 
     public updateValuesChnaged = this._updateValues.asObservable();
 
@@ -128,28 +120,34 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         this.updateValuesChnaged.pipe(
             startWith(null),
             pairwise(),
+            filter(([prev, curr]) => {  
+                const isEmit = (curr?.emit == null || curr?.emit == true);
+                const hasNewValues = this.hasNewValues(prev?.value, curr?.value);
+
+                return isEmit && hasNewValues;
+            }),
             switchMap(([prev, curr]) => {
-                const normalizeSelectedValues = this.normalizeValues(curr);
-
-                if (this.hasNewValues(prev, curr)) {
-                    if (this.config.skipFetchSelected) {
-                        return of(normalizeSelectedValues);
-                    }
-
-                    return this.fetchSelectedValues(normalizeSelectedValues).pipe(
-                        map((fetchedSelectedValues) => {
-                            // If we received more data than requested, trying filter them
-                            if (fetchedSelectedValues.length > normalizeSelectedValues.length && this.config.pickIntersectSelected) {
-                                return _.intersectionBy(fetchedSelectedValues, normalizeSelectedValues, 'value');
-                            }
-
-                            return fetchedSelectedValues;
-                        }),
-                        shareReplay(1),
-                    );
+                if (_.isEmpty(curr.value)) {
+                    return of([]);
                 }
-                
-                return of(normalizeSelectedValues);
+
+                const normalizeSelectedValues = this.normalizeValues(curr.value);
+
+                if (this.config.skipFetchSelected) {
+                    return of(normalizeSelectedValues);
+                }
+
+                return this.fetchSelectedValues(normalizeSelectedValues).pipe(
+                    map((fetchedSelectedValues) => {
+                        // If we received more data than requested, trying filter them
+                        if (fetchedSelectedValues.length > normalizeSelectedValues.length && this.config.pickIntersectSelected) {
+                            return _.intersectionBy(fetchedSelectedValues, normalizeSelectedValues, 'value');
+                        }
+
+                        return fetchedSelectedValues;
+                    }),
+                    shareReplay(1),
+                );
             }),
             tap(fetchedSelectedValues => {
                 if (this.config.multiple) {
@@ -158,7 +156,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
                     const [firstFetched] = fetchedSelectedValues;
 
                     if (firstFetched) {
-                        this.selection.select(...[firstFetched]);
+                        this.selection.select(firstFetched);
                     }
                 }
                 this.fetchedList.next(fetchedSelectedValues);
@@ -204,14 +202,20 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
         // Prevent make another request
         if (this.list.value.length <= 0) {
-            this.updateValues = changes?.value?.currentValue;
+            this.setUpdatedValues(changes?.value?.currentValue);
         }
     }
 
     public writeValue(value: unknown[]): void {
         this.clearEmptyValue(value);
+        this.setUpdatedValues(value);
+    }
 
-        this.updateValues = value;
+    private setUpdatedValues(value: unknown[], emit = true): void {
+        this._updateValues.next({
+            value: _.cloneDeep(value),
+            emit,
+        });
     }
 
     private clearEmptyValue(value: unknown | unknown[]): void {
@@ -372,20 +376,31 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     public change(normalizeValues: any): void {
-        let value = normalizeValues;
+        let unwrapValues = normalizeValues;
 
-        if (value != null) {
+        if (normalizeValues != null) {
             if (this.config.multiple && this.config.mergeControlValues) {
-                value = this.uniqByIdentity(this.normalizeValues(this.value), normalizeValues);
+                normalizeValues = this.uniqByIdentity(this.normalizeValues(this.value), normalizeValues);
             }
 
-            value = this.unwrapValues(value);
+            if (_.isArray(normalizeValues)) {
+                this.selection.select(...normalizeValues);
+            } else {
+                this.selection.select(normalizeValues);
+            }
+
+            unwrapValues = this.unwrapValues(normalizeValues);
         }
 
-        this.value = value;
+        this.value = unwrapValues;
 
-        this._onChange(value);
-        this.valueChange.next(value);
+        this._onChange(unwrapValues);
+        this.valueChange.next(unwrapValues);
+        /**
+         * This needed cause we use pairwise for check new values
+         * Possible scenario when we set same value as previously
+         */
+        this.setUpdatedValues(unwrapValues, false);
     }
 
     public ngOnDestroy(): void {
