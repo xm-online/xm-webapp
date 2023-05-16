@@ -115,7 +115,7 @@
         "packages/shared/validators"
       ],
       "@xm-ngx/shared/interfaces": [
-        "packages/shared/interfaces"
+        "packages/interfaces"
       ],
       "@xm-ngx/shared/operators": [
         "packages/shared/operators"

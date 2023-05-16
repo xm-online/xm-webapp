@@ -2,6 +2,7 @@
 const {execSync} = require('child_process');
 
 execSync('(cd ./packages/cli && npm run build)', {stdio: 'inherit'});
+execSync('(ng-packagr -p ./packages/interfaces -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // TODO: Complete migration to modules.
 // execSync('(cd ./packages/shared && npm run build)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/dynamic -c tsconfig.ngc.json)', {stdio: 'inherit'});
