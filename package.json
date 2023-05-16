@@ -17,12 +17,13 @@
     "yarn": ">=1.22.4 <2"
   },
   "workspaces": [
-    "packages/*",
-    "src/app/ext/*"
+    "packages/*/dist",
+    "src/app/ext/*/dist"
   ],
   "scripts": {
     "ng": "ng",
     "xm-ngx": "xm-ngx",
+    "preinstall": "node ./scripts/build-packages_copy-dist-package.js",
     "postinstall": "node ./scripts/build-packages.js && ngcc --properties esm5 browser module main",
     "prebuild": "xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && xm-ngx dynamic-specification && npm run import-jsf-exts",
     "start": "npm run prebuild && ng serve",

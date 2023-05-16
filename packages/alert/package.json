@@ -2,6 +2,6 @@
   "name": "@xm-ngx/alert",
   "version": "1.0.0",
   "dependencies": {
-    "sweetalert2": " 11.7.1"
+    "sweetalert2": "11.7.1"
   }
 }
