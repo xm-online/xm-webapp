@@ -23,6 +23,9 @@ import { XmExpansionIndicatorModule } from '@xm-ngx/components/expansion-indicat
 import { SchemaEditorComponent } from './widget-edit/schema-editor/schema-editor.component';
 import {JsonSchemaFormModule} from '@ajsf/core';
 import { MarkdownModule } from 'ngx-markdown';
+import {
+    WidgetConfigExamplesComponent
+} from '@xm-ngx/administration/dashboards-config/widget-edit/widget-config-examples.component';
 
 @NgModule({
     imports: [
@@ -38,7 +41,8 @@ import { MarkdownModule } from 'ngx-markdown';
         DragDropModule,
         XmExpansionIndicatorModule,
         JsonSchemaFormModule,
-        MarkdownModule
+        MarkdownModule,
+        WidgetConfigExamplesComponent
     ],
     exports: [
         DashboardsConfigComponent,

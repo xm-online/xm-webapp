@@ -6,3 +6,6 @@ export * from './dashboard-editor.service';
 export * from './dashboards-list/dashboards-export.service';
 export * from './dashboards-list/dashboards-import.service';
 export * from './dashboards-manager.service';
+export {
+    WidgetConfigExamplesComponent
+} from '@xm-ngx/administration/dashboards-config/widget-edit/widget-config-examples.component';
