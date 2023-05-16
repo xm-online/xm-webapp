@@ -6,6 +6,7 @@ export { format, XmFormatTemplateRecursive } from './src/format';
 export { xmFormatJs, XmFormatJsTemplateRecursive } from './src/xm-format-js';
 export { removeEmptyDeep } from './src/remove-empty-deep';
 export { flattenObject } from './src/flattenObject';
+export { treeNodeSearch, TreeChildren, TreePredicate } from './src/tree-search';
 export { debug } from './src/rxjs-debug';
 export { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from './src/take-until-on-destroy';
 export { transformByMap } from './src/transform-by-map';
