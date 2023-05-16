@@ -17,6 +17,7 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { WidgetEditComponent } from './widget-edit.component';
 import {JsonSchemaFormModule} from '@ajsf/core';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
     selector: 'xm-schema-editor, xm-text-control, xm-selector-text-control, xm-ace-editor-control',
@@ -42,7 +43,8 @@ describe('WidgetEditComponent', () => {
                 XmTranslationTestingModule,
                 HttpClientTestingModule,
                 FormsModule,
-                JsonSchemaFormModule
+                JsonSchemaFormModule,
+                MatMenuModule,
             ],
             declarations: [WidgetEditComponent, MockXmTextControlComponent],
             providers: [
