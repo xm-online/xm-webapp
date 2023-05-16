@@ -1,7 +1,9 @@
 // TODO: Migrate to bazel or nx or lerna or angular workspace or alternative
 const {execSync} = require('child_process');
 
-execSync('(cd ./packages/cli && npm run build)', {stdio: 'inherit'});
+execSync('(ng-packagr -p ./packages/cli -c tsconfig.ngc.json)', {stdio: 'inherit'});
+// TODO:WORKAROUND fixing bin folder adding
+execSync('(npm i --ignore-scripts)', {stdio: 'inherit'});
 execSync('(ng-packagr -p ./packages/interfaces -c tsconfig.ngc.json)', {stdio: 'inherit'});
 execSync('(ng-packagr -p ./packages/exceptions -c tsconfig.ngc.json)', {stdio: 'inherit'});
 execSync('(ng-packagr -p ./packages/pipes -c tsconfig.ngc.json)', {stdio: 'inherit'});

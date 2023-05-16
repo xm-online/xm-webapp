@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { Command } from './command';
 import { getDirectories } from './fs-utils';
 import * as fs from 'fs';
