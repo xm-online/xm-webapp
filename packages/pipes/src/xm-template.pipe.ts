@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as _ from 'lodash';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { Primitive } from '@xm-ngx/interfaces';
 
 @Pipe({
     name: 'xmTemplate',
