@@ -8,7 +8,7 @@
     "sourceMap": true,
     "strict": true,
     "declaration": true,
-    "outDir": "./lib"
+    "outDir": "../../lib/cli"
   },
   "include": ["src"],
   "exclude": ["node_modules"]
