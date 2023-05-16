@@ -109,13 +109,13 @@
         "packages/shared/src/*"
       ],
       "@xm-ngx/shared/exceptions": [
-        "packages/shared/exceptions"
+        "packages/exceptions/dist"
       ],
       "@xm-ngx/shared/validators": [
         "packages/shared/validators"
       ],
       "@xm-ngx/shared/interfaces": [
-        "packages/interfaces"
+        "packages/interfaces/dist"
       ],
       "@xm-ngx/shared/operators": [
         "packages/shared/operators"
