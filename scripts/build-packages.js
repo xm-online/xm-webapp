@@ -6,6 +6,7 @@ execSync('(ng-packagr -p ./packages/interfaces -c tsconfig.ngc.json)', {stdio: '
 execSync('(ng-packagr -p ./packages/exceptions -c tsconfig.ngc.json)', {stdio: 'inherit'});
 execSync('(ng-packagr -p ./packages/pipes -c tsconfig.ngc.json)', {stdio: 'inherit'});
 execSync('(ng-packagr -p ./packages/validators -c tsconfig.ngc.json)', {stdio: 'inherit'});
+execSync('(ng-packagr -p ./packages/operators -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // TODO: Complete migration to modules.
 // execSync('(cd ./packages/shared && npm run build)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/dynamic -c tsconfig.ngc.json)', {stdio: 'inherit'});

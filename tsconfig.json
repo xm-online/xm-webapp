@@ -118,7 +118,7 @@
         "packages/interfaces/dist"
       ],
       "@xm-ngx/shared/operators": [
-        "packages/shared/operators"
+        "packages/operators/dist"
       ],
       "@xm-ngx/shared/pipes": [
         "packages/pipes/dist"
