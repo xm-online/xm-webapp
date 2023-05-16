@@ -2,8 +2,7 @@
 const {execSync} = require('child_process');
 
 execSync('(ng-packagr -p ./packages/cli -c tsconfig.ngc.json)', {stdio: 'inherit'});
-// TODO:WORKAROUND fixing bin folder adding
-execSync('(npm i --ignore-scripts)', {stdio: 'inherit'});
+execSync('(ng-packagr -p ./packages/styles -c tsconfig.ngc.json)', {stdio: 'inherit'});
 execSync('(ng-packagr -p ./packages/interfaces -c tsconfig.ngc.json)', {stdio: 'inherit'});
 execSync('(ng-packagr -p ./packages/exceptions -c tsconfig.ngc.json)', {stdio: 'inherit'});
 execSync('(ng-packagr -p ./packages/pipes -c tsconfig.ngc.json)', {stdio: 'inherit'});
@@ -28,3 +27,5 @@ execSync('(ng-packagr -p ./packages/operators -c tsconfig.ngc.json)', {stdio: 'i
 // execSync('(ng-packagr -p ./packages/documentation -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/json-schema-form -c tsconfig.ngc.json)', {stdio: 'inherit'});
 
+// TODO:WORKAROUND fixing bin folder adding.
+execSync('(npm i --ignore-scripts)', {stdio: 'inherit'});
