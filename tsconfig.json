@@ -112,7 +112,7 @@
         "packages/exceptions/dist"
       ],
       "@xm-ngx/shared/validators": [
-        "packages/shared/validators"
+        "packages/validators/dist"
       ],
       "@xm-ngx/shared/interfaces": [
         "packages/interfaces/dist"
