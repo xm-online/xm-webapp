@@ -121,7 +121,7 @@
         "packages/shared/operators"
       ],
       "@xm-ngx/shared/pipes": [
-        "packages/shared/pipes"
+        "packages/pipes/dist"
       ],
       "@xm-ngx/translation": [
         "packages/translation"
