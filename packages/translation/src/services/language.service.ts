@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { getBrowserLocale } from '../operators/getBrowserLocale';
 import { LANGUAGES } from '../language.constants';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
+import { Principal } from '@xm-ngx/core/user';
 
 /**
  * Translates as json
@@ -67,6 +68,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
         protected eventManager: XmEventManager,
         protected translate: TranslateService,
         protected userService: XmUserService,
+        protected principal: Principal,
         protected configService: XmUiConfigService<{ langs: Locale[] }>,
         private loggerService: XmLoggerService,
         protected sessionStorage: SessionStorageService,
@@ -172,7 +174,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
             this.sessionStorage.store(locale, JSON.stringify(res));
         });
         this.setLangHTMLAttr(locale);
-
+        this.principal.setLangKey(locale);
         this.$locale.next(locale);
         this.eventManager.broadcast({ name: EVENT_CHANGE_LOCALE, content: locale });
     }

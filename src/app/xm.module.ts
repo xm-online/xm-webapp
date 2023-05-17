@@ -9,7 +9,7 @@ import { XmAlertModule } from '@xm-ngx/alert';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 import { XmCoreModule } from '@xm-ngx/core';
-import { AuthServerProvider, XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { AuthServerProvider, LoginService, XmCoreAuthModule } from '@xm-ngx/core/auth';
 import { Principal } from '@xm-ngx/core/user';
 import { UserRouteAccessService } from '@xm-ngx/core/permission';
 import { XmCoreConfigModule } from '@xm-ngx/core/config';
@@ -130,11 +130,13 @@ export class XmModule {
         xmUpdateService: XmUpdateService,
         loggerWatcherService: XmLoggerWatcherService,
         authServerProvider: AuthServerProvider,
+        loginService: LoginService,
         principal: Principal,
     ) {
         xmUpdateService.init();
         maintenanceService.init();
         principal.init();
+        loginService.init();
         authServerProvider.init();
         idleLogoutService.init();
         languageService.init();
