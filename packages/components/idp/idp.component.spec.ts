@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IdpComponent } from './idp.component';
-import { LoginService } from '@xm-ngx/core/auth';
+import { LoginService } from '@xm-ngx/components/login';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('IdpComponent', () => {

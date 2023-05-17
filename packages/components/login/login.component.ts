@@ -6,7 +6,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 
 import { combineLatest } from 'rxjs';
 import { TERMS_ERROR } from '../../../src/app/xm.constants';
-import { LoginService } from '@xm-ngx/core/auth';
+import { LoginService } from '@xm-ngx/components/login';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { DOCUMENT } from '@angular/common';

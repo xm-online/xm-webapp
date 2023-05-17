@@ -6,7 +6,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
-import { LoginService } from '@xm-ngx/core/auth';
+import { LoginService } from '@xm-ngx/components/login';
 
 import { LogoutComponent } from './logout.component';
 import { XmPrivateUiConfigService } from '@xm-ngx/core/config';
