@@ -5,8 +5,8 @@ import {
 } from '@xm-ngx/components/inline-control/inline-control.component';
 import { FormsModule } from '@angular/forms';
 import {
+    IXmTableCollectionController,
     XmTableCollectionControllerResolver,
-    XmTableRepositoryCollectionController,
 } from '@xm-ngx/components/table/table';
 import { XM_DYNAMIC_TABLE_CELL, XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { cloneDeep, set } from 'lodash';
@@ -24,7 +24,7 @@ import { cloneDeep, set } from 'lodash';
 export class XmTableEditCellComponent implements OnInit {
     @Input() public config: XmInlineControlConfig;
     @Input() public value: unknown;
-    private collection: XmTableRepositoryCollectionController;
+    private collection: IXmTableCollectionController<unknown>;
 
     constructor(
         @Inject(XM_DYNAMIC_TABLE_ROW) private row: any,
@@ -34,9 +34,8 @@ export class XmTableEditCellComponent implements OnInit {
 
     public async ngOnInit(): Promise<void> {
         const collection = await this.collectionControllerResolver.get();
-        if (!(collection instanceof XmTableRepositoryCollectionController)) {
-            console.warn('XmTableEditCellComponent not support table type.');
-            return;
+        if (!(collection.edit)) {
+            console.warn('XmTableEditCellComponent call collection edit method, make sure that implements');
         }
         this.collection = collection;
     }
