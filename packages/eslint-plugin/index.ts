@@ -1,7 +1,5 @@
-import a from './angular-selector-unique-rule';
-
 export default {
     rules: {
-        'angular-selector-unique-rule': a,
+        'angular-selector-unique-rule': require('./angular-selector-unique-rule'),
     },
 };

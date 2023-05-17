@@ -1,4 +1,7 @@
 {
   "name": "@xm-ngx/pipes",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "scripts": {
+    "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
+  }
 }
