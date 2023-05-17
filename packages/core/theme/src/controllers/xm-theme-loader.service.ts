@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, Injectable, Provider, StaticProvider } from '@angular/core';
 import { MaintenanceService } from '@xm-ngx/components/maintenance';
-import { Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmThemeController } from './xm-theme-controller.service';
@@ -10,14 +10,10 @@ import { XmApplicationConfigService } from '@xm-ngx/core/config';
 export function themeInitializer(
     config: XmPublicUiConfigService<XmTheme>,
     themeService: XmThemeController,
-    maintenanceService: MaintenanceService,
-    applicationConfigService: XmApplicationConfigService,
 ): () => Promise<void> {
     return (): Promise<void> => new XmThemeLoader(
         config,
         themeService,
-        maintenanceService,
-        applicationConfigService,
     ).tryLoadDefaultThemeFromConfig();
 }
 
@@ -38,22 +34,22 @@ export function themeInitializerFactory(): Provider[] {
  * @beta
  */
 export class XmThemeLoader {
+    public loaded$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
     constructor(
         private configService: XmPublicUiConfigService<XmTheme>,
-        private themeManager: XmThemeController,
-        private maintenanceService: MaintenanceService,
-        private applicationConfigService: XmApplicationConfigService,
+        private themeManager: XmThemeController
     ) {
     }
 
     public tryLoadDefaultThemeFromConfig(): Promise<void> {
+        this.loaded$.next(false);
         return this.configService.config$().pipe(
             switchMap((c) => this.loadTheme(c)),
             take(1),
-            // TODO: WORKAROUND: Invert service import and provide guards for application start
-            tap(() => this.applicationConfigService.setResolved(true)),
+            tap(() => this.loaded$.next(false)),
             catchError((err) => {
-                this.maintenanceService.setMaintenanceProgress(true);
+                this.loaded$.error(err);
                 return throwError(err);
             }),
         ).toPromise();

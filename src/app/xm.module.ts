@@ -52,6 +52,7 @@ import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
 
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmSharedModule } from 'packages/shared/src/shared.module';
+import { MaintenanceService } from '@xm-ngx/components/maintenance';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
     appearance: 'fill',
@@ -123,6 +124,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
 export class XmModule {
     constructor(
         languageService: LanguageService,
+        maintenanceService: MaintenanceService,
         idleLogoutService: IdleLogoutService,
         titleService: TitleService,
         xmUpdateService: XmUpdateService,
@@ -131,6 +133,7 @@ export class XmModule {
         principal: Principal,
     ) {
         xmUpdateService.init();
+        maintenanceService.init();
         principal.init();
         authServerProvider.init();
         idleLogoutService.init();
