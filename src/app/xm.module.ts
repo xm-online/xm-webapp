@@ -14,7 +14,7 @@ import { Principal } from '@xm-ngx/core/user';
 import { UserRouteAccessService } from '@xm-ngx/core/permission';
 import { XmCoreConfigModule } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
-import { globalErrorHandlerFactory, XmUpdateService } from '@xm-ngx/core/global-error-handler';
+import { globalErrorHandlerFactory, XmUpdateService } from '@xm-ngx/logger/global-error-handler';
 import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardDynamicRouteResolverGuard, XmDashboardModule } from '@xm-ngx/dashboard';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
