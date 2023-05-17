@@ -1,4 +1,25 @@
-import { FieldOptions } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
+import { IId } from '@xm-ngx/shared/interfaces';
+
+export interface FieldOptions {
+    field?: string;
+    title?: any;
+    hiddenTitle?: boolean;
+    useKeyword?: boolean;
+    func?: string;
+    action?: ActionOptions;
+    actions?: ActionOptions[];
+    actionsListPrivileges?: string[];
+    sortable?: boolean;
+}
+export interface ActionOptions {
+    name?: any;
+    className?: string;
+    navigateByInnerUrl?: string;
+    functionKey?: string;
+    privilege?: string[] | string;
+    handler?: (entity: IId) => any;
+    actionCondition?: (entity: IId) => any;
+}
 
 export class TranslationSet {
     [language: string]: string;

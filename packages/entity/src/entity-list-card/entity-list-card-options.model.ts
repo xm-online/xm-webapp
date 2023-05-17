@@ -1,6 +1,10 @@
 import { FastSearchSpec } from '../shared/fast-search-spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
+import { ActionOptions, FieldOptions } from '@xm-ngx/core/config';
+import { IId } from '@xm-ngx/shared/interfaces';
+
+export { ActionOptions, FieldOptions } from '@xm-ngx/core/config';
 
 export interface EntityListCardOptions {
     entities?: EntityOptions[];
@@ -35,27 +39,6 @@ export interface EntityOptions {
     overrideCurrentQuery?: boolean;
 }
 
-export interface FieldOptions {
-    field?: string;
-    title?: any;
-    hiddenTitle?: boolean;
-    useKeyword?: boolean;
-    func?: string;
-    action?: ActionOptions;
-    actions?: ActionOptions[];
-    actionsListPrivileges?: string[];
-    sortable?: boolean;
-}
-
-export interface ActionOptions {
-    name?: any;
-    className?: string;
-    navigateByInnerUrl?: string;
-    functionKey?: string;
-    privilege?: string[] | string;
-    handler?: (entity: XmEntity) => any;
-    actionCondition?: (entity: XmEntity) => any;
-}
 
 /** @deprecated use ActionOptions instead */
 export interface ActionsOptions extends ActionOptions {
@@ -64,8 +47,8 @@ export interface ActionsOptions extends ActionOptions {
     navigateByInnerUrl?: string;
     functionKey?: string;
     privilege?: string[] | string;
-    handler?: (entity: XmEntity) => any;
-    actionCondition?: (entity: XmEntity) => any;
+    handler?: (entity: IId) => any;
+    actionCondition?: (entity: IId) => any;
 }
 
 export interface FilterOptions {
