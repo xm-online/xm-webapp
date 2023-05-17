@@ -26,7 +26,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { XmTableDynamicColumnComponent } from '../columns/xm-table-dynamic-column.component';
-import { XmTableColumnDynamicCellComponent } from '../columns/xm-table-column-dynamic-cell.component';
+import { XmTableColumn, XmTableColumnDynamicCellComponent } from '../columns/xm-table-column-dynamic-cell.component';
 import { map } from 'rxjs/operators';
 import {
     SelectTableColumn,
@@ -106,6 +106,8 @@ export class XmTableComponent implements OnInit {
     public context$: Observable<IXmTableContext>;
     public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
     public selectColumn: SelectTableColumn = _.cloneDeep(XM_TABLE_SELECTION_COLUMN_DEFAULT);
+    public dynamicColumns: XmTableColumn[] = [];
+
     @ViewChild(MatPaginator, { static: false }) public paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) public sort: MatSort;
     private controller: IXmTableCollectionController<unknown>;
@@ -128,6 +130,10 @@ export class XmTableComponent implements OnInit {
     @Input()
     public set config(value: XmTableConfig | Partial<XmTableConfig>) {
         this._config = getConfig(value);
+        
+        this.dynamicColumns = this._config.columns.filter(c => c.name != '_selectColumn');
+        this.selectColumn = (this._config.columns?.find(c => c.name == '_selectColumn') as SelectTableColumn) ?? this.selectColumn;
+
         this.configController.change(this._config);
         this.columnsSettingStorageService.updateStore(getDisplayedColumns(this._config));
     }
