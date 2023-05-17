@@ -4,28 +4,6 @@ import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmThemeController } from './xm-theme-controller.service';
 import { XmTheme } from '../interfaces/xm.theme';
-import { XmApplicationConfigService } from '@xm-ngx/core/config';
-
-export function themeInitializer(
-    config: XmPublicUiConfigService<XmTheme>,
-    themeService: XmThemeController,
-): () => Promise<void> {
-    return (): Promise<void> => new XmThemeLoader(
-        config,
-        themeService,
-    ).tryLoadDefaultThemeFromConfig();
-}
-
-export const THEME_PROVIDER_FACTORY: StaticProvider = {
-    provide: APP_INITIALIZER,
-    useFactory: themeInitializer,
-    deps: [XmPublicUiConfigService, XmThemeController, XmApplicationConfigService],
-    multi: true,
-};
-
-export function themeInitializerFactory(): Provider[] {
-    return [THEME_PROVIDER_FACTORY];
-}
 
 @Injectable()
 /**
@@ -79,4 +57,21 @@ export class XmThemeLoader {
 
         return this.themeManager.set(theme);
     }
+}
+
+export function themeInitializer(
+    themeLoader: XmThemeLoader,
+): () => Promise<void> {
+    return (): Promise<void> => themeLoader.tryLoadDefaultThemeFromConfig();
+}
+
+export const THEME_PROVIDER_FACTORY: StaticProvider = {
+    provide: APP_INITIALIZER,
+    useFactory: themeInitializer,
+    deps: [XmThemeLoader],
+    multi: true,
+};
+
+export function themeInitializerFactory(): Provider[] {
+    return [XmThemeLoader, THEME_PROVIDER_FACTORY];
 }
