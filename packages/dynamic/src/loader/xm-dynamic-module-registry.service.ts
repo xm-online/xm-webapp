@@ -3,7 +3,7 @@ import { Dictionary, filter, find, flatten, keyBy, uniqBy } from 'lodash';
 
 import { XM_DYNAMIC_EXTENSIONS } from '../dynamic.injectors';
 import { XmDynamicExtensionEntry } from '../interfaces/xm-dynamic-extension.model';
-import { NotFoundException } from '@xm-ngx/shared/exceptions';
+import { NotFoundException } from '@xm-ngx/exceptions';
 
 @Injectable()
 export class XmDynamicModuleRegistry {

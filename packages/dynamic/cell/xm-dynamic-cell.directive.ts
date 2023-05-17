@@ -10,7 +10,7 @@ import {
     OnInit,
     SimpleChanges,
 } from '@angular/core';
-import { getValue } from '@xm-ngx/shared/operators';
+import { getValue } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 import { XmDynamicPresentationBase } from '../presentation/xm-dynamic-presentation-base.directive';
 

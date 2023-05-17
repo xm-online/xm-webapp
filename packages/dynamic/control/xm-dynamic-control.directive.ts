@@ -13,7 +13,8 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { XmDynamicConstructor, XmDynamicEntryModule } from '../src/interfaces';
+import { XmDynamicConstructor } from '../src/interfaces/xm-dynamic-constructor';
+import { XmDynamicEntryModule } from '../src/interfaces/xm-dynamic-entry-module';
 import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-base.directive';
 import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
