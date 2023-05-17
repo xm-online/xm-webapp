@@ -18,7 +18,7 @@ export function xmCoreConfigFactory(externalConfig?: XmCoreConfig): XmCoreConfig
     imports: [CommonModule],
 })
 export class XmCoreModule {
-    public static forRoot(externalConfig?: XmCoreConfig): ModuleWithProviders<XmCoreModule> {
+    public static forRoot(externalConfig?: Partial<XmCoreConfig>): ModuleWithProviders<XmCoreModule> {
         return {
             ngModule: XmCoreModule,
             providers: [
