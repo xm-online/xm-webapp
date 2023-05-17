@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.ngc.json",
+  "compilerOptions": {
+    "module": "commonjs"
+  },
+  "include": ["."],
+}

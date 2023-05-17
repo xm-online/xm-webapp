@@ -1,6 +1,6 @@
-const {RuleTester} = require('eslint');
+import { RuleTester } from 'eslint';
+import rules from '@xm-ngx/eslint-plugin';
 
-const rules = require('@xm-ngx/eslint-plugin');
 const rule = rules.rules['angular-selector-unique-rule'];
 
 const ruleTester = new RuleTester({
