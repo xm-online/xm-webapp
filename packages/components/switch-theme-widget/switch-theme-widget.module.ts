@@ -28,7 +28,6 @@ interface SwitchThemeOptions {
     condition: JavascriptCode;
 }
 
-export const XM_THEME_KEY = 'XM_SWITCH_THEME_KEY';
 
 @Component({
     selector: 'switch-theme-widget',

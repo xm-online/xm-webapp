@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { XM_THEME_KEY } from '@xm-ngx/components/switch-theme-widget';
 import { XmTheme } from '../interfaces/xm.theme';
 
+export const XM_THEME_KEY = 'XM_SWITCH_THEME_KEY';
 
 @Injectable({
     providedIn: 'root',
@@ -12,6 +12,12 @@ import { XmTheme } from '../interfaces/xm.theme';
  */
 export class XmThemeStore {
     public get(): XmTheme | null {
+
+        // TODO:TEMPORARY
+        //  While user theme store not supported
+        //  the main way to set a theme is provide it via ui config
+        return null;
+
         const item = localStorage.getItem(XM_THEME_KEY);
         if (!item) {
             return null;
