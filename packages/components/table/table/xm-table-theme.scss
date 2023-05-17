@@ -1,0 +1,24 @@
+@mixin xm-table-theme($xm-theme) {
+
+  .xm-table .xm-table-row-background.xm-table-row-selected {
+    $xm-primary:      map-get($xm-theme, primary);
+    background-color: rgba($xm-primary, .1);;
+  }
+
+  .xm-table .xm-table-row-background.xm-table-row-loading {
+    opacity: .3;
+  }
+
+  .xm-table tr.xm-table-hoverable-row:hover {
+    $xm-surface: map-get($xm-theme, surface);
+    background:  $xm-surface;
+  }
+
+  .header-container {
+    $xm-surface:      map-get($xm-theme, surface);
+    $xm-primary:      map-get($xm-theme, primary);
+
+    color:            $xm-primary;
+    background-color: lighten($xm-primary, 20%);
+  }
+}

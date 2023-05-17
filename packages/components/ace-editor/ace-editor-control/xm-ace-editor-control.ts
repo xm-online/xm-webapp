@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import * as _ from 'lodash';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmAceEditorDirective } from '../xm-ace-editor.directive';
+import { XmAceEditorThemeSchemeAdapterDirective } from '../xm-ace-editor-theme-scheme-adapter.directive';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
 
 export interface XmAceEditorControlOptions {
     id?: string;
@@ -10,6 +16,7 @@ export interface XmAceEditorControlOptions {
     height?: string;
     theme?: string;
     darkTheme?: string;
+    enableInitialFocus?: boolean;
     options?: {
         highlightActiveLine?: boolean;
         maxLines?: number;
@@ -26,18 +33,29 @@ const XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS: XmAceEditorControlOptions = {
     height: '200px',
     theme: 'chrome',
     darkTheme: 'tomorrow_night',
+    enableInitialFocus: false,
 };
 
 type AceEditorValue = string | object;
 
 @Component({
     selector: 'xm-ace-editor-control',
+    imports: [
+        XmTranslationModule,
+        XmAceEditorDirective,
+        CommonModule,
+        MatFormFieldModule,
+        ControlErrorModule,
+        XmAceEditorThemeSchemeAdapterDirective,
+    ],
+    standalone: true,
     template: `
         <div class="form-group">
             <label class="control-label" *ngIf="config?.title">{{ config.title | translate }}</label>
             <div class="ace-editor-control w-100 border"
                  [ngClass]="{ 'border-danger': error}"
                  (textChanged)="change($event)"
+                 [enableInitialFocus]="config.enableInitialFocus"
                  [autoUpdateContent]="true"
                  [mode]="config.mode"
                  [readOnly]="disabled"
@@ -57,7 +75,7 @@ type AceEditorValue = string | object;
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmAceEditorControlComponent extends NgControlAccessor<AceEditorValue> {
+export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
     public error: boolean = false;
     private _config: XmAceEditorControlOptions = XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS;
 

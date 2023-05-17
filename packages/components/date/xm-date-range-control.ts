@@ -4,8 +4,9 @@ import {
     Inject,
     Input,
     LOCALE_ID,
-    NgModule,
-    OnDestroy, Optional, Self,
+    OnDestroy,
+    Optional,
+    Self,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
@@ -13,7 +14,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
-import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
@@ -70,11 +70,12 @@ export const XM_DATE_RANGE_CONTROL_OPTIONS: XmDateRangeControlOptions = {
                        [name]="config?.toName">
             </mat-date-range-input>
 
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-
-            <button mat-icon-button matSuffix *ngIf="value !== null" (click)="change(null)">
-                <mat-icon>close</mat-icon>
-            </button>
+            <span matSuffix class="d-flex">
+                <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+                <button mat-icon-button *ngIf="value !== null" (click)="change(null)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </span>
 
             <mat-date-range-picker #picker></mat-date-range-picker>
 
@@ -82,6 +83,19 @@ export const XM_DATE_RANGE_CONTROL_OPTIONS: XmDateRangeControlOptions = {
             <mat-hint [hint]="config?.hint"></mat-hint>
         </mat-form-field>
     `,
+    imports: [
+        CommonModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatInputModule,
+        XmTranslationModule,
+        ControlErrorModule,
+        HintModule,
+        MatButtonModule,
+        MatIconModule,
+    ],
+    standalone: true,
 })
 export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrString> implements AfterViewInit, OnDestroy {
     private startDate = new Subject<XmDateValue>();
@@ -215,24 +229,4 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
-}
-
-@NgModule({
-    imports: [
-        CommonModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatInputModule,
-        XmTranslationModule,
-        ControlErrorModule,
-        HintModule,
-        MatButtonModule,
-        MatIconModule,
-    ],
-    exports: [XmDateRangeControl],
-    declarations: [XmDateRangeControl],
-})
-export class XmDateRangeControlModule implements XmDynamicEntryModule<XmDynamicControl<XmDateRangeValueOrString, XmDateRangeControlOptions>> {
-    public entry: XmDynamicControlConstructor<XmDateRangeValueOrString, XmDateRangeControlOptions> = XmDateRangeControl;
 }

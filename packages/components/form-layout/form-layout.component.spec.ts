@@ -9,8 +9,7 @@ describe('FormLayoutComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmDynamicModule],
-            declarations: [FormLayoutComponent],
+            imports: [XmDynamicModule, FormLayoutComponent],
         })
             .compileComponents();
     }));

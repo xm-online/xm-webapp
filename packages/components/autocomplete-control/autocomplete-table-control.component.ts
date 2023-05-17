@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import {
     Component,
     forwardRef,
+    Pipe,
+    PipeTransform,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,15 +13,34 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { HintModule } from '@xm-ngx/components/hint';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { XmAutocompleteControl } from './autocomplete-control';
 import { MatInputModule } from '@angular/material/input';
-import { XmTableColumnDynamicCellsModule } from '../table';
+import { XmTableColumnDynamicCellsComponent } from '../table';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
-import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
 import { XmAutocompleteControlListItem } from './autocomple-control.interface';
+import { XmEntity } from '@xm-ngx/entity';
+import { distinctUntilChanged, Observable, of, startWith, switchMap } from 'rxjs';
+
+@Pipe({
+    standalone: true,
+    name: 'rowCheckedPipe',
+    pure: true,
+})
+export class RowCheckedPipe implements PipeTransform {
+    public transform(
+        value: XmAutocompleteControlListItem,
+        selection: SelectionModel<XmAutocompleteControlListItem>,
+    ): Observable<boolean> {
+        return selection.changed.pipe(
+            startWith(null),
+            switchMap(() => of(selection.isSelected(value))),
+            distinctUntilChanged(),
+        );
+    }
+}
 
 @Component({
     standalone: true,
@@ -27,21 +48,21 @@ import { XmAutocompleteControlListItem } from './autocomple-control.interface';
     template: `
         <mat-form-field>
             <mat-label>{{config.title | translate}}</mat-label>
-            <input 
-                matInput 
+            <input
+                matInput
                 [formControl]="searchQueryControl"
                 [placeholder]="config.title | translate">
+
+            <div matSuffix class="ms-3 me-3">
+                <mat-progress-spinner diameter="24" mode="indeterminate" *ngIf="loading | async"></mat-progress-spinner>
+            </div>
         </mat-form-field>
 
-        <div class="mt-1 mb-1" style="height: var(--mdc-linear-progress-track-height, 4px)">
-            <mat-progress-bar mode="indeterminate" *ngIf="loading | async"></mat-progress-bar>
-        </div>
-
         <div [style.height.px]="config.height" class="overflow-auto">
-            <table mat-table [dataSource]="list">
+            <table mat-table [dataSource]="list" [trackBy]="trackBy.bind(this)">
                 <ng-container [matColumnDef]="selectionColumnName">
                     <th mat-header-cell [style.width.px]="width" *matHeaderCellDef>
-                        <mat-checkbox 
+                        <mat-checkbox
                             *ngIf="config.multiple && (list | async)?.length > 0"
                             (change)="$event ? toggleAllRows() : null"
                             [checked]="isAllChecked()"
@@ -50,12 +71,12 @@ import { XmAutocompleteControlListItem } from './autocomple-control.interface';
                         </mat-checkbox>
                     </th>
                     <td mat-cell [style.width.px]="width" *matCellDef="let row">
-                        <mat-checkbox 
+                        <mat-checkbox
                             (click)="$event.stopPropagation()"
                             (change)="$event ? toggleRow(row) : null"
                             [disabled]="disabled"
-                            [checked]="isChecked(row)">
-                        </mat-checkbox>
+                            [checked]="row | rowCheckedPipe : selection | async"
+                        ></mat-checkbox>
                     </td>
                 </ng-container>
 
@@ -78,20 +99,21 @@ import { XmAutocompleteControlListItem } from './autocomple-control.interface';
         MatInputModule,
         MatSelectModule,
         NgxMatSelectSearchModule,
-        MatProgressBarModule,
+        MatProgressSpinnerModule,
         ReactiveFormsModule,
         FormsModule,
-        XmTableColumnDynamicCellsModule,
+        XmTableColumnDynamicCellsComponent,
         MatCheckboxModule,
         MatTableModule,
         XmTranslationModule,
         MatIconModule,
         CommonModule,
         HintModule,
+        RowCheckedPipe,
     ],
-    providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteTableControlComponent), multi: true } ],
+    providers: [ { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmAutocompleteTableControl), multi: true } ],
 })
-export class XmAutocompleteTableControlComponent extends XmAutocompleteControl {
+export class XmAutocompleteTableControl extends XmAutocompleteControl {
     public width = 44;
     public selectionColumnName = '_selection';
 
@@ -99,30 +121,18 @@ export class XmAutocompleteTableControlComponent extends XmAutocompleteControl {
         return [this.selectionColumnName].concat(this.config.columns.map(c => c.name));
     }
 
-    public selection: SelectionModel<XmAutocompleteControlListItem>;
-  
+    public trackBy = (index: number, item: XmEntity<unknown>): string | number => {
+        const { id = index } = this.identityFormat<{ id: string; }>(item) ?? {};
+
+        return id;
+    };
+
     public isAllIndeterminate(): boolean {
         return this.selection.hasValue() && !this.isAllSelected();
     }
 
     public isAllChecked(): boolean {
         return this.selection.hasValue() && this.isAllSelected();
-    }
-
-    public isChecked(row: XmAutocompleteControlListItem): boolean {
-        return this.selection.isSelected(row);
-    }
-
-    public ngOnInit(): void {
-        super.ngOnInit();
-
-        this.selection = new SelectionModel<XmAutocompleteControlListItem>(true, [], true, this.identityFn);
-
-        this.fetchedList.pipe(
-            takeUntilOnDestroy(this),
-        ).subscribe(values => {
-            this.selection.select(...values );
-        });
     }
 
     public isAllSelected(): boolean {
@@ -136,9 +146,9 @@ export class XmAutocompleteTableControlComponent extends XmAutocompleteControl {
 
         this.selection.toggle(row);
 
-        this.change(this.unwrapValues(this.selection.selected));
+        this.change(this.selection.selected);
     }
-  
+
     public toggleAllRows(): void {
         if (this.disabled) {
             return;
@@ -150,6 +160,6 @@ export class XmAutocompleteTableControlComponent extends XmAutocompleteControl {
             this.selection.select(...this.list.value);
         }
 
-        this.change(this.unwrapValues(this.selection.selected));
+        this.change(this.selection.selected);
     }
 }

@@ -6,7 +6,7 @@
     <div class="pb-1 timeline-container list-group">
       <ng-container *ngIf="timeLines.length > 0">
         <ng-container *ngFor="let item of timeLines | orderBy: config.field: config.descOrder; trackBy: trackId">
-          <xm-common-timeline-card class="list-group-item" [item]="item"></xm-common-timeline-card>
+          <xm-timeline-card class="list-group-item" [item]="item"></xm-timeline-card>
         </ng-container>
       </ng-container>
 
@@ -24,6 +24,16 @@
       </button>
 
       <button mat-button *ngIf="next > 1" [loading]="isMoreLoading" (click)="loadAll();">
+        {{config.showMoreAll | translate}}
+      </button>
+    </div>
+
+    <div class="more-items text-center" *ngIf="config?.version===2">
+      <button mat-button *ngIf="nextV2 > 0" [loading]="isMoreLoading" (click)="onNextPageV2();">
+        {{config.showMore10 | translate}}
+      </button>
+
+      <button mat-button *ngIf="nextV2 > 1" [loading]="isMoreLoading" (click)="loadAllV2();">
         {{config.showMoreAll | translate}}
       </button>
     </div>

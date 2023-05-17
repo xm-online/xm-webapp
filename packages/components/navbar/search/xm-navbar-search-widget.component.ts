@@ -1,4 +1,4 @@
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
@@ -10,6 +10,12 @@ import { filter, mergeMap, tap } from 'rxjs/operators';
 import { getApplicationTypeKey } from '../../../shared/src/helpers/entity-list-helper';
 import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 interface SearchConfig extends XmUIConfig {
     search: {
@@ -45,6 +51,16 @@ interface SearchConfig extends XmUIConfig {
             </form>
         </ng-container>
     `,
+    imports: [
+        XmTranslationModule,
+        CommonModule,
+        XmInputPatternModule,
+        MatButtonModule,
+        MatInputModule,
+        MatIconModule,
+        XmPermissionModule,
+    ],
+    standalone: true,
     styleUrls: ['./xm-navbar-search-widget.component.scss'],
 })
 

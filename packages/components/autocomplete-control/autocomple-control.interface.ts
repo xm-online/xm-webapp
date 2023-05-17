@@ -1,6 +1,8 @@
 import { Translate } from '@xm-ngx/translation';
 import { HintText } from '../hint';
 import { XmTableColumnDynamicCellsOptions } from '../table';
+import { XmFormatTemplateRecursive } from '@xm-ngx/shared/operators';
+import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error';
 
 export interface XmAutocompleteControlMapper {
     // Interpolated string as ${name}
@@ -31,19 +33,22 @@ export interface XmAutocompleteControlConfig {
         body: XmAutocompleteControlParams;
         queryParams: XmAutocompleteControlParams;
     };
-    filterFetchedData?: boolean;
     multiple: boolean;
     startEmptySearch?: boolean;
     extractByKey?: string;
-    compareMap: Record<string, unknown>;
+    compareMap: XmFormatTemplateRecursive;
     itemMapper: XmAutocompleteControlMapper;
-    skipUpdateWhileMismatch?: boolean;
+    mergeControlValues?: boolean;
+    pickIntersectSelected?: boolean;
     skipFetchSelected?: boolean;
     valueAsJson?: boolean;
     columns: XmTableColumnDynamicCellsOptions[];
     height: number;
     searchPlaceholder?: Translate;
     notFoundSearchPlaceholder?: Translate;
+    startFromCharSearch?: number;
+    errors?: XmControlErrorsTranslates;
+    required?: boolean;
 }
 
 export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
@@ -61,9 +66,9 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
         body: {},
     },
     startEmptySearch: true,
-    filterFetchedData: false,
+    mergeControlValues: false,
+    pickIntersectSelected: false,
     skipFetchSelected: false,
-    skipUpdateWhileMismatch: false,
     multiple: false,
     valueAsJson: false,
     extractByKey: null,
@@ -76,4 +81,6 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
     height: 400,
     searchPlaceholder: 'global.rest-select-placeholder-noresults',
     notFoundSearchPlaceholder: 'global.rest-select-placeholder-search.simple',
+    startFromCharSearch: 0,
+    required: false,
 };

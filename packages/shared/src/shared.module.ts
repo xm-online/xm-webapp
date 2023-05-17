@@ -9,7 +9,7 @@ import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MarkdownModule } from 'ngx-markdown';
 
 import { UserLoginService } from '@xm-ngx/account/user-login-widget/login/user-login.service';
-import { XmUserLoginWidgetModule } from '@xm-ngx/account/user-login-widget';
+import { UserLoginFormComponent, XmUserLoginWidgetComponent } from '@xm-ngx/account/user-login-widget';
 import { MatModule } from '../../../src/app/mat.module';
 import {
     AuthServerProvider,
@@ -50,6 +50,7 @@ import { ExtQuerySelectComponent } from '../../../packages/json-schema-form/comp
 import { ExtSelectService } from '../../../packages/json-schema-form/components/ext-select/ext-select-service';
 import { ExtSelectComponent } from '../../../packages/json-schema-form/components/ext-select/ext-select.component';
 import { ExtTextareaComponent } from '../../../packages/json-schema-form/components/ext-textarea/ext-textarea.component';
+import { GeoInputComponent } from '../../../packages/json-schema-form/components/geo-input/geo-input.component';
 import { FileUploadComponent } from '../../../packages/json-schema-form/components/file-upload/file-upload.component';
 import { LinkFieldComponent } from '../../../packages/json-schema-form/components/link-field/link-field.component';
 import { MultilingualInputComponent } from '../../../packages/json-schema-form/components/multilingual-input/multilingual-input.component';
@@ -74,7 +75,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 @NgModule({
     imports: [
         XmJsonSchemaFormModule,
-        XmUserLoginWidgetModule,
+        XmUserLoginWidgetComponent,
+        UserLoginFormComponent,
         GateSharedLibsModule,
         ReCaptchaModule,
         MarkdownModule.forChild(),
@@ -100,6 +102,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
         ExtMultiSelectComponent,
         ExtQuerySelectComponent,
         ExtTextareaComponent,
+        GeoInputComponent,
         ContentTextareaComponent,
         LinkFieldComponent,
         ExtMdEditorComponent,
@@ -155,6 +158,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
         ExtQuerySelectComponent,
         ValidationComponent,
         ExtTextareaComponent,
+        GeoInputComponent,
         ContentTextareaComponent,
         LinkFieldComponent,
         ExtMdEditorComponent,
@@ -183,7 +187,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
         GateSharedLibsModule,
         MatModule,
         GooglePlaceModule,
-        XmUserLoginWidgetModule,
+        XmUserLoginWidgetComponent,
+        UserLoginFormComponent,
         XmJsonSchemaFormModule,
     ],
 })

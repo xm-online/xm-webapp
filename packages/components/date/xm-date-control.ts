@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, NgModule, Optional, Self } from '@angular/core';
+import { Component, Inject, Input, Optional, Self } from '@angular/core';
 import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
@@ -9,7 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { XmDynamicControl, XmDynamicControlConstructor, XmDynamicEntryModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
 import { XmDateValue } from './xm-date.component';
@@ -71,6 +70,19 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
+    imports: [
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatInputModule,
+        XmTranslationModule,
+        ControlErrorModule,
+        MatButtonModule,
+        CommonModule,
+        MatIconModule,
+        HintModule,
+    ],
+    standalone: true,
 })
 export class XmDateControl extends NgFormAccessor<XmDateValue> {
     constructor(@Optional() @Self() public ngControl: NgControl | null,
@@ -120,24 +132,4 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
             this.control.markAsDirty();
         }
     }
-}
-
-@NgModule({
-    imports: [
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatInputModule,
-        XmTranslationModule,
-        ControlErrorModule,
-        MatButtonModule,
-        CommonModule,
-        MatIconModule,
-        HintModule,
-    ],
-    exports: [XmDateControl],
-    declarations: [XmDateControl],
-})
-export class XmDateControlModule implements XmDynamicEntryModule<XmDynamicControl<XmDateValue, XmDateControlOptions>> {
-    public entry: XmDynamicControlConstructor<XmDateValue, XmDateControlOptions> = XmDateControl;
 }

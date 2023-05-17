@@ -2,6 +2,7 @@ import {Component, HostListener, Input, OnChanges, SimpleChanges, Type } from '@
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { DashboardWidget } from '@xm-ngx/dashboard';
+import { copyToClipboard, readFromClipboard } from '@xm-ngx/shared/helpers/clipboard-helper';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
@@ -137,19 +138,27 @@ export class WidgetEditComponent implements OnChanges {
         });
     }
 
-    public onCopyToClipboard(): void {
+    public async onCopyToClipboard(): Promise<void> {
         const text = JSON.stringify(this.formGroup);
-        navigator.clipboard.writeText(text);
+        await copyToClipboard(text);
     }
 
     public async onPasteFromClipboard(): Promise<void> {
-        const text = await navigator.clipboard.readText();
+        const text = await readFromClipboard();
+
         let config: DashboardWidget;
-        try {
-            config = JSON.parse(text);
-        } catch (e) {
-            return;
+
+        if (_.isString(text)) {
+            try {
+                config = JSON.parse(text);
+            } catch (e) {
+                console.warn(e);
+                return;
+            }
+        } else if (_.isObject(text)) {
+            config = text as DashboardWidget;
         }
+
         delete config.id;
         delete config.dashboard.id;
         this.value = _.merge(this.value, config);

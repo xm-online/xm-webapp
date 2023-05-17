@@ -5,22 +5,30 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { QueryParams } from './i-entity-collection';
 
+export interface XmRepositoryConfig {resourceUrl: string}
+
 export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pageable> implements IEntityCollectionPageable<T, Extra> {
 
     public readonly loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    public readonly url: string;
 
-    public constructor(public readonly plural: string,
-                       public readonly httpClient: HttpClient) {
-        this.url = `${plural}`;
+    public get url(): string{
+        return this.resourceUrl();
+    }
+
+    public constructor(protected plural: string,
+                       protected readonly httpClient: HttpClient) {
+    }
+
+    protected resourceUrl(): string{
+        return this.plural;
     }
 
     public request<R>(
-        method: string, 
-        body?: unknown, 
+        method: string,
+        body?: unknown,
         params?: HttpParams | {
             [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-        }, 
+        },
         headers?: HttpHeaders | {
             [header: string]: string | string[];
         },
@@ -51,7 +59,7 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     public getAll(params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T[] & Extra>> {
         return this.handle(
             this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response', headers }).pipe(
-                map(res => this.extractExtra(res)),
+                map(res => this.extractExtra(res, params)),
             ),
         );
     }
@@ -75,7 +83,7 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     public query(params: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T[] & Extra>> {
         return this.handle(
             this.httpClient.get<T[] & Extra>(this.url, { params, observe: 'response', headers }).pipe(
-                map(res => this.extractExtra(res)),
+                map(res => this.extractExtra(res, params)),
             ),
         );
     }
@@ -92,7 +100,7 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
         return this.loadingHandle(obs);
     }
 
-    protected extractExtra(res: HttpResponse<any>): HttpResponse<T[] & Extra> {
+    protected extractExtra(res: HttpResponse<any>, params?: QueryParams): HttpResponse<T[] & Extra> {
         const extra = {
             pageIndex: 0,
             pageSize: res.body?.length || 0,

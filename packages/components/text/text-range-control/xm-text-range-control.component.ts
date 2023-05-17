@@ -2,9 +2,14 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmTextTitleOptions } from '../text-title';
 import { DataQa } from '@xm-ngx/shared/interfaces';
-import { Translate } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
-import { HintText } from '@xm-ngx/components/hint';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
+import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 export interface XmTextRangeControlOptions extends XmTextTitleOptions, DataQa {
     hint?: HintText;
@@ -59,11 +64,21 @@ const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
+    imports: [
+        MatInputModule,
+        XmTranslationModule,
+        CommonModule,
+        ControlErrorModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        HintModule,
+    ],
+    standalone: true,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 /** @beta */
-export class XmTextRangeControlComponent extends NgFormAccessor<string> {
+export class XmTextRangeControl extends NgFormAccessor<string> {
     private _config: XmTextRangeControlOptions = clone(XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT);
 
     public get config(): XmTextRangeControlOptions {

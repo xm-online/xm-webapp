@@ -1,43 +1,119 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import {
-    XmConfirmDialogConditionModel,
-    XmConfirmDialogControls,
-    XmConfirmDialogData,
+    XmConfirmDialogComputedData,
     XmConfirmDialogGroup,
 } from './confirm-dialog.interface';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { map, mapTo, startWith } from 'rxjs/operators';
-import { ConditionDirective } from '@xm-ngx/components/condition';
+import { ConditionModule } from '@xm-ngx/components/condition';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
+import _ from 'lodash';
+import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
 
 @Component({
+    standalone: true,
     selector: 'xm-confirm-dialog',
-    templateUrl: './confirm-dialog.component.html',
-    styleUrls: ['./confirm-dialog.component.scss'],
+    template: `
+        <button mat-icon-button mat-dialog-close class="close">
+            <mat-icon>close</mat-icon>
+        </button>
+        
+        <ng-container *ngIf="computedData | async as data">
+            <h2 mat-dialog-title *ngIf="data?.title" class="text-center">{{data.title | translate}}</h2>
+
+            <div *ngIf="data?.subtitle">{{data.subtitle | translate}}</div>
+
+            <form mat-dialog-content [formGroup]="form">
+                <ng-container *ngFor="let group of (conditionControls | async); trackBy: uniqTrackBy">
+                    <ng-container *xmPermission="group.permission">
+                        <ng-template
+                            xmDynamicControl
+                            [formControlName]="group.type"
+                            [class]="group.control.class"
+                            [style]="group.control.style"
+                            [options]="group.control.config ? group.control.config : group.control.options"
+                            [config]="group.control.config"
+                            [selector]="group.control.selector"
+                            [value]="group.control.value"
+                        ></ng-template>
+                    </ng-container>
+                </ng-container>
+            </form>
+
+            <div mat-dialog-actions class="d-flex justify-content-center">
+
+                <button mat-button mat-dialog-close>{{ data?.cancelButtonText | translate }}</button>
+                <ng-container *ngIf="data.hasControls; then applyTpl else confirmTpl"></ng-container>
+
+                <ng-template #applyTpl>
+                    <button mat-raised-button [disabled]="isFormDisabled | async" color="primary" (click)="applyForm(form)">{{ data?.confirmButtonText | translate }}</button>
+                </ng-template>
+
+                <ng-template #confirmTpl>
+                    <button mat-raised-button color="primary" (click)="confirm()">{{ data?.confirmButtonText | translate }}</button>
+                </ng-template>
+            </div>
+        </ng-container>
+    `,
+    styles: [`
+        button.close[mat-dialog-close] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+        }
+    `],
     host: {
         class: 'xm-confirm-dialog',
     },
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatIconModule,
+        XmTranslationModule,
+        XmDynamicModule,
+        ConditionModule,
+        XmPermissionModule,
+    ],
 })
 export class XmConfirmDialogComponent implements OnInit {
     public form = this.fb.group({});
     public conditionControls: Observable<XmConfirmDialogGroup[]> = of([]);
+    public isFormDisabled: Observable<boolean>;
+    public computedData: Observable<XmConfirmDialogComputedData>;
 
     constructor(
         private fb: UntypedFormBuilder,
         private dialogRef: MatDialogRef<XmConfirmDialogComponent>,
-        private validatorsService: ValidatorProcessingService,
-        @Inject(MAT_DIALOG_DATA) public data: XmConfirmDialogData,
+        private dialogData: XmConfirmDialogDataService,
     ) {}
 
     public ngOnInit(): void {
-        this.form = this.buildFormGroup(this.data.controls);
-        this.conditionControls = this.buildConditionControls();
+        this.form = this.dialogData.form;
+        this.conditionControls = this.dialogData.buildConditionControls();
+        this.isFormDisabled = this.dialogData.hasFormDisabled();
+        this.computedData = this.dialogData.getComputedData();
     }
 
-    public applyForm({ value, valid }: UntypedFormGroup): void {
-        if (valid) {
+    public applyForm({ invalid }: UntypedFormGroup): void {
+        if (invalid) {
+            return;
+        }
+        
+        const value = this.form.getRawValue();
+        const { isManualClose } = this.dialogData.data;
+
+        if (isManualClose) {
+            this.dialogData.manualClose(value);
+        } else {
             this.dialogRef.close(value);
         }
     }
@@ -46,72 +122,5 @@ export class XmConfirmDialogComponent implements OnInit {
         this.dialogRef.close(true);
     }
 
-    public get isFormDisabled(): Observable<boolean> {
-        return this.form.statusChanges.pipe(
-            startWith(true),
-            mapTo(this.form.invalid),
-        );
-    }
-
-    public get hasControls(): boolean {
-        return this.data?.controls?.length > 0;
-    }
-
     public uniqTrackBy = (index: number, item: XmConfirmDialogGroup): string => item.type;
-
-    public buildConditionControls(): Observable<XmConfirmDialogGroup[]> {
-        return this.form.valueChanges.pipe(
-            startWith<XmConfirmDialogConditionModel, any>(this.form.value),
-            map((formValues) => {
-                const values = Object.keys(formValues).reduce((acc, key) => {
-                    const {
-                        value,
-                        valid,
-                        disabled,
-                    } = this.form.get(key);
-
-                    return {
-                        ...acc,
-                        [key]: {
-                            value,
-                            valid,
-                            disabled,
-                        },
-                    };
-                }, {});
-
-                return this.data.controls.filter((value) => {
-                    // Always show if condition or condition arguments empty
-                    if (!value.condition || !values) {
-                        return true;
-                    }
-
-                    return ConditionDirective.checkCondition(value.condition, values);
-                });
-            }),
-        );
-    }
-
-    private buildFormGroup(controls: XmConfirmDialogControls): UntypedFormGroup {
-        return Object.entries(controls)
-            .reduce((group, [key, { type, control: groupControl }]) => {
-                const { value, options: { validators = [], asyncValidators = [] } = {} } = groupControl;
-
-                const control = this.fb.control(value);
-
-                if (validators.length > 0) {
-                    control.addValidators(this.validatorsService.validatorsFactory(validators));
-                }
-
-                if (asyncValidators.length > 0) {
-                    control.addAsyncValidators(this.validatorsService.asyncValidatorsFactory(asyncValidators));
-                }
-
-                if (!group.contains(type)) {
-                    group.setControl(type, control);
-                }
-
-                return group;
-            }, this.fb.group({}));
-    }
 }

@@ -2,20 +2,20 @@ import { HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
 import { Observable } from 'rxjs';
 
-export type QueryParams = HttpParams | {
+export interface QueryParams {
     [param: string]: (string | string[] | number) | any;
-};
+}
 
 export interface IEntityCollection<T extends IId = unknown> {
     loading$: Observable<boolean>;
 
     /** Manual request */
     request<R>(
-        method: string, 
-        body?: unknown, 
-            params?: HttpParams | {
+        method: string,
+        body?: unknown,
+        params?: HttpParams | {
             [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-        }, 
+        },
         headers?: HttpHeaders | {
             [header: string]: string | string[];
         },

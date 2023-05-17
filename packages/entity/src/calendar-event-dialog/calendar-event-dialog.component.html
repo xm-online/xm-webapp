@@ -38,6 +38,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <mat-form-field class="xm-datetime-picker">
+            <mat-label>{{'xm-entity.common.fields.start-date' | translate}}</mat-label>
             <input #eventStartDate="ngModel"
                    [owlDateTimeTrigger]="dtStartDate"
                    [owlDateTime]="dtStartDate"
@@ -45,8 +46,7 @@
                    [(ngModel)]="event.startDate"
                    id="field_startDate"
                    matInput
-                   name="startDate"
-                   placeholder="{{'xm-entity.common.fields.start-date' | translate}}"
+                   name="startDate"                   
                    required
                    (dateTimeChange)="eventStartDateChange($event)">
             <button mat-button
@@ -70,6 +70,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <mat-form-field>
+            <mat-label>{{'xm-entity.common.fields.end-date' | translate}}</mat-label>
             <input #eventEndDate="ngModel"
                    [owlDateTimeTrigger]="dtEndDate"
                    [owlDateTime]="dtEndDate"
@@ -78,7 +79,6 @@
                    id="field_endDate"
                    matInput
                    name="endDate"
-                   placeholder="{{'xm-entity.common.fields.end-date' | translate}}"
                    required
                    (dateTimeChange)="eventEndDateChange($event)">
             <button mat-button
@@ -108,9 +108,9 @@
                id="field_title"
                matInput
                name="title"
-               placeholder="{{'xm-entity.common.fields.title' | translate}}"
                required
                type="text">
+        <mat-label>{{'xm-entity.common.fields.title' | translate}}</mat-label>
         <mat-error *ngIf="eventTitle.hasError('required')">
           <span jhiTranslate="xm-entity.common.validation.required">This field is required.</span>
         </mat-error>
@@ -119,11 +119,11 @@
 
     <div class="form-group" [hidden]="calendarUiSpec?.hideDescription">
       <mat-form-field>
+        <mat-label>{{'xm-entity.common.fields.description' | translate}}</mat-label>
         <textarea [(ngModel)]="event.description"
                   id="field_description"
                   matInput
                   name="description"
-                  placeholder="{{'xm-entity.common.fields.description' | translate}}"
                   rows="4">
         </textarea>
       </mat-form-field>

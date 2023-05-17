@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { TimelinePage } from './timeline-page.model';
+import { TimeLineServiceConfig } from '@xm-ngx/timeline/timeline-list/timeline-config.model';
 
 @Injectable()
 export class TimelineService {
@@ -22,6 +22,7 @@ export class TimelineService {
 
     private LIMIT: number = 10;
     private resourceUrl: string = 'timeline/api/timelines';
+    private resourceUrlV2: string = 'timeline/api/timelines/v2';
 
     constructor(private http: HttpClient) {
     }
@@ -37,7 +38,18 @@ export class TimelineService {
             operation: options.operation,
             next: options.next,
         };
-        return this.http.get<TimelinePage>(this.resourceUrl, { params: TimelineService.toHttpParams(params) });
+        return this.http.get<TimelinePage>(this.resourceUrl, {params: TimelineService.toHttpParams(params)});
     }
 
+    public searchV2(options: TimeLineServiceConfig): Observable<any> {
+        return this.http.get(this.resourceUrlV2, {
+            params: {
+                aggregateId: options.aggregateId,
+                source: 'db',
+                size: options.size || this.LIMIT,
+                page: options.page || 0,
+            },
+            observe: 'response',
+        });
+    }
 }

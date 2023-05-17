@@ -3,23 +3,23 @@ import { XmDynamicEntry } from '@xm-ngx/dynamic';
 export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     {
         selector: '@xm-ngx/components/sidebar-logo',
-        loadChildren: () => import('@xm-ngx/components/logo').then(m => m.XmLogoModule),
+        loadChildren: () => import('@xm-ngx/components/logo').then(m => m.LogoComponent),
     },
     {
         selector: '@xm-ngx/components/sidebar-image-logo',
-        loadChildren: () => import('@xm-ngx/components/logo').then(m => m.ImageLogoModule),
+        loadChildren: () => import('@xm-ngx/components/logo').then(m => m.ImageLogoComponent),
     },
     {
         selector: '@xm-ngx/components/sidebar-menu',
-        loadChildren: () => import('@xm-ngx/components/menu').then(m => m.XmMenuModule),
+        loadChildren: () => import('@xm-ngx/components/menu').then(m => m.MenuComponent),
     },
     {
         selector: '@xm-ngx/components/breadcrumb',
-        loadChildren: () => import('@xm-ngx/components/breadcrumb').then(m => m.XmBreadcrumbModule),
+        loadChildren: () => import('@xm-ngx/components/breadcrumb').then(m => m.XmBreadcrumbComponent),
     },
     {
         selector: '@xm-ngx/components/navbar-user-widget',
-        loadChildren: () => import('@xm-ngx/components/navbar-user-widget').then(m => m.NavbarUserWidgetModule),
+        loadChildren: () => import('@xm-ngx/components/navbar-user-widget').then(m => m.NavbarUserWidgetComponent),
     },
     {
         selector: '@xm-ngx/components/navbar-heatmap-widget',
@@ -67,19 +67,19 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/account/xm-user-login-widget',
-        loadChildren: () => import('@xm-ngx/account/user-login-widget').then(m => m.XmUserLoginWidgetModule),
+        loadChildren: () => import('@xm-ngx/account/user-login-widget').then(m => m.XmUserLoginWidgetComponent),
     },
     {
         selector: '@xm-ngx/account/xm-user-security-settings',
-        loadChildren: () => import('@xm-ngx/account/user-security-settings').then(m => m.XmUserSecuritySettingsModule),
+        loadChildren: () => import('@xm-ngx/account/user-security-settings').then(m => m.XmUserSecuritySettingsComponent),
     },
     {
         selector: '@xm-ngx/account/xm-user-settings-widget',
-        loadChildren: () => import('@xm-ngx/account/user-settings-widget').then(m => m.XmUserSettingsWidgetModule),
+        loadChildren: () => import('@xm-ngx/account/user-settings-widget').then(m => m.XmUserSettingsWidgetComponent),
     },
     {
         selector: '@xm-ngx/account/xm-user-password-widget',
-        loadChildren: () => import('@xm-ngx/account/user-password-widget').then(m => m.XmUserPasswordWidgetModule),
+        loadChildren: () => import('@xm-ngx/account/user-password-widget').then(m => m.XmUserPasswordWidgetComponent),
     },
     {
         selector: '@xm-ngx/components/number-control',
@@ -95,15 +95,15 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/xm-ace-editor-control',
-        loadChildren: () => import('@xm-ngx/components/ace-editor').then(m => m.XmAceEditorControlModule),
+        loadChildren: () => import('@xm-ngx/components/ace-editor').then(m => m.XmAceEditorControl),
     },
     {
         selector: '@xm-ngx/components/multilanguage',
-        loadChildren: () => import('@xm-ngx/components/multilanguage').then(m => m.MultiLanguageModule),
+        loadChildren: () => import('@xm-ngx/components/multilanguage').then(m => m.MultiLanguageComponent),
     },
     {
         selector: '@xm-ngx/components/hint-switch',
-        loadChildren: () => import('@xm-ngx/components/hint/hint-switch/hint-switch.module').then(m => m.HintSwitchModule),
+        loadChildren: () => import('@xm-ngx/components/hint/hint-switch/hint-switch.component').then(m => m.HintSwitchComponent),
     },
     {
         selector: '@xm-ngx/components/inline-control',

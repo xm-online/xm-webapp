@@ -28,10 +28,10 @@
                   [(ngModel)]="comment.message"
                   matInput
                   name="comment"
-                  placeholder="{{'xm-entity.common.fields.message' | translate}}"
                   required
                   rows="4">
         </textarea>
+        <mat-label>{{'xm-entity.common.fields.message' | translate}}</mat-label>
         <mat-error *ngIf="commentBody.hasError('required')">
           <span>{{'xm-entity.common.validation.required'|translate}}</span>
         </mat-error>

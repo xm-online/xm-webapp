@@ -1,0 +1,44 @@
+:host(.xm-table) {
+
+  white-space: nowrap;
+
+  .mat-card.no-horizontal-paddings {
+    padding-left:  0;
+    padding-right: 0;
+  }
+
+  tr.xm-table-loading-row {
+    min-height: min-content;
+    height:     inherit;
+  }
+
+  .push-self-right {
+    display:     block;
+    margin-left: auto;
+  }
+
+  .no-margin {
+    margin: 0;
+  }
+
+  .overflow-wrap {
+    max-width: 100%;
+    overflow:  auto;
+
+    > table {
+      width: 100%;
+    }
+  }
+
+  ::ng-deep .mat-table-sticky-border-elem-right {
+    border-left: 1px solid #e0e0e0;
+  }
+
+  ::ng-deep .mat-table-sticky-border-elem-left {
+    border-right: 1px solid #e0e0e0;
+  }
+
+  .mat-mdc-paginator {
+    background: none;
+  }
+}

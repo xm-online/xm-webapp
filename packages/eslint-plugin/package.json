@@ -1,0 +1,9 @@
+{
+  "name": "@xm-ngx/eslint-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "peerDependencies": {
+    "eslint": "8.14.0"
+  }
+}

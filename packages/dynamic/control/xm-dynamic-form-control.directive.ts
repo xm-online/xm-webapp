@@ -1,6 +1,6 @@
 import { Directive, forwardRef, Input } from '@angular/core';
 import { UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { setComponentInput } from '../shared/set-component-input';
+import { setComponentInput } from '../operators/set-component-input';
 import { XmDynamicControlDirective, XmDynamicControl } from './xm-dynamic-control.directive';
 
 export interface IFormControl<V, O> extends XmDynamicControl<V, O> {

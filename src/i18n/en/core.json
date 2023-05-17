@@ -374,7 +374,8 @@
       "no": "No",
       "set": "Set",
       "yes": "Yes",
-      "yes-exit": "Yes, exit!"
+      "yes-exit": "Yes, exit!",
+      "dbclick-to-edit": "Double click to edit"
     },
     "field": {
       "id": "ID"
@@ -1617,6 +1618,28 @@
       "severalEmails": "Invalid email or values should be separating by next symbol: ';'",
       "dateMoreThanIn": "Value more then allowable range",
       "dateLessThanIn": "Value is less than allowable range"
+    }
+  },
+  "table": {
+    "filter": {
+      "button": {
+        "search": "Search",
+        "reset": "Reset",
+        "clearAll": "Clear all",
+        "more": "More"
+      }
+    }
+  },
+  "login-page": {
+    "tfa": {
+      "code-number": "The code was sent to the number",
+      "change-number": "Change the number",
+      "code-sms": "Enter the code from the SMS:",
+      "code-valid": "The code is valid for 2 minutes. Do not share this code with anyone.",
+      "no-sms": "Didn't receive an SMS?",
+      "more-sms": "Send again",
+      "signUp":"Registration",
+      "signUp-no-account": "No account?"
     }
   }
 }
