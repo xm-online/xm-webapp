@@ -1,5 +1,4 @@
 import { APP_INITIALIZER, Injectable, Provider, StaticProvider } from '@angular/core';
-import { MaintenanceService } from '@xm-ngx/components/maintenance';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
@@ -20,7 +19,7 @@ export function themeInitializer(
 export const THEME_PROVIDER_FACTORY: StaticProvider = {
     provide: APP_INITIALIZER,
     useFactory: themeInitializer,
-    deps: [XmPublicUiConfigService, XmThemeController, MaintenanceService, XmApplicationConfigService],
+    deps: [XmPublicUiConfigService, XmThemeController, XmApplicationConfigService],
     multi: true,
 };
 
