@@ -9,8 +9,9 @@ import { of } from 'rxjs';
 import { LoginService } from '@xm-ngx/components/login';
 
 import { LogoutComponent } from './logout.component';
-import { XmPrivateUiConfigService } from '@xm-ngx/core/config';
+import { XmPrivateUiConfigService, XmUiConfigService } from '@xm-ngx/core/config';
 import { SessionStorageService } from 'ngx-webstorage';
+import { MockUiConfigService } from '@xm-ngx/core/config/testing';
 
 describe('LogoutComponent', () => {
     let component: LogoutComponent;
@@ -21,6 +22,7 @@ describe('LogoutComponent', () => {
             imports: [XmTranslationTestingModule, HttpClientTestingModule],
             declarations: [LogoutComponent],
             providers: [
+                { provide: XmUiConfigService, useClass: MockUiConfigService },
                 { provide: LoginService, useValue: {} },
                 { provide: XmEntitySpecWrapperService, useValue: {} },
                 { provide: TranslateService, useValue: {} },

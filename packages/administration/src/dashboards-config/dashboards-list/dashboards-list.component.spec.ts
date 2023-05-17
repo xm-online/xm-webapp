@@ -14,6 +14,7 @@ import { MockEntityCollection } from '@xm-ngx/components/entity-collection/testi
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardsListComponent } from './dashboards-list.component';
+import { XmToasterService } from '@xm-ngx/toaster';
 
 describe('DashboardsListComponent', () => {
     let component: DashboardsListComponent;
@@ -31,6 +32,7 @@ describe('DashboardsListComponent', () => {
             declarations: [DashboardsListComponent],
             providers: [
                 DatePipe,
+                { provide: XmToasterService, useValue: {} },
                 { provide: WidgetCollection, useClass: MockEntityCollection },
                 { provide: DashboardCollection, useClass: MockEntityCollection },
                 { provide: DashboardsExportService, useValue: null },
