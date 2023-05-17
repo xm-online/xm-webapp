@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../../../src/app/xm.constants';
 import { PasswordResetFinish } from './password-reset-finish.service';
+import { ModulesLanguageHelper } from '@xm-ngx/translation';
 
 interface IResetPasswordFormConfig {
     formTitle: string;
@@ -45,6 +46,7 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
         private passwordResetFinish: PasswordResetFinish,
         private route: ActivatedRoute,
         private http: HttpClient,
+        private modulesLangHelper: ModulesLanguageHelper,
         private authServerProvider: AuthServerProvider,
         private xmConfigService: XmConfigService,
         private router: Router,
@@ -135,7 +137,12 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     private makePasswordSettings(config?: any): void {
         this.passwordSettings = this.xmConfigService.mapPasswordSettings(config);
         if (this.passwordSettings.patternMessage) {
-            this.patternMessage = this.xmConfigService.updatePatternMessage(this.passwordSettings.patternMessage);
+            this.patternMessage = this.updatePatternMessage(this.passwordSettings.patternMessage);
         }
+    }
+
+    public updatePatternMessage(message: any, currentLang?: string): string {
+        const lang = currentLang ? currentLang : this.modulesLangHelper.getLangKey();
+        return message[lang] || message;
     }
 }
