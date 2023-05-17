@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, share } from 'rxjs';
 import { IXmTableCollectionState } from './i-xm-table-collection-controller';
 import { assign, cloneDeep } from 'lodash';
 import { PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
@@ -14,12 +14,12 @@ export abstract class AXmTableStateCollectionController<T> {
         pageableAndSortable: cloneDeep(PAGEABLE_AND_SORTABLE_DEFAULT),
     } as IXmTableCollectionState<T>);
 
-    protected get items(): T[] {
-        return this._state.value.items;
+    public state$(): Observable<IXmTableCollectionState<T>> {
+        return this._state.asObservable().pipe(share());
     }
 
-    public state$(): Observable<IXmTableCollectionState<T>> {
-        return this._state;
+    public state(): IXmTableCollectionState<T> {
+        return this._state.value;
     }
 
     public change(state: IXmTableCollectionState<T>): void {
