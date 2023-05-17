@@ -1,7 +1,8 @@
 {
   "extends": "../../tsconfig.ngc.json",
   "compilerOptions": {
-    "module": "commonjs"
+    "module": "commonjs",
+    "outDir": "../../lib/eslint-plugin"
   },
-  "include": ["."],
+  "include": [".", "./package.json"],
 }
