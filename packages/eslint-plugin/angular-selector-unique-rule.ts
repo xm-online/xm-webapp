@@ -3,7 +3,7 @@ import { Rule } from 'eslint';
 let selectors = new Map();
 let isFirstIterationAnyFileMatchCache = null;
 
-export default {
+module.exports = {
     meta: {
         type: 'problem',
         docs: {
