@@ -23,7 +23,7 @@
     "lodash": "4.17.21",
     "sass": "1.54.7",
     "glob": "10.2.4",
-    "ts-morph": "16.0.0"
+    "ts-morph": "18.0.0"
   },
   "devDependencies": {
     "@types/node": "16.11.7",

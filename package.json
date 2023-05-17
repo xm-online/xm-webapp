@@ -158,6 +158,7 @@
     "string-template": "1.0.0",
     "swagger-ui": "4.15.5",
     "tether": "2.0.0",
+    "ts-morph": "18.0.0",
     "tslib": "2.4.0",
     "twitter-bootstrap-wizard": "1.2.0",
     "validate": "5.2.0",
