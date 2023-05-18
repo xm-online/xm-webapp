@@ -38,7 +38,6 @@ export interface XmAutocompleteControlConfig {
     extractByKey?: string;
     compareMap: XmFormatTemplateRecursive;
     itemMapper: XmAutocompleteControlMapper;
-    mergeControlValues?: boolean;
     pickIntersectSelected?: boolean;
     skipFetchSelected?: boolean;
     valueAsJson?: boolean;
@@ -66,7 +65,6 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
         body: {},
     },
     startEmptySearch: true,
-    mergeControlValues: false,
     pickIntersectSelected: false,
     skipFetchSelected: false,
     multiple: false,
