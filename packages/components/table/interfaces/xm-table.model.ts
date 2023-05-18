@@ -46,7 +46,8 @@ export interface XmTableConfig extends FiltersControlRequestOptions {
 
 export interface XmTableOptions {
     isRowSelectable: boolean, // true to allow checkboxes for row
-    noRows: XmTableEmptyRows
+    noRows: XmTableEmptyRows,
+    width?: string;
 }
 
 export interface XmTableEmptyConfig {
