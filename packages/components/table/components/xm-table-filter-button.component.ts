@@ -16,12 +16,14 @@ import {
     FiltersControlRequestOptions,
 } from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
 import { FiltersControlValue } from '@xm-ngx/components/table/components/xm-table-filters-control.component';
+import { XmEmptyPipe } from '@xm-ngx/shared/pipes';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'xm-table-filter-button',
     standalone: true,
     template: `
-        <button mat-icon-button
+        <button *ngIf="!(config?.filters | xmEmpty)" mat-icon-button
                 [loading]="loading"
                 [disabled]="loading"
                 (click)="openFilter()">
@@ -29,6 +31,8 @@ import { FiltersControlValue } from '@xm-ngx/components/table/components/xm-tabl
         </button>
     `,
     imports: [
+        NgIf,
+        XmEmptyPipe,
         MatIconModule,
         MatButtonModule,
         ButtonSpinnerModule,

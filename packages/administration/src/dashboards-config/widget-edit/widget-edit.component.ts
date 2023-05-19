@@ -1,4 +1,4 @@
-import {Component, HostListener, Input, OnChanges, SimpleChanges, Type } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, SimpleChanges, Type } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { DashboardWidget } from '@xm-ngx/dashboard';
@@ -33,7 +33,7 @@ export class WidgetEditComponent implements OnChanges {
     public dashboardEditComponentType: Type<unknown> = this.dashboardConfig.dashboardRef;
     public EDIT_EVENT: string = this.dashboardConfig.EDIT_WIDGET_EVENT;
 
-    public aceEditorOptions: { title: string; height: string } = { title: '', height: 'calc(100vh - 280px)' };
+    public aceEditorOptions: { title: string; height: string } = { title: '', height: 'calc(100vh - 130px)' };
 
     public editType: EditType;
 

@@ -51,6 +51,7 @@ export class Principal implements OnDestroy, OnInitialize {
     public logout(): void {
         this.userIdentity = null;
         this.authenticated = false;
+        this.promise = null;
         this.authenticationState.next(this.userIdentity);
         this.resetCachedProfile();
     }

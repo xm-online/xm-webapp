@@ -15,14 +15,12 @@ import { cloneDeep } from 'lodash';
 import {
     XmTableRepositoryResolver,
 } from '@xm-ngx/components/table/repositories/xm-table-repository-resolver.service';
-import {
-    AXmTableStateCollectionController,
-} from './a-xm-table-state-collection-controller.service';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 import { filter } from 'rxjs/operators';
+import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
 
 const TRS = {
     updated: 'ext-entity.commons.updated',
@@ -48,7 +46,7 @@ export interface LinkListConfig {
 
 @Injectable()
 export class XmTableLinkedCollectionController<T extends IId & {name?: string} = unknown>
-    extends AXmTableStateCollectionController<T>
+    extends AXmTableLocalPageableCollectionController<T>
     implements IXmTableCollectionController<T> {
     public entity: IId;
     public config: LinkListConfig;

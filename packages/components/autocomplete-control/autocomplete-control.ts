@@ -379,10 +379,6 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         let unwrapValues = normalizeValues;
 
         if (normalizeValues != null) {
-            if (this.config.multiple && this.config.mergeControlValues) {
-                normalizeValues = this.uniqByIdentity(this.normalizeValues(this.value), normalizeValues);
-            }
-
             if (_.isArray(normalizeValues)) {
                 this.selection.select(...normalizeValues);
             } else {

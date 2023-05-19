@@ -58,6 +58,10 @@
         <mat-icon>delete_outline</mat-icon>
       </button>
 
+      <a [routerLink]="'/dashboard/admin-pages'">
+        <mat-icon>open_in_new</mat-icon>
+      </a>
+
       <button (click)="onCancel()"
               [matTooltip]="TRS.cancel | translate"
               class="ms-auto"
@@ -89,9 +93,9 @@
     <mat-tab-group>
 
       <mat-tab [label]="TRS.widgets | translate">
-        <xm-dashboards-list-expand 
+        <xm-dashboards-list-expand
           *ngIf="value.id"
-          [dashboardId]="value.id" 
+          [dashboardId]="value.id"
           [widgetEditComponentType]="widgetEditComponentType">
         </xm-dashboards-list-expand>
       </mat-tab>
