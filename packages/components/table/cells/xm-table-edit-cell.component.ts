@@ -5,38 +5,46 @@ import {
 } from '@xm-ngx/components/inline-control/inline-control.component';
 import { FormsModule } from '@angular/forms';
 import {
+    IXmTableCollectionController,
     XmTableCollectionControllerResolver,
-    XmTableRepositoryCollectionController,
 } from '@xm-ngx/components/table/table';
 import { XM_DYNAMIC_TABLE_CELL, XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { cloneDeep, set } from 'lodash';
+import { JavascriptCode } from '@xm-ngx/shared/interfaces';
+import { ConditionModule } from '@xm-ngx/components/condition';
+
+export type XmTableEditCellConfig = XmInlineControlConfig & {
+    condition: JavascriptCode;
+}
 
 @Component({
     standalone: true,
     selector: 'xm-table-edit-cell',
-    imports: [XmInlineControlComponent, FormsModule],
+    imports: [XmInlineControlComponent, FormsModule, ConditionModule],
     template: `
-        <xm-inline-control [config]="config"
-                           (saveValue)="onSaveEntity($event)"
-                           [ngModel]="value"></xm-inline-control>
+        <ng-container *xmCondition="config.condition; arguments: { row, cell, value }">
+            <xm-inline-control 
+                [config]="config"
+                (saveValue)="onSaveEntity($event)"
+                [ngModel]="value"></xm-inline-control>
+        </ng-container>
     `,
 })
 export class XmTableEditCellComponent implements OnInit {
-    @Input() public config: XmInlineControlConfig;
+    @Input() public config: XmTableEditCellConfig;
     @Input() public value: unknown;
-    private collection: XmTableRepositoryCollectionController;
+    private collection: IXmTableCollectionController<unknown>;
 
     constructor(
-        @Inject(XM_DYNAMIC_TABLE_ROW) private row: any,
-        @Inject(XM_DYNAMIC_TABLE_CELL) private cell: any,
+        @Inject(XM_DYNAMIC_TABLE_ROW) public row: any,
+        @Inject(XM_DYNAMIC_TABLE_CELL) public cell: any,
         private collectionControllerResolver: XmTableCollectionControllerResolver) {
     }
 
     public async ngOnInit(): Promise<void> {
         const collection = await this.collectionControllerResolver.get();
-        if (!(collection instanceof XmTableRepositoryCollectionController)) {
-            console.warn('XmTableEditCellComponent not support table type.');
-            return;
+        if (!(collection.edit)) {
+            console.warn('XmTableEditCellComponent call collection edit method, make sure that implements');
         }
         this.collection = collection;
     }

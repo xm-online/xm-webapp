@@ -23,7 +23,7 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
         <button mat-icon-button mat-dialog-close class="close">
             <mat-icon>close</mat-icon>
         </button>
-        
+
         <ng-container *ngIf="computedData | async as data">
             <h2 mat-dialog-title *ngIf="data?.title" class="text-center">{{data.title | translate}}</h2>
 
@@ -46,7 +46,7 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
                 </ng-container>
             </form>
 
-            <div mat-dialog-actions class="d-flex justify-content-center">
+            <div mat-dialog-actions [align]="'end'">
 
                 <button mat-button mat-dialog-close>{{ data?.cancelButtonText | translate }}</button>
                 <ng-container *ngIf="data.hasControls; then applyTpl else confirmTpl"></ng-container>
@@ -107,7 +107,7 @@ export class XmConfirmDialogComponent implements OnInit {
         if (invalid) {
             return;
         }
-        
+
         const value = this.form.getRawValue();
         const { isManualClose } = this.dialogData.data;
 

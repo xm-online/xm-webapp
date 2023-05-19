@@ -116,6 +116,7 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
         }
         if (changes.column) {
             this.updateOptions();
+            this.updateConfig();
             this.value = this.getCellValue();
             this.updateValue();
         }
