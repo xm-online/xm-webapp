@@ -7,7 +7,7 @@ import {
     XmDynamicModuleRegistry,
 } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 
 export interface ExtendedDynamicComponents extends XmDynamicEntry {
     globalSelector: string;
@@ -24,7 +24,7 @@ function provideFullSelector(components: XmDynamicEntry[], prefix?: string): Ext
 @Injectable()
 export class WidgetListService {
 
-    public widgets: Subject<ExtendedDynamicComponents[]> = new Subject<ExtendedDynamicComponents[]>();
+    private widgets: Subject<ExtendedDynamicComponents[]> = new ReplaySubject<ExtendedDynamicComponents[]>(1);
     public widgets$: Observable<ExtendedDynamicComponents[]> = this.widgets.asObservable();
 
     constructor(
