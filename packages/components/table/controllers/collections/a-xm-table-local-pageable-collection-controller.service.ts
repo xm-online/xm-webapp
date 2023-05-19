@@ -14,6 +14,10 @@ export abstract class AXmTableLocalPageableCollectionController<T>
         this.changeByItems(value);
     }
 
+    protected get items(): T[] {
+        return this.state().items;
+    }
+
     public changeByItems(items: T[], pageableAndSortable: PageableAndSortable = null): void {
         if (pageableAndSortable == null) {
             pageableAndSortable = cloneDeep(PAGEABLE_AND_SORTABLE_DEFAULT);

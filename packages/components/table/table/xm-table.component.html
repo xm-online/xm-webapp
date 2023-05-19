@@ -23,13 +23,15 @@
     <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
 
     <div class="overflow-wrap">
-      <table mat-table
-             matSort
-             (matSortChange)="updatePagination()"
-             [matSortActive]="context.collection.pageableAndSortable.sortBy"
-             [matSortDirection]="context.collection.pageableAndSortable.sortOrder"
-             matSortDisableClear
-             [dataSource]="context.collection.items">
+      <table 
+            [style.width]="config?.options?.width"
+            mat-table
+            matSort
+            (matSortChange)="updatePagination()"
+            [matSortActive]="context.collection.pageableAndSortable.sortBy"
+            [matSortDirection]="context.collection.pageableAndSortable.sortOrder"
+            matSortDisableClear
+            [dataSource]="context.collection.items">
 
         <xm-table-loading-column [isLoading]="context.collection.loading"
                                  #tableLoadingRow
@@ -43,7 +45,7 @@
                                    #selectionRow
                                    [rows]="context.collection.items"></xm-table-selection-column>
 
-        <xm-table-column-dynamic-cell *ngFor="let column of config.columns"
+        <xm-table-column-dynamic-cell *ngFor="let column of dynamicColumns"
                                       [column]="column"></xm-table-column-dynamic-cell>
 
         <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row></tr>

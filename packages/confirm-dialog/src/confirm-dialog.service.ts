@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { XmConfirmDialogComponent } from './confirm-dialog.component';
 import { XmConfirmDialogControls, XmConfirmDialogData } from './confirm-dialog.interface';
 import { Translate } from '@xm-ngx/translation';
@@ -26,6 +26,7 @@ export class XmConfirmDialogService {
         cancelButtonText?: Translate,
         confirmButtonText?: Translate,
         isManualClose?: boolean,
+        config?: MatDialogConfig<XmConfirmDialogData>,
     ): MatDialogRef<XmConfirmDialogComponent> {
         this.dialogData.data = {
             title,
@@ -36,7 +37,7 @@ export class XmConfirmDialogService {
             isManualClose,
         };
 
-        this.dialogRef = this.matDialog.open<XmConfirmDialogComponent, XmConfirmDialogData>(XmConfirmDialogComponent);
+        this.dialogRef = this.matDialog.open<XmConfirmDialogComponent, XmConfirmDialogData>(XmConfirmDialogComponent, config ?? {});
 
         return this.dialogRef;
     }

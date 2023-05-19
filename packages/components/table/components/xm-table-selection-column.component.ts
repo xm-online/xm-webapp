@@ -16,6 +16,8 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: SelectTableColumn = {
     class: '',
     dataClass: '',
     dataStyle: '',
+    headClass: '',
+    headStyle: '',
     field: '',
     selector: '',
     sortable: false,
@@ -30,7 +32,12 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: SelectTableColumn = {
     selector: 'xm-table-selection-column',
     template: `
         <ng-container [matColumnDef]="column.name" [sticky]="column.sticky">
-            <th *matHeaderCellDef [width]="column.width" scope="col" mat-header-cell>
+            <th *matHeaderCellDef 
+                scope="col"
+                mat-header-cell
+                [width]="column.width" 
+                [class]="column.headClass"
+                [style]="column.headStyle">
                 <mat-checkbox (change)="$event ? allToggle() : null"
                               (click)="$event.stopPropagation()"
                               class="select-table-column__single-line-height"
@@ -39,7 +46,12 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: SelectTableColumn = {
                               [disabled]="disabled">
                 </mat-checkbox>
             </th>
-            <td mat-cell [width]="column.width" *matCellDef="let row">
+            <td
+                *matCellDef="let row"
+                mat-cell
+                [width]="column.width"
+                [class]="column.dataClass"
+                [style]="column.dataStyle">
                 <xm-checkbox-control [value]="isRowSelected(row)"
                                      [disabled]="disabled"
                                      class="select-table-column__single-line-height"
