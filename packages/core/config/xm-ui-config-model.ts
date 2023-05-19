@@ -1,5 +1,3 @@
-import { IId } from '@xm-ngx/shared/interfaces';
-
 export interface FieldOptions {
     field?: string;
     title?: any;
@@ -17,8 +15,8 @@ export interface ActionOptions {
     navigateByInnerUrl?: string;
     functionKey?: string;
     privilege?: string[] | string;
-    handler?: (entity: IId) => any;
-    actionCondition?: (entity: IId) => any;
+    handler?: (entity: any) => any;
+    actionCondition?: (entity: any) => any;
 }
 
 export class TranslationSet {

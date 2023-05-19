@@ -2,7 +2,6 @@ import { FastSearchSpec } from '../shared/fast-search-spec.model';
 import { XmEntitySpec } from '../shared/xm-entity-spec.model';
 import { XmEntity } from '../shared/xm-entity.model';
 import { ActionOptions, FieldOptions } from '@xm-ngx/core/config';
-import { IId } from '@xm-ngx/shared/interfaces';
 
 export { ActionOptions, FieldOptions } from '@xm-ngx/core/config';
 
@@ -47,8 +46,8 @@ export interface ActionsOptions extends ActionOptions {
     navigateByInnerUrl?: string;
     functionKey?: string;
     privilege?: string[] | string;
-    handler?: (entity: IId) => any;
-    actionCondition?: (entity: IId) => any;
+    handler?: (entity: XmEntity) => any;
+    actionCondition?: (entity: XmEntity) => any;
 }
 
 export interface FilterOptions {
