@@ -67,7 +67,7 @@ type DateValue = string[] | Date[];
                    class="abs"
                    matInput>
             <mat-error *ngIf="dateControl.invalid">{{'common-webapp-ext.validation.required' | translate}}</mat-error>
-            <button *ngIf="value" matSuffix mat-icon-button (click)="change(null)">
+            <button *ngIf="value && !disabled" matSuffix mat-icon-button (click)="change(null)">
                 <mat-icon>close</mat-icon>
             </button>
 
