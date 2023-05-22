@@ -114,7 +114,7 @@
     "file-saver": "2.0.5",
     "file-type": "16.5.4",
     "fs-extra": "10.1.0",
-    "fullcalendar": "^5.11.2",
+    "fullcalendar": "5.11.2",
     "glob": "8.0.3",
     "googleapis": "108.0.0",
     "gsap": "3.11.3",
@@ -166,7 +166,9 @@
     "web-animations-js": "2.3.2",
     "webstomp-client": "1.2.6",
     "yamljs": "0.3.0",
-    "zone.js": "0.11.8"
+    "zone.js": "0.11.8",
+    "preact": "10.14.1"
+
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "15.2.4",
