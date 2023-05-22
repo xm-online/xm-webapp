@@ -158,7 +158,7 @@
     "sockjs-client": "1.6.1",
     "stream": "0.0.2",
     "string-template": "1.0.0",
-    "swagger-ui": "4.15.5",
+    "swagger-ui": "5.0.0-alpha.13",
     "tether": "2.0.0",
     "tslib": "2.4.0",
     "twitter-bootstrap-wizard": "1.2.0",
