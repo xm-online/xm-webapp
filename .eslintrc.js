@@ -56,7 +56,7 @@ module.exports = {
                 'plugin:@angular-eslint/template/process-inline-templates',
             ],
             rules: {
-                '@xm-ngx/angular-selector-unique-rule': 'error',
+                // '@xm-ngx/angular-selector-unique-rule': 'error',
                 indent: ['error', 4, {
                     SwitchCase: 1,
                     FunctionDeclaration: {
