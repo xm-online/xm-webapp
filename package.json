@@ -23,7 +23,6 @@
   "scripts": {
     "ng": "ng",
     "xm-ngx": "xm-ngx",
-    "postinstall": "node ./scripts/build-packages.js && ngcc --properties esm5 browser module main",
     "prebuild": "xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && xm-ngx dynamic-specification && npm run import-jsf-exts",
     "start": "npm run prebuild && ng serve",
     "start:prod": "npm run prebuild && ng serve --configuration=serve-production",
@@ -52,7 +51,9 @@
     "import-jsf-exts": "node ./scripts/jsf-ext-importer.js",
     "translations": "npm run get-translations && xm-ngx ext-i18n",
     "report:bundle": "webpack-bundle-analyzer dist/stats.json",
-    "get-version": "printf $npm_package_version"
+    "get-version": "printf $npm_package_version",
+    "storybook": "ng run xm-webapp:storybook",
+    "build-storybook": "ng run xm-webapp:build-storybook"
   },
   "dependencies": {
     "@ajsf/core": "0.8.0",
@@ -152,6 +153,7 @@
     "path": "0.12.7",
     "popper.js": "1.16.1",
     "postcss": "8.4.18",
+    "preact": "10.14.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.5.7",
     "snazzy-info-window": "1.1.1",
@@ -166,8 +168,7 @@
     "web-animations-js": "2.3.2",
     "webstomp-client": "1.2.6",
     "yamljs": "0.3.0",
-    "zone.js": "0.11.8",
-    "preact": "10.14.1"
+    "zone.js": "0.11.8"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "15.2.4",
@@ -180,6 +181,12 @@
     "@angular/compiler-cli": "15.2.5",
     "@angular/language-service": "15.2.5",
     "@compodoc/compodoc": "1.1.19",
+    "@storybook/addon-essentials": "^7.0.14",
+    "@storybook/addon-interactions": "^7.0.14",
+    "@storybook/addon-links": "^7.0.14",
+    "@storybook/angular": "^7.0.14",
+    "@storybook/blocks": "^7.0.14",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@types/bootstrap": "5.2.5",
     "@types/chartist": "1.0.0",
     "@types/estree": "1.0.0",
@@ -194,6 +201,7 @@
     "@typescript-eslint/parser": "5.51.0",
     "codelyzer": "6.0.2",
     "eslint": "8.34.0",
+    "eslint-plugin-storybook": "^0.6.12",
     "eslint-plugin-tsdoc": "0.2.17",
     "jasmine-core": "4.5.0",
     "jasmine-spec-reporter": "7.0.0",
@@ -205,6 +213,9 @@
     "karma-jasmine-html-reporter": "2.0.0",
     "ng-packagr": "15.2.2",
     "protractor": "7.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.0.14",
     "stylelint-config-recommended": "9.0.0",
     "stylelint-declaration-use-variable": "1.7.3",
     "ts-node": "10.9.1",
