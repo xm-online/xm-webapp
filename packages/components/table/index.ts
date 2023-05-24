@@ -17,3 +17,6 @@ export {
 export {
     XmTableDynamicColumnsCellComponent,
 } from './columns/xm-table-dynamic-columns-cell.component';
+
+export { XmTableComponent,
+} from './table/xm-table.component';

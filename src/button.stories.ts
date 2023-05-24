@@ -1,10 +1,11 @@
 // Button.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { MatButton, MatButtonModule } from '@angular/material/button';
-import { moduleMetadata } from '@storybook/angular';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 const meta: Meta<MatButton> = {
     /* 👇 The title prop is optional.
@@ -18,6 +19,7 @@ const meta: Meta<MatButton> = {
             imports: [
                 MatIconModule,
                 MatButtonModule,
+                MatDividerModule
             ],
         })],
 
@@ -34,7 +36,7 @@ type Story = StoryObj<MatButton>;
  */
 export const Primary: Story = {
     render: () => ({
-        template:`
+        template: `
         <section>
   <div class="example-label">Basic</div>
   <div class="example-button-row">
@@ -46,18 +48,7 @@ export const Primary: Story = {
     <a mat-button href="https://www.google.com/" target="_blank">Link</a>
   </div>
 </section>
-<mat-divider></mat-divider>
-<section>
-  <div class="example-label">Raised</div>
-  <div class="example-button-row">
-    <button mat-raised-button>Basic</button>
-    <button mat-raised-button color="primary">Primary</button>
-    <button mat-raised-button color="accent">Accent</button>
-    <button mat-raised-button color="warn">Warn</button>
-    <button mat-raised-button disabled>Disabled</button>
-    <a mat-raised-button href="https://www.google.com/" target="_blank">Link</a>
-  </div>
-</section>
+
 <mat-divider></mat-divider>
 <section>
   <div class="example-label">Stroked</div>
@@ -82,58 +73,6 @@ export const Primary: Story = {
     <a mat-flat-button href="https://www.google.com/" target="_blank">Link</a>
   </div>
 </section>
-<mat-divider></mat-divider>
-<section>
-  <div class="example-label">Icon</div>
-  <div class="example-button-row">
-    <div class="example-flex-container">
-      <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
-        <mat-icon>home</mat-icon>
-      </button>
-      <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
-        <mat-icon>favorite</mat-icon>
-      </button>
-      <button mat-icon-button disabled aria-label="Example icon button with a open in new tab icon">
-        <mat-icon>open_in_new</mat-icon>
-      </button>
-    </div>
-  </div>
-</section>
-<mat-divider></mat-divider>
-<section>
-  <div class="example-label">FAB</div>
-  <div class="example-button-row">
-    <div class="example-flex-container">
-      <div class="example-button-container">
-        <button mat-fab color="primary" aria-label="Example icon button with a delete icon">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-      <div class="example-button-container">
-        <button mat-fab color="accent" aria-label="Example icon button with a bookmark icon">
-          <mat-icon>bookmark</mat-icon>
-        </button>
-      </div>
-      <div class="example-button-container">
-        <button mat-fab color="warn" aria-label="Example icon button with a home icon">
-          <mat-icon>home</mat-icon>
-        </button>
-      </div>
-      <div class="example-button-container">
-        <button mat-fab disabled aria-label="Example icon button with a heart icon">
-          <mat-icon>favorite</mat-icon>
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-<mat-divider></mat-divider>
 <section>
   <div class="example-label">Mini FAB</div>
   <div class="example-button-row">
@@ -171,10 +110,34 @@ export const Primary: Story = {
 
 export const Secondary: Story = {
     render: () => ({
-        template:`
-        <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
-        <mat-icon>home</mat-icon>
-      </button>
+        template: `
+<section>
+  <div class="example-label">FAB</div>
+  <div class="example-button-row">
+    <div class="example-flex-container">
+      <div class="example-button-container">
+        <button mat-fab color="primary" aria-label="Example icon button with a delete icon">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <div class="example-button-container">
+        <button mat-fab color="accent" aria-label="Example icon button with a bookmark icon">
+          <mat-icon>bookmark</mat-icon>
+        </button>
+      </div>
+      <div class="example-button-container">
+        <button mat-fab color="warn" aria-label="Example icon button with a home icon">
+          <mat-icon>home</mat-icon>
+        </button>
+      </div>
+      <div class="example-button-container">
+        <button mat-fab disabled aria-label="Example icon button with a heart icon">
+          <mat-icon>favorite</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
         `,
         props: {
             label: '😄👍😍💯',
@@ -185,8 +148,29 @@ export const Secondary: Story = {
 
 export const Tertiary: Story = {
     render: () => ({
-        template:`
-        <button mat-raised-button color="primary">Primary</button>
+        template: `
+        <section>
+          <div class="example-label">Icon</div>
+          <div class="example-button-row">
+            <div class="example-flex-container">
+              <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                <mat-icon>home</mat-icon>
+              </button>
+              <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
+                <mat-icon>favorite</mat-icon>
+              </button>
+              <button mat-icon-button disabled aria-label="Example icon button with a open in new tab icon">
+                <mat-icon>open_in_new</mat-icon>
+              </button>
+            </div>
+          </div>
+        </section>
         `,
         props: {
             label: '📚📕📈🤓',

@@ -1,93 +1,153 @@
-// Button.stories.ts
-
-import type { Meta, StoryObj } from '@storybook/angular';
-import { moduleMetadata } from '@storybook/angular';
-
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { XmTableComponent } from '@xm-ngx/components/table';
-import { LanguageService, XmTranslationModule } from '@xm-ngx/translation';
-import { TranslateService } from '@ngx-translate/core';
+import { MatTableModule } from '@angular/material/table';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmLogger, XmLoggerModule } from '@xm-ngx/logger';
-import { XmCoreModule } from '@xm-ngx/core';
-import { NgxWebstorageModule } from 'ngx-webstorage';
-import { XmUserService } from '@xm-ngx/core/user';
+import { LocalStorageService } from 'ngx-webstorage';
+import { RouterTestingModule } from '@angular/router/testing';
+import { XM_DATE_ELEMENTS } from '@xm-ngx/components/xm-date.registry';
+import { XM_HTML_ELEMENTS } from '@xm-ngx/components/xm-html.registry';
+import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/xm-text.registry';
+import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/xm-bool.registry';
+import { XM_COPY_ELEMENTS } from '@xm-ngx/components/xm-copy.registry';
+import { XM_LINK_ELEMENTS } from '@xm-ngx/components/xm-link.registry';
+import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/xm-enum.registry';
+import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/xm-array.registry';
+import { XM_TABLE_ELEMENTS } from '@xm-ngx/components/xm-table.registry';
+import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/xm-navbar.registry';
+import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/xm-dashboard.registry';
+import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/xm-administration.registry';
+import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/xm.registry';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
-const meta: Meta<XmTableComponent> = {
-    /* 👇 The title prop is optional.
-     * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading
-     * to learn how to generate automatic titles
-     */
-    title: 'table',
+
+const mockLocalStorage = {
+    retrieve(key: string): any {
+        return {};
+    },
+    store(key: string): any {
+        return {};
+    },
+};
+
+export default {
+    title: 'XmTable',
     component: XmTableComponent,
     decorators: [
         moduleMetadata({
             imports: [
-                XmTranslationModule.forRoot(),
-                XmTranslationModule.forChild(),
-                XmDynamicModule.forRoot([]),
-                XmDynamicModule.forChild([]),
-                XmLoggerModule.forRoot(),
-                XmCoreModule.forRoot(),
-                NgxWebstorageModule.forRoot(),
+                RouterTestingModule,
+                MatTableModule,
+                BrowserAnimationsModule,
+                HttpClientModule,
+                XmLoggerModule,
                 XmDynamicExtensionModule.forRoot([]),
-                /*                TranslateModule.forRoot({
-                                    isolate: false,
-                                    loader: {deps: [HttpClient], provide: TranslateLoader, useFactory: HttpLoaderFactory},
-                                }),*/
+                /*TranslateModule.forChild({defaultLanguage: 'en'}),*/
+                XmTranslationTestingModule,
+                ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
+                XmDynamicModule.forRoot([].concat(
+                    XM_DATE_ELEMENTS,
+                    XM_HTML_ELEMENTS,
+                    XM_TEXT_ELEMENTS,
+                    XM_BOOL_ELEMENTS,
+                    XM_COPY_ELEMENTS,
+                    XM_LINK_ELEMENTS,
+                    XM_ENUM_ELEMENTS,
+                    XM_ARRAY_ELEMENTS,
+                    XM_TABLE_ELEMENTS,
+                    XM_NAVBAR_ELEMENTS,
+                    XM_DASHBOARD_ELEMENTS,
+                    XM_ADMINISTRATION_ELEMENTS,
+                    XM_COMPONENTS_ELEMENTS,
+                )),
             ],
-            declarations: [],
             providers: [
-                /*                {
-                                    provide: APP_INITIALIZER,
-                                    multi: true,
-                                    deps: [TranslateService,XmAlertService],
-                                },*/
+                {provide: LocalStorageService, useValue: mockLocalStorage},
                 {provide: XmToasterService, useValue: {}},
-                {provide: TranslateService, useValue: {}},
                 {provide: XmAlertService, useValue: {}},
                 {provide: XmLogger, useValue: {}},
-                {provide: XmUserService, useValue: {}},
-                {provide: LanguageService, useValue: {}},
-
-
             ],
         }),
     ],
-};
+} as Meta;
 
-export default meta;
-type Story = StoryObj<XmTableComponent>;
+const Template: Story<XmTableComponent> = (args: XmTableComponent) => ({
+    component: XmTableComponent,
+    props: args,
+});
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/angular/api/csf
- * to learn how to use render functions.
- */
-export const Primary: Story = {
-    render: () => ({
-        props: {
-            label: 'table',
-            backgroundColor: '#ff0',
+export const Default: Story<XmTableComponent> = Template.bind({});
+Default.args = {
+    config: {
+        collection: {
+            repository: null, type: 'config',
         },
-    }),
-};
+        path: 'data',
+        data: [{id: 111, name: 'test'}],
+        title: {en: 'eeee'},
+        filters: [{
+            selector: '@xm-ngx/components/text-control',
+            name: 'name',
+            class: 'data',
+            style: 'data',
+            condition: '',
+            value: '',
+            options: {
+                title: {en: 'error'},
+                required: false,
+            },
+        }],
+        columns: [
+            {
+                selector: '@xm-ngx/components/text',
+                title: {en: 'Name'},
+                field: 'name',
+                sortable: true,
+                sticky: true,
+                name: 'name',
+                dataClass: 'string',
+                dataStyle: 'data',
+                class: 'data',
+                style: 'data',
+            },
+            {
+                name: 'id',
+                field: 'id',
+                title: {en: 'ID'},
+                sortable: true,
+                dataClass: '',
+                dataStyle: '',
+                selector: '@xm-ngx/components/text',
+                class: '',
+                style: '',
+            },
+            {
+                name: 'age',
+                field: 'age',
+                title: {en: 'Age'},
+                sortable: true,
+                dataClass: '',
+                dataStyle: '',
+                selector: '@xm-ngx/components/text',
+                class: '',
+                style: '',
+            },
+        ],
+        pageableAndSortable: {
+            pageIndex: 0,
+            pageSize: 10,
+            total: 0,
+            sortOrder: 'asc',
+            sortBy: 'id',
+            pageSizeOptions: [10, 20, 50],
+            hidePagination: false,
 
-export const Secondary: Story = {
-    render: () => ({
-        props: {
-            label: '😄👍😍💯',
-            backgroundColor: '#ff0',
         },
-    }),
-};
-
-export const Tertiary: Story = {
-    render: () => ({
-        props: {
-            label: '📚📕📈🤓',
-            backgroundColor: '#ff0',
-        },
-    }),
+    } as any,
 };
