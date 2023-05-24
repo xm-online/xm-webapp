@@ -1,4 +1,4 @@
-import { removeEmptyDeep } from '@xm-ngx/shared/operators';
+import { removeEmptyDeep } from '../index';
 
 describe('removeEmptyDeep', () => {
     it('should transform an one-level', () => {

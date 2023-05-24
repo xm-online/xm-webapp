@@ -11,7 +11,7 @@ import { ContextService } from '@xm-ngx/core/context';
 import { Principal } from '@xm-ngx/core/user';
 import { getDefaultMenuList } from './default-menu-list';
 import { CdkTreeModule, NestedTreeControl } from '@angular/cdk/tree';
-import { treeNodeSearch } from '../../shared/operators/src/tree-search';
+import { treeNodeSearch } from '@xm-ngx/shared/operators';
 import { buildMenuTree } from './nested-menu';
 import { applicationsToCategory, filterByConditionDashboards } from './flat-menu';
 import { MenuItem, MenuOptions } from './menu.interface';

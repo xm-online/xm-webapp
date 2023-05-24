@@ -21,9 +21,6 @@
       "dom"
     ],
     "paths": {
-      "@xm-ngx/styles": [
-        "packages/styles"
-      ],
       "@xm-ngx/administration/*": [
         "packages/administration/src/*"
       ],
@@ -87,6 +84,9 @@
       "@xm-ngx/json-schema-form/components": [
         "packages/json-schema-form/components"
       ],
+      "@xm-ngx/json-schema-form/components/*": [
+        "packages/json-schema-form/components/*"
+      ],
       "@xm-ngx/toaster": [
         "packages/toaster"
       ],
@@ -109,19 +109,19 @@
         "packages/shared/src/*"
       ],
       "@xm-ngx/shared/exceptions": [
-        "packages/shared/exceptions"
+        "node_modules/@xm-ngx/exceptions"
       ],
       "@xm-ngx/shared/validators": [
-        "packages/shared/validators"
+        "node_modules/@xm-ngx/validators"
       ],
       "@xm-ngx/shared/interfaces": [
-        "packages/shared/interfaces"
+        "node_modules/@xm-ngx/interfaces"
       ],
       "@xm-ngx/shared/operators": [
-        "packages/shared/operators"
+        "node_modules/@xm-ngx/operators"
       ],
       "@xm-ngx/shared/pipes": [
-        "packages/shared/pipes"
+        "node_modules/@xm-ngx/pipes"
       ],
       "@xm-ngx/translation": [
         "packages/translation"

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { XmDynamicModule } from '../src/module/xm-dynamic.module';
 import { XmPublicRoutingModule } from './xm-public-routing.module';
 import { XmPublicComponent } from './xm-public.component';
 

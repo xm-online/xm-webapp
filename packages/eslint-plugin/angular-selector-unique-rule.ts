@@ -1,3 +1,5 @@
+import { Rule } from 'eslint';
+
 let selectors = new Map();
 let isFirstIterationAnyFileMatchCache = null;
 
@@ -6,9 +8,8 @@ module.exports = {
         type: 'problem',
         docs: {
             description: 'Selectors must be unique across Angular files',
-            recommended: 'error',
+            recommended: false,
         },
-        schema: [],
     },
     create(context) {
         const path = context.getPhysicalFilename();
@@ -35,4 +36,4 @@ module.exports = {
             },
         };
     },
-};
+} as Rule.RuleModule;

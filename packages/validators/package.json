@@ -1,5 +1,5 @@
 {
-  "name": "@xm-ngx/dynamic",
+  "name": "@xm-ngx/validators",
   "version": "1.0.0",
   "scripts": {
     "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
