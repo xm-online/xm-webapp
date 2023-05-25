@@ -30,11 +30,12 @@ import { DigitOnlyDirective } from '@xm-ngx/components/digit-only.directive';
 import { FocusDirective } from '@xm-ngx/components/focus.directive';
 import { InputPreventPasteDirective } from '@xm-ngx/components/input-prevent-paste.directive';
 import { XmGMapApiInitDirective } from '@xm-ngx/components/xmGMapApiInit.directive';
-import { SafeNamePipe } from './helpers/safe-name.pipe';
-import { XmCondition } from './helpers/xm-condition';
-import { XmDateTimePipe } from './helpers/xm-date-time.pipe';
-import { XmEntityIconPipe } from './helpers/xm-entity-icon.pipe';
-import { XmEntityStateSpecPipe } from './helpers/xm-entity-state-spec.pipe';
+import { SafeNamePipe } from '@xm-ngx/pipes';
+import { XmCondition } from '@xm-ngx/pipes';
+import { XmDateTimePipe } from '@xm-ngx/pipes';
+import { XmEntityIconPipe } from '@xm-ngx/pipes';
+import { XmEntityStateSpecPipe } from '@xm-ngx/pipes';
+import { TimeFromPipe } from '@xm-ngx/pipes';
 import { IdpComponent } from '@xm-ngx/components/idp';
 import { ContentTextareaComponent } from '../../../packages/json-schema-form/components/content-textarea/content-textarea.component';
 import { CurrentLocationComponent } from '../../../packages/json-schema-form/components/current-location/current-location.component';
@@ -66,11 +67,27 @@ import { ParseByPathService } from './services/parse-by-path.service';
 import { GateSharedLibsModule } from './shared-libs.module';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { UserService } from '@xm-ngx/core/user';
-import { TimeFromPipe } from './helpers/time-from.pipe';
 import {
     MultilingualInputV2Component,
 } from '../../../packages/json-schema-form/components/multilingual-input-v2/multilingual-input-v2.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+
+const PIPES = [
+    XmDateTimePipe,
+    XmEntityStateSpecPipe,
+    SafeNamePipe,
+    XmEntityIconPipe,
+    TimeFromPipe,
+];
+
+const DIRECTIVES = [
+    HasAnyAuthorityDirective,
+    XmCondition,
+    FocusDirective,
+    InputPreventPasteDirective,
+    DigitOnlyDirective,
+    XmGMapApiInitDirective,
+];
 
 @NgModule({
     imports: [
@@ -116,19 +133,6 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
         FileUploadComponent,
         PrivacyAndTermsDialogComponent,
         IdpComponent,
-        // Directives
-        HasAnyAuthorityDirective,
-        XmCondition,
-        FocusDirective,
-        InputPreventPasteDirective,
-        DigitOnlyDirective,
-        XmGMapApiInitDirective,
-        // Pipes
-        XmDateTimePipe,
-        XmEntityStateSpecPipe,
-        SafeNamePipe,
-        XmEntityIconPipe,
-        TimeFromPipe,
     ],
     providers: [
         // Components
@@ -171,18 +175,9 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
         FileUploadComponent,
         IdpComponent,
         // Directives
-        HasAnyAuthorityDirective,
-        XmCondition,
-        FocusDirective,
-        InputPreventPasteDirective,
-        DigitOnlyDirective,
-        XmGMapApiInitDirective,
+        DIRECTIVES,
         // Pipes
-        SafeNamePipe,
-        XmEntityStateSpecPipe,
-        XmDateTimePipe,
-        XmEntityIconPipe,
-        TimeFromPipe,
+        PIPES,
         // Modules
         GateSharedLibsModule,
         MatModule,

@@ -1,6 +1,6 @@
 import { AfterViewInit, Directive, ElementRef, Renderer2 } from '@angular/core';
 
-@Directive({selector: '[xmFocus]'})
+@Directive({selector: '[xmFocus]', standalone: true})
 export class FocusDirective implements AfterViewInit {
 
     constructor(private hostElement: ElementRef, private renderer: Renderer2) {}

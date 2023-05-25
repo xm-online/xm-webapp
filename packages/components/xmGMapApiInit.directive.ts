@@ -23,6 +23,7 @@ interface IGoogleApiCfg {
 }
 @Directive({
     selector: '[xmGMapApiInit]',
+    standalone: true,
 })
 
 export class XmGMapApiInitDirective implements OnInit, OnDestroy {

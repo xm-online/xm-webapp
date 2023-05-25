@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 /**
  * Pipe is used to display date formatted to time from date until now
  */
-@Pipe({name: 'timeFrom'})
+@Pipe({name: 'timeFrom', standalone: true})
 export class TimeFromPipe implements PipeTransform {
     public locale: string;
 

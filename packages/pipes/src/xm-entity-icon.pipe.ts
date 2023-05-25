@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Spec } from '@xm-ngx/entity';
 
-@Pipe({name: 'xmEntityIcon'})
+@Pipe({name: 'xmEntityIcon', standalone: true})
 export class XmEntityIconPipe implements PipeTransform {
 
     public transform(typeKey: string, spec: Spec): string {

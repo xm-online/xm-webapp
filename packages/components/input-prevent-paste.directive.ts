@@ -2,6 +2,7 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
     selector: '[xmInputPreventPaste]',
+    standalone: true
 })
 export class InputPreventPasteDirective {
 

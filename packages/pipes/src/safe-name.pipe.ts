@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
-@Pipe({name: 'safeName'})
+@Pipe({name: 'safeName', standalone: true})
 export class SafeNamePipe implements PipeTransform {
 
     public transform(name: any): string {

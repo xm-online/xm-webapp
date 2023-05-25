@@ -13,7 +13,7 @@ import { XmConfigService } from '@xm-ngx/core/config';
  * If used without params, would be taken from account in Principal
  * and formating also can be override from config UI
  */
-@Pipe({name: 'xmDateTime'})
+@Pipe({name: 'xmDateTime', standalone: true})
 export class XmDateTimePipe implements PipeTransform {
 
     public account: {

@@ -2,6 +2,7 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
     selector: '[xmDigitOnly]',
+    standalone: true
 })
 export class DigitOnlyDirective {
     @Input() public numericType: string; // number || decimal

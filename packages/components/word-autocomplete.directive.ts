@@ -16,6 +16,7 @@ enum KEY_CODE {
         '(keyup)': 'onKeyup($event)',
         '(blur)': 'onBlur($event)',
     },
+    standalone: true,
 })
 export class WordAutocompleteDirective implements OnInit {
 
