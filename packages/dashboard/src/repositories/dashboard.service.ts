@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS } from '@xm-ngx/core';
-import { createRequestOption } from '@xm-ngx/entity';
+import { createRequestOption } from '@xm-ngx/operators';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Dashboard, DashboardWithWidgets } from '../models/dashboard.model';

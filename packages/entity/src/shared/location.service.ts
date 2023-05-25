@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { createRequestOption } from './request-util';
+import { createRequestOption } from '@xm-ngx/operators';
 import { Location } from './location.model';
 
 @Injectable()

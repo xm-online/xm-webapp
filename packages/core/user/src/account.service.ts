@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { JhiDateUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { createRequestOption } from '@xm-ngx/entity/shared/request-util';
+import { createRequestOption } from '@xm-ngx/operators';
 
 import { SERVER_API_URL } from '../../../../src/app/xm.constants';
 import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL } from '../../auth/src/auth.constants';

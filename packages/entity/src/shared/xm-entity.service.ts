@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { Link } from './link.model';
-import { createRequestOption } from './request-util';
+import { createRequestOption } from '@xm-ngx/operators';
 import { XmEntity } from './xm-entity.model';
 
 export interface ElasticQueryParams {

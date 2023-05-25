@@ -40,7 +40,6 @@ export * from './rating.model';
 export * from './rating.service';
 export * from './rating-spec.model';
 
-export { createRequestOption } from './request-util';
 
 export * from './spec.model';
 export * from './state-spec.model';

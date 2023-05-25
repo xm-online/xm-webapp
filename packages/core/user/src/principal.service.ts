@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUserService } from './xm-user.service';
-import { OnInitialize } from '@xm-ngx/shared/interfaces';
-import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { OnInitialize } from '@xm-ngx/interfaces';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';

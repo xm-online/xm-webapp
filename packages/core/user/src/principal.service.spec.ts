@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { XmSessionService } from '@xm-ngx/core';
-import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { cloneDeep } from 'lodash';
 import { of } from 'rxjs';
 import { AccountService } from './account.service';
@@ -27,7 +26,7 @@ describe('PrincipalService', () => {
         mockAccountService.get.and.returnValue(of(cloneDeep(mockedUser)));
 
         TestBed.configureTestingModule({
-            imports: [XmTranslationTestingModule, HttpClientTestingModule],
+            imports: [HttpClientTestingModule],
             providers: [
                 Principal,
                 { provide: XmUserService, useValue: {} },

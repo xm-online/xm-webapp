@@ -4,7 +4,7 @@ import { JhiDateUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { createRequestOption } from './request-util';
+import { createRequestOption } from '@xm-ngx/operators';
 import { Tag } from './tag.model';
 
 @Injectable()

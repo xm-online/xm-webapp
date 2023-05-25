@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { XmCoreConfig } from '@xm-ngx/core';
-import { createRequestOption } from '@xm-ngx/entity';
+import { createRequestOption } from '@xm-ngx/operators';
 import { Observable } from 'rxjs';
 import { Audit } from './audit.model';
 
