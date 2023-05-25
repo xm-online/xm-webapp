@@ -63,7 +63,7 @@ import { PrivilegeService } from '@xm-ngx/core/permission';
 import { RegisterComponent } from '../../components/register/register.component';
 import { RegisterService } from '../../components/register/register.service';
 import { RoleService } from '../../core/role/role.service';
-import { ParseByPathService } from './services/parse-by-path.service';
+import { ParseByPathService } from '@xm-ngx/core/permission';
 import { GateSharedLibsModule } from './shared-libs.module';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { UserService } from '@xm-ngx/core/user';
