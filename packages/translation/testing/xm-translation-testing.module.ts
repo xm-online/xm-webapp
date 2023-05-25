@@ -4,11 +4,11 @@ import {
     DefaultLangChangeEvent,
     LangChangeEvent,
     TranslationChangeEvent,
-} from '@ngx-translate/core/lib/translate.service';
+} from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
-import { LanguageService } from '../src/services/language.service';
-import { TranslatePipe } from '../src/pipes/translate.pipe';
-import { XmTranslateService } from '../src/services/xm-translate-service';
+import { LanguageService } from '@xm-ngx/translation';
+import { TranslatePipe } from '@xm-ngx/translation';
+import { XmTranslateService } from '@xm-ngx/translation';
 
 @Injectable()
 @Pipe({ name: 'translate' })
