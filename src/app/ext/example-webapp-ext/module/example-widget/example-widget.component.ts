@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { Translate } from '@xm-ngx/translation';
 import { CommonModule } from '@angular/common';
-import { Defaults } from '@xm-ngx/shared/operators';
+import { Defaults } from '@xm-ngx/operators';
 
 export interface ExampleWidgetComponentConfig {
     title: Translate

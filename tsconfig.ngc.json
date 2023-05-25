@@ -1,6 +1,6 @@
 {
   "angularCompilerOptions": {
-    "enableIvy": false,
+    "enableIvy": true,
     "annotateForClosureCompiler": false,
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
@@ -12,7 +12,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "es2015",
-    "module": "es2015",
+    "module": "es2020",
     "moduleResolution": "node",
     "outDir": "",
     "resolveJsonModule": true,
@@ -25,26 +25,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "lib": ["dom", "es2015"],
-    "paths": {
-      "@xm-ngx/shared/*": ["dist/packages/shared/*"],
-      "@xm-ngx/core": ["dist/packages/core"],
-      "@xm-ngx/core/*": ["dist/packages/core/*"],
-      "@xm-ngx/balance": ["dist/packages/balance"],
-      "@xm-ngx/entity": ["dist/packages/entity"],
-      "@xm-ngx/dynamic": ["dist/packages/dynamic"],
-      "@xm-ngx/dynamic/*": ["dist/packages/dynamic/*"],
-      "@xm-ngx/timeline": ["dist/timeline"],
-      "@xm-ngx/timeline/*": ["dist/timeline/*"],
-      "@xm-ngx/components/*": ["dist/packages/components/*"],
-      "@xm-ngx/logger/*": ["dist/packages/logger/*"],
-      "@xm-ngx/alert/*": ["dist/packages/alert/*"],
-      "@xm-ngx/account/*": ["dist/packages/account/*"],
-      "@xm-ngx/administration/*": ["dist/packages/administration/*"],
-      "@xm-ngx/dashboard/*": ["dist/packages/dashboard/*"],
-      "@xm-ngx/json-schema-form/*": ["dist/packages/json-schema-form/*"],
-      "@xm-ngx/styles/*": ["dist/packages/styles/*"],
-      "@xm-ngx/translation": ["dist/packages/translation"]
-    }
+    "paths": {}
   },
   "exclude": ["node_modules", "dist", "**/*.ngfactory.ts", "**/*.shim.ts", "**/*.spec.ts"]
 }
