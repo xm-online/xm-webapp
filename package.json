@@ -23,6 +23,7 @@
   "scripts": {
     "ng": "ng",
     "xm-ngx": "xm-ngx",
+    "postinstall": "node ./scripts/build-packages.js && ngcc --properties esm5 browser module main",
     "prebuild": "xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && xm-ngx dynamic-specification && npm run import-jsf-exts",
     "start": "npm run prebuild && ng serve",
     "start:prod": "npm run prebuild && ng serve --configuration=serve-production",
