@@ -2,7 +2,7 @@ import { Injectable, InjectionToken } from '@angular/core';
 
 export const XM_CORE_EXTERNAL_CONFIG = new InjectionToken<XmCoreConfig>('XM_CORE_EXTERNAL_CONFIG');
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class XmCoreConfig {
     public SERVER_API_URL: string = '';
     public IDP_PUBLIC_CONFIG_URL: string = `${this.SERVER_API_URL}config/api/profile/webapp/public/idp-config-public.yml?toJson&processed=true`;

@@ -97,7 +97,7 @@
         "packages/logger/testing"
       ],
       "@xm-ngx/logger/global-error-handler": [
-          "packages/logger/global-error-handler"
+        "packages/logger/global-error-handler"
       ],
       "@xm-ngx/timeline": [
         "packages/timeline"

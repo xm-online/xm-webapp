@@ -1,4 +1,4 @@
-import { removeEmptyDeep } from '../index';
+import { removeEmptyDeep } from './remove-empty-deep';
 
 describe('removeEmptyDeep', () => {
     it('should transform an one-level', () => {

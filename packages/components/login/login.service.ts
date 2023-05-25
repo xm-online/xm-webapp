@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { AuthServerProvider } from '@xm-ngx/core/auth/src/auth-jwt.service';
-import { Principal } from '@xm-ngx/core/user/src/principal.service';
-import { StateStorageService } from '@xm-ngx/core/auth/src/state-storage.service';
+import { AuthServerProvider } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
+import { StateStorageService } from '@xm-ngx/core/auth';
 import { SessionStorageService } from 'ngx-webstorage';
 import { IDP_CLIENT, XM_EVENT_LIST } from '../../../src/app/xm.constants';
 import { IIdpClient, IIdpConfig, XmEventManager, XmSessionService } from '@xm-ngx/core';
@@ -11,7 +11,7 @@ import { DOCUMENT, Location } from '@angular/common';
 import { environment } from '@xm-ngx/core/environment';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PrivacyAndTermsDialogComponent } from '@xm-ngx/components/privacy-and-terms-dialog';
-import { AuthRefreshTokenService } from '@xm-ngx/core/auth/src/auth-refresh-token.service';
+import { AuthRefreshTokenService } from '@xm-ngx/core/auth';
 
 @Injectable()
 export class LoginService {
