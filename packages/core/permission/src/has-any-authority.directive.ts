@@ -14,6 +14,7 @@ import { Principal } from '../../user/src/principal.service';
  */
 @Directive({
     selector: '[xmJhiHasAnyAuthority], [jhiHasAnyAuthority]',
+    standalone: true,
 })
 export class HasAnyAuthorityDirective {
 

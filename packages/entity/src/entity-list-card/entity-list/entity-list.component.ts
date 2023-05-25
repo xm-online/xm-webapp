@@ -23,7 +23,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
 import { merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { flattenEntityWithPath, getFieldValue } from '@xm-ngx/operators';
+import { flattenEntityWithPath, getFieldValue } from '@xm-ngx/entity/shared';
 import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
 import { ContextService } from '@xm-ngx/core/context';
 import { Principal } from '@xm-ngx/core/user';

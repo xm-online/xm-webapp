@@ -9,7 +9,7 @@ import { catchError, finalize, map, take, tap } from 'rxjs/operators';
 
 import { XmConfigService } from '@xm-ngx/core/config';
 import { ContextService } from '@xm-ngx/core/context';
-import { getFieldValue } from '@xm-ngx/operators';
+import { getFieldValue } from '../shared/entity-list-helper';
 import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
 
 

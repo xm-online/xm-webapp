@@ -10,7 +10,7 @@ import { XmMaintenanceViewModule } from '@xm-ngx/components/maintenance';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { PerPageModule } from '@xm-ngx/components/per-page';
 import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
-import { WordAutocompleteModule } from '@xm-ngx/components/word-autocomplete.directive';
+import { WordAutocompleteModule } from '@xm-ngx/components/text';
 import { LanguageModule } from '@xm-ngx/translation';
 import { XmCoreModule } from '@xm-ngx/core';
 import { XmPermissionModule } from '@xm-ngx/core/permission';

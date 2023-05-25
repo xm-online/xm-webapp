@@ -26,9 +26,9 @@ import {
 } from '../../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfirmDialogComponent } from '../../components/confirmation-dialog/xm-confirm-dialog.component';
 import { ContextService } from '../../core/context/context.service';
-import { DigitOnlyDirective } from '@xm-ngx/components/digit-only.directive';
-import { FocusDirective } from '@xm-ngx/components/focus.directive';
-import { InputPreventPasteDirective } from '@xm-ngx/components/input-prevent-paste.directive';
+import { DigitOnlyDirective } from '@xm-ngx/components/text';
+import { FocusDirective } from '@xm-ngx/components/text';
+import { InputPreventPasteDirective } from '@xm-ngx/components/text';
 import { XmGMapApiInitDirective } from '@xm-ngx/components/xmGMapApiInit.directive';
 import { SafeNamePipe } from '@xm-ngx/pipes';
 import { XmCondition } from '@xm-ngx/pipes';
@@ -105,6 +105,8 @@ const DIRECTIVES = [
         ModalCloseModule,
         AngularEditorModule,
         CommonModule,
+        DIRECTIVES,
+        PIPES,
     ],
     declarations: [
         // Components
@@ -174,9 +176,7 @@ const DIRECTIVES = [
         TextSectionComponent,
         FileUploadComponent,
         IdpComponent,
-        // Directives
         DIRECTIVES,
-        // Pipes
         PIPES,
         // Modules
         GateSharedLibsModule,

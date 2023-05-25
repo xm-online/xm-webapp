@@ -172,10 +172,11 @@ export class WordAutocompleteDirective implements OnInit {
 }
 
 @NgModule({
-    imports: [],
+    imports: [WordAutocompleteDirective],
     exports: [WordAutocompleteDirective],
-    declarations: [WordAutocompleteDirective],
+    declarations: [],
     providers: [],
 })
+/** @deprecated use WordAutocompleteDirective */
 export class WordAutocompleteModule {
 }
