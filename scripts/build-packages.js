@@ -11,13 +11,12 @@ execSync('(cd ./packages/operators && npm run build && cd ../../)', {stdio: 'inh
 execSync('(cd ./packages/eslint-plugin && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/dynamic && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/core && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/logger && npm run build && cd ../../)', {stdio: 'inherit'});
 // TODO: Complete migration to modules.
 // execSync('(cd ./packages/shared && npm run build)', {stdio: 'inherit'});
-// execSync('(ng-packagr -p ./packages/core -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/translation -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/balance -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/entity -c tsconfig.ngc.json)', {stdio: 'inherit'});
-// execSync('(ng-packagr -p ./packages/logger -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/timeline -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/account -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/administration -c tsconfig.ngc.json)', {stdio: 'inherit'});

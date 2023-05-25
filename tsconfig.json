@@ -91,13 +91,13 @@
         "packages/toaster"
       ],
       "@xm-ngx/logger": [
-        "packages/logger"
+        "node_modules/@xm-ngx/logger"
       ],
       "@xm-ngx/logger/testing": [
-        "packages/logger/testing"
+        "node_modules/@xm-ngx/logger/testing"
       ],
       "@xm-ngx/logger/global-error-handler": [
-          "packages/logger/global-error-handler"
+          "node_modules/@xm-ngx/logger/global-error-handler"
       ],
       "@xm-ngx/timeline": [
         "packages/timeline"
@@ -148,10 +148,10 @@
         "packages/entity/src/*"
       ],
       "@xm-ngx/dynamic": [
-        "packages/dynamic"
+        "node_modules/@xm-ngx/dynamic"
       ],
       "@xm-ngx/dynamic/*": [
-        "packages/dynamic/*"
+        "node_modules/@xm-ngx/dynamic/*"
       ],
       "@xm-ngx/dashboard": [
         "packages/dashboard"
