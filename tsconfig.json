@@ -106,10 +106,7 @@
         "packages/timeline/*"
       ],
       "@xm-ngx/shared": [
-        "packages/shared/src"
-      ],
-      "@xm-ngx/shared/*": [
-        "packages/shared/src/*"
+        "packages/shared"
       ],
       "@xm-ngx/shared/exceptions": [
         "node_modules/@xm-ngx/exceptions"
