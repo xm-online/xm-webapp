@@ -5,12 +5,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { CustomUriEncoder } from '@xm-ngx/operators';
 import {
     ACCESS_TOKEN,
-    AuthRefreshTokenService,
-    AuthTokenResponse,
     REFRESH_TOKEN,
+    AuthTokenResponse,
     TOKEN_URL,
+} from '@xm-ngx/core/user';
+import {
+    AuthRefreshTokenService,
     XmAuthenticationRepository,
-    XmAuthenticationStoreService
+    XmAuthenticationStoreService,
 } from '@xm-ngx/core/auth';
 import { map, tap } from 'rxjs/operators';
 import { XmSessionService } from '@xm-ngx/core';

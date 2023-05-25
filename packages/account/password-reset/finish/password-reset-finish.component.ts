@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AuthServerProvider } from '@xm-ngx/core/auth';
+import { AuthServerProvider } from '@xm-ngx/core/user';
 import { PasswordSpec } from '@xm-ngx/core/config';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

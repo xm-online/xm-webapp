@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { AuthServerProvider } from '@xm-ngx/core/auth';
+import { AuthServerProvider } from '@xm-ngx/core/user';
 import { Principal } from '@xm-ngx/core/user';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { SessionStorageService } from 'ngx-webstorage';

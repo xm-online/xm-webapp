@@ -4,7 +4,7 @@ import { XmUserService } from './xm-user.service';
 import { OnInitialize } from '@xm-ngx/interfaces';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
-import * as moment from 'moment';
+import moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { filter, shareReplay, takeUntil } from 'rxjs/operators';
 

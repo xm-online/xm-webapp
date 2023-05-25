@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import {
     IXmTableCollectionController,
     XmTableCollectionControllerResolver,
-} from '@xm-ngx/components/table/table';
+} from '@xm-ngx/components/table';
 import { XM_DYNAMIC_TABLE_CELL, XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { cloneDeep, set } from 'lodash';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';
@@ -23,7 +23,7 @@ export type XmTableEditCellConfig = XmInlineControlConfig & {
     imports: [XmInlineControlComponent, FormsModule, ConditionModule],
     template: `
         <ng-container *xmCondition="config.condition; arguments: { row, cell, value }">
-            <xm-inline-control 
+            <xm-inline-control
                 [config]="config"
                 (saveValue)="onSaveEntity($event)"
                 [ngModel]="value"></xm-inline-control>

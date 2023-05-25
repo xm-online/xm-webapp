@@ -12,7 +12,7 @@ import {
     takeUntilOnDestroyDestroy,
 
 } from '@xm-ngx/shared/operators';
-import { XmTableCollectionControllerResolver } from '@xm-ngx/components/table/table';
+import { XmTableCollectionControllerResolver } from '@xm-ngx/components/table';
 import { XmTableFilterController } from '@xm-ngx/components/table/controllers/filters/xm-table-filter-controller.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';

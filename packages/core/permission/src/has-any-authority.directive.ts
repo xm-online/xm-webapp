@@ -1,5 +1,5 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Principal } from '../../user/src/principal.service';
+import { Principal } from '@xm-ngx/core/user';
 
 /**
  * Conditionally includes an HTML element if current user has any

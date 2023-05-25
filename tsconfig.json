@@ -28,43 +28,43 @@
         "packages/components/*"
       ],
       "@xm-ngx/core": [
-        "packages/core"
+        "node_modules/@xm-ngx/core"
       ],
       "@xm-ngx/core/client": [
-        "packages/core/client"
+        "node_modules/@xm-ngx/core/client"
       ],
       "@xm-ngx/core/context": [
-        "packages/core/context"
+        "node_modules/@xm-ngx/core/context"
       ],
       "@xm-ngx/core/auth": [
-        "packages/core/auth"
+        "node_modules/@xm-ngx/core/auth"
       ],
       "@xm-ngx/core/config": [
-        "packages/core/config"
+        "node_modules/@xm-ngx/core/config"
       ],
       "@xm-ngx/core/config/testing": [
-        "packages/core/config/testing"
+        "node_modules/@xm-ngx/core/config/testing"
       ],
       "@xm-ngx/core/user": [
-        "packages/core/user"
+        "node_modules/@xm-ngx/core/user"
       ],
       "@xm-ngx/core/user/testing": [
-        "packages/core/user/testing"
+        "node_modules/@xm-ngx/core/user/testing"
       ],
       "@xm-ngx/core/global-error-handler": [
-        "packages/core/global-error-handler"
+        "node_modules/@xm-ngx/logger/global-error-handler"
       ],
       "@xm-ngx/core/permission": [
-        "packages/core/permission"
+        "node_modules/@xm-ngx/core/permission"
       ],
       "@xm-ngx/core/permission/testing": [
-        "packages/core/permission/testing"
+        "node_modules/@xm-ngx//core/permission/testing"
       ],
       "@xm-ngx/core/theme": [
-        "packages/core/theme"
+        "node_modules/@xm-ngx/core/theme"
       ],
       "@xm-ngx/core/role": [
-        "packages/core/role"
+        "node_modules/@xm-ngx/core/role"
       ],
       "@xm-ngx/core/environment": [
         "src/environments"

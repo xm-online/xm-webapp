@@ -12,12 +12,15 @@ import { UserLoginService } from '@xm-ngx/account/user-login-widget/login/user-l
 import { UserLoginFormComponent, XmUserLoginWidgetComponent } from '@xm-ngx/account/user-login-widget';
 import { MatModule } from '../../../src/app/mat.module';
 import {
-    AuthServerProvider,
-    AuthService,
     CSRFService,
     StateStorageService,
 } from '@xm-ngx/core/auth';
-import { AccountService } from '@xm-ngx/core/user';
+
+import {
+    AccountService,
+    AuthServerProvider,
+    AuthService,
+} from '@xm-ngx/core/user';
 import { LoginService } from '@xm-ngx/components/login';
 import { HasAnyAuthorityDirective, } from '@xm-ngx/core/permission';
 import { ClientService } from '../../core/client/client.service';

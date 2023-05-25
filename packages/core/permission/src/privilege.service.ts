@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SUPER_ADMIN } from '../../auth/src/auth.constants';
-import { Principal } from '../../user/src/principal.service';
+import { SUPER_ADMIN } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { ParseByPathService } from './parse-by-path.service';
 
 @Injectable()

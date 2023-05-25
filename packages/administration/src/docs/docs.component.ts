@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, NgZone } from '@angular/core';
 
-import { AuthServerProvider } from '@xm-ngx/core/auth';
+import { AuthServerProvider } from '@xm-ngx/core/user';
 import { environment } from '@xm-ngx/core/environment';
 import SwaggerUI from 'swagger-ui';
 
