@@ -32,10 +32,10 @@ import { InputPreventPasteDirective } from '@xm-ngx/components/input-prevent-pas
 import { XmGMapApiInitDirective } from '@xm-ngx/components/xmGMapApiInit.directive';
 import { SafeNamePipe } from '@xm-ngx/pipes';
 import { XmCondition } from '@xm-ngx/pipes';
-import { XmDateTimePipe } from '@xm-ngx/pipes';
-import { XmEntityIconPipe } from '@xm-ngx/pipes';
-import { XmEntityStateSpecPipe } from '@xm-ngx/pipes';
-import { TimeFromPipe } from '@xm-ngx/pipes';
+import { XmDateTimePipe } from '@xm-ngx/translation/pipes';
+import { XmEntityIconPipe } from '@xm-ngx/entity/pipes';
+import { XmEntityStateSpecPipe } from '@xm-ngx/entity/pipes';
+import { TimeFromPipe } from '@xm-ngx/translation/pipes';
 import { IdpComponent } from '@xm-ngx/components/idp';
 import { ContentTextareaComponent } from '../../../packages/json-schema-form/components/content-textarea/content-textarea.component';
 import { CurrentLocationComponent } from '../../../packages/json-schema-form/components/current-location/current-location.component';

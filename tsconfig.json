@@ -126,6 +126,9 @@
       "@xm-ngx/translation": [
         "packages/translation"
       ],
+      "@xm-ngx/translation/pipes": [
+        "packages/translation/pipes"
+      ],
       "@xm-ngx/translation/testing": [
         "packages/translation/testing"
       ],
@@ -137,6 +140,9 @@
       ],
       "@xm-ngx/entity": [
         "packages/entity"
+      ],
+      "@xm-ngx/entity/pipes": [
+        "packages/entity/pipes"
       ],
       "@xm-ngx/entity/*": [
         "packages/entity/src/*"
