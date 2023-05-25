@@ -1,24 +1,24 @@
 import { Inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthServerProvider } from '../src/auth-jwt.service';
-import { Principal } from '../../user/src/principal.service';
-import { StateStorageService } from '../src/state-storage.service';
+import { Observable, of } from 'rxjs';
+import { AuthServerProvider } from '@xm-ngx/core/auth/src/auth-jwt.service';
+import { Principal } from '@xm-ngx/core/user/src/principal.service';
+import { StateStorageService } from '@xm-ngx/core/auth/src/state-storage.service';
 import { SessionStorageService } from 'ngx-webstorage';
-import { IDP_CLIENT, XM_EVENT_LIST } from '../../../../src/app/xm.constants';
-import { XmEventManager, XmSessionService } from '@xm-ngx/core';
+import { IDP_CLIENT, XM_EVENT_LIST } from '../../../src/app/xm.constants';
+import { IIdpClient, IIdpConfig, XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { DOCUMENT, Location } from '@angular/common';
-import { IIdpClient, IIdpConfig } from '@xm-ngx/core';
 import { environment } from '@xm-ngx/core/environment';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PrivacyAndTermsDialogComponent } from '@xm-ngx/components/privacy-and-terms-dialog';
-import { of } from 'rxjs';
+import { AuthRefreshTokenService } from '@xm-ngx/core/auth/src/auth-refresh-token.service';
 
 @Injectable()
 export class LoginService {
 
     constructor(private principal: Principal,
                 private router: Router,
+                private authRefreshTokenService: AuthRefreshTokenService,
                 private authServerProvider: AuthServerProvider,
                 private stateStorageService: StateStorageService,
                 private $sessionStorage: SessionStorageService,
@@ -27,7 +27,12 @@ export class LoginService {
                 protected location: Location,
                 protected sessionService: XmSessionService,
                 @Inject(DOCUMENT) private document: Document,
-    ) {}
+    ) {
+    }
+
+    public init(): void {
+        this.checkTokenAndForceIdentity();
+    }
 
     public login(credentials: any, callback?: any): Promise<unknown> {
         const cb = callback || (() => undefined);
@@ -73,7 +78,7 @@ export class LoginService {
     }
 
     public onIdpDirectLogin(config: IIdpConfig): void {
-        const client = this.getIdpClient({idp: config?.idp} as IIdpConfig);
+        const client = this.getIdpClient({ idp: config?.idp } as IIdpConfig);
         this.$sessionStorage.store(IDP_CLIENT, client);
         this.loginWithIdpClient(client);
     }
@@ -134,6 +139,8 @@ export class LoginService {
 
     /** @deprecated use SessionService.clear() */
     public logout(): void {
+        this.principal.logout();
+        this.authRefreshTokenService.clear();
         this.sessionService.clear();
         this.router.navigate(['']);
     }
@@ -142,6 +149,13 @@ export class LoginService {
     public logout$(): Observable<void> {
         this.sessionService.clear();
         return of(null);
+    }
+
+    private checkTokenAndForceIdentity(): void {
+        /* This method forcing identity on page load when user has token but identity does not inits */
+        if (!this.authRefreshTokenService.isExpired()) {
+            this.principal.identity();
+        }
     }
 
     private getUserIdentity(next: any, data: any): void {

@@ -10,6 +10,7 @@ import { XM_EVENT_LIST } from '../../../src/app/xm.constants';
 import { PrivacyAndTermsDialogComponent } from '../privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { RegisterService } from './register.service';
+import { ModulesLanguageHelper } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-register',
@@ -42,6 +43,7 @@ export class RegisterComponent implements OnInit {
     constructor(private jhiLanguageService: JhiLanguageService,
                 private xmConfigService: XmConfigService,
                 private registerService: RegisterService,
+                private modulesLangHelper: ModulesLanguageHelper,
                 private eventManager: XmEventManager,
                 private modalService: MatDialog) {
 
@@ -158,7 +160,12 @@ export class RegisterComponent implements OnInit {
     private makePasswordSettings(config?: any): void {
         this.passwordSettings = this.xmConfigService.mapPasswordSettings(config);
         if (this.passwordSettings.patternMessage) {
-            this.patternMessage = this.xmConfigService.updatePatternMessage(this.passwordSettings.patternMessage);
+            this.patternMessage = this.updatePatternMessage(this.passwordSettings.patternMessage);
         }
+    }
+
+    public updatePatternMessage(message: any, currentLang?: string): string {
+        const lang = currentLang ? currentLang : this.modulesLangHelper.getLangKey();
+        return message[lang] || message;
     }
 }

@@ -4,7 +4,6 @@ import { JhiDateUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { createRequestOption } from '@xm-ngx/entity/shared/request-util';
-import { XmEntity } from '@xm-ngx/entity/shared/xm-entity.model';
 
 import { SERVER_API_URL } from '../../../../src/app/xm.constants';
 import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL } from '../../auth/src/auth.constants';
@@ -45,11 +44,11 @@ export class AccountService {
         return this.http.post(SERVER_API_URL + ACCOUNT_TFA_DISABLE_URL, {}, {observe: 'response'});
     }
 
-    public getProfile(req?: any): Observable<XmEntity> {
+    public getProfile(req?: any): Observable<any> {
         const options = createRequestOption(req);
-        return this.http.get<XmEntity>(this.resourceProfileUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<XmEntity>) => this.convertResponse(res)),
-            map((res: HttpResponse<XmEntity>) => res.body),
+        return this.http.get<any>(this.resourceProfileUrl, {params: options, observe: 'response'}).pipe(
+            map((res: HttpResponse<any>) => this.convertResponse(res)),
+            map((res: HttpResponse<any>) => res.body),
         );
     }
 
@@ -61,16 +60,16 @@ export class AccountService {
         return this.http.post('uaa/api/account/reset_password/init', { login, loginType, resetType: 'EMAIL' });
     }
 
-    private convertResponse(res: HttpResponse<XmEntity>): HttpResponse<XmEntity> {
-        const body: XmEntity = this.convertItemFromServer(res.body);
+    private convertResponse(res: HttpResponse<any>): HttpResponse<any> {
+        const body: any = this.convertItemFromServer(res.body);
         return res.clone({body});
     }
 
     /**
      * Convert a returned JSON object to XmEntity.
      */
-    private convertItemFromServer(xmEntity: XmEntity): XmEntity {
-        const copy: XmEntity = Object.assign({}, xmEntity);
+    private convertItemFromServer(xmEntity: any): any {
+        const copy: any = Object.assign({}, xmEntity);
         copy.startDate = this.dateUtils
             .convertDateTimeFromServer(xmEntity.startDate);
         copy.updateDate = this.dateUtils

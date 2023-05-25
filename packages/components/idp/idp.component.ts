@@ -3,7 +3,7 @@ import { IIdpClient, IIdpConfig } from '../../core/src/xm-public-idp-config-mode
 import { XmPublicIdpConfigService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Location } from '@angular/common';
-import { LoginService } from '@xm-ngx/core/auth';
+import { LoginService } from '@xm-ngx/components/login';
 
 @Component({
     selector: 'xm-idp',

@@ -10,11 +10,12 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 import { XmCoreModule } from '@xm-ngx/core';
 import { AuthServerProvider, XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { LoginService } from '@xm-ngx/components/login';
 import { Principal } from '@xm-ngx/core/user';
 import { UserRouteAccessService } from '@xm-ngx/core/permission';
 import { XmCoreConfigModule } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
-import { globalErrorHandlerFactory, XmUpdateService } from '@xm-ngx/core/global-error-handler';
+import { globalErrorHandlerFactory, XmUpdateService } from '@xm-ngx/logger/global-error-handler';
 import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardDynamicRouteResolverGuard, XmDashboardModule } from '@xm-ngx/dashboard';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
@@ -52,6 +53,7 @@ import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
 
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmSharedModule } from 'packages/shared/src/shared.module';
+import { MaintenanceService } from '@xm-ngx/components/maintenance';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
     appearance: 'fill',
@@ -123,15 +125,19 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
 export class XmModule {
     constructor(
         languageService: LanguageService,
+        maintenanceService: MaintenanceService,
         idleLogoutService: IdleLogoutService,
         titleService: TitleService,
         xmUpdateService: XmUpdateService,
         loggerWatcherService: XmLoggerWatcherService,
         authServerProvider: AuthServerProvider,
+        loginService: LoginService,
         principal: Principal,
     ) {
         xmUpdateService.init();
+        maintenanceService.init();
         principal.init();
+        loginService.init();
         authServerProvider.init();
         idleLogoutService.init();
         languageService.init();

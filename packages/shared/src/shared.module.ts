@@ -18,7 +18,7 @@ import {
     StateStorageService,
 } from '@xm-ngx/core/auth';
 import { AccountService } from '@xm-ngx/core/user';
-import { LoginService } from '@xm-ngx/core/auth';
+import { LoginService } from '@xm-ngx/components/login';
 import { HasAnyAuthorityDirective, } from '@xm-ngx/core/permission';
 import { ClientService } from '../../core/client/client.service';
 import {
