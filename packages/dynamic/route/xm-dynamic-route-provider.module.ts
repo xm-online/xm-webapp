@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, ROUTES } from '@angular/router';
-import { ArgumentException } from '@xm-ngx/shared/exceptions';
+import { ArgumentException } from '@xm-ngx/exceptions';
 import { XmDynamicRouteResolverGuard } from './xm-dynamic-route-resolver-guard.service';
 
 function dynamicRoutesFactory(route: XmDynamicRouteResolverGuard): Routes {
