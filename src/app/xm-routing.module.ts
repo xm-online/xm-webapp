@@ -15,7 +15,7 @@ const ROUTES: Routes = [
     },
     { path: 'administration', loadChildren: () => import('../../packages/administration/route/admin.module').then((m) => m.XmAdminModule) },
     { path: '', loadChildren: () => import('./home/home.module').then((m) => m.GateHomeModule) },
-    { path: '', loadChildren: () => import('@xm-ngx/account/route').then((m) => m.GateAccountModule) },
+    { path: '', loadChildren: () => import('packages/account/route').then((m) => m.GateAccountModule) },
     {
         path: 'application',
         loadChildren: () => import('../../packages/entity/application').then((m) => m.ApplicationModule),
@@ -26,11 +26,11 @@ const ROUTES: Routes = [
         data: { privileges: { value: ['DASHBOARD.GET_LIST'] } },
         canActivate: [UserRouteAccessService],
         canLoad: [UserRouteAccessService],
-        loadChildren: () => import('@xm-ngx/dynamic/route').then((m) => m.XmDynamicRouteModule),
+        loadChildren: () => import('packages/dynamic/route').then((m) => m.XmDynamicRouteModule),
     },
     {
         path: 'public',
-        loadChildren: () => import('@xm-ngx/dynamic/public').then((m) => m.XmPublicModule),
+        loadChildren: () => import('packages/dynamic/public').then((m) => m.XmPublicModule),
     },
 ];
 

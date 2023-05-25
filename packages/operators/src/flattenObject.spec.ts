@@ -1,4 +1,5 @@
-import { flattenObject } from '../index';
+import { flattenObject } from './flattenObject';
+
 
 describe('flattenObject', () => {
     it('shouldn`t change object', () => {
