@@ -13,6 +13,8 @@ execSync('(cd ./packages/dynamic && npm run build && cd ../../)', {stdio: 'inher
 execSync('(cd ./packages/core && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/logger && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/translation && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/toaster && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/alert && npm run build && cd ../../)', {stdio: 'inherit'});
 // TODO: Complete migration to modules.
 // execSync('(cd ./packages/shared && npm run build)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/translation -c tsconfig.ngc.json)', {stdio: 'inherit'});
