@@ -1,4 +1,4 @@
-import {JsonSchemaFormService} from '@xm-ngx/json-schema-form/core';
+import {JsonSchemaFormService} from '@ajsf/core';
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 
 import {LinkFieldOptions} from './link-field-options.model';

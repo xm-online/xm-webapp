@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { JsonSchemaFormService } from '@ajsf/core';
 
 import { UUID } from 'angular2-uuid';
 import { debounceTime, tap } from 'rxjs/operators';

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { JsonSchemaFormService } from '@ajsf/core';
 import { fromEvent } from 'rxjs';
 
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';

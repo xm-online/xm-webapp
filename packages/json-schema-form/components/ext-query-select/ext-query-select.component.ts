@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { JsonSchemaFormService } from '@ajsf/core';
 import * as _ from 'lodash';
 import { BehaviorSubject, iif, merge, Observable, of, ReplaySubject } from 'rxjs';
 import { catchError, debounceTime, filter, finalize, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { environment } from '../../../../src/environments/environment';
 import { FloatLabelType } from '@angular/material/form-field';
 
 interface ISelectSettings {
@@ -72,7 +71,7 @@ export class ExtQuerySelectComponent implements OnInit, OnDestroy {
 
         // observable1 get initial data
         const initialData$ = this.fetchOptions({id: this.controlValue}).pipe(
-            tap((list) => !environment.production && console.info('[dbg] initial ->', list)),
+            // tap((list) => !environment.production && console.info('[dbg] initial ->', list)),
             tap(() => this.loading$.next(true)),
             map((list) => list.length ? list : []),
             finalize(() => this.loading$.next(false)),
@@ -88,14 +87,14 @@ export class ExtQuerySelectComponent implements OnInit, OnDestroy {
         // process search events
         this.searchValues$ = this.queryCtrl.valueChanges
             .pipe(
-                tap((val) => !environment.production
-                    && console.info(`[dbg] serachValue=${val} -> ${this.valueToTransport(val)}`)),
+                // tap((val) => !environment.production
+                //     && console.info(`[dbg] serachValue=${val} -> ${this.valueToTransport(val)}`)),
                 filter((val) => val.length > Number(this.settings.minQueryLength)),
                 tap(() => this.checkedOption.reset('')),
                 tap(() => this.loading$.next(true)),
                 debounceTime(this.settings.debounceTime),
                 switchMap((query) => this.fetchOptions({searchQuery: this.valueToTransport(query)})),
-                tap((list) => !environment.production && console.info('[dbg] listFromSearch ->', list)),
+                // tap((list) => !environment.production && console.info('[dbg] listFromSearch ->', list)),
                 tap(() => this.loading$.next(false)),
             );
 
@@ -104,14 +103,14 @@ export class ExtQuerySelectComponent implements OnInit, OnDestroy {
             .pipe(
                 takeUntil(this.destroyed$),
                 // will filter processing for prod
-                tap((list) => !environment.production
-                    && console.info('[dbg] resultList ->', list)),
+                // tap((list) => !environment.production
+                //     && console.info('[dbg] resultList ->', list)),
             );
 
         this.checkedOption.valueChanges
             .pipe(
-                tap((val) => !environment.production
-                    && console.info('[dbg] changeValue ->', val)),
+                // tap((val) => !environment.production
+                //     && console.info('[dbg] changeValue ->', val)),
                 tap((val) => this.jsf.updateValue(this, val)),
                 takeUntil(this.destroyed$),
             )

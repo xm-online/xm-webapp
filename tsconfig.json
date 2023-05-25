@@ -79,10 +79,10 @@
         "packages/confirm-dialog"
       ],
       "@xm-ngx/json-schema-form/core": [
-        "packages/json-schema-form/core"
+        "packages/json-schema-form"
       ],
       "@xm-ngx/json-schema-form/components": [
-        "packages/json-schema-form/components"
+        "packages/json-schema-form"
       ],
       "@xm-ngx/json-schema-form/components/*": [
         "packages/json-schema-form/components/*"

@@ -1,6 +1,5 @@
-
+import { JsonSchemaFormService } from '@ajsf/core';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
 
 import { buildMapId, buildPinSymbol } from '@xm-ngx/operators';
 import { CurrentLocationOptions } from './current-location-options.model';

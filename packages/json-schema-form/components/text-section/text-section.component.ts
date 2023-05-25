@@ -3,7 +3,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { I18nNamePipe } from '@xm-ngx/translation';
 
 import { Principal } from '@xm-ngx/core/user';
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { JsonSchemaFormService } from '@ajsf/core';
 import { startWith } from 'rxjs/operators';
 import * as formatString from 'string-template';
 

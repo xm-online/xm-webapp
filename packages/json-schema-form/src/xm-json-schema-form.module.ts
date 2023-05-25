@@ -10,10 +10,10 @@ import {
 } from '@ajsf/material';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RU_INTL } from '../locale/ru-config';
-import { UK_INTL } from '../locale/uk-config';
+import { RU_INTL } from './locale/ru-config';
+import { UK_INTL } from './locale/uk-config';
 import { LanguageService } from '@xm-ngx/translation';
-import { XmMaterialDesignFramework } from '../core/material-design-framework';
+import { XmMaterialDesignFramework } from './material-design-framework';
 import { fixFlexLayout } from './fix-flex-layout';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -44,7 +44,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { XmJsonSchemaFormService } from '../core/xm-json-schema-form.service';
+import { XmJsonSchemaFormService } from './xm-json-schema-form.service';
 
 const _JsonSchemaFormModule = {
     ngModule: JsonSchemaFormModule,
