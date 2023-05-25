@@ -3,5 +3,8 @@
   "dest": "../../lib/alert",
   "lib": {
     "entryFile": "./index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "sweetalert2"
+  ]
 }

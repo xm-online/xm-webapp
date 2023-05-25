@@ -1,8 +1,10 @@
 {
   "name": "@xm-ngx/alert",
   "version": "1.0.0",
+  "dependencies": {
+    "sweetalert2": "11.7.1"
+  },
   "scripts": {
-    "sweetalert2": "11.7.1",
     "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
   }
 }
