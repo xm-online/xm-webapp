@@ -1,12 +1,17 @@
+import { XmGMapApiInitDirective } from '@xm-ngx/components/xmGMapApiInit.directive';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { JsonSchemaFormService } from '@ajsf/core';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
 import { buildMapId, buildPinSymbol } from '@xm-ngx/operators';
 import { CurrentLocationOptions } from './current-location-options.model';
+import { CommonModule } from '@angular/common';
 
 declare const google: any;
 
 @Component({
+    standalone: true,
+    imports: [CommonModule, XmGMapApiInitDirective, XmTranslationModule],
     selector: 'xm-current-location-widget',
     templateUrl: 'current-location.component.html',
 })

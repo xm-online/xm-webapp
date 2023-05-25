@@ -1,3 +1,10 @@
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
@@ -27,6 +34,8 @@ interface ISelectOption {
 }
 
 @Component({
+    standalone: true,
+    imports: [CommonModule, FormsModule, MatFormFieldModule, MatSelectModule, XmTranslationModule, NgxMatSelectSearchModule, ReactiveFormsModule, MatProgressSpinnerModule],
     selector: 'xm-ext-query-select-widget',
     templateUrl: 'ext-query-select.component.html',
     styleUrls: ['ext-query-select.component.scss'],

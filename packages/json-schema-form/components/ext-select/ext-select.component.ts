@@ -1,3 +1,10 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import {
     AfterViewInit,
     ChangeDetectorRef,
@@ -21,6 +28,7 @@ import { I18nNamePipe } from '@xm-ngx/translation';
 import { ExtSelectOptions, SelectDeepLinkOptions } from './ext-select-options.model';
 import { ExtSelectService } from './ext-select-service';
 import BaseExtSelectComponent from './base-ext-select.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 interface Element {
     label: any;
@@ -28,6 +36,8 @@ interface Element {
 }
 
 @Component({
+    standalone: true,
+    imports: [MatFormFieldModule, MatIconModule, MatSelectModule, MatOptionModule, CommonModule, FormsModule, XmTranslationModule, NgxMatSelectSearchModule, ReactiveFormsModule],
     selector: 'xm-ext-select-widget',
     templateUrl: 'ext-select.component.html',
     styles: [
