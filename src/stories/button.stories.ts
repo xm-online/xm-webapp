@@ -99,12 +99,7 @@ export const Primary: Story = {
       </div>
     </div>
   </div>
-</section>
-        `,
-        props: {
-            label: 'Button',
-            backgroundColor: '#ff0',
-        },
+</section>`,
     }),
 };
 
@@ -137,12 +132,7 @@ export const Secondary: Story = {
       </div>
     </div>
   </div>
-</section>
-        `,
-        props: {
-            label: '😄👍😍💯',
-            backgroundColor: '#ff0',
-        },
+</section>`,
     }),
 };
 
@@ -170,11 +160,6 @@ export const Tertiary: Story = {
               </button>
             </div>
           </div>
-        </section>
-        `,
-        props: {
-            label: '📚📕📈🤓',
-            backgroundColor: '#ff0',
-        },
+        </section>`,
     }),
 };

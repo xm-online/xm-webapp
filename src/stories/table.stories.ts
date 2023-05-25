@@ -89,8 +89,8 @@ Default.args = {
             repository: null, type: 'config',
         },
         path: 'data',
-        data: [{id: 111, name: 'test'}],
-        title: {en: 'eeee'},
+        data: [{id: 111, name: 'test',age:'25'}],
+        title: {en: 'Test table'},
         filters: [{
             selector: '@xm-ngx/components/text-control',
             name: 'name',
@@ -99,7 +99,7 @@ Default.args = {
             condition: '',
             value: '',
             options: {
-                title: {en: 'error'},
+                title: {en: 'name'},
                 required: false,
             },
         }],
