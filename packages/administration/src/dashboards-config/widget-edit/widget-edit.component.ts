@@ -2,7 +2,7 @@ import { Component, HostListener, Input, OnChanges, SimpleChanges, Type } from '
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { DashboardWidget } from '@xm-ngx/dashboard';
-import { copyToClipboard, readFromClipboard } from '@xm-ngx/shared/helpers/clipboard-helper';
+import { copyToClipboard, readFromClipboard } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';

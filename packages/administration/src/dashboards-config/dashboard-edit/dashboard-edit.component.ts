@@ -13,7 +13,7 @@ import { DASHBOARDS_TRANSLATES } from '../const';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig } from '../injectors';
 import { XmTextControlOptions } from '@xm-ngx/components/text';
-import { copyToClipboard, readFromClipboard } from '@xm-ngx/shared/helpers/clipboard-helper';
+import { copyToClipboard, readFromClipboard } from '@xm-ngx/operators';
 import { DashboardsListExpandComponent } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
 
 export enum EditType {
@@ -177,10 +177,10 @@ export class DashboardEditComponent {
         } else if (_.isObject(text)) {
             config = text as Dashboard;
         }
-        
+
         delete config.id;
         config.widgets = this.getUnbindedWidgets(config.widgets);
-        
+
         this.value = _.merge(this.value, config);
     }
 

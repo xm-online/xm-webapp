@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { buildMapId, buildPinSymbol } from '../../../../../packages/shared/src/helpers/google-map-helper';
+import { buildMapId, buildPinSymbol } from '@xm-ngx/operators';
 import { XmEntity, XmEntityService } from '@xm-ngx/entity';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../../xm.constants';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { CustomUriEncoder } from '@xm-ngx/shared/helpers/custom-uri-encoder';
+import { CustomUriEncoder } from '@xm-ngx/operators';
 import {
     ACCESS_TOKEN,
     AuthRefreshTokenService,

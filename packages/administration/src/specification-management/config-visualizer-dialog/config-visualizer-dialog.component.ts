@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import * as nomnoml from 'nomnoml';
 
-import { saveFile } from '@xm-ngx/shared/helpers/file-download-helper';
+import { saveFile } from '@xm-ngx/operators';
 import { Link } from '@xm-ngx/entity';
 
 declare let YAML: any;
