@@ -26,10 +26,10 @@ import {
 } from '../../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { XmConfirmDialogComponent } from '../../components/confirmation-dialog/xm-confirm-dialog.component';
 import { ContextService } from '../../core/context/context.service';
-import { DigitOnlyDirective } from './directives/digit-only.directive';
-import { FocusDirective } from './directives/focus.directive';
-import { InputPreventPasteDirective } from './directives/input-prevent-paste.directive';
-import { XmGMapApiInitDirective } from './g-map/xmGMapApiInit.directive';
+import { DigitOnlyDirective } from '@xm-ngx/components/digit-only.directive';
+import { FocusDirective } from '@xm-ngx/components/focus.directive';
+import { InputPreventPasteDirective } from '@xm-ngx/components/input-prevent-paste.directive';
+import { XmGMapApiInitDirective } from '@xm-ngx/components/xmGMapApiInit.directive';
 import { SafeNamePipe } from './helpers/safe-name.pipe';
 import { XmCondition } from './helpers/xm-condition';
 import { XmDateTimePipe } from './helpers/xm-date-time.pipe';
