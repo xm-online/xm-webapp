@@ -124,13 +124,13 @@
         "node_modules/@xm-ngx/pipes"
       ],
       "@xm-ngx/translation": [
-        "packages/translation"
+        "node_modules/@xm-ngx/translation"
       ],
       "@xm-ngx/translation/pipes": [
-        "packages/translation/pipes"
+        "node_modules/@xm-ngx/translation/pipes"
       ],
       "@xm-ngx/translation/testing": [
-        "packages/translation/testing"
+        "node_modules/@xm-ngx/translation/testing"
       ],
       "@xm-ngx/account": [
         "packages/account"

@@ -1,10 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmUiConfigService } from 'packages/core/config/src/xm-ui-config.service';
-import { XmUserService } from 'packages/core/user/src/xm-user.service';
-import { OnInitialize } from '@xm-ngx/shared/interfaces';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmUserService } from '@xm-ngx/core/user';
+import { OnInitialize } from '@xm-ngx/interfaces';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { SessionStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
