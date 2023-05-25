@@ -7,10 +7,10 @@ import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import * as moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { filter, shareReplay, takeUntil } from 'rxjs/operators';
-import { XmEntity } from 'packages/entity/src/shared/xm-entity.model';
+
 
 import { AccountService } from './account.service';
-import { SUPER_ADMIN } from '../../auth/src/auth.constants';
+import { SUPER_ADMIN } from '@xm-ngx/core/auth';
 
 const CACHE_SIZE = 1;
 
@@ -22,7 +22,7 @@ export class Principal implements OnDestroy, OnInitialize {
     private authenticationState: Subject<any> = new Subject<any>();
     private promise: Promise<any>;
     private reload$: Subject<void> = new Subject<void>();
-    private xmProfileCache$: Observable<XmEntity>;
+    private xmProfileCache$: Observable<any>;
 
     constructor(private account: AccountService,
                 private sessionService: XmSessionService,
@@ -185,7 +185,7 @@ export class Principal implements OnDestroy, OnInitialize {
      * Returns user XM Profile
      * @param force - if true loads profile from the backend
      */
-    public getXmEntityProfile(force: boolean = false): Observable<XmEntity> {
+    public getXmEntityProfile(force: boolean = false): Observable<any> {
         if (force) {
             this.resetCachedProfile();
         }
@@ -267,7 +267,7 @@ export class Principal implements OnDestroy, OnInitialize {
         return this.userIdentity;
     }
 
-    private loadProfile(): Observable<XmEntity> {
+    private loadProfile(): Observable<any> {
         return this.account.getProfile();
     }
 

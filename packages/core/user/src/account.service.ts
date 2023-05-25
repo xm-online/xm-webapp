@@ -5,25 +5,24 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { createRequestOption } from '@xm-ngx/operators';
 
-import { SERVER_API_URL } from '../../../../src/app/xm.constants';
-import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL } from '../../auth/src/auth.constants';
+import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL } from '@xm-ngx/core/auth';
 import { Account } from './account.model';
 
 @Injectable({providedIn: 'root'})
 export class AccountService {
 
-    private resourceProfileUrl: string = SERVER_API_URL + 'entity/api/profile';
-    private resourceLogins: string = SERVER_API_URL + 'uaa/api/account/logins';
+    private resourceProfileUrl: string = 'entity/api/profile';
+    private resourceLogins: string = 'uaa/api/account/logins';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
 
     public get(): Observable<HttpResponse<any>> {
-        return this.http.get<Account>(SERVER_API_URL + ACCOUNT_URL, {observe: 'response'});
+        return this.http.get<Account>(ACCOUNT_URL, {observe: 'response'});
     }
 
     public save(account: any): Observable<HttpResponse<any>> {
-        return this.http.post(SERVER_API_URL + ACCOUNT_URL, account, {observe: 'response'});
+        return this.http.post(ACCOUNT_URL, account, {observe: 'response'});
     }
 
     public updateLogins(account: any): Observable<HttpResponse<any>> {
@@ -31,7 +30,7 @@ export class AccountService {
     }
 
     public enableTFA(type: string, value: string): Observable<HttpResponse<any>> {
-        return this.http.post(SERVER_API_URL + ACCOUNT_TFA_ENABLE_URL,
+        return this.http.post(ACCOUNT_TFA_ENABLE_URL,
             {
                 otpChannelSpec: {
                     channelType: type,
@@ -41,7 +40,7 @@ export class AccountService {
     }
 
     public disableTFA(): Observable<HttpResponse<any>> {
-        return this.http.post(SERVER_API_URL + ACCOUNT_TFA_DISABLE_URL, {}, {observe: 'response'});
+        return this.http.post(ACCOUNT_TFA_DISABLE_URL, {}, {observe: 'response'});
     }
 
     public getProfile(req?: any): Observable<any> {

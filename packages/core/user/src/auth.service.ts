@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Principal } from '../../user/src/principal.service';
-import { StateStorageService } from './state-storage.service';
+import { Principal } from './principal.service';
+import { StateStorageService } from '@xm-ngx/core/auth';
 
 @Injectable()
 export class AuthService {

@@ -5,14 +5,18 @@ import { XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { AuthRefreshTokenService } from './auth-refresh-token.service';
-import { XmAuthenticationStoreService } from './xm-authentication-store.service';
-import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE, IDP_CLIENT } from '../../../../src/app/xm.constants';
+import { AuthRefreshTokenService } from '@xm-ngx/core/auth';
+import { XmAuthenticationStoreService } from '@xm-ngx/core/auth';
+
+const DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded';
+const DEFAULT_AUTH_TOKEN = 'Basic d2ViYXBwOndlYmFwcA==';
+export const IDP_CLIENT = 'idp_client';
+
 import { CustomUriEncoder } from '@xm-ngx/operators';
-import { Principal } from '../../user/src/principal.service';
-import { StateStorageService } from './state-storage.service';
-import { IIdpClient } from '../../src/xm-public-idp-config-model';
-import { XmAuthenticationRepository } from './xm-authentication-repository.service';
+import { Principal } from './principal.service';
+import { StateStorageService } from '@xm-ngx/core/auth';
+import { IIdpClient } from '@xm-ngx/core';
+import { XmAuthenticationRepository } from '@xm-ngx/core/auth';
 
 
 const DEFAULT_HEADERS = {
