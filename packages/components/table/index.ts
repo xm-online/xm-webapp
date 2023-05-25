@@ -1,3 +1,5 @@
+export * from './controllers';
+
 export {
     TABLE_CONFIG_DEFAULT,
     ITableConfig,
