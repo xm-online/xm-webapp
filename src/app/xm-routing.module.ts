@@ -26,11 +26,11 @@ const ROUTES: Routes = [
         data: { privileges: { value: ['DASHBOARD.GET_LIST'] } },
         canActivate: [UserRouteAccessService],
         canLoad: [UserRouteAccessService],
-        loadChildren: () => import('packages/dynamic/route').then((m) => m.XmDynamicRouteModule),
+        loadChildren: () => import('@xm-ngx/dynamic/route').then((m) => m.XmDynamicRouteModule),
     },
     {
         path: 'public',
-        loadChildren: () => import('packages/dynamic/public').then((m) => m.XmPublicModule),
+        loadChildren: () => import('@xm-ngx/dynamic/public').then((m) => m.XmPublicModule),
     },
 ];
 

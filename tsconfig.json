@@ -27,56 +27,17 @@
       "@xm-ngx/components/*": [
         "packages/components/*"
       ],
-      "@xm-ngx/core": [
-        "node_modules/@xm-ngx/core"
-      ],
-      "@xm-ngx/core/client": [
-        "node_modules/@xm-ngx/core/client"
-      ],
-      "@xm-ngx/core/context": [
-        "node_modules/@xm-ngx/core/context"
-      ],
-      "@xm-ngx/core/auth": [
-        "node_modules/@xm-ngx/core/auth"
-      ],
-      "@xm-ngx/core/config": [
-        "node_modules/@xm-ngx/core/config"
-      ],
-      "@xm-ngx/core/config/testing": [
-        "node_modules/@xm-ngx/core/config/testing"
-      ],
-      "@xm-ngx/core/user": [
-        "node_modules/@xm-ngx/core/user"
-      ],
-      "@xm-ngx/core/user/testing": [
-        "node_modules/@xm-ngx/core/user/testing"
-      ],
-      "@xm-ngx/core/global-error-handler": [
-        "node_modules/@xm-ngx/logger/global-error-handler"
-      ],
-      "@xm-ngx/core/permission": [
-        "node_modules/@xm-ngx/core/permission"
-      ],
-      "@xm-ngx/core/permission/testing": [
-        "node_modules/@xm-ngx//core/permission/testing"
-      ],
-      "@xm-ngx/core/theme": [
-        "node_modules/@xm-ngx/core/theme"
-      ],
-      "@xm-ngx/core/role": [
-        "node_modules/@xm-ngx/core/role"
-      ],
       "@xm-ngx/core/environment": [
         "src/environments"
       ],
       "@xm-ngx/ext/*": [
         "src/app/ext/*"
       ],
-      "@xm-ngx/alert": [
-        "packages/alert"
-      ],
       "@xm-ngx/confirm-dialog": [
         "packages/confirm-dialog"
+      ],
+      "@xm-ngx/json-schema-form": [
+        "packages/json-schema-form/core"
       ],
       "@xm-ngx/json-schema-form/core": [
         "packages/json-schema-form/core"
@@ -86,18 +47,6 @@
       ],
       "@xm-ngx/json-schema-form/components/*": [
         "packages/json-schema-form/components/*"
-      ],
-      "@xm-ngx/toaster": [
-        "packages/toaster"
-      ],
-      "@xm-ngx/logger": [
-        "node_modules/@xm-ngx/logger"
-      ],
-      "@xm-ngx/logger/testing": [
-        "node_modules/@xm-ngx/logger/testing"
-      ],
-      "@xm-ngx/logger/global-error-handler": [
-          "node_modules/@xm-ngx/logger/global-error-handler"
       ],
       "@xm-ngx/timeline": [
         "packages/timeline"
@@ -123,15 +72,6 @@
       "@xm-ngx/shared/pipes": [
         "node_modules/@xm-ngx/pipes"
       ],
-      "@xm-ngx/translation": [
-        "node_modules/@xm-ngx/translation"
-      ],
-      "@xm-ngx/translation/pipes": [
-        "node_modules/@xm-ngx/translation/pipes"
-      ],
-      "@xm-ngx/translation/testing": [
-        "node_modules/@xm-ngx/translation/testing"
-      ],
       "@xm-ngx/account": [
         "packages/account"
       ],
@@ -146,12 +86,6 @@
       ],
       "@xm-ngx/entity/*": [
         "packages/entity/src/*"
-      ],
-      "@xm-ngx/dynamic": [
-        "node_modules/@xm-ngx/dynamic"
-      ],
-      "@xm-ngx/dynamic/*": [
-        "node_modules/@xm-ngx/dynamic/*"
       ],
       "@xm-ngx/dashboard": [
         "packages/dashboard"

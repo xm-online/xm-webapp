@@ -15,20 +15,20 @@ execSync('(cd ./packages/logger && npm run build && cd ../../)', {stdio: 'inheri
 execSync('(cd ./packages/translation && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/toaster && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/alert && npm run build && cd ../../)', {stdio: 'inherit'});
-
-execSync('(cd ./src/app/ext/example-webapp-ext && npm run build && cd ../../../../)', {stdio: 'inherit'});
-// TODO: Complete migration to modules.
-// execSync('(cd ./packages/shared && npm run build)', {stdio: 'inherit'});
+// execSync('(ng-packagr -p ./packages/components -c tsconfig.ngc.json)', {stdio: 'inherit'});
+// execSync('(ng-packagr -p ./packages/confirm-dialog -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(cd ./packages/entity && npm run build && cd ../../)', {stdio: 'inherit'});
+
+// execSync('(ng-packagr -p ./packages/json-schema-form -c tsconfig.ngc.json)', {stdio: 'inherit'});
+// execSync('(cd ./packages/shared && npm run build)', {stdio: 'inherit'});
 // execSync('(cd ./packages/balance && npm run build && cd ../../)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/timeline -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/account -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/administration -c tsconfig.ngc.json)', {stdio: 'inherit'});
-// execSync('(ng-packagr -p ./packages/components -c tsconfig.ngc.json)', {stdio: 'inherit'});
-// execSync('(ng-packagr -p ./packages/confirm-dialog -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/dashboard -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/documentation -c tsconfig.ngc.json)', {stdio: 'inherit'});
-// execSync('(ng-packagr -p ./packages/json-schema-form -c tsconfig.ngc.json)', {stdio: 'inherit'});
+
+execSync('(cd ./src/app/ext/example-webapp-ext && npm run build && cd ../../../../)', {stdio: 'inherit'});
 
 // TODO:WORKAROUND fixing bin folder adding.
 execSync('(npm i --ignore-scripts)', {stdio: 'inherit'});
