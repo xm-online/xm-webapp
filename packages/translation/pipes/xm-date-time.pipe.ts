@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { LanguageService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 
-import * as moment from 'moment';
+import moment from 'moment';
 
 import { Principal } from '@xm-ngx/core/user';
 import { XmConfigService } from '@xm-ngx/core/config';

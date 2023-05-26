@@ -1,3 +1,5 @@
+export * from './cell';
+
 export {
     XmDynamicControlDirective,
     XmDynamicControl,
