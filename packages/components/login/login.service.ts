@@ -5,15 +5,15 @@ import { AuthServerProvider } from '@xm-ngx/core/user';
 import { Principal } from '@xm-ngx/core/user';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { SessionStorageService } from 'ngx-webstorage';
-import { IIdpClient, IIdpConfig, XmEventManager, XmSessionService } from '@xm-ngx/core';
+import { IIdpClient, IIdpConfig, XmCoreConfig, XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { DOCUMENT, Location } from '@angular/common';
-import { environment } from '@xm-ngx/core/environment';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PrivacyAndTermsDialogComponent } from '@xm-ngx/components/privacy-and-terms-dialog';
 import { AuthRefreshTokenService } from '@xm-ngx/core/auth';
 
 @Injectable()
 export class LoginService {
+    public IDP_SERVER_API_URL: string;
 
     constructor(private principal: Principal,
                 private router: Router,
@@ -26,7 +26,9 @@ export class LoginService {
                 protected location: Location,
                 protected sessionService: XmSessionService,
                 @Inject(DOCUMENT) private document: Document,
+                private xmCoreConfig: XmCoreConfig,
     ) {
+        this.IDP_SERVER_API_URL = this.xmCoreConfig.IDP_SERVER_API_URL;
     }
 
     public init(): void {
@@ -85,7 +87,7 @@ export class LoginService {
     public loginWithIdpClient(client: IIdpClient): void {
         const authEndpointUri = client.openIdConfig.authorizationEndpoint.uri;
         const getRedirectUrl = `oauth2/authorization/${client.key}`;
-        const devApiUri = environment.idpServerApiUrl;
+        const devApiUri = this.IDP_SERVER_API_URL;
         const loc = devApiUri ? devApiUri : location.origin;
         this.$sessionStorage.store('idp_client', client);
         if (authEndpointUri) {
@@ -107,7 +109,7 @@ export class LoginService {
         }
 
 
-        if (!environment?.production) {
+        if (!this.xmCoreConfig.IS_PRODUCTION) {
             console.info('[dbg] broadcast %s', 'authenticationSuccess');
         }
 
@@ -166,7 +168,7 @@ export class LoginService {
     }
 
     private getIdpClient(config: IIdpConfig): IIdpClient {
-        const defaultClientKey = environment.idpClientKey ? environment.idpClientKey : config?.idp?.features?.directLogin?.defaultClientKey;
+        const defaultClientKey = this.xmCoreConfig.IDP_CLIENT_KEY ? this.xmCoreConfig.IDP_CLIENT_KEY : config?.idp?.features?.directLogin?.defaultClientKey;
         return defaultClientKey ?
             config?.idp?.clients?.filter(s => s.key === defaultClientKey).shift() :
             config?.idp?.clients[0];

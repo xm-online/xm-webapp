@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { environment } from '@xm-ngx/core/environment';
+
 import { XmToasterService } from '@xm-ngx/toaster';
 import html2canvas from 'html2canvas';
 import { Observable } from 'rxjs';
@@ -9,6 +9,7 @@ import { filter, finalize, switchMap } from 'rxjs/operators';
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
 import { FeedbackService, IFeedbackRequest } from './feedback.service';
 import { Permissible } from '@xm-ngx/interfaces';
+import { XmCoreConfig } from '@xm-ngx/core';
 
 export function screenshot(): Observable<string> {
     return new Observable((subject) => {
@@ -50,6 +51,7 @@ export class FeedbackComponent {
         protected dialog: MatDialog,
         protected feedbackService: FeedbackService,
         private toasterService: XmToasterService,
+        private xmCoreConfig: XmCoreConfig,
     ) {
     }
 
@@ -61,7 +63,7 @@ export class FeedbackComponent {
                     topic: '',
                     message: '',
                     image,
-                    version: environment.release,
+                    version: this.xmCoreConfig.RELEASE,
                 };
 
                 const dialogRef = this.dialog.open(FeedbackDialogComponent, {

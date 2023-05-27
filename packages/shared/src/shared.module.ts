@@ -24,14 +24,8 @@ import {
 import { LoginService } from '@xm-ngx/components/login';
 import { HasAnyAuthorityDirective, } from '@xm-ngx/core/permission';
 import { ClientService } from '../../core/client/client.service';
-import {
-    PrivacyAndTermsDialogComponent,
-} from '../../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
 import { ContextService } from '../../core/context/context.service';
-import { DigitOnlyDirective } from '@xm-ngx/components/text';
-import { FocusDirective } from '@xm-ngx/components/text';
-import { InputPreventPasteDirective } from '@xm-ngx/components/text';
-import { XmGMapApiInitDirective } from '@xm-ngx/components/xmGMapApiInit.directive';
+import { DigitOnlyDirective, FocusDirective, InputPreventPasteDirective } from '@xm-ngx/components/text';
 import { SafeNamePipe } from '@xm-ngx/pipes';
 import { XmCondition } from '@xm-ngx/pipes';
 import { XmDateTimePipe } from '@xm-ngx/translation/pipes';
@@ -60,10 +54,9 @@ import { MultilingualInputComponent } from '../../../packages/json-schema-form/c
 import { TextSectionComponent } from '../../../packages/json-schema-form/components/text-section/text-section.component';
 import { ValidationComponent } from '../../../packages/json-schema-form/components/validation-component/validation-component.component';
 import { LoginComponent } from '@xm-ngx/components/login/login.component';
-import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar/password-strength-bar.component';
+import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
 import { PrivilegeService } from '@xm-ngx/core/permission';
-import { RegisterComponent } from '../../components/register/register.component';
-import { RegisterService } from '../../components/register/register.service';
+import { RegisterComponent, RegisterService } from '@xm-ngx/components/register';
 import { RoleService } from '../../core/role/role.service';
 import { ParseByPathService } from '@xm-ngx/core/permission';
 import { GateSharedLibsModule } from './shared-libs.module';
@@ -73,6 +66,7 @@ import {
     MultilingualInputV2Component,
 } from '../../../packages/json-schema-form/components/multilingual-input-v2/multilingual-input-v2.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { XmGMapApiInitDirective } from '@xm-ngx/components/xmGMapApiInit.directive';
 
 const PIPES = [
     XmDateTimePipe,
@@ -112,9 +106,6 @@ const DIRECTIVES = [
     ],
     declarations: [
         // Components
-        LoginComponent,
-        RegisterComponent,
-        PasswordStrengthBarComponent,
         CurrentLocationComponent,
         ExtSelectComponent,
         ValidationComponent,
@@ -134,12 +125,8 @@ const DIRECTIVES = [
         EmailMatcherComponent,
         TextSectionComponent,
         FileUploadComponent,
-        PrivacyAndTermsDialogComponent,
-        IdpComponent,
     ],
     providers: [
-        // Components
-        PasswordStrengthBarComponent,
         // Services
         ExtSelectService,
         ExtAutocompleteService,

@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { XmSessionService } from '@xm-ngx/core';
+import { XmCoreConfig, XmSessionService } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
-import { environment } from '@xm-ngx/core/environment';
+
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -46,11 +46,12 @@ export class XmNavbarLogoWidget implements OnInit, OnDestroy, XmDynamicWidget {
     constructor(
         private xmUiConfigService: XmUiConfigService<NavbarLogoUIConfig>,
         private xmSessionService: XmSessionService,
+        private xmCoreConfig: XmCoreConfig,
     ) {
     }
 
     public ngOnDestroy(): void {
-        this.version = environment.production ? `v${environment.version}` : '';
+        this.version = this.xmCoreConfig.IS_PRODUCTION ? `v${this.xmCoreConfig.VERSION}` : '';
         takeUntilOnDestroyDestroy(this);
     }
 

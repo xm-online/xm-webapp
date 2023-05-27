@@ -9,7 +9,8 @@ import { XmAlertModule } from '@xm-ngx/alert';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 import { XmCoreModule } from '@xm-ngx/core';
-import { AuthServerProvider, XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { AuthServerProvider } from '@xm-ngx/core/user';
+import { XmCoreAuthModule } from '@xm-ngx/core/auth';
 import { LoginService } from '@xm-ngx/components/login';
 import { Principal } from '@xm-ngx/core/user';
 import { UserRouteAccessService } from '@xm-ngx/core/permission';
@@ -70,7 +71,14 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
         BrowserAnimationsModule,
         XmRoutingModule,
         XmSharedModule.forRoot(),
-        XmCoreModule.forRoot(),
+        XmCoreModule.forRoot({
+            SERVER_API_URL: environment.serverApiUrl,
+            IDP_CLIENT_KEY: environment.idpClientKey,
+            IDP_SERVER_API_URL: environment.idpServerApiUrl,
+            IS_PRODUCTION: environment.production,
+            VERSION: environment.version,
+            RELEASE: environment.release,
+        }),
         ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
         XmCoreConfigModule,
         XmCoreAuthModule.forRoot(),

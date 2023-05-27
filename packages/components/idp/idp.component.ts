@@ -2,13 +2,23 @@ import { Component, OnDestroy } from '@angular/core';
 import { IIdpClient, IIdpConfig } from '@xm-ngx/core';
 import { XmPublicIdpConfigService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { Location } from '@angular/common';
+import { Location, NgClass, NgForOf, NgIf } from '@angular/common';
 import { LoginService } from '@xm-ngx/components/login';
+import { MatButtonModule } from '@angular/material/button';
+import { XmTranslationModule } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-idp',
     templateUrl: './idp.component.html',
     styleUrls: ['./idp.component.scss'],
+    standalone: true,
+    imports: [
+        MatButtonModule,
+        XmTranslationModule,
+        NgForOf,
+        NgClass,
+        NgIf,
+    ],
 })
 export class IdpComponent implements OnDestroy {
 
