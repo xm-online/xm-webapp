@@ -8,7 +8,7 @@ import { XmEventManager } from '@xm-ngx/core';
 
 import { XmToasterService } from '@xm-ngx/toaster';
 import { UIConfig, XmConfigService } from '@xm-ngx/core/config';
-import { XmEntitySpec } from '../shared';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
 import { Link, LinkService, LinkSpec, Spec, XmEntity } from '@xm-ngx/entity';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 

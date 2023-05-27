@@ -1,6 +1,6 @@
-import { FastSearchSpec } from '../shared/fast-search-spec.model';
-import { XmEntitySpec } from '../shared/xm-entity-spec.model';
-import { XmEntity } from '../shared/xm-entity.model';
+import { FastSearchSpec } from '@xm-ngx/core/entity';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { ActionOptions, FieldOptions } from '@xm-ngx/core/config';
 
 export { ActionOptions, FieldOptions } from '@xm-ngx/core/config';

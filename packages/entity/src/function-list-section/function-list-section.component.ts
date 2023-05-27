@@ -11,12 +11,12 @@ import { Principal } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { FunctionCallDialogComponent } from '../function-call-dialog/function-call-dialog.component';
 import { AreaComponent } from '../functions/area/area.component';
-import { FunctionContext } from '../shared/function-context.model';
-import { FunctionSpec } from '../shared/function-spec.model';
-import { NextSpec, StateSpec } from '../shared/state-spec.model';
-import { XmEntitySpec } from '../shared/xm-entity-spec.model';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { FunctionContext } from '@xm-ngx/core/entity';
+import { FunctionSpec } from '@xm-ngx/core/entity';
+import { NextSpec, StateSpec } from '@xm-ngx/core/entity';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
 import { StateChangeDialogComponent } from '../state-change-dialog/state-change-dialog.component';
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
 

@@ -9,7 +9,7 @@ import {
     CalendarSpec,
     XmEntity,
     XmEntityService,
-} from '@xm-ngx/entity/shared';
+} from '@xm-ngx/core/entity';
 import { EntityCalendarUiConfig, EntityUiConfig } from '@xm-ngx/core/config';
 import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
 import { HttpResponse } from '@angular/common/http';

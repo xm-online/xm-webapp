@@ -2,14 +2,14 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
-import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity/shared';
+import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, map, take, tap } from 'rxjs/operators';
 
 import { XmConfigService } from '@xm-ngx/core/config';
 import { ContextService } from '@xm-ngx/core/context';
-import { getFieldValue } from '../shared/entity-list-helper';
+import { getFieldValue } from '../../entity-list-helper';
 import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
 
 

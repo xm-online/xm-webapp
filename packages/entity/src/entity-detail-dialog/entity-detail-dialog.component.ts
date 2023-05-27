@@ -22,10 +22,10 @@ import * as formatString from 'string-template';
 
 import { nullSafe } from '@xm-ngx/json-schema-form/components';
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
-import { Spec } from '../shared/spec.model';
-import { XmEntitySpec } from '../shared/xm-entity-spec.model';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { Spec } from '@xm-ngx/core/entity';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-entity-detail-dialog',

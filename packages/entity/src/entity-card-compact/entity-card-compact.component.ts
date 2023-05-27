@@ -9,7 +9,7 @@ import { Principal } from '@xm-ngx/core/user';
 import { nullSafe } from '@xm-ngx/json-schema-form/components';
 import { EntityCardComponent } from '../entity-card/entity-card.component';
 import { RatingListSectionComponent } from '../rating-list-section/rating-list-section.component';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { XmEntityService } from '@xm-ngx/core/entity';
 
 /**
  *

@@ -44,7 +44,7 @@ export class XmEntityRepository<T extends XmEntity>
 
     public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
         const url = this.config.updateResourceUrl ?? this.url;
-        
+
         return this.handle(this.httpClient.put<T>(url, entity, { params, observe: 'response', headers }));
     }
 

@@ -1,8 +1,8 @@
 import { HttpResponse } from '@angular/common/http';
-import { QueryParams } from '@xm-ngx/components/entity-collection/i-entity-collection';
-import { Link } from '@xm-ngx/entity/shared/link.model';
-import { XmEntity } from '@xm-ngx/entity/shared/xm-entity.model';
-import { ElasticQueryParams, Extra } from '@xm-ngx/entity/shared/xm-entity.service';
+import { QueryParams } from '@xm-ngx/repositories';
+import { Link } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { ElasticQueryParams, Extra } from '@xm-ngx/core/entity';
 import { Observable, of } from 'rxjs';
 
 export class MockXmEntityService {

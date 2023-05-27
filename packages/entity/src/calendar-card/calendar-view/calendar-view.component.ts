@@ -11,7 +11,7 @@ import {
     CalendarService,
     CalendarSpec, EventService,
     XmEntity,
-} from '@xm-ngx/entity/shared';
+} from '@xm-ngx/core/entity';
 import { EntityCalendarUiConfig } from '@xm-ngx/core/config';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nNamePipe } from '@xm-ngx/translation';
@@ -24,7 +24,7 @@ import {
 } from 'src/app/xm.constants';
 import { DEFAULT_CALENDAR_EVENT_FETCH_SIZE } from '../calendar-card.component';
 import * as moment from 'moment-timezone';
-import { Event } from '@xm-ngx/entity/shared';
+import { Event } from '@xm-ngx/core/entity';
 import { CalendarEventDialogComponent } from '@xm-ngx/entity/calendar-event-dialog/calendar-event-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CalendarOptions } from '@fullcalendar/core';

@@ -15,8 +15,6 @@ export * from './comment-spec.model';
 export * from './content.model';
 export * from './content.service';
 
-export * from './entity-list-helper';
-
 export * from './event.model';
 export * from './event.service';
 export * from './event-spec.model';

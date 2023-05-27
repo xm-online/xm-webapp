@@ -5,11 +5,11 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { Subscription } from 'rxjs';
 import { DEBUG_INFO_ENABLED, XM_EVENT_LIST } from 'src/app/xm.constants';
 
-import { TagSpec } from '../shared/tag-spec.model';
-import { Tag } from '../shared/tag.model';
-import { TagService } from '../shared/tag.service';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { TagSpec } from '@xm-ngx/core/entity';
+import { Tag } from '@xm-ngx/core/entity';
+import { TagService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-tag-list-section',

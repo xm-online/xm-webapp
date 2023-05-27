@@ -7,8 +7,8 @@ import { XmSharedModule } from '@xm-ngx/shared';
 
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { NextSpec, XmEntitySpec } from '../shared';
-import { XmEntitySpecWrapperService } from '../shared/xm-entity-spec-wrapper.service';
+import { NextSpec, XmEntitySpec } from '@xm-ngx/core/entity';
+import { XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @Component({
@@ -69,9 +69,9 @@ export class StatesManagementDialogComponent implements OnInit {
                                             {},
                                             arr.filter((eState) => eState.key === nextState.stateKey).shift(),
                                             nextState);
-                                    } 
+                                    }
                                     return 'empty';
-                                    
+
                                 });
                         })
                         .map((state, i) => {

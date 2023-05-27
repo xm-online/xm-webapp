@@ -3,13 +3,13 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
-import { RatingSpec } from '../shared/rating-spec.model';
-import { Rating } from '../shared/rating.model';
-import { RatingService } from '../shared/rating.service';
-import { Vote } from '../shared/vote.model';
-import { VoteService } from '../shared/vote.service';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { RatingSpec } from '@xm-ngx/core/entity';
+import { Rating } from '@xm-ngx/core/entity';
+import { RatingService } from '@xm-ngx/core/entity';
+import { Vote } from '@xm-ngx/core/entity';
+import { VoteService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-rating-list-section',

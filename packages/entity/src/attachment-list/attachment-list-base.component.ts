@@ -13,11 +13,11 @@ import { saveFile, saveFileFromUrl } from '@xm-ngx/operators';
 import { EntityUiConfig } from '@xm-ngx/core/config';
 import { DEBUG_INFO_ENABLED, XM_EVENT_LIST } from 'src/app/xm.constants';
 import { AttachmentDetailDialogComponent } from '../attachment-detail-dialog/attachment-detail-dialog.component';
-import { AttachmentSpec } from '../shared/attachment-spec.model';
-import { Attachment } from '../shared/attachment.model';
-import { AttachmentService } from '../shared/attachment.service';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { AttachmentSpec } from '@xm-ngx/core/entity';
+import { Attachment } from '@xm-ngx/core/entity';
+import { AttachmentService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
 
 
 const ATTACHMENT_EVENT = XM_EVENT_LIST.XM_ATTACHMENT_LIST_MODIFICATION;

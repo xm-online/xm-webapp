@@ -7,10 +7,10 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiDataUtils } from 'ng-jhipster';
 
 import { Principal } from '@xm-ngx/core/user';
-import { AttachmentSpec } from '../shared/attachment-spec.model';
-import { Attachment } from '../shared/attachment.model';
-import { AttachmentService } from '../shared/attachment.service';
-import { XmEntity } from '../shared/xm-entity.model';
+import { AttachmentSpec } from '@xm-ngx/core/entity';
+import { Attachment } from '@xm-ngx/core/entity';
+import { AttachmentService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { finalize } from 'rxjs/operators';
 import { FileTypeFallback } from '@xm-ngx/entity/attachment-detail-dialog/file-type-fallback';
 

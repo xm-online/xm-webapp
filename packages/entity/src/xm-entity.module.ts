@@ -62,7 +62,7 @@ import {
     VoteService,
     XmEntityService,
     XmEntitySpecService,
-} from './shared';
+} from '@xm-ngx/core/entity';
 
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { TagListSectionComponent } from './tag-list-section/tag-list-section.component';

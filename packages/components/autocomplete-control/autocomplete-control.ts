@@ -32,7 +32,7 @@ import {
     pairwise,
     filter,
 } from 'rxjs';
-import { EntityCollectionFactoryService } from '../entity-collection';
+import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { NgModelWrapper } from '../ng-accessor';
 import {
     AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG,
@@ -120,7 +120,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         this.updateValuesChnaged.pipe(
             startWith(null),
             pairwise(),
-            filter(([prev, curr]) => {  
+            filter(([prev, curr]) => {
                 const isEmit = (curr?.emit == null || curr?.emit == true);
                 const hasNewValues = this.hasNewValues(prev?.value, curr?.value);
 

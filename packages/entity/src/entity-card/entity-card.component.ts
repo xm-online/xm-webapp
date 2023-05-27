@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
-import { FunctionSpec, NextSpec, StateSpec } from '../shared';
+import { FunctionSpec, NextSpec, StateSpec } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
 import { AvatarDialogComponent } from '../avatar-dialog/avatar-dialog.component';
-import { XmEntitySpec } from '../shared/xm-entity-spec.model';
-import { XmEntity } from '../shared/xm-entity.model';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-entity-card',

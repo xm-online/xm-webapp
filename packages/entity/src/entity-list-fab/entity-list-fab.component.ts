@@ -4,8 +4,8 @@ import { XmEventManager } from '@xm-ngx/core';
 
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
-import { Spec } from '../shared/spec.model';
-import { XmEntitySpec } from '../shared/xm-entity-spec.model';
+import { Spec } from '@xm-ngx/core/entity';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
 import { EntityUiConfig } from '@xm-ngx/core/config';
 import { Principal } from '@xm-ngx/core/user';
 

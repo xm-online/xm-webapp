@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import { FieldOptions } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
+import { FieldOptions } from '@xm-ngx/core/config';
 import { transpilingForIE } from '@xm-ngx/json-schema-form/components';
-import { XmEntity } from '@xm-ngx/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 
 function fieldValueToString(field: FieldOptions, value: any): any {
     if (field && field.func) {

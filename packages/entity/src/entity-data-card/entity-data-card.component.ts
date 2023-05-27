@@ -6,9 +6,9 @@ import { finalize } from 'rxjs/operators';
 import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
 
 import { nullSafe } from '@xm-ngx/json-schema-form/components';
-import { XmEntitySpec } from '../shared/xm-entity-spec.model';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
 
 
 @Component({
