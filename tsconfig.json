@@ -21,6 +21,35 @@
       "dom"
     ],
     "paths": {
+      "@xm-ngx/interfaces": ["packages/interfaces"],
+      "@xm-ngx/exceptions":["packages/exceptions"],
+      "@xm-ngx/pipes": ["packages/pipes"],
+      "@xm-ngx/validators":["packages/validators"],
+      "@xm-ngx/operators": ["packages/operators"],
+      "@xm-ngx/eslint":["packages/eslint"],
+      "@xm-ngx/repositories": ["packages/repositories"],
+      "@xm-ngx/core":["packages/core"],
+
+      "@xm-ngx/core/auth": ["packages/core/auth"],
+      "@xm-ngx/core/client":["packages/core/client"],
+      "@xm-ngx/core/config": ["packages/core/config"],
+      "@xm-ngx/core/context":["packages/core/context"],
+      "@xm-ngx/core/entity": ["packages/core/entity"],
+      "@xm-ngx/core/permission":["packages/core/permission"],
+      "@xm-ngx/core/role": ["packages/core/role"],
+      "@xm-ngx/core/theme": ["packages/core/theme"],
+      "@xm-ngx/core/user":["packages/core/user"],
+
+      "@xm-ngx/dynamic": ["packages/dynamic"],
+      "@xm-ngx/dynamic/public": ["packages/dynamic/public"],
+      "@xm-ngx/dynamic/route": ["packages/dynamic/route"],
+      "@xm-ngx/logger":["packages/logger"],
+      "@xm-ngx/translation": ["packages/translation"],
+      "@xm-ngx/translation/pipes": ["packages/translation/pipes"],
+      "@xm-ngx/translation/testing": ["packages/translation/testing"],
+      "@xm-ngx/toaster":["packages/toaster"],
+      "@xm-ngx/alert": ["packages/alert"],
+
       "@xm-ngx/administration/*": [
         "packages/administration/src/*"
       ],
@@ -58,19 +87,19 @@
         "packages/shared"
       ],
       "@xm-ngx/shared/exceptions": [
-        "node_modules/@xm-ngx/exceptions"
+        "packages/exceptions"
       ],
       "@xm-ngx/shared/validators": [
-        "node_modules/@xm-ngx/validators"
+        "packages/validators"
       ],
       "@xm-ngx/shared/interfaces": [
-        "node_modules/@xm-ngx/interfaces"
+        "packages/interfaces"
       ],
       "@xm-ngx/shared/operators": [
-        "node_modules/@xm-ngx/operators"
+        "packages/operators"
       ],
       "@xm-ngx/shared/pipes": [
-        "node_modules/@xm-ngx/pipes"
+        "packages/pipes"
       ],
       "@xm-ngx/account": [
         "packages/account"
@@ -79,7 +108,7 @@
         "packages/account/*"
       ],
       "@xm-ngx/components/entity-collection": [
-        "node_modules/@xm-ngx/repositories"
+        "packages/repositories"
       ],
       "@xm-ngx/entity": [
         "packages/entity"
