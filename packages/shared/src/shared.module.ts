@@ -21,7 +21,7 @@ import {
     AuthServerProvider,
     AuthService,
 } from '@xm-ngx/core/user';
-import { LoginService } from '@xm-ngx/components/login';
+import { LoginComponent, LoginService } from '@xm-ngx/components/login';
 import { HasAnyAuthorityDirective, } from '@xm-ngx/core/permission';
 import { ClientService } from '../../core/client/client.service';
 import { ContextService } from '../../core/context/context.service';
@@ -32,7 +32,6 @@ import { XmDateTimePipe } from '@xm-ngx/translation/pipes';
 import { XmEntityIconPipe } from '@xm-ngx/entity/pipes';
 import { XmEntityStateSpecPipe } from '@xm-ngx/entity/pipes';
 import { TimeFromPipe } from '@xm-ngx/translation/pipes';
-import { IdpComponent } from '@xm-ngx/components/idp';
 import { ContentTextareaComponent } from '../../../packages/json-schema-form/components/content-textarea/content-textarea.component';
 import { CurrentLocationComponent } from '../../../packages/json-schema-form/components/current-location/current-location.component';
 import { DatePickerComponent } from '../../../packages/json-schema-form/components/date-picker/date-picker.component';
@@ -53,8 +52,6 @@ import { LinkFieldComponent } from '../../../packages/json-schema-form/component
 import { MultilingualInputComponent } from '../../../packages/json-schema-form/components/multilingual-input/multilingual-input.component';
 import { TextSectionComponent } from '../../../packages/json-schema-form/components/text-section/text-section.component';
 import { ValidationComponent } from '../../../packages/json-schema-form/components/validation-component/validation-component.component';
-import { LoginComponent } from '@xm-ngx/components/login/login.component';
-import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
 import { PrivilegeService } from '@xm-ngx/core/permission';
 import { RegisterComponent, RegisterService } from '@xm-ngx/components/register';
 import { RoleService } from '../../core/role/role.service';
@@ -67,6 +64,8 @@ import {
 } from '../../../packages/json-schema-form/components/multilingual-input-v2/multilingual-input-v2.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { XmGMapApiInitDirective } from '@xm-ngx/components/xmGMapApiInit.directive';
+import { IdpComponent } from '@xm-ngx/components/idp';
+import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
 
 const PIPES = [
     XmDateTimePipe,
@@ -85,6 +84,13 @@ const DIRECTIVES = [
     XmGMapApiInitDirective,
 ];
 
+const COMPONENTS = [
+    LoginComponent,
+    RegisterComponent,
+    PasswordStrengthBarComponent,
+    IdpComponent,
+];
+
 @NgModule({
     imports: [
         XmJsonSchemaFormModule,
@@ -101,6 +107,7 @@ const DIRECTIVES = [
         ModalCloseModule,
         AngularEditorModule,
         CommonModule,
+        COMPONENTS,
         DIRECTIVES,
         PIPES,
     ],
@@ -141,9 +148,6 @@ const DIRECTIVES = [
     ],
     exports: [
         // Components
-        LoginComponent,
-        RegisterComponent,
-        PasswordStrengthBarComponent,
         CurrentLocationComponent,
         ExtSelectComponent,
         ExtAutocompleteComponent,
@@ -162,7 +166,7 @@ const DIRECTIVES = [
         EmailMatcherComponent,
         TextSectionComponent,
         FileUploadComponent,
-        IdpComponent,
+        COMPONENTS,
         DIRECTIVES,
         PIPES,
         // Modules

@@ -8,10 +8,18 @@ import { combineLatest } from 'rxjs';
 import { LoginService } from '@xm-ngx/components/login';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { XmConfigService } from '@xm-ngx/core/config';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgClass, NgIf } from '@angular/common';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { take } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { IdpComponent } from '@xm-ngx/components/idp';
+import { MatButtonModule } from '@angular/material/button';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FocusDirective } from '@xm-ngx/components/text';
 
 export interface XmLoginFormUIConfig extends XmUIConfig {
     hideRememberMe: boolean;
@@ -22,6 +30,19 @@ export interface XmLoginFormUIConfig extends XmUIConfig {
     selector: 'xm-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        MatInputModule,
+        IdpComponent,
+        MatButtonModule,
+        XmTranslationModule,
+        NgIf,
+        MatIconModule,
+        MatCheckboxModule,
+        NgClass,
+        FocusDirective
+    ]
 })
 export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
 

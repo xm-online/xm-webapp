@@ -2,19 +2,37 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 
-import { ReCaptchaComponent } from 'angular2-recaptcha';
+import { ReCaptchaComponent, ReCaptchaModule } from 'angular2-recaptcha';
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { PasswordSpec } from '@xm-ngx/core/config';
-import { PrivacyAndTermsDialogComponent } from '../privacy-and-terms-dialog/privacy-and-terms-dialog.component';
+import { PrivacyAndTermsDialogComponent } from '@xm-ngx/components/privacy-and-terms-dialog';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { RegisterService } from './register.service';
-import { ModulesLanguageHelper } from '@xm-ngx/translation';
+import { ModulesLanguageHelper, XmTranslationModule } from '@xm-ngx/translation';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
+import { FocusDirective } from '@xm-ngx/components/text';
 
 @Component({
     selector: 'xm-register',
     styles: ['form button, [type="submit"], .btn .btn-primary { width: 100%; padding: 8px 24px;}'],
     templateUrl: './register.component.html',
+    standalone: true,
+    imports: [
+        XmTranslationModule,
+        MatInputModule,
+        MatButtonModule,
+        NgIf,
+        FormsModule,
+        ReCaptchaModule,
+        PasswordStrengthBarComponent,
+        FocusDirective,
+    ],
+    providers: [RegisterService],
 })
 export class RegisterComponent implements OnInit {
 
