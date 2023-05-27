@@ -5,7 +5,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { combineLatest } from 'rxjs';
-import { LoginService } from '@xm-ngx/components/login';
+import { LoginService } from './login.service';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { DOCUMENT, NgClass, NgIf } from '@angular/common';
@@ -14,7 +14,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
 import { take } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { IdpComponent } from '@xm-ngx/components/idp';
+import { IdpComponent } from './idp/idp.component';
 import { MatButtonModule } from '@angular/material/button';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
@@ -41,8 +41,8 @@ export interface XmLoginFormUIConfig extends XmUIConfig {
         MatIconModule,
         MatCheckboxModule,
         NgClass,
-        FocusDirective
-    ]
+        FocusDirective,
+    ],
 })
 export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
 
