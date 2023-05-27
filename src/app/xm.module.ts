@@ -55,6 +55,7 @@ import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmSharedModule } from 'packages/shared/src/shared.module';
 import { MaintenanceService } from '@xm-ngx/components/maintenance';
+import { XmEntityModule } from '@xm-ngx/core/entity';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
     appearance: 'fill',
@@ -79,6 +80,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
             VERSION: environment.version,
             RELEASE: environment.release,
         }),
+        XmEntityModule.forRoot(),
         ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
         XmCoreConfigModule,
         XmCoreAuthModule.forRoot(),

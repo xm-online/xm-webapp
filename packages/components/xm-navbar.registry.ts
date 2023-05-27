@@ -19,7 +19,7 @@ export const XM_NAVBAR_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/navbar-search-widget',
-        loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarSearchWidget),
+        loadChildren: () => import('packages/entity/search/xm-navbar-search-widget.component').then(m => m.XmNavbarSearchWidget),
     },
     {
         selector: '@xm-ngx/components/navbar-title-widget',

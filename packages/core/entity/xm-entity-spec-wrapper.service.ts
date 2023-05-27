@@ -6,7 +6,7 @@ import { Spec } from './spec.model';
 import { XmEntitySpec } from './xm-entity-spec.model';
 import { XmEntitySpecService } from './xm-entity-spec.service';
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class XmEntitySpecWrapperService {
 
     private entitySpec: RequestCache<XmEntitySpec[]>;

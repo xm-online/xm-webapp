@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { AttachmentService } from './attachment.service';
 import { CalendarService } from './calendar.service';
 import { CommentService } from './comment.service';
@@ -14,6 +14,7 @@ import { TagService } from './tag.service';
 import { VoteService } from './vote.service';
 import { XmEntitySpecService } from './xm-entity-spec.service';
 import { XmEntityService } from './xm-entity.service';
+import { XmEntitySpecWrapperService } from './xm-entity-spec-wrapper.service';
 
 @NgModule({
     imports: [CommonModule],
@@ -35,4 +36,13 @@ import { XmEntityService } from './xm-entity.service';
     ],
 })
 export class XmEntityModule {
+    public static forRoot(): ModuleWithProviders<XmEntityModule> {
+        return {
+            providers: [
+                XmEntitySpecService,
+                XmEntitySpecWrapperService,
+            ],
+            ngModule: XmEntityModule,
+        };
+    }
 }

@@ -35,6 +35,6 @@ export * from './src/rating-list-section/rating-list-section.component';
 export * from './src/tag-list-section/tag-list-section.component';
 export * from './src/states-management-dialog/states-management-dialog.component';
 
-export * from '../core/entity/index';
+export * from '@xm-ngx/core/entity';
 export * from './entity-list-helper';
 
