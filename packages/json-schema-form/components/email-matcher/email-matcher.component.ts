@@ -1,11 +1,19 @@
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { InputPreventPasteDirective } from '@xm-ngx/components/text';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { XmJsonSchemaFormService as JsonSchemaFormService } from '../../core/xm-json-schema-form.service';
+import { JsonSchemaFormService } from '@ajsf/core';
 
 import { UUID } from 'angular2-uuid';
 import { debounceTime, tap } from 'rxjs/operators';
 
 @Component({
+    standalone: true,
+    imports: [CommonModule,FormsModule,InputPreventPasteDirective,ReactiveFormsModule,MatFormFieldModule,MatInputModule,XmTranslationModule],
     selector: 'xm-ajsf-email-matcher',
     templateUrl: './email-matcher.component.html',
     styleUrls: ['./email-matcher.component.scss'],

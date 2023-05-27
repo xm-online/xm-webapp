@@ -1,9 +1,14 @@
-import { XmJsonSchemaFormService as JsonSchemaFormService } from '../../core/xm-json-schema-form.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { JsonSchemaFormService } from '@ajsf/core';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { ExtTextareaOptions } from './ext-textarea-options.model';
 
 @Component({
+    standalone: true,
+    imports: [MatFormFieldModule, MatInputModule, XmTranslationModule],
     selector: 'xm-ext-textarea-widget',
     templateUrl: 'ext-textarea.component.html',
 })

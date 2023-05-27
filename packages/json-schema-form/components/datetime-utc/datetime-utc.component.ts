@@ -1,10 +1,17 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { Component, Input, OnInit } from '@angular/core';
-import { XmJsonSchemaFormService as JsonSchemaFormService } from '../../core/xm-json-schema-form.service';
+import { JsonSchemaFormService } from '@ajsf/core';
 import { DatetimeUtcOptionsModel } from './datetime-utc-options.model';
 
 declare let moment: any;
 
 @Component({
+    standalone: true,
+    imports: [MatFormFieldModule,MatInputModule,CommonModule,FormsModule,XmTranslationModule],
     selector: 'xm-ext-datetime-utc-widget',
     templateUrl: 'datetime-utc.component.html',
 })

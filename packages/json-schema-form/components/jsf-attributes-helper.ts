@@ -1,4 +1,3 @@
-// import { environment } from '../../../src/environments/environment';
 import { CurrentLocationComponent } from './current-location/current-location.component';
 import { DatetimePickerComponent } from './datetime-picker/datetime-picker.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';

@@ -1,13 +1,20 @@
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { I18nNamePipe } from '@xm-ngx/translation';
 
 import { Principal } from '@xm-ngx/core/user';
-import { XmJsonSchemaFormService as JsonSchemaFormService } from '../../core/xm-json-schema-form.service';
+import { JsonSchemaFormService } from '@ajsf/core';
 import { startWith } from 'rxjs/operators';
 import * as formatString from 'string-template';
 
 @Component({
+    standalone: true,
+    imports: [CommonModule,FormsModule,XmTranslationModule,MatFormFieldModule,MatInputModule],
     selector: 'xm-text-section',
     templateUrl: './text-section.component.html',
 })

@@ -1,8 +1,17 @@
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { XmJsonSchemaFormService as JsonSchemaFormService } from '../../core/xm-json-schema-form.service';
+import { JsonSchemaFormService } from '@ajsf/core';
 
 @Component({
+    standalone: true,
+    imports: [CommonModule, FormsModule, MatFormFieldModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule, XmTranslationModule],
     selector: 'xm-ajfs-file-upload',
     templateUrl: 'file-upload.component.html',
     styleUrls: ['./file-upload.component.scss'],
@@ -41,7 +50,9 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     }
 
     public uploadFile(fileData: any): void {
-        if (!fileData) {return; }
+        if (!fileData) {
+            return;
+        }
         const file = fileData;
         const formData: FormData = new FormData();
         formData.append('file', file, file.name);

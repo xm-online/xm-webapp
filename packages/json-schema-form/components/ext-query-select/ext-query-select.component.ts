@@ -1,11 +1,17 @@
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { XmJsonSchemaFormService as JsonSchemaFormService } from '../../core/xm-json-schema-form.service';
+import { JsonSchemaFormService } from '@ajsf/core';
 import * as _ from 'lodash';
 import { BehaviorSubject, iif, merge, Observable, of, ReplaySubject } from 'rxjs';
 import { catchError, debounceTime, filter, finalize, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
-// import { environment } from '../../../../src/environments/environment';
 import { FloatLabelType } from '@angular/material/form-field';
 
 interface ISelectSettings {
@@ -28,6 +34,8 @@ interface ISelectOption {
 }
 
 @Component({
+    standalone: true,
+    imports: [CommonModule, FormsModule, MatFormFieldModule, MatSelectModule, XmTranslationModule, NgxMatSelectSearchModule, ReactiveFormsModule, MatProgressSpinnerModule],
     selector: 'xm-ext-query-select-widget',
     templateUrl: 'ext-query-select.component.html',
     styleUrls: ['ext-query-select.component.scss'],
