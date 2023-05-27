@@ -9,6 +9,8 @@ import { CurrentLocationOptions } from './validation-component.model';
 @Component({
     selector: 'xm-validation-widget',
     templateUrl: 'validation-component.component.html',
+    standalone: true,
+    imports: [],
 })
 export class ValidationComponent implements OnInit, OnDestroy {
 

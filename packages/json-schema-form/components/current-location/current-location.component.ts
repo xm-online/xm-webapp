@@ -1,4 +1,4 @@
-import { XmGMapApiInitDirective } from '@xm-ngx/components/xmGMapApiInit.directive';
+import { XmGMapApiInitDirective } from '@xm-ngx/components/google-maps';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { JsonSchemaFormService } from '@ajsf/core';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
