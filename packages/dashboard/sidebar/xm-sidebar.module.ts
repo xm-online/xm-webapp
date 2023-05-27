@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LogoComponent } from '@xm-ngx/components/logo';
-import { MenuComponent } from '@xm-ngx/components/menu';
+import { MenuComponent } from '../menu';
 import { XmPoweredByModule } from '@xm-ngx/components/powered-by';
-import { SidebarUserComponent } from '@xm-ngx/components/sidebar-user';
+import { SidebarUserComponent } from '../sidebar-user';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { MatDividerModule } from '@angular/material/divider';
 

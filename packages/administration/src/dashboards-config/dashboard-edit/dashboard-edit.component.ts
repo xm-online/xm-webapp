@@ -4,7 +4,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/user';
-import { Dashboard, DashboardWidget } from '@xm-ngx/dashboard';
+import { Dashboard, DashboardWidget } from '@xm-ngx/core/dashboard';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';

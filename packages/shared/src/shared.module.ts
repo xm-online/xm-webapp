@@ -40,7 +40,7 @@ import { GateSharedLibsModule } from './shared-libs.module';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { UserService } from '@xm-ngx/core/user';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { XmGMapApiInitDirective } from '@xm-ngx/components/xmGMapApiInit.directive';
+import { XmGMapApiInitDirective } from '@xm-ngx/components/google-maps/xmGMapApiInit.directive';
 import { IdpComponent } from '@xm-ngx/components/login';
 import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
 import { XmJsonSchemaComponentsModule } from '@xm-ngx/json-schema-form/components/xm-json-schema-components.module';

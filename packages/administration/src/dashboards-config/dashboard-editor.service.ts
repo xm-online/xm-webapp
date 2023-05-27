@@ -1,7 +1,7 @@
 import { Injectable, Injector, Type } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarRightService } from '@xm-ngx/components/sidebar-right';
-import { Dashboard, DashboardWidget } from '@xm-ngx/dashboard';
+import { Dashboard, DashboardWidget } from '@xm-ngx/core/dashboard';
 import { IId } from '@xm-ngx/shared/interfaces';
 import { XmToasterService } from '@xm-ngx/toaster';
 

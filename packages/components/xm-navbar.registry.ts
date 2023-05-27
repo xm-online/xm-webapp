@@ -11,7 +11,7 @@ export const XM_NAVBAR_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/navbar-language-menu-widget',
-        loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarLanguageMenuWidget),
+        loadChildren: () => import('packages/dashboard/language-menu/xm-navbar-language-menu-widget.component').then(m => m.XmNavbarLanguageMenuWidget),
     },
     {
         selector: '@xm-ngx/components/navbar-logo-widget',

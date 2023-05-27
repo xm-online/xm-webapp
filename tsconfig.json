@@ -39,6 +39,7 @@
       "@xm-ngx/core/role": ["packages/core/role"],
       "@xm-ngx/core/theme": ["packages/core/theme"],
       "@xm-ngx/core/user":["packages/core/user"],
+      "@xm-ngx/core/dashboard":["packages/core/dashboard"],
 
       "@xm-ngx/dynamic": ["packages/dynamic"],
       "@xm-ngx/dynamic/public": ["packages/dynamic/public"],

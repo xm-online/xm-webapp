@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { SidebarUserComponent, SidebarUserSubtitle, UserWidgetBase } from '@xm-ngx/components/sidebar-user';
+import { SidebarUserComponent, SidebarUserSubtitle, UserWidgetBase } from '../sidebar-user';
 import { CommonModule } from '@angular/common';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { MenuComponent } from '@xm-ngx/components/menu';
+import { MenuComponent } from '../menu';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';

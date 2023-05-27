@@ -8,12 +8,12 @@ import { XmUserService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MenuComponent } from '@xm-ngx/components/menu';
+import { MenuComponent } from '../menu';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { SidebarUserSubtitle } from './sidebar-user-subtitle';
-import { MenuLinkComponent } from '@xm-ngx/components/menu';
+import { MenuLinkComponent } from '../menu';
 
 
 @Component({

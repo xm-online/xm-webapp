@@ -7,7 +7,7 @@ export { DashboardGuard } from './src/guards/dashboard.guard';
 export { PendingChangesGuard } from './src/guards/pending-changes.guard';
 export { XmDashboardDynamicRouteResolverGuard } from './src/dynamic-route/xm-dashboard-dynamic-route-resolver-guard.service';
 
-export * from '@xm-ngx/core/dashbord';
+export * from '@xm-ngx/core/dashboard';
 
 export { DefaultDashboardService } from './src/services/default-dashboard.service';
 

@@ -16,9 +16,8 @@ execSync('(cd ./packages/logger && npm run build && cd ../../)', {stdio: 'inheri
 execSync('(cd ./packages/translation && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/toaster && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/alert && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/components && npm run build && cd ../../)', {stdio: 'inherit'});
 
-// execSync('(ng-packagr -p ./packages/components -c tsconfig.ngc.json)', {stdio: 'inherit'});
-// execSync('(ng-packagr -p ./packages/confirm-dialog -c tsconfig.ngc.json)', {stdio: 'inherit'});
 // execSync('(cd ./packages/entity && npm run build && cd ../../)', {stdio: 'inherit'});
 
 // execSync('(ng-packagr -p ./packages/json-schema-form -c tsconfig.ngc.json)', {stdio: 'inherit'});
