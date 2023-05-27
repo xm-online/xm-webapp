@@ -1,6 +1,6 @@
 import { HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { SortDirection } from '@angular/material/sort';
-import { Id, IId } from '@xm-ngx/shared/interfaces';
+import { Id, IId } from '@xm-ngx/interfaces';
 import { Observable } from 'rxjs';
 import { IEntityCollection, QueryParams } from './i-entity-collection';
 

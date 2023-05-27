@@ -1,5 +1,5 @@
 import { HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Id, IId } from '@xm-ngx/shared/interfaces';
+import { Id, IId } from '@xm-ngx/interfaces';
 import { Observable } from 'rxjs';
 
 export interface QueryParams {

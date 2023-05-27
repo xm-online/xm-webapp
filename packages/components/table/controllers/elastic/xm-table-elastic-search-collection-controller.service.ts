@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IEntityCollectionPageable } from '@xm-ngx/components/entity-collection';
+import { IEntityCollectionPageable } from '@xm-ngx/repositories';
 import { firstValueFrom } from 'rxjs';
 import { XmFilterQueryParams, IXmTableCollectionController, } from '../collections/i-xm-table-collection-controller';
 
@@ -13,7 +13,7 @@ import {
     XmTableConfig,
 } from '../../interfaces/xm-table.model';
 import * as _ from 'lodash';
-import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 
 @Injectable()
 export class XmTableElasticSearchCollectionController<T = unknown>

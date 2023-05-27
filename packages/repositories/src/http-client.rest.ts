@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { IEntityCollectionPageable, Pageable } from './i-entity-collection-pageable';
-import { Id, IId } from '@xm-ngx/shared/interfaces';
+import { Id, IId } from '@xm-ngx/interfaces';
 import { BehaviorSubject, defer, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { QueryParams } from './i-entity-collection';

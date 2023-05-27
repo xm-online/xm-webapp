@@ -10,7 +10,7 @@ import {
     DashboardsManagerService,
 } from '@xm-ngx/administration/dashboards-config';
 import { DashboardCollection, WidgetCollection } from '@xm-ngx/administration/dashboards-config/injectors';
-import { MockEntityCollection } from '@xm-ngx/components/entity-collection/testing/mock-entity-collection';
+import { MockEntityCollection } from '@xm-ngx/repositories';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardsListComponent } from './dashboards-list.component';

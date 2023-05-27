@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { HttpClientRest, QueryParamsPageable, XmRepositoryConfig } from '@xm-ngx/components/entity-collection';
+import { HttpClientRest, QueryParamsPageable, XmRepositoryConfig } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { XmEntity } from '@xm-ngx/entity';
 import { Injectable } from '@angular/core';
-import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { PageableAndSortable } from '@xm-ngx/repositories';
 import { map } from 'rxjs/operators';
 import { SortDirection } from '@angular/material/sort';
 import { XmDynamicService } from '@xm-ngx/dynamic';

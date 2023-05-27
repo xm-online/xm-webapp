@@ -78,6 +78,9 @@
       "@xm-ngx/account/*": [
         "packages/account/*"
       ],
+      "@xm-ngx/components/entity-collection": [
+        "node_modules/@xm-ngx/repositories"
+      ],
       "@xm-ngx/entity": [
         "packages/entity"
       ],

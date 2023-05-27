@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IEntityCollectionPageable } from '@xm-ngx/components/entity-collection';
+import { IEntityCollectionPageable } from '@xm-ngx/repositories';
 
 import { XmLogger } from '@xm-ngx/logger';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 import {
     PAGEABLE_AND_SORTABLE_DEFAULT,
     PageableAndSortable,
-} from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+} from '@xm-ngx/repositories';
 import { firstValueFrom } from 'rxjs';
 import { XmAlertService } from '@xm-ngx/alert';
 import { cloneDeep } from 'lodash';

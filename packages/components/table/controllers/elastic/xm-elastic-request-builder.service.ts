@@ -5,10 +5,10 @@ import { XmFilterQueryParams } from '@xm-ngx/components/table/controllers/collec
 import {
     PageableAndSortable,
     QueryParamsPageable
-} from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+} from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { get } from 'lodash';
-import { QueryParams } from '@xm-ngx/components/entity-collection';
+import { QueryParams } from '@xm-ngx/repositories';
 import { xmFormatJs } from '@xm-ngx/shared/operators';
 import {
     Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY

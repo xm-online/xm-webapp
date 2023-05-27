@@ -7,7 +7,7 @@ import {
 import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table-empty.component';
 import { XmPresentationLayout } from '@xm-ngx/dynamic';
 
-import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { XmTableColumn } from '@xm-ngx/components/table/columns/xm-table-column-dynamic-cell.component';
 import {
     FiltersControlRequestOptions

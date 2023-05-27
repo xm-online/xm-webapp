@@ -9,7 +9,7 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, share, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
-import { EntityCollectionFactoryService, QueryParams } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService, QueryParams } from '@xm-ngx/repositories';
 import { uniqBy as _uniqBy, get as _get, template as _template } from 'lodash/fp';
 import * as _ from 'lodash';
 import { CommonModule } from '@angular/common';

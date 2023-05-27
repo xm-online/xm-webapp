@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { Id } from '@xm-ngx/shared/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone } from 'lodash/fp';

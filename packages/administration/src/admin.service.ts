@@ -2,7 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
-import { QueryParamsPageable } from '@xm-ngx/components/entity-collection';
+import { QueryParamsPageable } from '@xm-ngx/repositories';
 
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { XmEventManager } from '@xm-ngx/core';

@@ -41,7 +41,7 @@ import {
     XmTableColumnsSettingStorageService,
 } from '@xm-ngx/components/table/controllers/config/xm-table-columns-setting-storage.service';
 import { XmTableHeaderComponent } from '@xm-ngx/components/table/components/xm-table-header.component';
-import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { PageableAndSortable } from '@xm-ngx/repositories';
 import {
     XmTableQueryParamsStoreService
 } from '@xm-ngx/components/table/controllers/filters/xm-table-query-params-store.service';
@@ -130,7 +130,7 @@ export class XmTableComponent implements OnInit {
     @Input()
     public set config(value: XmTableConfig | Partial<XmTableConfig>) {
         this._config = getConfig(value);
-        
+
         this.dynamicColumns = this._config.columns.filter(c => c.name != '_selectColumn');
         this.selectColumn = (this._config.columns?.find(c => c.name == '_selectColumn') as SelectTableColumn) ?? this.selectColumn;
 

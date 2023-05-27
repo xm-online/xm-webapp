@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { QueryParams } from '@xm-ngx/components/entity-collection';
+import { QueryParams } from '@xm-ngx/repositories';
 import { JhiDateUtils } from 'ng-jhipster';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';

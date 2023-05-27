@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { QueryParamsPageable } from '@xm-ngx/components/entity-collection';
+import { QueryParamsPageable } from '@xm-ngx/repositories';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { XmEventManager } from '@xm-ngx/core';
 import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';

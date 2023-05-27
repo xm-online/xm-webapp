@@ -4,13 +4,13 @@ import {
     QueryParams,
     QueryParamsPageable,
     XmRepositoryConfig
-} from '@xm-ngx/components/entity-collection';
+} from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { XmEntity } from '@xm-ngx/entity';
 import { uuid } from '@xm-ngx/shared/operators';
 import { Injectable } from '@angular/core';
-import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { PageableAndSortable } from '@xm-ngx/repositories';
 import { XmDynamicService } from '@xm-ngx/dynamic';
 import { XmFilterQueryParams } from '../controllers/collections/i-xm-table-collection-controller';
 import {

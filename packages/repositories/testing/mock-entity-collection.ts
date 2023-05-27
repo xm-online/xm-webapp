@@ -1,4 +1,4 @@
-import { IId } from '@xm-ngx/shared/interfaces';
+import { IId } from '@xm-ngx/interfaces';
 import { Observable, of } from 'rxjs';
 
 export class MockEntityCollection<T extends IId = unknown> {

@@ -1,5 +1,5 @@
 import { Injectable, Type } from '@angular/core';
-import { EntityCollectionBase, EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionBase, EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { Dashboard, DashboardWidget } from '@xm-ngx/dashboard';
 import { DASHBOARD_API_URL, DASHBOARD_WIDGET_API_URL } from './const';
 
