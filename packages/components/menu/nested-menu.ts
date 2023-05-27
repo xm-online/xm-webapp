@@ -1,4 +1,4 @@
-import { Dashboard } from '@xm-ngx/dashboard';
+import { Dashboard } from '@xm-ngx/core/dashboard';
 import { MenuItem } from './menu.interface';
 import * as _ from 'lodash';
 

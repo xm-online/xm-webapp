@@ -2,7 +2,7 @@ import { MenuItem } from '@xm-ngx/components/menu';
 import { combineLatest, Observable } from 'rxjs';
 import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import { SidebarUserSubtitleOptions } from './sidebar-user-subtitle';
-import { DashboardStore } from '@xm-ngx/dashboard';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { XmUser, XmUserService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { ActivationEnd, Router } from '@angular/router';

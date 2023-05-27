@@ -3,8 +3,8 @@ import { RequestCache, RequestCacheFactoryService } from '@xm-ngx/core';
 import * as _ from 'lodash';
 import { MonoTypeOperatorFunction, Observable, of, throwError } from 'rxjs';
 import { catchError, filter, map, pluck, shareReplay, switchMap, take } from 'rxjs/operators';
-import { Dashboard, DashboardWithWidgets } from '../models/dashboard.model';
-import { DashboardService } from '../repositories/dashboard.service';
+import { Dashboard, DashboardWithWidgets } from './models/dashboard.model';
+import { DashboardService } from './repositories/dashboard.service';
 
 @Injectable()
 export class DashboardStore {

@@ -1,4 +1,4 @@
-import { BaseEntity } from '@xm-ngx/entity';
+import { BaseEntity } from '@xm-ngx/core/entity';
 
 export interface DashboardWidget<C = any> extends BaseEntity {
     id?: number;

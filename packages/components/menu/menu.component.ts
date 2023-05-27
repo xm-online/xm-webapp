@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { DashboardStore } from '@xm-ngx/dashboard';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
 import { combineLatest, from, Observable } from 'rxjs';

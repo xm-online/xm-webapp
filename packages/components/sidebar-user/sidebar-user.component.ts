@@ -3,7 +3,7 @@ import { matExpansionAnimations } from '@angular/material/expansion';
 import * as _ from 'lodash';
 import { MenuItem } from '../menu/menu.interface';
 import { UserWidgetBase } from './user-widget.base';
-import { DashboardStore } from '@xm-ngx/dashboard';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { XmUserService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { Router } from '@angular/router';

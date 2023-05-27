@@ -4,8 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MockUserService } from '@xm-ngx/core/user/testing';
 import { SidebarUserComponent } from './sidebar-user.component';
-import { DashboardStore } from '@xm-ngx/dashboard';
-import { MockDashboardStore } from '@xm-ngx/dashboard/testing';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
+import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
 import { XmUserService } from '@xm-ngx/core/user';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 

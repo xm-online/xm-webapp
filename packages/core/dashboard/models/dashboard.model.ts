@@ -1,7 +1,7 @@
-import { XmLayout } from '@xm-ngx/dynamic';
-import { BaseEntity } from '@xm-ngx/entity';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces';
-import { Translate } from '@xm-ngx/translation';
+// import { XmLayout } from '@xm-ngx/dynamic';
+import { BaseEntity } from '@xm-ngx/core/entity';
+import { JavascriptCode } from '@xm-ngx/interfaces';
+// import { Translate } from '@xm-ngx/translation';
 import { DashboardWidget } from './dashboard-widget.model';
 
 export interface DashboardConfig {
@@ -9,7 +9,7 @@ export interface DashboardConfig {
     slug?: string;
     orderIndex?: number;
     condition?: JavascriptCode;
-    name?: Translate;
+    name?: any;
     hidden?: boolean;
     permission?: string;
     icon?: string;
@@ -18,7 +18,7 @@ export interface DashboardConfig {
         name?: string;
         groupIsLink?: boolean;
         group?: {
-            name?: Translate;
+            name?: any;
             icon?: string;
             permission?: string;
             orderIndex?: number;
@@ -33,7 +33,7 @@ export interface DashboardConfig {
     [key: string]: any;
 }
 
-export interface DashboardLayoutLayout extends XmLayout {
+export interface DashboardLayoutLayout {
     widget?: number | string | DashboardWidget;
     widgetName?: string;
     content?: DashboardLayoutLayout[];
