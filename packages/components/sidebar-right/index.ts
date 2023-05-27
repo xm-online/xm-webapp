@@ -1,2 +1,2 @@
 export { SidebarRightService } from './sidebar-right.service';
-export { XmSidebarRightModule } from './xm-sidebar-right.module';
+export * from './xm-sidebar-right.module';

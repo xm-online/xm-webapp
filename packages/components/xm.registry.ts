@@ -11,7 +11,7 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/sidebar-menu',
-        loadChildren: () => import('@xm-ngx/components/menu').then(m => m.MenuComponent),
+        loadChildren: () => import('packages/dashboard/menu').then(m => m.MenuComponent),
     },
     {
         selector: '@xm-ngx/components/breadcrumb',
@@ -19,7 +19,7 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/navbar-user-widget',
-        loadChildren: () => import('@xm-ngx/components/navbar-user-widget').then(m => m.NavbarUserWidgetComponent),
+        loadChildren: () => import('packages/dashboard/navbar-user-widget').then(m => m.NavbarUserWidgetComponent),
     },
     {
         selector: '@xm-ngx/components/navbar-heatmap-widget',
