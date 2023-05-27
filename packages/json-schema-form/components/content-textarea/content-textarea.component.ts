@@ -1,4 +1,4 @@
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { XmJsonSchemaFormService as JsonSchemaFormService } from '../../core/xm-json-schema-form.service';
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { ContentTextareaOptions } from './content-textarea-options.model';

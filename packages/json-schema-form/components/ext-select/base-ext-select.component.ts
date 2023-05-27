@@ -1,7 +1,8 @@
 import { JsonSchemaFormService } from '@ajsf/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { filter, map, mergeMap, takeUntil, tap } from 'rxjs/operators';
-import { ExtSelectOptions } from '@xm-ngx/json-schema-form/components';
+import { ExtSelectOptions } from './ext-select-options.model';
+
 import { ExtSelectService, URL_TEMPLATE_LITERAL } from './ext-select-service';
 
 export default abstract class BaseExtSelectComponent {

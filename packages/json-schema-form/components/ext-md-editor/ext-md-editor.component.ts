@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { TdTextEditorComponent } from '@covalent/text-editor';
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { XmJsonSchemaFormService as JsonSchemaFormService } from '../../core/xm-json-schema-form.service';
 
 @Component({
     selector: 'xm-ext-md-editor-widget',

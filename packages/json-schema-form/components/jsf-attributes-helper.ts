@@ -1,4 +1,4 @@
-import { environment } from '../../../src/environments/environment';
+// import { environment } from '../../../src/environments/environment';
 import { CurrentLocationComponent } from './current-location/current-location.component';
 import { DatetimePickerComponent } from './datetime-picker/datetime-picker.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
@@ -81,9 +81,9 @@ export const buildJsfAttributes = (spec: any, form: any, widgets?: any): any => 
 
     processValidationMessages(jsfAttributes);
 
-    if (environment && !environment.production) {
-        console.info('[dbg] %o', jsfAttributes);
-    }
+    // if (environment && !environment.production) {
+    //     console.info('[dbg] %o', jsfAttributes);
+    // }
 
     return jsfAttributes;
 };
@@ -208,9 +208,9 @@ export const processValidationMessages = (jsfAttributes: any): any => {
 
         validations.filter((k) => object.hasOwnProperty(k)).forEach((it) => field[it] = object[it]);
 
-        if (environment && !environment.production) {
-            console.info('[dbg] %o', jsfAttributes.schema);
-        }
+        // if (environment && !environment.production) {
+        //     console.info('[dbg] %o', jsfAttributes.schema);
+        // }
 
     });
 

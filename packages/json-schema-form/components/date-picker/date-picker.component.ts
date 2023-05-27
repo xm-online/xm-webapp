@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { XmJsonSchemaFormService as JsonSchemaFormService } from '../../core/xm-json-schema-form.service';
 import { DateTimeAdapter, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
 
 import { ModulesLanguageHelper } from '@xm-ngx/translation';
 import { DatePickerOptionsModel } from './date-picker-options.model';
 import { DataPickerLayoutNode } from './data-picker.layoutNode';
 
-import * as moment from 'moment';
+import moment from 'moment';
 const DEF_FORMAT = 'YYYY-MM-DD';
 
 @Component({
