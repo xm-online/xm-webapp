@@ -64,7 +64,7 @@ import {
 } from '../../../packages/json-schema-form/components/multilingual-input-v2/multilingual-input-v2.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { XmGMapApiInitDirective } from '@xm-ngx/components/xmGMapApiInit.directive';
-import { IdpComponent } from '@xm-ngx/components/idp';
+import { IdpComponent } from '@xm-ngx/components/login/idp';
 import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
 
 const PIPES = [

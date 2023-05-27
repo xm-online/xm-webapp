@@ -1,6 +1,9 @@
-export { DashboardStore } from './dashboard-store.service';
-export { DashboardWrapperService } from './dashboard-wrapper.service';
-export { DashboardWidget } from './models/dashboard-widget.model';
+export * from './models/dashboard.model';
+export * from './models/dashboard-widget.model';
 
-export { DashboardService } from './repositories/dashboard.service';
-export { WidgetService } from './repositories/widget.service';
+export * from './repositories/dashboard.service';
+export * from './repositories/widget.service';
+
+export * from './dashboard-store.service';
+export * from './dashboard-wrapper.service';
+

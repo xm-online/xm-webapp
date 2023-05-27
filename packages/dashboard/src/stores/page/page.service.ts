@@ -2,8 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 import { Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { DashboardStore } from '../dashboard-store.service';
-import { DashboardWidget } from '../../models/dashboard-widget.model';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
+import { DashboardWidget } from '@xm-ngx/core/dashboard';
 
 export interface Page<C = unknown, L = unknown> {
     id?: number;

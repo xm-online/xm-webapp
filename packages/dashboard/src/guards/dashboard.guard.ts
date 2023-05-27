@@ -4,7 +4,7 @@ import { environment } from '@xm-ngx/core/environment';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { DashboardStore } from '../stores/dashboard-store.service';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { DefaultDashboardService } from '../services/default-dashboard.service';
 
 @Injectable({

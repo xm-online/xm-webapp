@@ -33,7 +33,7 @@ export interface DashboardConfig {
     [key: string]: any;
 }
 
-export interface DashboardLayoutLayout {
+export interface DashboardLayoutLayout extends Partial<any> {
     widget?: number | string | DashboardWidget;
     widgetName?: string;
     content?: DashboardLayoutLayout[];

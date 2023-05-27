@@ -1,4 +1,4 @@
-import { DashboardWidget } from '../../models/dashboard-widget.model';
+import { DashboardWidget } from '@xm-ngx/core/dashboard';
 
 type WidgetWithConfig = DashboardWidget<{ orderIndex?: number }>
 
