@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { XmEntity } from '@xm-ngx/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { HttpClientRest, XmRepositoryConfig } from '@xm-ngx/repositories';
 import { PageableAndSortable } from '@xm-ngx/repositories';
 import { XmDynamicService } from '@xm-ngx/dynamic';

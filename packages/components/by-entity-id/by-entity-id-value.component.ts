@@ -6,7 +6,7 @@ import {
     XmDynamicPresentationConstructor,
     XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
-import { Id } from '@xm-ngx/shared/interfaces';
+import { Id } from '@xm-ngx/interfaces';
 import { get } from 'lodash';
 import { clone } from 'lodash/fp';
 import { Subscription } from 'rxjs';

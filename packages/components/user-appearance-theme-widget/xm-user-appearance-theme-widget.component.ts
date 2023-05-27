@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
-import { Defaults } from '@xm-ngx/shared/operators';
+import { Defaults } from '@xm-ngx/operators';
 import { XmTheme, XmThemeController } from '@xm-ngx/core/theme';
 import { cloneDeep, find } from 'lodash';
 import { finalize } from 'rxjs';

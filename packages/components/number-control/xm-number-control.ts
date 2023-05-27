@@ -4,7 +4,7 @@ import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 
 import { XmDynamicControl } from '@xm-ngx/dynamic';
-import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
+import { DataQa, Primitive } from '@xm-ngx/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
 import { HintText } from '@xm-ngx/components/hint';

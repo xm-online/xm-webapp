@@ -5,7 +5,6 @@ import { AuthServerProvider } from '@xm-ngx/core/user';
 import { Principal } from '@xm-ngx/core/user';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { SessionStorageService } from 'ngx-webstorage';
-import { IDP_CLIENT, XM_EVENT_LIST } from '../../../src/app/xm.constants';
 import { IIdpClient, IIdpConfig, XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { DOCUMENT, Location } from '@angular/common';
 import { environment } from '@xm-ngx/core/environment';
@@ -79,7 +78,7 @@ export class LoginService {
 
     public onIdpDirectLogin(config: IIdpConfig): void {
         const client = this.getIdpClient({ idp: config?.idp } as IIdpConfig);
-        this.$sessionStorage.store(IDP_CLIENT, client);
+        this.$sessionStorage.store('idp_client', client);
         this.loginWithIdpClient(client);
     }
 
@@ -88,7 +87,7 @@ export class LoginService {
         const getRedirectUrl = `oauth2/authorization/${client.key}`;
         const devApiUri = environment.idpServerApiUrl;
         const loc = devApiUri ? devApiUri : location.origin;
-        this.$sessionStorage.store(IDP_CLIENT, client);
+        this.$sessionStorage.store('idp_client', client);
         if (authEndpointUri) {
             location.href = `${loc}${this.location.prepareExternalUrl(getRedirectUrl)}`;
         }
@@ -109,11 +108,11 @@ export class LoginService {
 
 
         if (!environment?.production) {
-            console.info('[dbg] broadcast %s', XM_EVENT_LIST.XM_SUCCESS_AUTH);
+            console.info('[dbg] broadcast %s', 'authenticationSuccess');
         }
 
         this.eventManager.broadcast({
-            name: XM_EVENT_LIST.XM_SUCCESS_AUTH,
+            name: 'authenticationSuccess',
             content: 'Sending Authentication Success',
         });
 

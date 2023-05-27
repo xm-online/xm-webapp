@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { IfDashboardSlugModule } from '@xm-ngx/components/if-dashboard-slug';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
-import { DataQa } from '@xm-ngx/shared/interfaces';
+import { DataQa } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 

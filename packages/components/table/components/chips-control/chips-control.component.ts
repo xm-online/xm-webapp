@@ -17,7 +17,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Defaults, interpolate } from '@xm-ngx/shared/operators';
+import { Defaults, interpolate } from '@xm-ngx/operators';
 
 export interface ChipsControlConfig {
     title?: Translate,

@@ -14,8 +14,8 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { cloneDeep } from 'lodash';
 import {
     XmTableRepositoryResolver,
-} from '@xm-ngx/components/table/repositories/xm-table-repository-resolver.service';
-import { IId } from '@xm-ngx/shared/interfaces';
+} from '../../repositories/xm-table-repository-resolver.service';
+import { IId } from '@xm-ngx/interfaces';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';

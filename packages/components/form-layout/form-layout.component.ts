@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces';
+import { FormGroupLayoutItem } from './form-group-layout-factory.service';
+import { JavascriptCode } from '@xm-ngx/interfaces';
 import { CommonModule } from '@angular/common';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { ConditionModule } from '@xm-ngx/components/condition';

@@ -2,9 +2,9 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { finalize } from 'rxjs/operators';
 import { ITranslate, LanguageService } from '@xm-ngx/translation';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
-import { AuthServerProvider } from '../../core/user/src/auth-jwt.service';
+import { AuthServerProvider } from '@xm-ngx/core/user';
 
 export interface PrivacyPolicyConfig {
     privacyAndTermsAcceptLabel?: string | ITranslate;

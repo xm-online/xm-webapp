@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
-import { IIdpClient, IIdpConfig } from '../../core/src/xm-public-idp-config-model';
+import { IIdpClient, IIdpConfig } from '@xm-ngx/core';
 import { XmPublicIdpConfigService } from '@xm-ngx/core';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Location } from '@angular/common';
 import { LoginService } from '@xm-ngx/components/login';
 

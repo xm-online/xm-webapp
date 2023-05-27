@@ -8,7 +8,7 @@ import { filter, finalize, switchMap } from 'rxjs/operators';
 
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
 import { FeedbackService, IFeedbackRequest } from './feedback.service';
-import { Permissible } from '@xm-ngx/shared/interfaces';
+import { Permissible } from '@xm-ngx/interfaces';
 
 export function screenshot(): Observable<string> {
     return new Observable((subject) => {

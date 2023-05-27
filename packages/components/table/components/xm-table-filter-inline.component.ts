@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { FiltersControlRequestOptions, XmTableFiltersControlRequestComponent } from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
+import { FiltersControlRequestOptions, XmTableFiltersControlRequestComponent } from '../components/xm-table-filters-control-request.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import * as _ from 'lodash';
 import { defaultsDeep } from 'lodash';
@@ -11,16 +11,16 @@ import {
     takeUntilOnDestroy,
     takeUntilOnDestroyDestroy,
 
-} from '@xm-ngx/shared/operators';
-import { XmTableCollectionControllerResolver } from '@xm-ngx/components/table';
-import { XmTableFilterController } from '@xm-ngx/components/table/controllers/filters/xm-table-filter-controller.service';
+} from '@xm-ngx/operators';
+import { XmTableCollectionControllerResolver } from '../controllers/collections/xm-table-collection-controller-resolver.service';
+import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import {
     ChipsControlConfig,
-} from '@xm-ngx/components/table/components/chips-control/chips-control.component';
+} from '../components/chips-control/chips-control.component';
 import { FiltersControlValue } from './xm-table-filters-control.component';
 
 const DEFAULT_CONFIG: FiltersControlRequestOptions = {

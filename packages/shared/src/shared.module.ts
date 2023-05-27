@@ -27,7 +27,6 @@ import { ClientService } from '../../core/client/client.service';
 import {
     PrivacyAndTermsDialogComponent,
 } from '../../components/privacy-and-terms-dialog/privacy-and-terms-dialog.component';
-import { XmConfirmDialogComponent } from '../../components/confirmation-dialog/xm-confirm-dialog.component';
 import { ContextService } from '../../core/context/context.service';
 import { DigitOnlyDirective } from '@xm-ngx/components/text';
 import { FocusDirective } from '@xm-ngx/components/text';
@@ -116,7 +115,6 @@ const DIRECTIVES = [
         LoginComponent,
         RegisterComponent,
         PasswordStrengthBarComponent,
-        XmConfirmDialogComponent,
         CurrentLocationComponent,
         ExtSelectComponent,
         ValidationComponent,
@@ -159,7 +157,6 @@ const DIRECTIVES = [
         LoginComponent,
         RegisterComponent,
         PasswordStrengthBarComponent,
-        XmConfirmDialogComponent,
         CurrentLocationComponent,
         ExtSelectComponent,
         ExtAutocompleteComponent,

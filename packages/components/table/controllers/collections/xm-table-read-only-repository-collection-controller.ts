@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IEntityCollectionPageable } from '@xm-ngx/repositories';
 
-import { NotSupportedException } from '@xm-ngx/shared/exceptions';
+import { NotSupportedException } from '@xm-ngx/exceptions';
 import { take } from 'rxjs/operators';
 
 import {
@@ -9,14 +9,14 @@ import {
     PageableAndSortable,
 } from '@xm-ngx/repositories';
 import { firstValueFrom } from 'rxjs';
-import { XmTableRepositoryResolver, } from '@xm-ngx/components/table/repositories/xm-table-repository-resolver.service';
+import { XmTableRepositoryResolver, } from '../../repositories/xm-table-repository-resolver.service';
 import { cloneDeep } from 'lodash';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { XmTableConfig } from '../../interfaces/xm-table.model';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
-import { xmFormatJs, XmFormatJsTemplateRecursive } from '@xm-ngx/shared/operators';
+import { xmFormatJs, XmFormatJsTemplateRecursive } from '@xm-ngx/operators';
 
 export interface XmTableRepositoryCollectionConfig {
     config: {

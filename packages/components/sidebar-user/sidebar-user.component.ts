@@ -12,8 +12,8 @@ import { MenuComponent } from '@xm-ngx/components/menu';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
-import { SidebarUserSubtitle } from '@xm-ngx/components/sidebar-user/sidebar-user-subtitle';
-import { MenuLinkComponent } from '@xm-ngx/components/menu/menu-link.component';
+import { SidebarUserSubtitle } from './sidebar-user-subtitle';
+import { MenuLinkComponent } from '@xm-ngx/components/menu';
 
 
 @Component({

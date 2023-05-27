@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';

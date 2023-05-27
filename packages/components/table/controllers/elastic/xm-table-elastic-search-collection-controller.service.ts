@@ -5,8 +5,8 @@ import { XmFilterQueryParams, IXmTableCollectionController, } from '../collectio
 
 import { cloneDeep } from 'lodash';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
-import { XmTableRepositoryResolver, } from '@xm-ngx/components/table/repositories/xm-table-repository-resolver.service';
-import { NotSupportedException } from '@xm-ngx/shared/exceptions';
+import { XmTableRepositoryResolver, } from '../../repositories/xm-table-repository-resolver.service';
+import { NotSupportedException } from '@xm-ngx/exceptions';
 import { AXmTableStateCollectionController } from '../collections/a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
 import {

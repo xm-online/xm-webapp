@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { environment, IEnvironment } from '@xm-ngx/core/environment';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { combineLatest, Observable } from 'rxjs';
 import { delay, filter, shareReplay, startWith } from 'rxjs/operators';
 import { getServerEnvironment } from './get-current-env';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { XmTableConfigController } from '@xm-ngx/components/table/controllers';
-import { XmTableConfig, XmTableConfigFilters } from '@xm-ngx/components/table/interfaces/xm-table.model';
-import { XmFilterQueryParams } from '@xm-ngx/components/table/controllers/collections/i-xm-table-collection-controller';
+import { XmTableConfigController } from '../config/xm-table-config-controller.service';
+import { XmTableConfig, XmTableConfigFilters } from '../../interfaces/xm-table.model';
+import { XmFilterQueryParams } from '../collections/i-xm-table-collection-controller';
 import {
     PageableAndSortable,
     QueryParamsPageable
@@ -9,14 +9,14 @@ import {
 import * as _ from 'lodash';
 import { get } from 'lodash';
 import { QueryParams } from '@xm-ngx/repositories';
-import { xmFormatJs } from '@xm-ngx/shared/operators';
+import { xmFormatJs } from '@xm-ngx/operators';
 import {
     Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY
-} from '@xm-ngx/components/table/controllers/elastic/xm-table-filters-elastic-string-query';
+} from '../elastic/xm-table-filters-elastic-string-query';
 import {
     XmElasticSearchRepositoryQueryParamsPageable,
     XmEntityRepositoryConfig
-} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-search-repository.service';
+} from '../elastic/xm-elastic-search-repository.service';
 
 @Injectable()
 export class XmElasticRequestBuilder {

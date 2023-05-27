@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DataQa } from '@xm-ngx/shared/interfaces';
+import { DataQa } from '@xm-ngx/interfaces';
 import { clone, defaults } from 'lodash';
 
 export interface XmImageOptions extends DataQa {

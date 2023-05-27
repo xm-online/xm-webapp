@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmLayout } from '@xm-ngx/dynamic';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { get } from 'lodash';
 
 import { XmSidebarStoreService } from './stores/xm-sidebar-store.service';

@@ -2,15 +2,19 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import {
     XmInlineControlComponent,
     XmInlineControlConfig,
-} from '@xm-ngx/components/inline-control/inline-control.component';
+} from '@xm-ngx/components/inline-control';
 import { FormsModule } from '@angular/forms';
 import {
-    IXmTableCollectionController,
+    IXmTableCollectionController
+} from '../controllers/collections/i-xm-table-collection-controller';
+
+import {
     XmTableCollectionControllerResolver,
-} from '@xm-ngx/components/table';
+} from '../controllers/collections/xm-table-collection-controller-resolver.service';
+
 import { XM_DYNAMIC_TABLE_CELL, XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { cloneDeep, set } from 'lodash';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces';
+import { JavascriptCode } from '@xm-ngx/interfaces';
 import { ConditionModule } from '@xm-ngx/components/condition';
 
 export type XmTableEditCellConfig = XmInlineControlConfig & {

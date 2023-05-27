@@ -10,7 +10,7 @@ export { XmTableLinkedCollectionController } from './collections/xm-table-linked
 export { XmTableReadOnlyArrayCollectionController } from './collections/xm-table-read-only-array-collection-controller.service';
 export { XmTableRepositoryCollectionController } from './collections/xm-table-repository-collection-controller.service';
 export { XmTableStringArrayCollectionController } from './collections/xm-table-string-array-collection-controller.service';
-export { XmTableElasticSearchCollectionController } from '@xm-ngx/components/table/controllers/elastic/xm-table-elastic-search-collection-controller.service';
+export { XmTableElasticSearchCollectionController } from '../controllers/elastic/xm-table-elastic-search-collection-controller.service';
 
 export { XmTableConfigController } from './config/xm-table-config-controller.service';
 

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewC
 import {
     FiltersControlValue,
     XmTableFiltersControlComponent
-} from '@xm-ngx/components/table/components/xm-table-filters-control.component';
+} from '../components/xm-table-filters-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 
 export interface FiltersControlRequestOptions {

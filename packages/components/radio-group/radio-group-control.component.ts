@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, Optional, ViewEncapsulation } from '@angular/core';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
-import { DataQa } from '@xm-ngx/shared/interfaces';
+import { DataQa } from '@xm-ngx/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintText } from '@xm-ngx/components/hint';
 import { NgControl } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
 

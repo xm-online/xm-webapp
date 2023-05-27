@@ -8,11 +8,11 @@ import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table
 import { XmPresentationLayout } from '@xm-ngx/dynamic';
 
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
-import { XmTableColumn } from '@xm-ngx/components/table/columns/xm-table-column-dynamic-cell.component';
+import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
 import {
     FiltersControlRequestOptions
-} from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
-import { XmFormatJsTemplateRecursive } from '@xm-ngx/shared/operators';
+} from '../components/xm-table-filters-control-request.component';
+import { XmFormatJsTemplateRecursive } from '@xm-ngx/operators';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination {
     pageSizeOptions: number[],

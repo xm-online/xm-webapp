@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { coerceArray } from '@angular/flex-layout';
 import { FormControl, NgControl } from '@angular/forms';
-import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { LanguageService } from '@xm-ngx/translation';
 import _ from 'lodash';
 import {
@@ -33,7 +33,7 @@ import {
     filter,
 } from 'rxjs';
 import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
-import { NgModelWrapper } from '../ng-accessor';
+import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import {
     AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG,
     XmAutocompleteControlConfig,

@@ -19,7 +19,7 @@ import { XmDateValue } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { filter, withLatestFrom } from 'rxjs/operators';
 import { template } from 'lodash/fp';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Subject } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, formatDate } from '@angular/common';

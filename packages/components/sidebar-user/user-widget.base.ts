@@ -6,7 +6,7 @@ import { DashboardStore } from '@xm-ngx/dashboard';
 import { XmUser, XmUserService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { ActivationEnd, Router } from '@angular/router';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import {
     flatTree,
