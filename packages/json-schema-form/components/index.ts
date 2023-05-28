@@ -27,4 +27,4 @@ export * from './file-upload/file-upload.component';
 export * from './geo-input/geo-input.component';
 export * from './dynamic-control-injector-component/dynamic-control-injector.component';
 export * from './dynamic-control-injector-component/dynamic-control-injector.module';
-export * from './xm-jsf-components.module';
+export * from './xm-json-schema-components.module';

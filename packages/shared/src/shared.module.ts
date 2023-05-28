@@ -2,7 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
-import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
+import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form';
 import { ReCaptchaModule } from 'angular2-recaptcha';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
@@ -27,8 +27,6 @@ import { DigitOnlyDirective, FocusDirective, InputPreventPasteDirective } from '
 import { SafeNamePipe } from '@xm-ngx/pipes';
 import { XmCondition } from '@xm-ngx/pipes';
 import { XmDateTimePipe } from '@xm-ngx/translation/pipes';
-import { XmEntityIconPipe } from '@xm-ngx/entity/pipes';
-import { XmEntityStateSpecPipe } from '@xm-ngx/entity/pipes';
 import { TimeFromPipe } from '@xm-ngx/translation/pipes';
 import { PrivilegeService } from '@xm-ngx/core/permission';
 import { RegisterComponent, RegisterService } from '@xm-ngx/components/register';
@@ -38,16 +36,14 @@ import { GateSharedLibsModule } from './shared-libs.module';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { UserService } from '@xm-ngx/core/user';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { XmGMapApiInitDirective } from '@xm-ngx/components/google-maps/xmGMapApiInit.directive';
+import { XmGMapApiInitDirective } from '@xm-ngx/components/google-maps';
 import { IdpComponent } from '@xm-ngx/components/login';
 import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
-import { XmJsonSchemaComponentsModule } from '@xm-ngx/json-schema-form/components/xm-json-schema-components.module';
+import { XmJsonSchemaComponentsModule } from '@xm-ngx/json-schema-form';
 
 const PIPES = [
     XmDateTimePipe,
-    XmEntityStateSpecPipe,
     SafeNamePipe,
-    XmEntityIconPipe,
     TimeFromPipe,
 ];
 
@@ -92,7 +88,6 @@ const COMPONENTS = [
         SafeNamePipe,
         XmDateTimePipe,
         DatePipe,
-        XmEntityIconPipe,
         TimeFromPipe,
     ],
     exports: [

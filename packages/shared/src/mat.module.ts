@@ -110,11 +110,13 @@ export class CustomDateAdapter extends NativeDateAdapter {
         MatTooltipModule,
         NgxMatSelectSearchModule,
     ],
-    providers: [{
-        provide: MatPaginatorIntl,
-        useClass: XmMatPaginatorInt,
-    },
+    providers: [
+        {
+            provide: MatPaginatorIntl,
+            useClass: XmMatPaginatorInt,
+        },
         { provide: DateAdapter, useClass: CustomDateAdapter },
     ],
 })
-export class MatModule {}
+export class MatModule {
+}
