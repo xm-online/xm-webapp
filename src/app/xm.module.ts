@@ -56,6 +56,7 @@ import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compo
 import { XmSharedModule } from 'packages/shared/src/shared.module';
 import { MaintenanceService } from '@xm-ngx/components/maintenance';
 import { XmEntityModule } from '@xm-ngx/core/entity';
+import { UserLoginService } from '@xm-ngx/account/user-login-widget';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
     appearance: 'fill',
@@ -126,6 +127,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
         XmApplicationConfigService,
         UserRouteAccessService,
         CookieService,
+        UserLoginService,
         { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: XM_MAT_DIALOG_DEFAULT_OPTIONS },
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldOptions },
         { provide: MAT_PAGINATOR_DEFAULT_OPTIONS, useValue: paginatorOptions },

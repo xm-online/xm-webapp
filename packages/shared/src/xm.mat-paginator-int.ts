@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 type XmMatPaginatorIntGetRangeLabel = (page: number, pageSize: number, length: number) => string;
 

@@ -8,9 +8,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angul
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MarkdownModule } from 'ngx-markdown';
 
-import { UserLoginService } from '@xm-ngx/account/user-login-widget/login/user-login.service';
-import { UserLoginFormComponent, XmUserLoginWidgetComponent } from '@xm-ngx/account/user-login-widget';
-import { MatModule } from '../../../src/app/mat.module';
+import { MatModule } from './mat.module';
 import {
     CSRFService,
     StateStorageService,
@@ -23,8 +21,8 @@ import {
 } from '@xm-ngx/core/user';
 import { LoginComponent, LoginService } from '@xm-ngx/components/login';
 import { HasAnyAuthorityDirective, } from '@xm-ngx/core/permission';
-import { ClientService } from '../../core/client/client.service';
-import { ContextService } from '../../core/context/context.service';
+import { ClientService } from '@xm-ngx/core/client';
+import { ContextService } from '@xm-ngx/core/context';
 import { DigitOnlyDirective, FocusDirective, InputPreventPasteDirective } from '@xm-ngx/components/text';
 import { SafeNamePipe } from '@xm-ngx/pipes';
 import { XmCondition } from '@xm-ngx/pipes';
@@ -34,7 +32,7 @@ import { XmEntityStateSpecPipe } from '@xm-ngx/entity/pipes';
 import { TimeFromPipe } from '@xm-ngx/translation/pipes';
 import { PrivilegeService } from '@xm-ngx/core/permission';
 import { RegisterComponent, RegisterService } from '@xm-ngx/components/register';
-import { RoleService } from '../../core/role/role.service';
+import { RoleService } from '@xm-ngx/core/role';
 import { ParseByPathService } from '@xm-ngx/core/permission';
 import { GateSharedLibsModule } from './shared-libs.module';
 import { XmConfigService } from '@xm-ngx/core/config';
@@ -72,8 +70,6 @@ const COMPONENTS = [
 @NgModule({
     imports: [
         XmJsonSchemaFormModule,
-        XmUserLoginWidgetComponent,
-        UserLoginFormComponent,
         GateSharedLibsModule,
         ReCaptchaModule,
         MarkdownModule.forChild(),
@@ -108,8 +104,6 @@ const COMPONENTS = [
         GateSharedLibsModule,
         MatModule,
         GooglePlaceModule,
-        XmUserLoginWidgetComponent,
-        UserLoginFormComponent,
         XmJsonSchemaFormModule,
         XmJsonSchemaComponentsModule,
     ],
@@ -129,7 +123,6 @@ export class XmSharedModule {
                 AuthService,
                 UserService,
                 ClientService,
-                UserLoginService,
                 PrivilegeService,
                 ParseByPathService,
                 RoleService,
