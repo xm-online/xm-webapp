@@ -21,36 +21,6 @@
       "dom"
     ],
     "paths": {
-      "@xm-ngx/interfaces": ["packages/interfaces"],
-      "@xm-ngx/exceptions":["packages/exceptions"],
-      "@xm-ngx/pipes": ["packages/pipes"],
-      "@xm-ngx/validators":["packages/validators"],
-      "@xm-ngx/operators": ["packages/operators"],
-      "@xm-ngx/eslint":["packages/eslint"],
-      "@xm-ngx/repositories": ["packages/repositories"],
-      "@xm-ngx/core":["packages/core"],
-
-      "@xm-ngx/core/auth": ["packages/core/auth"],
-      "@xm-ngx/core/client":["packages/core/client"],
-      "@xm-ngx/core/config": ["packages/core/config"],
-      "@xm-ngx/core/context":["packages/core/context"],
-      "@xm-ngx/core/entity": ["packages/core/entity"],
-      "@xm-ngx/core/permission":["packages/core/permission"],
-      "@xm-ngx/core/role": ["packages/core/role"],
-      "@xm-ngx/core/theme": ["packages/core/theme"],
-      "@xm-ngx/core/user":["packages/core/user"],
-      "@xm-ngx/core/dashboard":["packages/core/dashboard"],
-
-      "@xm-ngx/dynamic": ["packages/dynamic"],
-      "@xm-ngx/dynamic/public": ["packages/dynamic/public"],
-      "@xm-ngx/dynamic/route": ["packages/dynamic/route"],
-      "@xm-ngx/logger":["packages/logger"],
-      "@xm-ngx/translation": ["packages/translation"],
-      "@xm-ngx/translation/pipes": ["packages/translation/pipes"],
-      "@xm-ngx/translation/testing": ["packages/translation/testing"],
-      "@xm-ngx/toaster":["packages/toaster"],
-      "@xm-ngx/alert": ["packages/alert"],
-
       "@xm-ngx/administration/*": [
         "packages/administration/src/*"
       ],
@@ -64,19 +34,19 @@
         "src/app/ext/*"
       ],
       "@xm-ngx/confirm-dialog": [
-        "packages/confirm-dialog"
+        "node_modules/@xm-ngx/components/confirm-dialog"
       ],
       "@xm-ngx/json-schema-form": [
-        "packages/json-schema-form"
+        "node_modules/@xm-ngx/json-schema-form"
       ],
       "@xm-ngx/json-schema-form/core": [
-        "packages/json-schema-form"
+        "node_modules/@xm-ngx/json-schema-form"
       ],
       "@xm-ngx/json-schema-form/components": [
-        "packages/json-schema-form"
+        "node_modules/@xm-ngx/json-schema-form"
       ],
       "@xm-ngx/json-schema-form/components/*": [
-        "packages/json-schema-form/components/*"
+        "node_modules/@xm-ngx/json-schema-form"
       ],
       "@xm-ngx/timeline": [
         "packages/timeline"
@@ -85,22 +55,22 @@
         "packages/timeline/*"
       ],
       "@xm-ngx/shared": [
-        "packages/shared"
+        "node_modules/@xm-ngx/shared"
       ],
       "@xm-ngx/shared/exceptions": [
-        "packages/exceptions"
+        "node_modules/@xm-ngx/exceptions"
       ],
       "@xm-ngx/shared/validators": [
-        "packages/validators"
+        "node_modules/@xm-ngx/validators"
       ],
       "@xm-ngx/shared/interfaces": [
-        "packages/interfaces"
+        "node_modules/@xm-ngx/interfaces"
       ],
       "@xm-ngx/shared/operators": [
-        "packages/operators"
+        "node_modules/@xm-ngx/operators"
       ],
       "@xm-ngx/shared/pipes": [
-        "packages/pipes"
+        "node_modules/@xm-ngx/pipes"
       ],
       "@xm-ngx/account": [
         "packages/account"
@@ -109,7 +79,7 @@
         "packages/account/*"
       ],
       "@xm-ngx/components/entity-collection": [
-        "packages/repositories"
+        "node_modules/@xm-ngx/repositories"
       ],
       "@xm-ngx/entity": [
         "packages/entity"
