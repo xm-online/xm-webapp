@@ -6,7 +6,7 @@ import { TagInputModule } from 'ngx-chips';
 import { RatingModule } from '@xm-ngx/components/rating';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
-import { XmEntityModule } from '@xm-ngx/core/entity';
+import { XmEntityModule } from '@xm-ngx/entity';
 import { ApplicationComponent } from './application.component';
 import { ApplicationResolvePagingParams, applicationRoute } from './application.route';
 import { EntityDetailComponent } from './entity-detail.component';
@@ -22,6 +22,7 @@ import { XmJsfExtModule } from '../xm-jsf-ext.module';
         XmBalanceModule,
         XmDynamicModule,
         XmJsfExtModule,
+        XmEntityModule,
     ],
     declarations: [
         ApplicationComponent,

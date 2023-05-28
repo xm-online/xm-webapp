@@ -14,6 +14,7 @@ import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.c
 import { UserMgmtDialogComponent } from './user-management-dialog/user-management-dialog.component';
 import { UserMgmtComponent } from './user-management.component';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
+import { UserLoginFormComponent } from '@xm-ngx/account/user-login-widget';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
         RouterModule,
         XmSharedModule,
         ModalCloseModule,
+        UserLoginFormComponent,
     ],
     exports: [UserMgmtComponent],
     declarations: [

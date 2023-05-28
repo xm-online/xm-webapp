@@ -5,7 +5,6 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { translate } from '@angular/localize/tools';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmGMapApiInitDirective } from '@xm-ngx/components/google-maps';
 
@@ -129,6 +128,4 @@ export class GeoInputComponent implements AfterViewInit, OnDestroy {
             },
         };
     }
-
-    protected readonly translate = translate;
 }

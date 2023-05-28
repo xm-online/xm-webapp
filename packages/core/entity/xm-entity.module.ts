@@ -35,14 +35,14 @@ import { XmEntitySpecWrapperService } from './xm-entity-spec-wrapper.service';
         XmEntitySpecService,
     ],
 })
-export class XmEntityModule {
-    public static forRoot(): ModuleWithProviders<XmEntityModule> {
+export class XmCoreEntityModule {
+    public static forRoot(): ModuleWithProviders<XmCoreEntityModule> {
         return {
             providers: [
                 XmEntitySpecService,
                 XmEntitySpecWrapperService,
             ],
-            ngModule: XmEntityModule,
+            ngModule: XmCoreEntityModule,
         };
     }
 }

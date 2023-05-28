@@ -69,6 +69,7 @@ import { TagListSectionComponent } from './tag-list-section/tag-list-section.com
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { CalendarChangeService } from './calendar-card/calendar-view/calendar-change.service';
+import { XmEntityIconPipe } from '@xm-ngx/entity/pipes';
 
 const MODULES = [
     StatesManagementDialogModule,
@@ -88,6 +89,7 @@ const MODULES = [
         MODULES,
         ModalCloseModule,
         OwlDateTimeModule,
+        XmEntityIconPipe,
     ],
     declarations: [
         AreaComponent,

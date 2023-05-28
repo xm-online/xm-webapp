@@ -34,8 +34,9 @@ export * from './src/location-list-card/location-card-name.pipe';
 export * from './src/rating-list-section/rating-list-section.component';
 export * from './src/tag-list-section/tag-list-section.component';
 export * from './src/states-management-dialog/states-management-dialog.component';
+export * from './src/xm-entity.module';
 
 export * from './entity-list-helper';
-export * from './pipes';
 export * from './search/xm-navbar-search-widget.component';
+export * from '@xm-ngx/core/entity';
 
