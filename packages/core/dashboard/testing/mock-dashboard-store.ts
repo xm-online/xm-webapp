@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Dashboard, DashboardWithWidgets } from '@xm-ngx/dashboard';
+import { Dashboard, DashboardWithWidgets } from '@xm-ngx/core/dashboard';
 import { Observable, of } from 'rxjs';
 
 @Injectable()

@@ -7,3 +7,6 @@ export * from './repositories/widget.service';
 export * from './dashboard-store.service';
 export * from './dashboard-wrapper.service';
 
+export { PageService, Page } from './page/page.service';
+export { PageLocationService } from './page-location/page-location.service';
+export { PageChangesStore, PageChangesStoreType } from './page-changes-store';

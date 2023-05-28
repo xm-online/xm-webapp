@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 import { PageService } from './page/page.service';

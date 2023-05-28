@@ -5,7 +5,7 @@ import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { Page, PageService } from '../../stores/page/page.service';
+import { Page, PageService } from '@xm-ngx/core/dashboard';
 import { Dashboard } from '@xm-ngx/core/dashboard';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';

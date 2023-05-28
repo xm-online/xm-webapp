@@ -5,7 +5,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/op
 import { TitleService, Translate } from '@xm-ngx/translation';
 import { filter } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/user';
-import { Page, PageService } from '../../stores/page/page.service';
+import { Page, PageService } from '@xm-ngx/core/dashboard';
 
 
 @Injectable()

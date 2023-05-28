@@ -11,8 +11,5 @@ export * from '@xm-ngx/core/dashboard';
 
 export { DefaultDashboardService } from './src/services/default-dashboard.service';
 
-export { PageService, Page } from './src/stores/page/page.service';
-export { PageLocationService } from './src/stores/page-location/page-location.service';
-export { PageChangesStore, PageChangesStoreType } from './src/stores/page-changes-store';
 
 export { XmDashboardModule } from './src/xm-dashboard.module';
