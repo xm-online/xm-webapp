@@ -9,9 +9,9 @@ import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { catchError, filter, finalize, share, tap } from 'rxjs/operators';
 import { getFileNameFromResponseContentDisposition, saveFile } from '@xm-ngx/operators';
 import { XM_EVENT_LIST } from 'src/app/xm.constants';
-import { FunctionSpec } from '@xm-ngx/entity';
-import { FunctionService } from '@xm-ngx/entity';
-import { XmEntity } from '@xm-ngx/entity';
+import { FunctionSpec } from '@xm-ngx/core/entity';
+import { FunctionService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { JsonSchemaFormService } from '@ajsf/core';
 import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
 

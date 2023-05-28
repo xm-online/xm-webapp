@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { RatingModule } from '@xm-ngx/components/rating';
-import { EntityStateModule } from '@xm-ngx/entity/entity-state';
-import { StatesManagementDialogModule } from '@xm-ngx/entity/states-management-dialog';
+import { EntityStateModule } from './entity-state';
+import { StatesManagementDialogModule } from './states-management-dialog';
 import { TagInputModule } from 'ngx-chips';
 import { ImageCropperModule } from 'ngx-img-cropper';
 
@@ -68,7 +68,7 @@ import { StateChangeDialogComponent } from './state-change-dialog/state-change-d
 import { TagListSectionComponent } from './tag-list-section/tag-list-section.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
-import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
+import { CalendarChangeService } from './calendar-card/calendar-view/calendar-change.service';
 
 const MODULES = [
     StatesManagementDialogModule,

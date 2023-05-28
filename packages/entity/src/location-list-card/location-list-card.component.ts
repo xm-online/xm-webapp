@@ -13,7 +13,7 @@ import { Location } from '@xm-ngx/core/entity';
 import { LocationService } from '@xm-ngx/core/entity';
 import { XmEntity } from '@xm-ngx/core/entity';
 import { XmEntityService } from '@xm-ngx/core/entity';
-import { XmEntitySpec } from '@xm-ngx/entity';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
 import {
     AUTO_STYLE,
     animate,

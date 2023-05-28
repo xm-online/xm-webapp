@@ -12,7 +12,7 @@ import { Principal } from '@xm-ngx/core/user';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { LIST_DEFAULT_FIELDS } from '@xm-ngx/translation';
 import { DashboardStore } from '@xm-ngx/dashboard';
-import { Link, Spec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
+import { Link, Spec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import { EntityListCardOptions } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
 
 @Component({

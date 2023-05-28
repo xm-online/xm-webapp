@@ -18,7 +18,7 @@ import { I18nNamePipe } from '@xm-ngx/translation';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { Principal } from '@xm-ngx/core/user';
 import { switchMap, tap } from 'rxjs/operators';
-import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
+import { CalendarChangeService } from './calendar-view/calendar-change.service';
 
 export const DEFAULT_CALENDAR_EVENT_FETCH_SIZE = 2500;
 

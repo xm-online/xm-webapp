@@ -9,21 +9,21 @@ import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { XmEventManager } from '@xm-ngx/core';
-import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
+import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import {
     ActionOptions,
     EntityListCardOptions,
     EntityOptions,
     FieldOptions,
-} from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
-import { FunctionCallDialogComponent } from '@xm-ngx/entity/function-call-dialog/function-call-dialog.component';
+} from '../../entity-list-card/entity-list-card-options.model';
+import { FunctionCallDialogComponent } from '../../function-call-dialog/function-call-dialog.component';
 import { transpilingForIE } from '@xm-ngx/json-schema-form/components';
-import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
 import { merge, Observable, of, Subscription } from 'rxjs';
 import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { flattenEntityWithPath, getFieldValue } from '@xm-ngx/entity';
+import { flattenEntityWithPath, getFieldValue } from '../../../entity-list-helper';
 import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
 import { ContextService } from '@xm-ngx/core/context';
 import { Principal } from '@xm-ngx/core/user';

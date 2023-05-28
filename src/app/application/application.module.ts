@@ -6,11 +6,11 @@ import { TagInputModule } from 'ngx-chips';
 import { RatingModule } from '@xm-ngx/components/rating';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
-import { XmEntityModule } from '@xm-ngx/entity/xm-entity.module';
+import { XmEntityModule } from '@xm-ngx/core/entity';
 import { ApplicationComponent } from './application.component';
 import { ApplicationResolvePagingParams, applicationRoute } from './application.route';
 import { EntityDetailComponent } from './entity-detail.component';
-import { XmJsfExtModule } from '../../../src/app/xm-jsf-ext.module';
+import { XmJsfExtModule } from '../xm-jsf-ext.module';
 
 @NgModule({
     imports: [

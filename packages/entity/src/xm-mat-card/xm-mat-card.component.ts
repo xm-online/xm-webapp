@@ -3,9 +3,9 @@ import {matExpansionAnimations} from '@angular/material/expansion';
 import {
     EditWidgetButtonsEvent,
     EditWidgetButtonsEventType,
-} from '@xm-ngx/components/edit-buttons/edit-widget-buttons.component';
+} from '@xm-ngx/components/edit-buttons';
 
-import {IId, JavascriptCode} from '@xm-ngx/shared/interfaces';
+import {IId, JavascriptCode} from '@xm-ngx/interfaces';
 import {Translate} from '@xm-ngx/translation';
 import {PageChangesStore, PageChangesStoreType} from '@xm-ngx/dashboard';
 

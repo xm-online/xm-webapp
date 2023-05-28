@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { I18nNamePipe } from '@xm-ngx/translation';
 import { JhiLanguageHelper } from '@xm-ngx/translation';
 import { Principal } from '@xm-ngx/core/user';
-import { Spec, XmEntity, XmEntityService, XmEntitySpecWrapperService } from '@xm-ngx/entity';
+import { Spec, XmEntity, XmEntityService, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 
 declare const $: any;
 

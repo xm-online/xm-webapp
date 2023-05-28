@@ -12,7 +12,7 @@ import { Attachment } from '@xm-ngx/core/entity';
 import { AttachmentService } from '@xm-ngx/core/entity';
 import { XmEntity } from '@xm-ngx/core/entity';
 import { finalize } from 'rxjs/operators';
-import { FileTypeFallback } from '@xm-ngx/entity/attachment-detail-dialog/file-type-fallback';
+import { FileTypeFallback } from './file-type-fallback';
 
 const ATTACHMENT_EVENT = 'attachmentListModification';
 

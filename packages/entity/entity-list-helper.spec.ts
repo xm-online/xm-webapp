@@ -1,4 +1,4 @@
-import { FieldOptions } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
+import { FieldOptions } from '@xm-ngx/core/config';
 import { getFieldValue } from './entity-list-helper';
 
 describe('EntityListHelper', () => {

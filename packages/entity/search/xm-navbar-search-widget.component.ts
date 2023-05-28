@@ -7,8 +7,8 @@ import { DashboardStore } from '@xm-ngx/dashboard';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { iif, Observable, of } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
-import { getApplicationTypeKey } from '@xm-ngx/entity';
-import { XM_EVENT_LIST } from '../../../src/app/xm.constants';
+import { getApplicationTypeKey } from '../entity-list-helper';
+
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
@@ -130,7 +130,7 @@ export class XmNavbarSearchWidget implements OnInit, XmDynamicWidget {
         let searchTemplateFound = false;
 
         if (!term) {
-            this.eventManager.broadcast({name: XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS});
+            this.eventManager.broadcast({name: 'xm.functionCall.success'});
             return searchTemplateFound;
         }
 
@@ -139,7 +139,7 @@ export class XmNavbarSearchWidget implements OnInit, XmDynamicWidget {
                 if (entity.typeKey === getApplicationTypeKey(this.location.path(false)) && entity.globalSearchTemplate) {
                     searchTemplateFound = true;
                     this.eventManager.broadcast({
-                        name: XM_EVENT_LIST.XM_LOAD_ENTITY_LIST_WITH_TEMPLATE,
+                        name: 'xmLoadEntityListWithTemplate',
                         content: { query: term, typeKey: entity.typeKey, template: entity.globalSearchTemplate },
                     });
                 }
