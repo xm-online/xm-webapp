@@ -6,7 +6,10 @@
 <form class="form-block pb-mob" (submit)="loginTFA()">
   <h3 class="sub-title">{{'login-page.tfa.code-sms' | translate}}</h3>
   <div class="otp-block pb-4">
-    <xm-letters-control (submitEvent)="setValue($event)" [config]="{mask:'000000'}" ></xm-letters-control>
+    <xm-letters-control #lettersControl
+                        (submitEvent)="setValue($event)"
+                        [config]="{mask:'000000'}" >
+    </xm-letters-control>
   </div>
   <div class="timer-block pb-mob">
     <h3 class="timer">{{remainingTime| timeFormat }}</h3>

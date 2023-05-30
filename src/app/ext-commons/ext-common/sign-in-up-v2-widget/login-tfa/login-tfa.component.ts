@@ -6,7 +6,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    QueryList,
+    QueryList, ViewChild,
     ViewChildren
 } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -52,6 +52,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
     public countdownTimer: any;
     public loading: boolean = false;
     @ViewChildren('digitInput') public digitInputs!: QueryList<ElementRef>;
+    @ViewChild('lettersControl') public lettersControl: LettersControl;
     public otp: string = '';
     public authenticationError = false;
 
@@ -135,6 +136,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
 
     public resendSms(): void {
         this.loading = true;
+        this.lettersControl.clear();
         this.signInUpService.reLogin().pipe(takeUntilOnDestroy(this)).subscribe(() => {
             this.loading = false;
             this.startTimer();
