@@ -22,7 +22,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { SignPageFormConfig } from '../sign-in-up-v2.model';
 import { take } from 'rxjs/operators';
 import { NgxMaskModule } from 'ngx-mask';
-import { LettersControl } from '@xm-ngx/components/letter-control/letter-control';
+import { LettersControl } from '@xm-ngx/components/letter-control';
 
 const REMAINING_TIME = 120;
 

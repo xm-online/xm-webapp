@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { CommonModule } from '@angular/common';
-import { PasswordModule } from '../password/password.module';
+import { PasswordModule } from '@xm-ngx/account';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 @Component({

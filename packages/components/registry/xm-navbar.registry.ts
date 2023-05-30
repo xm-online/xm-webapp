@@ -10,17 +10,10 @@ export const XM_NAVBAR_ELEMENTS: XmDynamicEntry[] = [
         loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarHelpLinkWidget),
     },
     {
-        selector: '@xm-ngx/components/navbar-language-menu-widget',
-        loadChildren: () => import('packages/dashboard/language-menu/xm-navbar-language-menu-widget.component').then(m => m.XmNavbarLanguageMenuWidget),
-    },
-    {
         selector: '@xm-ngx/components/navbar-logo-widget',
         loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarLogoWidget),
     },
-    {
-        selector: '@xm-ngx/components/navbar-search-widget',
-        loadChildren: () => import('packages/entity/search/xm-navbar-search-widget.component').then(m => m.XmNavbarSearchWidget),
-    },
+
     {
         selector: '@xm-ngx/components/navbar-title-widget',
         loadChildren: () => import('@xm-ngx/components/navbar').then(m => m.XmNavbarTitleWidget),

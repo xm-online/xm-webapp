@@ -2,7 +2,7 @@ export * from './cells/show-hide-columns-settings';
 export * from './cells/table-array';
 export * from './cells/xm-table-edit-cell.component';
 
-export * from './columns/xm-table-dynamic-columns-cell.component';
+export * from './columns/xm-table-column-dynamic-cell.component';
 export * from './columns/xm-table-column-dynamic-cells.component';
 export * from './columns/xm-table-columns-manager';
 export * from './columns/xm-table-dynamic-column.component';
@@ -25,6 +25,7 @@ export * from './components/xm-table-selection-column.component';
 export * from './configs/xm-table-config-root.service';
 
 export * from './controllers';
+export * from './controllers/elastic/xm-elastic-search-repository.service';
 
 export * from './interfaces/xm-table.model';
 

@@ -7,6 +7,7 @@ export * from './current-location/current-location.component';
 export * from './current-location/current-location-options.model';
 export * from './ext-select/ext-select.component';
 export * from './ext-select/ext-select-options.model';
+export * from './ext-select/ext-select-service';
 export * from './ext-autocomplete/ext-autocomplete.component';
 export * from './ext-autocomplete/ext-autocomplete-options.model';
 export * from './ext-textarea/ext-textarea.component';

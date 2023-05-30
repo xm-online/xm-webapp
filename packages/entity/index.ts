@@ -15,6 +15,7 @@ export * from './src/entity-data-card/entity-data-card.component';
 export * from './src/entity-detail-dialog/entity-detail-dialog.component';
 export * from './src/entity-detail-fab/entity-detail-fab.component';
 export * from './src/entity-list-card/entity-list-card.component';
+export * from './src/entity-list-card/entity-list-card-options.model';
 export * from './src/entity-list-fab/entity-list-fab.component';
 export * from './src/entity-state/entity-state.component';
 export * from './src/function-call-dialog/function-call-dialog.component';
@@ -38,6 +39,5 @@ export * from './src/states-management-dialog/states-management-dialog.component
 export * from './src/xm-entity.module';
 
 export * from './entity-list-helper';
-export * from './search/xm-navbar-search-widget.component';
 export * from '@xm-ngx/core/entity';
 

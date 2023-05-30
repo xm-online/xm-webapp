@@ -21,6 +21,6 @@ export const XM_BOOL_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/checkbox-control',
-        loadChildren: () => import('@xm-ngx/components/bool/checkbox-control').then(m => m.XmCheckboxControl),
+        loadChildren: () => import('@xm-ngx/components/bool').then(m => m.XmCheckboxControl),
     },
 ];

@@ -29,23 +29,23 @@ import { XmLoggerWatcherService } from '@xm-ngx/logger';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
 import { NgxMaskModule } from 'ngx-mask';
-import { XM_DATE_ELEMENTS } from '@xm-ngx/components/xm-date.registry';
-import { XM_HTML_ELEMENTS } from '@xm-ngx/components/xm-html.registry';
-import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/xm-text.registry';
-import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/xm-bool.registry';
-import { XM_COPY_ELEMENTS } from '@xm-ngx/components/xm-copy.registry';
-import { XM_LINK_ELEMENTS } from '@xm-ngx/components/xm-link.registry';
-import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/xm-enum.registry';
-import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/xm-array.registry';
-import { XM_TABLE_ELEMENTS } from '@xm-ngx/components/xm-table.registry';
-import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/xm-navbar.registry';
-import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/xm-dashboard.registry';
-import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/xm-administration.registry';
-import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/xm.registry';
+import { XM_DATE_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_HTML_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_COPY_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_LINK_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_TABLE_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard';
+import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/registry';
+import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 
-import { IdleLogoutService } from '@xm-ngx/account/logout/idle-logout.service';
+import { IdleLogoutService } from '@xm-ngx/account';
 import { XmMainComponent } from 'src/app/layouts';
 import { LayoutModule } from 'src/app/layouts/layout.module';
 import { XmApplicationConfigService } from '@xm-ngx/core/config';
@@ -55,7 +55,7 @@ import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { MaintenanceService } from '@xm-ngx/components/maintenance';
-import { XmEntityModule } from '@xm-ngx/core/entity';
+import { XmCoreEntityModule } from '@xm-ngx/core/entity';
 import { UserLoginService } from '@xm-ngx/account/user-login-widget';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
@@ -81,7 +81,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
             VERSION: environment.version,
             RELEASE: environment.release,
         }),
-        XmEntityModule.forRoot(),
+        XmCoreEntityModule.forRoot(),
         ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
         XmCoreConfigModule,
         XmCoreAuthModule.forRoot(),

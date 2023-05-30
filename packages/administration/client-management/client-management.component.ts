@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
-import { XmTableColumn } from '@xm-ngx/components/table/columns/xm-table-column-dynamic-cell.component';
+import { XmTableColumn } from '@xm-ngx/components/table';
 import { XmEventManager } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';

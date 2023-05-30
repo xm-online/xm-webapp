@@ -1,5 +1,5 @@
 import { XmDynamicEntry } from '@xm-ngx/dynamic';
-import { XM_ANGULAR_EDITOR_CONTROL_ELEMENTS } from '@xm-ngx/components/xm-angular-editor-control.registry';
+import { XM_ANGULAR_EDITOR_CONTROL_ELEMENTS } from './xm-angular-editor-control.registry';
 import { XM_TEXT_CONTROL_ELEMENTS } from './xm-text-control.registry';
 import { XM_TEXT_RANGE_ELEMENTS } from './xm-text-range.registry';
 
@@ -63,7 +63,7 @@ export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/text-cell',
-        loadChildren: () => import('./text/text-cell/text-cell.component').then(m => m.XmTextCellComponent),
+        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextCellComponent),
     },
     ...XM_ANGULAR_EDITOR_CONTROL_ELEMENTS,
 ];

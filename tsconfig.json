@@ -21,12 +21,6 @@
       "dom"
     ],
     "paths": {
-      "@xm-ngx/administration/*": [
-        "packages/administration/src/*"
-      ],
-      "@xm-ngx/components/*": [
-        "packages/components/*"
-      ],
       "@xm-ngx/core/environment": [
         "src/environments"
       ],
@@ -36,6 +30,21 @@
       "@xm-ngx/confirm-dialog": [
         "node_modules/@xm-ngx/components/confirm-dialog"
       ],
+      "@xm-ngx/entity/card": [
+        "node_modules/@xm-ngx/entity/card",
+      ],
+      "@xm-ngx/entity/search": [
+        "node_modules/@xm-ngx/entity/search",
+      ],
+      "@xm-ngx/entity/pipes": [
+        "node_modules/@xm-ngx/entity/pipes",
+      ],
+      "@xm-ngx/entity/*": [
+        "node_modules/@xm-ngx/entity",
+      ],
+      "@xm-ngx/shared/helpers": [
+        "node_modules/@xm-ngx/operators",
+      ],
       "@xm-ngx/json-schema-form/core": [
         "node_modules/@xm-ngx/json-schema-form"
       ],
@@ -44,16 +53,6 @@
       ],
       "@xm-ngx/json-schema-form/components/*": [
         "node_modules/@xm-ngx/json-schema-form"
-      ],
-      "@xm-ngx/timeline": [
-        "packages/timeline"
-      ],
-      "@xm-ngx/timeline/*": [
-        "packages/timeline/*"
-      ],
-      "@xm-ngx/entity": [
-        "node_modules/@xm-ngx/entity",
-        "node_modules/@xm-ngx/core/entity",
       ],
       "@xm-ngx/shared/exceptions": [
         "node_modules/@xm-ngx/exceptions"
@@ -70,26 +69,11 @@
       "@xm-ngx/shared/pipes": [
         "node_modules/@xm-ngx/pipes"
       ],
-      "@xm-ngx/account": [
-        "packages/account"
-      ],
-      "@xm-ngx/account/*": [
-        "packages/account/*"
-      ],
       "@xm-ngx/components/entity-collection": [
         "node_modules/@xm-ngx/repositories"
       ],
-      "@xm-ngx/dashboard": [
-        "packages/dashboard"
-      ],
-      "@xm-ngx/dashboard/testing": [
-        "packages/dashboard/testing"
-      ],
-      "@xm-ngx/balance": [
-        "packages/balance"
-      ],
-      "@xm-ngx/balance/*": [
-        "packages/balance/src/*"
+      "@xm-ngx/entity/xm-mat-card": [
+        "node_modules/@xm-ngx/entity/card"
       ],
       "rxjs": [
         "node_modules/rxjs"

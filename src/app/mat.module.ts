@@ -1,1 +1,1 @@
-export { XmSharedModule as MatModule } from '@xm-ngx/shared';
+export { XmSharedModule as MatModule, CustomDateAdapter } from '@xm-ngx/shared';

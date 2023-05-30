@@ -13,7 +13,7 @@ import { XmConfigService } from '@xm-ngx/core/config';
 import { LIST_DEFAULT_FIELDS } from '@xm-ngx/translation';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { Link, Spec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
-import { EntityListCardOptions } from '@xm-ngx/entity/entity-list-card/entity-list-card-options.model';
+import { EntityListCardOptions } from '@xm-ngx/entity';
 
 @Component({
     selector: 'xm-entity',

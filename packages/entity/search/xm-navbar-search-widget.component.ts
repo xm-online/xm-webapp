@@ -7,7 +7,7 @@ import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { iif, Observable, of } from 'rxjs';
 import { filter, mergeMap, tap } from 'rxjs/operators';
-import { getApplicationTypeKey } from '../entity-list-helper';
+import { getApplicationTypeKey } from '@xm-ngx/entity';
 
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';

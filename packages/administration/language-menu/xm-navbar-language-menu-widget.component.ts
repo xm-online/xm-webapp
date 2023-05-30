@@ -5,7 +5,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
 import { LanguageModule, LanguageService, Locale, XmTranslationModule } from '@xm-ngx/translation';
 import { Observable } from 'rxjs';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
-import { XmLanguageUiConfig } from '@xm-ngx/administration/translations/services/translation.service';
+import { XmLanguageUiConfig } from '@xm-ngx/administration/translations';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
