@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { FormLayoutComponent } from './form-layout.component';
+import { XmFormLayoutComponent } from './xm-form-layout.component';
 
 @NgModule({
-    exports: [FormLayoutComponent],
-    imports: [FormLayoutComponent],
+    exports: [XmFormLayoutComponent],
+    imports: [XmFormLayoutComponent],
 })
 export class FormLayoutModule {
 }

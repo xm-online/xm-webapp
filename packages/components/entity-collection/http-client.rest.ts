@@ -1,26 +1,24 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { IEntityCollectionPageable, Pageable } from './i-entity-collection-pageable';
 import { Id, IId } from '@xm-ngx/shared/interfaces';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, defer, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { QueryParams } from './i-entity-collection';
 
-export interface XmRepositoryConfig {resourceUrl: string}
+export interface XmRepositoryConfig {
+    resourceUrl: string
+}
 
 export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pageable> implements IEntityCollectionPageable<T, Extra> {
 
     public readonly loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    public get url(): string{
-        return this.resourceUrl();
-    }
-
     public constructor(protected plural: string,
                        protected readonly httpClient: HttpClient) {
     }
 
-    protected resourceUrl(): string{
-        return this.plural;
+    public get url(): string {
+        return this.resourceUrl();
     }
 
     public request<R>(
@@ -97,7 +95,11 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     }
 
     public handle<T>(obs: Observable<T>): Observable<T> {
-        return this.loadingHandle(obs);
+        return this.loadingPipe(obs);
+    }
+
+    protected resourceUrl(): string {
+        return this.plural;
     }
 
     protected extractExtra(res: HttpResponse<any>, params?: QueryParams): HttpResponse<T[] & Extra> {
@@ -111,8 +113,12 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
         return res.clone({ body });
     }
 
-    private loadingHandle<T>(obs: Observable<T>): Observable<T> {
-        this.loading$.next(true);
-        return obs.pipe(finalize(() => this.loading$.next(false)));
+    private loadingPipe<T>(obs: Observable<T>): Observable<T> {
+        return defer(() => {
+            this.loading$.next(true);
+            return obs.pipe(
+                finalize(() => this.loading$.next(false)),
+            );
+        });
     }
 }
