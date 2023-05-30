@@ -1,5 +1,5 @@
 /* tslint:disable:max-classes-per-file */
-import { XmEntity } from '@xm-ngx/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 
 export class TimeLineConfig {
     constructor(public responses: TimeLineConfigItem[]) {

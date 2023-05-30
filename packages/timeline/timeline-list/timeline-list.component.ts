@@ -3,19 +3,19 @@ import { Observable, of } from 'rxjs';
 import { finalize, map, pluck, switchMap, tap } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/user';
 import { I18nNamePipe, Translate } from '@xm-ngx/translation';
-import { XmEntity } from '@xm-ngx/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { Timeline, TimelinePage, TimelineService } from '@xm-ngx/timeline';
-import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
-import { XmMatCardOptions } from '@xm-ngx/entity/xm-mat-card';
+import { XmMatCardOptions } from '@xm-ngx/entity/card';
 
 import {
     TimeLineConfig,
     TimeLineConfigItem,
     TimeLineContext,
     TimeLineItem,
-    TimeLineServiceConfig
-} from './timeline-config.model';
+    TimeLineServiceConfig,
+} from '@xm-ngx/timeline';
 import { HttpResponse } from '@angular/common/http';
 
 export interface TimelineListConfig {
