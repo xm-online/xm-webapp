@@ -594,8 +594,8 @@
     "form": {
       "button": "Увійти",
       "hide-password": "Приховати пароль",
-      "otpValidateButton": "Send OTP",
-      "otpValidateCancel": "Cancel",
+      "otpValidateButton": "Вхід",
+      "otpValidateCancel": "Назад",
       "password": "Пароль",
       "rememberMe": "Запам'ятати мене",
       "show-password": "Показати пароль"
