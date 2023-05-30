@@ -2,7 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
+// import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
 import { RatingSpec } from '@xm-ngx/core/entity';
 import { Rating } from '@xm-ngx/core/entity';
 import { RatingService } from '@xm-ngx/core/entity';
@@ -67,9 +67,9 @@ export class RatingListSectionComponent implements OnChanges {
 
     private load(): void {
         if (!this.ratingSpecs || !this.ratingSpecs.length) {
-            if (DEBUG_INFO_ENABLED) {
-                console.info('DBG: no spec no call');
-            }
+            // if (DEBUG_INFO_ENABLED) {
+            //     console.info('DBG: no spec no call');
+            // }
             return;
         }
         this.xmEntityService.find(this.xmEntityId, {embed: 'ratings'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {

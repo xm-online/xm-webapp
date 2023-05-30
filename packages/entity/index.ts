@@ -1,6 +1,7 @@
 export * from './src/attachment-card/attachment-card.component';
 export * from './src/attachment-detail-dialog/attachment-detail-dialog.component';
 export * from './src/attachment-list/attachment-list.component';
+export * from './src/attachment-list/attachment-list-simplified.component';
 export * from './src/avatar-dialog/avatar-dialog.component';
 export * from './src/calendar-card/calendar-card.component';
 export * from './src/calendar-card/calendar-view/calendar-view.component';

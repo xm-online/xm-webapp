@@ -3,10 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { FunctionSpec, NextSpec, StateSpec } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
-import { XM_EVENT_LIST } from 'src/app/xm.constants';
 import { AvatarDialogComponent } from '../avatar-dialog/avatar-dialog.component';
 import { XmEntitySpec } from '@xm-ngx/core/entity';
 import { XmEntity } from '@xm-ngx/core/entity';
+import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 @Component({
     selector: 'xm-entity-card',
@@ -79,7 +79,7 @@ export class EntityCardComponent implements OnInit {
     }
 
     public onRefresh(_e: any): void {
-        this.eventManager.broadcast({name: XM_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION});
+        this.eventManager.broadcast({name: XM_ENTITY_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION});
     }
 
     protected allowedByState(functionSpec: FunctionSpec, stateKey?: string): boolean {

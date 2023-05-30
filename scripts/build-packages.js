@@ -19,7 +19,7 @@ execSync('(cd ./packages/alert && npm run build && cd ../../)', {stdio: 'inherit
 execSync('(cd ./packages/components && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/json-schema-form && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/shared && npm run build && cd ../../)', {stdio: 'inherit'});
-// execSync('(cd ./packages/entity && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/entity && npm run build && cd ../../)', {stdio: 'inherit'});
 
 // execSync('(cd ./packages/balance && npm run build && cd ../../)', {stdio: 'inherit'});
 // execSync('(ng-packagr -p ./packages/timeline -c tsconfig.ngc.json)', {stdio: 'inherit'});

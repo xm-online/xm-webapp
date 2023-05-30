@@ -3,13 +3,14 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Subscription } from 'rxjs';
-import { DEBUG_INFO_ENABLED, XM_EVENT_LIST } from 'src/app/xm.constants';
+// import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
 
 import { TagSpec } from '@xm-ngx/core/entity';
 import { Tag } from '@xm-ngx/core/entity';
 import { TagService } from '@xm-ngx/core/entity';
 import { XmEntity } from '@xm-ngx/core/entity';
 import { XmEntityService } from '@xm-ngx/core/entity';
+import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 @Component({
     selector: 'xm-tag-list-section',
@@ -32,7 +33,7 @@ export class TagListSectionComponent implements OnInit, OnChanges, OnDestroy {
 
     public ngOnInit(): void {
         this.eventSubscriber = this.eventManager
-            .subscribe(XM_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION, () => this.load());
+            .subscribe(XM_ENTITY_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION, () => this.load());
     }
 
     public ngOnDestroy(): void {
@@ -71,9 +72,9 @@ export class TagListSectionComponent implements OnInit, OnChanges, OnDestroy {
 
     private load(): void {
         if (!this.tagSpecs || !this.tagSpecs.length) {
-            if (DEBUG_INFO_ENABLED) {
-                console.info('DBG: no spec no call');
-            }
+            // if (DEBUG_INFO_ENABLED) {
+            //     console.info('DBG: no spec no call');
+            // }
             return;
         }
         this.xmEntityService.find(this.xmEntityId, {embed: 'tags'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {

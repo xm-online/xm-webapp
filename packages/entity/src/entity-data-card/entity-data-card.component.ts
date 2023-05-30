@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
+import { JsfAttributes } from '@xm-ngx/json-schema-form';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
 import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';

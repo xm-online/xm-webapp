@@ -4,16 +4,16 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
-import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
+import { JsfAttributes } from '@xm-ngx/json-schema-form';
 import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { catchError, filter, finalize, share, tap } from 'rxjs/operators';
 import { getFileNameFromResponseContentDisposition, saveFile } from '@xm-ngx/operators';
-import { XM_EVENT_LIST } from 'src/app/xm.constants';
 import { FunctionSpec } from '@xm-ngx/core/entity';
 import { FunctionService } from '@xm-ngx/core/entity';
 import { XmEntity } from '@xm-ngx/core/entity';
 import { JsonSchemaFormService } from '@ajsf/core';
 import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
+import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 declare let $: any;
 
@@ -101,14 +101,14 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
         // if !download xmEntity function, emit XM_ENTITY_DETAIL_MODIFICATION notification
         const sendModifyEvent$ = apiCall$.pipe(
             filter((response) => !isSaveContent(response) && !!eId),
-            tap(() => this.eventManager.broadcast({name: XM_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION})),
+            tap(() => this.eventManager.broadcast({name: XM_ENTITY_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION})),
         );
 
         // if !download proceed with on success scenario and emit XM_FUNCTION_CALL_SUCCESS
         const sentCallSuccessEvent$ = apiCall$.pipe(
             filter((response) => !isSaveContent(response)),
             tap((response) => this.onSuccessFunctionCall(response)),
-            tap(() => this.eventManager.broadcast({name: XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS})),
+            tap(() => this.eventManager.broadcast({name: XM_ENTITY_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS})),
         );
 
         merge(saveContent$, sendModifyEvent$, sentCallSuccessEvent$).pipe(

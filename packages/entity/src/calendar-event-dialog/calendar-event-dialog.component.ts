@@ -2,7 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
-import * as moment from 'moment';
+import moment from 'moment';
 
 import { XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';

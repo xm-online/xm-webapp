@@ -1,9 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
+// import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 import { Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { DashboardWidget } from '@xm-ngx/core/dashboard';
+import { DashboardStore } from '../dashboard-store.service';
+import { DashboardWidget } from '../models/dashboard-widget.model';
 
 export interface Page<C = unknown, L = unknown> {
     id?: number;
@@ -22,13 +22,13 @@ export interface Page<C = unknown, L = unknown> {
 export class PageService<T extends Page = Page> implements OnDestroy {
 
     private _active$: ReplaySubject<T | null> = new ReplaySubject(1);
-    private logger: XmLogger;
+    // private logger: XmLogger;
 
     constructor(
         private dashboard: DashboardStore,
-        protected loggerService: XmLoggerService,
+        // protected loggerService: XmLoggerService,
     ) {
-        this.logger = this.loggerService.create({ name: 'PageService' });
+        // this.logger = this.loggerService.create({ name: 'PageService' });
     }
 
     public active$(): Observable<T | null> {
@@ -36,7 +36,7 @@ export class PageService<T extends Page = Page> implements OnDestroy {
     }
 
     public load(idOrSlug: string | null): void {
-        this.logger.debug(`Load dashboard idOrSlug="${idOrSlug}".`);
+        console.info(`Load dashboard idOrSlug="${idOrSlug}".`);
         this.loadPage(idOrSlug);
     }
 

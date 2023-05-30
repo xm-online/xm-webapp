@@ -11,7 +11,7 @@ import {
     XmEntityService,
 } from '@xm-ngx/core/entity';
 import { EntityCalendarUiConfig, EntityUiConfig } from '@xm-ngx/core/config';
-import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
+// import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
 import { HttpResponse } from '@angular/common/http';
 import { UUID } from 'angular2-uuid';
 import { I18nNamePipe } from '@xm-ngx/translation';
@@ -58,9 +58,9 @@ export class CalendarCardComponent implements OnChanges {
 
     private load(): void {
         if (!this.calendarSpecs || !this.calendarSpecs.length) {
-            if (DEBUG_INFO_ENABLED) {
-                console.info('DBG: no spec no call');
-            }
+            // if (DEBUG_INFO_ENABLED) {
+            //     console.info('DBG: no spec no call');
+            // }
             return;
         }
 

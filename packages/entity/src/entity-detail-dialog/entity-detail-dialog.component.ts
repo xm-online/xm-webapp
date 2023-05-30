@@ -11,8 +11,8 @@ import { LanguageModule } from '@xm-ngx/translation';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmEventManager } from '@xm-ngx/core';
-import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
-import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form/core';
+import { JsfAttributes } from '@xm-ngx/json-schema-form';
+import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { UUID } from 'angular2-uuid';
@@ -21,11 +21,11 @@ import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components
 import * as formatString from 'string-template';
 
 import { nullSafe } from '@xm-ngx/json-schema-form/components';
-import { XM_EVENT_LIST } from 'src/app/xm.constants';
 import { Spec } from '@xm-ngx/core/entity';
 import { XmEntitySpec } from '@xm-ngx/core/entity';
 import { XmEntity } from '@xm-ngx/core/entity';
 import { XmEntityService } from '@xm-ngx/core/entity';
+import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 @Component({
     selector: 'xm-entity-detail-dialog',
@@ -144,7 +144,7 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
     private onSaveSuccess(entity: XmEntity): void {
         // TODO: analyse listeners
         this.eventManager.broadcast({
-            name: this.isEdit ? XM_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION : XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
+            name: this.isEdit ? XM_ENTITY_EVENT_LIST.XM_ENTITY_DETAIL_MODIFICATION : XM_ENTITY_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
             entityId: entity.id,
             entityType: entity.typeKey,
         });

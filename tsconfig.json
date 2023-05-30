@@ -36,9 +36,6 @@
       "@xm-ngx/confirm-dialog": [
         "node_modules/@xm-ngx/components/confirm-dialog"
       ],
-      "@xm-ngx/json-schema-form": [
-        "node_modules/@xm-ngx/json-schema-form"
-      ],
       "@xm-ngx/json-schema-form/core": [
         "node_modules/@xm-ngx/json-schema-form"
       ],
@@ -53,9 +50,6 @@
       ],
       "@xm-ngx/timeline/*": [
         "packages/timeline/*"
-      ],
-      "@xm-ngx/shared": [
-        "node_modules/@xm-ngx/shared"
       ],
       "@xm-ngx/shared/exceptions": [
         "node_modules/@xm-ngx/exceptions"
@@ -80,15 +74,6 @@
       ],
       "@xm-ngx/components/entity-collection": [
         "node_modules/@xm-ngx/repositories"
-      ],
-      "@xm-ngx/entity": [
-        "packages/entity"
-      ],
-      "@xm-ngx/entity/pipes": [
-        "packages/entity/pipes"
-      ],
-      "@xm-ngx/entity/*": [
-        "packages/entity/src/*"
       ],
       "@xm-ngx/dashboard": [
         "packages/dashboard"

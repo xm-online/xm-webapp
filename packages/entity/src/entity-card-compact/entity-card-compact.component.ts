@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewChild, S
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
+import { JsfAttributes } from '@xm-ngx/json-schema-form';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/user';

@@ -28,7 +28,7 @@ import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components
 import { ContextService } from '@xm-ngx/core/context';
 import { Principal } from '@xm-ngx/core/user';
 import { saveFile } from '@xm-ngx/operators';
-import { XM_EVENT_LIST } from 'src/app/xm.constants';
+import { XM_ENTITY_EVENT_LIST } from '../../constants';
 
 @Component({
     selector: 'xm-entity-list',
@@ -80,11 +80,11 @@ export class EntityListComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.tableDataSource = this.createDataSource(this.item.entities);
-        this.entityListActionSuccessSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS)
+        this.entityListActionSuccessSubscription = this.eventManager.listenTo(XM_ENTITY_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS)
             .subscribe(() => {
                 this.onRefresh();
             });
-        this.entityEntityListModificationSubscription = this.eventManager.listenTo(XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION)
+        this.entityEntityListModificationSubscription = this.eventManager.listenTo(XM_ENTITY_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION)
             .subscribe(() => {
                 this.onRefresh();
             });
@@ -104,7 +104,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
         }
 
         this.entityListLoadingByTemplate = this.eventManager.subscribe(
-            XM_EVENT_LIST.XM_LOAD_ENTITY_LIST_WITH_TEMPLATE,
+            XM_ENTITY_EVENT_LIST.XM_LOAD_ENTITY_LIST_WITH_TEMPLATE,
             ({content}) => {
                 const {query, typeKey} = content;
                 this.searchTemplateParams = {templateName: content.template, manually: true};
@@ -298,7 +298,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
                 this.xmEntityService.delete(xmEntity.id).subscribe(
                     () => {
                         this.eventManager.broadcast({
-                            name: XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
+                            name: XM_ENTITY_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
                         });
                         this.toasterService.success('xm-entity.entity-list-card.delete.remove-success');
                     },
