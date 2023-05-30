@@ -4,7 +4,7 @@ import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmUser, XmUserService } from '@xm-ngx/core/user';
 import { OnInitialize } from '@xm-ngx/shared/interfaces';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Idle } from 'idlejs/dist';
 import { combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';

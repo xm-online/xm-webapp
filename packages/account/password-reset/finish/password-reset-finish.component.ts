@@ -9,7 +9,6 @@ import { PasswordSpec } from '@xm-ngx/core/config';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
-import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../../../src/app/xm.constants';
 import { PasswordResetFinish } from './password-reset-finish.service';
 import { ModulesLanguageHelper } from '@xm-ngx/translation';
 
@@ -125,8 +124,8 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     private getAccessToken(): Observable<any> {
         const data = new HttpParams().set('grant_type', 'client_credentials');
         const headers = {
-            'Content-Type': DEFAULT_CONTENT_TYPE,
-            'Authorization': DEFAULT_AUTH_TOKEN,
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic d2ViYXBwOndlYmFwcA==',
         };
         return this.http.post<any>('uaa/oauth/token', data, {headers, observe: 'response'})
             .pipe(map((resp) => {

@@ -20,9 +20,9 @@ import { LoginErrorComponent } from '../login-error/login-error.component';
 import { Password } from '../password/password.service';
 import { SettingsComponent } from '../settings/settings.component';
 import { SignUpComponent } from '../sign-up/sign-up.component';
-import { XmUserSettingsWidgetComponent } from '@xm-ngx/account/user-settings-widget';
-import { XmUserSecuritySettingsComponent } from '@xm-ngx/account/user-security-settings';
-import { XmUserLoginWidgetComponent } from '@xm-ngx/account/user-login-widget';
+import { XmUserSettingsWidgetComponent } from '../user-settings-widget';
+import { XmUserSecuritySettingsComponent } from '../user-security-settings';
+import { XmUserLoginWidgetComponent } from '../user-login-widget';
 
 
 @NgModule({

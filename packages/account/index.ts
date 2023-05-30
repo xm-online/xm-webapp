@@ -1,3 +1,4 @@
+export { GateAccountModule } from './route/account.module';
 export { ActivateComponent } from './activate/activate.component';
 export { Activate } from './activate/activate.service';
 export { activateRoute } from './activate/activate.route';
