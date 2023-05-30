@@ -7,7 +7,7 @@ import {
 
 import {IId, JavascriptCode} from '@xm-ngx/interfaces';
 import {Translate} from '@xm-ngx/translation';
-import {PageChangesStore, PageChangesStoreType} from '@xm-ngx/dashboard';
+import {PageChangesStore, PageChangesStoreType} from '@xm-ngx/core/dashboard';
 
 export interface XmMatCardOptions {
     cardClass?: string;
