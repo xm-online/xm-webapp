@@ -3,7 +3,7 @@
   <h3 class="sub-title mb-1">{{'login-page.tfa.code-number' | translate}}</h3>
   <h3 class="number pb-mob">{{phone| mask: '+000-00-000-00-00'}}</h3>
 </div>
-<div class="form-block pb-mob">
+<form class="form-block pb-mob" (submit)="loginTFA()">
   <h3 class="sub-title">{{'login-page.tfa.code-sms' | translate}}</h3>
   <div class="otp-block pb-4">
     <xm-letters-control (submitEvent)="setValue($event)" [config]="{mask:'000000'}" ></xm-letters-control>
@@ -20,7 +20,7 @@
   </div>
   <div class="text-end">
     <button mat-flat-button
-            type="button"
+            type="submit"
             color="primary"
             (click)="loginTFA()"
             class="btn mb-4 "
@@ -34,5 +34,5 @@
       <span>{{'login.form.otpValidateCancel' | translate}}</span>
     </button>
   </div>
-</div>
+</form>
 
