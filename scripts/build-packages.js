@@ -21,12 +21,10 @@ execSync('(cd ./packages/json-schema-form && npm run build && cd ../../)', {stdi
 execSync('(cd ./packages/shared && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/entity && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/balance && npm run build && cd ../../)', {stdio: 'inherit'});
-
-// execSync('(ng-packagr -p ./packages/timeline -c tsconfig.ngc.json)', {stdio: 'inherit'});
-// execSync('(ng-packagr -p ./packages/account -c tsconfig.ngc.json)', {stdio: 'inherit'});
-// execSync('(ng-packagr -p ./packages/administration -c tsconfig.ngc.json)', {stdio: 'inherit'});
-// execSync('(ng-packagr -p ./packages/dashboard -c tsconfig.ngc.json)', {stdio: 'inherit'});
-// execSync('(ng-packagr -p ./packages/documentation -c tsconfig.ngc.json)', {stdio: 'inherit'});
+execSync('(cd ./packages/timeline && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/account && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/dashboard && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/administration && npm run build && cd ../../)', {stdio: 'inherit'});
 
 execSync('(cd ./src/app/ext/example-webapp-ext && npm run build && cd ../../../../)', {stdio: 'inherit'});
 

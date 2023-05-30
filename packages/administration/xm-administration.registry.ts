@@ -67,7 +67,7 @@ export const XM_ADMINISTRATION_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/administration/user-management/unblock-lock-user',
-        loadChildren: () => import('@xm-ngx/administration/user-management/unblock-lock-user/unblock-lock-user.module').then(m => m.UnblockLockUserModule),
+        loadChildren: () => import('./user-management/unblock-lock-user/unblock-lock-user.module').then(m => m.UnblockLockUserModule),
     },
     {
         selector: '@xm-ngx/administration/user-management-detail',
@@ -87,6 +87,6 @@ export const XM_ADMINISTRATION_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/dynamic-list-widget',
-        loadChildren: () => import('@xm-ngx/administration/xm-dynamic-list.module').then(m => m.XmDynamicListModule),
+        loadChildren: () => import('./xm-dynamic-list.module').then(m => m.XmDynamicListModule),
     },
 ];
