@@ -51,6 +51,10 @@
       "@xm-ngx/timeline/*": [
         "packages/timeline/*"
       ],
+      "@xm-ngx/entity": [
+        "node_modules/@xm-ngx/entity",
+        "node_modules/@xm-ngx/core/entity",
+      ],
       "@xm-ngx/shared/exceptions": [
         "node_modules/@xm-ngx/exceptions"
       ],

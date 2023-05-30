@@ -1,4 +1,4 @@
-import { MenuItem } from '../menu';
+import { MenuItem } from '@xm-ngx/dashboard/menu';
 import { combineLatest, Observable } from 'rxjs';
 import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import { SidebarUserSubtitleOptions } from './sidebar-user-subtitle';
@@ -10,8 +10,8 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
 import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import {
     flatTree,
-    filterByConditionDashboards } from '../menu';
-import { buildMenuTree } from '../menu';
+    filterByConditionDashboards } from '@xm-ngx/dashboard/menu';
+import { buildMenuTree } from '@xm-ngx/dashboard/menu';
 import * as _ from 'lodash';
 
 interface UserOptions {

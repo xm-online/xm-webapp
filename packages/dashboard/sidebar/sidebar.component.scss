@@ -1,5 +1,5 @@
-@import "../../../src/styles/theme";
-@import 'components';
+@import "@xm-ngx/styles/theming";
+@import '@xm-ngx/styles/src/scroll';
 
 $xm-sidebar-z-index:          $zindex-fixed !default;
 $xm-sidebar-backdrop-z-index: -1 !default;

@@ -4,7 +4,7 @@ import { XmAlertResult, XmAlertService } from '@xm-ngx/alert';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-import { PageChangesStore, PageChangesStoreType } from '../../../core/dashboard/page-changes-store';
+import { PageChangesStore, PageChangesStoreType } from '@xm-ngx/core/dashboard';
 
 @Injectable()
 export class PendingChangesGuard implements CanDeactivate<unknown> {

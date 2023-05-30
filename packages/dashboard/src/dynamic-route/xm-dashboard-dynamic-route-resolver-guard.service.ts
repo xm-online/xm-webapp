@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Routes, } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ArgumentException } from '@xm-ngx/shared/exceptions';
+import { ArgumentException } from '@xm-ngx/exceptions';
 import * as _ from 'lodash';
 import { XmDynamicRouteResolverGuard } from '@xm-ngx/dynamic/route';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
