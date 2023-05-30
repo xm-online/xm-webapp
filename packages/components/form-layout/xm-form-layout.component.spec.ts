@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 
-import { FormLayoutComponent } from './form-layout.component';
+import { XmFormLayoutComponent } from './xm-form-layout.component';
 
 describe('FormLayoutComponent', () => {
-    let component: FormLayoutComponent;
-    let fixture: ComponentFixture<FormLayoutComponent>;
+    let component: XmFormLayoutComponent;
+    let fixture: ComponentFixture<XmFormLayoutComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmDynamicModule, FormLayoutComponent],
+            imports: [XmDynamicModule, XmFormLayoutComponent],
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(FormLayoutComponent);
+        fixture = TestBed.createComponent(XmFormLayoutComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
