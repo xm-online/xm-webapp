@@ -605,7 +605,7 @@
     "form": {
       "button": "Sign in",
       "hide-password": "Hide password",
-      "otpValidateButton": "Send OTP",
+      "otpValidateButton": "Enter",
       "otpValidateCancel": "Cancel",
       "password": "Password",
       "rememberMe": "Remember me",

@@ -31,6 +31,14 @@ import _ from 'lodash';
             border-bottom: 2px solid;
             background:none;
         }
+        @media screen and (max-width: 420px) {
+            input {
+                width:25px;
+                height: 40px;
+                line-height: 40px;
+                font-size: 20px;
+            }
+        }
     `],
 })
 export class LettersControl {

@@ -1,7 +1,7 @@
 <div class="block">
   <h3 class="card-title pb-mob">{{config?.title| translate}}</h3>
   <xm-loader [absolute]="true" [showLoader]="loading"></xm-loader>
-  <form [formGroup]="group" class="form-block pb-mob" role="form" *ngIf="!checkOTP" autocomplete="off">
+  <form [formGroup]="group" class="form-block pb-mob" role="form" *ngIf="!checkOTP" autocomplete="off" (submit)="login()">
     <xm-email-control [config]="config?.config?.username"
                       formControlName="username">
     </xm-email-control>
@@ -23,8 +23,8 @@
            [innerHTML]="(config?.error| translate)||('login.messages.error.authentication' | translate)"></div>
       <div class="row">
         <div class="col-12 pb-1">
-          <button mat-flat-button type="button" (click)="login()" color="primary"
-                  class="btn display-block size-xl"
+          <button mat-flat-button type="submit" (click)="login()" color="primary"
+                  class="btn display-block"
                   [ngClass]="{'loading' : loading}"
                   [disabled]="isFormDisabled()">
             <span>{{config?.primaryButton|translate}}</span>
