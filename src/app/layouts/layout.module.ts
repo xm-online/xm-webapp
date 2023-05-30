@@ -14,7 +14,7 @@ import { XmSharedModule } from '@xm-ngx/shared';
 import { XmBalanceModule } from '@xm-ngx/balance';
 import { XmMaintenanceViewModule } from '@xm-ngx/components/maintenance';
 import { XmSidebarRightModule } from '@xm-ngx/components/sidebar-right';
-import { XmSidebarModule } from 'packages/dashboard/sidebar';
+import { XmSidebarModule } from '@xm-ngx/dashboard/sidebar';
 import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
 import { XmTimelineModule } from '@xm-ngx/timeline/timeline-widget';
 import { FooterComponent } from './footer/footer.component';

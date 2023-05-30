@@ -7,8 +7,8 @@ import {
     XmNavbarToggleWidget,
 } from '@xm-ngx/components/navbar';
 import { NavbarComponent } from './navbar.component';
-import { XmNavbarLanguageMenuWidget } from 'packages/dashboard/language-menu/xm-navbar-language-menu-widget.component';
-import { XmNavbarSearchWidget } from 'packages/entity/search/xm-navbar-search-widget.component';
+import { XmNavbarLanguageMenuWidget } from '@xm-ngx/dashboard/language-menu';
+import { XmNavbarSearchWidget } from '@xm-ngx/entity/search';
 import { CommonModule } from '@angular/common';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmNavbarNotificationWidget } from '@xm-ngx/components/navbar-notification-widget';

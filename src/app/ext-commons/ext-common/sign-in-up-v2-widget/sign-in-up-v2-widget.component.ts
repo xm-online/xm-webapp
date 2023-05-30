@@ -10,7 +10,7 @@ import { XmSharedModule } from '@xm-ngx/shared';
 import { SignInMarketingComponent } from './sign-in-marketing/sign-in-marketing.component';
 import { LoginV2Component } from './login-v2/login-v2.component';
 import { SignInUpFooterComponent } from './sign-in-up-footer/sign-in-up-footer.component';
-import { XmNavbarLanguageMenuWidget } from 'packages/dashboard/language-menu/xm-navbar-language-menu-widget.component';
+import { XmNavbarLanguageMenuWidget } from '@xm-ngx/dashboard/language-menu';
 import { LoginTfaComponent } from './login-tfa/login-tfa.component';
 import { SignInUpService } from './sign-in-up.service';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
