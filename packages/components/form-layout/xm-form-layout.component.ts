@@ -5,6 +5,7 @@ import { JavascriptCode } from '@xm-ngx/interfaces';
 import { CommonModule } from '@angular/common';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { ConditionModule } from '@xm-ngx/components/condition';
+import { XmFormLayoutControl } from './xm-form-layout-control.component';
 
 export interface FormLayoutItem extends FormGroupLayoutItem {
     selector: string;
@@ -26,17 +27,31 @@ export function toggleControlValidation(control: AbstractControl, active: boolea
 
 @Component({
     selector: 'xm-form-layout, [xm-form-layout]',
-    templateUrl: './form-layout.component.html',
-    host: {class:'xm-form-layout'},
-    standalone:true,
-    imports:[
+    template: `
+        <ng-template [ngForOf]="config"
+                     let-item
+                     ngFor>
+            <ng-template (conditionCheck)="toggleControlValidation(value.controls[item.name], $event)"
+                         [xmConditionArguments]="{form: value.value}"
+                         [xmCondition]="item.condition">
+                <xm-form-layout-control [config]="item"
+                                        [class]="item.class"
+                                        [style]="item.style"
+                                        [control]="value.controls[item.name]"></xm-form-layout-control>
+            </ng-template>
+        </ng-template>
+    `,
+    host: { class: 'xm-form-layout' },
+    standalone: true,
+    imports: [
         CommonModule,
         XmDynamicModule,
         ConditionModule,
         ReactiveFormsModule,
+        XmFormLayoutControl,
     ],
 })
-export class FormLayoutComponent {
+export class XmFormLayoutComponent {
     @Input() public value: UntypedFormGroup;
     @Input() public config: FormLayoutItem[];
 

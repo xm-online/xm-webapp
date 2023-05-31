@@ -1,12 +1,15 @@
 <div class="header-block">
   <h1 class="title pb-mob">{{config?.title|translate}}</h1>
   <h3 class="sub-title mb-1">{{'login-page.tfa.code-number' | translate}}</h3>
-  <h3 class="number pb-mob">{{phone| mask: '+000-000-00-00'}}</h3>
+  <h3 class="number pb-mob">{{phone| mask: '+000-00-000-00-00'}}</h3>
 </div>
-<div class="form-block pb-mob">
+<form class="form-block pb-mob" (submit)="loginTFA()">
   <h3 class="sub-title">{{'login-page.tfa.code-sms' | translate}}</h3>
   <div class="otp-block pb-4">
-    <xm-letters-control (submitEvent)="setValue($event)" [config]="{mask:'000000'}" ></xm-letters-control>
+    <xm-letters-control #lettersControl
+                        (submitEvent)="setValue($event)"
+                        [config]="{mask:'000000'}" >
+    </xm-letters-control>
   </div>
   <div class="timer-block pb-mob">
     <h3 class="timer">{{remainingTime| timeFormat }}</h3>
@@ -20,19 +23,19 @@
   </div>
   <div class="text-end">
     <button mat-flat-button
-            type="button"
+            type="submit"
             color="primary"
             (click)="loginTFA()"
-            class="btn size-xl mb-4   "
+            class="btn mb-4 "
             [disabled]="isFormDisabled()">
-      <span>{{'login.form.otpValidateButton' | translate}}</span>
+      <span>{{config?.primaryButton?(config?.primaryButton| translate) :'login.form.otpValidateButton' | translate}}</span>
     </button>
     <button mat-flat-button
             type="button"
-            class="btn size-xl"
+            class="btn"
             (click)="backToLogin()">
       <span>{{'login.form.otpValidateCancel' | translate}}</span>
     </button>
   </div>
-</div>
+</form>
 
