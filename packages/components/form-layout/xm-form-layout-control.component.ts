@@ -6,13 +6,11 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 @Component({
     selector: 'xm-form-layout-control',
     template: `
-    <ng-template [class]="config.class"
-                 [control]="control"
+    <ng-template [control]="control"
                  [formControl]="control"
                  [value]="control.value"
                  [options]="config.options"
                  [selector]="config.selector"
-                 [style]="config.style"
                  xmDynamicFormControl>
     </ng-template>
     `,
