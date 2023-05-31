@@ -7,7 +7,7 @@ import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { AriaLabel, DataQa } from '@xm-ngx/shared/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { map, share, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import { map, share, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { EntityCollectionFactoryService, QueryParams } from '@xm-ngx/components/entity-collection';
 import { uniqBy as _uniqBy, get as _get, template as _template } from 'lodash/fp';
@@ -27,7 +27,6 @@ export interface XmArrayControlOptions extends DataQa, AriaLabel {
     title?: Translate;
     placeholder?: Translate;
     removable?: boolean;
-    selectable?: boolean;
     onlySuggestSelect?: boolean;
     search?: {
         resourceUrl: string;
@@ -74,6 +73,7 @@ export const XM_ARRAY_CONTROL_OPTIONS_DEFAULT: XmArrayControlOptions = {
 })
 export class XmArrayControl extends NgFormAccessor<string[]> {
     public searchControl: UntypedFormControl = new UntypedFormControl();
+    public chipControl: UntypedFormControl = new UntypedFormControl();
 
     public separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -180,6 +180,9 @@ export class XmArrayControl extends NgFormAccessor<string[]> {
 
                 return this.buildItems(selectedItems);
             }),
+            tap(() => {
+                this.input?.nativeElement?.focus();
+            }),
             shareReplay(),
         );
 
@@ -231,6 +234,17 @@ export class XmArrayControl extends NgFormAccessor<string[]> {
     public writeValue(value: string[] | null): void {
         this.selectedItems = value || [];
         super.writeValue(value);
+    }
+
+    public setDisabledState(isDisabled: boolean): void {
+        super.setDisabledState(isDisabled);
+        this.syncDisabled();
+    }
+
+    private syncDisabled(): void {
+        this.disabled
+            ? this.chipControl.disable({ emitEvent: false })
+            : this.chipControl.enable({ emitEvent: false });
     }
 
     private buildItems(items: XmArrayItem[] | string[]): XmArrayItem[] {
