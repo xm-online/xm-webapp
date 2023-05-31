@@ -35,6 +35,8 @@ export function toggleControlValidation(control: AbstractControl, active: boolea
                          [xmConditionArguments]="{form: value.value}"
                          [xmCondition]="item.condition">
                 <xm-form-layout-control [config]="item"
+                                        [class]="item.class"
+                                        [style]="item.style"
                                         [control]="value.controls[item.name]"></xm-form-layout-control>
             </ng-template>
         </ng-template>
