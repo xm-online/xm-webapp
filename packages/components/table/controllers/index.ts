@@ -12,7 +12,8 @@ export { XmTableRepositoryCollectionController } from './collections/xm-table-re
 export { XmTableStringArrayCollectionController } from './collections/xm-table-string-array-collection-controller.service';
 export { XmTableElasticSearchCollectionController } from '../controllers/elastic/xm-table-elastic-search-collection-controller.service';
 
-export { XmTableConfigController } from './config/xm-table-config-controller.service';
+export * from './config/xm-table-config-controller.service';
+export * from './config/xm-table-columns-setting-storage.service';
 
 export { IXmTableEntityController,IXmTableEntityState } from './entity/i-xm-table-entity-controller';
 export { XmTableEntityController } from './entity/xm-table-entity-controller.service';

@@ -4,4 +4,4 @@ export { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.c
 export { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 export { UserMgmtDialogComponent } from './user-management-dialog/user-management-dialog.component';
 export { UnblockLockUserModule } from './unblock-lock-user/unblock-lock-user.module';
-export { UnblockLockUserComponent } from './unblock-lock-user/unblock-lock-user.component';
+export * from './unblock-lock-user/unblock-lock-user.component';

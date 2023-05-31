@@ -6,7 +6,7 @@ import { MockXmLogger } from '@xm-ngx/logger/testing';
 import { DashboardGuard } from './dashboard.guard';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { DefaultDashboardService } from '../services/default-dashboard.service';
-import { MockDashboardStore } from '@xm-ngx/dashboard/testing';
+import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
 
 describe('DashboardGuard', () => {
     let guard: DashboardGuard;

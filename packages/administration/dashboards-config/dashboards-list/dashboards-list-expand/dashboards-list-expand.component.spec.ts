@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardEditorService, DashboardsManagerService } from '../../index';
 import { DashboardCollection, WidgetCollection } from '../../injectors';
-import { MockEntityCollection } from '@xm-ngx/repositories';
+import { MockEntityCollection } from '@xm-ngx/repositories/testing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardsListExpandComponent } from './dashboards-list-expand.component';

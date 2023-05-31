@@ -27,9 +27,6 @@
       "@xm-ngx/ext/*": [
         "src/app/ext/*"
       ],
-      "@xm-ngx/confirm-dialog": [
-        "node_modules/@xm-ngx/components/confirm-dialog"
-      ],
       "@xm-ngx/entity/card": [
         "node_modules/@xm-ngx/entity/card",
       ],
@@ -71,9 +68,6 @@
       ],
       "@xm-ngx/components/entity-collection": [
         "node_modules/@xm-ngx/repositories"
-      ],
-      "@xm-ngx/entity/xm-mat-card": [
-        "node_modules/@xm-ngx/entity/card"
       ],
       "rxjs": [
         "node_modules/rxjs"

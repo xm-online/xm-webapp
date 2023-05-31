@@ -1,1 +1,1 @@
-export { MultiLanguageComponent } from './xm-multi-language.component';
+export * from './xm-multi-language.component';

@@ -8,7 +8,7 @@ import { DashboardEditorService } from '../index';
 import { DashboardCollection, DashboardConfig } from '../injectors';
 import { XmAlertService } from '@xm-ngx/alert';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { MockEntityCollection } from '@xm-ngx/repositories';
+import { MockEntityCollection } from '@xm-ngx/repositories/testing';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/user';

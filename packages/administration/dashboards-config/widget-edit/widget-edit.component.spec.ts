@@ -9,7 +9,7 @@ import {
     WidgetCollection,
 } from '../injectors';
 import { XmAlertService } from '@xm-ngx/alert';
-import { MockEntityCollection } from '@xm-ngx/repositories';
+import { MockEntityCollection } from '@xm-ngx/repositories/testing';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';

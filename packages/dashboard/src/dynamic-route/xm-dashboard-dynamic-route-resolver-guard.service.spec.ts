@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DashboardStore, XmDashboardDynamicRouteResolverGuard } from '@xm-ngx/dashboard';
-import { MockDashboardStore } from '@xm-ngx/dashboard/testing';
+import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
 import { XmDynamicComponentRegistry } from '@xm-ngx/dynamic';
 
 describe('XmDashboardDynamicRouteResolverGuard', () => {
