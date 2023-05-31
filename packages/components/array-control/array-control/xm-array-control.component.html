@@ -1,20 +1,17 @@
 <mat-form-field>
   <mat-label>{{config.title | translate}}</mat-label>
-  <mat-chip-grid #chipList [disabled]="control.disabled" [attr.aria-label]="config.ariaLabel">
-    <mat-chip-option
+  <mat-chip-grid #chipList [formControl]="chipControl" [attr.aria-label]="config.ariaLabel">
+    <mat-chip-row
       *ngFor="let item of compareSelectedItems | async"
-      [selectable]="config.selectable"
-      [removable]="config.removable"
+      [removable]="!chipControl.disabled && config.removable"
       (removed)="remove(item.value)">
       {{item.view}}
-      <mat-icon matChipRemove *ngIf="config.removable">cancel</mat-icon>
-    </mat-chip-option>
+      <mat-icon matChipRemove *ngIf="!chipControl.disabled && config.removable">cancel</mat-icon>
+    </mat-chip-row>
     <input
       [placeholder]="config.placeholder | translate"
       #input
       [formControl]="searchControl"
-      (blur)="touch()"
-      [style.visibility]="!control.disabled ? 'visible' : 'hidden'"
       [matAutocomplete]="auto"
       [matChipInputFor]="chipList"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
