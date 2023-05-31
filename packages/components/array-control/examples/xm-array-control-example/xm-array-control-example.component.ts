@@ -12,7 +12,6 @@ export class XmArrayControlExampleComponent {
         placeholder: { en: 'Array Control...' },
         dataQa: 'array-control-example',
         removable: true,
-        selectable: true,
         ariaLabel: 'Array control example',
         autocomplete: ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'],
     };
