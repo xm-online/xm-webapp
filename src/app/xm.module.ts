@@ -39,7 +39,7 @@ import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_TABLE_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard';
+import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/registry';
 import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/registry';
 import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';

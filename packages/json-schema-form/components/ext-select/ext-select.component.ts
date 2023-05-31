@@ -90,8 +90,8 @@ export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit
         this.selectLinkOptions = this.options.link || null;
         this.setCanSeeLink();
         // if (!environment?.production) {
-            // eslint-disable-next-line no-console
-            // console.debug('[dbg] initial -> %o', this.options);
+        // eslint-disable-next-line no-console
+        // console.debug('[dbg] initial -> %o', this.options);
         // }
         this.jsf.initializeControl(this);
         if (this.layoutNode.dataType === 'array') {

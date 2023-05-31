@@ -4,7 +4,7 @@ import { XmLoggerService } from '@xm-ngx/logger';
 import { MockXmLogger } from '@xm-ngx/logger/testing';
 import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
 
-import { PageService } from './page.service';
+import { PageService } from '@xm-ngx/dashboard';
 
 describe('PageService', () => {
     let service: PageService;

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IdpComponent } from './idp.component';
+import { IdpComponent } from '@xm-ngx/components/login';
 import { LoginService } from '@xm-ngx/components/login';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { XmPublicIdpConfigService } from '@xm-ngx/core';
@@ -12,14 +12,15 @@ describe('IdpComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
-            providers: [
-                {provide: LoginService, useValue: {}},
-                { provide: XmPublicIdpConfigService, useClass: MockUiConfigService },
-            ],
-            declarations: [IdpComponent],
-        })
-            .compileComponents();
+            imports: [HttpClientTestingModule, IdpComponent],
+        }).overrideComponent(IdpComponent, {
+            set: {
+                providers: [
+                    { provide: LoginService, useValue: {} },
+                    { provide: XmPublicIdpConfigService, useClass: MockUiConfigService },
+                ],
+            },
+        }).compileComponents();
     }));
 
     beforeEach(() => {

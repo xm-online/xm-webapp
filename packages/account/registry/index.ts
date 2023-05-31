@@ -1,3 +1,5 @@
+import { XmDynamicEntries } from '@xm-ngx/dynamic';
+
 export default [
     {
         selector: '@xm-ngx/account/xm-user-login-widget',
@@ -15,4 +17,4 @@ export default [
         selector: '@xm-ngx/account/xm-user-password-widget',
         loadChildren: () => import('@xm-ngx/account/user-password-widget').then(m => m.XmUserPasswordWidgetComponent),
     },
-];
+] as XmDynamicEntries;

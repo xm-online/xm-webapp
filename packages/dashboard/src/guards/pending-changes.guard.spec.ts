@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { MockXmLogger } from '@xm-ngx/logger/testing';
-import { PageChangesStore } from '../../../core/dashboard/page-changes-store';
+import { PageChangesStore } from '@xm-ngx/core/dashboard';
 
 import { PendingChangesGuard } from './pending-changes.guard';
 
