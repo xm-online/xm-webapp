@@ -27,6 +27,9 @@
       "@xm-ngx/ext/*": [
         "src/app/ext/*"
       ],
+      "@xm-ngx-ext/*": [
+        "src/app/ext/*"
+      ],
       "@xm-ngx/entity/card": [
         "node_modules/@xm-ngx/entity/card",
       ],

@@ -11,11 +11,12 @@
     "./polyfills.ts"
   ],
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.d.ts"
   ],
   "exclude": [
     "../test.ts",
-    "./lib",
+    "lib",
+    "packages",
     "**/testing/**",
     "environments",
     "./**/*.spec.ts",
