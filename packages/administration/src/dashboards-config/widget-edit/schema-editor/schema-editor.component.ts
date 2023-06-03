@@ -3,7 +3,6 @@ import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DynamicComponentSpecEntity } from '@xm-ngx/cli';
-import _ from 'lodash';
 
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
@@ -32,9 +31,6 @@ export class SchemaEditorComponent
     public componentSpecification: DynamicComponentSpecEntity[] = [];
 
     public entity?: DynamicComponentSpecEntity;
-
-    public entityAsString = (): string => JSON.stringify(this.entity, null,2);
-
     fields: FormlyFieldConfig[];
 
     constructor(
@@ -45,10 +41,14 @@ export class SchemaEditorComponent
         super(ngControl);
     }
 
+    public entityAsString = (): string => JSON.stringify(this.entity, null, 2);
+
+    public static dynamicComponentSpecEntity: DynamicComponentSpecEntity[];
     public ngOnInit(): void {
         this.httpClient.get<DynamicComponentSpecEntity[]>('/assets/specification/dynamic_components_spec_output.json')
             .subscribe(res => {
                 this.componentSpecification = res;
+                SchemaEditorComponent.dynamicComponentSpecEntity = res;
                 this.ngOnChanges(null);
             });
     }
@@ -59,7 +59,16 @@ export class SchemaEditorComponent
                 .find(i => i.selector == this.options.selector);
 
             this.fields = this.entity
-                ? [this.formlyJsonschema.toFieldConfig(this.entity.configurationSchema as any)]
+                ? [this.formlyJsonschema.toFieldConfig(this.entity.configurationSchema as any, {
+                    map: (m, f) => {
+                        if (m.type === 'config') {
+                        // TODO: data creating
+                            m.props['data'] = f;
+                        }
+
+                        return m;
+                    }
+                })]
                 : [];
         } else
             this.entity = null;

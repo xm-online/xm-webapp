@@ -61,6 +61,10 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
     formFieldAppearance: 'outline',
 };
 
+import {
+    addWidgetEditSchema
+} from '@xm-ngx/administration/dashboards-config/widget-edit/schema-editor/schema-formly-ext';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -85,6 +89,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
         MarkdownModule.forRoot(),
         XmBreadcrumbModule.forRoot(),
         NgxMaskModule.forRoot(),
+        addWidgetEditSchema(),
         XmDynamicExtensionModule.forRoot([
             // #regionstart dynamic-extension-modules
             // #regionend dynamic-extension-modules
