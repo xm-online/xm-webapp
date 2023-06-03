@@ -42,7 +42,9 @@ import {
         XmExpansionIndicatorModule,
         JsonSchemaFormModule,
         MarkdownModule,
-        WidgetConfigExamplesComponent
+        WidgetConfigExamplesComponent,
+        SchemaEditorComponent,
+        SelectorTextControlComponent
     ],
     exports: [
         DashboardsConfigComponent,
@@ -55,8 +57,6 @@ import {
         DashboardEditComponent,
         DashboardsListComponent,
         DashboardsListExpandComponent,
-        SelectorTextControlComponent,
-        SchemaEditorComponent,
     ],
     providers: [
         DashboardCollection,

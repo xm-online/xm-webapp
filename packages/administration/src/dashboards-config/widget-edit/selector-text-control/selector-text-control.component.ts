@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UntypedFormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import {
     ExtendedDynamicComponents,
     WidgetListService,
@@ -10,6 +10,11 @@ import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { trim } from 'lodash';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AsyncPipe, NgForOf } from '@angular/common';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'xm-selector-text-control',
@@ -22,6 +27,8 @@ import { map, shareReplay, startWith } from 'rxjs/operators';
             multi: true,
         },
     ],
+    standalone: true,
+    imports: [MatFormFieldModule, MatAutocompleteModule, NgForOf, XmTranslationModule, MatInputModule,ReactiveFormsModule, AsyncPipe]
 })
 export class SelectorTextControlComponent
     extends NgModelWrapper<string>

@@ -1,8 +1,13 @@
 import { Component, Input, OnChanges, OnInit, Optional, Self, SimpleChanges } from '@angular/core';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
-import { NgControl } from '@angular/forms';
+import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DynamicComponentSpecEntity } from '@xm-ngx/cli';
+import _ from 'lodash';
+
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { FormlyMaterialModule } from '@ngx-formly/material';
+import { FormlyJsonschema } from '@ngx-formly/core/json-schema';
 
 export interface SchemaEditorOptions {
     selector: string;
@@ -11,7 +16,13 @@ export interface SchemaEditorOptions {
 @Component({
     selector: 'xm-schema-editor',
     templateUrl: './schema-editor.component.html',
-    styleUrls: ['./schema-editor.component.scss']
+    styleUrls: ['./schema-editor.component.scss'],
+    standalone: true,
+    imports: [
+        FormlyMaterialModule,
+        FormlyModule,
+        ReactiveFormsModule
+    ]
 })
 export class SchemaEditorComponent
     extends NgControlAccessor<object>
@@ -24,8 +35,11 @@ export class SchemaEditorComponent
 
     public entityAsString = (): string => JSON.stringify(this.entity, null,2);
 
+    fields: FormlyFieldConfig[];
+
     constructor(
         @Optional() @Self() public ngControl: NgControl,
+        private formlyJsonschema: FormlyJsonschema,
         protected readonly httpClient: HttpClient
     ) {
         super(ngControl);
@@ -43,7 +57,15 @@ export class SchemaEditorComponent
         if (this.options.selector) {
             this.entity = this.componentSpecification
                 .find(i => i.selector == this.options.selector);
+
+            this.fields = this.entity
+                ? [this.formlyJsonschema.toFieldConfig(this.entity.configurationSchema as any)]
+                : [];
         } else
             this.entity = null;
+    }
+
+    public changeBridge(value: object): void {
+        this.change(value);
     }
 }
