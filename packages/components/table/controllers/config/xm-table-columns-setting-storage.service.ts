@@ -7,6 +7,7 @@ export interface ColumnsSettingStorageItem {
     name: string;
     title: Translate;
     hidden: boolean;
+    isHideLock: boolean;
 }
 
 export const COLUMNS_SETTING_STORE_NAME = '[columns setting] store';
@@ -16,7 +17,7 @@ export const COLUMNS_SETTING_STORE_NAME = '[columns setting] store';
 })
 export class XmTableColumnsSettingStorageService {
     private store: BehaviorSubject<ColumnsSettingStorageItem[]> =
-        new BehaviorSubject<ColumnsSettingStorageItem[]>(this.localStorage.retrieve(COLUMNS_SETTING_STORE_NAME) || null);
+        new BehaviorSubject<ColumnsSettingStorageItem[]>(this.localStorage.retrieve(COLUMNS_SETTING_STORE_NAME) || []);
 
     constructor(
         private localStorage: LocalStorageService,
