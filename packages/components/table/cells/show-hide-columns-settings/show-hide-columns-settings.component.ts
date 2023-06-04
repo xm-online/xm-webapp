@@ -62,7 +62,7 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
                 takeUntilOnDestroy(this),
             )
             .subscribe(res => {
-                this.columns = res.filter(i => !i.isHideLock);
+                this.columns = res;
                 this.isSelectedAll = this.columns.every(item => !item.hidden);
             });
     }
@@ -102,7 +102,9 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
 
     private setSelectedAllToOptions(isSelectedAll: boolean): void {
         this.columns.forEach(item => {
-            item.hidden = !isSelectedAll;
+            if(!item.isHideLock) {
+                item.hidden = !isSelectedAll;
+            }
         });
 
         this.columnsControl.patchValue(this.columns, { emitEvent: false });
