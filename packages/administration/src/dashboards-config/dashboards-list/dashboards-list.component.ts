@@ -38,7 +38,7 @@ const columnMap = {
     animations: [
         expand,
     ],
-    providers: [DashboardEditorService, DashboardsExportService, DashboardsImportService, DashboardsManagerService],
+    providers: [DashboardsExportService, DashboardsImportService, DashboardsManagerService],
 })
 export class DashboardsListComponent implements OnInit {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;

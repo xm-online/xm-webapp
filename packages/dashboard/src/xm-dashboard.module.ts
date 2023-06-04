@@ -16,6 +16,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatRippleModule } from '@angular/material/core';
+import { DashboardsModule } from "@xm-ngx/administration/dashboards-config";
+import { DashboardLayoutComponent } from "@xm-ngx/administration/dashboards-config/dashboard-layout/dashboard-layout.component";
 
 @NgModule({
     imports: [
@@ -30,6 +32,8 @@ import { MatRippleModule } from '@angular/material/core';
         MatButtonModule,
         MatIconModule,
         MatRippleModule,
+        DashboardsModule,
+        DashboardLayoutComponent
     ],
     declarations: [DashboardComponent],
     providers: [WidgetService, PendingChangesGuard],

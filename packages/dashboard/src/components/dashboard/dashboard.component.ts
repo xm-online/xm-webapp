@@ -10,9 +10,9 @@ import { Dashboard } from '../../models/dashboard.model';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';
 import { DashboardStore } from '../../stores/dashboard-store.service';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { mapTo, switchMap, tap } from 'rxjs/operators';
-
+import { DashboardEditorService } from "@xm-ngx/administration/dashboards-config";
 
 @Component({
     selector: 'xm-dashboard',
@@ -35,9 +35,14 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 private pageService: PageService<Page<{ slug?: string }>>,
                 loggerService: XmLoggerService,
                 pageTitleService: PageTitleService,
+                private editorService: DashboardEditorService,
     ) {
         super(loggerService.create({ name: 'DashboardComponent' }));
         pageTitleService.init();
+    }
+
+    public editMode$(): Observable<boolean> {
+        return this.editorService.state();
     }
 
     public ngOnInit(): void {

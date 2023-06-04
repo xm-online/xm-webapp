@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { Dashboard, DashboardWidget } from '@xm-ngx/dashboard';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class DashboardsManagerService {
     public activeDashboard: Dashboard;
     public activeWidget: DashboardWidget;

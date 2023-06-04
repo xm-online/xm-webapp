@@ -5,14 +5,19 @@ import {
     DASHBOARDS_TRANSLATES,
     DashboardsExportService,
     DashboardsImportService,
-    DashboardsManagerService, WidgetEditComponent,
+    DashboardsManagerService,
+    DashboardsModule,
+    WidgetEditComponent,
 } from '@xm-ngx/administration/dashboards-config';
-import { DashboardConfig } from '@xm-ngx/administration/dashboards-config/injectors';
-import { XmEventManager } from '@xm-ngx/core';
-import { Dashboard, DashboardStore, PageService } from '@xm-ngx/dashboard';
+import {
+    DashboardCollection,
+    DashboardConfig,
+    WidgetCollection
+} from '@xm-ngx/administration/dashboards-config/injectors';
+import { Dashboard, PageService } from '@xm-ngx/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { skip, take } from 'rxjs/operators';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { XmSharedModule } from "@xm-ngx/shared";
 
 export const NAVBAR_EDIT_DASHBOARD_EVENT = 'NAVBAR_EDIT_DASHBOARD_EVENT';
 export const NAVBAR_EDIT_WIDGET_EVENT = 'NAVBAR_EDIT_WIDGET_EVENT';
@@ -28,15 +33,19 @@ export enum NavbarDashboardEditState {
     selector: 'xm-navbar-dashboard-edit-widget',
     template: `
         <button mat-icon-button
-                *permitted="'DASHBOARD.CREATE'"
+                *permitted="['DASHBOARD.CREATE']"
                 [style.visibility]="page ? 'visible' : 'hidden'"
                 [color]="isEditing ? 'primary' : undefined"
-                [matTooltip]="TRS.editDashboard | translate" (click)="onEdit()">
+                [matTooltip]="TRS.editDashboard | translate"
+                (click)="onEdit()">
             <mat-icon>edit</mat-icon>
         </button>
     `,
+    standalone: true,
+    imports: [XmSharedModule, DashboardsModule],
     providers: [
-        DashboardEditorService,
+        DashboardCollection,
+        WidgetCollection,
         DashboardsExportService,
         DashboardsImportService,
         {
@@ -60,8 +69,6 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, Xm
     public isEditing: boolean;
 
     constructor(
-        protected readonly wrapperService: DashboardStore,
-        protected readonly eventManager: XmEventManager,
         private pageService: PageService,
         protected readonly dashboardConfig: DashboardConfig,
         private editorService: DashboardEditorService,
@@ -69,6 +76,9 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, Xm
     }
 
     public ngOnInit(): void {
+        this.editorService.state().subscribe(state => {
+            this.isEditing = state;
+        })
         this.pageService.active$().pipe(takeUntilOnDestroy(this)).subscribe((i) => {
             this.page = i as Dashboard;
             if (this.isEditing) {
@@ -77,14 +87,6 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, Xm
                 this.onEdit();
             }
         });
-
-        this.eventManager.listenTo(this.dashboardConfig.EDIT_DASHBOARD_EVENT)
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe(({ id }) => this.updateView(id));
-
-        this.eventManager.listenTo(this.dashboardConfig.EDIT_WIDGET_EVENT)
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe(({ id }) => this.updateView(this.page.id));
     }
 
     public onEdit(): void {
@@ -101,15 +103,6 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, Xm
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
-    }
-
-    private updateView(id: number): void {
-        if (this.isEditing) {
-            this.wrapperService.forceReload();
-            this.wrapperService.dashboards$().pipe(skip(1), take(1)).subscribe(() => {
-                this.pageService.load(String(id));
-            });
-        }
     }
 
 }

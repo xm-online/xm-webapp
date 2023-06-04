@@ -83,7 +83,7 @@ export const XM_ADMINISTRATION_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/navbar-dashboard-edit-widget',
-        loadChildren: () => import('@xm-ngx/administration/navbar-dashboard-edit-widget').then(m => m.NavbarDashboardEditWidgetModule),
+        loadChildren: () => import('@xm-ngx/administration/navbar-dashboard-edit-widget/navbar-dashboard-edit-widget.component').then(m => m.NavbarDashboardEditWidgetComponent),
     },
     {
         selector: '@xm-ngx/components/dynamic-list-widget',

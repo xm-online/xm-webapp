@@ -26,6 +26,8 @@ import { MarkdownModule } from 'ngx-markdown';
 import {
     WidgetConfigExamplesComponent
 } from '@xm-ngx/administration/dashboards-config/widget-edit/widget-config-examples.component';
+import { DashboardLayoutComponent } from "@xm-ngx/administration/dashboards-config/dashboard-layout/dashboard-layout.component";
+import { DashboardDndComponent } from "@xm-ngx/administration/dashboards-config/dashboard-layout/dashboard-dnd/dashboard-dnd.component";
 
 @NgModule({
     imports: [
@@ -42,7 +44,9 @@ import {
         XmExpansionIndicatorModule,
         JsonSchemaFormModule,
         MarkdownModule,
-        WidgetConfigExamplesComponent
+        WidgetConfigExamplesComponent,
+        DashboardDndComponent,
+        DashboardLayoutComponent
     ],
     exports: [
         DashboardsConfigComponent,
