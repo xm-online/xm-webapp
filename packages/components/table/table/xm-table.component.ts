@@ -57,8 +57,9 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
     const displayedColumns = config.columns;
     return displayedColumns.map(i => ({
         name: i.name || i.field,
-        hidden: false,
+        hidden: i['hidden'] || false,
         title: i.title,
+        isHideLock: i['isHideLock'] || false,
     }));
 }
 
@@ -130,7 +131,7 @@ export class XmTableComponent implements OnInit {
     @Input()
     public set config(value: XmTableConfig | Partial<XmTableConfig>) {
         this._config = getConfig(value);
-        
+
         this.dynamicColumns = this._config.columns.filter(c => c.name != '_selectColumn');
         this.selectColumn = (this._config.columns?.find(c => c.name == '_selectColumn') as SelectTableColumn) ?? this.selectColumn;
 

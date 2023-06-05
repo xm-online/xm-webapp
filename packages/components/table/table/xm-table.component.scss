@@ -2,6 +2,18 @@
 
   white-space: nowrap;
 
+  ::ng-deep .mdc-data-table__header-cell {
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: rgba(0, 0, 0, 0.12);
+  }
+
+  ::ng-deep .mdc-data-table__row:last-child .mdc-data-table__cell {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+  }
+
   .mat-card.no-horizontal-paddings {
     padding-left:  0;
     padding-right: 0;

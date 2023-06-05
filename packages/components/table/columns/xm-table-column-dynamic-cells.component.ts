@@ -108,6 +108,9 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
                               [row]="value"
                               [cell]="column.body"></ng-container>
             </td>
+
+            <td mat-footer-cell *matFooterCellDef="let value"></td>
+
         </ng-container>
     `,
 })
