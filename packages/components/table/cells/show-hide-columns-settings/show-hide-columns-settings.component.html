@@ -12,6 +12,7 @@
       </mat-list-option>
       <mat-list-option *ngFor="let column of columns"
                        [value]="column"
+                       [style.display]="column.isHideLock ? 'none': 'invalid'"
                        [selected]="!column.hidden"
                        checkboxPosition='before'
                        (click)="$event.stopPropagation(); setSelectedAll()"
