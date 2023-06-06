@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "4.0.77",
+  "version": "4.0.78",
   "release": "4.0.0",
   "private": true,
   "description": "Xm-webapp",
@@ -169,8 +169,7 @@
     "web-animations-js": "2.3.2",
     "webstomp-client": "1.2.6",
     "yamljs": "0.3.0",
-    "zone.js": "0.11.8",
-    "preact": "10.14.1"
+    "zone.js": "0.11.8"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "15.2.4",
