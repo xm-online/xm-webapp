@@ -17,7 +17,7 @@ export interface XmTableSettingStoreStateItem {
     columns: ColumnsSettingStorageItem[]
 }
 
-type XmTableSettingStoreState = Map<string, XmTableSettingStoreStateItem>;
+type XmTableSettingStoreState = Record<string, XmTableSettingStoreStateItem>;
 
 @Injectable({
     providedIn: 'root',
@@ -28,7 +28,7 @@ export class XmTableSettingStore implements OnDestroy {
     constructor(
         private localStorage: LocalStorageService,
     ) {
-        const state: XmTableSettingStoreState = this.localStorage.retrieve(COLUMNS_SETTING_STORE_NAME) || new Map();
+        const state: XmTableSettingStoreState = this.localStorage.retrieve(COLUMNS_SETTING_STORE_NAME) || {};
         this.store = new BehaviorSubject<XmTableSettingStoreState>(state);
         this.store.subscribe(value => {
             this.localStorage.store(COLUMNS_SETTING_STORE_NAME, value);
@@ -41,25 +41,25 @@ export class XmTableSettingStore implements OnDestroy {
 
     public updateStore(key: string, value: XmTableSettingStoreStateItem): void {
         const state = this.store.value;
-        state.set(key, value);
+        state[key] = value;
         this.store.next(state);
     }
 
     public defaultStore(key: string, items: XmTableSettingStoreStateItem): void {
-        if (!this.store.value.has(key))
+        if (!this.store.value[key])
             this.updateStore(key, items);
     }
 
 
     public getStore(key: string): Observable<XmTableSettingStoreStateItem> {
         return this.store.pipe(
-            map(i => i.get(key)),
+            map(i => i[key]),
         );
     }
 
     public clearStore(key: string): void {
         const state = this.store.value;
-        state.delete(key);
+        delete state[key];
     }
 }
 
