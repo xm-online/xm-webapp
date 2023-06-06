@@ -169,8 +169,7 @@
     "web-animations-js": "2.3.2",
     "webstomp-client": "1.2.6",
     "yamljs": "0.3.0",
-    "zone.js": "0.11.8",
-    "preact": "10.14.1"
+    "zone.js": "0.11.8"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "15.2.4",
@@ -190,6 +189,7 @@
     "@types/heatmap.js": "2.0.37",
     "@types/jasmine": "4.3.1",
     "@types/jasminewd2": "2.0.10",
+    "@types/jest": "^29.5.2",
     "@types/lodash": "4.14.186",
     "@types/node": "16.11.7",
     "@types/sass": "1.43.1",
@@ -200,6 +200,7 @@
     "eslint-plugin-tsdoc": "0.2.17",
     "jasmine-core": "4.5.0",
     "jasmine-spec-reporter": "7.0.0",
+    "jest": "^29.5.0",
     "karma": "6.4.1",
     "karma-chrome-launcher": "3.1.1",
     "karma-coverage": "2.2.0",
