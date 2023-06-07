@@ -100,7 +100,6 @@ interface IXmTableContext {
         ...XM_TABLE_CONTROLLERS,
         XmTableSelectionService,
         XmTableFilterController,
-        XmTableColumnsSettingStorageService,
     ],
 })
 export class XmTableComponent implements OnInit {
@@ -136,7 +135,7 @@ export class XmTableComponent implements OnInit {
         this.selectColumn = (this._config.columns?.find(c => c.name == '_selectColumn') as SelectTableColumn) ?? this.selectColumn;
 
         this.configController.change(this._config);
-        this.columnsSettingStorageService.updateStore(getDisplayedColumns(this._config));
+        this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));
     }
 
     public async ngOnInit(): Promise<void> {
