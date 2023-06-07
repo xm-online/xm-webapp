@@ -21,8 +21,12 @@ import _ from 'lodash';
 import { DashboardWidget } from '@xm-ngx/dashboard';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 
-function findMatches(arr, searchText) {
-    if (searchText == '') {
+function findMatches(arr, searchText: string):{ path: string, value:string}[] {
+    if (!searchText) {
+        return [];
+    }
+
+    if (searchText.length < 3) {
         return [];
     }
 
