@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata, Story, applicationConfig } from '@storybook/angular';
 import { XmTableComponent } from '@xm-ngx/components/table';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,6 +40,11 @@ export default {
     title: 'XmTable',
     component: XmTableComponent,
     decorators: [
+        applicationConfig({
+            providers: [
+                {provide: LocalStorageService, useValue: mockLocalStorage},
+            ],
+        }),
         moduleMetadata({
             imports: [
                 RouterTestingModule,
@@ -68,7 +73,6 @@ export default {
                 )),
             ],
             providers: [
-                {provide: LocalStorageService, useValue: mockLocalStorage},
                 {provide: XmToasterService, useValue: {}},
                 {provide: XmAlertService, useValue: {}},
                 {provide: XmLogger, useValue: {}},
