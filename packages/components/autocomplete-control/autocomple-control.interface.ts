@@ -77,8 +77,8 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
     },
     columns: [],
     height: 400,
-    searchPlaceholder: 'global.rest-select-placeholder-noresults',
-    notFoundSearchPlaceholder: 'global.rest-select-placeholder-search.simple',
+    searchPlaceholder: 'global.rest-select-placeholder-search.simple',
+    notFoundSearchPlaceholder: 'global.rest-select-placeholder-noresults',
     startFromCharSearch: 0,
     required: false,
 };
