@@ -38,6 +38,7 @@ export interface XmAutocompleteControlConfig {
     extractByKey?: string;
     compareMap: XmFormatTemplateRecursive;
     itemMapper: XmAutocompleteControlMapper;
+    formatBackendData: object;
     pickIntersectSelected?: boolean;
     skipFetchSelected?: boolean;
     valueAsJson?: boolean;
@@ -75,6 +76,7 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
         displayFn: '${name}',
         valueByKey: '${name}',
     },
+    formatBackendData: null,
     columns: [],
     height: 400,
     searchPlaceholder: 'global.rest-select-placeholder-search.simple',
