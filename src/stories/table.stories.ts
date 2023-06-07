@@ -48,7 +48,6 @@ export default {
                 HttpClientModule,
                 XmLoggerModule,
                 XmDynamicExtensionModule.forRoot([]),
-                /*TranslateModule.forChild({defaultLanguage: 'en'}),*/
                 XmTranslationTestingModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 XmDynamicModule.forRoot([].concat(
@@ -89,7 +88,7 @@ Default.args = {
             repository: null, type: 'config',
         },
         path: 'data',
-        data: [{id: 111, name: 'test',age:'25'}],
+        data: [{id: 111, name: 'test', age: '25'}],
         title: {en: 'Test table'},
         filters: [{
             selector: '@xm-ngx/components/text-control',
