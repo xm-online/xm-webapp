@@ -1,14 +1,13 @@
 # XM^online 2 - General Single Page Application (xm-webapp)
 
 Status of latest github CI `build-ui` from Main branch<br>
-<img src="https://github.com/serhii-p0/my_webapp/workflows/build-ui/badge.svg?branch=main"><br>
+<img src="https://github.com/xm-online/xm-webapp/workflows/test-ui/badge.svg?branch=main"><br>
 
 Status of latest github CI `build-ui` from Master branch<br>
-<img src="https://github.com/serhii-p0/my_webapp/workflows/build-ui/badge.svg?branch=master"><br>
+<img src="https://github.com/xm-online/xm-webapp/workflows/build-ui/badge.svg?branch=main"><br>
 
 Status of latest github CI `build-ui` from LTS-3-6 branch<br>
-<img src="https://github.com/serhii-p0/my_webapp/workflows/build-ui/badge.svg?branch=LTS-3-6"><br>
-
+<img src="https://github.com/xm-online/xm-webapp/workflows/deploy-ui/badge.svg?branch=main"><br>
 Status of latest travis CI `build` from main branch<br>
 [![Build Status](https://app.travis-ci.com/xm-online/xm-webapp.svg?branch=main)](https://app.travis-ci.com/xm-online/xm-webapp)
 
