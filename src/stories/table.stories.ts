@@ -7,7 +7,6 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmLogger, XmLoggerModule } from '@xm-ngx/logger';
-import { LocalStorageService } from 'ngx-webstorage';
 import { RouterTestingModule } from '@angular/router/testing';
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/xm-date.registry';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/xm-html.registry';
@@ -25,6 +24,10 @@ import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/xm.registry';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import { LocalStorageService } from 'ngx-webstorage';
+import {
+    XmTableSettingStore
+} from '@xm-ngx/components/table/controllers/config/xm-table-columns-setting-storage.service';
 
 
 const mockLocalStorage = {
@@ -67,6 +70,7 @@ export default {
                 )),
             ],
             providers: [
+                XmTableSettingStore,
                 {provide: LocalStorageService, useValue: mockLocalStorage},
                 {provide: XmToasterService, useValue: {}},
                 {provide: XmAlertService, useValue: {}},
