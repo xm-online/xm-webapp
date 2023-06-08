@@ -26,6 +26,9 @@ import { XmTableQueryParamsStoreService } from '@xm-ngx/components/table/control
 import {
     XmElasticRequestBuilder
 } from '@xm-ngx/components/table/controllers/elastic/xm-elastic-request-builder.service';
+import {
+    XmTableColumnsSettingStorageService
+} from '@xm-ngx/components/table/controllers/config/xm-table-columns-setting-storage.service';
 
 export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmEntityRepository,
@@ -50,4 +53,6 @@ export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmTableQueryParamsStoreService,
 
     XmElasticRequestBuilder,
+
+    XmTableColumnsSettingStorageService
 ];

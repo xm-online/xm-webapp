@@ -1,8 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-    takeUntilOnDestroy,
-    takeUntilOnDestroyDestroy,
-} from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy, } from '@xm-ngx/shared/operators';
 
 import { AbstractControl, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
@@ -45,14 +42,15 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
         },
     };
 
-    public get columnsControl(): AbstractControl {
-        return this.form?.get('columns');
-    }
-
     constructor(
         private columnsSettingStorageService: XmTableColumnsSettingStorageService,
         private fb: UntypedFormBuilder,
-    ) { }
+    ) {
+    }
+
+    public get columnsControl(): AbstractControl {
+        return this.form?.get('columns');
+    }
 
     public ngOnInit(): void {
         this.form = this.fb.group({
@@ -64,7 +62,7 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
                 takeUntilOnDestroy(this),
             )
             .subscribe(res => {
-                this.columns = res || [];
+                this.columns = res;
                 this.isSelectedAll = this.columns.every(item => !item.hidden);
             });
     }
@@ -87,7 +85,7 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
     public setSelectedAll(): void {
         this.isSelectedAll = this.columnsControl?.value.filter(control => !!control).length === this.columns.length;
 
-        if(this.isSelectedAll) {
+        if (this.isSelectedAll) {
             this.setSelectedAllToOptions(this.isSelectedAll);
         }
     }
@@ -104,9 +102,11 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
 
     private setSelectedAllToOptions(isSelectedAll: boolean): void {
         this.columns.forEach(item => {
-            item.hidden = !isSelectedAll;
+            if(!item.isHideLock) {
+                item.hidden = !isSelectedAll;
+            }
         });
 
-        this.columnsControl.patchValue(this.columns, {emitEvent: false});
+        this.columnsControl.patchValue(this.columns, { emitEvent: false });
     }
 }

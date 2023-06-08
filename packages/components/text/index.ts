@@ -18,6 +18,8 @@ export {
     XmTextComponent,
 } from './text';
 
+export * from './text-collapse';
+
 export {
     XmTextControlOptions,
     XmTextControl,

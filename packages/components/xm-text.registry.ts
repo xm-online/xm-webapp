@@ -35,6 +35,10 @@ export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
         selector: '@xm-ngx/components/text-value',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextComponent),
     },
+    {
+        selector: '@xm-ngx/components/text-collapse',
+        loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextCollapseComponent),
+    },
     ...XM_TEXT_CONTROL_ELEMENTS,
     {
         selector: '@xm-ngx/components/text-join',

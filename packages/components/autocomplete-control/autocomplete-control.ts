@@ -284,14 +284,18 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             ).pipe(
                 map((data) => {
                     if (this.config?.extractByKey) {
-                        return _.get(data, this.config?.extractByKey, []);
+                        data = _.get(data, this.config?.extractByKey, []);
+                    }
+
+                    if (!_.isEmpty(this.config.formatBackendData)) {
+                        data = coerceArray(data).map((item) => {
+                            return format(this.config.formatBackendData, item);
+                        });
                     }
 
                     return data;
                 }),
-                map(collection => {
-                    return this.normalizeValues(collection);
-                }),
+                map(collection => this.normalizeValues(collection)),
                 finalize(() => this._loading.next(false)),
             );
         }
