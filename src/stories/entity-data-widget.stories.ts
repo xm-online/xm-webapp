@@ -66,8 +66,8 @@ export default {
             ],
             providers: [
                 FormBuilder,
-                {provide: Principal, useValue: {getUserKey: () => true}},
                 {provide: XmPermissionService, useClass: MockPermissionService},
+                {provide: Principal, useValue: {getUserKey: () => true}},
                 {provide: DashboardStore, useClass: MockDashboardStore},
                 {
                     provide: PageFormService, useValue: {

@@ -34,34 +34,48 @@ type Story = StoryObj<MatButton>;
  * See https://storybook.js.org/docs/angular/api/csf
  * to learn how to use render functions.
  */
-export const Primary: Story = {
-    render: () => ({
-        template: `
-        <section>
-  <div class="example-label">Basic</div>
-  <div class="example-button-row w-100 d-flex justify-content-between p-4">
-    <button mat-button>Basic</button>
-    <button mat-button color="primary">Primary</button>
-    <button mat-button color="accent">Accent</button>
-    <button mat-button color="warn">Warn</button>
-    <button mat-button disabled>Disabled</button>
-    <a mat-button href="https://www.google.com/" target="_blank">Link</a>
-  </div>
-</section>
+const getCaptionForLocale = (locale) => {
+    switch (locale) {
+        case 'en':
+            return 'Hello!';
+        case 'ua':
+            return 'Вітаю!';
+        default:
+            return 'Hello!';
+    }
+};
 
-<mat-divider></mat-divider>
-<section>
-  <div class="example-label">Flat</div>
-  <div class="example-button-row w-100 d-flex justify-content-between p-4">
-    <button mat-flat-button>Basic</button>
-    <button mat-flat-button color="primary">Primary</button>
-    <button mat-flat-button color="accent">Accent</button>
-    <button mat-flat-button color="warn">Warn</button>
-    <button mat-flat-button disabled>Disabled</button>
-    <a mat-flat-button href="https://www.google.com/" target="_blank">Link</a>
-  </div>
-</section>`,
-    }),
+export const Primary: Story = {
+    render: (args, {globals: {locale}}) => {
+        const caption = getCaptionForLocale(locale);
+        return {
+            template: `
+        <section>
+          <div class="example-label">Basic</div>
+          <div class="example-button-row w-100 d-flex justify-content-between p-4">
+            <button mat-button>Basic ${caption}</button>
+            <button mat-button color="primary">Primary ${caption}</button>
+            <button mat-button color="accent">Accent</button>
+            <button mat-button color="warn">Warn</button>
+            <button mat-button disabled>Disabled</button>
+            <a mat-button href="https://www.google.com/" target="_blank">Link</a>
+          </div>
+        </section>
+
+        <mat-divider></mat-divider>
+        <section>
+          <div class="example-label">Flat</div>
+          <div class="example-button-row w-100 d-flex justify-content-between p-4">
+            <button mat-flat-button>Basic</button>
+            <button mat-flat-button color="primary">Primary</button>
+            <button mat-flat-button color="accent">Accent</button>
+            <button mat-flat-button color="warn">Warn</button>
+            <button mat-flat-button disabled>Disabled</button>
+            <a mat-flat-button href="https://www.google.com/" target="_blank">Link</a>
+          </div>
+        </section>`,
+        };
+    },
 };
 
 export const Secondary: Story = {
