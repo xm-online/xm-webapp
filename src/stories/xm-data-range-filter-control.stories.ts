@@ -13,7 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 export default {
-    title: 'core/DateRangeFilterControl',
+    title: 'core/date/DateRangeFilterControl',
     component: DateRangeFilterControl,
     decorators: [
         moduleMetadata({
@@ -32,6 +32,9 @@ export default {
 
         }),
     ],
+    parameters: {
+        layout: 'centered',
+    },
 };
 
 // Define the template to be used in the story

@@ -22,8 +22,9 @@ const meta: Meta<MatButton> = {
                 MatDividerModule
             ],
         })],
-
-
+    parameters: {
+        layout: 'centered',
+    },
 };
 
 export default meta;

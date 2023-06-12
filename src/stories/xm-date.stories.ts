@@ -5,7 +5,7 @@ import { Meta, Story } from '@storybook/angular';
 import { XmDateComponent, XmDateOptions, XmDateValue } from '@xm-ngx/components/date';
 
 export default {
-    title: 'core/XmDateComponent',
+    title: 'core/date/XmDateComponent',
     component: XmDateComponent,
     argTypes: {
         value: { control: 'text' },

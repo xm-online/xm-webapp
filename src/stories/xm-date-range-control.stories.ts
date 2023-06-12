@@ -15,7 +15,7 @@ import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compo
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MatNativeDateModule } from '@angular/material/core';
 export default {
-    title: 'core/XmDateRangeControl',
+    title: 'core/date/XmDateRangeControl',
     component: XmDateRangeControl,
     decorators: [
         moduleMetadata({
@@ -37,6 +37,9 @@ export default {
             ],
         }),
     ],
+    parameters: {
+        layout: 'centered',
+    },
 };
 
 const Template = (args: { component: XmDateRangeControl, props: any }) => ({

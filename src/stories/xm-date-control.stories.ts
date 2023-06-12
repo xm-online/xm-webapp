@@ -10,7 +10,7 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MatNativeDateModule } from '@angular/material/core';
 
 export default {
-    title: 'core/XmDateControl',
+    title: 'core/date/XmDateControl',
     component: XmDateControl,
     decorators: [
         moduleMetadata({
@@ -27,6 +27,9 @@ export default {
             ],
         }),
     ],
+    parameters: {
+        layout: 'centered',
+    },
 };
 
 const Template = (args: XmDateControlOptions) => ({

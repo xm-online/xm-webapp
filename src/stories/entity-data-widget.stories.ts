@@ -98,6 +98,9 @@ export default {
             ],
         }),
     ],
+    parameters: {
+        layout: 'centered',
+    },
 } as Meta;
 
 const Template: Story<EntityDataWidgetComponent> = (args: EntityDataWidgetComponent) => ({

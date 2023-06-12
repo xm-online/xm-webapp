@@ -7,7 +7,7 @@ import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compo
 
 // default export to define the component metadata
 export default {
-    title: 'core/XmDateView',
+    title: 'core/date/XmDateView',
     component: XmDateView,
     decorators: [
         moduleMetadata({
@@ -16,6 +16,9 @@ export default {
                 XmTranslationTestingModule],
         }),
     ],
+    parameters: {
+        layout: 'centered',
+    },
     argTypes: {
         value: {control: 'text'},
         config: {control: 'object'},
