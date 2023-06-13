@@ -24,7 +24,6 @@ import { HintModule } from '@xm-ngx/components/hint';
                    type="email">
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
-                qqqqqqqq
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
