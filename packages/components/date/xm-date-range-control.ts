@@ -49,6 +49,13 @@ export const XM_DATE_RANGE_CONTROL_OPTIONS: XmDateRangeControlOptions = {
     hint: null,
     title: '',
     format: 'y-MM-dThh:mm:ss',
+    transform: {
+        quotes: [
+            '[',
+            ']',
+        ],
+        separator: 'TO',
+    },
 };
 
 @Component({
@@ -72,7 +79,7 @@ export const XM_DATE_RANGE_CONTROL_OPTIONS: XmDateRangeControlOptions = {
 
             <span matSuffix class="d-flex">
                 <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-                <button mat-icon-button *ngIf="value !== null" (click)="change(null)">
+                <button mat-icon-button *ngIf="value !== null" (click)="clear()">
                     <mat-icon>close</mat-icon>
                 </button>
             </span>
@@ -105,19 +112,9 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
 
     @Input() public set config(options: XmDateRangeControlOptions) {
         this._config = _.defaultsDeep(options, XM_DATE_RANGE_CONTROL_OPTIONS);
-        this.update();
     }
     public get config(): XmDateRangeControlOptions {
         return this._config;
-    }
-
-    @Input()
-    public set value(value: XmDateRangeValueOrString) {
-        this._value = value;
-        this.update();
-    }
-    public get value(): XmDateRangeValueOrString {
-        return this._value;
     }
 
     @Input() public group: UntypedFormGroup = new UntypedFormGroup({
@@ -132,15 +129,13 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         super(ngControl);
     }
 
-    private update(): void {
-        if (this.value && this.config) {
-            this._value = this.toModel(this.value);
-        }
+    private syncValue(value: XmDateRangeValueOrString): void {
+        const model = this.toModel(value);
 
-        if (!this.value) {
+        if (!model) {
             this.group.reset();
-        } else if (typeof this.value !== 'string') {
-            this.group.patchValue(this.value, { emitEvent: false });
+        } else if (typeof model !== 'string') {
+            this.group.patchValue(model, { emitEvent: false });
         }
     }
 
@@ -158,6 +153,22 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
 
             this.change(value);
         });
+    }
+
+    public writeValue(value: XmDateRangeValueOrString): void {
+        this.syncValue(value);
+
+        super.writeValue(value);
+    }
+
+    public change(value: XmDateRangeValueOrString): void {
+        this._onChange(value);
+        this.valueChange.next(value); 
+    }
+
+    public clear(): void {
+        this.group.reset();
+        this.change(null);
     }
 
     private toModel(value: XmDateRangeValueOrString): XmDateRangeControlValue {
@@ -191,7 +202,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
             return '';
         }
 
-        const templateFn = template(this.buildQuotedString(' ${from} ' + this.getSeparator() + ' ${to} '));
+        const templateFn = template(this.buildQuotedString('${from} ' + this.getSeparator() + ' ${to}'));
 
         if (templateFn) {
             return templateFn(this.normalizeDates(dates));
