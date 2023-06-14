@@ -23,7 +23,7 @@
            [innerHTML]="(config?.error| translate)||('login.messages.error.authentication' | translate)"></div>
       <div class="row">
         <div class="col-12 pb-1">
-          <button mat-flat-button type="submit" (click)="login()" color="primary"
+          <button mat-flat-button type="submit" color="primary"
                   class="btn display-block"
                   [ngClass]="{'loading' : loading}"
                   [disabled]="isFormDisabled()">

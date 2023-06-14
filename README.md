@@ -6,9 +6,6 @@ Status of latest github CI `build-ui` from Main branch<br>
 Status of latest github CI `deploy-ui` from Main branch<br>
 <img src="https://github.com/xm-online/xm-webapp/workflows/deploy-ui/badge.svg?branch=main"><br>
 
-Status of latest travis CI `build` from main branch<br>
-[![Build Status](https://app.travis-ci.com/xm-online/xm-webapp.svg?branch=main)](https://app.travis-ci.com/xm-online/xm-webapp)
-
 ## Prerequisites:
 * Git - [https://git-scm.com/downloads](https://git-scm.com/downloads)
 * NPM - [https://www.npmjs.com/get-npm](https://www.npmjs.com/get-npm)

@@ -34,6 +34,11 @@ import _ from 'lodash';
         @media screen and (max-width: 420px) {
             input {
                 width:25px;
+            }
+        }
+        @media screen and (max-width: 1280px) {
+            input {
+                width:27px;
                 height: 40px;
                 line-height: 40px;
                 font-size: 20px;
