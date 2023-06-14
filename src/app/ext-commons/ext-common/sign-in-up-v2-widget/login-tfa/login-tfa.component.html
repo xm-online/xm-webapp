@@ -25,7 +25,6 @@
     <button mat-flat-button
             type="submit"
             color="primary"
-            (click)="loginTFA()"
             class="btn mb-4 "
             [disabled]="isFormDisabled()">
       <span>{{config?.primaryButton?(config?.primaryButton| translate) :'login.form.otpValidateButton' | translate}}</span>
