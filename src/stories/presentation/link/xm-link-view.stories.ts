@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
@@ -25,7 +25,7 @@ export default {
 
                 CommonModule,
                 XmTextViewModule,
-                RouterModule,
+                RouterTestingModule,
                 MatIconModule,
                 XmLink,
             ],
@@ -41,14 +41,39 @@ const Template: Story<XmLinkViewComponent> = (args: XmLinkViewComponent) => ({
     props: args,
 });
 
-export const Default = Template.bind({});
-Default.args = {
-    value: 'Example Value',
-    config: {template: 'Template String'},
+const entity = {
+    id: '12345',
+    name: 'John',
+    data: {
+        country: 'UA',
+    },
 };
 
-export const NoTemplate = Template.bind({});
-NoTemplate.args = {
-    value: 'Another Example Value',
-    config: null,
+export const Default = Template.bind({});
+Default.args = {
+    value: entity,
+    config: {
+        title: 'Title',
+        valueField: 'name',
+    },
+};
+
+export const WithIcon = Template.bind({});
+WithIcon.args = {
+    value: entity,
+    config: {
+        title: 'Title',
+        valueField: 'name',
+        icon: 'person',
+    },
+};
+
+export const WithFieldTitle = Template.bind({});
+WithFieldTitle.args = {
+    value: entity,
+    config: {
+        title: 'Title',
+        valueField: 'name',
+        valueTitle: 'Value title:',
+    },
 };
