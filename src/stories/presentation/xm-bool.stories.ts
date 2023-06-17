@@ -34,24 +34,23 @@ const Template: Story<XmBoolComponent> = (args: XmBoolComponent) => ({
 export const Default = Template.bind({});
 Default.args = {
     value: true,
-    config: {
-        icons: {
-            true: 'done',
-            false: 'minimize',
-        },
-        acceptableValue: [true, false],
-    },
 };
 
 export const CustomIcon = Template.bind({});
 CustomIcon.args = {
-    value: 'customValue',
+    value: true,
     config: {
         icons: {
             true: 'favorite',
-            false: 'minimize',
-            customValue: 'star',
+            false: 'sick',
         },
-        acceptableValue: ['customValue'],
+    },
+};
+
+export const CustomValue = Template.bind({});
+CustomValue.args = {
+    value: 'done',
+    config: {
+        acceptableValue: ['done'],
     },
 };
