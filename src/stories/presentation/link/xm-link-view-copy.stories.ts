@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmCopyIconComponent } from '@xm-ngx/components/copy';
@@ -27,8 +28,9 @@ export default {
                 CommonModule,
                 XmTextViewModule,
                 XmTranslationModule,
-                RouterModule,
+                RouterTestingModule,
                 XmCopyIconComponent,
+                MatSnackBarModule,
             ],
         }),
     ],
@@ -42,14 +44,33 @@ const Template: Story<XmLinkViewCopyComponent> = (args: XmLinkViewCopyComponent)
     props: args,
 });
 
-export const Default = Template.bind({});
-Default.args = {
-    value: 'Example Value',
-    config: {template: 'Template String'},
+const entity = {
+    id: '12345',
+    name: 'John',
+    data: {
+        country: 'UA',
+    },
 };
 
-export const NoTemplate = Template.bind({});
-NoTemplate.args = {
-    value: 'Another Example Value',
-    config: null,
+export const Default = Template.bind({});
+Default.args = {
+    value: entity,
+    config: {
+        title: 'Title',
+        valueField: 'name',
+    },
+};
+
+export const CustomCopy = Template.bind({});
+CustomCopy.args = {
+    value: entity,
+    config: {
+        title: 'Title',
+        valueField: 'name',
+        icon: 'person',
+        copy: {
+            template: 'It is an id: {{value.id}}',
+            copiedMessage: 'Id copied to clipboard',
+        }
+    },
 };
