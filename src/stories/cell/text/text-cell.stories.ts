@@ -1,27 +1,27 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { XmTextCellComponent, XmTextCellConfig } from '@xm-ngx/components/text/text-cell/text-cell.component';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { XmTextCellComponent, XmTextCellConfig } from '@xm-ngx/components/text/text-cell/text-cell.component';
 
 export default {
-    title: 'Core/Presentation/Text/Cell',
+    title: 'Core/Cell/Text/Default',
     component: XmTextCellComponent,
     decorators: [
         moduleMetadata({
             imports: [
                 CommonModule,
-                RouterTestingModule, // Add routes if required
                 MatButtonModule,
                 MatIconModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 XmTranslationTestingModule,
-                BrowserAnimationsModule, // Required for Angular Material
+                BrowserAnimationsModule,
+                RouterTestingModule,
             ],
         }),
     ],
@@ -37,10 +37,16 @@ const Template: Story<XmTextCellComponent> = (args: XmTextCellComponent) => ({
 
 export const Default = Template.bind({});
 Default.args = {
+    value: 'text value',
+    config: {} as XmTextCellConfig,
+};
+
+export const AsLink = Template.bind({});
+AsLink.args = {
     value: 'Some value',
     config: {
-        transformQueryParams: { id: 'id' },
-        routerLink: '/some-link',
+        transformQueryParams: {id: 'id'},
+        routerLink: '/defined-route',
     } as XmTextCellConfig,
 };
 
