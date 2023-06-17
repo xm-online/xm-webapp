@@ -40,12 +40,14 @@ const Template: Story<XmTextCollapseComponent> = (args: XmTextCollapseComponent)
 
 export const Default = Template.bind({});
 Default.args = {
-    value: 'Example Value',
-    config: {template: 'Template String'},
+    value: 'Example long value',
+    config: {},
 };
 
-export const NoTemplate = Template.bind({});
-NoTemplate.args = {
-    value: 'Another Example Value',
-    config: null,
+export const CustomMaxWidth = Template.bind({});
+CustomMaxWidth.args = {
+    value: 'Example long value',
+    config: {
+        maxWidth: '140px',
+    },
 };
