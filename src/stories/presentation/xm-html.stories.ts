@@ -26,6 +26,6 @@ const Template: Story<XmHtmlComponent> = (args: XmHtmlComponent) => ({
 export const Default = Template.bind({});
 Default.args = {
     config: {
-        html: '<strong>Test strong</strong>',
+        html: '<strong>Strong text</strong> with <span class="text-white bg-dark">custom classes</span>',
     },
 };
