@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
@@ -12,7 +12,7 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 
 export default {
-    title: 'Core/Presentation/Link/Standard',
+    title: 'Core/Presentation/Link/Default',
     component: XmLink,
     decorators: [
         moduleMetadata({
@@ -24,7 +24,7 @@ export default {
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
 
                 CommonModule,
-                RouterModule,
+                RouterTestingModule,
                 XmTranslationModule,
                 MatIconModule,
             ],
@@ -40,14 +40,40 @@ const Template: Story<XmLink> = (args: XmLink) => ({
     props: args,
 });
 
-export const Default = Template.bind({});
-Default.args = {
-    value: 'Example Value',
-    config: {template: 'Template String'},
+const entity = {
+    id: '12345',
+    name: 'John',
+    data: {
+        country: 'UA',
+    },
 };
 
-export const NoTemplate = Template.bind({});
-NoTemplate.args = {
-    value: 'Another Example Value',
-    config: null,
+export const Default = Template.bind({});
+Default.args = {
+    value: entity,
+};
+
+
+export const WithTitle = Template.bind({});
+WithTitle.args = {
+    value: entity,
+    config: {
+        valueTitle: 'User ID',
+    },
+};
+
+export const CustomField = Template.bind({});
+CustomField.args = {
+    value: entity,
+    config: {
+        valueField: 'name',
+    },
+};
+
+export const CustomNestedField = Template.bind({});
+CustomNestedField.args = {
+    value: entity,
+    config: {
+        valueField: 'data.country',
+    },
 };
