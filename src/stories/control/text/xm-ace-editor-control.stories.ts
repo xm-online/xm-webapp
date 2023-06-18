@@ -35,7 +35,7 @@ export default {
         }),
     ],
     parameters: {
-        layout: 'centered',
+        // layout: 'centered',
     },
 } as Meta;
 
@@ -46,16 +46,15 @@ const Template: Story<XmAceEditorControl> = (args: XmAceEditorControl) => ({
 
 export const Default = Template.bind({});
 Default.args = {
-    config: {
-        title: 'Choose an option',
-    },
-    value: true,
+    value: '{}',
 };
 
-export const Empty = Template.bind({});
-Empty.args = {
+export const CustomConfig = Template.bind({});
+CustomConfig.args = {
     config: {
-        title: 'Choose an option',
+        title: 'Ace editor component custom title',
+        height: '400px',
+        enableInitialFocus: true,
     },
-    value: null,
+    value: '{"prop1":"value1","prop2":true}',
 };
