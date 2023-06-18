@@ -7,7 +7,7 @@ import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compo
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 export default {
-    title: 'Core/Presentation/Text/Join',
+    title: 'Core/Cell/Text/Join',
     component: XmTextJoinComponent,
     decorators: [
         moduleMetadata({
@@ -33,7 +33,19 @@ const Template: Story<XmTextJoinComponent> = (args: XmTextJoinComponent) => ({
 export const Default = Template.bind({});
 Default.args = {
     value: 'Example Value',
-    config: {template: 'Template String'},
+    config: {
+        templates: [
+            {
+                condition: false,
+                title: 'first',
+            },
+            {
+                condition: false,
+                title: 'second',
+            },
+        ],
+        joinSymbol: '&',
+    },
 };
 
 export const NoTemplate = Template.bind({});
