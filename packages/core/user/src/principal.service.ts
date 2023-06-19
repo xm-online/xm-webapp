@@ -15,8 +15,8 @@ import { XmEntity } from 'packages/entity/src/shared/xm-entity.model';
 import { AccountService } from './account.service';
 import { SUPER_ADMIN } from '../../auth/src/auth.constants';
 
+declare let $: any;
 const CACHE_SIZE = 1;
-
 
 @Injectable({ providedIn: 'root' })
 export class Principal implements OnDestroy, OnInitialize {
@@ -43,6 +43,8 @@ export class Principal implements OnDestroy, OnInitialize {
         this.sessionService.isActive().pipe(
             filter(i => i === false),
         ).subscribe(() => this.logout());
+
+        $.principal = this; // needs for jsf conditions support
     }
 
     public ngOnDestroy(): void {
