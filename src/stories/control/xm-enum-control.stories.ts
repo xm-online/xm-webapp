@@ -7,11 +7,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmEnumControl } from '@xm-ngx/components/enum';
+import { XmEnumControl, XmEnumControlOptions } from '@xm-ngx/components/enum';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { XmUserService } from '@xm-ngx/core/user';
+import { MockUserService } from '@xm-ngx/core/user/testing';
 
 export default {
     title: 'Core/Control/Enum',
@@ -28,11 +32,16 @@ export default {
                 XmTranslationTestingModule,
                 BrowserAnimationsModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
-
+                HttpClientTestingModule,
                 MatSelectModule,
                 MatIconModule,
                 XmPermissionModule,
                 HintModule,
+            ],
+            providers: [
+                EntityCollectionFactoryService,
+                XmPermissionService,
+                { provide: XmUserService, useClass: MockUserService }
             ],
         }),
     ],
@@ -40,6 +49,7 @@ export default {
         layout: 'centered',
     },
 } as Meta;
+
 
 const Template: Story<XmEnumControl> = (args: XmEnumControl) => ({
     component: XmEnumControl,
@@ -49,15 +59,51 @@ const Template: Story<XmEnumControl> = (args: XmEnumControl) => ({
 export const Default = Template.bind({});
 Default.args = {
     config: {
-        title: 'Choose an option',
-    },
-    value: true,
+        hint: null,
+        title: 'Default Enum Control',
+        dataQa: 'enum-control',
+        required: false,
+        items: [
+            {
+                value: 'option1',
+                title: 'Option 1',
+                icon: 'star',
+                iconColor: 'blue',
+            },
+            {
+                value: 'option2',
+                title: 'Option 2',
+                icon: 'star',
+                iconColor: 'red',
+            },
+        ],
+        showClearButton: false,
+        clearButtonText: 'admin-config.common.cancel',
+    } as XmEnumControlOptions,
 };
 
-export const Empty = Template.bind({});
-Empty.args = {
+export const WithCustomOptions = Template.bind({});
+WithCustomOptions.args = {
     config: {
-        title: 'Choose an option',
-    },
-    value: null,
+        hint: null,
+        title: 'Custom Enum Control',
+        dataQa: 'enum-control',
+        required: true,
+        items: [
+            {
+                value: 'option1',
+                title: 'Option 1',
+                icon: 'star',
+                iconColor: 'blue',
+            },
+            {
+                value: 'option2',
+                title: 'Option 2',
+                icon: 'star',
+                iconColor: 'red',
+            },
+        ],
+        showClearButton: true,
+        clearButtonText: 'admin-config.common.cancel',
+    } as XmEnumControlOptions,
 };
