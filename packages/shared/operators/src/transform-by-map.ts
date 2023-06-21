@@ -16,7 +16,7 @@ import { get, set } from 'lodash';
  *  // result: { credentials: { nickname: 'Rex' } }
  * ```
  */
-export function transformByMap<T, R, M>(data: T, mapper: M): R {
+export function transformByMap<T, R, M>(data: T, mapper: M, setNullValues = false): R {
     const result = {};
     for (const optionKey in mapper) {
         if (Object.prototype.hasOwnProperty.call(mapper, optionKey)) {
@@ -26,6 +26,8 @@ export function transformByMap<T, R, M>(data: T, mapper: M): R {
                 if (fieldValue !== null
                     && fieldValue !== undefined
                 ) {
+                    set<R>(result, optionKey, fieldValue);
+                } else if (setNullValues) {
                     set<R>(result, optionKey, fieldValue);
                 }
             }
