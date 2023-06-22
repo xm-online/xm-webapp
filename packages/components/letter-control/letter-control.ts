@@ -20,6 +20,15 @@ import { NgForOf } from '@angular/common';
             display: block;
         }
 
+        input[type='number'] {
+            -moz-appearance:textfield;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
         input {
             width: 34px;
             height: 50px;
