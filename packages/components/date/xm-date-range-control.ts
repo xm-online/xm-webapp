@@ -212,9 +212,19 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     }
 
     private normalizeDates({from, to}: XmDateRangeControlValue): XmDateRangeControlValue {
+        if (this.config.format === 'timestamp') {
+            return {
+                from: new Date(from).getTime().toString(),
+                to: new Date(to).getTime().toString(),
+            };
+        }
+
+        const fromFormat = formatDate(from, this.config.format, this.locale);
+        const toFormat = formatDate(to, this.config.format, this.locale);
+
         return {
-            from: formatDate(from, this.config.format, this.locale),
-            to: formatDate(to, this.config.format, this.locale),
+            from: fromFormat,
+            to: toFormat,
         };
     }
 
