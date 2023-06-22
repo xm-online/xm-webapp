@@ -16,18 +16,16 @@ import { get, set } from 'lodash';
  *  // result: { credentials: { nickname: 'Rex' } }
  * ```
  */
-export function transformByMap<T, R, M>(data: T, mapper: M, setNullValues = false): R {
+export function transformByMap<T, R, M>(data: T, mapper: M, allowAnyValue = false): R {
     const result = {};
     for (const optionKey in mapper) {
         if (Object.prototype.hasOwnProperty.call(mapper, optionKey)) {
             const optionValue = mapper[optionKey];
             if (typeof optionValue === 'string') {
                 const fieldValue: null | undefined | string = get(data, optionValue);
-                if (fieldValue !== null
-                    && fieldValue !== undefined
-                ) {
-                    set<R>(result, optionKey, fieldValue);
-                } else if (setNullValues) {
+                const isNullValue = fieldValue !== null && fieldValue !== undefined;
+
+                if (isNullValue || allowAnyValue) {
                     set<R>(result, optionKey, fieldValue);
                 }
             }
