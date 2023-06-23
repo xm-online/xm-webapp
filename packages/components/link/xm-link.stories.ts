@@ -1,21 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmCopyIconComponent } from '@xm-ngx/components/copy';
 import { HintModule } from '@xm-ngx/components/hint';
-import { XmLinkViewCopyComponent } from '@xm-ngx/components/link';
-import { XmTextViewModule } from '@xm-ngx/components/text';
+import { XmLink } from '@xm-ngx/components/link/index';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 
 export default {
-    title: 'Core/Presentation/Link/View copy',
-    component: XmLinkViewCopyComponent,
+    title: 'Core/Presentation/Link/Default',
+    component: XmLink,
     decorators: [
         moduleMetadata({
             imports: [
@@ -26,11 +24,9 @@ export default {
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
 
                 CommonModule,
-                XmTextViewModule,
-                XmTranslationModule,
                 RouterTestingModule,
-                XmCopyIconComponent,
-                MatSnackBarModule,
+                XmTranslationModule,
+                MatIconModule,
             ],
         }),
     ],
@@ -39,8 +35,8 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmLinkViewCopyComponent> = (args: XmLinkViewCopyComponent) => ({
-    component: XmLinkViewCopyComponent,
+const Template: Story<XmLink> = (args: XmLink) => ({
+    component: XmLink,
     props: args,
 });
 
@@ -55,22 +51,29 @@ const entity = {
 export const Default = Template.bind({});
 Default.args = {
     value: entity,
+};
+
+
+export const WithTitle = Template.bind({});
+WithTitle.args = {
+    value: entity,
     config: {
-        title: 'Title',
+        valueTitle: 'User ID',
+    },
+};
+
+export const CustomField = Template.bind({});
+CustomField.args = {
+    value: entity,
+    config: {
         valueField: 'name',
     },
 };
 
-export const CustomCopy = Template.bind({});
-CustomCopy.args = {
+export const CustomNestedField = Template.bind({});
+CustomNestedField.args = {
     value: entity,
     config: {
-        title: 'Title',
-        valueField: 'name',
-        icon: 'person',
-        copy: {
-            template: 'It is an id: {{value.id}}',
-            copiedMessage: 'Id copied to clipboard',
-        }
+        valueField: 'data.country',
     },
 };

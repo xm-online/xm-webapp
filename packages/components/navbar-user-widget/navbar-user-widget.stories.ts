@@ -29,7 +29,7 @@ import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/xm-administra
 import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/xm.registry';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { NavbarUserWidgetComponent } from '@xm-ngx/components/navbar-user-widget';
+import { NavbarUserWidgetComponent } from '@xm-ngx/components/navbar-user-widget/index';
 import { MockUserService } from '@xm-ngx/core/user/testing';
 import { ActivatedRoute } from '@angular/router';
 import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';

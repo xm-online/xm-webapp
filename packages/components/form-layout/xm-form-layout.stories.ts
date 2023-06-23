@@ -7,7 +7,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/xm-administration.registry';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmFormLayoutComponent, XmFormLayoutControl } from '@xm-ngx/components/form-layout';
+import { XmFormLayoutComponent, XmFormLayoutControl } from '@xm-ngx/components/form-layout/index';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/xm-array.registry';
 import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/xm-bool.registry';
