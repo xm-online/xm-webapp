@@ -7,7 +7,6 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmLogger, XmLoggerModule } from '@xm-ngx/logger';
-import { LocalStorageService } from 'ngx-webstorage';
 import { RouterTestingModule } from '@angular/router/testing';
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/xm-date.registry';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/xm-html.registry';
@@ -25,6 +24,10 @@ import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/xm.registry';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import { LocalStorageService } from 'ngx-webstorage';
+import {
+    XmTableSettingStore
+} from '@xm-ngx/components/table/controllers/config/xm-table-columns-setting-storage.service';
 
 
 const mockLocalStorage = {
@@ -37,7 +40,7 @@ const mockLocalStorage = {
 };
 
 export default {
-    title: 'XmTable',
+    title: 'Core/Widget/Table',
     component: XmTableComponent,
     decorators: [
         moduleMetadata({
@@ -48,7 +51,6 @@ export default {
                 HttpClientModule,
                 XmLoggerModule,
                 XmDynamicExtensionModule.forRoot([]),
-                /*TranslateModule.forChild({defaultLanguage: 'en'}),*/
                 XmTranslationTestingModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 XmDynamicModule.forRoot([].concat(
@@ -68,6 +70,7 @@ export default {
                 )),
             ],
             providers: [
+                XmTableSettingStore,
                 {provide: LocalStorageService, useValue: mockLocalStorage},
                 {provide: XmToasterService, useValue: {}},
                 {provide: XmAlertService, useValue: {}},
@@ -75,6 +78,9 @@ export default {
             ],
         }),
     ],
+    parameters: {
+        layout: 'centered',
+    },
 } as Meta;
 
 const Template: Story<XmTableComponent> = (args: XmTableComponent) => ({
@@ -89,7 +95,7 @@ Default.args = {
             repository: null, type: 'config',
         },
         path: 'data',
-        data: [{id: 111, name: 'test',age:'25'}],
+        data: [{id: 111, name: 'test', age: '25'}],
         title: {en: 'Test table'},
         filters: [{
             selector: '@xm-ngx/components/text-control',

@@ -1,11 +1,24 @@
 {
   "extends": "../src/tsconfig.app.json",
   "compilerOptions": {
-    "types": ["node","jest"],
+    "types": [
+      "node",
+      "jest"
+    ],
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
-  "exclude": ["../src/test.ts", "../src/**/*.spec.ts"],
-  "include": ["../src/**/*", "./preview.ts","../src/**/*.stories.ts"],
-  "files": ["./typings.d.ts"]
+  "exclude": [
+    "../src/test.ts",
+    "../src/**/*.spec.ts"
+  ],
+  "include": [
+    "../src/**/*",
+    "./preview.ts",
+    "../src/**/*.stories.ts",
+    "../packages/**/*.stories.ts"
+  ],
+  "files": [
+    "./typings.d.ts"
+  ]
 }
