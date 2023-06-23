@@ -8,7 +8,7 @@
   <div class="otp-block pb-4">
     <xm-letters-control #lettersControl
                         (submitEvent)="setValue($event)"
-                        [config]="{mask:'000000'}" >
+                        [config]="{mask:'000000',type:'number'}" >
     </xm-letters-control>
   </div>
   <div class="timer-block pb-mob">
