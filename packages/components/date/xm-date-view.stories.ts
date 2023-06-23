@@ -22,12 +22,11 @@ export default {
         layout: 'centered',
     },
     argTypes: {
-        value: {control: 'text'},
+        value: {control: 'date'},
         config: {control: 'object'},
     },
 } as Meta;
 
-// named export for the individual story
 export const Primary: Story<XmDateView> = (args: { value: XmDateValue; config: XmDateViewOptions }) => ({
     component: XmDateView,
     props: args,
@@ -41,5 +40,20 @@ Primary.args = {
         locale: 'en-US',
         title: 'Date',
         textStyle: 'inline',
+    },
+};
+
+export const LongBlock: Story<XmDateView> = (args: { value: XmDateValue; config: XmDateViewOptions }) => ({
+    component: XmDateView,
+    props: args,
+});
+
+LongBlock.args = {
+    value: new Date().toISOString(),
+    config: {
+        format: 'longDate',
+        timezone: '+00:00',
+        locale: 'en-US',
+        title: 'Long Title',
     },
 };
