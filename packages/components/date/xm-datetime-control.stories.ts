@@ -35,7 +35,6 @@ export default {
                 ReactiveFormsModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 XmTranslationTestingModule,
-                ControlErrorModule,
                 BrowserAnimationsModule,
 
                 XmDateTimeControlFieldComponent,
@@ -52,33 +51,39 @@ export default {
     parameters: {
         layout: 'centered',
     },
+    argTypes: {
+        value: {control: 'date'},
+    },
 };
 
 const Template = (args: XmDateTimeControlConfig) => ({
     component: XmDateTimeControlComponent,
     props: {
-        config: args
+        config: args,
     },
 });
 
 export const Default = Template.bind({});
 Default.args = {
-    title: 'Default Date',
-    name: 'default',
+    config: {
+        title: 'Default Date',
+    },
 };
 
 export const RequiredDate = Template.bind({});
 RequiredDate.args = {
-    title: 'Required Date',
-    name: 'required',
-    required: true,
+    config: {
+        title: 'Required Date',
+        required: true,
+    },
 };
 
 export const DateWithHint = Template.bind({});
 DateWithHint.args = {
-    title: 'Date with hint',
-    name: 'dateHint',
-    hint: {text: 'Please enter a date.'},
+    config: {
+        title: 'Date with hint',
+        hint: {text: 'Please enter a date.'},
+    },
 };
 
 export const NoFutureDates = Template.bind({});
