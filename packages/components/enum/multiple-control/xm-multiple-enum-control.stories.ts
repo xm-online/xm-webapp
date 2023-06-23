@@ -10,7 +10,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmMultipleEnumControl } from '@xm-ngx/components/enum';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 export default {
@@ -24,7 +24,6 @@ export default {
                 ReactiveFormsModule,
                 MatFormFieldModule,
                 MatOptionModule,
-                ControlErrorModule,
                 XmTranslationTestingModule,
                 BrowserAnimationsModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
@@ -33,6 +32,9 @@ export default {
                 MatIconModule,
                 XmPermissionModule,
                 HintModule,
+            ],
+            providers: [
+                {provide: XmPermissionService, useValue: {}},
             ],
         }),
     ],
@@ -49,15 +51,18 @@ const Template: Story<XmMultipleEnumControl> = (args: XmMultipleEnumControl) => 
 export const Default = Template.bind({});
 Default.args = {
     config: {
-        title: 'Choose an option',
+        items: [
+            {
+                title: 'Me',
+                icon: 'person',
+                value: 'me',
+            },
+            {
+                title: 'Like',
+                icon: 'favorite',
+                value: 'me',
+            },
+        ],
     },
-    value: true,
-};
-
-export const Empty = Template.bind({});
-Empty.args = {
-    config: {
-        title: 'Choose an option',
-    },
-    value: null,
+    value: 'me',
 };
