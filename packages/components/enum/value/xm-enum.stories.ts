@@ -13,7 +13,6 @@ export default {
         moduleMetadata({
             imports: [
                 BrowserAnimationsModule,
-                ControlErrorModule,
                 XmTranslationTestingModule,
                 HintModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
@@ -30,14 +29,35 @@ const Template: Story<XmEnumComponent> = (args: XmEnumComponent) => ({
     props: args,
 });
 
-export const Default = Template.bind({});
-Default.args = {
-    value: 'Example Value',
-    config: {template: 'Template String'},
+export const ByTitles = Template.bind({});
+ByTitles.args = {
+    value: 'ua',
+    config: {
+        titles: {
+            'ua': 'Ukraine',
+            'pl': 'Poland',
+        },
+    },
 };
 
-export const NoTemplate = Template.bind({});
-NoTemplate.args = {
-    value: 'Another Example Value',
-    config: null,
+export const ByItems = Template.bind({});
+ByItems.args = {
+    value: 'pl',
+    config: {
+        items: [
+            {title: 'Ukraine', value: 'ua'},
+            {title: 'Poland', value: 'pl'},
+        ],
+    },
+};
+
+export const ValueNotMatch = Template.bind({});
+ValueNotMatch.args = {
+    value: 'uk',
+    config: {
+        titles: {
+            'ua': 'Ukraine',
+            'pl': 'Poland',
+        },
+    },
 };
