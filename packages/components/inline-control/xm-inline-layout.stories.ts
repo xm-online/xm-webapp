@@ -83,15 +83,25 @@ const Template: Story<XmInlineControlComponent> = (args: XmInlineControlComponen
 export const Default = Template.bind({});
 Default.args = {
     config: {
-        title: 'Choose an option',
+        view: {
+            selector: '@xm-ngx/components/text',
+        },
+        edit: {
+            selector: '@xm-ngx/components/text-control',
+        },
     },
-    value: true,
+    value: 'Hello world',
 };
 
-export const Empty = Template.bind({});
-Empty.args = {
+export const TextArea = Template.bind({});
+TextArea.args = {
     config: {
-        title: 'Choose an option',
+        view: {
+            selector: '@xm-ngx/components/text',
+        },
+        edit: {
+            selector: '@xm-ngx/components/text-range-control',
+        },
     },
-    value: null,
+    value: 'Hello long world',
 };
