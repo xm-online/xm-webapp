@@ -17,7 +17,7 @@ import { XmAutocompleteControlComponent } from '@xm-ngx/components/autocomplete-
 
 
 export default {
-    title: 'core/array/XmAutocompleteControl',
+    title: 'Core/Control/Autocomplete',
     component: XmAutocompleteControlComponent,
     decorators: [
         moduleMetadata({

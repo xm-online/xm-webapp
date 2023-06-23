@@ -15,7 +15,7 @@ import { of } from 'rxjs';
 import { XmArrayControl, XmArrayControlOptions } from '@xm-ngx/components/array-control';
 
 export default {
-    title: 'core/array/XmArrayControl',
+    title: 'Core/Control/Array',
     component: XmArrayControl,
     decorators: [
         moduleMetadata({
