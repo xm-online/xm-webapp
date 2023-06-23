@@ -20,7 +20,7 @@ export default {
                 HintModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
 
-                MatIconModule
+                MatIconModule,
             ],
         }),
     ],
@@ -36,12 +36,42 @@ const Template: Story<XmIconEnumComponent> = (args: XmIconEnumComponent) => ({
 
 export const Default = Template.bind({});
 Default.args = {
-    value: 'Example Value',
-    config: {template: 'Template String'},
+    value: 'like',
+    config: {
+        items: [
+            {
+                icon: 'person',
+                value: 'me',
+            },
+            {
+                icon: 'favorite',
+                value: 'like',
+            },
+            {
+                icon: 'cross',
+                value: false,
+            },
+        ],
+    },
 };
 
-export const NoTemplate = Template.bind({});
-NoTemplate.args = {
-    value: 'Another Example Value',
-    config: null,
+export const ValueNotMatch = Template.bind({});
+ValueNotMatch.args = {
+    value: 'uniq-value',
+    config: {
+        items: [
+            {
+                icon: 'person',
+                value: 'me',
+            },
+            {
+                icon: 'favorite',
+                value: 'like',
+            },
+            {
+                icon: 'cross',
+                value: false,
+            },
+        ],
+    },
 };
