@@ -11,7 +11,7 @@ import {
     startWith,
     Subject,
     switchMap,
-    tap
+    tap,
 } from 'rxjs';
 import { AsyncPipe, NgForOf } from '@angular/common';
 import { WidgetCollection } from '@xm-ngx/administration/dashboards-config/injectors';
@@ -21,7 +21,7 @@ import _ from 'lodash';
 import { DashboardWidget } from '@xm-ngx/dashboard';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 
-function findMatches(arr, searchText: string):{ path: string, value:string}[] {
+function findMatches(arr, searchText: string): { path: string, value: string }[] {
     if (!searchText) {
         return [];
     }
