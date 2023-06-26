@@ -98,7 +98,6 @@
 
 * **core:** open brackets, fix circular deps ([4979578](https://github.com/xm-online/xm-webapp/commit/49795787026f18974c849e3ae49023b782864002))
 * **inline-control:** add inline edit control ([#1544](https://github.com/xm-online/xm-webapp/issues/1544)) ([6f0e02a](https://github.com/xm-online/xm-webapp/commit/6f0e02a523424bf4ea5d794607d2f0acb7daf394))
-* **README:** add travis status ([0a6feaa](https://github.com/xm-online/xm-webapp/commit/0a6feaaeb0842c30970ee38dd8bdcc5546065c38))
 * **text-control:** add clear button ([e284b8c](https://github.com/xm-online/xm-webapp/commit/e284b8cd0c2d6944f4f822a584be99320486c241))
 * **xm.module:** update path ([51eb4aa](https://github.com/xm-online/xm-webapp/commit/51eb4aafebc482584121b22635b3f1ca803e9083))
 

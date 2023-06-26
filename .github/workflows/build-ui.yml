@@ -1,0 +1,34 @@
+name: build-ui
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - labeled
+
+jobs:
+  test-main:
+    if: ${{ github.event.label.name == 'ci-cd-trigger' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.13.0'
+
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run lint
+          npm run build:prod
+          npm run test:prod
+
+      - name: Build finish
+        run : echo "Build Finished Successfully!"
