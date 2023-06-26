@@ -8,8 +8,8 @@ import {
     Optional,
     Self,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
+import { NgControl, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
@@ -17,10 +17,9 @@ import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
-import { filter, withLatestFrom } from 'rxjs/operators';
 import { template } from 'lodash/fp';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { Subject } from 'rxjs';
+import { Subject, filter, map } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, formatDate } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,9 +37,11 @@ export interface XmDateRangeControlOptions {
     }
 }
 
+export type XmDateRangeValue = XmDateValue | number;
+
 export type XmDateRangeControlValue = {
-    from: XmDateValue;
-    to: XmDateValue;
+    from: XmDateRangeValue;
+    to: XmDateRangeValue;
 };
 
 export type XmDateRangeValueOrString = XmDateRangeControlValue | string;
@@ -49,6 +50,13 @@ export const XM_DATE_RANGE_CONTROL_OPTIONS: XmDateRangeControlOptions = {
     hint: null,
     title: '',
     format: 'y-MM-dThh:mm:ss',
+    transform: {
+        quotes: [
+            '[',
+            ']',
+        ],
+        separator: 'TO',
+    },
 };
 
 @Component({
@@ -59,20 +67,20 @@ export const XM_DATE_RANGE_CONTROL_OPTIONS: XmDateRangeControlOptions = {
             <mat-date-range-input [formGroup]="group"
                                   [rangePicker]="picker">
                 <input matStartDate
-                       (dateChange)="startDateChange($event)"
+                       (dateChange)="dateChanged()"
                        (focus)="picker.open()"
-                       [name]="config?.fromName"
+                       [name]="config?.fromName ?? 'from'"
                        formControlName="from">
                 <input matEndDate
-                       (dateChange)="endDateChange($event)"
+                       (dateChange)="dateChanged()"
                        (focus)="picker.open()"
                        formControlName="to"
-                       [name]="config?.toName">
+                       [name]="config?.toName ?? 'to'">
             </mat-date-range-input>
 
             <span matSuffix class="d-flex">
                 <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-                <button mat-icon-button *ngIf="value !== null" (click)="change(null)">
+                <button mat-icon-button *ngIf="value !== null" (click)="clear()">
                     <mat-icon>close</mat-icon>
                 </button>
             </span>
@@ -98,31 +106,20 @@ export const XM_DATE_RANGE_CONTROL_OPTIONS: XmDateRangeControlOptions = {
     standalone: true,
 })
 export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrString> implements AfterViewInit, OnDestroy {
-    private startDate = new Subject<XmDateValue>();
-    private endDate = new Subject<XmDateValue>();
+    private refreshDate = new Subject<void>();
 
     private _config: XmDateRangeControlOptions;
 
     @Input() public set config(options: XmDateRangeControlOptions) {
         this._config = _.defaultsDeep(options, XM_DATE_RANGE_CONTROL_OPTIONS);
-        this.update();
     }
     public get config(): XmDateRangeControlOptions {
         return this._config;
     }
 
-    @Input()
-    public set value(value: XmDateRangeValueOrString) {
-        this._value = value;
-        this.update();
-    }
-    public get value(): XmDateRangeValueOrString {
-        return this._value;
-    }
-
-    @Input() public group: UntypedFormGroup = new UntypedFormGroup({
-        from: new UntypedFormControl(),
-        to: new UntypedFormControl(),
+    @Input() public group = new FormGroup({
+        from: new FormControl<XmDateRangeValue>(''),
+        to: new FormControl<XmDateRangeValue>(''),
     });
 
     constructor(
@@ -132,32 +129,42 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         super(ngControl);
     }
 
-    private update(): void {
-        if (this.value && this.config) {
-            this._value = this.toModel(this.value);
-        }
+    private syncValue(value: XmDateRangeValueOrString): void {
+        const model = this.toModel(value);
 
-        if (!this.value) {
+        if (!model) {
             this.group.reset();
-        } else if (typeof this.value !== 'string') {
-            this.group.patchValue(this.value, { emitEvent: false });
+        } else if (typeof model !== 'string') {
+            this.group.patchValue(model, { emitEvent: false });
         }
     }
 
     public ngAfterViewInit(): void {
-        this.endDate.pipe(
-            filter(value => !!value),
-            withLatestFrom(
-                this.startDate,
-                this.endDate,
-                (_, from, to) => ({ from, to }),
-            ),
+        this.refreshDate.pipe(
+            map(() => this.group.value),
+            filter(({ to }) => !!to),
             takeUntilOnDestroy(this),
         ).subscribe((dates) => {
-            const value = this.fromModel(dates);
+            const value = this.fromModel(dates as XmDateRangeControlValue);
 
             this.change(value);
         });
+    }
+
+    public writeValue(value: XmDateRangeValueOrString): void {
+        this.syncValue(value);
+
+        super.writeValue(value);
+    }
+
+    public change(value: XmDateRangeValueOrString): void {
+        this._onChange(value);
+        this.valueChange.next(value);
+    }
+
+    public clear(): void {
+        this.group.reset();
+        this.change(null);
     }
 
     private toModel(value: XmDateRangeValueOrString): XmDateRangeControlValue {
@@ -173,14 +180,19 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
                 ?.split(` ${this.getSeparator()} `)
                 ?.map(x => _.trim(x, this.buildQuotedString(' ')));
 
-            if (!from && !to) {
+            if (_.isEmpty(from) && _.isEmpty(to)) {
                 return {
                     from: null,
                     to: null,
                 };
             }
 
-            return this.normalizeDates({ from, to });
+            const { from: normalizeFrom, to: normalizeTo } = this.normalizeDates({ from, to });
+
+            return {
+                from: new Date(normalizeFrom),
+                to: new Date(normalizeTo),
+            };
         }
 
         return value;
@@ -191,7 +203,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
             return '';
         }
 
-        const templateFn = template(this.buildQuotedString(' ${from} ' + this.getSeparator() + ' ${to} '));
+        const templateFn = template(this.buildQuotedString('${from} ' + this.getSeparator() + ' ${to}'));
 
         if (templateFn) {
             return templateFn(this.normalizeDates(dates));
@@ -200,10 +212,23 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         return '';
     }
 
-    private normalizeDates({from, to}: XmDateRangeControlValue): XmDateRangeControlValue {
+    private normalizeDates({ from, to }: XmDateRangeControlValue): XmDateRangeControlValue {
+        if (this.config.format === 'timestamp') {
+            const fromFormat = formatDate(from, 'fullDate', this.locale);
+            const toFormat = formatDate(to, 'fullDate', this.locale);
+
+            return {
+                from: new Date(fromFormat).getTime(),
+                to: new Date(toFormat).getTime(),
+            };
+        }
+
+        const fromFormat = formatDate(from, this.config.format, this.locale);
+        const toFormat = formatDate(to, this.config.format, this.locale);
+
         return {
-            from: formatDate(from, this.config.format, this.locale),
-            to: formatDate(to, this.config.format, this.locale),
+            from: fromFormat,
+            to: toFormat,
         };
     }
 
@@ -218,12 +243,8 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         return separator;
     }
 
-    public startDateChange(date: MatDatepickerInputEvent<XmDateValue>): void {
-        this.startDate.next(date.value);
-    }
-
-    public endDateChange(date: MatDatepickerInputEvent<XmDateValue>): void {
-        this.endDate.next(date.value);
+    public dateChanged(): void {
+        this.refreshDate.next();
     }
 
     public ngOnDestroy(): void {

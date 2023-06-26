@@ -33,6 +33,7 @@ import { XmTableColumnsManager } from './xm-table-columns-manager';
                               [row]="value"
                               [cell]="column"></ng-container>
             </td>
+            <td mat-footer-cell *matFooterCellDef="let value"></td>
         </ng-container>
     `,
     imports: [

@@ -59,6 +59,7 @@ export interface XmTableColumn<O = unknown> extends XmDynamicCell<O> {
                               [row]="value"
                               [column]="column"></ng-container>
             </td>
+            <td mat-footer-cell *matFooterCellDef="let value"></td>
         </ng-container>
     `,
     imports: [

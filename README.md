@@ -1,6 +1,10 @@
 # XM^online 2 - General Single Page Application (xm-webapp)
 
-[![Build Status](https://app.travis-ci.com/xm-online/xm-webapp.svg?branch=main)](https://app.travis-ci.com/xm-online/xm-webapp)
+Status of latest github CI `build-ui` from Main branch<br>
+<img src="https://github.com/xm-online/xm-webapp/workflows/build-ui/badge.svg?branch=main"><br>
+
+Status of latest github CI `deploy-ui` from Main branch<br>
+<img src="https://github.com/xm-online/xm-webapp/workflows/deploy-ui/badge.svg?branch=main"><br>
 
 ## Prerequisites:
 * Git - [https://git-scm.com/downloads](https://git-scm.com/downloads)
@@ -54,3 +58,6 @@ Read through our [contributing guidelines][contributing] to learn about our subm
 
 [changelog]: CHANGELOG.md
 [contributing]: CONTRIBUTING.md
+
+## Github Action CI/CD
+[Guide to using **Github action** pipelines: test, build and deploy](https://github.com/xm-online/xm-webapp/wiki/Github-Action-CI-CD)
