@@ -87,7 +87,7 @@ export class XmTableColumnsSettingStorageService {
 
     public getStore(): Observable<ColumnsSettingStorageItem[]> {
         return this.XmTableColumnsSettingStorageService.getStore(this.key).pipe(
-            map(i => i.columns),
+            map(storageStateItem => storageStateItem?.columns ?? []),
         );
     }
 

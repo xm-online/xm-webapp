@@ -41,14 +41,14 @@ export interface XmTextCellConfig {
         RouterModule,
         MatButtonModule,
         MatIconModule,
-    ]
+    ],
 })
 export class XmTextCellComponent implements OnInit, XmDynamicPresentation<unknown, XmTextCellConfig> {
     @Input() public value: unknown;
 
     private _config: XmTextCellConfig;
 
-    @Input() 
+    @Input()
     public set config(value: XmTextCellConfig) {
         this._config = _.defaults({}, value, {
             transformQueryParams: {'id': 'id'},
@@ -58,7 +58,7 @@ export class XmTextCellComponent implements OnInit, XmDynamicPresentation<unknow
     public get config(): XmTextCellConfig {
         return this._config;
     }
-    
+
     private tableRowCtx = inject<any>(XM_DYNAMIC_TABLE_ROW, { optional: true });
 
     public data: {
@@ -93,7 +93,7 @@ export class XmTextCellComponent implements OnInit, XmDynamicPresentation<unknow
         return '-1';
     }
 
-    private getNestedObject(value: {} | []): object | string | number {       
+    private getNestedObject(value: {} | []): object | string | number {
         if (_.isArray(value)) {
             return _.get(value, this.searchKeyByPredicate(value), '');
         }
@@ -103,9 +103,9 @@ export class XmTextCellComponent implements OnInit, XmDynamicPresentation<unknow
 
     private extractValue(value: {} | []): string {
         const { path } = this.config ?? {};
-       
+
         const objectOrValue = this.getNestedObject(value);
-        
+
         if (_.isObject(objectOrValue)) {
             return _.get(objectOrValue, path, '');
         }
