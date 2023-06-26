@@ -7,6 +7,7 @@ import { DynamicComponentSpecEntity } from '@xm-ngx/cli';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyJsonschema } from '@ngx-formly/core/json-schema';
+import { getSchema } from '@xm-ngx/administration/dashboards-config/widget-edit/schema-editor/schema-formly-ext';
 
 export interface SchemaEditorOptions {
     selector: string;
@@ -20,30 +21,27 @@ export interface SchemaEditorOptions {
     imports: [
         FormlyMaterialModule,
         FormlyModule,
-        ReactiveFormsModule
-    ]
+        ReactiveFormsModule,
+    ],
 })
 export class SchemaEditorComponent
     extends NgControlAccessor<object>
     implements OnInit, OnChanges {
 
+    public static dynamicComponentSpecEntity: DynamicComponentSpecEntity[];
     @Input() public options: SchemaEditorOptions;
     public componentSpecification: DynamicComponentSpecEntity[] = [];
-
     public entity?: DynamicComponentSpecEntity;
-    fields: FormlyFieldConfig[];
+    public fields: FormlyFieldConfig[];
 
     constructor(
         @Optional() @Self() public ngControl: NgControl,
         private formlyJsonschema: FormlyJsonschema,
-        protected readonly httpClient: HttpClient
+        protected readonly httpClient: HttpClient,
     ) {
         super(ngControl);
     }
 
-    public entityAsString = (): string => JSON.stringify(this.entity, null, 2);
-
-    public static dynamicComponentSpecEntity: DynamicComponentSpecEntity[];
     public ngOnInit(): void {
         this.httpClient.get<DynamicComponentSpecEntity[]>('/assets/specification/dynamic_components_spec_output.json')
             .subscribe(res => {
@@ -59,16 +57,7 @@ export class SchemaEditorComponent
                 .find(i => i.selector == this.options.selector);
 
             this.fields = this.entity
-                ? [this.formlyJsonschema.toFieldConfig(this.entity.configurationSchema as any, {
-                    map: (m, f) => {
-                        if (m.type === 'config') {
-                        // TODO: data creating
-                            m.props['data'] = f;
-                        }
-
-                        return m;
-                    }
-                })]
+                ? getSchema(this.formlyJsonschema, this.entity.configurationSchema)
                 : [];
         } else
             this.entity = null;
@@ -78,3 +67,4 @@ export class SchemaEditorComponent
         this.change(value);
     }
 }
+

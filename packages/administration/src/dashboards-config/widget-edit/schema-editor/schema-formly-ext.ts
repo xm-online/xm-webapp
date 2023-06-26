@@ -1,15 +1,35 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { FieldArrayType, FieldType, FormlyModule } from '@ngx-formly/core';
+import { ChangeDetectorRef, Component, ModuleWithProviders } from '@angular/core';
+import { FieldArrayType, FieldType, FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import {
-    SelectorTextControlComponent
+    SelectorTextControlComponent,
 } from '@xm-ngx/administration/dashboards-config/widget-edit/selector-text-control/selector-text-control.component';
 import { FormlyJsonschema } from '@ngx-formly/core/json-schema';
 import {
-    SchemaEditorComponent
+    SchemaEditorComponent,
 } from '@xm-ngx/administration/dashboards-config/widget-edit/schema-editor/schema-editor.component';
 import { FormsModule } from '@angular/forms';
 import { FormlyMaterialModule } from '@ngx-formly/material';
+import _ from 'lodash';
+
+export function getSchema(formlyJsonschema: FormlyJsonschema, configurationSchema: any): FormlyFieldConfig[] {
+    return [formlyJsonschema.toFieldConfig(configurationSchema, {
+        map: (m, f) => {
+            if (f['isSelectorConfig']) {
+                m.type = 'config';
+                _.filter(m.fieldGroup, i =>
+                    i.key === 'config'
+                    || i.key === 'options'
+                ).forEach(i => {
+                    i.type = 'object';
+                    delete i.defaultValue;
+                });
+            }
+
+            return m;
+        },
+    })];
+}
 
 @Component({
     standalone: true,
@@ -34,8 +54,8 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
     imports: [
         NgIf,
         FormlyModule,
-        NgForOf
-    ]
+        NgForOf,
+    ],
 })
 export class ArrayTypeComponent extends FieldArrayType {
 }
@@ -55,8 +75,8 @@ export class ArrayTypeComponent extends FieldArrayType {
     imports: [
         NgIf,
         FormlyModule,
-        NgForOf
-    ]
+        NgForOf,
+    ],
 })
 export class ObjectTypeComponent extends FieldType {
 }
@@ -79,7 +99,7 @@ export class ObjectTypeComponent extends FieldType {
         NgIf,
         FormlyModule,
         NgForOf,
-    ]
+    ],
 })
 export class MultiSchemaTypeComponent extends FieldType {
 }
@@ -95,17 +115,19 @@ export class MultiSchemaTypeComponent extends FieldType {
             <div class="alert alert-danger" role="alert" *ngIf="showError && formControl.errors">
                 <formly-validation-message [field]="field"></formly-validation-message>
             </div>
-            <formly-field *ngFor="let f of field.fieldGroup" [field]="f"></formly-field>
+            <ng-container *ngFor="let f of field.fieldGroup">
+                <formly-field [class.d-none]="f.key=='selector' || f.key=='options' || f.key=='config'"
+                              [field]="f"></formly-field>
+            </ng-container>
         </div>
 
-        <xm-selector-text-control [ngModel]="formControl?.value?.selector"
+        <xm-selector-text-control [ngModel]="formControl?.value?.selector || model?.selector"
                                   (valueChange)="updateSelector($event)"
                                   [options]="{ title: 'selector' }"
                                   name="selector"></xm-selector-text-control>
 
-        <!--        // TODO: research propriate way of implementation-->
-        <formly-form [model]="formControl?.value?.config"
-                     (modelChange)="updateModel($event)"
+        <formly-form [model]="formControl?.value?.config || model?.config"
+                     (modelChange)="updateConfig($event)"
                      [fields]="fields"></formly-form>
 
     `,
@@ -116,22 +138,21 @@ export class MultiSchemaTypeComponent extends FieldType {
         JsonPipe,
         FormsModule,
         FormlyMaterialModule,
-        SelectorTextControlComponent
-    ]
+        SelectorTextControlComponent,
+    ],
 })
 export class ConfigComponent extends FieldType {
-    public fields = [];
+    public fields: FormlyFieldConfig[] = [];
 
     constructor(
         private formlyJsonschema: FormlyJsonschema,
-        private changeDetectorRef: ChangeDetectorRef
+        private changeDetectorRef: ChangeDetectorRef,
     ) {
         super();
     }
 
-    public updateModel(model: any): void {
-        this.formControl.value.config = model;
-        this.formControl.setValue(this.formControl.value);
+    public updateConfig(config: any): void {
+        this.formControl.patchValue({ config });
     }
 
     public updateSelector(selector: string): void {
@@ -139,22 +160,21 @@ export class ConfigComponent extends FieldType {
         if (!schema) {
             return;
         }
-        if(!this.formControl.value){
-            this.formControl.setValue({});
+        if (!this.formControl.value) {
+            this.formControl.patchValue({});
         }
-        this.formControl.value.selector = selector;
-        this.formControl.setValue(this.formControl.value);
-        this.fields = [this.formlyJsonschema.toFieldConfig(schema.configurationSchema as any)];
+        this.formControl.patchValue({ selector });
+        this.fields = getSchema(this.formlyJsonschema, schema.configurationSchema);
         this.changeDetectorRef.detectChanges();
     }
 }
 
-@Component({ standalone: true, selector: 'formly-null-type', template: '', })
+@Component({ standalone: true, selector: 'formly-null-type', template: '' })
 export class NullTypeComponent extends FieldType {
 }
 
 
-export function addWidgetEditSchema() {
+export function addWidgetEditSchema(): ModuleWithProviders<FormlyModule> {
     return FormlyModule.forRoot({
         types: [
             { name: 'null', component: NullTypeComponent, wrappers: ['form-field'] },

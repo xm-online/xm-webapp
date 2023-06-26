@@ -5,6 +5,8 @@ import fs from 'fs';
 export interface JsfNode {
     title: string;
     type: string;
+    /** true when a node is a dynamic component with a selector */
+    isSelectorConfig?: boolean;
 
     [key: string]: any;
 }
@@ -41,7 +43,7 @@ function getName(classDeclaration: ClassDeclaration): string {
 }
 
 function extendsComponent(interfaceDeclaration: InterfaceDeclaration, componentKey: string): boolean {
-    if(!interfaceDeclaration || !interfaceDeclaration.getBaseTypes){
+    if (!interfaceDeclaration || !interfaceDeclaration.getBaseTypes) {
         return false;
     }
     const baseTypes: Type[] = interfaceDeclaration.getBaseTypes();
@@ -68,15 +70,8 @@ function getInterfaceFromNonNullableType(nonNullableType: Type): InterfaceDeclar
     return nonNullableType as any;
 }
 
-function getObjectType(nonNullableType: Type): string {
-    let type = 'object';
-
-    const extendsIRootInterface: boolean = extendsComponent(getInterfaceFromNonNullableType(nonNullableType), 'XmDynamicConfig');
-    if (extendsIRootInterface) {
-        type = 'config';
-    }
-
-    return type;
+function isConfig(nonNullableType: Type): boolean {
+    return extendsComponent(getInterfaceFromNonNullableType(nonNullableType), 'XmDynamicConfig');
 }
 
 
@@ -117,8 +112,8 @@ function getObjectProperties(nonNullableType: Type, ctx: Ctx): JsfNode {
         .map((i: any) => i.getValueDeclarationOrThrow())
         .map((i: any) => {
             const key = i.getSymbol()?.getName() || '';
-            const value = getSchema(i.getType(), ctx, i as any);
-            return ({ [key]: value })
+            const value = getSchema(i.getType(), ctx, i);
+            return ({ [key]: value });
         })
         .reduce((p: any, c: any) => (Object.assign(p, c)), {});
 }
@@ -256,23 +251,26 @@ function getSchema(type: Type, ctx: Ctx, key: Type | null): JsfNode {
         const name = nonNullableType.getSymbol()?.getName() + '';
         if (!ctx.definitions[name]) {
             // WORKAROUND: to mark property as a defined for recursion
-            ctx.definitions[name] = { '__mock__': '__mock__' }  as any;
+            ctx.definitions[name] = { '__mock__': '__mock__' } as any;
             ctx.definitions[name] = {
                 title: key?.getSymbol()?.getName() || 'UnknownObjectType',
-                type: getObjectType(nonNullableType),
+                isSelectorConfig: isConfig(nonNullableType),
+                type: 'object',
                 properties: getObjectProperties(nonNullableType, ctx)
             };
         }
 
         return {
             title: name,
-            type: getObjectType(nonNullableType),
+            isSelectorConfig: isConfig(nonNullableType),
+            type: 'object',
             '$ref': '#/definitions/' + name,
         };
     } else if (nonNullableType.isObject()) {
         return {
             title: key?.getSymbol()?.getName() || 'UnknownObjectType',
-            type: getObjectType(nonNullableType),
+            isSelectorConfig: isConfig(nonNullableType),
+            type: 'object',
             properties: getObjectProperties(nonNullableType, ctx)
         };
     } else if (nonNullableType.isEnum()) {
