@@ -123,12 +123,12 @@ export class XmTableComponent implements OnInit {
 
     private _config: XmTableConfig;
 
-    public get config(): XmTableConfig | Partial<XmTableConfig> {
+    public get config(): XmTableConfig {
         return this._config;
     }
 
     @Input()
-    public set config(value: XmTableConfig | Partial<XmTableConfig>) {
+    public set config(value: XmTableConfig) {
         this._config = getConfig(value);
 
         this.dynamicColumns = this._config.columns.filter(c => c.name != '_selectColumn');

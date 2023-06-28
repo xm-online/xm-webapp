@@ -98,10 +98,6 @@
         </xm-ace-editor-control>
       </mat-tab>
 
-      <mat-tab [label]="'Samples'">
-        <xm-widget-config-examples [value]="formGroup.selector"></xm-widget-config-examples>
-      </mat-tab>
-
       <mat-tab [label]="'Editor'">
         <xm-schema-editor
           [options]="jsonEditorOptions"
@@ -109,6 +105,10 @@
           (ngModelChange)="formGroup.config = $event"
           [ngModelOptions]="{standalone: true}"
         ></xm-schema-editor>
+      </mat-tab>
+
+      <mat-tab [label]="'Samples'">
+        <xm-widget-config-examples [value]="formGroup.selector"></xm-widget-config-examples>
       </mat-tab>
 
       <mat-tab [label]="'Docs'">
