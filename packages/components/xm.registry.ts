@@ -103,7 +103,7 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/hint-switch',
-        loadChildren: () => import('@xm-ngx/components/hint/hint-switch/hint-switch.component').then(m => m.HintSwitchComponent),
+        loadChildren: () => import('@xm-ngx/components/hint/hint-switch.component').then(m => m.HintSwitchComponent),
     },
     {
         selector: '@xm-ngx/components/inline-control',
