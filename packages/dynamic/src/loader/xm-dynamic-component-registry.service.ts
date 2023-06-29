@@ -2,7 +2,12 @@ import { createNgModule, Injectable, Injector, NgModuleRef, Type } from '@angula
 import { Dictionary, flatten, keyBy, tail } from 'lodash';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
 import { XmDynamicModuleRegistry } from './xm-dynamic-module-registry.service';
-import { XmDynamicConstructor, XmDynamicEntry, XmDynamicEntryModule } from '@xm-ngx/dynamic/src/interfaces';
+import {
+    XmDynamicConstructor,
+    XmDynamicEntry,
+    XmDynamicEntryModule,
+    XmDynamicSelector
+} from '@xm-ngx/dynamic/src/interfaces';
 import { NotFoundException } from '@xm-ngx/shared/exceptions';
 
 export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
@@ -28,7 +33,7 @@ export class XmDynamicComponentRegistry {
      * @throws NotFoundException
      */
     public find<T>(
-        inSelector: string,
+        inSelector: XmDynamicSelector,
         injector: Injector = this.moduleRef.injector,
     ): Promise<XmDynamicComponentRecord<T>> {
         const fullSelector = this.simplifyExtSelector(inSelector);
@@ -55,7 +60,7 @@ export class XmDynamicComponentRegistry {
     }
 
     private async resolveComponent<T>(
-        selector: string,
+        selector: XmDynamicSelector,
         injector: Injector,
         ngModuleRef: NgModuleRef<unknown> | null,
     ): Promise<XmDynamicComponentRecord<T>> {

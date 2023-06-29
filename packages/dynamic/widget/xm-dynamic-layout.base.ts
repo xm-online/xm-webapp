@@ -1,9 +1,9 @@
 import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { XmLayout, XmSanitizedLayout } from '../src/interfaces';
+import { XmDynamicLayout, XmSanitizedLayout } from '@xm-ngx/dynamic';
 import * as _ from 'lodash';
 
 @Directive()
-export class XmDynamicLayoutBase<T extends XmLayout = XmLayout> implements OnChanges {
+export class XmDynamicLayoutBase<T extends XmDynamicLayout = XmDynamicLayout> implements OnChanges {
 
     public sanitizedLayouts: XmSanitizedLayout[];
 

@@ -5,7 +5,7 @@ import {
     XmTableRepositoryCollectionConfig,
 } from '../controllers/collections/xm-table-read-only-repository-collection-controller';
 import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table-empty.component';
-import { XmPresentationLayout } from '@xm-ngx/dynamic';
+import { XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { XmTableColumn } from '@xm-ngx/components/table/columns/xm-table-column-dynamic-cell.component';
@@ -29,9 +29,9 @@ export interface XmTableConfig extends FiltersControlRequestOptions {
     /** Title */
     title: Translate,
     /** Actions configuration */
-    actions: XmPresentationLayout[],
+    actions: XmDynamicPresentationLayout[],
     /** Selection configuration */
-    selection: XmPresentationLayout[],
+    selection: XmDynamicPresentationLayout[],
     /** Columns configuration */
     columns: XmTableColumn[],
     collection: {

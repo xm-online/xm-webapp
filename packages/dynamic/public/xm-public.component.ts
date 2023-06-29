@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { environment } from '@xm-ngx/core/environment';
-import { XmLayout } from '@xm-ngx/dynamic';
+import { XmDynamicLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import * as _ from 'lodash';
 import { Observable, zip } from 'rxjs';
@@ -11,7 +11,7 @@ import { XmUIConfig } from '@xm-ngx/core/config';
 
 interface PublicSlugLayout {
     slug: string;
-    layout: (XmLayout & { config?: unknown }) [];
+    layout: XmDynamicLayout[];
 }
 
 interface PublicConfig extends XmUIConfig {
@@ -26,7 +26,7 @@ interface PublicConfig extends XmUIConfig {
 })
 export class XmPublicComponent implements OnInit, OnDestroy {
 
-    public layouts$: Observable<XmLayout[]>;
+    public layouts$: Observable<XmDynamicLayout[]>;
 
     constructor(
         private publicUiConfig: XmPublicUiConfigService<PublicConfig>,

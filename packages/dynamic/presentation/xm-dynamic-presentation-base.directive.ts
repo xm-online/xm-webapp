@@ -1,78 +1,61 @@
 import { ComponentRef, Directive, Injector, OnChanges, OnInit, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
 import { setComponentInput } from '../operators/set-component-input';
-import { XmDynamic, XmDynamicConstructor, XmDynamicEntryModule } from '../src/interfaces';
+import {
+    XmDynamicConstructor,
+    XmDynamicEntryModule,
+    XmDynamicSelector,
+    XmLayoutNode,
+} from '../src/interfaces';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
+import { XmDynamicWithConfig } from '@xm-ngx/dynamic/src/interfaces';
 
 
 /** Determines input(control) value. */
 interface IValue<V> {
     /** Input value. */
-    value: V;
-}
-
-/**
- * @deprecated
- * Determines input(control) options.
- **/
-interface IOptions<O> {
-    /**
-     * @deprecated
-     * Input options.
-     **/
-    options?: O;
-}
-
-/** Determines input(control) config. */
-export interface XmDynamicConfig<O> {
-    /** Input config. */
-    config?: O;
+    value?: V;
 }
 
 /**
  * Determines inputs for the dynamic components.
- *
  * @public
  */
-export interface XmDynamicPresentation<V = unknown, O = unknown> extends XmDynamic, IValue<V>, IOptions<O>, XmDynamicConfig<O> {
-    /** {@inheritDoc IValue} */
-    value: V;
-    /**
-     * @deprecated
-     * This field will deprecated
-     **/
-    options?: O;
-    /** {@inheritDoc IConfig.value} */
-    config?: O;
+export interface XmDynamicPresentation<V = unknown, C = unknown> extends IValue<V>, XmDynamicWithConfig<C> {
 }
 
-export interface XmDynamicPresentationConstructor<V = unknown, O = unknown> extends XmDynamicConstructor<XmDynamicPresentation<V, O>> {
-    new(...args: any): XmDynamicPresentation<V, O>;
+
+export interface XmDynamicPresentationConstructor<V = unknown, C = unknown> extends XmDynamicConstructor<XmDynamicPresentation<V, C>> {
+    new(...args: any): XmDynamicPresentation<V, C>;
 }
 
+/**
+ * The base interface for all dynamic modules
+ * @deprecated Will be removed in v5.0.0. Use standalone component instead.
+ */
 export interface XmDynamicPresentationEntryModule extends XmDynamicEntryModule<XmDynamicPresentation> {
     entry: XmDynamicPresentationConstructor;
 }
 
 @Directive()
-export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V, O>, OnChanges, OnInit {
+export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V, C>, XmLayoutNode, OnChanges, OnInit {
     /** Component value */
     public value: V;
     /**
      * @deprecated
      * Component options
      **/
-    public options: O;
+    public options?: C;
     /** Component config */
-    public config?: O;
+    public config?: C;
     /** Component selector */
-    public selector: XmDynamicPresentationConstructor<V, O> | string;
+    public selector: XmDynamicPresentationConstructor<V, C> | XmDynamicSelector;
     /** Component reference */
-    public compRef: ComponentRef<XmDynamicPresentation<V, O>>;
+    public compRef: ComponentRef<XmDynamicPresentation<V, C>>;
 
     public class: string;
     public style: string;
 
-    get instance(): XmDynamicPresentation<V, O> {
+    get instance(): XmDynamicPresentation<V, C> {
         return this.compRef?.instance;
     }
 
@@ -128,13 +111,13 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
 
     /**
      * @deprecated
-     * This method will deprecate
+     *  Will be removed in v5.0.0.
      */
     protected updateOptions(): void {
         if (!this.instance) {
             return;
         }
-        console.warn('Dynamic widget "options" property was deprecated use "config" instead. Make sure that your widget works');
+        console.warn('Dynamic widget "options" property was deprecated use "config" instead. Will be removed in v5.0.0.');
 
         setComponentInput(this.compRef, 'config', this.options);
         // Field options should be removed soon
@@ -150,8 +133,8 @@ export class XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V,
             return;
         }
 
-        const entry = await this.dynamicComponents.find<XmDynamicPresentation<V, O>>(
-            this.selector as string, this.createInjector());
+        const entry = await this.dynamicComponents.find<XmDynamicPresentation<V, C>>(
+            this.selector as XmDynamicSelector, this.createInjector());
 
         this.viewContainerRef.clear();
 

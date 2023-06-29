@@ -17,14 +17,14 @@ import {
 
 import { setComponentInput } from '../operators/set-component-input';
 import { NotFoundException } from '@xm-ngx/shared/exceptions';
+import { XmConfig } from '@xm-ngx/shared/interfaces';
+import { XmDynamicWithConfig, XmDynamicWithSelector } from '@xm-ngx/dynamic/src/interfaces';
 
-export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
-    selector: string;
+export interface XmDynamicWidgetConfig<C = XmConfig, S = any> extends XmDynamicWithConfig<C>, XmDynamicWithSelector {
     /** @deprecated use selector instead */
     module?: string;
     /** @deprecated use selector instead */
     component?: string;
-    config: C;
     /** @deprecated spec will be removed, you should provide the spec locally */
     spec?: S;
 }

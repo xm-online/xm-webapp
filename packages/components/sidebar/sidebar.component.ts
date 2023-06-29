@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
-import { XmLayout } from '@xm-ngx/dynamic';
+import { XmDynamicLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { get } from 'lodash';
 
@@ -9,7 +9,7 @@ import { XmSidebarPresentationType } from './stores/xm-sidebar.state';
 
 interface SidebarConfig {
     user: unknown;
-    layout: XmLayout[]
+    layout: XmDynamicLayout[]
 }
 
 export const XM_SIDEBAR_PRESENTATION_STATE_CLASSES = {
