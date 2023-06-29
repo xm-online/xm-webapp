@@ -12,15 +12,26 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { merge, Subject } from 'rxjs';
-import { TemplatePortal } from '@angular/cdk/portal';
-import { Overlay, OverlayRef, ViewportRuler } from '@angular/cdk/overlay';
+import { PortalModule, TemplatePortal } from '@angular/cdk/portal';
+import { Overlay, OverlayModule, OverlayRef, ViewportRuler } from '@angular/cdk/overlay';
 import { filter, map, startWith, takeUntil } from 'rxjs/operators';
 import { ESCAPE } from '@angular/cdk/keycodes';
-import { Translate } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'xm-hint-popover',
-    styleUrls: [ './hint-popover.component.scss' ],
+    standalone: true,
+    imports: [
+        CommonModule,
+        XmTranslationModule,
+        MatButtonModule,
+        MatIconModule,
+        OverlayModule,
+        PortalModule,
+    ],
     template: `
         <ng-template #popover>
             <div class="hint-popover">
@@ -40,6 +51,39 @@ import { Translate } from '@xm-ngx/translation';
             <mat-icon class="hint-toggle__icon">visibility</mat-icon>
         </button>
     `,
+    styles: [`
+        :host {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hint-popover {
+            display: block;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 8px;
+            width: 100%;
+        }
+        
+        .hint-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            width: 100%;
+        }
+        
+        .hint-toggle {
+            width: 18px;
+            height: 18px;
+            font-size: 18px;
+            padding: 5px;
+            box-sizing: content-box;
+        }
+    `],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HintPopoverComponent implements AfterViewInit, OnDestroy {
