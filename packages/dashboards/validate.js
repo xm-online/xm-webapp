@@ -40,7 +40,9 @@ async function main() {
     logger.info('XM.main start');
     const fileRepo = new JsonFile();
 
-    const ajv = new Ajv();
+    const ajv = new Ajv({strict: true});
+    ajv.addKeyword('isSelectorConfig');
+
     const dashboards = fileRepo.loadFile(filePath).dashboards;
     const schemas = await got.get(dynamic_components_spec_output).json();
 
@@ -49,18 +51,23 @@ async function main() {
             const widgetConfig = schemas.find(i => i.selector === widget.selector);
 
             if (!widgetConfig) {
-                logger.error(`Schema is not exists selector=${widget.selector}!`);
+                logger.error(`Schema is not exists selector="${widget.selector}"!`);
                 continue;
             }
 
             const schema = widgetConfig.configurationSchema;
-            schema.additionalProperties = false;
 
-            const validate = ajv.compile(schema);
+            let validate;
+            try {
+                validate = ajv.compile(schema);
+            } catch (e) {
+                logger.error(e);
+                continue;
+            }
+
             const isValid = validate(widget.config);
-
             if (!isValid) {
-                logger.warn(`Object is invalid name=${widget.name}!`);
+                logger.warn(`Object is invalid dashboard.name="${dashboard.name}" widget.name="${widget.name}"!`);
                 logger.warn(validate.errors);
             }
         }
