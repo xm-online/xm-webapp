@@ -1,5 +1,5 @@
 import { Meta, moduleMetadata, Story, applicationConfig } from '@storybook/angular';
-import { XmTableComponent } from '@xm-ngx/components/table';
+import { XmTableWidget } from '@xm-ngx/components/table';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -41,7 +41,7 @@ const mockLocalStorage = {
 
 export default {
     title: 'Core/Widget/Table',
-    component: XmTableComponent,
+    component: XmTableWidget,
     decorators: [
         applicationConfig({
             providers: [
@@ -88,12 +88,12 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmTableComponent> = (args: XmTableComponent) => ({
-    component: XmTableComponent,
+const Template: Story<XmTableWidget> = (args: XmTableWidget) => ({
+    component: XmTableWidget,
     props: args,
 });
 
-export const Default: Story<XmTableComponent> = Template.bind({});
+export const Default: Story<XmTableWidget> = Template.bind({});
 Default.args = {
     config: {
         collection: {

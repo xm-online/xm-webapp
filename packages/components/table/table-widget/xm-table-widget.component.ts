@@ -102,7 +102,7 @@ interface IXmTableContext {
         XmTableFilterController,
     ],
 })
-export class XmTableComponent implements OnInit {
+export class XmTableWidget implements OnInit {
     public context$: Observable<IXmTableContext>;
     public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
     public selectColumn: SelectTableColumn = _.cloneDeep(XM_TABLE_SELECTION_COLUMN_DEFAULT);

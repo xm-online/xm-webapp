@@ -19,7 +19,7 @@ export const XM_TABLE_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/table',
-        loadChildren: () => import('@xm-ngx/components/table/table/xm-table.component').then(m => m.XmTableComponent)
+        loadChildren: () => import('@xm-ngx/components/table/table-widget/xm-table-widget.component').then(m => m.XmTableWidget)
     },
     {
         selector: '@xm-ngx/components/table-edit-cell',
