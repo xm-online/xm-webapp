@@ -3,8 +3,8 @@ import { ClassDeclaration, InterfaceDeclaration, Node, Project, SymbolFlags, Syn
 import fs from 'fs';
 
 export interface JsfNode {
-    title: string;
-    type: string;
+    title?: string;
+    type?: string;
     /** true when a node is a dynamic component with a selector */
     isSelectorConfig?: boolean;
 
@@ -283,14 +283,12 @@ function getSchema(type: Type, ctx: Ctx, key: Type | null): JsfNode {
     } else if (nonNullableType.isUnion()) {
         return {
             title: key?.getSymbol()?.getName() || 'UnknownUnionType',
-            'type': 'object',
             'oneOf': nonNullableType.getUnionTypes()
                 .map(i => getSchema(i, ctx, type)),
         };
     } else if (nonNullableType.isIntersection()) {
         return {
             title: key?.getSymbol()?.getName() || 'UnknownIntercetionType',
-            'type': 'object',
             'allOf': nonNullableType.getIntersectionTypes()
                 .map(i => getSchema(i, ctx, type)),
         };
