@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { ButtonSpinnerModule } from '@xm-ngx/components/button-spinner';
 import {
-    FiltersControlRequestOptions,
+    XmTableFiltersControlRequestConfig,
 } from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
 import { FiltersControlValue } from '@xm-ngx/components/table/components/xm-table-filters-control.component';
 import { XmEmptyPipe } from '@xm-ngx/shared/pipes';
@@ -39,7 +39,7 @@ import { NgIf } from '@angular/common';
     ],
 })
 export class XmTableFilterButtonComponent implements OnDestroy {
-    @Input() public config: FiltersControlRequestOptions;
+    @Input() public config: XmTableFiltersControlRequestConfig;
     @Input() public loading: boolean;
 
     constructor(private overlay: Overlay,

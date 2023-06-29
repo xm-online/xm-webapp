@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IEntityCollectionPageable, } from '@xm-ngx/components/entity-collection';
+import { IEntityCollectionPageable, XmRepositoryConfig, } from '@xm-ngx/components/entity-collection';
 import { firstValueFrom } from 'rxjs';
 import { XmFilterQueryParams, IXmTableCollectionController, } from './i-xm-table-collection-controller';
 
@@ -10,21 +10,36 @@ import { NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
 import {
-    XmTableConfig,
-} from '../../interfaces/xm-table.model';
+    XmTableWidgetConfig,
+} from '../../table-widget/xm-table-widget.config';
 import * as _ from 'lodash';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
 import { XmTableFilterController } from '../filters/xm-table-filter-controller.service';
+import { XmDynamicService } from '@xm-ngx/dynamic';
+import { XmDynamicWithSelector } from '@xm-ngx/dynamic/src/interfaces';
+import { XmFormatJsTemplateRecursive } from '@xm-ngx/shared/operators';
+
+export interface IXmTableRepositoryCollectionControllerConfig {
+    filtersToRequest?: XmFormatJsTemplateRecursive,
+    repository: XmTableRepositoryCollectionConfig;
+}
+
+export interface XmTableRepositoryCollectionControllerConfig extends IXmTableRepositoryCollectionControllerConfig {
+    type: 'repository',
+}
+
+export interface XmTableRepositoryCollectionConfig extends XmDynamicService<XmRepositoryConfig>, XmDynamicWithSelector {
+}
 
 @Injectable()
 export class XmTableRepositoryCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
     public repository: IEntityCollectionPageable<T, PageableAndSortable>;
-    public config: XmTableConfig;
+    public config: XmTableWidgetConfig;
 
     constructor(
-        private configController: XmTableConfigController<XmTableConfig>,
+        private configController: XmTableConfigController<XmTableWidgetConfig>,
         private tableFilterController: XmTableFilterController,
         protected repositoryResolver: XmTableRepositoryResolver<T>,
     ) {

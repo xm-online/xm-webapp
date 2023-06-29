@@ -28,6 +28,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import {
     XmTableSettingStore
 } from '@xm-ngx/components/table/controllers/config/xm-table-columns-setting-storage.service';
+import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
 
 
 const mockLocalStorage = {
@@ -97,10 +98,10 @@ export const Default: Story<XmTableWidget> = Template.bind({});
 Default.args = {
     config: {
         collection: {
-            repository: null, type: 'config',
+            type: 'config',
+            path: 'collection.staticData',
+            staticData: [{id: 111, name: 'test', age: '25'}],
         },
-        path: 'data',
-        data: [{id: 111, name: 'test', age: '25'}],
         title: {en: 'Test table'},
         filters: [{
             selector: '@xm-ngx/components/text-control',
@@ -160,5 +161,5 @@ Default.args = {
             hidePagination: false,
 
         },
-    } as any,
+    } as XmTableWidgetConfig,
 };

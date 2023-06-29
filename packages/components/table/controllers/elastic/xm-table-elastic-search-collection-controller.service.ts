@@ -10,21 +10,25 @@ import { NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { AXmTableStateCollectionController } from '../collections/a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
 import {
-    XmTableConfig,
-} from '../../interfaces/xm-table.model';
+    XmTableWidgetConfig,
+} from '../../table-widget/xm-table-widget.config';
 import * as _ from 'lodash';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+
+export interface XmTableElasticSearchCollectionControllerConfig{
+    type: 'elasticSearch'
+}
 
 @Injectable()
 export class XmTableElasticSearchCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
     public repository: IEntityCollectionPageable<T, PageableAndSortable>;
-    public config: XmTableConfig;
+    public config: XmTableWidgetConfig;
     public entity: object;
 
     constructor(
-        private configController: XmTableConfigController<XmTableConfig>,
+        private configController: XmTableConfigController<XmTableWidgetConfig>,
         protected repositoryResolver: XmTableRepositoryResolver<T>
     ) {
         super();

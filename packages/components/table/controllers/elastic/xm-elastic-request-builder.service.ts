@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { XmTableConfigController } from '@xm-ngx/components/table/controllers';
-import { XmTableConfig, XmTableConfigFilters } from '@xm-ngx/components/table/interfaces/xm-table.model';
+import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
 import { XmFilterQueryParams } from '@xm-ngx/components/table/controllers/collections/i-xm-table-collection-controller';
 import {
     PageableAndSortable,
@@ -17,11 +17,19 @@ import {
     XmElasticSearchRepositoryQueryParamsPageable,
     XmEntityRepositoryConfig
 } from '@xm-ngx/components/table/controllers/elastic/xm-elastic-search-repository.service';
+import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
+import { Translate } from '@xm-ngx/translation';
+
+export interface XmTableConfigFilters extends FormGroupLayoutItem {
+    options: {
+        title: Translate,
+    }
+}
 
 @Injectable()
 export class XmElasticRequestBuilder {
 
-    constructor(private configController: XmTableConfigController<XmTableConfig>) {
+    constructor(private configController: XmTableConfigController<XmTableWidgetConfig>) {
     }
 
     protected config: XmEntityRepositoryConfig;
@@ -61,7 +69,7 @@ export class XmElasticRequestBuilder {
         queryParams: QueryParamsPageable,
         filterParams: QueryParams,
     ): XmElasticSearchRepositoryQueryParamsPageable {
-        const typeKey = this.configController.config.collection?.repository?.config?.['query']?.['typeKey'];
+        const typeKey = this.configController.config.collection?.['repository']?.config?.['query']?.['typeKey'];
         const searchArr = Object.keys(filterParams)
             .filter(key => !_.isEmpty(filterParams[key]))
             .map(key => {

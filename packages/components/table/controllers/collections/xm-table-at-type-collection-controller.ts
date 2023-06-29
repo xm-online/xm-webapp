@@ -9,8 +9,10 @@ import { Injectable } from '@angular/core';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
+import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
 
 export interface AtTypeListConfig {
+    type: 'atType',
     key: string;
     path: string;
     atTypeKey: string
@@ -38,14 +40,14 @@ export class XmTableAtTypeCollectionController<T extends AtType = AtType>
     private initialData: T[];
 
     constructor(
-        private configController: XmTableConfigController<AtTypeListConfig>,
+        private configController: XmTableConfigController<XmTableWidgetConfig>,
         private entityController: XmTableEntityController<object>,
     ) {
         super();
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = await firstValueFrom(this.configController.config$());
+        this.config = (await firstValueFrom(this.configController.config$())).collection as AtTypeListConfig;
         this.entity = await firstValueFrom(this.entityController.entity$());
         const primary: { [key: string]: T } = _.get(this.entity, this.config.path, {});
         let clone = _.cloneDeep(primary);

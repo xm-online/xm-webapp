@@ -24,7 +24,7 @@
 
     <div class="overflow-wrap">
       <table
-            [style.width]="config?.options?.width"
+            [style.width]="config?.width"
             mat-table
             matSort
             (matSortChange)="updatePagination()"
@@ -37,7 +37,7 @@
                                  #tableLoadingRow
                                  [size]="context.settings.displayedColumns.length"></xm-table-loading-column>
 
-        <xm-table-empty [config]="config.options.noRows"
+        <xm-table-empty [config]="config.noRows"
                         [colspan]="context.settings.displayedColumns.length"
                         [type]="'initial'"></xm-table-empty>
 
@@ -75,4 +75,3 @@
 
   </mat-card>
 </ng-container>
-

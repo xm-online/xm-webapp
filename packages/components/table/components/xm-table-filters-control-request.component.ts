@@ -5,7 +5,7 @@ import {
 } from '@xm-ngx/components/table/components/xm-table-filters-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 
-export interface FiltersControlRequestOptions {
+export interface XmTableFiltersControlRequestConfig {
     submitInvalidForm?: boolean;
     isOnlyExpand?: boolean;
     filters: FormLayoutItem[];
@@ -41,7 +41,7 @@ export class XmTableFiltersControlRequestComponent implements OnChanges {
 
     @Input() public disabled: boolean;
     @Input() public loading: boolean;
-    @Input() public options: FiltersControlRequestOptions;
+    @Input() public options: XmTableFiltersControlRequestConfig;
 
     public value: FiltersControlValue;
     public valid: boolean = true;

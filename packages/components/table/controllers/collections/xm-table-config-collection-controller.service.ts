@@ -8,10 +8,12 @@ import { NotSupportedException } from '@xm-ngx/shared/exceptions';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import _ from 'lodash';
+import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
 
 export interface XmTableConfigCollectionControllerConfig {
+    type: 'config'
     path: string;
-    staticData: unknown;
+    staticData: unknown[];
 }
 
 @Injectable()
@@ -22,13 +24,13 @@ export class XmTableConfigCollectionController<T = unknown>
     private config: XmTableConfigCollectionControllerConfig;
 
     constructor(
-        private configController: XmTableConfigController<XmTableConfigCollectionControllerConfig>,
+        private configController: XmTableConfigController<XmTableWidgetConfig>,
     ) {
         super();
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = await firstValueFrom(this.configController.config$());
+        this.config = (await firstValueFrom(this.configController.config$())).collection as XmTableConfigCollectionControllerConfig;
         this.items = _.get(this.config, this.config.path, []) as T[];
     }
 

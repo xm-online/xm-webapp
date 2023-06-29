@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import {
     IXmTableCollectionController,
     XmTableCollectionControllerResolver,
-} from 'packages/components/table/table-widget';
+} from 'packages/components/table/controllers';
 import { XM_DYNAMIC_TABLE_CELL, XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { cloneDeep, set } from 'lodash';
 import { JavascriptCode } from '@xm-ngx/shared/interfaces';

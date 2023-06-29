@@ -2,7 +2,7 @@ import { Component, ElementRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import {
-    FiltersControlRequestOptions,
+    XmTableFiltersControlRequestConfig,
     XmTableFiltersControlRequestComponent
 } from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -22,7 +22,7 @@ import {
 } from '@xm-ngx/components/table/components/xm-table-filter-control-as-chip.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 
-const DEFAULT_CONFIG: FiltersControlRequestOptions = {
+const DEFAULT_CONFIG: XmTableFiltersControlRequestConfig = {
     submitInvalidForm: false,
     isOnlyExpand: null,
     filters: [],
@@ -138,7 +138,7 @@ export class XmTableFilterInlineComponent {
     public value: FiltersControlValue = {};
     public activeFilters: XmTableFilterInlineFilter[] = [];
     public hiddenFilters: XmTableFilterInlineFilter[] = [];
-    @Input() @Defaults(DEFAULT_CONFIG) public config: FiltersControlRequestOptions;
+    @Input() @Defaults(DEFAULT_CONFIG) public config: XmTableFiltersControlRequestConfig;
 
     constructor(
         protected entitiesRequestBuilder: XmTableFilterController,

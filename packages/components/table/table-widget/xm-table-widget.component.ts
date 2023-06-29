@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from '@xm-ngx/components/table/interfaces/xm-table.model';
+import { XM_TABLE_CONFIG_DEFAULT, XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
 import { MatCardModule } from '@angular/material/card';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
@@ -29,7 +29,7 @@ import { XmTableDynamicColumnComponent } from '../columns/xm-table-dynamic-colum
 import { XmTableColumn, XmTableColumnDynamicCellComponent } from '../columns/xm-table-column-dynamic-cell.component';
 import { map } from 'rxjs/operators';
 import {
-    SelectTableColumn,
+    XmTableSelectTableColumn,
     XM_TABLE_SELECTION_COLUMN_DEFAULT,
     XmTableSelectionColumnComponent,
 } from '@xm-ngx/components/table/components/xm-table-selection-column.component';
@@ -46,14 +46,14 @@ import {
     XmTableQueryParamsStoreService
 } from '@xm-ngx/components/table/controllers/filters/xm-table-query-params-store.service';
 
-function getConfig(value: Partial<XmTableConfig>): XmTableConfig {
-    const config = defaultsDeep({}, value, XM_TABLE_CONFIG_DEFAULT) as XmTableConfig;
+function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
+    const config = defaultsDeep({}, value, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
     config.columns.forEach(c => c.name = c.name || c.field);
     config.pageableAndSortable.sortBy = config.pageableAndSortable.sortBy || config.columns[0].name;
     return config;
 }
 
-function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[] {
+function getDisplayedColumns(config: XmTableWidgetConfig): ColumnsSettingStorageItem[] {
     const displayedColumns = config.columns;
     return displayedColumns.map(i => ({
         name: i.name || i.field,
@@ -69,11 +69,11 @@ interface IXmTableContext {
 }
 
 @Component({
-    selector: 'xm-table',
-    templateUrl: './xm-table.component.html',
-    styleUrls: ['./xm-table.component.scss'],
+    selector: 'xm-table-widget',
+    templateUrl: './xm-table-widget.component.html',
+    styleUrls: ['./xm-table-widget.component.scss'],
     standalone: true,
-    host: { class: 'xm-table' },
+    host: { class: 'xm-table-widget' },
     imports: [
         MatCardModule,
         XmTranslationModule,
@@ -105,7 +105,7 @@ interface IXmTableContext {
 export class XmTableWidget implements OnInit {
     public context$: Observable<IXmTableContext>;
     public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
-    public selectColumn: SelectTableColumn = _.cloneDeep(XM_TABLE_SELECTION_COLUMN_DEFAULT);
+    public selectColumn: XmTableSelectTableColumn = _.cloneDeep(XM_TABLE_SELECTION_COLUMN_DEFAULT);
     public dynamicColumns: XmTableColumn[] = [];
 
     @ViewChild(MatPaginator, { static: false }) public paginator: MatPaginator;
@@ -121,18 +121,18 @@ export class XmTableWidget implements OnInit {
     ) {
     }
 
-    private _config: XmTableConfig;
+    private _config: XmTableWidgetConfig;
 
-    public get config(): XmTableConfig {
+    public get config(): XmTableWidgetConfig {
         return this._config;
     }
 
     @Input()
-    public set config(value: XmTableConfig) {
+    public set config(value: XmTableWidgetConfig) {
         this._config = getConfig(value);
 
         this.dynamicColumns = this._config.columns.filter(c => c.name != '_selectColumn');
-        this.selectColumn = (this._config.columns?.find(c => c.name == '_selectColumn') as SelectTableColumn) ?? this.selectColumn;
+        this.selectColumn = (this._config.columns?.find(c => c.name == '_selectColumn') as XmTableSelectTableColumn) ?? this.selectColumn;
 
         this.configController.change(this._config);
         this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));

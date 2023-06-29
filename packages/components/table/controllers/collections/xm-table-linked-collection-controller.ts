@@ -21,6 +21,7 @@ import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 import { filter } from 'rxjs/operators';
 import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
+import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
 
 const TRS = {
     updated: 'ext-entity.commons.updated',
@@ -36,6 +37,7 @@ export interface LinkListProperties {
 }
 
 export interface LinkListConfig {
+    type: 'link',
     resource: string;
     path: string;
     typeLink: {
@@ -55,7 +57,7 @@ export class XmTableLinkedCollectionController<T extends IId & {name?: string} =
 
     constructor(
         protected toaster: XmToasterService,
-        private configController: XmTableConfigController<LinkListConfig>,
+        private configController: XmTableConfigController<XmTableWidgetConfig>,
         private entityController: XmTableEntityController<object>,
         protected alert: XmAlertService,
         protected repositoryResolver: XmTableRepositoryResolver<T>,
@@ -65,7 +67,7 @@ export class XmTableLinkedCollectionController<T extends IId & {name?: string} =
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = await firstValueFrom(this.configController.config$());
+        this.config = (await firstValueFrom(this.configController.config$())).collection as LinkListConfig;
         this.entity = await firstValueFrom(this.entityController.entity$());
         this.repository = await this.repositoryResolver.get();
         const primaryField = this.config?.typeLink?.primaryField || 'id';

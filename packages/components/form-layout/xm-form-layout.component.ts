@@ -6,12 +6,10 @@ import { CommonModule } from '@angular/common';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { XmFormLayoutControl } from './xm-form-layout-control.component';
+import { XmDynamicLayoutNode } from '@xm-ngx/dynamic/src/interfaces';
 
-export interface FormLayoutItem extends FormGroupLayoutItem {
-    selector: string;
+export interface FormLayoutItem<C = unknown> extends FormGroupLayoutItem<unknown, C>, XmDynamicLayoutNode<C> {
     condition: JavascriptCode;
-    style: string;
-    class: string;
 }
 
 export function toggleControlValidation(control: AbstractControl, active: boolean): void {
