@@ -111,8 +111,8 @@ function getObjectProperties(nonNullableType: Type, ctx: Ctx): JsfNode {
         })
         .map((i: any) => i.getValueDeclarationOrThrow())
         .map((i: any) => {
-            const key = i.getSymbol()?.getName() || '';
-            const value = getSchema(i.getType(), ctx, i);
+            const key = i.getSymbol()?.getName() || 'UnknownObjectKeyType';
+            const value = getSchema(i.getType(), ctx, key);
             return ({ [key]: value });
         })
         .reduce((p: any, c: any) => (Object.assign(p, c)), {});
@@ -198,47 +198,47 @@ function getCompatibleTypes(classDeclaration: ClassDeclaration): string[] {
     return compatibles;
 }
 
-function getSchema(type: Type, ctx: Ctx, key: Type | null): JsfNode {
+function getSchema(type: Type, ctx: Ctx, key: string): JsfNode {
     const nonNullableType = type.getNonNullableType();
 
     if (nonNullableType.isArray() && nonNullableType.getArrayElementType()) {
         return {
-            title: key?.getSymbol()?.getName() || 'UnknownArrayType',
+            title: key || 'UnknownArrayType',
             type: 'array',
-            items: getSchema(nonNullableType.getArrayElementTypeOrThrow(), ctx, type),
+            items: getSchema(nonNullableType.getArrayElementTypeOrThrow(), ctx, type?.getSymbol()?.getName() || 'UnknownArrayType')
         };
     } else if (nonNullableType.isBoolean()) {
         return {
-            title: key?.getSymbol()?.getName() || 'UnknownBooleanType',
+            title: key || 'UnknownBooleanType',
             type: nonNullableType.getText(),
         };
 
     } else if (nonNullableType.isBooleanLiteral()) {
         return {
-            title: key?.getSymbol()?.getName() || 'UnknownBooleanType',
-            type: nonNullableType.getText(),
+            title: key || 'UnknownBooleanType',
+            const: nonNullableType.getLiteralValue(),
         };
     } else if (nonNullableType.isNumber()) {
         return {
-            title: key?.getSymbol()?.getName() || 'UnknownNumberType',
+            title: key || 'UnknownNumberType',
             type: nonNullableType.getText(),
         };
     } else if (nonNullableType.isString()) {
         return {
-            title: key?.getSymbol()?.getName() || 'UnknownStringType',
+            title: key || 'UnknownStringType',
             type: nonNullableType.getText(),
         };
     } else if (nonNullableType.isStringLiteral()) {
         return {
-            title: key?.getSymbol()?.getName() || 'UnknownStringType',
-            type: 'string',
+            title: key || 'UnknownStringType',
+            const: nonNullableType.getLiteralValue(),
         };
     } else if (nonNullableType.isUnknown()
         || nonNullableType.isUndefined()
         || nonNullableType.isAny()
     ) {
         return {
-            title: key?.getSymbol()?.getName() || 'UnknownAnyType',
+            title: key || 'UnknownAnyType',
             type: 'object',
         };
     } else if (
@@ -253,7 +253,7 @@ function getSchema(type: Type, ctx: Ctx, key: Type | null): JsfNode {
             // WORKAROUND: to mark property as a defined for recursion
             ctx.definitions[name] = { '__mock__': '__mock__' } as any;
             ctx.definitions[name] = {
-                title: key?.getSymbol()?.getName() || 'UnknownObjectType',
+                title: key || 'UnknownObjectType',
                 isSelectorConfig: isConfig(nonNullableType),
                 type: 'object',
                 properties: getObjectProperties(nonNullableType, ctx)
@@ -268,35 +268,35 @@ function getSchema(type: Type, ctx: Ctx, key: Type | null): JsfNode {
         };
     } else if (nonNullableType.isObject()) {
         return {
-            title: key?.getSymbol()?.getName() || 'UnknownObjectType',
+            title: key || 'UnknownObjectType',
             isSelectorConfig: isConfig(nonNullableType),
             type: 'object',
             properties: getObjectProperties(nonNullableType, ctx)
         };
     } else if (nonNullableType.isEnum()) {
         return {
-            title: key?.getSymbol()?.getName() || 'UnknownEnumType',
+            title: key || 'UnknownEnumType',
             type: 'string',
             enum: nonNullableType.getUnionTypes()
                 .map(t => t.getLiteralValueOrThrow()),
         };
     } else if (nonNullableType.isUnion()) {
         return {
-            title: key?.getSymbol()?.getName() || 'UnknownUnionType',
+            title: key || 'UnknownUnionType',
             'oneOf': nonNullableType.getUnionTypes()
-                .map(i => getSchema(i, ctx, type)),
+                .map(i => getSchema(i, ctx, key)),
         };
     } else if (nonNullableType.isIntersection()) {
         return {
-            title: key?.getSymbol()?.getName() || 'UnknownIntercetionType',
+            title: key || 'UnknownIntercetionType',
             'allOf': nonNullableType.getIntersectionTypes()
-                .map(i => getSchema(i, ctx, type)),
+                .map(i => getSchema(i, ctx, key)),
         };
     }
 
     console.warn('Unknown type', nonNullableType.getText(), getFullPathToRootInterface(nonNullableType));
     return {
-        title: key?.getSymbol()?.getName() || 'UnknownType',
+        title: key || 'UnknownType',
         'type': 'string',
         'default': 'Unknown type!',
         'readOnly': true,
@@ -311,7 +311,7 @@ function getConfigurationSchema(classDeclaration: ClassDeclaration): JsfNode {
     if (!config) {
         return { title: 'Empty', type: 'object' };
     }
-    const schema = Object.assign({ properties: {} }, getSchema(config.getType(), { definitions }, config.getType()));
+    const schema = Object.assign({ properties: {} }, getSchema(config.getType(), { definitions }, config?.getSymbol()?.getName() || 'UnknownConfigType'));
     return Object.assign(schema, { definitions });
 }
 
