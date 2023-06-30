@@ -21,9 +21,11 @@ import { FooterComponent } from './footer/footer.component';
 import { XmMainComponent } from './main/main.component';
 import { XmNavbarModule } from './navbar/xm-navbar.module';
 import { PageRibbonComponent } from './profiles/page-ribbon.component';
+import { JhiAlertErrorComponent } from '@xm-ngx/error-messages';
 
 @NgModule({
     imports: [
+        JhiAlertErrorComponent,
         XmPasswordNeededModule,
         LanguageModule,
         LoaderModule,

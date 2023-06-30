@@ -286,11 +286,6 @@ export class EntityListComponent implements OnInit, OnDestroy {
         this.alertService.open({
             title: 'xm-entity.entity-list-card.delete.title',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'xm-entity.entity-list-card.delete.button',
             cancelButtonText: this.translateService.instant('xm-entity.entity-list-card.delete.button-cancel'),
         }).subscribe((result) => {

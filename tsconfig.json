@@ -90,6 +90,9 @@
       "@xm-ngx/toaster": [
         "packages/toaster"
       ],
+      "@xm-ngx/error-messages": [
+        "packages/error-messages"
+      ],
       "@xm-ngx/logger": [
         "packages/logger"
       ],

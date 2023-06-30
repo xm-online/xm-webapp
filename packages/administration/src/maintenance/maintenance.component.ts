@@ -36,11 +36,6 @@ export class MaintenanceComponent {
         this.alertService.open({
             title: 'Warning. Elastic index will be re-indexed. Time consuming operation.',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'Yes, reindex!',
         }).subscribe((result) => {
             if (result.value) {
@@ -57,11 +52,6 @@ export class MaintenanceComponent {
         this.alertService.open({
             title: 'Reload configuration for ALL tenants?',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'Yes, reload!',
         }).subscribe((result) => {
             if (result.value) {
@@ -82,11 +72,6 @@ export class MaintenanceComponent {
         this.alertService.open({
             title: 'Reload tenant configuration?',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'Yes, reload!',
         }).subscribe((result) => {
             this.isTenantCfgUpdating = true;
@@ -112,9 +97,6 @@ export class MaintenanceComponent {
                     title: 'xm.export-entities.message-success',
                     icon: 'success',
                     showCloseButton: false,
-                    customClass: {
-                        confirmButton: 'mat-flat-button mat-button-base mat-primary',
-                    },
                     confirmButtonText: 'Ok',
                     width: '500px',
                 }).subscribe();
@@ -124,9 +106,6 @@ export class MaintenanceComponent {
                     title: 'xm.export-entities.message-error',
                     icon: 'error',
                     showCloseButton: false,
-                    customClass: {
-                        confirmButton: 'mat-flat-button mat-button-base mat-primary',
-                    },
                     confirmButtonText: 'Ok',
                     width: '500px',
                 }).subscribe();
@@ -143,9 +122,6 @@ export class MaintenanceComponent {
                     title: 'xm.import-entities.message-success',
                     icon: 'success',
                     showCloseButton: false,
-                    customClass: {
-                        confirmButton: 'mat-flat-button mat-button-base mat-primary',
-                    },
                     confirmButtonText: 'Ok',
                     width: '500px',
                 }).subscribe();
@@ -155,9 +131,6 @@ export class MaintenanceComponent {
                     title: 'xm.import-entities.message-error',
                     icon: 'error',
                     showCloseButton: false,
-                    customClass: {
-                        confirmButton: 'mat-flat-button mat-button-base mat-primary',
-                    },
                     confirmButtonText: 'Ok',
                     width: '500px',
                 }).subscribe();

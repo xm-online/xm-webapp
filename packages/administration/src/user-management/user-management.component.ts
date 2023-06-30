@@ -138,11 +138,6 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         this.alertService.open({
             title: 'Enable 2FA?',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'Yes, Enable',
         }).subscribe((result) => result.value ?
             this.userService.enable2FA(user.userKey, this.getRegistrationEmail(user))
@@ -159,11 +154,6 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         this.alertService.open({
             title: 'Disable 2FA?',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'Yes, Disable',
         }).subscribe((result) => result.value ?
             this.userService.disable2FA(user.userKey)

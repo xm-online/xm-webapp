@@ -31,7 +31,6 @@ import { CalendarOptions } from '@fullcalendar/core';
 import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SweetAlertIcon } from 'sweetalert2';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -214,10 +213,6 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
         const calendarApi = this.calendarComponent.getApi();
         this.alertService.open({
             title: this.translateService.instant('xm-entity.calendar-card.delete.title'),
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn btn-primary',
-            },
             confirmButtonText: this.translateService.instant('xm-entity.calendar-card.delete.button'),
             cancelButtonText: this.translateService.instant('xm-entity.calendar-card.delete.button-cancel'),
         }).subscribe((result) => {
@@ -238,14 +233,11 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
         });
     }
 
-    private alert(icon: SweetAlertIcon, key: string): void {
+    // TODO: SweetAlert icon type XmAlertIcon
+    private alert(icon: any, key: string): void {
         this.alertService.open({
             icon,
             text: this.translateService.instant(key),
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn btn-primary',
-            },
         });
     }
 
