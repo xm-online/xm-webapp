@@ -1,93 +1,106 @@
 import { Injectable } from '@angular/core';
-import { Translate, XmTranslateService } from '@xm-ngx/translation';
+import { XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { from, Observable } from 'rxjs';
-import Swal, { SweetAlertOptions, SweetAlertResult, SweetAlertIcon } from 'sweetalert2';
-import { XmAlertConfigService } from './xm-alert-config.service';
-
-export interface XmAlertOptions extends Partial<SweetAlertOptions> {
-    icon?: string | SweetAlertIcon | any;
-    text?: Translate | any;
-    textOptions?: {
-        value?: string;
-        [value: string]: string | object;
-    };
-
-    titleOptions?: object;
-}
-
-export type XmAlertResult = SweetAlertResult;
+import { map, Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { XmAlertComponent } from './xm-alert.component';
+import { XmAlertOptions, XmAlertResult } from './xm-alert-compatibility.interface';
+import { XmAlertConfig } from './xm-alert.interface';
 
 @Injectable({
     providedIn: 'root',
 })
 export class XmAlertService {
-
-    constructor(protected config: XmAlertConfigService,
-                protected xmTranslateService: XmTranslateService,
+    constructor(
+        protected xmTranslateService: XmTranslateService,
+        protected dialog: MatDialog,
     ) {
     }
 
-    public open(settings: XmAlertOptions): Observable<XmAlertResult> {
-
-        const DEFAULT: XmAlertOptions = {
-            width: this.config.width,
-            buttonsStyling: this.config.buttonsStyling,
-            reverseButtons: this.config.reverseButtons,
-            showCloseButton: this.config.showCloseButton,
-            customClass: {
-                confirmButton: this.config.confirmButtonClass,
-                cancelButton: this.config.cancelButtonClass,
+    private withDefaults(options: XmAlertOptions): XmAlertConfig {
+        const settings: XmAlertOptions = _.defaults<object, Partial<XmAlertOptions>, Partial<XmAlertConfig>>(
+            {}, 
+            _.cloneDeep(options),
+            {
+                iconColor: '#E41E26',
+                dialogActionsAlign: 'end',
+                showConfirmButton: true,
+                showCancelButton: true,
+                cancelButtonText: 'global.common.cancel',
+                confirmButtonText: 'global.common.yes',
             },
-            confirmButtonText: this.config.yesLabel,
-            cancelButtonText: this.config.cancelLabel,
-        };
-        settings = _.merge(DEFAULT, settings);
+        );
 
+        /**
+         * @deprecated
+         * Will be removed in the next release
+         */
         if (settings.title) {
-            const opts = settings.titleOptions || {};
-            // TODO: Check settings.title type
-            settings.title = this.xmTranslateService.translate(settings.title as any, opts);
+            settings.title = this.xmTranslateService.translate(settings.title, settings.titleOptions || {});
         }
 
+        /**
+         * @deprecated
+         * Will be removed in the next release
+         */
         if (settings.text) {
-            const opts = settings.textOptions || {};
-            _.defaults(opts, {value: ''});
-
-            settings.text = this.xmTranslateService.translate(settings.text, opts);
+            settings.text = this.xmTranslateService.translate(
+                settings.text, 
+                _.defaults({}, settings?.textOptions ?? {}, { value: '' }),
+            );
         }
 
-        if (settings.confirmButtonText) {
-            settings.confirmButtonText = this.xmTranslateService.translate(settings.confirmButtonText);
-        }
-        if (settings.cancelButtonText) {
-            settings.cancelButtonText = this.xmTranslateService.translate(settings.cancelButtonText);
-        }
+        return settings;
+    }
 
-        return from(Swal.fire(settings));
+    public open(options: XmAlertOptions): Observable<XmAlertResult> {
+        const settings = this.withDefaults(options);
+
+        const dialogRef = this.dialog.open<XmAlertComponent, XmAlertConfig, XmAlertResult>(XmAlertComponent, {
+            width: settings.width ?? '640px',
+            panelClass: 'xm-alert',
+            disableClose: false,
+            autoFocus: 'dialog',
+            data: settings,
+        });
+
+        return dialogRef.afterClosed().pipe(
+            map(result => {
+                /**
+                 * When use clicks on backdrop
+                 * Also dismiss key using in PendingChangesGuard
+                 */
+                if (!result) {
+                    return { 
+                        dismiss: 'close',
+                        isConfirmed: false,
+                        isDenied: false,
+                        isDismissed: true,
+                    };
+                }
+
+                return result;
+            }),
+        );
     }
 
     public yesNo(settings: XmAlertOptions): Observable<XmAlertResult> {
         return this.open(_.merge({
-            showCancelButton: true,
-            confirmButtonText: this.config.yesLabel,
-            cancelButtonText: this.config.noLabel,
+            cancelButtonText: 'global.common.no',
         }, settings));
     }
 
     public yesCancel(settings: XmAlertOptions): Observable<XmAlertResult> {
-        return this.open(_.merge({
-            showCancelButton: true,
-            confirmButtonText: this.config.yesLabel,
-            cancelButtonText: this.config.cancelLabel,
-        }, settings));
+        return this.open(settings);
     }
 
     public delete(options?: XmAlertOptions): Observable<XmAlertResult> {
         return this.yesCancel(_.merge({
-            title: this.config.deleteLabel,
-            text: this.config.deleteMessage,
-            confirmButtonText: this.config.deleteLabel,
+            icon: 'error_outline',
+            center: true,
+            title: 'global.common.delete',
+            text: 'global.common.delete-message',
+            confirmButtonText: 'global.common.delete',
         }, options));
     }
 }

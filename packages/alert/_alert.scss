@@ -1,7 +1,45 @@
-@import 'src/sweetalert2';
+@use '@material/dialog/dialog-theme' as mdc-dialog-theme;
+@use '@material/button/button-text-theme' as button-text-theme;
 
-@include sweetalert2-xm-override();
+$custom-dialog-theme: (
+  container-shape: 30px
+);
 
-@mixin xm-alert-theme($theme) {
-  @include sweetalert2-xm-theme($theme)
+$custom-dialog-button-theme: (
+  container-shape: 30px
+);
+
+@mixin xm-alert-theme($xm-theme, $xm-mat-theme) {
+  .xm-alert {
+    @include mdc-dialog-theme.theme-styles($custom-dialog-theme);
+
+    .mdc-dialog__title {
+      padding-bottom: 16px;
+    }
+
+    .mdc-dialog__actions {
+      padding: 0 24px 24px 24px; // Can't be redefined through material
+      & .mdc-button {
+        @include button-text-theme.theme-styles($custom-dialog-button-theme);
+        &:last-child {
+          margin-left: 16px;
+        }
+      }
+    }
+
+    .mdc-dialog__content {
+      padding: 0 24px 24px 24px; // Can't be redefined through material
+    }
+
+    .mdc-dialog__title:before {
+      height: 24px;
+    }
+
+    .icon-close {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      z-index: 1;
+    }
+  }
 }

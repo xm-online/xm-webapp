@@ -7,11 +7,12 @@ declare const $: any;
  * Alerts can be used to provide feedback messages.
  */
 @Component({
-    selector: 'xm-alert',
+    standalone: true,
+    selector: 'xm-error-messages-notify',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: '',
 })
-export class XmAlertComponent implements OnInit {
+export class XmErrorMessagesNotifyComponent implements OnInit {
 
     @Input() public dismissible: boolean;
     @Input() public type: string;
