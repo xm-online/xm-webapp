@@ -1,0 +1,34 @@
+<div class="dialog-header">
+  <button *ngIf="data?.showCloseButton" class="close-icon" mat-icon-button (click)="onCloseClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="dialog-icon mb-3" *ngIf="data?.icon">
+    <mat-icon class="icon-dialog" [style.color]="data?.iconColor">{{data?.icon}}</mat-icon>
+  </div>
+  <div class="title-block" [ngClass]="{centered:data?.centered}">
+    <strong class="dialog-subtitle" *ngIf="data?.subTitle">{{data?.subTitle}}</strong>
+    <h2 class="dialog-title" *ngIf="data?.title">{{data?.title}}</h2>
+  </div>
+</div>
+<mat-dialog-content class="pb-3" >
+  <div *ngIf="data?.text" [ngClass]="{centered:data?.centered}">{{data?.text}}</div>
+  <div *ngIf="data?.html" [ngClass]="{centered:data?.centered}" [innerHTML]="data?.html"></div>
+  <div class="dialog-image d-flex align-items-center justify-content-center" *ngIf="data?.image?.imageUrl">
+    {{data.image?.imageWidth}}
+    <img [src]="data?.image?.imageUrl"
+         [width]="data.image?.imageWidth"
+         [height]="data.image?.imageHeight"
+         [alt]="data.image?.imageAlt" >
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="pe-4 ps-4 mb-3" [ngClass]="{centered:data?.centered}">
+  <button mat-flat-button  *ngIf="data?.showCancelButton"
+          [ngClass]="data?.customClass?.cancelButton"
+          class="me-3 btn-bordered" (click)="onNoClick()">
+    {{data?.cancelButtonText}}
+  </button>
+  <button mat-flat-button color="primary" [ngClass]="data?.customClass.confirmButton"
+          cdkFocusInitial (click)="onYesClick()">
+    {{data?.confirmButtonText}}
+  </button>
+</mat-dialog-actions>

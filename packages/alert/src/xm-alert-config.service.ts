@@ -6,12 +6,13 @@ import { Injectable, Optional, SkipSelf } from '@angular/core';
 export class XmAlertConfigService {
 
     public yesLabel: string = 'global.common.yes';
-    public width: number = 400;
+    public width: number = 640;
     public buttonsStyling: boolean = false;
     public showCloseButton: boolean = true;
     public noLabel: string = 'global.common.no';
     public cancelLabel: string = 'global.common.cancel';
     public reverseButtons: boolean = true;
+    public centered: boolean = false;
 
     public deleteMessage: string = 'global.common.delete-message';
     public deleteLabel: string = 'global.common.delete';
