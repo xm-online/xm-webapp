@@ -9,8 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { PageCollectionFactory } from '@xm-ngx/ext/entity-webapp-ext/module/page-entity-widget/api/page-collection-factory.service';
-import { IEntityCollection } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService, IEntityCollection } from '@xm-ngx/components/entity-collection';
 import { Observable, catchError, debounceTime, distinctUntilChanged, finalize, from, fromEvent, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { MatInput } from '@angular/material/input';
 import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
@@ -83,7 +82,7 @@ export class TextSearchPatternControlComponent extends NgModelWrapper<string> im
 
     public ngControl = inject(NgControl);
     private cdRef = inject(ChangeDetectorRef);
-    private collectionFactory = inject(PageCollectionFactory);
+    private collectionFactory = inject(EntityCollectionFactoryService);
 
     private resource: IEntityCollection<unknown>;
 
