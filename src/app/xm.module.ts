@@ -12,18 +12,17 @@ import { XmCoreModule } from '@xm-ngx/core';
 import { AuthServerProvider, XmCoreAuthModule } from '@xm-ngx/core/auth';
 import { Principal } from '@xm-ngx/core/user';
 import { UserRouteAccessService } from '@xm-ngx/core/permission';
-import { XmCoreConfigModule } from '@xm-ngx/core/config';
+import { XmApplicationConfigService, XmCoreConfigModule } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
 import { globalErrorHandlerFactory, XmUpdateService } from '@xm-ngx/core/global-error-handler';
 import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardDynamicRouteResolverGuard, XmDashboardModule } from '@xm-ngx/dashboard';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
-import { XmLoggerModule } from '@xm-ngx/logger';
+import { XmLoggerModule, XmLoggerWatcherService } from '@xm-ngx/logger';
 import { HttpLoaderFactory, LanguageService, TitleService, XmTranslationModule } from '@xm-ngx/translation';
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
-import { XmLoggerWatcherService } from '@xm-ngx/logger';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
 import { NgxMaskModule } from 'ngx-mask';
@@ -46,12 +45,19 @@ import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 import { IdleLogoutService } from '@xm-ngx/account/logout/idle-logout.service';
 import { XmMainComponent } from 'src/app/layouts';
 import { LayoutModule } from 'src/app/layouts/layout.module';
-import { XmApplicationConfigService } from '@xm-ngx/core/config';
 import { XmRoutingModule } from 'src/app/xm-routing.module';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
 
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmSharedModule } from 'packages/shared/src/shared.module';
+import {
+    ArrayTypeComponent,
+    ConfigComponent,
+    MultiSchemaTypeComponent,
+    NullTypeComponent,
+    ObjectTypeComponent
+} from '@xm-ngx/administration/dashboards-config/widget-edit/schema-editor/schema-formly-ext';
+import { FormlyModule } from '@ngx-formly/core';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
     appearance: 'fill',
@@ -69,7 +75,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
         XmRoutingModule,
         XmSharedModule.forRoot(),
         XmCoreModule.forRoot(),
-        ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
+        ControlErrorModule.forRoot({ errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES }),
         XmCoreConfigModule,
         XmCoreAuthModule.forRoot(),
         NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
@@ -85,6 +91,15 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
         MarkdownModule.forRoot(),
         XmBreadcrumbModule.forRoot(),
         NgxMaskModule.forRoot(),
+        FormlyModule.forRoot({
+            types: [
+                { name: 'null', component: NullTypeComponent, wrappers: ['form-field'] },
+                { name: 'array', component: ArrayTypeComponent },
+                { name: 'object', component: ObjectTypeComponent },
+                { name: 'multischema', component: MultiSchemaTypeComponent },
+                { name: 'config', component: ConfigComponent },
+            ],
+        }),
         XmDynamicExtensionModule.forRoot([
             // #regionstart dynamic-extension-modules
             // #regionend dynamic-extension-modules

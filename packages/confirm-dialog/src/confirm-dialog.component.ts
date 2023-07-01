@@ -20,10 +20,6 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
     standalone: true,
     selector: 'xm-confirm-dialog',
     template: `
-        <button mat-icon-button mat-dialog-close class="close">
-            <mat-icon>close</mat-icon>
-        </button>
-
         <ng-container *ngIf="computedData | async as data">
             <h2 mat-dialog-title *ngIf="data?.title" class="text-center">{{data.title | translate}}</h2>
 
@@ -60,6 +56,10 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
                 </ng-template>
             </div>
         </ng-container>
+
+        <button mat-icon-button mat-dialog-close class="close">
+            <mat-icon>close</mat-icon>
+        </button>
     `,
     styles: [`
         button.close[mat-dialog-close] {
