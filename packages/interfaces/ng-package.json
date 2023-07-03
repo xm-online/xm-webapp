@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../lib/dynamic",
+  "dest": "../../lib/interfaces",
   "lib": {
     "entryFile": "./index.ts"
   }

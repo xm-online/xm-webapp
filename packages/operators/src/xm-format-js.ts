@@ -1,6 +1,6 @@
 import { interpolate } from './interpolate';
 import * as _ from 'lodash';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces';
+import { JavascriptCode } from '@xm-ngx/interfaces';
 
 export interface XmFormatJsTemplateRecursive {
     [key: string]: JavascriptCode | XmFormatJsTemplateRecursive | Array<XmFormatJsTemplateRecursive>;

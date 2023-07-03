@@ -1,4 +1,4 @@
-import { flattenObject } from '@xm-ngx/shared/operators';
+import { flattenObject } from '../index';
 
 describe('flattenObject', () => {
     it('shouldn`t change object', () => {

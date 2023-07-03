@@ -1,7 +1,7 @@
 {
   "name": "xm-webapp",
-  "version": "4.0.94",
-  "release": "4.0.0",
+  "version": "4.1.0",
+  "release": "4.1.0",
   "private": true,
   "description": "Xm-webapp",
   "homepage": "https://github.com/xm-online/xm-webapp",
@@ -17,13 +17,12 @@
     "yarn": ">=1.22.4 <2"
   },
   "workspaces": [
-    "packages/*",
-    "src/app/ext/*"
+    "lib/*"
   ],
   "scripts": {
     "ng": "ng",
     "xm-ngx": "xm-ngx",
-    "postinstall": "node ./scripts/build-packages.js && ngcc --properties esm5 browser module main",
+    "postinstall": "node ./scripts/build-packages_copy-dist-package.js && npm install --ignore-scripts && node ./scripts/build-packages.js && ngcc --properties esm5 browser module main",
     "prebuild": "xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && xm-ngx dynamic-specification && npm run import-jsf-exts",
     "start": "npm run prebuild && ng serve",
     "start:prod": "npm run prebuild && ng serve --configuration=serve-production",
@@ -163,6 +162,7 @@
     "string-template": "1.0.0",
     "swagger-ui": "5.0.0-alpha.13",
     "tether": "2.0.0",
+    "ts-morph": "18.0.0",
     "tslib": "2.4.0",
     "twitter-bootstrap-wizard": "1.2.0",
     "validate": "5.2.0",

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as glob from 'glob';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { Command } from './command';
 import { Config } from './config';
 import { readAsJson, saveAsJson } from './fs-utils';

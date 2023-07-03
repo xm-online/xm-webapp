@@ -60,4 +60,5 @@ package-lock.json
 
 # cache
 .angular
+lib
 /documentation.json
