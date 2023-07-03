@@ -1,4 +1,4 @@
-import { InterfaceDeclaration, Node, SymbolFlags, SyntaxKind, Type } from 'ts-morph';
+import { InterfaceDeclaration, SymbolFlags, SyntaxKind, Type } from 'ts-morph';
 
 export interface JsfNode {
     title?: string;
@@ -46,27 +46,14 @@ function getInterfaceFromNonNullableType(nonNullableType: Type): InterfaceDeclar
 }
 
 
-function getFullPathToRootInterface(nonNullableType: Type): string {
-    let currentType: Type | undefined = nonNullableType;
-    let rootInterface: InterfaceDeclaration | undefined;
-
-    while (currentType && !rootInterface) {
-        const symbol = currentType.getSymbol();
-        if (symbol && symbol.getDeclarations().length > 0) {
-            const declaration = symbol.getDeclarations()[0];
-            if (Node.isInterfaceDeclaration(declaration)) {
-                rootInterface = declaration;
-            }
-        }
-        currentType = currentType.getBaseTypes()[0];
+function getFullPathToRootInterface(type: Type): string {
+    const typeNode = type.getSymbol()?.getDeclarations()[0];
+    if (typeNode) {
+        const sourceFile = typeNode.getSourceFile();
+        const startLineNumber = typeNode.getStartLineNumber();
+        return (`Type located in ${sourceFile.getFilePath()} at line ${startLineNumber}`);
     }
-
-    let fullPath = '';
-    if (rootInterface) {
-        fullPath = rootInterface.getSourceFile().getFilePath();
-    }
-
-    return fullPath;
+    return '';
 }
 
 
@@ -74,10 +61,20 @@ function getObjectProperties(nonNullableType: Type, ctx: Ctx): JsfNode {
     return nonNullableType.getProperties()
         .filter((i: any) => {
             const isGetter = i.hasFlags(SymbolFlags.GetAccessor);
+            return !isGetter;
+        })
+        .map(i => {
+            if (i.getDeclarations().length > 1) {
+                console.warn(i.getName(), 'has multiple declaration. take first.', getFullPathToRootInterface(nonNullableType) || nonNullableType.getText());
+                return i.getDeclarations()[0].getSymbol();
+            }
+            return i;
+        })
+        .filter((i: any) => {
             const isValuable = i.getValueDeclaration();
-            const isTraceable = !isGetter && isValuable;
+            const isTraceable = isValuable;
             if (isTraceable) return isTraceable;
-            console.warn('Skip Type', i.getName(), getFullPathToRootInterface(nonNullableType));
+            console.warn('Skip Type', i.getName(), getFullPathToRootInterface(nonNullableType) || nonNullableType.getText());
             return false;
         })
         .map((i: any) => i.getValueDeclarationOrThrow())
@@ -107,7 +104,7 @@ export function getSchema(type: Type, ctx: Ctx, key: string): JsfNode {
     } else if (nonNullableType.isBooleanLiteral()) {
         return {
             title: key || 'UnknownBooleanType',
-            const: nonNullableType.getLiteralValue(),
+            const: nonNullableType.getLiteralValue() || nonNullableType.getText(),
         };
     } else if (nonNullableType.isNumber()) {
         return {
@@ -122,7 +119,7 @@ export function getSchema(type: Type, ctx: Ctx, key: string): JsfNode {
     } else if (nonNullableType.isStringLiteral()) {
         return {
             title: key || 'UnknownStringType',
-            const: nonNullableType.getLiteralValue(),
+            const: nonNullableType.getLiteralValue() || nonNullableType.getText(),
         };
     } else if (nonNullableType.isUnknown()
         || nonNullableType.isUndefined()
@@ -185,11 +182,10 @@ export function getSchema(type: Type, ctx: Ctx, key: string): JsfNode {
         };
     }
 
-    console.warn('Unknown type', nonNullableType.getText(), getFullPathToRootInterface(nonNullableType));
+    console.warn('Unknown type', type.getText(), getFullPathToRootInterface(type) || nonNullableType.getText());
     return {
         title: key || 'UnknownType',
         'type': 'string',
-        'default': 'Unknown type!',
         'readOnly': true,
     };
 }

@@ -118,7 +118,7 @@ function getConfigurationSchema(classDeclaration: ClassDeclaration): JsfNode {
     if (!config) {
         return { title: 'Empty', type: 'object' };
     }
-    const schema = Object.assign({ properties: {} }, getSchema(config.getType(), { definitions }, config?.getSymbol()?.getName() || 'UnknownConfigType'));
+    const schema = Object.assign({ properties: {} }, getSchema(config.getType(), { definitions }, config?.getType()?.getSymbol()?.getName() || 'UnknownConfigType'));
     return Object.assign(schema, { definitions });
 }
 
