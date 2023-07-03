@@ -13,9 +13,19 @@ export interface XmDynamicLayoutNode<C = XmConfig>
 }
 
 /**
+ * @deprecated use XmDynamicLayout instead. will be remove in 6.0.0 version.
+ */
+export interface XmLayout<C = XmConfig> {
+    content?: XmLayout[];
+    selector: string;
+    class?: string;
+    style?: string;
+}
+
+/**
  * Use this interface to describe a layout
  */
-export interface XmDynamicLayout<C = XmConfig> extends XmDynamicLayoutNode<C> {
+export interface XmDynamicLayout<C = XmConfig> extends XmLayout<C>, XmDynamicLayoutNode<C> {
     content?: XmDynamicLayout[];
 }
 

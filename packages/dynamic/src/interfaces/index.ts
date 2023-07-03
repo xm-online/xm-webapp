@@ -1,6 +1,7 @@
 export { XmDynamic } from './xm-dynamic';
 export { XmDynamicConstructor } from './xm-dynamic-constructor';
 export {
+    XmLayout,
     XmDynamicLayout,
     XmSanitizedLayout,
     XmLayoutNode,
