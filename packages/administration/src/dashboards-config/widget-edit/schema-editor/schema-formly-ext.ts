@@ -126,7 +126,7 @@ export class MultiSchemaTypeComponent extends FieldType {
                                   [options]="{ title: 'selector' }"
                                   name="selector"></xm-selector-text-control>
 
-        <formly-form [model]="formControl?.value?.config || model?.config"
+        <formly-form [model]="selectorConfig"
                      (modelChange)="updateConfig($event)"
                      [fields]="fields"></formly-form>
 
@@ -143,6 +143,7 @@ export class MultiSchemaTypeComponent extends FieldType {
 })
 export class ConfigComponent extends FieldType {
     public fields: FormlyFieldConfig[] = [];
+    public selectorConfig: unknown;
 
     constructor(
         private formlyJsonschema: FormlyJsonschema,
@@ -152,6 +153,7 @@ export class ConfigComponent extends FieldType {
     }
 
     public updateConfig(config: any): void {
+        this.selectorConfig = config;
         this.formControl.patchValue({ config });
     }
 
@@ -165,6 +167,7 @@ export class ConfigComponent extends FieldType {
         }
         this.formControl.patchValue({ selector });
         this.fields = getSchema(this.formlyJsonschema, schema.configurationSchema);
+        this.selectorConfig = _.defaultsDeep({}, this.formControl?.value?.config, this.model?.config);
         this.changeDetectorRef.detectChanges();
     }
 }
