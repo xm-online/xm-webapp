@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ModuleWithProviders } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FieldArrayType, FieldType, FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import {
@@ -116,7 +116,7 @@ export class MultiSchemaTypeComponent extends FieldType {
                 <formly-validation-message [field]="field"></formly-validation-message>
             </div>
             <ng-container *ngFor="let f of field.fieldGroup">
-                <formly-field [class.d-none]="f.key=='selector' || f.key=='options' || f.key=='config'"
+                <formly-field [class.d-none]="f.key==='selector' || f.key==='options' || f.key==='config'"
                               [field]="f"></formly-field>
             </ng-container>
         </div>
@@ -171,17 +171,4 @@ export class ConfigComponent extends FieldType {
 
 @Component({ standalone: true, selector: 'formly-null-type', template: '' })
 export class NullTypeComponent extends FieldType {
-}
-
-
-export function addWidgetEditSchema(): ModuleWithProviders<FormlyModule> {
-    return FormlyModule.forRoot({
-        types: [
-            { name: 'null', component: NullTypeComponent, wrappers: ['form-field'] },
-            { name: 'array', component: ArrayTypeComponent },
-            { name: 'object', component: ObjectTypeComponent },
-            { name: 'multischema', component: MultiSchemaTypeComponent },
-            { name: 'config', component: ConfigComponent },
-        ],
-    });
 }

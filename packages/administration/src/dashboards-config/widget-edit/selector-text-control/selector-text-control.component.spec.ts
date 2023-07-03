@@ -2,11 +2,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MockWidgetListService } from '@xm-ngx/administration/dashboards-config/widget-edit/testing/mock-widget-list.service';
+import {
+    MockWidgetListService
+} from '@xm-ngx/administration/dashboards-config/widget-edit/testing/mock-widget-list.service';
 import { WidgetListService } from '@xm-ngx/administration/dashboards-config/widget-edit/widget-list.service';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { SelectorTextControlComponent } from './selector-text-control.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SelectorTextControlComponent', () => {
     let component: SelectorTextControlComponent;
@@ -17,8 +20,14 @@ describe('SelectorTextControlComponent', () => {
             providers: [
                 { provide: WidgetListService, useClass: MockWidgetListService },
             ],
-            imports: [XmTranslationTestingModule, HttpClientTestingModule, MatAutocompleteModule],
-            declarations: [SelectorTextControlComponent],
+            imports: [
+                NoopAnimationsModule,
+                XmTranslationTestingModule,
+                HttpClientTestingModule,
+                MatAutocompleteModule,
+                SelectorTextControlComponent
+            ],
+            declarations: [],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents();
