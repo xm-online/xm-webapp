@@ -31,7 +31,6 @@ import { CalendarOptions } from '@fullcalendar/core';
 import { CalendarChangeService } from '../../calendar-card/calendar-view/calendar-change.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SweetAlertIcon } from 'sweetalert2';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -252,7 +251,8 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
         });
     }
 
-    private alert(icon: SweetAlertIcon, key: string): void {
+    // TODO: SweetAlert icon type XmAlertIcon
+    private alert(icon: any, key: string): void {
         this.alertService.open({
             icon,
             text: this.translateService.instant(key),

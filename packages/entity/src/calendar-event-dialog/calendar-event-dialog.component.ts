@@ -18,7 +18,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { firstValueFrom } from 'rxjs';
 import { XmAlertService } from '@xm-ngx/alert';
-import { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
     selector: 'xm-calendar-event-dialog',
@@ -140,7 +139,8 @@ export class CalendarEventDialogComponent implements OnInit {
         this.onAddEvent();
     }
 
-    private alert(icon: SweetAlertIcon, key: string): void {
+    // TODO: SweetAlert icon type XmAlertIcon
+    private alert(icon: any, key: string): void {
         this.alertService.open({
             icon,
             text: this.translateService.instant(key),

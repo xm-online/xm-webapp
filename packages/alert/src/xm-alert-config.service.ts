@@ -1,32 +1,28 @@
-import { Injectable, Optional, SkipSelf } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { XmTranslateService } from '@xm-ngx/translation';
+import { XmAlertConfig } from './xm-alert.interface';
+import { defaultsDeep } from 'lodash';
 
 @Injectable({
     providedIn: 'root',
 })
 export class XmAlertConfigService {
+    private defaults: XmAlertConfig;
 
-    public yesLabel: string = 'global.common.yes';
-    public width: number = 640;
-    public buttonsStyling: boolean = false;
-    public showCloseButton: boolean = true;
-    public noLabel: string = 'global.common.no';
-    public cancelLabel: string = 'global.common.cancel';
-    public reverseButtons: boolean = true;
-    public centered: boolean = false;
+    constructor(private translateService: XmTranslateService) {
+        this.defaults = {
+            width: 640,
+            dialogActionsAlign: 'end',
+            noLabel: this.translateService.translate('global.common.no'),
+            yesLabel: this.translateService.translate('global.common.yes'),
+            cancelLabel: this.translateService.translate('global.common.cancel'),
+            deleteMessage: this.translateService.translate('global.common.delete-message'),
+            deleteLabel: this.translateService.translate('global.common.delete'),
+        };
+    }
 
-    public deleteMessage: string = 'global.common.delete-message';
-    public deleteLabel: string = 'global.common.delete';
-
-    public confirmButtonClass: string = 'btn btn-outline-primary border-0 mx-1';
-    public cancelButtonClass: string = 'btn btn-outline-dark border-0 mx-1';
+    public getWithDefaults(settings: {}): any {
+        return defaultsDeep({}, this.defaults, settings);
+    }
 }
 
-export function XM_ALERT_CONFIG_PROVIDER_FACTORY(parentConfig: XmAlertConfigService): XmAlertConfigService {
-    return parentConfig || new XmAlertConfigService();
-}
-
-export const XM_ALERT_CONFIG_PROVIDER = {
-    provide: XmAlertConfigService,
-    deps: [[new Optional(), new SkipSelf(), XmAlertConfigService]],
-    useFactory: XM_ALERT_CONFIG_PROVIDER_FACTORY,
-};

@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { JsfAttributes } from '@xm-ngx/json-schema-form';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { finalize } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/user';
 import { nullSafe } from '@xm-ngx/json-schema-form/components';
 import { EntityCardComponent } from '../entity-card/entity-card.component';
@@ -19,9 +19,9 @@ import { XmEntityService } from '@xm-ngx/core/entity';
 import { EntityDetailDisplayMode, EntityUiConfig } from '@xm-ngx/core/config';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
 
-import swal from 'sweetalert2/dist/sweetalert2';
 import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
 import { Location } from '@angular/common';
+import { XmAlertService } from '@xm-ngx/alert';
 
 @Component({
     selector: 'xm-entity-card-compact',
@@ -50,6 +50,7 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
     constructor(
         protected modalService: MatDialog,
         protected principal: Principal,
+        private alertService: XmAlertService,
         private toasterService: XmToasterService,
         protected eventManager: XmEventManager,
         protected translateService: TranslateService,
@@ -171,12 +172,12 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
     }
 
     protected alert(type: string, key: string): void {
-        swal({
+        this.alertService.open({
             type,
             text: this.translateService.instant(key),
             buttonsStyling: false,
             confirmButtonClass: 'btn btn-primary',
-        });
+        }).pipe(take(1)).subscribe();
     }
 
 }

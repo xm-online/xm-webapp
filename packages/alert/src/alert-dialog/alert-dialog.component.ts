@@ -32,7 +32,12 @@ export interface DialogData {
 @Component({
     selector: 'xm-alert-dialog',
     standalone: true,
-    imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule],
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatIconModule,
+    ],
     templateUrl: './alert-dialog.component.html',
     styleUrls: ['./alert-dialog.component.scss'],
 })
@@ -44,15 +49,15 @@ export class AlertDialogComponent {
     }
 
     public onNoClick(): void {
-        this.dialogRef.close({dismiss: 'cancel', isConfirmed: false, isDenied: false, isDismissed: true});
+        this.dialogRef.close({ dismiss: 'cancel', isConfirmed: false, isDenied: false, isDismissed: true });
     }
 
     public onYesClick(): void {
-        this.dialogRef.close({isConfirmed: true, isDenied: false, isDismissed: false, value: true});
+        this.dialogRef.close({ isConfirmed: true, isDenied: false, isDismissed: false, value: true });
     }
 
     public onCloseClick(): void {
-        this.dialogRef.close({isConfirmed: false, isDenied: false, isDismissed: true, dismiss: 'close'});
+        this.dialogRef.close({ isConfirmed: false, isDenied: false, isDismissed: true, dismiss: 'close' });
     }
 }
 
