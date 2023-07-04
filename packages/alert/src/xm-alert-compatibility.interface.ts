@@ -1,48 +1,37 @@
 // Intefaces in this file taken from sweetalert
-import { Translate } from '@xm-ngx/translation';
+import { XmAlertConfig } from './xm-alert.interface';
 
 export type XmAlertIcon = 'success' | 'error' | 'warning' | 'info' | 'question';
 
-export enum XmAlertDismissReason {
-    cancel,
-    backdrop,
-    close,
-    esc,
-    timer,
-}
+export type XmAlertDismissReason = 
+    'cancel' |
+    'backdrop' |
+    'close' |
+    'esc' |
+    'timer';
 
-export interface XmAlertOptions {
+// For compatibility
+export interface XmAlertOptions extends XmAlertConfig {
     type?: string;
     input?: string;
     icon?: XmAlertIcon | string;
-    title?: string;
-    text?: Translate;
-    html?: string;
-    width?: string;
     textOptions?: {
         value?: string;
         [value: string]: string | object;
     };
     inputOptions?: object;
     titleOptions?: object;
-
     focusCancel?: boolean;
-    showConfirmButton?: boolean;
-    confirmButtonText?: string;
-    confirmButtonClass?: string;
-
-    cancelButtonText?: string;
     showCloseButton?: boolean;
-    showCancelButton?: boolean;
-
-    // Not used in material dialog
+    confirmButtonClass?: string;
+    cancelButtonClass?: string;
     buttonsStyling?: boolean;
     customClass?: {
         input?: string;
         confirmButton?: string;
         cancelButton?: string;
     },
-
+    // eslint-disable-next-line @typescript-eslint/ban-types
     inputValidator?: Function;
 }
 

@@ -1,0 +1,31 @@
+:host {
+  .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+
+    &--center {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    &-title {
+      &__above,
+      &__below {
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+
+    &-icon {
+      margin-bottom: 16px;
+    }
+  }
+}

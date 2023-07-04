@@ -1,7 +1,16 @@
-@import 'src/sweetalert2';
+@use '@material/dialog/dialog-theme' as mdc-dialog-theme;
 
-@include sweetalert2-xm-override();
+$custom-dialog-theme: (
+  container-shape: 30px
+);
 
-@mixin xm-alert-theme($theme) {
-  @include sweetalert2-xm-theme($theme)
+@mixin xm-alert-theme($xm-theme, $xm-mat-theme) {
+  .xm-alert {
+    @include mdc-dialog-theme.theme-styles($custom-dialog-theme);
+
+    // Can't override mat dialog variables
+    .mdc-dialog__actions {
+      padding: 0 24px 24px 24px;
+    }
+  }
 }
