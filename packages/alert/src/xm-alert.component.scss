@@ -1,3 +1,8 @@
+@mixin center {
+  align-items: center;
+  text-align: center;
+}
+
 :host {
   .close {
     position: absolute;
@@ -9,11 +14,14 @@
   .heading {
     display: flex;
     flex-direction: column;
+    padding-bottom: 16px;
 
-    &--center {
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+    &:before {
+      height: 24px;
+    }
+
+    &.center {
+      @include center();
     }
 
     &-title {
@@ -23,9 +31,15 @@
         font-weight: 400;
       }
     }
+  }
 
-    &-icon {
-      margin-bottom: 16px;
+  .content{
+    &-image {
+      display: flex;
+      flex-direction: column;
+      &.center {
+        @include center();
+      }
     }
   }
 }

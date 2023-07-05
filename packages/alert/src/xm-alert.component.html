@@ -1,11 +1,11 @@
-<div class="heading" mat-dialog-title [class.heading--center]="data?.center">
+<div class="heading" mat-dialog-title [class.center]="data?.center">
   <div class="heading-icon" *ngIf="data?.icon">
     <mat-icon [style.color]="data?.iconColor">{{data.icon}}</mat-icon>
   </div>
 
   <div class="heading-title">
     <h3 class="heading-title__above" *ngIf="data?.aboveTitle">{{data.aboveTitle | translate}}</h3>
-    <h2 class="heading-title__center" *ngIf="data?.title">{{data.title | translate}}</h2>
+    <h2 class="heading-title__content" *ngIf="data?.title">{{data.title | translate}}</h2>
     <h3 class="heading-title__below" *ngIf="data?.belowTitle">{{data.belowTitle | translate}}</h3>
   </div>
 </div>
@@ -14,7 +14,7 @@
   <div *ngIf="data?.text">{{data.text | translate}}</div>
   <div *ngIf="data?.html" [innerHTML]="data.html | translate | xmSafe: 'html'"></div>
 
-  <div *ngIf="data?.imageUrl">
+  <div *ngIf="data?.imageUrl" class="content-image" [class.center]="data?.center">
     <img 
       [src]="data?.imageUrl" 
       [width]="data.imageWidth" 
@@ -22,7 +22,7 @@
   </div>
 </mat-dialog-content>
 
-<mat-dialog-actions [align]="data?.dialogActionsAlign">
+<mat-dialog-actions [align]="data?.dialogActionsAlign" *ngIf="data?.showCancelButton && data?.showConfirmButton">
   <button mat-stroked-button type="button" *ngIf="data?.showCancelButton" (click)="cancel()">
     {{data?.cancelButtonText | translate}}
   </button>

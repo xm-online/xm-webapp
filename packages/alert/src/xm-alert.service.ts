@@ -17,7 +17,7 @@ export class XmAlertService {
     ) {
     }
 
-    private adaptConfig(options: XmAlertOptions): XmAlertConfig {
+    private withDefaults(options: XmAlertOptions): XmAlertConfig {
         const settings: XmAlertOptions = _.defaults<object, Partial<XmAlertOptions>, Partial<XmAlertConfig>>(
             {}, 
             _.cloneDeep(options),
@@ -31,10 +31,18 @@ export class XmAlertService {
             },
         );
 
+        /**
+         * @deprecated
+         * Will be removed in the next release
+         */
         if (settings.title) {
             settings.title = this.xmTranslateService.translate(settings.title, settings.titleOptions || {});
         }
 
+        /**
+         * @deprecated
+         * Will be removed in the next release
+         */
         if (settings.text) {
             settings.text = this.xmTranslateService.translate(
                 settings.text, 
@@ -46,10 +54,10 @@ export class XmAlertService {
     }
 
     public open(options: XmAlertOptions): Observable<XmAlertResult> {
-        const settings = this.adaptConfig(options);
+        const settings = this.withDefaults(options);
 
         const dialogRef = this.dialog.open<AlertDialogComponent, XmAlertConfig, XmAlertResult>(AlertDialogComponent, {
-            width: `${settings.width}px` ?? '640px',
+            width: settings.width ?? '640px',
             panelClass: 'xm-alert',
             disableClose: false,
             autoFocus: 'dialog',
@@ -58,7 +66,10 @@ export class XmAlertService {
 
         return dialogRef.afterClosed().pipe(
             map(result => {
-                // When user clicks modal backdrop
+                /**
+                 * When use clicks on backdrop
+                 * Also dismiss key using in PendingChangesGuard
+                 */
                 if (!result) {
                     return { 
                         dismiss: 'close',
@@ -85,7 +96,7 @@ export class XmAlertService {
 
     public delete(options?: XmAlertOptions): Observable<XmAlertResult> {
         return this.yesCancel(_.merge({
-            icon: 'delete',
+            icon: 'error_outline',
             center: true,
             title: 'global.common.delete',
             text: 'global.common.delete-message',
