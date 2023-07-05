@@ -5,7 +5,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
     MockWidgetListService
 } from '../testing/mock-widget-list.service';
-import { WidgetListService } from '@xm-ngx/administration/dashboards-config/widget-edit/widget-list.service';
+import { WidgetListService } from '../widget-list.service';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { SelectorTextControlComponent } from './selector-text-control.component';

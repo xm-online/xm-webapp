@@ -15,6 +15,6 @@ export const XM_ARRAY_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/autocomplete-chips-control',
-        loadChildren: () => import('@xm-ngx/components/autocomplete-control/autocomplete-chips-control.component').then(m => m.XmAutocompleteChipsControlComponent),
+        loadChildren: () => import('@xm-ngx/components/autocomplete-control').then(m => m.XmAutocompleteChipsControlComponent),
     },
 ];

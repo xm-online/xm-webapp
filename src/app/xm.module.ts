@@ -57,7 +57,7 @@ import {
     MultiSchemaTypeComponent,
     NullTypeComponent,
     ObjectTypeComponent
-} from '@xm-ngx/administration/dashboards-config/widget-edit/schema-editor/schema-formly-ext';
+} from '@xm-ngx/administration/dashboards-config';
 import { FormlyModule } from '@ngx-formly/core';
 
 import { XmSharedModule } from '@xm-ngx/shared';

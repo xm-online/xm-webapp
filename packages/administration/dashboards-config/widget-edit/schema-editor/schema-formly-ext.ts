@@ -3,11 +3,11 @@ import { FieldArrayType, FieldType, FormlyFieldConfig, FormlyModule } from '@ngx
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import {
     SelectorTextControlComponent,
-} from '@xm-ngx/administration/dashboards-config/widget-edit/selector-text-control/selector-text-control.component';
+} from '../selector-text-control/selector-text-control.component';
 import { FormlyJsonschema } from '@ngx-formly/core/json-schema';
 import {
     SchemaEditorComponent,
-} from '@xm-ngx/administration/dashboards-config/widget-edit/schema-editor/schema-editor.component';
+} from './schema-editor.component';
 import { FormsModule } from '@angular/forms';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import _ from 'lodash';

@@ -17,7 +17,7 @@ import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/xm-text.registry';
 import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/xm.registry';
 import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/xm-dashboard.registry';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { Primitive } from '@xm-ngx/interfaces';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 export default {

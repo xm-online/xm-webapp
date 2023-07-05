@@ -7,7 +7,7 @@ import { DynamicComponentSpecEntity } from '@xm-ngx/cli';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyJsonschema } from '@ngx-formly/core/json-schema';
-import { getSchema } from '@xm-ngx/administration/dashboards-config/widget-edit/schema-editor/schema-formly-ext';
+import { getSchema } from './schema-formly-ext';
 
 export interface SchemaEditorOptions {
     selector: string;

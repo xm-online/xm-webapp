@@ -3,5 +3,9 @@
   "dest": "../../lib/administration",
   "lib": {
     "entryFile": "./index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "@ngx-formly/core",
+    "@ngx-formly/material"
+  ]
 }
