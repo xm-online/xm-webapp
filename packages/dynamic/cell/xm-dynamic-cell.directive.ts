@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { getValue } from '@xm-ngx/operators';
 import * as _ from 'lodash';
-import { XmDynamicPresentationBase } from '../presentation/xm-dynamic-presentation-base.directive';
+import { XmDynamicConfig, XmDynamicPresentationBase } from '../presentation/xm-dynamic-presentation-base.directive';
 
 export const XM_DYNAMIC_TABLE_ROW = new InjectionToken<string>('XM_DYNAMIC_TABLE_ROW');
 export const XM_DYNAMIC_TABLE_CELL = new InjectionToken<string>('XM_DYNAMIC_TABLE_CELL');
@@ -21,7 +21,7 @@ export const XM_DYNAMIC_TABLE_CELL = new InjectionToken<string>('XM_DYNAMIC_TABL
  * XmDynamicCellDirective cell configuration
  * @beta
  */
-export interface XmDynamicCell<O = unknown> {
+export interface XmDynamicCell<O = unknown> extends XmDynamicConfig<O> {
     field: string;
     selector: string;
     /** @deprecated use config instead */

@@ -1,6 +1,5 @@
 import { XmDynamicEntry } from '@xm-ngx/dynamic';
 
-
 export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     {
         selector: '@xm-ngx/components/sidebar-logo',

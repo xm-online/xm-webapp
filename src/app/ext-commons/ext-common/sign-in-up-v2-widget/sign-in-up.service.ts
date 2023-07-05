@@ -81,6 +81,7 @@ export class SignInUpService {
             .pipe(map((resp) => {
                 const result = resp.body;
                 this.token = this.storeAT(result, rememberMe);
+                this.storeRT(result, rememberMe);
                 this.destination = result.destination;
                 return result;
             }));

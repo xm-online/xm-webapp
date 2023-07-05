@@ -34,8 +34,8 @@ export class MockXmTranslateService {
 /** @public */
 export class MockLanguageService {
     public languages = [];
-    public getDefaultLocale: () => [];
-
+    public getDefaultLocale: () => 'en';
+    public locale: string = 'en';
     public languages$: (i: string) => Observable<string[]> = () => of([]);
 }
 

@@ -41,7 +41,7 @@ export interface XmTextCellConfig {
         RouterModule,
         MatButtonModule,
         MatIconModule,
-    ]
+    ],
 })
 export class XmTextCellComponent implements OnInit, XmDynamicPresentation<unknown, XmTextCellConfig> {
     @Input() public value: unknown;

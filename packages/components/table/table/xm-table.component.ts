@@ -57,8 +57,9 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
     const displayedColumns = config.columns;
     return displayedColumns.map(i => ({
         name: i.name || i.field,
-        hidden: false,
+        hidden: i['hidden'] || false,
         title: i.title,
+        isHideLock: i['isHideLock'] || false,
     }));
 }
 
@@ -99,7 +100,6 @@ interface IXmTableContext {
         ...XM_TABLE_CONTROLLERS,
         XmTableSelectionService,
         XmTableFilterController,
-        XmTableColumnsSettingStorageService,
     ],
 })
 export class XmTableComponent implements OnInit {
@@ -123,19 +123,19 @@ export class XmTableComponent implements OnInit {
 
     private _config: XmTableConfig;
 
-    public get config(): XmTableConfig | Partial<XmTableConfig> {
+    public get config(): XmTableConfig {
         return this._config;
     }
 
     @Input()
-    public set config(value: XmTableConfig | Partial<XmTableConfig>) {
+    public set config(value: XmTableConfig) {
         this._config = getConfig(value);
 
         this.dynamicColumns = this._config.columns.filter(c => c.name != '_selectColumn');
         this.selectColumn = (this._config.columns?.find(c => c.name == '_selectColumn') as SelectTableColumn) ?? this.selectColumn;
 
         this.configController.change(this._config);
-        this.columnsSettingStorageService.updateStore(getDisplayedColumns(this._config));
+        this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));
     }
 
     public async ngOnInit(): Promise<void> {

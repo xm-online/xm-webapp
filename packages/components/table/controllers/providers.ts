@@ -22,10 +22,13 @@ import { XmTableElasticSearchCollectionController } from '../controllers/elastic
 import {
     XmElasticSearchRepository
 } from '../controllers/elastic/xm-elastic-search-repository.service';
-import { XmTableQueryParamsStoreService } from '../controllers/filters/xm-table-query-params-store.service';
+import { XmTableQueryParamsStoreService } from '@xm-ngx/components/table/controllers/filters/xm-table-query-params-store.service';
 import {
     XmElasticRequestBuilder
-} from '../controllers/elastic/xm-elastic-request-builder.service';
+} from './controllers/elastic/xm-elastic-request-builder.service';
+import {
+    XmTableColumnsSettingStorageService
+} from '../controllers/config/xm-table-columns-setting-storage.service';
 
 export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmEntityRepository,
@@ -50,4 +53,6 @@ export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmTableQueryParamsStoreService,
 
     XmElasticRequestBuilder,
+
+    XmTableColumnsSettingStorageService
 ];

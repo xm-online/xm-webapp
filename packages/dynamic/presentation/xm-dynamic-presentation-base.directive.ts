@@ -25,7 +25,7 @@ interface IOptions<O> {
 }
 
 /** Determines input(control) config. */
-interface XmDynamicConfig<O> {
+export interface XmDynamicConfig<O> {
     /** Input config. */
     config?: O;
 }

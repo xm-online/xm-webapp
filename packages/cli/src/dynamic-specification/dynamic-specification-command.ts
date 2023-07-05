@@ -1,12 +1,14 @@
 import { Command } from '../command';
-import { ClassDeclaration, Node, Project, SymbolFlags, SyntaxKind, Type } from 'ts-morph';
+import { ClassDeclaration, Node, Project, SyntaxKind } from 'ts-morph';
 import fs from 'fs';
+import { getSchema, JsfNode } from './get-schema';
+
 
 export interface DynamicComponentSpecEntity {
     name: string;
     selector: string;
     compatibles: string[];
-    configurationSchema: object;
+    configurationSchema: JsfNode;
 }
 
 function isDynamicComponent(classDeclaration: ClassDeclaration): boolean {
@@ -54,7 +56,7 @@ function getSelector(classDeclaration: ClassDeclaration): string {
         return '';
     }
 
-    const selector = stringLiteral.getLiteralValue();
+    let selector = stringLiteral.getLiteralValue();
     if (!selector) {
         return '';
     }
@@ -70,6 +72,10 @@ function getSelector(classDeclaration: ClassDeclaration): string {
     } else {
         const index = invertedPath.indexOf('packages');
         prefix = '@xm-ngx/' + invertedPath[index - 1];
+    }
+
+    if (selector.startsWith('xm-')) {
+        selector = selector.replace('xm-', '');
     }
 
     return prefix + '/' + selector;
@@ -104,139 +110,15 @@ function getCompatibleTypes(classDeclaration: ClassDeclaration): string[] {
     return compatibles;
 }
 
-function getConfigurationSchema(classDeclaration: ClassDeclaration): object {
+function getConfigurationSchema(classDeclaration: ClassDeclaration): JsfNode {
     const definitions: any = {};
 
-    function getSchema(type: Type): object {
-        const nonNullableType = type.getNonNullableType();
-
-        if (nonNullableType.isArray() && nonNullableType.getArrayElementType()) {
-            return {
-                title: nonNullableType.getSymbol()?.getName(),
-                type: 'array',
-                items: getSchema(nonNullableType.getArrayElementTypeOrThrow()),
-            };
-        } else if (nonNullableType.isBoolean()) {
-            return {
-                title: nonNullableType.getSymbol()?.getName(),
-                type: nonNullableType.getText(),
-            };
-
-        } else if (nonNullableType.isBooleanLiteral()) {
-            return {
-                title: nonNullableType.getSymbol()?.getName(),
-                type: nonNullableType.getText(),
-            };
-        } else if (nonNullableType.isNumber()) {
-            return {
-                title: nonNullableType.getSymbol()?.getName(),
-                type: nonNullableType.getText(),
-            };
-        } else if (nonNullableType.isString()) {
-            return {
-                title: nonNullableType.getSymbol()?.getName(),
-                type: nonNullableType.getText(),
-            };
-        } else if (nonNullableType.isStringLiteral()) {
-            return {
-                title: nonNullableType.getSymbol()?.getName(),
-                type: 'string',
-            };
-        } else if (nonNullableType.isUnknown()
-            || nonNullableType.isUndefined()
-            || nonNullableType.isAny()
-        ) {
-            return {
-                title: nonNullableType.getSymbol()?.getName(),
-                type: 'object',
-            };
-        } else if (
-            nonNullableType.isClass() ||
-            nonNullableType.isIntersection() ||
-            nonNullableType.isObject() && nonNullableType.getSymbolOrThrow().getDeclarations().some(i =>
-                i.isKind(SyntaxKind.ClassDeclaration) ||
-                i.isKind(SyntaxKind.InterfaceDeclaration))
-        ) {
-            const name = nonNullableType.getSymbol()?.getName() + '';
-            if (!definitions[name]) {
-                // WORKAROUND: to mark property as a defined for recursion
-                definitions[name] = { '__mock__': '__mock__' };
-                definitions[name] = {
-                    title: nonNullableType.getSymbol()?.getName(),
-                    type: 'object',
-                    properties: nonNullableType.getProperties()
-                        .filter(i => {
-                            const isGetter = i.hasFlags(SymbolFlags.GetAccessor);
-                            const isValuable = i.getValueDeclaration();
-                            const isTraceable = !isGetter && isValuable;
-                            if (isTraceable) return isTraceable;
-                            console.warn('Skip Type', i.getName(), classDeclaration.getName());
-                            return false;
-                        })
-                        .map(i => i.getValueDeclarationOrThrow())
-                        .map(i => ({ [i.getSymbol()?.getName() || '']: getSchema(i.getType()) }))
-                        .reduce((p, c) => (Object.assign(p, c)), {}),
-                };
-            }
-            return {
-                title: name,
-                type: 'object',
-                '$ref': '#/definitions/' + name,
-            };
-        } else if (nonNullableType.isObject()) {
-            return {
-                title: nonNullableType.getSymbol()?.getName(),
-                type: 'object',
-                properties: nonNullableType.getProperties()
-                    .filter(i => {
-                        const isGetter = i.hasFlags(SymbolFlags.GetAccessor);
-                        const isValuable = i.getValueDeclaration();
-                        const isTraceable = !isGetter && isValuable;
-                        if (isTraceable) return isTraceable;
-                        console.warn('Skip Type', i.getName(), classDeclaration.getName());
-                        return false;
-                    })
-                    .map(i => i.getValueDeclarationOrThrow())
-                    .map(i => ({ [i.getSymbolOrThrow().getName()]: getSchema(i.getType()) }))
-                    .reduce((p, c) => (Object.assign(p, c)), {}),
-            };
-        } else if (nonNullableType.isEnum()) {
-            return {
-                title: nonNullableType.getSymbol()?.getName(),
-                type: 'string',
-                enum: nonNullableType.getUnionTypes()
-                    .map(t => t.getLiteralValueOrThrow()),
-            };
-        } else if (nonNullableType.isUnion()) {
-            return {
-                title: nonNullableType.getSymbol()?.getName(),
-                'type': 'object',
-                'oneOf': nonNullableType.getUnionTypes()
-                    .map(i => getSchema(i)),
-            };
-        } else if (nonNullableType.isIntersection()) {
-            return {
-                title: nonNullableType.getSymbol()?.getName(),
-                'type': 'object',
-                'allOf': nonNullableType.getIntersectionTypes()
-                    .map(i => getSchema(i)),
-            };
-        }
-
-        console.warn('Unknown type', nonNullableType.getText(), classDeclaration.getName());
-        return {
-            title: nonNullableType.getSymbol()?.getName() || 'Unknown type!',
-            'type': 'string',
-            'default': 'Unknown type!',
-            'readOnly': true,
-        };
-    }
-
-    const config = classDeclaration.getProperty('config');
+    const config = classDeclaration.getProperty('config')
+        || classDeclaration.getSetAccessor('config')?.getParameters()?.[0];
     if (!config) {
-        return {};
+        return { title: 'Empty', type: 'object' };
     }
-    const schema = Object.assign({ properties: {} }, getSchema(config.getType()));
+    const schema = Object.assign({ properties: {} }, getSchema(config.getType(), { definitions }, config?.getType()?.getSymbol()?.getName() || 'UnknownConfigType'));
     return Object.assign(schema, { definitions });
 }
 

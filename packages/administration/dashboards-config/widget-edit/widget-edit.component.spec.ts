@@ -22,6 +22,7 @@ import { MatMenuModule } from '@angular/material/menu';
 @Component({
     selector: 'xm-schema-editor, xm-text-control, xm-selector-text-control, xm-ace-editor-control',
     template: '',
+    standalone: true,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -45,8 +46,9 @@ describe('WidgetEditComponent', () => {
                 FormsModule,
                 JsonSchemaFormModule,
                 MatMenuModule,
+                MockXmTextControlComponent,
             ],
-            declarations: [WidgetEditComponent, MockXmTextControlComponent],
+            declarations: [WidgetEditComponent],
             providers: [
                 { provide: WidgetCollection, useClass: MockEntityCollection },
                 { provide: DashboardCollection, useClass: MockEntityCollection },
