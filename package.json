@@ -105,7 +105,7 @@
     "eonasdan-bootstrap-datetimepicker": "4.17.49",
     "es6-shim": "0.35.6",
     "file-saver": "2.0.5",
-    "file-type": "16.5.4",
+    "file-type": "16.5.3",
     "fs-extra": "10.1.0",
     "fullcalendar": "5.11.2",
     "glob": "8.0.3",
@@ -159,6 +159,7 @@
     "validate": "5.2.0",
     "web-animations-js": "2.3.2",
     "webstomp-client": "1.2.6",
+    "yaml": "2.3.1",
     "yamljs": "0.3.0",
     "zone.js": "0.11.8"
   },
