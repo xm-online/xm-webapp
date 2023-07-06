@@ -175,8 +175,6 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
         this.alertService.open({
             type,
             text: this.translateService.instant(key),
-            buttonsStyling: false,
-            confirmButtonClass: 'btn btn-primary',
         }).pipe(take(1)).subscribe();
     }
 

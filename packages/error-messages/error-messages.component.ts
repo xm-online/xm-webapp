@@ -115,10 +115,6 @@ export class JhiAlertErrorComponent implements OnDestroy {
                     title,
                     width: '42rem',
                     icon: messageSettings[1],
-                    buttonsStyling: false,
-                    customClass: {
-                        confirmButton: 'btn btn-primary',
-                    }
                 }).subscribe((result) => {
                     if (result && config.redirectUrl) {
                         const redirect = (config.redirectUrl === '/') ? '' : config.redirectUrl;

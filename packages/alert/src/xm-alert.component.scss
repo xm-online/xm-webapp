@@ -4,31 +4,31 @@
 }
 
 :host {
-  .close {
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 1;
-  }
-
   .heading {
     display: flex;
     flex-direction: column;
-    padding-bottom: 16px;
-
-    &:before {
-      height: 24px;
-    }
 
     &.center {
       @include center();
     }
 
+    &-icon {
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
     &-title {
+      &__above {
+        font-weight: 600;
+      }
+
+      &__below {
+        font-weight: 400;
+      }
+
       &__above,
       &__below {
         font-size: 14px;
-        font-weight: 400;
       }
     }
   }

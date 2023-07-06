@@ -3,7 +3,7 @@ import { XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { map, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { AlertDialogComponent } from './xm-alert.component';
+import { XmAlertComponent } from './xm-alert.component';
 import { XmAlertOptions, XmAlertResult } from './xm-alert-compatibility.interface';
 import { XmAlertConfig } from './xm-alert.interface';
 
@@ -56,7 +56,7 @@ export class XmAlertService {
     public open(options: XmAlertOptions): Observable<XmAlertResult> {
         const settings = this.withDefaults(options);
 
-        const dialogRef = this.dialog.open<AlertDialogComponent, XmAlertConfig, XmAlertResult>(AlertDialogComponent, {
+        const dialogRef = this.dialog.open<XmAlertComponent, XmAlertConfig, XmAlertResult>(XmAlertComponent, {
             width: settings.width ?? '640px',
             panelClass: 'xm-alert',
             disableClose: false,

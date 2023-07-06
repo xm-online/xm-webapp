@@ -22,9 +22,9 @@ import { XmAlertResult } from './xm-alert-compatibility.interface';
     templateUrl: './xm-alert.component.html',
     styleUrls: ['./xm-alert.component.scss'],
 })
-export class AlertDialogComponent {
+export class XmAlertComponent {
     constructor(
-        public dialogRef: MatDialogRef<AlertDialogComponent, XmAlertResult>,
+        public dialogRef: MatDialogRef<XmAlertComponent, XmAlertResult>,
         @Inject(MAT_DIALOG_DATA) public data: XmAlertConfig,
     ) {
     }

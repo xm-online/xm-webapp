@@ -5,7 +5,7 @@ import { XmConfirmDialogControls, XmConfirmDialogData } from './confirm-dialog.i
 import { Translate } from '@xm-ngx/translation';
 import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
 import { map, Observable, share } from 'rxjs';
-import _ from 'lodash';
+import { defaults, isArray, mergeWith } from 'lodash';
 
 @Injectable({
     providedIn: 'root',
@@ -37,7 +37,13 @@ export class XmConfirmDialogService {
             isManualClose,
         };
 
-        this.dialogRef = this.matDialog.open<XmConfirmDialogComponent, XmConfirmDialogData>(XmConfirmDialogComponent, config ?? {});
+        this.dialogRef = this.matDialog.open<XmConfirmDialogComponent, XmConfirmDialogData>(XmConfirmDialogComponent, defaults(
+            {},
+            config ?? {},
+            {
+                panelClass: 'xm-alert',
+            },
+        ));
 
         return this.dialogRef;
     }
@@ -47,8 +53,8 @@ export class XmConfirmDialogService {
             return;
         }
         
-        this.dialogData.data = _.mergeWith({}, this.dialogData.data, dialog, (obj, src) => {
-            return _.isArray(src) ? src : undefined;
+        this.dialogData.data = mergeWith({}, this.dialogData.data, dialog, (obj, src) => {
+            return isArray(src) ? src : undefined;
         });
     }
 

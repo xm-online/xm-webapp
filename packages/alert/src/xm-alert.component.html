@@ -10,7 +10,7 @@
   </div>
 </div>
 
-<mat-dialog-content>
+<mat-dialog-content *ngIf="data?.text || data?.html || data?.imageUrl">
   <div *ngIf="data?.text">{{data.text | translate}}</div>
   <div *ngIf="data?.html" [innerHTML]="data.html | translate | xmSafe: 'html'"></div>
 
@@ -22,7 +22,7 @@
   </div>
 </mat-dialog-content>
 
-<mat-dialog-actions [align]="data?.dialogActionsAlign" *ngIf="data?.showCancelButton && data?.showConfirmButton">
+<mat-dialog-actions [align]="data?.dialogActionsAlign" *ngIf="data?.showCancelButton || data?.showConfirmButton">
   <button mat-stroked-button type="button" *ngIf="data?.showCancelButton" (click)="cancel()">
     {{data?.cancelButtonText | translate}}
   </button>
@@ -32,6 +32,6 @@
   </button>
 </mat-dialog-actions>
 
-<button *ngIf="data?.showCloseButton" class="close" mat-icon-button (click)="close()">
+<button *ngIf="data?.showCloseButton" class="icon-close" mat-icon-button (click)="close()">
   <mat-icon>close</mat-icon>
 </button>

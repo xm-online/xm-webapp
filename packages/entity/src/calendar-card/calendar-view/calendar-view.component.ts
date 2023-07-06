@@ -227,10 +227,6 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
         const calendarApi = this.calendarComponent.getApi();
         this.alertService.open({
             title: this.translateService.instant('xm-entity.calendar-card.delete.title'),
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn btn-primary',
-            },
             confirmButtonText: this.translateService.instant('xm-entity.calendar-card.delete.button'),
             cancelButtonText: this.translateService.instant('xm-entity.calendar-card.delete.button-cancel'),
         }).subscribe((result) => {
@@ -256,10 +252,6 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
         this.alertService.open({
             icon,
             text: this.translateService.instant(key),
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn btn-primary',
-            },
         });
     }
 

@@ -144,10 +144,6 @@ export class CalendarEventDialogComponent implements OnInit {
         this.alertService.open({
             icon,
             text: this.translateService.instant(key),
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn btn-primary',
-            },
         });
     }
 
