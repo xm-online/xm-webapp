@@ -9,7 +9,7 @@ export interface ITrKeyTranslates {
 
 @Injectable()
 @Pipe({
-    name: 'translate',
+    name: 'translate, xmTranslate',
     pure: false,
 })
 export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDestroy {
