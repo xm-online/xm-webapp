@@ -12,12 +12,12 @@
     "downlevelIteration": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "target": "ES2022",
+    "target": "es2022",
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "es2018",
+      "es2020",
       "dom"
     ],
     "paths": {
@@ -83,7 +83,7 @@
       ]
     },
     "inlineSources": true,
-    "module": "es2020",
+    "module": "esnext",
     "stripInternal": false,
     "noUnusedLocals": true,
     "noImplicitThis": true,

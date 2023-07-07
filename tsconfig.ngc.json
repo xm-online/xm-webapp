@@ -12,7 +12,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "es2015",
-    "module": "es2020",
+    "module": "esnext",
     "moduleResolution": "node",
     "outDir": "",
     "resolveJsonModule": true,
