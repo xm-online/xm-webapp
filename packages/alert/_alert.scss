@@ -9,7 +9,7 @@ $custom-dialog-button-theme: (
   container-shape: 30px
 );
 
-@mixin xm-alert-theme($xm-theme, $xm-mat-theme) {
+@mixin xm-alert-theme($xm-theme) {
   .xm-alert {
     @include mdc-dialog-theme.theme-styles($custom-dialog-theme);
 

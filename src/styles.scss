@@ -28,7 +28,7 @@ $material-icons-font-path: '/assets/fonts/material-design-icons-v5.woff2';
 // increase css priority with xm-body class
 .xm-body {
   @include xm-components-theme($xm-theme);
-  @include xm-alert-theme($xm-theme, $xm-mat-theme);
+  @include xm-alert-theme($xm-theme);
 
 }
 @include xm-layout-sidebar-with-mini($xm-theme);
