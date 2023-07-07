@@ -7,6 +7,7 @@ export { PasswordComponent } from './password/password.component';
 export { Password } from './password/password.service';
 export { PasswordModule } from './password/password.module';
 export { passwordRoute } from './password/password.route';
+export { ChangePassword } from './password/password.model';
 export { logoutRoute } from './logout/logout.route';
 export { LogoutComponent } from './logout/logout.component';
 export { PasswordSettingsComponent } from './password-settings/password-settings.component';

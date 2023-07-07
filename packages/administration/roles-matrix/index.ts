@@ -1,2 +1,2 @@
 export { RolesMatrixModule } from './roles-matrix.module';
-export { RolesMatrixComponent } from './roles-matrix.component';
+export { RolesMatrixComponent, TableDisplayColumn } from './roles-matrix.component';

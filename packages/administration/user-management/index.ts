@@ -5,3 +5,4 @@ export { UserLoginMgmtDialogComponent } from './user-login-management-dialog.com
 export { UserMgmtDialogComponent } from './user-management-dialog/user-management-dialog.component';
 export { UnblockLockUserModule } from './unblock-lock-user/unblock-lock-user.module';
 export * from './unblock-lock-user/unblock-lock-user.component';
+export * from './user-modal.service';
