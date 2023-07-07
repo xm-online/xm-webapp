@@ -26,7 +26,8 @@ execSync('(cd ./packages/account && npm run build && cd ../../)', {stdio: 'inher
 execSync('(cd ./packages/dashboard && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/administration && npm run build && cd ../../)', {stdio: 'inherit'});
 
-execSync('(cd ./src/app/ext/example-webapp-ext && npm run build && cd ../../../../)', {stdio: 'inherit'});
+// TODO:WORKAROUND next release
+// execSync('(cd ./src/app/ext/example-webapp-ext && npm run build && cd ../../../../)', {stdio: 'inherit'});
 
 // TODO:WORKAROUND fixing bin folder adding.
 execSync('(npm i --ignore-scripts)', {stdio: 'inherit'});

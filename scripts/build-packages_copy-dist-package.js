@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const foldersToScan = ['packages', 'src/app/ext'];
+const foldersToScan = ['packages'];
 const packageJsonFile = 'package.json';
 const libFolder = 'lib';
 
