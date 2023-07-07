@@ -1,6 +1,7 @@
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { Translate } from '@xm-ngx/translation';
 import { ValidatorProcessingOption } from '@xm-ngx/components/validator-processing';
+import { MatDialogConfig } from '@angular/material/dialog';
 
 export interface XmConfirmDialogOptions {
     [key: string]: unknown;
@@ -36,8 +37,13 @@ export type XmConfirmDialogComputedData = XmConfirmDialogData & { hasControls: b
 export interface XmConfirmDialogData {
     title?: Translate;
     subtitle?: Translate;
+    controls?: XmConfirmDialogControls;
     cancelButtonText?: Translate;
     confirmButtonText?: Translate;
-    controls?: XmConfirmDialogControls;
     isManualClose?: boolean;
+}
+
+export interface XmConfirmDialogOpenProps {
+    data?: XmConfirmDialogData;
+    dialogConfig?: MatDialogConfig<XmConfirmDialogOpenProps['data']>;
 }
