@@ -63,6 +63,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
     protected configLocale: string | undefined;
 
     private logger: XmLogger;
+    private isLocaleUpdating: boolean = false;
 
     constructor(
         protected eventManager: XmEventManager,
@@ -81,13 +82,13 @@ export class LanguageService implements OnDestroy, OnInitialize {
     }
 
     public get locale(): Locale {
-        return this.$locale.getValue()
-            || this.getUserLocale()
+        return this.getUserLocale()
             || this.getSessionLocale()
             // TODO: if BrowserLocale isn't supported by our app when return null
             || this.getBrowserLocale()
             || this.getConfigLocale()
-            || this.getDefaultLocale();
+            || this.getDefaultLocale()
+            || this.$locale.getValue();
     }
 
     public set locale(value: Locale) {
@@ -166,6 +167,10 @@ export class LanguageService implements OnDestroy, OnInitialize {
     }
 
     protected update(locale: string): void {
+        if (this.isLocaleUpdating) {
+            return;
+        }
+        this.isLocaleUpdating = true;
         // TODO: v2: rewrite below as listeners of the $locale
         this.translate.use(locale);
         this.sessionStorage.store(SESSION_LOCALE, locale);
@@ -177,12 +182,17 @@ export class LanguageService implements OnDestroy, OnInitialize {
         this.principal.setLangKey(locale);
         this.$locale.next(locale);
         this.eventManager.broadcast({ name: EVENT_CHANGE_LOCALE, content: locale });
+
+        this.isLocaleUpdating = false;
     }
 
     protected onUserLocale(): void {
         this.userService.user$()
             .pipe(takeUntilOnDestroy(this))
-            .subscribe((u) => this.userLocale = u && u.langKey ? u.langKey : null);
+            .subscribe((u) => {
+                this.userLocale = u && u.langKey ? u.langKey : null;
+                this.update(this.locale);
+            });
     }
 
     protected onConfigLocale(): void {
