@@ -1,7 +1,6 @@
 import { Translate } from '@xm-ngx/translation';
 
 export interface XmAlertConfig {
-    disableClose?: boolean;
     width?: string;
     text?: Translate;
     html?: Translate;
