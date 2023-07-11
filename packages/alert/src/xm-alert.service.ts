@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { XmTranslateService } from '@xm-ngx/translation';
-import * as _ from 'lodash';
+import { defaults, cloneDeep, merge } from 'lodash';
 import { map, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { XmAlertComponent } from './xm-alert.component';
@@ -11,16 +11,13 @@ import { XmAlertConfig } from './xm-alert.interface';
     providedIn: 'root',
 })
 export class XmAlertService {
-    constructor(
-        protected xmTranslateService: XmTranslateService,
-        protected dialog: MatDialog,
-    ) {
-    }
+    protected xmTranslateService = inject(XmTranslateService);
+    protected dialog = inject(MatDialog);
 
-    private withDefaults(options: XmAlertOptions): XmAlertConfig {
-        const settings: XmAlertOptions = _.defaults<object, Partial<XmAlertOptions>, Partial<XmAlertConfig>>(
+    private withDefaults(settings: XmAlertOptions): XmAlertConfig {
+        settings = defaults<object, Partial<XmAlertOptions>, Partial<XmAlertConfig>>(
             {}, 
-            _.cloneDeep(options),
+            cloneDeep(settings),
             {
                 iconColor: '#E41E26',
                 dialogActionsAlign: 'end',
@@ -31,30 +28,11 @@ export class XmAlertService {
             },
         );
 
-        /**
-         * @deprecated
-         * Will be removed in the next release
-         */
-        if (settings.title) {
-            settings.title = this.xmTranslateService.translate(settings.title, settings.titleOptions || {});
-        }
-
-        /**
-         * @deprecated
-         * Will be removed in the next release
-         */
-        if (settings.text) {
-            settings.text = this.xmTranslateService.translate(
-                settings.text, 
-                _.defaults({}, settings?.textOptions ?? {}, { value: '' }),
-            );
-        }
-
         return settings;
     }
 
-    public open(options: XmAlertOptions): Observable<XmAlertResult> {
-        const settings = this.withDefaults(options);
+    public open(settings: XmAlertOptions): Observable<XmAlertResult> {
+        settings = this.withDefaults(settings);
 
         const dialogRef = this.dialog.open<XmAlertComponent, XmAlertConfig, XmAlertResult>(XmAlertComponent, {
             width: settings.width ?? '640px',
@@ -85,7 +63,7 @@ export class XmAlertService {
     }
 
     public yesNo(settings: XmAlertOptions): Observable<XmAlertResult> {
-        return this.open(_.merge({
+        return this.open(merge({
             cancelButtonText: 'global.common.no',
         }, settings));
     }
@@ -94,13 +72,13 @@ export class XmAlertService {
         return this.open(settings);
     }
 
-    public delete(options?: XmAlertOptions): Observable<XmAlertResult> {
-        return this.yesCancel(_.merge({
+    public delete(settings?: XmAlertOptions): Observable<XmAlertResult> {
+        return this.yesCancel(merge({
             icon: 'error_outline',
             center: true,
             title: 'global.common.delete',
             text: 'global.common.delete-message',
             confirmButtonText: 'global.common.delete',
-        }, options));
+        }, settings));
     }
 }
