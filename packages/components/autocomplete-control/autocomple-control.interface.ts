@@ -7,7 +7,7 @@ import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error';
 export interface XmAutocompleteControlMapper {
     // Interpolated string as ${name}
     displayFn: string;
-    valueByKey: string;
+    valueByKey: string | object;
 }
 
 export type XmAutocompleteControlParams = Record<string, string>;
@@ -21,7 +21,7 @@ export interface XmAutocompleteControlListItem {
 
 export interface XmAutocompleteControlConfig {
     hint?: HintText;
-    title?: string;
+    title?: Translate;
     search: {
         resourceUrl: string;
         resourceMethod: string;
