@@ -260,7 +260,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
     }
 
     protected updateRoute(): void {
-        this.router.navigate(this.options.navigateUrl, {
+        this.router.navigate(this.config.navigateUrl, {
             queryParams: {
                 pageSize: this.pagination.pageSize,
                 pageIndex: this.pagination.pageIndex,

@@ -56,8 +56,8 @@
 
   <div class="table-responsive">
     <table [dataSource]="dataSource"
-           [matSortActive]="options.sortBy"
-           [matSortDirection]="options.sortDirection"
+           [matSortActive]="config.sortBy"
+           [matSortDirection]="config.sortDirection"
            class="w-100 table-striped"
            mat-table
            matSort>
@@ -149,7 +149,7 @@
     <no-data [show]="!(dataSource?.data.length > 0) && !showLoader"></no-data>
 
     <mat-paginator [length]="totalItems"
-                   [pageSizeOptions]="options.pageSizeOptions"
+                   [pageSizeOptions]="config.pageSizeOptions"
                    [pageIndex]="this.pagination.pageIndex"
                    [pageSize]="this.pagination.pageSize">
     </mat-paginator>

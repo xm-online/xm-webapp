@@ -5,6 +5,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { QueryParamsPageable } from '@xm-ngx/components/entity-collection';
 
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
+import { XmTableColumn } from '@xm-ngx/components/table/columns/xm-table-column-dynamic-cell.component';
 import { XmEventManager } from '@xm-ngx/core';
 import { Link } from '@xm-ngx/entity';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -17,12 +18,13 @@ import { NotImplementedException } from '@xm-ngx/shared/exceptions';
 @Directive()
 export class BaseAdminListComponent implements OnInit, OnDestroy {
 
-    public options: {
+    public config: {
         pageSizeOptions: number[],
         pageSize: number,
         sortDirection: 'asc' | 'desc',
         sortBy: string,
         navigateUrl: string[];
+        columns?: XmTableColumn[]
     } = {
             pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
             pageSize: TABLE_CONFIG_DEFAULT.pageSize,
@@ -38,9 +40,9 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     public showLoader: boolean;
     public pagination: QueryParamsPageable = {
         pageIndex: 0,
-        pageSize: this.options.pageSize,
-        sortBy: this.options.sortBy,
-        sortDirection: this.options.sortDirection,
+        pageSize: this.config.pageSize,
+        sortBy: this.config.sortBy,
+        sortDirection: this.config.sortDirection,
     };
     private previousPage: number;
     private subscription: Subscription;
@@ -55,10 +57,10 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         protected router: Router,
     ) {
         this.subscription = this.activatedRoute.queryParams.subscribe((data: QueryParamsPageable) => {
-            this.pagination.pageSize = data.pageSize || this.options.pageSize;
+            this.pagination.pageSize = data.pageSize || this.config.pageSize;
             this.pagination.pageIndex = data.pageIndex || 0;
-            this.pagination.sortOrder = data.sortOrder || this.options.sortDirection;
-            this.pagination.sortBy = data.sortBy || this.options.sortBy;
+            this.pagination.sortOrder = data.sortOrder || this.config.sortDirection;
+            this.pagination.sortBy = data.sortBy || this.config.sortBy;
         });
     }
 
@@ -81,8 +83,8 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     }
 
     public sort(): string[] {
-        const result = [this.options.sortBy + ',' + this.options.sortDirection];
-        if (this.options.sortBy !== this.basePredicate) {
+        const result = [this.config.sortBy + ',' + this.config.sortDirection];
+        if (this.config.sortBy !== this.basePredicate) {
             result.push(this.basePredicate);
         }
         return result;
@@ -121,7 +123,7 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     }
 
     protected updateRoute(): void {
-        this.router.navigate(this.options.navigateUrl, {
+        this.router.navigate(this.config.navigateUrl, {
             queryParams: {
                 pageSize: this.pagination.pageSize,
                 pageIndex: this.pagination.pageIndex,
@@ -147,8 +149,8 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
     protected getPageAfterRemove(result: any): number {
         if (result && result.content && result.content.id === 'delete' && this.pagination.pageIndex > 1) {
             this.queryCount--;
-            const length = parseInt((this.queryCount / this.options.pageSize) + '', 10)
-                + (this.queryCount % this.options.pageSize ? 1 : 0);
+            const length = parseInt((this.queryCount / this.config.pageSize) + '', 10)
+                + (this.queryCount % this.config.pageSize ? 1 : 0);
             if (this.pagination.pageIndex > length) {
                 this.previousPage = null;
                 return length;

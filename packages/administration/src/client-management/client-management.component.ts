@@ -1,19 +1,17 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
-import { XmTableColumn } from '@xm-ngx/components/table/columns/xm-table-column-dynamic-cell.component';
 import { XmEventManager } from '@xm-ngx/core';
+import { Client, ClientService } from '@xm-ngx/core/client';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { JhiParseLinks } from 'ng-jhipster';
 import { merge, Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith, switchMap } from 'rxjs/operators';
-
-import { Client, ClientService } from '@xm-ngx/core/client';
 import { BaseAdminListComponent } from '../admin.service';
 import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dialog.component';
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';
@@ -44,7 +42,6 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
         'actions',
     ];
     private eventSubscriber: Subscription;
-    @Input() public config: { columns: XmTableColumn[] };
 
     constructor(
         protected clientService: ClientService,
@@ -176,7 +173,7 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
     }
 
     protected updateRoute(): void {
-        this.router.navigate(this.options.navigateUrl, {
+        this.router.navigate(this.config.navigateUrl, {
             queryParams: {
                 pageSize: this.pagination.pageSize,
                 pageIndex: this.pagination.pageIndex,
