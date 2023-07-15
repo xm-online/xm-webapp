@@ -29,7 +29,7 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
 
     @ViewChild('table', { static: false }) public table: ElementRef;
 
-    public options: {
+    public config: {
         pageSizeOptions: number[],
         pageSize: number,
         sortDirection: 'asc' | 'desc',
@@ -104,7 +104,7 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
                                 return { value, valueOrg: value };
                             });
                         });
-                        result.permissions = this.orderByPipe.transform(result.permissions, this.options.sortBy, this.options.sortDirection === 'asc');
+                        result.permissions = this.orderByPipe.transform(result.permissions, this.config.sortBy, this.config.sortDirection === 'asc');
                     }
                     this.hiddenRoles = [];
                     this.matrix = { ...result };

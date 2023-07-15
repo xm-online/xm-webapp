@@ -73,8 +73,8 @@
 
       <div class="table-responsive">
         <table [dataSource]="dataSource"
-               [matSortActive]="options.sortBy"
-               [matSortDirection]="options.sortDirection"
+               [matSortActive]="config.sortBy"
+               [matSortDirection]="config.sortDirection"
                class="w-100 table-striped"
                mat-table
                matSort>
@@ -142,12 +142,12 @@
       <no-data [show]="!(dataSource?.data.length > 0)"></no-data>
 
       <div class="d-flex align-items-center flex-md-nowrap flex-wrap">
-        <ng-container [class.hidden]="!(dataSource?.data.length > 0) || (options.pageSize > totalItems)"
+        <ng-container [class.hidden]="!(dataSource?.data.length > 0) || (config.pageSize > totalItems)"
                       class="me-auto flex-grow-1 flex-nowrap">
           <mat-paginator
             [length]="totalItems"
-            [pageSizeOptions]="options.pageSizeOptions"
-            [pageSize]="options.pageSize">
+            [pageSizeOptions]="config.pageSizeOptions"
+            [pageSize]="config.pageSize">
           </mat-paginator>
         </ng-container>
 
