@@ -8,8 +8,8 @@
 
     <div class="table-responsive">
       <table [dataSource]="dataSource"
-             [matSortActive]="options.sortBy"
-             [matSortDirection]="options.sortDirection"
+             [matSortActive]="config.sortBy"
+             [matSortDirection]="config.sortDirection"
              class="w-100 table-striped"
              mat-table
              matSort>
@@ -75,7 +75,7 @@
         <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="options.pageSizeOptions"
+      <mat-paginator [pageSizeOptions]="config.pageSizeOptions"
                      [pageSize]="this.pagination.pageSize"
                      [length]="this.pagination.total"
                      [pageIndex]="this.pagination.pageIndex">

@@ -30,7 +30,7 @@ import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
 })
 export class RolesMgmtComponent implements OnInit, OnDestroy {
 
-    public options: {
+    public config: {
         pageSizeOptions: number[],
         pageSize: number,
         sortDirection: 'asc' | 'desc',
@@ -45,9 +45,9 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     public pagination: QueryParamsPageable = {
         total: 0,
         pageIndex: 0,
-        pageSize: this.options.pageSize,
-        sortBy: this.options.sortBy,
-        sortDirection: this.options.sortDirection,
+        pageSize: this.config.pageSize,
+        sortBy: this.config.sortBy,
+        sortDirection: this.config.sortDirection,
     };
 
     public showLoader: boolean;
@@ -77,10 +77,10 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     ) {
         this.registerChangeInRoles();
         const data: QueryParamsPageable = this.activatedRoute.snapshot.queryParams;
-        this.pagination.pageSize = data.pageSize || this.options.pageSize;
+        this.pagination.pageSize = data.pageSize || this.config.pageSize;
         this.pagination.pageIndex = data.pageIndex || 0;
-        this.pagination.sortOrder = data.sortOrder || this.options.sortDirection;
-        this.pagination.sortBy = data.sortBy || this.options.sortBy;
+        this.pagination.sortOrder = data.sortOrder || this.config.sortDirection;
+        this.pagination.sortBy = data.sortBy || this.config.sortBy;
     }
 
     public ngOnInit(): void {
