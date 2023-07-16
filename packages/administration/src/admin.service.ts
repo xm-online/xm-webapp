@@ -18,7 +18,7 @@ import { NotImplementedException } from '@xm-ngx/shared/exceptions';
 @Directive()
 export class BaseAdminListComponent implements OnInit, OnDestroy {
 
-    public config: {
+    private actualConfig: {
         pageSizeOptions: number[],
         pageSize: number,
         sortDirection: 'asc' | 'desc',
@@ -32,6 +32,24 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
             sortBy: 'id',
             navigateUrl: [],
         };
+
+
+    public set config(value: any) {
+        this.actualConfig = {
+            ...{
+                pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
+                pageSize: TABLE_CONFIG_DEFAULT.pageSize,
+                sortDirection: 'desc',
+                sortBy: 'id',
+                navigateUrl: [],
+            },
+            ...value,
+        };
+    }
+    public get config(): any {
+        return this.actualConfig;
+    }
+
     public links: Link[];
     public totalItems: number;
     public queryCount: number;
@@ -118,7 +136,7 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         return uniqueData;
     }
 
-    public onError(error: {error: string, message: any}): void {
+    public onError(error: { error: string, message: any }): void {
         this.toasterService.error(error.error, error.message, null);
     }
 
