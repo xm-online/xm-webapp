@@ -45,10 +45,12 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(event: MouseEvent): void {
         if (this.mousePressedOnResizer) {
-            const vw = window.screen.width / 100;
-            const newWidthInPx = window.screen.width - event.x;
+            if (event.stopPropagation) event.stopPropagation();
+            if (event.preventDefault) event.preventDefault();
+            const vw = window.innerWidth / 100;
+            const newWidthInPx = window.innerWidth - event.x;
             const newWidth = newWidthInPx / vw;
-            this.width = newWidth < 30 ? '30vw' : `${newWidth}vw`;
+            this.width = newWidth < 30 ? '30vw' : newWidth > 95 ? '95vw' : `${newWidth}vw`;
         }
     }
 
