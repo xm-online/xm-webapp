@@ -17,7 +17,7 @@ import { XmPermissionModule } from '@xm-ngx/core/permission';
                 mat-icon-button
                 type="button">
             <span class="visually-hidden">Toggle navigation</span>
-            <div id="nav-icon3">
+            <div id="nav-icon">
                 <span></span>
                 <span></span>
                 <span></span>
