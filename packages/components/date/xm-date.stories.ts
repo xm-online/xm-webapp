@@ -2,7 +2,7 @@
 
 // default export to define the component metadata
 import { Meta, Story } from '@storybook/angular';
-import { XmDateComponent, XmDateOptions, XmDateValue } from '@xm-ngx/components/date/index';
+import { XmDateComponent, XmDateOptions, XmDateValue } from '@xm-ngx/components/date';
 
 export default {
     title: 'Core/Presentation/Date/Standard',
