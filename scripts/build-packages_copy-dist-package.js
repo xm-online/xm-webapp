@@ -49,7 +49,7 @@ fs.mkdirSync(libFolderPath);
 // Copy package.json to lib folder for each folder
 foldersWithPackageJson.forEach((folder) => {
     const packageJsonPath = path.join(folder, packageJsonFile);
-    const distPackageJsonPath = path.join(libFolderPath, folder.split('/').pop(), packageJsonFile);
+    const distPackageJsonPath = path.join(libFolderPath, path.basename(folder), packageJsonFile);
 
     // Create folder in lib directory if it doesn't exist
     const libFolderInPath = path.dirname(distPackageJsonPath);
