@@ -13,7 +13,7 @@ export class ExtRoutingCommand implements Command {
     }
 
     public execute(): void {
-        const files: string[] = glob.sync(this.extRoutingPathMask, { sync: true });
+        const files: string[] = glob.sync(this.extRoutingPathMask, { sync: true }).map(filePath => filePath.replace(/\\/g, '/'));
 
         const injects: { import: string, include: string, name: string }[] = [];
         for (const file of files) {

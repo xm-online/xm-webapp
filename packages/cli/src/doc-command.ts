@@ -37,7 +37,7 @@ export class DocCommand implements Command {
     }
 
     private getExamples(): DocExample[] {
-        const modulesPath: string[] = _.flatten(_.map(this.examplesModulePathMask, (themePath) => glob.sync(themePath, { sync: true })));
+        const modulesPath: string[] = _.flatten(_.map(this.examplesModulePathMask, (themePath) => glob.sync(themePath, { sync: true }).map(filePath => filePath.replace(/\\/g, '/'))));
 
         const examples: DocExample[] = [];
         for (const modulePath of modulesPath) {
@@ -53,7 +53,7 @@ export class DocCommand implements Command {
 
             // Get all examples inside the module
             const componentsPathMask = path.join(path.dirname(modulePath), '/**/*.component.*');
-            const componentsPath: string[] = glob.sync(componentsPathMask, { sync: true });
+            const componentsPath: string[] = glob.sync(componentsPathMask, { sync: true }).map(filePath => filePath.replace(/\\/g, '/'));
             const filenames: string[] = _.map(componentsPath, (c) => (/([a-z-]+).component.ts$/.exec(path.basename(c)) || [])[1]);
             const uniqueComponentNames: string[] = _.compact(filenames);
             for (const uniqueComponentName of uniqueComponentNames) {
