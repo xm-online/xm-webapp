@@ -105,7 +105,7 @@ export class SignInUpService {
         return this.otpId;
     }
 
-    public storeAuthenticationToken(jwt: string, rememberMe: boolean): void {
+    public storeAuthenticationToken(jwt: string, rememberMe: boolean = false): void {
         this.storeService.storeAuthenticationToken(jwt, rememberMe);
     }
 

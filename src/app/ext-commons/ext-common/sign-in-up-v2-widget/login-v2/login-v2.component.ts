@@ -86,7 +86,7 @@ export class LoginV2Component implements OnDestroy {
             res.next = this.config.next;
         }
         if (!res.otpId) {
-            this.signInUpService.updateTokens(res, true);
+            this.signInUpService.updateTokens(res, this.group.controls.rememberMe?.value);
         } else {
             this.changeStateEvent.emit(res);
             this.router.navigate([''], {queryParams: {page: this.config.next}});
