@@ -8,7 +8,7 @@ import { readAsJson, saveAsJson } from './fs-utils';
 function getTranslations(pathMask: string): object {
     let translations = {};
 
-    glob.sync(pathMask).forEach(file => {
+    glob.sync(pathMask).map(filePath => filePath.replace(/\\/g, '/')).forEach(file => {
         const newTranslations = readAsJson(file);
         translations = _.mergeWith(translations, newTranslations, (a, b) => a || b);
     });
@@ -45,7 +45,7 @@ export class ExtI18nCommand implements Command {
     }
 
     private moveCustomTranslationsToCoreFolder(pathMask: string): void {
-        glob.sync(pathMask).forEach(file => {
+        glob.sync(pathMask).map(filePath => filePath.replace(/\\/g, '/')).forEach(file => {
             const [fileName, lang] = file.split('/').reverse();
             const dirpath = `${this.core}ext/${lang}`;
             fs.mkdirSync(dirpath, { recursive: true });
