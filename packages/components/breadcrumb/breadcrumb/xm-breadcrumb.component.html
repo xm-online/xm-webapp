@@ -6,6 +6,7 @@
 
     <a *ngIf="!last; else pageTitle"
        [routerLink]="breadcrumb.url"
+       class="xm-breadcrumb-item-link"
        mat-button>{{ breadcrumb.label | translate }}
     </a>
 
