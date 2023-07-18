@@ -1,14 +1,7 @@
 {
   "name": "@xm-ngx/core",
   "version": "1.0.0",
-  "peerDependencies": {
-    "@xm-ngx/shared": "*"
-  },
-  "ngPackage": {
-    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "dest": "../../dist/packages/core",
-    "lib": {
-      "entryFile": "./index.ts"
-    }
+  "scripts": {
+    "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
   }
 }

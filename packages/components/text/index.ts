@@ -1,41 +1,36 @@
 export {
     XmEmailControl,
     XmEmailControlOptions,
-    XmEmailControlModule,
 } from './email-control';
 
 export {
     XmLabeledContainerOptions,
     XmLabeledViewContainerComponent,
-    XmLabeledViewContainerModule,
 } from './labeled-view-container';
 
 export {
     XmPasswordControl,
     XmPasswordControlOptions,
-    XmPasswordControlModule,
     XM_PASSWORD_OPTIONS_DEFAULT,
 } from './password-control';
 
 export {
     XmTextComponent,
-    XmTextModule,
 } from './text';
+
+export * from './text-collapse';
 
 export {
     XmTextControlOptions,
     XmTextControl,
-    XmTextControlModule,
 } from './text-control';
 
 export {
     XmTextRangeControlOptions,
-    XmTextRangeControlComponent,
-    XmTextRangeControlModule,
+    XmTextRangeControl,
 } from './text-range-control';
 
 export {
-    XmTextJoinModule,
     XmTextJoinComponent,
     XmTextJoinValueOptions,
     XmTextJoinValueOptionsTemplate,
@@ -63,5 +58,11 @@ export {
 export {
     XmTextDynamicOptions,
     XmTextDynamicView,
-    XmTextDynamicViewModule,
 } from './text-dynamic-view/xm-text-dynamic-view';
+
+
+export { DigitOnlyDirective } from './digit-only.directive';
+export { XmTextCellComponent, XmTextCellConfig } from './text-cell/text-cell.component';
+export { FocusDirective } from './focus.directive';
+export { InputPreventPasteDirective } from './input-prevent-paste.directive';
+export { WordAutocompleteDirective, WordAutocompleteModule } from './word-autocomplete.directive';

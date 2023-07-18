@@ -1,9 +1,3 @@
-export {
-    LinksGroupWidget,
-    LinksGroupWidgetModule,
-} from './links-group-widget';
+export * from './links-group-widget';
 
-export {
-    LinksGroupButtonWidget,
-    LinksGroupButtonWidgetModule,
-} from './links-group-button-widget';
+export * from './links-group-button-widget';

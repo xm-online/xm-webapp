@@ -1,0 +1,50 @@
+<div *ngIf="xmEntity" class="xm-fab">
+  <div class="xm-fab-drop">
+    <button (click)="onAddAttachment()"
+            *xmPermitted="['ATTACHMENT.CREATE']; context: xmAttachmentContext()"
+            class="xm-fab-option">
+      <i class="material-icons">attach_file</i>
+      <span class="fab-title">{{ "xm-entity.entity-detail-fab.new-attachment" | translate }}</span>
+    </button>
+    <ng-container *xmPermitted="['LINK.CREATE']; context: xmLinksContext()">
+      <button (click)="onAddLink(linkSpec)" *ngFor="let linkSpec of this.xmEntitySpec.links" class="xm-fab-option">
+        <i class="material-icons">{{linkSpec.icon}}</i>
+
+        <ng-container *ngIf="linkSpec?.name; else defaultLinkTooltip">
+          <span class="fab-title">
+            {{ "xm-entity.entity-detail-fab.new" | translate }} {{ linkSpec?.name | translate }}
+          </span>
+        </ng-container>
+
+        <ng-template #defaultLinkTooltip>
+          <span class="fab-title">{{ "xm-entity.entity-detail-fab.new-link" | translate }}</span>
+        </ng-template>
+      </button>
+    </ng-container>
+    <button (click)="onAddComment()"
+            *xmPermitted="['COMMENT.CREATE']; context: xmCommentContext()"
+            class="xm-fab-option">
+      <i class="material-icons">comment</i>
+      <span class="fab-title">{{ "xm-entity.entity-detail-fab.new-comment" | translate }}</span>
+    </button>
+    <button (click)="onAddALocation()"
+            *xmPermitted="['LOCATION.CREATE']; context: xmLocationContext()"
+            class="xm-fab-option">
+      <i class="material-icons">place</i>
+      <span class="fab-title">{{ "xm-entity.entity-detail-fab.new-location" | translate }}</span>
+    </button>
+  </div>
+
+  <div *ngIf="showEditButton">
+    <button (click)="onEdit()"
+            *xmPermitted="['ENTITY.UPDATE', 'XMENTITY.UPDATE']; context: xmEditContext()"
+            class="btn btn-primary xm-fab-button fab-main-button">
+      <i class="material-icons">edit</i>
+      <span class="fab-title">{{ "xm-entity.entity-detail-fab.edit-entity" | translate }}</span>
+    </button>
+  </div>
+
+  <button *ngIf="!showEditOptions && showEditSubOptions" class="btn btn-primary xm-fab-button fab-main-button">
+    <i class="material-icons">more_vert</i>
+  </button>
+</div>

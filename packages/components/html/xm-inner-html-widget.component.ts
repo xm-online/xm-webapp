@@ -3,7 +3,7 @@ import { XmHtmlModule, XmHtmlOptions } from './xm-html';
 
 @Component({
     selector: 'xm-inner-html-widget',
-    template: '<xm-html [options]="config"></xm-html>',
+    template: '<xm-html [config]="config"></xm-html>',
 })
 export class XmInnerHtmlWidget {
     @Input() public config: XmHtmlOptions;

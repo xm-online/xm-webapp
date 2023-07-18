@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { I18nNamePipe } from '@xm-ngx/components/language';
+import { I18nNamePipe } from '@xm-ngx/translation';
 import { ErrorHandlerEventName, ErrorHandlerEventPayload, XmEventManager, XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
@@ -12,12 +12,13 @@ import { Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { XmAlertService } from '../xm-alert.service';
 import { ResponseConfig, ResponseConfigItem, ResponseContext } from './response-config.model';
+import { XmUIConfig } from '@xm-ngx/core/config';
 
 interface ErrorHandlerEventPayloadProcessed extends ErrorHandlerEventPayload {
     content: HttpErrorResponse | any;
 }
 
-interface UIResponseConfig {
+interface UIResponseConfig extends XmUIConfig {
     responseConfig: {
         responses: UIResponseConfigResponses[];
     }
@@ -63,7 +64,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
         ).subscribe((response) => {
             this.specService.config$().pipe(take(1)).subscribe((result) => {
                 if (result?.responseConfig?.responses?.length) {
-                    this.responseContext = { response: response.content, request: response.request };
+                    this.responseContext = {response: response.content, request: response.request};
                     const responseConfig = new ResponseConfig(result.responseConfig.responses.map((e) => {
                         return new ResponseConfigItem(
                             e.code,
@@ -95,7 +96,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
     }
 
     private configAndSendError(config: ResponseConfigItem, response: ErrorHandlerEventPayloadProcessed, params?: any): void {
-        const title = this.processMessage(
+        const title: string = this.processMessage(
             config.outputMessage ? config.outputMessage : null,
             response,
         );
@@ -105,9 +106,11 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 this.alertService.open({
                     title,
                     width: '42rem',
-                    type: messageSettings[1],
+                    icon: messageSettings[1],
                     buttonsStyling: false,
-                    confirmButtonClass: 'btn btn-primary',
+                    customClass: {
+                        confirmButton: 'btn btn-primary',
+                    }
                 }).subscribe((result) => {
                     if (result && config.redirectUrl) {
                         const redirect = (config.redirectUrl === '/') ? '' : config.redirectUrl;
@@ -121,7 +124,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
             }
             case 'validation': {
 
-                const errors = new Function('rc', config.validationFieldsExtractor)(this.responseContext);
+                const errors: { [key: string]: { type: string, value: string } } = new Function('rc', config.validationFieldsExtractor)(this.responseContext);
                 for (const key in errors) {
                     errors[key] = this.processMessage(errors[key] ? errors[key] : null, response);
                 }
@@ -162,7 +165,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
             }
             case 400: {
                 const arr = content.headers.keys();
-                let errorHeader = null;
+                let errorHeader: string = null;
                 let entityKey = null;
                 arr.forEach((entry) => {
                     if (entry.endsWith('app-error')) {
@@ -173,10 +176,14 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 });
                 if (errorHeader) {
                     const entityName = this.translateService.instant(`global.menu.entities.${entityKey}`);
-                    this.showError(errorHeader, errorHeader, { entityName });
+                    this.showError(errorHeader, errorHeader, {entityName});
                 } else {
                     this.defaultErrorHandler(content);
                 }
+                break;
+            }
+            case 413: {
+                this.showError(null, 'error.413');
                 break;
             }
             default: {
@@ -204,7 +211,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
         }).subscribe());
     }
 
-    private defaultErrorHandler(res: HttpErrorResponse | any): void {
+    private defaultErrorHandler(res: HttpErrorResponse | { title?: string, error: { error_description: string, error: string, detail: any, params } }): void {
         if (!res) {
             return;
         }
@@ -218,7 +225,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 const fieldName = this.translateService.instant(
                     `jhipsterSampleApplicationApp.${fieldError.objectName}.${convertedField}`,
                 );
-                this.showError(null, `${fieldError.message}`, { fieldName });
+                this.showError(null, `${fieldError.message}`, {fieldName});
             }
         } else if (res.error?.error && res.error?.error_description) {
             this.showError(
@@ -230,8 +237,9 @@ export class JhiAlertErrorComponent implements OnDestroy {
             this.showError(res.error.error);
         } else if (res.error?.detail) {
             this.showError(res.error.detail);
-        } else if (res.title) {
-            this.showError(res.title);
+            // TODO: handle type incompatibility
+        } else if ((res as {title: string}).title) {
+            this.showError((res as {title: string}).title);
         }
     }
 
@@ -271,7 +279,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
         if (response && response.content && response.content.error && response.content.error.params) {
             return Object.assign({}, response.content.error.params);
         }
-        return { rc: other };
+        return {rc: other};
     }
 
     private processResponse(resp: ErrorHandlerEventPayloadProcessed): ErrorHandlerEventPayloadProcessed {

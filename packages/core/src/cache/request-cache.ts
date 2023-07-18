@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { of, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
 

@@ -1,4 +1,6 @@
-export interface IIdpConfig {
+import { IConfig } from '@xm-ngx/interfaces';
+
+export interface IIdpConfig extends IConfig {
     idp?: {
         enabled?: boolean;
         devClientKey?: string;

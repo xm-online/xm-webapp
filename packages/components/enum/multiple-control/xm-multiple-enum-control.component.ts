@@ -1,12 +1,20 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
-import { DataQa } from '@xm-ngx/shared/interfaces';
+import { DataQa } from '@xm-ngx/interfaces';
 import { clone, defaults, forEach, keyBy } from 'lodash';
 import { XmEnumControlOptionsItem } from '../control/xm-enum-control.component';
 import { XmEnumValue } from '../value/xm-enum.component';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
-import { HintText } from '@xm-ngx/components/hint';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 export interface XmMultipleEnumControlOptions extends XmEnumViewOptions, DataQa {
     id?: string;
@@ -27,11 +35,11 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
     selector: 'xm-multiple-enum-control',
     template: `
         <mat-form-field>
+            <mat-label>{{config?.title | translate}}</mat-label>
             <mat-select [formControl]="control"
-                        [required]="options.required"
-                        [id]="options.id"
-                        [attr.data-qa]="options.dataQa"
-                        [placeholder]="options?.title | translate"
+                        [required]="config.required"
+                        [id]="config.id"
+                        [attr.data-qa]="config.dataQa"
                         multiple>
                 <mat-select-trigger>
                     <ng-container *ngIf="itemsMap && itemsMap[value[0] + '']">
@@ -55,35 +63,48 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
 
-            <mat-hint [hint]="options.hint"></mat-hint>
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
+    imports: [
+        XmTranslationModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule,
+        MatIconModule,
+        CommonModule,
+        ControlErrorModule,
+        ReactiveFormsModule,
+        XmPermissionModule,
+        HintModule,
+    ],
+    standalone: true,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmMultipleEnumControlComponent
+export class XmMultipleEnumControl
     extends NgFormAccessor<XmEnumValue[] | undefined>
     implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: {[value: string]: XmEnumControlOptionsItem};
-    private _options: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
+    private _config: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
 
     public get value(): XmEnumValue[] {
         return this._value == undefined ? [] : this._value;
     }
 
-    @ Input()
+    @Input()
     public set value(data: XmEnumValue[] | undefined) {
         this._value = data;
     }
 
-    public get options(): XmMultipleEnumControlOptions {
-        return this._options;
+    public get config(): XmMultipleEnumControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmMultipleEnumControlOptions) {
-        this._options = defaults({}, value, XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
+    public set config(value: XmMultipleEnumControlOptions) {
+        this._config = defaults({}, value, XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
         this.itemsList = value.items;
         forEach(this.itemsList, (item) => {
             if (item.value === undefined) {

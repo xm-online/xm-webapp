@@ -4,13 +4,25 @@
 }
 
 .xm-main-panel {
+  position: relative;
   display:        flex;
   flex-direction: column;
   min-height:     100vh;
 }
 
+.xm-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
 .xm-main-content {
+  --bs-gutter-x: 0;
+  --bs-gutter-y: 0;
   display:        flex;
   flex-direction: column;
   flex-grow:      1;
+  margin-top: 5rem;
 }

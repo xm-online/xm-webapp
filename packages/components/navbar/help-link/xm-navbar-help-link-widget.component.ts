@@ -1,14 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
-import { XmUiConfigService } from '@xm-ngx/core/config';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Observable } from 'rxjs';
-import { Translate } from '@xm-ngx/translation';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface IHelpNavLink {
     url: string;
     icon?: string;
     text?: Translate;
+}
+
+export interface HelpUiConfig extends XmUIConfig {
+    helpConfig: {
+        navLink: IHelpNavLink;
+    }
 }
 
 @Component({
@@ -24,16 +34,25 @@ export interface IHelpNavLink {
             </a>
         </div>
     `,
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatIconModule,
+        XmTranslationModule,
+    ],
+    standalone: true,
     styleUrls: ['./xm-navbar-help-link-widget.component.scss'],
 })
-export class XmNavbarHelpLinkWidget implements OnInit {
+export class XmNavbarHelpLinkWidget implements OnInit, XmDynamicWidget {
+    @Input() public config: unknown;
+
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
     public helpConfig: {
         navLink: IHelpNavLink;
     };
 
     constructor(
-        private xmUiConfigService: XmUiConfigService,
+        private xmUiConfigService: XmUiConfigService<HelpUiConfig>,
         private xmSessionService: XmSessionService,
     ) {
     }

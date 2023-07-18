@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { XmCodeModule } from '@xm-ngx/components/code';
-import { XmCopyIconModule } from '@xm-ngx/components/copy';
+import { XmCopyIconComponent } from '@xm-ngx/components/copy';
 import { XmCopyExampleComponent } from './xm-copy-example.component';
 
 
@@ -10,7 +10,7 @@ import { XmCopyExampleComponent } from './xm-copy-example.component';
     exports: [XmCopyExampleComponent],
     imports: [
         CommonModule,
-        XmCopyIconModule,
+        XmCopyIconComponent,
         XmCodeModule,
     ],
 })

@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
-import { Id } from '@xm-ngx/shared/interfaces';
+import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
+import { Id } from '@xm-ngx/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone } from 'lodash/fp';
 import {
@@ -26,16 +26,16 @@ export const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
 @Component({
     selector: 'xm-by-entity-id',
     template: `
-        <xm-text-view-container [hidden]="!fieldValue" [styleInline]="options?.styleInline">
-            <span xmLabel>{{options?.title | translate}}</span>
+        <xm-text-view-container [hidden]="!fieldValue" [styleInline]="config?.styleInline">
+            <span xmLabel>{{config?.title | translate}}</span>
             <span xmValue>{{fieldValue}}</span>
         </xm-text-view-container>
     `,
 })
 export class ByEntityIdComponent extends ByEntityIdValueComponent implements OnInit, OnChanges {
 
-    /** {@inheritDoc XmDynamicPresentation.options} */
-    @Input() public options: ByEntityIdOptions;
+    /** {@inheritDoc XmDynamicPresentation.config} */
+    @Input() public config: ByEntityIdOptions;
 
     /** {@inheritDoc XmDynamicPresentation.value} */
     @Input() public value: Id;

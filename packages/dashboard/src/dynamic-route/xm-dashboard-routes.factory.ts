@@ -1,4 +1,4 @@
-import { Dashboard } from '@xm-ngx/dashboard';
+import { Dashboard } from '@xm-ngx/core/dashboard';
 import { Route, Routes } from '@angular/router';
 import * as _ from 'lodash';
 

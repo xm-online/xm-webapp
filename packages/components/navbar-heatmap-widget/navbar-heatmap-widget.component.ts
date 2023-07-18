@@ -2,13 +2,13 @@ import {Component, NgModule, NgZone, Type} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {NavigationEnd, Router} from '@angular/router';
-import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/shared/operators';
+import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
 import {HeatmapService} from './heatmap.service';
 import {CommonModule} from '@angular/common';
-import {Principal} from '@xm-ngx/core/auth';
+import {Principal} from '@xm-ngx/core/user';
 
 @Component({
-    selector: 'xm-navbar-dashboard-edit-widget',
+    selector: 'xm-navbar-heatmap-widget',
     template: `
         <button mat-icon-button
                 class="heatmap-icon"

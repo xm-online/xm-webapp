@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
-import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import {
     XmDynamicPresentation,
     XmDynamicPresentationConstructor,
     XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
-import { Id } from '@xm-ngx/shared/interfaces';
+import { Id } from '@xm-ngx/interfaces';
 import { get } from 'lodash';
 import { clone } from 'lodash/fp';
 import { Subscription } from 'rxjs';
@@ -38,8 +38,8 @@ export const BY_ENTITY_ID_VALUE_OPTIONS: ByEntityIdValueOptions = {
 export class ByEntityIdValueComponent
 implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges {
 
-    /** {@inheritDoc XmDynamicPresentation.options} */
-    @Input() public options: ByEntityIdValueOptions;
+    /** {@inheritDoc XmDynamicPresentation.config} */
+    @Input() public config: ByEntityIdValueOptions;
     /** {@inheritDoc XmDynamicPresentation.value} */
     @Input() public value: Id;
 
@@ -75,7 +75,7 @@ implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges 
      */
     protected update(): void {
         if (this.value) {
-            const resourceUrl = this.options?.resourceUrl || this.defaultOptions.resourceUrl;
+            const resourceUrl = this.config?.resourceUrl || this.defaultOptions.resourceUrl;
             const collection = this.factoryService.create<unknown>(resourceUrl);
 
             if (this.subsription) {
@@ -84,7 +84,7 @@ implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges 
             }
 
             this.subsription = collection.getById(this.value).subscribe((res) =>
-                this.fieldValue = this.getEntityField(res.body, this.options?.entityField),
+                this.fieldValue = this.getEntityField(res.body, this.config?.entityField),
             );
         } else {
             this.fieldValue = '';

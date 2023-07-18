@@ -2,7 +2,7 @@
   <ng-container *ngIf="serverEnv$ | async as serverEnv">
     <div class="xm-ribbon">
       <div class="xm-ribbon-text">server: {{serverEnv}}</div>
-      <div class="xm-ribbon-text">release: {{environment.release}}</div>
+      <div class="xm-ribbon-text">release: {{xmCoreConfig.RELEASE}}</div>
     </div>
   </ng-container>
 </ng-container>

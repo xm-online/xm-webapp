@@ -214,6 +214,12 @@
     "updated": "Updated {{value}}",
     "widgets": "Widgets"
   },
+  "date-time-picker": {
+    "labels": {
+      "from": "From",
+      "to": "To"
+    }
+  },
   "entity": {
     "action": {
       "back": "Back",
@@ -276,6 +282,7 @@
       }
     },
     "403": "You are not authorized to access the page.",
+    "413": "Server's file size limit exceeded",
     "500": "Internal Server Error.",
     "business": "Forwarding error",
     "concurrencyFailure": "Parallel request error.",
@@ -367,7 +374,8 @@
       "no": "No",
       "set": "Set",
       "yes": "Yes",
-      "yes-exit": "Yes, exit!"
+      "yes-exit": "Yes, exit!",
+      "dbclick-to-edit": "Double click to edit"
     },
     "field": {
       "id": "ID"
@@ -597,7 +605,7 @@
     "form": {
       "button": "Sign in",
       "hide-password": "Hide password",
-      "otpValidateButton": "Send OTP",
+      "otpValidateButton": "Enter",
       "otpValidateCancel": "Cancel",
       "password": "Password",
       "rememberMe": "Remember me",
@@ -734,6 +742,16 @@
     "notification": "Notifications",
     "search": "Search",
     "toggleNotification": "Toggle navigation"
+  },
+  "time": {
+    "now": "Just now",
+    "minAgo": "1 minute ago",
+    "minsAgo": " minutes ago",
+    "hourAgo": "1 hour ago",
+    "hoursAgo": " hours ago",
+    "yesterday": "Yesterday",
+    "daysAgo": " days ago",
+    "weeksAgo": " week(s) ago"
   },
   "password": {
     "form": {
@@ -972,7 +990,7 @@
   "xm-control-errors": {
     "validators": {
       "email": "Your email address is incorrect.",
-      "max": "The maximum value is {{min}}.",
+      "max": "The maximum value is {{max}}.",
       "maxlength": "Cannot exceed {{requiredLength}} characters.",
       "min": "The minimum value is {{min}}.",
       "minlength": "Must be at least {{requiredLength}} characters.",
@@ -1027,7 +1045,8 @@
         "success": "Event added successfully."
       },
       "choose-type": "Choose event type",
-      "title": "Add new event for the"
+      "title": "Add new event for the",
+      "title-edit": "Edit event for the"
     },
     "comment-detail-dialog": {
       "add": {
@@ -1073,7 +1092,8 @@
       "title": "Data",
       "update-error": "Not updated. Try again.",
       "update-success": "Updated successfully.",
-      "change-avatar": "Change Picture"
+      "change-avatar": "Change Picture",
+      "current-state": "Current status"
     },
     "entity-detail-dialog": {
       "add": {
@@ -1085,6 +1105,7 @@
       }
     },
     "entity-detail-fab": {
+      "new": "Add new",
       "edit-entity": "Edit",
       "new-attachment": "Add new attachment",
       "new-comment": "Add new comment",
@@ -1427,7 +1448,10 @@
         "remove-success": "Location removed successfully.",
         "title": "Are you sure you want to delete Location?"
       },
-      "title": "Locations"
+      "not-defined": "Location not defined",
+      "add-location": "Add location",
+      "title": "Locations",
+      "title-location": "Location"
     },
     "rating-list-section": {
       "vote-error": "Your vote is not taken into account.",
@@ -1445,6 +1469,7 @@
     }
   },
   "xm-enum": {
+    "all": "All",
     "other": "Other",
     "others": "Others"
   },
@@ -1456,6 +1481,10 @@
   },
   "xm-timeline": {
     "common": {
+      "no-items": "There are no entries for this request!",
+      "show-more-10": "Show more",
+      "show-more-all": "Show all",
+      "title": "Chronology",
       "time-ago": {
         "day": "a day ago",
         "days": " days ago",
@@ -1582,13 +1611,35 @@
   "xm-validator-processing": {
     "validators": {
       "minDate": "The selected date is less than the minimum date ({{minDateI18n}}).",
-      "languageRequired": "",
+      "languageRequired": "At least one language is required",
       "minArrayLength": "Array is less then the minimum length ({{requiredLength}}).",
       "valueMoreThanIn": "Value is more than {{compareValue}}",
       "valueLessThanIn": "Value is less than {{compareValue}}",
       "severalEmails": "Invalid email or values should be separating by next symbol: ';'",
       "dateMoreThanIn": "Value more then allowable range",
       "dateLessThanIn": "Value is less than allowable range"
+    }
+  },
+  "table": {
+    "filter": {
+      "button": {
+        "search": "Search",
+        "reset": "Reset",
+        "clearAll": "Clear all",
+        "more": "More"
+      }
+    }
+  },
+  "login-page": {
+    "tfa": {
+      "code-number": "The code was sent to the number",
+      "change-number": "Change the number",
+      "code-sms": "Enter the code from the SMS:",
+      "code-valid": "The code is valid for 2 minutes. Do not share this code with anyone.",
+      "no-sms": "Didn't receive an SMS?",
+      "more-sms": "Send again",
+      "signUp":"Registration",
+      "signUp-no-account": "No account?"
     }
   }
 }

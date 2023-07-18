@@ -1,8 +1,8 @@
-import { DashboardWidget } from '../../models/dashboard-widget.model';
+import { DashboardWidget } from '@xm-ngx/core/dashboard';
 import { getWidgetComponent, getWidgetsComponent } from './widgets-path_backward-compatibility';
 import * as _ from 'lodash';
 import { sortByOrderIndex } from './sortByOrderIndex';
-import { Dashboard, DashboardLayoutLayout } from '../../models/dashboard.model';
+import { Dashboard, DashboardLayoutLayout } from '@xm-ngx/core/dashboard';
 import { XmLogger } from '@xm-ngx/logger';
 
 

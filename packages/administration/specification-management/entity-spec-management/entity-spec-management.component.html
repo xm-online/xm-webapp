@@ -1,0 +1,57 @@
+<div *ngIf="entitySpecificationIn" class="mb-3">
+  <xm-entity-spec-editor
+    [disabled]="disabled"
+    (entitySpecChange)="onApplyChanges($event)"
+    [entitySpec]="entitySpecificationIn"
+  ></xm-entity-spec-editor>
+</div>
+
+<div class="text-center mb-3">
+
+  <button (click)="validateXmEntitySpec();"
+          *ngIf="!isXmEntitySpecValid"
+          class="mx-2"
+          color="primary"
+          mat-flat-button
+          type="submit"
+          [disabled]="disabled">
+    {{'admin-config.specification-mng.validate' | translate}}
+  </button>
+
+  <button (click)="updateEntityConfig();"
+          *ngIf="isXmEntitySpecValid"
+          class="mx-2"
+          color="primary"
+          mat-flat-button
+          type="submit"
+          [disabled]="disabled">
+    {{ 'admin-config.specification-mng.entity.save' | translate }}
+  </button>
+
+  <button (click)="onShowConfigVisualizerDialog();"
+          color="primary"
+          mat-icon-button
+          type="button">
+    <mat-icon>visibility</mat-icon>
+  </button>
+
+  <button (click)="onShowConfigStatesManagementDialog();"
+          color="primary"
+          mat-icon-button
+          type="button">
+    <mat-icon>more</mat-icon>
+  </button>
+
+</div>
+
+<div class="text-center mb-3">
+  <div *ngIf="entityValidation && !entityValidation.valid" [innerHtml]="entityValidation?.errorMessage"
+       class="text-danger">
+  </div>
+</div>
+
+<div class="text-end mb-3">
+  <xm-ace-editor-control (valueChange)="onEntitySpecificationChange($event)"
+                         [config]="aceEditorOptions"
+                         [value]="entitySpecificationIn"></xm-ace-editor-control>
+</div>

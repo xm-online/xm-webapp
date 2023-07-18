@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -7,12 +7,20 @@ import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import * as _ from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { Principal } from '@xm-ngx/core/auth';
+import { Principal } from '@xm-ngx/core/user';
 import { Notification, NotificationUiConfig } from '../shared/notification.model';
 
 import { NotificationsService } from '../shared/notifications.service';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { CommonModule } from '@angular/common';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { XmTranslationModule } from '@xm-ngx/translation';
 
 const DEFAULT_PRIVILEGES = ['XMENTITY.SEARCH', 'XMENTITY.SEARCH.QUERY', 'XMENTITY.SEARCH.TEMPLATE'];
 const DEF_NOTIFY_COUNT = 5;
@@ -21,10 +29,21 @@ const DEF_NOTIFY_COUNT = 5;
     selector: 'xm-navbar-notification-widget',
     templateUrl: './xm-navbar-notification-widget.component.html',
     styleUrls: ['./xm-navbar-notification-widget.component.scss'],
+    imports: [
+        CommonModule,
+        XmPermissionModule,
+        MatIconModule,
+        MatMenuModule,
+        MatBadgeModule,
+        MatButtonModule,
+        XmTranslationModule,
+    ],
+    standalone: true,
+    providers: [NotificationsService],
 })
-export class XmNavbarNotificationWidget implements OnInit, OnDestroy {
+export class XmNavbarNotificationWidget implements OnInit, OnDestroy, XmDynamicWidget {
 
-    public config: NotificationUiConfig;
+    @Input() public config: NotificationUiConfig;
     public isOpened: boolean;
     public showCount: number;
     public notifications: Notification[];

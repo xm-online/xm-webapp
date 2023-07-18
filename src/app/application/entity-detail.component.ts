@@ -3,8 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 
-import { I18nNamePipe, JhiLanguageHelper, Principal } from '../shared';
-import { Spec, XmEntity, XmEntityService, XmEntitySpecWrapperService } from '../xm-entity';
+import { I18nNamePipe } from '@xm-ngx/translation';
+import { JhiLanguageHelper } from '@xm-ngx/translation';
+import { Principal } from '@xm-ngx/core/user';
+import { Spec, XmEntity, XmEntityService, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 
 declare const $: any;
 

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { FormArray, FormBuilder } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
 import { ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 
 import { FormGroupLayoutFactoryService, FormGroupLayoutItem } from './form-group-layout-factory.service';
@@ -8,7 +8,7 @@ describe('FormGroupLayoutFactoryService', () => {
     let service: FormGroupLayoutFactoryService;
 
     beforeEach(() => {
-        TestBed.configureTestingModule({ providers: [FormBuilder, ValidatorProcessingService] });
+        TestBed.configureTestingModule({ providers: [UntypedFormBuilder, ValidatorProcessingService] });
         service = TestBed.inject<FormGroupLayoutFactoryService>(FormGroupLayoutFactoryService);
     });
 
@@ -36,7 +36,7 @@ describe('FormGroupLayoutFactoryService', () => {
         const option2: FormGroupLayoutItem = { value: 2, validators: null, options: null };
         const options: FormGroupLayoutItem[] = [option1, option2];
         const group = service.createFormWithFormArray(options);
-        const aliases = group.get('aliases') as FormArray;
+        const aliases = group.get('aliases') as UntypedFormArray;
         expect(aliases.at(0).value).toBe(option1.value);
         expect(aliases.at(1).value).toBe(option2.value);
     });

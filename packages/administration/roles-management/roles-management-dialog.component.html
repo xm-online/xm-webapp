@@ -1,0 +1,70 @@
+<form #editForm="ngForm" (ngSubmit)="onSave()" *ngIf="role" class="m-0" name="editForm" novalidate role="form">
+  <div mat-dialog-title class="d-flex align-items-center">
+    <h4 class="modal-title text-start">
+      <span *ngIf="isAddMode">{{'rolesManagement.home.labelCreate'|translate}}</span>
+      <span *ngIf="!isAddMode">{{'rolesManagement.home.labelEdit'|translate}}</span>
+    </h4>
+    <xm-modal-close class="ms-auto" mat-dialog-close></xm-modal-close>
+  </div>
+
+  <div mat-dialog-content>
+    <xm-loader [showLoader]="showLoader"></xm-loader>
+
+    <div class="form-group">
+      <mat-form-field>
+        <input #fieldRoleKey="ngModel"
+               [(ngModel)]="role.roleKey"
+               [disabled]="!isAddMode"
+               matInput
+               name="roleKey"
+               pattern="^\s*[\w|\d]+\s*$"
+               type="text"
+               required>
+        <mat-label>{{'rolesManagement.key' | translate}}</mat-label>
+        <mat-error *ngIf="fieldRoleKey.hasError('required')">
+          <span>{{'xm-entity.common.validation.required'|translate}}</span>
+        </mat-error>
+        <mat-error *ngIf="fieldRoleKey.hasError('pattern')">
+          <span>{{'xm-entity.common.validation.pattern'|translate}}</span>:&nbsp;&nbsp;<span
+          [innerHtml]="'^\s*[\w|\d]+\s*$'"></span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <div *ngIf="isAddMode" class="form-group">
+      <mat-form-field>
+        <mat-label>{{'rolesManagement.basedOn' | translate}}</mat-label>
+        <mat-select [(ngModel)]="role.basedOn"
+                    name="authority">
+          <mat-option readonly>{{'rolesManagement.chooseRole' | translate}}</mat-option>
+          <mat-option *ngFor="let item of roles" [value]="item">{{item}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field>
+            <mat-label>{{'rolesManagement.description' | translate}}</mat-label>
+            <textarea [(ngModel)]="role.description"
+                      id="field_desc"
+                      matInput
+                      name="desc"
+                      rows="4"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <button class="me-1 ms-auto" (click)="onClose()" data-dismiss="modal" mat-flat-button type="button">
+      <span class="fa fa-ban"></span>&nbsp;<span
+     >{{'entity.action.cancel'|translate}}</span>
+    </button>
+    <button [disabled]="editForm.form.invalid || showLoader"
+            color="primary"
+            mat-flat-button
+            type="submit">
+      <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
+    </button>
+  </div>
+</form>

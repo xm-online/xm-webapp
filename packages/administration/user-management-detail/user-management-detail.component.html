@@ -1,0 +1,38 @@
+<xm-loader [showLoader]="showLoader"></xm-loader>
+
+<no-data [show]="!user"></no-data>
+
+<mat-card *ngIf="user">
+
+  <mat-card-title>{{'xm-entity.entity-data-card.title' | translate}}</mat-card-title>
+
+  <mat-card-content>
+    <xm-text-view [config]="{title: 'First Name:'}" [value]="user.firstName"></xm-text-view>
+    <xm-text-view [config]="{title: 'Last Name:'}" [value]="user.lastName"></xm-text-view>
+    <xm-text-view [config]="{title: 'Created By:'}" [value]="user.createdBy + ' ' + (user.createdDate | date)"></xm-text-view>
+    <xm-text-view [config]="{title: 'Modified By:'}"
+                  [value]="user.lastModifiedBy + ' ' + (user.lastModifiedDate | date)"></xm-text-view>
+    <xm-text-view [config]="{title: 'Preferred Language:'}" [value]="user.langKey"></xm-text-view>
+    <xm-text-view [config]="{title: 'Role:'}" [value]="user.roleKey"></xm-text-view>
+    <xm-text-view [config]="{title: 'Roles:'}" *ngIf="user.authorities" [value]="user.authorities"></xm-text-view>
+    <xm-text-view [config]="{title: 'ID:'}" [value]="user.id"></xm-text-view>
+    <xm-text-view [config]="{title: 'UserKey:'}" [value]="user.userKey"></xm-text-view>
+    <xm-text-view [config]="{title: 'Email:'}" [value]="userEmail"></xm-text-view>
+
+    <xm-text-view-container>
+      <div xmLabel>{{'Status:' | translate}}</div>
+      <div xmValue>
+        <span *ngIf="!user.activated" class="badge badge-danger">{{'userManagement.deactivated' | translate}}</span>
+        <span *ngIf="user.activated" class="badge badge-danger">{{'userManagement.activated' | translate}}</span>
+      </div>
+    </xm-text-view-container>
+
+  </mat-card-content>
+
+  <button (click)="resetPassword()"
+          [disabled]="pwdResetDisabled()"
+          mat-stroked-button>
+    <span>{{'reset.request.form.button' | translate}}</span>
+  </button>
+
+</mat-card>

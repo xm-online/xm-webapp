@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Input, NgModule, OnDestroy, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import * as ace from 'brace';
 import { Editor } from 'brace';
 
@@ -9,13 +9,16 @@ import 'brace/mode/json';
 import 'brace/mode/yaml';
 import 'brace/theme/chrome';
 import 'brace/theme/tomorrow_night';
+import _ from 'lodash';
 
 
 @Directive({
     selector: '[xmAceEditor]',
+    standalone: true,
 })
 export class XmAceEditorDirective<O = unknown> implements OnDestroy {
 
+    public _alreadyFocused = false;
     public _highlightActiveLine: boolean = true;
     public _showGutter: boolean = true;
     public editor: Editor;
@@ -28,12 +31,16 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
         this.initEvents();
     }
 
-    public _options: O;
+    public _config: O;
 
     @Input()
-    public set options(options: O) {
-        this._options = options;
+    public set config(options: O) {
+        this._config = options;
         this.editor.setOptions(options || {});
+    }
+
+    public get config(): O {
+        return this._config;
     }
 
     public _readOnly: boolean = false;
@@ -64,16 +71,25 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
         this._autoUpdateContent = status;
     }
 
+    public _enableInitialFocus: boolean = false;
+
+    @Input() set enableInitialFocus(value: boolean) {
+        this._enableInitialFocus = value;
+    }
+
     @Input() set text(text: string) {
         if (!text) {
             text = '';
         }
 
-        if (this._autoUpdateContent === true) {
+        if (this._autoUpdateContent === true && !_.isEqual(text, this.editor.getValue())) {
             this.editor.setValue(text);
             this.editor.clearSelection();
-            this.editor.focus();
-            this.editor.moveCursorTo(0, 0);
+
+            // text updated while typing, so we focus cursor on editor only once
+            if (this._enableInitialFocus) {
+                this.initialFocusOnEditor();
+            }
         }
     }
 
@@ -85,8 +101,17 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
         }
     }
 
+    public initialFocusOnEditor(): void {
+        if (!this._alreadyFocused) {
+            this.editor.focus();
+            this.editor.moveCursorTo(0, 0);
+
+            this._alreadyFocused = true;
+        }
+    }
+
     public init(): void {
-        this.editor.setOptions(this._options || {});
+        this.editor.setOptions(this.config || {});
         this.editor.setTheme(`ace/theme/${this._theme}`);
         this.editor.getSession().setMode(`ace/mode/${this._mode}`);
         this.editor.setHighlightActiveLine(this._highlightActiveLine);
@@ -107,20 +132,12 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
 
     private updateValue(): void {
         const newVal = this.editor.getValue();
-        if (newVal === this.oldText) {
-            return;
-        }
-        if (typeof this.oldText !== 'undefined') {
+        
+        if (this.oldText != null) {
             this.textChanged.emit(newVal);
         }
+
         this.oldText = newVal;
     }
 
-}
-
-@NgModule({
-    exports: [XmAceEditorDirective],
-    declarations: [XmAceEditorDirective],
-})
-export class AceEditorModule {
 }

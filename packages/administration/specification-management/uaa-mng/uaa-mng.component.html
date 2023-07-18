@@ -1,0 +1,28 @@
+<div class="text-center pb-3">
+  <button (click)="validateUaaSpecification();"
+          *ngIf="!isUaaSpecValid"
+          [disabled]="disabled"
+          color="primary"
+          mat-flat-button
+          translate="admin-config.specification-mng.validate"
+          type="submit">
+  </button>
+  <button (click)="updateUaaSpecification();"
+          *ngIf="isUaaSpecValid"
+          [disabled]="disabled"
+          color="primary"
+          mat-flat-button
+          translate="admin-config.specification-mng.uaa.save"
+          type="submit">
+  </button>
+  <div class="text-center">
+    <div *ngIf="uaaValidation && !uaaValidation.valid" [innerHtml]="uaaValidation?.errorMessage"
+         class="text-danger">
+    </div>
+  </div>
+</div>
+<div class="text-end">
+  <xm-ace-editor-control (valueChange)="onUaaSpecificationChange($event)"
+                         [config]="aceEditorOptions"
+                         [value]="uaaSpecificationIn"></xm-ace-editor-control>
+</div>

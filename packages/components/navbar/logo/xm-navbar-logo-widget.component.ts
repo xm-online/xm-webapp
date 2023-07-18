@@ -1,10 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { XmSessionService } from '@xm-ngx/core';
-import { XmUiConfigService } from '@xm-ngx/core/config';
-import { environment } from '@xm-ngx/core/environment';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { XmCoreConfig, XmSessionService } from '@xm-ngx/core';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
+
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+/** TODO: Migrate to widgets. */
+export interface NavbarLogoUIConfig extends XmUIConfig {
+    name: string;
+    logoUrl: string;
+}
 
 @Component({
     selector: 'xm-navbar-logo-widget',
@@ -17,9 +26,17 @@ import { filter } from 'rxjs/operators';
             </a>
         </div>
     `,
+    imports: [
+        RouterModule,
+        CommonModule,
+    ],
+    standalone: true,
     styleUrls: ['./xm-navbar-logo-widget.component.scss'],
 })
-export class XmNavbarLogoWidget implements OnInit, OnDestroy {
+export class XmNavbarLogoWidget implements OnInit, OnDestroy, XmDynamicWidget {
+
+    @Input() public config: NavbarLogoUIConfig;
+
     public tenantLogoUrl: string = '../assets/img/logo-xm-online.png';
     public tenantName: string;
     public showLogo: boolean = false;
@@ -27,13 +44,14 @@ export class XmNavbarLogoWidget implements OnInit, OnDestroy {
     private version: string;
 
     constructor(
-        private xmUiConfigService: XmUiConfigService,
+        private xmUiConfigService: XmUiConfigService<NavbarLogoUIConfig>,
         private xmSessionService: XmSessionService,
+        private xmCoreConfig: XmCoreConfig,
     ) {
     }
 
     public ngOnDestroy(): void {
-        this.version = environment.production ? `v${environment.version}` : '';
+        this.version = this.xmCoreConfig.IS_PRODUCTION ? `v${this.xmCoreConfig.VERSION}` : '';
         takeUntilOnDestroyDestroy(this);
     }
 

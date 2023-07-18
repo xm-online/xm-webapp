@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { LIST_DEFAULT_FIELDS } from '../../../shared/constants/default-lists-fields.constants';
-import { Spec } from '../../../xm-entity';
+import { LIST_DEFAULT_FIELDS } from '@xm-ngx/translation';
+import { Spec } from '@xm-ngx/entity';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-entity-list-widget',
     templateUrl: './entity-list-widget.component.html',
 })
-export class EntityListWidgetComponent implements OnInit {
+export class EntityListWidgetComponent implements OnInit, XmDynamicWidget {
 
-    public config: any;
+    @Input() public config: any;
     public spec: Spec;
     public defaultFieldsKeys: string[] = [
         LIST_DEFAULT_FIELDS.name,

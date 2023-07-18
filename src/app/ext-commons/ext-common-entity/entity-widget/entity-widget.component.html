@@ -1,4 +1,4 @@
-<ng-container *ngIf="xmEntity$ | async as fetchedXmEntity; else loading ">
+<div class="container-fluid" *ngIf="xmEntity$ | async as fetchedXmEntity; else loading ">
   <ng-container
     *ngIf="fetchedXmEntity; then cardsData; else noData"
   ></ng-container>
@@ -55,6 +55,7 @@
           <div *ngSwitchCase="'location-list-card'">
             <xm-location-list-card
               *ngIf="xmEntitySpec?.locations?.length"
+              [xmEntitySpec]="xmEntitySpec"
               [entityUiConfig]="this.entityUiConfig" [locationSpecs]="xmEntitySpec?.locations"
               [xmEntityId]="fetchedXmEntity.id">
             </xm-location-list-card>
@@ -86,9 +87,10 @@
           </div>
 
           <div *ngSwitchCase="'timeline'">
-            <xm-timeline *xmPermitted="['TIMELINE.GET_LIST']"
+            <xm-timeline-widget *xmPermitted="['TIMELINE.GET_LIST']"
+                         [config]="config"
                          [xmEntityId]="fetchedXmEntity?.id">
-            </xm-timeline>
+            </xm-timeline-widget>
           </div>
         </div>
       </div>
@@ -106,7 +108,7 @@
   <ng-template #noData>
     <no-data [show]="true"></no-data>
   </ng-template>
-</ng-container>
+</div>
 
 <ng-template #loading>
   <xm-loader [showLoader]="true"></xm-loader>

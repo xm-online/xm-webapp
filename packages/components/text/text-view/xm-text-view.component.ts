@@ -5,7 +5,7 @@ import {
     XmDynamicPresentationConstructor,
     XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
-import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
+import { DataQa, Primitive } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { XmTextViewContainerComponent } from './xm-text-view-container.component';
@@ -28,15 +28,15 @@ export type PrimitiveOrTranslate = Primitive & Translate;
 @Component({
     selector: 'xm-text-view',
     template: `
-        <xm-text-view-container [styleInline]="!!this.options?.style">
-            <span xmLabel>{{options.title | translate}}</span>
-            <span [attr.data-qa]="options.dataQa"
+        <xm-text-view-container [styleInline]="!!config?.style">
+            <span xmLabel>{{config.title | translate}}</span>
+            <span [attr.data-qa]="config.dataQa"
                   xmValue>
                 <span *ngIf="value !== undefined; else emptyValue">
                     {{ value | translate }}
                 </span>
                 <ng-template #emptyValue>
-                    {{options.emptyValue | translate}}
+                    {{config.emptyValue | translate}}
                 </ng-template>
             </span>
         </xm-text-view-container>
@@ -45,15 +45,15 @@ export type PrimitiveOrTranslate = Primitive & Translate;
 export class XmTextViewComponent implements XmDynamicPresentation<PrimitiveOrTranslate, XmTextViewOptions> {
     @Input() public value: PrimitiveOrTranslate;
 
-    private _options: XmTextViewOptions = XM_TEXT_VIEW_OPTIONS_DEFAULT;
+    private _config: XmTextViewOptions = XM_TEXT_VIEW_OPTIONS_DEFAULT;
 
-    public get options(): XmTextViewOptions {
-        return this._options;
+    public get config(): XmTextViewOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmTextViewOptions) {
-        this._options = _.defaults(value, XM_TEXT_VIEW_OPTIONS_DEFAULT);
+    public set config(value: XmTextViewOptions) {
+        this._config = _.defaults(value, XM_TEXT_VIEW_OPTIONS_DEFAULT);
     }
 }
 

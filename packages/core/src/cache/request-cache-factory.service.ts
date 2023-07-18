@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { takeUntilOnDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy } from '@xm-ngx/operators';
 import { interval, Observable, of } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { XmSessionService } from '../xm-session.service';

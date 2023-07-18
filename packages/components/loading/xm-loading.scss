@@ -31,7 +31,7 @@ $xm-loading-size:         1em !default;
   }
 
   &.xm-loading-start:after {
-    left: $xm-loading-size / 2;
+    left: calc($xm-loading-size / 2);
   }
 
   &.xm-loading-center:after {
@@ -39,7 +39,7 @@ $xm-loading-size:         1em !default;
   }
 
   &.xm-loading-end:after {
-    left: -$xm-loading-size / 2;
+    left: calc(0px - calc($xm-loading-size / 2));
   }
 
 }

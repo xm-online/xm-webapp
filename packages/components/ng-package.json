@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../lib/components",
+  "lib": {
+    "entryFile": "./index.ts"
+  },
+  "allowedNonPeerDependencies": [
+    "html2canvas"
+  ]
+}

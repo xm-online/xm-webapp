@@ -1,26 +1,32 @@
 import { Directive, Input, OnDestroy, OnInit, Optional, Self } from '@angular/core';
-import { FormControl, FormControlDirective, FormControlName, NgControl } from '@angular/forms';
+import { UntypedFormControl, FormControlDirective, FormControlName, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { NgControlAccessor } from './ng-control-accessor';
-import { ArgumentException } from '@xm-ngx/shared/exceptions';
+import { ArgumentException } from '@xm-ngx/exceptions';
 
 @Directive()
 /**
- * @beta
+ * @deprecated
+ * Use NgControlAccessor
+ *
+ * NgControlAccessor mark your component as reactive control.
+ *
+ * This control accessor does the same as NgControlAccessor, except has input control.
+ * This means that inside the control we accept another control, it's incorrect behavior
  */
 export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, OnDestroy {
     private valueSubscription: Subscription;
 
-    private defaultControl: FormControl = new FormControl();
+    private defaultControl: UntypedFormControl = new UntypedFormControl();
 
     constructor(@Optional() @Self() public ngControl: NgControl) {
         super(ngControl);
         this.control = this.defaultControl;
     }
 
-    protected _control: FormControl;
+    protected _control: UntypedFormControl;
 
-    public get control(): FormControl {
+    public get control(): UntypedFormControl {
         return this._control;
     }
 
@@ -31,7 +37,7 @@ export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, O
      *
      * @public
      */
-    public set control(value: FormControl) {
+    public set control(value: UntypedFormControl) {
         if (!value) {
             throw new ArgumentException('FormControl is required!');
         }

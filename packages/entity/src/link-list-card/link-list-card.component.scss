@@ -1,0 +1,11 @@
+.table-responsive {
+  table.mat-table {
+    tr {
+      height: 32px;
+    }
+
+    th {
+      border-top: none;
+    }
+  }
+}

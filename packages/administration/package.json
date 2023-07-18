@@ -1,0 +1,11 @@
+{
+  "name": "@xm-ngx/administration",
+  "version": "1.0.0",
+  "dependencies": {
+    "@ngx-formly/core": "6.1.7",
+    "@ngx-formly/material": "6.1.7"
+  },
+  "scripts": {
+    "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
+  }
+}

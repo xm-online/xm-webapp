@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root',
 })
-export class XmPublicIdpConfigService<T = IIdpConfig> implements OnDestroy {
+export class XmPublicIdpConfigService<T extends IIdpConfig = IIdpConfig> implements OnDestroy {
     public readonly IDP_PUBLIC_CONFIG_URL: string;
 
     private requestCache: RequestCache<T>;

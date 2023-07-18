@@ -1,0 +1,106 @@
+<ng-template #subTable let-route="route">
+
+  <div *ngIf="route.serviceInstances.length == 0" class="badge badge-danger">
+    {{'gateway.routes.error' | translate}}
+  </div>
+
+  <div class="d-flex" *ngFor="let instance of route.serviceInstances">
+
+    <!--  link  -->
+    <div [style.width]="'25%'"><a href="{{instance.uri}}" target="_blank" rel=noopener>{{instance.uri}}</a></div>
+
+    <!--  badge  -->
+    <div [style.width]="'5%'">
+      <div *ngIf="route.serviceInstancesStatus"
+           class="badge badge-{{route.serviceInstancesStatus[instance.uri] === 'UP'?'success':'danger'}}">
+        {{route.serviceInstancesStatus[instance.uri]}}
+      </div>
+
+      <div *ngIf="!route.serviceInstancesStatus"
+           class="badge badge-warning">?
+      </div>
+    </div>
+
+    <!--  metadata  -->
+    <div>
+
+      <div class="d-inline-block" *ngFor="let entry of (instance.metadata | keys )">
+        <span class="badge badge-default">
+          {{entry.key}}: {{entry.value}}
+        </span>
+      </div>
+
+      <div class="d-inline-block" *ngIf="route.serviceMetadata && route.serviceMetadata[instance.uri]">
+        <div class="d-inline-block" *ngFor="let entry of (route.serviceMetadata[instance.uri] | keys )">
+          <span *ngIf="entry.key === 'currentBranch'"
+                class="badge badge-default">{{entry.key}}: {{entry.value}}</span>
+          <span *ngIf="entry.key === 'hashCommit'"
+                class="badge badge-default">{{entry.key}}: {{entry.value}}</span>
+          <span *ngIf="entry.key === 'time'"
+                class="badge badge-default">{{entry.key}}: {{toDate(entry.value) | date:'short'}}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</ng-template>
+
+<mat-card>
+  <h4>{{'gateway.title' | translate}}</h4>
+
+  <table [dataSource]="dataSource" [matSortActive]="'name'" class="w-100" mat-table matSort>
+
+    <!-- url Column -->
+    <ng-container matColumnDef="url">
+      <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'gateway.routes.url' | translate}}</th>
+      <td *matCellDef="let route" class="text-start text-wrap text-break" mat-cell>{{route.path}}</td>
+    </ng-container>
+
+    <!-- service Column -->
+    <ng-container matColumnDef="service">
+      <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'gateway.routes.service' | translate}}</th>
+      <td *matCellDef="let route" class="text-start text-wrap text-break" mat-cell>{{route.serviceId}}</td>
+    </ng-container>
+
+    <!-- servers Column -->
+    <ng-container matColumnDef="servers">
+      <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'gateway.routes.servers' | translate}}</th>
+      <td *matCellDef="let route" class="text-start text-wrap text-break" mat-cell>
+        <ng-template [ngTemplateOutletContext]="{route: route}" [ngTemplateOutlet]="subTable"></ng-template>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+  </table>
+
+  <xm-loader [showLoader]="loading" absolute="true"></xm-loader>
+
+  <no-data [show]="dataSource.filteredData?.length === 0 && !loading"></no-data>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+</mat-card>
+
+<div class="xm-fab-place-keeper"></div>
+
+<div class="xm-fab">
+  <div class="xm-fab-drop">
+    <button (click)="refresh()" [disabled]="loading" class="xm-fab-option">
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <button (click)="tenantConfigRefresh()" *xmPermitted="['CONFIG.CLIENT.REFRESH']" [disabled]="loading"
+            class="xm-fab-option">
+      <mat-icon>system_update_alt</mat-icon>
+    </button>
+    <button (click)="tenantElasticUpdate()" *xmPermitted="['ELASTICSEARCH.INDEX']" [disabled]="loading"
+            class="xm-fab-option">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+  <button [disabled]="loading" class="btn btn-primary btn-icon btn-just-icon rounded-circle btn-lg" mat-button>
+    <mat-icon>build</mat-icon>
+  </button>
+</div>

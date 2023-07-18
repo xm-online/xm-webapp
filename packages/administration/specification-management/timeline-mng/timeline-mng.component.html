@@ -1,0 +1,29 @@
+<div class="text-center pb-3">
+  <button (click)="validateTimelineConfig();"
+          *ngIf="!isTimelineSpecValid"
+          [disabled]="disabled"
+          color="primary"
+          mat-flat-button
+          translate="admin-config.specification-mng.validate"
+          type="submit">
+  </button>
+  <button (click)="updateTimelineConfig();"
+          *ngIf="isTimelineSpecValid"
+          [disabled]="disabled"
+          color="primary"
+          mat-flat-button
+          translate="admin-config.specification-mng.timeline.save"
+          type="submit">
+  </button>
+  <div class="text-center">
+    <div *ngIf="timelineValidation && !timelineValidation.valid"
+         [innerHtml]="timelineValidation?.errorMessage"
+         class="text-danger">
+    </div>
+  </div>
+</div>
+<div class="text-end">
+  <xm-ace-editor-control (valueChange)="onTimelineSpecificationChange($event)"
+                         [config]="aceEditorOptions"
+                         [value]="timelineSpecificationIn"></xm-ace-editor-control>
+</div>

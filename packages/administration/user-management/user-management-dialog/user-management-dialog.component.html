@@ -1,0 +1,133 @@
+<form #editForm="ngForm" (ngSubmit)="save()" class="m-0" name="editForm" novalidate role="form">
+  <div mat-dialog-title class="d-flex align-items-center">
+    <h4 class="modal-title text-start" id="myUserLabel">{{'userManagement.home.createOrEditLabel'|translate}}</h4>
+    <xm-modal-close mat-dialog-close class="ms-auto"></xm-modal-close>
+  </div>
+
+  <div mat-dialog-content>
+    <xm-loader [showLoader]="showLoader"></xm-loader>
+
+    <div class="form-group">
+      <mat-form-field>
+        <mat-label>{{'global.field.id' | translate}}</mat-label>
+        <input [(ngModel)]="user.id"
+               disabled
+               id="id"
+               matInput
+               name="id"
+               type="text">
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field>
+        <mat-label>{{'userManagement.userKey' | translate}}</mat-label>
+        <input [(ngModel)]="user.userKey"
+               disabled
+               id="userKey"
+               matInput
+               name="userKey"
+               type="text">
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="user.id == null" class="form-group">
+      <xm-user-login-form #userLoginForm [isCreate]="true" [isUser]="true" [user]="user"></xm-user-login-form>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field>
+        <mat-label>{{'userManagement.firstName' | translate}}</mat-label>
+        <input #firstNameInput="ngModel"
+               [(ngModel)]="user.firstName"
+               id="firstName"
+               matInput
+               maxlength="50"
+               name="firstName"
+               type="text">
+        <mat-error *ngIf="firstNameInput.hasError('maxlength')">
+          <span>{{'entity.validation.maxlength'|translate}}</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group">
+      <mat-form-field>
+        <mat-label>{{'userManagement.lastName' | translate}}</mat-label>
+        <input #lastNameInput="ngModel"
+               [(ngModel)]="user.lastName"
+               id="lastName"
+               matInput
+               maxlength="50"
+               name="lastName"
+               type="text">
+        <mat-error *ngIf="lastNameInput.hasError('maxlength')">
+          <span>{{'entity.validation.maxlength'|translate}}</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <mat-checkbox [(ngModel)]="user.activated" [disabled]="user.id === null"
+                        color="primary"
+                        name="activated">
+            <span>{{'userManagement.activated'|translate}}</span>
+          </mat-checkbox>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-group">
+          <mat-checkbox [(ngModel)]="user.autoLogoutEnabled" [disabled]="user.id === null || !(user.activated)"
+                        color="primary"
+                        name="autoLogout">
+            <span>{{'userManagement.autoLogout'|translate}}</span>
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="languages && languages.length > 0" class="form-group">
+      <mat-form-field>
+        <mat-label>{{'userManagement.langKey' | translate}}</mat-label>
+        <mat-select [(ngModel)]="user.langKey"
+                    id="langKey"
+                    name="langKey">
+          <mat-option *ngFor="let language of languages" [value]="language">
+            {{language | findLanguageFromKey}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group" *ngIf="userRoles !== undefined">
+      <mat-form-field>
+        <mat-label>{{'userManagement.role' | translate}}</mat-label>
+        <mat-select id="authority"
+                    [value]="userRoles"
+                    [multiple]="isMultiRole"
+                    (selectionChange)="roleSelect($event.value)"
+                    name="authority">
+          <mat-option *ngFor="let authority of authorities" [value]="authority">
+            {{authority}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <button class="me-1 ms-auto" mat-flat-button data-dismiss="modal" type="button" (click)="clear()">
+      <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
+    </button>
+
+    <button [disabled]="editForm.form.invalid || showLoader"
+            mat-flat-button
+            color="primary"
+            type="submit">
+      <span class="fa fa-save"></span>&nbsp;<span>{{'entity.action.save'|translate}}</span>
+    </button>
+  </div>
+</form>

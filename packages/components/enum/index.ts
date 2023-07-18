@@ -1,13 +1,9 @@
-export { XmIconEnumComponent, XmIconEnumOptions, XmIconEnumOptionsItem } from '@xm-ngx/components/enum/icon/xm-icon-enum.component';
-export { XmIconEnumModule } from '@xm-ngx/components/enum/icon/xm-icon-enum.module';
+export { XmIconEnumComponent, XmIconEnumOptions, XmIconEnumOptionsItem } from './icon/xm-icon-enum.component';
 
 export { XmEnumComponent, XmEnumOptions, XmEnumValue } from './value/xm-enum.component';
-export { XmEnumModule } from './value/xm-enum.module';
 
-export { XmEnumControlOptionsItem, XmEnumControlOptions, XmEnumControlComponent } from './control/xm-enum-control.component';
-export { XmEnumControlModule } from './control/xm-enum-control.module';
+export * from './control/xm-enum-control.component';
 
-export { XmMultipleEnumControlOptions } from './multiple-control/xm-multiple-enum-control.component';
-export { XmMultipleEnumControlModule } from './multiple-control/xm-multiple-enum-control.module';
+export { XmMultipleEnumControlOptions, XmMultipleEnumControl } from './multiple-control/xm-multiple-enum-control.component';
 
-export { XmEnumViewOptions, XmEnumView, XmEnumViewModule } from './view/xm-enum-view';
+export { XmEnumViewOptions, XmEnumView } from './view/xm-enum-view';

@@ -1,0 +1,11 @@
+<div mat-dialog-title class="d-flex align-items-center">
+  <h4 class="modal-title text-start" id="editUserLogin">{{'userManagement.home.editLoginsLabel'|translate}}</h4>
+  <xm-modal-close mat-dialog-close class="ms-auto"></xm-modal-close>
+</div>
+<div mat-dialog-content>
+  <xm-user-login-form [isUser]="true" [user]="user"></xm-user-login-form>
+</div>
+
+<div mat-dialog-actions>
+  <button class="ms-auto" mat-flat-button color="primary" (click)="close()">{{ 'cancel' | translate }}</button>
+</div>

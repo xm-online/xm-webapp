@@ -9,32 +9,69 @@ import { XmAlertModule } from '@xm-ngx/alert';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 import { XmCoreModule } from '@xm-ngx/core';
-import { AuthServerProvider, Principal, UserRouteAccessService, XmCoreAuthModule } from '@xm-ngx/core/auth';
-import { XmCoreConfigModule } from '@xm-ngx/core/config';
+import { AuthServerProvider } from '@xm-ngx/core/user';
+import { XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { LoginService } from '@xm-ngx/components/login';
+import { Principal } from '@xm-ngx/core/user';
+import { UserRouteAccessService } from '@xm-ngx/core/permission';
+import { XmApplicationConfigService, XmCoreConfigModule } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
-import { globalErrorHandlerFactory } from '@xm-ngx/core/global-error-handler';
+import { globalErrorHandlerFactory, XmUpdateService } from '@xm-ngx/logger/global-error-handler';
 import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardDynamicRouteResolverGuard, XmDashboardModule } from '@xm-ngx/dashboard';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
-import { XmLoggerModule } from '@xm-ngx/logger';
+import { XmLoggerModule, XmLoggerWatcherService } from '@xm-ngx/logger';
 import { HttpLoaderFactory, LanguageService, TitleService, XmTranslationModule } from '@xm-ngx/translation';
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
-import { XmLoggerWatcherService } from '@xm-ngx/logger';
-
-import { IdleLogoutService } from 'src/app/account/logout/idle-logout.service';
-import { XmMainComponent } from 'src/app/layouts';
-import { LayoutModule } from 'src/app/layouts/layout.module';
-import { XmApplicationConfigService } from 'src/app/shared/spec';
-import { XmRoutingModule } from 'src/app/xm-routing.module';
-import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
-import { XM_ELEMENTS } from 'src/registries/xm.registry';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
+import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
+import { NgxMaskModule } from 'ngx-mask';
+import { XM_DATE_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_HTML_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_COPY_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_LINK_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_TABLE_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/registry';
+import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/registry';
+import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
+
+import { IdleLogoutService } from '@xm-ngx/account';
+import { XmMainComponent } from 'src/app/layouts';
+import { LayoutModule } from 'src/app/layouts/layout.module';
+import { XmRoutingModule } from 'src/app/xm-routing.module';
+import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
+
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { XmSharedModule } from 'src/app/shared/shared.module';
-import { NgxMaskModule } from 'ngx-mask';
+import {
+    ArrayTypeComponent,
+    ConfigComponent,
+    MultiSchemaTypeComponent,
+    NullTypeComponent,
+    ObjectTypeComponent
+} from '@xm-ngx/administration/dashboards-config';
+import { FormlyModule } from '@ngx-formly/core';
+
+import { XmSharedModule } from '@xm-ngx/shared';
+import { MaintenanceService } from '@xm-ngx/components/maintenance';
+import { XmCoreEntityModule } from '@xm-ngx/core/entity';
+import { UserLoginService } from '@xm-ngx/account/user-login-widget';
+
+const formFieldOptions: MatFormFieldDefaultOptions = {
+    appearance: 'fill',
+};
+
+const paginatorOptions: MatPaginatorDefaultOptions = {
+    formFieldAppearance: 'outline',
+};
 
 @NgModule({
     imports: [
@@ -43,7 +80,15 @@ import { NgxMaskModule } from 'ngx-mask';
         BrowserAnimationsModule,
         XmRoutingModule,
         XmSharedModule.forRoot(),
-        XmCoreModule.forRoot(),
+        XmCoreModule.forRoot({
+            SERVER_API_URL: environment.serverApiUrl,
+            IDP_CLIENT_KEY: environment.idpClientKey,
+            IDP_SERVER_API_URL: environment.idpServerApiUrl,
+            IS_PRODUCTION: environment.production,
+            VERSION: environment.version,
+            RELEASE: environment.release,
+        }),
+        XmCoreEntityModule.forRoot(),
         ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
         XmCoreConfigModule,
         XmCoreAuthModule.forRoot(),
@@ -60,11 +105,34 @@ import { NgxMaskModule } from 'ngx-mask';
         MarkdownModule.forRoot(),
         XmBreadcrumbModule.forRoot(),
         NgxMaskModule.forRoot(),
+        FormlyModule.forRoot({
+            types: [
+                { name: 'null', component: NullTypeComponent, wrappers: ['form-field'] },
+                { name: 'array', component: ArrayTypeComponent },
+                { name: 'object', component: ObjectTypeComponent },
+                { name: 'multischema', component: MultiSchemaTypeComponent },
+                { name: 'config', component: ConfigComponent },
+            ],
+        }),
         XmDynamicExtensionModule.forRoot([
             // #regionstart dynamic-extension-modules
             // #regionend dynamic-extension-modules
         ]),
-        XmDynamicModule.forRoot(XM_ELEMENTS),
+        XmDynamicModule.forRoot([].concat(
+            XM_DATE_ELEMENTS,
+            XM_HTML_ELEMENTS,
+            XM_TEXT_ELEMENTS,
+            XM_BOOL_ELEMENTS,
+            XM_COPY_ELEMENTS,
+            XM_LINK_ELEMENTS,
+            XM_ENUM_ELEMENTS,
+            XM_ARRAY_ELEMENTS,
+            XM_TABLE_ELEMENTS,
+            XM_NAVBAR_ELEMENTS,
+            XM_DASHBOARD_ELEMENTS,
+            XM_ADMINISTRATION_ELEMENTS,
+            XM_COMPONENTS_ELEMENTS,
+        )),
         LayoutModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],
@@ -75,20 +143,29 @@ import { NgxMaskModule } from 'ngx-mask';
         XmApplicationConfigService,
         UserRouteAccessService,
         CookieService,
+        UserLoginService,
         { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: XM_MAT_DIALOG_DEFAULT_OPTIONS },
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldOptions },
+        { provide: MAT_PAGINATOR_DEFAULT_OPTIONS, useValue: paginatorOptions },
     ],
     bootstrap: [XmMainComponent],
 })
 export class XmModule {
     constructor(
         languageService: LanguageService,
+        maintenanceService: MaintenanceService,
         idleLogoutService: IdleLogoutService,
         titleService: TitleService,
+        xmUpdateService: XmUpdateService,
         loggerWatcherService: XmLoggerWatcherService,
         authServerProvider: AuthServerProvider,
+        loginService: LoginService,
         principal: Principal,
     ) {
+        xmUpdateService.init();
+        maintenanceService.init();
         principal.init();
+        loginService.init();
         authServerProvider.init();
         idleLogoutService.init();
         languageService.init();

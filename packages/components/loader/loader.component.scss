@@ -50,6 +50,7 @@
 }
 
 .path {
+  stroke: #ff9800;
   animation:         dash 1.5s ease-in-out infinite, color 2s ease-in-out infinite;
   stroke-dasharray:  1, 200;
   stroke-dashoffset: 0;

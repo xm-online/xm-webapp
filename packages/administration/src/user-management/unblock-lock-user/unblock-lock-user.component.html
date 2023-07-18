@@ -1,8 +1,0 @@
-<button (click)="changeState(user)"
-        [color]="user.activated ? 'accent' : 'warn'"
-        [style]="user.activated ? 'color: #4caf50;': ''"
-        mat-icon-button>
-  <mat-icon> {{user.activated ? 'lock_open' : 'lock_outline'}}</mat-icon>
-  <span *ngIf="options.title">{{options.title | translate}}</span>
-</button>
-

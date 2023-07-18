@@ -1,0 +1,26 @@
+<form (ngSubmit)="confirmDelete(client.id)" class="m-0" name="deleteForm">
+
+  <div mat-dialog-title>
+    <h4 class="modal-title text-start">{{'entity.delete.title'|translate}}</h4>
+    <xm-modal-close mat-dialog-close></xm-modal-close>
+  </div>
+
+  <div mat-dialog-content>
+    <xm-loader [showLoader]="showLoader"></xm-loader>
+    <p>{{'clientManagement.delete.question'|translate:{id: client.id} }}</p>
+  </div>
+
+  <div mat-dialog-actions>
+    <button (click)="clear()"
+            class="me-1 ms-auto"
+            data-dismiss="modal"
+            mat-flat-button
+            type="button">
+      <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
+    </button>
+    <button [disabled]="showLoader" color="warn" mat-flat-button type="submit">
+      <span class="fa fa-trash"></span>&nbsp;<span>{{'entity.action.delete' | translate}}</span>
+    </button>
+  </div>
+
+</form>

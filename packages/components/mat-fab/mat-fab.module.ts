@@ -12,7 +12,6 @@ import { MatFabWidget } from './mat-fab-widget.component';
 
 @NgModule({
     declarations: [MatFabWidget],
-    entryComponents: [MatFabWidget],
     exports: [MatFabWidget],
     imports: [
         CommonModule,
@@ -23,7 +22,7 @@ import { MatFabWidget } from './mat-fab-widget.component';
         MatTooltipModule,
         MatIconModule,
         XmTranslationModule,
-    ],
+    ]
 })
 export class MatFabModule {
     public entry: Type<XmDynamicWidget> = MatFabWidget;

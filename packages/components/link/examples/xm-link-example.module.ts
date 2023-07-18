@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { XmCodeModule } from '@xm-ngx/components/code';
-import { XmLinkModule, XmLinkViewCopyModule, XmLinkViewModule } from '@xm-ngx/components/link';
+import {
+    XmLink,
+    XmLinkViewComponent,
+    XmLinkViewCopyComponent,
+} from '@xm-ngx/components/link';
 import { XmLinkExampleComponent } from './xm-link-example.component';
 
 
@@ -10,9 +14,9 @@ import { XmLinkExampleComponent } from './xm-link-example.component';
     exports: [XmLinkExampleComponent],
     imports: [
         CommonModule,
-        XmLinkModule,
-        XmLinkViewModule,
-        XmLinkViewCopyModule,
+        XmLink,
+        XmLinkViewComponent,
+        XmLinkViewCopyComponent,
         XmCodeModule,
     ],
 })

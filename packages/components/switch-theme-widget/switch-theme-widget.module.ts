@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule, OnInit, Type } from '@angular/core';
+import { Component, Input, NgModule, OnInit, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { ThemeSchemeType, XmTheme, XmThemeStore } from '@xm-ngx/core/theme';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces';
-import { Translate } from '@xm-ngx/translation';
+import { XmTheme, XmThemeController } from '@xm-ngx/core/theme';
+import { JavascriptCode } from '@xm-ngx/interfaces';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { ThemeSchemeType } from '@xm-ngx/core/theme';
 
 interface SwitchThemeOptionsTheme {
     theme: string,
@@ -26,7 +28,6 @@ interface SwitchThemeOptions {
     condition: JavascriptCode;
 }
 
-export const XM_THEME_KEY = 'XM_SWITCH_THEME_KEY';
 
 @Component({
     selector: 'switch-theme-widget',
@@ -37,7 +38,7 @@ export const XM_THEME_KEY = 'XM_SWITCH_THEME_KEY';
                         (click)="changeTheme(nextTheme)"
                         [xm-loading]="loading"
                         [disabled]="loading"
-                        [matTooltip]="nextTheme.tooltip"
+                        [matTooltip]="nextTheme.tooltip | translate"
                         mat-icon-button>
                     <mat-icon>{{nextTheme.icon}}</mat-icon>
                 </button>
@@ -45,18 +46,17 @@ export const XM_THEME_KEY = 'XM_SWITCH_THEME_KEY';
         </ng-container>
     `,
 })
-export class SwitchThemeWidget implements OnInit {
-    public config: SwitchThemeOptions;
+export class SwitchThemeWidget implements OnInit, XmDynamicWidget {
+    @Input() public config: SwitchThemeOptions;
     public loading: boolean;
     public nextTheme: SwitchThemeOptionsTheme;
 
-    constructor(private themeService: XmThemeStore) {
+    constructor(private themeService: XmThemeController) {
     }
 
     public ngOnInit(): void {
-        const fromStore = this.getFromStore();
-        const theme = fromStore ? fromStore.theme : this.themeService.getThemeName();
-        const current = _.find(this.config?.themes, { theme });
+        const fromStore = this.themeService.get();
+        const current = _.find(this.config?.themes, { theme: fromStore.name });
         this.changeTheme(current);
         this.nextTheme = this.getNext(current);
     }
@@ -71,29 +71,18 @@ export class SwitchThemeWidget implements OnInit {
             return;
         }
         const options: XmTheme = {
+            name: theme.theme,
+            lightTheme: theme.theme,
+            darkTheme: theme.theme,
             themeColor: theme.color,
             themeStrategy: 'THEME',
-            themeScheme: theme.scheme,
+            appearanceStrategy: theme.scheme,
         };
 
-        this.setToStore(theme);
-
         this.loading = true;
-        this.themeService.set(theme.theme, options)
+        this.themeService.set(options)
             .pipe(finalize(() => this.loading = false))
             .subscribe(() => this.nextTheme = this.getNext(theme));
-    }
-
-    public getFromStore(): XmTheme | null {
-        const item = localStorage.getItem(XM_THEME_KEY);
-        if (!item) {
-            return null;
-        }
-        return JSON.parse(item) || null;
-    }
-
-    protected setToStore(theme: XmTheme): void {
-        localStorage.setItem(XM_THEME_KEY, JSON.stringify(theme));
     }
 }
 
@@ -108,6 +97,7 @@ export class SwitchThemeWidget implements OnInit {
         MatTooltipModule,
         XmPermissionModule,
         ConditionModule,
+        XmTranslationModule,
     ],
 })
 export class SwitchThemeWidgetModule {

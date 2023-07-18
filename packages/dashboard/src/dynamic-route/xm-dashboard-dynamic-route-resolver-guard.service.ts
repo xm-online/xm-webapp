@@ -1,40 +1,48 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanLoad, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Routes, } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ArgumentException } from '@xm-ngx/shared/exceptions';
+import { ArgumentException } from '@xm-ngx/exceptions';
 import * as _ from 'lodash';
 import { XmDynamicRouteResolverGuard } from '@xm-ngx/dynamic/route';
-import { DashboardStore } from '../stores/dashboard-store.service';
-import { Dashboard } from '../models/dashboard.model';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
+import { Dashboard } from '@xm-ngx/core/dashboard';
 import { DashboardGuard } from '../guards/dashboard.guard';
-import { DynamicLoader } from '@xm-ngx/dynamic';
+import { XmDynamicComponentRegistry } from '@xm-ngx/dynamic';
 import { XmDashboardRouteFactory, xmDashboardRoutesFactory } from './xm-dashboard-routes.factory';
 
 
 @Injectable()
 export class XmDashboardDynamicRouteResolverGuard
-    extends XmDynamicRouteResolverGuard
-    implements CanLoad, CanActivate {
+    extends XmDynamicRouteResolverGuard {
     private routes: Routes | null = null;
 
     constructor(
         private dashboardStore: DashboardStore,
-        private dynamicLoader: DynamicLoader,
+        private dynamicComponents: XmDynamicComponentRegistry,
     ) {
         super();
     }
 
-    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        delete route.routeConfig['_loadedConfig'];
+    public override canActivate(): Observable<boolean> {
         return this.canLoad();
     }
 
-    public getRoutes(): Routes | null {
+    public override canDeactivate(_: unknown, route: ActivatedRouteSnapshot): Observable<boolean> {
+        delete route.routeConfig['_loadedRoutes'];
+        this.routes = null;
+        return of(true);
+    }
+
+    public override getRoutes(): Routes | null {
         return this.routes;
     }
 
-    public canLoad(): Observable<boolean> {
+    public override canLoad(): Observable<boolean> {
+        if (this.routes != null) {
+            return of(true);
+        }
+
         return this.getRoutes$().pipe(
             map((routes) => {
                 this.routes = routes;
@@ -55,13 +63,18 @@ export class XmDashboardDynamicRouteResolverGuard
                 // Add the default empty page
                 if (!_.find(this.routes, d => d.path === '')) {
                     // Redirect to first available
-                    routes.unshift({ path: '', pathMatch: 'full', canActivate: [DashboardGuard] });
+                    routes.unshift({
+                        path: '',
+                        children: [],
+                        pathMatch: 'full',
+                        canActivate: [DashboardGuard],
+                    });
                 }
 
                 // Add the default not-found page
                 if (!_.find(this.routes, d => d.path === '**')) {
                     // Redirect to first available
-                    routes.push({ path: '**', canActivate: [DashboardGuard] });
+                    routes.push({ path: '**', children: [], canActivate: [DashboardGuard] });
                 }
 
                 return routes;
@@ -78,8 +91,10 @@ export class XmDashboardDynamicRouteResolverGuard
                     title: dashboard.config?.name || dashboard.name,
                     dashboard,
                 },
-                loadChildren: () => this.dynamicLoader.getEntry(selector)
-                    .then(e => e.loadChildren()),
+                loadChildren: async () => {
+                    const comp = await this.dynamicComponents.find(selector);
+                    return comp.componentType;
+                },
             };
         };
 

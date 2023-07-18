@@ -39,9 +39,9 @@ export class XmPrivateUiConfigService<T = UIPrivateConfig> implements OnDestroy 
             switchMap((allow) => {
                 if (allow) {
                     return this.privateAPI();
-                } 
+                }
                 return of(null);
-                
+
             }),
         );
     }

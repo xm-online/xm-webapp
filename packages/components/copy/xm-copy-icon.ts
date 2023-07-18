@@ -1,6 +1,6 @@
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, OnInit, Type } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -30,10 +30,17 @@ export const XM_COPY_ICON_OPTIONS: XmCopyIconOptions = {
             <mat-icon>content_copy</mat-icon>
         </button>
     `,
+    imports: [
+        MatIconModule,
+        ClipboardModule,
+        MatButtonModule,
+        CommonModule,
+    ],
+    standalone: true,
 })
 export class XmCopyIconComponent implements XmDynamicPresentation<unknown, XmCopyIconOptions>, OnInit, OnChanges {
     @Input() public value: unknown;
-    @Input() public options: XmCopyIconOptions = clone(XM_COPY_ICON_OPTIONS);
+    @Input() public config: XmCopyIconOptions = clone(XM_COPY_ICON_OPTIONS);
 
     public copyValue: string;
 
@@ -45,7 +52,7 @@ export class XmCopyIconComponent implements XmDynamicPresentation<unknown, XmCop
 
     public update(): void {
         this.copyValue = this.translate.translate(
-            this.options?.template || XM_COPY_ICON_OPTIONS.template,
+            this.config?.template || XM_COPY_ICON_OPTIONS.template,
             { value: this.value },
         );
     }
@@ -59,25 +66,11 @@ export class XmCopyIconComponent implements XmDynamicPresentation<unknown, XmCop
     }
 
     public OnCopied(isCopied: boolean): void {
-        if (isCopied && this.options?.copiedMessage) {
+        if (isCopied && this.config?.copiedMessage) {
             this.snackBar.open(
-                this.translate.translate(this.options.copiedMessage, { value: this.value }),
+                this.translate.translate(this.config.copiedMessage, { value: this.value }),
                 null,
                 { duration: 1400 });
         }
     }
-}
-
-@NgModule({
-    imports: [
-        MatIconModule,
-        ClipboardModule,
-        MatButtonModule,
-        CommonModule,
-    ],
-    exports: [XmCopyIconComponent],
-    declarations: [XmCopyIconComponent],
-})
-export class XmCopyIconModule {
-    public entry: Type<XmCopyIconComponent> = XmCopyIconComponent;
 }

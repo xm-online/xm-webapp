@@ -1,11 +1,12 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 
-import { FunctionService, XmEntity, XmEntityService } from '@xm-ngx/entity';
+import { FunctionService, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
 
 import * as _ from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 interface IStatFunction {
     type: 'query' | 'function';
@@ -29,7 +30,7 @@ interface IStat {
     templateUrl: './stats-widget.component.html',
     styleUrls: ['./stats-widget.component.scss'],
 })
-export class StatsWidgetComponent implements OnInit {
+export class StatsWidgetComponent implements OnInit, XmDynamicWidget {
 
     @Input() public config: { stats: IStat[] };
     public stats: IStat[] = [];

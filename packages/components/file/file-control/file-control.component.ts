@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmTextTitleOptions } from '@xm-ngx/components/text';
-import { DataQa } from '@xm-ngx/shared/interfaces';
+import { DataQa } from '@xm-ngx/interfaces';
 import * as _ from 'lodash';
 import { clone, defaults } from 'lodash';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintText } from '@xm-ngx/components/hint';
 
 export interface XmFileControlOptions extends XmTextTitleOptions, DataQa {
     hint: HintText;
@@ -36,7 +36,7 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
     selector: 'xm-file-control',
     template: `
         <mat-form-field>
-            <mat-label>{{options.title | translate}}</mat-label>
+            <mat-label>{{config.title | translate}}</mat-label>
 
             <input #input
                    (change)="change($event.target.files)"
@@ -49,35 +49,39 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
                    [readonly]="true"
                    [value]="fileNames"
                    [formControl]="control"
-                   [required]="options.required"
-                   [attr.data-qa]="options.dataQa"
+                   [required]="config.required"
+                   [attr.data-qa]="config.dataQa"
                    (click)="input.click()"
-                   [attr.multiple]="options.multiple? '' : null"
-                   [attr.accept]="options.accept">
+                   [attr.multiple]="config.multiple? '' : null"
+                   [attr.accept]="config.accept">
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
 
-            <button (click)="input.click()"
-                    color="primary"
-                    matSuffix
-                    mat-button>{{'ext-entity.image-widget.change-image' | translate}}</button>
+            <button
+                class="me-2"
+                matSuffix
+                mat-button
+                color="primary"
+                (click)="input.click()">
+                {{'ext-entity.image-widget.change-image' | translate}}
 
-            <mat-icon matSuffix>attach_file</mat-icon>
+                <mat-icon>attach_file</mat-icon>
+            </button>
 
-            <mat-hint [hint]="options.hint"></mat-hint>
+            <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
 })
 export class FileControlComponent extends NgFormAccessor<File[]> {
-    private _options: XmFileControlOptions = clone(XM_FILE_CONTROL_OPTIONS_DEFAULT);
+    private _config: XmFileControlOptions = clone(XM_FILE_CONTROL_OPTIONS_DEFAULT);
 
-    public get options(): XmFileControlOptions {
-        return this._options;
+    public get config(): XmFileControlOptions {
+        return this._config;
     }
 
     @Input()
-    public set options(value: XmFileControlOptions) {
-        this._options = defaults(value, XM_FILE_CONTROL_OPTIONS_DEFAULT);
+    public set config(value: XmFileControlOptions) {
+        this._config = defaults(value, XM_FILE_CONTROL_OPTIONS_DEFAULT);
     }
 
     public get fileNames(): string {

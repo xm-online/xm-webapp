@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { I18nNamePipe } from '@xm-ngx/components/language';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { I18nNamePipe } from '@xm-ngx/translation';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { TitleService, Translate } from '@xm-ngx/translation';
 import { filter } from 'rxjs/operators';
-import { Principal } from '@xm-ngx/core/auth';
-import { Page, PageService } from '../../stores/page/page.service';
+import { Principal } from '@xm-ngx/core/user';
+import { Page, PageService } from '@xm-ngx/core/dashboard';
 
 
 @Injectable()
