@@ -2,13 +2,13 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NoDataModule } from '@xm-ngx/components/no-data';
-import { EntityStateModule } from '@xm-ngx/entity/entity-state';
+import { EntityStateModule } from '../entity-state';
 import { XmSharedModule } from '@xm-ngx/shared';
 
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { NextSpec, XmEntitySpec } from '../shared';
-import { XmEntitySpecWrapperService } from '../shared/xm-entity-spec-wrapper.service';
+import { NextSpec, XmEntitySpec } from '@xm-ngx/core/entity';
+import { XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 
 @Component({
@@ -69,9 +69,9 @@ export class StatesManagementDialogComponent implements OnInit {
                                             {},
                                             arr.filter((eState) => eState.key === nextState.stateKey).shift(),
                                             nextState);
-                                    } 
+                                    }
                                     return 'empty';
-                                    
+
                                 });
                         })
                         .map((state, i) => {

@@ -2,7 +2,7 @@ import { assign, cloneDeep, indexOf } from 'lodash';
 import {
     PAGEABLE_AND_SORTABLE_DEFAULT,
     PageableAndSortable,
-} from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+} from '@xm-ngx/repositories';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 

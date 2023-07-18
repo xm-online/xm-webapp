@@ -8,9 +8,9 @@ import { XmDynamicPresentationLayoutComponent } from '../../presentation/xm-dyna
 import { XmDynamicPresentationDirective } from '../../presentation/xm-dynamic-presentation.directive';
 import { XmDynamicWidgetLayoutComponent } from '../../widget/xm-dynamic-widget-layout.component';
 import { XmDynamicWidgetDirective } from '../../widget/xm-dynamic-widget.directive';
-import { XmDynamicComponentRegistry } from '@xm-ngx/dynamic/src/loader/xm-dynamic-component-registry.service';
-import { XmDynamicModuleRegistry } from '@xm-ngx/dynamic/src/loader/xm-dynamic-module-registry.service';
-import { XmDynamicServiceFactory } from '@xm-ngx/dynamic/services/xm-dynamic-service-factory.service';
+import { XmDynamicComponentRegistry } from '../loader/xm-dynamic-component-registry.service';
+import { XmDynamicModuleRegistry } from '../loader/xm-dynamic-module-registry.service';
+import { XmDynamicServiceFactory } from '../../services/xm-dynamic-service-factory.service';
 
 export function dynamicModuleInitializer(components: XmDynamicEntries): Provider {
     return [{provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: components}];

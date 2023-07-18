@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { XmLoggerService } from './xm-logger.service';
-import { XmLogBroker, XmLoggerFactory } from '@xm-ngx/logger';
+import { XmLogBroker, XmLoggerFactory, XmLoggerService } from '@xm-ngx/logger';
 
 describe('XmLoggerService', () => {
     let service: XmLoggerService;

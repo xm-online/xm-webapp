@@ -1,7 +1,7 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
-import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Observable } from 'rxjs';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { MatIconModule } from '@angular/material/icon';

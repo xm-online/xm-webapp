@@ -1,3 +1,5 @@
+export * from './cell';
+
 export {
     XmDynamicControlDirective,
     XmDynamicControl,
@@ -9,14 +11,6 @@ export { XmDynamicFormControlDirective, IFormControl } from './control/xm-dynami
 
 export { XmDynamicComponentRegistry } from './src/loader/xm-dynamic-component-registry.service';
 export { XmDynamicModuleRegistry } from './src/loader/xm-dynamic-module-registry.service';
-
-export {
-    XM_DYNAMIC_TABLE_CELL,
-    XM_DYNAMIC_TABLE_ROW,
-    XmDynamicCell,
-    XmDynamicCellDirective,
-    XmDynamicCellModule,
-} from './cell/xm-dynamic-cell.directive';
 
 export {
     XmDynamicPresentationBase,

@@ -1,4 +1,4 @@
-import { IConfig } from '@xm-ngx/shared/interfaces';
+import { IConfig } from '@xm-ngx/interfaces';
 
 export interface IIdpConfig extends IConfig {
     idp?: {

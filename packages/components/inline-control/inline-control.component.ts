@@ -7,12 +7,11 @@ import { NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { BehaviorSubject, filter, fromEvent, map, Observable, shareReplay, switchMap, take, takeUntil, withLatestFrom } from 'rxjs';
-import { NgModelWrapper } from '../ng-accessor';
+import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import _ from 'lodash';
 import { MatCardModule } from '@angular/material/card';
 
 export interface XmInlineControlDynamic<C> {
@@ -49,7 +48,7 @@ export enum XmInlineControlMode {
                 xmDynamicPresentation
                 [style]="config?.view?.style"
                 [class]="config?.view?.class"
-                [selector]="config?.view.selector" 
+                [selector]="config?.view.selector"
                 [config]="config?.view?.config"
                 [options]="config?.view?.config"
                 [value]="value ?? config?.view?.value"></ng-template>
@@ -76,7 +75,7 @@ export enum XmInlineControlMode {
                     </button>
 
                     <div class="vr m-2"></div>
-                    
+
                     <button mat-button color="primary" (click)="save()">
                         <mat-icon>check</mat-icon> {{ 'xm-entity.common.save' | translate }}
                     </button>
@@ -85,9 +84,9 @@ export enum XmInlineControlMode {
         </ng-template>
     `,
     providers: [
-        { 
-            provide: NG_VALUE_ACCESSOR, 
-            useExisting: forwardRef(() => XmInlineControlComponent), 
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => XmInlineControlComponent),
             multi: true,
         },
     ],
@@ -120,11 +119,11 @@ export class XmInlineControlComponent extends NgModelWrapper<unknown> implements
 
     public get hostElement(): HTMLElement | null {
         return this.ngZone.runOutsideAngular(() => this.elementRef.nativeElement);
-    } 
+    }
 
     public get buttonsElement(): HTMLElement | null {
         return this.ngZone.runOutsideAngular(() => this.buttons.elementRef.nativeElement);
-    } 
+    }
 
     public get listboxElement(): HTMLElement | null {
         return this.ngZone.runOutsideAngular(() => document.querySelector('[role="listbox"]'));
@@ -178,7 +177,7 @@ export class XmInlineControlComponent extends NgModelWrapper<unknown> implements
                         if (this.listboxElement) {
                             return outsideClicked && !this.listboxElement.contains(node);
                         }
-                        
+
                         return outsideClicked;
                     }),
                     take(1),

@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { assign, cloneDeep, isPlainObject, transform } from 'lodash';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FiltersControlValue } from '../../components/xm-table-filters-control.component';

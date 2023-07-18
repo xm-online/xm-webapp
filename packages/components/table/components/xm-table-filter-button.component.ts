@@ -6,17 +6,17 @@ import {
     XmOverlayResponse,
     XmTableFilterButtonDialogComponent,
 } from './xm-table-filter-button-dialog.component';
-import { XmOverlayService } from '../../overlay/xm-overlay.service';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { XmOverlayService } from '@xm-ngx/components/overlay';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { filter, map } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { ButtonSpinnerModule } from '@xm-ngx/components/button-spinner';
 import {
     FiltersControlRequestOptions,
-} from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
-import { FiltersControlValue } from '@xm-ngx/components/table/components/xm-table-filters-control.component';
-import { XmEmptyPipe } from '@xm-ngx/shared/pipes';
+} from '../components/xm-table-filters-control-request.component';
+import { FiltersControlValue } from '../components/xm-table-filters-control.component';
+import { XmEmptyPipe } from '@xm-ngx/pipes';
 import { NgIf } from '@angular/common';
 
 @Component({

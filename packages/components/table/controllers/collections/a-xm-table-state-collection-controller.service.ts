@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, share } from 'rxjs';
 import { IXmTableCollectionState } from './i-xm-table-collection-controller';
 import { assign, cloneDeep } from 'lodash';
-import { PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 
 @Injectable()
 export abstract class AXmTableStateCollectionController<T> {

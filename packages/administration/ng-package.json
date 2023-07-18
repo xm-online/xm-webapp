@@ -1,7 +1,11 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/packages/administration",
+  "dest": "../../lib/administration",
   "lib": {
     "entryFile": "./index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "@ngx-formly/core",
+    "@ngx-formly/material"
+  ]
 }

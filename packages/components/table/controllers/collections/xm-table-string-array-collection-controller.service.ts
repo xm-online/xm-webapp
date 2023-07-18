@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { XmEntity } from '@xm-ngx/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
 import {
     AXmTableLocalPageableCollectionController,

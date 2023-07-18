@@ -59,3 +59,10 @@ export {
     XmTextDynamicOptions,
     XmTextDynamicView,
 } from './text-dynamic-view/xm-text-dynamic-view';
+
+
+export { DigitOnlyDirective } from './digit-only.directive';
+export { XmTextCellComponent, XmTextCellConfig } from './text-cell/text-cell.component';
+export { FocusDirective } from './focus.directive';
+export { InputPreventPasteDirective } from './input-prevent-paste.directive';
+export { WordAutocompleteDirective, WordAutocompleteModule } from './word-autocomplete.directive';

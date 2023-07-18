@@ -27,3 +27,5 @@ export {
     XmDateView,
     XmDateViewOptions,
 } from './xm-date-view';
+
+export * from './xm-datetime-control';

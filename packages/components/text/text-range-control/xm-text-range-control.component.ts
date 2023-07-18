@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmTextTitleOptions } from '../text-title';
-import { DataQa } from '@xm-ngx/shared/interfaces';
+import { DataQa } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 import { HintModule, HintText } from '@xm-ngx/components/hint';

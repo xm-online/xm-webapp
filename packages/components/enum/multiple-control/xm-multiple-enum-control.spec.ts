@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmMultipleEnumControl } from '@xm-ngx/components/enum/multiple-control/xm-multiple-enum-control.component';
+import { XmMultipleEnumControl } from '@xm-ngx/components/enum';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';

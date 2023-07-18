@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
 import { NgJhipsterModule } from 'ng-jhipster';
-import { XmMatCardModule } from '@xm-ngx/entity/xm-mat-card';
+import { XmMatCardModule } from '@xm-ngx/entity/card';
 import { ButtonSpinnerModule } from '@xm-ngx/components/button-spinner';
 
 import { TimelineCardComponent } from './timeline-card/timeline-card.component';

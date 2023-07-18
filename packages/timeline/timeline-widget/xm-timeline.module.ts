@@ -7,8 +7,8 @@ import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatButtonModule } from '@angular/material/button';
 
-import { TimeAgoService } from '../src/time-ago.service';
-import { TimelineService } from '../src/timeline.service';
+import { TimeAgoService } from '@xm-ngx/timeline';
+import { TimelineService } from '@xm-ngx/timeline';
 import { XmTimelineWidgetComponent } from './xm-timeline-widget.component';
 
 @NgModule({

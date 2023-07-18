@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { XmLinkViewCopyOptions, XmLinkViewOptions } from '@xm-ngx/components/link';
-import { XmLinkOptions } from '@xm-ngx/components/link/xm-link';
+import { XmLinkOptions } from '@xm-ngx/components/link';
 
 @Component({
     selector: 'xm-link-example',

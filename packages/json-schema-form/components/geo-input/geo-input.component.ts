@@ -1,8 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { GeoInputOptions } from './geo-input.model';
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { JsonSchemaFormService } from '@ajsf/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmGMapApiInitDirective } from '@xm-ngx/components/google-maps';
 
 declare let google: any;
 
@@ -27,6 +31,8 @@ interface IPlaceValueGeometry {
 }
 
 @Component({
+    standalone: true,
+    imports: [MatFormFieldModule, MatInputModule, XmTranslationModule, XmGMapApiInitDirective],
     selector: 'geo-input',
     templateUrl: './geo-input.component.html',
 })
@@ -34,11 +40,13 @@ export class GeoInputComponent implements AfterViewInit, OnDestroy {
     public controlValue!: string;
     public modelValue: string = '';
     public options: GeoInputOptions;
-    public apiReady: BehaviorSubject<{gMapReady: boolean, viewReady: boolean}> = new BehaviorSubject<{gMapReady: boolean; viewReady: boolean}>(null);
-    protected destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
-
+    public apiReady: BehaviorSubject<{ gMapReady: boolean, viewReady: boolean }> = new BehaviorSubject<{
+        gMapReady: boolean;
+        viewReady: boolean
+    }>(null);
     @Input() public layoutNode: any;
     @ViewChild('geoInput') public geoInput: any;
+    protected destroyed$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
     constructor(
         private jsf: JsonSchemaFormService,
@@ -83,19 +91,19 @@ export class GeoInputComponent implements AfterViewInit, OnDestroy {
         this.getPlaceAutocomplete();
     }
 
-    private getPlaceAutocomplete() {
-        const types = this.options?.predictionType || ['address'];
-        const autocomplete = new google.maps.places.Autocomplete(this.geoInput?.nativeElement, {types});
-        google.maps.event.addListener(autocomplete, 'place_changed', () => {
-            const place = autocomplete.getPlace();
-            this.invokeEvent(place);
-        });
-    }
-
     public invokeEvent(place: any): void {
         this.modelValue = place?.formatted_address;
         const updatedValue = this.cookValue(place);
         this.jsf.updateValue(this, updatedValue);
+    }
+
+    private getPlaceAutocomplete() {
+        const types = this.options?.predictionType || ['address'];
+        const autocomplete = new google.maps.places.Autocomplete(this.geoInput?.nativeElement, { types });
+        google.maps.event.addListener(autocomplete, 'place_changed', () => {
+            const place = autocomplete.getPlace();
+            this.invokeEvent(place);
+        });
     }
 
     private cookValue(place: any): string {

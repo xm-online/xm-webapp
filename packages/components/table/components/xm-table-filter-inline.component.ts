@@ -4,14 +4,14 @@ import { MatButtonModule } from '@angular/material/button';
 import {
     FiltersControlRequestOptions,
     XmTableFiltersControlRequestComponent
-} from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
+} from './xm-table-filters-control-request.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import * as _ from 'lodash';
 import { cloneDeep } from 'lodash';
-import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy, } from '@xm-ngx/shared/operators';
+import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy, } from '@xm-ngx/operators';
 import {
     XmTableFilterController
-} from '@xm-ngx/components/table/controllers/filters/xm-table-filter-controller.service';
+} from '../controllers/filters/xm-table-filter-controller.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,7 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { FiltersControlValue } from './xm-table-filters-control.component';
 import {
     XmTableFilterControlAsChipComponent
-} from '@xm-ngx/components/table/components/xm-table-filter-control-as-chip.component';
+} from './xm-table-filter-control-as-chip.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 
 const DEFAULT_CONFIG: FiltersControlRequestOptions = {

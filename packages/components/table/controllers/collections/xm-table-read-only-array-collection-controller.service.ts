@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NotSupportedException } from '@xm-ngx/shared/exceptions';
+import { NotSupportedException } from '@xm-ngx/exceptions';
 
 import {
     XmTableArrayCollectionControllerConfig,

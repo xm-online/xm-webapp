@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../lib/cli",
+  "allowedNonPeerDependencies": [
+    "lodash",
+    "sass",
+    "ts-morph",
+    "glob"
+  ],
+  "assets": [
+    "bin/xm-ngx.js"
+  ],
+  "lib": {
+    "entryFile": "./src/index.ts"
+  }
+}

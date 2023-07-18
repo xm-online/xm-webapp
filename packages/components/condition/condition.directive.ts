@@ -8,7 +8,7 @@ import {
     TemplateRef,
     ViewContainerRef,
 } from '@angular/core';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces';
+import { JavascriptCode } from '@xm-ngx/interfaces';
 import { keys, values } from 'lodash';
 
 @Directive({

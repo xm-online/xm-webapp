@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as glob from 'glob';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { Command } from './command';
 import { Config } from './config';
 import { readAsJson, saveAsJson } from './fs-utils';
@@ -9,7 +9,8 @@ function getTranslations(pathMask: string): object {
     let translations = {};
 
     glob.sync(pathMask).forEach(file => {
-        translations = _.merge(translations, readAsJson(file));
+        const newTranslations = readAsJson(file);
+        translations = _.mergeWith(translations, newTranslations, (a, b) => a || b);
     });
 
     return translations;
@@ -37,9 +38,8 @@ export class ExtI18nCommand implements Command {
             const customTranslations = getTranslations(this.customPathMask(lang));
 
             const savePath = this.distPathMask(lang);
-            saveAsJson(savePath, _.mergeWith({}, coreTranslations, customTranslations, (a, b) => {
-                return (b === null || b === '') ? a : undefined;
-            }));
+            const mergedTranslates = _.mergeWith({}, coreTranslations, customTranslations, (a, b) => a || b);
+            saveAsJson(savePath, mergedTranslates);
             console.info('Updated: ', savePath);
         });
     }

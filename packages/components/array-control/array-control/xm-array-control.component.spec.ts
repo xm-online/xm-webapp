@@ -4,7 +4,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { XmArrayControl } from './xm-array-control.component';
-import { EntityCollectionFactoryService, IEntityCollection } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService, IEntityCollection } from '@xm-ngx/repositories';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 

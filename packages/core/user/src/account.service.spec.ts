@@ -1,9 +1,8 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
 import {JhiDateUtils} from 'ng-jhipster';
-import {SERVER_API_URL} from '../../../../src/app/xm.constants';
 import {AccountService} from './account.service';
-import {ACCOUNT_LOGIN_UPDATE_URL, ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL} from '../../auth/src/auth.constants';
+import {ACCOUNT_LOGIN_UPDATE_URL, ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL} from '@xm-ngx/core/auth';
 
 describe('AccountService', () => {
 
@@ -25,7 +24,7 @@ describe('AccountService', () => {
     describe('get()', () => {
         it('should call with correct URL', (done) => {
             service.get().subscribe(() => done());
-            const req = httpTestingController.expectOne(SERVER_API_URL + ACCOUNT_URL);
+            const req = httpTestingController.expectOne(ACCOUNT_URL);
             req.flush({id: 1});
             httpTestingController.verify();
         });
@@ -35,7 +34,7 @@ describe('AccountService', () => {
     describe('save()', () => {
         it('should call with correct URL', (done) => {
             service.save({id: 100}).subscribe(() => done());
-            const req = httpTestingController.expectOne(SERVER_API_URL + ACCOUNT_URL);
+            const req = httpTestingController.expectOne(ACCOUNT_URL);
             req.flush({id: 1});
             httpTestingController.verify();
         });
@@ -45,7 +44,7 @@ describe('AccountService', () => {
     describe('updateLogins()', () => {
         it('should call with correct URL', (done) => {
             service.updateLogins({id: 100}).subscribe(() => done());
-            const req = httpTestingController.expectOne(SERVER_API_URL + ACCOUNT_LOGIN_UPDATE_URL);
+            const req = httpTestingController.expectOne(ACCOUNT_LOGIN_UPDATE_URL);
             req.flush({id: 1});
             httpTestingController.verify();
         });
@@ -54,7 +53,7 @@ describe('AccountService', () => {
     describe('enableTFA()', () => {
         it('should call with correct URL', (done) => {
             service.enableTFA('test', 'test').subscribe(() => done());
-            const req = httpTestingController.expectOne(SERVER_API_URL + ACCOUNT_TFA_ENABLE_URL);
+            const req = httpTestingController.expectOne(ACCOUNT_TFA_ENABLE_URL);
             req.flush({id: 1});
             httpTestingController.verify();
         });
@@ -63,7 +62,7 @@ describe('AccountService', () => {
     describe('disableTFA()', () => {
         it('should call with correct URL', (done) => {
             service.disableTFA().subscribe(() => done());
-            const req = httpTestingController.expectOne(SERVER_API_URL + ACCOUNT_TFA_DISABLE_URL);
+            const req = httpTestingController.expectOne(ACCOUNT_TFA_DISABLE_URL);
             req.flush({id: 1});
             httpTestingController.verify();
         });

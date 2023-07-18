@@ -1,7 +1,7 @@
 import { Component, DoCheck, Input, OnInit } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { filter } from 'rxjs/operators';

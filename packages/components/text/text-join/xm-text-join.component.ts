@@ -5,10 +5,10 @@ import {
     XM_DYNAMIC_TABLE_ROW,
     XmDynamicPresentation,
 } from '@xm-ngx/dynamic';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces';
+import { JavascriptCode } from '@xm-ngx/interfaces';
 import { XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import moment from 'moment';
 
 export interface XmTextJoinValueOptionsTemplateType {
     value: 'date',

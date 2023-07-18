@@ -5,10 +5,10 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { Principal } from '@xm-ngx/core/user';
-import { CommentSpec } from '../shared/comment-spec.model';
-import { Comment } from '../shared/comment.model';
-import { CommentService } from '../shared/comment.service';
-import { XmEntity } from '../shared/xm-entity.model';
+import { CommentSpec } from '@xm-ngx/core/entity';
+import { Comment } from '@xm-ngx/core/entity';
+import { CommentService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 
 
 @Component({

@@ -1,3 +1,10 @@
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { buildFormGroup, JsonSchemaFormComponent, JsonSchemaFormService, removeRecursiveReferences } from '@ajsf/core';
 import {
     AfterViewInit,
@@ -29,6 +36,8 @@ interface Element {
 }
 
 @Component({
+    standalone: true,
+    imports: [CommonModule, FormsModule, MatFormFieldModule, MatSelectModule, MatOptionModule, XmTranslationModule, NgxMatSelectSearchModule, ReactiveFormsModule],
     selector: 'xm-ext-multi-select-widget',
     templateUrl: 'ext-multi-select.component.html',
 })
