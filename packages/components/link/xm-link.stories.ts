@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
-import { XmLink } from '@xm-ngx/components/link/index';
+import { XmLink } from '@xm-ngx/components/link';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';

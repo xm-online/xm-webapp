@@ -1,5 +1,5 @@
 import { XmTextViewModule } from '@xm-ngx/components/text';
-import { XmDateValue, XmDateView, XmDateViewOptions } from '@xm-ngx/components/date/index';
+import { XmDateValue, XmDateView, XmDateViewOptions } from '@xm-ngx/components/date';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';

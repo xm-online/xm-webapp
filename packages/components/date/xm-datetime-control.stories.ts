@@ -14,7 +14,7 @@ import {
     XmDateTimeControlComponent,
     XmDateTimeControlConfig,
     XmDateTimeControlFieldComponent
-} from '@xm-ngx/components/date/xm-datetime-control';
+} from '@xm-ngx/components/date';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
