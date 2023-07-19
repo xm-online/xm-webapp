@@ -13,7 +13,7 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
 import { of } from 'rxjs';
-import { XmAutocompleteControlComponent } from '@xm-ngx/components/autocomplete-control/autocomplete-control.component';
+import { XmAutocompleteControlComponent } from '@xm-ngx/components/autocomplete-control';
 
 
 export default {
