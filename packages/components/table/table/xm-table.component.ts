@@ -45,6 +45,7 @@ import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-enti
 import {
     XmTableQueryParamsStoreService
 } from '@xm-ngx/components/table/controllers/filters/xm-table-query-params-store.service';
+import { DashboardContentDirective } from 'packages/dashboard/src/directives/dashboard-content.directive';
 
 function getConfig(value: Partial<XmTableConfig>): XmTableConfig {
     const config = defaultsDeep({}, value, XM_TABLE_CONFIG_DEFAULT) as XmTableConfig;
@@ -75,6 +76,7 @@ interface IXmTableContext {
     standalone: true,
     host: { class: 'xm-table' },
     imports: [
+        DashboardContentDirective,
         MatCardModule,
         XmTranslationModule,
         NgIf,

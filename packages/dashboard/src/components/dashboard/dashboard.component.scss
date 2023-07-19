@@ -2,6 +2,37 @@
   display:        flex;
   flex-grow:      1;
   flex-direction: column;
-  padding-left: 30px;
-  padding-right: 30px;
+  // padding-left: 30px;
+  // padding-right: 30px;
+  position: absolute;
+  margin-left: 30px;
+  margin-right: 30px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .dashboard-pane {
+    width: 360px;
+    border: none;
+    background: none;
+
+    &--right {
+      padding-left: 20px;
+    }
+
+    &--left {
+      padding-right: 20px;
+    }
+
+    &__header {
+      padding-bottom: 24px;
+    }
+  }
 }

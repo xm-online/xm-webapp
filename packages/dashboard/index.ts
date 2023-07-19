@@ -28,3 +28,5 @@ export { DashboardStore } from './src/stores/dashboard-store.service';
 export { DashboardWrapperService } from './src/stores/dashboard-wrapper.service';
 
 export { XmDashboardModule } from './src/xm-dashboard.module';
+
+export { DynamicContextComponent } from './src/components/dynamic-context/dynamic-context.component';

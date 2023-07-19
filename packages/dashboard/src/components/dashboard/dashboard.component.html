@@ -1,56 +1,140 @@
 <xm-loader [showLoader]="showLoader"></xm-loader>
 
-<div [className]="dashboard?.layout?.class || ''">
-  <ng-container *ngFor="let item of dashboard?.layout?.grid">
-    <ng-container *ngTemplateOutlet="dashboardItem;context:{item: item}"></ng-container>
-  </ng-container>
+<div class="pb-3" *ngIf="dashboard?.layout?.topSide">
+  <mat-card>
+    <mat-card-content>
+      <xm-dynamic-widget-layout
+        [resolveCustomParams]="resolveCustomParams"
+        [isCustomElement]="isCustomElement"
+        [layouts]="dashboard?.layout?.topSide">
+      </xm-dynamic-widget-layout>
+    </mat-card-content>
+  </mat-card>
 </div>
 
-<ng-template #dashboardItem let-item="item">
-  <div *ngIf="!!item.class" [className]="item.class">
-    <ng-container *ngTemplateOutlet="dashboardContent;context:{item: item}"></ng-container>
-  </div>
+<mat-drawer-container class="dashboard-container" autosize>
+  <mat-drawer class="dashboard-pane dashboard-pane--left" mode="side" position="start" [opened]="dashboard?.layout?.leftSide">
+    <mat-card>
+      <mat-card-content>
+        <xm-dynamic-widget-layout
+          [resolveCustomParams]="resolveCustomParams"
+          [isCustomElement]="isCustomElement"
+          [layouts]="dashboard?.layout?.leftSide">
+        </xm-dynamic-widget-layout>
+      </mat-card-content>
+    </mat-card>
+  </mat-drawer>
 
-  <ng-container *ngIf="!item.class">
-    <ng-container *ngTemplateOutlet="dashboardContent;context:{item: item}"></ng-container>
-  </ng-container>
-</ng-template>
+  <mat-drawer class="dashboard-pane dashboard-pane--right" mode="side" position="end" [opened]="(hasDynamicContent | async)">
+    <mat-card *ngIf="dynamicContent | async as content">
+      <mat-card-header class="dashboard-pane__header">
+        <button mat-icon-button (click)="closeDynamicContent()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-card-header>
 
-<ng-template #dashboardContent let-item="item">
-  <ng-container *ngFor="let subitem of item?.content">
-    <ng-container *ngTemplateOutlet="dashboardItem;context:{item: subitem}"></ng-container>
-  </ng-container>
+      <mat-card-content>
+        <!-- Cant easily pass value here -->
+        <!-- <xm-dynamic-widget-layout
+          [resolveCustomParams]="resolveCustomParams"
+          [isCustomElement]="isCustomElement"
+          [layouts]="dashboard?.layout?.rightSide">
+        </xm-dynamic-widget-layout> -->
 
-  <ng-container *ngIf="item?.widget">
-    <xm-dynamic-widget *ngIf="item.widget?.module && spec"
-                       [init]="{module: item.widget?.module, selector: item.widget?.selector, component: item.widget?.component, config: item.widget?.config, spec: spec}">
-    </xm-dynamic-widget>
-  </ng-container>
-</ng-template>
+        <div [className]="dashboard?.layout?.class || ''">
+          <ng-container *ngFor="let item of dashboard?.layout?.rightSide">
+            <ng-container *ngTemplateOutlet="dashboardItem;context:{item: item}"></ng-container>
+          </ng-container>
+        </div>
 
-<ng-container *ngIf="childrenDashboards?.length > 0 then childDashboards else emptyData"></ng-container>
+        <ng-template #dashboardItem let-item="item">
+          <div *ngIf="!!item.class" [className]="item.class">
+            <ng-container *ngTemplateOutlet="dashboardContent;context:{item: item}"></ng-container>
+          </div>
 
-<ng-template #childDashboards>
-  <div fxLayout="row wrap" fxLayoutGap="16px grid">
-    <ng-container *ngFor="let childDashboard of childrenDashboards">
-      <div *permitted="childDashboard.permission || 'DASHBOARD.GET_LIST'"
-           fxFlex="33%" fxFlex.sm="50%" fxFlex.xs="100%">
-        <mat-card matRipple [routerLink]="['/dashboard/'].concat(childDashboard.config.slug.split('/'))">
-          <mat-card-header class="pb-3">
-            <mat-card-subtitle>
-              {{childDashboard.config.slug}}
-            </mat-card-subtitle>
+          <ng-container *ngIf="!item.class">
+            <ng-container *ngTemplateOutlet="dashboardContent;context:{item: item}"></ng-container>
+          </ng-container>
+        </ng-template>
 
-            <mat-card-title>{{childDashboard.config.name | translate}}</mat-card-title>
+        <ng-template #dashboardContent let-item="item">
+          <ng-container *ngFor="let subitem of item?.content">
+            <ng-container *ngTemplateOutlet="dashboardItem;context:{item: subitem}"></ng-container>
+          </ng-container>
 
-            <mat-icon class="position-absolute" style="top: .5rem; right: .5rem">call_made</mat-icon>
-          </mat-card-header>
-        </mat-card>
+          <ng-container *ngIf="item?.widget">
+            <xm-dynamic-widget *ngIf="item.widget?.module && spec"
+                              [init]="{
+                                module: item.widget?.module, 
+                                selector: item.widget?.selector, 
+                                component: item.widget?.component, 
+                                config: item.widget?.config,
+                                value: content,
+                                spec: spec
+                              }">
+            </xm-dynamic-widget>
+          </ng-container>
+        </ng-template>
+      </mat-card-content>
+      
+    </mat-card>
+  </mat-drawer>
+
+  <mat-drawer-content>
+      <div [className]="dashboard?.layout?.class || ''">
+        <ng-container *ngFor="let item of dashboard?.layout?.grid">
+          <ng-container *ngTemplateOutlet="dashboardItem;context:{item: item}"></ng-container>
+        </ng-container>
       </div>
-    </ng-container>
-  </div>
-</ng-template>
 
-<ng-template #emptyData>
-  <no-data [show]="!dashboard?.layout?.grid?.length"></no-data>
-</ng-template>
+      <ng-template #dashboardItem let-item="item">
+        <div *ngIf="!!item.class" [className]="item.class">
+          <ng-container *ngTemplateOutlet="dashboardContent;context:{item: item}"></ng-container>
+        </div>
+
+        <ng-container *ngIf="!item.class">
+          <ng-container *ngTemplateOutlet="dashboardContent;context:{item: item}"></ng-container>
+        </ng-container>
+      </ng-template>
+
+      <ng-template #dashboardContent let-item="item">
+        <ng-container *ngFor="let subitem of item?.content">
+          <ng-container *ngTemplateOutlet="dashboardItem;context:{item: subitem}"></ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="item?.widget">
+          <xm-dynamic-widget *ngIf="item.widget?.module && spec"
+                            [init]="{module: item.widget?.module, selector: item.widget?.selector, component: item.widget?.component, config: item.widget?.config, spec: spec}">
+          </xm-dynamic-widget>
+        </ng-container>
+      </ng-template>
+
+      <ng-container *ngIf="childrenDashboards?.length > 0 then childDashboards else emptyData"></ng-container>
+
+      <ng-template #childDashboards>
+        <div fxLayout="row wrap" fxLayoutGap="16px grid">
+          <ng-container *ngFor="let childDashboard of childrenDashboards">
+            <div *permitted="childDashboard.permission || 'DASHBOARD.GET_LIST'"
+                fxFlex="33%" fxFlex.sm="50%" fxFlex.xs="100%">
+              <mat-card matRipple [routerLink]="['/dashboard/'].concat(childDashboard.config.slug.split('/'))">
+                <mat-card-header class="pb-3">
+                  <mat-card-subtitle>
+                    {{childDashboard.config.slug}}
+                  </mat-card-subtitle>
+
+                  <mat-card-title>{{childDashboard.config.name | translate}}</mat-card-title>
+
+                  <mat-icon class="position-absolute" style="top: .5rem; right: .5rem">call_made</mat-icon>
+                </mat-card-header>
+              </mat-card>
+            </div>
+          </ng-container>
+        </div>
+      </ng-template>
+
+      <ng-template #emptyData>
+        <no-data [show]="!dashboard?.layout?.grid?.length"></no-data>
+      </ng-template>
+  </mat-drawer-content>
+</mat-drawer-container>
+

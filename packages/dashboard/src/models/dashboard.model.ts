@@ -42,6 +42,9 @@ export interface DashboardLayoutLayout extends XmLayout {
 export interface DashboardLayout {
     class?: string;
     layout?: DashboardLayoutLayout | DashboardLayoutLayout[];
+    topSide?: DashboardLayoutLayout | DashboardLayoutLayout[];
+    leftSide?: DashboardLayoutLayout | DashboardLayoutLayout[];
+    rightSide?: DashboardLayoutLayout | DashboardLayoutLayout[];
     /** @deprecated use layout instead */
     grid?: DashboardLayoutLayout[];
 }
