@@ -40,6 +40,7 @@ import { XM_TABLE_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/registry';
 import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/registry';
+import { XM_ENTITY_ELEMENTS } from '@xm-ngx/entity/registry';
 import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
@@ -132,6 +133,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
             XM_DASHBOARD_ELEMENTS,
             XM_ADMINISTRATION_ELEMENTS,
             XM_COMPONENTS_ELEMENTS,
+            XM_ENTITY_ELEMENTS,
         )),
         LayoutModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
