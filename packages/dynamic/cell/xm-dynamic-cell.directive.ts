@@ -24,7 +24,7 @@ export const XM_DYNAMIC_TABLE_CELL = new InjectionToken<string>('XM_DYNAMIC_TABL
  * XmDynamicCellDirective cell configuration
  * @beta
  */
-export interface XmDynamicCell<C = XmConfig> extends XmDynamicLayoutNode<C> {
+export interface XmDynamicCell<C = unknown> extends XmDynamicLayoutNode<C> {
     field: string;
 }
 
