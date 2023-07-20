@@ -11,7 +11,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
-import { MultiLanguageComponent } from '@xm-ngx/components/multilanguage/index';
+import { MultiLanguageComponent } from '@xm-ngx/components/multilanguage';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';

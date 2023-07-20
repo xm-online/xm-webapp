@@ -1,3 +1,4 @@
+export { LIST_DEFAULT_FIELDS } from './src/constants/default-lists-fields.constants';
 export { TranslateDirective } from './src/directives/translate.directive';
 
 export { getBrowserLocale } from './src/operators/getBrowserLocale';

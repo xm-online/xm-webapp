@@ -10,11 +10,11 @@ import {
     OnInit,
     SimpleChanges,
 } from '@angular/core';
-import { getValue } from '@xm-ngx/shared/operators';
+import { getValue } from '@xm-ngx/operators';
 import * as _ from 'lodash';
-import { XmDynamicPresentationBase } from '@xm-ngx/dynamic/presentation';
-import { XmDynamicLayoutNode } from '@xm-ngx/dynamic/src/interfaces';
-import { XmConfig } from '@xm-ngx/shared/interfaces';
+import { XmDynamicPresentationBase } from '../presentation';
+import { XmDynamicLayoutNode } from '../src/interfaces';
+import { XmConfig } from '@xm-ngx/interfaces';
 
 
 export const XM_DYNAMIC_TABLE_ROW = new InjectionToken<string>('XM_DYNAMIC_TABLE_ROW');

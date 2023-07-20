@@ -1,6 +1,14 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { JsonSchemaFormService } from '@ajsf/core';
 import { DateTimeAdapter, OwlDateTimeIntl } from '@danielmoncada/angular-datetime-picker';
 
 import { ModulesLanguageHelper } from '@xm-ngx/translation';
@@ -10,6 +18,8 @@ declare let moment;
 const DEF_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss[Z]';
 
 @Component({
+    standalone: true,
+    imports: [MatFormFieldModule,MatInputModule,MatButtonModule,MatIconModule,OwlDateTimeModule,OwlNativeDateTimeModule,XmTranslationModule,FormsModule,CommonModule],
     selector: 'xm-ajfs-datetime-picker',
     templateUrl: './datetime-picker.component.html',
     styleUrls: ['./datetime-picker.component.scss'],

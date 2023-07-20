@@ -1,6 +1,6 @@
 import { Directive, Input, OnChanges, OnInit } from '@angular/core';
 import { XmDynamicPresentationBase, XmDynamicPresentation, XmDynamicPresentationConstructor } from './xm-dynamic-presentation-base.directive';
-import { XmDynamicSelector } from '@xm-ngx/dynamic/src/interfaces';
+import { XmDynamicSelector } from '../src/interfaces';
 
 /**
  * DynamicComponent creates a component from the DynamicLoader

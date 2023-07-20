@@ -1,4 +1,4 @@
-import { Color } from '@xm-ngx/components/particles/line-trail-particle';
+import { Color } from './line-trail-particle';
 
 export interface LineTrailParticlesOptions {
   liveTime: number | [number, number],

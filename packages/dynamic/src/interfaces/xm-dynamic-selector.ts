@@ -1,4 +1,4 @@
-import { XmConfig } from '@xm-ngx/shared/interfaces';
+import { XmConfig } from '@xm-ngx/interfaces';
 import { XmDynamic } from './xm-dynamic';
 
 export type XmDynamicSelector = string;

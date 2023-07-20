@@ -4,11 +4,11 @@ import {
     AXmTableLocalPageableCollectionController,
 } from './a-xm-table-local-pageable-collection-controller.service';
 
-import { NotSupportedException } from '@xm-ngx/shared/exceptions';
+import { NotSupportedException } from '@xm-ngx/exceptions';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import _ from 'lodash';
-import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
+import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
 
 export interface XmTableConfigCollectionControllerConfig {
     type: 'config'

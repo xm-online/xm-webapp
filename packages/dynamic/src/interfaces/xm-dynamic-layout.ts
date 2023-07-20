@@ -1,5 +1,5 @@
 import { XmDynamicWithConfig, XmDynamicWithSelector } from './xm-dynamic-selector';
-import { XmConfig } from '@xm-ngx/shared/interfaces';
+import { XmConfig } from '@xm-ngx/interfaces';
 
 export interface XmLayoutNode {
     class?: string;

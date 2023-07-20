@@ -18,7 +18,7 @@ import { isEqual, isNil, omitBy } from 'lodash';
 import { BehaviorSubject, combineLatestWith, Observable, Subject, Subscription } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { QueryParams } from '@xm-ngx/components/entity-collection';
+import { QueryParams } from '@xm-ngx/repositories';
 
 export interface FiltersControlValue extends QueryParams {
     [key: string]: string | object | number;

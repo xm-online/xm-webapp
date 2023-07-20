@@ -4,10 +4,10 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/user';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { FullLinkSpec, LinkSpec } from '../shared/link-spec.model';
-import { Link } from '../shared/link.model';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { FullLinkSpec, LinkSpec } from '@xm-ngx/core/entity';
+import { Link } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-link-list',

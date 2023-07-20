@@ -3,9 +3,8 @@ import { Dictionary, filter, find, flatten, keyBy, uniqBy } from 'lodash';
 
 import { XM_DYNAMIC_EXTENSIONS } from '../dynamic.injectors';
 import { XmDynamicExtensionEntry } from '../interfaces/xm-dynamic-extension.model';
-import { NotFoundException } from '@xm-ngx/shared/exceptions/not-found-exception';
-import { XmDynamicSelector } from '@xm-ngx/dynamic/src/interfaces';
-
+import { NotFoundException } from '@xm-ngx/exceptions';
+import { XmDynamicSelector } from '../interfaces';
 @Injectable()
 export class XmDynamicModuleRegistry {
 

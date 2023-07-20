@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { create as createHeatmap, DataPoint, HeatmapConfiguration } from 'heatmap.js';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';

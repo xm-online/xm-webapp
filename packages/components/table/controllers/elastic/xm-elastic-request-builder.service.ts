@@ -1,30 +1,32 @@
 import { Injectable } from '@angular/core';
-import { XmTableConfigController } from '@xm-ngx/components/table/controllers';
-import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
-import { XmFilterQueryParams } from '@xm-ngx/components/table/controllers/collections/i-xm-table-collection-controller';
+import { XmTableConfigController } from '../config/xm-table-config-controller.service';
+import { XmFilterQueryParams } from '../collections/i-xm-table-collection-controller';
 import {
     PageableAndSortable,
     QueryParamsPageable
-} from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+} from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { get } from 'lodash';
-import { QueryParams } from '@xm-ngx/components/entity-collection';
-import { xmFormatJs } from '@xm-ngx/shared/operators';
+import { QueryParams } from '@xm-ngx/repositories';
+import { xmFormatJs } from '@xm-ngx/operators';
 import {
     Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY
-} from '@xm-ngx/components/table/controllers/elastic/xm-table-filters-elastic-string-query';
+} from '../elastic/xm-table-filters-elastic-string-query';
 import {
     XmElasticSearchRepositoryQueryParamsPageable,
     XmEntityRepositoryConfig
-} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-search-repository.service';
+} from '../elastic/xm-elastic-search-repository.service';
+
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { Translate } from '@xm-ngx/translation';
+import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
 
 export interface XmTableConfigFilters extends FormGroupLayoutItem {
     options: {
         title: Translate,
     }
 }
+
 
 @Injectable()
 export class XmElasticRequestBuilder {

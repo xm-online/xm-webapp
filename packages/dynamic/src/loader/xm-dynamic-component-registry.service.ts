@@ -2,13 +2,10 @@ import { createNgModule, Injectable, Injector, NgModuleRef, Type } from '@angula
 import { Dictionary, flatten, keyBy, tail } from 'lodash';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
 import { XmDynamicModuleRegistry } from './xm-dynamic-module-registry.service';
-import {
-    XmDynamicConstructor,
-    XmDynamicEntry,
-    XmDynamicEntryModule,
-    XmDynamicSelector
-} from '@xm-ngx/dynamic/src/interfaces';
-import { NotFoundException } from '@xm-ngx/shared/exceptions';
+import { NotFoundException } from '@xm-ngx/exceptions';
+import { XmDynamicEntryModule } from '../interfaces/xm-dynamic-entry-module';
+import { XmDynamicConstructor } from '../interfaces/xm-dynamic-constructor';
+import { XmDynamicEntry, XmDynamicSelector } from '../interfaces';
 
 export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 

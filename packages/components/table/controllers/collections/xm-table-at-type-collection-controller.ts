@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
-import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
+import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
 
 export interface AtTypeListConfig {
     type: 'atType',

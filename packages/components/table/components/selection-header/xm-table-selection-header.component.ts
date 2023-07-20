@@ -7,7 +7,7 @@ import { NgForOf, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { XmDynamicModule, XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { tap } from 'rxjs/operators';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 @Component({
     selector: 'xm-table-selection-header',

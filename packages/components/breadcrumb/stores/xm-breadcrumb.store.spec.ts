@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { XmBreadcrumbStore } from './xm-breadcrumb.store';
+import { XmBreadcrumbStore } from '@xm-ngx/components/breadcrumb';
 import { MockXmBreadcrumbResolver } from '@xm-ngx/components/breadcrumb/testing';
 import { XmBreadcrumbResolver } from '@xm-ngx/components/breadcrumb';
 import { RouterTestingModule } from '@angular/router/testing';

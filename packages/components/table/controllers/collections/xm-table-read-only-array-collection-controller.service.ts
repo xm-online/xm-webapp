@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NotSupportedException } from '@xm-ngx/shared/exceptions';
+import { NotSupportedException } from '@xm-ngx/exceptions';
 
 import { firstValueFrom } from 'rxjs';
 import {
@@ -9,8 +9,8 @@ import { get } from 'lodash';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
-import { XmTableEntity } from '@xm-ngx/components/table/controllers/collections/xm-table-array-collection-controller';
-import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
+import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
+import { XmTableEntity } from './xm-table-array-collection-controller';
 
 export interface XmTableReadOnlyArrayCollectionControllerConfig extends XmTableEntity {
     type: 'readOnlyArray'

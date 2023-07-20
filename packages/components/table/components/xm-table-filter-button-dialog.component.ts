@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { FormLayoutModule } from '@xm-ngx/components/form-layout';
-import { CustomOverlayRef } from '@xm-ngx/components/overlay/custom-overlay-ref';
+import { CustomOverlayRef } from '@xm-ngx/components/overlay';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import {
     XmTableFiltersControlRequestConfig,
     XmTableFiltersControlRequestComponent,
-} from '@xm-ngx/components/table/components/xm-table-filters-control-request.component';
+} from '../components/xm-table-filters-control-request.component';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
-import { FiltersControlValue } from '@xm-ngx/components/table/components/xm-table-filters-control.component';
+import { FiltersControlValue } from '../components/xm-table-filters-control.component';
 
 export interface XmOverlayResponse {
     state: 'cancel' | 'submit' | 'reset';

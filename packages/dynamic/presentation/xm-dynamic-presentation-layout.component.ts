@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { XmDynamicLayout } from '../src/interfaces';
 import { XmDynamicLayoutBase } from '../widget/xm-dynamic-layout.base';
 import { XmDynamicPresentation } from './xm-dynamic-presentation-base.directive';
-import { XmConfig } from '@xm-ngx/shared/interfaces';
+import { XmConfig } from '@xm-ngx/interfaces';
 
 export interface XmDynamicPresentationLayout<V = unknown, C = XmConfig> extends XmDynamicLayout<C>, XmDynamicPresentation<V, C> {
     content?: XmDynamicPresentationLayout[];

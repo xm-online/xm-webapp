@@ -1,5 +1,5 @@
 /** @deprecated Back compatibility matrix */
-import { DashboardWidget } from '../../models/dashboard-widget.model';
+import { DashboardWidget } from '@xm-ngx/core/dashboard';
 
 
 const MAP_WIDGETS: { [key: string]: string | any } = {

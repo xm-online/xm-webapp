@@ -6,7 +6,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XmDynamicControlConstructor } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { Primitive } from '@xm-ngx/interfaces';
 
 import { XmNumberControl, XmNumberControlOptions } from './xm-number-control';
 import { XmNumberDirective } from './xm-number.directive';

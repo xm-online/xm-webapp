@@ -1,19 +1,16 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUserService } from './xm-user.service';
-import { OnInitialize } from '@xm-ngx/shared/interfaces';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { LanguageService } from 'packages/translation/src/services/language.service';
+import { OnInitialize } from '@xm-ngx/interfaces';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
-import * as moment from 'moment';
+import moment from 'moment';
 import { Observable, Subject } from 'rxjs';
 import { filter, shareReplay, takeUntil } from 'rxjs/operators';
-import { AuthRefreshTokenService } from 'packages/core/auth/src/auth-refresh-token.service';
-import { XmEntity } from 'packages/entity/src/shared/xm-entity.model';
+
 
 import { AccountService } from './account.service';
-import { SUPER_ADMIN } from '../../auth/src/auth.constants';
+import { SUPER_ADMIN } from '@xm-ngx/core/auth';
 
 const CACHE_SIZE = 1;
 
@@ -25,21 +22,15 @@ export class Principal implements OnDestroy, OnInitialize {
     private authenticationState: Subject<any> = new Subject<any>();
     private promise: Promise<any>;
     private reload$: Subject<void> = new Subject<void>();
-    private xmProfileCache$: Observable<XmEntity>;
+    private xmProfileCache$: Observable<any>;
 
     constructor(private account: AccountService,
-                private alertService: XmToasterService,
-                private authRefreshTokenService: AuthRefreshTokenService,
                 private sessionService: XmSessionService,
                 private userService: XmUserService,
-                private languageService: LanguageService,
     ) {
     }
 
     public init(): void {
-        this.checkTokenAndForceIdentity();
-        this.onLanguageChange();
-
         this.sessionService.isActive().pipe(
             filter(i => i === false),
         ).subscribe(() => this.logout());
@@ -58,7 +49,6 @@ export class Principal implements OnDestroy, OnInitialize {
     }
 
     public logout(): void {
-        this.authRefreshTokenService.clear();
         this.userIdentity = null;
         this.authenticated = false;
         this.promise = null;
@@ -100,7 +90,7 @@ export class Principal implements OnDestroy, OnInitialize {
         } else if (privilegesOperation === 'AND') {
             return privileges.filter((el) => this.userIdentity.privileges.indexOf(el) === -1);
         }
-        this.alertService.warning('error.privilegeOperationWrong', { name: privilegesOperation });
+        console.warn('error.privilegeOperationWrong', { name: privilegesOperation });
         return false;
 
     }
@@ -159,13 +149,6 @@ export class Principal implements OnDestroy, OnInitialize {
                         this.userIdentity = account;
                         this.authenticated = true;
                         account.timeZoneOffset = this.setTimezoneOffset();
-                        /*
-                             * After the login the language will be changed to
-                             * the language selected by the user during his registration
-                             */
-                        if (account.langKey) {
-                            this.languageService.locale = account.langKey;
-                        }
                     } else {
                         this.sessionService.clear();
                         this.userIdentity = null;
@@ -202,7 +185,7 @@ export class Principal implements OnDestroy, OnInitialize {
      * Returns user XM Profile
      * @param force - if true loads profile from the backend
      */
-    public getXmEntityProfile(force: boolean = false): Observable<XmEntity> {
+    public getXmEntityProfile(force: boolean = false): Observable<any> {
         if (force) {
             this.resetCachedProfile();
         }
@@ -276,19 +259,6 @@ export class Principal implements OnDestroy, OnInitialize {
         return moment().format('Z');
     }
 
-    protected onLanguageChange(): void {
-        this.languageService.locale$
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe((l) => this.setLangKey(l));
-    }
-
-    private checkTokenAndForceIdentity(): void {
-        /* This method forcing identity on page load when user has token but identity does not inits */
-        if (!this.authRefreshTokenService.isExpired()) {
-            this.identity();
-        }
-    }
-
     /**
      * True if resolved. Inner helper method.
      * @returns `{boolean}`
@@ -297,7 +267,7 @@ export class Principal implements OnDestroy, OnInitialize {
         return this.userIdentity;
     }
 
-    private loadProfile(): Observable<XmEntity> {
+    private loadProfile(): Observable<any> {
         return this.account.getProfile();
     }
 

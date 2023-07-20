@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { ReactiveFormsModule } from '@angular/forms';
 import { XmDynamicControlConstructor } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { Primitive } from '@xm-ngx/interfaces';
 import {
     NumbersRangeControlComponent,
     XmNumbersRangeControlOptions,

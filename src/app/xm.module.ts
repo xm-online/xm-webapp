@@ -9,12 +9,14 @@ import { XmAlertModule } from '@xm-ngx/alert';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 import { XmCoreModule } from '@xm-ngx/core';
-import { AuthServerProvider, XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { AuthServerProvider } from '@xm-ngx/core/user';
+import { XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { LoginService } from '@xm-ngx/components/login';
 import { Principal } from '@xm-ngx/core/user';
 import { UserRouteAccessService } from '@xm-ngx/core/permission';
 import { XmApplicationConfigService, XmCoreConfigModule } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
-import { globalErrorHandlerFactory, XmUpdateService } from '@xm-ngx/core/global-error-handler';
+import { globalErrorHandlerFactory, XmUpdateService } from '@xm-ngx/logger/global-error-handler';
 import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardDynamicRouteResolverGuard, XmDashboardModule } from '@xm-ngx/dashboard';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
@@ -26,38 +28,42 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
 import { NgxMaskModule } from 'ngx-mask';
-import { XM_DATE_ELEMENTS } from 'packages/components/xm-date.registry';
-import { XM_HTML_ELEMENTS } from 'packages/components/xm-html.registry';
-import { XM_TEXT_ELEMENTS } from 'packages/components/xm-text.registry';
-import { XM_BOOL_ELEMENTS } from 'packages/components/xm-bool.registry';
-import { XM_COPY_ELEMENTS } from 'packages/components/xm-copy.registry';
-import { XM_LINK_ELEMENTS } from 'packages/components/xm-link.registry';
-import { XM_ENUM_ELEMENTS } from 'packages/components/xm-enum.registry';
-import { XM_ARRAY_ELEMENTS } from 'packages/components/xm-array.registry';
-import { XM_TABLE_ELEMENTS } from 'packages/components/xm-table.registry';
-import { XM_NAVBAR_ELEMENTS } from 'packages/components/xm-navbar.registry';
-import { XM_DASHBOARD_ELEMENTS } from 'packages/dashboard/xm-dashboard.registry';
-import { XM_ADMINISTRATION_ELEMENTS } from 'packages/administration/xm-administration.registry';
-import { XM_COMPONENTS_ELEMENTS } from 'packages/components/xm.registry';
+import { XM_DATE_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_HTML_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_COPY_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_LINK_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_TABLE_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/registry';
+import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/registry';
+import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 
-import { IdleLogoutService } from '@xm-ngx/account/logout/idle-logout.service';
+import { IdleLogoutService } from '@xm-ngx/account';
 import { XmMainComponent } from 'src/app/layouts';
 import { LayoutModule } from 'src/app/layouts/layout.module';
 import { XmRoutingModule } from 'src/app/xm-routing.module';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
 
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { XmSharedModule } from 'packages/shared/src/shared.module';
 import {
     ArrayTypeComponent,
     ConfigComponent,
     MultiSchemaTypeComponent,
     NullTypeComponent,
     ObjectTypeComponent
-} from '@xm-ngx/administration/dashboards-config/widget-edit/schema-editor/schema-formly-ext';
+} from '@xm-ngx/administration/dashboards-config';
 import { FormlyModule } from '@ngx-formly/core';
+
+import { XmSharedModule } from '@xm-ngx/shared';
+import { MaintenanceService } from '@xm-ngx/components/maintenance';
+import { XmCoreEntityModule } from '@xm-ngx/core/entity';
+import { UserLoginService } from '@xm-ngx/account/user-login-widget';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
     appearance: 'fill',
@@ -74,8 +80,16 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
         BrowserAnimationsModule,
         XmRoutingModule,
         XmSharedModule.forRoot(),
-        XmCoreModule.forRoot(),
-        ControlErrorModule.forRoot({ errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES }),
+        XmCoreModule.forRoot({
+            SERVER_API_URL: environment.serverApiUrl,
+            IDP_CLIENT_KEY: environment.idpClientKey,
+            IDP_SERVER_API_URL: environment.idpServerApiUrl,
+            IS_PRODUCTION: environment.production,
+            VERSION: environment.version,
+            RELEASE: environment.release,
+        }),
+        XmCoreEntityModule.forRoot(),
+        ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
         XmCoreConfigModule,
         XmCoreAuthModule.forRoot(),
         NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
@@ -129,6 +143,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
         XmApplicationConfigService,
         UserRouteAccessService,
         CookieService,
+        UserLoginService,
         { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: XM_MAT_DIALOG_DEFAULT_OPTIONS },
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldOptions },
         { provide: MAT_PAGINATOR_DEFAULT_OPTIONS, useValue: paginatorOptions },
@@ -138,15 +153,19 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
 export class XmModule {
     constructor(
         languageService: LanguageService,
+        maintenanceService: MaintenanceService,
         idleLogoutService: IdleLogoutService,
         titleService: TitleService,
         xmUpdateService: XmUpdateService,
         loggerWatcherService: XmLoggerWatcherService,
         authServerProvider: AuthServerProvider,
+        loginService: LoginService,
         principal: Principal,
     ) {
         xmUpdateService.init();
+        maintenanceService.init();
         principal.init();
+        loginService.init();
         authServerProvider.init();
         idleLogoutService.init();
         languageService.init();

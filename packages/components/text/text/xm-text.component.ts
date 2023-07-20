@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
-import { XmTemplatePipe } from '@xm-ngx/shared/pipes';
+import { Primitive } from '@xm-ngx/interfaces';
+import { XmTemplatePipe } from '@xm-ngx/pipes';
 
 export interface XmTextConfig {
     template?: string;

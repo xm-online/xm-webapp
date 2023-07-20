@@ -6,7 +6,7 @@ import {
     XmDateRangeControl,
     XmDateView,
 } from '@xm-ngx/components/date';
-import { XmDateExampleComponent } from '@xm-ngx/components/date/examples/xm-date-example.component';
+import { XmDateExampleComponent } from './xm-date-example.component';
 
 
 @NgModule({

@@ -9,7 +9,7 @@ import {
 } from './xm-link-view';
 import { XmTextViewModule } from '@xm-ngx/components/text';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
-import { IId } from '@xm-ngx/shared/interfaces';
+import { IId } from '@xm-ngx/interfaces';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { assign, clone } from 'lodash';
 

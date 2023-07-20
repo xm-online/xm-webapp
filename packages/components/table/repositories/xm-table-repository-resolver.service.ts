@@ -1,11 +1,11 @@
 import { Injectable, Injector } from '@angular/core';
-import { IEntityCollection, XmRepositoryConfig, } from '@xm-ngx/components/entity-collection';
+import { IEntityCollection, XmRepositoryConfig } from '@xm-ngx/repositories';
 import { XmDynamicService, XmDynamicServiceFactory } from '@xm-ngx/dynamic';
 import { XmTableConfigController } from '../controllers/config/xm-table-config-controller.service';
-import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
+import { XmTableWidgetConfig } from '../table-widget/xm-table-widget.config';
 import {
     XmTableRepositoryCollectionControllerConfig
-} from '@xm-ngx/components/table/controllers/collections/xm-table-repository-collection-controller.service';
+} from '../controllers/collections/xm-table-repository-collection-controller.service';
 
 @Injectable()
 export class XmTableRepositoryResolver<T> {

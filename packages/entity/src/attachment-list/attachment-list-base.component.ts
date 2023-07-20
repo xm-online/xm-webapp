@@ -9,18 +9,19 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Subscription } from 'rxjs';
 import { Principal } from '@xm-ngx/core/user';
-import { saveFile, saveFileFromUrl } from '@xm-ngx/shared/helpers/file-download-helper';
+import { saveFile, saveFileFromUrl } from '@xm-ngx/operators';
 import { EntityUiConfig } from '@xm-ngx/core/config';
-import { DEBUG_INFO_ENABLED, XM_EVENT_LIST } from 'src/app/xm.constants';
+// import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
 import { AttachmentDetailDialogComponent } from '../attachment-detail-dialog/attachment-detail-dialog.component';
-import { AttachmentSpec } from '../shared/attachment-spec.model';
-import { Attachment } from '../shared/attachment.model';
-import { AttachmentService } from '../shared/attachment.service';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { AttachmentSpec } from '@xm-ngx/core/entity';
+import { Attachment } from '@xm-ngx/core/entity';
+import { AttachmentService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
+import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 
-const ATTACHMENT_EVENT = XM_EVENT_LIST.XM_ATTACHMENT_LIST_MODIFICATION;
+const ATTACHMENT_EVENT = XM_ENTITY_EVENT_LIST.XM_ATTACHMENT_LIST_MODIFICATION;
 
 @Component({
     selector: 'xm-attachment-list-base',
@@ -143,16 +144,16 @@ export class AttachmentListBaseComponent implements OnInit, OnChanges, OnDestroy
         this.attachments = [];
 
         if (!this.attachmentSpecs || !this.attachmentSpecs.length) {
-            if (DEBUG_INFO_ENABLED) {
-                console.info('DBG: no spec no call');
-            }
+            // if (DEBUG_INFO_ENABLED) {
+            //     console.info('DBG: no spec no call');
+            // }
             return;
         }
 
         if (this.xmEntity && this.xmEntity.attachments) {
-            if (DEBUG_INFO_ENABLED) {
-                console.info('DBG: use existing data');
-            }
+            // if (DEBUG_INFO_ENABLED) {
+            //     console.info('DBG: use existing data');
+            // }
             this.attachments = [...this.xmEntity.attachments];
             return;
         }
@@ -167,9 +168,9 @@ export class AttachmentListBaseComponent implements OnInit, OnChanges, OnDestroy
 
     private registerListModify(): void {
         this.modificationSubscription = this.eventManager.subscribe(ATTACHMENT_EVENT, (response) => {
-            if (DEBUG_INFO_ENABLED) {
-                console.info('DBG: $%o', response);
-            }
+            // if (DEBUG_INFO_ENABLED) {
+            //     console.info('DBG: $%o', response);
+            // }
             this.load();
         });
     }

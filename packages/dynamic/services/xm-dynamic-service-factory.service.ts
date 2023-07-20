@@ -1,7 +1,7 @@
 import { Injectable, Injector, Type } from '@angular/core';
-import { XmDynamicComponentRegistry } from '@xm-ngx/dynamic/src/loader/xm-dynamic-component-registry.service';
-import { XmDynamicSelector, XmDynamicWithConfig } from '@xm-ngx/dynamic/src/interfaces';
-import { XmConfig } from '@xm-ngx/shared/interfaces';
+import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
+import { XmConfig } from '@xm-ngx/interfaces';
+import { XmDynamicSelector, XmDynamicWithConfig } from '../src/interfaces';
 
 export interface XmDynamicService<C = XmConfig> extends XmDynamicWithConfig<C> {
 }

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import {
     XmInlineControlComponent,
     XmInlineControlConfig,
-} from '@xm-ngx/components/inline-control/inline-control.component';
+} from '@xm-ngx/components/inline-control';
 import { FormsModule } from '@angular/forms';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 

@@ -4,7 +4,7 @@ import {
     XmDynamicModule,
     XmDynamicPresentation,
 } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { Primitive } from '@xm-ngx/interfaces';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmTextViewModule } from '../text-view/xm-text-view.component';
 

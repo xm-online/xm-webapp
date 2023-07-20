@@ -6,7 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { AXmTableLocalPageableCollectionController, } from './a-xm-table-local-pageable-collection-controller.service';
 import { XmTableEntityController, } from '../entity/xm-table-entity-controller.service';
 import { cloneDeep, get, set } from 'lodash';
-import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
+import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
 
 export interface XmTableEntity {
     path: string;

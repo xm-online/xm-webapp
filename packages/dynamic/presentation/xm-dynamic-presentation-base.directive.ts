@@ -1,13 +1,9 @@
 import { ComponentRef, Directive, Injector, OnChanges, OnInit, Renderer2, SimpleChanges, ViewContainerRef, } from '@angular/core';
 import { setComponentInput } from '../operators/set-component-input';
-import {
-    XmDynamicConstructor,
-    XmDynamicEntryModule,
-    XmDynamicSelector,
-    XmLayoutNode,
-} from '../src/interfaces';
+import { XmDynamicEntryModule } from '../src/interfaces/xm-dynamic-entry-module';
+import { XmDynamicConstructor } from '../src/interfaces/xm-dynamic-constructor';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
-import { XmDynamicWithConfig } from '@xm-ngx/dynamic/src/interfaces';
+import { XmDynamicWithConfig, XmDynamicSelector, XmLayoutNode } from '../src/interfaces';
 
 
 /** Determines input(control) value. */

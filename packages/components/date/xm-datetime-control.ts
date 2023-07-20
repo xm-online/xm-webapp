@@ -15,7 +15,7 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { distinctUntilChanged, Subject, tap } from 'rxjs';
 import { NgxMaskModule } from 'ngx-mask';
 import _ from 'lodash';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 export interface XmDateTimeControlConfig {
     title?: Translate;
@@ -41,14 +41,14 @@ export function parseTime(value: string): { hours: number; minutes: number; } {
 
     let h = parseInt(time[1], 10);
     let m = parseInt(time[2], 10) || 0;
-      
+
     if (h > 24) {
         time = /(\d)(\d?\d?)/.exec(value);
 
         h = parseInt(time[1], 10);
         m = parseInt(time[2], 10) || 0;
     }
-      
+
     return {
         hours: h,
         minutes: m,
@@ -58,7 +58,7 @@ export function parseTime(value: string): { hours: number; minutes: number; } {
 const dateTimeValidator = (localeId: string) => {
     return (control: AbstractControl<{ date: XmDateTimeControlValue; time: string; }>): ValidationErrors | null => {
         const { date, time } = control.value;
-        
+
         if (_.isEmpty(date) && _.isEmpty(time)) {
             return { 'datetime': true };
         }
@@ -414,7 +414,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
     template: `
         <mat-form-field>
             <mat-label *ngIf="config?.title">{{config.title | translate}}</mat-label>
-            <xm-datetime-control-field 
+            <xm-datetime-control-field
                 #field="dateTimeField"
                 [picker]="picker"
                 [hasErrors]="ngControl?.control?.errors"

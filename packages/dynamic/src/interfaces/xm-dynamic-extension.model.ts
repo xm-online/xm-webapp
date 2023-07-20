@@ -1,4 +1,4 @@
-import { XmDynamicWithSelector } from '@xm-ngx/dynamic/src/interfaces/xm-dynamic-selector';
+import { XmDynamicWithSelector } from '../interfaces/xm-dynamic-selector';
 
 export interface XmDynamicExtensionConstructor<T> {
     new(...args: any[]): T;

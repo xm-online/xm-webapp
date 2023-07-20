@@ -6,7 +6,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Principal } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { FunctionListSectionComponent } from '../function-list-section/function-list-section.component';
-import { XmEntityService } from '@xm-ngx/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-function-list-section-compact',

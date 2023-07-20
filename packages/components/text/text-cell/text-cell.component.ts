@@ -7,7 +7,7 @@ import {
     XM_DYNAMIC_TABLE_ROW,
     XmDynamicPresentation,
 } from '@xm-ngx/dynamic';
-import { format, transformByMap } from '@xm-ngx/shared/operators';
+import { format, transformByMap } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 
 export interface XmTextCellConfig {

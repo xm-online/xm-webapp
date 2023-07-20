@@ -10,18 +10,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import * as _ from 'lodash';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { HintModule } from '@xm-ngx/components/hint';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { XmAutocompleteControl } from './autocomplete-control';
 import { MatInputModule } from '@angular/material/input';
-import { XmTableColumnDynamicCellsComponent } from '../table';
+import { XmTableColumnDynamicCellsComponent } from '@xm-ngx/components/table';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
 import { XmAutocompleteControlListItem } from './autocomple-control.interface';
-import { XmEntity } from '@xm-ngx/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { distinctUntilChanged, Observable, of, startWith, switchMap } from 'rxjs';
 
 @Pipe({

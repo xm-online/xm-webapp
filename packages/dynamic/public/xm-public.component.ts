@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
-import { environment } from '@xm-ngx/core/environment';
 import { XmDynamicLayout } from '@xm-ngx/dynamic';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 import { Observable, zip } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
@@ -52,7 +51,7 @@ export class XmPublicComponent implements OnInit, OnDestroy {
             map(([slug, routes]) => routes.find(i => i.slug === slug)),
             map((r) => {
                 if (!r) {
-                    this.router.navigateByUrl(environment.notFoundUrl);
+                    this.router.navigateByUrl('/accessdenied');
                 }
 
                 return r.layout;

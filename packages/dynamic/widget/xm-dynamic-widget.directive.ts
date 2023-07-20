@@ -16,9 +16,9 @@ import {
 } from '../src/loader/xm-dynamic-component-registry.service';
 
 import { setComponentInput } from '../operators/set-component-input';
-import { NotFoundException } from '@xm-ngx/shared/exceptions';
-import { XmConfig } from '@xm-ngx/shared/interfaces';
-import { XmDynamicWithConfig, XmDynamicWithSelector } from '@xm-ngx/dynamic/src/interfaces';
+import { NotFoundException } from '@xm-ngx/exceptions';
+import { XmConfig } from '@xm-ngx/interfaces';
+import { XmDynamicWithConfig, XmDynamicWithSelector } from '../src/interfaces/xm-dynamic-selector';
 
 export interface XmDynamicWidgetConfig<C = XmConfig, S = any> extends XmDynamicWithConfig<C>, XmDynamicWithSelector {
     /** @deprecated use selector instead */

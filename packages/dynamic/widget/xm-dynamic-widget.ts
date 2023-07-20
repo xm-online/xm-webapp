@@ -1,4 +1,4 @@
-import { XmDynamicWithConfig } from '@xm-ngx/dynamic/src/interfaces';
+import { XmDynamicWithConfig } from '../src/interfaces';
 
 /**
  * Use this interface when you need to create a dynamic widget

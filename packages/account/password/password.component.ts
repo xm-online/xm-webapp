@@ -5,6 +5,7 @@ import { PasswordSpec } from '@xm-ngx/core/config';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { ChangePassword } from './password.model';
 import { Password } from './password.service';
+import { ModulesLanguageHelper } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-password',
@@ -25,6 +26,7 @@ export class PasswordComponent implements OnInit {
 
     constructor(
         private passwordService: Password,
+        private modulesLangHelper: ModulesLanguageHelper,
         private xmConfigService: XmConfigService,
         private principal: Principal,
     ) {
@@ -76,7 +78,12 @@ export class PasswordComponent implements OnInit {
     private makePasswordSettings(config?: any): void {
         this.passwordSettings = this.xmConfigService.mapPasswordSettings(config);
         if (this.passwordSettings.patternMessage) {
-            this.patternMessage = this.xmConfigService.updatePatternMessage(this.passwordSettings.patternMessage);
+            this.patternMessage = this.updatePatternMessage(this.passwordSettings.patternMessage);
         }
+    }
+
+    public updatePatternMessage(message: any, currentLang?: string): string {
+        const lang = currentLang ? currentLang : this.modulesLangHelper.getLangKey();
+        return message[lang] || message;
     }
 }

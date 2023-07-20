@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { AsyncSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PasswordSpec } from './password-spec.model';
-import { ModulesLanguageHelper } from '@xm-ngx/translation';
 import { XmApplicationConfigService } from './xm-config.service';
 
 interface IUIConfig {
@@ -27,7 +26,6 @@ export class XmConfigService {
 
     constructor(
         private http: HttpClient,
-        private modulesLangHelper: ModulesLanguageHelper,
         private appConfig: XmApplicationConfigService,
     ) {
     }
@@ -147,11 +145,6 @@ export class XmConfigService {
         }
         return DEFAULT_SETTINGS;
 
-    }
-
-    public updatePatternMessage(message: any, currentLang?: string): string {
-        const lang = currentLang ? currentLang : this.modulesLangHelper.getLangKey();
-        return message[lang] || message;
     }
 
     private headers(): any {

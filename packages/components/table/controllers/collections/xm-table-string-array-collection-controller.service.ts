@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { XmEntity } from '@xm-ngx/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
 import {
     AXmTableLocalPageableCollectionController,
@@ -11,7 +11,7 @@ import { firstValueFrom } from 'rxjs';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
-import { XmTableWidgetConfig } from '@xm-ngx/components/table/table-widget/xm-table-widget.config';
+import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
 
 interface StringArrayListManagerItem {
     value: string

@@ -33,7 +33,7 @@ import { firstValueFrom } from 'rxjs';
 import {
     XmTableElasticSearchCollectionController,
     XmTableElasticSearchCollectionControllerConfig
-} from '@xm-ngx/components/table/controllers/elastic/xm-table-elastic-search-collection-controller.service';
+} from '../elastic/xm-table-elastic-search-collection-controller.service';
 
 export type XmTableCollectionControllerType = null
     | LinkListConfig

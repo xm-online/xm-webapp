@@ -13,12 +13,12 @@ const ROUTES: Routes = [
         loadChildren: () => import('@xm-ngx/components/error').then((m) => m.ErrorModule),
         data: { authorities: [], pageTitle: 'error.title', error403: true },
     },
-    { path: 'administration', loadChildren: () => import('../../packages/administration/route/admin.module').then((m) => m.XmAdminModule) },
+    { path: 'administration', loadChildren: () => import('@xm-ngx/administration/route').then((m) => m.XmAdminModule) },
     { path: '', loadChildren: () => import('./home/home.module').then((m) => m.GateHomeModule) },
-    { path: '', loadChildren: () => import('@xm-ngx/account/route').then((m) => m.GateAccountModule) },
+    { path: '', loadChildren: () => import('@xm-ngx/account').then((m) => m.GateAccountModule) },
     {
         path: 'application',
-        loadChildren: () => import('../../packages/entity/application').then((m) => m.ApplicationModule),
+        loadChildren: () => import('./application').then((m) => m.ApplicationModule),
     },
     { path: 'search', pathMatch: 'full', redirectTo: 'application/search' },
     {

@@ -1,5 +1,5 @@
 import { IIdpConfig, UIPublicConfig } from '@xm-ngx/core';
-import { XmConfig } from '@xm-ngx/shared/interfaces';
+import { XmConfig } from '@xm-ngx/interfaces';
 
 export interface UIPrivateConfig extends XmConfig {
 }
