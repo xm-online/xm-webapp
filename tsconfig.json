@@ -30,6 +30,9 @@
       "@xm-ngx-ext/*": [
         "src/app/ext/*"
       ],
+      "@xm-ngx/entity/registry": [
+        "node_modules/@xm-ngx/entity/registry",
+      ],
       "@xm-ngx/entity/card": [
         "node_modules/@xm-ngx/entity/card",
       ],
