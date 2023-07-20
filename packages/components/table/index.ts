@@ -32,3 +32,4 @@ export * from './repositories/xm-entity-repository.service';
 export * from './repositories/xm-table-repository-resolver.service';
 
 export * from './table-widget/xm-table-widget.component';
+export { XmTableEmptyConfig } from './components/xm-table-empty-config.model';
