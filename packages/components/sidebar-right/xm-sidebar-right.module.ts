@@ -47,6 +47,15 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
         return !this.mousePressedOnResizer;
     }
 
+    @HostListener('window:resize', [])
+    public onResize(): void {
+        if (this.xmContainerOutlet.viewContainerRef.length > 0) {
+            const min = this.minVW();
+            this.changeMainElementMarginBy(`${min}vw`);
+            this.width = `${Math.min(95, Math.max(parseFloat(this.width), min))}vw`;
+        }
+    }
+
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(event: MouseEvent): void {
         if (this.mousePressedOnResizer) {
