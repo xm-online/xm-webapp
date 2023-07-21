@@ -22,7 +22,11 @@ $navbar-user-padding-x: 12px !default;
     flex-direction: row;
     align-items: center;
     vertical-align: center;
-    padding: $navbar-user-padding-y $navbar-user-padding-x;
+    padding: 15px 0 15px 12px;
+
+    .mat-expansion-indicator {
+      margin-right: 0;
+    }
   }
 
   .navbar-user-name {

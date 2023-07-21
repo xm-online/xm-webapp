@@ -12,6 +12,7 @@ import {PageChangesStore, PageChangesStoreType} from '@xm-ngx/core/dashboard';
 export interface XmMatCardOptions {
     cardClass?: string;
     contentClass?: string;
+    actionClass?: string;
     editCondition: JavascriptCode;
     title: Translate;
     readonly: boolean;
