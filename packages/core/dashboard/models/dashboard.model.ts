@@ -1,4 +1,4 @@
-// import { XmLayout } from '@xm-ngx/dynamic';
+// import { XmDynamicLayout } from '@xm-ngx/dynamic';
 import { BaseEntity } from '@xm-ngx/core/entity';
 import { JavascriptCode } from '@xm-ngx/interfaces';
 // import { Translate } from '@xm-ngx/translation';

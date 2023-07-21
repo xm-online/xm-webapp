@@ -21,7 +21,7 @@ import { Defaults, interpolate } from '@xm-ngx/operators';
 
 export interface ChipsControlConfig {
     title?: Translate,
-    items?: any[],
+    items?: {title: Translate, value: string}[],
 }
 
 export const ChipsControlConfigDefault: ChipsControlConfig = {

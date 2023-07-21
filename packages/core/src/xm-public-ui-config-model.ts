@@ -1,4 +1,4 @@
-import { IConfig } from '@xm-ngx/interfaces';
+import { XmConfig } from '@xm-ngx/interfaces';
 
-export interface UIPublicConfig extends IConfig {
+export interface UIPublicConfig extends XmConfig {
 }

@@ -1,5 +1,5 @@
 import { Meta, moduleMetadata, Story, applicationConfig } from '@storybook/angular';
-import { XmTableComponent } from '@xm-ngx/components/table';
+import { XmTableWidget } from '@xm-ngx/components/table';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -26,7 +26,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { LocalStorageService } from 'ngx-webstorage';
 import {
-    XmTableSettingStore
+    XmTableSettingStore, XmTableWidgetConfig
 } from '@xm-ngx/components/table';
 
 
@@ -41,7 +41,7 @@ const mockLocalStorage = {
 
 export default {
     title: 'Core/Widget/Table',
-    component: XmTableComponent,
+    component: XmTableWidget,
     decorators: [
         applicationConfig({
             providers: [
@@ -88,19 +88,19 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmTableComponent> = (args: XmTableComponent) => ({
-    component: XmTableComponent,
+const Template: Story<XmTableWidget> = (args: XmTableWidget) => ({
+    component: XmTableWidget,
     props: args,
 });
 
-export const Default: Story<XmTableComponent> = Template.bind({});
+export const Default: Story<XmTableWidget> = Template.bind({});
 Default.args = {
     config: {
         collection: {
-            repository: null, type: 'config',
+            type: 'config',
+            path: 'collection.staticData',
+            staticData: [{id: 111, name: 'test', age: '25'}],
         },
-        path: 'data',
-        data: [{id: 111, name: 'test', age: '25'}],
         title: {en: 'Test table'},
         filters: [{
             selector: '@xm-ngx/components/text-control',
@@ -160,5 +160,5 @@ Default.args = {
             hidePagination: false,
 
         },
-    } as any,
+    } as XmTableWidgetConfig,
 };

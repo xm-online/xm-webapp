@@ -5,7 +5,7 @@ import { XmDynamicModuleRegistry } from './xm-dynamic-module-registry.service';
 import { NotFoundException } from '@xm-ngx/exceptions';
 import { XmDynamicEntryModule } from '../interfaces/xm-dynamic-entry-module';
 import { XmDynamicConstructor } from '../interfaces/xm-dynamic-constructor';
-import { XmDynamicEntry } from '../interfaces/xm-dynamic-entry';
+import { XmDynamicEntry, XmDynamicSelector } from '../interfaces';
 
 export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 
@@ -30,7 +30,7 @@ export class XmDynamicComponentRegistry {
      * @throws NotFoundException
      */
     public find<T>(
-        inSelector: string,
+        inSelector: XmDynamicSelector,
         injector: Injector = this.moduleRef.injector,
     ): Promise<XmDynamicComponentRecord<T>> {
         const fullSelector = this.simplifyExtSelector(inSelector);
@@ -57,7 +57,7 @@ export class XmDynamicComponentRegistry {
     }
 
     private async resolveComponent<T>(
-        selector: string,
+        selector: XmDynamicSelector,
         injector: Injector,
         ngModuleRef: NgModuleRef<unknown> | null,
     ): Promise<XmDynamicComponentRecord<T>> {

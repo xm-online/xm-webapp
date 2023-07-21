@@ -1,4 +1,4 @@
-import { XmPresentationLayout } from '@xm-ngx/dynamic';
+import { XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 
 export interface XmBreadcrumb {
     url: string;
@@ -6,5 +6,5 @@ export interface XmBreadcrumb {
 }
 
 export interface XmBreadcrumbOptions {
-    lastSegmentLayout: XmPresentationLayout[];
+    lastSegmentLayout: XmDynamicPresentationLayout[];
 }

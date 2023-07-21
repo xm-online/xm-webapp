@@ -1,7 +1,7 @@
 import { IIdpConfig, UIPublicConfig } from '@xm-ngx/core';
-import { IConfig } from '@xm-ngx/interfaces';
+import { XmConfig } from '@xm-ngx/interfaces';
 
-export interface UIPrivateConfig extends IConfig {
+export interface UIPrivateConfig extends XmConfig {
 }
 
 export interface XmUIConfig extends UIPublicConfig, UIPrivateConfig, IIdpConfig {

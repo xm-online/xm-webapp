@@ -27,10 +27,9 @@ export * from './configs/xm-table-config-root.service';
 export * from './controllers';
 export * from './controllers/elastic/xm-elastic-search-repository.service';
 
-export * from './interfaces/xm-table.model';
-
 export * from './repositories/xm-http-repository.service';
 export * from './repositories/xm-entity-repository.service';
 export * from './repositories/xm-table-repository-resolver.service';
 
-export * from './table/xm-table.component';
+export * from './table-widget/xm-table-widget.component';
+export { XmTableEmptyConfig } from './components/xm-table-empty-config.model';

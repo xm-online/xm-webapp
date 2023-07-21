@@ -1,4 +1,7 @@
 import { JsonObject } from './jsonObject';
 
-export interface IConfig extends JsonObject {
+export interface IConfig {
+}
+
+export interface XmConfig extends IConfig, JsonObject {
 }

@@ -12,30 +12,27 @@ import { firstValueFrom } from 'rxjs';
 import { XmTableRepositoryResolver, } from '../../repositories/xm-table-repository-resolver.service';
 import { cloneDeep } from 'lodash';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
-import { XmTableConfig } from '../../interfaces/xm-table.model';
+import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
-import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
+import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
-import { xmFormatJs, XmFormatJsTemplateRecursive } from '@xm-ngx/operators';
+import { xmFormatJs } from '@xm-ngx/operators';
+import { IXmTableRepositoryCollectionControllerConfig } from './xm-table-repository-collection-controller.service';
 
-export interface XmTableRepositoryCollectionConfig {
-    config: {
-        filtersToRequest: XmFormatJsTemplateRecursive,
-        resourceUrl: string,
-    },
-    selector: string,
+export interface XmTableReadOnlyRepositoryCollectionControllerConfig extends IXmTableRepositoryCollectionControllerConfig {
+    type: 'readOnlyRepository',
 }
 
 @Injectable()
 export class XmTableReadOnlyRepositoryCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
-    public config: XmTableRepositoryCollectionConfig;
+    public config: XmTableReadOnlyRepositoryCollectionControllerConfig;
     public entity: object;
     private repository: IEntityCollectionPageable<T, PageableAndSortable>;
 
     constructor(
-        private configController: XmTableConfigController<XmTableConfig>,
+        private configController: XmTableConfigController<XmTableWidgetConfig>,
         private entityController: XmTableEntityController<object>,
         private repositoryResolver: XmTableRepositoryResolver<T>,
     ) {
@@ -43,10 +40,10 @@ export class XmTableReadOnlyRepositoryCollectionController<T = unknown>
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = (await firstValueFrom(this.configController.config$())).collection.repository;
+        this.config = (await firstValueFrom(this.configController.config$())).collection as XmTableReadOnlyRepositoryCollectionControllerConfig;
         this.entity = await firstValueFrom(this.entityController.entity$());
         this.repository = await this.repositoryResolver.get();
-        const query: object = xmFormatJs(this.config.config.filtersToRequest,{entity: request});
+        const query: object = xmFormatJs(this.config.filtersToRequest, { entity: request });
 
         this.changePartial({ loading: true });
         this.repository

@@ -20,13 +20,14 @@ export {
 } from './presentation/xm-dynamic-presentation-base.directive';
 export {
     XmDynamicPresentationLayoutComponent,
-    XmPresentationLayout,
+    XmDynamicPresentationLayout,
 } from './presentation/xm-dynamic-presentation-layout.component';
 export { XmDynamicPresentationDirective } from './presentation/xm-dynamic-presentation.directive';
 
+export * from './src/interfaces';
 export { XmDynamic } from './src/interfaces/xm-dynamic';
 export { XmDynamicConstructor } from './src/interfaces/xm-dynamic-constructor';
-export { XmLayout, XmSanitizedLayout } from './src/interfaces/xm-layout';
+export { XmDynamicLayout, XmSanitizedLayout } from './src/interfaces/xm-dynamic-layout';
 export { XmDynamicEntryModule } from './src/interfaces/xm-dynamic-entry-module';
 export {
     XmDynamicEntry,

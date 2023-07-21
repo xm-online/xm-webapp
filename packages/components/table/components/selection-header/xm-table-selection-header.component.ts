@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgForOf, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { XmDynamicModule, XmPresentationLayout } from '@xm-ngx/dynamic';
+import { XmDynamicModule, XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { tap } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
@@ -56,14 +56,14 @@ export class XmTableSelectionHeaderComponent implements OnInit, OnDestroy {
         this.selectionModel = this.selectionService.selection;
     }
 
-    private _config: XmPresentationLayout[];
+    private _config: XmDynamicPresentationLayout[];
 
-    public get config(): XmPresentationLayout[] {
+    public get config(): XmDynamicPresentationLayout[] {
         return this._config;
     }
 
     @Input()
-    public set config(value: XmPresentationLayout[]) {
+    public set config(value: XmDynamicPresentationLayout[]) {
         this._config = value;
     }
 
