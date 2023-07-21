@@ -102,6 +102,7 @@
 
       <mat-tab [label]="'Editor'">
         <xm-schema-editor
+          *ngIf="selectedIndex === 2"
           [options]="jsonEditorOptions"
           [ngModel]="formGroup.config"
           (ngModelChange)="formGroup.config = $event"
