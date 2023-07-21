@@ -92,6 +92,7 @@
 
       <mat-tab [label]="'Config'">
         <div *ngIf="value.name">{{TRS.name | translate}}: <span class="fw-bold">{{value.name}}</span></div>
+        <div *ngIf="value.selector">{{TRS.selector | translate}}: <span class="fw-bold">{{value.selector}}</span></div>
         <xm-ace-editor-control [(ngModel)]="formGroup.config"
                                [disabled]="disabled"
                                [config]="aceEditorOptions"
