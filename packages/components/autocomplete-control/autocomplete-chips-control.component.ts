@@ -20,7 +20,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
 
 @Component({
     standalone: true,
-    selector: 'xm-autocomplete-chips',
+    selector: 'xm-autocomplete-chips-control',
     template: `
         <mat-form-field>
             <mat-label *ngIf="config?.title">{{ config?.title | translate }}</mat-label>
