@@ -74,7 +74,7 @@
 
   <div class="section-scroll">
 
-    <mat-tab-group>
+    <mat-tab-group [(selectedIndex)]="selectedIndex">
       <mat-tab [label]="'Info'">
         <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="fw-bold">{{ value.id }}</span></div>
 
@@ -92,6 +92,7 @@
 
       <mat-tab [label]="'Config'">
         <div *ngIf="value.name">{{TRS.name | translate}}: <span class="fw-bold">{{value.name}}</span></div>
+        <div *ngIf="value.selector">{{TRS.selector | translate}}: <span class="fw-bold">{{value.selector}}</span></div>
         <xm-ace-editor-control [(ngModel)]="formGroup.config"
                                [disabled]="disabled"
                                [config]="aceEditorOptions"
@@ -101,6 +102,7 @@
 
       <mat-tab [label]="'Editor'">
         <xm-schema-editor
+          *ngIf="selectedIndex === 2"
           [options]="jsonEditorOptions"
           [ngModel]="formGroup.config"
           (ngModelChange)="formGroup.config = $event"

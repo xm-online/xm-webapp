@@ -39,6 +39,8 @@ export class WidgetEditComponent implements OnChanges {
 
     public jsonEditorOptions: SchemaEditorOptions = { selector: null };
 
+    public selectedIndex: number = 1;
+
     constructor(
         protected readonly widgetService: WidgetCollection,
         protected dashboardService: DashboardCollection,
