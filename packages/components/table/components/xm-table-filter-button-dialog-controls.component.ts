@@ -9,6 +9,7 @@ export interface XmTableFiltersControlRequestConfig {
     submitInvalidForm?: boolean;
     isOnlyExpand?: boolean;
     filters: FormLayoutItem[];
+    chips: FormLayoutItem[];
     filtersClass?: string;
     filterStoreKey?: string;
 }

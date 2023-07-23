@@ -6,7 +6,7 @@ import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component
 import {
     XmTableCollectionControllerType
 } from '../controllers/collections/xm-table-collection-controller-resolver.service';
-import { XmTableFiltersControlRequestConfig } from '../components/xm-table-filters-control-request.component';
+import { XmTableFiltersControlRequestConfig } from '../components/xm-table-filter-button-dialog-controls.component';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination extends PageableAndSortable {
     pageSizeOptions: number[],
@@ -37,6 +37,7 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableWidgetConfig = {
     actions: [],
     selection: [],
     filters: [],
+    chips: [],
     columns: [],
     collection: null,
     pageableAndSortable: {

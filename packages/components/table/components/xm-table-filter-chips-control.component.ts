@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
 import {
-    XmInlineControlComponent,
+    XmInlineControlComponent, XmInlineControlConfig,
 } from '@xm-ngx/components/inline-control';
 import { FormsModule } from '@angular/forms';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
-import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 
 @Component({
     standalone: true,
@@ -16,5 +15,5 @@ import { FormLayoutItem } from '@xm-ngx/components/form-layout';
     `,
 })
 export class XmTableFilterChipsControlComponent extends NgControlAccessor<unknown> {
-    @Input() public config: FormLayoutItem;
+    @Input() public config: XmInlineControlConfig;
 }
