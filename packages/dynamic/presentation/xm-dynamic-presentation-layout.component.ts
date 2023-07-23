@@ -34,8 +34,8 @@ export interface XmDynamicPresentationLayout<V = unknown, C = XmConfig> extends 
                           [style]="item.layout.style"
                           [selector]="item.customParams.selector"
                           [value]="item.customParams.value"
-                          [config]="item.customParams.config"
-                          [options]="item.customParams.config || item.customParams.options">
+                          [config]="item.customParams.config || item.customParams.options"
+            >
             </ng-container>
         </ng-template>
 

@@ -23,8 +23,7 @@ export interface XmTextDynamicOptions extends XmTextTitleOptions {
                   xmValue
                   [selector]="config.selector"
                   [value]="value"
-                  [config]="config.options"
-                  [options]="config.options"></span>
+                  [config]="config.options"></span>
         </xm-text-view-container>
     `,
     imports: [XmTranslationModule, XmTextViewModule, XmDynamicModule],

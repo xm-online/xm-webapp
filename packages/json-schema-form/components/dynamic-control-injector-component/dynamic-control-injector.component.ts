@@ -15,7 +15,7 @@ interface JsfLayoutNode {
         <ng-container *ngIf="formControl"
                       [formControl]="formControl"
                       [selector]="layoutNode.options?.selector"
-                      [options]="layoutNode.options"
+                      [config]="layoutNode.options"
                       xmDynamicControl></ng-container>`,
 })
 export class DynamicControlInjectorComponent implements OnInit {

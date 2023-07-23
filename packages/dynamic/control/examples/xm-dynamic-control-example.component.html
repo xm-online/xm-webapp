@@ -14,7 +14,7 @@
 <ng-container [value]="ngValue"
               (valueChange)="ngValue = $event"
               [selector]="selector"
-              [options]="options"
+              [config]="options"
               xmDynamicControl></ng-container>
 
 
@@ -22,7 +22,7 @@
 
 <ng-container [(ngModel)]="ngModelValue"
               [selector]="selector"
-              [options]="options"
+              [config]="options"
               xmDynamicControl></ng-container>
 
 
@@ -30,7 +30,7 @@
 
 <ng-container [formControl]="formControl"
               [selector]="selector"
-              [options]="options"
+              [config]="options"
               xmDynamicControl></ng-container>
 
 
@@ -38,6 +38,6 @@
 <form [formGroup]="formGroup">
   <ng-container formControlName="control"
                 [selector]="selector"
-                [options]="options"
+                [config]="options"
                 xmDynamicControl></ng-container>
 </form>

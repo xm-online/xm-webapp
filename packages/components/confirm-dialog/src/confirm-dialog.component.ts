@@ -33,8 +33,7 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
                             [formControlName]="group.type"
                             [class]="group.control.class"
                             [style]="group.control.style"
-                            [options]="group.control.config ? group.control.config : group.control.options"
-                            [config]="group.control.config"
+                            [config]="group.control.config || group.control.options"
                             [selector]="group.control.selector"
                             [value]="group.control.value"
                         ></ng-template>

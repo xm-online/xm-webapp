@@ -65,9 +65,6 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
         if (changes.value) {
             this.updateValue();
         }
-        if (changes.options) {
-            this.updateOptions();
-        }
         if (changes.config) {
             this.updateConfig();
         }
@@ -83,7 +80,6 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
     protected async createComponent(): Promise<void> {
         await this.createInstance();
         this.updateValue();
-        this.updateOptions();
         this.updateConfig();
     }
 
@@ -99,24 +95,14 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
         if (!this.instance) {
             return;
         }
-        // Don't set widget config if it's null, because updateOptions method already set config
-        if (this.config != null) {
-            setComponentInput(this.compRef, 'config', this.config);
-        }
-    }
 
-    /**
-     * @deprecated
-     *  Will be removed in v5.0.0.
-     */
-    protected updateOptions(): void {
-        if (!this.instance) {
-            return;
-        }
-        console.warn('Dynamic widget "options" property was deprecated use "config" instead. Will be removed in v5.0.0.');
+        setComponentInput(this.compRef, 'config', this.config);
 
-        setComponentInput(this.compRef, 'config', this.options);
-        // Field options should be removed soon
+        if (this.instance.options) {
+            console.warn('Dynamic widget "options" property was deprecated use "config" instead. Will be removed in v5.0.0.');
+        }
+
+        // TODO: Backward compatibility. Will be removed in v6.0.0. Use config instead.
         setComponentInput(this.compRef, 'options', this.options);
     }
 

@@ -23,7 +23,7 @@ export interface SidebarUserSubtitleOptions {
                 <ng-template xmDynamicPresentation
                              [selector]="options.selector"
                              [value]="get(value, options.field)"
-                             [options]="options.options"></ng-template>
+                             [config]="options.options"></ng-template>
             </ng-template>
             <ng-template #defaultView>
                 <span class="sidebar-user-subtitle-label">{{options.label | translate}}</span>

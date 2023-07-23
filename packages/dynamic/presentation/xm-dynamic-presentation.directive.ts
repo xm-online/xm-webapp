@@ -16,11 +16,6 @@ import { XmDynamicSelector } from '../src/interfaces';
 export class XmDynamicPresentationDirective<V, O> extends XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V, O>, OnChanges, OnInit {
     /** Component value */
     @Input() public value: V;
-    /**
-     * @deprecated
-     * Component options
-     **/
-    @Input() public options: O;
     /** Component config */
     @Input() public config: O;
     /** Component ref */

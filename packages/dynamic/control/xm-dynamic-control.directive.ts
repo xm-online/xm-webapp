@@ -68,9 +68,6 @@ export class XmDynamicControlDirective<V, C>
     /** Component value */
     @Input() public disabled: boolean;
 
-    /** Component options */
-    @Input() public options: C;
-
     /** Component ref */
     @Input() public selector: XmDynamicControlConstructor<V, C> | string;
 
@@ -110,9 +107,6 @@ export class XmDynamicControlDirective<V, C>
         }
         if (changes.disabled) {
             this.updateDisable();
-        }
-        if (changes.options) {
-            this.updateOptions();
         }
         if (changes.config) {
             this.updateConfig();
@@ -156,7 +150,6 @@ export class XmDynamicControlDirective<V, C>
         this.updateValue();
         this.updateRegisterOnChange();
         this.updateRegisterOnTouched();
-        this.updateOptions();
         this.updateConfig();
         this.updateDisable();
     }

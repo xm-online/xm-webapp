@@ -78,7 +78,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
                     <ng-container xmDynamicPresentation
                                   [selector]="column.head.selector"
                                   [config]="column.head.config || column.head.options"
-                                  [options]="column.head.options"></ng-container>
+                                  ></ng-container>
                 </th>
             </ng-template>
 
@@ -92,7 +92,7 @@ export const XM_TABLE_COLUMN_DYNAMIC_CELLS_OPTIONS_DEFAULT: XmTableColumnDynamic
                     <ng-container xmDynamicPresentation
                                   [selector]="column.head.selector"
                                   [config]="column.head.config || column.head.options"
-                                  [options]="column.head.options"></ng-container>
+                                  ></ng-container>
                 </th>
             </ng-template>
 

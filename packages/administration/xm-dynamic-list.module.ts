@@ -39,7 +39,7 @@ import { map, shareReplay, startWith } from 'rxjs/operators';
                 <ng-container xmDynamicPresentation
                               [selector]="activeWidget.globalSelector"
                               [value]="valueControl.value"
-                              [options]="optionsControl.value">
+                              [config]="optionsControl.value">
                 </ng-container>
             </div>
 

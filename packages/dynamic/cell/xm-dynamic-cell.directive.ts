@@ -14,7 +14,6 @@ import { getValue } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 import { XmDynamicPresentationBase } from '../presentation';
 import { XmDynamicLayoutNode } from '../src/interfaces';
-import { XmConfig } from '@xm-ngx/interfaces';
 
 
 export const XM_DYNAMIC_TABLE_ROW = new InjectionToken<string>('XM_DYNAMIC_TABLE_ROW');
@@ -59,8 +58,7 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
     public set cell(value: O) {
         this._cell = value;
         this.selector = value?.selector;
-        this.options = value?.options;
-        this.config = value?.config;
+        this.config = value?.config || value?.options;
         this.style = this.getStyle(value?.style);
         this.class = this.getClass(value?.class);
     }
@@ -112,7 +110,6 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
             this.updateValue();
         }
         if (changes.column) {
-            this.updateOptions();
             this.updateConfig();
             this.value = this.getCellValue();
             this.updateValue();

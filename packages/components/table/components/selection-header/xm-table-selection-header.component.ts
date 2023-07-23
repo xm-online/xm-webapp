@@ -25,7 +25,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
                               [style]="el.style"
                               [selector]="el.selector"
                               [value]="selectionModel?.selected"
-                              [options]="el.config">
+                              [config]="el.config">
                 </ng-container>
             </ng-container>
 
