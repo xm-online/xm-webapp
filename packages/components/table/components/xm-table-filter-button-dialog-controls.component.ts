@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import {
     FiltersControlValue,
-    XmTableFiltersControlComponent
-} from '../components/xm-table-filters-control.component';
+    XmTableFilterButtonDialogControlComponent
+} from './xm-table-filter-button-dialog-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 
 export interface XmTableFiltersControlRequestConfig {
@@ -28,12 +28,12 @@ export interface XmTableFiltersControlRequestConfig {
     `,
     standalone: true,
     imports: [
-        XmTableFiltersControlComponent
+        XmTableFilterButtonDialogControlComponent
     ]
 })
-export class XmTableFiltersControlRequestComponent implements OnChanges {
-    @ViewChild(XmTableFiltersControlComponent)
-    public filtersControl: XmTableFiltersControlComponent;
+export class XmTableFilterButtonDialogControlsComponent implements OnChanges {
+    @ViewChild(XmTableFilterButtonDialogControlComponent)
+    public filtersControl: XmTableFilterButtonDialogControlComponent;
 
     @Input() public request: FiltersControlValue;
     @Output() public requestChange: EventEmitter<FiltersControlValue> = new EventEmitter<FiltersControlValue>();
