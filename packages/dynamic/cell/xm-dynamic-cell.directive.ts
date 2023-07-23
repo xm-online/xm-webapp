@@ -40,22 +40,22 @@ export interface XmDynamicCell<C = unknown> extends XmDynamicLayoutNode<C> {
 @Directive({
     selector: 'xm-dynamic-cell, [xmDynamicCell]',
 })
-export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
-    extends XmDynamicPresentationBase<V, O>
+export class XmDynamicCellDirective<V, C>
+    extends XmDynamicPresentationBase<V, C>
     implements OnInit, OnChanges, DoCheck {
 
     /** Component row value */
     @Input() public row: unknown;
 
-    private _cell: O;
+    private _cell: XmDynamicCell<C>;
 
-    public get cell(): O {
+    public get cell(): XmDynamicCell<C> {
         return this._cell;
     }
 
     /** Cell options */
     @Input()
-    public set cell(value: O) {
+    public set cell(value: XmDynamicCell<C>) {
         this._cell = value;
         this.selector = value?.selector;
         this.config = value?.config || value?.options;
@@ -64,13 +64,13 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
     }
 
     /** @deprecated use {@link cell} instead */
-    public get column(): O {
+    public get column(): XmDynamicCell<C> {
         return this.cell;
     }
 
     /** @deprecated use {@link cell} instead */
     @Input()
-    public set column(value: O) {
+    public set column(value: XmDynamicCell<C>) {
         this.cell = value;
     }
 
