@@ -9,7 +9,10 @@ export {
 
 export { XmDynamicFormControlDirective, IFormControl } from './control/xm-dynamic-form-control.directive';
 
-export { XmDynamicComponentRegistry } from './src/loader/xm-dynamic-component-registry.service';
+export {
+    XmDynamicComponentRegistry,
+    XmDynamicComponentRecord
+} from './src/loader/xm-dynamic-component-registry.service';
 export { XmDynamicModuleRegistry } from './src/loader/xm-dynamic-module-registry.service';
 
 export {
