@@ -58,7 +58,7 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, Xm
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
 
     public page: Dashboard;
-    public isEditing: boolean;
+    public isEditing: boolean = false;
 
     constructor(
         protected readonly wrapperService: DashboardStore,
@@ -70,6 +70,8 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, Xm
     }
 
     public ngOnInit(): void {
+        this.editorService.changeEditState().pipe(takeUntilOnDestroy(this)).subscribe((isEdit) => this.isEditing = isEdit);
+
         this.pageService.active$().pipe(takeUntilOnDestroy(this)).subscribe((i) => {
             this.page = i as Dashboard;
             if (this.isEditing) {
@@ -89,15 +91,8 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, Xm
     }
 
     public onEdit(): void {
-        if (this.page && !this.isEditing) {
-            this.isEditing = true;
-            this.editorService.editDashboard(this.dashboardConfig.dashboardRef, this.page);
-            sessionStorage.setItem(NAVBAR_DASHBOARD_EDIT_STORAGE_KEY, NavbarDashboardEditState.Open);
-        } else {
-            this.isEditing = false;
-            sessionStorage.removeItem(NAVBAR_DASHBOARD_EDIT_STORAGE_KEY);
-            this.editorService.close();
-        }
+        this.editorService.editDashboard(this.dashboardConfig.dashboardRef, this.page);
+        sessionStorage.setItem(NAVBAR_DASHBOARD_EDIT_STORAGE_KEY, NavbarDashboardEditState.Open);
     }
 
     public ngOnDestroy(): void {
