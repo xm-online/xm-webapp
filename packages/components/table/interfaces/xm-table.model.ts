@@ -25,6 +25,8 @@ export interface XmTableConfigFilters extends FormGroupLayoutItem {
     }
 }
 
+export type XmTableQueryParamsToFilter = Record<string, unknown>;
+
 export interface XmTableConfig extends FiltersControlRequestOptions {
     /** Title */
     title: Translate,
@@ -39,6 +41,7 @@ export interface XmTableConfig extends FiltersControlRequestOptions {
         paramsToRequest?: XmFormatJsTemplateRecursive,
         repository: XmTableRepositoryCollectionConfig | null;
     },
+    queryParamsToFillter?: XmTableQueryParamsToFilter;
     pageableAndSortable: PageableAndSortable & XmTableWithColumnDynamicCellOptionsPagination,
     options: XmTableOptions,
     filtersClass?: string,
