@@ -26,7 +26,7 @@ export interface XmDynamicPresentationConstructor<V = unknown, C = unknown> exte
 
 /**
  * The base interface for all dynamic modules
- * @deprecated Will be removed in v5.0.0. Use standalone component instead.
+ * @deprecated Will be removed in v6.0.0. Use standalone component instead.
  */
 export interface XmDynamicPresentationEntryModule extends XmDynamicEntryModule<XmDynamicPresentation> {
     entry: XmDynamicPresentationConstructor;
@@ -108,7 +108,7 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
 
     /**
      * @deprecated
-     *  Will be removed in v5.0.0.
+     *  Will be removed in v6.0.0.
      */
     protected updateOptions(): void {
         if (!this.instance) {
@@ -116,7 +116,7 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
         }
 
         if (this.instance.options) {
-            console.warn(`Dynamic widget "options" property was deprecated use "config" instead component=${this.compRef?.componentType?.name}. Will be removed in v5.0.0.`);
+            console.warn(`Dynamic widget "options" property was deprecated use "config" instead component=${this.compRef?.componentType?.name}. Will be removed in v6.0.0.`);
         }
 
         setComponentInput(this.compRef, 'config', this.options);

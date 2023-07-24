@@ -1,5 +1,5 @@
 export type JsonValue =
-    // TODO:BACKWARD_COMPATIBILITY: all types must be defined. Remove unknown.
+    // TODO:BACKWARD_COMPATIBILITY: all types must be defined. Remove unknown. Will be removed in v.6.0.0.
     unknown
     | null
     | string
