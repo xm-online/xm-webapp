@@ -4,12 +4,12 @@ import { SidebarRightService } from '@xm-ngx/components/sidebar-right';
 import { Dashboard, DashboardWidget } from '@xm-ngx/core/dashboard';
 import { IId } from '@xm-ngx/interfaces';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class DashboardEditorService {
 
-    public isEdit: Subject<boolean> = new Subject<boolean>();
+    private isEdit: Subject<boolean> = new Subject<boolean>();
     constructor(public layoutService: SidebarRightService,
                 protected router: Router,
                 protected activatedRoute: ActivatedRoute,
@@ -22,8 +22,9 @@ export class DashboardEditorService {
         sessionStorage.removeItem('NAVBAR_DASHBOARD_EDIT_STORAGE_KEY');
     }
 
-    public isEditing(isEditing?: boolean): void {
+    public changeEditState(isEditing?: boolean): Observable<boolean> {
         this.isEdit.next(isEditing);
+        return this.isEdit;
     }
 
     public editDashboard<T>(ref: Type<T>, item: Dashboard): void {
