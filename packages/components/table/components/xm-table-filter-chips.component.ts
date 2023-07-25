@@ -16,8 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
-import { XmInlineControlConfig } from '@xm-ngx/components/inline-control';
-import { XmInlineControlDynamic, XmInlineControlDynamicView } from '../../inline-control';
+import { XmInlineControlConfig, XmInlineControlDynamic, XmInlineControlDynamicView } from '@xm-ngx/components/inline-control';
 import { XmTableFilterChipsControlComponent } from './xm-table-filter-chips-control.component';
 
 const DEFAULT_CONFIG: XmTableFiltersControlRequestConfig = {
