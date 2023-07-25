@@ -16,15 +16,15 @@ import {
 } from '../src/loader/xm-dynamic-component-registry.service';
 
 import { setComponentInput } from '../operators/set-component-input';
-import { NotFoundException } from '@xm-ngx/shared/exceptions';
+import { NotFoundException } from '@xm-ngx/exceptions';
+import { XmConfig } from '@xm-ngx/interfaces';
+import { XmDynamicWithConfig, XmDynamicWithSelector } from '../src/interfaces/xm-dynamic-selector';
 
-export interface XmDynamicWidgetConfig<C = any, S = any> extends XmDynamicWidget {
-    selector: string;
+export interface XmDynamicWidgetConfig<C = XmConfig, S = any> extends XmDynamicWithConfig<C>, XmDynamicWithSelector {
     /** @deprecated use selector instead */
     module?: string;
     /** @deprecated use selector instead */
     component?: string;
-    config: C;
     /** @deprecated spec will be removed, you should provide the spec locally */
     spec?: S;
 }

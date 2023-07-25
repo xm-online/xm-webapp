@@ -5,7 +5,7 @@ import { TitleService } from '@xm-ngx/translation';
 import { Principal } from '@xm-ngx/core/user';
 
 import { PageTitleService } from './page-title.service';
-import { PageService } from '../../stores/page/page.service';
+import { PageService } from '@xm-ngx/core/dashboard';
 
 describe('PageTitleService', () => {
     let service: PageTitleService;

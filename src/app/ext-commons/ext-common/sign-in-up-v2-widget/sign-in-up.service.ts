@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../../xm.constants';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { CustomUriEncoder } from '@xm-ngx/shared/helpers/custom-uri-encoder';
+import { CustomUriEncoder } from '@xm-ngx/operators';
 import {
     ACCESS_TOKEN,
-    AuthRefreshTokenService,
-    AuthTokenResponse,
     REFRESH_TOKEN,
+    AuthTokenResponse,
     TOKEN_URL,
+} from '@xm-ngx/core/user';
+import {
+    AuthRefreshTokenService,
     XmAuthenticationRepository,
-    XmAuthenticationStoreService
+    XmAuthenticationStoreService,
 } from '@xm-ngx/core/auth';
 import { map, tap } from 'rxjs/operators';
 import { XmSessionService } from '@xm-ngx/core';
@@ -105,7 +107,7 @@ export class SignInUpService {
         return this.otpId;
     }
 
-    public storeAuthenticationToken(jwt: string, rememberMe: boolean): void {
+    public storeAuthenticationToken(jwt: string, rememberMe: boolean = false): void {
         this.storeService.storeAuthenticationToken(jwt, rememberMe);
     }
 

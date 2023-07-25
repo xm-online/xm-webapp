@@ -3,9 +3,9 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { CropperSettings, ImageCropperComponent } from 'ngx-img-cropper';
-import { XmEntity } from '../shared/xm-entity.model';
+import { XmEntity } from '@xm-ngx/core/entity';
 
-import { XmEntityService } from '../shared/xm-entity.service';
+import { XmEntityService } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-avatar-dialog',

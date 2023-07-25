@@ -2,25 +2,56 @@ import { Injectable } from '@angular/core';
 
 import {
     XmTableReadOnlyRepositoryCollectionController,
+    XmTableReadOnlyRepositoryCollectionControllerConfig,
 } from './xm-table-read-only-repository-collection-controller';
-import { XmTableConfig } from '../../interfaces/xm-table.model';
+import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
-import { XmTableAtTypeCollectionController } from './xm-table-at-type-collection-controller';
-import { XmTableConfigCollectionController } from './xm-table-config-collection-controller.service';
-import { XmTableReadOnlyArrayCollectionController } from './xm-table-read-only-array-collection-controller.service';
-import { XmTableStringArrayCollectionController } from './xm-table-string-array-collection-controller.service';
-import { XmTableRepositoryCollectionController } from './xm-table-repository-collection-controller.service';
-import { XmTableLinkedCollectionController } from './xm-table-linked-collection-controller';
-import { XmTableArrayCollectionController } from './xm-table-array-collection-controller';
+import { AtTypeListConfig, XmTableAtTypeCollectionController } from './xm-table-at-type-collection-controller';
+import {
+    XmTableConfigCollectionController,
+    XmTableConfigCollectionControllerConfig
+} from './xm-table-config-collection-controller.service';
+import {
+    XmTableReadOnlyArrayCollectionController,
+    XmTableReadOnlyArrayCollectionControllerConfig
+} from './xm-table-read-only-array-collection-controller.service';
+import {
+    StringArrayListConfig,
+    XmTableStringArrayCollectionController
+} from './xm-table-string-array-collection-controller.service';
+import {
+    XmTableRepositoryCollectionController,
+    XmTableRepositoryCollectionControllerConfig
+} from './xm-table-repository-collection-controller.service';
+import { LinkListConfig, XmTableLinkedCollectionController } from './xm-table-linked-collection-controller';
+import {
+    XmTableArrayCollectionController,
+    XmTableArrayCollectionControllerConfig
+} from './xm-table-array-collection-controller';
 import { IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { firstValueFrom } from 'rxjs';
-import { XmTableElasticSearchCollectionController } from '@xm-ngx/components/table/controllers/elastic/xm-table-elastic-search-collection-controller.service';
+import {
+    XmTableElasticSearchCollectionController,
+    XmTableElasticSearchCollectionControllerConfig
+} from '../elastic/xm-table-elastic-search-collection-controller.service';
+
+export type XmTableCollectionControllerType = null
+    | LinkListConfig
+    | XmTableElasticSearchCollectionControllerConfig
+    | XmTableArrayCollectionControllerConfig
+    | AtTypeListConfig
+    | XmTableConfigCollectionControllerConfig
+    | StringArrayListConfig
+    | XmTableReadOnlyArrayCollectionControllerConfig
+    | XmTableRepositoryCollectionControllerConfig
+    | XmTableReadOnlyRepositoryCollectionControllerConfig
+    ;
 
 @Injectable()
 export class XmTableCollectionControllerResolver<T = unknown> {
 
     constructor(
-        private configController: XmTableConfigController<XmTableConfig>,
+        private configController: XmTableConfigController<XmTableWidgetConfig>,
         private arrayController: XmTableArrayCollectionController<T>,
         private atTypeController: XmTableAtTypeCollectionController<T>,
         private configCollectionController: XmTableConfigCollectionController<T>,
@@ -44,7 +75,7 @@ export class XmTableCollectionControllerResolver<T = unknown> {
                 return this.atTypeController;
             case 'stringArray':
                 return this.stringArrayController;
-            case 'readOnlyAArray':
+            case 'readOnlyArray':
                 return this.readOnlyArrayController;
             case 'repository':
                 return this.repositoryController;

@@ -6,7 +6,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmCopyIconComponent } from '@xm-ngx/components/copy';
 import { HintModule } from '@xm-ngx/components/hint';
-import { XmLinkViewCopyComponent } from '@xm-ngx/components/link/index';
+import { XmLinkViewCopyComponent } from '@xm-ngx/components/link';
 import { XmTextViewModule } from '@xm-ngx/components/text';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationModule } from '@xm-ngx/translation';

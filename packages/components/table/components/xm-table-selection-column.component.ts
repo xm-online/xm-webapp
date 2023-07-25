@@ -8,11 +8,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 
-export interface SelectTableColumn extends XmTableColumn {
+export interface XmTableSelectTableColumn extends XmTableColumn {
     width: string
 }
 
-export const XM_TABLE_SELECTION_COLUMN_DEFAULT: SelectTableColumn = {
+export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
     class: '',
     dataClass: '',
     dataStyle: '',
@@ -32,10 +32,10 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: SelectTableColumn = {
     selector: 'xm-table-selection-column',
     template: `
         <ng-container [matColumnDef]="column.name" [sticky]="column.sticky">
-            <th *matHeaderCellDef 
+            <th *matHeaderCellDef
                 scope="col"
                 mat-header-cell
-                [width]="column.width" 
+                [width]="column.width"
                 [class]="column.headClass"
                 [style]="column.headStyle">
                 <mat-checkbox (change)="$event ? allToggle() : null"
@@ -79,7 +79,7 @@ export class XmTableSelectionColumnComponent<T> implements OnInit, OnDestroy {
     public selection: SelectionModel<T>;
     @Input() public rows: T[] = [];
     @Input() public disabled: boolean;
-    @Input() public column: SelectTableColumn;
+    @Input() public column: XmTableSelectTableColumn;
     @ViewChild(CdkColumnDef, { static: true }) private readonly _columnDef: CdkColumnDef;
     @ViewChild(CdkCellDef, { static: true }) private readonly _cell: CdkCellDef;
     @ViewChild(CdkHeaderCellDef, { static: true }) private readonly _headerCell: CdkHeaderCellDef;

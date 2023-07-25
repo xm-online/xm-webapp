@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { XmSignInFormOptions } from '@xm-ngx/components/sign-in/sign-in-form/xm-sign-in-form.options';
+import { XmSignInFormOptions } from '../sign-in-form/xm-sign-in-form.options';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { SignInForm, SignInService } from './sign-in.service';

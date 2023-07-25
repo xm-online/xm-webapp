@@ -71,7 +71,7 @@ function detectLangFiles(jsFile) {
 
 function scanTsFilesToLangFiles() {
     let templateLangFiles = {};
-    for (let file of glob('**/*.ts', { sync: true })) {
+    for (let file of glob('**/*.ts', { sync: true }).map(filePath => filePath.replace(/\\/g, '/'))) {
         if (!file.startsWith('src/')) {
             continue;
         }
@@ -93,7 +93,7 @@ function scanTsFilesToLangFiles() {
 
 function scanInlineComponentHtmlToTranslations() {
     let translationKeys = {};
-    for (let file of glob('**/*.ts', { sync: true })) {
+    for (let file of glob('**/*.ts', { sync: true }).map(filePath => filePath.replace(/\\/g, '/'))) {
         if (!file.startsWith('src/')) {
             continue;
         }
@@ -126,7 +126,7 @@ function scanTypeScriptToTranslations() {
         return trKeys;
     };
 
-    for (let file of glob('**/*.ts', { sync: true })) {
+    for (let file of glob('**/*.ts', { sync: true }).map(filePath => filePath.replace(/\\/g, '/'))) {
         if (!file.startsWith('src/')) {
             continue;
         }
@@ -148,7 +148,7 @@ function scanTypeScriptToTranslations() {
 
 function scanTypeScriptToUsedTranslation() {
     let trKeys = [];
-    for (let file of glob('**/*.ts', { sync: true })) {
+    for (let file of glob('**/*.ts', { sync: true }).map(filePath => filePath.replace(/\\/g, '/'))) {
         if (!file.startsWith('src/')) {
             continue;
         }
@@ -170,7 +170,7 @@ function scanTypeScriptToUsedTranslation() {
 
 function scanComponentHtmlFileToTranslations() {
     let translationKeys = {};
-    for (let file of glob('**/*.html', { sync: true })) {
+    for (let file of glob('**/*.html', { sync: true }).map(filePath => filePath.replace(/\\/g, '/'))) {
         if (!file.startsWith('src/')) {
             continue;
         }
@@ -274,7 +274,7 @@ function usedTranslation(usedTranlsation, key) {
 
 function localTranslationsFile(lang) {
     let translations = {};
-    for (let file of glob(I_18_N + lang + '/**/*.json', { sync: true })) {
+    for (let file of glob(I_18_N + lang + '/**/*.json', { sync: true }).map(filePath => filePath.replace(/\\/g, '/'))) {
         let fileName = file;
         if (file.lastIndexOf('/') >= 0) {
             fileName = file.substring(file.lastIndexOf('/') + 1, file.length - '.json'.length);
@@ -333,7 +333,7 @@ for (let file in translationKeys) {
     }
 }
 
-for (let langFolder of glob(I_18_N + '*', { sync: true })) {
+for (let langFolder of glob(I_18_N + '*', { sync: true }).map(filePath => filePath.replace(/\\/g, '/'))) {
     let lang = langFolder.substring(I_18_N.length);
     if (lang.length > 2) {
         continue;

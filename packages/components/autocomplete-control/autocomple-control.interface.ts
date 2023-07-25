@@ -1,13 +1,13 @@
 import { Translate } from '@xm-ngx/translation';
-import { HintText } from '../hint';
-import { XmTableColumnDynamicCellsOptions } from '../table';
-import { XmFormatTemplateRecursive } from '@xm-ngx/shared/operators';
+import { HintText } from '@xm-ngx/components/hint';
+import { XmTableColumnDynamicCellsOptions } from '@xm-ngx/components/table';
+import { XmFormatTemplateRecursive } from '@xm-ngx/operators';
 import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error';
 
 export interface XmAutocompleteControlMapper {
     // Interpolated string as ${name}
     displayFn: string;
-    valueByKey: string;
+    valueByKey: string | object;
 }
 
 export type XmAutocompleteControlParams = Record<string, string>;
@@ -21,7 +21,7 @@ export interface XmAutocompleteControlListItem {
 
 export interface XmAutocompleteControlConfig {
     hint?: HintText;
-    title?: string;
+    title?: Translate;
     search: {
         resourceUrl: string;
         resourceMethod: string;

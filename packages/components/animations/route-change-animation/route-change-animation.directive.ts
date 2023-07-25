@@ -1,7 +1,7 @@
 import { animate, AnimationBuilder, AnimationMetadata, AnimationPlayer, style } from '@angular/animations';
 import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 @Directive({

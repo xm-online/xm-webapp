@@ -1,4 +1,4 @@
-import { Id } from '@xm-ngx/shared/interfaces';
+import { Id } from '@xm-ngx/interfaces';
 
 export interface XmUserLogin {
     id?: Id;

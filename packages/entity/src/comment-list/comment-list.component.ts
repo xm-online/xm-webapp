@@ -3,10 +3,10 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 
-import { CommentSpec } from '../shared/comment-spec.model';
-import { Comment } from '../shared/comment.model';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { CommentSpec } from '@xm-ngx/core/entity';
+import { Comment } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-comment-list',

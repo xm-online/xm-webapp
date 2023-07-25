@@ -22,7 +22,7 @@ import { clone } from 'lodash';
 import * as _ from 'lodash';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { MatInput, MatInputModule } from '@angular/material/input';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';

@@ -1,4 +1,13 @@
-import { Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    Output,
+    QueryList,
+    ViewChildren
+} from '@angular/core';
 import { NgForOf } from '@angular/common';
 
 @Component({
@@ -7,6 +16,7 @@ import { NgForOf } from '@angular/common';
     template: `
         <input *ngFor="let i of config.mask.split('')"
                [type]="config?.type||'number'"
+               autocomplete="one-time-code"
                #letter
                maxlength="1"
                (paste)="onPaste($event, letter)"
@@ -21,7 +31,7 @@ import { NgForOf } from '@angular/common';
         }
 
         input[type='number'] {
-            -moz-appearance:textfield;
+            -moz-appearance: textfield;
         }
 
         input::-webkit-outer-spin-button,
@@ -52,10 +62,60 @@ import { NgForOf } from '@angular/common';
         }
     `],
 })
-export class LettersControl {
+export class LettersControl implements AfterViewInit {
     @Input() public config: { mask: string, type?: string };
     @Output() public submitEvent: EventEmitter<string> = new EventEmitter<string>();
     @ViewChildren('letter') public components: QueryList<ElementRef<HTMLInputElement>>;
+
+    public ngAfterViewInit(): void {
+        this.listenForOtp();
+    }
+
+    private listenForOtp(): void {
+        if ('OTPCredential' in window) {
+            window.addEventListener('DOMContentLoaded', (e) => {
+                const ac = new AbortController();
+                const reqObj = {
+                    otp: { transport: ['sms'] },
+                    signal: ac.signal,
+                };
+                navigator.credentials
+                    .get(reqObj)
+                    .then((otp: any) => {
+                        if (otp) {
+                            if (otp && otp.code) {
+                                this.fillOtp(otp.code);
+                            }
+                        }
+                    })
+                    .catch((err) => {
+                        console.info('Web OTP API not supported, Please enter manually.');
+                        return;
+                    });
+            });
+        } else {
+            console.info('Web OTP API not supported, Please enter manually.');
+        }
+    }
+
+    private fillOtp(otp: string): void {
+        const components = this.components.toArray();
+        const startIndex = 0;
+        Array.from(otp).forEach((char, index) => {
+            const component = components[startIndex + index];
+            if (component && /^[0-9]$/.test(char)) {
+                component.nativeElement.value = char;
+            }
+        });
+
+        if (startIndex + otp.length >= components.length) {
+            const value = components.reduce((r, i) => r + i.nativeElement.value, '');
+            this.submitEvent.next(value);
+            return;
+        }
+
+        components[startIndex + otp.length]?.nativeElement.select();
+    }
 
 
     public onKeyUp(e: KeyboardEvent, letter: HTMLInputElement): void {

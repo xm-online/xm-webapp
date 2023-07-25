@@ -5,7 +5,7 @@ export {
     ErrorHandlerInterceptor,
     SKIP_ERROR_HANDLER_INTERCEPTOR_HEADER_KEY,
 } from './src/error-handler.interceptor';
-export { XmEventManagerService as XmEventManager } from './src/xm-event-manager.service';
+export { XmEventManagerService, XmEventManagerService as XmEventManager } from './src/xm-event-manager.service';
 export { RequestCacheFactoryService } from './src/cache/request-cache-factory.service';
 export { RequestCache } from './src/cache/request-cache';
 export { XmPublicUiConfigService } from './src/xm-public-ui-config.service';

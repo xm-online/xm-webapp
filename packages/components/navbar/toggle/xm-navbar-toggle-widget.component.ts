@@ -17,9 +17,12 @@ import { XmPermissionModule } from '@xm-ngx/core/permission';
                 mat-icon-button
                 type="button">
             <span class="visually-hidden">Toggle navigation</span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
+            <div class="nav-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </button>
     `,
     styleUrls: ['./xm-navbar-toggle-widget.scss'],

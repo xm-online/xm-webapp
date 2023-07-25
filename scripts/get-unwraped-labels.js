@@ -50,7 +50,7 @@ function findNoTranslationsElement(dom, parentTag, file) {
 let ignoreTags = function(child) {
     return child.type == 'script' || child.type == 'comment' || child.name == 'i';
 };
-for (let file of glob('**/*.html', { sync: true })) {
+for (let file of glob('**/*.html', { sync: true }).map(filePath => filePath.replace(/\\/g, '/'))) {
     if (!file.startsWith('src/') || file.indexOf('/health/') >= 0 || file.indexOf('/logs/') >= 0 || file.indexOf('/metrics/') >= 0 || file.indexOf('/swagger-ui/') >= 0) {
         continue;
     }

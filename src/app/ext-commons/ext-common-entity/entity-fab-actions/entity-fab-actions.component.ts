@@ -14,7 +14,7 @@ import {
     XmEntitySpec,
     XmEntitySpecWrapperService,
 } from '@xm-ngx/entity';
-import { FunctionCallDialogComponent } from '@xm-ngx/entity/function-call-dialog/function-call-dialog.component';
+import { FunctionCallDialogComponent } from '@xm-ngx/entity';
 import { XM_EVENT_LIST } from '../../../xm.constants';
 import { pluck, takeUntil } from 'rxjs/operators';
 

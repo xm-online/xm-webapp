@@ -1,11 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UIPublicConfig, XmSessionService } from '@xm-ngx/core';
+import { XmSessionService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { Observable } from 'rxjs';
-import { XmApplicationConfigService } from '@xm-ngx/core/config';
+import { XmApplicationConfigService, XmUIConfig } from '@xm-ngx/core/config';
 import { VERSION } from '../../xm.constants';
 import { XmLoggerService } from '@xm-ngx/logger';
 
+
+export interface XmMainConfig extends XmUIConfig{
+    fullWidth?: boolean;
+}
 
 @Component({
     selector: 'xm-main',
@@ -15,10 +19,10 @@ import { XmLoggerService } from '@xm-ngx/logger';
 export class XmMainComponent implements OnInit, OnDestroy {
     public resolved$: Observable<boolean> = this.xmConfigService.isResolved();
     public isGuestLayout: boolean = true;
-    public config: UIPublicConfig = this.xmConfigService.getAppConfig();
+    public config: XmMainConfig = this.xmConfigService.getAppConfig();
 
     constructor(
-        private xmConfigService: XmApplicationConfigService,
+        private xmConfigService: XmApplicationConfigService<XmMainConfig>,
         private loggerService: XmLoggerService,
         private sessionService: XmSessionService,
     ) {

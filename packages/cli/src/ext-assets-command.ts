@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { Command } from './command';
 import { Config } from './config';
 import { getDirectories, readAsJson, saveAsJson } from './fs-utils';

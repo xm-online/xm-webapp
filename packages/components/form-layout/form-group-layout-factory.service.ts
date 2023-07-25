@@ -8,11 +8,9 @@ import {
 import { fromPairs } from 'lodash/fp';
 
 
-export interface FormGroupLayoutItem extends XmDynamicPresentation<unknown, unknown> {
+export interface FormGroupLayoutItem<V = unknown, C = unknown> extends XmDynamicPresentation<V, C> {
     /** Uniq name for filters */
     name?: string;
-    /** Default value */
-    value: unknown;
     /** Control validators */
     validators?: ValidatorProcessingOption[];
     disabled?: boolean;

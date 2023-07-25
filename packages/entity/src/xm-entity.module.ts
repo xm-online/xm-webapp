@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { RatingModule } from '@xm-ngx/components/rating';
-import { EntityStateModule } from '@xm-ngx/entity/entity-state';
-import { StatesManagementDialogModule } from '@xm-ngx/entity/states-management-dialog';
+import { EntityStateModule } from './entity-state';
+import { StatesManagementDialogModule } from './states-management-dialog';
 import { TagInputModule } from 'ngx-chips';
 import { ImageCropperModule } from 'ngx-img-cropper';
 
@@ -62,18 +62,58 @@ import {
     VoteService,
     XmEntityService,
     XmEntitySpecService,
-} from './shared';
+} from '@xm-ngx/core/entity';
 
 import { StateChangeDialogComponent } from './state-change-dialog/state-change-dialog.component';
 import { TagListSectionComponent } from './tag-list-section/tag-list-section.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
-import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
+import { CalendarChangeService } from './calendar-card/calendar-view/calendar-change.service';
+import { XmEntityIconPipe } from '@xm-ngx/entity/pipes';
 
 const MODULES = [
     StatesManagementDialogModule,
     EntityStateModule,
     EntityDetailDialogModule,
+];
+
+const COMPONENTS = [
+    AreaComponent,
+    AttachmentCardComponent,
+    AttachmentDetailDialogComponent,
+    AttachmentListComponent,
+    AvatarDialogComponent,
+    CalendarCardComponent,
+    CalendarEventDialogComponent,
+    CalendarViewComponent,
+    CommentCardComponent,
+    CommentDetailDialogComponent,
+    CommentListComponent,
+    EntityCardComponent,
+    EntityCardCompactComponent,
+    EntityDataCardComponent,
+    EntityDetailFabComponent,
+    EntityListCardComponent,
+    EntityListFabComponent,
+    FunctionCallDialogComponent,
+    StateChangeDialogComponent,
+    FunctionListSectionComponent,
+    FunctionListSectionCompactComponent,
+    LinkDetailDialogComponent,
+    LinkDetailNewSectionComponent,
+    LinkDetailSearchSectionComponent,
+    LinkListComponent,
+    LinkListCardComponent,
+    LinkListTreeSectionComponent,
+    LocationDetailDialogComponent,
+    LocationListCardComponent,
+    OsmPolygonDialogComponent,
+    RatingListSectionComponent,
+    TagListSectionComponent,
+    LocationCardNamePipe,
+    AttachmentListSimplifiedComponent,
+    AttachmentListBaseComponent,
+    EntityListComponent,
 ];
 
 @NgModule({
@@ -88,70 +128,14 @@ const MODULES = [
         MODULES,
         ModalCloseModule,
         OwlDateTimeModule,
+        XmEntityIconPipe,
     ],
     declarations: [
-        AreaComponent,
-        AttachmentCardComponent,
-        AttachmentDetailDialogComponent,
-        AttachmentListComponent,
-        AvatarDialogComponent,
-        CalendarCardComponent,
-        CalendarEventDialogComponent,
-        CalendarViewComponent,
-        CommentCardComponent,
-        CommentDetailDialogComponent,
-        CommentListComponent,
-        EntityCardComponent,
-        EntityCardCompactComponent,
-        EntityDataCardComponent,
-        EntityDetailFabComponent,
-        EntityListCardComponent,
-        EntityListFabComponent,
-        FunctionCallDialogComponent,
-        StateChangeDialogComponent,
-        FunctionListSectionComponent,
-        FunctionListSectionCompactComponent,
-        LinkDetailDialogComponent,
-        LinkDetailNewSectionComponent,
-        LinkDetailSearchSectionComponent,
-        LinkListComponent,
-        LinkListCardComponent,
-        LinkListTreeSectionComponent,
-        LocationDetailDialogComponent,
-        LocationListCardComponent,
-        OsmPolygonDialogComponent,
-        RatingListSectionComponent,
-        TagListSectionComponent,
-        EntityListFabComponent,
-        LocationCardNamePipe,
-        AttachmentListSimplifiedComponent,
-        AttachmentListBaseComponent,
-        EntityListComponent,
+        COMPONENTS,
     ],
     exports: [
         MODULES,
-        AreaComponent,
-        AttachmentCardComponent,
-        AttachmentListComponent,
-        AttachmentListSimplifiedComponent,
-        CalendarCardComponent,
-        CommentCardComponent,
-        CommentListComponent,
-        EntityCardComponent,
-        EntityCardCompactComponent,
-        EntityDataCardComponent,
-        EntityDetailFabComponent,
-        EntityListCardComponent,
-        EntityListFabComponent,
-        FunctionListSectionComponent,
-        FunctionListSectionCompactComponent,
-        LinkDetailNewSectionComponent,
-        LinkDetailSearchSectionComponent,
-        LinkListComponent,
-        LinkListCardComponent,
-        LocationListCardComponent,
-        RatingListSectionComponent,
-        TagListSectionComponent,
+        COMPONENTS,
     ],
     providers: [
         AttachmentService,
@@ -170,7 +154,7 @@ const MODULES = [
         XmEntityService,
         XmEntitySpecService,
         CalendarChangeService,
-    ]
+    ],
 })
 export class XmEntityModule {
 }

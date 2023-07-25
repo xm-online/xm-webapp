@@ -14,7 +14,7 @@ export interface Ctx {
 }
 
 function isConfig(nonNullableType: Type): boolean {
-    return extendsComponent(getInterfaceFromNonNullableType(nonNullableType), 'XmDynamicConfig');
+    return extendsComponent(getInterfaceFromNonNullableType(nonNullableType), 'XmDynamicWithConfig');
 }
 
 function extendsComponent(interfaceDeclaration: InterfaceDeclaration, componentKey: string): boolean {

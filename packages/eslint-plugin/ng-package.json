@@ -1,0 +1,7 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../lib/eslint-plugin",
+  "lib": {
+    "entryFile": "./index.ts"
+  }
+}

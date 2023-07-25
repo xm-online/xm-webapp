@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
-import { XmPhoneNumberControlComponent } from '@xm-ngx/components/phone-number-control/index';
+import { XmPhoneNumberControlComponent } from '@xm-ngx/components/phone-number-control';
 import { MatIconModule } from '@angular/material/icon';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { NgxMaskModule } from 'ngx-mask';

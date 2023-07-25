@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmStringDateControl } from '@xm-ngx/components/date/index';
+import { XmStringDateControl } from '@xm-ngx/components/date';
 import { XmStringDateControlOptions } from '@xm-ngx/components/date/xm-string-date-control';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
