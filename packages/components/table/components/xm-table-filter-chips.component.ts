@@ -2,44 +2,43 @@ import { Component, ElementRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import {
-    XmTableFiltersControlRequestConfig,
-    XmTableFiltersControlRequestComponent
-} from './xm-table-filters-control-request.component';
+    XmTableFilterButtonDialogControlsComponent,
+    XmTableFiltersControlRequestConfig
+} from './xm-table-filter-button-dialog-controls.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import * as _ from 'lodash';
 import { cloneDeep } from 'lodash';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy, } from '@xm-ngx/operators';
-import {
-    XmTableFilterController
-} from '../controllers/filters/xm-table-filter-controller.service';
+import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { FiltersControlValue } from './xm-table-filters-control.component';
-import {
-    XmTableFilterControlAsChipComponent
-} from './xm-table-filter-control-as-chip.component';
+import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
+import { XmInlineControlConfig, XmInlineControlDynamic, XmInlineControlDynamicView } from '@xm-ngx/components/inline-control';
+import { XmTableFilterChipsControlComponent } from './xm-table-filter-chips-control.component';
 
 const DEFAULT_CONFIG: XmTableFiltersControlRequestConfig = {
     submitInvalidForm: false,
     isOnlyExpand: null,
     filters: [],
+    chips: [],
     filtersClass: '',
 };
 
 export interface XmTableFilterInlineFilter {
     title: Translate,
     config: FormLayoutItem,
+    inlineConfig: XmInlineControlConfig,
     value: string,
     name: string,
 }
 
 @Component({
-    selector: 'xm-table-filter-inline',
+    selector: 'xm-table-filter-chips',
     standalone: true,
-    host: { class: 'xm-table-filter-inline' },
+    host: { class: 'xm-table-filter-chips' },
     template: `
         <div class="filter-container" #elementRef>
             <mat-chip-listbox class="chip-listbox" [selectable]="false" [multiple]="true">
@@ -49,28 +48,29 @@ export interface XmTableFilterInlineFilter {
                                  color="accent"
                                  selected
                                  class="chip-option">
-                    <xm-table-filter-control-as-chip [config]="filter.config"
-                                                     [value]="filter.value"></xm-table-filter-control-as-chip>
+                    <xm-table-filter-chips-control [config]="filter.inlineConfig"
+                                                   [value]="filter.value"
+                                                   (valueChange)="change(filter)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip-option>
             </mat-chip-listbox>
         </div>
 
         <button
-                class="btn-clear-all ms-2"
-                mat-button
-                *ngIf="activeFilters?.length"
-                (click)="removeAll()"
+            class="btn-clear-all ms-2"
+            mat-button
+            *ngIf="activeFilters?.length"
+            (click)="removeAll()"
         >
             {{'table.filter.button.clearAll' | translate}}
         </button>
 
         <button
-                class="ms-1"
-                mat-button
-                *ngIf="hiddenFilters?.length"
-                [matMenuTriggerFor]="hiddenChips"
-                [matBadge]="hiddenFilters?.length"
+            class="ms-1"
+            mat-button
+            *ngIf="hiddenFilters?.length"
+            [matMenuTriggerFor]="hiddenChips"
+            [matBadge]="hiddenFilters?.length"
         >
             {{'table.filter.button.more' | translate}}
         </button>
@@ -83,58 +83,27 @@ export interface XmTableFilterInlineFilter {
                                  selected
                                  color="accent"
                                  class="chip-option">
-                    <xm-table-filter-control-as-chip [config]="filter.config"
-                                                     [value]="filter.value"></xm-table-filter-control-as-chip>
+                    <xm-table-filter-chips-control [config]="filter.inlineConfig"
+                                                   [value]="filter.value"
+                                                   (valueChange)="change(filter)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip-option>
             </mat-chip-listbox>
         </mat-menu>
     `,
-    styles: [`
-        :host(.xm-table-filter-inline) {
-            display: flex;
-            flex-grow: 1;
-            min-width: 0;
-        }
-
-        :host(.xm-table-filter-inline) button {
-            text-transform: uppercase;
-        }
-
-        ::ng-deep .xm-table-filter-inline .mdc-evolution-chip-set__chips {
-            flex-wrap: nowrap;
-        }
-
-        ::ng-deep .chip-listbox .mdc-evolution-chip__cell--primary,
-        ::ng-deep .chip-listbox .mdc-evolution-chip__action--primary,
-        ::ng-deep .chip-listbox .mat-mdc-chip-action-label {
-            overflow: hidden !important;
-            cursor: default;
-        }
-
-        .chip-option {
-            max-width: 260px;
-        }
-
-        .filter-container {
-            display: block;
-            overflow: clip;
-            width: calc(100% - 100px);
-        }
-    `],
     imports: [
         CommonModule,
         MatButtonModule,
-        XmTableFiltersControlRequestComponent,
+        XmTableFilterButtonDialogControlsComponent,
         MatBadgeModule,
         MatChipsModule,
         XmTranslationModule,
         MatIconModule,
         MatMenuModule,
-        XmTableFilterControlAsChipComponent,
+        XmTableFilterChipsControlComponent,
     ],
 })
-export class XmTableFilterInlineComponent {
+export class XmTableFilterChipsComponent {
     public value: FiltersControlValue = {};
     public activeFilters: XmTableFilterInlineFilter[] = [];
     public hiddenFilters: XmTableFilterInlineFilter[] = [];
@@ -166,6 +135,12 @@ export class XmTableFilterInlineComponent {
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
+    }
+
+    public change(filter: XmTableFilterInlineFilter): void {
+        const copy = cloneDeep(this.value);
+        copy[filter.name] = filter.value;
+        this.entitiesRequestBuilder.set(copy);
     }
 
     public remove(filter: XmTableFilterInlineFilter): void {
@@ -208,8 +183,16 @@ export class XmTableFilterInlineComponent {
         return this.config.filters
             .filter(i => !!this.value[i.name])
             .map((config) => {
+                const overrideView =
+                    this.config.chips.find(i => i.name === config.name)
+                    || { selector: '@xm-ngx/components/text', config: {} } as XmInlineControlDynamicView<unknown, unknown>;
+                const inlineConfig: XmInlineControlConfig = {
+                    view: overrideView as XmInlineControlDynamicView<unknown, unknown>,
+                    edit: config as XmInlineControlDynamic<unknown>,
+                };
                 return {
                     config: config,
+                    inlineConfig: inlineConfig,
                     value: this.value[config.name],
                     title: config['title'] || config.name,
                     name: config.name,

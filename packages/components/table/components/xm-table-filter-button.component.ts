@@ -14,8 +14,8 @@ import { XmTableFilterController } from '../controllers/filters/xm-table-filter-
 import { ButtonSpinnerModule } from '@xm-ngx/components/button-spinner';
 import {
     XmTableFiltersControlRequestConfig,
-} from '../components/xm-table-filters-control-request.component';
-import { FiltersControlValue } from '../components/xm-table-filters-control.component';
+} from './xm-table-filter-button-dialog-controls.component';
+import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
 import { XmEmptyPipe } from '@xm-ngx/pipes';
 import { NgIf } from '@angular/common';
 

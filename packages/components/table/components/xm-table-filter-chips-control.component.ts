@@ -1,20 +1,19 @@
 import { Component, Input } from '@angular/core';
 import {
-    XmInlineControlComponent,
-    XmInlineControlConfig,
+    XmInlineControlComponent, XmInlineControlConfig,
 } from '@xm-ngx/components/inline-control';
 import { FormsModule } from '@angular/forms';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 
 @Component({
     standalone: true,
-    selector: 'xm-edit-control',
+    selector: 'xm-table-filter-chips-control',
     imports: [XmInlineControlComponent, FormsModule],
     template: `
         <xm-inline-control [config]="config"
                            [ngModel]="value"></xm-inline-control>
     `,
 })
-export class XmTableControlComponent extends NgControlAccessor<unknown> {
+export class XmTableFilterChipsControlComponent extends NgControlAccessor<unknown> {
     @Input() public config: XmInlineControlConfig;
 }
