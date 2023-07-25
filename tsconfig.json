@@ -12,152 +12,68 @@
     "downlevelIteration": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "target": "ES2022",
+    "target": "es2022",
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "es2018",
+      "es2020",
       "dom"
     ],
     "paths": {
-      "@xm-ngx/styles": [
-        "packages/styles"
-      ],
-      "@xm-ngx/administration/*": [
-        "packages/administration/src/*"
-      ],
-      "@xm-ngx/components/*": [
-        "packages/components/*"
-      ],
-      "@xm-ngx/core": [
-        "packages/core"
-      ],
-      "@xm-ngx/core/client": [
-        "packages/core/client"
-      ],
-      "@xm-ngx/core/context": [
-        "packages/core/context"
-      ],
-      "@xm-ngx/core/auth": [
-        "packages/core/auth"
-      ],
-      "@xm-ngx/core/config": [
-        "packages/core/config"
-      ],
-      "@xm-ngx/core/config/testing": [
-        "packages/core/config/testing"
-      ],
-      "@xm-ngx/core/user": [
-        "packages/core/user"
-      ],
-      "@xm-ngx/core/user/testing": [
-        "packages/core/user/testing"
-      ],
-      "@xm-ngx/core/global-error-handler": [
-        "packages/core/global-error-handler"
-      ],
-      "@xm-ngx/core/permission": [
-        "packages/core/permission"
-      ],
-      "@xm-ngx/core/permission/testing": [
-        "packages/core/permission/testing"
-      ],
-      "@xm-ngx/core/theme": [
-        "packages/core/theme"
-      ],
-      "@xm-ngx/core/role": [
-        "packages/core/role"
-      ],
       "@xm-ngx/core/environment": [
         "src/environments"
       ],
       "@xm-ngx/ext/*": [
         "src/app/ext/*"
       ],
-      "@xm-ngx/alert": [
-        "packages/alert"
+      "@xm-ngx-ext/*": [
+        "src/app/ext/*"
       ],
-      "@xm-ngx/confirm-dialog": [
-        "packages/confirm-dialog"
+      "@xm-ngx/entity/registry": [
+        "node_modules/@xm-ngx/entity/registry",
       ],
-      "@xm-ngx/json-schema-form/core": [
-        "packages/json-schema-form/core"
+      "@xm-ngx/entity/card": [
+        "node_modules/@xm-ngx/entity/card",
       ],
-      "@xm-ngx/json-schema-form/components": [
-        "packages/json-schema-form/components"
+      "@xm-ngx/entity/search": [
+        "node_modules/@xm-ngx/entity/search",
       ],
-      "@xm-ngx/toaster": [
-        "packages/toaster"
-      ],
-      "@xm-ngx/logger": [
-        "packages/logger"
-      ],
-      "@xm-ngx/logger/testing": [
-        "packages/logger/testing"
-      ],
-      "@xm-ngx/timeline": [
-        "packages/timeline"
-      ],
-      "@xm-ngx/timeline/*": [
-        "packages/timeline/*"
-      ],
-      "@xm-ngx/shared": [
-        "packages/shared/src"
-      ],
-      "@xm-ngx/shared/*": [
-        "packages/shared/src/*"
-      ],
-      "@xm-ngx/shared/exceptions": [
-        "packages/shared/exceptions"
-      ],
-      "@xm-ngx/shared/validators": [
-        "packages/shared/validators"
-      ],
-      "@xm-ngx/shared/interfaces": [
-        "packages/shared/interfaces"
-      ],
-      "@xm-ngx/shared/operators": [
-        "packages/shared/operators"
-      ],
-      "@xm-ngx/shared/pipes": [
-        "packages/shared/pipes"
-      ],
-      "@xm-ngx/translation": [
-        "packages/translation"
-      ],
-      "@xm-ngx/translation/testing": [
-        "packages/translation/testing"
-      ],
-      "@xm-ngx/account": [
-        "packages/account"
-      ],
-      "@xm-ngx/account/*": [
-        "packages/account/*"
-      ],
-      "@xm-ngx/entity": [
-        "packages/entity"
+      "@xm-ngx/entity/pipes": [
+        "node_modules/@xm-ngx/entity/pipes",
       ],
       "@xm-ngx/entity/*": [
-        "packages/entity/src/*"
+        "node_modules/@xm-ngx/entity",
       ],
-      "@xm-ngx/dynamic": [
-        "packages/dynamic"
+      "@xm-ngx/shared/helpers": [
+        "node_modules/@xm-ngx/operators",
       ],
-      "@xm-ngx/dynamic/*": [
-        "packages/dynamic/*"
+      "@xm-ngx/json-schema-form/core": [
+        "node_modules/@xm-ngx/json-schema-form"
       ],
-      "@xm-ngx/dashboard": [
-        "packages/dashboard"
+      "@xm-ngx/json-schema-form/components": [
+        "node_modules/@xm-ngx/json-schema-form"
       ],
-      "@xm-ngx/dashboard/testing": [
-        "packages/dashboard/testing"
+      "@xm-ngx/json-schema-form/components/*": [
+        "node_modules/@xm-ngx/json-schema-form"
       ],
-      "@xm-ngx/balance": [
-        "packages/balance"
+      "@xm-ngx/shared/exceptions": [
+        "node_modules/@xm-ngx/exceptions"
       ],
-      "@xm-ngx/balance/*": [
-        "packages/balance/src/*"
+      "@xm-ngx/shared/validators": [
+        "node_modules/@xm-ngx/validators"
+      ],
+      "@xm-ngx/shared/interfaces": [
+        "node_modules/@xm-ngx/interfaces"
+      ],
+      "@xm-ngx/shared/operators": [
+        "node_modules/@xm-ngx/operators"
+      ],
+      "@xm-ngx/shared/pipes": [
+        "node_modules/@xm-ngx/pipes"
+      ],
+      "@xm-ngx/components/entity-collection": [
+        "node_modules/@xm-ngx/repositories"
       ],
       "rxjs": [
         "node_modules/rxjs"
@@ -170,7 +86,7 @@
       ]
     },
     "inlineSources": true,
-    "module": "es2020",
+    "module": "esnext",
     "stripInternal": false,
     "noUnusedLocals": true,
     "noImplicitThis": true,

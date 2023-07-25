@@ -1,23 +1,23 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/xm-administration.registry';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XmTextDynamicOptions, XmTextDynamicView } from '@xm-ngx/components/text';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/xm-array.registry';
-import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/xm-bool.registry';
-import { XM_COPY_ELEMENTS } from '@xm-ngx/components/xm-copy.registry';
-import { XM_DATE_ELEMENTS } from '@xm-ngx/components/xm-date.registry';
-import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/xm-enum.registry';
-import { XM_HTML_ELEMENTS } from '@xm-ngx/components/xm-html.registry';
-import { XM_LINK_ELEMENTS } from '@xm-ngx/components/xm-link.registry';
-import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/xm-navbar.registry';
-import { XM_TABLE_ELEMENTS } from '@xm-ngx/components/xm-table.registry';
-import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/xm-text.registry';
-import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/xm.registry';
-import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/xm-dashboard.registry';
+import { XM_DATE_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_HTML_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_COPY_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_LINK_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_TABLE_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/registry';
+import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/registry';
+import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/registry';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { Primitive } from '@xm-ngx/interfaces';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 export default {

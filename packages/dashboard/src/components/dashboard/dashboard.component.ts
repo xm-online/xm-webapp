@@ -1,15 +1,15 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { environment } from '@xm-ngx/core/environment';
+// import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmLoggerService } from '@xm-ngx/logger';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
-import { Page, PageService } from '../../stores/page/page.service';
-import { Dashboard } from '../../models/dashboard.model';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { Page, PageService } from '@xm-ngx/core/dashboard';
+import { Dashboard } from '@xm-ngx/core/dashboard';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';
-import { DashboardStore } from '../../stores/dashboard-store.service';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { of } from 'rxjs';
 import { mapTo, switchMap, tap } from 'rxjs/operators';
 
@@ -56,7 +56,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
             .pipe(
                 tap((page) => {
                     if (!page) {
-                        this.router.navigateByUrl(environment.notFoundUrl);
+                        this.router.navigateByUrl('/accessdenied');
                         return;
                     }
                     this.logger.info(`Dashboard is loaded name="${page.name}" id="${page.id}".`);

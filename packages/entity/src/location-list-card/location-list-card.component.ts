@@ -8,12 +8,12 @@ import { XmToasterService } from '@xm-ngx/toaster';
 
 import { Subscription } from 'rxjs';
 import { LocationDetailDialogComponent } from '../location-detail-dialog/location-detail-dialog.component';
-import { LocationSpec } from '../shared/location-spec.model';
-import { Location } from '../shared/location.model';
-import { LocationService } from '../shared/location.service';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
-import { XmEntitySpec } from '@xm-ngx/entity';
+import { LocationSpec } from '@xm-ngx/core/entity';
+import { Location } from '@xm-ngx/core/entity';
+import { LocationService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
 import {
     AUTO_STYLE,
     animate,

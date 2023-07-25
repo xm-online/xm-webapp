@@ -3,19 +3,18 @@ import { Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardBase, DashboardWidget } from '@xm-ngx/dashboard';
-import { XmLayout } from '@xm-ngx/dynamic';
+import { XmDynamicLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { cloneDeep } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { XmLoggerService } from '@xm-ngx/logger';
 
-interface HomeLayout extends XmLayout {
+interface HomeLayout extends XmDynamicLayout {
     content?: HomeLayout[];
-    config?: unknown;
 }
 
-interface HomeRootLayouts extends XmLayout {
+interface HomeRootLayouts extends XmDynamicLayout {
     domain: string | string[];
 }
 

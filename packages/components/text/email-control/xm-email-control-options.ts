@@ -1,4 +1,4 @@
-import { DataQa } from '@xm-ngx/shared/interfaces';
+import { DataQa } from '@xm-ngx/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { HintText } from '@xm-ngx/components/hint';
 

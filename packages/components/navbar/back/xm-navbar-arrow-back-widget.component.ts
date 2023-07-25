@@ -1,7 +1,7 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
-import { takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Observable } from 'rxjs';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,11 +12,12 @@ import { MatButtonModule } from '@angular/material/button';
     template: `
         <button (click)="onBack()"
                 *ngIf="isSessionActive$ | async"
-                class="bg-surface rounded-circle shadow-sm"
+                class="bg-surface rounded-circle shadow-sm navbar-arrow-back-button"
                 mat-icon-button>
             <mat-icon>arrow_back</mat-icon>
         </button>
     `,
+    styles: ['.navbar-arrow-back-button { display: flex }'],
     imports: [
         MatIconModule,
         MatButtonModule,

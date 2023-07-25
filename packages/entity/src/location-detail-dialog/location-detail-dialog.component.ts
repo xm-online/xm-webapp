@@ -9,10 +9,10 @@ import { Observable } from 'rxjs';
 import { finalize, map, startWith } from 'rxjs/operators';
 
 import { XmConfigService } from '@xm-ngx/core/config';
-import { LocationSpec } from '../shared/location-spec.model';
-import { Location } from '../shared/location.model';
-import { LocationService } from '../shared/location.service';
-import { XmEntity } from '../shared/xm-entity.model';
+import { LocationSpec } from '@xm-ngx/core/entity';
+import { Location } from '@xm-ngx/core/entity';
+import { LocationService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { ISO3166_CODES } from './iso-3166-codes';
 
 declare let google: any;

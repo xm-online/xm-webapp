@@ -1,1 +1,2 @@
-export { MouseMoveParallaxModule } from '@xm-ngx/components/parallax/mouse-move-parallax.module';
+export { MouseMoveParallaxModule } from './mouse-move-parallax.module';
+export { MouseMoveParallaxDirective } from './mouse-move-parallax.directive';

@@ -21,4 +21,4 @@ export {
     XmThemeStore,
 } from './src/stores/xm-theme-store.service';
 
-export { XmTheme } from './src/interfaces/xm.theme';
+export { XmTheme, AppearanceStrategy, ThemeStrategy } from './src/interfaces/xm.theme';

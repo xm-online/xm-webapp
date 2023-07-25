@@ -1,11 +1,18 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { NotImplementedException } from '@xm-ngx/shared/exceptions';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { NotImplementedException } from '@xm-ngx/exceptions';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
     selector: 'xm-confirmation-dialog',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatButtonModule
+    ],
     templateUrl: './xm-confirm-dialog.component.html',
 })
 export class XmConfirmDialogComponent {

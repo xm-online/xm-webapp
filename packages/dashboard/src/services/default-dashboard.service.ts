@@ -3,8 +3,8 @@ import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import * as _ from 'lodash';
 import { Observable, zip } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { DashboardStore } from '../stores/dashboard-store.service';
-import { Dashboard } from '../models/dashboard.model';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
+import { Dashboard } from '@xm-ngx/core/dashboard';
 
 function getWithConfig(idOrSlug: number | string | null, dashboards: Dashboard[]): Dashboard | null {
     if (!idOrSlug || !dashboards) {

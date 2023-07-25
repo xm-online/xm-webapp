@@ -4,10 +4,10 @@ import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compon
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmTextTitleOptions } from '../text-title';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
-import { DataQa, Primitive } from '@xm-ngx/shared/interfaces';
+import { DataQa, Primitive } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { ValidatorProcessingOption, ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import { filter } from 'rxjs/operators';
 import { HintModule, HintText } from '@xm-ngx/components/hint';

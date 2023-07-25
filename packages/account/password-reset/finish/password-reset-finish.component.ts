@@ -4,13 +4,13 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AuthServerProvider } from '@xm-ngx/core/auth';
+import { AuthServerProvider } from '@xm-ngx/core/user';
 import { PasswordSpec } from '@xm-ngx/core/config';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
-import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../../../src/app/xm.constants';
 import { PasswordResetFinish } from './password-reset-finish.service';
+import { ModulesLanguageHelper } from '@xm-ngx/translation';
 
 interface IResetPasswordFormConfig {
     formTitle: string;
@@ -45,6 +45,7 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
         private passwordResetFinish: PasswordResetFinish,
         private route: ActivatedRoute,
         private http: HttpClient,
+        private modulesLangHelper: ModulesLanguageHelper,
         private authServerProvider: AuthServerProvider,
         private xmConfigService: XmConfigService,
         private router: Router,
@@ -123,8 +124,8 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     private getAccessToken(): Observable<any> {
         const data = new HttpParams().set('grant_type', 'client_credentials');
         const headers = {
-            'Content-Type': DEFAULT_CONTENT_TYPE,
-            'Authorization': DEFAULT_AUTH_TOKEN,
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic d2ViYXBwOndlYmFwcA==',
         };
         return this.http.post<any>('uaa/oauth/token', data, {headers, observe: 'response'})
             .pipe(map((resp) => {
@@ -135,7 +136,12 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     private makePasswordSettings(config?: any): void {
         this.passwordSettings = this.xmConfigService.mapPasswordSettings(config);
         if (this.passwordSettings.patternMessage) {
-            this.patternMessage = this.xmConfigService.updatePatternMessage(this.passwordSettings.patternMessage);
+            this.patternMessage = this.updatePatternMessage(this.passwordSettings.patternMessage);
         }
+    }
+
+    public updatePatternMessage(message: any, currentLang?: string): string {
+        const lang = currentLang ? currentLang : this.modulesLangHelper.getLangKey();
+        return message[lang] || message;
     }
 }

@@ -1,7 +1,7 @@
 import { Directive, Input, OnDestroy, OnInit, Self } from '@angular/core';
 import { XmAceEditorDirective } from './xm-ace-editor.directive';
 import { XmThemeController } from '@xm-ngx/core/theme';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 @Directive({
     selector: '[xmAceEditorThemeSchemeAdapter]',

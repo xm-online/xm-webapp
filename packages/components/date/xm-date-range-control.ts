@@ -18,7 +18,7 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { template } from 'lodash/fp';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Subject, filter, map } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, formatDate } from '@angular/common';

@@ -1,11 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
-import { environment, IEnvironment } from '@xm-ngx/core/environment';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { combineLatest, Observable } from 'rxjs';
 import { delay, filter, shareReplay, startWith } from 'rxjs/operators';
 import { getServerEnvironment } from './get-current-env';
 import { CommonModule } from '@angular/common';
+import { XmCoreConfig } from '@xm-ngx/core';
 
 
 function changeFavicon(url: string): void {
@@ -24,7 +24,6 @@ function changeFavicon(url: string): void {
     imports: [CommonModule],
 })
 export class XmRibbonComponent implements OnInit, OnDestroy {
-    @Input() public environment: IEnvironment = environment;
     @Input() public config: {
         favicons: { url: string, server: string }[]
         hidden?: boolean
@@ -36,11 +35,12 @@ export class XmRibbonComponent implements OnInit, OnDestroy {
 
     constructor(
         private uiConfigService: XmUiConfigService,
+        public xmCoreConfig: XmCoreConfig,
     ) {
     }
 
     public ngOnInit(): void {
-        document.body.setAttribute('data-release', environment.release);
+        document.body.setAttribute('data-release', this.xmCoreConfig.RELEASE);
 
         combineLatest([
             this.serverEnv$.pipe(startWith(null)),

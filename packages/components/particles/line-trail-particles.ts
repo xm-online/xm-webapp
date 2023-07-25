@@ -1,13 +1,13 @@
-import { LineTrailParticlesOptions } from '@xm-ngx/components/particles/line-trail-particles-options';
+import { LineTrailParticlesOptions } from './line-trail-particles-options';
 import { LineTrailParticle, randomInt } from './line-trail-particle';
 
 
 function randomValue(value: number | [number, number]): number {
     if (Array.isArray(value) && value.length === 2) {
         return randomInt(value[0], value[1]);
-    } 
+    }
     return value as number;
-    
+
 }
 
 class ParticlesObject {

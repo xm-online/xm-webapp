@@ -1,6 +1,9 @@
 {
   "name": "@xm-ngx/components",
   "version": "1.0.0",
+  "scripts": {
+    "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
+  },
   "dependencies": {
     "html2canvas": "1.0.0-rc.7"
   }

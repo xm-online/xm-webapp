@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
-import { Comment } from '../shared/comment.model';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
+import { Comment } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-comment-card',

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FunctionService, XmEntityService } from '@xm-ngx/entity';
+import { FunctionService, XmEntityService } from '@xm-ngx/core/entity';
 import { NotificationUiConfig } from './notification.model';
 import { TranslatePipe } from '@xm-ngx/translation';
 

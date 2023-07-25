@@ -6,8 +6,8 @@ import {
     XmAuthenticationStoreService,
 } from '@xm-ngx/core/auth';
 
-import { XmAuthenticationService } from './xm-authentication.service';
-import { XmAuthenticationConfig } from './xm-authentication-config.service';
+import { XmAuthenticationService } from '@xm-ngx/core/auth';
+import { XmAuthenticationConfig } from '@xm-ngx/core/auth';
 
 describe('XmAuthenticationService', () => {
     beforeEach(() => TestBed.configureTestingModule({

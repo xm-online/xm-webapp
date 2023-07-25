@@ -4,13 +4,13 @@
 @import 'placeholder/block-placeholder/xm-block-placeholder-theme';
 @import 'text/xm-text-theme';
 @import 'code/xm-code-theme';
-@import 'menu/menu-theme';
-@import 'sidebar-user/user-theme';
+@import 'packages/dashboard/menu/menu-theme';
+@import 'packages/dashboard/sidebar-user/user-theme';
 @import 'ribbon/xm-ribbon-theme';
 @import 'multilanguage/xm-angular-editor-theme';
-@import 'navbar/search/xm-navbar-search-widget-theme';
-@import 'sidebar/sidebar-theme';
-@import 'table/table/xm-table-theme';
+@import '../entity/search/xm-navbar-search-widget-theme';
+@import 'packages/dashboard/sidebar/sidebar-theme';
+@import 'table/table-widget/xm-table-widget-theme';
 
 @mixin xm-components-theme($xm-theme) {
   @include xm-sidebar-theme($xm-theme);

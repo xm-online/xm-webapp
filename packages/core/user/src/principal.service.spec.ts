@@ -1,22 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { XmSessionService } from '@xm-ngx/core';
-import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { cloneDeep } from 'lodash';
-import { JhiAlertService } from 'ng-jhipster';
-import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { of } from 'rxjs';
-import { AuthRefreshTokenService } from '@xm-ngx/core/auth';
 import { AccountService } from './account.service';
 import { Principal } from './principal.service';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { XmUserService } from '@xm-ngx/core/user';
 
 describe('PrincipalService', () => {
 
-    let mockAlertService;
     let mockAccountService;
-    let mockLocalStorage;
-    let mockSessionStorage;
     let service: Principal;
 
     const mockedUser = {
@@ -29,23 +22,16 @@ describe('PrincipalService', () => {
     };
 
     beforeEach(() => {
-        mockAlertService = jasmine.createSpyObj(['warning']);
         mockAccountService = jasmine.createSpyObj(['get']);
-        mockLocalStorage = jasmine.createSpyObj(['retrieve']);
-        mockSessionStorage = jasmine.createSpyObj(['retrieve']);
-
         mockAccountService.get.and.returnValue(of(cloneDeep(mockedUser)));
 
         TestBed.configureTestingModule({
-            imports: [XmTranslationTestingModule, MatSnackBarModule, HttpClientTestingModule],
+            imports: [HttpClientTestingModule],
             providers: [
                 Principal,
+                { provide: XmUserService, useValue: {} },
                 { provide: AccountService, useValue: mockAccountService },
-                { provide: AuthRefreshTokenService, useValue: { isExpired: a => a, clear: a => a } },
                 { provide: XmSessionService, useValue: { create: a => a, clear: a => a } },
-                { provide: JhiAlertService, useValue: mockAlertService },
-                { provide: LocalStorageService, useValue: mockLocalStorage },
-                { provide: SessionStorageService, useValue: mockSessionStorage },
             ],
         });
         service = TestBed.inject<Principal>(Principal);

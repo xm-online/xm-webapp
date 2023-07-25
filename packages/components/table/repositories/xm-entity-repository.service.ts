@@ -4,21 +4,21 @@ import {
     QueryParams,
     QueryParamsPageable,
     XmRepositoryConfig
-} from '@xm-ngx/components/entity-collection';
+} from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
-import { XmEntity } from '@xm-ngx/entity';
-import { uuid } from '@xm-ngx/shared/operators';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { uuid } from '@xm-ngx/operators';
 import { Injectable } from '@angular/core';
-import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { PageableAndSortable } from '@xm-ngx/repositories';
 import { XmDynamicService } from '@xm-ngx/dynamic';
 import { XmFilterQueryParams } from '../controllers/collections/i-xm-table-collection-controller';
 import {
     XmEntityRepositoryConfig,
-} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-search-repository.service';
+} from '../controllers/elastic/xm-elastic-search-repository.service';
 import {
     XmElasticRequestBuilder
-} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-request-builder.service';
+} from '../controllers/elastic/xm-elastic-request-builder.service';
 
 export interface XmEntityRepositoryExtra {
     page: number,
@@ -44,7 +44,7 @@ export class XmEntityRepository<T extends XmEntity>
 
     public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
         const url = this.config.updateResourceUrl ?? this.url;
-        
+
         return this.handle(this.httpClient.put<T>(url, entity, { params, observe: 'response', headers }));
     }
 
