@@ -2,8 +2,10 @@ import { createNgModule, Injectable, Injector, NgModuleRef, Type } from '@angula
 import { Dictionary, flatten, keyBy, tail } from 'lodash';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
 import { XmDynamicModuleRegistry } from './xm-dynamic-module-registry.service';
-import { XmDynamicConstructor, XmDynamicEntry, XmDynamicEntryModule } from '@xm-ngx/dynamic/src/interfaces';
-import { NotFoundException } from '@xm-ngx/shared/exceptions';
+import { NotFoundException } from '@xm-ngx/exceptions';
+import { XmDynamicEntryModule } from '../interfaces/xm-dynamic-entry-module';
+import { XmDynamicConstructor } from '../interfaces/xm-dynamic-constructor';
+import { XmDynamicEntry, XmDynamicSelector } from '../interfaces';
 
 export const ELEMENT_NOT_FOUND = 'ELEMENT_NOT_FOUND';
 
@@ -28,7 +30,7 @@ export class XmDynamicComponentRegistry {
      * @throws NotFoundException
      */
     public find<T>(
-        inSelector: string,
+        inSelector: XmDynamicSelector,
         injector: Injector = this.moduleRef.injector,
     ): Promise<XmDynamicComponentRecord<T>> {
         const fullSelector = this.simplifyExtSelector(inSelector);
@@ -55,7 +57,7 @@ export class XmDynamicComponentRegistry {
     }
 
     private async resolveComponent<T>(
-        selector: string,
+        selector: XmDynamicSelector,
         injector: Injector,
         ngModuleRef: NgModuleRef<unknown> | null,
     ): Promise<XmDynamicComponentRecord<T>> {
@@ -63,7 +65,7 @@ export class XmDynamicComponentRegistry {
         const componentType = this.handleProviderSolution<T>(selector, injector);
         if (componentType) {
             // eslint-disable-next-line no-console
-            console.error(`Deprecated solution. Will be removed in v5.0.0. Use XmDynamicModule.forChild() instead. selector=${selector}.`);
+            console.error(`Deprecated solution. Will be removed in v6.0.0. Use XmDynamicModule.forChild() instead. selector=${selector}.`);
             return {
                 injector: injector,
                 componentType: componentType,
@@ -84,7 +86,7 @@ export class XmDynamicComponentRegistry {
             const compiledModule = createNgModule<XmDynamicEntryModule<T>>(loaded as Type<XmDynamicEntryModule<T>>, injector);
             if (compiledModule?.instance?.entry) {
                 // eslint-disable-next-line no-console
-                console.error(`Deprecated solution. Will be removed in v5.0.0. Make selector=${selector} a standalone component`);
+                console.error(`Deprecated solution. Will be removed in v6.0.0. Make selector=${selector} a standalone component`);
                 return {
                     componentType: compiledModule.instance.entry,
                     injector: compiledModule.injector,
@@ -118,7 +120,7 @@ export class XmDynamicComponentRegistry {
      * ```
      * @deprecated Angular does not allow search/store something inside injector by string valued key.
      *   deprecated solution. we need to search only by injection token, not random string;
-     * Will be removed in v5.0.0
+     * Will be removed in v6.0.0.
      */
     private handleProviderSolution<T>(selector: string, injector: Injector): XmDynamicConstructor<T> | null {
         const res = injector.get(selector as any, ELEMENT_NOT_FOUND);
@@ -167,7 +169,7 @@ export class XmDynamicComponentRegistry {
         const isExtNotAPartOfName = !this.dynamicModules.contains('ext-' + selector.split('/')[0]);
         if (selector.startsWith('ext-') && isExtNotAPartOfName) {
             // eslint-disable-next-line no-console
-            console.error(`Deprecated solution. Will be removed in v5.0.0. Please, remove 'ext-' from selector='${selector}'.`);
+            console.error(`Deprecated solution. Will be removed in v6.0.0. Please, remove 'ext-' from selector='${selector}'.`);
 
             // TODO: ext-common and common issue
             //   .slice(4);

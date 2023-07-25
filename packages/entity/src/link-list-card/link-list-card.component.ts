@@ -4,12 +4,12 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { getFieldValue } from '@xm-ngx/shared/helpers/entity-list-helper';
+import { getFieldValue } from '../../entity-list-helper';
 import { FieldOptions } from '../entity-list-card/entity-list-card-options.model';
-import { FullLinkSpec } from '../shared/link-spec.model';
-import { Link } from '../shared/link.model';
-import { LinkService } from '../shared/link.service';
-import { XmEntity } from '../shared/xm-entity.model';
+import { FullLinkSpec } from '@xm-ngx/core/entity';
+import { Link } from '@xm-ngx/core/entity';
+import { LinkService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
 
 const LINK_DELETE_PERMISSION = 'LINK.DELETE';

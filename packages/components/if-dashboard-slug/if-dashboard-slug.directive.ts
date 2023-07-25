@@ -1,5 +1,5 @@
 import { Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { DashboardWrapperService } from '@xm-ngx/dashboard';
+import { DashboardWrapperService } from '@xm-ngx/core/dashboard';
 import { first } from 'rxjs/operators';
 
 @Directive({

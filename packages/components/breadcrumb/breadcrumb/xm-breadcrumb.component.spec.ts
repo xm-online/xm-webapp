@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { XmBreadcrumbComponent } from './xm-breadcrumb.component';
+import { XmBreadcrumbComponent } from '@xm-ngx/components/breadcrumb';
 import { MockXmBreadcrumbStore } from '@xm-ngx/components/breadcrumb/testing';
 import { XmBreadcrumbStore } from '@xm-ngx/components/breadcrumb';
 
@@ -10,8 +10,11 @@ describe('XmBreadcrumbComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            providers: [{ provide: XmBreadcrumbStore, useClass: MockXmBreadcrumbStore }],
             imports: [XmBreadcrumbComponent],
+        }).overrideComponent(XmBreadcrumbComponent, {
+            set: {
+                providers: [{ provide: XmBreadcrumbStore, useClass: MockXmBreadcrumbStore }]
+            }
         })
             .compileComponents();
     });

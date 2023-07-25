@@ -2,12 +2,11 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { TimeAgoService, TimelineService } from '../index';
+import { TimeAgoService, TimelineService } from '@xm-ngx/timeline';
 
-import { XM_EVENT_LIST } from '../../../src/app/xm.constants';
-import { TimelinePage } from '../src/timeline-page.model';
+import { TimelinePage } from '@xm-ngx/timeline';
 
-const TL_REFRESH_EVENT = XM_EVENT_LIST.XM_REFRESH_TIMELINE;
+const TL_REFRESH_EVENT = 'xmEntityDetailModification';
 
 @Component({
     selector: 'xm-timeline-widget',

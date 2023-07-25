@@ -9,13 +9,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { EntityCollectionFactoryService, IEntityCollection } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService, IEntityCollection } from '@xm-ngx/repositories';
 import { Observable, catchError, debounceTime, distinctUntilChanged, finalize, from, fromEvent, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { MatInput } from '@angular/material/input';
-import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { get } from 'lodash';
-import { IId } from '@xm-ngx/shared/interfaces';
+import { IId } from '@xm-ngx/interfaces';
 
 export interface SearchPatternToken {
     type: 'single' | 'pair' | 'text';

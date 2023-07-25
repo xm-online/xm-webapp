@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { QueryParamsPageable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { QueryParamsPageable } from '@xm-ngx/repositories';
 
 @Injectable()
 export class XmTableQueryParamsStoreService {

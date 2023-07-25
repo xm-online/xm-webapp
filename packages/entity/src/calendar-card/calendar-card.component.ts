@@ -9,16 +9,16 @@ import {
     CalendarSpec,
     XmEntity,
     XmEntityService,
-} from '@xm-ngx/entity/shared';
+} from '@xm-ngx/core/entity';
 import { EntityCalendarUiConfig, EntityUiConfig } from '@xm-ngx/core/config';
-import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
+// import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
 import { HttpResponse } from '@angular/common/http';
 import { UUID } from 'angular2-uuid';
 import { I18nNamePipe } from '@xm-ngx/translation';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { Principal } from '@xm-ngx/core/user';
 import { switchMap, tap } from 'rxjs/operators';
-import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
+import { CalendarChangeService } from './calendar-view/calendar-change.service';
 
 export const DEFAULT_CALENDAR_EVENT_FETCH_SIZE = 2500;
 
@@ -58,9 +58,9 @@ export class CalendarCardComponent implements OnChanges {
 
     private load(): void {
         if (!this.calendarSpecs || !this.calendarSpecs.length) {
-            if (DEBUG_INFO_ENABLED) {
-                console.info('DBG: no spec no call');
-            }
+            // if (DEBUG_INFO_ENABLED) {
+            //     console.info('DBG: no spec no call');
+            // }
             return;
         }
 

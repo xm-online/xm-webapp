@@ -9,7 +9,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { XM_BOOL_VIEW_ICONS, XmBoolOptions } from './xm-bool.injectors';
-import { Primitive } from '@xm-ngx/shared/interfaces';
+import { Primitive } from '@xm-ngx/interfaces';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 

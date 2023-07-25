@@ -1,0 +1,128 @@
+<form #form="ngForm" class="p-3 mb-0 h-100">
+
+  <xm-loader [showLoader]="loading$ | async"></xm-loader>
+
+  <div class="d-flex justify-content-between">
+
+    <button (click)="backToOrganisation()"
+            [matTooltip]="TRS.dashboard | translate"
+            color="primary"
+            mat-icon-button>
+      <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+
+    <h5 *ngIf="editType === EditType.Create" class="pt-2">{{ TRS.addWidget | translate }}</h5>
+    <h5 *ngIf="editType === EditType.Edit" class="pt-2">{{ TRS.editWidget | translate }}</h5>
+
+    <div>
+      <button (click)="onAdd()"
+              *ngIf="editType === EditType.Create"
+              [disabled]="!form.valid || disabled"
+              color="primary"
+              mat-flat-button>
+        <mat-icon>create</mat-icon>
+        {{ TRS.create | translate }}
+      </button>
+
+      <button (click)="onSave()"
+              *ngIf="editType === EditType.Edit"
+              [disabled]="!form.valid || disabled"
+              [matTooltip]="(TRS.save | translate) + ' Ctrl+S'"
+              color="primary"
+              mat-icon-button>
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu" class="d-flex flex-grow-1 ps-3">
+
+        <button (click)="onCopyToClipboard()"
+                *ngIf="editType === EditType.Edit"
+                [disabled]="!form.valid || disabled"
+                [matTooltip]="'copy to clipboard'"
+                mat-icon-button>
+          <mat-icon>content_copy</mat-icon>
+        </button>
+
+        <button (click)="onPasteFromClipboard()"
+                [disabled]="!form.valid || disabled"
+                [matTooltip]="'paste'"
+                mat-icon-button>
+          <mat-icon>content_paste</mat-icon>
+        </button>
+
+        <button (click)="onDelete()"
+                *ngIf="editType === EditType.Edit"
+                [disabled]="!form.valid  || disabled"
+                [matTooltip]="TRS.delete | translate"
+                mat-icon-button>
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+
+        <button (click)="onCancel()"
+                [matTooltip]="TRS.cancel | translate"
+                class="ms-auto"
+                mat-icon-button>
+          <mat-icon>cancel</mat-icon>
+        </button>
+
+      </mat-menu>
+    </div>
+  </div>
+
+  <div class="section-scroll">
+
+    <mat-tab-group [(selectedIndex)]="selectedIndex">
+      <mat-tab [label]="'Info'">
+        <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="fw-bold">{{ value.id }}</span></div>
+
+        <xm-text-control [(ngModel)]="formGroup.name"
+                         [disabled]="disabled"
+                         [config]="{ title: TRS.name }"
+                         name="name"></xm-text-control>
+
+        <xm-selector-text-control [(ngModel)]="formGroup.selector"
+                                  [disabled]="disabled"
+                                  (valueChange)="ngOnChanges({})"
+                                  [options]="{ title: TRS.selector }"
+                                  name="selector"></xm-selector-text-control>
+      </mat-tab>
+
+      <mat-tab [label]="'Config'">
+        <div *ngIf="value.name">{{TRS.name | translate}}: <span class="fw-bold">{{value.name}}</span></div>
+        <div *ngIf="value.selector">{{TRS.selector | translate}}: <span class="fw-bold">{{value.selector}}</span></div>
+        <xm-ace-editor-control [(ngModel)]="formGroup.config"
+                               [disabled]="disabled"
+                               [config]="aceEditorOptions"
+                               name="layout">
+        </xm-ace-editor-control>
+      </mat-tab>
+
+      <mat-tab [label]="'Editor'">
+        <xm-schema-editor
+          *ngIf="selectedIndex === 2"
+          [options]="jsonEditorOptions"
+          [ngModel]="formGroup.config"
+          (ngModelChange)="formGroup.config = $event"
+          [ngModelOptions]="{standalone: true}"
+        ></xm-schema-editor>
+      </mat-tab>
+
+      <mat-tab [label]="'Samples'">
+        <xm-widget-config-examples [value]="formGroup.selector"></xm-widget-config-examples>
+      </mat-tab>
+
+<!--      <mat-tab [label]="'Docs'">-->
+<!--        <xm-doc-examples></xm-doc-examples>-->
+<!--        <ng-template mat-tab-label>-->
+<!--          Docs <a [routerLink]="'/dashboard/ui-docs'">-->
+<!--          <mat-icon>open_in_new</mat-icon>-->
+<!--        </a>-->
+<!--        </ng-template>-->
+<!--      </mat-tab>-->
+    </mat-tab-group>
+
+  </div>
+</form>

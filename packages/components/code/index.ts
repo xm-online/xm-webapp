@@ -13,3 +13,7 @@ export {
 export {
     XmCodeContainerModule,
 } from './code-container/xm-code-container.module';
+
+export {
+    XmCodeContainerJsonModule, XmCodeContainerJsonDirective
+} from './code-container/xm-code-container-json.directive';

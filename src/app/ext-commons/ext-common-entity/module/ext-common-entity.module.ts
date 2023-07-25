@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmBalanceModule } from '@xm-ngx/balance';
-import { XmEntityModule } from '@xm-ngx/entity/xm-entity.module';
+import { XmEntityModule } from '@xm-ngx/entity';
 import { XmTimelineModule } from '@xm-ngx/timeline/timeline-widget';
 import { AvailableOfferingsWidgetComponent } from '../available-offerings-widget/available-offerings-widget.component';
 import { ChartistLineWidgetComponent } from '../chartist-line-widget/chartist-line-widget.component';

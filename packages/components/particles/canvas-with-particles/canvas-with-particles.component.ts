@@ -9,7 +9,7 @@ import {
     OnInit,
     ViewChild,
 } from '@angular/core';
-import { LineTrailParticlesOptions } from '@xm-ngx/components/particles/line-trail-particles-options';
+import { LineTrailParticlesOptions } from '../line-trail-particles-options';
 import { LineTrailParticles } from '../line-trail-particles';
 
 

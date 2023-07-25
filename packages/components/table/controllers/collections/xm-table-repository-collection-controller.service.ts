@@ -1,30 +1,44 @@
 import { Injectable } from '@angular/core';
-import { IEntityCollectionPageable, } from '@xm-ngx/components/entity-collection';
+import { IEntityCollectionPageable, XmRepositoryConfig } from '@xm-ngx/repositories';
 import { firstValueFrom } from 'rxjs';
 import { XmFilterQueryParams, IXmTableCollectionController, } from './i-xm-table-collection-controller';
 
 import { cloneDeep } from 'lodash';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
-import { XmTableRepositoryResolver, } from '@xm-ngx/components/table/repositories/xm-table-repository-resolver.service';
-import { NotSupportedException } from '@xm-ngx/shared/exceptions';
+import { XmTableRepositoryResolver, } from '../../repositories/xm-table-repository-resolver.service';
+import { NotSupportedException } from '@xm-ngx/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
 import {
-    XmTableConfig,
-} from '../../interfaces/xm-table.model';
+    XmTableWidgetConfig,
+} from '../../table-widget/xm-table-widget.config';
 import * as _ from 'lodash';
-import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { XmTableFilterController } from '../filters/xm-table-filter-controller.service';
+import { XmDynamicService, XmDynamicWithSelector } from '@xm-ngx/dynamic';
+import { XmFormatJsTemplateRecursive } from '@xm-ngx/operators';
+
+export interface IXmTableRepositoryCollectionControllerConfig {
+    filtersToRequest?: XmFormatJsTemplateRecursive,
+    repository: XmTableRepositoryCollectionConfig;
+}
+
+export interface XmTableRepositoryCollectionControllerConfig extends IXmTableRepositoryCollectionControllerConfig {
+    type: 'repository',
+}
+
+export interface XmTableRepositoryCollectionConfig extends XmDynamicService<XmRepositoryConfig>, XmDynamicWithSelector {
+}
 
 @Injectable()
 export class XmTableRepositoryCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
     public repository: IEntityCollectionPageable<T, PageableAndSortable>;
-    public config: XmTableConfig;
+    public config: XmTableWidgetConfig;
 
     constructor(
-        private configController: XmTableConfigController<XmTableConfig>,
+        private configController: XmTableConfigController<XmTableWidgetConfig>,
         private tableFilterController: XmTableFilterController,
         protected repositoryResolver: XmTableRepositoryResolver<T>,
     ) {

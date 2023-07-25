@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
-import { XmLayout } from '@xm-ngx/dynamic';
+import { XmDynamicLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { filter } from 'rxjs/operators';
 
 interface XmNavbarConfig extends XmUIConfig {
     favicon: string;
-    navbar: { layout: XmLayout[]; version: number };
+    navbar: { layout: XmDynamicLayout[]; version: number };
 }
 
 enum XmNavbarConfigVersion {
@@ -25,7 +25,7 @@ declare const $: any;
 export class NavbarComponent implements OnInit, OnDestroy {
 
     public XmNavbarConfigVersion: typeof XmNavbarConfigVersion = XmNavbarConfigVersion;
-    public navbarLayout: XmLayout[];
+    public navbarLayout: XmDynamicLayout[];
     public navbarVersion: number;
 
     constructor(

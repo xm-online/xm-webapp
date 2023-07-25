@@ -1,7 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 
-import { FunctionService, XmEntity, XmEntityService } from '@xm-ngx/entity';
+import { FunctionService, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
 
 import * as _ from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';

@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
-import { OnInitialize } from '@xm-ngx/shared/interfaces';
+import { OnInitialize } from '@xm-ngx/interfaces';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 

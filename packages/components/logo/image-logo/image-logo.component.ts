@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ISession, XmSessionService } from '@xm-ngx/core';
-import { Defaults, randomInt } from '@xm-ngx/shared/operators';
+import { Defaults, randomInt } from '@xm-ngx/operators';
 import { Observable } from 'rxjs';
 import { SPA_AUTH_ROOT_URL, SPA_ROOT_URL } from '../logo.component';
 import { CommonModule } from '@angular/common';

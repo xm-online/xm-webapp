@@ -13,24 +13,28 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { XmDynamicConstructor, XmDynamicEntryModule } from '../src/interfaces';
+import { XmDynamicConstructor } from '../src/interfaces/xm-dynamic-constructor';
+import { XmDynamicEntryModule } from '../src/interfaces/xm-dynamic-entry-module';
 import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-base.directive';
 import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
 import { setComponentInput } from '../operators/set-component-input';
 import { from, ReplaySubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
-export interface XmDynamicControl<V = unknown, O = unknown> extends XmDynamicPresentation<V, O>, ControlValueAccessor {
+export interface XmDynamicControl<V = unknown, C = unknown> extends XmDynamicPresentation<V, C>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
     disabled: boolean;
 }
 
-export interface XmDynamicControlConstructor<V = unknown, O = unknown> extends XmDynamicConstructor<XmDynamicControl<V, O>> {
-    new(...args: any): XmDynamicControl<V, O>;
+export interface XmDynamicControlConstructor<V = unknown, C = unknown> extends XmDynamicConstructor<XmDynamicControl<V, C>> {
+    new(...args: any): XmDynamicControl<V, C>;
 }
 
-export interface XmDynamicControlEntryModule<V = unknown, O = unknown> extends XmDynamicEntryModule<XmDynamicControl<V, O>> {
-    entry: XmDynamicControlConstructor<V, O>;
+/***
+ * @deprecated Will be removed in v6.0.0. Use standalone component instead.
+ */
+export interface XmDynamicControlEntryModule<V = unknown, C = unknown> extends XmDynamicEntryModule<XmDynamicControl<V, C>> {
+    entry: XmDynamicControlConstructor<V, C>;
 }
 
 
@@ -51,9 +55,9 @@ export interface XmDynamicControlEntryModule<V = unknown, O = unknown> extends X
     selector: '[xmDynamicControl]',
     providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmDynamicControlDirective), multi: true }],
 })
-export class XmDynamicControlDirective<V, O>
-    extends XmDynamicPresentationDirective<V, O>
-    implements ControlValueAccessor, XmDynamicControl<V, O>, OnInit, OnChanges, OnDestroy {
+export class XmDynamicControlDirective<V, C>
+    extends XmDynamicPresentationDirective<V, C>
+    implements ControlValueAccessor, XmDynamicControl<V, C>, OnInit, OnChanges, OnDestroy {
     private unsubscribe = new Subject<void>();
 
     private controlValue = new ReplaySubject<V>(1);
@@ -65,16 +69,16 @@ export class XmDynamicControlDirective<V, O>
     @Input() public disabled: boolean;
 
     /** Component options */
-    @Input() public options: O;
+    @Input() public options: C;
 
     /** Component ref */
-    @Input() public selector: XmDynamicControlConstructor<V, O> | string;
+    @Input() public selector: XmDynamicControlConstructor<V, C> | string;
 
     /** Component value changes */
     @Output() public valueChange: EventEmitter<V> = new EventEmitter<V>();
 
-    get instance(): XmDynamicControl<V, O> {
-        return super.instance as XmDynamicControl<V, O>;
+    get instance(): XmDynamicControl<V, C> {
+        return super.instance as XmDynamicControl<V, C>;
     }
 
     constructor(

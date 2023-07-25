@@ -1,11 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { LoginService } from '@xm-ngx/core/auth';
+import { LoginService } from '@xm-ngx/components/login';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { TERMS_ERROR } from '../../../src/app/xm.constants';
+const TERMS_ERROR= 'needAcceptTermsOfConditions';
 
 const TERMS_PROP = 'privacyAndTermsEnabled';
 

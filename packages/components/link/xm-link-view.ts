@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { XmTextViewModule } from '@xm-ngx/components/text';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
-import { IId } from '@xm-ngx/shared/interfaces';
+import { IId } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { assign, clone } from 'lodash';
 import { XM_LINK_DEFAULT_OPTIONS, XmLink, XmLinkOptions } from './xm-link';

@@ -5,14 +5,21 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { combineLatest } from 'rxjs';
-import { TERMS_ERROR } from '../../../src/app/xm.constants';
-import { LoginService } from '@xm-ngx/core/auth';
+import { LoginService } from './login.service';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { XmConfigService } from '@xm-ngx/core/config';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgClass, NgIf } from '@angular/common';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { take } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { IdpComponent } from './idp/idp.component';
+import { MatButtonModule } from '@angular/material/button';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FocusDirective } from '@xm-ngx/components/text';
 
 export interface XmLoginFormUIConfig extends XmUIConfig {
     hideRememberMe: boolean;
@@ -23,6 +30,19 @@ export interface XmLoginFormUIConfig extends XmUIConfig {
     selector: 'xm-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
+    standalone: true,
+    imports: [
+        FormsModule,
+        MatInputModule,
+        IdpComponent,
+        MatButtonModule,
+        XmTranslationModule,
+        NgIf,
+        MatIconModule,
+        MatCheckboxModule,
+        NgClass,
+        FocusDirective,
+    ],
 })
 export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -159,7 +179,7 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }).catch((err) => {
             const errObj = err && err.error || null;
-            const termsErr = errObj && errObj.error === TERMS_ERROR;
+            const termsErr = errObj && errObj.error === 'needAcceptTermsOfConditions';
             const termsToken = errObj && errObj.oneTimeToken || null;
             if (termsErr && termsToken && !this.isTermsShown) {
                 this.pushTermsAccepting(termsToken);

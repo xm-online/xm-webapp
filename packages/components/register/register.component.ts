@@ -2,19 +2,37 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 
-import { ReCaptchaComponent } from 'angular2-recaptcha';
+import { ReCaptchaComponent, ReCaptchaModule } from 'angular2-recaptcha';
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { PasswordSpec } from '@xm-ngx/core/config';
-import { XM_EVENT_LIST } from '../../../src/app/xm.constants';
-import { PrivacyAndTermsDialogComponent } from '../privacy-and-terms-dialog/privacy-and-terms-dialog.component';
+import { PrivacyAndTermsDialogComponent } from '@xm-ngx/components/privacy-and-terms-dialog';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { RegisterService } from './register.service';
+import { ModulesLanguageHelper, XmTranslationModule } from '@xm-ngx/translation';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
+import { FocusDirective } from '@xm-ngx/components/text';
 
 @Component({
     selector: 'xm-register',
     styles: ['form button, [type="submit"], .btn .btn-primary { width: 100%; padding: 8px 24px;}'],
     templateUrl: './register.component.html',
+    standalone: true,
+    imports: [
+        XmTranslationModule,
+        MatInputModule,
+        MatButtonModule,
+        NgIf,
+        FormsModule,
+        ReCaptchaModule,
+        PasswordStrengthBarComponent,
+        FocusDirective,
+    ],
+    providers: [RegisterService],
 })
 export class RegisterComponent implements OnInit {
 
@@ -42,6 +60,7 @@ export class RegisterComponent implements OnInit {
     constructor(private jhiLanguageService: JhiLanguageService,
                 private xmConfigService: XmConfigService,
                 private registerService: RegisterService,
+                private modulesLangHelper: ModulesLanguageHelper,
                 private eventManager: XmEventManager,
                 private modalService: MatDialog) {
 
@@ -105,7 +124,7 @@ export class RegisterComponent implements OnInit {
             this.makeLogins();
             this.registerService.save(this.registerAccount).subscribe(() => {
                 this.success = true;
-                this.eventManager.broadcast({name: XM_EVENT_LIST.XM_REGISTRATION, content: ''});
+                this.eventManager.broadcast({name: 'xmRegistration', content: ''});
             },
             (response) => this.processError(response));
         });
@@ -158,7 +177,12 @@ export class RegisterComponent implements OnInit {
     private makePasswordSettings(config?: any): void {
         this.passwordSettings = this.xmConfigService.mapPasswordSettings(config);
         if (this.passwordSettings.patternMessage) {
-            this.patternMessage = this.xmConfigService.updatePatternMessage(this.passwordSettings.patternMessage);
+            this.patternMessage = this.updatePatternMessage(this.passwordSettings.patternMessage);
         }
+    }
+
+    public updatePatternMessage(message: any, currentLang?: string): string {
+        const lang = currentLang ? currentLang : this.modulesLangHelper.getLangKey();
+        return message[lang] || message;
     }
 }

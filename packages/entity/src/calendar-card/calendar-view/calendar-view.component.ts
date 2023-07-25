@@ -11,24 +11,24 @@ import {
     CalendarService,
     CalendarSpec, EventService,
     XmEntity,
-} from '@xm-ngx/entity/shared';
+} from '@xm-ngx/core/entity';
 import { EntityCalendarUiConfig } from '@xm-ngx/core/config';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nNamePipe } from '@xm-ngx/translation';
 import { LanguageService } from '@xm-ngx/translation';
 import { TranslateService } from '@ngx-translate/core';
 import { Principal } from '@xm-ngx/core/user';
-import {
-    CALENDAR_VIEW,
-    DEFAULT_CALENDAR_VIEW,
-} from 'src/app/xm.constants';
+// import {
+//     CALENDAR_VIEW,
+//     DEFAULT_CALENDAR_VIEW,
+// } from 'src/app/xm.constants';
 import { DEFAULT_CALENDAR_EVENT_FETCH_SIZE } from '../calendar-card.component';
-import * as moment from 'moment-timezone';
-import { Event } from '@xm-ngx/entity/shared';
-import { CalendarEventDialogComponent } from '@xm-ngx/entity/calendar-event-dialog/calendar-event-dialog.component';
+import moment from 'moment-timezone';
+import { Event } from '@xm-ngx/core/entity';
+import { CalendarEventDialogComponent } from '../../calendar-event-dialog/calendar-event-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CalendarOptions } from '@fullcalendar/core';
-import { CalendarChangeService } from '@xm-ngx/entity/calendar-card/calendar-view/calendar-change.service';
+import { CalendarChangeService } from '../../calendar-card/calendar-view/calendar-change.service';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { SweetAlertIcon } from 'sweetalert2';
@@ -38,8 +38,22 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import interactionPlugin from '@fullcalendar/interaction';
 import { XmAlertService } from '@xm-ngx/alert';
+// import { XM_CALENDAR_VIEW } from '../../../../../src/app/xm.constants';
 
 export const DEFAULT_DAY_MAX_EVENT_ROWS = 300;
+
+export const XM_CALENDAR_VIEW = {
+    MONTH: 'month',
+    WEEK: 'week',
+    DAY: 'day',
+};
+
+export const DEFAULT_CALENDAR_VIEW = 'month';
+export const CALENDAR_VIEW = {
+    [XM_CALENDAR_VIEW.MONTH]: DEFAULT_CALENDAR_VIEW,
+    [XM_CALENDAR_VIEW.WEEK]: 'agendaWeek',
+    [XM_CALENDAR_VIEW.DAY]: 'agendaDay',
+};
 
 @Component({
     selector: 'xm-calendar-view',

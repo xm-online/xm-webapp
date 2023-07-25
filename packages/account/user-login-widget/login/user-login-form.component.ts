@@ -3,7 +3,6 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 
-import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { AccountService, Principal, User, UserService } from '@xm-ngx/core/user';
 import { UserLoginService } from './user-login.service';
 import { CommonModule } from '@angular/common';
@@ -111,7 +110,7 @@ export class UserLoginFormComponent implements OnChanges {
         this.isSaving = false;
         this.success = true;
         if (this.isUser) {
-            this.eventManager.broadcast({ name: XM_EVENT_LIST.XM_USER_LIST_MODIFICATION, content: 'OK' });
+            this.eventManager.broadcast({ name: 'userListModification', content: 'OK' });
             this.activeModal.close(result);
         } else {
             this.principal.identity(true).then((account) => {

@@ -2,7 +2,7 @@ export { XmIconEnumComponent, XmIconEnumOptions, XmIconEnumOptionsItem } from '.
 
 export { XmEnumComponent, XmEnumOptions, XmEnumValue } from './value/xm-enum.component';
 
-export { XmEnumControlOptionsItem, XmEnumControlOptions, XmEnumControl } from './control/xm-enum-control.component';
+export * from './control/xm-enum-control.component';
 
 export { XmMultipleEnumControlOptions, XmMultipleEnumControl } from './multiple-control/xm-multiple-enum-control.component';
 

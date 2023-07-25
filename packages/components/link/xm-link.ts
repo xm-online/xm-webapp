@@ -3,8 +3,8 @@ import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
-import { IId } from '@xm-ngx/shared/interfaces';
-import { transformByMap } from '@xm-ngx/shared/operators';
+import { IId } from '@xm-ngx/interfaces';
+import { transformByMap } from '@xm-ngx/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, get } from 'lodash';
 

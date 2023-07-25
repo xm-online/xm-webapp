@@ -1,4 +1,4 @@
-@import 'theme';
+@import '@xm-ngx/styles/theming';
 
 :host(.xm-sidebar-right) {
     display: inline-block;
@@ -23,4 +23,8 @@
     cursor: ew-resize;
     user-select: none;
     -webkit-user-select: none;
+}
+
+.resize-divider:hover {
+  background-color: #f6f6f6;
 }
