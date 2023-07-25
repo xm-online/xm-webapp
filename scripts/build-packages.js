@@ -16,6 +16,7 @@ execSync('(cd ./packages/logger && npm run build && cd ../../)', {stdio: 'inheri
 execSync('(cd ./packages/translation && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/toaster && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/alert && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/error-messages && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/components && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/json-schema-form && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/shared && npm run build && cd ../../)', {stdio: 'inherit'});
