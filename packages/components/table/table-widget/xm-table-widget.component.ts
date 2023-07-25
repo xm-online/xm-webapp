@@ -3,7 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { XmTableFilterButtonComponent } from '../components/xm-table-filter-button.component';
-import { XmTableFilterInlineComponent } from '../components/xm-table-filter-inline.component';
+import { XmTableFilterChipsComponent } from '../components/xm-table-filter-chips.component';
 import { XmTableActionsButtonsComponent } from '../components/xm-table-actions-buttons.component';
 import {
     IXmTableCollectionController,
@@ -80,7 +80,7 @@ interface IXmTableContext {
         NgIf,
         JsonPipe,
         XmTableFilterButtonComponent,
-        XmTableFilterInlineComponent,
+        XmTableFilterChipsComponent,
         XmTableActionsButtonsComponent,
         XmTableSelectionHeaderComponent,
         MatPaginatorModule,
