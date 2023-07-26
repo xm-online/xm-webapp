@@ -70,6 +70,13 @@ export class WidgetEditComponent implements OnChanges {
         this.ngOnChanges({});
     }
 
+    @HostListener('document:keydown.escape', ['$event'])
+    public onKeydownHandler(event: KeyboardEvent): void {
+        if (event) {
+            this.onCancel();
+        }
+    }
+
     public ngOnChanges(changes: SimpleChanges): void {
         this.jsonEditorOptions.selector = this.value.selector;
         // WORKAROUND: Trigger change detection
@@ -78,6 +85,7 @@ export class WidgetEditComponent implements OnChanges {
 
     public onCancel(): void {
         this.editorService.close();
+        this.editorService.changeEditState(false);
     }
 
     public onAdd(): void {
