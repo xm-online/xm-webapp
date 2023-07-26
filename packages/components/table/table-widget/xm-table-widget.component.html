@@ -1,0 +1,77 @@
+<ng-container *ngIf="context$ | async as context">
+
+  <mat-card class="no-horizontal-paddings mb-3">
+
+    <xm-table-header>
+
+      <div *ngIf="config.title">
+        <h5 class="no-margin">{{config.title | translate}}</h5>
+      </div>
+
+      <xm-table-filter-button [config]="config"
+                              [loading]="context.collection.loading"
+      ></xm-table-filter-button>
+
+      <xm-table-filter-chips [config]="config"></xm-table-filter-chips>
+
+      <xm-table-actions-buttons
+        class="push-self-right"
+        [config]="config.actions"></xm-table-actions-buttons>
+
+    </xm-table-header>
+
+    <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
+
+    <div class="overflow-wrap">
+      <table
+            [style.width]="config?.width"
+            mat-table
+            matSort
+            (matSortChange)="updatePagination()"
+            [matSortActive]="context.collection.pageableAndSortable.sortBy"
+            [matSortDirection]="context.collection.pageableAndSortable.sortOrder"
+            matSortDisableClear
+            [dataSource]="context.collection.items">
+
+        <xm-table-loading-column [isLoading]="context.collection.loading"
+                                 #tableLoadingRow
+                                 [size]="context.settings.displayedColumns.length"></xm-table-loading-column>
+
+        <xm-table-empty [config]="config.noRows"
+                        [colspan]="context.settings.displayedColumns.length"
+                        [type]="'initial'"></xm-table-empty>
+
+        <xm-table-selection-column [column]="selectColumn"
+                                   #selectionRow
+                                   [rows]="context.collection.items"></xm-table-selection-column>
+
+        <xm-table-column-dynamic-cell *ngFor="let column of dynamicColumns"
+                                      [column]="column"></xm-table-column-dynamic-cell>
+
+        <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row></tr>
+
+        <!-- TODO:WORKAROUND: MatTable throws an error when mat-header-row lazy created. -->
+        <tr mat-header-row class="xm-table-loading-row" *matHeaderRowDef="[tableLoadingRow.config.name]"></tr>
+
+        <tr *matRowDef="let row; columns: context.settings.displayedColumns"
+            class="xm-table-hoverable-row xm-table-row-background"
+            [ngClass]="{
+            'xm-table-row-selected' : selectionRow.selection.isSelected(row),
+            'xm-table-row-loading' : context.collection.loading
+          }"
+            mat-row></tr>
+
+      </table>
+    </div>
+
+    <mat-paginator showFirstLastButtons
+                   (page)="updatePagination()"
+                   [pageIndex]="context.collection.pageableAndSortable.pageIndex"
+                   [length]="context.collection.pageableAndSortable.total"
+                   [pageSizeOptions]="config.pageableAndSortable.pageSizeOptions"
+                   [hidden]="config.pageableAndSortable.hidePagination"
+                   [pageSize]="context.collection.pageableAndSortable.pageSize">
+    </mat-paginator>
+
+  </mat-card>
+</ng-container>

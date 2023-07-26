@@ -6,7 +6,7 @@ import { map, tap } from 'rxjs/operators';
 
 import { XmConfigService } from '@xm-ngx/core/config';
 import { ContextService } from '@xm-ngx/core/context';
-import { AttachmentsView, EntityDetailLayout, EntityUiConfig } from '../../../../../packages/core/config/xm-ui-config-model';
+import { AttachmentsView, EntityDetailLayout, EntityUiConfig } from '@xm-ngx/core/config';
 import { FullLinkSpec, LinkSpec, Spec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/entity';
 import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';

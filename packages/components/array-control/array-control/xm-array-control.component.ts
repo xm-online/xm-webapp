@@ -4,12 +4,12 @@ import { UntypedFormControl, NgControl, ReactiveFormsModule } from '@angular/for
 import { MatAutocomplete, MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { AriaLabel, DataQa } from '@xm-ngx/shared/interfaces';
+import { AriaLabel, DataQa } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, share, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
-import { EntityCollectionFactoryService, QueryParams } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService, QueryParams } from '@xm-ngx/repositories';
 import { uniqBy as _uniqBy, get as _get, template as _template } from 'lodash/fp';
 import * as _ from 'lodash';
 import { CommonModule } from '@angular/common';

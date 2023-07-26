@@ -3,7 +3,6 @@ import { XmEventManager } from '@xm-ngx/core';
 import { JhiLanguageService } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
-import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { Principal } from '@xm-ngx/core/user';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { UserLogin } from './user-login.model';
@@ -69,7 +68,7 @@ export class UserLoginService implements OnDestroy {
     }
 
     private registerChangeAuth(): void {
-        this.eventManagerSubscription = this.eventManager.subscribe(XM_EVENT_LIST.XM_SUCCESS_AUTH, () => {
+        this.eventManagerSubscription = this.eventManager.subscribe('authenticationSuccess', () => {
             this.allLogins = {};
             this.promise = null;
             this.getAllLogins().then((logins) => this.allLogins = logins);

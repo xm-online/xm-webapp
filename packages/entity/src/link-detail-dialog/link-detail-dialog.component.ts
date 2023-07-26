@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { LinkSpec } from '../shared/link-spec.model';
-import { Spec } from '../shared/spec.model';
-import { XmEntity } from '../shared/xm-entity.model';
+import { LinkSpec } from '@xm-ngx/core/entity';
+import { Spec } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { JsonSchemaFormService } from '@ajsf/core';
 
 @Component({

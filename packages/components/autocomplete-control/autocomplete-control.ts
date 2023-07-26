@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { coerceArray } from '@angular/flex-layout';
 import { FormControl, NgControl } from '@angular/forms';
-import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { LanguageService } from '@xm-ngx/translation';
 import _ from 'lodash';
 import {
@@ -32,8 +32,8 @@ import {
     pairwise,
     filter,
 } from 'rxjs';
-import { EntityCollectionFactoryService } from '../entity-collection';
-import { NgModelWrapper } from '../ng-accessor';
+import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
+import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import {
     AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG,
     XmAutocompleteControlConfig,
@@ -120,7 +120,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         this.updateValuesChnaged.pipe(
             startWith(null),
             pairwise(),
-            filter(([prev, curr]) => {  
+            filter(([prev, curr]) => {
                 const isEmit = (curr?.emit == null || curr?.emit == true);
                 const hasNewValues = this.hasNewValues(prev?.value, curr?.value);
 

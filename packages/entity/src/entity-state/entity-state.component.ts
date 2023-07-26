@@ -1,6 +1,6 @@
 import { Component, Input, NgModule } from '@angular/core';
 
-import { StateSpec } from '@xm-ngx/entity';
+import { StateSpec } from '@xm-ngx/core/entity';
 import { XmSharedModule } from '@xm-ngx/shared';
 
 @Component({

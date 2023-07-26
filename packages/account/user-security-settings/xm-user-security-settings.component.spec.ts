@@ -6,6 +6,8 @@ import { MockPrincipalService } from '@xm-ngx/core/user/testing';
 import { XmUserSecuritySettingsComponent } from './xm-user-security-settings.component';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { XmPermissionService } from '@xm-ngx/core/permission';
+import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 
 describe('XmUserSecuritySettingsComponent', () => {
     let component: XmUserSecuritySettingsComponent;
@@ -16,6 +18,7 @@ describe('XmUserSecuritySettingsComponent', () => {
             providers: [
                 { provide: Principal, useClass: MockPrincipalService },
                 { provide: AccountService, useValue: null },
+                { provide: XmPermissionService, useValue: MockPermissionService },
             ],
             imports: [XmUserSecuritySettingsComponent, XmTranslationTestingModule, HttpClientTestingModule],
             schemas: [NO_ERRORS_SCHEMA],

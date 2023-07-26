@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { XmEntity } from '@xm-ngx/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
 import {
     AXmTableLocalPageableCollectionController,
@@ -11,13 +11,14 @@ import { firstValueFrom } from 'rxjs';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
-import { XmTableArrayCollectionControllerConfig } from './xm-table-array-collection-controller';
+import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
 
 interface StringArrayListManagerItem {
     value: string
 }
 
 export interface StringArrayListConfig {
+    type: 'stringArray'
     path: string
 }
 
@@ -29,14 +30,14 @@ export class XmTableStringArrayCollectionController<T extends StringArrayListMan
     public config: StringArrayListConfig;
 
     constructor(
-        private configController: XmTableConfigController<XmTableArrayCollectionControllerConfig>,
+        private configController: XmTableConfigController<XmTableWidgetConfig>,
         private entityController: XmTableEntityController<object>,
     ) {
         super();
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = await firstValueFrom(this.configController.config$());
+        this.config = (await firstValueFrom(this.configController.config$())).collection as StringArrayListConfig;
         this.entity = await firstValueFrom(this.entityController.entity$());
         const primary = _.get(this.entity, this.config.path, []);
         const modify = primary.map((i) => ({ value: i }));

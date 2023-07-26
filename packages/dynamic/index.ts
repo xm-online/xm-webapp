@@ -1,3 +1,5 @@
+export * from './cell';
+
 export {
     XmDynamicControlDirective,
     XmDynamicControl,
@@ -11,14 +13,6 @@ export { XmDynamicComponentRegistry } from './src/loader/xm-dynamic-component-re
 export { XmDynamicModuleRegistry } from './src/loader/xm-dynamic-module-registry.service';
 
 export {
-    XM_DYNAMIC_TABLE_CELL,
-    XM_DYNAMIC_TABLE_ROW,
-    XmDynamicCell,
-    XmDynamicCellDirective,
-    XmDynamicCellModule,
-} from './cell/xm-dynamic-cell.directive';
-
-export {
     XmDynamicPresentationBase,
     XmDynamicPresentationEntryModule,
     XmDynamicPresentationConstructor,
@@ -26,13 +20,14 @@ export {
 } from './presentation/xm-dynamic-presentation-base.directive';
 export {
     XmDynamicPresentationLayoutComponent,
-    XmPresentationLayout,
+    XmDynamicPresentationLayout,
 } from './presentation/xm-dynamic-presentation-layout.component';
 export { XmDynamicPresentationDirective } from './presentation/xm-dynamic-presentation.directive';
 
+export * from './src/interfaces';
 export { XmDynamic } from './src/interfaces/xm-dynamic';
 export { XmDynamicConstructor } from './src/interfaces/xm-dynamic-constructor';
-export { XmLayout, XmSanitizedLayout } from './src/interfaces/xm-layout';
+export { XmDynamicLayout, XmSanitizedLayout } from './src/interfaces/xm-dynamic-layout';
 export { XmDynamicEntryModule } from './src/interfaces/xm-dynamic-entry-module';
 export {
     XmDynamicEntry,

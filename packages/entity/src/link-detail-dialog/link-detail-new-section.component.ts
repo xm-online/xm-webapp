@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
-import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
+import { JsfAttributes } from '@xm-ngx/json-schema-form';
 
 import { XmToasterService } from '@xm-ngx/toaster';
 import { UUID } from 'angular2-uuid';
@@ -9,12 +9,12 @@ import { finalize } from 'rxjs/operators';
 import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
 
 import { nullSafe } from '@xm-ngx/json-schema-form/components';
-import { LinkSpec } from '../shared/link-spec.model';
-import { Link } from '../shared/link.model';
-import { Spec } from '../shared/spec.model';
-import { XmEntitySpec } from '../shared/xm-entity-spec.model';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { LinkSpec } from '@xm-ngx/core/entity';
+import { Link } from '@xm-ngx/core/entity';
+import { Spec } from '@xm-ngx/core/entity';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
 
 declare let $: any;
 

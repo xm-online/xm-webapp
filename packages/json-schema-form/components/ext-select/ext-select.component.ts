@@ -1,3 +1,10 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import {
     AfterViewInit,
     ChangeDetectorRef,
@@ -16,12 +23,12 @@ import { JsonSchemaFormComponent, JsonSchemaFormService } from '@ajsf/core';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { finalize, takeUntil, tap } from 'rxjs/operators';
 
-import { environment } from '@xm-ngx/core/environment';
 import { Principal } from '@xm-ngx/core/user';
 import { I18nNamePipe } from '@xm-ngx/translation';
 import { ExtSelectOptions, SelectDeepLinkOptions } from './ext-select-options.model';
 import { ExtSelectService } from './ext-select-service';
 import BaseExtSelectComponent from './base-ext-select.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 interface Element {
     label: any;
@@ -29,6 +36,8 @@ interface Element {
 }
 
 @Component({
+    standalone: true,
+    imports: [MatFormFieldModule, MatIconModule, MatSelectModule, MatOptionModule, CommonModule, FormsModule, XmTranslationModule, NgxMatSelectSearchModule, ReactiveFormsModule],
     selector: 'xm-ext-select-widget',
     templateUrl: 'ext-select.component.html',
     styles: [
@@ -80,10 +89,10 @@ export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit
         this.options = this.layoutNode.options || {};
         this.selectLinkOptions = this.options.link || null;
         this.setCanSeeLink();
-        if (!environment?.production) {
-            // eslint-disable-next-line no-console
-            console.debug('[dbg] initial -> %o', this.options);
-        }
+        // if (!environment?.production) {
+        // eslint-disable-next-line no-console
+        // console.debug('[dbg] initial -> %o', this.options);
+        // }
         this.jsf.initializeControl(this);
         if (this.layoutNode.dataType === 'array') {
             this.controlValue = this.controlValue[0];
@@ -216,7 +225,7 @@ export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit
             }
 
             this.fetchOptions(options).pipe(
-                tap((items) => !environment.production && console.info('[dbg] ext-select -> ', items)),
+                // tap((items) => !environment.production && console.info('[dbg] ext-select -> ', items)),
                 tap((items) => this.elements = items),
                 tap(() => this.initOptionList()),
                 finalize(() => this.changeDetectorRef.detectChanges()),

@@ -1,18 +1,24 @@
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { JhiLanguageHelper, XmTranslationModule } from '@xm-ngx/translation';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { buildFormGroup, JsonSchemaFormService, removeRecursiveReferences } from '@ajsf/core';
-
-import { JhiLanguageHelper } from '@xm-ngx/translation';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { MultilingualInputOptions } from './multilingual-input-options.model';
 
 @Component({
+    standalone: true,
+    imports: [MatButtonModule, MatFormFieldModule, MatInputModule, CommonModule, FormsModule, XmTranslationModule],
     selector: 'xm-multilingual-input-widget',
     templateUrl: 'multilingual-input.component.html',
 })
 export class MultilingualInputComponent implements OnInit {
 
     @Input() public layoutNode: any;
-    public options: MultilingualInputOptions & {title?: string};
+    public options: MultilingualInputOptions & { title?: string };
 
     public currentLanguage: any;
     public languages: any[];

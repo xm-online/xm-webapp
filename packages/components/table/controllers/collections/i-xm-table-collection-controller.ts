@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import {
     PageableAndSortable,
     QueryParamsPageable,
-} from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+} from '@xm-ngx/repositories';
 
 export interface IXmTableCollectionState<T> {
     items: T[];

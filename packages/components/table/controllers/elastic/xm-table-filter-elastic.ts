@@ -1,7 +1,7 @@
-import { XmEntity } from '@xm-ngx/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
-import * as moment from 'moment';
-import { XmTableColumn } from '@xm-ngx/components/table/columns/xm-table-column-dynamic-cell.component';
+import moment from 'moment';
+import { XmTableColumn } from '../../columns/xm-table-column-dynamic-cell.component';
 
 export function escapeQuotes(str: string): string {
     return (str + '').replace(/[\\"']/g, '\\$&')

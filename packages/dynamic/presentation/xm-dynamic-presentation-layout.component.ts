@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { XmLayout } from '../src/interfaces';
+import { XmDynamicLayout } from '../src/interfaces';
 import { XmDynamicLayoutBase } from '../widget/xm-dynamic-layout.base';
 import { XmDynamicPresentation } from './xm-dynamic-presentation-base.directive';
+import { XmConfig } from '@xm-ngx/interfaces';
 
-export interface XmPresentationLayout<V = unknown, O = unknown> extends XmLayout, XmDynamicPresentation<V, O> {
-    content?: XmPresentationLayout[];
+export interface XmDynamicPresentationLayout<V = unknown, C = XmConfig> extends XmDynamicLayout<C>, XmDynamicPresentation<V, C> {
+    content?: XmDynamicPresentationLayout[];
 }
 
 /**
@@ -47,5 +48,5 @@ export interface XmPresentationLayout<V = unknown, O = unknown> extends XmLayout
         </ng-template>
     `,
 })
-export class XmDynamicPresentationLayoutComponent extends XmDynamicLayoutBase<XmPresentationLayout> {
+export class XmDynamicPresentationLayoutComponent extends XmDynamicLayoutBase<XmDynamicPresentationLayout> {
 }

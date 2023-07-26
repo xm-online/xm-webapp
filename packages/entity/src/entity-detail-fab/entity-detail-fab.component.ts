@@ -8,9 +8,9 @@ import { CommentDetailDialogComponent } from '../comment-detail-dialog/comment-d
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
 import { LinkDetailDialogComponent } from '../link-detail-dialog/link-detail-dialog.component';
 import { LocationDetailDialogComponent } from '../location-detail-dialog/location-detail-dialog.component';
-import { Spec } from '../shared/spec.model';
-import { XmEntitySpec } from '../shared/xm-entity-spec.model';
-import { XmEntity } from '../shared/xm-entity.model';
+import { Spec } from '@xm-ngx/core/entity';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { EntityUiConfig } from '@xm-ngx/core/config';
 import { Principal } from '@xm-ngx/core/user';
 

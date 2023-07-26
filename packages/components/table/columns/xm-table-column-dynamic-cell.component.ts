@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 import { ShowHideColumnsSettingsComponent } from '../cells/show-hide-columns-settings/show-hide-columns-settings.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-export interface XmTableColumn<O = unknown> extends XmDynamicCell<O> {
+export interface XmTableColumn<C = unknown> extends XmDynamicCell<C> {
     name: string;
     sortable: boolean;
     title: Translate;

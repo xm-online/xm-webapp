@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MouseMoveParallaxDirective } from '@xm-ngx/components/parallax/mouse-move-parallax.directive';
+import { MouseMoveParallaxDirective } from './mouse-move-parallax.directive';
 
 @NgModule({
     exports: [MouseMoveParallaxDirective],

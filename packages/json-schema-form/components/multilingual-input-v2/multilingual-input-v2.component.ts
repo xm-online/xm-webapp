@@ -1,12 +1,18 @@
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { JhiLanguageHelper, XmTranslationModule } from '@xm-ngx/translation';
+import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 import { buildFormGroup, JsonSchemaFormService, removeRecursiveReferences } from '@ajsf/core';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
-
-import { JhiLanguageHelper } from '@xm-ngx/translation';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { MultilingualInputV2Options } from './multilingual-input-v2-options.model';
 
 @Component({
+    standalone: true,
+    imports: [MatButtonToggleModule, MatFormFieldModule, MatInputModule, CommonModule, FormsModule, XmTranslationModule, AngularEditorModule],
     selector: 'xm-multilingual-input-v2-widget',
     templateUrl: 'multilingual-input-v2.component.html',
     styles: [`
@@ -39,12 +45,12 @@ export class MultilingualInputV2Component implements OnInit {
         ],
     };
 
-    @Input() public layoutNode: {dataPointer: string, options: MultilingualInputV2Options};
+    @Input() public layoutNode: { dataPointer: string, options: MultilingualInputV2Options };
     public options: MultilingualInputV2Options;
 
     public currentLanguage: string;
     public languages: string[];
-    public controlValue: {languageKey: string, name: string}[];
+    public controlValue: { languageKey: string, name: string }[];
     public text: string;
 
     constructor(private jsf: JsonSchemaFormService,

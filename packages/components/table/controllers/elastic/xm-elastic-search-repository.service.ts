@@ -1,18 +1,18 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { HttpClientRest, QueryParamsPageable, XmRepositoryConfig } from '@xm-ngx/components/entity-collection';
+import { HttpClientRest, QueryParamsPageable, XmRepositoryConfig } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
-import { XmEntity } from '@xm-ngx/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { Injectable } from '@angular/core';
-import { PageableAndSortable } from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { PageableAndSortable } from '@xm-ngx/repositories';
 import { map } from 'rxjs/operators';
 import { SortDirection } from '@angular/material/sort';
 import { XmDynamicService } from '@xm-ngx/dynamic';
-import { XmFilterQueryParams } from '@xm-ngx/components/table/controllers/collections/i-xm-table-collection-controller';
-import { XmFormatJsTemplateRecursive } from '@xm-ngx/shared/operators';
+import { XmFilterQueryParams } from '../collections/i-xm-table-collection-controller';
+import { XmFormatJsTemplateRecursive } from '@xm-ngx/operators';
 import {
     XmElasticRequestBuilder
-} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-request-builder.service';
+} from '../elastic/xm-elastic-request-builder.service';
 
 export interface XmElasticSearchRepositoryExtraSort {
     [key: string]: SortDirection;

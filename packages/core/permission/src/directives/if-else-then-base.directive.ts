@@ -1,6 +1,6 @@
 import { Directive, EmbeddedViewRef, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 import { ReplaySubject, Subscription } from 'rxjs';
-import { ArgumentException } from '@xm-ngx/shared/exceptions';
+import { ArgumentException } from '@xm-ngx/exceptions';
 
 export interface IfElseThenBaseContext {
     allow: boolean;

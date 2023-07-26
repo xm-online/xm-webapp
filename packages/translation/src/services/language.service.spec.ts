@@ -6,7 +6,7 @@ import { SessionStorageService } from 'ngx-webstorage';
 import { MockUiConfigService } from '@xm-ngx/core/config/testing';
 import { MockUserService } from '@xm-ngx/core/user/testing';
 
-import { LanguageService } from './language.service';
+import { LanguageService } from '@xm-ngx/translation';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { MockXmLogger } from '@xm-ngx/logger/testing';
 

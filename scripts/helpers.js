@@ -5,7 +5,7 @@ const LANGUAGES = ['en', 'ru', 'uk', 'de', 'it'];
 const EXT_PATH = 'src/app/ext/*';
 
 const isDirectory = (source) => fs.lstatSync(source).isDirectory();
-const getDirectories = (source) => glob.sync(source).filter(isDirectory);
+const getDirectories = (source) => glob.sync(source).map(filePath => filePath.replace(/\\/g, '/')).filter(isDirectory);
 
 const getJsonFile = async (file) => {
     return new Promise((res, rej) => {
