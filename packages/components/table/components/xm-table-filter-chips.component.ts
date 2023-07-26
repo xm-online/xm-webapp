@@ -91,6 +91,38 @@ export interface XmTableFilterInlineFilter {
             </mat-chip-listbox>
         </mat-menu>
     `,
+    styles: [`
+        :host(.xm-table-filter-chips) {
+            display: flex;
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        :host(.xm-table-filter-chips) button {
+            text-transform: uppercase;
+        }
+
+        ::ng-deep .xm-table-filter-chips .mdc-evolution-chip-set__chips {
+            flex-wrap: nowrap;
+        }
+
+        ::ng-deep .chip-listbox .mdc-evolution-chip__cell--primary,
+        ::ng-deep .chip-listbox .mdc-evolution-chip__action--primary,
+        ::ng-deep .chip-listbox .mat-mdc-chip-action-label {
+            overflow: hidden !important;
+            cursor: default;
+        }
+
+        .chip-option {
+            max-width: 260px;
+        }
+
+        .filter-container {
+            display: block;
+            overflow: clip;
+            width: calc(100% - 100px);
+        }
+    `],
     imports: [
         CommonModule,
         MatButtonModule,
