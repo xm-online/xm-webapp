@@ -50,7 +50,7 @@ export interface XmTableFilterInlineFilter {
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
                                                    [value]="filter.value"
-                                                   (valueChange)="change(filter)"></xm-table-filter-chips-control>
+                                                   (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip-option>
             </mat-chip-listbox>
@@ -85,7 +85,7 @@ export interface XmTableFilterInlineFilter {
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
                                                    [value]="filter.value"
-                                                   (valueChange)="change(filter)"></xm-table-filter-chips-control>
+                                                   (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip-option>
             </mat-chip-listbox>
@@ -137,9 +137,9 @@ export class XmTableFilterChipsComponent {
         takeUntilOnDestroyDestroy(this);
     }
 
-    public change(filter: XmTableFilterInlineFilter): void {
+    public change(key: string, value: any): void {
         const copy = cloneDeep(this.value);
-        copy[filter.name] = filter.value;
+        copy[key] = value;
         this.entitiesRequestBuilder.set(copy);
     }
 
