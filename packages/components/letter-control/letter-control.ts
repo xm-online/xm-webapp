@@ -14,14 +14,12 @@ import { NgForOf } from '@angular/common';
     selector: 'xm-letters-control',
     standalone: true,
     template: `
-        <!-- <div><input type="text" class="styling" autocomplete="one-time-code"></div>-->
-
         <input *ngFor="let i of config.mask.split('')"
                [type]="config?.type||'number'"
                autocomplete="one-time-code"
                #letter
                maxlength="1"
-               (input)="inputOTP($event,letter)"
+               (input)="inputOTP($event.data,letter)"
                (paste)="onPaste($event, letter)"
                (keyup)="onKeyUp($event, letter)"/>
     `,
@@ -55,10 +53,6 @@ import { NgForOf } from '@angular/common';
             background: none;
         }
 
-        .styling {
-
-        }
-
         @media screen and (max-width: 1280px) {
             input {
                 width: 33px;
@@ -78,16 +72,13 @@ export class LettersControl implements AfterViewInit {
         this.listenForOtp();
     }
 
-    public inputOTP(event: InputEvent, letter: HTMLInputElement): void {
-        if (event.data.length === this.config.mask.split('').length) {
-            const pastedData: string = event.data;
+    public inputOTP(data: string, letter: HTMLInputElement): void {
+        if (data.length === this.config.mask.split('').length) {
+            const pastedData: string = data;
             const components = this.components.toArray();
             const startIndex = components.findIndex((i) => i.nativeElement === letter);
-            this.fillInputs(pastedData,components,startIndex);
-
+            this.fillInputs(pastedData, components, startIndex);
         }
-
-
     }
 
     private listenForOtp(): void {
@@ -168,13 +159,13 @@ export class LettersControl implements AfterViewInit {
 
     public onPaste(e: ClipboardEvent, letter: HTMLInputElement): void {
         e.preventDefault();
-
         const pastedData = e.clipboardData.getData('text');
         const components = this.components.toArray();
         const startIndex = components.findIndex((i) => i.nativeElement === letter);
-        this.fillInputs(pastedData,components,startIndex);
+        this.fillInputs(pastedData, components, startIndex);
     }
-    private fillInputs(data:string,components:ElementRef<HTMLInputElement>[],startIndex:number){
+
+    private fillInputs(data: string, components: ElementRef<HTMLInputElement>[], startIndex: number) {
         Array.from(data).forEach((char, index) => {
             const component = components[startIndex + index];
             if (component && /^[0-9]$/.test(char)) {
