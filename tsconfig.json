@@ -27,26 +27,23 @@
       "@xm-ngx/ext/*": [
         "src/app/ext/*"
       ],
-      "@xm-ngx/*": [
-        "packages/*",
-      ],
       "@xm-ngx-ext/*": [
         "src/app/ext/*"
       ],
       "@xm-ngx/entity/registry": [
-        "packages/entity/registry",
+        "node_modules/@xm-ngx/entity/registry",
       ],
       "@xm-ngx/entity/card": [
-        "packages/entity/card",
+        "node_modules/@xm-ngx/entity/card",
       ],
       "@xm-ngx/entity/search": [
-        "packages/entity/search",
+        "node_modules/@xm-ngx/entity/search",
       ],
       "@xm-ngx/entity/pipes": [
-        "packages/entity/pipes",
+        "node_modules/@xm-ngx/entity/pipes",
       ],
       "@xm-ngx/entity/*": [
-        "packages/entity",
+        "node_modules/@xm-ngx/entity",
       ],
       "@xm-ngx/shared/helpers": [
         "node_modules/@xm-ngx/operators",
