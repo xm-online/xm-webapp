@@ -14,11 +14,14 @@ import { NgForOf } from '@angular/common';
     selector: 'xm-letters-control',
     standalone: true,
     template: `
+        <!-- <div><input type="text" class="styling" autocomplete="one-time-code"></div>-->
+
         <input *ngFor="let i of config.mask.split('')"
                [type]="config?.type||'number'"
                autocomplete="one-time-code"
                #letter
                maxlength="1"
+               (input)="inputOTP($event,letter)"
                (paste)="onPaste($event, letter)"
                (keyup)="onKeyUp($event, letter)"/>
     `,
@@ -52,6 +55,10 @@ import { NgForOf } from '@angular/common';
             background: none;
         }
 
+        .styling {
+
+        }
+
         @media screen and (max-width: 1280px) {
             input {
                 width: 33px;
@@ -71,12 +78,24 @@ export class LettersControl implements AfterViewInit {
         this.listenForOtp();
     }
 
+    public inputOTP(event: InputEvent, letter: HTMLInputElement): void {
+        if (event.data.length === this.config.mask.split('').length) {
+            const pastedData: string = event.data;
+            const components = this.components.toArray();
+            const startIndex = components.findIndex((i) => i.nativeElement === letter);
+            this.fillInputs(pastedData,components,startIndex);
+
+        }
+
+
+    }
+
     private listenForOtp(): void {
         if ('OTPCredential' in window) {
             window.addEventListener('DOMContentLoaded', (e) => {
                 const ac = new AbortController();
                 const reqObj = {
-                    otp: { transport: ['sms'] },
+                    otp: {transport: ['sms']},
                     signal: ac.signal,
                 };
                 navigator.credentials
@@ -153,21 +172,23 @@ export class LettersControl implements AfterViewInit {
         const pastedData = e.clipboardData.getData('text');
         const components = this.components.toArray();
         const startIndex = components.findIndex((i) => i.nativeElement === letter);
-
-        Array.from(pastedData).forEach((char, index) => {
+        this.fillInputs(pastedData,components,startIndex);
+    }
+    private fillInputs(data:string,components:ElementRef<HTMLInputElement>[],startIndex:number){
+        Array.from(data).forEach((char, index) => {
             const component = components[startIndex + index];
             if (component && /^[0-9]$/.test(char)) {
                 component.nativeElement.value = char;
             }
         });
 
-        if (startIndex + pastedData.length >= components.length) {
+        if (startIndex + data.length >= components.length) {
             const value = components.reduce((r, i) => r + i.nativeElement.value, '');
             this.submitEvent.next(value);
             return;
         }
 
-        components[startIndex + pastedData.length]?.nativeElement.select();
+        components[startIndex + data.length]?.nativeElement.select();
     }
 
     public clear(): void {

@@ -14,7 +14,7 @@ import { getValue } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 import { XmDynamicPresentationBase } from '../presentation';
 import { XmDynamicLayoutNode } from '../src/interfaces';
-import { XmConfig } from '@xm-ngx/interfaces';
+//import { XmConfig } from '@xm-ngx/interfaces';
 
 
 export const XM_DYNAMIC_TABLE_ROW = new InjectionToken<string>('XM_DYNAMIC_TABLE_ROW');
