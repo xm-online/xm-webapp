@@ -6,7 +6,8 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    QueryList, ViewChild,
+    QueryList,
+    ViewChild,
     ViewChildren
 } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -98,7 +99,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
             grant_type: 'tfa_otp_token',
             otp: this.otp,
             tfa_access_token: this.signInUpService.getAccessTokenValue(),
-            rememberMe:this.signInUpService.getCredentials().rememberMe,
+            rememberMe: this.signInUpService.getCredentials().rememberMe,
         };
         this.signInUpService.loginTFA(credentials).pipe(takeUntilOnDestroy(this)).subscribe((res) => {
             const tfaChannel = 'Phone';
