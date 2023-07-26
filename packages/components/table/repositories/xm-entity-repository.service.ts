@@ -74,11 +74,17 @@ export class XmEntityRepository<T extends XmEntity>
             return params;
         }
 
-        const extra: XmEntityRepositoryExtra = {
-            size: params.pageSize,
+        const extra: Partial<XmEntityRepositoryExtra> = {
             sort: `${params.sortBy},${params.sortOrder}`,
-            page: params.pageIndex,
         };
+
+        if (params.pageSize) {
+            extra.size = params.pageSize;
+        }
+
+        if (params.pageIndex) {
+            extra.page = params.pageIndex;
+        }
 
         return _.merge(params, extra);
     }
