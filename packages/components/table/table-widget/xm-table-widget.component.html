@@ -1,11 +1,16 @@
-<ng-container *ngIf="context$ | async as context">
+<ng-container #xmTableDirective="xmTableDirective"
+              #xmTableSelectionDirective="xmTableSelectionDirective"
+              xmTableDirective
+              xmTableSelectionDirective
+              [xmTableSelectionConfig]="config"
+              [xmTableDirectiveConfig]="config">
 
-  <mat-card class="no-horizontal-paddings mb-3">
+  <mat-card *ngIf="xmTableDirective.context$ | async as context" class="no-horizontal-paddings mb-3">
 
     <xm-table-header>
 
       <div *ngIf="config.title">
-        <h5 class="no-margin">{{config.title | translate}}</h5>
+        <h5 class="no-margin">{{config.title | xmTranslate }}</h5>
       </div>
 
       <xm-table-filter-button [config]="config"
@@ -27,7 +32,7 @@
             [style.width]="config?.width"
             mat-table
             matSort
-            (matSortChange)="updatePagination()"
+            (matSortChange)="xmTableDirective.updatePagination()"
             [matSortActive]="context.collection.pageableAndSortable.sortBy"
             [matSortDirection]="context.collection.pageableAndSortable.sortOrder"
             matSortDisableClear
@@ -41,11 +46,11 @@
                         [colspan]="context.settings.displayedColumns.length"
                         [type]="'initial'"></xm-table-empty>
 
-        <xm-table-selection-column [column]="selectColumn"
+        <xm-table-selection-column [column]="xmTableSelectionDirective.selectColumn"
                                    #selectionRow
                                    [rows]="context.collection.items"></xm-table-selection-column>
 
-        <xm-table-column-dynamic-cell *ngFor="let column of dynamicColumns"
+        <xm-table-column-dynamic-cell *ngFor="let column of xmTableSelectionDirective.dynamicColumns"
                                       [column]="column"></xm-table-column-dynamic-cell>
 
         <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row></tr>
@@ -65,7 +70,7 @@
     </div>
 
     <mat-paginator showFirstLastButtons
-                   (page)="updatePagination()"
+                   (page)="xmTableDirective.updatePagination()"
                    [pageIndex]="context.collection.pageableAndSortable.pageIndex"
                    [length]="context.collection.pageableAndSortable.total"
                    [pageSizeOptions]="config.pageableAndSortable.pageSizeOptions"

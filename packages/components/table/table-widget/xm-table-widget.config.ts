@@ -1,11 +1,8 @@
 import { Translate } from '@xm-ngx/translation';
-import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table-empty.component';
+import { PageableAndSortable } from '@xm-ngx/repositories';
+import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from '../directives/xm-table.model';
 import { XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
-import { PAGEABLE_AND_SORTABLE_DEFAULT, PageableAndSortable } from '@xm-ngx/repositories';
-import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
-import {
-    XmTableCollectionControllerType
-} from '../controllers/collections/xm-table-collection-controller-resolver.service';
+import { DEFAULT_NO_ROWS_CONFIG, XmTableEmptyRows } from '../components/xm-table-empty.component';
 import { XmTableFiltersControlRequestConfig } from '../components/xm-table-filter-button-dialog-controls.component';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination extends PageableAndSortable {
@@ -15,40 +12,27 @@ export interface XmTableWithColumnDynamicCellOptionsPagination extends PageableA
 
 export type XmTableQueryParamsToFilter = Record<string, unknown>;
 
-export interface XmTableWidgetConfig extends XmTableFiltersControlRequestConfig {
+export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersControlRequestConfig {
     /** Title */
     title: Translate,
-    /** Actions configuration */
-    actions: XmDynamicPresentationLayout[],
-    /** Selection configuration */
-    selection: XmDynamicPresentationLayout[],
-    /** Columns configuration */
-    columns: XmTableColumn[],
-    collection: XmTableCollectionControllerType,
-    queryParamsToFillter?: XmTableQueryParamsToFilter;
-    pageableAndSortable: XmTableWithColumnDynamicCellOptionsPagination,
     isRowSelectable: boolean,
     noRows: XmTableEmptyRows,
+    /** Actions configuration */
+    actions: XmDynamicPresentationLayout[],
     width?: string;
     filtersClass?: string,
+    /** Selection configuration */
+    selection: XmDynamicPresentationLayout[],
 }
 
-export const XM_TABLE_CONFIG_DEFAULT: XmTableWidgetConfig = {
+export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
+    title: null,
     isRowSelectable: false,
     noRows: DEFAULT_NO_ROWS_CONFIG,
-    title: null,
-    actions: [],
-    selection: [],
-    filters: [],
-    chips: [],
-    columns: [],
-    collection: null,
-    pageableAndSortable: {
-        ...PAGEABLE_AND_SORTABLE_DEFAULT,
-        ...{
-            pageSizeOptions: [],
-            hidePagination: false,
-        },
-    },
+    ...XM_TABLE_CONFIG_DEFAULT,
     filtersClass: 'row',
+    filters: [],
+    selection: [],
+    chips: [],
+    actions: [],
 };

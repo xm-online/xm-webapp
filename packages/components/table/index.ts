@@ -34,3 +34,7 @@ export * from './repositories/xm-table-repository-resolver.service';
 
 export * from './table-widget/xm-table-widget.component';
 export * from './table-widget/xm-table-widget.config';
+
+export * from './directives/xm-table.directive';
+export * from './directives/xm-table.model';
+export * from './directives/xm-table-selection.directive';
