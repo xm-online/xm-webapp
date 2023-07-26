@@ -4,14 +4,11 @@ import { CustomOverlayRef } from '@xm-ngx/components/overlay';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import {
-    XmTableFiltersControlRequestConfig,
-    XmTableFiltersControlRequestComponent,
-} from '../components/xm-table-filters-control-request.component';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
-import { FiltersControlValue } from '../components/xm-table-filters-control.component';
+import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
+import { XmTableFilterButtonDialogControlsComponent, XmTableFiltersControlRequestConfig } from './xm-table-filter-button-dialog-controls.component';
 
 export interface XmOverlayResponse {
     state: 'cancel' | 'submit' | 'reset';
@@ -83,7 +80,7 @@ export interface XmFilterButtonDialog {
         MatDialogModule,
         FormLayoutModule,
         MatButtonModule,
-        XmTableFiltersControlRequestComponent,
+        XmTableFilterButtonDialogControlsComponent,
         ModalCloseModule,
         XmTranslationModule,
         MatIconModule,

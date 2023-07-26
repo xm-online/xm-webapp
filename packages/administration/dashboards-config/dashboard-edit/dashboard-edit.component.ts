@@ -79,6 +79,7 @@ export class DashboardEditComponent {
 
     public onCancel(): void {
         this.editorService.close();
+        this.editorService.changeEditState(false);
     }
 
     public onAdd(): void {
