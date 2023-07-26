@@ -234,7 +234,7 @@
         "storybook": {
           "builder": "@storybook/angular:start-storybook",
           "options": {
-            "configDir": ".storybook",
+            "configDir": "node_modules/@xm-ngx/storybook",
             "browserTarget": "xm-webapp:build",
             "compodoc": true,
             "compodocArgs": [
@@ -249,7 +249,7 @@
         "build-storybook": {
           "builder": "@storybook/angular:build-storybook",
           "options": {
-            "configDir": ".storybook",
+            "configDir": "node_modules/@xm-ngx/storybook",
             "browserTarget": "xm-webapp:build",
             "compodoc": true,
             "compodocArgs": [
