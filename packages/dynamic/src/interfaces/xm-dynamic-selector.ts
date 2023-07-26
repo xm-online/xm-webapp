@@ -8,12 +8,12 @@ export interface XmDynamicWithSelector {
 }
 
 /**
- * @deprecated Will be removed in v5.0.0. Use standalone component instead.
+ * @deprecated Will be removed in v6.0.0. Use standalone component instead.
  * Determines input(control) options.
  **/
 interface XmWithOptions<O> {
     /**
-     * @deprecated Will be removed in v5.0.0. Use config instead.
+     * @deprecated Will be removed in v6.0.0. Use config instead.
      * Input options.
      **/
     options?: O;
