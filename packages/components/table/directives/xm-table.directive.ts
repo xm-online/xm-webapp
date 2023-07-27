@@ -22,8 +22,8 @@ export interface IXmTableContext {
 }
 
 @Directive({
-    selector: '[xmTableDirective]',
-    exportAs: 'xmTableDirective',
+    selector: '[xmTable]',
+    exportAs: 'xmTable',
     providers: [],
     standalone: true,
 })
@@ -34,10 +34,10 @@ export class XmTableDirective implements OnInit {
     @ContentChild(MatPaginator, { static: false }) public paginator: MatPaginator | null;
     @ContentChild(MatSort, { static: false }) public sort: MatSort | null;
 
-    @Input('xmTableDirectiveController')
+    @Input('xmTableController')
     public controller: IXmTableCollectionController<unknown>;
 
-    @Input('xmTableDirectiveConfig') @Defaults(XM_TABLE_CONFIG_DEFAULT)
+    @Input('xmTableConfig') @Defaults(XM_TABLE_CONFIG_DEFAULT)
     public config: XmTableConfig;
 
     constructor(

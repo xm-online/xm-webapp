@@ -10,8 +10,8 @@ import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component
 import { XmTableConfig } from './xm-table.model';
 
 @Directive({
-    selector: '[xmTableSelectionDirective]',
-    exportAs: 'xmTableSelectionDirective',
+    selector: '[xmTableSelection]',
+    exportAs: 'xmTableSelection',
     providers: [
         XmTableSelectionService,
     ],
