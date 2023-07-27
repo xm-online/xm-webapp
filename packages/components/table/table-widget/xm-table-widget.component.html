@@ -5,7 +5,6 @@
               [xmTableSelectionConfig]="config"
               [xmTableDirectiveConfig]="config"
               [xmTableDirectiveController]="this.collectionControllerResolver.get() | async"
-
 >
 
   <mat-card *ngIf="xmTableDirective.context$ | async as context" class="no-horizontal-paddings mb-3">
