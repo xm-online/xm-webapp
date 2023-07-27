@@ -21,11 +21,11 @@ export * from './components/xm-table-filter-button-dialog-controls.component';
 export * from './components/xm-table-header.component';
 export * from './components/xm-table-loading-column.component';
 export * from './components/xm-table-selection-column.component';
+export * from './components/xm-table-loading.component';
 
 export * from './configs/xm-table-config-root.service';
 
 export * from './controllers';
-export * from './controllers/elastic/xm-elastic-search-repository.service';
 
 export * from './repositories/xm-http-repository.service';
 export * from './repositories/xm-entity-repository.service';
@@ -39,4 +39,3 @@ export * from './directives/xm-table.model';
 export * from './directives/xm-table-selection.directive';
 export * from './directives/xm-table-mat-paginator-adapter.directive';
 export * from './directives/xm-table-mat-sort-adapter.directive';
-export * from './components/xm-table-loading.component';

@@ -6,7 +6,6 @@ import { Translate, XmTranslatePipe } from '@xm-ngx/translation';
 import { XmTableFilterButtonComponent } from './xm-table-filter-button.component';
 import { XmTableFilterChipsComponent } from './xm-table-filter-chips.component';
 import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.component';
-import { XmTableFiltersControlRequestConfig } from './xm-table-filter-button-dialog-controls.component';
 
 @Component({
     selector: 'xm-table-header',
@@ -16,11 +15,7 @@ import { XmTableFiltersControlRequestConfig } from './xm-table-filter-button-dia
             <h5 class="no-margin">{{config.title | xmTranslate }}</h5>
         </div>
 
-        <xm-table-filter-button [config]="config"
-                                [loading]="loading"
-        ></xm-table-filter-button>
-
-        <xm-table-filter-chips [config]="config"></xm-table-filter-chips>
+        <ng-content></ng-content>
 
         <xm-table-actions-buttons
             class="push-self-right"
@@ -55,13 +50,13 @@ import { XmTableFiltersControlRequestConfig } from './xm-table-filter-button-dia
         XmTableActionsButtonsComponent,
         XmTableFilterButtonComponent,
         XmTableFilterChipsComponent,
-        XmTableActionsButtonsComponent
-    ]
+        XmTableActionsButtonsComponent,
+    ],
 })
 export class XmTableHeaderComponent {
-    @Input() public config: XmTableFiltersControlRequestConfig
-        & { actions: XmDynamicPresentationLayout[] }
-        & { title: Translate }
-    ;
+    @Input() public config: {
+        actions: XmDynamicPresentationLayout[],
+        title: Translate
+    };
     @Input() public loading: boolean;
 }

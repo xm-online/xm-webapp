@@ -9,7 +9,13 @@
 
   <mat-card *ngIf="xmTable.context$ | async as context" class="no-horizontal-paddings mb-3">
 
-    <xm-table-header [config]="config" [loading]="context.collection.loading"></xm-table-header>
+    <xm-table-header [config]="config" [loading]="context.collection.loading">
+      <xm-table-filter-button [config]="config"
+                              [loading]="context.collection.loading"
+      ></xm-table-filter-button>
+
+      <xm-table-filter-chips [config]="config"></xm-table-filter-chips>
+    </xm-table-header>
 
     <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
 
