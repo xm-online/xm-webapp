@@ -1,27 +1,27 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { matExpansionAnimations } from '@angular/material/expansion';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {matExpansionAnimations} from '@angular/material/expansion';
+import {NavigationEnd, Router, RouterModule} from '@angular/router';
+import {DashboardStore} from '@xm-ngx/core/dashboard';
+import {XmEntitySpecWrapperService} from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
-import { combineLatest, from, Observable } from 'rxjs';
-import { filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
+import {combineLatest, from, Observable} from 'rxjs';
+import {filter, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
 
-import { ContextService } from '@xm-ngx/core/context';
-import { Principal } from '@xm-ngx/core/user';
-import { getDefaultMenuList } from './default-menu-list';
-import { CdkTreeModule, NestedTreeControl } from '@angular/cdk/tree';
-import { treeNodeSearch } from '@xm-ngx/operators';
-import { buildMenuTree } from './nested-menu';
-import { applicationsToCategory, filterByConditionDashboards } from './flat-menu';
-import { MenuItem, MenuOptions } from './menu.interface';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { XmUiConfigService } from '@xm-ngx/core/config';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { XmTranslationModule } from '@xm-ngx/translation';
-import { CommonModule } from '@angular/common';
-import { XmPermissionModule } from '@xm-ngx/core/permission';
+import {ContextService} from '@xm-ngx/core/context';
+import {Principal, XmUserService} from '@xm-ngx/core/user';
+import {getDefaultMenuList} from './default-menu-list';
+import {CdkTreeModule, NestedTreeControl} from '@angular/cdk/tree';
+import {takeUntilOnDestroy, takeUntilOnDestroyDestroy, treeNodeSearch} from '@xm-ngx/operators';
+import {buildMenuTree} from './nested-menu';
+import {applicationsToCategory, filterByConditionDashboards} from './flat-menu';
+import {MenuItem, MenuOptions} from './menu.interface';
+import {XmUiConfigService} from '@xm-ngx/core/config';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {XmTranslationModule} from '@xm-ngx/translation';
+import {CommonModule} from '@angular/common';
+import {XmPermissionModule} from '@xm-ngx/core/permission';
+import {ConditionDirective} from '@xm-ngx/components/condition';
 
 @Component({
     selector: 'xm-menu',
@@ -67,6 +67,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         protected readonly uiConfigService: XmUiConfigService<{ sidebar?: { hideAdminConsole?: boolean; hideApplication?: boolean; } }>,
         protected readonly entityConfigService: XmEntitySpecWrapperService,
         protected readonly contextService: ContextService,
+        protected readonly userService: XmUserService,
     ) {
     }
 
@@ -75,12 +76,16 @@ export class MenuComponent implements OnInit, OnDestroy {
     };
 
     public ngOnInit(): void {
-        const dashboards$ = this.dashboardService.dashboards$().pipe(
-            startWith([]),
-            filter((dashboards) => Boolean(dashboards)),
-            map((i) => filterByConditionDashboards(i, this.contextService)),
-            map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
-            map(dashboards => buildMenuTree(dashboards)),
+        const dashboards$ = this.userService.user$().pipe(
+            switchMap((user) => {
+                return this.dashboardService.dashboards$().pipe(
+                    startWith([]),
+                    filter((dashboards) => Boolean(dashboards)),
+                    map((i) => filterByConditionDashboards(i, this.contextService)),
+                    map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
+                    map((dashboards) => buildMenuTree(dashboards, ConditionDirective.checkCondition, {user: user})),
+                );
+            }),
         );
 
         const applications$ = from(this.principal.identity()).pipe(
