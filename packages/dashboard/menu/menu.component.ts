@@ -76,17 +76,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     };
 
     public ngOnInit(): void {
-        const dashboards$ = this.userService.user$().pipe(
-            switchMap((user) => {
-                return this.dashboardService.dashboards$().pipe(
-                    startWith([]),
-                    filter((dashboards) => Boolean(dashboards)),
-                    map((i) => filterByConditionDashboards(i, this.contextService)),
-                    map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
-                    map((dashboards) => buildMenuTree(dashboards, ConditionDirective.checkCondition, {user: user})),
-                );
-            }),
-        );
+        const dashboards$ = this.getActiveDashboards();
 
         const applications$ = from(this.principal.identity()).pipe(
             switchMap(() => this.entityConfigService.entitySpec$()),
@@ -124,6 +114,20 @@ export class MenuComponent implements OnInit, OnDestroy {
             const active = this.getActiveNode(a);
             this.unfoldParentNode(active);
         });
+    }
+
+    private getActiveDashboards(): Observable<MenuItem[]>{
+        return this.userService.user$().pipe(
+            switchMap((user) => {
+                return this.dashboardService.dashboards$().pipe(
+                    startWith([]),
+                    filter((dashboards) => Boolean(dashboards)),
+                    map((i) => filterByConditionDashboards(i, this.contextService)),
+                    map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
+                    map((dashboards) => buildMenuTree(dashboards, ConditionDirective.checkCondition, {user: user})),
+                );
+            }),
+        );
     }
 
     public getActiveNode(nodes: MenuItem[]): MenuItem {
@@ -205,4 +209,5 @@ export class MenuComponent implements OnInit, OnDestroy {
     public isNodeExpanded(node: MenuItem): string {
         return this.treeControl.isExpanded(node) ? 'expanded' : 'collapsed';
     }
+
 }
