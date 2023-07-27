@@ -67,4 +67,4 @@ export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDest
     pure: false,
     standalone: true,
 })
-export class XmTranslatePipe extends TranslatePipe {}
+export class XmTranslatePipe extends TranslatePipe implements PipeTransform {}
