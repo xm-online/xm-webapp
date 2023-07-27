@@ -12,15 +12,40 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { XmTableDynamicColumnComponent } from '../columns/xm-table-dynamic-column.component';
 import { XmTableColumnDynamicCellComponent } from '../columns/xm-table-column-dynamic-cell.component';
-import {
-    XmTableSelectionColumnComponent,
-} from '../components/xm-table-selection-column.component';
+import { XmTableSelectionColumnComponent, } from '../components/xm-table-selection-column.component';
 import { XmTableLoadingColumnComponent } from '../components/xm-table-loading-column.component';
 import { XmTableHeaderComponent } from '../components/xm-table-header.component';
 import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-widget.config';
 import { XmTableDirective } from '../directives/xm-table.directive';
 import { Defaults } from '@xm-ngx/operators';
 import { XmTableSelectionDirective } from '../directives/xm-table-selection.directive';
+import {
+    ColumnsSettingStorageItem,
+    XM_TABLE_CONTROLLERS,
+    XmTableCollectionControllerResolver,
+    XmTableColumnsSettingStorageService,
+    XmTableConfigController
+} from '../controllers';
+import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
+import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from '../directives/xm-table.model';
+import { defaultsDeep } from 'lodash';
+
+function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
+    const config = defaultsDeep({}, value, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
+    config.columns.forEach(c => c.name = c.name || c.field);
+    config.pageableAndSortable.sortBy = config.pageableAndSortable.sortBy || config.columns[0].name;
+    return config;
+}
+
+function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[] {
+    const displayedColumns = config.columns;
+    return displayedColumns.map(i => ({
+        name: i.name || i.field,
+        hidden: i['hidden'] || false,
+        title: i.title,
+        isHideLock: i['isHideLock'] || false,
+    }));
+}
 
 @Component({
     selector: 'xm-table-widget',
@@ -52,9 +77,30 @@ import { XmTableSelectionDirective } from '../directives/xm-table-selection.dire
         NgClass,
         XmTableHeaderComponent,
     ],
-    providers: [],
+    providers: [
+        ...XM_TABLE_CONTROLLERS,
+        XmTableFilterController,
+    ],
 })
 export class XmTableWidget {
+    constructor(
+        private columnsSettingStorageService: XmTableColumnsSettingStorageService,
+        private configController: XmTableConfigController,
+        public collectionControllerResolver: XmTableCollectionControllerResolver) {
+    }
+
+    private _config: XmTableWidgetConfig;
+
+    public get config(): XmTableWidgetConfig {
+        return this._config;
+    }
+
     @Input() @Defaults(XM_TABLE_WIDGET_CONFIG_DEFAULT)
-    public config: XmTableWidgetConfig;
+    public set config(value: XmTableWidgetConfig) {
+        this._config = getConfig(value);
+
+        this.configController.change(this._config);
+        this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));
+    }
+
 }
