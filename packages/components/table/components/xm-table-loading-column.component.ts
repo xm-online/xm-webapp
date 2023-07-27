@@ -9,7 +9,7 @@ import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/c
         <ng-container [matColumnDef]="config.name">
             <th mat-header-cell
                 *matHeaderCellDef
-                class="loadingCell"
+                class="xm-table-loading-column-cell"
                 [attr.colspan]="colspan">
                 <xm-loading-bar [visible]="isLoading"></xm-loading-bar>
             </th>
@@ -17,7 +17,7 @@ import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/c
         </ng-container>
     `,
     styles: [`
-        th.loadingCell {
+        th.xm-table-loading-column-cell {
             padding: 0;
             border: none;
         }

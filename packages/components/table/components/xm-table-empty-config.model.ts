@@ -1,6 +1,6 @@
 import { Translate } from '@xm-ngx/translation';
 
-export interface XmTableEmptyConfig {
+export interface XmTableEmptyTypeConfig {
     image: string,
     message: Translate
 }
