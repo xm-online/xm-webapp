@@ -1,9 +1,9 @@
-export { AriaLabel } from './src/aria-label';
-export { Permissible } from './src/permissible';
-export { IId, Id } from './src/id';
-export { JavascriptCode } from './src/javascript-code';
-export { OnInitialize } from './src/on-initialize';
-export { Primitive } from './src/primitive';
-export { DataQa } from './src/data-qa';
-export { JsonArray, JsonObject, JsonValue } from './src/jsonObject';
-export { XmConfig, IConfig } from './src/IConfig';
+export * from './src/aria-label.model';
+export * from './src/permissible.model';
+export * from './src/id.model';
+export * from './src/javascript-code.model';
+export * from './src/on-initialize.model';
+export * from './src/primitive.model';
+export * from './src/data-qa.model';
+export * from './src/json-object.model';
+export * from './src/xm-config.model';
