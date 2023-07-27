@@ -100,17 +100,16 @@ export class XmElasticRequestBuilder {
         queryParams: QueryParamsPageable,
         skipMerge = false,
     ): XmElasticSearchRepositoryQueryParamsPageable {
-        const filtersToRequest: { query: string } = xmFormatJs(this.config.paramsToRequest, { queryParams });
-
-        if (skipMerge) {
-            return filtersToRequest;
-        }
-
-        return _.merge(
+        const filtersToRequest = xmFormatJs(this.config.paramsToRequest, { queryParams });
+        const mergeFilters = _.merge(
             {},
-            queryParams,
+            skipMerge 
+                ? {} 
+                : queryParams,
             filtersToRequest,
         );
+
+        return _.omitBy(mergeFilters, _.isEmpty) as { query: string };
     }
 
     private getElastic(value: string | number, filter: { field: string, elasticType: string }): string {

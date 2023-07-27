@@ -158,7 +158,10 @@ export class XmTableWidget implements OnInit {
         ])
             .subscribe(([filterParams, pageableAndSortable]) => {
                 const queryParams = _.merge({}, { pageableAndSortable }, { filterParams });
-                this.queryParamsStoreService.set(queryParams);
+                const removeFieldsFromUrl = Object.keys(this.config.queryParamsToFillter ?? {})
+                    .reduce((acc, key) => ({ ...acc, [key]: null }), {});
+
+                this.queryParamsStoreService.set(queryParams, removeFieldsFromUrl);
 
                 this.controller.load(queryParams);
             });
@@ -177,7 +180,8 @@ export class XmTableWidget implements OnInit {
     }
 
     private initQueryParams(): void {
-        const queryParams = this.queryParamsStoreService.get();
+        const queryParams = this.queryParamsStoreService.get(this.config.queryParamsToFillter);
+
         this.tableFilterController.set(queryParams.filterParams);
         const { pageIndex, pageSize, sortBy, sortOrder } = this.config.pageableAndSortable;
         const pageParams = {

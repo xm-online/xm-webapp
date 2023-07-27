@@ -16,8 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
-import { XmInlineControlConfig } from '@xm-ngx/components/inline-control';
-import { XmInlineControlDynamic, XmInlineControlDynamicView } from '../../inline-control';
+import { XmInlineControlConfig, XmInlineControlDynamic, XmInlineControlDynamicView } from '@xm-ngx/components/inline-control';
 import { XmTableFilterChipsControlComponent } from './xm-table-filter-chips-control.component';
 
 const DEFAULT_CONFIG: XmTableFiltersControlRequestConfig = {
@@ -51,7 +50,7 @@ export interface XmTableFilterInlineFilter {
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
                                                    [value]="filter.value"
-                                                   (valueChange)="change(filter)"></xm-table-filter-chips-control>
+                                                   (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip-option>
             </mat-chip-listbox>
@@ -86,12 +85,44 @@ export interface XmTableFilterInlineFilter {
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
                                                    [value]="filter.value"
-                                                   (valueChange)="change(filter)"></xm-table-filter-chips-control>
+                                                   (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip-option>
             </mat-chip-listbox>
         </mat-menu>
     `,
+    styles: [`
+        :host(.xm-table-filter-chips) {
+            display: flex;
+            flex-grow: 1;
+            min-width: 0;
+        }
+
+        :host(.xm-table-filter-chips) button {
+            text-transform: uppercase;
+        }
+
+        ::ng-deep .xm-table-filter-chips .mdc-evolution-chip-set__chips {
+            flex-wrap: nowrap;
+        }
+
+        ::ng-deep .chip-listbox .mdc-evolution-chip__cell--primary,
+        ::ng-deep .chip-listbox .mdc-evolution-chip__action--primary,
+        ::ng-deep .chip-listbox .mat-mdc-chip-action-label {
+            overflow: hidden !important;
+            cursor: default;
+        }
+
+        .chip-option {
+            max-width: 260px;
+        }
+
+        .filter-container {
+            display: block;
+            overflow: clip;
+            width: calc(100% - 100px);
+        }
+    `],
     imports: [
         CommonModule,
         MatButtonModule,
@@ -138,9 +169,9 @@ export class XmTableFilterChipsComponent {
         takeUntilOnDestroyDestroy(this);
     }
 
-    public change(filter: XmTableFilterInlineFilter): void {
+    public change(key: string, value: any): void {
         const copy = cloneDeep(this.value);
-        copy[filter.name] = filter.value;
+        copy[key] = value;
         this.entitiesRequestBuilder.set(copy);
     }
 
