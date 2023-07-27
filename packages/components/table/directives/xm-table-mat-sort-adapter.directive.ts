@@ -1,6 +1,6 @@
 import { AfterViewInit, Directive, OnDestroy, Self } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { XmTableDirective } from '@xm-ngx/components/table';
+import { XmTableDirective } from './xm-table.directive';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 @Directive({
@@ -13,7 +13,7 @@ export class XmTableMatSortAdapterDirective implements AfterViewInit, OnDestroy 
 
     constructor(
         @Self() private matSort: MatSort,
-        @Self() private xmTableDirective: XmTableDirective,
+        private xmTableDirective: XmTableDirective,
     ) {
     }
 

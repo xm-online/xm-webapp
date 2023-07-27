@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
 
 import { XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
-import { XmTranslatePipe } from '@xm-ngx/translation';
+import { Translate, XmTranslatePipe } from '@xm-ngx/translation';
 import { XmTableFilterButtonComponent } from './xm-table-filter-button.component';
 import { XmTableFilterChipsComponent } from './xm-table-filter-chips.component';
 import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.component';
@@ -59,6 +59,9 @@ import { XmTableFiltersControlRequestConfig } from './xm-table-filter-button-dia
     ]
 })
 export class XmTableHeaderComponent {
-    @Input() public config: XmTableFiltersControlRequestConfig & { actions: XmDynamicPresentationLayout[] };
+    @Input() public config: XmTableFiltersControlRequestConfig
+        & { actions: XmDynamicPresentationLayout[] }
+        & { title: Translate }
+    ;
     @Input() public loading: boolean;
 }

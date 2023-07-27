@@ -31,7 +31,8 @@ import { defaultsDeep } from 'lodash';
 import {
     XmTableQueryParamsStoreService
 } from '../controllers/filters/xm-table-query-params-store.service';
-import { XmTableMatPaginatorAdapterDirective, XmTableMatSortAdapterDirective } from '@xm-ngx/components/table';
+import { XmTableMatPaginatorAdapterDirective } from '../directives/xm-table-mat-paginator-adapter.directive';
+import { XmTableMatSortAdapterDirective } from '../directives/xm-table-mat-sort-adapter.directive';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;

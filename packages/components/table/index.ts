@@ -8,7 +8,6 @@ export * from './columns/xm-table-columns-manager';
 export * from './columns/xm-table-dynamic-column.component';
 export * from './columns/xm-table-dynamic-columns-cell.component';
 
-export * from './components/chips-control/chips-control.component';
 export * from './components/selection-header/xm-table-selection-header.component';
 export * from './components/xm-table-actions-buttons.component';
 export * from './components/xm-table-filter-chips-control.component';

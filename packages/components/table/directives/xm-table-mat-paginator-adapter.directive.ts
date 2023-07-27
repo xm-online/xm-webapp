@@ -1,5 +1,5 @@
 import { Directive, Self } from '@angular/core';
-import { XmTableDirective } from '@xm-ngx/components/table';
+import { XmTableDirective } from './xm-table.directive';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { MatPaginator } from '@angular/material/paginator';
 
@@ -12,7 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 export class XmTableMatPaginatorAdapterDirective {
     constructor(
         @Self() private matPaginator: MatPaginator,
-        @Self() private xmTableDirective: XmTableDirective,
+        private xmTableDirective: XmTableDirective,
     ) {
     }
 
