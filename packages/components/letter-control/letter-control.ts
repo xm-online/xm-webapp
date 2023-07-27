@@ -74,8 +74,7 @@ export class LettersControl implements AfterViewInit {
 
     public inputOTP(data: string, letter: HTMLInputElement): void {
         if (data.length === this.config.mask.split('').length) {
-            const pastedData: string = data;
-            this.fillInputs(pastedData,letter);
+            this.fillInputs(data, letter);
         }
     }
 
@@ -107,22 +106,7 @@ export class LettersControl implements AfterViewInit {
     }
 
     private fillOtp(otp: string): void {
-        const components = this.components.toArray();
-        const startIndex = 0;
-        Array.from(otp).forEach((char, index) => {
-            const component = components[startIndex + index];
-            if (component && /^[0-9]$/.test(char)) {
-                component.nativeElement.value = char;
-            }
-        });
-
-        if (startIndex + otp.length >= components.length) {
-            const value = components.reduce((r, i) => r + i.nativeElement.value, '');
-            this.submitEvent.next(value);
-            return;
-        }
-
-        components[startIndex + otp.length]?.nativeElement.select();
+        this.fillByValues(otp, 0);
     }
 
 
@@ -157,13 +141,17 @@ export class LettersControl implements AfterViewInit {
 
     public onPaste(e: ClipboardEvent, letter: HTMLInputElement): void {
         e.preventDefault();
-        const pastedData = e.clipboardData.getData('text');
-        this.fillInputs(pastedData,letter);
+        this.fillInputs(e.clipboardData.getData('text'), letter);
     }
 
-    private fillInputs(data: string,letter: HTMLInputElement) {
+    private fillInputs(data: string, letter: HTMLInputElement): void {
         const components = this.components.toArray();
         const startIndex = components.findIndex((i) => i.nativeElement === letter);
+        this.fillByValues(data, startIndex);
+    }
+
+    private fillByValues(data: string, startIndex: number): void {
+        const components = this.components.toArray();
         Array.from(data).forEach((char, index) => {
             const component = components[startIndex + index];
             if (component && /^[0-9]$/.test(char)) {
