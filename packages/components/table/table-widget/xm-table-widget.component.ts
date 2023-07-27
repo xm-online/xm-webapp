@@ -31,6 +31,7 @@ import { defaultsDeep } from 'lodash';
 import {
     XmTableQueryParamsStoreService
 } from '../controllers/filters/xm-table-query-params-store.service';
+import { XmTableMatPaginatorAdapterDirective, XmTableMatSortAdapterDirective } from '@xm-ngx/components/table';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -78,6 +79,8 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
         XmTableLoadingColumnComponent,
         NgClass,
         XmTableHeaderComponent,
+        XmTableMatPaginatorAdapterDirective,
+        XmTableMatSortAdapterDirective,
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,
