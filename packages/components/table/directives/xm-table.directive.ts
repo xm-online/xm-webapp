@@ -24,6 +24,7 @@ export interface IXmTableContext {
 @Directive({
     selector: '[xmTable]',
     exportAs: 'xmTable',
+    host: { class: 'xm-table' },
     providers: [],
     standalone: true,
 })

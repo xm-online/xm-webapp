@@ -23,10 +23,6 @@
         [dataSource]="context.collection.items"
       >
 
-        <xm-table-loading-column [isLoading]="context.collection.loading"
-                                 #tableLoadingRow
-                                 [size]="context.settings.displayedColumns.length"></xm-table-loading-column>
-
         <xm-table-empty [config]="config.noRows"
                         [colspan]="context.settings.displayedColumns.length"
                         [type]="'initial'"></xm-table-empty>
@@ -40,8 +36,7 @@
 
         <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row></tr>
 
-        <!-- TODO:WORKAROUND: MatTable throws an error when mat-header-row lazy created. -->
-        <tr mat-header-row class="xm-table-loading-row" *matHeaderRowDef="[tableLoadingRow.config.name]"></tr>
+        <xm-table-loading [isLoading]="context.collection.loading" [colspan]="context.settings.displayedColumns.length"></xm-table-loading>
 
         <tr *matRowDef="let row; columns: context.settings.displayedColumns"
             class="xm-table-hoverable-row xm-table-row-background"

@@ -13,7 +13,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { XmTableDynamicColumnComponent } from '../columns/xm-table-dynamic-column.component';
 import { XmTableColumnDynamicCellComponent } from '../columns/xm-table-column-dynamic-cell.component';
 import { XmTableSelectionColumnComponent, } from '../components/xm-table-selection-column.component';
-import { XmTableLoadingColumnComponent } from '../components/xm-table-loading-column.component';
+import {
+    XmTableLoadingColumnComponent
+} from '../components/xm-table-loading-column.component';
 import { XmTableHeaderComponent } from '../components/xm-table-header.component';
 import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-widget.config';
 import { XmTableDirective } from '../directives/xm-table.directive';
@@ -33,6 +35,7 @@ import {
 } from '../controllers/filters/xm-table-query-params-store.service';
 import { XmTableMatPaginatorAdapterDirective } from '../directives/xm-table-mat-paginator-adapter.directive';
 import { XmTableMatSortAdapterDirective } from '../directives/xm-table-mat-sort-adapter.directive';
+import { XmTableLoadingComponent } from '../components/xm-table-loading.component';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -82,6 +85,8 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
         XmTableHeaderComponent,
         XmTableMatPaginatorAdapterDirective,
         XmTableMatSortAdapterDirective,
+        XmTableLoadingColumnComponent,
+        XmTableLoadingComponent,
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,

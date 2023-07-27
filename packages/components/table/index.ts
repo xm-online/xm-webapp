@@ -39,3 +39,4 @@ export * from './directives/xm-table.model';
 export * from './directives/xm-table-selection.directive';
 export * from './directives/xm-table-mat-paginator-adapter.directive';
 export * from './directives/xm-table-mat-sort-adapter.directive';
+export * from './components/xm-table-loading.component';
