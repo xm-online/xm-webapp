@@ -3,7 +3,7 @@ export { TranslateDirective } from './src/directives/translate.directive';
 
 export { getBrowserLocale } from './src/operators/getBrowserLocale';
 
-export { ITrKeyTranslates, TranslatePipe } from './src/pipes/translate.pipe';
+export { ITrKeyTranslates, TranslatePipe, XmTranslatePipe } from './src/pipes/translate.pipe';
 
 export {
     ITranslate,

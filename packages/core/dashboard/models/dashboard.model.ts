@@ -10,7 +10,7 @@ export interface DashboardConfig {
     orderIndex?: number;
     condition?: JavascriptCode;
     name?: any;
-    hidden?: boolean;
+    hidden?: JavascriptCode;
     permission?: string;
     icon?: string;
     menu?: {
