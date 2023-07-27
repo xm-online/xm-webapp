@@ -75,9 +75,7 @@ export class LettersControl implements AfterViewInit {
     public inputOTP(data: string, letter: HTMLInputElement): void {
         if (data.length === this.config.mask.split('').length) {
             const pastedData: string = data;
-            const components = this.components.toArray();
-            const startIndex = components.findIndex((i) => i.nativeElement === letter);
-            this.fillInputs(pastedData, components, startIndex);
+            this.fillInputs(pastedData,letter);
         }
     }
 
@@ -160,12 +158,12 @@ export class LettersControl implements AfterViewInit {
     public onPaste(e: ClipboardEvent, letter: HTMLInputElement): void {
         e.preventDefault();
         const pastedData = e.clipboardData.getData('text');
-        const components = this.components.toArray();
-        const startIndex = components.findIndex((i) => i.nativeElement === letter);
-        this.fillInputs(pastedData, components, startIndex);
+        this.fillInputs(pastedData,letter);
     }
 
-    private fillInputs(data: string, components: ElementRef<HTMLInputElement>[], startIndex: number) {
+    private fillInputs(data: string,letter: HTMLInputElement) {
+        const components = this.components.toArray();
+        const startIndex = components.findIndex((i) => i.nativeElement === letter);
         Array.from(data).forEach((char, index) => {
             const component = components[startIndex + index];
             if (component && /^[0-9]$/.test(char)) {
