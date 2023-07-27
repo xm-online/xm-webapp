@@ -32,6 +32,12 @@
               mat-icon-button>
         <mat-icon>save</mat-icon>
       </button>
+      <xm-configuration-history></xm-configuration-history>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu" class="d-flex flex-grow-1 ps-3">
 
       <button (click)="onCopyToClipboard()"
               *ngIf="editType === EditType.Edit"

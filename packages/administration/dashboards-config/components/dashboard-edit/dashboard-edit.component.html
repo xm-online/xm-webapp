@@ -26,6 +26,8 @@
         <mat-icon>save</mat-icon>
       </button>
 
+      <xm-configuration-history></xm-configuration-history>
+
       <button (click)="onDuplicate()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!valid || disabled"

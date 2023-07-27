@@ -1,0 +1,36 @@
+<div mat-dialog-title>
+    <span class="text-center">{{ 'Config History' | translate }}</span>
+  <xm-modal-close mat-dialog-close></xm-modal-close>
+</div>
+<div mat-dialog-content>
+  <div style="display: flex; width: 100%;">
+    <div style="width: 70%;">
+      <h2>Active History Event</h2>
+      <ng-container *ngIf="activeEvent; else emptyState" class="fade-in">
+        <div class="fade-in">
+          <p>User: {{activeEvent?.user}}</p>
+          <p>Date: {{activeEvent?.date}}</p>
+          <xm-ace-editor-control
+            disabled="true"
+            [(ngModel)]="activeEvent.config"
+            [config]="aceEditorOptions"
+            name="layout">
+          </xm-ace-editor-control>        </div>
+      </ng-container>
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <p>No active event selected.</p>
+        </div>
+      </ng-template>
+    </div>
+    <div style="width: 30%;">
+      <h2>History Events</h2>
+      <mat-list>
+        <mat-list-item role="button" *ngFor="let event of historyEvents" (click)="onEventClicked(event)">
+          <p>{{event.user}} - {{event.date}}</p>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+
+</div>
