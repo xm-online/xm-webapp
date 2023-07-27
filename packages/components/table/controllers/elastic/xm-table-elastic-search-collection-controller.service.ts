@@ -9,6 +9,9 @@ import { NotSupportedException } from '@xm-ngx/exceptions';
 import { AXmTableStateCollectionController } from '../collections/a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
 import { XmConfig } from '@xm-ngx/interfaces';
+import {
+    XmTableReadOnlyRepositoryCollectionControllerConfig
+} from '@xm-ngx/components/table/controllers/collections/xm-table-read-only-repository-collection-controller';
 
 export interface XmTableElasticSearchCollectionControllerConfig extends XmConfig {
     type: 'elasticSearch'
@@ -20,6 +23,7 @@ export class XmTableElasticSearchCollectionController<T = unknown>
     implements IXmTableCollectionController<T> {
     public repository: IEntityCollectionPageable<T, PageableAndSortable>;
     public entity: object;
+    public config: XmTableReadOnlyRepositoryCollectionControllerConfig;
 
     constructor(
         protected repositoryResolver: XmTableRepositoryResolver<T>
@@ -31,7 +35,7 @@ export class XmTableElasticSearchCollectionController<T = unknown>
         if (_.isEmpty(request.pageableAndSortable)) {
             request.pageableAndSortable = PAGEABLE_AND_SORTABLE_DEFAULT;
         }
-        this.repository = await this.repositoryResolver.get();
+        this.repository = await this.repositoryResolver.get(this.config.repository);
 
         this.changePartial({ loading: true, pageableAndSortable: request.pageableAndSortable });
 

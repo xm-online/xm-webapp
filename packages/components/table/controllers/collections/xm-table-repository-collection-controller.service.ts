@@ -13,6 +13,9 @@ import { XmTableFilterController } from '../filters/xm-table-filter-controller.s
 import { XmDynamicService, XmDynamicWithSelector } from '@xm-ngx/dynamic';
 import { XmFormatJsTemplateRecursive } from '@xm-ngx/operators';
 import { XmConfig } from '@xm-ngx/interfaces';
+import {
+    XmTableReadOnlyRepositoryCollectionControllerConfig
+} from '@xm-ngx/components/table/controllers/collections/xm-table-read-only-repository-collection-controller';
 
 export interface IXmTableRepositoryCollectionControllerConfig extends XmConfig {
     filtersToRequest?: XmFormatJsTemplateRecursive,
@@ -31,6 +34,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
     public repository: IEntityCollectionPageable<T, PageableAndSortable>;
+    public config: XmTableReadOnlyRepositoryCollectionControllerConfig;
 
     constructor(
         private tableFilterController: XmTableFilterController,
@@ -44,7 +48,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
             request.pageableAndSortable = PAGEABLE_AND_SORTABLE_DEFAULT;
         }
 
-        this.repository = await this.repositoryResolver.get();
+        this.repository = await this.repositoryResolver.get(this.config.repository);
 
         this.changePartial({loading: true, pageableAndSortable: request.pageableAndSortable});
 

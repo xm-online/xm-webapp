@@ -38,7 +38,7 @@ export class XmTableReadOnlyRepositoryCollectionController<T = unknown>
 
     public async load(request: XmFilterQueryParams): Promise<void> {
         this.entity = await firstValueFrom(this.entityController.entity$());
-        this.repository = await this.repositoryResolver.get();
+        this.repository = await this.repositoryResolver.get(this.config.repository);
         const query: object = xmFormatJs(this.config.filtersToRequest, { entity: request });
 
         this.changePartial({ loading: true });
