@@ -6,6 +6,7 @@ import {
     elasticQueryChips,
     entityElastic,
     entitySelectElastic,
+    IWithField,
     multiElastic,
     multiSelectElastic,
     nestedPropElastic,
@@ -17,7 +18,11 @@ import {
     userFullnameElastic,
 } from './xm-table-filter-elastic';
 
-export const Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY = {
+export interface XmTableFiltersElasticStringQuery {
+    [key: string]: (v: any, o: IWithField) => string
+}
+
+export const Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY: XmTableFiltersElasticStringQuery = {
     default: containsElastic,
     nestedProp: nestedPropElastic,
     link: strictNumberOrContainsStringElastic,
@@ -37,3 +42,5 @@ export const Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY = {
     chips: elasticQueryChips,
     '': containsElastic,
 };
+
+export type ElasticType = keyof typeof Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY;
