@@ -11,7 +11,7 @@ import { take } from 'rxjs/operators';
 import { XmConfig } from '@xm-ngx/interfaces';
 import {
     XmTableReadOnlyRepositoryCollectionControllerConfig
-} from '@xm-ngx/components/table/controllers/collections/xm-table-read-only-repository-collection-controller';
+} from '../collections/xm-table-read-only-repository-collection-controller';
 
 export interface XmTableElasticSearchCollectionControllerConfig extends XmConfig {
     type: 'elasticSearch'

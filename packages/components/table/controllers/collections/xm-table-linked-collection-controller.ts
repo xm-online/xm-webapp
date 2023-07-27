@@ -20,7 +20,7 @@ import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 import { filter } from 'rxjs/operators';
 import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
-import { IXmTableRepositoryCollectionControllerConfig } from '@xm-ngx/components/table';
+import { IXmTableRepositoryCollectionControllerConfig } from './xm-table-repository-collection-controller.service';
 
 const TRS = {
     updated: 'ext-entity.commons.updated',

@@ -10,7 +10,7 @@ import {
 
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { Translate } from '@xm-ngx/translation';
-import { Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY } from '@xm-ngx/components/table';
+import { Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY } from './xm-table-filters-elastic-string-query';
 
 export interface XmTableConfigFilters extends FormGroupLayoutItem {
     options: {

@@ -14,7 +14,7 @@ import { XmFormatJsTemplateRecursive } from '@xm-ngx/operators';
 import { XmConfig } from '@xm-ngx/interfaces';
 import {
     XmTableReadOnlyRepositoryCollectionControllerConfig
-} from '@xm-ngx/components/table/controllers/collections/xm-table-read-only-repository-collection-controller';
+} from './xm-table-read-only-repository-collection-controller';
 
 export interface IXmTableRepositoryCollectionControllerConfig extends XmConfig {
     filtersToRequest?: XmFormatJsTemplateRecursive,
