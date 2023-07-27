@@ -91,7 +91,7 @@ export class LettersControl implements AfterViewInit {
                     .then((otp: any) => {
                         if (otp) {
                             if (otp && otp.code) {
-                                this.fillOtp(otp.code);
+                                this.fillByValues(otp.code,0);
                             }
                         }
                     })
@@ -103,10 +103,6 @@ export class LettersControl implements AfterViewInit {
         } else {
             console.info('Web OTP API not supported, Please enter manually.');
         }
-    }
-
-    private fillOtp(otp: string): void {
-        this.fillByValues(otp, 0);
     }
 
 
@@ -150,7 +146,7 @@ export class LettersControl implements AfterViewInit {
         this.fillByValues(data, startIndex);
     }
 
-    private fillByValues(data: string, startIndex: number): void {
+    public fillByValues(data: string, startIndex: number): void {
         const components = this.components.toArray();
         Array.from(data).forEach((char, index) => {
             const component = components[startIndex + index];
