@@ -40,12 +40,7 @@ export class LogoutComponent implements OnInit, OnDestroy {
         this.alertService.open({
             title: 'global.common.are-you-sure',
             showCancelButton: true,
-            buttonsStyling: false,
             showCloseButton: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'global.common.yes-exit',
             cancelButtonText: 'global.common.cancel',
         }).subscribe((result) => result.value ? this.logout() : history.back());
