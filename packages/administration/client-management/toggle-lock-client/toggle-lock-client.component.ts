@@ -23,11 +23,6 @@ export class ToggleLockClientComponent {
         this.alertService.open({
             title: isActivate ? 'Block client?' : 'Unblock client?',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'Yes',
         }).subscribe((result) => result.value ?
             this.changeUserState(client) :

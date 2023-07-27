@@ -1,4 +1,4 @@
-import { JsonObject } from './jsonObject';
+import { JsonObject } from './json-object.model';
 
 /**
  * Global empty interface for all configuration entities.

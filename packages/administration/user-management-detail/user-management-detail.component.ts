@@ -73,11 +73,6 @@ export class UserMgmtDetailComponent implements OnInit, OnDestroy {
         this.alertService.open({
             title: `Initiate password reset for ${this.userEmail}?`,
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'Yes, reset!',
         }).subscribe((result) => {
             if (result.value) {

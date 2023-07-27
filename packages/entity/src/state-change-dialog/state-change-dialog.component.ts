@@ -67,10 +67,6 @@ export class StateChangeDialogComponent implements OnInit {
             this.alertService.open({
                 icon: 'success',
                 html: `<pre style="text-align: left"><code>${JSON.stringify(data, null, '  ')}</code></pre>`,
-                buttonsStyling: false,
-                customClass: {
-                    confirmButton: 'btn btn-primary',
-                }
             }).subscribe();
         } else {
             this.toasterService.success('xm-entity.function-list-card.change-state.success');
