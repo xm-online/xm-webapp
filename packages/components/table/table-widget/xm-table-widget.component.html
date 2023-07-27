@@ -76,8 +76,8 @@
                    (page)="xmTableDirective.updatePagination()"
                    [pageIndex]="context.collection.pageableAndSortable.pageIndex"
                    [length]="context.collection.pageableAndSortable.total"
-                   [pageSizeOptions]="config.pageableAndSortable.pageSizeOptions"
-                   [hidden]="config.pageableAndSortable.hidePagination"
+                   [pageSizeOptions]="xmTableDirective.config.pageableAndSortable.pageSizeOptions"
+                   [hidden]="xmTableDirective.config.pageableAndSortable.hidePagination"
                    [pageSize]="context.collection.pageableAndSortable.pageSize">
     </mat-paginator>
 

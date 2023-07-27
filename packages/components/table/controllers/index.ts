@@ -4,6 +4,8 @@ export {
 
 export { IXmTableCollectionState,IXmTableCollectionController } from './collections/i-xm-table-collection-controller';
 export { XmTableArrayCollectionController,XmTableArrayCollectionControllerConfig } from './collections/xm-table-array-collection-controller';
+export * from './collections/a-xm-table-state-collection-controller.service';
+export * from './collections/a-xm-table-local-pageable-collection-controller.service';
 export { XmTableAtTypeCollectionController } from './collections/xm-table-at-type-collection-controller';
 export { XmTableConfigCollectionController } from './collections/xm-table-config-collection-controller.service';
 export { XmTableLinkedCollectionController } from './collections/xm-table-linked-collection-controller';

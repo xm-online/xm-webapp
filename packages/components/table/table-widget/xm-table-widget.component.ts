@@ -17,7 +17,6 @@ import { XmTableLoadingColumnComponent } from '../components/xm-table-loading-co
 import { XmTableHeaderComponent } from '../components/xm-table-header.component';
 import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-widget.config';
 import { XmTableDirective } from '../directives/xm-table.directive';
-import { Defaults } from '@xm-ngx/operators';
 import { XmTableSelectionDirective } from '../directives/xm-table-selection.directive';
 import {
     ColumnsSettingStorageItem,
@@ -31,7 +30,7 @@ import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from '../directives/xm-table.m
 import { defaultsDeep } from 'lodash';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
-    const config = defaultsDeep({}, value, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
+    const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
     config.columns.forEach(c => c.name = c.name || c.field);
     config.pageableAndSortable.sortBy = config.pageableAndSortable.sortBy || config.columns[0].name;
     return config;
@@ -95,7 +94,7 @@ export class XmTableWidget {
         return this._config;
     }
 
-    @Input() @Defaults(XM_TABLE_WIDGET_CONFIG_DEFAULT)
+    @Input()
     public set config(value: XmTableWidgetConfig) {
         this._config = getConfig(value);
 
