@@ -9,7 +9,6 @@ import { AXmTableStateCollectionController } from './a-xm-table-state-collection
 import { take } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
-import { XmTableFilterController } from '../filters/xm-table-filter-controller.service';
 import { XmDynamicService, XmDynamicWithSelector } from '@xm-ngx/dynamic';
 import { XmFormatJsTemplateRecursive } from '@xm-ngx/operators';
 import { XmConfig } from '@xm-ngx/interfaces';
@@ -37,7 +36,6 @@ export class XmTableRepositoryCollectionController<T = unknown>
     public config: XmTableReadOnlyRepositoryCollectionControllerConfig;
 
     constructor(
-        private tableFilterController: XmTableFilterController,
         protected repositoryResolver: XmTableRepositoryResolver<T>,
     ) {
         super();
@@ -88,7 +86,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         this.changePartial({loading: true});
         this.repository.update(curr)
             .subscribe(
-                (_) => this.tableFilterController.refresh(),
+                (_) => this.changePartial({loading: false}),
                 () => this.changePartial({loading: false}),
                 () => this.changePartial({loading: false}));
     }

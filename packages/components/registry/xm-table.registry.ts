@@ -19,22 +19,22 @@ export const XM_TABLE_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/table',
-        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableWidget)
+        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableWidget),
     },
     {
         selector: '@xm-ngx/components/table-edit-cell',
-        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableEditCellComponent)
+        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableEditCellComponent),
     },
     {
         selector: '@xm-ngx/components/edit-chips',
-        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableFilterChipsControlComponent)
+        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableFilterChipsControlComponent),
     },
     {
         selector: '@xm-ngx/components/table-widget',
-        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableWidget)
+        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableWidget),
     },
     {
         selector: '@xm-ngx/components/chips-control',
-        loadChildren: () => import('@xm-ngx/components/chips-control').then(m => m.ChipsControlComponent)
+        loadChildren: () => import('@xm-ngx/components/chips-control').then(m => m.ChipsControlComponent),
     },
 ];

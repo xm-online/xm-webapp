@@ -10,7 +10,6 @@ export * from './collections/xm-table-read-only-array-collection-controller.serv
 export * from './collections/xm-table-repository-collection-controller.service';
 export * from './collections/xm-table-string-array-collection-controller.service';
 
-export * from './config/xm-table-config-controller.service';
 export * from './config/xm-table-columns-setting-storage.service';
 
 export * from './elastic/xm-table-elastic-search-collection-controller.service';
