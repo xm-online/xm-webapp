@@ -53,11 +53,6 @@ export class JhiGatewayComponent implements OnInit {
         this.alertService.open({
             title: 'Reload tenant configuration?',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'Yes, reload!',
         }).subscribe((result) => result.value ? this.triggerUpdate()
             : console.info('Cancel'));
@@ -67,11 +62,6 @@ export class JhiGatewayComponent implements OnInit {
         this.alertService.open({
             title: 'Reload Elastic?',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'Yes, reload!',
         }).subscribe((result) => result.value ? this.triggerUpdate('reindexTenantElastic')
             : console.info('Cancel'));

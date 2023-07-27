@@ -135,11 +135,6 @@ export class BaseAdminListComponent implements OnInit, OnDestroy {
         this.alertService.open({
             title: `Delete ${itemName}?`,
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'Yes, delete!',
         }).subscribe((result) => result.value ? this.deleteAction(id) : console.info('Cancel'));
     }

@@ -19,6 +19,7 @@ import { NgForOf } from '@angular/common';
                autocomplete="one-time-code"
                #letter
                maxlength="1"
+               (input)="inputOTP($event.data,letter)"
                (paste)="onPaste($event, letter)"
                (keyup)="onKeyUp($event, letter)"/>
     `,
@@ -71,12 +72,18 @@ export class LettersControl implements AfterViewInit {
         this.listenForOtp();
     }
 
+    public inputOTP(data: string, letter: HTMLInputElement): void {
+        if (data.length === this.config.mask.split('').length) {
+            this.fillInputs(data, letter);
+        }
+    }
+
     private listenForOtp(): void {
         if ('OTPCredential' in window) {
             window.addEventListener('DOMContentLoaded', (e) => {
                 const ac = new AbortController();
                 const reqObj = {
-                    otp: { transport: ['sms'] },
+                    otp: {transport: ['sms']},
                     signal: ac.signal,
                 };
                 navigator.credentials
@@ -84,7 +91,7 @@ export class LettersControl implements AfterViewInit {
                     .then((otp: any) => {
                         if (otp) {
                             if (otp && otp.code) {
-                                this.fillOtp(otp.code);
+                                this.fillByValues(otp.code,0);
                             }
                         }
                     })
@@ -96,25 +103,6 @@ export class LettersControl implements AfterViewInit {
         } else {
             console.info('Web OTP API not supported, Please enter manually.');
         }
-    }
-
-    private fillOtp(otp: string): void {
-        const components = this.components.toArray();
-        const startIndex = 0;
-        Array.from(otp).forEach((char, index) => {
-            const component = components[startIndex + index];
-            if (component && /^[0-9]$/.test(char)) {
-                component.nativeElement.value = char;
-            }
-        });
-
-        if (startIndex + otp.length >= components.length) {
-            const value = components.reduce((r, i) => r + i.nativeElement.value, '');
-            this.submitEvent.next(value);
-            return;
-        }
-
-        components[startIndex + otp.length]?.nativeElement.select();
     }
 
 
@@ -149,25 +137,31 @@ export class LettersControl implements AfterViewInit {
 
     public onPaste(e: ClipboardEvent, letter: HTMLInputElement): void {
         e.preventDefault();
+        this.fillInputs(e.clipboardData.getData('text'), letter);
+    }
 
-        const pastedData = e.clipboardData.getData('text');
+    private fillInputs(data: string, letter: HTMLInputElement): void {
         const components = this.components.toArray();
         const startIndex = components.findIndex((i) => i.nativeElement === letter);
+        this.fillByValues(data, startIndex);
+    }
 
-        Array.from(pastedData).forEach((char, index) => {
+    public fillByValues(data: string, startIndex: number): void {
+        const components = this.components.toArray();
+        Array.from(data).forEach((char, index) => {
             const component = components[startIndex + index];
             if (component && /^[0-9]$/.test(char)) {
                 component.nativeElement.value = char;
             }
         });
 
-        if (startIndex + pastedData.length >= components.length) {
+        if (startIndex + data.length >= components.length) {
             const value = components.reduce((r, i) => r + i.nativeElement.value, '');
             this.submitEvent.next(value);
             return;
         }
 
-        components[startIndex + pastedData.length]?.nativeElement.select();
+        components[startIndex + data.length]?.nativeElement.select();
     }
 
     public clear(): void {

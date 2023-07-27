@@ -1,10 +1,11 @@
 import { Dashboard } from '@xm-ngx/core/dashboard';
 import { MenuItem } from './menu.interface';
 import * as _ from 'lodash';
+import { ConditionDirective } from '@xm-ngx/components/condition';
 
 const DEFAULT_DASHBOARD_KEY = 'DASHBOARD';
 
-export function buildMenuTree(dashboards: Dashboard[]): MenuItem[] {
+export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof ConditionDirective.checkCondition, conditionArgs: Record<string, unknown> = {}): MenuItem[] {
     const result = _.orderBy(dashboards, [ 'config.orderIndex', 'config.slug' ]).reduce(
         (data, {
             id,
@@ -19,7 +20,9 @@ export function buildMenuTree(dashboards: Dashboard[]): MenuItem[] {
             } = {},
         }) => {
             if (hidden) {
-                return data;
+                if(!checkCondition || checkCondition(hidden.toString(), conditionArgs)){
+                    return data;
+                }
             }
 
             const {

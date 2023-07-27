@@ -15,6 +15,7 @@ import { DashboardCollection, DashboardConfig } from '../injectors';
 import { XmTextControlOptions } from '@xm-ngx/components/text';
 import { copyToClipboard, readFromClipboard } from '@xm-ngx/operators';
 import { DashboardsListExpandComponent } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
+import { XmTranslateService } from '@xm-ngx/translation';
 
 export enum EditType {
     Create = 1,
@@ -49,12 +50,20 @@ export class DashboardEditComponent {
     // Used only for copy functional
     @ViewChild(DashboardsListExpandComponent) public widgetsCompRef: DashboardsListExpandComponent;
 
+    @HostListener('document:keydown.escape', ['$event'])
+    public onKeydownHandler(event: KeyboardEvent): void {
+        if (event) {
+            this.onCancel();
+        }
+    }
+
     constructor(protected readonly dashboardService: DashboardCollection,
                 protected readonly editorService: DashboardEditorService,
                 protected readonly alertService: XmAlertService,
                 protected readonly dashboardConfig: DashboardConfig,
                 protected readonly eventManager: XmEventManager,
                 protected readonly principal: Principal,
+                protected readonly xmTranslateService: XmTranslateService,
                 protected readonly translateService: TranslateService,
                 protected readonly toasterService: XmToasterService) {
         this.loading$ = this.dashboardService.loading$.pipe(delay(0), tap((i) => this.disabled = i));
@@ -130,7 +139,9 @@ export class DashboardEditComponent {
     }
 
     public onDelete(): void {
-        this.alertService.delete({ textOptions: { value: this.value.name } }).pipe(
+        this.alertService.delete({
+            title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.deleted, { value: this.value.name }),
+        }).pipe(
             filter((i) => i.value),
             switchMap(() => this.dashboardService.delete(this.value.id)),
             tap((res) => {
