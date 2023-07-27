@@ -12,6 +12,7 @@ import { EditType } from '../dashboard-edit/dashboard-edit.component';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig, WidgetCollection } from '../injectors';
 import { SchemaEditorOptions } from './schema-editor/schema-editor.component';
+import { XmTranslateService } from '@xm-ngx/translation';
 
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
@@ -48,6 +49,7 @@ export class WidgetEditComponent implements OnChanges {
         protected readonly eventManager: XmEventManager,
         protected readonly dashboardConfig: DashboardConfig,
         protected readonly alertService: XmAlertService,
+        protected readonly xmTranslateService: XmTranslateService,
         protected readonly toasterService: XmToasterService) {
         this.loading$ = this.widgetService.loading$.pipe(tap((i) => this.disabled = i));
     }
@@ -119,7 +121,9 @@ export class WidgetEditComponent implements OnChanges {
     }
 
     public onDelete(): void {
-        this.alertService.delete({ textOptions: { value: this.value.name } }).pipe(
+        this.alertService.delete({
+            title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.deleted, { value: this.value.name })
+        }).pipe(
             filter((i) => i.value),
             switchMap(() => this.widgetService.delete(this.value.id)),
             tap(() => {
