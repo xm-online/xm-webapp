@@ -90,7 +90,7 @@ export const Config: StoryObj<XmTableWidget> = {
         config: {
             collection: {
                 type: 'config',
-                path: 'collection.staticData',
+                path: 'staticData',
                 staticData: [{ id: 111, name: 'test', age: '25' }],
             },
             columns: [
