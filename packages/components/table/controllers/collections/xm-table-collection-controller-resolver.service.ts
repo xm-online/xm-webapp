@@ -4,8 +4,6 @@ import {
     XmTableReadOnlyRepositoryCollectionController,
     XmTableReadOnlyRepositoryCollectionControllerConfig,
 } from './xm-table-read-only-repository-collection-controller';
-import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
-import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { AtTypeListConfig, XmTableAtTypeCollectionController } from './xm-table-at-type-collection-controller';
 import {
     XmTableConfigCollectionController,
@@ -29,12 +27,11 @@ import {
     XmTableArrayCollectionControllerConfig
 } from './xm-table-array-collection-controller';
 import { IXmTableCollectionController } from './i-xm-table-collection-controller';
-import { Observable } from 'rxjs';
 import {
     XmTableElasticSearchCollectionController,
     XmTableElasticSearchCollectionControllerConfig
 } from '../elastic/xm-table-elastic-search-collection-controller.service';
-import { map } from 'rxjs/operators';
+import { XmDynamicWithConfig } from '@xm-ngx/dynamic';
 
 export type XmTableCollectionControllerType = null
     | LinkListConfig
@@ -52,7 +49,6 @@ export type XmTableCollectionControllerType = null
 export class XmTableCollectionControllerResolver<T = unknown> {
 
     constructor(
-        private configController: XmTableConfigController<XmTableWidgetConfig>,
         private arrayController: XmTableArrayCollectionController<T>,
         private atTypeController: XmTableAtTypeCollectionController<T>,
         private configCollectionController: XmTableConfigCollectionController<T>,
@@ -61,38 +57,48 @@ export class XmTableCollectionControllerResolver<T = unknown> {
         private repositoryController: XmTableRepositoryCollectionController<T>,
         private readOnlyRepositoryCollectionController: XmTableReadOnlyRepositoryCollectionController<T>,
         private stringArrayController: XmTableStringArrayCollectionController<any>,
-        private elasticSearchCollectionController: XmTableElasticSearchCollectionController<T>
+        private elasticSearchCollectionController: XmTableElasticSearchCollectionController<T>,
     ) {
     }
 
-    public get(): Observable<IXmTableCollectionController<T>> {
-        return this.configController.config$().pipe(map(config => {
+    public factory(collectionConfig: XmTableCollectionControllerType): IXmTableCollectionController<T> {
+        const collectionType = collectionConfig.type;
 
-            const collectionType = config.collection.type;
+        let collectionController: IXmTableCollectionController<T> & XmDynamicWithConfig;
+        switch (collectionType) {
+            case 'array':
+                collectionController = this.arrayController;
+                break;
+            case 'atType':
+                collectionController = this.atTypeController;
+                break;
+            case 'stringArray':
+                collectionController = this.stringArrayController;
+                break;
+            case 'readOnlyArray':
+                collectionController = this.readOnlyArrayController;
+                break;
+            case 'repository':
+                collectionController = this.repositoryController;
+                break;
+            case 'readOnlyRepository':
+                collectionController = this.readOnlyRepositoryCollectionController;
+                break;
+            case 'link':
+                collectionController = this.linkedController;
+                break;
+            case 'config':
+                collectionController = this.configCollectionController;
+                break;
+            case 'elasticSearch':
+                collectionController = this.elasticSearchCollectionController;
+                break;
+            default:
+                throw new Error('Invalid type' + collectionType);
+        }
 
-            switch (collectionType) {
-                case 'array':
-                    return this.arrayController;
-                case 'atType':
-                    return this.atTypeController;
-                case 'stringArray':
-                    return this.stringArrayController;
-                case 'readOnlyArray':
-                    return this.readOnlyArrayController;
-                case 'repository':
-                    return this.repositoryController;
-                case 'readOnlyRepository':
-                    return this.readOnlyRepositoryCollectionController;
-                case 'link':
-                    return this.linkedController;
-                case 'config':
-                    return this.configCollectionController;
-                case 'elasticSearch':
-                    return this.elasticSearchCollectionController;
-                default:
-                    throw new Error('Invalid type' + collectionType);
-            }
-        }));
+        collectionController.config = collectionConfig;
+        return collectionController;
     }
 
 }

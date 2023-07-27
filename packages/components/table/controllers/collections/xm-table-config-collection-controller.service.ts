@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
 import {
     AXmTableLocalPageableCollectionController,
 } from './a-xm-table-local-pageable-collection-controller.service';
 
 import { NotSupportedException } from '@xm-ngx/exceptions';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
-import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import _ from 'lodash';
-import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
+import { XmConfig } from '@xm-ngx/interfaces';
 
-export interface XmTableConfigCollectionControllerConfig {
+export interface XmTableConfigCollectionControllerConfig extends XmConfig {
     type: 'config'
     path: string;
     staticData: unknown[];
@@ -21,16 +19,9 @@ export class XmTableConfigCollectionController<T = unknown>
     extends AXmTableLocalPageableCollectionController<T>
     implements IXmTableCollectionController<T> {
 
-    private config: XmTableConfigCollectionControllerConfig;
+    public config: XmTableConfigCollectionControllerConfig;
 
-    constructor(
-        private configController: XmTableConfigController<XmTableWidgetConfig>,
-    ) {
-        super();
-    }
-
-    public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = (await firstValueFrom(this.configController.config$())).collection as XmTableConfigCollectionControllerConfig;
+    public load(request: XmFilterQueryParams): void {
         const rawData = _.get(this.config, this.config.path, []) as T[];
 
         this.changeByItems(rawData, request);

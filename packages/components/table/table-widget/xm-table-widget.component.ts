@@ -13,26 +13,22 @@ import { MatSortModule } from '@angular/material/sort';
 import { XmTableDynamicColumnComponent } from '../columns/xm-table-dynamic-column.component';
 import { XmTableColumnDynamicCellComponent } from '../columns/xm-table-column-dynamic-cell.component';
 import { XmTableSelectionColumnComponent, } from '../components/xm-table-selection-column.component';
-import {
-    XmTableLoadingColumnComponent
-} from '../components/xm-table-loading-column.component';
+import { XmTableLoadingColumnComponent } from '../components/xm-table-loading-column.component';
 import { XmTableHeaderComponent } from '../components/xm-table-header.component';
 import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-widget.config';
 import { XmTableDirective } from '../directives/xm-table.directive';
 import { XmTableSelectionDirective } from '../directives/xm-table-selection.directive';
 import {
     ColumnsSettingStorageItem,
+    IXmTableCollectionController,
     XM_TABLE_CONTROLLERS,
     XmTableCollectionControllerResolver,
     XmTableColumnsSettingStorageService,
-    XmTableConfigController
 } from '../controllers';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from '../directives/xm-table.model';
 import { defaultsDeep } from 'lodash';
-import {
-    XmTableQueryParamsStoreService
-} from '../controllers/filters/xm-table-query-params-store.service';
+import { XmTableQueryParamsStoreService } from '../controllers/filters/xm-table-query-params-store.service';
 import { XmTableMatPaginatorAdapterDirective } from '../directives/xm-table-mat-paginator-adapter.directive';
 import { XmTableMatSortAdapterDirective } from '../directives/xm-table-mat-sort-adapter.directive';
 import { XmTableLoadingComponent } from '../components/xm-table-loading.component';
@@ -91,7 +87,6 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
     providers: [
         ...XM_TABLE_CONTROLLERS,
         XmTableFilterController,
-        XmTableConfigController,
         XmTableColumnsSettingStorageService,
         XmTableQueryParamsStoreService,
     ],
@@ -99,8 +94,7 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
 export class XmTableWidget {
     constructor(
         private columnsSettingStorageService: XmTableColumnsSettingStorageService,
-        private configController: XmTableConfigController,
-        public collectionControllerResolver: XmTableCollectionControllerResolver) {
+        private collectionControllerResolver: XmTableCollectionControllerResolver) {
     }
 
     private _config: XmTableWidgetConfig;
@@ -112,9 +106,11 @@ export class XmTableWidget {
     @Input()
     public set config(value: XmTableWidgetConfig) {
         this._config = getConfig(value);
-
-        this.configController.change(this._config);
         this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));
+    }
+
+    public getCollectionController(): IXmTableCollectionController<unknown> {
+        return this.collectionControllerResolver.factory(this.config.collection);
     }
 
 }
