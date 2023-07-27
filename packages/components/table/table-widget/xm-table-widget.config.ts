@@ -13,6 +13,8 @@ export interface XmTableWithColumnDynamicCellOptionsPagination extends PageableA
     hidePagination: boolean;
 }
 
+export type XmTableQueryParamsToFilter = Record<string, unknown>;
+
 export interface XmTableWidgetConfig extends XmTableFiltersControlRequestConfig {
     /** Title */
     title: Translate,
@@ -23,6 +25,7 @@ export interface XmTableWidgetConfig extends XmTableFiltersControlRequestConfig 
     /** Columns configuration */
     columns: XmTableColumn[],
     collection: XmTableCollectionControllerType,
+    queryParamsToFillter?: XmTableQueryParamsToFilter;
     pageableAndSortable: XmTableWithColumnDynamicCellOptionsPagination,
     isRowSelectable: boolean,
     noRows: XmTableEmptyRows,
