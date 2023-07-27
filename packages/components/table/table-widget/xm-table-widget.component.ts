@@ -28,6 +28,9 @@ import {
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from '../directives/xm-table.model';
 import { defaultsDeep } from 'lodash';
+import {
+    XmTableQueryParamsStoreService
+} from '../controllers/filters/xm-table-query-params-store.service';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -79,6 +82,9 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
     providers: [
         ...XM_TABLE_CONTROLLERS,
         XmTableFilterController,
+        XmTableConfigController,
+        XmTableColumnsSettingStorageService,
+        XmTableQueryParamsStoreService,
     ],
 })
 export class XmTableWidget {

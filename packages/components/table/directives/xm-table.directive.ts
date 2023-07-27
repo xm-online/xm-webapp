@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, ViewChild } from '@angular/core';
+import { ContentChild, Directive, Input, OnInit } from '@angular/core';
 import {
     IXmTableCollectionController,
     IXmTableCollectionState,
@@ -11,8 +11,9 @@ import * as _ from 'lodash';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { XmTableQueryParamsStoreService } from '../controllers/filters/xm-table-query-params-store.service';
-import { XmTableConfig } from './xm-table.model';
+import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from './xm-table.model';
 import { map } from 'rxjs/operators';
+import { Defaults } from '@xm-ngx/operators';
 
 
 export interface IXmTableContext {
@@ -30,13 +31,13 @@ export class XmTableDirective implements OnInit {
     public context$: Observable<IXmTableContext>;
     public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
 
-    @ViewChild(MatPaginator, { static: false }) public paginator: MatPaginator;
-    @ViewChild(MatSort, { static: false }) public sort: MatSort;
+    @ContentChild(MatPaginator, { static: false }) public paginator: MatPaginator | null;
+    @ContentChild(MatSort, { static: false }) public sort: MatSort | null;
 
     @Input('xmTableDirectiveController')
     public controller: IXmTableCollectionController<unknown>;
 
-    @Input('xmTableDirectiveConfig')
+    @Input('xmTableDirectiveConfig') @Defaults(XM_TABLE_CONFIG_DEFAULT)
     public config: XmTableConfig;
 
     constructor(

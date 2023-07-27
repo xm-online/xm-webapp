@@ -1,5 +1,4 @@
 import { Provider } from '@angular/core';
-import { XmTableConfigController } from './config/xm-table-config-controller.service';
 import { XmTableArrayCollectionController } from './collections/xm-table-array-collection-controller';
 import { XmTableReadOnlyArrayCollectionController } from './collections/xm-table-read-only-array-collection-controller.service';
 import { XmTableEntityController } from './entity/xm-table-entity-controller.service';
@@ -22,20 +21,15 @@ import { XmTableElasticSearchCollectionController } from '../controllers/elastic
 import {
     XmElasticSearchRepository
 } from '../controllers/elastic/xm-elastic-search-repository.service';
-import { XmTableQueryParamsStoreService } from '../controllers/filters/xm-table-query-params-store.service';
 import {
     XmElasticRequestBuilder
 } from './elastic/xm-elastic-request-builder.service';
-import {
-    XmTableColumnsSettingStorageService
-} from '../controllers/config/xm-table-columns-setting-storage.service';
 
 export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmEntityRepository,
     XmElasticSearchRepository,
     XmTableRepositoryResolver,
 
-    XmTableConfigController,
     XmTableEntityController,
 
     XmTableCollectionControllerResolver,
@@ -50,9 +44,5 @@ export const XM_TABLE_CONTROLLERS: Provider[] = [
     XmTableStringArrayCollectionController,
     XmTableElasticSearchCollectionController,
 
-    XmTableQueryParamsStoreService,
-
     XmElasticRequestBuilder,
-
-    XmTableColumnsSettingStorageService
 ];
