@@ -12,6 +12,7 @@ export interface ITrKeyTranslates {
     name: 'translate',
     pure: false,
 })
+/** @deprecated solution. Use {@link XmTranslatePipe} instead. Will be removed in v8.0.0. */
 export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDestroy {
 
     constructor(protected translateService: TranslateService,
@@ -59,3 +60,11 @@ export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDest
 
     }
 }
+
+@Injectable()
+@Pipe({
+    name: 'xmTranslate',
+    pure: false,
+    standalone: true,
+})
+export class XmTranslatePipe extends TranslatePipe {}
