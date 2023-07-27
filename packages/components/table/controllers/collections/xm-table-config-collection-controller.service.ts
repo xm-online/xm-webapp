@@ -31,7 +31,9 @@ export class XmTableConfigCollectionController<T = unknown>
 
     public async load(request: XmFilterQueryParams): Promise<void> {
         this.config = (await firstValueFrom(this.configController.config$())).collection as XmTableConfigCollectionControllerConfig;
-        this.items = _.get(this.config, this.config.path, []) as T[];
+        const rawData = _.get(this.config, this.config.path, []) as T[];
+
+        this.changeByItems(rawData, request);
     }
 
     public save(): void {
