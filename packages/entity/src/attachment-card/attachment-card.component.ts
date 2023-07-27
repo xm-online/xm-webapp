@@ -109,11 +109,6 @@ export class AttachmentCardComponent implements OnInit {
         this.alertService.open({
             title: 'xm-entity.attachment-card.delete.title',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'xm-entity.attachment-card.delete.button',
             cancelButtonText: this.translateService.instant('xm-entity.attachment-card.delete.button-cancel'),
         }).subscribe((result) => {

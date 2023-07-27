@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { XmConfirmDialogComponent } from './confirm-dialog.component';
-import { XmConfirmDialogControls, XmConfirmDialogData } from './confirm-dialog.interface';
-import { Translate } from '@xm-ngx/translation';
+import { XmConfirmDialogData, XmConfirmDialogOpenProps } from './confirm-dialog.interface';
 import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
 import { map, Observable, share } from 'rxjs';
-import _ from 'lodash';
+import { defaults, isArray, mergeWith } from 'lodash';
 
 @Injectable({
     providedIn: 'root',
@@ -19,25 +18,16 @@ export class XmConfirmDialogService {
     ) {
     }
 
-    public open(
-        title?: Translate,
-        controls?: XmConfirmDialogControls,
-        subtitle?: Translate,
-        cancelButtonText?: Translate,
-        confirmButtonText?: Translate,
-        isManualClose?: boolean,
-        config?: MatDialogConfig<XmConfirmDialogData>,
-    ): MatDialogRef<XmConfirmDialogComponent> {
-        this.dialogData.data = {
-            title,
-            controls,
-            subtitle,
-            cancelButtonText,
-            confirmButtonText,
-            isManualClose,
-        };
+    public open<R>(props: XmConfirmDialogOpenProps = {}): MatDialogRef<XmConfirmDialogComponent> {
+        this.dialogData.data = props.data;
 
-        this.dialogRef = this.matDialog.open<XmConfirmDialogComponent, XmConfirmDialogData>(XmConfirmDialogComponent, config ?? {});
+        this.dialogRef = this.matDialog.open<XmConfirmDialogComponent, XmConfirmDialogData, R>(XmConfirmDialogComponent, defaults(
+            {},
+            (props.dialogConfig ?? {}),
+            {
+                panelClass: 'xm-alert',
+            },
+        ));
 
         return this.dialogRef;
     }
@@ -47,8 +37,8 @@ export class XmConfirmDialogService {
             return;
         }
         
-        this.dialogData.data = _.mergeWith({}, this.dialogData.data, dialog, (obj, src) => {
-            return _.isArray(src) ? src : undefined;
+        this.dialogData.data = mergeWith({}, this.dialogData.data, dialog, (obj, src) => {
+            return isArray(src) ? src : undefined;
         });
     }
 

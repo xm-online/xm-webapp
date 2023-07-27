@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { I18nNamePipe } from '@xm-ngx/translation';
+import { I18nNamePipe, XmTranslationModule } from '@xm-ngx/translation';
 import { ErrorHandlerEventName, ErrorHandlerEventPayload, XmEventManager, XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
@@ -10,9 +10,11 @@ import * as _ from 'lodash';
 import { JhiAlertService } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { XmAlertService } from '../xm-alert.service';
-import { ResponseConfig, ResponseConfigItem, ResponseContext } from './response-config.model';
+import { XmAlertService } from '@xm-ngx/alert';
+import { ResponseConfig, ResponseConfigItem, ResponseContext } from '../response-config.model';
 import { XmUIConfig } from '@xm-ngx/core/config';
+import { CommonModule } from '@angular/common';
+import { XmErrorMessagesNotifyComponent } from './error-messages-notify.component';
 
 interface ErrorHandlerEventPayloadProcessed extends ErrorHandlerEventPayload {
     content: HttpErrorResponse | any;
@@ -40,8 +42,14 @@ interface UIResponseConfigResponses {
 }
 
 @Component({
-    selector: 'xm-alert-error',
-    templateUrl: './alert-error.component.html',
+    standalone: true,
+    selector: 'xm-error-messages',
+    templateUrl: './error-messages.component.html',
+    imports: [
+        CommonModule,
+        XmTranslationModule,
+        XmErrorMessagesNotifyComponent,
+    ],
 })
 export class JhiAlertErrorComponent implements OnDestroy {
 
@@ -107,10 +115,6 @@ export class JhiAlertErrorComponent implements OnDestroy {
                     title,
                     width: '42rem',
                     icon: messageSettings[1],
-                    buttonsStyling: false,
-                    customClass: {
-                        confirmButton: 'btn btn-primary',
-                    }
                 }).subscribe((result) => {
                     if (result && config.redirectUrl) {
                         const redirect = (config.redirectUrl === '/') ? '' : config.redirectUrl;

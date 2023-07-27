@@ -44,40 +44,37 @@ $mat-elevation-opacity:    $xm-elevation-opacity;
 
 @include mat.core();
 
-@mixin xm-angular-material-theme($theme) {
-  $primary:        map-get($theme, primary-palette);
-  $secondary:      map-get($theme, secondary-palette);
-  $warn:           map-get($theme, warn-palette);
+$primary:        map-get($xm-theme, primary-palette);
+$secondary:      map-get($xm-theme, secondary-palette);
+$warn:           map-get($xm-theme, warn-palette);
 
-  // TODO: pass $default, $light and $dark
-  $xm-mat-primary: mat.define-palette($primary);
-  $xm-mat-accent:  mat.define-palette(
-                       $secondary,
-                       $xm-mat-secondary-default);
-  $xm-mat-warn:    mat.define-palette($warn);
+// TODO: pass $default, $light and $dark
+$xm-mat-primary: mat.define-palette($primary);
+$xm-mat-accent:  mat.define-palette($secondary, $xm-mat-secondary-default);
+$xm-mat-warn:    mat.define-palette($warn);
 
-  $xm-mat-theme:   null !default;
-  @if ($xm-is-dark-mode == true) {
-    $xm-mat-theme: mat.define-dark-theme((
-      color: (
-        primary: $xm-mat-primary,
-        accent: $xm-mat-accent,
-        warn: $xm-mat-warn,
-      ),
-      typography: mat.define-typography-config(),
-      density: 0,
-    ));
+$xm-mat-theme: mat.define-light-theme((
+  color: (
+    primary: $xm-mat-primary,
+    accent: $xm-mat-accent,
+    warn: $xm-mat-warn,
+  ),
+)) !default;
 
-  } @else {
-    $xm-mat-theme: mat.define-light-theme((
-      color: (
-        primary: $xm-mat-primary,
-        accent: $xm-mat-accent,
-        warn: $xm-mat-warn,
-      ),
-    ));
-  }
+@if ($xm-is-dark-mode == true) {
+  $xm-mat-theme: mat.define-dark-theme((
+    color: (
+      primary: $xm-mat-primary,
+      accent: $xm-mat-accent,
+      warn: $xm-mat-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  ));
+}
 
+
+@mixin xm-angular-material-theme() {
   @include mat.all-component-themes($xm-mat-theme);
 }
 
