@@ -49,6 +49,13 @@ export class DashboardEditComponent {
     // Used only for copy functional
     @ViewChild(DashboardsListExpandComponent) public widgetsCompRef: DashboardsListExpandComponent;
 
+    @HostListener('document:keydown.escape', ['$event'])
+    public onKeydownHandler(event: KeyboardEvent): void {
+        if (event) {
+            this.onCancel();
+        }
+    }
+
     constructor(protected readonly dashboardService: DashboardCollection,
                 protected readonly editorService: DashboardEditorService,
                 protected readonly alertService: XmAlertService,
