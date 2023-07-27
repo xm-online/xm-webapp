@@ -19,16 +19,12 @@ import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-
 import { XmTableDirective } from '../directives/xm-table.directive';
 import { XmTableSelectionDirective } from '../directives/xm-table-selection.directive';
 import {
-    ColumnsSettingStorageItem,
     IXmTableCollectionController,
     XM_TABLE_CONTROLLERS,
     XmTableCollectionControllerResolver,
-    XmTableColumnsSettingStorageService,
 } from '../controllers';
-import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
-import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from '../directives/xm-table.model';
+import { XM_TABLE_CONFIG_DEFAULT } from '../directives/xm-table.model';
 import { defaultsDeep } from 'lodash';
-import { XmTableQueryParamsStoreService } from '../controllers/filters/xm-table-query-params-store.service';
 import { XmTableMatPaginatorAdapterDirective } from '../directives/xm-table-mat-paginator-adapter.directive';
 import { XmTableMatSortAdapterDirective } from '../directives/xm-table-mat-sort-adapter.directive';
 import { XmTableLoadingComponent } from '../components/xm-table-loading.component';
@@ -38,16 +34,6 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     config.columns.forEach(c => c.name = c.name || c.field);
     config.pageableAndSortable.sortBy = config.pageableAndSortable.sortBy || config.columns[0].name;
     return config;
-}
-
-function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[] {
-    const displayedColumns = config.columns;
-    return displayedColumns.map(i => ({
-        name: i.name || i.field,
-        hidden: i['hidden'] || false,
-        title: i.title,
-        isHideLock: i['isHideLock'] || false,
-    }));
 }
 
 @Component({
@@ -86,14 +72,10 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,
-        XmTableFilterController,
-        XmTableColumnsSettingStorageService,
-        XmTableQueryParamsStoreService,
     ],
 })
 export class XmTableWidget {
     constructor(
-        private columnsSettingStorageService: XmTableColumnsSettingStorageService,
         private collectionControllerResolver: XmTableCollectionControllerResolver) {
     }
 
@@ -106,7 +88,6 @@ export class XmTableWidget {
     @Input()
     public set config(value: XmTableWidgetConfig) {
         this._config = getConfig(value);
-        this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));
     }
 
     public getCollectionController(): IXmTableCollectionController<unknown> {

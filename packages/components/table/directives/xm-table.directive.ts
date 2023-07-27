@@ -1,5 +1,6 @@
 import { ContentChild, Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import {
+    ColumnsSettingStorageItem,
     IXmTableCollectionController,
     IXmTableCollectionState,
     XmTableColumnsSettingStorageService,
@@ -15,37 +16,58 @@ import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from './xm-table.model';
 import { map } from 'rxjs/operators';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
-
 export interface IXmTableContext {
     collection: IXmTableCollectionState<unknown>,
     settings: { displayedColumns: string [] };
 }
 
+function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[] {
+    const displayedColumns = config.columns;
+    return displayedColumns.map(i => ({
+        name: i.name || i.field,
+        hidden: i['hidden'] || false,
+        title: i.title,
+        isHideLock: i['isHideLock'] || false,
+    }));
+}
+
+
 @Directive({
     selector: '[xmTable]',
     exportAs: 'xmTable',
     host: { class: 'xm-table' },
-    providers: [],
+    providers: [
+        XmTableFilterController,
+        XmTableColumnsSettingStorageService,
+        XmTableQueryParamsStoreService,
+    ],
     standalone: true,
 })
 export class XmTableDirective implements OnInit, OnDestroy {
     public context$: Observable<IXmTableContext>;
     public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
-
     @ContentChild(MatPaginator, { static: false }) public paginator: MatPaginator | null;
     @ContentChild(MatSort, { static: false }) public sort: MatSort | null;
-
     @Input('xmTableController')
     public controller: IXmTableCollectionController<unknown>;
-
-    @Input('xmTableConfig') @Defaults(XM_TABLE_CONFIG_DEFAULT)
-    public config: XmTableConfig;
 
     constructor(
         private tableFilterController: XmTableFilterController,
         private columnsSettingStorageService: XmTableColumnsSettingStorageService,
         private queryParamsStoreService: XmTableQueryParamsStoreService,
     ) {
+    }
+
+    private _config: XmTableConfig;
+
+    public get config(): XmTableConfig {
+        return this._config;
+    }
+
+    @Input('xmTableConfig') @Defaults(XM_TABLE_CONFIG_DEFAULT)
+    public set config(value: XmTableConfig) {
+        this._config = value;
+        this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));
     }
 
     public ngOnInit(): void {
@@ -69,7 +91,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
             .pipe(takeUntilOnDestroy(this))
             .subscribe(([filterParams, pageableAndSortable]) => {
                 const queryParams = _.merge({}, { pageableAndSortable }, { filterParams });
-                const removeFieldsFromUrl = Object.keys(this.config.queryParamsToFillter ?? {})
+                const removeFieldsFromUrl = Object.keys(this._config.queryParamsToFillter ?? {})
                     .reduce((acc, key) => ({ ...acc, [key]: null }), {});
 
                 this.queryParamsStoreService.set(queryParams, removeFieldsFromUrl);
@@ -85,7 +107,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
     }
 
     public updatePagination(): void {
-        const sortBy = this.config.columns.find((i) => i.name === this.sort.active)?.name;
+        const sortBy = this._config.columns.find((i) => i.name === this.sort.active)?.name;
         const sortOrder = this.sort.direction;
         const pageIndex = this.paginator.pageIndex;
         const pageSize = this.paginator.pageSize;
@@ -95,10 +117,10 @@ export class XmTableDirective implements OnInit, OnDestroy {
     }
 
     private initQueryParams(): void {
-        const queryParams = this.queryParamsStoreService.get(this.config.queryParamsToFillter);
+        const queryParams = this.queryParamsStoreService.get(this._config.queryParamsToFillter);
 
         this.tableFilterController.set(queryParams.filterParams);
-        const { pageIndex, pageSize, sortBy, sortOrder } = this.config.pageableAndSortable;
+        const { pageIndex, pageSize, sortBy, sortOrder } = this._config.pageableAndSortable;
         const pageParams = {
             pageIndex,
             pageSize,
