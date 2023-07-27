@@ -9,34 +9,16 @@
 
   <mat-card *ngIf="xmTableDirective.context$ | async as context" class="no-horizontal-paddings mb-3">
 
-    <xm-table-header>
-
-      <div *ngIf="config.title">
-        <h5 class="no-margin">{{config.title | xmTranslate }}</h5>
-      </div>
-
-      <xm-table-filter-button [config]="config"
-                              [loading]="context.collection.loading"
-      ></xm-table-filter-button>
-
-      <xm-table-filter-chips [config]="config"></xm-table-filter-chips>
-
-      <xm-table-actions-buttons
-        class="push-self-right"
-        [config]="config.actions"></xm-table-actions-buttons>
-
-    </xm-table-header>
+    <xm-table-header [config]="config" [loading]="context.collection.loading"></xm-table-header>
 
     <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
 
-    <div class="overflow-wrap">
+    <div class="xm-table-overflow-wrap">
       <table
             [style.width]="config?.width"
             mat-table
             matSort
-            (matSortChange)="xmTableDirective.updatePagination()"
-            [matSortActive]="context.collection.pageableAndSortable.sortBy"
-            [matSortDirection]="context.collection.pageableAndSortable.sortOrder"
+            xmTableMatSortAdapter
             matSortDisableClear
             [dataSource]="context.collection.items">
 
@@ -72,12 +54,10 @@
     </div>
 
     <mat-paginator showFirstLastButtons
-                   (page)="xmTableDirective.updatePagination()"
-                   [pageIndex]="context.collection.pageableAndSortable.pageIndex"
-                   [length]="context.collection.pageableAndSortable.total"
-                   [pageSizeOptions]="xmTableDirective.config.pageableAndSortable.pageSizeOptions"
+                   xmTableMatPaginatorAdapter
                    [hidden]="xmTableDirective.config.pageableAndSortable.hidePagination"
-                   [pageSize]="context.collection.pageableAndSortable.pageSize">
+                   [pageSizeOptions]="xmTableDirective.config.pageableAndSortable.pageSizeOptions"
+    >
     </mat-paginator>
 
   </mat-card>

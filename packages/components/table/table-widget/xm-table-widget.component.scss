@@ -24,16 +24,7 @@
     height:     inherit;
   }
 
-  .push-self-right {
-    display:     block;
-    margin-left: auto;
-  }
-
-  .no-margin {
-    margin: 0;
-  }
-
-  .overflow-wrap {
+  .xm-table-overflow-wrap {
     max-width: 100%;
     overflow:  auto;
 

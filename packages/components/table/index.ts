@@ -38,3 +38,5 @@ export * from './table-widget/xm-table-widget.config';
 export * from './directives/xm-table.directive';
 export * from './directives/xm-table.model';
 export * from './directives/xm-table-selection.directive';
+export * from './directives/xm-table-mat-paginator-adapter.directive';
+export * from './directives/xm-table-mat-sort-adapter.directive';
