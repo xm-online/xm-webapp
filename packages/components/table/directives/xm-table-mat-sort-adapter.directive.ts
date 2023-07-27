@@ -23,7 +23,7 @@ export class XmTableMatSortAdapterDirective implements AfterViewInit, OnDestroy 
             .subscribe((context) => {
                 this.matSort.active = context.collection.pageableAndSortable.sortBy as string;
                 this.matSort.direction = context.collection.pageableAndSortable.sortOrder;
-            })
+            });
         this.matSort.sortChange
             .pipe(takeUntilOnDestroy(this))
             .subscribe(() => this.xmTableDirective.updatePagination());

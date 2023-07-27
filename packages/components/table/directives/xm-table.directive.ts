@@ -1,8 +1,8 @@
-import { ContentChild, Directive, Input, OnInit } from '@angular/core';
+import { ContentChild, Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import {
     IXmTableCollectionController,
     IXmTableCollectionState,
-    XmTableColumnsSettingStorageService
+    XmTableColumnsSettingStorageService,
 } from '../controllers';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
 import { XmTableQueryParamsStoreService } from '../controllers/filters/xm-table-query-params-store.service';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from './xm-table.model';
 import { map } from 'rxjs/operators';
-import { Defaults } from '@xm-ngx/operators';
+import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 
 export interface IXmTableContext {
@@ -28,7 +28,7 @@ export interface IXmTableContext {
     providers: [],
     standalone: true,
 })
-export class XmTableDirective implements OnInit {
+export class XmTableDirective implements OnInit, OnDestroy {
     public context$: Observable<IXmTableContext>;
     public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
 
@@ -48,7 +48,7 @@ export class XmTableDirective implements OnInit {
     ) {
     }
 
-    public async ngOnInit(): Promise<void> {
+    public ngOnInit(): void {
         this.context$ = combineLatest([
             this.controller.state$(),
             this.columnsSettingStorageService.getStore()
@@ -66,6 +66,7 @@ export class XmTableDirective implements OnInit {
             this.tableFilterController.change$(),
             this.pageableAndSortable$,
         ])
+            .pipe(takeUntilOnDestroy(this))
             .subscribe(([filterParams, pageableAndSortable]) => {
                 const queryParams = _.merge({}, { pageableAndSortable }, { filterParams });
                 const removeFieldsFromUrl = Object.keys(this.config.queryParamsToFillter ?? {})
@@ -77,6 +78,10 @@ export class XmTableDirective implements OnInit {
             });
 
         this.initQueryParams();
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
     }
 
     public updatePagination(): void {

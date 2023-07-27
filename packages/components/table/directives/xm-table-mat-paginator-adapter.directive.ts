@@ -1,4 +1,4 @@
-import { Directive, Self } from '@angular/core';
+import { AfterViewInit, Directive, OnDestroy, Self } from '@angular/core';
 import { XmTableDirective } from './xm-table.directive';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { MatPaginator } from '@angular/material/paginator';
@@ -9,7 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
     providers: [],
     standalone: true,
 })
-export class XmTableMatPaginatorAdapterDirective {
+export class XmTableMatPaginatorAdapterDirective implements AfterViewInit, OnDestroy {
     constructor(
         @Self() private matPaginator: MatPaginator,
         private xmTableDirective: XmTableDirective,
@@ -23,7 +23,7 @@ export class XmTableMatPaginatorAdapterDirective {
                 this.matPaginator.pageIndex = context.collection.pageableAndSortable.pageIndex;
                 this.matPaginator.length = context.collection.pageableAndSortable.total;
                 this.matPaginator.pageSize = context.collection.pageableAndSortable.pageSize;
-            })
+            });
         this.matPaginator.page
             .pipe(takeUntilOnDestroy(this))
             .subscribe(() => this.xmTableDirective.updatePagination());

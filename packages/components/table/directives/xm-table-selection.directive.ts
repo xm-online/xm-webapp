@@ -3,7 +3,7 @@ import { XmTableSelectionService } from '../controllers/selections/xm-table-sele
 
 import {
     XM_TABLE_SELECTION_COLUMN_DEFAULT,
-    XmTableSelectTableColumn
+    XmTableSelectTableColumn,
 } from '../components/xm-table-selection-column.component';
 import _ from 'lodash';
 import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
