@@ -20,7 +20,7 @@ export abstract class AXmTableLocalPageableCollectionController<T>
 
     public changeByItems(rawData: T[], request: XmFilterQueryParams): void {
         this.rawData = rawData;
-        let { pageableAndSortable } = defaultsDeep(request, cloneDeep({ pageableAndSortable: PAGEABLE_AND_SORTABLE_DEFAULT, filterParams: {}}));
+        const { pageableAndSortable } = defaultsDeep(request, cloneDeep({ pageableAndSortable: PAGEABLE_AND_SORTABLE_DEFAULT, filterParams: {}}));
         pageableAndSortable.total = rawData.length;
 
         const from = pageableAndSortable.pageIndex * pageableAndSortable.pageSize;
