@@ -13,7 +13,7 @@
     "../src/**/*.spec.ts"
   ],
   "include": [
-    "../src/**/*",
+    "../src/polyfills.ts",
     "./preview.ts",
     "../src/**/*.stories.ts",
     "../packages/**/*.stories.ts"

@@ -11,7 +11,8 @@ import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
     imports: [XmInlineControlComponent, FormsModule],
     template: `
         <xm-inline-control [config]="config"
-                           [ngModel]="value"></xm-inline-control>
+                           [ngModel]="value"
+                           (saveValue)="change($event)"></xm-inline-control>
     `,
 })
 export class XmTableFilterChipsControlComponent extends NgControlAccessor<unknown> {

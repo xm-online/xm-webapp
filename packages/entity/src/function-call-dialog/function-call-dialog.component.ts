@@ -165,10 +165,6 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
             this.alertService.open({
                 icon: 'success',
                 html: `<pre style="text-align: left"><code>${JSON.stringify(data, null, '  ')}</code></pre>`,
-                buttonsStyling: false,
-                customClass: {
-                    confirmButton: 'btn btn-primary',
-                }
             }).subscribe();
         } else if (data && this.functionSpec.showResponse && this.functionSpec.contextDataForm) {
             this.showSecondStep$.next(true);
