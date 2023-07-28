@@ -75,7 +75,7 @@ export class WidgetEditComponent implements OnChanges {
     @HostListener('document:keydown.escape', ['$event'])
     public onKeydownHandler(event: KeyboardEvent): void {
         if (event) {
-            this.onCancel();
+            this.backToOrganisation();
         }
     }
 

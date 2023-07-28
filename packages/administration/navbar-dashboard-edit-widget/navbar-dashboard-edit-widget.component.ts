@@ -70,9 +70,7 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, Xm
     }
 
     public ngOnInit(): void {
-        this.editorService.changeEditState().pipe(takeUntilOnDestroy(this)).subscribe((isEdit) => {
-            this.isEditing = isEdit;
-        });
+        this.changeEditState();
 
         this.pageService.active$().pipe(takeUntilOnDestroy(this)).subscribe((i) => {
             this.page = i as Dashboard;
@@ -90,6 +88,12 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, Xm
         this.eventManager.listenTo(this.dashboardConfig.EDIT_WIDGET_EVENT)
             .pipe(takeUntilOnDestroy(this))
             .subscribe(({ id }) => this.updateView(this.page.id));
+    }
+
+    public changeEditState(): void {
+        this.editorService.changeEditState().pipe(takeUntilOnDestroy(this)).subscribe((isEdit) => {
+            this.isEditing = isEdit;
+        });
     }
 
     public onEdit(): void {
