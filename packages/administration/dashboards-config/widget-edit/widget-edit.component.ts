@@ -85,7 +85,6 @@ export class WidgetEditComponent implements OnChanges {
 
     public onCancel(): void {
         this.editorService.close();
-        this.editorService.changeEditState(false);
     }
 
     public onAdd(): void {
