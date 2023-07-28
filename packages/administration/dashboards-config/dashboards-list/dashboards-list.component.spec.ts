@@ -15,6 +15,7 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardsListComponent } from './dashboards-list.component';
 import { XmToasterService } from '@xm-ngx/toaster';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('DashboardsListComponent', () => {
     let component: DashboardsListComponent;
@@ -28,6 +29,7 @@ describe('DashboardsListComponent', () => {
                 RouterTestingModule,
                 CommonModule,
                 MatSnackBarModule,
+                MatDialogModule,
             ],
             declarations: [DashboardsListComponent],
             providers: [
