@@ -20,7 +20,7 @@ export const XM_DATE_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/date-range',
-        loadChildren: () => import('@xm-ngx/components/date-range').then(m => m.XmDateRange),
+        loadChildren: () => import('@xm-ngx/components/date-range').then(m => m.XmDateRangeComponent),
     },
     {
         selector: '@xm-ngx/components/date-range-control',
