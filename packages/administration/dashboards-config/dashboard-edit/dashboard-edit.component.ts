@@ -15,6 +15,7 @@ import { DashboardCollection, DashboardConfig } from '../injectors';
 import { XmTextControlOptions } from '@xm-ngx/components/text';
 import { copyToClipboard, readFromClipboard } from '@xm-ngx/operators';
 import { DashboardsListExpandComponent } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
+import { XmTranslateService } from '@xm-ngx/translation';
 
 export enum EditType {
     Create = 1,
@@ -62,6 +63,7 @@ export class DashboardEditComponent {
                 protected readonly dashboardConfig: DashboardConfig,
                 protected readonly eventManager: XmEventManager,
                 protected readonly principal: Principal,
+                protected readonly xmTranslateService: XmTranslateService,
                 protected readonly translateService: TranslateService,
                 protected readonly toasterService: XmToasterService) {
         this.loading$ = this.dashboardService.loading$.pipe(delay(0), tap((i) => this.disabled = i));
@@ -136,7 +138,9 @@ export class DashboardEditComponent {
     }
 
     public onDelete(): void {
-        this.alertService.delete({ textOptions: { value: this.value.name } }).pipe(
+        this.alertService.delete({
+            title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.deleted, { value: this.value.name }),
+        }).pipe(
             filter((i) => i.value),
             switchMap(() => this.dashboardService.delete(this.value.id)),
             tap((res) => {

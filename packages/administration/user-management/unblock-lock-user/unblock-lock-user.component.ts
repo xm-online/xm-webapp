@@ -49,11 +49,6 @@ export class UnblockLockUserComponent {
                 ? this.xmTranslationService.translate(this.config.blockUserMessage || 'Block user?')
                 : this.xmTranslationService.translate(this.config.unBlockUserMessage || 'Unblock user?'),
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: this.xmTranslationService.translate('global.common.yes'),
         }).subscribe((result) => result.value ?
             this.changeUserState(user) :

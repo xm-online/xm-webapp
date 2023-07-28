@@ -21,9 +21,10 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
     selector: 'xm-confirm-dialog',
     template: `
         <ng-container *ngIf="computedData | async as data">
-            <h2 mat-dialog-title *ngIf="data?.title" class="text-center">{{data.title | translate}}</h2>
-
-            <div *ngIf="data?.subtitle">{{data.subtitle | translate}}</div>
+            <div mat-dialog-title class="heading">
+                <h2 class="heading-title" *ngIf="data?.title">{{data.title | translate}}</h2>
+                <div class="heading-subtitle" *ngIf="data?.subtitle">{{data.subtitle | translate}}</div>
+            </div>
 
             <form mat-dialog-content [formGroup]="form">
                 <ng-container *ngFor="let group of (conditionControls | async); trackBy: uniqTrackBy">
@@ -43,25 +44,34 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
             </form>
 
             <div mat-dialog-actions [align]="'end'">
-
-                <button mat-button mat-dialog-close>{{ data?.cancelButtonText | translate }}</button>
+                <button mat-stroked-button mat-dialog-close>{{ data?.cancelButtonText | translate }}</button>
+                
                 <ng-container *ngIf="data.hasControls; then applyTpl else confirmTpl"></ng-container>
 
                 <ng-template #applyTpl>
-                    <button mat-raised-button [disabled]="isFormDisabled | async" color="primary" (click)="applyForm(form)">{{ data?.confirmButtonText | translate }}</button>
+                    <button mat-flat-button color="primary" [disabled]="isFormDisabled | async" (click)="applyForm(form)">{{ data?.confirmButtonText | translate }}</button>
                 </ng-template>
 
                 <ng-template #confirmTpl>
-                    <button mat-raised-button color="primary" (click)="confirm()">{{ data?.confirmButtonText | translate }}</button>
+                    <button mat-flat-button color="primary" (click)="confirm()">{{ data?.confirmButtonText | translate }}</button>
                 </ng-template>
             </div>
         </ng-container>
 
-        <button mat-icon-button mat-dialog-close class="close">
+        <button mat-icon-button mat-dialog-close class="icon-close">
             <mat-icon>close</mat-icon>
         </button>
     `,
     styles: [`
+        .heading {
+            text-align: center;
+        }
+
+        .heading-subtitle {
+            font-size: 14px;
+            font-weight: 400;
+        }
+
         button.close[mat-dialog-close] {
             position: absolute;
             top: 0;
@@ -69,9 +79,6 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
             z-index: 1;
         }
     `],
-    host: {
-        class: 'xm-confirm-dialog',
-    },
     imports: [
         CommonModule,
         ReactiveFormsModule,
