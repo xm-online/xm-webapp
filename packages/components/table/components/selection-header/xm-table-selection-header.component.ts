@@ -56,7 +56,7 @@ export class XmTableSelectionHeaderComponent implements OnInit, OnDestroy {
         this.selectionModel = this.selectionService.selection;
     }
 
-    private _config: XmDynamicPresentationLayout[];
+    private _config: XmDynamicPresentationLayout[] = [];
 
     public get config(): XmDynamicPresentationLayout[] {
         return this._config;
@@ -64,7 +64,7 @@ export class XmTableSelectionHeaderComponent implements OnInit, OnDestroy {
 
     @Input()
     public set config(value: XmDynamicPresentationLayout[]) {
-        this._config = value;
+        this._config = value || [];
     }
 
     public ngOnDestroy(): void {

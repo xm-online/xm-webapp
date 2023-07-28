@@ -29,5 +29,5 @@ import { MatButtonModule } from '@angular/material/button';
     ],
 })
 export class XmTableActionsButtonsComponent {
-    @Input() public config: XmDynamicPresentationLayout[];
+    @Input() public config: XmDynamicPresentationLayout[] = [];
 }

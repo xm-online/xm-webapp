@@ -1,17 +1,8 @@
 import { Injectable } from '@angular/core';
-import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmFilterQueryParams } from '../collections/i-xm-table-collection-controller';
-import {
-    PageableAndSortable,
-    QueryParamsPageable
-} from '@xm-ngx/repositories';
+import { PageableAndSortable, QueryParams, QueryParamsPageable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
-import { get } from 'lodash';
-import { QueryParams } from '@xm-ngx/repositories';
 import { xmFormatJs } from '@xm-ngx/operators';
-import {
-    Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY
-} from '../elastic/xm-table-filters-elastic-string-query';
 import {
     XmElasticSearchRepositoryQueryParamsPageable,
     XmEntityRepositoryConfig
@@ -19,7 +10,7 @@ import {
 
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { Translate } from '@xm-ngx/translation';
-import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
+import { Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY } from './xm-table-filters-elastic-string-query';
 
 export interface XmTableConfigFilters extends FormGroupLayoutItem {
     options: {
@@ -27,12 +18,8 @@ export interface XmTableConfigFilters extends FormGroupLayoutItem {
     }
 }
 
-
 @Injectable()
 export class XmElasticRequestBuilder {
-
-    constructor(private configController: XmTableConfigController<XmTableWidgetConfig>) {
-    }
 
     protected config: XmEntityRepositoryConfig;
 
@@ -71,16 +58,11 @@ export class XmElasticRequestBuilder {
         queryParams: QueryParamsPageable,
         filterParams: QueryParams,
     ): XmElasticSearchRepositoryQueryParamsPageable {
-        const typeKey = this.configController.config.collection?.['repository']?.config?.['query']?.['typeKey'];
+        const typeKey = this.config.query.typeKey;
+
         const searchArr = Object.keys(filterParams)
             .filter(key => !_.isEmpty(filterParams[key]))
-            .map(key => {
-                const configFilter = (this.configController.config.filters?.find(filter => key === filter.name) || {}) as XmTableConfigFilters;
-                return this.getElastic(filterParams[key], {
-                    field: key,
-                    elasticType: configFilter.options?.['elasticType']
-                });
-            });
+            .map(key => this.getElastic(key, filterParams[key]));
 
         if (typeKey) {
             searchArr.push(`typeKey: ${typeKey}`);
@@ -91,7 +73,7 @@ export class XmElasticRequestBuilder {
             {},
             queryParams,
             {
-                query
+                query,
             },
         );
     }
@@ -103,8 +85,8 @@ export class XmElasticRequestBuilder {
         const filtersToRequest = xmFormatJs(this.config.paramsToRequest, { queryParams });
         const mergeFilters = _.merge(
             {},
-            skipMerge 
-                ? {} 
+            skipMerge
+                ? {}
                 : queryParams,
             filtersToRequest,
         );
@@ -112,9 +94,11 @@ export class XmElasticRequestBuilder {
         return _.omitBy(mergeFilters, _.isEmpty) as { query: string };
     }
 
-    private getElastic(value: string | number, filter: { field: string, elasticType: string }): string {
-        const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[get(filter, 'elasticType', '')];
-        return fn ? fn(value, filter) : null;
+    private getElastic(key: string, value: unknown): string {
+        const configFilter = this.config.filtersToQuery[key] || { field: key, elasticType: '' };
+        const elasticType = configFilter.elasticType || '';
+        const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[elasticType];
+        return fn ? fn(value, configFilter) : null;
     }
 
 }
