@@ -27,3 +27,6 @@ export * from './filters/xm-table-query-params-store.service';
 export * from './selections/xm-table-selection.service';
 
 export * from './providers';
+export {
+    XmTableFiltersElasticStringQuery
+} from './controllers/elastic/xm-table-filters-elastic-string-query.model';

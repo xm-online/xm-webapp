@@ -62,43 +62,35 @@ export class XmTableCollectionControllerResolver<T = unknown> {
     }
 
     public factory(collectionConfig: XmTableCollectionControllerType): IXmTableCollectionController<T> {
-        const collectionType = collectionConfig.type;
+        const collectionController = this.getController(collectionConfig);
+        collectionController.config = collectionConfig;
+        return collectionController;
+    }
 
-        let collectionController: IXmTableCollectionController<T> & XmDynamicWithConfig;
+    private getController(collectionConfig: XmTableCollectionControllerType): IXmTableCollectionController<T> & XmDynamicWithConfig {
+        const collectionType = collectionConfig.type;
         switch (collectionType) {
             case 'array':
-                collectionController = this.arrayController;
-                break;
+                return this.arrayController;
             case 'atType':
-                collectionController = this.atTypeController;
-                break;
+                return this.atTypeController;
             case 'stringArray':
-                collectionController = this.stringArrayController;
-                break;
+                return this.stringArrayController;
             case 'readOnlyArray':
-                collectionController = this.readOnlyArrayController;
-                break;
+                return this.readOnlyArrayController;
             case 'repository':
-                collectionController = this.repositoryController;
-                break;
+                return this.repositoryController;
             case 'readOnlyRepository':
-                collectionController = this.readOnlyRepositoryCollectionController;
-                break;
+                return this.readOnlyRepositoryCollectionController;
             case 'link':
-                collectionController = this.linkedController;
-                break;
+                return this.linkedController;
             case 'config':
-                collectionController = this.configCollectionController;
-                break;
+                return this.configCollectionController;
             case 'elasticSearch':
-                collectionController = this.elasticSearchCollectionController;
-                break;
+                return this.elasticSearchCollectionController;
             default:
                 throw new Error('Invalid type' + collectionType);
         }
-
-        collectionController.config = collectionConfig;
-        return collectionController;
     }
 
 }

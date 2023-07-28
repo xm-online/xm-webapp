@@ -17,6 +17,10 @@ export class XmTableMatPaginatorAdapterDirective implements AfterViewInit, OnDes
     }
 
     public ngAfterViewInit(): void {
+        this.observeTableAndUpdateMatPaginator();
+    }
+
+    public observeTableAndUpdateMatPaginator(): void {
         this.xmTableDirective.context$
             .pipe(takeUntilOnDestroy(this))
             .subscribe((context) => {

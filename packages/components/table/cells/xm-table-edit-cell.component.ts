@@ -1,12 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import {
-    XmInlineControlComponent,
-    XmInlineControlConfig,
-} from '@xm-ngx/components/inline-control';
+import { XmInlineControlComponent, XmInlineControlConfig, } from '@xm-ngx/components/inline-control';
 import { FormsModule } from '@angular/forms';
-import {
-    IXmTableCollectionController
-} from '../controllers/collections/i-xm-table-collection-controller';
+import { IXmTableCollectionController } from '../controllers/collections/i-xm-table-collection-controller';
 
 import { XM_DYNAMIC_TABLE_CELL, XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { cloneDeep, set } from 'lodash';
@@ -43,7 +38,11 @@ export class XmTableEditCellComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        const collection = this.tableDirective.controller;
+        this.assignCollectionFromTable();
+    }
+
+    public assignCollectionFromTable(): void {
+        const collection = this.tableDirective.xmTableController;
         if (!(collection.edit)) {
             console.warn('XmTableDirective.controller.edit() method is not exists. Make sure that implements.');
         }

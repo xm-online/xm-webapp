@@ -9,13 +9,13 @@ import { XmTableFilterController } from '../controllers/filters/xm-table-filter-
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { PageableAndSortable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
+import { cloneDeep } from 'lodash';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { XmTableQueryParamsStoreService } from '../controllers/filters/xm-table-query-params-store.service';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from './xm-table.model';
 import { map } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { cloneDeep } from 'lodash';
 
 export interface IXmTableContext {
     collection: IXmTableCollectionState<unknown>,
@@ -48,8 +48,8 @@ export class XmTableDirective implements OnInit, OnDestroy {
     public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
     @ContentChild(MatPaginator, { static: false }) public paginator: MatPaginator | null;
     @ContentChild(MatSort, { static: false }) public sort: MatSort | null;
-    @Input('xmTableController')
-    public controller: IXmTableCollectionController<unknown>;
+    @Input()
+    public xmTableController: IXmTableCollectionController<unknown>;
 
     constructor(
         private tableFilterController: XmTableFilterController,
@@ -71,8 +71,12 @@ export class XmTableDirective implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.onControllerStateChangeUpdateContext();
+    }
+
+    public onControllerStateChangeUpdateContext(): void {
         this.context$ = combineLatest([
-            this.controller.state$(),
+            this.xmTableController.state$(),
             this.columnsSettingStorageService.getStore(),
         ]).pipe(
             map(([state, a]) => {
@@ -96,7 +100,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
 
                 this.queryParamsStoreService.set(queryParams, removeFieldsFromUrl);
 
-                this.controller.load(queryParams);
+                this.xmTableController.load(queryParams);
             });
 
         this.initQueryParams();
