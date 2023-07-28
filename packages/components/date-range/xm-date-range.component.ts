@@ -8,7 +8,7 @@ export interface XmDateRangeConfig extends XmDateConfig {
     separator: string;
 }
 
-export type XmDateRangeValue = [XmDateValue, XmDateValue];
+export type XmDateRangeValue = { from: XmDateValue, to: XmDateValue };
 
 export const XM_DATE_RANGE_CONFIG_DEFAULT: XmDateRangeConfig = {
     ...XM_DATE_CONFIG_DEFAULT,
@@ -22,12 +22,12 @@ export const XM_DATE_RANGE_CONFIG_DEFAULT: XmDateRangeConfig = {
     ],
     standalone: true,
     template: `
-        {{ value[0] | date : config.format : config.timezone : config.locale }}{{config.separator}}{{ value[1] | date : config.format : config.timezone : config.locale }}
+        {{ value.from | date : config.format : config.timezone : config.locale }}{{config.separator}}{{ value.to | date : config.format : config.timezone : config.locale }}
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmDateRangeComponent implements XmDynamicPresentation<XmDateRangeValue, XmDateRangeConfig> {
-    @Input() @Defaults([]) public value: XmDateRangeValue;
+    @Input() @Defaults({ from: '', to: '' }) public value: XmDateRangeValue;
     @Input() @Defaults(XM_DATE_RANGE_CONFIG_DEFAULT) public config: XmDateRangeConfig;
 }

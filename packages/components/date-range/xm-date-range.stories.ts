@@ -1,6 +1,6 @@
 import { moduleMetadata, StoryObj } from '@storybook/angular';
 import { DatePipe } from '@angular/common';
-import { XmDateRangeComponent } from '@xm-ngx/components/date-range/xm-date-range.component';
+import { XmDateRangeComponent } from './xm-date-range.component';
 
 export default {
     title: 'Core/Presentation/Date/Range',
@@ -13,6 +13,11 @@ export default {
     ],
     parameters: {
         layout: 'centered',
+        docs: {
+            description: {
+                component: 'For this component use selector <code>@xm-ngx/components/date-range</code>',
+            },
+        },
     },
 };
 
@@ -24,6 +29,6 @@ export const Default: StoryObj<XmDateRangeComponent> = {
             timezone: 'UTC',
             locale: 'en-US',
         },
-        value: [new Date(), new Date()],
+        value: { from: new Date(), to: new Date() },
     },
 };

@@ -1,20 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import * as _ from 'lodash';
 import { template } from 'lodash/fp';
 import { formatDate } from '@angular/common';
-import {
-    XmDateRangeControlConfig,
-    XmDateRangeControlValue,
-    XmDateRangeValueOrString
-} from './xm-date-range-control';
+import { XmDateRangeControlConfig, XmDateRangeControlValue, XmDateRangeValueOrString } from './xm-date-range-control';
 
 @Injectable()
 export class TransformDateStringCodec {
 
-    public constructor(
-        private config: XmDateRangeControlConfig,
-        private locale: string,
-    ) {
+    public config: XmDateRangeControlConfig;
+
+    constructor(@Inject(LOCALE_ID) private locale: string) {
     }
 
     public toModel(value: XmDateRangeValueOrString): XmDateRangeControlValue {

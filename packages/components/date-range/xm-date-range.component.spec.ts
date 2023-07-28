@@ -37,7 +37,7 @@ describe('GIVEN XmDateRangeComponent', () => {
             separator: ' to ',
         };
 
-        component.value = [testStartDate, testEndDate];
+        component.value = { from: testStartDate, to: testEndDate };
         component.config = config;
         fixture.detectChanges();
 
@@ -61,7 +61,7 @@ describe('GIVEN XmDateRangeComponent', () => {
             separator: ' to ',
         };
 
-        component.value = [testStartDate, testEndDate];
+        component.value = { from: testStartDate, to: testEndDate };
         component.config = config;
         fixture.detectChanges();
 
@@ -85,7 +85,7 @@ describe('GIVEN XmDateRangeComponent', () => {
             separator: ' to ',
         };
 
-        component.value = [testStartDate, testEndDate];
+        component.value = { from: testStartDate, to: testEndDate };
         component.config = config;
         fixture.detectChanges();
 
