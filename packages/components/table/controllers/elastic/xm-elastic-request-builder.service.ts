@@ -96,7 +96,7 @@ export class XmElasticRequestBuilder {
 
     private getElastic(key: string, value: unknown): string {
         const configFilter = this.config.filtersToQuery[key] || { field: key, elasticType: '' };
-        const elasticType = configFilter.field || '';
+        const elasticType = configFilter.elasticType || '';
         const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[elasticType];
         return fn ? fn(value, configFilter) : null;
     }
