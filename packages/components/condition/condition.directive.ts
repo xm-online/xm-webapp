@@ -38,6 +38,7 @@ export class ConditionDirective implements OnChanges {
         try {
             return jsFunction(...values(args));
         } catch (e) {
+            // eslint-disable-next-line no-console
             console.error(e);
             return false;
         }
