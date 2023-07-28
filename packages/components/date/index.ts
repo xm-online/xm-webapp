@@ -2,11 +2,7 @@ export {
     XmStringDateControl,
 } from './xm-string-date-control';
 
-export {
-    XmDateComponent,
-    XmDateOptions,
-    XmDateValue,
-} from './xm-date.component';
+export * from './xm-date.component';
 
 export {
     XmDateControl,
