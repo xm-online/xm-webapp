@@ -33,7 +33,14 @@ export class ConditionDirective implements OnChanges {
             return false;
         }
 
-        return new Function(...keys(args), `return ${condition};`)(...values(args));
+        const jsFunction = new Function(...keys(args), `return ${condition};`);
+
+        try {
+            return jsFunction(...values(args));
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
     }
 
     public ngOnChanges(): void {
