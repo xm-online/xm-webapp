@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {
     XmDateControlOptions,
     XmDateOptions,
-    XmDateRangeControlOptions,
+    XmDateRangeControlConfig,
     XmDateRangeControlValue,
     XmDateValue,
     XmDateViewOptions,
@@ -22,5 +22,5 @@ export class XmDateExampleComponent {
     public dateControlOptions: XmDateControlOptions = { title: 'date-control-view', name: 'date-control-view' };
 
     public dateRangeValue: XmDateRangeControlValue = { from: new Date(), to: new Date() };
-    public dateRangeOptions: XmDateRangeControlOptions = { title: 'date-range-control', ...this.dateOptions };
+    public dateRangeOptions: XmDateRangeControlConfig = { title: 'date-range-control', ...this.dateOptions };
 }

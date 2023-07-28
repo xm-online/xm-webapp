@@ -9,11 +9,7 @@ export {
     XmDateControlOptions,
 } from './xm-date-control';
 
-export {
-    XmDateRangeControl,
-    XmDateRangeControlOptions,
-    XmDateRangeControlValue,
-} from './xm-date-range-control';
+export * from './xm-date-range-control';
 
 export {
     DateRangeFilterControl,
@@ -25,3 +21,4 @@ export {
 } from './xm-date-view';
 
 export * from './xm-datetime-control';
+export * from './transform-date-string-codec.service';
