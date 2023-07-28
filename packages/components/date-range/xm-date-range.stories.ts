@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { XmDateRangeComponent } from '@xm-ngx/components/date-range/xm-date-range.component';
 
 export default {
-    title: 'Core/Date/Range',
+    title: 'Core/Presentation/Date/Range',
     component: XmDateRangeComponent,
     decorators: [
         moduleMetadata({
