@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
     XmDateControlOptions,
-    XmDateOptions,
+    XmDateConfig,
     XmDateRangeControlConfig,
     XmDateRangeControlValue,
     XmDateValue,
@@ -14,7 +14,7 @@ import {
 })
 export class XmDateExampleComponent {
     public dateValue: XmDateValue = new Date();
-    public dateOptions: XmDateOptions = { format: 'dd.MM.yyyy HH:mm, MMMM', timezone: '+3', locale: 'uk' };
+    public dateOptions: XmDateConfig = { format: 'dd.MM.yyyy HH:mm, MMMM', timezone: '+3', locale: 'uk' };
 
     public dateViewOptions: XmDateViewOptions = { title: 'date-view', ...this.dateOptions, textStyle: null };
     public dateViewInlineOptions: XmDateViewOptions = { title: 'date-view', ...this.dateOptions, textStyle: 'inline' };
