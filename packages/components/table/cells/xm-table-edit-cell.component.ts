@@ -1,21 +1,13 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import {
-    XmInlineControlComponent,
-    XmInlineControlConfig,
-} from '@xm-ngx/components/inline-control';
+import { XmInlineControlComponent, XmInlineControlConfig, } from '@xm-ngx/components/inline-control';
 import { FormsModule } from '@angular/forms';
-import {
-    IXmTableCollectionController
-} from '../controllers/collections/i-xm-table-collection-controller';
-
-import {
-    XmTableCollectionControllerResolver,
-} from '../controllers/collections/xm-table-collection-controller-resolver.service';
+import { IXmTableCollectionController } from '../controllers/collections/i-xm-table-collection-controller';
 
 import { XM_DYNAMIC_TABLE_CELL, XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { cloneDeep, set } from 'lodash';
 import { JavascriptCode } from '@xm-ngx/interfaces';
 import { ConditionModule } from '@xm-ngx/components/condition';
+import { XmTableDirective } from '../directives/xm-table.directive';
 
 export type XmTableEditCellConfig = XmInlineControlConfig & {
     condition: JavascriptCode;
@@ -42,13 +34,17 @@ export class XmTableEditCellComponent implements OnInit {
     constructor(
         @Inject(XM_DYNAMIC_TABLE_ROW) public row: any,
         @Inject(XM_DYNAMIC_TABLE_CELL) public cell: any,
-        private collectionControllerResolver: XmTableCollectionControllerResolver) {
+        private tableDirective: XmTableDirective) {
     }
 
-    public async ngOnInit(): Promise<void> {
-        const collection = await this.collectionControllerResolver.get();
+    public ngOnInit(): void {
+        this.assignCollectionFromTable();
+    }
+
+    public assignCollectionFromTable(): void {
+        const collection = this.tableDirective.xmTableController;
         if (!(collection.edit)) {
-            console.warn('XmTableEditCellComponent call collection edit method, make sure that implements');
+            console.warn('XmTableDirective.controller.edit() method is not exists. Make sure that implements.');
         }
         this.collection = collection;
     }

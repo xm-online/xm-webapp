@@ -8,8 +8,6 @@ import {
 import { get } from 'lodash';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
-import { XmTableConfigController } from '../config/xm-table-config-controller.service';
-import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
 import { XmTableEntity } from './xm-table-array-collection-controller';
 
 export interface XmTableReadOnlyArrayCollectionControllerConfig extends XmTableEntity {
@@ -29,18 +27,16 @@ export class XmTableReadOnlyArrayCollectionController<T = unknown>
         throw new NotSupportedException();
     }
 
-    private config: XmTableReadOnlyArrayCollectionControllerConfig;
+    public config: XmTableReadOnlyArrayCollectionControllerConfig;
     private entity: object;
 
     constructor(
-        private configController: XmTableConfigController<XmTableWidgetConfig>,
         private entityController: XmTableEntityController<object>,
     ) {
         super();
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = (await firstValueFrom(this.configController.config$())).collection as XmTableReadOnlyArrayCollectionControllerConfig;
         this.entity = await firstValueFrom(this.entityController.entity$());
         this.items = get(this.entity, this.config.path, []) as T[];
     }
