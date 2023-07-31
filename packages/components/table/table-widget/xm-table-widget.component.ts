@@ -28,6 +28,7 @@ import { defaultsDeep } from 'lodash';
 import { XmTableMatPaginatorAdapterDirective } from '../directives/xm-table-mat-paginator-adapter.directive';
 import { XmTableMatSortAdapterDirective } from '../directives/xm-table-mat-sort-adapter.directive';
 import { XmTableLoadingComponent } from '../components/xm-table-loading.component';
+import { DashboardContentDirective } from '@xm-ngx/dashboard/src/directives/dashboard-content.directive';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -46,6 +47,7 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         MatCardModule,
         XmTranslatePipe,
         NgIf,
+        DashboardContentDirective,
         XmTableDirective,
         JsonPipe,
         XmTableFilterButtonComponent,
