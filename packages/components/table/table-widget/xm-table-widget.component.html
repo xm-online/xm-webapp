@@ -46,6 +46,7 @@
 
         <tr *matRowDef="let row; columns: context.settings.displayedColumns"
             class="xm-table-hoverable-row xm-table-row-background"
+            [dashboardContent]="row"
             [ngClass]="{
             'xm-table-row-selected' : selectionRow.selection.isSelected(row),
             'xm-table-row-loading' : context.collection.loading

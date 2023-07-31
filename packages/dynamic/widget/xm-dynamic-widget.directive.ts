@@ -25,6 +25,8 @@ export interface XmDynamicWidgetConfig<C = XmConfig, S = any> extends XmDynamicW
     module?: string;
     /** @deprecated use selector instead */
     component?: string;
+    value?: unknown;
+    config: C;
     /** @deprecated spec will be removed, you should provide the spec locally */
     spec?: S;
 }
@@ -86,11 +88,14 @@ export class XmDynamicWidgetDirective implements OnChanges {
     }
 
     private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, data: XmDynamicComponentRecord<XmDynamicWidget>): void {
+        this.viewRef.clear();
+        
         this.compRef = this.viewRef.createComponent<XmDynamicWidget>(data.componentType, {
             ngModuleRef: data.ngModuleRef,
             injector: data.injector,
         });
 
+        setComponentInput(this.compRef, 'value', value.value);
         setComponentInput(this.compRef, 'config', value.config);
         setComponentInput(this.compRef, 'spec', value.spec);
 

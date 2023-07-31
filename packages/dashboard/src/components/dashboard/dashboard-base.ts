@@ -41,6 +41,21 @@ export class DashboardBase {
         const widgets = sortByOrderIndex(dashboard.widgets || []);
         dashboard.widgets = this.getWidgetsComponent(widgets);
 
+        if (dashboard.layout && dashboard.layout.leftSide) {
+            this.findAndEnrichWidget(dashboard.layout.leftSide, widgets);
+            dashboard.layout.leftSide = dashboard.layout.leftSide as DashboardLayoutLayout[];
+        }
+
+        if (dashboard.layout && dashboard.layout.rightSide) {
+            this.findAndEnrichWidget(dashboard.layout.rightSide, widgets);
+            dashboard.layout.rightSide = dashboard.layout.rightSide as DashboardLayoutLayout[];
+        } 
+
+        if (dashboard.layout && dashboard.layout.topSide) {
+            this.findAndEnrichWidget(dashboard.layout.topSide, widgets);
+            dashboard.layout.topSide = dashboard.layout.topSide as DashboardLayoutLayout[];
+        } 
+        
         if (dashboard.layout && dashboard.layout.layout) {
             this.findAndEnrichWidget(dashboard.layout.layout, widgets);
             dashboard.layout.grid = dashboard.layout.layout as DashboardLayoutLayout[];
@@ -48,6 +63,7 @@ export class DashboardBase {
             dashboard.layout = {};
             dashboard.layout.grid = widgets.map((w) => DashboardBase.defaultGrid(w));
         }
+
         return dashboard;
     }
 

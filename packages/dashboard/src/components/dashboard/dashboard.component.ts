@@ -10,9 +10,20 @@ import { Dashboard } from '@xm-ngx/core/dashboard';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { mapTo, switchMap, tap } from 'rxjs/operators';
+import { DynamicContentService } from '../../stores/dynamic-content/dynamic-content.service';
 
+export interface XmDashboardCustomParamsWidget { 
+    module: string; 
+    selector: string; 
+    config: unknown;
+    spec: unknown;
+}
+
+export interface XmDashboardCustomParams { 
+    widget: XmDashboardCustomParamsWidget;
+}
 
 @Component({
     selector: 'xm-dashboard',
@@ -22,6 +33,9 @@ import { mapTo, switchMap, tap } from 'rxjs/operators';
 })
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
     public childrenDashboards: Dashboard[] = [];
+
+    public dynamicContent: Observable<unknown>;
+    public hasDynamicContent: Observable<boolean>;
 
     public dashboard: Dashboard = { isPublic: false };
     public showLoader: boolean;
@@ -33,6 +47,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 private dashboardStore: DashboardStore,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private pageService: PageService<Page<{ slug?: string }>>,
+                private dynamicContentService: DynamicContentService,
                 loggerService: XmLoggerService,
                 pageTitleService: PageTitleService,
     ) {
@@ -48,6 +63,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
             .subscribe(() => {
                 this.showLoader = true;
                 this.dashboard = null;
+                this.closeDynamicContent();
                 this.cdf.detectChanges();
                 this.pageService.load(this.route.snapshot.data?.dashboard?.id || null);
             });
@@ -61,6 +77,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                     }
                     this.logger.info(`Dashboard is loaded name="${page.name}" id="${page.id}".`);
                     this.dashboard = this.loadDashboard(page);
+
                     this.showLoader = false;
                 }),
                 switchMap((page) => {
@@ -83,6 +100,13 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 }),
                 takeUntilOnDestroy(this),
             ).subscribe();
+
+        this.dynamicContent = this.dynamicContentService.content;
+        this.hasDynamicContent = this.dynamicContentService.hasContent();
+    }
+
+    public closeDynamicContent(): void {
+        this.dynamicContentService.clearContent();
     }
 
     public ngOnDestroy(): void {
@@ -93,7 +117,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
         return Boolean(layout.widget);
     }
 
-    public resolveCustomParams(layout: { widget: { module: string; selector: string; config: unknown } }): unknown {
+    public resolveCustomParams(layout: XmDashboardCustomParams): XmDashboardCustomParamsWidget {
         return {
             module: layout.widget.module,
             selector: layout.widget.selector,

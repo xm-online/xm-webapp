@@ -16,12 +16,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatRippleModule } from '@angular/material/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
     imports: [
         XmDynamicModule,
         CommonModule,
         XmSharedModule,
+        MatSidenavModule,
+        MatButtonModule,
+        MatIconModule,
         XmDashboardRoutingModule,
         LoaderModule,
         NoDataModule,

@@ -13,3 +13,5 @@ export { DefaultDashboardService } from './src/services/default-dashboard.servic
 
 
 export { XmDashboardModule } from './src/xm-dashboard.module';
+
+export { DynamicContextComponent } from './src/components/dynamic-context/dynamic-context.component';
