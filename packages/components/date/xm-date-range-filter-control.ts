@@ -30,13 +30,8 @@ export interface IDateOptions {
     min?: DateValue;
     max?: DateValue;
     start?: DateValue;
-    end?: DateValue;
-    format?: string;
-    timezone?: string;
-    locale?: string;
     initValue?: DateInitValues;
     required?: boolean;
-    useUtc?: boolean;
     firstDayOfWeek?: number;
 }
 

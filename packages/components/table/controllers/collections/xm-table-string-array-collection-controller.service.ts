@@ -9,15 +9,14 @@ import {
 import { cloneDeep, set } from 'lodash';
 import { firstValueFrom } from 'rxjs';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
-import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
-import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
+import { XmConfig } from '@xm-ngx/interfaces';
 
 interface StringArrayListManagerItem {
     value: string
 }
 
-export interface StringArrayListConfig {
+export interface StringArrayListConfig extends XmConfig {
     type: 'stringArray'
     path: string
 }
@@ -30,14 +29,12 @@ export class XmTableStringArrayCollectionController<T extends StringArrayListMan
     public config: StringArrayListConfig;
 
     constructor(
-        private configController: XmTableConfigController<XmTableWidgetConfig>,
         private entityController: XmTableEntityController<object>,
     ) {
         super();
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = (await firstValueFrom(this.configController.config$())).collection as StringArrayListConfig;
         this.entity = await firstValueFrom(this.entityController.entity$());
         const primary = _.get(this.entity, this.config.path, []);
         const modify = primary.map((i) => ({ value: i }));
