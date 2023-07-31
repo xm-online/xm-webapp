@@ -6,6 +6,8 @@ import { IId } from '@xm-ngx/interfaces';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Observable, Subject } from 'rxjs';
 
+const NAVBAR_DASHBOARD_EDIT_STORAGE_KEY = 'NAVBAR_DASHBOARD_EDIT_STORAGE_KEY';
+
 @Injectable()
 export class DashboardEditorService {
 
@@ -19,11 +21,12 @@ export class DashboardEditorService {
 
     public close(): void {
         this.layoutService.close();
-        sessionStorage.removeItem('NAVBAR_DASHBOARD_EDIT_STORAGE_KEY');
+        sessionStorage.removeItem(NAVBAR_DASHBOARD_EDIT_STORAGE_KEY);
+        this.changeEditState();
     }
 
-    public changeEditState(isEditing?: boolean): Observable<boolean> {
-        this.isEdit.next(isEditing);
+    public changeEditState(): Observable<boolean> {
+        this.isEdit.next(!!sessionStorage.getItem(NAVBAR_DASHBOARD_EDIT_STORAGE_KEY));
         return this.isEdit;
     }
 
