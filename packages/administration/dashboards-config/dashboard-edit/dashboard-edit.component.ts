@@ -1,4 +1,14 @@
-import { Component, HostListener, inject, Input, Type, ViewChild } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    HostListener,
+    inject,
+    Input,
+    OnDestroy,
+    OnInit,
+    Type,
+    ViewChild,
+} from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
@@ -13,7 +23,7 @@ import { XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { prop } from 'lodash/fp';
 import { merge, Observable } from 'rxjs';
-import { delay, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { delay, distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../const';
 import { DashboardEditorService } from '../dashboard-editor.service';
 import {
@@ -38,7 +48,7 @@ const uniqValueInListValidator = (stream: Observable<any[]>) => (control: Abstra
     templateUrl: './dashboard-edit.component.html',
     styleUrls: ['./dashboard-edit.component.scss'],
 })
-export class DashboardEditComponent {
+export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
     public EditType: typeof EditType = EditType;
 
@@ -50,7 +60,7 @@ export class DashboardEditComponent {
 
     // TODO: Find out the way to use FormGroup instead. P.S. faced with type mismatch.
     public nameControl = new FormControl<string>('', [Validators.required], [uniqValueInListValidator(this.dashboardList$.pipe(map(dashboards => dashboards.map(prop('name')))))]);
-    public typeKeyControl = new FormControl<string>('', [Validators.required], [uniqValueInListValidator(this.dashboardList$.pipe(map(dashboards => dashboards.map(prop('typeKey')))))]);
+    public typeKeyControl = new FormControl<string>('', [Validators.required, Validators.pattern('^[A-Z0-9\\.-]+$')], [uniqValueInListValidator(this.dashboardList$.pipe(map(dashboards => dashboards.map(prop('typeKey')))))]);
     public configControl = new FormControl<DashboardConfig>({});
     public layoutControl = new FormControl<DashboardLayout>({});
     public valid: boolean = false;
@@ -66,16 +76,20 @@ export class DashboardEditComponent {
     public nameOptions: XmTextControlOptions = {
         title: this.TRS.name, dataQa: '', errors: {
             notUniqInList: {
-                en: 'Not uniq in list',
-                uk: 'Not uniq in list',
+                en: 'Dashboard with this name already exist',
+                uk: 'Інформаційна панель із такою назвою вже існує',
             },
         },
     };
     public typeKeyOptions: XmTextControlOptions = {
         title: this.TRS.typeKey, dataQa: '', errors: {
             notUniqInList: {
-                en: 'Not uniq in list',
-                uk: 'Not uniq in list',
+                en: 'Dashboard with this TypeKey already exist',
+                uk: 'Інформаційна панель із цим TypeKey вже існує',
+            },
+            pattern: {
+                en: 'TypeKey allows letters in uppercase, numbers, dot and dash symbols. The first and last characters must be letters.',
+                uk: 'TypeKey дозволяє використовувати літери у верхньому регістрі, цифри, крапку та тире. Перший та останній символи повинні бути літерами.',
             },
         },
     };
@@ -100,6 +114,16 @@ export class DashboardEditComponent {
                 protected readonly translateService: TranslateService,
                 protected readonly toasterService: XmToasterService) {
         this.loading$ = this.dashboardCollection.loading$.pipe(delay(0), tap((i) => this.disabled = i));
+    }
+
+    public ngAfterViewInit(): void {
+        this.typeKeyControl.valueChanges.pipe(
+            takeUntilOnDestroy(this),
+            distinctUntilChanged(),
+        ).subscribe(rawValue => {
+            const value = rawValue.toUpperCase().replaceAll(' ', '-');
+            this.typeKeyControl.patchValue(value, {emitEvent: true});
+        });
     }
 
     public ngOnInit(): void {
