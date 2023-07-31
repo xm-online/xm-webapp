@@ -1,28 +1,25 @@
 import { Injectable } from '@angular/core';
-import { XmTableConfigController } from '@xm-ngx/components/table/controllers';
-import { XmTableConfig, XmTableConfigFilters } from '@xm-ngx/components/table/interfaces/xm-table.model';
-import { XmFilterQueryParams } from '@xm-ngx/components/table/controllers/collections/i-xm-table-collection-controller';
-import {
-    PageableAndSortable,
-    QueryParamsPageable
-} from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
+import { XmFilterQueryParams } from '../collections/i-xm-table-collection-controller';
+import { PageableAndSortable, QueryParams, QueryParamsPageable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
-import { get } from 'lodash';
-import { QueryParams } from '@xm-ngx/components/entity-collection';
-import { xmFormatJs } from '@xm-ngx/shared/operators';
-import {
-    Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY
-} from '@xm-ngx/components/table/controllers/elastic/xm-table-filters-elastic-string-query';
+import { xmFormatJs } from '@xm-ngx/operators';
 import {
     XmElasticSearchRepositoryQueryParamsPageable,
     XmEntityRepositoryConfig
-} from '@xm-ngx/components/table/controllers/elastic/xm-elastic-search-repository.service';
+} from '../elastic/xm-elastic-search-repository.service';
+
+import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
+import { Translate } from '@xm-ngx/translation';
+import { Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY } from './xm-table-filters-elastic-string-query';
+
+export interface XmTableConfigFilters extends FormGroupLayoutItem {
+    options: {
+        title: Translate,
+    }
+}
 
 @Injectable()
 export class XmElasticRequestBuilder {
-
-    constructor(private configController: XmTableConfigController<XmTableConfig>) {
-    }
 
     protected config: XmEntityRepositoryConfig;
 
@@ -61,16 +58,11 @@ export class XmElasticRequestBuilder {
         queryParams: QueryParamsPageable,
         filterParams: QueryParams,
     ): XmElasticSearchRepositoryQueryParamsPageable {
-        const typeKey = this.configController.config.collection?.repository?.config?.['query']?.['typeKey'];
+        const typeKey = this.config.query.typeKey;
+
         const searchArr = Object.keys(filterParams)
             .filter(key => !_.isEmpty(filterParams[key]))
-            .map(key => {
-                const configFilter = (this.configController.config.filters?.find(filter => key === filter.name) || {}) as XmTableConfigFilters;
-                return this.getElastic(filterParams[key], {
-                    field: key,
-                    elasticType: configFilter.options?.['elasticType']
-                });
-            });
+            .map(key => this.getElastic(key, filterParams[key]));
 
         if (typeKey) {
             searchArr.push(`typeKey: ${typeKey}`);
@@ -81,7 +73,7 @@ export class XmElasticRequestBuilder {
             {},
             queryParams,
             {
-                query
+                query,
             },
         );
     }
@@ -90,22 +82,23 @@ export class XmElasticRequestBuilder {
         queryParams: QueryParamsPageable,
         skipMerge = false,
     ): XmElasticSearchRepositoryQueryParamsPageable {
-        const filtersToRequest: { query: string } = xmFormatJs(this.config.paramsToRequest, { queryParams });
-
-        if (skipMerge) {
-            return filtersToRequest;
-        }
-
-        return _.merge(
+        const filtersToRequest = xmFormatJs(this.config.paramsToRequest, { queryParams });
+        const mergeFilters = _.merge(
             {},
-            queryParams,
+            skipMerge
+                ? {}
+                : queryParams,
             filtersToRequest,
         );
+
+        return _.omitBy(mergeFilters, _.isEmpty) as { query: string };
     }
 
-    private getElastic(value: string | number, filter: { field: string, elasticType: string }): string {
-        const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[get(filter, 'elasticType', '')];
-        return fn ? fn(value, filter) : null;
+    private getElastic(key: string, value: unknown): string {
+        const configFilter = this.config.filtersToQuery[key] || { field: key, elasticType: '' };
+        const elasticType = configFilter.elasticType || '';
+        const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[elasticType];
+        return fn ? fn(value, configFilter) : null;
     }
 
 }

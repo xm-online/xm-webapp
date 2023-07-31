@@ -1,7 +1,7 @@
 import { Translate } from '@xm-ngx/translation';
-import { HintText } from '../hint';
-import { XmTableColumnDynamicCellsOptions } from '../table';
-import { XmFormatTemplateRecursive } from '@xm-ngx/shared/operators';
+import { HintText } from '@xm-ngx/components/hint';
+import { XmTableColumnDynamicCellsOptions } from '@xm-ngx/components/table';
+import { XmFormatTemplateRecursive } from '@xm-ngx/operators';
 import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error';
 
 export interface XmAutocompleteControlMapper {

@@ -3,10 +3,10 @@ import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
-import { IId } from '@xm-ngx/shared/interfaces';
-import { transformByMap } from '@xm-ngx/shared/operators';
+import { IId } from '@xm-ngx/interfaces';
+import { interpolate, transformByMap } from '@xm-ngx/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-import { clone, get } from 'lodash';
+import { clone, get, isString } from 'lodash';
 
 export interface XmLinkOptions {
     /** list of fields which will be transformed to queryParams */
@@ -41,7 +41,7 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
     ],
     template: `
         <a [queryParams]="queryParams"
-           [routerLink]="config?.routerLink || config?.config?.routerLink"
+           [routerLink]="routerLink"
            [style]="config?.style || config?.config?.style">
             <mat-icon *ngIf="config?.valueIcon || config?.config?.valueIcon">{{config.valueIcon || config?.config?.valueIcon}}</mat-icon>
             <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
@@ -56,15 +56,23 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
     public fieldTitle: Translate;
     public fieldValue: unknown;
     public queryParams: { [key: string]: unknown };
+    public routerLink: string[] | string;
     protected defaultOptions: XmLinkOptions = clone(XM_LINK_DEFAULT_OPTIONS);
 
     public update(): void {
         if (!this.value) {
             return;
         }
+        
         this.fieldValue = get(this.value, this.config?.valueField || this.config?.config?.valueField || this.defaultOptions.valueField, null);
         this.fieldTitle = this.config?.valueTitle || this.config?.config?.valueTitle;
         this.queryParams = transformByMap(this.value, this.config?.queryParamsFromEntityFields || this.config?.config?.queryParamsFromEntityFields || this.defaultOptions.queryParamsFromEntityFields);
+        
+        const routerLink = this.config?.routerLink || this.config?.config?.routerLink;
+        
+        this.routerLink = isString(routerLink) ? interpolate(routerLink, {
+            value: this.value,
+        }) : routerLink;
     }
 
     public ngOnChanges(): void {

@@ -4,13 +4,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmEntitySpecWrapperService } from '@xm-ngx/entity';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { SessionStorageService } from 'ngx-webstorage';
 import { combineLatest } from 'rxjs';
-import { IIdpClient } from '../../core/src/xm-public-idp-config-model';
+import { IIdpClient } from '@xm-ngx/core';
 
-import { LoginService } from '@xm-ngx/core/auth';
-import { IDP_CLIENT } from '../../../src/app/xm.constants';
+import { LoginService } from '@xm-ngx/components/login';
+import { IDP_CLIENT } from '@xm-ngx/core/user';
 
 @Component({
     selector: 'xm-logout',
@@ -40,12 +40,7 @@ export class LogoutComponent implements OnInit, OnDestroy {
         this.alertService.open({
             title: 'global.common.are-you-sure',
             showCancelButton: true,
-            buttonsStyling: false,
             showCloseButton: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'global.common.yes-exit',
             cancelButtonText: 'global.common.cancel',
         }).subscribe((result) => result.value ? this.logout() : history.back());

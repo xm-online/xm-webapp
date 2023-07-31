@@ -1,29 +1,32 @@
-import { assign, cloneDeep, indexOf } from 'lodash';
-import {
-    PAGEABLE_AND_SORTABLE_DEFAULT,
-    PageableAndSortable,
-} from '@xm-ngx/components/entity-collection/i-entity-collection-pageable';
-import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
+import _, { assign, cloneDeep, defaultsDeep, indexOf } from 'lodash';
+import { PAGEABLE_AND_SORTABLE_DEFAULT, } from '@xm-ngx/repositories';
+import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 
 export abstract class AXmTableLocalPageableCollectionController<T>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
 
-    protected set items(value: T[]) {
-        this.changeByItems(value);
-    }
+
+    private rawData: T[];
 
     protected get items(): T[] {
         return this.state().items;
     }
 
-    public changeByItems(items: T[], pageableAndSortable: PageableAndSortable = null): void {
-        if (pageableAndSortable == null) {
-            pageableAndSortable = cloneDeep(PAGEABLE_AND_SORTABLE_DEFAULT);
-            pageableAndSortable.total = items.length;
-            pageableAndSortable.pageSize = items.length;
-        }
+    protected set items(value: T[]) {
+        this.changeByItems(value, null);
+    }
+
+    public changeByItems(rawData: T[], request: XmFilterQueryParams): void {
+        this.rawData = rawData;
+        const { pageableAndSortable } = defaultsDeep(request, cloneDeep({ pageableAndSortable: PAGEABLE_AND_SORTABLE_DEFAULT, filterParams: {}}));
+        pageableAndSortable.total = rawData.length;
+
+        const from = pageableAndSortable.pageIndex * pageableAndSortable.pageSize;
+        const maxLast = (pageableAndSortable.pageIndex + 1) * pageableAndSortable.pageSize;
+        const to = maxLast > pageableAndSortable.total ? pageableAndSortable.total : maxLast;
+        const items = _.slice(this.rawData, from, to - 1);
 
         this._state.next({
             items: cloneDeep(items),

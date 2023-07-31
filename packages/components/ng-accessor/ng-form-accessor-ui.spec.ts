@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgFormAccessor } from '@xm-ngx/components/ng-accessor/ng-form-accessor';
+import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 
 @Component({
     selector: 'test-accessor',

@@ -7,7 +7,7 @@ import { ConditionModule } from '@xm-ngx/components/condition';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTheme, XmThemeController } from '@xm-ngx/core/theme';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces';
+import { JavascriptCode } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
@@ -28,7 +28,6 @@ interface SwitchThemeOptions {
     condition: JavascriptCode;
 }
 
-export const XM_THEME_KEY = 'XM_SWITCH_THEME_KEY';
 
 @Component({
     selector: 'switch-theme-widget',

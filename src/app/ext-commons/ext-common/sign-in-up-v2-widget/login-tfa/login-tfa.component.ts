@@ -6,7 +6,8 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    QueryList, ViewChild,
+    QueryList,
+    ViewChild,
     ViewChildren
 } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,7 +23,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { SignPageFormConfig } from '../sign-in-up-v2.model';
 import { take } from 'rxjs/operators';
 import { NgxMaskModule } from 'ngx-mask';
-import { LettersControl } from '@xm-ngx/components/letter-control/letter-control';
+import { LettersControl } from '@xm-ngx/components/letter-control';
 
 const REMAINING_TIME = 120;
 
@@ -98,6 +99,7 @@ export class LoginTfaComponent implements OnInit, OnDestroy {
             grant_type: 'tfa_otp_token',
             otp: this.otp,
             tfa_access_token: this.signInUpService.getAccessTokenValue(),
+            rememberMe: this.signInUpService.getCredentials().rememberMe,
         };
         this.signInUpService.loginTFA(credentials).pipe(takeUntilOnDestroy(this)).subscribe((res) => {
             const tfaChannel = 'Phone';

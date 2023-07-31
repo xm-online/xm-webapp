@@ -3,7 +3,7 @@ import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { Defaults } from '@xm-ngx/shared/operators';
+import { Defaults } from '@xm-ngx/operators';
 
 export interface XmTextCollapseConfig {
     maxWidth?: string;

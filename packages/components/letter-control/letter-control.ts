@@ -1,4 +1,13 @@
-import { Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    Output,
+    QueryList,
+    ViewChildren
+} from '@angular/core';
 import { NgForOf } from '@angular/common';
 
 @Component({
@@ -7,8 +16,10 @@ import { NgForOf } from '@angular/common';
     template: `
         <input *ngFor="let i of config.mask.split('')"
                [type]="config?.type||'number'"
+               autocomplete="one-time-code"
                #letter
                maxlength="1"
+               (input)="inputOTP($event.data,letter)"
                (paste)="onPaste($event, letter)"
                (keyup)="onKeyUp($event, letter)"/>
     `,
@@ -21,7 +32,7 @@ import { NgForOf } from '@angular/common';
         }
 
         input[type='number'] {
-            -moz-appearance:textfield;
+            -moz-appearance: textfield;
         }
 
         input::-webkit-outer-spin-button,
@@ -52,10 +63,47 @@ import { NgForOf } from '@angular/common';
         }
     `],
 })
-export class LettersControl {
+export class LettersControl implements AfterViewInit {
     @Input() public config: { mask: string, type?: string };
     @Output() public submitEvent: EventEmitter<string> = new EventEmitter<string>();
     @ViewChildren('letter') public components: QueryList<ElementRef<HTMLInputElement>>;
+
+    public ngAfterViewInit(): void {
+        this.listenForOtp();
+    }
+
+    public inputOTP(data: string, letter: HTMLInputElement): void {
+        if (data.length === this.config.mask.split('').length) {
+            this.fillInputs(data, letter);
+        }
+    }
+
+    private listenForOtp(): void {
+        if ('OTPCredential' in window) {
+            window.addEventListener('DOMContentLoaded', (e) => {
+                const ac = new AbortController();
+                const reqObj = {
+                    otp: {transport: ['sms']},
+                    signal: ac.signal,
+                };
+                navigator.credentials
+                    .get(reqObj)
+                    .then((otp: any) => {
+                        if (otp) {
+                            if (otp && otp.code) {
+                                this.fillByValues(otp.code,0);
+                            }
+                        }
+                    })
+                    .catch((err) => {
+                        console.info('Web OTP API not supported, Please enter manually.');
+                        return;
+                    });
+            });
+        } else {
+            console.info('Web OTP API not supported, Please enter manually.');
+        }
+    }
 
 
     public onKeyUp(e: KeyboardEvent, letter: HTMLInputElement): void {
@@ -89,25 +137,31 @@ export class LettersControl {
 
     public onPaste(e: ClipboardEvent, letter: HTMLInputElement): void {
         e.preventDefault();
+        this.fillInputs(e.clipboardData.getData('text'), letter);
+    }
 
-        const pastedData = e.clipboardData.getData('text');
+    private fillInputs(data: string, letter: HTMLInputElement): void {
         const components = this.components.toArray();
         const startIndex = components.findIndex((i) => i.nativeElement === letter);
+        this.fillByValues(data, startIndex);
+    }
 
-        Array.from(pastedData).forEach((char, index) => {
+    public fillByValues(data: string, startIndex: number): void {
+        const components = this.components.toArray();
+        Array.from(data).forEach((char, index) => {
             const component = components[startIndex + index];
             if (component && /^[0-9]$/.test(char)) {
                 component.nativeElement.value = char;
             }
         });
 
-        if (startIndex + pastedData.length >= components.length) {
+        if (startIndex + data.length >= components.length) {
             const value = components.reduce((r, i) => r + i.nativeElement.value, '');
             this.submitEvent.next(value);
             return;
         }
 
-        components[startIndex + pastedData.length]?.nativeElement.select();
+        components[startIndex + data.length]?.nativeElement.select();
     }
 
     public clear(): void {

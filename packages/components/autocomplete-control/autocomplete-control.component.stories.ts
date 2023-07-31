@@ -2,7 +2,7 @@ import { Meta, moduleMetadata, applicationConfig } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
 import { Observable, of } from 'rxjs';
-import { XmAutocompleteControlComponent } from '@xm-ngx/components/autocomplete-control/autocomplete-control.component';
+import { XmAutocompleteControlComponent } from '@xm-ngx/components/autocomplete-control';
 import { Component, Input, OnInit, importProvidersFrom } from '@angular/core';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { XmCoreModule } from '@xm-ngx/core';
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { XmAutocompleteControlConfig } from './autocomple-control.interface';
+import { XmAutocompleteControlConfig } from '@xm-ngx/components/autocomplete-control';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 function StaticLoaderFactory() {
@@ -29,7 +29,7 @@ class MockHttpSearch {
         headers,
     ): Observable<unknown> {
         const search = (httpParams?.search ?? '').toLowerCase();
-        
+
         let data = [
             { name: 'Option 1', id: 1 },
             { name: 'Option 2', id: 2 },
@@ -52,7 +52,7 @@ class MockHttpSearchWrapInObject {
         headers,
     ): Observable<unknown> {
         const search = (httpParams?.search ?? '').toLowerCase();
-        
+
         let data = [
             { name: 'Option 1', id: 1 },
             { name: 'Option 2', id: 2 },
@@ -117,9 +117,9 @@ export default {
                 importProvidersFrom(BrowserAnimationsModule),
                 importProvidersFrom(TranslateModule.forRoot({
                     isolate: false,
-                    loader: { 
-                        deps: [HttpClient], 
-                        provide: TranslateLoader, 
+                    loader: {
+                        deps: [HttpClient],
+                        provide: TranslateLoader,
                         useFactory: StaticLoaderFactory,
                     },
                 })),

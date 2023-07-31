@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { XM_DYNAMIC_ENTRIES, XmDynamicComponentRegistry } from '@xm-ngx/dynamic';
-import { XmDynamicServiceFactory } from '@xm-ngx/dynamic/services/xm-dynamic-service-factory.service';
+import { XmDynamicServiceFactory } from '../../xm-dynamic-service-factory.service';
 
 @Injectable()
 abstract class AMyFavoriteService {

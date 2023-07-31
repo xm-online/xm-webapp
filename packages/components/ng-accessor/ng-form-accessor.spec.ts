@@ -1,6 +1,6 @@
 import { fakeAsync } from '@angular/core/testing';
 import { UntypedFormControl, FormControlDirective } from '@angular/forms';
-import { NgFormAccessor } from '@xm-ngx/components/ng-accessor/ng-form-accessor';
+import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 
 describe('NgFormAccessor', () => {
     describe('constructor', () => {

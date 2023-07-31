@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import { XmDynamicModule, XmPresentationLayout } from '@xm-ngx/dynamic';
+import { XmDynamicModule, XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { NgForOf, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -29,5 +29,5 @@ import { MatButtonModule } from '@angular/material/button';
     ],
 })
 export class XmTableActionsButtonsComponent {
-    @Input() public config: XmPresentationLayout[];
+    @Input() public config: XmDynamicPresentationLayout[] = [];
 }

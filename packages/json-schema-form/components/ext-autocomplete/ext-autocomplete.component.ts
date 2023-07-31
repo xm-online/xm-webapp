@@ -1,6 +1,11 @@
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { JsonSchemaFormService } from '@ajsf/core';
 import { fromEvent } from 'rxjs';
 
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -11,6 +16,8 @@ import { ExtAutocompleteOptions } from './ext-autocomplete-options.model';
 import { byString, ExtAutocompleteService } from './ext-autocomplete-service';
 
 @Component({
+    standalone: true,
+    imports: [MatFormFieldModule,MatInputModule,CommonModule,FormsModule,XmTranslationModule],
     selector: 'xm-ext-autocomplete-widget',
     templateUrl: 'ext-autocomplete.component.html',
     styleUrls: ['./ext-autocomplete.component.scss'],

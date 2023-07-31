@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, UrlTree } from '@angular/router';
-import { environment } from '@xm-ngx/core/environment';
+// import { environment } from '@xm-ngx/core/environment';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { DashboardStore } from '../stores/dashboard-store.service';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { DefaultDashboardService } from '../services/default-dashboard.service';
 
 @Injectable({
@@ -52,7 +52,7 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
     private getFirstAvailableDashboard(): Observable<UrlTree> {
         return this.defaultDashboardService.getDefaultOrFirstAvailable().pipe(
             map((d) => {
-                const newUrl = d ? `/dashboard/${d.config?.slug || d.id}` : environment.notFoundUrl;
+                const newUrl = d ? `/dashboard/${d.config?.slug || d.id}` : '/accessdenied';
                 this.logger.info(`Redirect router.url=${this.router.url}, newUrl=${newUrl}`);
                 return this.router.parseUrl(newUrl);
             }),

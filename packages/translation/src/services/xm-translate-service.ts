@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Interpolate, interpolate } from '@xm-ngx/shared/operators';
+import { Interpolate, interpolate } from '@xm-ngx/operators';
 import { LanguageService, Translate } from './language.service';
 
 @Injectable({ providedIn: 'root' })

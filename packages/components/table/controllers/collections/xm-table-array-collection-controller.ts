@@ -1,45 +1,37 @@
 import { Injectable } from '@angular/core';
 import { UUID } from 'angular2-uuid';
-import {
-    XmFilterQueryParams,
-    IXmTableCollectionController,
-} from './i-xm-table-collection-controller';
-import {
-    XmTableConfigController,
-} from '../config/xm-table-config-controller.service';
-import { firstValueFrom
-} from 'rxjs';
-import {
-    AXmTableLocalPageableCollectionController,
-} from './a-xm-table-local-pageable-collection-controller.service';
-import {
-    XmTableEntityController,
-} from '../entity/xm-table-entity-controller.service';
+import { IXmTableCollectionController, XmFilterQueryParams, } from './i-xm-table-collection-controller';
+import { firstValueFrom } from 'rxjs';
+import { AXmTableLocalPageableCollectionController, } from './a-xm-table-local-pageable-collection-controller.service';
+import { XmTableEntityController, } from '../entity/xm-table-entity-controller.service';
 import { cloneDeep, get, set } from 'lodash';
+import { XmConfig } from '@xm-ngx/interfaces';
 
-export interface XmTableArrayCollectionControllerConfig {
+export interface XmTableEntity extends XmConfig {
     path: string;
     // Make one item of arrays work with table-array selector (search and display)
     buildItemAsNestedKey?: string;
     uuidKeyName?: string;
 }
 
+export interface XmTableArrayCollectionControllerConfig extends XmTableEntity {
+    type: 'array'
+}
+
 @Injectable()
 export class XmTableArrayCollectionController<T = unknown>
     extends AXmTableLocalPageableCollectionController<T>
     implements IXmTableCollectionController<T> {
-    private config: XmTableArrayCollectionControllerConfig;
+    public config: XmTableArrayCollectionControllerConfig;
     private entity: object;
 
     constructor(
-        private configController: XmTableConfigController<XmTableArrayCollectionControllerConfig>,
         private entityController: XmTableEntityController<object>,
     ) {
         super();
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = await firstValueFrom(this.configController.config$());
         this.entity = await firstValueFrom(this.entityController.entity$());
         const pathList = get(this.entity, this.config.path, []) as T[];
 

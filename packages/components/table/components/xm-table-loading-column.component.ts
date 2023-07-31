@@ -9,15 +9,15 @@ import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/c
         <ng-container [matColumnDef]="config.name">
             <th mat-header-cell
                 *matHeaderCellDef
-                class="loadingCell"
-                [attr.colspan]="size">
+                class="xm-table-loading-column-cell"
+                [attr.colspan]="colspan">
                 <xm-loading-bar [visible]="isLoading"></xm-loading-bar>
             </th>
-            <td mat-cell *matCellDef [attr.colspan]="size"></td>
+            <td mat-cell *matCellDef [attr.colspan]="colspan"></td>
         </ng-container>
     `,
     styles: [`
-        th.loadingCell {
+        th.xm-table-loading-column-cell {
             padding: 0;
             border: none;
         }
@@ -31,7 +31,7 @@ import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/c
 })
 export class XmTableLoadingColumnComponent<T> implements OnInit, OnDestroy {
     @Input() public isLoading: boolean;
-    @Input() public size: number;
+    @Input() public colspan: number;
     public config: { name: string } = { name: 'loading' };
 
     @ViewChild(CdkColumnDef, { static: true }) private readonly _columnDef: CdkColumnDef;

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { Translate } from '@xm-ngx/translation';
-import { Defaults } from '@xm-ngx/shared/operators';
+import { Defaults } from '@xm-ngx/operators';
 import { CommonModule } from '@angular/common';
 
 export interface ExamplePresentationalComponentConfig {

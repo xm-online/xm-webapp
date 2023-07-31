@@ -2,22 +2,14 @@ export {
     XmStringDateControl,
 } from './xm-string-date-control';
 
-export {
-    XmDateComponent,
-    XmDateOptions,
-    XmDateValue,
-} from './xm-date.component';
+export * from './xm-date.component';
 
 export {
     XmDateControl,
     XmDateControlOptions,
 } from './xm-date-control';
 
-export {
-    XmDateRangeControl,
-    XmDateRangeControlOptions,
-    XmDateRangeControlValue,
-} from './xm-date-range-control';
+export * from './xm-date-range-control';
 
 export {
     DateRangeFilterControl,
@@ -27,3 +19,6 @@ export {
     XmDateView,
     XmDateViewOptions,
 } from './xm-date-view';
+
+export * from './xm-datetime-control';
+export * from './transform-date-string-codec.service';

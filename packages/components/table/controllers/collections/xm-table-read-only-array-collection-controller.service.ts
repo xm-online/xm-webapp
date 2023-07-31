@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { NotSupportedException } from '@xm-ngx/shared/exceptions';
+import { NotSupportedException } from '@xm-ngx/exceptions';
 
-import {
-    XmTableArrayCollectionControllerConfig,
-} from './xm-table-array-collection-controller';
 import { firstValueFrom } from 'rxjs';
 import {
     AXmTableLocalPageableCollectionController,
@@ -11,7 +8,11 @@ import {
 import { get } from 'lodash';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
-import { XmTableConfigController } from '../config/xm-table-config-controller.service';
+import { XmTableEntity } from './xm-table-array-collection-controller';
+
+export interface XmTableReadOnlyArrayCollectionControllerConfig extends XmTableEntity {
+    type: 'readOnlyArray'
+}
 
 @Injectable()
 export class XmTableReadOnlyArrayCollectionController<T = unknown>
@@ -26,18 +27,16 @@ export class XmTableReadOnlyArrayCollectionController<T = unknown>
         throw new NotSupportedException();
     }
 
-    private config: XmTableArrayCollectionControllerConfig;
+    public config: XmTableReadOnlyArrayCollectionControllerConfig;
     private entity: object;
 
     constructor(
-        private configController: XmTableConfigController<XmTableArrayCollectionControllerConfig>,
         private entityController: XmTableEntityController<object>,
     ) {
         super();
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = await firstValueFrom(this.configController.config$());
         this.entity = await firstValueFrom(this.entityController.entity$());
         this.items = get(this.entity, this.config.path, []) as T[];
     }

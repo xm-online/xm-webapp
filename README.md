@@ -44,6 +44,19 @@ npm start
 xm-ngx doc --examples
 ```
 
+## Packages
+
+Packages are built with post-install scripts by default.
+Packages are not part of the application build. The application uses the built files in the `lib` directory.
+When you need to develop packages, add the path resolution to `tsconfig.json`
+ in the `paths` block and start the app.
+
+```text
+      "@xm-ngx/*": [
+        "packages/*",
+      ],
+```
+
 ## Changelog
 
 [Learn about the latest improvements][changelog].

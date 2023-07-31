@@ -8,12 +8,12 @@ import { XmToasterService } from '@xm-ngx/toaster';
 
 import { Subscription } from 'rxjs';
 import { LocationDetailDialogComponent } from '../location-detail-dialog/location-detail-dialog.component';
-import { LocationSpec } from '../shared/location-spec.model';
-import { Location } from '../shared/location.model';
-import { LocationService } from '../shared/location.service';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
-import { XmEntitySpec } from '@xm-ngx/entity';
+import { LocationSpec } from '@xm-ngx/core/entity';
+import { Location } from '@xm-ngx/core/entity';
+import { LocationService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
 import {
     AUTO_STYLE,
     animate,
@@ -144,11 +144,6 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
         this.alertService.open({
             title: 'xm-entity.location-list-card.delete.title',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'xm-entity.location-list-card.delete.button',
             cancelButtonText: this.translateService.instant('xm-entity.location-list-card.delete.button-cancel'),
         }).subscribe((result) => {

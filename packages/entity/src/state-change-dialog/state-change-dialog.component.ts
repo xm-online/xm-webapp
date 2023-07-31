@@ -2,13 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { XmAlertService } from '@xm-ngx/alert';
-import { JsfAttributes } from '@xm-ngx/json-schema-form/core';
+import { JsfAttributes } from '@xm-ngx/json-schema-form';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
 import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
-import { NextSpec } from '../shared/state-spec.model';
-import { XmEntity } from '../shared/xm-entity.model';
-import { XmEntityService } from '../shared/xm-entity.service';
+import { NextSpec } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { XmEntityService } from '@xm-ngx/core/entity';
 import { JsonSchemaFormService } from '@ajsf/core';
 
 declare let $: any;
@@ -67,10 +67,6 @@ export class StateChangeDialogComponent implements OnInit {
             this.alertService.open({
                 icon: 'success',
                 html: `<pre style="text-align: left"><code>${JSON.stringify(data, null, '  ')}</code></pre>`,
-                buttonsStyling: false,
-                customClass: {
-                    confirmButton: 'btn btn-primary',
-                }
             }).subscribe();
         } else {
             this.toasterService.success('xm-entity.function-list-card.change-state.success');

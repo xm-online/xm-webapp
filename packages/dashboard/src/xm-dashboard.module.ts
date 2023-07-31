@@ -7,9 +7,9 @@ import { XmSharedModule } from '@xm-ngx/shared';
 
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PendingChangesGuard } from './guards/pending-changes.guard';
-import { DashboardStore } from './stores/dashboard-store.service';
-import { DashboardService } from './repositories/dashboard.service';
-import { WidgetService } from './repositories/widget.service';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
+import { DashboardService } from '@xm-ngx/core/dashboard';
+import { WidgetService } from '@xm-ngx/core/dashboard';
 import { XmDashboardRoutingModule } from './xm-dashboard-routing.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';

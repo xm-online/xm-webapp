@@ -19,7 +19,7 @@ import { XmImageModule } from '@xm-ngx/components/image';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
 import { FeedbackComponent } from './feedback.component';
-import { XmPermissionModule } from '../../core/permission';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 @NgModule({
     imports: [

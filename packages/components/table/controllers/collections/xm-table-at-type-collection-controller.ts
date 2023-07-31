@@ -7,10 +7,11 @@ import {
 } from './a-xm-table-local-pageable-collection-controller.service';
 import { Injectable } from '@angular/core';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
-import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
+import { XmConfig } from '@xm-ngx/interfaces';
 
-export interface AtTypeListConfig {
+export interface AtTypeListConfig extends XmConfig {
+    type: 'atType',
     key: string;
     path: string;
     atTypeKey: string
@@ -38,14 +39,12 @@ export class XmTableAtTypeCollectionController<T extends AtType = AtType>
     private initialData: T[];
 
     constructor(
-        private configController: XmTableConfigController<AtTypeListConfig>,
         private entityController: XmTableEntityController<object>,
     ) {
         super();
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = await firstValueFrom(this.configController.config$());
         this.entity = await firstValueFrom(this.entityController.entity$());
         const primary: { [key: string]: T } = _.get(this.entity, this.config.path, {});
         let clone = _.cloneDeep(primary);

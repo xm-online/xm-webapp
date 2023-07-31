@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
-import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import {
     XmDynamicPresentation,
     XmDynamicPresentationConstructor,
     XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
-import { Id } from '@xm-ngx/shared/interfaces';
+import { Id } from '@xm-ngx/interfaces';
 import { get } from 'lodash';
 import { clone } from 'lodash/fp';
 import { Subscription } from 'rxjs';

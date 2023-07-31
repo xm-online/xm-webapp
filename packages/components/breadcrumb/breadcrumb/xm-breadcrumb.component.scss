@@ -1,18 +1,36 @@
-.xm-breadcrumb-item.xm-breadcrumb-item-active {
-  font-weight: bold;
-}
-
-.xm-breadcrumb-item {
-  display: inline;
-  list-style-type: none;
-  font-weight: normal;
-
-  .mat-button {
-    font-weight: inherit;
-  }
-}
-
 .xm-breadcrumb-container {
+  display: flex;
   margin: 0;
   padding: 0;
+
+  .xm-breadcrumb-item {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    font-weight: normal;
+
+    h5 {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 36px;
+      letter-spacing: .15px;
+      color: #666666;
+    }
+
+    .xm-breadcrumb-item-link {
+      font-size: 16px;
+      letter-spacing: .15px;
+      color: #666666;
+      font-weight: 400;
+    }
+
+    mat-icon {
+      color: #666666;
+    }
+
+    .mat-button {
+      font-weight: 400;
+      color: #666666;
+    }
+  }
 }

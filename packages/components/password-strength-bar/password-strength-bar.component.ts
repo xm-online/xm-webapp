@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
+import { XmTranslationModule } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-password-strength-bar',
@@ -16,12 +17,15 @@ import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
     styleUrls: [
         'password-strength-bar.css',
     ],
+    standalone: true,
+    imports: [XmTranslationModule]
 })
 export class PasswordStrengthBarComponent {
 
     public colors: string[] = ['#F00', '#F90', '#FF0', '#9F0', '#0F0'];
 
-    constructor(private renderer: Renderer2, private elementRef: ElementRef) { }
+    constructor(private renderer: Renderer2, private elementRef: ElementRef) {
+    }
 
     @Input()
     public set passwordToCheck(password: string) {
@@ -83,6 +87,6 @@ export class PasswordStrengthBarComponent {
         } else {
             idx = 4;
         }
-        return {idx: idx + 1, col: this.colors[idx]};
+        return { idx: idx + 1, col: this.colors[idx] };
     }
 }

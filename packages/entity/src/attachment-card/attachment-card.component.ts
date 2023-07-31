@@ -5,10 +5,10 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { saveFile, saveFileFromUrl } from '@xm-ngx/shared/helpers/file-download-helper';
-import { AttachmentSpec } from '../shared/attachment-spec.model';
-import { Attachment } from '../shared/attachment.model';
-import { AttachmentService } from '../shared/attachment.service';
+import { saveFile, saveFileFromUrl } from '@xm-ngx/operators';
+import { AttachmentSpec } from '@xm-ngx/core/entity';
+import { Attachment } from '@xm-ngx/core/entity';
+import { AttachmentService } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
 
 
@@ -109,11 +109,6 @@ export class AttachmentCardComponent implements OnInit {
         this.alertService.open({
             title: 'xm-entity.attachment-card.delete.title',
             showCancelButton: true,
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn mat-button btn-primary',
-                cancelButton: 'btn mat-button',
-            },
             confirmButtonText: 'xm-entity.attachment-card.delete.button',
             cancelButtonText: this.translateService.instant('xm-entity.attachment-card.delete.button-cancel'),
         }).subscribe((result) => {

@@ -1,8 +1,15 @@
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { TdTextEditorComponent } from '@covalent/text-editor';
-import { JsonSchemaFormService } from '@xm-ngx/json-schema-form/core';
+import { CovalentTextEditorModule, TdTextEditorComponent } from '@covalent/text-editor';
+import { JsonSchemaFormService } from '@ajsf/core';
 
 @Component({
+    standalone: true,
+    imports: [CommonModule,FormsModule,MatIconModule,MatButtonModule,XmTranslationModule,CovalentTextEditorModule],
     selector: 'xm-ext-md-editor-widget',
     templateUrl: 'ext-md-editor.component.html',
     styleUrls: ['ext-md-editor.component.scss'],

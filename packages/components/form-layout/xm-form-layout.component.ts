@@ -1,17 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
-import { JavascriptCode } from '@xm-ngx/shared/interfaces';
+import { FormGroupLayoutItem } from './form-group-layout-factory.service';
+import { JavascriptCode } from '@xm-ngx/interfaces';
 import { CommonModule } from '@angular/common';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { XmFormLayoutControl } from './xm-form-layout-control.component';
+import { XmDynamicLayoutNode } from '@xm-ngx/dynamic';
 
-export interface FormLayoutItem extends FormGroupLayoutItem {
-    selector: string;
+export interface FormLayoutItem<C = unknown> extends FormGroupLayoutItem<unknown, C>, XmDynamicLayoutNode<C> {
     condition: JavascriptCode;
-    style: string;
-    class: string;
 }
 
 export function toggleControlValidation(control: AbstractControl, active: boolean): void {

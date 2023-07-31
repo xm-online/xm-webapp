@@ -2,24 +2,23 @@ import { CDK_TABLE, CdkNoDataRow } from '@angular/cdk/table';
 import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { MatNoDataRow, MatTableModule } from '@angular/material/table';
 
-import { Defaults } from '@xm-ngx/shared/operators';
+import { Defaults } from '@xm-ngx/operators';
 import { Translate } from '@xm-ngx/translation';
-import { XmTableEmptyConfig } from '../interfaces/xm-table.model';
 import { NoDataModule } from '@xm-ngx/components/no-data';
+import { XmTableEmptyTypeConfig } from './xm-table-empty-config.model';
 
 export interface TableNoDataRawManager<T extends CdkNoDataRow = CdkNoDataRow> {
     setNoDataRow(columnDef: T): void;
 }
 
-
-export interface XmTableEmptyRows {
+export interface XmTableEmptyConfig {
     /** case , when table initially loaded empty */
-    initial: XmTableEmptyConfig,
+    initial: XmTableEmptyTypeConfig,
     /** case, when table filtered empty */
-    filter: XmTableEmptyConfig
+    filter: XmTableEmptyTypeConfig
 }
 
-export const DEFAULT_NO_ROWS_CONFIG: XmTableEmptyRows = {
+export const XM_TABLE_EMPTY_DEFAULT_CONFIG: XmTableEmptyConfig = {
     filter: {
         image: '',
         message: null,
@@ -54,7 +53,7 @@ export class XmTableEmptyComponent implements OnInit {
     public image: string;
     public text: Translate;
     @Input() public colspan: number;
-    @Input() @Defaults(DEFAULT_NO_ROWS_CONFIG) public config: XmTableEmptyRows;
+    @Input() @Defaults(XM_TABLE_EMPTY_DEFAULT_CONFIG) public config: XmTableEmptyConfig;
     @ViewChild(MatNoDataRow, { static: true }) public cell: MatNoDataRow;
 
     constructor(@Inject(CDK_TABLE) protected noDataRowManager: TableNoDataRawManager) {

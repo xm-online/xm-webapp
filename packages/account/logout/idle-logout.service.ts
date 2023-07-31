@@ -3,12 +3,12 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmUser, XmUserService } from '@xm-ngx/core/user';
-import { OnInitialize } from '@xm-ngx/shared/interfaces';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { OnInitialize } from '@xm-ngx/interfaces';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Idle } from 'idlejs/dist';
 import { combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { LoginService } from '@xm-ngx/core/auth';
+import { LoginService } from '@xm-ngx/components/login';
 
 @Injectable({ providedIn: 'root' })
 export class IdleLogoutService implements OnInitialize, OnDestroy {

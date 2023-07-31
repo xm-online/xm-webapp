@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmTextTitleOptions } from '@xm-ngx/components/text';
-import { DataQa } from '@xm-ngx/shared/interfaces';
+import { DataQa } from '@xm-ngx/interfaces';
 import * as _ from 'lodash';
 import { clone, defaults } from 'lodash';
-import { HintText } from '@xm-ngx/components/hint/hint.interface';
+import { HintText } from '@xm-ngx/components/hint';
 
 export interface XmFileControlOptions extends XmTextTitleOptions, DataQa {
     hint: HintText;
@@ -57,7 +57,7 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
 
-            <button 
+            <button
                 class="me-2"
                 matSuffix
                 mat-button

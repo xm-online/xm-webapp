@@ -1,0 +1,7 @@
+<div class="alerts" role="alert">
+  <div *ngFor="let alert of this.jhiAlertService.get()"
+       [ngClass]="{'alert.position': true, 'toast': alert.toast}"
+       class="mb-0 border-0">
+    <xm-error-messages-notify message="{{alert.msg}}" type="{{alert.type}}"></xm-error-messages-notify>
+  </div>
+</div>

@@ -2,12 +2,12 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 
-import { XM_EVENT_LIST } from 'src/app/xm.constants';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
-import { Spec } from '../shared/spec.model';
-import { XmEntitySpec } from '../shared/xm-entity-spec.model';
+import { Spec } from '@xm-ngx/core/entity';
+import { XmEntitySpec } from '@xm-ngx/core/entity';
 import { EntityUiConfig } from '@xm-ngx/core/config';
 import { Principal } from '@xm-ngx/core/user';
+import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 @Component({
     selector: 'xm-entity-list-fab',
@@ -45,7 +45,7 @@ export class EntityListFabComponent {
     }
 
     public onRefresh(): void {
-        this.eventManager.broadcast({name: XM_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION});
+        this.eventManager.broadcast({name: XM_ENTITY_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION});
     }
 
     public onAddNew(): void {

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { LIST_DEFAULT_FIELDS } from '../../../../../packages/shared/src/constants/default-lists-fields.constants';
+import { LIST_DEFAULT_FIELDS } from '@xm-ngx/translation';
 import { Spec } from '@xm-ngx/entity';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 

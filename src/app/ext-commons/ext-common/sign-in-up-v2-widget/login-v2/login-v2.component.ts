@@ -4,7 +4,7 @@ import { XmUIConfig } from '@xm-ngx/core/config';
 import { CommonModule } from '@angular/common';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { finalize, take } from 'rxjs/operators';
-import { TranslateModule } from '@ngx-translate/core';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatInputModule } from '@angular/material/input';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { SignInUpService } from '../sign-in-up.service';
@@ -26,7 +26,7 @@ export interface XmLoginFormUIConfig extends XmUIConfig {
     standalone: true,
     imports: [
         CommonModule,
-        TranslateModule,
+        XmTranslationModule,
         MatInputModule,
         XmSharedModule,
         XmPasswordControl,
@@ -86,7 +86,7 @@ export class LoginV2Component implements OnDestroy {
             res.next = this.config.next;
         }
         if (!res.otpId) {
-            this.signInUpService.updateTokens(res, true);
+            this.signInUpService.updateTokens(res, this.group.controls.rememberMe?.value);
         } else {
             this.changeStateEvent.emit(res);
             this.router.navigate([''], {queryParams: {page: this.config.next}});

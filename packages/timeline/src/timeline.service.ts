@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TimelinePage } from './timeline-page.model';
-import { TimeLineServiceConfig } from '@xm-ngx/timeline/timeline-list/timeline-config.model';
+import { TimeLineServiceConfig } from './timeline-config';
 
 @Injectable()
 export class TimelineService {

@@ -2,23 +2,22 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
-import * as moment from 'moment';
+import moment from 'moment';
 
-import { XmEntitySpecWrapperService } from '@xm-ngx/entity/shared';
+import { XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
-import { CalendarSpec } from '@xm-ngx/entity/shared';
-import { Calendar } from '@xm-ngx/entity/shared';
-import { CalendarService } from '@xm-ngx/entity/shared';
-import { Event } from '@xm-ngx/entity/shared';
-import { EventService } from '@xm-ngx/entity/shared';
-import { XmEntity } from '@xm-ngx/entity/shared';
+import { CalendarSpec } from '@xm-ngx/core/entity';
+import { Calendar } from '@xm-ngx/core/entity';
+import { CalendarService } from '@xm-ngx/core/entity';
+import { Event } from '@xm-ngx/core/entity';
+import { EventService } from '@xm-ngx/core/entity';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { buildJsfAttributes, nullSafe } from '@xm-ngx/json-schema-form/components';
 import { UUID } from 'angular2-uuid';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { firstValueFrom } from 'rxjs';
 import { XmAlertService } from '@xm-ngx/alert';
-import { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
     selector: 'xm-calendar-event-dialog',
@@ -140,14 +139,11 @@ export class CalendarEventDialogComponent implements OnInit {
         this.onAddEvent();
     }
 
-    private alert(icon: SweetAlertIcon, key: string): void {
+    // TODO: SweetAlert icon type XmAlertIcon
+    private alert(icon: any, key: string): void {
         this.alertService.open({
             icon,
             text: this.translateService.instant(key),
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn btn-primary',
-            },
         });
     }
 

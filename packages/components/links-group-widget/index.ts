@@ -1,7 +1,3 @@
-export {
-    LinksGroupWidget,
-} from './links-group-widget';
+export * from './links-group-widget';
 
-export {
-    LinksGroupButtonWidget,
-} from './links-group-button-widget';
+export * from './links-group-button-widget';

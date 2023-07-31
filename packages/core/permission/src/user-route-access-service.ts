@@ -9,7 +9,6 @@ import {
     RouterStateSnapshot,
     UrlSegment,
 } from '@angular/router';
-import { XmToasterService } from '@xm-ngx/toaster';
 
 import { Principal } from '@xm-ngx/core/user';
 import { StateStorageService } from '@xm-ngx/core/auth';
@@ -22,7 +21,7 @@ export class UserRouteAccessService implements CanActivate, CanActivateChild, Ca
         private router: Router,
         private principal: Principal,
         private stateStorageService: StateStorageService,
-        private alertService: XmToasterService) {
+    ) {
     }
 
     public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
@@ -53,7 +52,7 @@ export class UserRouteAccessService implements CanActivate, CanActivateChild, Ca
                     .then((result) => {
                         if (result instanceof Array) {
                             if (result.length) {
-                                this.alertService.warning('error.privilegeInsufficient', { name: result.join(', ') });
+                                console.warn('error.privilegeInsufficient', { name: result.join(', ') });
                             }
                             return !result.length;
                         }

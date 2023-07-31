@@ -16,7 +16,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { XmAutocompleteControlListItem } from './autocomple-control.interface';
 import { MatButtonModule } from '@angular/material/button';
-import { XmEmptyPipe } from '@xm-ngx/shared/pipes';
+import { XmEmptyPipe } from '@xm-ngx/pipes';
 
 @Component({
     standalone: true,
@@ -92,9 +92,9 @@ import { XmEmptyPipe } from '@xm-ngx/shared/pipes';
         multi: true,
     }],
 })
-export class XmAutocompleteChipsControlComponent extends XmAutocompleteControl {    
+export class XmAutocompleteChipsControlComponent extends XmAutocompleteControl {
     public chipControl = new FormControl(null);
-    
+
     public deselect(): void {
         this.selection.clear();
         this.change(null);

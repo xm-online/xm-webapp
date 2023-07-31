@@ -1,0 +1,45 @@
+@mixin center {
+  align-items: center;
+  text-align: center;
+}
+
+:host {
+  .heading {
+    display: flex;
+    flex-direction: column;
+
+    &.center {
+      @include center();
+    }
+
+    &-icon {
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    &-title {
+      &__above {
+        font-weight: 600;
+      }
+
+      &__below {
+        font-weight: 400;
+      }
+
+      &__above,
+      &__below {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .content{
+    &-image {
+      display: flex;
+      flex-direction: column;
+      &.center {
+        @include center();
+      }
+    }
+  }
+}

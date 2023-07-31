@@ -1,29 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { RouteChangeAnimationModule } from '@xm-ngx/components/animations/route-change-animation';
+import { RouteChangeAnimationModule } from '@xm-ngx/components/animations';
 import { FeedbackModule } from '@xm-ngx/components/feedback';
-import { GuestBackgroundModule } from '@xm-ngx/components/guest-background/guest-background.module';
+import { GuestBackgroundModule } from '@xm-ngx/components/guest-background';
 import { LanguageModule } from '@xm-ngx/translation';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { RouteLoadingDirectiveModule } from '@xm-ngx/components/route-loading';
 import { XmPasswordNeededModule } from '@xm-ngx/components/password-needed';
 import { XmRibbonComponent } from '@xm-ngx/components/ribbon';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
-import { XmEntityModule } from '@xm-ngx/entity/xm-entity.module';
+import { XmEntityModule } from '@xm-ngx/entity';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { XmBalanceModule } from '@xm-ngx/balance';
 import { XmMaintenanceViewModule } from '@xm-ngx/components/maintenance';
 import { XmSidebarRightModule } from '@xm-ngx/components/sidebar-right';
-import { XmSidebarModule } from '@xm-ngx/components/sidebar';
+import { XmSidebarModule } from '@xm-ngx/dashboard/sidebar';
 import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
 import { XmTimelineModule } from '@xm-ngx/timeline/timeline-widget';
 import { FooterComponent } from './footer/footer.component';
 import { XmMainComponent } from './main/main.component';
 import { XmNavbarModule } from './navbar/xm-navbar.module';
 import { PageRibbonComponent } from './profiles/page-ribbon.component';
+import { JhiAlertErrorComponent } from '@xm-ngx/error-messages';
 
 @NgModule({
     imports: [
+        JhiAlertErrorComponent,
         XmPasswordNeededModule,
         LanguageModule,
         LoaderModule,

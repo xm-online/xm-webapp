@@ -10,12 +10,12 @@ import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { XmDateRangeControl, XmDateValue } from '@xm-ngx/components/date/index';
+import { XmDateRangeControl, XmDateValue } from '@xm-ngx/components/date';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MatNativeDateModule } from '@angular/material/core';
 export default {
-    title: 'Core/Control/Date/Range',
+    title: 'Core/Control/Date/Range Control',
     component: XmDateRangeControl,
     decorators: [
         moduleMetadata({
