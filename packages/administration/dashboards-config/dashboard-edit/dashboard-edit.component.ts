@@ -13,6 +13,7 @@ import { AbstractControl, FormControl, ValidationErrors, Validators } from '@ang
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
+import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { XmTextControlOptions } from '@xm-ngx/components/text';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard, DashboardConfig, DashboardLayout, DashboardStore, DashboardWidget } from '@xm-ngx/core/dashboard';
@@ -53,6 +54,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
     public EditType: typeof EditType = EditType;
 
     private dashboardService: DashboardStore = inject(DashboardStore);
+    private xmControlErrorsTranslates = inject(XM_CONTROL_ERRORS_TRANSLATES);
     private dashboardList$: Observable<Dashboard[]> = this.dashboardService.dashboards$().pipe(
         takeUntilOnDestroy(this),
         map(dashboards => dashboards.filter(dashboard => !this.value?.id || dashboard.id !== this.value.id))
@@ -75,6 +77,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
     public widgetEditComponentType: Type<unknown> = this.dashboardConfig.widgetRef;
     public nameOptions: XmTextControlOptions = {
         title: this.TRS.name, dataQa: '', errors: {
+            required: this.xmControlErrorsTranslates.required,
             notUniqInList: {
                 en: 'Dashboard with this name already exist',
                 uk: 'Інформаційна панель із такою назвою вже існує',
@@ -83,6 +86,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
     };
     public typeKeyOptions: XmTextControlOptions = {
         title: this.TRS.typeKey, dataQa: '', errors: {
+            required: this.xmControlErrorsTranslates.required,
             notUniqInList: {
                 en: 'Dashboard with this TypeKey already exist',
                 uk: 'Інформаційна панель із цим TypeKey вже існує',
