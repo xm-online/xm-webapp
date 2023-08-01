@@ -165,7 +165,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     public onCancel(): void {
         this.editorService.close();
-        this.editorService.changeEditState(false);
     }
 
     public onAdd(): void {

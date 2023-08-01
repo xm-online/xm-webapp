@@ -16,12 +16,11 @@ import {
     XmTableRepositoryResolver,
 } from '../../repositories/xm-table-repository-resolver.service';
 import { IId } from '@xm-ngx/interfaces';
-import { XmTableConfigController } from '../config/xm-table-config-controller.service';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 import { filter } from 'rxjs/operators';
 import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
-import { XmTableWidgetConfig } from '../../table-widget/xm-table-widget.config';
+import { IXmTableRepositoryCollectionControllerConfig } from './xm-table-repository-collection-controller.service';
 
 const TRS = {
     updated: 'ext-entity.commons.updated',
@@ -36,7 +35,7 @@ export interface LinkListProperties {
     useInitialType?: boolean;
 }
 
-export interface LinkListConfig {
+export interface LinkListConfig extends IXmTableRepositoryCollectionControllerConfig {
     type: 'link',
     resource: string;
     path: string;
@@ -57,7 +56,6 @@ export class XmTableLinkedCollectionController<T extends IId & {name?: string} =
 
     constructor(
         protected toaster: XmToasterService,
-        private configController: XmTableConfigController<XmTableWidgetConfig>,
         private entityController: XmTableEntityController<object>,
         protected alert: XmAlertService,
         protected repositoryResolver: XmTableRepositoryResolver<T>,
@@ -67,9 +65,8 @@ export class XmTableLinkedCollectionController<T extends IId & {name?: string} =
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.config = (await firstValueFrom(this.configController.config$())).collection as LinkListConfig;
         this.entity = await firstValueFrom(this.entityController.entity$());
-        this.repository = await this.repositoryResolver.get();
+        this.repository = await this.repositoryResolver.get(this.config.repository);
         const primaryField = this.config?.typeLink?.primaryField || 'id';
         const data: T[] = _.get(this.entity, this.config.path, '') || [];
         let keys = data.map(i => i ? i[primaryField] : null);

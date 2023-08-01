@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
-import { IEntityCollectionPageable } from '@xm-ngx/repositories';
-import { firstValueFrom } from 'rxjs';
-import { XmFilterQueryParams, IXmTableCollectionController, } from '../collections/i-xm-table-collection-controller';
+import { IEntityCollectionPageable, PAGEABLE_AND_SORTABLE_DEFAULT, PageableAndSortable } from '@xm-ngx/repositories';
+import { IXmTableCollectionController, XmFilterQueryParams, } from '../collections/i-xm-table-collection-controller';
 
+import * as _ from 'lodash';
 import { cloneDeep } from 'lodash';
-import { XmTableConfigController } from '../config/xm-table-config-controller.service';
-import { XmTableRepositoryResolver, } from '../../repositories/xm-table-repository-resolver.service';
+import { XmTableRepositoryResolver } from '../../repositories/xm-table-repository-resolver.service';
 import { NotSupportedException } from '@xm-ngx/exceptions';
 import { AXmTableStateCollectionController } from '../collections/a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';
+import { XmConfig } from '@xm-ngx/interfaces';
 import {
-    XmTableWidgetConfig,
-} from '../../table-widget/xm-table-widget.config';
-import * as _ from 'lodash';
-import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
+    XmTableReadOnlyRepositoryCollectionControllerConfig
+} from '../collections/xm-table-read-only-repository-collection-controller';
 
-export interface XmTableElasticSearchCollectionControllerConfig{
+export interface XmTableElasticSearchCollectionControllerConfig extends XmConfig {
     type: 'elasticSearch'
 }
 
@@ -24,11 +22,10 @@ export class XmTableElasticSearchCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
     public repository: IEntityCollectionPageable<T, PageableAndSortable>;
-    public config: XmTableWidgetConfig;
     public entity: object;
+    public config: XmTableReadOnlyRepositoryCollectionControllerConfig;
 
     constructor(
-        private configController: XmTableConfigController<XmTableWidgetConfig>,
         protected repositoryResolver: XmTableRepositoryResolver<T>
     ) {
         super();
@@ -38,10 +35,9 @@ export class XmTableElasticSearchCollectionController<T = unknown>
         if (_.isEmpty(request.pageableAndSortable)) {
             request.pageableAndSortable = PAGEABLE_AND_SORTABLE_DEFAULT;
         }
-        this.config = await firstValueFrom(this.configController.config$());
-        this.repository = await this.repositoryResolver.get();
+        this.repository = await this.repositoryResolver.get(this.config.repository);
 
-        this.changePartial({loading: true, pageableAndSortable: request.pageableAndSortable});
+        this.changePartial({ loading: true, pageableAndSortable: request.pageableAndSortable });
 
         this.repository
             .query(request)
@@ -76,12 +72,12 @@ export class XmTableElasticSearchCollectionController<T = unknown>
     }
 
     public edit(prev: T, curr: T): void {
-        this.changePartial({loading: true});
+        this.changePartial({ loading: true });
         this.repository.update(curr)
             .subscribe(
-                (_) => this.changePartial({loading: false}),
-                () => this.changePartial({loading: false}),
-                () => this.changePartial({loading: false}));
+                (_) => this.changePartial({ loading: false }),
+                () => this.changePartial({ loading: false }),
+                () => this.changePartial({ loading: false }));
     }
 
     public remove(item: T): void {

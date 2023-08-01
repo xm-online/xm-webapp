@@ -17,6 +17,8 @@ import { MatCardModule } from '@angular/material/card';
 export interface XmInlineControlDynamic<C> {
     selector: string;
     config: C;
+    /** @deprecated use config instead. */
+    options?: C;
     style: string;
     class: string;
 }
@@ -50,7 +52,7 @@ export enum XmInlineControlMode {
                 [class]="config?.view?.class"
                 [selector]="config?.view.selector"
                 [config]="config?.view?.config"
-                [options]="config?.view?.config"
+                [options]="config?.view?.options || config?.view?.config"
                 [value]="value ?? config?.view?.value"></ng-template>
         </span>
 
@@ -63,7 +65,7 @@ export enum XmInlineControlMode {
                         [class]="config?.edit?.class"
                         [selector]="config?.edit?.selector"
                         [config]="config?.edit?.config"
-                        [options]="config?.edit?.config"
+                        [options]="config?.edit?.options || config?.edit?.config"
                         [value]="value"
                         [disabled]="disabled"
                         (valueChange)="changeValue($event)"></ng-template>
