@@ -41,7 +41,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     pattern: '',
     id: null,
     name: 'text',
-    required: true,
+    required: false,
     disabled: false,
     maxLength: null,
     minLength: null,
