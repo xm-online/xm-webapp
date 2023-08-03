@@ -29,7 +29,7 @@ const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
     title: '',
     placeholder: '',
     id: null,
-    required: false,
+    required: true,
     maxLength: null,
     dataQa: 'text-range-control',
     autosize: false,
