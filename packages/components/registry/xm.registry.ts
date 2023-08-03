@@ -88,4 +88,8 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
         selector: '@xm-ngx/components/user-appearance-theme-widget',
         loadChildren: () => import('@xm-ngx/components/user-appearance-theme-widget').then(m => m.XmUserAppearanceThemeWidget),
     },
+    {
+        selector: '@xm-ngx/components/edit-widget-buttons',
+        loadChildren: () => import('@xm-ngx/components/edit-buttons/edit-widget-buttons.module').then(m => m.EditWidgetButtonsModule),
+    },
 ];
