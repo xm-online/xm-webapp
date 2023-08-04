@@ -90,6 +90,6 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: '@xm-ngx/components/edit-widget-buttons',
-        loadChildren: () => import('@xm-ngx/components/edit-buttons/edit-widget-buttons.module').then(m => m.EditWidgetButtonsModule),
+        loadChildren: () => import('@xm-ngx/components/edit-buttons').then(m => m.EditWidgetButtonsModule),
     },
 ];
