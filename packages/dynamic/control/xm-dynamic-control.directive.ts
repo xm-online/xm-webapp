@@ -13,15 +13,15 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { XmDynamicServiceFactory } from '@xm-ngx/dynamic';
-import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic/src/services/xm-dynamic-injection-token-store.service';
 import { from, ReplaySubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { setComponentInput } from '../operators/set-component-input';
 import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-base.directive';
 import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
+import { XmDynamicServiceFactory } from '../services/xm-dynamic-service-factory.service';
 import { XmDynamicConstructor } from '../src/interfaces/xm-dynamic-constructor';
 import { XmDynamicEntryModule } from '../src/interfaces/xm-dynamic-entry-module';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
+import { XmDynamicInjectionTokenStoreService } from '../src/services/xm-dynamic-injection-token-store.service';
 
 export interface XmDynamicControl<V = unknown, C = unknown> extends XmDynamicPresentation<V, C>, ControlValueAccessor {
     valueChange: EventEmitter<V>;

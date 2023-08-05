@@ -8,16 +8,14 @@ import {
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
-import { XmDynamicServiceFactory, XmDynamicWithSelector } from '@xm-ngx/dynamic';
-import {
-    XmDynamicInjectionTokenStoreService
-} from '@xm-ngx/dynamic/src/services/xm-dynamic-injection-token-store.service';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { setComponentInput } from '../operators/set-component-input';
-import { XmDynamicSelector, XmDynamicWithConfig, XmLayoutNode } from '../src/interfaces';
+import { XmDynamicServiceFactory } from '../services/xm-dynamic-service-factory.service';
+import { XmDynamicSelector, XmDynamicWithConfig, XmDynamicWithSelector, XmLayoutNode } from '../src/interfaces';
 import { XmDynamicConstructor } from '../src/interfaces/xm-dynamic-constructor';
 import { XmDynamicEntryModule } from '../src/interfaces/xm-dynamic-entry-module';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
+import { XmDynamicInjectionTokenStoreService } from '../src/services/xm-dynamic-injection-token-store.service';
 
 
 /** Determines input(control) value. */

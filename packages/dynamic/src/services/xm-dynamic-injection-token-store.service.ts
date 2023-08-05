@@ -1,5 +1,5 @@
 import { Injectable, InjectionToken } from '@angular/core';
-import { XmDynamicService } from '@xm-ngx/dynamic';
+import { XmDynamicService } from '../../services/xm-dynamic-service-factory.service';
 
 
 @Injectable()
