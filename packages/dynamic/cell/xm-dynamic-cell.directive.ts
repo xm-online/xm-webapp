@@ -84,7 +84,7 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
         if (style?.includes('${')) {
             try {
                 style = _.template(style ?? '')(this.row as object ?? {});
-            } catch(e) {
+            } catch (e) {
                 console.warn(e);
             }
         }
@@ -96,7 +96,7 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
         if (classNames?.includes('${')) {
             try {
                 classNames = _.template(classNames ?? '')(this.row as object ?? {});
-            } catch(e) {
+            } catch (e) {
                 console.warn(e);
             }
         }
@@ -118,14 +118,14 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
         }
     }
 
-    public createInjector(injector: Injector = this.injector): Injector {
-        return Injector.create({
+    public createInjector(injector: Injector = this.injector): Promise<Injector> {
+        return Promise.resolve(Injector.create({
             providers: [
                 {provide: XM_DYNAMIC_TABLE_ROW, useValue: this.row},
                 {provide: XM_DYNAMIC_TABLE_CELL, useValue: this._cell},
             ],
             parent: injector,
-        });
+        }));
     }
 
     public ngDoCheck(): void {
