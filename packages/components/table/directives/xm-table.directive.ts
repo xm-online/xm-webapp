@@ -67,11 +67,17 @@ export class XmTableDirective implements OnInit, OnDestroy {
     @Input('xmTableConfig')
     public set config(value: XmTableConfig) {
         this._config = _.defaultsDeep({}, value, cloneDeep(XM_TABLE_CONFIG_DEFAULT));
+        this.setStorageKeys();
         this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));
     }
 
     public ngOnInit(): void {
         this.onControllerStateChangeUpdateContext();
+    }
+
+    private setStorageKeys(): void {
+        const storageKey: string = this.config.storageKey || location.pathname;
+        this.columnsSettingStorageService.key = this.queryParamsStoreService.key = storageKey;
     }
 
     public onControllerStateChangeUpdateContext(): void {
