@@ -69,6 +69,8 @@ export class WidgetEditComponent implements OnChanges {
 
     public selectedIndex: number = 1;
 
+    public historyEvents = this.widgetService.getHistoryById(42);
+
     constructor(
         protected readonly widgetService: WidgetCollection,
         protected dashboardService: DashboardCollection,

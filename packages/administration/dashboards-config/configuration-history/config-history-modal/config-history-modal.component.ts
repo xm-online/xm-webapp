@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -44,23 +44,34 @@ import { MatBadgeModule } from '@angular/material/badge';
     templateUrl: './config-history-modal.component.html',
     styleUrls: ['./config-history-modal.component.scss'],
 })
-export class ConfigHistoryModalComponent {
-    private data = inject(MAT_DIALOG_DATA);
+export class ConfigHistoryModalComponent implements OnInit{
+    private data = inject(MAT_DIALOG_DATA)
 
-    public activeEvent: HistoryEvent;
+        ;
     public prevConfig: string;
     public prevDate: Date;
     public historyEvents: HistoryEvent[] = this.data;
+    public activeEvent: HistoryEvent;
+
     public aceEditorOptions: XmAceEditorControlOptions = { title: '', mode: 'json', height: 'calc(100vh - 350px)' };
 
+    public ngOnInit(): void {
+        this.setPrevValues(0);
+        this.activeEvent = this.data?.[0];
+    }
+
     public onEventClicked(event: HistoryEvent, eventIndex: number): void {
-        const prevEvent = this.historyEvents[eventIndex + 1];
-        this.prevConfig = prevEvent?.config ?? '{}';
-        this.prevDate = prevEvent?.date ?? null;
+        this.setPrevValues(eventIndex);
         this.activeEvent = event;
     }
 
     public isCurrent(event: HistoryEvent): boolean {
         return event === this.historyEvents[0];
+    }
+
+    private setPrevValues(index: number): void{
+        const prevEvent = this.historyEvents[index + 1];
+        this.prevConfig = prevEvent?.config ?? '{}';
+        this.prevDate = prevEvent?.date ?? null;
     }
 }

@@ -123,6 +123,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
             },
         },
     };
+    public historyEvents = this.dashboardService.getHistoryById(42);
+
     private dashboardList$: Observable<Dashboard[]> = this.dashboardService.dashboards$().pipe(
         takeUntilOnDestroy(this),
         map(dashboards => dashboards.filter(dashboard => !this.value?.id || dashboard.id !== this.value.id))
