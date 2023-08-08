@@ -83,7 +83,7 @@ export class LettersControl implements AfterViewInit {
             const testcomp = components.filter((comp) => {
                 return comp.nativeElement.value.length === length;
             });
-            if (testcomp.length && testcomp[0].nativeElement.value.length === length) {
+            if (testcomp.length) {
                 this.fillByValues(testcomp[0].nativeElement.value, 0);
             }
         }, 100);
