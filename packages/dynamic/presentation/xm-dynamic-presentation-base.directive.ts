@@ -146,34 +146,38 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
     }
 
     protected async createInjector(parentInjector: Injector = this.injector): Promise<Injector> {
-        // TODO: create DynamicControllerConfig to ControllerEntry method
-        const controllersEntries: {
-            classType: XmDynamicConstructor,
-            config: XmConfig,
-            key: string,
-        }[] = await Promise.all(this.controllers.map(async controller => ({
-            classType: await this.dynamicServices.find(controller.selector, parentInjector),
-            config: controller.config,
-            key: controller.key,
-        })));
+        if (this.controllers?.length > 0) {
 
-        const providers = controllersEntries.map(serviceEntry => {
-            const token = this.dynamicInjectionTokenStore.resolve(serviceEntry.key);
-            return {provide: token, useClass: serviceEntry.classType, deps: []};
-        });
+            // TODO: create DynamicControllerConfig to ControllerEntry method
+            const controllersEntries: {
+                classType: XmDynamicConstructor,
+                config: XmConfig,
+                key: string,
+            }[] = await Promise.all(this.controllers.map(async controller => ({
+                classType: await this.dynamicServices.find(controller.selector, parentInjector),
+                config: controller.config,
+                key: controller.key,
+            })));
 
-        const injector = Injector.create({
-            providers,
-            parent: parentInjector,
-        });
+            const providers = controllersEntries.map(serviceEntry => {
+                const token = this.dynamicInjectionTokenStore.resolve(serviceEntry.key);
+                return {provide: token, useClass: serviceEntry.classType, deps: []};
+            });
 
-        controllersEntries.forEach(service => {
-            const token = this.dynamicInjectionTokenStore.resolve(service.key);
-            const instance = injector.get(token);
-            instance.config = service.config;
-        });
+            const injector = Injector.create({
+                providers,
+                parent: parentInjector,
+            });
 
-        return injector;
+            controllersEntries.forEach(service => {
+                const token = this.dynamicInjectionTokenStore.resolve(service.key);
+                const instance = injector.get(token);
+                instance.config = service.config;
+            });
+
+            return injector;
+        }
+        return parentInjector;
     }
 
     protected async createInstance(): Promise<void> {

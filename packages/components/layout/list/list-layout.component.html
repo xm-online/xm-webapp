@@ -1,0 +1,13 @@
+<ng-container *ngIf="config.layouts as layouts">
+  <ng-container *ngFor="let layout of layouts">
+    <ng-container
+      [class]="layout.theme?.class"
+      [style]="layout.theme?.style"
+      xmDynamicPresentation
+      [value]="'STATIC'"
+      [selector]="layout.selector"
+      [config]="layout.config"
+      [controllers]="layout.controllers"
+    ></ng-container>
+  </ng-container>
+</ng-container>

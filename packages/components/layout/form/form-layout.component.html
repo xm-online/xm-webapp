@@ -1,0 +1,13 @@
+<ng-container *ngIf="config.fields as fields">
+  <ng-container *ngFor="let field of fields">
+    <ng-container
+      [class]="field.layout.theme?.class"
+      [style]="field.layout.theme?.style"
+      xmDynamicFormControl
+      [control]="getControl(field) | async"
+      [selector]="field.layout.selector"
+      [config]="field.layout.config"
+      [controllers]="field.layout.controllers"
+    ></ng-container>
+  </ng-container>
+</ng-container>
