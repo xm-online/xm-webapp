@@ -1,36 +1,59 @@
 <div mat-dialog-title>
-    <span class="text-center">{{ 'Config History' | translate }}</span>
+  <h2>{{ "Config History" | translate }}</h2>
   <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
 <div mat-dialog-content>
-  <div style="display: flex; width: 100%;">
-    <div style="width: 70%;">
-      <h2>Active History Event</h2>
-      <ng-container *ngIf="activeEvent; else emptyState" class="fade-in">
-        <div class="fade-in">
-          <p>User: {{activeEvent?.user}}</p>
-          <p>Date: {{activeEvent?.date}}</p>
-          <xm-ace-editor-control
-            disabled="true"
-            [(ngModel)]="activeEvent.config"
-            [config]="aceEditorOptions"
-            name="layout">
-          </xm-ace-editor-control>        </div>
-      </ng-container>
-      <ng-template #emptyState>
-        <div class="empty-state">
-          <p>No active event selected.</p>
-        </div>
-      </ng-template>
+  <div class="gap-3 d-flex w-100">
+    <div class="w-75">
+      <mat-card class="w-100">
+        <mat-card-content>
+          <ng-container *ngIf="activeEvent; else emptyState" class="fade-in">
+            <div class="d-flex justify-content-between">
+              <h3 class="text-uppercase font-weight-bold">
+                <span *ngIf="prevDate">{{ prevDate | date: "medium" }}</span>
+              </h3>
+              <h3
+                class="text-uppercase font-weight-bold"
+                matBadge="&#8288;"
+                [matBadgeOverlap]="false"
+                [matBadgeHidden]="!isCurrent(activeEvent)"
+                [matBadgePosition]="'before'"
+                [matBadgeSize]="'small'"
+              >
+                {{ activeEvent?.date | date: "medium" }}
+              </h3>
+            </div>
+            <xm-ace-diff-control [value]="activeEvent.config" [compareValue]="prevConfig" [config]="aceEditorOptions">
+            </xm-ace-diff-control>
+          </ng-container>
+          <ng-template #emptyState>
+            <div class="empty-state">
+              <p>No active event selected.</p>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <div style="width: 30%;">
-      <h2>History Events</h2>
-      <mat-list>
-        <mat-list-item role="button" *ngFor="let event of historyEvents" (click)="onEventClicked(event)">
-          <p>{{event.user}} - {{event.date}}</p>
-        </mat-list-item>
-      </mat-list>
+    <div class="w-25">
+      <mat-card class="w-100">
+        <mat-card-content>
+          <h2 class="w-100">Events History</h2>
+          <mat-list>
+            <mat-list-item
+              matBadge="&#8288;"
+              [matBadgeHidden]="!isCurrent(event)"
+              [matBadgePosition]="'before'"
+              [matBadgeSize]="'small'"
+              [class.active]="activeEvent?.date === event.date"
+              *ngFor="let event of historyEvents; let i = index"
+              (click)="onEventClicked(event, i)"
+            >
+              <span matListItemTitle>{{ event.date | date: "medium" }}</span>
+              <span matListItemLine>{{ event.user }}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
-
 </div>

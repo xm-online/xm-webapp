@@ -19,39 +19,34 @@ export class ConfigurationHistoryComponent {
     private dialogService = inject(MatDialog);
     private mockData: HistoryEvent[] = [
         {
-            user: 'User1',
-            date: new Date(2023, 6, 26),
-            config: '{ "param1": "value1", "param2": "value2" }',
+            user: 'James Webb',
+            date: new Date(2023, 6, 25, 23, 45),
+            config: '{ "age": "42", "menu": { "group": { "key": "TEST", "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" }, "orderIndex": 500, "icon": "settings" }, "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" } }, "slug": "admin-docs", "resourceUrl": null, "resourceHandle": null }',
         },
         {
-            user: 'User2',
-            date: new Date(2023, 6, 25),
-            config: '{ "setting1": true, "setting2": false }',
+            user: 'James Webb',
+            date: new Date(2023, 6, 24, 23, 45),
+            config: '{ "age": "42", "menu": { "group": { "key": "ROOT", "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" }, "orderIndex": 500, "icon": "settings" }, "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" } }, "slug": "admin-docs", "resourceUrl": null, "resourceHandle": null }',
         },
         {
-            user: 'User3',
-            date: new Date(2023, 6, 24),
-            config: '{ "key1": "value3", "key2": "value4" }',
+            user: 'Bozon Higgsa',
+            date: new Date(2023, 6, 23, 11, 23),
+            config: '{ "name": { "en": "API", "ru": "API", "uk": "REST" }, "menu": { "group": { "key": "ROOT", "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" }, "orderIndex": 500, "icon": "settings" }, "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" } }, "slug": "admin-docs", "resourceUrl": null, "resourceHandle": null }',
         },
         {
-            user: 'User4',
-            date: new Date(2023, 6, 23),
-            config: '{ "option1": "optionA", "option2": "optionB" }',
+            user: 'Nicolas Cage',
+            date: new Date(2023, 5, 22, 8, 10),
+            config: '{ "name": { "en": "API", "ru": "API", "uk": "API" }, "menu": { "group": { "key": "USERS", "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" }, "orderIndex": 500, "icon": "settings" }, "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" } }, "slug": "admin-docs", "resourceUrl": null, "resourceHandle": null }',
         },
         {
-            user: 'User5',
-            date: new Date(2023, 6, 22),
-            config: '{ "attribute1": "attr1", "attribute2": "attr2" }',
+            user: 'Bozon Higgsa',
+            date: new Date(2023, 5, 21, 15, 15),
+            config: '{ "name": { "en": "API", "ru": "API", "uk": "API" }, "menu": { "group": { "key": "ADMINISTRATION", "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" }, "orderIndex": 500, "icon": "settings" }, "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" } }, "slug": "admin-docs", "resourceUrl": null, "resourceHandle": null }',
         },
         {
-            user: 'User6',
-            date: new Date(2023, 6, 21),
-            config: '{ "feature1": "enabled", "feature2": "disabled" }',
-        },
-        {
-            user: 'User7',
-            date: new Date(2023, 6, 20),
-            config: '{ "property1": "prop1", "property2": "prop2" }',
+            user: 'Bozon Higssa',
+            date: new Date(2023, 6, 20, 12, 45),
+            config: '{ "name": { "en": "API", "ru": "API", "uk": "API" }, "orderIndex": 205, "menu": { "group": { "key": "ADMINISTRATION", "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" }, "orderIndex": 500, "icon": "settings" }, "name": { "en": "Administration", "ru": "Администрирование", "uk": "Адміністрування" } }, "slug": "admin-docs", "resourceUrl": null, "resourceHandle": null }',
         },
     ];
 
