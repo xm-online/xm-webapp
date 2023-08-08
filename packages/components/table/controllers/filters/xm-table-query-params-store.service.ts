@@ -9,10 +9,19 @@ import { XmTableQueryParamsToFilter } from '../../table-widget/xm-table-widget.c
 @Injectable()
 export class XmTableQueryParamsStoreService {
 
+    private _key: string;
+
     constructor(
         public router: Router,
         private activatedRoute: ActivatedRoute,
     ) {
+    }
+
+    public set key(key: string) {
+        this._key = key;
+    }
+    public get key(): string {
+        return this._key;
     }
 
     public set(queryParams: QueryParamsPageable, removeFieldsFromUrl?: Record<string, string>): void {
@@ -20,9 +29,9 @@ export class XmTableQueryParamsStoreService {
             [],
             {
                 relativeTo: this.activatedRoute,
-                queryParams: { 
+                queryParams: {
                     ...(removeFieldsFromUrl ?? {}),
-                    json: JSON.stringify(queryParams) 
+                    [this.key]: JSON.stringify(queryParams)
                 },
                 queryParamsHandling: 'merge'
             },
@@ -32,13 +41,13 @@ export class XmTableQueryParamsStoreService {
 
     public get(queryParamsToFillter?: XmTableQueryParamsToFilter): QueryParamsPageable {
         const queryParams = this.activatedRoute.snapshot.queryParams;
-        const jsonString = queryParams?.json as string;
+        const jsonString = queryParams?.[this.key] as string;
 
         const jsonParams = (isString(jsonString) && !isEmpty(jsonString)
-            ? JSON.parse(jsonString) 
+            ? JSON.parse(jsonString)
             : {}
         ) as (XmFilterQueryParams | object);
-        
+
         if (!isEmpty(queryParamsToFillter)) {
             const queryParamsFilter= omitBy(format(queryParamsToFillter ?? {}, queryParams) ?? {}, isEmpty);
             const jsonFilterParams = get(jsonParams, 'filterParams', {}) as object;
