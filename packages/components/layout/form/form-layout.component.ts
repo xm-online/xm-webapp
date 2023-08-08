@@ -1,8 +1,8 @@
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormBuilder, UntypedFormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, UntypedFormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { FormFieldLayoutConfig, FormLayoutConfig } from '@xm-ngx/components/layout/form/form-layout.model';
+import { FormLayoutConfig } from '@xm-ngx/components/layout/form/form-layout.model';
 import { EDIT_EVENT, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
 import { ResourceDataService } from '@xm-ngx/controllers/features/resource-data';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
@@ -11,9 +11,9 @@ import {
     XmDynamicInjectionTokenStoreService,
 } from '@xm-ngx/dynamic/src/services/xm-dynamic-injection-token-store.service';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { get } from 'lodash';
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { get, set } from 'lodash';
+import { of } from 'rxjs';
+import { debounceTime, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 @Component({
     standalone: true,
@@ -38,21 +38,36 @@ export class FormLayoutComponent {
 
     private fb = inject<FormBuilder>(FormBuilder);
 
-    private formGroup = this.fb.group({});
+    public formGroup: FormGroup<any>;
 
     public config: FormLayoutConfig;
 
-    private controlRegistry: Record<string, Observable<UntypedFormControl>> = {};
-
     public ngOnInit(): void {
-        this.formGroup.valueChanges.pipe(
+        this.formGroup = this.fb.group(Object.fromEntries(this.config.fields.map(field => [field.property, new UntypedFormControl()])));
+
+        this.dataController.get().pipe(
             takeUntilOnDestroy(this),
-            // map(transform)
+            map(data => {
+                return Object.fromEntries(this.config.fields.map(({property}) => [property, property ? get(data, property) : data]));
+            }),
         ).subscribe(value => {
-            this.config.fields.forEach(field => {
-                value[field.property]
-            })
+            this.formGroup.patchValue(value, {emitEvent: false});
         });
+
+        this.formGroup.valueChanges.pipe(
+            debounceTime(200),
+            filter(() => this.formGroup.valid && this.formGroup.touched && this.formGroup.dirty),
+            // map(transform)
+            withLatestFrom(this.dataController.get()),
+            map(([value, data]) => {
+                this.config.fields.forEach(field => {
+                    set(data, field.property, value[field.property]);
+                });
+                return data;
+            }),
+            switchMap(entity => this.dataController.update(entity)),
+            takeUntilOnDestroy(this),
+        ).subscribe();
 
         this.editStateStore.event$.pipe(
             takeUntilOnDestroy(this),
@@ -71,21 +86,8 @@ export class FormLayoutComponent {
         takeUntilOnDestroyDestroy(this);
     }
 
-    public getControl({ property}: FormFieldLayoutConfig): Observable<UntypedFormControl> {
-        if (!this.controlRegistry[property]) {
-            this.controlRegistry[property] = this.dataController.get().pipe(
-                map(obj => property ? get(obj, property) : obj),
-                // transform
-                map(value => {
-                    const syncValidators = []; // field.validators.map(validator => inject<ValidatorFn>(this.dynamicInjectionTokenStore.resolve(validator.key)))
-                    const asyncValidators = [];
-                    const control = new UntypedFormControl(value, syncValidators, asyncValidators);
-                    this.formGroup.setControl(property, control);
-                    return control;
-                }),
-            );
-        }
-        return this.controlRegistry[property];
+    public getControl(property: string): UntypedFormControl {
+        return this.formGroup.controls[property] as UntypedFormControl;
     }
 
 }

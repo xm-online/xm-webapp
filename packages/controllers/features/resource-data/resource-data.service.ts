@@ -2,45 +2,57 @@ import { inject, Injectable } from '@angular/core';
 import {
     XmDynamicInjectionTokenStoreService
 } from '@xm-ngx/dynamic/src/services/xm-dynamic-injection-token-store.service';
+import { IId } from '@xm-ngx/interfaces';
+import { cloneDeep } from 'lodash';
 import { RestRepositoryService } from 'packages/controllers/features/repository/rest-repository';
-import { Observable, ReplaySubject, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 
 @Injectable()
-export class ResourceDataService<T = any> {
+export class ResourceDataService<T extends IId = any> {
 
     private dynamicInjectionTokenStore = inject(XmDynamicInjectionTokenStoreService);
 
     private resourceController = inject<RestRepositoryService>(this.dynamicInjectionTokenStore.resolve('resource'));
 
-    private data$: ReplaySubject<T> = new ReplaySubject<T>(1);
+    private data$: BehaviorSubject<T> = new BehaviorSubject<T>(undefined);
+
+    private stable: T;
 
     private useCache: boolean = false;
 
     public get(): Observable<T> {
         if (this.useCache) {
-            return this.data$;
+            return this.data$.pipe(shareReplay(1));
         }
 
         this.useCache = true;
-        return this.resourceController.fetch().pipe(
+        return this.resourceController.get().pipe(
+            // map(response => response.body),
             switchMap(data => {
                 this.data$.next(data);
-                return this.data$;
+                this.stable = cloneDeep(data);
+                return this.data$.pipe(shareReplay(1));
             }),
         );
     }
 
     public update(entity: T): Observable<T> {
+        console.log('update');
+        this.data$.next(entity);
         return this.data$;
     }
 
     public save(): Observable<T> {
-        console.log('save data on server');
+        if (this.data$.value?.id) {
+            return this.resourceController.update(this.data$.value);
+        }
+        //     this.resourceController.create(this.data$.value)
         return this.data$;
     }
 
     public reset(): Observable<T> {
-        console.log('reset data on server');
+        this.data$.next(cloneDeep(this.stable));
         return this.data$;
     }
 }
