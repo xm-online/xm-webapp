@@ -28,7 +28,7 @@ export abstract class AXmTableLocalPageableCollectionController<T>
         const from = pageIndex * pageSize;
         const maxLast = (Number(pageIndex) + 1) * pageSize;
         const to = Number((!maxLast || maxLast > total) ? total : maxLast);
-        const items = _.slice(this.rawData, from, to - 1);
+        const items = _.slice(this.rawData, from, to);
 
         this._state.next({
             items: cloneDeep(items),
