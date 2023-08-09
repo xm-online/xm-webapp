@@ -58,7 +58,7 @@ export class AceDiffControlComponent implements AfterViewInit {
                 mode: 'ace/mode/json',
                 theme: 'ace/theme/chrome',
                 copyLinkEnabled: false,
-            }
+            },
         });
         this.leftEditor = this._diffContainer.getEditors().left;
         this.rightEditor = this._diffContainer.getEditors().right;

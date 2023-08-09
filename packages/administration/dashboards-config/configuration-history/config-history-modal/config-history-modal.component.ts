@@ -56,8 +56,12 @@ export class ConfigHistoryModalComponent implements OnInit{
     public aceEditorOptions: XmAceEditorControlOptions = { title: '', mode: 'json', height: 'calc(100vh - 350px)' };
 
     public ngOnInit(): void {
-        this.setPrevValues(0);
-        this.activeEvent = this.data?.[0];
+        setTimeout(() =>{
+            this.setPrevValues(0);
+            this.activeEvent = this.data?.[0];
+        }, 150);
+
+
     }
 
     public onEventClicked(event: HistoryEvent, eventIndex: number): void {

@@ -65,3 +65,10 @@ export class WidgetCollection extends EntityCollectionBase<DashboardWidget> {
         return of(mockData);
     }
 }
+
+@Injectable()
+export class WidgetHistoryCollection extends EntityCollectionBase<HistoryEvent> {
+    constructor(factoryService: EntityCollectionFactoryService) {
+        super(factoryService.create(DASHBOARD_WIDGET_API_URL));
+    }
+}

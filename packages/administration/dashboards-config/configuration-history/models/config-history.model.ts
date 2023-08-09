@@ -3,4 +3,5 @@ export interface HistoryEvent {
     date: Date;
     config: string;
     id?: string;
+    version?: number;
 }
