@@ -25,7 +25,7 @@ export interface PageableAndSortable extends Pageable, Sortable {
 
 export const PAGEABLE_AND_SORTABLE_DEFAULT: PageableAndSortable = {
     pageIndex: 0,
-    pageSize: Number.MAX_SAFE_INTEGER,
+    pageSize: 0,
     total: 0,
     sortOrder: 'asc',
     sortBy: null,
