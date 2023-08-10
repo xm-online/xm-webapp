@@ -30,6 +30,11 @@
   <ng-container [matColumnDef]="ACTIONS_COLUMN">
 
     <th *matHeaderCellDef scope="col" class="text-end" mat-header-cell>
+      <button (click)="onPaste()"
+              [matTooltip]="'paste'"
+              mat-icon-button>
+        <mat-icon>content_paste</mat-icon>
+      </button>
       <button (click)="onAdd()"
               color="primary"
               [matTooltip]="TRS.addWidget | translate"
