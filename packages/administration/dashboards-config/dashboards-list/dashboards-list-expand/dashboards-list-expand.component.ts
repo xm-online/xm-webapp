@@ -5,13 +5,16 @@ import { DashboardWidget } from '@xm-ngx/core/dashboard';
 import { Id } from '@xm-ngx/interfaces';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { delay, map, tap } from 'rxjs/operators';
 import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES } from '../../const';
-import { DashboardEditorService } from '../../dashboard-editor.service';
+import { CONFIG_TYPE, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../../dashboard-editor.service';
 import { DashboardsManagerService } from '../../dashboards-manager.service';
 
 import { DashboardCollection, WidgetCollection } from '../../injectors';
 import { WidgetEditComponent } from '../../widget-edit/widget-edit.component';
+import { readFromClipboard } from '@xm-ngx/operators';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { set } from 'lodash';
 
 const DISPLAYED_COLUMNS = [
     'name',
@@ -19,6 +22,12 @@ const DISPLAYED_COLUMNS = [
     'config',
     ACTIONS_COLUMN,
 ];
+
+export interface CopiedWidgetObject {
+    type: XM_WEBAPP_OPERATIONS,
+    configType: CONFIG_TYPE,
+    config: DashboardWidget,
+}
 
 @Component({
     selector: 'xm-dashboards-list-expand',
@@ -40,6 +49,7 @@ export class DashboardsListExpandComponent implements OnInit {
                 protected widgetService: WidgetCollection,
                 public editorService: DashboardEditorService,
                 public managerService: DashboardsManagerService,
+                protected readonly toasterService: XmToasterService,
     ) {
     }
 
@@ -58,6 +68,36 @@ export class DashboardsListExpandComponent implements OnInit {
     public onAdd(): void {
         this.editorService.addWidget(this.widgetEditComponentType, {dashboard: {id: this.dashboardId}});
         this.managerService.setActiveWidget(null);
+    }
+
+    public async onPaste(): Promise<void> {
+        const text = await readFromClipboard();
+        let copiedObject: CopiedWidgetObject;
+        if (_.isString(text)) {
+            try {
+                copiedObject = JSON.parse(text) as CopiedWidgetObject;
+            } catch (e) {
+                console.warn(e);
+                return;
+            }
+        } else if (_.isObject(text)) {
+            copiedObject = text as CopiedWidgetObject;
+        }
+
+        set(copiedObject, 'config.dashboard.id', this.dashboardId);
+
+        if (copiedObject.configType === CONFIG_TYPE.WIDGET) {
+            this.widgetService.create(copiedObject.config).pipe(
+                tap((res) => {
+                    this.toasterService.create({
+                        type: 'success',
+                        text: DASHBOARDS_TRANSLATES.created,
+                        textOptions: { value: res.name },
+                    }).subscribe();
+                }),
+            ).subscribe();
+        }
+
     }
 
     public onEdit(item: DashboardWidget): void {
