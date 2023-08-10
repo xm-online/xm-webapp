@@ -90,6 +90,12 @@
     <ng-container [matColumnDef]="ACTIONS_COLUMN">
 
       <th *matHeaderCellDef class="text-end" mat-header-cell scope="col">
+        <button (click)="onPaste()"
+                [disabled]="disabled"
+                [matTooltip]="'paste'"
+                mat-icon-button>
+          <mat-icon>content_paste</mat-icon>
+        </button>
         <button (click)="onAdd()"
                 [matTooltip]="TRS.createDashboard | translate"
                 color="primary"

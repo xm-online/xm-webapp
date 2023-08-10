@@ -26,7 +26,7 @@ import { prop } from 'lodash/fp';
 import { merge, Observable } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../const';
-import { DashboardEditorService } from '../dashboard-editor.service';
+import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../dashboard-editor.service';
 import {
     DashboardsListExpandComponent,
 } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
@@ -248,8 +248,12 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         const data = _.cloneDeep(this.dashboardValue());
 
         _.set(data, 'widgets', this.widgetsCompRef?.widgetsList?.data.slice());
+        delete data.id;
+        data.widgets.map((widget) => {delete widget.id; delete widget.dashboard;});
 
-        const text = JSON.stringify(data);
+        const enrichedData: CopiedObject = {type: XM_WEBAPP_OPERATIONS.COPY, configType: CONFIG_TYPE.DASHBOARD, config: data};
+
+        const text = JSON.stringify(enrichedData);
 
         await copyToClipboard(text);
     }
