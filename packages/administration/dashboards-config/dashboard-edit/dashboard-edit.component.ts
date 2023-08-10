@@ -175,7 +175,6 @@ export class DashboardEditComponent {
         const enrichedData: CopiedObject = {type: XM_WEBAPP_OPERATIONS.COPY, configType: CONFIG_TYPE.DASHBOARD, config: data};
 
         const text = JSON.stringify(enrichedData);
-        console.log(text);
 
         await copyToClipboard(text);
     }
