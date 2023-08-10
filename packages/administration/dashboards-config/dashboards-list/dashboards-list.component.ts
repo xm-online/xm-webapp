@@ -6,7 +6,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard } from '@xm-ngx/core/dashboard';
 import * as _ from 'lodash';
 import { combineLatest, from, Observable, Subject, switchMap } from 'rxjs';
-import { debounceTime, finalize, map, take } from 'rxjs/operators';
+import { debounceTime, finalize, map, take, tap } from 'rxjs/operators';
 import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES, EDIT_DASHBOARD_EVENT } from '../const';
 import { DashboardEditComponent } from '../dashboard-edit/dashboard-edit.component';
 import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../dashboard-editor.service';
@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {
     DashboardsListCopyDialogComponent, OPERATIONS,
 } from '@xm-ngx/administration/dashboards-config/dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
+import { XmToasterService } from '@xm-ngx/toaster';
 
 const EXPORT_FILENAME = 'dashboards';
 const DISPLAYED_COLUMNS = [
@@ -81,6 +82,7 @@ export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
         protected location: Location,
         public managerService: DashboardsManagerService,
         private matDialog: MatDialog,
+        protected readonly toasterService: XmToasterService,
     ) {
     }
 
@@ -173,7 +175,8 @@ export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
         }
 
         this.dashboardService.getAll().subscribe((list) => {
-            if (list.find((d) => (d.name === copiedObject.config.name || d.config.slug === copiedObject.config.config.slug || d.typeKey === copiedObject.config.typeKey))) {
+            const duplicatedDashboard = list.find((d) => (d.name === copiedObject.config.name || d.config.slug === copiedObject.config.config.slug || d.typeKey === copiedObject.config.typeKey));
+            if (duplicatedDashboard) {
                 this.getAnswerFromDialog().pipe(
                     takeUntilOnDestroy(this),
                 ).subscribe((res) => {
@@ -182,7 +185,16 @@ export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
                         this.dashboardService.create(copiedObject.config).subscribe();
                     }
                     if (res === OPERATIONS.REPLACE) {
-                        this.dashboardService.create(copiedObject.config).subscribe();
+                        copiedObject.config.id = duplicatedDashboard.id;
+                        this.dashboardService.update(copiedObject.config).pipe(
+                            tap((res) => {
+                                this.toasterService.create({
+                                    type: 'success',
+                                    text: DASHBOARDS_TRANSLATES.updated,
+                                    textOptions: { value: res.name },
+                                }).subscribe();
+                            }),
+                        ).subscribe();
                     }
                 },
                 );
