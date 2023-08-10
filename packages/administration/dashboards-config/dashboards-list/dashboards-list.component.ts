@@ -20,7 +20,7 @@ import { Location } from '@angular/common';
 import { readFromClipboard, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { MatDialog } from '@angular/material/dialog';
 import {
-    DashboardsListCopyDialogComponent
+    DashboardsListCopyDialogComponent, OPERATIONS,
 } from '@xm-ngx/administration/dashboards-config/dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
 
 const EXPORT_FILENAME = 'dashboards';
@@ -174,8 +174,18 @@ export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
 
         this.dashboardService.getAll().subscribe((list) => {
             if (list.find((d) => (d.name === copiedObject.config.name || d.config.slug === copiedObject.config.config.slug || d.typeKey === copiedObject.config.typeKey))) {
-                console.log(copiedObject.config.name);
-                this.matDialog.open(DashboardsListCopyDialogComponent);
+                this.getAnswerFromDialog().pipe(
+                    takeUntilOnDestroy(this),
+                ).subscribe((res) => {
+                    if (res === OPERATIONS.COPY) {
+                        copiedObject.config.name += ' Copy';
+                        this.dashboardService.create(copiedObject.config).subscribe();
+                    }
+                    if (res === OPERATIONS.REPLACE) {
+                        this.dashboardService.create(copiedObject.config).subscribe();
+                    }
+                },
+                );
             } else {
                 this.dashboardService.create(copiedObject.config).subscribe();
             }
@@ -235,4 +245,11 @@ export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
+    private getAnswerFromDialog(): Observable<string | null> {
+        const dialogForm = this.matDialog.open<DashboardsListCopyDialogComponent>(
+            DashboardsListCopyDialogComponent,
+            {width: '400px'},
+        );
+        return dialogForm.afterClosed();
+    }
 }
