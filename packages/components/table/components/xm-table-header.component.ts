@@ -27,6 +27,7 @@ import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.compo
             align-items: center;
             margin-left: 1rem;
             margin-right: 1rem;
+            min-height: 48px;
         }
 
         :host(.xm-table-header) .push-self-right {

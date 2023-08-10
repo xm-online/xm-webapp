@@ -120,11 +120,7 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
         if (!this.instance) {
             return;
         }
-        // TODO: Don't set widget config if it's null, because updateOptions method already set config.
-        //  When remove updateOptions, remove "if" and assign the "config" directly without if condition.
-        if (this.config != null) {
-            setComponentInput(this.compRef, 'config', this.config);
-        }
+        setComponentInput(this.compRef, 'config', this.config || this.options);
     }
 
     /**
@@ -140,9 +136,8 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
             console.warn(`Dynamic widget "options" property was deprecated use "config" instead component=${this.compRef?.componentType?.name}. Will be removed in v6.0.0.`);
         }
 
-        setComponentInput(this.compRef, 'config', this.options);
         // TODO: Deprecated solution. "options" should not exist. Will be removed in v5.0.0.
-        setComponentInput(this.compRef, 'options', this.options);
+        setComponentInput(this.compRef, 'options', this.options || this.config);
     }
 
     protected async createInjector(parentInjector: Injector = this.injector): Promise<Injector> {

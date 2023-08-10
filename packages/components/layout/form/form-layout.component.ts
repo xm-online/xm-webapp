@@ -51,6 +51,7 @@ export class FormLayoutComponent {
                 return Object.fromEntries(this.config.fields.map(({property}) => [property, property ? get(data, property) : data]));
             }),
         ).subscribe(value => {
+            console.log(value);
             this.formGroup.patchValue(value, {emitEvent: false});
         });
 
