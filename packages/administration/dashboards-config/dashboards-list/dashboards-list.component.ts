@@ -182,7 +182,14 @@ export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
                 ).subscribe((res) => {
                     if (res === OPERATIONS.COPY) {
                         copiedObject.config.name += ' Copy';
-                        this.dashboardService.create(copiedObject.config).subscribe();
+                        this.dashboardService.create(copiedObject.config).pipe(tap((res) => {
+                            this.toasterService.create({
+                                type: 'success',
+                                text: DASHBOARDS_TRANSLATES.created,
+                                textOptions: { value: res.name },
+                            }).subscribe();
+                        }),
+                        ).subscribe();
                     }
                     if (res === OPERATIONS.REPLACE) {
                         copiedObject.config.id = duplicatedDashboard.id;
