@@ -5,8 +5,26 @@ import { Dashboard, DashboardWidget } from '@xm-ngx/core/dashboard';
 import { IId } from '@xm-ngx/interfaces';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Observable, Subject } from 'rxjs';
+import { readFromClipboard } from '@xm-ngx/operators';
+import * as _ from 'lodash';
 
 const NAVBAR_DASHBOARD_EDIT_STORAGE_KEY = 'NAVBAR_DASHBOARD_EDIT_STORAGE_KEY';
+
+export enum XM_WEBAPP_OPERATIONS {
+    COPY = 'XM_WEBAPP_COPY_OBJECT',
+}
+
+export enum CONFIG_TYPE {
+    DASHBOARD = 'DASHBOARD',
+    WIDGET = 'WIDGET',
+}
+
+export interface CopiedObject {
+    type: XM_WEBAPP_OPERATIONS,
+    configType: CONFIG_TYPE,
+    config: Dashboard,
+}
+
 
 @Injectable()
 export class DashboardEditorService {
@@ -46,6 +64,51 @@ export class DashboardEditorService {
         this.openSidebar(ref, { value: {} });
     }
 
+    public async pasteConfigFromClipboard<T>(ref: Type<T>): Promise<void> {
+        const text = await readFromClipboard();
+
+        let config: Dashboard;
+        let value: Dashboard = {};
+
+        if (_.isString(text)) {
+            try {
+                config = JSON.parse(text);
+            } catch (e) {
+                console.warn(e);
+                return;
+            }
+        } else if (_.isObject(text)) {
+            config = text as Dashboard;
+        }
+
+        delete config.id;
+        config.widgets = this.getUnbindedWidgets(config.widgets);
+
+        value = _.merge(value, config);
+        this.openSidebar(ref, { value: value });
+
+    }
+
+
+    public async checkObjectInClipboard(): Promise<CopiedObject | null> {
+        const text = await readFromClipboard();
+
+        let object: {type: XM_WEBAPP_OPERATIONS, configType: CONFIG_TYPE, config: Dashboard};
+
+        if (_.isString(text)) {
+            try {
+                object = JSON.parse(text);
+            } catch (e) {
+                console.warn(e);
+                return null;
+            }
+        } else if (_.isObject(text)) {
+            object.config = text as Dashboard;
+        }
+
+        return object;
+    }
+
     private openSidebar<T, D>(ref: Type<T>, data: D): void {
         const injector = this.resolveInjector();
         this.layoutService.open(ref, { data, width: '30vw', injector });
@@ -55,5 +118,12 @@ export class DashboardEditorService {
         return this.injector;
     }
 
+    private getUnbindedWidgets(widgets: DashboardWidget[]): DashboardWidget[] {
+        return widgets.map((w) => {
+            delete w.id;
+            delete w.dashboard;
+            return w;
+        });
+    }
 
 }

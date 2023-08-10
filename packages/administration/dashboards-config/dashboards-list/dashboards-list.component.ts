@@ -1,15 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { expand } from '@xm-ngx/components/animations';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard } from '@xm-ngx/core/dashboard';
 import * as _ from 'lodash';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, from, Observable, Subject, switchMap } from 'rxjs';
 import { debounceTime, finalize, map, take } from 'rxjs/operators';
 import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES, EDIT_DASHBOARD_EVENT } from '../const';
 import { DashboardEditComponent } from '../dashboard-edit/dashboard-edit.component';
-import { DashboardEditorService } from '../dashboard-editor.service';
+import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../dashboard-editor.service';
 import { DashboardsManagerService } from '../dashboards-manager.service';
 import { DashboardCollection } from '../injectors';
 import { DashboardsExportService } from './dashboards-export.service';
@@ -17,6 +17,11 @@ import { DashboardsImportService } from './dashboards-import.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { XmTextControl, XmTextControlOptions } from '@xm-ngx/components/text';
 import { Location } from '@angular/common';
+import { readFromClipboard, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { MatDialog } from '@angular/material/dialog';
+import {
+    DashboardsListCopyDialogComponent
+} from '@xm-ngx/administration/dashboards-config/dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
 
 const EXPORT_FILENAME = 'dashboards';
 const DISPLAYED_COLUMNS = [
@@ -27,6 +32,7 @@ const DISPLAYED_COLUMNS = [
     'hidden',
     ACTIONS_COLUMN,
 ];
+
 const columnMap = {
     hidden: 'config.hidden',
 };
@@ -39,8 +45,9 @@ const columnMap = {
         expand,
     ],
     providers: [DashboardEditorService, DashboardsExportService, DashboardsImportService, DashboardsManagerService],
+    changeDetection: ChangeDetectionStrategy.Default,
 })
-export class DashboardsListComponent implements OnInit {
+export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
     public readonly ACTIONS_COLUMN: typeof ACTIONS_COLUMN = ACTIONS_COLUMN;
     public readonly EXPANDED_DETAIL: string = '_expandedDetail';
@@ -56,7 +63,12 @@ export class DashboardsListComponent implements OnInit {
 
     public filterOptions: XmTextControlOptions = {title: this.TRS.filter, dataQa: ''};
 
+    public disabled = false;
+
     @ViewChild('filterInput', {static: false}) public filterInput: XmTextControl;
+
+    private changeDetectionCycle = new Subject<void>();
+
 
     constructor(
         protected dashboardService: DashboardCollection,
@@ -68,7 +80,12 @@ export class DashboardsListComponent implements OnInit {
         protected router: Router,
         protected location: Location,
         public managerService: DashboardsManagerService,
+        private matDialog: MatDialog,
     ) {
+    }
+
+    public ngOnChanges(): void {
+        this.changeDetectionCycle.next();
     }
 
     public onUpdateIndexes(): void {
@@ -78,7 +95,20 @@ export class DashboardsListComponent implements OnInit {
         this.isUpdateIndexRequired = false;
     }
 
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
     public ngOnInit(): void {
+        this.changeDetectionCycle.pipe(
+            switchMap(() => from(this.editorService.checkObjectInClipboard())),
+            takeUntilOnDestroy(this),
+        )
+            .subscribe((copiedObject) => {
+                // check clipboard
+                this.disabled = !(copiedObject.configType === CONFIG_TYPE.DASHBOARD && copiedObject.type === XM_WEBAPP_OPERATIONS.COPY);
+            });
+
         this.loading$ = combineLatest([
             this.dashboardService.loading$,
             this.dashboardsImportService.loading$,
@@ -114,7 +144,7 @@ export class DashboardsListComponent implements OnInit {
         this.dashboardService.getAll().pipe(
             map(sortDashboards),
         ).subscribe((dashboards) => {
-            this.dashboardList.data = _.orderBy(dashboards, i=>i.config?.orderIndex);
+            this.dashboardList.data = _.orderBy(dashboards, i => i.config?.orderIndex);
             this.loadToEditor();
         });
     }
@@ -122,6 +152,36 @@ export class DashboardsListComponent implements OnInit {
     public onAdd(): void {
         this.editorService.addDashboard(DashboardEditComponent);
     }
+
+    // public async isObjectValid(): Promise<boolean> {
+    //     const copiedObject = await this.editorService.checkObjectInClipboard();
+    //     return copiedObject.configType === CONFIG_TYPE.DASHBOARD && copiedObject.type === XM_WEBAPP_OPERATIONS.COPY;
+    // }
+
+    public async onPaste(): Promise<void> {
+        const text = await readFromClipboard();
+        let copiedObject: CopiedObject;
+        if (_.isString(text)) {
+            try {
+                copiedObject = JSON.parse(text) as CopiedObject;
+            } catch (e) {
+                console.warn(e);
+                return;
+            }
+        } else if (_.isObject(text)) {
+            copiedObject = text as CopiedObject;
+        }
+
+        this.dashboardService.getAll().subscribe((list) => {
+            if (list.find((d) => (d.name === copiedObject.config.name || d.config.slug === copiedObject.config.config.slug || d.typeKey === copiedObject.config.typeKey))) {
+                console.log(copiedObject.config.name);
+                this.matDialog.open(DashboardsListCopyDialogComponent);
+            } else {
+                this.dashboardService.create(copiedObject.config).subscribe();
+            }
+        });
+    }
+
 
     public onImport(files: FileList): void {
         if (!files || !files[0]) {
@@ -162,7 +222,7 @@ export class DashboardsListComponent implements OnInit {
         const prevIndex = this.dashboardList.data.findIndex((d) => d === event.item.data);
         moveItemInArray(this.dashboardList.data, prevIndex, currentIndex);
         this.dashboardList.data.forEach((dashboard, ix) => dashboard.config.orderIndex = ix + 1);
-        this.dashboardList.data = _.orderBy(this.dashboardList.data, i=>i.config.orderIndex);
+        this.dashboardList.data = _.orderBy(this.dashboardList.data, i => i.config.orderIndex);
         this.isUpdateIndexRequired = true;
     }
 
@@ -174,4 +234,5 @@ export class DashboardsListComponent implements OnInit {
             }
         }
     }
+
 }

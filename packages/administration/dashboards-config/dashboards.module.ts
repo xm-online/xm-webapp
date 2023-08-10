@@ -26,6 +26,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import {
     WidgetConfigExamplesComponent
 } from './widget-edit/widget-config-examples.component';
+import { DashboardsListCopyDialogComponent } from './dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
 
 @NgModule({
     imports: [
@@ -44,7 +45,8 @@ import {
         MarkdownModule,
         WidgetConfigExamplesComponent,
         SchemaEditorComponent,
-        SelectorTextControlComponent
+        SelectorTextControlComponent,
+        DashboardsListCopyDialogComponent,
     ],
     exports: [
         DashboardsConfigComponent,
