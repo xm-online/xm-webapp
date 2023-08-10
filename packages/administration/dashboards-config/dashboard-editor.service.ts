@@ -22,7 +22,7 @@ export enum CONFIG_TYPE {
 export interface CopiedObject {
     type: XM_WEBAPP_OPERATIONS,
     configType: CONFIG_TYPE,
-    config: Dashboard,
+    config: Dashboard | DashboardWidget,
 }
 
 
