@@ -7,6 +7,8 @@ import { Dashboard } from '@xm-ngx/core/dashboard';
 import * as _ from 'lodash';
 import { combineLatest, forkJoin, from, Observable, Subject, switchMap } from 'rxjs';
 import { debounceTime, finalize, map, take, tap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, from, Observable, Subject, switchMap } from 'rxjs';
+import { debounceTime, finalize, map, take, tap } from 'rxjs/operators';
 import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES, EDIT_DASHBOARD_EVENT } from '../const';
 import { DashboardEditComponent } from '../dashboard-edit/dashboard-edit.component';
 import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../dashboard-editor.service';
@@ -22,6 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {
     DashboardsListCopyDialogComponent, OPERATIONS,
 } from '@xm-ngx/administration/dashboards-config/dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
+import { XmToasterService } from '@xm-ngx/toaster';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { cloneDeep } from 'lodash';
 
