@@ -10,11 +10,13 @@ import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { delay, filter, switchMap, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../const';
-import { DashboardEditorService } from '../dashboard-editor.service';
+import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig } from '../injectors';
 import { XmTextControlOptions } from '@xm-ngx/components/text';
 import { copyToClipboard, readFromClipboard } from '@xm-ngx/operators';
-import { DashboardsListExpandComponent } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
+import {
+    DashboardsListExpandComponent
+} from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
 import { XmTranslateService } from '@xm-ngx/translation';
 
 export enum EditType {
@@ -167,8 +169,13 @@ export class DashboardEditComponent {
         const data = _.cloneDeep(this.formGroup);
 
         _.set(data, 'widgets', this.widgetsCompRef?.widgetsList?.data.slice());
+        delete data.id;
+        data.widgets.map((widget) => {delete widget.id; delete widget.dashboard;});
 
-        const text = JSON.stringify(data);
+        const enrichedData: CopiedObject = {type: XM_WEBAPP_OPERATIONS.COPY, configType: CONFIG_TYPE.DASHBOARD, config: data};
+
+        const text = JSON.stringify(enrichedData);
+        console.log(text);
 
         await copyToClipboard(text);
     }

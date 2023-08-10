@@ -1,0 +1,34 @@
+<h4 mat-dialog-title>
+  {{config?.title | translate}}
+</h4>
+
+<div mat-dialog-content>
+  {{config?.modalText | translate}}
+</div>
+
+<div mat-dialog-actions>
+  <button (click)="onCopy()"
+          class="btn"
+          color="primary"
+          mat-flat-button
+          type="submit">
+    <span>{{config?.copyButtonText | translate}}</span>
+  </button>
+
+  <button (click)="onReplace()"
+          class="btn"
+          color="primary"
+          mat-flat-button
+          type="submit">
+    <span>{{config?.replaceButtonText | translate}}</span>
+  </button>
+
+  <button (click)="onClose()"
+          class="btn ms-auto"
+          mat-button
+          type="button">
+    <span>{{config?.closeText | translate}}</span>
+  </button>
+
+
+</div>

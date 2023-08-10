@@ -44,6 +44,7 @@
       </button>
 
       <button (click)="onPasteFromClipboard()"
+              *ngIf="editType === EditType.Create"
               [disabled]="!form.valid || disabled"
               [matTooltip]="'paste'"
               mat-icon-button>
