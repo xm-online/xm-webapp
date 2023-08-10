@@ -7,6 +7,11 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
+export enum OPERATIONS {
+    COPY = 'COPY',
+    REPLACE = 'REPLACE'
+}
+
 export interface DialogCopyConfig {
     title?: Translate;
     modalText?: Translate;
@@ -63,11 +68,11 @@ export class DashboardsListCopyDialogComponent {
     }
 
     public onCopy(): void {
-        this.matDialogRef.close(null);
+        this.matDialogRef.close(OPERATIONS.COPY);
     }
 
     public onReplace(): void {
-        this.matDialogRef.close(null);
+        this.matDialogRef.close(OPERATIONS.REPLACE);
     }
 
 }
