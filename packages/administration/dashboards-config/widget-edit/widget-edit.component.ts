@@ -9,10 +9,11 @@ import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../const';
 import { EditType } from '../dashboard-edit/dashboard-edit.component';
-import { DashboardEditorService } from '../dashboard-editor.service';
+import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../dashboard-editor.service';
 import { DashboardCollection, DashboardConfig, WidgetCollection } from '../injectors';
 import { SchemaEditorOptions } from './schema-editor/schema-editor.component';
 import { XmTranslateService } from '@xm-ngx/translation';
+import { CopiedWidgetObject } from '@xm-ngx/administration/dashboards-config';
 
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
@@ -152,28 +153,31 @@ export class WidgetEditComponent implements OnChanges {
     }
 
     public async onCopyToClipboard(): Promise<void> {
-        const text = JSON.stringify(this.formGroup);
+        const data = _.cloneDeep(this.formGroup);
+        delete data.id;
+        delete data.dashboard;
+
+        const enrichedData: CopiedObject = {type: XM_WEBAPP_OPERATIONS.COPY, configType: CONFIG_TYPE.WIDGET, config: data};
+        const text = JSON.stringify(enrichedData);
+
         await copyToClipboard(text);
     }
 
     public async onPasteFromClipboard(): Promise<void> {
         const text = await readFromClipboard();
-
-        let config: DashboardWidget;
+        let copiedObject: CopiedWidgetObject;
 
         if (_.isString(text)) {
             try {
-                config = JSON.parse(text);
+                copiedObject = JSON.parse(text) as CopiedWidgetObject;
             } catch (e) {
                 console.warn(e);
                 return;
             }
         } else if (_.isObject(text)) {
-            config = text as DashboardWidget;
+            copiedObject = text as CopiedWidgetObject;
         }
 
-        delete config.id;
-        delete config.dashboard.id;
-        this.value = _.merge(this.value, config);
+        this.value = _.merge(this.value, copiedObject.config);
     }
 }

@@ -260,24 +260,21 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     public async onPasteFromClipboard(): Promise<void> {
         const text = await readFromClipboard();
-
-        let config: Dashboard;
-
+        let copiedObject: CopiedObject;
         if (_.isString(text)) {
             try {
-                config = JSON.parse(text);
+                copiedObject = JSON.parse(text) as CopiedObject;
             } catch (e) {
                 console.warn(e);
                 return;
             }
         } else if (_.isObject(text)) {
-            config = text as Dashboard;
+            copiedObject = text as CopiedObject;
         }
 
-        delete config.id;
-        config.widgets = this.getUnbindedWidgets(config.widgets);
+        copiedObject.config.widgets = this.getUnbindedWidgets(copiedObject.config.widgets);
 
-        this.value = _.merge(this.value, config);
+        this.value = _.merge(this.value, copiedObject);
     }
 
     public ngOnDestroy(): void {
