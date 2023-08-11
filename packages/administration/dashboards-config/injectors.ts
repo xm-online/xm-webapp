@@ -3,8 +3,8 @@ import { EntityCollectionBase, EntityCollectionFactoryService } from '@xm-ngx/re
 import { Dashboard, DashboardWidget } from '@xm-ngx/core/dashboard';
 
 import { DASHBOARD_API_URL, DASHBOARD_WIDGET_API_URL } from './const';
-import {Observable, of} from 'rxjs';
-import {HistoryEvent} from '@xm-ngx/administration/dashboards-config/configuration-history/models/config-history.model';
+import { Observable, of } from 'rxjs';
+import { HistoryEvent } from '../dashboards-config/configuration-history/models/config-history.model';
 
 export class DashboardConfig {
     public dashboardRef: Type<unknown>;
