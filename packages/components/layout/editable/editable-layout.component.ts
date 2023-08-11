@@ -1,6 +1,6 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { EditableLayoutConfig } from '@xm-ngx/components/layout/editable/editable-layout.model';
+import { EditableLayoutConfig } from './editable-layout.model';
 import { EDIT_STATE, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { XmDynamicModule } from '@xm-ngx/dynamic';

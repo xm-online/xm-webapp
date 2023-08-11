@@ -1,7 +1,7 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { DataLayoutConfig } from '@xm-ngx/components/layout/data/data-layout.model';
+import { DataLayoutConfig } from './data-layout.model';
 import { ResourceDataService } from '@xm-ngx/controllers/features/resource-data';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { XmDynamicModule } from '@xm-ngx/dynamic';

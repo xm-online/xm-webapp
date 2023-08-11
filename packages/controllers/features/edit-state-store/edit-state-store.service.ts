@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EDIT_EVENT, EDIT_STATE } from '@xm-ngx/controllers/features/edit-state-store/edit-state-store.model';
+import { EDIT_EVENT, EDIT_STATE } from './edit-state-store.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable()

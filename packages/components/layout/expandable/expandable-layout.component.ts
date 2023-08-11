@@ -1,7 +1,7 @@
 import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { ExpandableLayoutConfig } from '@xm-ngx/components/layout/expandable/expandable-layout.model';
+import { ExpandableLayoutConfig } from './expandable-layout.model';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 

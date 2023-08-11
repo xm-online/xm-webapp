@@ -1,10 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import {
-    XmDynamicInjectionTokenStoreService
-} from '@xm-ngx/dynamic/src/services/xm-dynamic-injection-token-store.service';
+import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/interfaces';
 import { cloneDeep } from 'lodash';
-import { RestRepositoryService } from 'packages/controllers/features/repository/rest-repository';
+import { RestRepositoryService } from '@xm-ngx/controllers/features/repository/rest-repository';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
