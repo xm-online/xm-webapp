@@ -3,8 +3,5 @@
   "dest": "../../lib/controllers",
   "lib": {
     "entryFile": "./index.ts"
-  },
-  "allowedNonPeerDependencies": [
-    "html2canvas"
-  ]
+  }
 }

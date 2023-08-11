@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, UntypedFormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { FormLayoutConfig } from './form-layout.model';
+import { ConditionModule } from '@xm-ngx/components/condition';
 import { EDIT_EVENT, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
 import { ResourceDataService } from '@xm-ngx/controllers/features/resource-data';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
@@ -26,6 +27,7 @@ import { debounceTime, filter, map, switchMap, withLatestFrom } from 'rxjs/opera
         NgIf,
         NgForOf,
         AsyncPipe,
+        ConditionModule,
     ],
     providers: [DashboardStore],
     changeDetection: ChangeDetectionStrategy.Default, // keep OnPush
