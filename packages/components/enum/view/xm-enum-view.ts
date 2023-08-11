@@ -8,12 +8,15 @@ import { XmEnumOptions, XmEnumComponent } from '../value/xm-enum.component';
 
 export interface XmEnumViewOptions extends XmEnumOptions {
     title?: Translate;
+    style?: 'inline';
+    labelStyleInline?: string;
+    valueStyleInline?: string;
 }
 
 @Component({
     selector: 'xm-enum-view',
     template: `
-        <xm-text-view-container>
+        <xm-text-view-container [styleInline]="!!config?.style" [valueStyleInline]="config?.valueStyleInline" [labelStyleInline]="config?.labelStyleInline">
             <span xmLabel>{{config.title | translate}}</span>
             <span xmValue><xm-enum [value]="value" [config]="config"></xm-enum></span>
         </xm-text-view-container>

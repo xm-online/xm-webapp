@@ -1,9 +1,10 @@
 <ng-container *ngIf="config.layout as layout">
   <ng-container
+    *xmCondition="config?.condition; arguments {value: value}"
     [class]="layout.theme?.class"
     [style]="layout.theme?.style"
     xmDynamicPresentation
-    [value]="value$ | async"
+    [value]="value"
     [selector]="layout.selector"
     [config]="layout.config"
     [controllers]="layout.controllers"

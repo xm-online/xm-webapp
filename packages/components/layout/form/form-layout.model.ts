@@ -1,5 +1,5 @@
 import { XmDynamicControllerConfig } from '@xm-ngx/dynamic/presentation/xm-dynamic-presentation-base.directive';
-import { XmConfig } from '@xm-ngx/interfaces';
+import { JavascriptCode, XmConfig } from '@xm-ngx/interfaces';
 
 export type FormLayoutConfig = {
     fields: FormFieldLayoutConfig[],
@@ -7,6 +7,7 @@ export type FormLayoutConfig = {
 
 export type FormFieldLayoutConfig = {
     property: string,
+    condition: JavascriptCode;
     layout: DynamicLayoutConfig
 }
 
