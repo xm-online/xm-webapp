@@ -1,6 +1,6 @@
 <div class="d-flex" [style.visibility]="isHidden ? 'hidden' : 'visible'">
 
-  <button (click)="onEdit()"
+  <button (click)="onEdit($event)"
           *ngIf="!isEdit"
           [disabled]="disabled"
           class="btn"
@@ -10,7 +10,7 @@
     <mat-icon>edit</mat-icon>
   </button>
 
-  <button (click)="onSave()"
+  <button (click)="onSave($event)"
           *ngIf="isEdit"
           [disabled]="disabled || disableSubmit"
           color="primary"
@@ -20,7 +20,7 @@
     <mat-icon>check</mat-icon>
   </button>
 
-  <button (click)="onCancel()"
+  <button (click)="onCancel($event)"
           [disabled]="disabled"
           *ngIf="isEdit"
           [attr.data-qa]="'cancel-button'"

@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { EDIT_EVENT, EDIT_STATE, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
 import { XmEventManager } from '@xm-ngx/core';
+import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 export const XM_EDIT_WIDGET_BUTTONS_CHANGE_EVENT = 'XM_EDIT_WIDGET_BUTTONS_CHANGE_EVENT';
@@ -20,6 +22,12 @@ export interface EditWidgetButtonsEvent {
     templateUrl: './edit-widget-buttons.component.html',
 })
 export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
+    private dynamicInjectionTokenStore = inject(XmDynamicInjectionTokenStoreService);
+
+    private editStateStore = inject<EditStateStoreService>(
+        this.dynamicInjectionTokenStore.resolve('edit-state-store'),
+        { optional: true },
+    );
 
     public isHidden: boolean = false;
     @Input() public isEdit: boolean = false;
@@ -38,6 +46,9 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        if (this.editStateStore) {
+            this.editStateStore.change(this.isEdit ? EDIT_STATE.EDIT : EDIT_STATE.VIEW);
+        }
         this.eventManager.listenTo<EditWidgetButtonsEvent>(XM_EDIT_WIDGET_BUTTONS_CHANGE_EVENT)
             .pipe(takeUntilOnDestroy(this))
             .subscribe((e) => {
@@ -49,22 +60,34 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
         takeUntilOnDestroyDestroy(this);
     }
 
-    public onEdit(): void {
+    public onEdit(event: any): void {
+        event.stopPropagation();
         this.changeIsEdit(EditWidgetButtonsEventType.EDIT);
         this.edit.emit();
     }
 
-    public onSave(): void {
+    public onSave(event: any): void {
+        event.stopPropagation();
+        if (this.editStateStore) {
+            this.editStateStore.emitEvent(EDIT_EVENT.SAVE);
+        }
         this.changeIsEdit(EditWidgetButtonsEventType.SAVE);
         this.save.emit();
     }
 
-    public onCancel(): void {
+    public onCancel(event: any): void {
+        event.stopPropagation();
+        if (this.editStateStore) {
+            this.editStateStore.emitEvent(EDIT_EVENT.CANCEL);
+        }
         this.changeIsEdit(EditWidgetButtonsEventType.CANCEL);
         this.cancel.emit();
     }
 
     private changeIsEdit(event: EditWidgetButtonsEventType): void {
+        if (this.editStateStore) {
+            this.editStateStore.change(event === EditWidgetButtonsEventType.EDIT ? EDIT_STATE.EDIT : EDIT_STATE.VIEW);
+        }
         this.isEdit = !this.isEdit;
         this.isEditChange.emit(this.isEdit);
         const payload = {

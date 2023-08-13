@@ -60,21 +60,24 @@ export class XmTableSettingStore implements OnDestroy {
     public clearStore(key: string): void {
         const state = this.store.value;
         delete state[key];
+        this.store.next(state);
     }
 }
 
 @Injectable()
 export class XmTableColumnsSettingStorageService {
-
+    private _key: string;
 
     constructor(
         private XmTableColumnsSettingStorageService: XmTableSettingStore,
     ) {
     }
 
-    private get key(): string {
-        // TODO: improve make a unique location for each table
-        return location.pathname;
+    public set key(key: string) {
+        this._key = key;
+    }
+    public get key(): string {
+        return this._key;
     }
 
     public updateStore(columns: ColumnsSettingStorageItem[]): void {

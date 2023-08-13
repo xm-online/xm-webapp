@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
 import { UUID } from 'angular2-uuid';
 import { IXmTableCollectionController, XmFilterQueryParams, } from './i-xm-table-collection-controller';
 import { firstValueFrom } from 'rxjs';
@@ -25,11 +26,8 @@ export class XmTableArrayCollectionController<T = unknown>
     public config: XmTableArrayCollectionControllerConfig;
     private entity: object;
 
-    constructor(
-        private entityController: XmTableEntityController<object>,
-    ) {
-        super();
-    }
+    private dynamicInjectionTokenStoreService = inject<XmDynamicInjectionTokenStoreService>(XmDynamicInjectionTokenStoreService);
+    private entityController = inject<XmTableEntityController<object>>(this.dynamicInjectionTokenStoreService.resolve('table-entity-controller'), {optional: true}) || inject<XmTableEntityController<object>>(XmTableEntityController);
 
     public async load(request: XmFilterQueryParams): Promise<void> {
         this.entity = await firstValueFrom(this.entityController.entity$());

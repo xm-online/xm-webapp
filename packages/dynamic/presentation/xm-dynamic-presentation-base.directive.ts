@@ -120,11 +120,7 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
         if (!this.instance) {
             return;
         }
-        // TODO: Don't set widget config if it's null, because updateOptions method already set config.
-        //  When remove updateOptions, remove "if" and assign the "config" directly without if condition.
-        if (this.config != null) {
-            setComponentInput(this.compRef, 'config', this.config);
-        }
+        setComponentInput(this.compRef, 'config', this.config || this.options);
     }
 
     /**
@@ -140,40 +136,43 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
             console.warn(`Dynamic widget "options" property was deprecated use "config" instead component=${this.compRef?.componentType?.name}. Will be removed in v6.0.0.`);
         }
 
-        setComponentInput(this.compRef, 'config', this.options);
         // TODO: Deprecated solution. "options" should not exist. Will be removed in v5.0.0.
-        setComponentInput(this.compRef, 'options', this.options);
+        setComponentInput(this.compRef, 'options', this.options || this.config);
     }
 
     protected async createInjector(parentInjector: Injector = this.injector): Promise<Injector> {
-        // TODO: create DynamicControllerConfig to ControllerEntry method
-        const controllersEntries: {
-            classType: XmDynamicConstructor,
-            config: XmConfig,
-            key: string,
-        }[] = await Promise.all(this.controllers.map(async controller => ({
-            classType: await this.dynamicServices.find(controller.selector, parentInjector),
-            config: controller.config,
-            key: controller.key,
-        })));
+        if (this.controllers?.length > 0) {
 
-        const providers = controllersEntries.map(serviceEntry => {
-            const token = this.dynamicInjectionTokenStore.resolve(serviceEntry.key);
-            return {provide: token, useClass: serviceEntry.classType, deps: []};
-        });
+            // TODO: create DynamicControllerConfig to ControllerEntry method
+            const controllersEntries: {
+                classType: XmDynamicConstructor,
+                config: XmConfig,
+                key: string,
+            }[] = await Promise.all(this.controllers.map(async controller => ({
+                classType: await this.dynamicServices.find(controller.selector, parentInjector),
+                config: controller.config,
+                key: controller.key,
+            })));
 
-        const injector = Injector.create({
-            providers,
-            parent: parentInjector,
-        });
+            const providers = controllersEntries.map(serviceEntry => {
+                const token = this.dynamicInjectionTokenStore.resolve(serviceEntry.key);
+                return {provide: token, useClass: serviceEntry.classType, deps: []};
+            });
 
-        controllersEntries.forEach(service => {
-            const token = this.dynamicInjectionTokenStore.resolve(service.key);
-            const instance = injector.get(token);
-            instance.config = service.config;
-        });
+            const injector = Injector.create({
+                providers,
+                parent: parentInjector,
+            });
 
-        return injector;
+            controllersEntries.forEach(service => {
+                const token = this.dynamicInjectionTokenStore.resolve(service.key);
+                const instance = injector.get(token);
+                instance.config = service.config;
+            });
+
+            return injector;
+        }
+        return parentInjector;
     }
 
     protected async createInstance(): Promise<void> {

@@ -37,7 +37,6 @@ export interface LinkListProperties {
 
 export interface LinkListConfig extends IXmTableRepositoryCollectionControllerConfig {
     type: 'link',
-    resource: string;
     path: string;
     typeLink: {
         primaryField: 'id' | string

@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { EditWidgetButtonsComponent } from './edit-widget-buttons.component';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
 
 describe('EditWidgetButtonsComponent', () => {
     let component: EditWidgetButtonsComponent;
@@ -11,7 +12,12 @@ describe('EditWidgetButtonsComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmTranslationTestingModule, HttpClientTestingModule],
+            imports: [
+                XmTranslationTestingModule,
+                HttpClientTestingModule,
+                XmDynamicModule,
+                XmDynamicModule.forRoot([]),
+            ],
             declarations: [EditWidgetButtonsComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })

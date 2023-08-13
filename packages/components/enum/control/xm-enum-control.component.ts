@@ -115,7 +115,7 @@ export class XmEnumControl
     @Input()
     public set config(value: XmEnumControlOptions) {
         this._config = defaults({}, value, XM_ENUM_CONTROL_OPTIONS_DEFAULT);
-        this.itemsList = value.items || value.enum;
+        this.itemsList = this._config.items || this._config.enum;
         forEach(this.itemsList, (item) => {
             if (item.value === undefined) {
                 item.value = '';

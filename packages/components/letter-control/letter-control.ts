@@ -14,14 +14,14 @@ import { NgForOf } from '@angular/common';
     selector: 'xm-letters-control',
     standalone: true,
     template: `
-        <input *ngFor="let i of config.mask.split('')"
-               [type]="config?.type||'number'"
-               autocomplete="one-time-code"
-               #letter
-               maxlength="1"
-               (input)="inputOTP($event.data,letter)"
-               (paste)="onPaste($event, letter)"
-               (keyup)="onKeyUp($event, letter)"/>
+            <input *ngFor="let i of config.mask.split('')"
+                   [type]="config?.type||'number'"
+                   autocomplete="one-time-code"
+                   #letter
+                   maxlength="1"
+                   (input)="inputOTP($event.data,letter)"
+                   (paste)="onPaste($event, letter)"
+                   (keyup)="onKeyUp($event, letter)"/>
     `,
     imports: [
         NgForOf,
@@ -70,12 +70,23 @@ export class LettersControl implements AfterViewInit {
 
     public ngAfterViewInit(): void {
         this.listenForOtp();
+
     }
 
     public inputOTP(data: string, letter: HTMLInputElement): void {
-        if (data.length === this.config.mask.split('').length) {
+        const length = this.config.mask.split('').length;
+        if (data?.length && data.length === length) {
             this.fillInputs(data, letter);
         }
+        setTimeout(() => {
+            const components = this.components.toArray();
+            const testcomp = components.filter((comp) => {
+                return comp.nativeElement.value.length === length;
+            });
+            if (testcomp.length) {
+                this.fillByValues(testcomp[0].nativeElement.value, 0);
+            }
+        }, 100);
     }
 
     private listenForOtp(): void {
@@ -91,7 +102,7 @@ export class LettersControl implements AfterViewInit {
                     .then((otp: any) => {
                         if (otp) {
                             if (otp && otp.code) {
-                                this.fillByValues(otp.code,0);
+                                this.fillByValues(otp.code, 0);
                             }
                         }
                     })
