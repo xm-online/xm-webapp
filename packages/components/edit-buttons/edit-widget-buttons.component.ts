@@ -26,7 +26,10 @@ export interface EditWidgetButtonsEvent {
 export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
     private dynamicInjectionTokenStore = inject(XmDynamicInjectionTokenStoreService);
 
-    private editStateStore = inject<EditStateStoreService>(this.dynamicInjectionTokenStore.resolve('edit-state-store'));
+    private editStateStore = inject<EditStateStoreService>(
+        this.dynamicInjectionTokenStore.resolve('edit-state-store'),
+        { optional: true },
+    );
 
     public isHidden: boolean = false;
     @Input() public isEdit: boolean = false;
@@ -67,14 +70,18 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
 
     public onSave(event: any): void {
         event.stopPropagation();
-        this.editStateStore.emitEvent(EDIT_EVENT.SAVE);
+        if (this.editStateStore) {
+            this.editStateStore.emitEvent(EDIT_EVENT.SAVE);
+        }
         this.changeIsEdit(EditWidgetButtonsEventType.SAVE);
         this.save.emit();
     }
 
     public onCancel(event: any): void {
         event.stopPropagation();
-        this.editStateStore.emitEvent(EDIT_EVENT.CANCEL);
+        if (this.editStateStore) {
+            this.editStateStore.emitEvent(EDIT_EVENT.CANCEL);
+        }
         this.changeIsEdit(EditWidgetButtonsEventType.CANCEL);
         this.cancel.emit();
     }

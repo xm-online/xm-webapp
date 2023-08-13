@@ -27,7 +27,13 @@ export default {
     ],
     parameters: {
         layout: 'centered',
+        docs: {
+            description: {
+                component: 'For this component use selector <code>@xm-ngx/components/text-cell</code>',
+            },
+        },
     },
+    tags: ['autodocs'],
 } as Meta;
 
 const Template: Story<XmTextCellComponent> = (args: XmTextCellComponent) => ({

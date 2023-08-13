@@ -1,5 +1,6 @@
 <mat-accordion *ngIf="config">
-  <mat-expansion-panel class="mat-elevation-z mdc-elevation-z"
+  <mat-expansion-panel [class]="config?.panel?.class ? config.panel.class : 'mat-elevation-z mdc-elevation-z'"
+                       [style]="config?.panel?.style"
                        [togglePosition]="config?.header?.togglePosition ?? 'before'"
                        [expanded]="!!config?.body?.expanded">
     <mat-expansion-panel-header>

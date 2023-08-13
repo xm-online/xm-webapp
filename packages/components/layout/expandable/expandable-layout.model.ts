@@ -2,8 +2,7 @@ import { XmDynamicControllerConfig } from '@xm-ngx/dynamic/presentation/xm-dynam
 import { XmConfig } from '@xm-ngx/interfaces';
 
 export type ExpandableLayoutConfig = {
-    theme: DynamicLayoutThemeConfig,
-    controllers: XmDynamicControllerConfig[],
+    panel: DynamicLayoutThemeConfig,
     header?: {
         togglePosition?: 'before' | 'after',
         layout: DynamicLayoutConfig
