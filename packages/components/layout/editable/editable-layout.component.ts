@@ -3,10 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { EditableLayoutConfig } from './editable-layout.model';
 import { EDIT_STATE, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { XmDynamicModule } from '@xm-ngx/dynamic';
-import {
-    XmDynamicInjectionTokenStoreService
-} from '@xm-ngx/dynamic/src/services/xm-dynamic-injection-token-store.service';
+import { XmDynamicModule, XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
 import { map, Observable } from 'rxjs';
 
 @Component({

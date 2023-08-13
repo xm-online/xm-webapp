@@ -5,10 +5,7 @@ import { DataLayoutConfig } from './data-layout.model';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { ResourceDataService } from '@xm-ngx/controllers/features/resource-data';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { XmDynamicModule } from '@xm-ngx/dynamic';
-import {
-    XmDynamicInjectionTokenStoreService,
-} from '@xm-ngx/dynamic/src/services/xm-dynamic-injection-token-store.service';
+import { XmDynamicModule, XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { get } from 'lodash';
 import { Observable, of } from 'rxjs';

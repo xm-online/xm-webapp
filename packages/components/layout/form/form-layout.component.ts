@@ -7,10 +7,7 @@ import { ConditionModule } from '@xm-ngx/components/condition';
 import { EDIT_EVENT, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
 import { ResourceDataService } from '@xm-ngx/controllers/features/resource-data';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { XmDynamicModule } from '@xm-ngx/dynamic';
-import {
-    XmDynamicInjectionTokenStoreService,
-} from '@xm-ngx/dynamic/src/services/xm-dynamic-injection-token-store.service';
+import { XmDynamicModule, XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { get, set } from 'lodash';
 import { of } from 'rxjs';
@@ -53,7 +50,6 @@ export class FormLayoutComponent {
                 return Object.fromEntries(this.config.fields.map(({property}) => [property, property ? get(data, property) : data]));
             }),
         ).subscribe(value => {
-            console.log(value);
             this.formGroup.patchValue(value, {emitEvent: false});
         });
 

@@ -1,9 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { EDIT_EVENT, EDIT_STATE, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
 import { XmEventManager } from '@xm-ngx/core';
-import {
-    XmDynamicInjectionTokenStoreService
-} from '@xm-ngx/dynamic/src/services/xm-dynamic-injection-token-store.service';
+import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 export const XM_EDIT_WIDGET_BUTTONS_CHANGE_EVENT = 'XM_EDIT_WIDGET_BUTTONS_CHANGE_EVENT';

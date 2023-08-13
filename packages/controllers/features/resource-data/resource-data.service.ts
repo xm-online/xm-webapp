@@ -36,7 +36,6 @@ export class ResourceDataService<T extends IId = any> {
     }
 
     public update(entity: T): Observable<T> {
-        console.log('update');
         this.data$.next(entity);
         return this.data$;
     }
