@@ -15,9 +15,10 @@ import { DashboardCollection, DashboardConfig } from '../injectors';
 import { XmTextControlOptions } from '@xm-ngx/components/text';
 import { copyToClipboard, readFromClipboard } from '@xm-ngx/operators';
 import {
-    DashboardsListExpandComponent
+    DashboardsListExpandComponent,
 } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
 import { XmTranslateService } from '@xm-ngx/translation';
+import { cloneDeep, omit } from 'lodash';
 
 export enum EditType {
     Create = 1,
@@ -42,12 +43,12 @@ export class DashboardEditComponent {
     public disabled: boolean;
     public EDIT_EVENT: string = this.dashboardConfig.EDIT_DASHBOARD_EVENT;
 
-    public aceEditorOptions: XmAceEditorControlOptions = { title: '', mode: 'json', height: 'calc(100vh - 350px)' };
+    public aceEditorOptions: XmAceEditorControlOptions = {title: '', mode: 'json', height: 'calc(100vh - 350px)'};
 
     public editType: EditType;
     public widgetEditComponentType: Type<unknown> = this.dashboardConfig.widgetRef;
-    public nameOptions: XmTextControlOptions = { title: this.TRS.name, dataQa: '' };
-    public typeKeyOptions: XmTextControlOptions = { title: this.TRS.typeKey, dataQa: '' };
+    public nameOptions: XmTextControlOptions = {title: this.TRS.name, dataQa: ''};
+    public typeKeyOptions: XmTextControlOptions = {title: this.TRS.typeKey, dataQa: ''};
 
     // Used only for copy functional
     @ViewChild(DashboardsListExpandComponent) public widgetsCompRef: DashboardsListExpandComponent;
@@ -103,11 +104,11 @@ export class DashboardEditComponent {
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.created,
-                    textOptions: { value: res.name },
+                    textOptions: {value: res.name},
                 }).subscribe();
                 this.value = res;
                 this.editType = EditType.Edit;
-                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, add: true });
+                this.eventManager.broadcast({name: this.EDIT_EVENT, id: this.value.id, add: true});
             }),
         ).subscribe();
     }
@@ -117,11 +118,11 @@ export class DashboardEditComponent {
         delete this._value.widgets;
         this.dashboardService.update(this._value).pipe(
             tap((res) => {
-                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, edit: true });
+                this.eventManager.broadcast({name: this.EDIT_EVENT, id: this.value.id, edit: true});
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.updated,
-                    textOptions: { value: res.name },
+                    textOptions: {value: res.name},
                 }).subscribe();
             }),
         ).subscribe();
@@ -141,17 +142,17 @@ export class DashboardEditComponent {
 
     public onDelete(): void {
         this.alertService.delete({
-            title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.deleted, { value: this.value.name }),
+            title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.deleted, {value: this.value.name}),
         }).pipe(
             filter((i) => i.value),
             switchMap(() => this.dashboardService.delete(this.value.id)),
-            tap((res) => {
+            tap(() => {
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.deleted,
-                    textOptions: { value: this.value.name },
+                    textOptions: {value: this.value.name},
                 }).subscribe();
-                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, delete: true });
+                this.eventManager.broadcast({name: this.EDIT_EVENT, id: this.value.id, delete: true});
             }),
             tap(() => this.editorService.close()),
         ).subscribe();
@@ -170,9 +171,13 @@ export class DashboardEditComponent {
 
         _.set(data, 'widgets', this.widgetsCompRef?.widgetsList?.data.slice());
         delete data.id;
-        data.widgets.map((widget) => {delete widget.id; delete widget.dashboard;});
+        data.widgets = data.widgets.map((widget) => omit(cloneDeep(widget), ['id', 'dashboard']) as DashboardWidget);
 
-        const enrichedData: CopiedObject = {type: XM_WEBAPP_OPERATIONS.COPY, configType: CONFIG_TYPE.DASHBOARD, config: data};
+        const enrichedData: CopiedObject = {
+            type: XM_WEBAPP_OPERATIONS.COPY,
+            configType: CONFIG_TYPE.DASHBOARD,
+            config: data,
+        };
 
         const text = JSON.stringify(enrichedData);
 
