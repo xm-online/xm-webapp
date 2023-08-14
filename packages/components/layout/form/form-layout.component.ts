@@ -2,16 +2,16 @@ import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, UntypedFormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { FormLayoutConfig } from './form-layout.model';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { EDIT_EVENT, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
 import { ResourceDataService } from '@xm-ngx/controllers/features/resource-data';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { XmDynamicModule, XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
+import { injectByKey, XmDynamicModule } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { get, set } from 'lodash';
 import { of } from 'rxjs';
 import { debounceTime, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { FormLayoutConfig } from './form-layout.model';
 
 @Component({
     standalone: true,
@@ -31,9 +31,8 @@ import { debounceTime, filter, map, switchMap, withLatestFrom } from 'rxjs/opera
 })
 export class FormLayoutComponent {
 
-    private dynamicInjectionTokenStore = inject(XmDynamicInjectionTokenStoreService);
-    private dataController = inject<ResourceDataService>(this.dynamicInjectionTokenStore.resolve('data'));
-    private editStateStore = inject<EditStateStoreService>(this.dynamicInjectionTokenStore.resolve('edit-state-store'));
+    private dataController = injectByKey<ResourceDataService>('data');
+    private editStateStore = injectByKey<EditStateStoreService>('edit-state-store');
 
     private fb = inject<FormBuilder>(FormBuilder);
 

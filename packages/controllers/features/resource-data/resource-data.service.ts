@@ -1,17 +1,15 @@
-import { inject, Injectable } from '@angular/core';
-import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
+import { Injectable } from '@angular/core';
+import { RestRepositoryService } from '@xm-ngx/controllers/features/repository/rest-repository';
+import { injectByKey } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/interfaces';
 import { cloneDeep } from 'lodash';
-import { RestRepositoryService } from '@xm-ngx/controllers/features/repository/rest-repository';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
 @Injectable()
 export class ResourceDataService<T extends IId = any> {
 
-    private dynamicInjectionTokenStore = inject(XmDynamicInjectionTokenStoreService);
-
-    private resourceController = inject<RestRepositoryService>(this.dynamicInjectionTokenStore.resolve('resource'));
+    private resourceController = injectByKey<RestRepositoryService>('resource');
 
     private data$: BehaviorSubject<T> = new BehaviorSubject<T>(undefined);
 

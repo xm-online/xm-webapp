@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
-import { UUID } from 'angular2-uuid';
-import { IXmTableCollectionController, XmFilterQueryParams, } from './i-xm-table-collection-controller';
-import { firstValueFrom } from 'rxjs';
-import { AXmTableLocalPageableCollectionController, } from './a-xm-table-local-pageable-collection-controller.service';
-import { XmTableEntityController, } from '../entity/xm-table-entity-controller.service';
-import { cloneDeep, get, set } from 'lodash';
+import { injectByKey } from '@xm-ngx/dynamic';
 import { XmConfig } from '@xm-ngx/interfaces';
+import { UUID } from 'angular2-uuid';
+import { cloneDeep, get, set } from 'lodash';
+import { firstValueFrom } from 'rxjs';
+import { XmTableEntityController, } from '../entity/xm-table-entity-controller.service';
+import { AXmTableLocalPageableCollectionController, } from './a-xm-table-local-pageable-collection-controller.service';
+import { IXmTableCollectionController, XmFilterQueryParams, } from './i-xm-table-collection-controller';
 
 export interface XmTableEntity extends XmConfig {
     path: string;
@@ -26,8 +26,7 @@ export class XmTableArrayCollectionController<T = unknown>
     public config: XmTableArrayCollectionControllerConfig;
     private entity: object;
 
-    private dynamicInjectionTokenStoreService = inject<XmDynamicInjectionTokenStoreService>(XmDynamicInjectionTokenStoreService);
-    private entityController = inject<XmTableEntityController<object>>(this.dynamicInjectionTokenStoreService.resolve('table-entity-controller'), {optional: true}) || inject<XmTableEntityController<object>>(XmTableEntityController);
+    private entityController = injectByKey<XmTableEntityController<object>>('table-entity-controller', {optional: true}) || inject<XmTableEntityController<object>>(XmTableEntityController);
 
     public async load(request: XmFilterQueryParams): Promise<void> {
         this.entity = await firstValueFrom(this.entityController.entity$());
