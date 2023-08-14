@@ -24,10 +24,11 @@ export abstract class AXmTableLocalPageableCollectionController<T>
         pageableAndSortable.total = rawData.length;
 
         const { pageIndex, pageSize, total, sortOrder, sortBy } = pageableAndSortable;
-        const fromIndex = pageIndex * pageSize;
-        const expectedToIndex = ((pageIndex + 1) * pageSize) || total;
-        const availableToIndex = Math.min(expectedToIndex, total);
-        const items = _.slice(this.rawData, fromIndex, availableToIndex);
+
+        const from = pageIndex * pageSize;
+        const maxLast = (Number(pageIndex) + 1) * pageSize;
+        const to = Number((!maxLast || maxLast > total) ? total : maxLast);
+        const items = _.slice(this.rawData, from, to);
 
         this._state.next({
             items: cloneDeep(items),
