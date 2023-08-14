@@ -30,6 +30,7 @@ import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS
 import {
     DashboardsListExpandComponent,
 } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
+import { cloneDeep, omit } from 'lodash';
 import { DashboardCollection, DashboardConfig as DashboardConfigInjector } from '../injectors';
 
 export enum EditType {
@@ -249,9 +250,13 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
         _.set(data, 'widgets', this.widgetsCompRef?.widgetsList?.data.slice());
         delete data.id;
-        data.widgets.map((widget) => {delete widget.id; delete widget.dashboard;});
+        data.widgets = data.widgets.map((widget) => omit(cloneDeep(widget), ['id', 'dashboard']) as DashboardWidget);
 
-        const enrichedData: CopiedObject = {type: XM_WEBAPP_OPERATIONS.COPY, configType: CONFIG_TYPE.DASHBOARD, config: data};
+        const enrichedData: CopiedObject = {
+            type: XM_WEBAPP_OPERATIONS.COPY,
+            configType: CONFIG_TYPE.DASHBOARD,
+            config: data,
+        };
 
         const text = JSON.stringify(enrichedData);
 

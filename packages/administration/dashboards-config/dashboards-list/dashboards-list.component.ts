@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { expand } from '@xm-ngx/components/animations';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard } from '@xm-ngx/core/dashboard';
 import * as _ from 'lodash';
-import { combineLatest, from, Observable, Subject, switchMap } from 'rxjs';
-import { debounceTime, finalize, map, take, tap } from 'rxjs/operators';
+import { combineLatest, forkJoin, from, Observable, Subject, switchMap } from 'rxjs';
+import { debounceTime, finalize, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES, EDIT_DASHBOARD_EVENT } from '../const';
 import { DashboardEditComponent } from '../dashboard-edit/dashboard-edit.component';
 import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../dashboard-editor.service';
 import { DashboardsManagerService } from '../dashboards-manager.service';
-import { DashboardCollection } from '../injectors';
+import { DashboardCollection, WidgetCollection } from '../injectors';
 import { DashboardsExportService } from './dashboards-export.service';
 import { DashboardsImportService } from './dashboards-import.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -23,6 +23,7 @@ import {
     DashboardsListCopyDialogComponent, OPERATIONS,
 } from '@xm-ngx/administration/dashboards-config/dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
 import { XmToasterService } from '@xm-ngx/toaster';
+import { cloneDeep } from 'lodash';
 
 const EXPORT_FILENAME = 'dashboards';
 const DISPLAYED_COLUMNS = [
@@ -70,6 +71,7 @@ export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
 
     private changeDetectionCycle = new Subject<void>();
 
+    private widgetService = inject<WidgetCollection>(WidgetCollection);
 
     constructor(
         protected dashboardService: DashboardCollection,
@@ -155,11 +157,6 @@ export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
         this.editorService.addDashboard(DashboardEditComponent);
     }
 
-    // public async isObjectValid(): Promise<boolean> {
-    //     const copiedObject = await this.editorService.checkObjectInClipboard();
-    //     return copiedObject.configType === CONFIG_TYPE.DASHBOARD && copiedObject.type === XM_WEBAPP_OPERATIONS.COPY;
-    // }
-
     public async onPaste(): Promise<void> {
         const text = await readFromClipboard();
         let copiedObject: CopiedObject;
@@ -173,38 +170,63 @@ export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
         } else if (_.isObject(text)) {
             copiedObject = text as CopiedObject;
         }
-
         this.dashboardService.getAll().subscribe((list) => {
             const duplicatedDashboard = list.find((d) => (d.name === copiedObject.config.name || d.config.slug === copiedObject.config.config.slug || d.typeKey === copiedObject.config.typeKey));
             if (duplicatedDashboard) {
                 this.getAnswerFromDialog().pipe(
                     takeUntilOnDestroy(this),
-                ).subscribe((res) => {
+                    withLatestFrom(this.dashboardService.getById(duplicatedDashboard.id)),
+                ).subscribe(([res, dashboard]) => {
                     if (res === OPERATIONS.COPY) {
-                        copiedObject.config.name += ' Copy';
+                        const dashboardsNames = list.map(dashboard => dashboard.name);
+                        const dashboardsSlugs = list.map(dashboard => dashboard.config.slug);
+                        const dashboardsTypeKeys = list.map(dashboard => dashboard.typeKey);
+                        const fn = (value: string, arr: string[], copyLabel: string): string => {
+                            if (!arr.includes(value)) return value;
+                            const copyValue: string = value + copyLabel;
+                            if (!arr.includes(copyValue)) return copyValue;
+                            const copies = arr.filter(copy => copy.startsWith(copyValue));
+                            return `${copyValue}${copies.length + 1}`;
+                        };
+                        copiedObject.config.name = fn(copiedObject.config.name, dashboardsNames, ' Copy');
+                        copiedObject.config.typeKey = fn(copiedObject.config.typeKey, dashboardsTypeKeys, '-COPY');
+                        copiedObject.config.config.slug = fn(copiedObject.config.config.slug, dashboardsSlugs, '-copy');
                         this.dashboardService.create(copiedObject.config).pipe(tap((res) => {
                             this.toasterService.create({
                                 type: 'success',
                                 text: DASHBOARDS_TRANSLATES.created,
-                                textOptions: { value: res.name },
+                                textOptions: {value: res.name},
                             }).subscribe();
-                        }),
-                        ).subscribe();
+                        })).subscribe();
                     }
                     if (res === OPERATIONS.REPLACE) {
-                        copiedObject.config.id = duplicatedDashboard.id;
-                        this.dashboardService.update(copiedObject.config).pipe(
+                        copiedObject.config.id = dashboard.id;
+                        const copiedWidgets = copiedObject.config.widgets.map(widget => widget.name);
+                        const existWidgets = dashboard.widgets
+                            .filter(widget => copiedWidgets.includes(widget.name))
+                            .map(widget => {
+                                const copiedWidget = copiedObject.config.widgets.find(({name}) => name === widget.name);
+                                return {
+                                    id: widget.id,
+                                    ...cloneDeep(copiedWidget),
+                                };
+                            });
+                        const newWidgets = copiedObject.config.widgets.filter(widget => {
+                            return !dashboard.widgets.map(w => w.name).includes(widget.name);
+                        });
+                        copiedObject.config.widgets = [...existWidgets, ...newWidgets];
+                        forkJoin(dashboard.widgets.filter(widget => !copiedWidgets.includes(widget.name)).map(widget => this.widgetService.delete(widget.id))).pipe(
+                            switchMap(() => this.dashboardService.update(copiedObject.config)),
                             tap((res) => {
                                 this.toasterService.create({
                                     type: 'success',
                                     text: DASHBOARDS_TRANSLATES.updated,
-                                    textOptions: { value: res.name },
+                                    textOptions: {value: res.name},
                                 }).subscribe();
                             }),
                         ).subscribe();
                     }
-                },
-                );
+                });
             } else {
                 this.dashboardService.create(copiedObject.config).subscribe();
             }
