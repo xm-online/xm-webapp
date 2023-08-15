@@ -1,25 +1,19 @@
-import { Injectable } from '@angular/core';
-import { IEntityCollectionPageable } from '@xm-ngx/repositories';
+import { inject, Injectable } from '@angular/core';
+import { XmAlertService } from '@xm-ngx/alert';
+import { injectByKey } from '@xm-ngx/dynamic';
+import { IId } from '@xm-ngx/interfaces';
 
 import { XmLogger } from '@xm-ngx/logger';
+import { IEntityCollectionPageable, PAGEABLE_AND_SORTABLE_DEFAULT, PageableAndSortable } from '@xm-ngx/repositories';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
-
-import {
-    PAGEABLE_AND_SORTABLE_DEFAULT,
-    PageableAndSortable,
-} from '@xm-ngx/repositories';
-import { firstValueFrom } from 'rxjs';
-import { XmAlertService } from '@xm-ngx/alert';
 import { cloneDeep } from 'lodash';
-import {
-    XmTableRepositoryResolver,
-} from '../../repositories/xm-table-repository-resolver.service';
-import { IId } from '@xm-ngx/interfaces';
-import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
-import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
+import { firstValueFrom } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { XmTableRepositoryResolver, } from '../../repositories/xm-table-repository-resolver.service';
+import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
 import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
+import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
 import { IXmTableRepositoryCollectionControllerConfig } from './xm-table-repository-collection-controller.service';
 
 const TRS = {
@@ -37,7 +31,6 @@ export interface LinkListProperties {
 
 export interface LinkListConfig extends IXmTableRepositoryCollectionControllerConfig {
     type: 'link',
-    resource: string;
     path: string;
     typeLink: {
         primaryField: 'id' | string
@@ -53,10 +46,10 @@ export class XmTableLinkedCollectionController<T extends IId & {name?: string} =
     public config: LinkListConfig;
 
     private repository: IEntityCollectionPageable<T, PageableAndSortable>;
+    private entityController = injectByKey<XmTableEntityController<object>>('table-entity-controller', {optional: true}) || inject<XmTableEntityController<object>>(XmTableEntityController);
 
     constructor(
         protected toaster: XmToasterService,
-        private entityController: XmTableEntityController<object>,
         protected alert: XmAlertService,
         protected repositoryResolver: XmTableRepositoryResolver<T>,
         protected logger: XmLogger,

@@ -1,0 +1,20 @@
+<ng-container *ngIf="!!formGroup">
+  <ng-container *ngIf="config.fields as fields">
+    <ng-container *ngFor="let field of fields">
+      <ng-container
+        *ngIf="getControl(field.property) as control">
+        <ng-container
+          *xmCondition="field.condition; arguments {value: control.value}"
+          [class]="field.layout.theme?.class"
+          [style]="field.layout.theme?.style"
+          xmDynamicFormControl
+          [value]="control.value"
+          [control]="control"
+          [selector]="field.layout.selector"
+          [config]="field.layout.config"
+          [controllers]="field.layout.controllers"
+        ></ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>

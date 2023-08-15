@@ -13,7 +13,13 @@ export default {
     },
     parameters: {
         layout: 'centered',
+        docs: {
+            description: {
+                component: 'For this component use selector <code>@xm-ngx/components/date</code>',
+            },
+        },
     },
+    tags: ['autodocs'],
 } as Meta;
 
 // named export for the individual story

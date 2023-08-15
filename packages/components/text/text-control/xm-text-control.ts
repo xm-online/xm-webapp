@@ -1,20 +1,30 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
-import { UntypedFormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    Input,
+    OnDestroy,
+    OnInit,
+    Optional,
+    Self,
+    ViewEncapsulation
+} from '@angular/core';
+import { NgControl, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { XmTextTitleOptions } from '../text-title';
+import { ValidatorProcessingOption, ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/interfaces';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { ValidatorProcessingOption, ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import { filter } from 'rxjs/operators';
-import { HintModule, HintText } from '@xm-ngx/components/hint';
-import { MatInputModule } from '@angular/material/input';
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { XmTextTitleOptions } from '../text-title';
 
 export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
     hint?: HintText;
@@ -74,9 +84,9 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
                 *xmControlErrors="formControl.errors; translates config?.errors; message as message">{{message}}</mat-error>
 
             <mat-hint
-            *ngIf="config.maxLength"
-            align="end"
-            style="min-width: fit-content">
+                *ngIf="config.maxLength"
+                align="end"
+                style="min-width: fit-content">
                 {{getValueLength()}} / {{config.maxLength}}
             </mat-hint>
 
@@ -135,7 +145,7 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
     }
 
     public ngOnInit(): void {
-        if(this.config.applyTrimForValue) {
+        if (this.config.applyTrimForValue) {
             this.initControlWithTrimmingString();
         }
     }

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
+import { XmDynamicInjectionTokenStoreService } from '../services/xm-dynamic-injection-token-store.service';
 import { XmDynamicControlDirective } from '../../control/xm-dynamic-control.directive';
 import { XmDynamicFormControlDirective } from '../../control/xm-dynamic-form-control.directive';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
@@ -44,6 +45,7 @@ export class XmDynamicModule {
                 XmDynamicComponentRegistry,
                 XmDynamicServiceFactory,
                 XmDynamicModuleRegistry,
+                XmDynamicInjectionTokenStoreService,
                 dynamicModuleInitializer(components)],
         };
     }

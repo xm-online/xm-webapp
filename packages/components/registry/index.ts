@@ -4,6 +4,7 @@ export * from './xm-text.registry';
 export * from './xm-bool.registry';
 export * from './xm-angular-editor-control.registry';
 export * from './xm-copy.registry';
+export * from './xm-layout.registry';
 export * from './xm-link.registry';
 export * from './xm-enum.registry';
 export * from './xm-array.registry';

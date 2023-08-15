@@ -13,13 +13,15 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { XmDynamicConstructor } from '../src/interfaces/xm-dynamic-constructor';
-import { XmDynamicEntryModule } from '../src/interfaces/xm-dynamic-entry-module';
+import { from, ReplaySubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { setComponentInput } from '../operators/set-component-input';
 import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-base.directive';
 import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
+import { XmDynamicServiceFactory } from '../services/xm-dynamic-service-factory.service';
+import { XmDynamicConstructor } from '../src/interfaces/xm-dynamic-constructor';
+import { XmDynamicEntryModule } from '../src/interfaces/xm-dynamic-entry-module';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
-import { setComponentInput } from '../operators/set-component-input';
-import { from, ReplaySubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { XmDynamicInjectionTokenStoreService } from '../src/services/xm-dynamic-injection-token-store.service';
 
 export interface XmDynamicControl<V = unknown, C = unknown> extends XmDynamicPresentation<V, C>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
@@ -53,7 +55,7 @@ export interface XmDynamicControlEntryModule<V = unknown, C = unknown> extends X
  */
 @Directive({
     selector: '[xmDynamicControl]',
-    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmDynamicControlDirective), multi: true }],
+    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmDynamicControlDirective), multi: true}],
 })
 export class XmDynamicControlDirective<V, C>
     extends XmDynamicPresentationDirective<V, C>
@@ -85,9 +87,11 @@ export class XmDynamicControlDirective<V, C>
         viewContainerRef: ViewContainerRef,
         injector: Injector,
         renderer: Renderer2,
-        dynamicComponents: XmDynamicComponentRegistry
+        dynamicComponents: XmDynamicComponentRegistry,
+        dynamicServices: XmDynamicServiceFactory,
+        dynamicInjectionTokenStore: XmDynamicInjectionTokenStoreService,
     ) {
-        super(viewContainerRef, injector, renderer, dynamicComponents);
+        super(viewContainerRef, injector, renderer, dynamicComponents, dynamicServices, dynamicInjectionTokenStore);
     }
 
 
