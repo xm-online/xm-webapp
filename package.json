@@ -23,7 +23,8 @@
   "scripts": {
     "ng": "ng",
     "xm-ngx": "xm-ngx",
-    "postinstall": "node ./scripts/build-packages_copy-dist-package.js && npm install --ignore-scripts && node ./scripts/build-packages.js && ngcc --properties esm5 browser module main",
+    "postinstall": "npm run build:packages && ngcc --properties esm5 browser module main",
+    "build:packages": "node ./scripts/build-packages_copy-dist-package.js && npm install --ignore-scripts && node ./scripts/build-packages.js && npm i --ignore-scripts",
     "prebuild": "xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && xm-ngx dynamic-specification && npm run import-jsf-exts",
     "start": "npm run prebuild && ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0",
     "start:minimal": "ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0",
