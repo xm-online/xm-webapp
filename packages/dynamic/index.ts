@@ -49,3 +49,6 @@ export { XmDynamicExtensionEntry } from './src/interfaces/xm-dynamic-extension.m
 export { XmDynamicWidgetLayout } from './widget/xm-dynamic-widget-layout.component';
 
 export { XmDynamicServiceFactory, XmDynamicService } from './services/xm-dynamic-service-factory.service';
+export { XmDynamicInjectionTokenStoreService } from './src/services/xm-dynamic-injection-token-store.service';
+
+export * from './src/functions/inject-by-key';

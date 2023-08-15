@@ -12,8 +12,10 @@ import { XmTextViewContainerComponent } from './xm-text-view-container.component
 import { CommonModule } from '@angular/common';
 
 export interface XmTextViewOptions extends XmTextTitleOptions, DataQa {
-    style?: 'inline';
     emptyValue?: Translate;
+    style?: 'inline';
+    labelStyleInline?: string;
+    valueStyleInline?: string;
 }
 
 export const XM_TEXT_VIEW_OPTIONS_DEFAULT: XmTextViewOptions = {
@@ -28,7 +30,7 @@ export type PrimitiveOrTranslate = Primitive & Translate;
 @Component({
     selector: 'xm-text-view',
     template: `
-        <xm-text-view-container [styleInline]="!!config?.style">
+        <xm-text-view-container [styleInline]="!!config?.style" [valueStyleInline]="config?.valueStyleInline" [labelStyleInline]="config?.labelStyleInline">
             <span xmLabel>{{config.title | translate}}</span>
             <span [attr.data-qa]="config.dataQa"
                   xmValue>

@@ -1,0 +1,32 @@
+<mat-accordion *ngIf="config">
+  <mat-expansion-panel [class]="config?.panel?.class ? config.panel.class : 'mat-elevation-z mdc-elevation-z'"
+                       [style]="config?.panel?.style"
+                       [togglePosition]="config?.header?.togglePosition ?? 'before'"
+                       [expanded]="!!config?.body?.expanded">
+    <mat-expansion-panel-header>
+      <ng-container *ngIf="config.header as header">
+        <ng-container
+          *ngIf="header.layout as layout"
+          [class]="layout.theme?.class"
+          [style]="layout.theme?.style"
+          xmDynamicPresentation
+          [selector]="layout.selector"
+          [config]="layout.config"
+          [controllers]="layout.controllers"
+        ></ng-container>
+      </ng-container>
+    </mat-expansion-panel-header>
+
+    <ng-container *ngIf="config.body as body">
+      <ng-container
+        *ngIf="body.layout as layout"
+        [class]="layout.theme?.class"
+        [style]="layout.theme?.style"
+        xmDynamicPresentation
+        [selector]="layout.selector"
+        [config]="layout.config"
+        [controllers]="layout.controllers"
+      ></ng-container>
+    </ng-container>
+  </mat-expansion-panel>
+</mat-accordion>

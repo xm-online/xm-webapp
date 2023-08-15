@@ -98,7 +98,13 @@ export default {
     ],
     parameters: {
         layout: 'centered',
+        docs: {
+            description: {
+                component: 'For this component use selector <code>@xm-ngx/components/navbar-user-widget</code>',
+            },
+        },
     },
+    tags: ['autodocs'],
 } as Meta;
 
 const Template: Story<NavbarUserWidgetComponent> = (args: NavbarUserWidgetComponent) => ({

@@ -1,0 +1,35 @@
+<mat-card [class]="config?.theme?.class" [style]="config?.theme?.style">
+  <ng-container *ngIf="config.header as header">
+    <ng-container
+      *ngIf="header.layout as layout"
+      [class]="layout.theme?.class ?? 'mat-mdc-card-header'"
+      [style]="layout.theme?.style"
+      xmDynamicPresentation
+      [selector]="layout.selector"
+      [config]="layout.config"
+      [controllers]="layout.controllers"
+    ></ng-container>
+  </ng-container>
+  <ng-container *ngIf="config.body as body">
+    <ng-container
+      *ngIf="body.layout as layout"
+      [class]="layout.theme?.class ?? 'mat-mdc-card-content'"
+      [style]="layout.theme?.style"
+      xmDynamicPresentation
+      [selector]="layout.selector"
+      [config]="layout.config"
+      [controllers]="layout.controllers"
+    ></ng-container>
+  </ng-container>
+  <ng-container *ngIf="config.footer as footer">
+    <ng-container
+      *ngIf="footer.layout as layout"
+      [class]="layout.theme?.class ?? 'mdc-card__actions'"
+      [style]="layout.theme?.style"
+      xmDynamicPresentation
+      [selector]="layout.selector"
+      [config]="layout.config"
+      [controllers]="layout.controllers"
+    ></ng-container>
+  </ng-container>
+</mat-card>

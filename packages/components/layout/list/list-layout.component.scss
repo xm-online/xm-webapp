@@ -1,0 +1,25 @@
+@import '@xm-ngx/styles/theming';
+
+.case-card {
+  background-color: $xm-surface;
+  min-height: 40px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px 0 #00000014;
+}
+
+.content-block {
+  padding: 30px 40px 20px
+}
+
+.content-block:not(:last-child) {
+  border-bottom: 1px solid #EBEFF2;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 18px;
+  letter-spacing: 0.15000000596046448px;
+  text-align: left;
+  padding-bottom: 23px;
+}
