@@ -125,7 +125,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
             takeUntilOnDestroy(this),
             distinctUntilChanged(),
         ).subscribe(rawValue => {
-            const value = rawValue.toUpperCase().replaceAll(' ', '-');
+            const value = rawValue.toUpperCase().replace(/ /g, '-');
             this.typeKeyControl.patchValue(value, {emitEvent: true});
         });
     }
