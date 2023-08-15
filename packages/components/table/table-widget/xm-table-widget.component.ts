@@ -33,6 +33,7 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
     config.columns.forEach(c => c.name = c.name || c.field);
     config.pageableAndSortable.sortBy = config.pageableAndSortable.sortBy || config.columns[0].name;
+    config.storageKey = config.storageKey || `${location.pathname}.xm-table-widget`;
     return config;
 }
 

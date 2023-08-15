@@ -14,6 +14,7 @@ export interface XmTableConfig {
     collection: XmTableCollectionControllerType,
     queryParamsToFillter?: XmTableQueryParamsToFilter;
     pageableAndSortable: XmTableWithColumnDynamicCellOptionsPagination,
+    storageKey: string;
 }
 
 export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
@@ -26,4 +27,5 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
             hidePagination: false,
         },
     },
+    storageKey: '',
 };
