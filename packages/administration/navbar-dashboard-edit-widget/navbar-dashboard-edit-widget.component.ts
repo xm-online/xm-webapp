@@ -29,10 +29,11 @@ export enum NavbarDashboardEditState {
     selector: 'xm-navbar-dashboard-edit-widget',
     template: `
         <button mat-icon-button
-                *permitted="'DASHBOARD.CREATE'"
+                *permitted="['DASHBOARD.CREATE']"
                 [style.visibility]="page ? 'visible' : 'hidden'"
                 [color]="isEditing ? 'primary' : undefined"
-                [matTooltip]="TRS.editDashboard | translate" (click)="onEdit()">
+                [matTooltip]="TRS.editDashboard | translate"
+                (click)="onEdit()">
             <mat-icon>edit</mat-icon>
         </button>
     `,
