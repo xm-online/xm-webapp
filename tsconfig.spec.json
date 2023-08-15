@@ -1,24 +1,17 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
-      "jasmine",
-      "node"
+      "jasmine"
     ]
   },
+  "extends": "./tsconfig.json",
   "files": [
-    "test.ts",
     "src/polyfills.ts"
   ],
   "include": [
     "packages/**/*.spec.ts",
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
-  ],
-  "angularCompilerOptions": {
-    "annotateForClosureCompiler": false,
-    "skipTemplateCodegen": true,
-    "fullTemplateTypeCheck": true
-  }
+  ]
 }

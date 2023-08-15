@@ -1,28 +1,4 @@
 {
-  "extends": "../tsconfig",
-  "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    "types": [
-      "node"
-    ]
-  },
-  "files": [
-    "./main.ts",
-    "./polyfills.ts"
-  ],
-  "include": [
-    "./src/**/*.d.ts"
-  ],
-  "exclude": [
-    "../test.ts",
-    "lib",
-    "packages",
-    "**/testing/**",
-    "environments",
-    "./**/*.spec.ts",
-    "./**/*.e2e-spec.ts",
-    "./**/*.po.ts"
-  ],
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,
     "skipTemplateCodegen": true,
@@ -32,5 +8,17 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInputAccessModifiers": true,
     "strictTemplates": false
-  }
+  },
+  "baseUrl": "../",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+  },
+  "extends": "../tsconfig",
+  "files": [
+    "./main.ts",
+    "./polyfills.ts"
+  ],
+  "include": [
+    "./src/**/*.d.ts"
+  ]
 }

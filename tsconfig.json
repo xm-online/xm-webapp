@@ -2,24 +2,24 @@
   "compileOnSave": true,
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": false,
-    "strict": false,
-    "importHelpers": true,
-    "outDir": "./dist/out-tsc",
-    "baseUrl": "./",
-    "sourceMap": true,
     "declaration": true,
     "downlevelIteration": true,
-    "moduleResolution": "node",
     "experimentalDecorators": true,
-    "target": "es2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "forceConsistentCasingInFileNames": false,
+    "importHelpers": true,
+    "inlineSources": true,
     "lib": [
       "es2020",
       "dom"
     ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "newLine": "lf",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "outDir": "./dist/out-tsc",
     "paths": {
       "@xm-ngx/core/environment": [
         "src/environments"
@@ -64,16 +64,16 @@
         "node_modules/@angular/*"
       ]
     },
-    "inlineSources": true,
-    "module": "esnext",
-    "stripInternal": false,
-    "noUnusedLocals": true,
-    "noImplicitThis": true,
-    "noImplicitReturns": true,
-    "newLine": "lf",
-    "strictFunctionTypes": true,
-    "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
+    "rootDir": ".",
+    "sourceMap": true,
+    "strict": false,
+    "strictFunctionTypes": true,
+    "stripInternal": false,
+    "target": "es2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "useDefineForClassFields": false
   }
 }
