@@ -6,7 +6,7 @@
 const {SpecReporter} = require('jasmine-spec-reporter');
 
 /**
- * @type { import("protractor").Config }
+ * @type { import('protractor').Config }
  */
 exports.config = {
     allScriptsTimeout: 11000,
@@ -28,7 +28,7 @@ exports.config = {
     },
     onPrepare() {
         require('ts-node').register({
-            project: require('path').join(__dirname, './tsconfig.json'),
+            project: './tsconfig.json',
         });
         jasmine.getEnv().addReporter(new SpecReporter({spec: {displayStacktrace: true}}));
     },

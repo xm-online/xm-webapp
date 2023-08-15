@@ -9,16 +9,14 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": false
   },
-  "baseUrl": "../",
   "compilerOptions": {
-    "outDir": "../out-tsc/app",
+    "baseUrl": "../",
+    "outDir": "../out-tsc/app"
   },
   "extends": "../tsconfig",
   "files": [
     "./main.ts",
-    "./polyfills.ts"
-  ],
-  "include": [
-    "./src/**/*.d.ts"
+    "./polyfills.ts",
+    "./globals.d.ts"
   ]
 }

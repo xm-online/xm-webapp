@@ -71,9 +71,7 @@
     "strictFunctionTypes": true,
     "stripInternal": false,
     "target": "es2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "types": [],
     "useDefineForClassFields": false
   }
 }

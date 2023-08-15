@@ -156,6 +156,10 @@
           "options": {
             "karmaConfig": "karma.conf.js",
             "tsConfig": "tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/popper.js/dist/umd/popper.js",
@@ -203,18 +207,7 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "*.d.ts",
-              "*.json",
-              "**/*.json"
-            ]
-          }
+          "builder": "@angular-devkit/build-angular:tslint"
         },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
