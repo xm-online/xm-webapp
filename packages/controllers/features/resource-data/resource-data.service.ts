@@ -24,7 +24,6 @@ export class ResourceDataService<T extends IId = any> {
 
         this.useCache = true;
         return this.resourceController.get().pipe(
-            // map(response => response.body),
             switchMap(data => {
                 this.data$.next(data);
                 this.stable = cloneDeep(data);
@@ -42,7 +41,6 @@ export class ResourceDataService<T extends IId = any> {
         if (this.data$.value?.id) {
             return this.resourceController.update(this.data$.value);
         }
-        //     this.resourceController.create(this.data$.value)
         return this.data$;
     }
 
