@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, forwardRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { DashboardEditorService } from '../index';
@@ -17,6 +17,8 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardEditComponent } from './dashboard-edit.component';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import { DashboardStore } from '@xm-ngx/dashboard';
+import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
 
 @Component({
     selector: 'xm-text-control, xm-ace-editor-control',
@@ -43,6 +45,7 @@ describe('DashboardEditComponent', () => {
                 NoopAnimationsModule,
                 HttpClientTestingModule,
                 FormsModule,
+                ReactiveFormsModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
             ],
             declarations: [DashboardEditComponent, MockXmTextControlComponent],
@@ -55,6 +58,7 @@ describe('DashboardEditComponent', () => {
                 { provide: Principal, useValue: null },
                 { provide: TranslateService, useValue: null },
                 { provide: XmToasterService, useValue: null },
+                { provide: DashboardStore, useClass: MockDashboardStore },
             ],
             schemas: [NO_ERRORS_SCHEMA],
         })
