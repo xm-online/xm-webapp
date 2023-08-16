@@ -220,7 +220,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     public onDelete(): void {
         this.alertService.delete({
-            title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.deleted, {value: this.value.name}),
+            title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.delete, {value: this.value.name}),
         }).pipe(
             filter((i) => i.value),
             switchMap(() => this.dashboardCollection.delete(this.value.id)),
