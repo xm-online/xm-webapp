@@ -18,7 +18,7 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { MatDialog } from '@angular/material/dialog';
 import {
     OPERATIONS,
-} from '@xm-ngx/administration/dashboards-config/dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
+} from '../dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
 import {
     WidgetCopyDialogComponent,
 } from '@xm-ngx/administration/dashboards-config/widget-edit/widget-copy-dialog/widget-copy-dialog.component';

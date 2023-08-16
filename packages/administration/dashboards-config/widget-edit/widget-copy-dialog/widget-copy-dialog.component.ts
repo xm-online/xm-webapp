@@ -4,7 +4,7 @@ import { Defaults } from '@xm-ngx/operators';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import {
     OPERATIONS,
-} from '@xm-ngx/administration/dashboards-config/dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
+} from '../../dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
 
 export interface DialogCopyConfig {

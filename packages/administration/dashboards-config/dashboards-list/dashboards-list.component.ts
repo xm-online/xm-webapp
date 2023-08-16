@@ -21,7 +21,7 @@ import { readFromClipboard, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from
 import { MatDialog } from '@angular/material/dialog';
 import {
     DashboardsListCopyDialogComponent, OPERATIONS,
-} from '@xm-ngx/administration/dashboards-config/dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
+} from '../dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { cloneDeep } from 'lodash';
 
