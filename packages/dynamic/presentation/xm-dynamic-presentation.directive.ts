@@ -1,7 +1,10 @@
 import { Directive, Input, OnChanges, OnInit } from '@angular/core';
+import {
+    XmDynamicControllerInjectorFactoryService
+} from '../src/services/xm-dynamic-controller-injector-factory.service';
 import { XmDynamicSelector } from '../src/interfaces';
 import {
-    XmDynamicControllerConfig,
+    XmDynamicControllerDeclaration,
     XmDynamicPresentation,
     XmDynamicPresentationBase,
     XmDynamicPresentationConstructor
@@ -17,9 +20,10 @@ import {
  */
 @Directive({
     selector: '[xmDynamicPresentation]',
+    providers: [XmDynamicControllerInjectorFactoryService]
 })
 export class XmDynamicPresentationDirective<V, O> extends XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V, O>, OnChanges, OnInit {
-    @Input() public controllers: XmDynamicControllerConfig[] = [];
+    @Input() public controllers: XmDynamicControllerDeclaration[] = [];
     /** Component value */
     @Input() public value: V;
     /**

@@ -1,5 +1,6 @@
 // import { XmDynamicLayout } from '@xm-ngx/dynamic';
 import { BaseEntity } from '@xm-ngx/core/entity';
+import { XmDynamicControllerDeclaration } from '@xm-ngx/dynamic/presentation/xm-dynamic-presentation-base.directive';
 import { JavascriptCode } from '@xm-ngx/interfaces';
 // import { Translate } from '@xm-ngx/translation';
 import { DashboardWidget } from './dashboard-widget.model';
@@ -34,6 +35,7 @@ export interface DashboardConfig {
 }
 
 export interface DashboardLayoutLayout extends Partial<any> {
+    controllers?: XmDynamicControllerDeclaration[];
     widget?: number | string | DashboardWidget;
     widgetName?: string;
     content?: DashboardLayoutLayout[];
