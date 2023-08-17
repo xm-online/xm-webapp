@@ -10,6 +10,9 @@ import {
     OnInit,
     SimpleChanges,
 } from '@angular/core';
+import {
+    XmDynamicControllerInjectorFactoryService
+} from '../src/services/xm-dynamic-controller-injector-factory.service';
 import { getValue } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 import { XmDynamicPresentationBase } from '../presentation';
@@ -39,6 +42,7 @@ export interface XmDynamicCell<C = unknown> extends XmDynamicLayoutNode<C> {
  */
 @Directive({
     selector: 'xm-dynamic-cell, [xmDynamicCell]',
+    providers: [XmDynamicControllerInjectorFactoryService]
 })
 export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
     extends XmDynamicPresentationBase<V, O>
