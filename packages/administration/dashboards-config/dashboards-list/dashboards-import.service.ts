@@ -30,7 +30,11 @@ export class DashboardsImportService {
     public import(file: File): Observable<void> {
         this.loader.next(true);
 
-        this.confirmRemoval = this.alertService.yesNo({text: DASHBOARDS_TRANSLATES.deleted}).pipe(
+        this.confirmRemoval = this.alertService.yesNo({
+            icon: 'warning',
+            center: true,
+            title: DASHBOARDS_TRANSLATES.deleteExistingDashboards,
+        }).pipe(
             map(data => data.isConfirmed),
             shareReplay(1)
         );

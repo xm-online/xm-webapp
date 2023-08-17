@@ -77,7 +77,6 @@ export class XmAlertService {
             icon: 'error_outline',
             center: true,
             title: 'global.common.delete',
-            text: 'global.common.delete-message',
             confirmButtonText: 'global.common.delete',
         }, settings));
     }

@@ -30,6 +30,7 @@ export const DASHBOARDS_TRANSLATES = {
     saved: `${dashboards}saved`,
     create: `${dashboards}create`,
     import: `${dashboards}import`,
+    deleteExistingDashboards: `${dashboards}delete-existing-dashboards`,
     export: `${dashboards}export`,
     close: `${dashboards}close`,
     filter: `${dashboards}filter`,
