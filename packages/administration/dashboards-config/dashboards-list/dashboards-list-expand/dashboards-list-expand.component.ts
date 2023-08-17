@@ -1,17 +1,27 @@
-import { Component, Input, OnInit, Type } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Type } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { DashboardWidget } from '@xm-ngx/core/dashboard';
 import { Id } from '@xm-ngx/interfaces';
 import * as _ from 'lodash';
+import { set } from 'lodash';
 import { Observable } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { delay, map, tap, withLatestFrom } from 'rxjs/operators';
 import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES } from '../../const';
-import { DashboardEditorService } from '../../dashboard-editor.service';
+import { CONFIG_TYPE, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../../dashboard-editor.service';
 import { DashboardsManagerService } from '../../dashboards-manager.service';
 
 import { DashboardCollection, WidgetCollection } from '../../injectors';
 import { WidgetEditComponent } from '../../widget-edit/widget-edit.component';
+import { readFromClipboard, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { MatDialog } from '@angular/material/dialog';
+import {
+    OPERATIONS,
+} from '../dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
+import {
+    WidgetCopyDialogComponent,
+} from '@xm-ngx/administration/dashboards-config/widget-edit/widget-copy-dialog/widget-copy-dialog.component';
 
 const DISPLAYED_COLUMNS = [
     'name',
@@ -20,12 +30,18 @@ const DISPLAYED_COLUMNS = [
     ACTIONS_COLUMN,
 ];
 
+export interface CopiedWidgetObject {
+    type: XM_WEBAPP_OPERATIONS,
+    configType: CONFIG_TYPE,
+    config: DashboardWidget,
+}
+
 @Component({
     selector: 'xm-dashboards-list-expand',
     templateUrl: './dashboards-list-expand.component.html',
     styleUrls: ['./dashboards-list-expand.component.scss'],
 })
-export class DashboardsListExpandComponent implements OnInit {
+export class DashboardsListExpandComponent implements OnInit, OnDestroy {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
     public readonly ACTIONS_COLUMN: typeof ACTIONS_COLUMN = ACTIONS_COLUMN;
     public columns: typeof DISPLAYED_COLUMNS = DISPLAYED_COLUMNS;
@@ -40,6 +56,8 @@ export class DashboardsListExpandComponent implements OnInit {
                 protected widgetService: WidgetCollection,
                 public editorService: DashboardEditorService,
                 public managerService: DashboardsManagerService,
+                protected readonly toasterService: XmToasterService,
+                private matDialog: MatDialog,
     ) {
     }
 
@@ -55,9 +73,91 @@ export class DashboardsListExpandComponent implements OnInit {
         });
     }
 
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
     public onAdd(): void {
         this.editorService.addWidget(this.widgetEditComponentType, {dashboard: {id: this.dashboardId}});
         this.managerService.setActiveWidget(null);
+    }
+
+    public async onPaste(): Promise<void> {
+        const text = await readFromClipboard();
+        let copiedObject: CopiedWidgetObject;
+        if (_.isString(text)) {
+            try {
+                copiedObject = JSON.parse(text) as CopiedWidgetObject;
+            } catch (e) {
+                console.warn(e);
+                return;
+            }
+        } else if (_.isObject(text)) {
+            copiedObject = text as CopiedWidgetObject;
+        }
+
+        set(copiedObject, 'config.dashboard.id', this.dashboardId);
+
+        if (copiedObject.configType === CONFIG_TYPE.WIDGET) {
+            this.widgetService.getAll().subscribe(
+                (list) => {
+                    const duplicatedWidget = list.find((w) => w.name === copiedObject?.config?.name);
+                    if (duplicatedWidget) {
+                        this.getAnswerFromDialog().pipe(
+                            takeUntilOnDestroy(this),
+                            withLatestFrom(this.widgetService.getById(duplicatedWidget.id))).subscribe(([res, widget]) => {
+                            if (res === OPERATIONS.COPY) {
+                                const widgetsNames = list.map(widget => widget.name);
+
+                                const fn = (value: string, arr: string[], copyLabel: string): string => {
+                                    if (!arr.includes(value)) return value;
+                                    const copyValue: string = value + copyLabel;
+                                    if (!arr.includes(copyValue)) return copyValue;
+                                    const copies = arr.filter(copy => copy.startsWith(copyValue));
+                                    return `${copyValue}${copies.length + 1}`;
+                                };
+                                copiedObject.config.name = fn(copiedObject.config.name, widgetsNames, ' Copy');
+                                this.widgetService.create(copiedObject.config).pipe(tap((res) => {
+                                    this.toasterService.create({
+                                        type: 'success',
+                                        text: DASHBOARDS_TRANSLATES.created,
+                                        textOptions: {value: res.name},
+                                    }).subscribe();
+                                })).subscribe();
+                            }
+                            if (res === OPERATIONS.REPLACE) {
+                                copiedObject.config.id = widget.id;
+                                this.widgetService.update(copiedObject.config).pipe(
+                                    tap((res) => {
+                                        this.toasterService.create({
+                                            type: 'success',
+                                            text: DASHBOARDS_TRANSLATES.updated,
+                                            textOptions: {value: res.name},
+                                        }).subscribe();
+                                    }),
+                                ).subscribe();
+
+                            }
+                        },
+                        );
+                    } else {
+                        this.widgetService.create(copiedObject.config).pipe(
+                            tap((res) => {
+                                this.toasterService.create({
+                                    type: 'success',
+                                    text: DASHBOARDS_TRANSLATES.created,
+                                    textOptions: {value: res.name},
+                                }).subscribe();
+                            }),
+                        ).subscribe();
+                    }
+
+                });
+
+        } else {
+            console.warn('Wrong object to paste');
+        }
+
     }
 
     public onEdit(item: DashboardWidget): void {
@@ -72,6 +172,14 @@ export class DashboardsListExpandComponent implements OnInit {
                 this.onEdit(edit);
             }
         }
+    }
+
+    private getAnswerFromDialog(): Observable<string | null> {
+        const dialogForm = this.matDialog.open<WidgetCopyDialogComponent>(
+            WidgetCopyDialogComponent,
+            {width: '400px'},
+        );
+        return dialogForm.afterClosed();
     }
 
 }
