@@ -21,7 +21,7 @@ import {
 } from '../dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
 import {
     WidgetCopyDialogComponent,
-} from '@xm-ngx/administration/dashboards-config/widget-edit/widget-copy-dialog/widget-copy-dialog.component';
+} from '../../widget-edit/widget-copy-dialog/widget-copy-dialog.component';
 
 const DISPLAYED_COLUMNS = [
     'name',
