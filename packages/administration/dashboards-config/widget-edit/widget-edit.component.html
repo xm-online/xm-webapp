@@ -57,7 +57,7 @@
         <button (click)="onDelete()"
                 *ngIf="editType === EditType.Edit"
                 [disabled]="!form.valid  || disabled"
-                [matTooltip]="TRS.delete | translate"
+                [matTooltip]="TRS.delete | translate: { value: value.name }"
                 mat-icon-button>
           <mat-icon>delete_outline</mat-icon>
         </button>
