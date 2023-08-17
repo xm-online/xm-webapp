@@ -1,6 +1,6 @@
 // import { XmDynamicLayout } from '@xm-ngx/dynamic';
 import { BaseEntity } from '@xm-ngx/core/entity';
-import { XmDynamicControllerDeclaration } from '@xm-ngx/dynamic/presentation/xm-dynamic-presentation-base.directive';
+import { XmDynamicWithConfig, XmDynamicWithSelector } from '@xm-ngx/dynamic';
 import { JavascriptCode } from '@xm-ngx/interfaces';
 // import { Translate } from '@xm-ngx/translation';
 import { DashboardWidget } from './dashboard-widget.model';
@@ -35,7 +35,10 @@ export interface DashboardConfig {
 }
 
 export interface DashboardLayoutLayout extends Partial<any> {
-    controllers?: XmDynamicControllerDeclaration[];
+    // todo: there was XmDynamicControllerDeclaration interface usage, but according to high coupling we need to separate that dependency
+    controllers?: (XmDynamicWithConfig & XmDynamicWithSelector & {
+        key: string,
+    })[];
     widget?: number | string | DashboardWidget;
     widgetName?: string;
     content?: DashboardLayoutLayout[];
