@@ -7,8 +7,8 @@ import {
     DashboardsImportService,
     DashboardsManagerService,
     WidgetEditComponent,
-} from '@xm-ngx/administration/dashboards-config';
-import { DashboardConfig } from '@xm-ngx/administration/dashboards-config';
+} from '../dashboards-config';
+import { DashboardConfig } from '../dashboards-config';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard, DashboardStore, PageService } from '@xm-ngx/core/dashboard';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
