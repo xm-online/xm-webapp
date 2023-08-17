@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
+    DashboardConfig,
     DashboardEditComponent,
     DashboardEditorService,
     DASHBOARDS_TRANSLATES,
@@ -8,12 +9,11 @@ import {
     DashboardsManagerService,
     WidgetEditComponent,
 } from '@xm-ngx/administration/dashboards-config';
-import { DashboardConfig } from '@xm-ngx/administration/dashboards-config';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard, DashboardStore, PageService } from '@xm-ngx/core/dashboard';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { skip, take } from 'rxjs/operators';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 export const NAVBAR_EDIT_DASHBOARD_EVENT = 'NAVBAR_EDIT_DASHBOARD_EVENT';
 export const NAVBAR_EDIT_WIDGET_EVENT = 'NAVBAR_EDIT_WIDGET_EVENT';

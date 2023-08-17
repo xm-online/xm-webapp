@@ -13,7 +13,7 @@ import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS
 import { DashboardCollection, DashboardConfig, WidgetCollection } from '../injectors';
 import { SchemaEditorOptions } from './schema-editor/schema-editor.component';
 import { XmTranslateService } from '@xm-ngx/translation';
-import { CopiedWidgetObject } from '@xm-ngx/administration/dashboards-config';
+import { CopiedWidgetObject } from '../../dashboards-config';
 
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
