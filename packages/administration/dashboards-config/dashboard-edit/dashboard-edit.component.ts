@@ -26,10 +26,11 @@ import { prop } from 'lodash/fp';
 import { merge, Observable } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../const';
-import { DashboardEditorService } from '../dashboard-editor.service';
+import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../dashboard-editor.service';
 import {
     DashboardsListExpandComponent,
 } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
+import { cloneDeep, omit } from 'lodash';
 import { DashboardCollection, DashboardConfig as DashboardConfigInjector } from '../injectors';
 
 export enum EditType {
@@ -220,7 +221,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     public onDelete(): void {
         this.alertService.delete({
-            title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.deleted, {value: this.value.name}),
+            title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.delete, {value: this.value.name}),
         }).pipe(
             filter((i) => i.value),
             switchMap(() => this.dashboardCollection.delete(this.value.id)),
@@ -248,32 +249,37 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         const data = _.cloneDeep(this.dashboardValue());
 
         _.set(data, 'widgets', this.widgetsCompRef?.widgetsList?.data.slice());
+        delete data.id;
+        data.widgets = data.widgets.map((widget) => omit(cloneDeep(widget), ['id', 'dashboard']) as DashboardWidget);
 
-        const text = JSON.stringify(data);
+        const enrichedData: CopiedObject = {
+            type: XM_WEBAPP_OPERATIONS.COPY,
+            configType: CONFIG_TYPE.DASHBOARD,
+            config: data,
+        };
+
+        const text = JSON.stringify(enrichedData);
 
         await copyToClipboard(text);
     }
 
     public async onPasteFromClipboard(): Promise<void> {
         const text = await readFromClipboard();
-
-        let config: Dashboard;
-
+        let copiedObject: CopiedObject;
         if (_.isString(text)) {
             try {
-                config = JSON.parse(text);
+                copiedObject = JSON.parse(text) as CopiedObject;
             } catch (e) {
                 console.warn(e);
                 return;
             }
         } else if (_.isObject(text)) {
-            config = text as Dashboard;
+            copiedObject = text as CopiedObject;
         }
 
-        delete config.id;
-        config.widgets = this.getUnbindedWidgets(config.widgets);
+        copiedObject.config.widgets = this.getUnbindedWidgets(copiedObject.config.widgets);
 
-        this.value = _.merge(this.value, config);
+        this.value = _.merge(this.value, copiedObject);
     }
 
     public ngOnDestroy(): void {

@@ -17,11 +17,9 @@ import { from, ReplaySubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { setComponentInput } from '../operators/set-component-input';
 import { XmDynamicPresentation } from '../presentation/xm-dynamic-presentation-base.directive';
 import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-presentation.directive';
-import { XmDynamicServiceFactory } from '../services/xm-dynamic-service-factory.service';
 import { XmDynamicConstructor } from '../src/interfaces/xm-dynamic-constructor';
 import { XmDynamicEntryModule } from '../src/interfaces/xm-dynamic-entry-module';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
-import { XmDynamicInjectionTokenStoreService } from '../src/services/xm-dynamic-injection-token-store.service';
 
 export interface XmDynamicControl<V = unknown, C = unknown> extends XmDynamicPresentation<V, C>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
@@ -88,10 +86,8 @@ export class XmDynamicControlDirective<V, C>
         injector: Injector,
         renderer: Renderer2,
         dynamicComponents: XmDynamicComponentRegistry,
-        dynamicServices: XmDynamicServiceFactory,
-        dynamicInjectionTokenStore: XmDynamicInjectionTokenStoreService,
     ) {
-        super(viewContainerRef, injector, renderer, dynamicComponents, dynamicServices, dynamicInjectionTokenStore);
+        super(viewContainerRef, injector, renderer, dynamicComponents);
     }
 
 

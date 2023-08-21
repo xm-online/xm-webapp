@@ -24,8 +24,11 @@ import { SchemaEditorComponent } from './widget-edit/schema-editor/schema-editor
 import {JsonSchemaFormModule} from '@ajsf/core';
 import { MarkdownModule } from 'ngx-markdown';
 import {
-    WidgetConfigExamplesComponent
+    WidgetConfigExamplesComponent,
 } from './widget-edit/widget-config-examples.component';
+import { DashboardsListCopyDialogComponent } from './dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
+import { WidgetCopyDialogComponent } from './widget-edit/widget-copy-dialog/widget-copy-dialog.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
     imports: [
@@ -44,7 +47,12 @@ import {
         MarkdownModule,
         WidgetConfigExamplesComponent,
         SchemaEditorComponent,
-        SelectorTextControlComponent
+        SelectorTextControlComponent,
+        DashboardsListCopyDialogComponent,
+        WidgetCopyDialogComponent,
+        MatTabsModule,
+        XmTextControl,
+        LoaderModule,
     ],
     exports: [
         DashboardsConfigComponent,

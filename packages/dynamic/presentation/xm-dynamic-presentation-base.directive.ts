@@ -1,21 +1,24 @@
 import {
     ComponentRef,
     Directive,
+    inject,
     Injector,
     OnChanges,
     OnInit,
     Renderer2,
     SimpleChanges,
+    StaticProvider,
     ViewContainerRef,
 } from '@angular/core';
-import { XmConfig } from '@xm-ngx/interfaces';
+import { XM_DYNAMIC_COMPONENT_CONFIG } from '../src/dynamic.injectors';
+import {
+    XmDynamicControllerInjectorFactoryService,
+} from '../src/services/xm-dynamic-controller-injector-factory.service';
 import { setComponentInput } from '../operators/set-component-input';
-import { XmDynamicServiceFactory } from '../services/xm-dynamic-service-factory.service';
 import { XmDynamicSelector, XmDynamicWithConfig, XmDynamicWithSelector, XmLayoutNode } from '../src/interfaces';
 import { XmDynamicConstructor } from '../src/interfaces/xm-dynamic-constructor';
 import { XmDynamicEntryModule } from '../src/interfaces/xm-dynamic-entry-module';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
-import { XmDynamicInjectionTokenStoreService } from '../src/services/xm-dynamic-injection-token-store.service';
 
 
 /** Determines input(control) value. */
@@ -44,13 +47,13 @@ export interface XmDynamicPresentationEntryModule extends XmDynamicEntryModule<X
     entry: XmDynamicPresentationConstructor;
 }
 
-export interface XmDynamicControllerConfig extends XmDynamicWithConfig, XmDynamicWithSelector {
+export interface XmDynamicControllerDeclaration extends XmDynamicWithConfig, XmDynamicWithSelector {
     key: string,
 }
 
 @Directive()
 export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V, C>, XmLayoutNode, OnChanges, OnInit {
-    public controllers: XmDynamicControllerConfig[] = [];
+    public controllers: XmDynamicControllerDeclaration[] = [];
 
     /** Component value */
     public value: V;
@@ -73,12 +76,12 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
         return this.compRef?.instance;
     }
 
+    protected dynamicControllerInjectorFactory = inject(XmDynamicControllerInjectorFactoryService);
+
     constructor(public viewContainerRef: ViewContainerRef,
                 public injector: Injector,
                 protected renderer: Renderer2,
-                protected dynamicComponents: XmDynamicComponentRegistry,
-                protected dynamicServices: XmDynamicServiceFactory,
-                protected dynamicInjectionTokenStore: XmDynamicInjectionTokenStoreService
+                protected dynamicComponents: XmDynamicComponentRegistry
     ) {
     }
 
@@ -140,48 +143,21 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
         setComponentInput(this.compRef, 'options', this.options || this.config);
     }
 
-    protected async createInjector(parentInjector: Injector = this.injector): Promise<Injector> {
-        if (this.controllers?.length > 0) {
-
-            // TODO: create DynamicControllerConfig to ControllerEntry method
-            const controllersEntries: {
-                classType: XmDynamicConstructor,
-                config: XmConfig,
-                key: string,
-            }[] = await Promise.all(this.controllers.map(async controller => ({
-                classType: await this.dynamicServices.find(controller.selector, parentInjector),
-                config: controller.config,
-                key: controller.key,
-            })));
-
-            const providers = controllersEntries.map(serviceEntry => {
-                const token = this.dynamicInjectionTokenStore.resolve(serviceEntry.key);
-                return {provide: token, useClass: serviceEntry.classType, deps: []};
-            });
-
-            const injector = Injector.create({
-                providers,
-                parent: parentInjector,
-            });
-
-            controllersEntries.forEach(service => {
-                const token = this.dynamicInjectionTokenStore.resolve(service.key);
-                const instance = injector.get(token);
-                instance.config = service.config;
-            });
-
-            return injector;
-        }
-        return parentInjector;
+    protected async createInjector(injector: Injector = this.injector): Promise<Injector> {
+        return Promise.resolve(injector);
     }
 
     protected async createInstance(): Promise<void> {
         if (!this.selector) {
             return;
         }
+        const providers = [
+            this.configProvider(),
+        ];
+        const injector = await this.dynamicControllerInjectorFactory.defineProviders(this.controllers, providers, await this.createInjector());
 
         const entry = await this.dynamicComponents.find<XmDynamicPresentation<V, C>>(
-            this.selector as XmDynamicSelector, await this.createInjector());
+            this.selector as XmDynamicSelector, injector);
 
         this.viewContainerRef.clear();
 
@@ -202,5 +178,12 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
         if (this.style) {
             this.renderer.setAttribute(el, 'style', this.style);
         }
+    }
+
+    private configProvider(): StaticProvider {
+        return {
+            provide: XM_DYNAMIC_COMPONENT_CONFIG,
+            useValue: this.config,
+        };
     }
 }
