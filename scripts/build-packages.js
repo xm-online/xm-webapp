@@ -30,6 +30,3 @@ execSync('(cd ./packages/administration && npm run build && cd ../../)', {stdio:
 
 // TODO:WORKAROUND next release
 // execSync('(cd ./src/app/ext/example-webapp-ext && npm run build && cd ../../../../)', {stdio: 'inherit'});
-
-// TODO:WORKAROUND fixing bin folder adding.
-execSync('(npm i --ignore-scripts)', {stdio: 'inherit'});
