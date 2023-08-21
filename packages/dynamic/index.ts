@@ -17,6 +17,7 @@ export {
     XmDynamicPresentationEntryModule,
     XmDynamicPresentationConstructor,
     XmDynamicPresentation,
+    XmDynamicControllerDeclaration,
 } from './presentation/xm-dynamic-presentation-base.directive';
 export {
     XmDynamicPresentationLayoutComponent,
@@ -40,7 +41,7 @@ export { XmDynamicWidgetLayoutComponent } from './widget/xm-dynamic-widget-layou
 export { XmDynamicWidget } from './widget/xm-dynamic-widget';
 export { XmDynamicWidgetModule } from './widget/xm-dynamic-widget-module.interface';
 
-export { XM_DYNAMIC_ENTRIES, XM_DYNAMIC_EXTENSIONS } from './src/dynamic.injectors';
+export { XM_DYNAMIC_ENTRIES, XM_DYNAMIC_EXTENSIONS, XM_DYNAMIC_COMPONENT_CONFIG } from './src/dynamic.injectors';
 
 export { XmDynamicModule, dynamicModuleInitializer } from './src/module/xm-dynamic.module';
 
@@ -50,5 +51,6 @@ export { XmDynamicWidgetLayout } from './widget/xm-dynamic-widget-layout.compone
 
 export { XmDynamicServiceFactory, XmDynamicService } from './services/xm-dynamic-service-factory.service';
 export { XmDynamicInjectionTokenStoreService } from './src/services/xm-dynamic-injection-token-store.service';
+export { XmDynamicControllerInjectorFactoryService } from './src/services/xm-dynamic-controller-injector-factory.service';
 
 export * from './src/functions/inject-by-key';

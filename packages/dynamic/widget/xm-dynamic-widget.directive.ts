@@ -1,13 +1,18 @@
 import {
     ComponentRef,
-    Directive,
+    Directive, inject,
     Injector,
     Input,
     OnChanges,
     Renderer2,
-    SimpleChanges,
+    SimpleChanges, StaticProvider,
     ViewContainerRef,
 } from '@angular/core';
+import { XmDynamicControllerDeclaration } from '../presentation/xm-dynamic-presentation-base.directive';
+import { XM_DYNAMIC_COMPONENT_CONFIG } from '../src/dynamic.injectors';
+import {
+    XmDynamicControllerInjectorFactoryService
+} from '../src/services/xm-dynamic-controller-injector-factory.service';
 import * as _ from 'lodash';
 import { XmDynamicWidget } from './xm-dynamic-widget';
 import {
@@ -31,13 +36,16 @@ export interface XmDynamicWidgetConfig<C = XmConfig, S = any> extends XmDynamicW
 
 @Directive({
     selector: 'xm-dynamic-widget, [xm-dynamic-widget]',
+    providers: [XmDynamicControllerInjectorFactoryService]
 })
 export class XmDynamicWidgetDirective implements OnChanges {
 
     @Input() public class: string;
     @Input() public style: string;
     public compRef: ComponentRef<XmDynamicWidget>;
-    private _layout: XmDynamicWidgetConfig;
+    private _layout: XmDynamicWidgetConfig & {controllers?: XmDynamicControllerDeclaration[]};
+
+    protected dynamicControllerInjectorFactory = inject(XmDynamicControllerInjectorFactoryService);
 
     constructor(private dynamicComponents: XmDynamicComponentRegistry,
                 private renderer: Renderer2,
@@ -45,12 +53,12 @@ export class XmDynamicWidgetDirective implements OnChanges {
                 private viewRef: ViewContainerRef) {
     }
 
-    public get init(): XmDynamicWidgetConfig {
+    public get init(): XmDynamicWidgetConfig & {controllers?: XmDynamicControllerDeclaration[]} {
         return this._layout;
     }
 
     @Input()
-    public set init(value: XmDynamicWidgetConfig) {
+    public set init(value: XmDynamicWidgetConfig & {controllers?: XmDynamicControllerDeclaration[]}) {
         if (!value) {
             return;
         }
@@ -71,8 +79,13 @@ export class XmDynamicWidgetDirective implements OnChanges {
             value.selector = `${value.module}/${value.component}`;
         }
 
+        const configProvider: StaticProvider = {
+            provide: XM_DYNAMIC_COMPONENT_CONFIG,
+            useValue: value.config,
+        };
+        const injector = await this.dynamicControllerInjectorFactory.defineProviders(value.controllers ?? [], [configProvider], this.injector);
         try {
-            const result = await this.dynamicComponents.find<XmDynamicWidget>(this._layout.selector, this.injector);
+            const result = await this.dynamicComponents.find<XmDynamicWidget>(this._layout.selector, injector);
             this.createComponent(this._layout, result);
         } catch (err: unknown) {
             if (err instanceof NotFoundException) {
