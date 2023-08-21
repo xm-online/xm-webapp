@@ -1,6 +1,6 @@
 import { Meta, moduleMetadata, applicationConfig } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { Observable, of } from 'rxjs';
 import { Component, Input, OnInit, importProvidersFrom } from '@angular/core';
 import { NgxWebstorageModule } from 'ngx-webstorage';
