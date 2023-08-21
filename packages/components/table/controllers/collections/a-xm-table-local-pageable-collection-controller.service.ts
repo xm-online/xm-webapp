@@ -20,15 +20,21 @@ export abstract class AXmTableLocalPageableCollectionController<T>
 
     public changeByItems(rawData: T[], request: XmFilterQueryParams): void {
         this.rawData = rawData;
-        const { pageableAndSortable } = defaultsDeep(request, cloneDeep({ pageableAndSortable: PAGEABLE_AND_SORTABLE_DEFAULT, filterParams: {}}));
-        pageableAndSortable.total = rawData.length;
+        const queryParams: XmFilterQueryParams = defaultsDeep(
+            request,
+            cloneDeep({
+                pageableAndSortable: PAGEABLE_AND_SORTABLE_DEFAULT,
+                filterParams: {},
+            }));
+        const { pageSize, sortOrder, sortBy } = queryParams.pageableAndSortable;
+        const total = rawData.length;
+        const pageIndex = Math.max(0, Math.min(queryParams.pageableAndSortable.pageIndex, Math.round(total / (pageSize || 1))));
 
-        const { pageIndex, pageSize, total, sortOrder, sortBy } = pageableAndSortable;
-
-        const from = pageIndex * pageSize;
-        const maxLast = (Number(pageIndex) + 1) * pageSize;
-        const to = Number((!maxLast || maxLast > total) ? total : maxLast);
-        const items = _.slice(this.rawData, from, to);
+        const expectedFromIndex = pageIndex * pageSize;
+        const availableFromIndex = Math.min(expectedFromIndex, total);
+        const expectedToIndex = (pageIndex + 1) * pageSize;
+        const availableToIndex = Math.min(expectedToIndex, total);
+        const items = _.slice(this.rawData, availableFromIndex, availableToIndex);
 
         this._state.next({
             items: cloneDeep(items),
