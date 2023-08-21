@@ -10,6 +10,7 @@ import {
     ChangeDetectorRef,
     Component,
     forwardRef,
+    inject,
     Inject,
     Input,
     OnDestroy,
@@ -72,11 +73,11 @@ export class ExtSelectComponent extends BaseExtSelectComponent implements OnInit
     @Input() private layoutNode: any;
     protected controlValue: unknown;
     protected dataIndex: number[];
+    private selectService = inject(ExtSelectService);
 
     constructor(
         @Inject(forwardRef(() => JsonSchemaFormComponent)) private _parent: JsonSchemaFormComponent,
         private jsf: JsonSchemaFormService,
-        private selectService: ExtSelectService,
         private router: Router,
         private i18nNamePipe: I18nNamePipe,
         private changeDetectorRef: ChangeDetectorRef,

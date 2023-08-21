@@ -34,6 +34,12 @@ export interface DashboardConfig {
 }
 
 export interface DashboardLayoutLayout extends Partial<any> {
+    // todo: there was XmDynamicControllerDeclaration interface usage, but according to high coupling we need to separate that dependency
+    controllers?: {
+        key: string,
+        config: unknown,
+        selector: string,
+    }[];
     widget?: number | string | DashboardWidget;
     widgetName?: string;
     content?: DashboardLayoutLayout[];
