@@ -12,7 +12,7 @@ export interface IXmTableCollectionState<T> {
 }
 
 export interface XmFilterQueryParams {
-    pageableAndSortable: PageableAndSortable | null,
+    pageableAndSortable: PageableAndSortable,
     filterParams: QueryParamsPageable,
 }
 
