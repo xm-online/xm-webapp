@@ -1,6 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { WidgetCopyDialogComponent } from './widget-copy-dialog.component';
+import {WidgetCopyDialogComponent} from './widget-copy-dialog.component';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {XmPrivateUiConfigService} from '@xm-ngx/core/config';
+import {XmTranslationTestingModule} from '@xm-ngx/translation/testing';
 
 describe('WidgetCopyDialogComponent', () => {
     let component: WidgetCopyDialogComponent;
@@ -8,7 +12,16 @@ describe('WidgetCopyDialogComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [WidgetCopyDialogComponent],
+            imports: [
+                WidgetCopyDialogComponent,
+                XmTranslationTestingModule,
+                HttpClientTestingModule
+            ],
+            providers: [
+                {provide: MatDialogRef, useValue: {}},
+                {provide: MAT_DIALOG_DATA, useValue: []},
+                XmPrivateUiConfigService,
+            ]
         })
             .compileComponents();
 

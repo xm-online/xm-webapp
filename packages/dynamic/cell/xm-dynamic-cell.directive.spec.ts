@@ -1,14 +1,49 @@
-import { XmDynamicCellDirective } from '@xm-ngx/dynamic';
+import {XmDynamicCellDirective, XmDynamicModule, XM_DYNAMIC_EXTENSIONS} from '@xm-ngx/dynamic';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+
+import {Component, DebugElement} from '@angular/core';
+import { By } from '@angular/platform-browser';
+
+@Component({
+    selector: 'mock-xm-dynamic-cell',
+    template: `
+      <xm-dynamic-cell
+          [row]="{c: true}"
+          [cell]="{field: 'c', selector: '@xm-ngx/components/xm-bool-view'}"
+      ></xm-dynamic-cell>
+    `
+})
+class MockXmDynamicCellComponent {}
 
 describe('XmDynamicCellDirective', () => {
+    let directive: XmDynamicCellDirective<unknown, any>;
+    let fixture: ComponentFixture<MockXmDynamicCellComponent>;
+
+    beforeEach(() => {
+        fixture = TestBed.configureTestingModule({
+            declarations: [
+                MockXmDynamicCellComponent,
+                XmDynamicCellDirective
+            ],
+            imports: [
+                XmDynamicModule.forRoot([])
+            ],
+            providers: [
+                {provide: XM_DYNAMIC_EXTENSIONS, useValue: XM_DYNAMIC_EXTENSIONS}
+            ]
+        }).createComponent(MockXmDynamicCellComponent);
+
+        const el: DebugElement = fixture.debugElement.query(By.directive(XmDynamicCellDirective));
+        directive = el.injector.get(XmDynamicCellDirective);
+        fixture.detectChanges();
+    });
+
     it('should create an instance', () => {
-        const directive = new XmDynamicCellDirective(null, null, null, null);
         expect(directive).toBeTruthy();
     });
 
     describe('getCellValue', () => {
         it('{field: \'test\'} should return row field', () => {
-            const directive = new XmDynamicCellDirective(null, null, null, null);
             const row = { test: 1 };
             directive.row = row;
             directive.cell = { field: 'test', selector: null, options: null, style: null, class: null };
@@ -16,7 +51,6 @@ describe('XmDynamicCellDirective', () => {
         });
 
         it('{field: null} should return row', () => {
-            const directive = new XmDynamicCellDirective(null, null, null, null);
             const row = { test: 1 };
             directive.row = row;
             directive.cell = { field: null, selector: null, options: null, style: null, class: null };
