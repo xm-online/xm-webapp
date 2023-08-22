@@ -10,7 +10,7 @@ import {
     StaticProvider,
     ViewContainerRef,
 } from '@angular/core';
-import { XM_DYNAMIC_COMPONENT_CONFIG } from '@xm-ngx/dynamic/src/dynamic.injectors';
+import { XM_DYNAMIC_COMPONENT_CONFIG } from '../src/dynamic.injectors';
 import {
     XmDynamicControllerInjectorFactoryService,
 } from '../src/services/xm-dynamic-controller-injector-factory.service';

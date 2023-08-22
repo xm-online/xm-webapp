@@ -8,11 +8,11 @@ import {
     SimpleChanges, StaticProvider,
     ViewContainerRef,
 } from '@angular/core';
-import { XmDynamicControllerDeclaration } from '@xm-ngx/dynamic/presentation/xm-dynamic-presentation-base.directive';
-import { XM_DYNAMIC_COMPONENT_CONFIG } from '@xm-ngx/dynamic/src/dynamic.injectors';
+import { XmDynamicControllerDeclaration } from '../presentation/xm-dynamic-presentation-base.directive';
+import { XM_DYNAMIC_COMPONENT_CONFIG } from '../src/dynamic.injectors';
 import {
     XmDynamicControllerInjectorFactoryService
-} from '@xm-ngx/dynamic/src/services/xm-dynamic-controller-injector-factory.service';
+} from '../src/services/xm-dynamic-controller-injector-factory.service';
 import * as _ from 'lodash';
 import { XmDynamicWidget } from './xm-dynamic-widget';
 import {
