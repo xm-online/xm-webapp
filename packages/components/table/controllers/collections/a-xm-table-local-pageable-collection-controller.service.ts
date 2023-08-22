@@ -28,7 +28,7 @@ export abstract class AXmTableLocalPageableCollectionController<T>
             }));
         const { sortOrder, sortBy } = queryParams.pageableAndSortable;
         const total = rawData.length;
-        const pageSize = Math.min(queryParams.pageableAndSortable.pageSize, total);
+        const pageSize = Math.min(queryParams.pageableAndSortable.pageSize || total, total);
         const maxPageCount = Math.round(total / (pageSize || 1));
         const maxPageIndex = maxPageCount * pageSize === total
             ? maxPageCount - 1
