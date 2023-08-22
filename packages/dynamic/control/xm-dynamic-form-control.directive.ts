@@ -1,7 +1,8 @@
-import { Directive, forwardRef, Input } from '@angular/core';
-import { UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { setComponentInput } from '../operators/set-component-input';
-import { XmDynamicControlDirective, XmDynamicControl } from './xm-dynamic-control.directive';
+import {Directive, forwardRef, Input} from '@angular/core';
+import {UntypedFormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {setComponentInput} from '../operators/set-component-input';
+import {XmDynamicControlDirective, XmDynamicControl} from './xm-dynamic-control.directive';
+import {XmDynamicControllerInjectorFactoryService} from '../src/services/xm-dynamic-controller-injector-factory.service';
 
 export interface IFormControl<V, O> extends XmDynamicControl<V, O> {
     control: UntypedFormControl;
@@ -9,11 +10,14 @@ export interface IFormControl<V, O> extends XmDynamicControl<V, O> {
 
 @Directive({
     selector: '[xmDynamicFormControl]',
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => XmDynamicFormControlDirective),
-        multi: true,
-    }],
+    providers: [
+        XmDynamicControllerInjectorFactoryService,
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => XmDynamicFormControlDirective),
+            multi: true,
+        }
+    ],
 })
 export class XmDynamicFormControlDirective<V, O> extends XmDynamicControlDirective<V, O> {
 

@@ -20,6 +20,7 @@ import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-prese
 import { XmDynamicConstructor } from '../src/interfaces/xm-dynamic-constructor';
 import { XmDynamicEntryModule } from '../src/interfaces/xm-dynamic-entry-module';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
+import {XmDynamicControllerInjectorFactoryService} from '../src/services/xm-dynamic-controller-injector-factory.service';
 
 export interface XmDynamicControl<V = unknown, C = unknown> extends XmDynamicPresentation<V, C>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
@@ -53,7 +54,10 @@ export interface XmDynamicControlEntryModule<V = unknown, C = unknown> extends X
  */
 @Directive({
     selector: '[xmDynamicControl]',
-    providers: [{provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmDynamicControlDirective), multi: true}],
+    providers: [
+        XmDynamicControllerInjectorFactoryService,
+        {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmDynamicControlDirective), multi: true}
+    ],
 })
 export class XmDynamicControlDirective<V, C>
     extends XmDynamicPresentationDirective<V, C>
