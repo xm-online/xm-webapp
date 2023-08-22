@@ -3,7 +3,7 @@
 
 module.exports = function(config) {
     config.set({
-        execArgv: ['--max_old_space_size=4096'],
+        execArgv: ['--max_old_space_size=8096'],
         basePath: '',
         frameworks: ['jasmine', '@angular-devkit/build-angular'],
         plugins: [
