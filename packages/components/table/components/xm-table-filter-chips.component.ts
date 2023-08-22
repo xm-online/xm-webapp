@@ -257,7 +257,7 @@ export class XmTableFilterChipsComponent {
                     config: config,
                     inlineConfig: inlineConfig,
                     value: this.value[config.name],
-                    removable: config?.removable != false,
+                    removable: config?.removable !== false,
                     title: config['title'] || config.name,
                     name: config.name,
                 } as XmTableFilterInlineFilter;
