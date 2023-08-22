@@ -3,14 +3,14 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, UntypedFormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { ConditionModule } from '@xm-ngx/components/condition';
-import { EDIT_EVENT, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
+import { EDIT_ACTION, EDIT_EVENT, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
 import { ResourceDataService } from '@xm-ngx/controllers/features/resource-data';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { injectByKey, XmDynamicModule } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { get, set } from 'lodash';
 import { of } from 'rxjs';
-import { debounceTime, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, filter, map, startWith, switchMap, withLatestFrom } from 'rxjs/operators';
 import { FormLayoutConfig } from './form-layout.model';
 
 @Component({
@@ -53,8 +53,19 @@ export class FormLayoutComponent {
         });
 
         this.formGroup.valueChanges.pipe(
+            takeUntilOnDestroy(this),
+            startWith(null),
+        ).subscribe(() => {
+            if (this.formGroup.valid) {
+                this.editStateStore.enable([EDIT_ACTION.SAVE]);
+            } else {
+                this.editStateStore.disable([EDIT_ACTION.SAVE]);
+            }
+        });
+
+        this.formGroup.valueChanges.pipe(
             debounceTime(200),
-            filter(() => this.formGroup.valid && this.formGroup.touched && this.formGroup.dirty),
+            filter(() => this.formGroup.valid),
             // map(transform)
             withLatestFrom(this.dataController.get()),
             map(([value, data]) => {
