@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "5.1.23",
+  "version": "5.2.0",
   "release": "5.0.0",
   "private": true,
   "description": "Xm-webapp",
@@ -12,7 +12,7 @@
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=16.13.0",
+    "node": ">=18.10.0",
     "npm": ">=8.1.0",
     "yarn": ">=1.22.4 <2"
   },
@@ -90,7 +90,7 @@
     "angular2-recaptcha": "1.1.0",
     "angular2-uuid": "1.1.1",
     "arrive": "2.4.1",
-    "bootstrap": "5.2.2",
+    "bootstrap": "5.3.1",
     "bootstrap-material-design": "4.1.3",
     "bootstrap-notify": "3.1.3",
     "bootstrap-rtl": "3.3.4",
@@ -185,7 +185,7 @@
     "@types/jasminewd2": "2.0.10",
     "@types/jest": "^29.5.2",
     "@types/lodash": "4.14.186",
-    "@types/node": "16.11.7",
+    "@types/node": "18.17.5",
     "@types/sass": "1.43.1",
     "@typescript-eslint/eslint-plugin": "5.51.0",
     "@typescript-eslint/parser": "5.51.0",
