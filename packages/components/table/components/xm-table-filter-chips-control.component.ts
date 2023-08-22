@@ -12,6 +12,7 @@ import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
     template: `
         <xm-inline-control [config]="config"
                            [ngModel]="value"
+                           [disabled]="disabled"
                            (saveValue)="change($event)"></xm-inline-control>
     `,
 })

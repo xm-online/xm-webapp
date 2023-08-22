@@ -19,7 +19,16 @@ import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 import { XmInlineControlConfig, XmInlineControlDynamic, XmInlineControlDynamicView } from '@xm-ngx/components/inline-control';
 import { XmTableFilterChipsControlComponent } from './xm-table-filter-chips-control.component';
 
-const DEFAULT_CONFIG: XmTableFiltersControlRequestConfig = {
+export interface XmTableInlineFilterFormLayoutItem extends FormLayoutItem {
+    removable?: boolean;
+}
+
+export interface XmTableInlineFilterChipsConfig extends XmTableFiltersControlRequestConfig {
+    filters: XmTableInlineFilterFormLayoutItem[];
+    chips: XmTableInlineFilterFormLayoutItem[];
+}
+
+const DEFAULT_CONFIG: XmTableInlineFilterChipsConfig = {
     submitInvalidForm: false,
     isOnlyExpand: null,
     filters: [],
@@ -28,11 +37,12 @@ const DEFAULT_CONFIG: XmTableFiltersControlRequestConfig = {
 };
 
 export interface XmTableFilterInlineFilter {
-    title: Translate,
-    config: FormLayoutItem,
-    inlineConfig: XmInlineControlConfig,
-    value: string,
-    name: string,
+    title: Translate;
+    config: FormLayoutItem;
+    inlineConfig: XmInlineControlConfig;
+    value: string;
+    removable: boolean;
+    name: string;
 }
 
 @Component({
@@ -44,14 +54,15 @@ export interface XmTableFilterInlineFilter {
             <mat-chip-listbox class="chip-listbox" [selectable]="false" [multiple]="true">
                 <mat-chip-option *ngFor="let filter of activeFilters"
                                  (removed)="remove(filter)"
-                                 [removable]="true"
+                                 [removable]="filter.removable"
                                  color="accent"
                                  selected
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
                                                    [value]="filter.value"
+                                                   [disabled]="filter.config?.disabled"
                                                    (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
-                    <mat-icon matChipRemove>cancel</mat-icon>
+                    <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
                 </mat-chip-option>
             </mat-chip-listbox>
         </div>
@@ -79,14 +90,15 @@ export interface XmTableFilterInlineFilter {
             <mat-chip-listbox class="chip-listbox ps-1 pe-1" [selectable]="false" [multiple]="true">
                 <mat-chip-option *ngFor="let filter of hiddenFilters"
                                  (removed)="remove(filter)"
-                                 [removable]="true"
+                                 [removable]="filter.removable"
                                  selected
                                  color="accent"
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
                                                    [value]="filter.value"
+                                                   [disabled]="filter.config?.disabled"
                                                    (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
-                    <mat-icon matChipRemove>cancel</mat-icon>
+                    <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
                 </mat-chip-option>
             </mat-chip-listbox>
         </mat-menu>
@@ -139,7 +151,7 @@ export class XmTableFilterChipsComponent {
     public value: FiltersControlValue = {};
     public activeFilters: XmTableFilterInlineFilter[] = [];
     public hiddenFilters: XmTableFilterInlineFilter[] = [];
-    @Input() @Defaults(DEFAULT_CONFIG) public config: XmTableFiltersControlRequestConfig;
+    @Input() @Defaults(DEFAULT_CONFIG) public config: XmTableInlineFilterChipsConfig;
 
     constructor(
         protected entitiesRequestBuilder: XmTableFilterController,
@@ -226,6 +238,7 @@ export class XmTableFilterChipsComponent {
                     config: config,
                     inlineConfig: inlineConfig,
                     value: this.value[config.name],
+                    removable: config?.removable != false,
                     title: config['title'] || config.name,
                     name: config.name,
                 } as XmTableFilterInlineFilter;
