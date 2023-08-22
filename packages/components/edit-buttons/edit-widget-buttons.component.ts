@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { EDIT_EVENT, EDIT_STATE, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
+import {
+    EDIT_ACTION,
+    EDIT_EVENT,
+    EDIT_STATE,
+    EditStateStoreService
+} from '@xm-ngx/controllers/features/edit-state-store';
 import { XmEventManager } from '@xm-ngx/core';
 import { injectByKey } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
@@ -95,5 +100,26 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
             name: XM_EDIT_WIDGET_BUTTONS_CHANGE_EVENT,
             payload,
         });
+    }
+
+    public isSaveDisabled(): boolean {
+        if (this.editStateStore) {
+            return this.disabled || this.editStateStore.isDisabled(EDIT_ACTION.SAVE);
+        }
+        return this.disabled;
+    }
+
+    public isEditDisabled(): boolean {
+        if (this.editStateStore) {
+            return this.disabled || this.editStateStore.isDisabled(EDIT_ACTION.EDIT);
+        }
+        return this.disabled;
+    }
+
+    public isCancelDisabled(): boolean {
+        if (this.editStateStore) {
+            return this.disabled || this.editStateStore.isDisabled(EDIT_ACTION.CANCEL);
+        }
+        return this.disabled;
     }
 }
