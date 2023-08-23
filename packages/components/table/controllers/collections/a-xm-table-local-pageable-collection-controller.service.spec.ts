@@ -4,11 +4,13 @@ import { XmFilterQueryParams } from './i-xm-table-collection-controller';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-class MockAXmTableLocalPageableCollectionController  extends AXmTableLocalPageableCollectionController<any>{
-    public load(request: XmFilterQueryParams): void {
+class MockAXmTableLocalPageableCollectionController extends AXmTableLocalPageableCollectionController<any> {
+    public override load(): void {
+        // empty
     }
 
     public save(): void {
+        // empty
     }
 }
 
