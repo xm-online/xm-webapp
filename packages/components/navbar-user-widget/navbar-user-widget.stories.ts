@@ -4,9 +4,6 @@ import { DashboardStore } from '@xm-ngx/dashboard';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
-import {
-    PageCollectionService,
-} from '@xm-ngx/ext/entity-webapp-ext/module/page-entity-widget/entities/page-collection.service';
 import { Principal, XmUserService } from '@xm-ngx/core/user';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmPermissionService } from '@xm-ngx/core/permission';
@@ -70,7 +67,6 @@ export default {
                 {provide: Principal, useValue: {getUserKey: () => true}},
                 {provide: XmPermissionService, useClass: MockPermissionService},
                 {provide: XmToasterService, useValue: {}},
-                {provide: PageCollectionService, useValue: {}},
                 {
                     provide: XmUserService,
                     useValue: {
