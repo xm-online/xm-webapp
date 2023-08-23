@@ -31,7 +31,7 @@ export interface XmDynamicControlConstructor<V = unknown, C = unknown> extends X
     new(...args: any): XmDynamicControl<V, C>;
 }
 
-/***
+/**
  * @deprecated Will be removed in v6.0.0. Use standalone component instead.
  */
 export interface XmDynamicControlEntryModule<V = unknown, C = unknown> extends XmDynamicEntryModule<XmDynamicControl<V, C>> {

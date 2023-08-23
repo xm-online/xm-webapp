@@ -63,6 +63,9 @@ const COMPONENTS = [
     IdpComponent,
 ];
 
+/**
+ * @deprecated Use direct import instead.
+ */
 @NgModule({
     imports: [
         XmJsonSchemaFormModule,
