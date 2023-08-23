@@ -62,7 +62,8 @@ export interface Dashboard<C = DashboardConfig, L = DashboardLayout> extends Bas
     isPublic?: boolean;
 
     /**
-     * Backward compatibility, @deprecated, use DashboardWithWidgets instead
+     * Backward compatibility
+     * @deprecated use DashboardWithWidgets instead.
      * TODO: Backend, improve dashboard-microservice
      */
     widgets?: DashboardWidget[];
