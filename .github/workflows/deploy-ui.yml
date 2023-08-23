@@ -8,7 +8,7 @@ on:
   push:
     branches:
       - main
-      
+
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
       - name: Setup Nodejs
         uses: actions/setup-node@v2
         with:
-          node-version: '16.13.0'
+          node-version: '18.10.0'
 
       - name: Install dependencies, build and deploy
         env:
@@ -36,7 +36,7 @@ jobs:
           TRAVIS_BUILD_WEB_URL: ${{ github.repositoryUrl }}
           TRAVIS_REPO_SLUG: ${{ github.repository }}
           TRAVIS_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-        # add volume or cache from previos step and skip npm build or github storage         
+        # add volume or cache from previos step and skip npm build or github storage
         run: |
           npm install
           npm run lint

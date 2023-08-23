@@ -9,6 +9,7 @@ import { Observable, zip } from 'rxjs';
 export class UserService<T extends XmUser = any> {
     private resourceUrl: string = 'uaa/api/users';
     private resourceUrlByLogin: string = `${this.resourceUrl}/logins-contains`;
+    private resourceUrlByAuthorityContains: string = `${this.resourceUrl}/filter`;
 
     constructor(private http: HttpClient) {
     }
@@ -73,6 +74,8 @@ export class UserService<T extends XmUser = any> {
     }
 
     public query(req?: any): Observable<HttpResponse<T[]>> {
+        const requestUrl = req?.authority ? this.resourceUrlByAuthorityContains : this.resourceUrl;
+
         let params = new HttpParams();
         if (req) {
             params = params.set('page', req.page);
@@ -82,12 +85,17 @@ export class UserService<T extends XmUser = any> {
                     params = params.append('sort', val);
                 });
             }
+
             if (req.roleKey) {
                 params = params.set('roleKey', req.roleKey);
             }
+
+            if (req.authority) {
+                params = params.set('authority.contains', req.authority);
+            }
         }
 
-        return this.http.get<T[]>(this.resourceUrl, { params, observe: 'response' });
+        return this.http.get<T[]>(requestUrl, { params, observe: 'response' });
     }
 
     public delete(userKey: string): Observable<HttpResponse<any>> {

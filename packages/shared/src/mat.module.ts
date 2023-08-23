@@ -41,6 +41,9 @@ export class CustomDateAdapter extends NativeDateAdapter {
     }
 }
 
+/**
+ * @deprecated Use `XmSharedModule` instead.
+ */
 @NgModule({
     imports: [
         MatAutocompleteModule,

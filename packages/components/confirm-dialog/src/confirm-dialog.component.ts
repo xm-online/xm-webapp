@@ -13,7 +13,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import _ from 'lodash';
 import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
 
 @Component({
@@ -45,7 +44,7 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
 
             <div mat-dialog-actions [align]="'end'">
                 <button mat-stroked-button mat-dialog-close>{{ data?.cancelButtonText | translate }}</button>
-                
+
                 <ng-container *ngIf="data.hasControls; then applyTpl else confirmTpl"></ng-container>
 
                 <ng-template #applyTpl>
@@ -89,7 +88,7 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
         XmDynamicModule,
         ConditionModule,
         XmPermissionModule,
-    ],
+    ]
 })
 export class XmConfirmDialogComponent implements OnInit {
     public form = this.fb.group({});

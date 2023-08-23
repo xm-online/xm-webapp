@@ -45,7 +45,7 @@ export enum XmInlineControlMode {
     template: `
         <ng-container *ngIf="isEditMode | async"></ng-container>
 
-        <span [matTooltip]="'global.common.dbclick-to-edit' | translate">
+        <span [matTooltip]="!disabled ? ('global.common.dbclick-to-edit' | translate) : null">
             <ng-template
                 xmDynamicPresentation
                 [style]="config?.view?.style"

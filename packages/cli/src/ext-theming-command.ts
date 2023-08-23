@@ -14,7 +14,7 @@ export class ExtThemingCommand implements Command {
     }
 
     public execute(): void {
-        const files: string[] = glob.sync(this.extThemingPathMask, { sync: true }).map(filePath => filePath.replace(/\\/g, '/'));
+        const files: string[] = glob.sync(this.extThemingPathMask).map(filePath => filePath.replace(/\\/g, '/'));
 
         const injects: { import: string, include: string, name: string }[] = [];
         for (const file of files) {
