@@ -20,18 +20,30 @@ export abstract class AXmTableLocalPageableCollectionController<T>
 
     public changeByItems(rawData: T[], request: XmFilterQueryParams): void {
         this.rawData = rawData;
-        const { pageableAndSortable } = defaultsDeep(request, cloneDeep({ pageableAndSortable: PAGEABLE_AND_SORTABLE_DEFAULT, filterParams: {}}));
-        pageableAndSortable.total = rawData.length;
+        const queryParams: XmFilterQueryParams = defaultsDeep(
+            request,
+            cloneDeep({
+                pageableAndSortable: PAGEABLE_AND_SORTABLE_DEFAULT,
+                filterParams: {},
+            }));
+        const { sortOrder, sortBy } = queryParams.pageableAndSortable;
+        const total = rawData.length;
+        const pageSize = Math.min(queryParams.pageableAndSortable.pageSize || total, total);
+        const maxPageCount = Math.round(total / (pageSize || 1));
+        const maxPageIndex = maxPageCount * pageSize === total
+            ? maxPageCount - 1
+            : maxPageCount;
+        const pageIndex = Math.max(0, Math.min(queryParams.pageableAndSortable.pageIndex, maxPageIndex));
 
-        const { pageIndex, pageSize, total, sortOrder, sortBy } = pageableAndSortable;
-
-        const from = pageIndex * pageSize;
-        const maxLast = (Number(pageIndex) + 1) * pageSize;
-        const to = Number((!maxLast || maxLast > total) ? total : maxLast);
-        const items = _.slice(this.rawData, from, to);
+        const expectedFromIndex = pageIndex * pageSize;
+        const availableFromIndex = Math.min(expectedFromIndex, total);
+        const expectedToIndex = (pageIndex + 1) * pageSize;
+        const availableToIndex = Math.min(expectedToIndex, total);
+        const orderedItems = _.orderBy(this.rawData, sortBy, sortOrder || 'asc');
+        const slicedItems = _.slice(orderedItems, availableFromIndex, availableToIndex);
 
         this._state.next({
-            items: cloneDeep(items),
+            items: cloneDeep(slicedItems),
             error: null,
             loading: false,
             pageableAndSortable: {

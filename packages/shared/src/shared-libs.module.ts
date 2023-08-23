@@ -17,6 +17,9 @@ import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmAlertModule } from '@xm-ngx/alert';
 import { MatModule } from './mat.module';
 
+/**
+ * @deprecated Use `XmSharedModule` instead.
+ */
 @NgModule({
     imports: [
         LoaderModule,
@@ -66,6 +69,5 @@ import { MatModule } from './mat.module';
         MatModule,
     ],
 })
-/** @deprecated Don't use GateSharedLibsModule */
 export class GateSharedLibsModule {
 }

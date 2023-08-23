@@ -1,6 +1,7 @@
 <mat-form-field [floatLabel]="settings?.floatLabel">
   <mat-label>{{settings['title'] ? settings['title'] : ''}}</mat-label>
   <mat-select
+    [multiple]="settings?.multiple"
     [formControl]="checkedOption"
     [disabled]="settings.readonly"
     [required]="layoutNode.options?.required"

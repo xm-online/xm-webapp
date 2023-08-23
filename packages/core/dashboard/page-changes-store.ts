@@ -18,10 +18,10 @@ export interface PageChangesStorePayload {
     state: PageChangesStoreType,
 }
 
-@Injectable({ providedIn: 'root' })
 /**
  * Stores page changes state between widgets
  */
+@Injectable({ providedIn: 'root' })
 export class PageChangesStore implements OnDestroy {
 
     private changeStateEvent: Subject<PageChangesStorePayload> = new ReplaySubject(1);

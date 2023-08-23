@@ -2,7 +2,7 @@
 
   <button (click)="onEdit($event)"
           *ngIf="!isEdit"
-          [disabled]="disabled"
+          [disabled]="isEditDisabled()"
           class="btn"
           [attr.data-qa]="'edit-button'"
           mat-icon-button
@@ -12,7 +12,7 @@
 
   <button (click)="onSave($event)"
           *ngIf="isEdit"
-          [disabled]="disabled || disableSubmit"
+          [disabled]="isSaveDisabled() || disableSubmit"
           color="primary"
           [attr.data-qa]="'save-button'"
           mat-icon-button
@@ -21,7 +21,7 @@
   </button>
 
   <button (click)="onCancel($event)"
-          [disabled]="disabled"
+          [disabled]="isCancelDisabled()"
           *ngIf="isEdit"
           [attr.data-qa]="'cancel-button'"
           mat-icon-button

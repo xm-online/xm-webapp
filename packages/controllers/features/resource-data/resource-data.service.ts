@@ -4,7 +4,7 @@ import { injectByKey } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/interfaces';
 import { cloneDeep } from 'lodash';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
+import { shareReplay, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ResourceDataService<T extends IId = any> {
@@ -39,7 +39,9 @@ export class ResourceDataService<T extends IId = any> {
 
     public save(): Observable<T> {
         if (this.data$.value?.id) {
-            return this.resourceController.update(this.data$.value);
+            return this.resourceController.update(this.data$.value).pipe(
+                tap(entity => this.data$.next(entity)),
+            );
         }
         return this.data$;
     }
