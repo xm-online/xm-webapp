@@ -54,6 +54,27 @@
       "@xm-ngx/json-schema-form/components/*": [
         "node_modules/@xm-ngx/json-schema-form"
       ],
+      "@xm-ngx/shared/helpers": [
+        "node_modules/@xm-ngx/operators",
+      ],
+      "@xm-ngx/shared/exceptions": [
+        "node_modules/@xm-ngx/exceptions"
+      ],
+      "@xm-ngx/shared/validators": [
+        "node_modules/@xm-ngx/validators"
+      ],
+      "@xm-ngx/shared/interfaces": [
+        "node_modules/@xm-ngx/interfaces"
+      ],
+      "@xm-ngx/shared/operators": [
+        "node_modules/@xm-ngx/operators"
+      ],
+      "@xm-ngx/shared/pipes": [
+        "node_modules/@xm-ngx/pipes"
+      ],
+      "@xm-ngx/components/entity-collection": [
+        "node_modules/@xm-ngx/repositories"
+      ],
       "rxjs": [
         "node_modules/rxjs"
       ],
