@@ -17,7 +17,7 @@ import { TimeFormatPipe } from './time-format.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { SignInUpService } from '../sign-in-up.service';
 import { StateStorageService } from '@xm-ngx/core/auth';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { SignPageFormConfig } from '../sign-in-up-v2.model';
