@@ -71,7 +71,6 @@
     "strictFunctionTypes": true,
     "stripInternal": false,
     "target": "es2022",
-    "types": [],
     "useDefineForClassFields": false
   }
 }
