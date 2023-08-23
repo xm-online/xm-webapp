@@ -26,7 +26,7 @@ export interface DashboardConfig {
         };
     };
 
-    /*
+    /**
      * Backward compatibility, @deprecated
      * TODO: add generics
      */
@@ -61,7 +61,7 @@ export interface Dashboard<C = DashboardConfig, L = DashboardLayout> extends Bas
     config?: C;
     isPublic?: boolean;
 
-    /*
+    /**
      * Backward compatibility, @deprecated, use DashboardWithWidgets instead
      * TODO: Backend, improve dashboard-microservice
      */

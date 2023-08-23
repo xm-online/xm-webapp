@@ -42,6 +42,7 @@ import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/registry';
 import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/registry';
 import { XM_ENTITY_ELEMENTS } from '@xm-ngx/entity/registry';
 import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_ACCOUNT_ELEMENTS } from '@xm-ngx/account/registry';
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 
@@ -135,6 +136,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
             XM_ADMINISTRATION_ELEMENTS,
             XM_COMPONENTS_ELEMENTS,
             XM_ENTITY_ELEMENTS,
+            XM_ACCOUNT_ELEMENTS,
             XM_LAYOUT_ELEMENTS,
             XM_CONTROLLERS,
         )),

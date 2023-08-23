@@ -32,7 +32,7 @@ import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compo
 import { NavbarUserWidgetComponent } from '@xm-ngx/dashboard/navbar-user-widget';
 import { MockUserService } from '@xm-ngx/core/user/testing';
 import { ActivatedRoute } from '@angular/router';
-import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 
 export default {
     title: 'Core/Widget/Navbar user',

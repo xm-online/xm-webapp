@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { XmDynamicLayout } from '@xm-ngx/dynamic';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { filter } from 'rxjs/operators';
 
 interface XmNavbarConfig extends XmUIConfig {

@@ -13,7 +13,7 @@ import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compo
 import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { XmUserService } from '@xm-ngx/core/user';
 import { MockUserService } from '@xm-ngx/core/user/testing';
 

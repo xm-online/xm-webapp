@@ -13,7 +13,7 @@ export interface DashboardWidget<C = any> extends BaseEntity {
     name?: string;
     selector: string;
 
-    /*
+    /**
      * Backward compatibility, @deprecated
      * TODO: add generics
      */

@@ -4,7 +4,7 @@ import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/
 import { DashboardWidget, WidgetService } from '@xm-ngx/dashboard';
 import { TdTextEditorComponent } from '@covalent/text-editor';
 import { ITranslate } from '@xm-ngx/translation';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 export interface MdEditorOptions {

@@ -1,6 +1,6 @@
 import { Meta, moduleMetadata, applicationConfig } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EntityCollectionFactoryService } from '@xm-ngx/components/entity-collection';
+import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { Observable, of } from 'rxjs';
 import { XmAutocompleteControlComponent } from '@xm-ngx/components/autocomplete-control';
 import { Component, Input, OnInit, importProvidersFrom } from '@angular/core';

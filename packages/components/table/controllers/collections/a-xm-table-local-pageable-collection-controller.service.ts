@@ -26,18 +26,24 @@ export abstract class AXmTableLocalPageableCollectionController<T>
                 pageableAndSortable: PAGEABLE_AND_SORTABLE_DEFAULT,
                 filterParams: {},
             }));
-        const { pageSize, sortOrder, sortBy } = queryParams.pageableAndSortable;
+        const { sortOrder, sortBy } = queryParams.pageableAndSortable;
         const total = rawData.length;
-        const pageIndex = Math.max(0, Math.min(queryParams.pageableAndSortable.pageIndex, Math.round(total / (pageSize || 1))));
+        const pageSize = Math.min(queryParams.pageableAndSortable.pageSize || total, total);
+        const maxPageCount = Math.round(total / (pageSize || 1));
+        const maxPageIndex = maxPageCount * pageSize === total
+            ? maxPageCount - 1
+            : maxPageCount;
+        const pageIndex = Math.max(0, Math.min(queryParams.pageableAndSortable.pageIndex, maxPageIndex));
 
         const expectedFromIndex = pageIndex * pageSize;
         const availableFromIndex = Math.min(expectedFromIndex, total);
         const expectedToIndex = (pageIndex + 1) * pageSize;
         const availableToIndex = Math.min(expectedToIndex, total);
-        const items = _.slice(this.rawData, availableFromIndex, availableToIndex);
+        const orderedItems = _.orderBy(this.rawData, sortBy, sortOrder || 'asc');
+        const slicedItems = _.slice(orderedItems, availableFromIndex, availableToIndex);
 
         this._state.next({
-            items: cloneDeep(items),
+            items: cloneDeep(slicedItems),
             error: null,
             loading: false,
             pageableAndSortable: {
