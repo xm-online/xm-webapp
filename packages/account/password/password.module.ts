@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { TranslateModule } from '@ngx-translate/core';
-import { XmSharedModule } from '@xm-ngx/shared';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { PasswordComponent } from './password.component';
 import { Password } from './password.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
 
 @NgModule({
     exports: [PasswordComponent],
@@ -16,9 +18,11 @@ import { Password } from './password.service';
         FormsModule,
         MatInputModule,
         MatButtonModule,
-        TranslateModule,
+        XmTranslationModule,
         CommonModule,
-        XmSharedModule,
+        MatCardModule,
+        MatIconModule,
+        PasswordStrengthBarComponent,
     ],
 })
 export class PasswordModule {

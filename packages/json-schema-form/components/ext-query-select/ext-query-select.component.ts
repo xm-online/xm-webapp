@@ -8,7 +8,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { JsonSchemaFormService } from '@ajsf/core';
+import { buildFormGroup, JsonSchemaFormService, removeRecursiveReferences } from '@ajsf/core';
 import * as _ from 'lodash';
 import { BehaviorSubject, iif, merge, Observable, of, ReplaySubject } from 'rxjs';
 import { catchError, debounceTime, filter, finalize, map, mergeMap, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -26,6 +26,7 @@ interface ISelectSettings {
     valueField: string;
     arrayField: string;
     readonly: boolean;
+    multiple: boolean;
 }
 
 interface ISelectOption {
@@ -72,6 +73,7 @@ export class ExtQuerySelectComponent implements OnInit, OnDestroy {
             debounceTime: 300,
             labelField: 'name',
             valueField: 'id',
+            multiple: false,
             url: '',
             readonly: false,
         }, this.layoutNode.options || {});
@@ -90,7 +92,11 @@ export class ExtQuerySelectComponent implements OnInit, OnDestroy {
         this.initialValue$ = of(this.controlValue).pipe(
             mergeMap((value) => iif(() => !!value, initialData$, of([]))),
             filter((list) => !!list.length),
-            tap((list) => this.checkedOption.setValue(list[0].value)),
+            tap((list) => {
+                this.settings?.multiple ?
+                    this.checkedOption.setValue(this.getFromInitialListByValuesArray(list)) :
+                    this.checkedOption.setValue(list[0].value);
+            }),
         );
 
         // process search events
@@ -120,7 +126,9 @@ export class ExtQuerySelectComponent implements OnInit, OnDestroy {
             .pipe(
                 // tap((val) => !environment.production
                 //     && console.info('[dbg] changeValue ->', val)),
-                tap((val) => this.jsf.updateValue(this, val)),
+                tap((val) => {
+                    this.settings?.multiple ? this.updateFormArrayComponent(val) : this.jsf.updateValue(this, val);
+                }),
                 takeUntil(this.destroyed$),
             )
             .subscribe();
@@ -144,5 +152,35 @@ export class ExtQuerySelectComponent implements OnInit, OnDestroy {
                 map((options) => options.length ? options : []),
                 catchError(() => of([])),
             );
+    }
+
+    private getFromInitialListByValuesArray(list: ISelectOption[]): unknown[] {
+        const elements = [];
+        if (_.isArray(this.controlValue)) {
+            this.controlValue?.forEach(i => {
+                const match = list?.find(o => o.value === i)?.value;
+                if (match) {
+                    elements.push(match);
+                }
+            });
+        }
+        return elements;
+    }
+
+    private updateFormArrayComponent(item: any): void {
+        /* Json form expect array of component for elements of array.*/
+
+        const formArray: any = this.jsf.getFormControl(this);
+        while (formArray.value.length) {
+            formArray.removeAt(0);
+        }
+        const refPointer = removeRecursiveReferences(this.layoutNode.dataPointer + '/-',
+            this.jsf.dataRecursiveRefMap, this.jsf.arrayMap);
+        for (const i in item) {
+            const newFormControl = buildFormGroup(this.jsf.templateRefLibrary[refPointer]);
+            newFormControl.setValue(item[i]);
+            formArray.push(newFormControl);
+        }
+        formArray.markAsDirty();
     }
 }

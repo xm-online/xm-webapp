@@ -1,4 +1,142 @@
-# [](https://github.com/xm-online/xm-webapp/compare/v4.0.101...v) (2023-07-21)
+# [5.3.0](https://github.com/xm-online/xm-webapp/compare/v5.1.22...v5.3.0) (2023-08-21)
+
+
+### Bug Fixes
+
+* **dynamic:** imports ([ddf35f5](https://github.com/xm-online/xm-webapp/commit/ddf35f57d579386239ce269eb0115bd7c07d667b))
+* **dynamic:** incorrect imports ([b71d058](https://github.com/xm-online/xm-webapp/commit/b71d05892dcde6b5eb006d9844e3428066b87c56))
+* **dynamic:** incorrect imports ([a944396](https://github.com/xm-online/xm-webapp/commit/a9443964b5d0a483ae9f02c589c0e298be0f3492))
+* **dynamic:** relative path ([33fa03e](https://github.com/xm-online/xm-webapp/commit/33fa03e078db2c82b52eccdf19eb873b3d0e5ce9))
+* **dynamic:** relative path ([c3fa20f](https://github.com/xm-online/xm-webapp/commit/c3fa20f3930dd53efe408bb2ce340c09a39a7c98))
+* **dynamic:** relative path ([8540412](https://github.com/xm-online/xm-webapp/commit/854041231aec22058d0ba9ad870df5758abf9a45))
+* **dynamic:** relative path ([25e03a2](https://github.com/xm-online/xm-webapp/commit/25e03a22dc6101e68669b6131376983807d40b31))
+* **dynamic:** relative path ([b448146](https://github.com/xm-online/xm-webapp/commit/b448146e85adf830f24de11a3d02e3bf846aff19))
+
+
+### Code Refactoring
+
+* **tsconfig:** @xm-ngx/shared/* remove bc ([d3f86bf](https://github.com/xm-online/xm-webapp/commit/d3f86bff142d2128b251d1cd20c34d74e74dd918))
+
+
+### Features
+
+* **boostrap:** update to "bootstrap": "5.3.1" ([45c4623](https://github.com/xm-online/xm-webapp/commit/45c462379f2c1077dca028e649b173a7dbdd07db))
+* **boostrap:** update to 5.3.0 ([4bf36b3](https://github.com/xm-online/xm-webapp/commit/4bf36b3459808b2c4dd82409d357c69b01928fb3))
+
+
+### BREAKING CHANGES
+
+* **tsconfig:** "@xm-ngx/shared/exceptions": @xm-ngx/exceptions"
+"@xm-ngx/shared/validators": @xm-ngx/validators"
+"@xm-ngx/shared/interfaces": @xm-ngx/interfaces"
+"@xm-ngx/shared/operators": @xm-ngx/operators"
+"@xm-ngx/shared/pipes": @xm-ngx/pipes"
+"@xm-ngx/components/entity-collection": @xm-ngx/repositories"
+
+Signed-off-by: Yevhenii Kamenskyi <yevhenii.kamenskyi@gmail.com>
+
+
+
+## [5.1.16](https://github.com/xm-online/xm-webapp/compare/v5.1.15...v5.1.16) (2023-08-17)
+
+
+### Bug Fixes
+
+* **core:** update autofill Otp Safari ios ([1d7ba5a](https://github.com/xm-online/xm-webapp/commit/1d7ba5a49892e4c87398f23057c076c1c24cd625))
+* **core:** update autofill Otp Safari ios сomment fix ([5a3c6dd](https://github.com/xm-online/xm-webapp/commit/5a3c6dd9627e6043d36c5a3a6e2773a76ae4845d))
+* **dashboard:** fix dashboard alert text ([#1786](https://github.com/xm-online/xm-webapp/issues/1786)) ([f41b94b](https://github.com/xm-online/xm-webapp/commit/f41b94b1946a7f0c60b1e590d5b5af525290a8cd))
+
+
+### Features
+
+* add copy/replace operations for widgets ([92c9135](https://github.com/xm-online/xm-webapp/commit/92c913566e320554949097e80bab31c4bfc0018c))
+* add paste for widgets ([4f0386d](https://github.com/xm-online/xm-webapp/commit/4f0386db426cb158b9c22c2ed0291abfd7ba1b3c))
+* add paste for widgets ([1b1fc37](https://github.com/xm-online/xm-webapp/commit/1b1fc37a535c429773e7b05cc69cea63af21bd07))
+* change parameters names to avoid identical ([97cf5f1](https://github.com/xm-online/xm-webapp/commit/97cf5f141193b00342f35f67208521ffb2a500d4))
+* change pathes ([627988a](https://github.com/xm-online/xm-webapp/commit/627988aa4561669cc8c34c2d5b1e3d12d7e1d723))
+* **dashboard-edit:** add formControl ([2bb0638](https://github.com/xm-online/xm-webapp/commit/2bb06383771cccd5593772ca8987f1364b740756))
+* **dashboard-edit:** required field validation message ([6bca07a](https://github.com/xm-online/xm-webapp/commit/6bca07af6241e3276ad1f7cf7bb2c798472a730d))
+* **dashboard-edit:** validate dashboard typeKey and name ([490df94](https://github.com/xm-online/xm-webapp/commit/490df9497949cf9f5efadc43e195ab021ee08810))
+* **dynamic-controllers:** pass dynamic controllers to widget ([b788893](https://github.com/xm-online/xm-webapp/commit/b788893cbea6aff2b2d2a8fe4c237451a0d896df))
+* **dynamic:** add controllers injection mechanism ([02bfedc](https://github.com/xm-online/xm-webapp/commit/02bfedcb1d3163432062292f91e9c7195c8ff81e))
+* **dynamic:** collection injection ([8e33deb](https://github.com/xm-online/xm-webapp/commit/8e33deb6fdd38248773385a4abcec4fa8e810d79))
+* **dynamic:** fix broken build ([7d8d00e](https://github.com/xm-online/xm-webapp/commit/7d8d00e965b2d90558fc28f597f61a93832f0f41))
+* **dynamic:** remove useless comments ([0dc0881](https://github.com/xm-online/xm-webapp/commit/0dc0881094b460a518f8645a1e89b293d12cdf74))
+* **dynamic:** resolve imports ([3346627](https://github.com/xm-online/xm-webapp/commit/33466276679f42bc1e40eb07562337891bfdfc6a))
+* **dynamic:** use function injectByKey ([306bffe](https://github.com/xm-online/xm-webapp/commit/306bffeac4d49d32bd20d6a76bc36b1c7752a483))
+* **layout:** add new layouts ([08c04a3](https://github.com/xm-online/xm-webapp/commit/08c04a31bf16caa52a50438d29051a6790c7b5f9))
+* **layout:** condition ([3e3bf5a](https://github.com/xm-online/xm-webapp/commit/3e3bf5a78571f848b5d40ec632fa84d8c8e19681))
+* **layout:** optional dependencies ([cd58845](https://github.com/xm-online/xm-webapp/commit/cd588456d299f8c78683584fb87f15b935c6e666))
+* **layout:** resources ([5323dfd](https://github.com/xm-online/xm-webapp/commit/5323dfd475ce2d57ec24c001c4e4f70b491b476d))
+* **layout:** save data via form layout ([9ee800a](https://github.com/xm-online/xm-webapp/commit/9ee800a0d706dbe9db551d00439cd6eb1732dc5d))
+* **layout:** use dynamic controller instead ([879082c](https://github.com/xm-online/xm-webapp/commit/879082cb172220167fedda0f10309cd7841cc12d))
+* make copy from list ([5892ba2](https://github.com/xm-online/xm-webapp/commit/5892ba265f3f2eb52f593428028c29d333f94ea1))
+* make replace db from list ([f24b76b](https://github.com/xm-online/xm-webapp/commit/f24b76b47dbef1b7588e9ebcf3e0507f08ea43a9))
+* make replace db from list ([6e81445](https://github.com/xm-online/xm-webapp/commit/6e8144538bf1b0fad1e6ef2bde2b90b950b8f998))
+* rebase onto main ([3d9edf5](https://github.com/xm-online/xm-webapp/commit/3d9edf56021e21b829d3da4b31c3ba3d9bddad17))
+* **replace:** use replace without replaceAll ([fd46711](https://github.com/xm-online/xm-webapp/commit/fd46711c7fe34d869bc3c1e6b01b0e6c8a2ccbc8))
+
+
+
+## [5.1.10](https://github.com/xm-online/xm-webapp/compare/v5.1.9...v5.1.10) (2023-08-04)
+
+
+### Bug Fixes
+
+* **packages-failed-build:** trying to fix ([#1776](https://github.com/xm-online/xm-webapp/issues/1776)) ([498cea4](https://github.com/xm-online/xm-webapp/commit/498cea41b1bd11ff141f2beb83b67f501a41ddee))
+* **revert-text-control:** revert required prop ([8e03c4a](https://github.com/xm-online/xm-webapp/commit/8e03c4a1c344661975cd085e3e94246f8389fc15))
+
+
+
+## [5.1.8](https://github.com/xm-online/xm-webapp/compare/v5.1.7...v5.1.8) (2023-08-03)
+
+
+### Bug Fixes
+
+* **administration/dashboard:** fix tests ([4362abd](https://github.com/xm-online/xm-webapp/commit/4362abdec7e3efc02112c73579b882cfa5a07ac2))
+* **components/condition:** add try catch ([a775e2b](https://github.com/xm-online/xm-webapp/commit/a775e2b13c524aaf9abec37f8d14695a484b3e87))
+* **components/date:** fix date import interface ([acc4709](https://github.com/xm-online/xm-webapp/commit/acc47094f6e22418ceca0ce0410717386d655106))
+* **components/table:** fix elasticType mapping ([3790843](https://github.com/xm-online/xm-webapp/commit/3790843d3e43851572c181712005990a35186ac1))
+* **components/table:** improve naming ([072bc9e](https://github.com/xm-online/xm-webapp/commit/072bc9eedaf249661b88abd1e94a8fd752214bbf))
+* **eslint:** fix storybook match ([ef86265](https://github.com/xm-online/xm-webapp/commit/ef862652e234f08a18a11934d22e7098dbdd5c8d))
+* **general:** fix lints ([9bddfd7](https://github.com/xm-online/xm-webapp/commit/9bddfd7e52a53e9f2efcd90ceb923dcd6f613aa8))
+* **interfaces:** update import ([a073775](https://github.com/xm-online/xm-webapp/commit/a073775c29240a14a9201869fb43322c4e75b03a))
+* **table:** update path ([f1443d9](https://github.com/xm-online/xm-webapp/commit/f1443d98ed2af6a6ec38b32a8a92cddccba16d4e))
+* **xm-edit-widget:** change magic string to enum value, separate state change code into separate method ([d76ede7](https://github.com/xm-online/xm-webapp/commit/d76ede71573894918969d7af26b2c999de593c6e))
+* **xm-edit-widget:** reload page after save config fixed ([3e3df7a](https://github.com/xm-online/xm-webapp/commit/3e3df7a37958c8000f17d278639e27d3e93e61e4))
+
+
+### Features
+
+* **components/inline-control:** add deprecated options ([42ae437](https://github.com/xm-online/xm-webapp/commit/42ae437e28cd9a3e97763117ed584f4d18f3fa31))
+* **components/table:** extract xm-table directive ([e513ef8](https://github.com/xm-online/xm-webapp/commit/e513ef8b0cc1156cdb77125ceddf9a141e811d9f))
+* **components/table:** update stories ([f9ab987](https://github.com/xm-online/xm-webapp/commit/f9ab9872cd40dedac936f3ec1c3cd97731fd6c78))
+* **interfaces:** add model postfix ([13d40d2](https://github.com/xm-online/xm-webapp/commit/13d40d2a6b5e68324c68c61397e44f7cb7e9e258))
+* make separate method for getting dasboards ([3caa648](https://github.com/xm-online/xm-webapp/commit/3caa648281d15006355612d91e78ef881a486e56))
+* make separate method for getting dasboards ([8f9e1a9](https://github.com/xm-online/xm-webapp/commit/8f9e1a95d710759ff259e1bad5aa31bb512bce4b))
+* use JavascriptCode for condition in dashboard.config.hidden ([70d6106](https://github.com/xm-online/xm-webapp/commit/70d61069901a6c20a01ab50cfb056f1aaea29fe2))
+* use JavascriptCode for condition in dashboard.config.hidden ([9243e52](https://github.com/xm-online/xm-webapp/commit/9243e52b9d5454164e10a4f7b6c215643a97f03e))
+
+
+
+# [5.1.0](https://github.com/xm-online/xm-webapp/compare/v5.0.6...v5.1.0) (2023-07-27)
+
+
+### Bug Fixes
+
+* **ts-config:** remove local changes ([31f0f36](https://github.com/xm-online/xm-webapp/commit/31f0f369fac851736f9bd7b0f6e57d68eee78f2e))
+
+
+### Features
+
+* **alert-dialog:** drop sweetalert ([#1722](https://github.com/xm-online/xm-webapp/issues/1722)) ([9e54b70](https://github.com/xm-online/xm-webapp/commit/9e54b70bed9195c6aa41a25181129ae623c97757))
+* **translation:** add xmTranslatePipe ([97f0064](https://github.com/xm-online/xm-webapp/commit/97f0064e291f4ae6d71a5e77a43d8791dd36602d))
+* **xm-dashboard-edit:** close edit dashboard modal when keydown esc added ([d8c1568](https://github.com/xm-online/xm-webapp/commit/d8c1568cd333401c42fe3c1eab8620fedd5b0de8))
+* **xm-widget-edit:** add close edit widget modal when push Esc button ([c986296](https://github.com/xm-online/xm-webapp/commit/c9862962d1d42ef418a6da77938c7d84fbe94e3d))
+
+
+
+## [5.0.3](https://github.com/xm-online/xm-webapp/compare/v5.0.2...v5.0.3) (2023-07-26)
 
 
 ### Bug Fixes
@@ -10,6 +148,8 @@
 * **cli:** update ts-morph to 18 ([6f2e584](https://github.com/xm-online/xm-webapp/commit/6f2e584e967c9ff11288ede055d4018297ccc26a))
 * **components:** update imports ([524cbcb](https://github.com/xm-online/xm-webapp/commit/524cbcbc87c4588287d11389622197fc94fb560a))
 * **core:** fix localstorage/sessionstorage remember me functional ([58abb42](https://github.com/xm-online/xm-webapp/commit/58abb42678aeb8ced1b190725d6303bbc99a3395))
+* **dashboard-editor.service:** add public method for handling open close state ([d6f00bb](https://github.com/xm-online/xm-webapp/commit/d6f00bb66c987f6655f039ecb5a74f4dde4f7f6b))
+* **dashboard:** fix lint quotes ([636ed1d](https://github.com/xm-online/xm-webapp/commit/636ed1d4945962c6067b7b6283194237adb0d5cb))
 * **dashboard:** move to core ([dd5f02b](https://github.com/xm-online/xm-webapp/commit/dd5f02b394c8bab5d9922d467a9b12b71b4a117b))
 * **dashboard:** update imports ([3eb1f24](https://github.com/xm-online/xm-webapp/commit/3eb1f24c30dd249503f53cb806f3b461663a193f))
 * **dynamic:** add XmDynamicCell support ([b8c850c](https://github.com/xm-online/xm-webapp/commit/b8c850c855a993c71f2c7ef7ca585c2ea6caa5ba))
@@ -30,17 +170,20 @@
 * **operators:** remove /shared from path ([22835b2](https://github.com/xm-online/xm-webapp/commit/22835b252b114a7c441fdbe8312d9fe522c5265c))
 * **shared:** fix build ([a4f23ce](https://github.com/xm-online/xm-webapp/commit/a4f23ce1279a691158a2e7b333bbb2475b232508))
 * **storybook:** invalid imports ([246fc9d](https://github.com/xm-online/xm-webapp/commit/246fc9d8f776c12d041479e22f7f8af8f5193048))
+* **table:** update imports ([91b746d](https://github.com/xm-online/xm-webapp/commit/91b746d716e4221a3200244cce01e9609c17dab8))
 * **theme:** fix theme loading deps ([f95dc9d](https://github.com/xm-online/xm-webapp/commit/f95dc9da2d46a52d7e3d4c384873c9d2b6fa32e0))
 * **theme:** invert theme deps ([780c99f](https://github.com/xm-online/xm-webapp/commit/780c99f230c886be31d24833202402fb0f973e57))
 * **translation:** fix set of user locale ([09f5d1d](https://github.com/xm-online/xm-webapp/commit/09f5d1d9ffbf8fead1bd5bbe402e430aee505706))
 * **xm-breadcrunb, xm-navbar-arrow-back-widget:** fix breadcrumbs layout ([8926f93](https://github.com/xm-online/xm-webapp/commit/8926f9393e0f8b9ca37b1f3f2eb8695c5cd37c5b))
+* **xm-matcard, xm-navbar-search-widget:** fix styles ([1a7844b](https://github.com/xm-online/xm-webapp/commit/1a7844b3ea0ff8494e4e0df411a8a15f4dd79c06))
+* **xm-navbar-dashboard-edit-widget:** open close state fixed ([4d49bee](https://github.com/xm-online/xm-webapp/commit/4d49beefe5ee1a5481a10882f79d93de3b07c75e))
 
 
 ### Features
 
 * **alert:** convert to package ([72b5007](https://github.com/xm-online/xm-webapp/commit/72b5007847f894f78619c29dc7a9f52efaa7586b))
 * **alert:** convert to package ([a31c807](https://github.com/xm-online/xm-webapp/commit/a31c80793d5ccb4e211528730b67f3891f764338))
-* **changelog:** update doc ([78b5221](https://github.com/xm-online/xm-webapp/commit/78b5221faf444d14a27d99e5ceaecaa505d3f621))
+* **changelog:** update doc ([b47766f](https://github.com/xm-online/xm-webapp/commit/b47766f0582a8a1e31e5e2a746b43cf692e10f62))
 * **cli:** migrate to ng-packagr ([e6ef5c8](https://github.com/xm-online/xm-webapp/commit/e6ef5c891fe3da29f0da9cc776e245d68d32cd24))
 * **components:** add entry points ([11ec28d](https://github.com/xm-online/xm-webapp/commit/11ec28db7d9b50b815e75075274f9c8c523bf2f6))
 * **config:** update doc ([5b81f64](https://github.com/xm-online/xm-webapp/commit/5b81f64d2b480fcd1f13d4584ae110dbecd9a18f))
@@ -51,6 +194,7 @@
 * **dynamic:** add entry points ([ebbac43](https://github.com/xm-online/xm-webapp/commit/ebbac4321661798fb7d0d014eb9b7a3b31c02182))
 * **dynamic:** rollback xm-layout ([f1b1666](https://github.com/xm-online/xm-webapp/commit/f1b16666c235adbaac916802e4b862f35190a44b))
 * **dynamic:** update migration doc ([bb8c120](https://github.com/xm-online/xm-webapp/commit/bb8c1208d7bc5648c50ca95c7f3a1624cb4cab97))
+* **dynamic:** wrap error log with propertt exists check ([2b96c5e](https://github.com/xm-online/xm-webapp/commit/2b96c5e5f90d0ac7f10918fba190ed19ba35f738))
 * **entity:** move to @xm-ngx/core/entity ([f581eff](https://github.com/xm-online/xm-webapp/commit/f581eff96fbdf995d8a23b4663702c76d9c3d28e))
 * **example-webapp-ext:** convert to package ([8d1308c](https://github.com/xm-online/xm-webapp/commit/8d1308cac459a505ca98f6ebd51d05828a69663e))
 * **general:** add schema to ng-packager ([412827b](https://github.com/xm-online/xm-webapp/commit/412827b958269dfb0ad097b5be084c4ff1943f43))
@@ -64,8 +208,16 @@
 * **package:** update version ([2c229ad](https://github.com/xm-online/xm-webapp/commit/2c229adb4a9fc8c0478e4ce56714dbf7ee59e1c5))
 * **readme:** add packages description ([bf362ff](https://github.com/xm-online/xm-webapp/commit/bf362ff373bcacaed3066cd284a2a17486023d4e))
 * **repositories:** add @xm-ngx/repositories ([fb2459a](https://github.com/xm-online/xm-webapp/commit/fb2459a6a40af25b80f5e2d28797a50d42597915))
+* **right-sidebar:** calculate minimum width and store in localstorage ([e014c49](https://github.com/xm-online/xm-webapp/commit/e014c49dfa6d09070eccdf4e3ae0700a9590f8b6))
+* **right-sidebar:** change width when window resize ([790330f](https://github.com/xm-online/xm-webapp/commit/790330f4d79bfad22ff17fc8d9e4b77f327ddfc0))
+* **right-sidebar:** display hover while resize ([a675749](https://github.com/xm-online/xm-webapp/commit/a6757490e42621671c2fb1b64ade77e841bd4958))
+* **right-sidebar:** display selector while editing widget config ([e86c1a9](https://github.com/xm-online/xm-webapp/commit/e86c1a9f4386bf9785398918fc7d39892be64dcf))
+* **right-sidebar:** do not show editor comopnent when its tab innactive ([9c21892](https://github.com/xm-online/xm-webapp/commit/9c21892fe1667bcb353390d9a2bdbffb5dc0e237))
+* **right-sidebar:** show config tab by default ([c403ec0](https://github.com/xm-online/xm-webapp/commit/c403ec05631e6775afe4e4816e3f8447311cf2d6))
 * **storybook:** move autocomplete stories ([22bb7d0](https://github.com/xm-online/xm-webapp/commit/22bb7d020dc085bb5e0329db98729978ee64d7ab))
 * **styles:** migrate to ng-packagr ([da05229](https://github.com/xm-online/xm-webapp/commit/da0522955d27b86bf48dd9e0d3b2b4a3b129ce28))
+* **table:** add chips view ([29c634c](https://github.com/xm-online/xm-webapp/commit/29c634c80c00e1b2074e4523401a5e15301cbf3a))
+* **table:** update components name ([ce81f39](https://github.com/xm-online/xm-webapp/commit/ce81f39a8b46f1b79a4dd8b503e6480dcbee63f6))
 * **table:** update file name ([f8a5f02](https://github.com/xm-online/xm-webapp/commit/f8a5f02d7061dd2837fa75ed01588acf7c7a9ebf))
 * **toaster:** convert to package ([6172a5f](https://github.com/xm-online/xm-webapp/commit/6172a5fb93846fe6a33265da89c1997ebf40b134))
 * **translation:** add testing entry point ([9116b0e](https://github.com/xm-online/xm-webapp/commit/9116b0e8241aaebe5bed50b8af017794dec3ddad))

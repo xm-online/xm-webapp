@@ -12,7 +12,7 @@ export interface XmTableConfig {
     /** Columns configuration */
     columns: XmTableColumn[],
     collectionKey?: string;
-    // @deprecated use dynamic collection instead
+    /** @deprecated use dynamic collection instead */
     collection: XmTableCollectionControllerType,
     queryParamsToFillter?: XmTableQueryParamsToFilter;
     pageableAndSortable: XmTableWithColumnDynamicCellOptionsPagination,

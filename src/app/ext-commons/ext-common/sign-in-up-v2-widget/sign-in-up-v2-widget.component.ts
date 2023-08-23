@@ -13,7 +13,7 @@ import { SignInUpFooterComponent } from './sign-in-up-footer/sign-in-up-footer.c
 import { XmNavbarLanguageMenuWidget } from '@xm-ngx/administration/language-menu';
 import { LoginTfaComponent } from './login-tfa/login-tfa.component';
 import { SignInUpService } from './sign-in-up.service';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { SignPageConfig } from './sign-in-up-v2.model';
 
 @Component({
