@@ -28,7 +28,7 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
 import { NgxMaskModule } from 'ngx-mask';
-import { XM_DATE_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_DATE_ELEMENTS, XM_LAYOUT_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/registry';
@@ -65,6 +65,7 @@ import { XmSharedModule } from '@xm-ngx/shared';
 import { MaintenanceService } from '@xm-ngx/components/maintenance';
 import { XmCoreEntityModule } from '@xm-ngx/core/entity';
 import { UserLoginService } from '@xm-ngx/account/user-login-widget';
+import { XM_CONTROLLERS } from '@xm-ngx/controllers/registry';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
     appearance: 'fill',
@@ -134,6 +135,8 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
             XM_ADMINISTRATION_ELEMENTS,
             XM_COMPONENTS_ELEMENTS,
             XM_ENTITY_ELEMENTS,
+            XM_LAYOUT_ELEMENTS,
+            XM_CONTROLLERS,
         )),
         LayoutModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
