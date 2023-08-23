@@ -17,4 +17,4 @@ export const XM_ACCOUNT_ELEMENTS: XmDynamicEntries = [
         selector: '@xm-ngx/account/xm-user-password-widget',
         loadChildren: () => import('@xm-ngx/account/user-password-widget').then(m => m.XmUserPasswordWidgetComponent),
     },
-] as XmDynamicEntries;
+];
