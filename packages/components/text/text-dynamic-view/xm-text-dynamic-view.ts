@@ -10,6 +10,8 @@ import { XmTextViewModule } from '../text-view/xm-text-view.component';
 
 export interface XmTextDynamicOptions extends XmTextTitleOptions {
     textStyle?: 'inline';
+    valueStyleInline?: string;
+    labelStyleInline?: string;
     selector: string;
     options: unknown;
 }
@@ -17,7 +19,9 @@ export interface XmTextDynamicOptions extends XmTextTitleOptions {
 @Component({
     selector: 'xm-text-dynamic-view',
     template: `
-        <xm-text-view-container [styleInline]="config?.textStyle === 'inline'">
+        <xm-text-view-container [styleInline]="config?.textStyle === 'inline'"
+                                [valueStyleInline]="config?.valueStyleInline"
+                                [labelStyleInline]="config?.labelStyleInline">
             <span xmLabel>{{config.title | translate}}</span>
             <span xmDynamicPresentation
                   xmValue
