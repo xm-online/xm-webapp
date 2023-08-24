@@ -8,6 +8,8 @@ import { MockEntityCollection } from '@xm-ngx/repositories/testing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardsListExpandComponent } from './dashboards-list-expand.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatDialogModule} from '@angular/material/dialog';
 
 describe('DashboardsListExpandComponent', () => {
     let component: DashboardsListExpandComponent;
@@ -15,7 +17,13 @@ describe('DashboardsListExpandComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [XmTranslationTestingModule, HttpClientTestingModule, NoopAnimationsModule],
+            imports: [
+                XmTranslationTestingModule,
+                HttpClientTestingModule,
+                NoopAnimationsModule,
+                MatSnackBarModule,
+                MatDialogModule
+            ],
             declarations: [DashboardsListExpandComponent],
             providers: [
                 { provide: DashboardsManagerService, useValue: { activeWidget: null } },

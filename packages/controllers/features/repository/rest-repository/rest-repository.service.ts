@@ -47,18 +47,18 @@ export class RestRepositoryService<T = any> {
         const formattedUrl = this.getRequestContext({url}).url;
         const client = this.collectionFactory.create(formattedUrl);
 
-        let {
-            // body = {},
+        const {
+            body,
             queryParams = {},
         } = resource ?? {};
 
-        // body = this.getRequestContext(body, context);
-        queryParams = this.getRequestContext(queryParams, params);
+        const ctxBody = body ? this.getRequestContext(body, entity) : entity;
+        const ctxQueryParams = this.getRequestContext(queryParams, params);
 
         return client.request(
             method,
-            entity,
-            queryParams,
+            ctxBody,
+            ctxQueryParams,
             headers,
         ).pipe(
             map((data) => isArray(data) ? data?.[0] : data),

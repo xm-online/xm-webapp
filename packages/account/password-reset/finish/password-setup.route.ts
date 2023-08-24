@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 
 import { UserRouteAccessService } from '@xm-ngx/core/permission';
-import { PasswordResetFinishComponent } from '../finish/password-reset-finish.component';
+import { PasswordResetFinishComponent } from './password-reset-finish.component';
 
 export const passwordSetupRoute: Route = {
     path: 'password/setup',

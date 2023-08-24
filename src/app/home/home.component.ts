@@ -4,7 +4,7 @@ import { XmSessionService } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardBase, DashboardWidget } from '@xm-ngx/dashboard';
 import { XmDynamicLayout } from '@xm-ngx/dynamic';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { cloneDeep } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';

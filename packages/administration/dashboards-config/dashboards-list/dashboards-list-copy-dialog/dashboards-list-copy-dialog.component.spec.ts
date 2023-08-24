@@ -1,6 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DashboardsListCopyDialogComponent } from './dashboards-list-copy-dialog.component';
+import {DashboardsListCopyDialogComponent} from './dashboards-list-copy-dialog.component';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {XmTranslationTestingModule} from '@xm-ngx/translation/testing';
 
 describe('DashboardsListCopyDialogComponent', () => {
     let component: DashboardsListCopyDialogComponent;
@@ -8,7 +11,16 @@ describe('DashboardsListCopyDialogComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DashboardsListCopyDialogComponent]
+            imports: [
+                DashboardsListCopyDialogComponent,
+                MatDialogModule,
+                XmTranslationTestingModule,
+                HttpClientTestingModule
+            ],
+            providers: [
+                {provide: MatDialogRef, useValue: {}},
+                {provide: MAT_DIALOG_DATA, useValue: []}
+            ]
         })
             .compileComponents();
 
