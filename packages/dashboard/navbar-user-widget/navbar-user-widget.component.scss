@@ -2,19 +2,47 @@ $navbar-user-icon-size: 42px !default;
 $navbar-user-icon-size-x: $navbar-user-icon-size !default;
 $navbar-user-icon-size-y: $navbar-user-icon-size !default;
 
-$navbar-user-img-border: solid 1px #fff !default;
+$navbar-user-img-border: solid 2px #fff !default;
 $navbar-user-img-border-radius: 50% !default;
 
 $navbar-user-padding-y: 15px !default;
 $navbar-user-padding-x: 12px !default;
+$nav-bar-user-modal-border-radius: 25px;
+$nav-bar-user-bg:#F2F2F2;
+$nav-bar-img-holder-size:84px;
+
+::ng-deep {
+  .nav-bar-user-modal {
+    border-radius: $nav-bar-user-modal-border-radius !important;
+    width: 400px;
+    max-width: 400px !important;
+    background-color: #F2F2F2;
+  }
+  .navbar-user-subtitle-block{
+    padding:1rem;
+    display: block;
+    background: #fff;
+    margin: 0 17px;
+    border-radius: 8px;
+  }
+}
 
 :host {
+
   .navbar-user-img {
+    height: 100%;
+    width: auto;
+    border-radius:50%;
+    overflow: hidden;
+  }
+
+  .nav-bar-img-holder {
     height: $navbar-user-icon-size-y;
     width: $navbar-user-icon-size-x;
     min-width: $navbar-user-icon-size-x;
     border: $navbar-user-img-border;
     border-radius: $navbar-user-img-border-radius;
+    position: relative;
   }
 
   .navbar-user-title {
@@ -39,4 +67,133 @@ $navbar-user-padding-x: 12px !default;
   .navbar-user-subtitles {
     padding-left: $navbar-user-padding-x;
   }
+}
+
+.nav-bar-img-holder {
+  height: $navbar-user-icon-size-y;
+  width: $navbar-user-icon-size-x;
+  min-width: $navbar-user-icon-size-x;
+  border: $navbar-user-img-border;
+  border-radius: $navbar-user-img-border-radius;
+  position: relative;
+}
+
+.nav-bar-img-holder-menu {
+  height: $nav-bar-img-holder-size;
+  width: $nav-bar-img-holder-size;
+  min-width: $nav-bar-img-holder-size;
+  border: 4px solid #DADADA;
+  border-radius: $navbar-user-img-border-radius;
+  position: relative;
+
+  .navbar-user-img {
+    height: 100%;
+    width: auto;
+    border-radius:50%;
+    overflow: hidden;
+  }
+}
+
+
+.add-photo {
+  position: absolute;
+  bottom: -10px;
+  right: -15px;
+  border-radius: 50%;
+  padding: 2px;
+  background-color: #fff;
+  z-index: 2;
+  color: #53565A;
+}
+
+.add-photo-btn {
+  border: 3px solid #B9B9B9;
+  padding: 6px;
+  zoom: 65%;
+}
+
+.user-block {
+  border-radius: 25px 25px 8px 8px;
+  //display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  margin: 5px 17px;
+}
+
+.user-name-title {
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.user-nickname {
+  opacity: .8;
+}
+
+.user-change-account {
+  border-radius: 8px 8px 25px 25px;
+  margin: 5px 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  cursor: pointer;
+  &:hover {
+    background: #E2E2E2;
+  }
+}
+
+
+.menu-block{
+  border-radius: 8px;
+  margin: 5px 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  cursor: pointer;
+  &:last-child{
+    border-radius: 8px 8px 25px 25px;
+  }
+}
+
+.nav-bar-user-modal{
+  .menu-block{
+    &:last-child{
+      border-radius: 8px 8px 25px 25px;
+    }
+  }
+}
+
+.user-text-block {
+  flex-grow: 1;
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-change-account-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.full-btn {
+  width: 67%;
+  border: 2px solid #53565A !important;
+  border-radius: 20px;
+  box-shadow: none !important;
+}
+.user-info{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn-test{
+  display:flex;
+  align-items:center;
+  justify-content: flex-end;
 }

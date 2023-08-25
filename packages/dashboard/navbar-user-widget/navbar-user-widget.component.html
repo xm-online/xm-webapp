@@ -3,42 +3,84 @@
        class="navbar-user-title"
        role="button"
        tabindex="0">
-
-    <img [alt]="user.avatarUrl" [src]="user.avatarUrl"
-         class="navbar-user-img me-3"
-         onerror="this.src='./assets/img/anonymous.png'">
-
+    <div class="nav-bar-img-holder me-3">
+      <img [alt]="user.avatarUrl" [src]="user.avatarUrl"
+           class="navbar-user-img"
+           onerror="this.src='./assets/img/anonymous.png'">
+    </div>
     <span class="mat-expansion-indicator"></span>
   </div>
 
-  <mat-menu #menu="matMenu" xPosition="before">
-
-    <div (click)="$event.stopPropagation()" class="px-3 pt-1">
-      <div class="navbar-user-name">{{ user.username }}</div>
-
-      <div *ngFor="let subtitle of config?.subtitles" class="navbar-user-subtitles">
-        <sidebar-user-subtitle [options]="subtitle" [value]="user.user"></sidebar-user-subtitle>
+  <mat-menu #menu="matMenu" xPosition="before" class="nav-bar-user-modal">
+    <div class="user-block p-4 mb-1">
+      <div class="user-info">
+        <div class="nav-bar-img-holder-menu me-3" (click)="$event.stopPropagation()">
+          <img [alt]="user.avatarUrl" [src]="user.avatarUrl"
+               class="navbar-user-img"
+               onerror="this.src='./assets/img/anonymous.png'">
+          <div class="add-photo" *ngIf="config?.changeAccount">
+            <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none;" accept="image/*">
+            <button class="add-photo-btn" mat-icon-button (click)="fileInput.click()">
+              <mat-icon>add_a_photo</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="user-text-block ms-2 me-2" (click)="$event.stopPropagation()">
+          <h5 class="user-name-title">{{ user.username }}</h5>
+          <p class=" user-nickname pb-0 mb-0">{{getUserMail()}}</p>
+        </div>
+      </div>
+      <div class="ms-2 btn-test me-2">
+        <a [routerLink]="config?.settings?.url"
+           class="full-btn"
+           *ngIf="config?.settings"
+           mat-stroked-button
+           (click)="$event.stopPropagation()">
+          {{config.settings?.title |translate}}
+        </a>
       </div>
     </div>
-
-    <mat-divider class="mt-2"></mat-divider>
-
-    <ng-container *ngFor="let item of menu$ | async as menu">
+    <div class="menu-block p-3 mb-1" *ngFor="let item of menu$ | async as menu">
       <a *xmPermission="item.permission"
          [routerLink]="item.url"
-         mat-menu-item
          routerLinkActive="active">
         <mat-icon>{{item.icon}}</mat-icon>
         <span [title]="item.title | translate">{{item.title | translate}}</span>
       </a>
-
+    </div>
+    <ng-container *ngFor="let subtitle of config?.subtitles">
+      <ng-container *ngIf="!subtitle.options?.role || (subtitle.options?.role === user.user.roleKey)">
+        <sidebar-user-subtitle class="navbar-user-subtitles"
+                               (click)="$event.stopPropagation()"
+                               [options]="subtitle"
+                               [value]="user.user">
+        </sidebar-user-subtitle>
+      </ng-container>
     </ng-container>
-    <!--  logout is available for all users -->
+    <a *ngIf="config?.changeAccount"
+       [routerLink]="config?.changeAccount?.url"
+       class="user-change-account ps-5 pe-5 pt-3 pb-3 mb-3"
+       (click)="$event.stopPropagation()">
+      <span class="user-change-account-btn">
+        <mat-icon>{{config?.changeAccount?.icon || 'person_add'}}</mat-icon>
+        <span class="ps-4 pe-4">{{config?.changeAccount?.title|translate}}</span>
+      </span>
+    </a>
     <a [routerLink]="logoutControl.url"
        mat-menu-item
+       class="ps-5 pe-5"
        routerLinkActive="active">
       <mat-icon>{{logoutControl.icon}}</mat-icon>
       <span [title]="logoutControl.title | translate">{{logoutControl.title | translate}}</span>
     </a>
+    <ng-container *ngIf="config?.links?.length">
+      <mat-divider class="mt-2"></mat-divider>
+      <div class="action ps-5 pe-5 pt-2 pb-1">
+        <ng-container *ngFor="let link of config.links">
+          <a [routerLink]="link.url">{{link.title | translate}}</a>
+        </ng-container>
+      </div>
+    </ng-container>
+
   </mat-menu>
 </ng-container>
