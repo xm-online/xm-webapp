@@ -11,31 +11,34 @@ $nav-bar-user-modal-border-radius: 25px;
 $nav-bar-user-bg:#F2F2F2;
 $nav-bar-img-holder-size:84px;
 
-::ng-deep {
-  .nav-bar-user-modal {
-    border-radius: $nav-bar-user-modal-border-radius !important;
-    width: 400px;
-    max-width: 400px !important;
-    background-color: #F2F2F2;
-  }
-  .navbar-user-subtitle-block{
-    padding:1rem;
-    display: block;
-    background: #fff;
-    margin: 0 17px;
-    border-radius: 8px;
-  }
+
+.navbar-user-title{
+  display:flex;
+  align-items: center;
+}
+
+.nav-bar-user-modal {
+  border-radius: $nav-bar-user-modal-border-radius !important;
+  width: 400px;
+  max-width: 400px !important;
+  background-color: #F2F2F2;
+}
+.navbar-user-subtitle-block{
+  padding:1rem;
+  display: block;
+  background: #fff;
+  margin: 0 17px;
+  border-radius: 8px;
+}
+
+.full-btn {
+  width: 67%;
+  border: 2px solid #53565A !important;
+  border-radius: 20px !important;
+  box-shadow: none !important;
 }
 
 :host {
-
-  .navbar-user-img {
-    height: 100%;
-    width: auto;
-    border-radius:50%;
-    overflow: hidden;
-  }
-
   .nav-bar-img-holder {
     height: $navbar-user-icon-size-y;
     width: $navbar-user-icon-size-x;
@@ -114,7 +117,6 @@ $nav-bar-img-holder-size:84px;
 
 .user-block {
   border-radius: 25px 25px 8px 8px;
-  //display: flex;
   align-items: center;
   justify-content: space-between;
   background: #fff;
@@ -181,12 +183,7 @@ $nav-bar-img-holder-size:84px;
   justify-content: flex-start;
 }
 
-.full-btn {
-  width: 67%;
-  border: 2px solid #53565A !important;
-  border-radius: 20px;
-  box-shadow: none !important;
-}
+
 .user-info{
   display:flex;
   align-items: center;
@@ -196,4 +193,11 @@ $nav-bar-img-holder-size:84px;
   display:flex;
   align-items:center;
   justify-content: flex-end;
+}
+
+.navbar-user-img {
+  height: 100%;
+  width: auto;
+  border-radius:50%;
+  overflow: hidden;
 }

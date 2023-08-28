@@ -1,12 +1,15 @@
+<ng-template #userAvatar>
+  <img [alt]="user.avatarUrl" [src]="user.avatarUrl"
+       class="navbar-user-img"
+       onerror="this.src='./assets/img/anonymous.png'">
+</ng-template>
 <ng-container *ngIf="user">
   <div [matMenuTriggerFor]="menu"
        class="navbar-user-title"
        role="button"
        tabindex="0">
     <div class="nav-bar-img-holder me-3">
-      <img [alt]="user.avatarUrl" [src]="user.avatarUrl"
-           class="navbar-user-img"
-           onerror="this.src='./assets/img/anonymous.png'">
+      <ng-container *ngTemplateOutlet="userAvatar"></ng-container>
     </div>
     <span class="mat-expansion-indicator"></span>
   </div>
@@ -15,9 +18,7 @@
     <div class="user-block p-4 mb-1">
       <div class="user-info">
         <div class="nav-bar-img-holder-menu me-3" (click)="$event.stopPropagation()">
-          <img [alt]="user.avatarUrl" [src]="user.avatarUrl"
-               class="navbar-user-img"
-               onerror="this.src='./assets/img/anonymous.png'">
+          <ng-container *ngTemplateOutlet="userAvatar"></ng-container>
           <div class="add-photo" *ngIf="config?.changeAccount">
             <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none;" accept="image/*">
             <button class="add-photo-btn" mat-icon-button (click)="fileInput.click()">

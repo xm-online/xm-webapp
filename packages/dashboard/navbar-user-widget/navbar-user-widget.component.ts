@@ -1,23 +1,18 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import {
-    SidebarUserComponent,
-    SidebarUserSubtitle,
-    SidebarUserSubtitleOptions,
-    UserWidgetBase
-} from '@xm-ngx/dashboard/sidebar-user';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { SidebarUserComponent, SidebarUserSubtitle, UserWidgetBase } from '@xm-ngx/dashboard/sidebar-user';
 import { CommonModule } from '@angular/common';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { MenuComponent, MenuItem } from '@xm-ngx/dashboard/menu';
+import { MenuComponent } from '@xm-ngx/dashboard/menu';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
-import { ITranslate, XmTranslationModule } from '@xm-ngx/translation';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { XmUser, XmUserService } from '@xm-ngx/core/user';
+import { XmUserService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
-import { Observable } from 'rxjs';
+import { UserNavBar } from '@xm-ngx/dashboard/navbar-user-widget/navbar-user-widget.model';
 
 @Component({
     selector: 'xm-navbar-user-widget',
@@ -38,21 +33,11 @@ import { Observable } from 'rxjs';
         SidebarUserSubtitle,
     ],
     standalone: true,
+    encapsulation: ViewEncapsulation.None,
 })
 export class NavbarUserWidgetComponent extends UserWidgetBase {
     public selectedFile: File = null;
-    public config: {
-        user: UserOptions;
-        config: {
-            subtitles: SidebarUserSubtitleOptions[];
-        };
-        menu$: Observable<MenuItem[]>;
-        subtitles: SidebarUserSubtitleOptions[],
-        links: LinkItem[]
-        changeAccount?: ChangeAccount,
-        changePhoto?: boolean,
-        settings?: SettingsBtn,
-    };
+    public config: UserNavBar;
 
     constructor(dashboardService: DashboardStore, userService: XmUserService, contextService: ContextService, router: Router) {
         super(dashboardService, userService, contextService, router);
@@ -96,25 +81,3 @@ export class NavbarUserWidgetComponent extends UserWidgetBase {
     }
 }
 
-interface LinkItem {
-    url: string,
-    title: ITranslate
-}
-
-interface UserOptions {
-    roleKey: string;
-    username: string;
-    avatarUrl: string;
-    user: XmUser;
-}
-
-interface ChangeAccount {
-    url: string;
-    title: ITranslate;
-    icon?: string;
-}
-
-interface SettingsBtn {
-    url: string;
-    title: ITranslate;
-}
