@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core
 import { Router } from '@angular/router';
 import { XmUIConfig } from '@xm-ngx/core/config';
 import { CommonModule } from '@angular/common';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { finalize, take } from 'rxjs/operators';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatInputModule } from '@angular/material/input';

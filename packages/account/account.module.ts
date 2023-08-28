@@ -4,7 +4,7 @@ import { LanguageModule } from '@xm-ngx/translation';
 import { MarkdownModule } from 'ngx-markdown';
 
 import { XmSharedModule } from '@xm-ngx/shared';
-import { accountState } from './account.route';
+import { accountState } from './route/account.route';
 import { ActivateComponent } from './activate/activate.component';
 import { Activate } from './activate/activate.service';
 import { HelpComponent } from './help/help.component';

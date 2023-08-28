@@ -22,7 +22,7 @@
   "dependencies": {
     "lodash": "4.17.21",
     "sass": "1.54.7",
-    "glob": "10.2.4",
+    "glob": "10.3.3",
     "ts-morph": "18.0.0"
   },
   "devDependencies": {
@@ -33,12 +33,13 @@
     "conventional-changelog-cli": "2.2.2",
     "@commitlint/cli": "17.6.1",
     "@commitlint/config-conventional": "17.6.1",
-    "husky": "8.0.3"
+    "husky": "8.0.3",
+    "@types/glob": "8.1.0"
   },
   "scripts": {
     "start": "npx tsc --watch",
     "build": "ng-packagr -p . -c ../../tsconfig.ngc.json",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "changelog": "cd ../../ &&  conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "bin": {
     "xm-ngx": "./bin/xm-ngx.js"
