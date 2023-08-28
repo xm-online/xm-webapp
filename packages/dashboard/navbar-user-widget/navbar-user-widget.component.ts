@@ -75,9 +75,7 @@ export class NavbarUserWidgetComponent extends UserWidgetBase {
     }
 
     public getUserMail(): string {
-        return this.user.user?.logins.filter((login) => {
-            return login.typeKey === 'LOGIN.NICKNAME';
-        })[0].login;
+        return this.user.user?.logins.find((login) => login.typeKey === 'LOGIN.NICKNAME').login;
     }
 }
 
