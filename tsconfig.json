@@ -6,7 +6,7 @@
     "strict": false,
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
-    "baseUrl": "./",
+    "rootDir": "./",
     "sourceMap": true,
     "declaration": true,
     "downlevelIteration": true,
