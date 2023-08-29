@@ -35,8 +35,6 @@ export class WidgetEditComponent implements OnChanges {
     public dashboardEditComponentType: Type<unknown> = this.dashboardConfig.dashboardRef;
     public EDIT_EVENT: string = this.dashboardConfig.EDIT_WIDGET_EVENT;
 
-    public aceEditorOptions: { title: string; height: string } = { title: '', height: 'calc(100vh - 130px)' };
-
     public editType: EditType;
 
     public jsonEditorOptions: SchemaEditorOptions = { selector: null };

@@ -29,6 +29,7 @@ import {
 import { DashboardsListCopyDialogComponent } from './dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
 import { WidgetCopyDialogComponent } from './widget-edit/widget-copy-dialog/widget-copy-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ConfigEditorComponent } from './widget-edit/config-editor.component';
 
 @NgModule({
     imports: [
@@ -53,6 +54,7 @@ import { MatTabsModule } from '@angular/material/tabs';
         MatTabsModule,
         XmTextControl,
         LoaderModule,
+        ConfigEditorComponent,
     ],
     exports: [
         DashboardsConfigComponent,
