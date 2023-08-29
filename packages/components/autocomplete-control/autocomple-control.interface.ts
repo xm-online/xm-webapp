@@ -49,6 +49,7 @@ export interface XmAutocompleteControlConfig {
     startFromCharSearch?: number;
     errors?: XmControlErrorsTranslates;
     required?: boolean;
+    isSelectOnlyExistValues?: boolean;
 }
 
 export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {

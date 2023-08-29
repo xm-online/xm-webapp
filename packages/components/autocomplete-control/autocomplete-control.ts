@@ -44,6 +44,8 @@ import {
 } from './autocomple-control.interface';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
+type NormalizeKeyType = 'data' | 'value';
+
 @Directive()
 export class XmAutocompleteControl extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {
     private _config: XmAutocompleteControlConfig = AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG;
@@ -131,36 +133,25 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
                     return of([]);
                 }
 
-                const normalizeSelectedValues = this.normalizeValues(curr.value);
+                const normalizeSelectedValues: XmAutocompleteControlListItem[] = this.normalizeValues(curr.value);
 
                 if (this.config.skipFetchSelected) {
                     return of(normalizeSelectedValues);
                 }
 
                 return this.fetchSelectedValues(normalizeSelectedValues).pipe(
-                    map((fetchedSelectedValues) => {
+                    map((fetchedSelectedValues: XmAutocompleteControlListItem[]) => {
                         // If we received more data than requested, trying filter them
                         if (fetchedSelectedValues.length > normalizeSelectedValues.length && this.config.pickIntersectSelected) {
                             return _.intersectionBy(fetchedSelectedValues, normalizeSelectedValues, 'value');
                         }
 
-                        return fetchedSelectedValues;
+                        return [fetchedSelectedValues, normalizeSelectedValues];
                     }),
                     shareReplay(1),
                 );
             }),
-            tap(fetchedSelectedValues => {
-                if (this.config.multiple) {
-                    this.selection.select(...fetchedSelectedValues);
-                } else {
-                    const [firstFetched] = fetchedSelectedValues;
-
-                    if (firstFetched) {
-                        this.selection.select(firstFetched);
-                    }
-                }
-                this.fetchedList.next(fetchedSelectedValues);
-            }),
+            tap(([fetchedSelectedValues, normalizeSelectedValues]) => this.selectExistingValues(fetchedSelectedValues, normalizeSelectedValues)),
             takeUntilOnDestroy(this),
         ).subscribe();
 
@@ -194,6 +185,38 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
         if (this.config.startEmptySearch) {
             this.searchQueryControl.setValue('');
+        }
+    }
+
+    private selectExistingValues(
+        fetchedSelectedValues: XmAutocompleteControlListItem[],
+        normalizeSelectedValues: XmAutocompleteControlListItem[]
+    ): void {
+        if (this.config.multiple && Array.isArray(fetchedSelectedValues) && Array.isArray(normalizeSelectedValues)) {
+            const filteredValues: XmAutocompleteControlListItem[] = this.config.isSelectOnlyExistValues &&
+                fetchedSelectedValues?.filter(item => {
+                    const key = 'id';
+                    return normalizeSelectedValues.find(
+                        (normalizedItem: XmAutocompleteControlListItem) => item.data[key] === normalizedItem.data[key]
+                    );
+                });
+            const selectedValues = filteredValues || fetchedSelectedValues || [];
+            const selectedValuesHardCopy = JSON.parse(JSON.stringify(selectedValues));
+
+            if (!selectedValues?.length) {
+                this.selection.clear(true);
+            } else {
+                this.selection.select(...selectedValuesHardCopy);
+            }
+
+            this.fetchedList.next(selectedValuesHardCopy);
+        } else {
+            const [firstFetched] = fetchedSelectedValues;
+
+            if (firstFetched) {
+                this.selection.select(firstFetched);
+            }
+            this.fetchedList.next(fetchedSelectedValues);
         }
     }
 
@@ -338,9 +361,12 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             });
     }
 
-    protected unwrapValues(valueOrValues: XmAutocompleteControlListItem | XmAutocompleteControlListItem[]): unknown | unknown[] {
+    protected unwrapValues(
+        valueOrValues: XmAutocompleteControlListItem | XmAutocompleteControlListItem[],
+        key: NormalizeKeyType = 'value'
+    ): unknown | unknown[] {
         if (_.isArray(valueOrValues)) {
-            const unwrapSelected = valueOrValues?.map(({value}) => value) ?? [];
+            const unwrapSelected = valueOrValues?.map((item) => item[key]) || [];
 
             return this.config.multiple
                 ? unwrapSelected
@@ -379,7 +405,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         super.setDisabledState(isDisabled);
     }
 
-    public change(normalizeValues: any): void {
+    public change(normalizeValues: any, key?: NormalizeKeyType): void {
         let unwrapValues = normalizeValues;
 
         if (normalizeValues != null) {
@@ -389,7 +415,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
                 this.selection.select(normalizeValues);
             }
 
-            unwrapValues = this.unwrapValues(normalizeValues);
+            unwrapValues = this.unwrapValues(normalizeValues, key);
         }
 
         this.value = unwrapValues;

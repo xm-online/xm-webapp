@@ -1,9 +1,9 @@
-import { Component, ElementRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
-import { XmPermissionService, XmPermittedDirective } from '@xm-ngx/core/permission';
-import { MockPermissionService } from '@xm-ngx/core/permission/testing';
+import {Component, ElementRef} from '@angular/core';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {of} from 'rxjs';
+import {XmPermissionService, XmPermittedDirective} from '@xm-ngx/core/permission';
+import {MockPermissionService} from '@xm-ngx/core/permission/testing';
 import SpyObj = jasmine.SpyObj;
 
 @Component({
@@ -79,7 +79,7 @@ describe('XmPermittedDirective', () => {
         throw new Error('Resolve false, no match');
     };
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(() => {
 
         mockPrincipalService = jasmine.createSpyObj<MockPermissionService>(['hasPrivileges', 'permissions$']);
 
@@ -97,29 +97,20 @@ describe('XmPermittedDirective', () => {
         });
 
         fixture = TestBed.createComponent(TestComponent);
-    }));
-
-    it('should be visible all elements from OK_SET', waitForAsync(() => {
         fixture.detectChanges();
+    });
 
-        void fixture.whenStable().then(() => {
-            const buttonComp = fixture.debugElement.queryAll(By.css('button')) as ElementRef<HTMLElement>[];
-            for (const item of buttonComp) {
-                void expect(OK_SET.has(item.nativeElement.textContent)).toBe(true);
-            }
-        });
+    it('should be visible all elements from OK_SET', () => {
+        const buttonComp = fixture.debugElement.queryAll(By.css('button')) as ElementRef<HTMLElement>[];
+        for (const item of buttonComp) {
+            expect(OK_SET.has(item.nativeElement.textContent)).toBe(true);
+        }
+    });
 
-    }));
-
-    it('should not be visible all elements from NOK_SET', waitForAsync(() => {
-        fixture.detectChanges();
-
-        void fixture.whenStable().then(() => {
-            const buttonComp = fixture.debugElement.queryAll(By.css('button')) as ElementRef<HTMLElement>[];
-            for (const item of buttonComp) {
-                void expect(NOK_SET.has(item.nativeElement.textContent)).toBe(false);
-            }
-        });
-
-    }));
+    it('should not be visible all elements from NOK_SET', () => {
+        const buttonComp = fixture.debugElement.queryAll(By.css('button')) as ElementRef<HTMLElement>[];
+        for (const item of buttonComp) {
+            expect(NOK_SET.has(item.nativeElement.textContent)).toBe(false);
+        }
+    });
 });
