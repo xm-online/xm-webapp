@@ -12,12 +12,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { XmUserService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
-import { UserNavBar } from '@xm-ngx/dashboard/navbar-user-widget/navbar-user-widget.model';
+import { UserNavBar } from './navbar-user-widget.model';
 
 @Component({
     selector: 'xm-navbar-user-widget',
     templateUrl: './navbar-user-widget.component.html',
     styleUrls: ['./navbar-user-widget.component.scss'],
+    host: {'class': 'navbar-user-widget'},
     imports: [
         CommonModule,
         XmPermissionModule,
@@ -75,7 +76,7 @@ export class NavbarUserWidgetComponent extends UserWidgetBase {
     }
 
     public getUserMail(): string {
-        return this.user.user?.logins.find((login) => login.typeKey === 'LOGIN.NICKNAME').login;
+        return this.user.user?.logins.find((login) => login.typeKey === 'LOGIN.NICKNAME')?.login;
     }
 }
 
