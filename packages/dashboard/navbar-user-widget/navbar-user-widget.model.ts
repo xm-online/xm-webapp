@@ -28,7 +28,7 @@ export interface SettingsBtn {
 }
 
 
-export interface UserNavBar{
+export interface UserNavBar {
     user: UserOptions;
     config: {
         subtitles: SidebarUserSubtitleOptions[];
@@ -39,4 +39,5 @@ export interface UserNavBar{
     changeAccount?: ChangeAccount;
     changePhoto?: boolean;
     settings?: SettingsBtn;
+    primaryBtnUrl: string;
 }

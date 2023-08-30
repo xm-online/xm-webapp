@@ -15,40 +15,45 @@
   </div>
 
   <mat-menu #menu="matMenu" xPosition="before" class="nav-bar-user-modal">
-    <div class="user-block p-4 mb-1">
-      <div class="user-info">
-        <div class="nav-bar-img-holder-menu me-3" (click)="$event.stopPropagation()">
-          <ng-container *ngTemplateOutlet="userAvatar"></ng-container>
-          <div class="add-photo" *ngIf="config?.changeAccount">
-            <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none;" accept="image/*">
-            <button class="add-photo-btn" mat-icon-button (click)="fileInput.click()">
-              <mat-icon>add_a_photo</mat-icon>
-            </button>
+
+    <ng-container *ngFor="let item of menu$ | async as menu">
+      <ng-container *ngIf="(item.path === config?.primaryBtnUrl||item.path==='settings')">
+        <div class="user-block p-4 mb-1">
+          <div class="user-info">
+            <div class="nav-bar-img-holder-menu me-3" (click)="$event.stopPropagation()">
+              <ng-container *ngTemplateOutlet="userAvatar"></ng-container>
+              <div class="add-photo">
+                <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none;" accept="image/*">
+                <button class="add-photo-btn" mat-icon-button (click)="fileInput.click()">
+                  <mat-icon>add_a_photo</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="user-text-block ms-2 me-2" (click)="$event.stopPropagation()">
+              <h5 class="user-name-title">{{ user.username }}</h5>
+              <p class=" user-nickname pb-0 mb-0">{{getUserMail()}}</p>
+            </div>
+          </div>
+          <div class="ms-2 user-btn-block me-2">
+            <a [routerLink]="item?.url"
+               class="full-btn"
+               *ngIf="config?.settings"
+               mat-stroked-button
+               (click)="$event.stopPropagation()">
+              {{(item.title |translate)}}
+            </a>
           </div>
         </div>
-        <div class="user-text-block ms-2 me-2" (click)="$event.stopPropagation()">
-          <h5 class="user-name-title">{{ user.username }}</h5>
-          <p class=" user-nickname pb-0 mb-0">{{getUserMail()}}</p>
+      </ng-container>
+      <ng-container *ngIf="item.path !== config.primaryBtnUrl">
+        <div class="menu-block p-3 mb-1" *xmPermission="item.permission">
+          <a [routerLink]="item.url"
+             routerLinkActive="active">
+            <mat-icon>{{item.icon}}</mat-icon>
+            <span [title]="item.title | translate">{{item.title | translate}}</span>
+          </a>
         </div>
-      </div>
-      <div class="ms-2 user-btn-block me-2">
-        <a [routerLink]="config?.settings?.url"
-           class="full-btn"
-           *ngIf="config?.settings"
-           mat-stroked-button
-           (click)="$event.stopPropagation()">
-          {{config.settings?.title |translate}}
-        </a>
-      </div>
-    </div>
-    <ng-container *ngFor="let item of menu$ | async as menu">
-      <div class="menu-block p-3 mb-1" *xmPermission="item.permission">
-        <a [routerLink]="item.url"
-           routerLinkActive="active">
-          <mat-icon>{{item.icon}}</mat-icon>
-          <span [title]="item.title | translate">{{item.title | translate}}</span>
-        </a>
-      </div>
+      </ng-container>
     </ng-container>
     <ng-container *ngFor="let subtitle of config?.subtitles">
       <ng-container *ngIf="!subtitle.options?.role || (subtitle.options?.role === user.user.roleKey)">
