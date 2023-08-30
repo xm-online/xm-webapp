@@ -63,7 +63,7 @@ $nav-bar-img-holder-size: 84px;
 
 .add-photo-btn {
   border: 3px solid #B9B9B9;
-  padding: 6px;
+  padding: 6px !important;
   zoom: 65%;
 }
 
@@ -165,10 +165,6 @@ $nav-bar-img-holder-size: 84px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-  }
-
-  .navbar-user-subtitles {
-    padding-left: $navbar-user-padding-x;
   }
 
 }
