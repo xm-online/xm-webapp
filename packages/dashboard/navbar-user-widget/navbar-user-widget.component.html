@@ -15,7 +15,6 @@
   </div>
 
   <mat-menu #menu="matMenu" xPosition="before" class="nav-bar-user-modal">
-
     <ng-container *ngFor="let item of menu$ | async as menu">
       <ng-container *ngIf="(item.path === config?.primaryBtnUrl||item.path==='settings')">
         <div class="user-block p-4 mb-1">
@@ -34,13 +33,20 @@
               <p class=" user-nickname pb-0 mb-0">{{getUserMail()}}</p>
             </div>
           </div>
-          <div class="ms-2 user-btn-block me-2">
+          <div class="ms-2 user-btn-block me-2" *ngIf="!config.settings">
             <a [routerLink]="item?.url"
                class="full-btn"
-               *ngIf="config?.settings"
                mat-stroked-button
                (click)="$event.stopPropagation()">
               {{(item.title |translate)}}
+            </a>
+          </div>
+          <div class="ms-2 user-btn-block me-2" *ngIf="config.settings">
+            <a [routerLink]="config.settings.url"
+               class="full-btn"
+               mat-stroked-button
+               (click)="$event.stopPropagation()">
+              {{(config.settings.title |translate)}}
             </a>
           </div>
         </div>
