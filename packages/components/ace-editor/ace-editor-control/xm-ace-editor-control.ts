@@ -29,6 +29,7 @@ export interface XmAceEditorControlOptions {
     options?: {
         highlightActiveLine?: boolean;
         maxLines?: number;
+        tabSize?: number;
         printMargin?: boolean;
         autoScrollEditorIntoView?: boolean;
     },
@@ -86,7 +87,7 @@ type AceEditorValue = string | object;
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
-    public error: string = '';
+    public error: object | null = null;
 
     @Input() @Defaults(XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS)
     public config: XmAceEditorControlOptions;
@@ -113,7 +114,7 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
     public set value(value: AceEditorValue) {
         try {
             if (this.config.mode === 'object-to-yaml') {
-                this._value = stringify(value);
+                this._value = stringify(value, {blockQuote: 'literal'});
                 return;
             } else if (this.config.mode === 'object-to-json') {
                 this._value = JSON.stringify(value);
@@ -141,6 +142,14 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
 
     public changeValue(value: string): void {
         this._value = value;
-        super.change(this.value);
+
+        // Trigger error check
+        this.error = null;
+        if (this.value === undefined || this.error) {
+            return;
+        }
+
+        this._onChange(this.value);
+        this.valueChange.next(this.value);
     }
 }
