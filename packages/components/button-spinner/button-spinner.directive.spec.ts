@@ -2,7 +2,7 @@ import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButton } from '@angular/material/button';
 import { By } from '@angular/platform-browser';
-import { ButtonSpinnerDirective } from '@xm-ngx/components/button-spinner';
+import { ButtonSpinnerDirective } from './button-spinner.directive';
 
 @Component({
     template: `
@@ -14,7 +14,7 @@ import { ButtonSpinnerDirective } from '@xm-ngx/components/button-spinner';
 class MockTestComponent {
 }
 
-describe('SpinnerDirective', () => {
+describe('ButtonSpinnerDirective', () => {
     let fixture: ComponentFixture<MockTestComponent>;
     let buttonsWithDirective: DebugElement[];
 
