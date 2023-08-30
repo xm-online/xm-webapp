@@ -23,16 +23,6 @@ interface UserOptions {
 
 const USER_MENU: MenuItem[] = [
     {
-        path: 'settings',
-        position: 1,
-        permission: 'ACCOUNT.GET_LIST.ITEM',
-        url: ['settings'],
-        icon: 'settings',
-        title: 'global.menu.account.settings',
-        children: [],
-        parent: null,
-    },
-    {
         path: 'password',
         position: 2,
         permission: 'ACCOUNT.PASSWORD.UPDATE',

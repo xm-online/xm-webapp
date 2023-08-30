@@ -41,14 +41,15 @@
         </a>
       </div>
     </div>
-    <div class="menu-block p-3 mb-1" *ngFor="let item of menu$ | async as menu">
-      <a *xmPermission="item.permission"
-         [routerLink]="item.url"
-         routerLinkActive="active">
-        <mat-icon>{{item.icon}}</mat-icon>
-        <span [title]="item.title | translate">{{item.title | translate}}</span>
-      </a>
-    </div>
+    <ng-container *ngFor="let item of menu$ | async as menu">
+      <div class="menu-block p-3 mb-1" *xmPermission="item.permission">
+        <a [routerLink]="item.url"
+           routerLinkActive="active">
+          <mat-icon>{{item.icon}}</mat-icon>
+          <span [title]="item.title | translate">{{item.title | translate}}</span>
+        </a>
+      </div>
+    </ng-container>
     <ng-container *ngFor="let subtitle of config?.subtitles">
       <ng-container *ngIf="!subtitle.options?.role || (subtitle.options?.role === user.user.roleKey)">
         <sidebar-user-subtitle class="navbar-user-subtitles"
