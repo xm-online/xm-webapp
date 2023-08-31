@@ -23,6 +23,7 @@ $nav-bar-img-holder-size: 84px;
       margin-right: 0;
     }
   }
+
   .nav-bar-img-holder {
     height: $navbar-user-icon-size-y;
     width: $navbar-user-icon-size-x;
@@ -123,6 +124,7 @@ $nav-bar-img-holder-size: 84px;
     align-items: center;
     justify-content: flex-end;
   }
+
   .full-btn {
     width: 67%;
     border: 2px solid #53565A !important;
@@ -167,9 +169,17 @@ $nav-bar-img-holder-size: 84px;
     white-space: nowrap;
   }
 
-  .navbar-user-subtitles{
+
+  .navbar-user-subtitles {
     display: block;
-    margin: 10px 20px;
+    margin: 5px 17px;
+  }
+
+  .navbar-user-subtitle-block {
+    border-radius: 8px;
+    padding: 16px;
+    background: #fff;
+    display: block;
   }
 
 }

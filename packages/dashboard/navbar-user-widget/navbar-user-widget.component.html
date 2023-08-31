@@ -8,7 +8,8 @@
        class="navbar-user-title"
        role="button"
        tabindex="0">
-    <div class="nav-bar-img-holder me-3">
+    <div class="nav-bar-img-holder me-3"
+         [ngStyle]="{width:config?.avatarSize,height:config?.avatarSize,'min-width':config?.avatarSize}">
       <ng-container *ngTemplateOutlet="userAvatar"></ng-container>
     </div>
     <span class="mat-expansion-indicator"></span>
