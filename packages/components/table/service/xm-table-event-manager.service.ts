@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { TableEventType } from '../directives/xm-table.model';
 
@@ -14,7 +14,7 @@ interface EventManagerAction<T = any> {
     providedIn: 'root',
 })
 export class XmTableEventManagerService {
-    private dispatcher: BehaviorSubject<EventManagerAction> = new BehaviorSubject<EventManagerAction>({name: null});
+    private dispatcher: Subject<EventManagerAction> = new Subject<EventManagerAction>();
 
     public broadcast<T>(event: EventManagerAction<T>): void {
         this.dispatcher.next(event);
@@ -22,11 +22,6 @@ export class XmTableEventManagerService {
 
     public listenTo<T>(eventName: EventManagerKey): Observable<EventManagerAction<T>> {
         return this.dispatcher.asObservable().pipe(filter(i => i.name === eventName));
-    }
-
-    public getStorageKeyBy<T>(eventName: EventManagerKey): string {
-        const value = this.dispatcher.getValue();
-        return value.name === eventName ? value.payload.storageKey : null;
     }
 
     public getUpdateEventName(name: string): string {
