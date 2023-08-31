@@ -4,7 +4,7 @@ import { filter } from 'rxjs/operators';
 
 type EventManagerKey = string;
 
-interface EventManagerAction<T = any> {
+export interface XmEventManagerAction<T = any> {
     name: EventManagerKey;
     payload?: T;
 
@@ -12,21 +12,17 @@ interface EventManagerAction<T = any> {
     [key: string]: any;
 }
 
-export enum Prefix {
-    TABLE = 'TABLE'
-}
-
 @Injectable({
     providedIn: 'root',
 })
 export class XmEventManagerService implements OnDestroy {
 
-    public readonly observable: Observable<EventManagerAction>;
+    public readonly observable: Observable<XmEventManagerAction>;
 
     /** @deprecated use 'observable' instead */
-    public observer: Observer<EventManagerAction>;
+    public observer: Observer<XmEventManagerAction>;
 
-    protected dispatcher: Subject<EventManagerAction> = new Subject<EventManagerAction>();
+    protected dispatcher: Subject<XmEventManagerAction> = new Subject<XmEventManagerAction>();
 
     constructor() {
         this.observer = this.dispatcher;
@@ -36,30 +32,23 @@ export class XmEventManagerService implements OnDestroy {
     /**
      * Method to broadcast the event to observer
      */
-    public broadcast<T>(event: EventManagerAction<T>): void {
+    public broadcast<T>(event: XmEventManagerAction<T>): void {
         this.dispatcher.next(event);
-    }
-
-    public broadcastWithPrefix<T>(name: string, prefix: Prefix, payload?: T): void {
-        this.dispatcher.next({
-            name: `${prefix}_${name}`,
-            payload
-        });
     }
 
     /**
      * @deprecated use observable instead
      * Method to subscribe to an event with callback
      */
-    public subscribe(eventName: EventManagerKey, callback: (i: EventManagerAction) => void): Subscription {
+    public subscribe(eventName: EventManagerKey, callback: (i: XmEventManagerAction) => void): Subscription {
         return this.observable.pipe(filter(i => i.name === eventName)).subscribe(callback);
     }
 
     /**
      * Method to get stream by event name
      */
-    public listenTo<T>(eventName: EventManagerKey, prefix?: Prefix): Observable<EventManagerAction<T>> {
-        return this.observable.pipe(filter(i => prefix ? i.name === `${prefix}_${eventName}` : i.name === eventName));
+    public listenTo<T>(eventName: EventManagerKey): Observable<XmEventManagerAction<T>> {
+        return this.observable.pipe(filter(i => i.name === eventName));
     }
 
     /**

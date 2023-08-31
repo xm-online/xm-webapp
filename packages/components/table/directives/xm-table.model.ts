@@ -17,7 +17,7 @@ export interface XmTableConfig {
     queryParamsToFillter?: XmTableQueryParamsToFilter;
     pageableAndSortable: XmTableWithColumnDynamicCellOptionsPagination,
     storageKey: string;
-    triggerTableKey?: string;
+    triggerTableKey: string;
 }
 
 export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
@@ -31,8 +31,9 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
         },
     },
     storageKey: '',
+    triggerTableKey: '',
 };
 
-export enum TableEventType {
-    UPDATE_TABLE = 'UPDATE_TABLE',
+export enum XmTableEventType {
+    XM_TABLE_UPDATE = 'XM_TABLE_UPDATE'
 }
