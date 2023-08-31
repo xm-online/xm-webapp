@@ -1,8 +1,8 @@
 import type { StorybookConfig } from "@storybook/angular";
 const config: StorybookConfig = {
   stories: [
-    "../src/**/*.mdx", 
-    "../src/**/*.stories.@(js|jsx|ts|tsx)", 
+    "../src/**/*.mdx",
+    "../src/**/*.stories.@(js|jsx|ts|tsx)",
     "../packages/**/*.stories.@(js|jsx|ts|tsx)",
     "../packages/**/*.mdx",
   ],
@@ -15,6 +15,9 @@ const config: StorybookConfig = {
     name: "@storybook/angular",
     options: {},
   },
+  staticDirs: [
+    { from: '../src/assets', to: '/assets' },
+  ],
   docs: {
     autodocs: "tag",
   },

@@ -28,15 +28,17 @@ export interface SettingsBtn {
 }
 
 
-export interface UserNavBar{
+export interface UserNavBar {
     user: UserOptions;
     config: {
         subtitles: SidebarUserSubtitleOptions[];
     };
+    avatarSize?: string,
     menu$: Observable<MenuItem[]>;
     subtitles: SidebarUserSubtitleOptions[],
     links: LinkItem[];
     changeAccount?: ChangeAccount;
     changePhoto?: boolean;
     settings?: SettingsBtn;
+    primaryBtnUrl: string;
 }

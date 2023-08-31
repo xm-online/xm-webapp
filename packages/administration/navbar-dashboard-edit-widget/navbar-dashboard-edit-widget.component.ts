@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
+    DashboardCollection,
     DashboardConfig,
     DashboardEditComponent,
     DashboardEditorService,
@@ -7,6 +8,7 @@ import {
     DashboardsExportService,
     DashboardsImportService,
     DashboardsManagerService,
+    WidgetCollection,
     WidgetEditComponent,
 } from '@xm-ngx/administration/dashboards-config';
 import { XmEventManager } from '@xm-ngx/core';
@@ -14,6 +16,12 @@ import { Dashboard, DashboardStore, PageService } from '@xm-ngx/core/dashboard';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { skip, take } from 'rxjs/operators';
+import { AsyncPipe } from '@angular/common';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 export const NAVBAR_EDIT_DASHBOARD_EVENT = 'NAVBAR_EDIT_DASHBOARD_EVENT';
 export const NAVBAR_EDIT_WIDGET_EVENT = 'NAVBAR_EDIT_WIDGET_EVENT';
@@ -37,7 +45,18 @@ export enum NavbarDashboardEditState {
             <mat-icon>edit</mat-icon>
         </button>
     `,
+    standalone: true,
+    imports: [
+        XmTranslationModule,
+        XmPermissionModule,
+        MatButtonModule,
+        MatTooltipModule,
+        AsyncPipe,
+        MatIconModule,
+    ],
     providers: [
+        DashboardCollection,
+        WidgetCollection,
         DashboardEditorService,
         DashboardsExportService,
         DashboardsImportService,
