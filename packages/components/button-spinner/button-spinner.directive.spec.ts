@@ -20,7 +20,8 @@ describe('ButtonSpinnerDirective', () => {
 
     beforeEach(() => {
         fixture = TestBed.configureTestingModule({
-            declarations: [MockTestComponent, MatButton, ButtonSpinnerDirective],
+            imports: [ButtonSpinnerDirective],
+            declarations: [MockTestComponent, MatButton],
             schemas: [NO_ERRORS_SCHEMA],
 
         }).createComponent(MockTestComponent);
@@ -30,7 +31,7 @@ describe('ButtonSpinnerDirective', () => {
         buttonsWithDirective = fixture.debugElement.queryAll(By.directive(ButtonSpinnerDirective));
     });
 
-    describe('Directive get loading=true, ', () => {
+    describe('Directive get loading=true', () => {
         it('should disable the button', () => {
             const button = buttonsWithDirective[0].nativeElement as HTMLButtonElement;
             expect(button.disabled).toBeTrue();
@@ -38,10 +39,10 @@ describe('ButtonSpinnerDirective', () => {
 
         it('should add custom class to the button', () => {
             const button = buttonsWithDirective[0].nativeElement as HTMLButtonElement;
-            expect(button.classList).toContain('mat-loading');
+            expect(button.classList).toContain('xm-button-spinner-loading');
         });
 
-        it('should create mat-progress-spinner as last child node', () => {
+        it('should create mat-mdc-progress-spinner as last child node', () => {
             const button = buttonsWithDirective[0].nativeElement as HTMLButtonElement;
             const elementName = button.children.item(button.children.length - 1).tagName.toLowerCase();
             expect(elementName).toBe('mat-progress-spinner');
@@ -57,7 +58,7 @@ describe('ButtonSpinnerDirective', () => {
         it('should create an instance', () => {
             const button = buttonsWithDirective[1].nativeElement as HTMLButtonElement;
             const elementName = button.children.item(button.children.length - 1).tagName.toLowerCase();
-            expect(elementName).not.toBe('mat-progress-spinner');
+            expect(elementName).not.toBe('mat-mdc-progress-spinner');
         });
     });
 
