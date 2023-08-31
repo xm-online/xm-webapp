@@ -1,24 +1,10 @@
 {
-  "extends": "../src/tsconfig.app.json",
-  "compilerOptions": {
-    "types": [
-      "node",
-      "jest"
-    ],
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true
-  },
-  "exclude": [
-    "../src/test.ts",
-    "../src/**/*.spec.ts"
-  ],
-  "include": [
-    "../src/polyfills.ts",
-    "./preview.ts",
-    "../src/**/*.stories.ts",
-    "../packages/**/*.stories.ts"
-  ],
+  "extends": "../tsconfig.json",
   "files": [
-    "./typings.d.ts"
+    "../src/polyfills.ts",
+    ],
+  "include": [
+    "../packages/**/*.stories.ts",
+    "../src/**/*.stories.ts"
   ]
 }

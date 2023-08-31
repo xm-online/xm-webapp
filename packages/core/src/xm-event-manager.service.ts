@@ -12,6 +12,10 @@ interface EventManagerAction<T = any> {
     [key: string]: any;
 }
 
+export enum Prefix {
+    TABLE = 'TABLE'
+}
+
 @Injectable({
     providedIn: 'root',
 })
@@ -36,6 +40,13 @@ export class XmEventManagerService implements OnDestroy {
         this.dispatcher.next(event);
     }
 
+    public broadcastWithPrefix<T>(name: string, prefix: Prefix, payload?: T): void {
+        this.dispatcher.next({
+            name: `${prefix}_${name}`,
+            payload
+        });
+    }
+
     /**
      * @deprecated use observable instead
      * Method to subscribe to an event with callback
@@ -47,8 +58,8 @@ export class XmEventManagerService implements OnDestroy {
     /**
      * Method to get stream by event name
      */
-    public listenTo<T>(eventName: EventManagerKey): Observable<EventManagerAction<T>> {
-        return this.observable.pipe(filter(i => i.name === eventName));
+    public listenTo<T>(eventName: EventManagerKey, prefix?: Prefix): Observable<EventManagerAction<T>> {
+        return this.observable.pipe(filter(i => prefix ? i.name === `${prefix}_${eventName}` : i.name === eventName));
     }
 
     /**

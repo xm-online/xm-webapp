@@ -31,19 +31,19 @@
         "src/app/ext/*"
       ],
       "@xm-ngx/entity/registry": [
-        "node_modules/@xm-ngx/entity/registry",
+        "node_modules/@xm-ngx/entity/registry"
       ],
       "@xm-ngx/entity/card": [
-        "node_modules/@xm-ngx/entity/card",
+        "node_modules/@xm-ngx/entity/card"
       ],
       "@xm-ngx/entity/search": [
-        "node_modules/@xm-ngx/entity/search",
+        "node_modules/@xm-ngx/entity/search"
       ],
       "@xm-ngx/entity/pipes": [
-        "node_modules/@xm-ngx/entity/pipes",
+        "node_modules/@xm-ngx/entity/pipes"
       ],
       "@xm-ngx/entity/*": [
-        "node_modules/@xm-ngx/entity",
+        "node_modules/@xm-ngx/entity"
       ],
       "@xm-ngx/json-schema-form/core": [
         "node_modules/@xm-ngx/json-schema-form"
@@ -71,6 +71,7 @@
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "newLine": "lf",
+    "types": ["jasmine"],
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,

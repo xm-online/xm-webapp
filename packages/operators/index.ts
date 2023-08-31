@@ -1,6 +1,6 @@
 export * from './src/clipboard-helper';
 export * from './src/custom-uri-encoder';
-export { Defaults } from './src/defaults';
+export { Defaults, defaults } from './src/defaults';
 export { download } from './src/download';
 export * from './src/file-download-helper';
 export { flattenObject } from './src/flattenObject';
