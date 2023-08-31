@@ -14,7 +14,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { XmTableQueryParamsStoreService } from '../controllers/filters/xm-table-query-params-store.service';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from './xm-table.model';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 export interface IXmTableContext {
@@ -35,7 +35,7 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
 @Directive({
     selector: '[xmTable]',
     exportAs: 'xmTable',
-    host: { class: 'xm-table' },
+    host: {class: 'xm-table'},
     providers: [
         XmTableFilterController,
         XmTableColumnsSettingStorageService,
@@ -46,8 +46,8 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
 export class XmTableDirective implements OnInit, OnDestroy {
     public context$: Observable<IXmTableContext>;
     public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
-    @ContentChild(MatPaginator, { static: false }) public paginator: MatPaginator | null;
-    @ContentChild(MatSort, { static: false }) public sort: MatSort | null;
+    @ContentChild(MatPaginator, {static: false}) public paginator: MatPaginator | null;
+    @ContentChild(MatSort, {static: false}) public sort: MatSort | null;
     @Input()
     public xmTableController: IXmTableCollectionController<unknown>;
 
@@ -89,20 +89,33 @@ export class XmTableDirective implements OnInit, OnDestroy {
                 const displayedColumns = _.map(_.filter(a, i => !i.hidden), i => i.name);
                 return ({
                     collection: state,
-                    settings: { displayedColumns },
+                    settings: {displayedColumns},
                 });
             }),
         );
 
-        combineLatest([
-            this.tableFilterController.change$(),
-            this.pageableAndSortable$,
-        ])
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe(([filterParams, pageableAndSortable]) => {
-                const queryParams = _.merge({}, { pageableAndSortable }, { filterParams });
+        const obsObj$: Record<string, Observable<FiltersControlValue | PageableAndSortable> | any> = {
+            tableFilter: this.tableFilterController.change$(),
+            pageableAndSortable: this.pageableAndSortable$,
+        };
+
+        if (this.config.triggerTableKey) {
+            obsObj$['updateEvent'] = this.eventManagerService.listenTo(
+                this.config.triggerTableKey,
+                Prefix.TABLE
+            ).pipe(startWith(null));
+        }
+
+        combineLatest(obsObj$)
+            .pipe(
+                takeUntilOnDestroy(this),
+            )
+            .subscribe((obsObj) => {
+                const filterParams = obsObj.tableFilter as FiltersControlValue;
+                const pageableAndSortable = obsObj.pageableAndSortable as PageableAndSortable;
+                const queryParams = _.merge({}, {pageableAndSortable}, {filterParams});
                 const removeFieldsFromUrl = Object.keys(this._config.queryParamsToFillter ?? {})
-                    .reduce((acc, key) => ({ ...acc, [key]: null }), {});
+                    .reduce((acc, key) => ({...acc, [key]: null}), {});
 
                 this.queryParamsStoreService.set(queryParams, removeFieldsFromUrl);
 
@@ -122,7 +135,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
         const pageIndex = this.paginator.pageIndex;
         const pageSize = this.paginator.pageSize;
         const total = this.paginator.length;
-        const pageAndSort: PageableAndSortable = { pageIndex, pageSize, sortOrder, sortBy, total };
+        const pageAndSort: PageableAndSortable = {pageIndex, pageSize, sortOrder, sortBy, total};
         this.pageableAndSortable$.next(pageAndSort);
     }
 
@@ -130,7 +143,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
         const queryParams = this.queryParamsStoreService.get(this._config.queryParamsToFillter);
 
         this.tableFilterController.set(queryParams.filterParams);
-        const { pageIndex, pageSize, sortBy, sortOrder } = this._config.pageableAndSortable;
+        const {pageIndex, pageSize, sortBy, sortOrder} = this._config.pageableAndSortable;
         const pageParams = {
             pageIndex,
             pageSize,
