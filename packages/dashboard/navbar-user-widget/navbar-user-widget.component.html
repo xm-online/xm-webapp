@@ -22,7 +22,7 @@
           <div class="user-info">
             <div class="nav-bar-img-holder-menu me-3" (click)="$event.stopPropagation()">
               <ng-container *ngTemplateOutlet="userAvatar"></ng-container>
-              <div class="add-photo">
+              <div class="add-photo" *ngIf="config?.changePhoto">
                 <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none;" accept="image/*">
                 <button class="add-photo-btn" mat-icon-button (click)="fileInput.click()">
                   <mat-icon>add_a_photo</mat-icon>
