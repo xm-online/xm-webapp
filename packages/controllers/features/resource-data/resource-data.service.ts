@@ -11,7 +11,7 @@ export class ResourceDataService<T extends IId = any> {
 
     private resourceController = injectByKey<RestRepositoryService>('resource');
 
-    private data$: BehaviorSubject<T> = new BehaviorSubject<T>(undefined);
+    private data$: BehaviorSubject<T> = new BehaviorSubject<T>({} as T);
 
     private stable: T;
 
