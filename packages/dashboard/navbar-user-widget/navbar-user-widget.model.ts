@@ -33,6 +33,7 @@ export interface UserNavBar {
     config: {
         subtitles: SidebarUserSubtitleOptions[];
     };
+    avatarSize?: string,
     menu$: Observable<MenuItem[]>;
     subtitles: SidebarUserSubtitleOptions[],
     links: LinkItem[];
