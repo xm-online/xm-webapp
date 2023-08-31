@@ -94,21 +94,27 @@ export class XmTableDirective implements OnInit, OnDestroy {
             }),
         );
 
-        const obsList$: any = [this.tableFilterController.change$(), this.pageableAndSortable$];
+        const obsObj$: Record<string, Observable<FiltersControlValue | PageableAndSortable> | any> = {
+            tableFilter: this.tableFilterController.change$(),
+            pageableAndSortable: this.pageableAndSortable$,
+        };
 
         if (this.config.triggerTableKey) {
-            obsList$.push(this.tableEventManagerService.listenTo(
-                this.tableEventManagerService.getUpdateEventName(this.config.triggerTableKey)
-            ).pipe(startWith(null)));
+            Object.assign(obsObj$, {
+                updateEvent: this.eventManagerService.listenTo(
+                    this.config.triggerTableKey,
+                    Prefix.TABLE
+                ).pipe(startWith(null))
+            });
         }
 
-        combineLatest(obsList$)
+        combineLatest(obsObj$)
             .pipe(
                 takeUntilOnDestroy(this),
             )
-            .subscribe((lastValueList) => {
-                const filterParams = lastValueList[0] as FiltersControlValue;
-                const pageableAndSortable = lastValueList[1] as PageableAndSortable;
+            .subscribe((obsObj) => {
+                const filterParams = obsObj.tableFilter as FiltersControlValue;
+                const pageableAndSortable = obsObj.pageableAndSortable as PageableAndSortable;
                 const queryParams = _.merge({}, {pageableAndSortable}, {filterParams});
                 const removeFieldsFromUrl = Object.keys(this._config.queryParamsToFillter ?? {})
                     .reduce((acc, key) => ({...acc, [key]: null}), {});
