@@ -1,9 +1,26 @@
-.mat-loading .mat-button-wrapper {
-  visibility: hidden;
+.xm-button-spinner {
+  position: relative;
 }
 
-.mat-loading .mat-progress-spinner {
-  position: absolute;
-  top: calc(50% - 10px);
-  left: calc(50% - 10px);
+/**
+ * TODO:WORKAROUND: Angular material button
+ *  set svg width and height 24px and override spinner
+ *  but it should be 200% and 100%
+ */
+.xm-button-spinner.mdc-icon-button .mat-mdc-progress-spinner svg {
+  width:  200%;
+  height: 100%;
 }
+
+.xm-button-spinner.xm-button-spinner-loading {
+  .mat-button-wrapper {
+    visibility: hidden;
+  }
+
+  .mat-mdc-progress-spinner {
+    position: absolute;
+    top:      calc(50% - 10px);
+    left:     calc(50% - 10px);
+  }
+}
+
