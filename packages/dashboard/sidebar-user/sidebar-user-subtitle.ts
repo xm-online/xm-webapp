@@ -9,6 +9,7 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
 
 export interface SidebarUserSubtitleOptions {
     selector: string,
+    class: string,
     options: unknown,
     label: Translate,
     role: string,
@@ -22,6 +23,7 @@ export interface SidebarUserSubtitleOptions {
             <ng-template [ngIf]="options.selector" [ngIfElse]="defaultView">
                 <ng-template xmDynamicPresentation
                              [selector]="options.selector"
+                             [class]="options?.options?.class"
                              [value]="get(value, options.field)"
                              [options]="options.options"></ng-template>
             </ng-template>
