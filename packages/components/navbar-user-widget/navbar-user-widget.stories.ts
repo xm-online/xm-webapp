@@ -4,9 +4,6 @@ import { DashboardStore } from '@xm-ngx/dashboard';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
-import {
-    PageCollectionService,
-} from '@xm-ngx/ext/entity-webapp-ext/module/page-entity-widget/entities/page-collection.service';
 import { Principal, XmUserService } from '@xm-ngx/core/user';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmPermissionService } from '@xm-ngx/core/permission';
@@ -21,12 +18,6 @@ import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_COPY_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_LINK_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_TABLE_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/registry';
-import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/registry';
-import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/registry';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { NavbarUserWidgetComponent } from '@xm-ngx/dashboard/navbar-user-widget';
@@ -54,12 +45,6 @@ export default {
                     XM_COPY_ELEMENTS,
                     XM_LINK_ELEMENTS,
                     XM_ENUM_ELEMENTS,
-                    XM_ARRAY_ELEMENTS,
-                    XM_TABLE_ELEMENTS,
-                    XM_NAVBAR_ELEMENTS,
-                    XM_DASHBOARD_ELEMENTS,
-                    XM_ADMINISTRATION_ELEMENTS,
-                    XM_COMPONENTS_ELEMENTS,
                 )),
             ],
             providers: [
@@ -70,7 +55,6 @@ export default {
                 {provide: Principal, useValue: {getUserKey: () => true}},
                 {provide: XmPermissionService, useClass: MockPermissionService},
                 {provide: XmToasterService, useValue: {}},
-                {provide: PageCollectionService, useValue: {}},
                 {
                     provide: XmUserService,
                     useValue: {
