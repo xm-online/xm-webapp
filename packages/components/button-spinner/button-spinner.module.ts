@@ -1,13 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ButtonSpinnerDirective } from './button-spinner.directive';
 
 @NgModule({
-    imports: [
-        CommonModule,
-    ],
-    declarations: [ButtonSpinnerDirective],
+    imports: [ButtonSpinnerDirective],
     exports: [ButtonSpinnerDirective],
 })
+/** @deprecated use {@link ButtonSpinnerDirective} instead. */
 export class ButtonSpinnerModule {
 }
