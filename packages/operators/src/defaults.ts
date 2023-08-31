@@ -13,7 +13,7 @@ export function Defaults<T>(defaultValue: T) {
             console.error(`Getter or setter for property ${String(propertyKey)} is already defined.`);
         }
 
-        const uniqueKey = `__${propertyKey}_value__`;
+        const uniqueKey = `__${propertyKey}_defaults__`;
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         type TargetWithKey = { [uniqueKey]: T };
