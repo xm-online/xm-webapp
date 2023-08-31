@@ -9,19 +9,26 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { parse, stringify } from 'yaml';
 import { Defaults } from '@xm-ngx/operators';
 
+/**
+ *
+ * yaml - string
+ * json - string
+ * object-to-yaml - object
+ * object-to-json - object
+ *
+ */
+export enum XmAceEditorControlOptionsModeType {
+    'yaml' = 'yaml',
+    'json' = 'json',
+    'object-to-yaml' = 'object-to-yaml',
+    'object-to-json' = 'object-to-json',
+}
+
 export interface XmAceEditorControlOptions {
     id?: string;
     title?: string;
     name?: string;
-    /**
-     *
-     * yaml - string
-     * json - string
-     * object-to-yaml - object
-     * object-to-json - object
-     *
-     */
-    mode: string | 'yaml' | 'json' | 'object-to-yaml' | 'object-to-json';
+    mode: string | XmAceEditorControlOptionsModeType;
     height?: string;
     theme?: string;
     darkTheme?: string;
@@ -96,10 +103,11 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
 
     public get value(): AceEditorValue {
         try {
-            if (this.config.mode === 'object-to-json') {
-                return JSON.parse(this._value);
-            } else if (this.config.mode === 'object-to-yaml') {
-                return parse(this._value);
+            switch (this.config.mode) {
+                case 'object-to-json':
+                    return JSON.parse(this._value);
+                case 'object-to-yaml':
+                    return parse(this._value);
             }
             return this._value;
         } catch (e) {
@@ -113,12 +121,13 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
     @Input()
     public set value(value: AceEditorValue) {
         try {
-            if (this.config.mode === 'object-to-yaml') {
-                this._value = stringify(value, {blockQuote: 'literal'});
-                return;
-            } else if (this.config.mode === 'object-to-json') {
-                this._value = JSON.stringify(value);
-                return;
+            switch (this.config.mode) {
+                case 'object-to-yaml':
+                    this._value = stringify(value, { blockQuote: 'literal' });
+                    return;
+                case 'object-to-json':
+                    this._value = JSON.stringify(value);
+                    return;
             }
             this._value = value as string;
         } catch (e) {
@@ -129,11 +138,9 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
     public getMode(): string | null {
         switch (this.config.mode) {
             case 'object-to-yaml':
-                return 'yaml';
             case 'yaml':
                 return 'yaml';
             case 'object-to-json':
-                return 'json';
             case 'json':
                 return 'json';
         }

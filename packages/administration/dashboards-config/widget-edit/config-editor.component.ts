@@ -22,12 +22,12 @@ import { FormsModule } from '@angular/forms';
     `,
 })
 export class ConfigEditorComponent extends NgControlAccessor<string> {
-    public aceEditorOptions: XmAceEditorControlOptions = {
+    public aceEditorOptions: Partial<XmAceEditorControlOptions> = {
         mode: 'object-to-yaml',
         title: '',
         options: {
             tabSize: 2,
         },
-        height: 'calc(100vh - 170px)'
+        height: 'calc(100vh - 170px)',
     };
 }
