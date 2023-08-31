@@ -100,12 +100,10 @@ export class XmTableDirective implements OnInit, OnDestroy {
         };
 
         if (this.config.triggerTableKey) {
-            Object.assign(obsObj$, {
-                updateEvent: this.eventManagerService.listenTo(
-                    this.config.triggerTableKey,
-                    Prefix.TABLE
-                ).pipe(startWith(null))
-            });
+            obsObj$['updateEvent'] = this.eventManagerService.listenTo(
+                this.config.triggerTableKey,
+                Prefix.TABLE
+            ).pipe(startWith(null));
         }
 
         combineLatest(obsObj$)
