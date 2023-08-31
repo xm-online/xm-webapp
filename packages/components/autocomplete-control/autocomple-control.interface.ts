@@ -26,12 +26,14 @@ export interface XmAutocompleteControlConfig {
         resourceUrl: string;
         resourceMethod: string;
         queryParams: XmAutocompleteControlParams;
+        routeQueryParams: IRouteQueryParams;
         body: XmAutocompleteControlBody;
         headers: Record<string, string>;
     };
     fetchSelectedByCriteria: {
         body: XmAutocompleteControlParams;
         queryParams: XmAutocompleteControlParams;
+        routeQueryParams: IRouteQueryParams;
     };
     multiple: boolean;
     startEmptySearch?: boolean;
@@ -51,6 +53,11 @@ export interface XmAutocompleteControlConfig {
     required?: boolean;
 }
 
+export interface IRouteQueryParams {
+    keys: string[];
+    queryParamKeys: string[];
+}
+
 export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
     hint: null,
     title: '',
@@ -60,10 +67,12 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
         queryParams: {},
         body: {},
         headers: {},
+        routeQueryParams: {} as IRouteQueryParams,
     },
     fetchSelectedByCriteria: {
         queryParams: {},
         body: {},
+        routeQueryParams: {} as IRouteQueryParams,
     },
     startEmptySearch: true,
     pickIntersectSelected: false,

@@ -1,48 +1,49 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { HttpHeaders } from '@angular/common/http';
+import {SelectionModel} from '@angular/cdk/collections';
+import {HttpHeaders} from '@angular/common/http';
 import {
-    OnInit,
-    OnDestroy,
-    OnChanges,
-    Input,
-    inject,
-    SimpleChanges,
     Directive,
+    inject,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
     Optional,
+    SimpleChanges,
     SkipSelf,
 } from '@angular/core';
-import { coerceArray } from '@angular/flex-layout';
-import { FormControl, NgControl } from '@angular/forms';
-import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { LanguageService } from '@xm-ngx/translation';
+import {coerceArray} from '@angular/flex-layout';
+import {FormControl, NgControl} from '@angular/forms';
+import {format, takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
+import {LanguageService} from '@xm-ngx/translation';
 import _ from 'lodash';
 import {
-    Observable,
     BehaviorSubject,
-    startWith,
-    map,
-    switchMap,
-    of,
-    tap,
-    distinctUntilChanged,
-    debounceTime,
     catchError,
-    finalize,
-    shareReplay,
-    pairwise,
+    debounceTime,
+    distinctUntilChanged,
     filter,
+    finalize,
+    map,
+    Observable,
+    of,
+    pairwise,
+    shareReplay,
+    startWith,
+    switchMap,
+    tap,
 } from 'rxjs';
-import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
-import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
+import {EntityCollectionFactoryService} from '@xm-ngx/repositories';
+import {NgModelWrapper} from '@xm-ngx/components/ng-accessor';
 import {
-    AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG,
-    XmAutocompleteControlConfig,
-    XmAutocompleteControlMapper,
-    XmAutocompleteControlListItem,
-    XmAutocompleteControlParams,
+    AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG, IRouteQueryParams,
     XmAutocompleteControlBody,
+    XmAutocompleteControlConfig,
+    XmAutocompleteControlListItem,
+    XmAutocompleteControlMapper,
+    XmAutocompleteControlParams,
 } from './autocomple-control.interface';
-import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import {XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES} from '@xm-ngx/components/validator-processing';
+import {ActivatedRoute, ParamMap} from '@angular/router';
 
 @Directive()
 export class XmAutocompleteControl extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {
@@ -95,6 +96,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     public messageErrors = XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES;
 
     constructor(
+        private activatedRoute: ActivatedRoute,
         @Optional() @SkipSelf() public ngControl: NgControl,
     ) {
         super();
@@ -236,23 +238,37 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     private searchByQuery(searchQuery: string): Observable<XmAutocompleteControlListItem[]> {
-        const {queryParams, body} = this.config?.search || {};
+        const {queryParams, body, routeQueryParams} = this.config?.search || {};
+        const additionalRequestQueryParams = this.mapRouteQueryParams(routeQueryParams);
 
         const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(searchQuery));
         const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(searchQuery));
 
-        return this.buildRequest(httpParams, httpBody);
+        return this.buildRequest({...httpParams, ...additionalRequestQueryParams}, httpBody);
     }
 
     private fetchSelectedValues(values: XmAutocompleteControlListItem[]): Observable<XmAutocompleteControlListItem[]> {
-        const {queryParams, body} = this.config?.fetchSelectedByCriteria || {};
+        const {queryParams, body, routeQueryParams} = this.config?.fetchSelectedByCriteria || {};
+        const additionalRequestQueryParams = this.mapRouteQueryParams(routeQueryParams);
 
         const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(values));
         const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(values));
 
-        return this.buildRequest(httpParams, httpBody).pipe(
+        return this.buildRequest({...httpParams, ...additionalRequestQueryParams}, httpBody).pipe(
             catchError(() => of(values)),
         );
+    }
+
+    private mapRouteQueryParams(routeQueryParams: IRouteQueryParams): XmAutocompleteControlParams {
+        const additionalRequestQueryParams = {};
+        if (!_.isEmpty(routeQueryParams)) {
+            const routeParams: ParamMap = this.activatedRoute.snapshot.queryParamMap;
+            const {keys, queryParamKeys} = routeQueryParams;
+            keys?.forEach((key: string, index: number) => {
+                additionalRequestQueryParams[queryParamKeys[index]] = routeParams.get(key) || '';
+            });
+        }
+        return additionalRequestQueryParams;
     }
 
     private getSearchCriteriaContext(search: unknown): Record<string, unknown> {
