@@ -22,19 +22,8 @@ export interface XmAutocompleteControlListItem {
 export interface XmAutocompleteControlConfig {
     hint?: HintText;
     title?: Translate;
-    search: {
-        resourceUrl: string;
-        resourceMethod: string;
-        queryParams: XmAutocompleteControlParams;
-        routeQueryParams: IRouteQueryParams;
-        body: XmAutocompleteControlBody;
-        headers: Record<string, string>;
-    };
-    fetchSelectedByCriteria: {
-        body: XmAutocompleteControlParams;
-        queryParams: XmAutocompleteControlParams;
-        routeQueryParams: IRouteQueryParams;
-    };
+    search: ISearchAutocompleteControlParams;
+    fetchSelectedByCriteria: IFetchAutocompleteControlParams;
     multiple: boolean;
     startEmptySearch?: boolean;
     extractByKey?: string;
@@ -53,6 +42,19 @@ export interface XmAutocompleteControlConfig {
     required?: boolean;
 }
 
+export interface ISearchAutocompleteControlParams {
+    resourceUrl: string;
+    resourceMethod: string;
+    queryParams: XmAutocompleteControlParams;
+    body: XmAutocompleteControlBody;
+    headers: Record<string, string>;
+}
+
+export interface IFetchAutocompleteControlParams {
+    body: XmAutocompleteControlParams;
+    queryParams: XmAutocompleteControlParams;
+}
+
 export interface IRouteQueryParams {
     keys: string[];
     queryParamKeys: string[];
@@ -67,12 +69,10 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
         queryParams: {},
         body: {},
         headers: {},
-        routeQueryParams: {} as IRouteQueryParams,
     },
     fetchSelectedByCriteria: {
         queryParams: {},
         body: {},
-        routeQueryParams: {} as IRouteQueryParams,
     },
     startEmptySearch: true,
     pickIntersectSelected: false,

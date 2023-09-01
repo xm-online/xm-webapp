@@ -35,7 +35,7 @@ import {
 import {EntityCollectionFactoryService} from '@xm-ngx/repositories';
 import {NgModelWrapper} from '@xm-ngx/components/ng-accessor';
 import {
-    AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG, IRouteQueryParams,
+    AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG,
     XmAutocompleteControlBody,
     XmAutocompleteControlConfig,
     XmAutocompleteControlListItem,
@@ -43,7 +43,6 @@ import {
     XmAutocompleteControlParams,
 } from './autocomple-control.interface';
 import {XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES} from '@xm-ngx/components/validator-processing';
-import {ActivatedRoute, ParamMap} from '@angular/router';
 
 @Directive()
 export class XmAutocompleteControl extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {
@@ -96,7 +95,6 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     public messageErrors = XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES;
 
     constructor(
-        private activatedRoute: ActivatedRoute,
         @Optional() @SkipSelf() public ngControl: NgControl,
     ) {
         super();
@@ -238,37 +236,23 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     private searchByQuery(searchQuery: string): Observable<XmAutocompleteControlListItem[]> {
-        const {queryParams, body, routeQueryParams} = this.config?.search || {};
-        const additionalRequestQueryParams = this.mapRouteQueryParams(routeQueryParams);
+        const {queryParams, body} = this.config?.search || {};
 
         const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(searchQuery));
         const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(searchQuery));
 
-        return this.buildRequest({...httpParams, ...additionalRequestQueryParams}, httpBody);
+        return this.buildRequest(httpParams, httpBody);
     }
 
     private fetchSelectedValues(values: XmAutocompleteControlListItem[]): Observable<XmAutocompleteControlListItem[]> {
-        const {queryParams, body, routeQueryParams} = this.config?.fetchSelectedByCriteria || {};
-        const additionalRequestQueryParams = this.mapRouteQueryParams(routeQueryParams);
+        const {queryParams, body} = this.config?.fetchSelectedByCriteria || {};
 
         const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(values));
         const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(values));
 
-        return this.buildRequest({...httpParams, ...additionalRequestQueryParams}, httpBody).pipe(
+        return this.buildRequest(httpParams, httpBody).pipe(
             catchError(() => of(values)),
         );
-    }
-
-    private mapRouteQueryParams(routeQueryParams: IRouteQueryParams): XmAutocompleteControlParams {
-        const additionalRequestQueryParams = {};
-        if (!_.isEmpty(routeQueryParams)) {
-            const routeParams: ParamMap = this.activatedRoute.snapshot.queryParamMap;
-            const {keys, queryParamKeys} = routeQueryParams;
-            keys?.forEach((key: string, index: number) => {
-                additionalRequestQueryParams[queryParamKeys[index]] = routeParams.get(key) || '';
-            });
-        }
-        return additionalRequestQueryParams;
     }
 
     private getSearchCriteriaContext(search: unknown): Record<string, unknown> {
