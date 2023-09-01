@@ -1,18 +1,34 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
-import * as _ from 'lodash';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmAceEditorDirective } from '../xm-ace-editor.directive';
 import { XmAceEditorThemeSchemeAdapterDirective } from '../xm-ace-editor-theme-scheme-adapter.directive';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { parse, stringify } from 'yaml';
+import { Defaults } from '@xm-ngx/operators';
+
+/**
+ *
+ * yaml - string
+ * json - string
+ * object-to-yaml - object
+ * object-to-json - object
+ *
+ */
+export enum XmAceEditorControlOptionsModeType {
+    'yaml' = 'yaml',
+    'json' = 'json',
+    'object-to-yaml' = 'object-to-yaml',
+    'object-to-json' = 'object-to-json',
+}
 
 export interface XmAceEditorControlOptions {
     id?: string;
     title?: string;
     name?: string;
-    mode: string | 'yaml' | 'json';
+    mode: string | XmAceEditorControlOptionsModeType;
     height?: string;
     theme?: string;
     darkTheme?: string;
@@ -20,6 +36,7 @@ export interface XmAceEditorControlOptions {
     options?: {
         highlightActiveLine?: boolean;
         maxLines?: number;
+        tabSize?: number;
         printMargin?: boolean;
         autoScrollEditorIntoView?: boolean;
     },
@@ -54,10 +71,10 @@ type AceEditorValue = string | object;
             <label class="control-label" *ngIf="config?.title">{{ config.title | translate }}</label>
             <div class="ace-editor-control w-100 border"
                  [ngClass]="{ 'border-danger': error}"
-                 (textChanged)="change($event)"
+                 (textChanged)="changeValue($event)"
                  [enableInitialFocus]="config.enableInitialFocus"
                  [autoUpdateContent]="true"
-                 [mode]="config.mode"
+                 [mode]="getMode()"
                  [readOnly]="disabled"
                  [text]="_value"
                  [config]="config.options"
@@ -69,6 +86,7 @@ type AceEditorValue = string | object;
                  xmAceEditorThemeSchemeAdapter
                  xmAceEditor>
             </div>
+            <mat-error *ngIf="error">{{error}}</mat-error>
             <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
         </div>
     `,
@@ -76,49 +94,69 @@ type AceEditorValue = string | object;
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
-    public error: boolean = false;
-    private _config: XmAceEditorControlOptions = XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS;
+    public error: object | null = null;
 
-    public get config(): XmAceEditorControlOptions {
-        return this._config;
-    }
+    @Input() @Defaults(XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS)
+    public config: XmAceEditorControlOptions;
 
-    @Input()
-    public set config(value: XmAceEditorControlOptions) {
-        this._config = _.defaults({}, value, XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS);
-    }
-
-    public _value: string;
+    public _value: string = '';
 
     public get value(): AceEditorValue {
-        if (this._config.mode === 'json') {
-            return JSON.parse(this._value);
+        try {
+            switch (this.config.mode) {
+                case 'object-to-json':
+                    return JSON.parse(this._value);
+                case 'object-to-yaml':
+                    return parse(this._value);
+            }
+            return this._value;
+        } catch (e) {
+            this.error = e;
         }
 
+        // Default value to keep parent working.
         return this._value;
     }
 
     @Input()
     public set value(value: AceEditorValue) {
-        if (typeof value === 'object') {
-            this._value = JSON.stringify(value, null, 2);
-        } else {
-            this._value = value;
-        }
-    }
-
-    public change(v: AceEditorValue): void {
-        if (this._config.mode === 'json') {
-            try {
-                v = JSON.parse(v as string);
-                this.error = false;
-            } catch (e) {
-                this.error = true;
+        try {
+            switch (this.config.mode) {
+                case 'object-to-yaml':
+                    this._value = stringify(value, { blockQuote: 'literal' });
+                    return;
+                case 'object-to-json':
+                    this._value = JSON.stringify(value);
+                    return;
             }
+            this._value = value as string;
+        } catch (e) {
+            this.error = e;
         }
-        this._onChange(v);
-        this.valueChange.next(v);
     }
 
-}
+    public getMode(): string | null {
+        switch (this.config.mode) {
+            case 'object-to-yaml':
+            case 'yaml':
+                return 'yaml';
+            case 'object-to-json':
+            case 'json':
+                return 'json';
+        }
+        return null;
+    }
 
+    public changeValue(value: string): void {
+        this._value = value;
+
+        // Trigger error check
+        this.error = null;
+        if (this.value === undefined || this.error) {
+            return;
+        }
+
+        this._onChange(this.value);
+        this.valueChange.next(this.value);
+    }
+}

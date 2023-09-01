@@ -37,16 +37,14 @@
           <div class="ms-2 user-btn-block me-2" *ngIf="!config.settings">
             <a [routerLink]="item?.url"
                class="full-btn"
-               mat-stroked-button
-               (click)="$event.stopPropagation()">
+               mat-stroked-button>
               {{(item.title |translate)}}
             </a>
           </div>
           <div class="ms-2 user-btn-block me-2" *ngIf="config.settings">
             <a [routerLink]="config.settings.url"
                class="full-btn"
-               mat-stroked-button
-               (click)="$event.stopPropagation()">
+               mat-stroked-button>
               {{(config.settings.title |translate)}}
             </a>
           </div>
