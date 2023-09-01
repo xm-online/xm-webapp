@@ -4,18 +4,19 @@ import {
     IXmTableCollectionController,
     IXmTableCollectionState,
     XmTableColumnsSettingStorageService,
+    XmTableFilterController,
+    XmTableQueryParamsStoreService,
 } from '../controllers';
-import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { PageableAndSortable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { cloneDeep } from 'lodash';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { XmTableQueryParamsStoreService } from '../controllers/filters/xm-table-query-params-store.service';
-import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from './xm-table.model';
-import { map } from 'rxjs/operators';
+import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-table.model';
+import { map, startWith } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { XmEventManagerService } from '@xm-ngx/core';
 
 export interface IXmTableContext {
     collection: IXmTableCollectionState<unknown>,
@@ -55,6 +56,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
         private tableFilterController: XmTableFilterController,
         private columnsSettingStorageService: XmTableColumnsSettingStorageService,
         private queryParamsStoreService: XmTableQueryParamsStoreService,
+        private eventManagerService: XmEventManagerService,
     ) {
     }
 
@@ -75,11 +77,6 @@ export class XmTableDirective implements OnInit, OnDestroy {
         this.onControllerStateChangeUpdateContext();
     }
 
-    private setStorageKeys(): void {
-        const storageKey: string = this.config.storageKey || location.pathname;
-        this.columnsSettingStorageService.key = this.queryParamsStoreService.key = storageKey;
-    }
-
     public onControllerStateChangeUpdateContext(): void {
         this.context$ = combineLatest([
             this.xmTableController.state$(),
@@ -94,12 +91,21 @@ export class XmTableDirective implements OnInit, OnDestroy {
             }),
         );
 
-        combineLatest([
-            this.tableFilterController.change$(),
-            this.pageableAndSortable$,
-        ])
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe(([filterParams, pageableAndSortable]) => {
+        combineLatest(
+            {
+                tableFilter: this.tableFilterController.change$(),
+                pageableAndSortable: this.pageableAndSortable$,
+                updateEvent: this.eventManagerService.listenTo(
+                    this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE,
+                ).pipe(startWith(null)),
+            }
+        )
+            .pipe(
+                takeUntilOnDestroy(this),
+            )
+            .subscribe((obsObj) => {
+                const filterParams = obsObj.tableFilter;
+                const pageableAndSortable = obsObj.pageableAndSortable;
                 const queryParams = _.merge({}, { pageableAndSortable }, { filterParams });
                 const removeFieldsFromUrl = Object.keys(this._config.queryParamsToFillter ?? {})
                     .reduce((acc, key) => ({ ...acc, [key]: null }), {});
@@ -124,6 +130,11 @@ export class XmTableDirective implements OnInit, OnDestroy {
         const total = this.paginator.length;
         const pageAndSort: PageableAndSortable = { pageIndex, pageSize, sortOrder, sortBy, total };
         this.pageableAndSortable$.next(pageAndSort);
+    }
+
+    private setStorageKeys(): void {
+        const storageKey: string = this.config.storageKey || location.pathname;
+        this.columnsSettingStorageService.key = this.queryParamsStoreService.key = storageKey;
     }
 
     private initQueryParams(): void {

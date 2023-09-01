@@ -2,7 +2,7 @@ import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButton } from '@angular/material/button';
 import { By } from '@angular/platform-browser';
-import { ButtonSpinnerDirective } from '@xm-ngx/components/button-spinner';
+import { ButtonSpinnerDirective } from './button-spinner.directive';
 
 @Component({
     template: `
@@ -14,13 +14,14 @@ import { ButtonSpinnerDirective } from '@xm-ngx/components/button-spinner';
 class MockTestComponent {
 }
 
-describe('SpinnerDirective', () => {
+describe('ButtonSpinnerDirective', () => {
     let fixture: ComponentFixture<MockTestComponent>;
     let buttonsWithDirective: DebugElement[];
 
     beforeEach(() => {
         fixture = TestBed.configureTestingModule({
-            declarations: [MockTestComponent, MatButton, ButtonSpinnerDirective],
+            imports: [ButtonSpinnerDirective],
+            declarations: [MockTestComponent, MatButton],
             schemas: [NO_ERRORS_SCHEMA],
 
         }).createComponent(MockTestComponent);
@@ -30,7 +31,7 @@ describe('SpinnerDirective', () => {
         buttonsWithDirective = fixture.debugElement.queryAll(By.directive(ButtonSpinnerDirective));
     });
 
-    describe('Directive get loading=true, ', () => {
+    describe('Directive get loading=true', () => {
         it('should disable the button', () => {
             const button = buttonsWithDirective[0].nativeElement as HTMLButtonElement;
             expect(button.disabled).toBeTrue();
@@ -38,10 +39,10 @@ describe('SpinnerDirective', () => {
 
         it('should add custom class to the button', () => {
             const button = buttonsWithDirective[0].nativeElement as HTMLButtonElement;
-            expect(button.classList).toContain('mat-loading');
+            expect(button.classList).toContain('xm-button-spinner-loading');
         });
 
-        it('should create mat-progress-spinner as last child node', () => {
+        it('should create mat-mdc-progress-spinner as last child node', () => {
             const button = buttonsWithDirective[0].nativeElement as HTMLButtonElement;
             const elementName = button.children.item(button.children.length - 1).tagName.toLowerCase();
             expect(elementName).toBe('mat-progress-spinner');
@@ -57,7 +58,7 @@ describe('SpinnerDirective', () => {
         it('should create an instance', () => {
             const button = buttonsWithDirective[1].nativeElement as HTMLButtonElement;
             const elementName = button.children.item(button.children.length - 1).tagName.toLowerCase();
-            expect(elementName).not.toBe('mat-progress-spinner');
+            expect(elementName).not.toBe('mat-mdc-progress-spinner');
         });
     });
 
