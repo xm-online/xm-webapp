@@ -22,8 +22,8 @@ export interface XmAutocompleteControlListItem {
 export interface XmAutocompleteControlConfig {
     hint?: HintText;
     title?: Translate;
-    search: ISearchAutocompleteControlParams;
-    fetchSelectedByCriteria: IFetchAutocompleteControlParams;
+    search: XmAutocompleteSearchParams;
+    fetchSelectedByCriteria: XmAutocompleteFetchParams;
     multiple: boolean;
     startEmptySearch?: boolean;
     extractByKey?: string;
@@ -42,7 +42,7 @@ export interface XmAutocompleteControlConfig {
     required?: boolean;
 }
 
-export interface ISearchAutocompleteControlParams {
+export interface XmAutocompleteSearchParams {
     resourceUrl: string;
     resourceMethod: string;
     queryParams: XmAutocompleteControlParams;
@@ -50,14 +50,9 @@ export interface ISearchAutocompleteControlParams {
     headers: Record<string, string>;
 }
 
-export interface IFetchAutocompleteControlParams {
+export interface XmAutocompleteFetchParams {
     body: XmAutocompleteControlParams;
     queryParams: XmAutocompleteControlParams;
-}
-
-export interface IRouteQueryParams {
-    keys: string[];
-    queryParamKeys: string[];
 }
 
 export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
