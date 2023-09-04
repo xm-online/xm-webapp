@@ -22,17 +22,8 @@ export interface XmAutocompleteControlListItem {
 export interface XmAutocompleteControlConfig {
     hint?: HintText;
     title?: Translate;
-    search: {
-        resourceUrl: string;
-        resourceMethod: string;
-        queryParams: XmAutocompleteControlParams;
-        body: XmAutocompleteControlBody;
-        headers: Record<string, string>;
-    };
-    fetchSelectedByCriteria: {
-        body: XmAutocompleteControlParams;
-        queryParams: XmAutocompleteControlParams;
-    };
+    search: XmAutocompleteSearchParams;
+    fetchSelectedByCriteria: XmAutocompleteFetchParams;
     multiple: boolean;
     startEmptySearch?: boolean;
     extractByKey?: string;
@@ -49,6 +40,19 @@ export interface XmAutocompleteControlConfig {
     startFromCharSearch?: number;
     errors?: XmControlErrorsTranslates;
     required?: boolean;
+}
+
+export interface XmAutocompleteSearchParams {
+    resourceUrl: string;
+    resourceMethod: string;
+    queryParams: XmAutocompleteControlParams;
+    body: XmAutocompleteControlBody;
+    headers: Record<string, string>;
+}
+
+export interface XmAutocompleteFetchParams {
+    body: XmAutocompleteControlParams;
+    queryParams: XmAutocompleteControlParams;
 }
 
 export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {
