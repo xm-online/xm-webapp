@@ -1,7 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { XmAceEditorControl, XmAceEditorControlOptions } from './xm-ace-editor-control';
-import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {XmAceEditorControl} from './xm-ace-editor-control';
+import {ControlErrorModule} from '@xm-ngx/components/control-error';
+import {XmTranslationTestingModule} from '@xm-ngx/translation/testing';
+import {XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
+import {XmAceEditorControlTypeEnum} from '@xm-ngx/components/ace-editor/ace-editor-control/xm-ace-editor-control.model';
 
 describe('XmAceEditorControl', () => {
     let fixture: ComponentFixture<XmAceEditorControl>;
@@ -31,7 +33,8 @@ describe('XmAceEditorControl', () => {
             options: {},
             title: '',
             name: 'text',
-            mode: 'json',
+            mode: XmAceEditorControlModeEnum.JSON,
+            type: XmAceEditorControlTypeEnum.OBJECT,
             height: '200px',
             theme: 'chrome',
             darkTheme: 'tomorrow_night',
@@ -51,7 +54,11 @@ describe('XmAceEditorControl', () => {
     });
 
     it('should parse JSON input value when mode is "json"', () => {
-        component.config.mode = 'json';
+        component.config = {
+            ...component.config,
+            mode: XmAceEditorControlModeEnum.JSON,
+            type: XmAceEditorControlTypeEnum.STRING,
+        };
         const jsonValue = '{"key": "value"}';
         component.value = jsonValue;
         fixture.detectChanges();
@@ -60,7 +67,11 @@ describe('XmAceEditorControl', () => {
     });
 
     it('should stringify value when mode is "object-to-json" and input value is an object', () => {
-        component.config.mode = 'object-to-json';
+        component.config = {
+            ...component.config,
+            mode: XmAceEditorControlModeEnum.JSON,
+            type: XmAceEditorControlTypeEnum.OBJECT,
+        };
         const objectValue = { key: 'value' };
         component.value = objectValue;
         fixture.detectChanges();
@@ -69,7 +80,11 @@ describe('XmAceEditorControl', () => {
     });
 
     it('should handle JSON input value when mode is "json"', () => {
-        component.config.mode = 'json';
+        component.config = {
+            ...component.config,
+            mode: XmAceEditorControlModeEnum.JSON,
+            type: XmAceEditorControlTypeEnum.STRING,
+        };
         const jsonValue = '{key: "value"}';
         component.value = jsonValue;
         fixture.detectChanges();
@@ -78,7 +93,11 @@ describe('XmAceEditorControl', () => {
     });
 
     it('should parse YAML input value when mode is "yaml"', () => {
-        component.config.mode = 'yaml';
+        component.config = {
+            ...component.config,
+            mode: XmAceEditorControlModeEnum.YAML,
+            type: XmAceEditorControlTypeEnum.STRING,
+        };
         const yamlValue = 'key: value';
         component.value = yamlValue;
         fixture.detectChanges();
@@ -87,7 +106,11 @@ describe('XmAceEditorControl', () => {
     });
 
     it('should stringify value when mode is "object-to-yaml" and input value is an object', () => {
-        component.config.mode = 'object-to-yaml';
+        component.config = {
+            ...component.config,
+            mode: XmAceEditorControlModeEnum.YAML,
+            type: XmAceEditorControlTypeEnum.OBJECT,
+        };
         const objectValue = { key: 'value' };
         component.value = objectValue;
         void expect(component.value).toEqual(objectValue);

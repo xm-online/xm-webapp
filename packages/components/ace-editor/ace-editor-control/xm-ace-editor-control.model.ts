@@ -2,7 +2,8 @@ export interface XmAceEditorControlOptions {
     id?: string;
     title?: string;
     name?: string;
-    mode: string | XmAceEditorControlModeEnum;
+    mode: XmAceEditorControlModeEnum;
+    type: XmAceEditorControlTypeEnum;
     height?: string;
     theme?: string;
     darkTheme?: string;
@@ -17,8 +18,11 @@ export interface XmAceEditorControlOptions {
 }
 
 export enum XmAceEditorControlModeEnum {
-    OBJECT_TO_JSON = 'object-to-json',
-    OBJECT_TO_YAML = 'object-to-yaml',
     JSON = 'json',
     YAML = 'yaml'
+}
+
+export enum XmAceEditorControlTypeEnum {
+    OBJECT = 'object',
+    STRING = 'string'
 }

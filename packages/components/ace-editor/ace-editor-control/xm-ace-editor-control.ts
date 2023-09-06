@@ -1,20 +1,22 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
-import { XmTranslationModule } from '@xm-ngx/translation';
-import { XmAceEditorDirective } from '../xm-ace-editor.directive';
-import { XmAceEditorThemeSchemeAdapterDirective } from '../xm-ace-editor-theme-scheme-adapter.directive';
-import { CommonModule } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { parse, stringify } from 'yaml';
-import { Defaults } from '@xm-ngx/operators';
+import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core';
+import {NgControlAccessor} from '@xm-ngx/components/ng-accessor';
+import {XmTranslationModule} from '@xm-ngx/translation';
+import {XmAceEditorDirective} from '../xm-ace-editor.directive';
+import {XmAceEditorThemeSchemeAdapterDirective} from '../xm-ace-editor-theme-scheme-adapter.directive';
+import {CommonModule} from '@angular/common';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {ControlErrorModule} from '@xm-ngx/components/control-error';
+import {parse, stringify} from 'yaml';
+import {Defaults} from '@xm-ngx/operators';
 import {XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
+import {XmAceEditorControlTypeEnum} from '@xm-ngx/components/ace-editor/ace-editor-control/xm-ace-editor-control.model';
 
 const XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS: XmAceEditorControlOptions = {
     options: {},
     title: '',
     name: 'text',
     mode: XmAceEditorControlModeEnum.JSON,
+    type: XmAceEditorControlTypeEnum.OBJECT,
     height: '200px',
     theme: 'chrome',
     darkTheme: 'tomorrow_night',
@@ -42,7 +44,7 @@ type AceEditorValue = string | object;
                  (textChanged)="changeValue($event)"
                  [enableInitialFocus]="config.enableInitialFocus"
                  [autoUpdateContent]="true"
-                 [mode]="getMode()"
+                 [mode]="config.mode"
                  [readOnly]="disabled"
                  [text]="_value"
                  [config]="config.options"
@@ -71,13 +73,13 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
 
     public get value(): AceEditorValue {
         try {
-            switch (this.config.mode) {
-                case XmAceEditorControlModeEnum.OBJECT_TO_JSON:
-                case XmAceEditorControlModeEnum.JSON:
-                    return JSON.parse(this._value);
-                case XmAceEditorControlModeEnum.OBJECT_TO_YAML:
-                case XmAceEditorControlModeEnum.YAML:
-                    return parse(this._value);
+            if (this.config.type === XmAceEditorControlTypeEnum.OBJECT) {
+                switch (this.config.mode) {
+                    case XmAceEditorControlModeEnum.JSON:
+                        return JSON.parse(this._value);
+                    case XmAceEditorControlModeEnum.YAML:
+                        return parse(this._value);
+                }
             }
             return this._value;
         } catch (e) {
@@ -91,32 +93,21 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
     @Input()
     public set value(value: AceEditorValue) {
         try {
-            switch (this.config.mode) {
-                case XmAceEditorControlModeEnum.OBJECT_TO_YAML:
-                case XmAceEditorControlModeEnum.YAML:
-                    this._value = stringify(value, { blockQuote: 'literal' });
-                    return;
-                case XmAceEditorControlModeEnum.OBJECT_TO_JSON:
-                case XmAceEditorControlModeEnum.JSON:
-                    this._value = JSON.stringify(value, null, 2);
-                    return;
+            if (typeof value === 'object') {
+                switch (this.config.mode) {
+                    case XmAceEditorControlModeEnum.YAML:
+                        this._value = stringify(value, { blockQuote: 'literal' });
+                        return;
+                    case XmAceEditorControlModeEnum.JSON:
+                        this._value = JSON.stringify(value, null, 2);
+                        return;
+                }
+            } else {
+                this._value = value || '';
             }
         } catch (e) {
             this.error = e;
         }
-    }
-
-    // TODO: Why we need this mapping with new OBJECT_TO_YAML and OBJECT_TO_JSON? Looks like extra naming for the same thing.
-    public getMode(): string | null {
-        switch (this.config.mode) {
-            case XmAceEditorControlModeEnum.OBJECT_TO_YAML:
-            case XmAceEditorControlModeEnum.YAML:
-                return XmAceEditorControlModeEnum.YAML;
-            case XmAceEditorControlModeEnum.OBJECT_TO_JSON:
-            case XmAceEditorControlModeEnum.JSON:
-                return XmAceEditorControlModeEnum.JSON;
-        }
-        return null;
     }
 
     public changeValue(value: string): void {

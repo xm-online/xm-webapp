@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
-import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
+import {XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
 import { finalize } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
+import {XmAceEditorControlTypeEnum} from '@xm-ngx/components/ace-editor/ace-editor-control/xm-ace-editor-control.model';
 
 const TENANT_SPEC_PATH = '/tenant-config.yml';
 
@@ -20,7 +21,8 @@ export class TenantMngComponent implements OnInit {
     public isTenantSpecValid: boolean;
 
     public aceEditorOptions: XmAceEditorControlOptions = {
-        mode: 'yaml',
+        mode: XmAceEditorControlModeEnum.JSON,
+        type: XmAceEditorControlTypeEnum.STRING,
         options: {
             highlightActiveLine: true,
             maxLines: 50,

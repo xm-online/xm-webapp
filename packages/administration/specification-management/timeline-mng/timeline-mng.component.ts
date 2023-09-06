@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SpecificationManagementComponent } from '../specification-management.component';
-import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
+import {XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
 import { XmConfigService } from '@xm-ngx/core/config';
+import {XmAceEditorControlTypeEnum} from '@xm-ngx/components/ace-editor/ace-editor-control/xm-ace-editor-control.model';
 
 @Component({
     selector: 'xm-timeline-mng',
@@ -16,7 +17,8 @@ export class TimelineMngComponent implements OnInit {
     public isTimelineSpecValid: boolean;
 
     public aceEditorOptions: XmAceEditorControlOptions = {
-        mode: 'yaml',
+        mode: XmAceEditorControlModeEnum.JSON,
+        type: XmAceEditorControlTypeEnum.STRING,
         options: {
             highlightActiveLine: true,
             maxLines: 50,
