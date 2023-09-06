@@ -100,14 +100,13 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
                 case XmAceEditorControlModeEnum.JSON:
                     this._value = JSON.stringify(value, null, 2);
                     return;
-                default:
-                    this._value = '';
             }
         } catch (e) {
             this.error = e;
         }
     }
 
+    // TODO: Why we need this mapping with new OBJECT_TO_YAML and OBJECT_TO_JSON? Looks like extra naming for the same thing.
     public getMode(): string | null {
         switch (this.config.mode) {
             case XmAceEditorControlModeEnum.OBJECT_TO_YAML:
