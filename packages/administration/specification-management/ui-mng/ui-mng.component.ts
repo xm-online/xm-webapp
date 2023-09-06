@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
-import {XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
+import {
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
 import { finalize } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
-import {XmAceEditorControlTypeEnum} from '@xm-ngx/components/ace-editor/ace-editor-control/xm-ace-editor-control.model';
 
 @Component({
     selector: 'xm-ui-mng',
@@ -20,7 +23,7 @@ export class UiMngComponent implements OnInit {
     public uiSpecificationProgress: boolean;
 
     public aceEditorOptions: XmAceEditorControlOptions = {
-        mode: XmAceEditorControlModeEnum.JSON,
+        mode: XmAceEditorControlModeEnum.YAML,
         type: XmAceEditorControlTypeEnum.STRING,
         height: '700px',
     };

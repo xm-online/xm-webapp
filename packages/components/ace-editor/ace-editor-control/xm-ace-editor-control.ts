@@ -8,8 +8,11 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {ControlErrorModule} from '@xm-ngx/components/control-error';
 import {parse, stringify} from 'yaml';
 import {Defaults} from '@xm-ngx/operators';
-import {XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
-import {XmAceEditorControlTypeEnum} from '@xm-ngx/components/ace-editor/ace-editor-control/xm-ace-editor-control.model';
+import {
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from './xm-ace-editor-control.model';
 
 const XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS: XmAceEditorControlOptions = {
     options: {},

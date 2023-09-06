@@ -1,12 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
+import {
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
 import {StatesManagementDialogComponent} from '@xm-ngx/entity';
 import {XmConfigService} from '@xm-ngx/core/config';
 
 import {ConfigValidatorUtil} from '../config-validator/config-validator.util';
 import {ConfigVisualizerDialogComponent} from '../config-visualizer-dialog/config-visualizer-dialog.component';
-import {XmAceEditorControlTypeEnum} from '@xm-ngx/components/ace-editor/ace-editor-control/xm-ace-editor-control.model';
 
 @Component({
     selector: 'xm-entity-spec-mng',

@@ -12,7 +12,11 @@ import {
 import {AbstractControl, FormControl, ValidationErrors, Validators} from '@angular/forms';
 import {TranslateService} from '@ngx-translate/core';
 import {XmAlertService} from '@xm-ngx/alert';
-import {XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
+import {
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
 import {XM_CONTROL_ERRORS_TRANSLATES} from '@xm-ngx/components/control-error';
 import {XmTextControlOptions} from '@xm-ngx/components/text';
 import {XmEventManager} from '@xm-ngx/core';
@@ -32,7 +36,6 @@ import {
     DashboardsListExpandComponent,
 } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
 import {DashboardCollection, DashboardConfig as DashboardConfigInjector} from '../injectors';
-import {XmAceEditorControlTypeEnum} from '@xm-ngx/components/ace-editor/ace-editor-control/xm-ace-editor-control.model';
 
 export enum EditType {
     Create = 1,

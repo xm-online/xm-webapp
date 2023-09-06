@@ -2,8 +2,11 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {XmAceEditorControl} from './xm-ace-editor-control';
 import {ControlErrorModule} from '@xm-ngx/components/control-error';
 import {XmTranslationTestingModule} from '@xm-ngx/translation/testing';
-import {XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
-import {XmAceEditorControlTypeEnum} from '@xm-ngx/components/ace-editor/ace-editor-control/xm-ace-editor-control.model';
+import {
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
 
 describe('XmAceEditorControl', () => {
     let fixture: ComponentFixture<XmAceEditorControl>;

@@ -1,10 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ConfigValidatorUtil} from '../config-validator/config-validator.util';
-import {XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
+import {
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
 import {finalize} from 'rxjs/operators';
 import {XmConfigService} from '@xm-ngx/core/config';
 import {Principal} from '@xm-ngx/core/user';
-import {XmAceEditorControlTypeEnum} from '@xm-ngx/components/ace-editor/ace-editor-control/xm-ace-editor-control.model';
 
 @Component({
     selector: 'xm-private-ui-mng',
@@ -19,7 +22,7 @@ export class PrivateUiMngComponent implements OnInit {
     public isUiPrivateSpecValid: boolean;
     public uiPrivateSpecificationProgress: boolean;
     public aceEditorOptions: XmAceEditorControlOptions = {
-        mode: XmAceEditorControlModeEnum.JSON,
+        mode: XmAceEditorControlModeEnum.YAML,
         type: XmAceEditorControlTypeEnum.STRING,
         options: {
             highlightActiveLine: true,

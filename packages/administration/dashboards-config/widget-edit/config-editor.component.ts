@@ -1,8 +1,12 @@
 import {Component} from '@angular/core';
-import {XmAceEditorControl, XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
+import {
+    XmAceEditorControl,
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
 import {NgControlAccessor} from '@xm-ngx/components/ng-accessor';
 import {FormsModule} from '@angular/forms';
-import {XmAceEditorControlTypeEnum} from '@xm-ngx/components/ace-editor/ace-editor-control/xm-ace-editor-control.model';
 
 @Component({
     selector: 'xm-config-editor',
