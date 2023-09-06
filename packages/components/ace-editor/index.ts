@@ -1,5 +1,9 @@
 export {
     XmAceEditorControlOptions,
+    XmAceEditorControlModeEnum,
+} from './ace-editor-control/xm-ace-editor-control.model';
+
+export {
     XmAceEditorControl,
 } from './ace-editor-control/xm-ace-editor-control';
 
