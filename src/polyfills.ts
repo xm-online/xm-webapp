@@ -65,3 +65,8 @@ import '@angular/localize/init';
 
 // Fix charlist, Error: Global not defined
 (window as any).global = window;
+
+// Fix ace-editor, when it throws an error ReferenceError: process is not defined
+(window as any).process = {
+    env: { DEBUG: undefined },
+};

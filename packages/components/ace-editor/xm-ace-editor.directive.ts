@@ -132,7 +132,7 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
 
     private updateValue(): void {
         const newVal = this.editor.getValue();
-        
+
         if (this.oldText != null) {
             this.textChanged.emit(newVal);
         }

@@ -8,45 +8,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { parse, stringify } from 'yaml';
 import { Defaults } from '@xm-ngx/operators';
-
-/**
- *
- * yaml - string
- * json - string
- * object-to-yaml - object
- * object-to-json - object
- *
- */
-export enum XmAceEditorControlOptionsModeType {
-    'yaml' = 'yaml',
-    'json' = 'json',
-    'object-to-yaml' = 'object-to-yaml',
-    'object-to-json' = 'object-to-json',
-}
-
-export interface XmAceEditorControlOptions {
-    id?: string;
-    title?: string;
-    name?: string;
-    mode: string | XmAceEditorControlOptionsModeType;
-    height?: string;
-    theme?: string;
-    darkTheme?: string;
-    enableInitialFocus?: boolean;
-    options?: {
-        highlightActiveLine?: boolean;
-        maxLines?: number;
-        tabSize?: number;
-        printMargin?: boolean;
-        autoScrollEditorIntoView?: boolean;
-    },
-}
+import {XmAceEditorControlModeEnum, XmAceEditorControlOptions} from '@xm-ngx/components/ace-editor';
 
 const XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS: XmAceEditorControlOptions = {
     options: {},
     title: '',
     name: 'text',
-    mode: 'json',
+    mode: XmAceEditorControlModeEnum.JSON,
     height: '200px',
     theme: 'chrome',
     darkTheme: 'tomorrow_night',
@@ -104,9 +72,11 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
     public get value(): AceEditorValue {
         try {
             switch (this.config.mode) {
-                case 'object-to-json':
+                case XmAceEditorControlModeEnum.OBJECT_TO_JSON:
+                case XmAceEditorControlModeEnum.JSON:
                     return JSON.parse(this._value);
-                case 'object-to-yaml':
+                case XmAceEditorControlModeEnum.OBJECT_TO_YAML:
+                case XmAceEditorControlModeEnum.YAML:
                     return parse(this._value);
             }
             return this._value;
@@ -122,14 +92,17 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
     public set value(value: AceEditorValue) {
         try {
             switch (this.config.mode) {
-                case 'object-to-yaml':
+                case XmAceEditorControlModeEnum.OBJECT_TO_YAML:
+                case XmAceEditorControlModeEnum.YAML:
                     this._value = stringify(value, { blockQuote: 'literal' });
                     return;
-                case 'object-to-json':
-                    this._value = JSON.stringify(value);
+                case XmAceEditorControlModeEnum.OBJECT_TO_JSON:
+                case XmAceEditorControlModeEnum.JSON:
+                    this._value = JSON.stringify(value, null, 2);
                     return;
+                default:
+                    this._value = '';
             }
-            this._value = value as string;
         } catch (e) {
             this.error = e;
         }
@@ -137,12 +110,12 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
 
     public getMode(): string | null {
         switch (this.config.mode) {
-            case 'object-to-yaml':
-            case 'yaml':
-                return 'yaml';
-            case 'object-to-json':
-            case 'json':
-                return 'json';
+            case XmAceEditorControlModeEnum.OBJECT_TO_YAML:
+            case XmAceEditorControlModeEnum.YAML:
+                return XmAceEditorControlModeEnum.YAML;
+            case XmAceEditorControlModeEnum.OBJECT_TO_JSON:
+            case XmAceEditorControlModeEnum.JSON:
+                return XmAceEditorControlModeEnum.JSON;
         }
         return null;
     }
