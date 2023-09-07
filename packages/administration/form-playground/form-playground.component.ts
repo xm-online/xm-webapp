@@ -1,12 +1,16 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
-import { FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {UntypedFormControl} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
+import {FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService} from '@xm-ngx/entity';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {map, startWith, tap} from 'rxjs/operators';
 
 import {
     addValidationComponent,
@@ -15,7 +19,7 @@ import {
     getJsfWidgets,
     processValidationMessages,
 } from '@xm-ngx/json-schema-form';
-import { EXAMPLES } from './example-schemas.model';
+import {EXAMPLES} from './example-schemas.model';
 
 interface FormsConfig {
     key: string;
@@ -77,7 +81,8 @@ export class FormPlaygroundComponent implements OnInit {
     public formIsValid: boolean = null;
     public submittedFormData: any = null;
     public aceEditorOptions: XmAceEditorControlOptions = {
-        mode: 'json',
+        mode: XmAceEditorControlModeEnum.JSON,
+        type: XmAceEditorControlTypeEnum.STRING,
         options: {
             highlightActiveLine: true,
             maxLines: 1000,
