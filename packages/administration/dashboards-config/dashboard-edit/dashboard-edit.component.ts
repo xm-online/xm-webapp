@@ -9,29 +9,33 @@ import {
     Type,
     ViewChild,
 } from '@angular/core';
-import { AbstractControl, FormControl, ValidationErrors, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { XmAlertService } from '@xm-ngx/alert';
-import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
-import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
-import { XmTextControlOptions } from '@xm-ngx/components/text';
-import { XmEventManager } from '@xm-ngx/core';
-import { Dashboard, DashboardConfig, DashboardLayout, DashboardStore, DashboardWidget } from '@xm-ngx/core/dashboard';
-import { Principal } from '@xm-ngx/core/user';
-import { copyToClipboard, readFromClipboard, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { XmTranslateService } from '@xm-ngx/translation';
+import {AbstractControl, FormControl, ValidationErrors, Validators} from '@angular/forms';
+import {TranslateService} from '@ngx-translate/core';
+import {XmAlertService} from '@xm-ngx/alert';
+import {
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
+import {XM_CONTROL_ERRORS_TRANSLATES} from '@xm-ngx/components/control-error';
+import {XmTextControlOptions} from '@xm-ngx/components/text';
+import {XmEventManager} from '@xm-ngx/core';
+import {Dashboard, DashboardConfig, DashboardLayout, DashboardStore, DashboardWidget} from '@xm-ngx/core/dashboard';
+import {Principal} from '@xm-ngx/core/user';
+import {copyToClipboard, readFromClipboard, takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
+import {XmToasterService} from '@xm-ngx/toaster';
+import {XmTranslateService} from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { prop } from 'lodash/fp';
-import { merge, Observable } from 'rxjs';
-import { delay, distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { DASHBOARDS_TRANSLATES } from '../const';
-import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../dashboard-editor.service';
+import {cloneDeep, omit} from 'lodash';
+import {prop} from 'lodash/fp';
+import {merge, Observable} from 'rxjs';
+import {delay, distinctUntilChanged, filter, map, switchMap, take, tap} from 'rxjs/operators';
+import {DASHBOARDS_TRANSLATES} from '../const';
+import {CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS} from '../dashboard-editor.service';
 import {
     DashboardsListExpandComponent,
 } from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
-import { cloneDeep, omit } from 'lodash';
-import { DashboardCollection, DashboardConfig as DashboardConfigInjector } from '../injectors';
+import {DashboardCollection, DashboardConfig as DashboardConfigInjector} from '../injectors';
 
 export enum EditType {
     Create = 1,
@@ -72,7 +76,12 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
     public disabled: boolean;
     public EDIT_EVENT: string = this.dashboardConfig.EDIT_DASHBOARD_EVENT;
 
-    public aceEditorOptions: XmAceEditorControlOptions = {title: '', mode: 'object-to-yaml', height: 'calc(100vh - 350px)'};
+    public aceEditorOptions: XmAceEditorControlOptions = {
+        title: '',
+        mode: XmAceEditorControlModeEnum.JSON,
+        type: XmAceEditorControlTypeEnum.OBJECT,
+        height: 'calc(100vh - 350px)',
+    };
 
     public editType: EditType;
     public widgetEditComponentType: Type<unknown> = this.dashboardConfig.widgetRef;
