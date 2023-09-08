@@ -21,10 +21,12 @@ import { Defaults, interpolate } from '@xm-ngx/operators';
 
 export interface ChipsControlConfig {
     title?: Translate,
+    multiple?: boolean;
     items?: {title: Translate, value: string}[],
 }
 
 export const ChipsControlConfigDefault: ChipsControlConfig = {
+    multiple: true,
 };
 
 @Component({
@@ -33,7 +35,7 @@ export const ChipsControlConfigDefault: ChipsControlConfig = {
     template: `
         <div class="col-12 mb-3">
             <mat-chip-listbox
-                [multiple]="true"
+                [multiple]="config?.multiple"
                 [formControl]="control"
             >
                 <mat-chip-option *ngFor="let option of config.items"

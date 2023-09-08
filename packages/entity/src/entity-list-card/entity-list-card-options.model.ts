@@ -1,7 +1,5 @@
-import { FastSearchSpec } from '@xm-ngx/core/entity';
-import { XmEntitySpec } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
 import { ActionOptions, FieldOptions } from '@xm-ngx/core/config';
+import { FastSearchSpec, XmEntity, XmEntitySpec } from '@xm-ngx/core/entity';
 
 export { ActionOptions, FieldOptions } from '@xm-ngx/core/config';
 
@@ -9,6 +7,7 @@ export interface EntityListCardOptions {
     entities?: EntityOptions[];
     hideDelete?: boolean;
     hideAvatar?: boolean;
+    useNewTable?: boolean;
     smOverflow?: boolean;
     hideExport?: boolean;
     hideOptionsMenu?: boolean;
