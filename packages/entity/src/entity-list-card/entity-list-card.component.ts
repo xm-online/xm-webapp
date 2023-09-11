@@ -109,6 +109,8 @@ export class EntityListCardComponent implements OnInit, OnChanges {
                 }
 
                 set(this.options, 'useNewTable', res?.useNewTable);
+                set(this.options, 'tableConfig', res?.tableConfig);
+                set(this.options, 'typeKeysTableConfig', res?.typeKeysTableConfig);
             }),
             map((conf) => conf.entities || []),
             tap((entities) => this.entitiesUiConfig = entities),

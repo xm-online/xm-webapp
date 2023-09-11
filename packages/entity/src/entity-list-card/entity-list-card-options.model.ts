@@ -1,5 +1,7 @@
+import { XmTableWidgetConfig } from '@xm-ngx/components/table';
 import { ActionOptions, FieldOptions } from '@xm-ngx/core/config';
 import { FastSearchSpec, XmEntity, XmEntitySpec } from '@xm-ngx/core/entity';
+import { DeepPartial } from '@xm-ngx/interfaces';
 
 export { ActionOptions, FieldOptions } from '@xm-ngx/core/config';
 
@@ -8,6 +10,8 @@ export interface EntityListCardOptions {
     hideDelete?: boolean;
     hideAvatar?: boolean;
     useNewTable?: boolean;
+    tableConfig?: DeepPartial<XmTableWidgetConfig>;
+    typeKeysTableConfig?: Record<string, DeepPartial<XmTableWidgetConfig>>;
     smOverflow?: boolean;
     hideExport?: boolean;
     hideOptionsMenu?: boolean;

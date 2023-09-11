@@ -15,7 +15,11 @@
         <ng-container *ngIf="options?.useNewTable; then newTable else oldList"></ng-container>
 
         <ng-template #newTable>
-          <xm-entity-table [hideActionsMenu]="options.hideOptionsMenu" [hideDeleteButton]="options.hideDelete" [adaptConfig]="item"></xm-entity-table>
+          <xm-entity-table 
+            [hideActionsMenu]="options.hideOptionsMenu" 
+            [hideDeleteButton]="options.hideDelete" 
+            [tableConfig]="options.tableConfig"
+            [adaptConfig]="item"></xm-entity-table>
         </ng-template>
 
         <ng-template #oldList>

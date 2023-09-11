@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { XmTableWidgetConfig, XmTableWidget, XmTableSettingStore, XmTableColumn } from '@xm-ngx/components/table';
 import { EntityTableAdaptConfig } from './entity-table.model';
 import { set } from 'lodash';
@@ -17,28 +17,38 @@ import { FormLayoutItem } from '@xm-ngx/components/form-layout';
         <xm-table-widget [config]="config"></xm-table-widget>
     `,
 })
-export class XmEntityTableComponent {
+export class XmEntityTableComponent implements OnChanges, OnInit {
+    private readonly tableColumnsKey = 'application-table';
+
     public config: DeepPartial<XmTableWidgetConfig>;
 
     private xmTableSettingStore = inject(XmTableSettingStore);
 
     @Input() public hideActionsMenu = false;
     @Input() public hideDeleteButton = false;
+    @Input() public tableConfig?: DeepPartial<XmTableWidgetConfig>;
+    @Input() public adaptConfig?: EntityTableAdaptConfig;
 
-    @Input() 
-    public set adaptConfig(widgetConfig: EntityTableAdaptConfig) {
-        const tableStorageKey = 'application-table';
+    public ngOnInit(): void {
+        this.xmTableSettingStore.clearStore(this.tableColumnsKey);
+    }
 
-        this.xmTableSettingStore.clearStore(tableStorageKey);
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (this.tableConfig) {
+            this.config = this.tableConfig;
+        } else if (this.adaptConfig) {
+            this.config = this.buildTableConfig();
+        }
+    }
 
-    
-        const { typeKey } = (widgetConfig ?? {});
+    private buildTableConfig(): DeepPartial<XmTableWidgetConfig> {
+        const { typeKey } = (this.adaptConfig ?? {});
 
-        const actions = this.buildTableActions(widgetConfig);
-        const columns = this.buildTableColumns(widgetConfig);
-        const filters = this.buildTableFilters(widgetConfig);
+        const actions = this.buildTableActions();
+        const columns = this.buildTableColumns();
+        const filters = this.buildTableFilters();
 
-        this.config = {
+        return {
             pageableAndSortable: {
                 pageSize: 10,
                 sortBy: 'id',
@@ -50,7 +60,7 @@ export class XmEntityTableComponent {
                 ],
                 hidePagination: false,
             },
-            storageKey: tableStorageKey,
+            storageKey: this.tableColumnsKey,
             actions,
             columns,
             filters,
@@ -74,8 +84,8 @@ export class XmEntityTableComponent {
         } as DeepPartial<XmTableWidgetConfig>;
     }
     
-    private buildTableActions(widgetConfig: EntityTableAdaptConfig): XmDynamicPresentationLayout[] {
-        const { typeKey, xmEntitySpec } = (widgetConfig ?? {});
+    private buildTableActions(): XmDynamicPresentationLayout[] {
+        const { typeKey, xmEntitySpec } = (this.adaptConfig ?? {});
         const { functions } = xmEntitySpec;
         
         const actions: XmDynamicPresentationLayout[] = [];
@@ -95,8 +105,8 @@ export class XmEntityTableComponent {
         return actions;
     }
 
-    private buildTableFilters(widgetConfig: EntityTableAdaptConfig): DeepPartial<FormLayoutItem>[] {
-        const { fastSearch } = (widgetConfig ?? {});
+    private buildTableFilters(): DeepPartial<FormLayoutItem>[] {
+        const { fastSearch } = (this.adaptConfig ?? {});
 
         const chips = fastSearch?.length > 0 
             ? [{
@@ -124,8 +134,8 @@ export class XmEntityTableComponent {
         ] : [];
     }
 
-    private buildTableColumns(widgetConfig: EntityTableAdaptConfig): DeepPartial<XmTableColumn[]> {
-        const { routerLink, noDeepLink, fields, xmEntitySpec } = (widgetConfig ?? {});
+    private buildTableColumns(): DeepPartial<XmTableColumn[]> {
+        const { routerLink, noDeepLink, fields, xmEntitySpec } = (this.adaptConfig ?? {});
         const { functions } = xmEntitySpec;
 
         const fieldsAsColumn =
@@ -152,7 +162,7 @@ export class XmEntityTableComponent {
             } else if (field.field === 'startDate' || field.field === 'updateDate') {
                 set(column, 'selector', '@xm-ngx/components/date');
                 set(column, 'config', {
-                    format: 'MM/dd/yy hh:mm',
+                    format: field?.dateFormat ?? 'MM/dd/yy hh:mm',
                 });
             } else if (field.field === 'action' && field.action) {
                 set(column, 'selector', '@xm-ngx/components/application-table-actions');
