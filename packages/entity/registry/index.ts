@@ -25,4 +25,8 @@ export const XM_ENTITY_ELEMENTS: XmDynamicEntries = [
         selector: '@xm-ngx/components/application-table-link',
         loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableLinkComponent),
     },
+    {
+        selector: '@xm-ngx/components/application-table-repository',
+        loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableRepository),
+    }
 ];
