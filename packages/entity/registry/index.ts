@@ -7,22 +7,22 @@ export const XM_ENTITY_ELEMENTS: XmDynamicEntries = [
     },
     {
         selector: '@xm-ngx/components/application-table-menu',
-        loadChildren: () => import('@xm-ngx/entity/src/entity-list-card').then(m => m.XmEntityTableMenuComponent),
+        loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableMenuComponent),
     },
     {
         selector: '@xm-ngx/components/application-table-state',
-        loadChildren: () => import('@xm-ngx/entity/src/entity-list-card').then(m => m.XmEntityTableStateComponent),
+        loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableStateComponent),
     },
     {
         selector: '@xm-ngx/components/application-table-delete-button',
-        loadChildren: () => import('@xm-ngx/entity/src/entity-list-card').then(m => m.XmEntityTableDeleteButtonComponent),
+        loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableDeleteButtonComponent),
     },
     {
         selector: '@xm-ngx/components/application-table-actions',
-        loadChildren: () => import('@xm-ngx/entity/src/entity-list-card').then(m => m.XmEntityTableActionsComponent),
+        loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableActionsComponent),
     },
     {
         selector: '@xm-ngx/components/application-table-link',
-        loadChildren: () => import('@xm-ngx/entity/src/entity-list-card').then(m => m.XmEntityTableLinkComponent),
+        loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableLinkComponent),
     },
 ];
