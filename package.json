@@ -105,6 +105,7 @@
     "datatables.net-responsive": "2.3.0",
     "eonasdan-bootstrap-datetimepicker": "4.17.49",
     "es6-shim": "0.35.6",
+    "eslint-plugin-storybook": "^0.6.13",
     "file-saver": "2.0.5",
     "file-type": "16.5.3",
     "fs-extra": "10.1.0",
