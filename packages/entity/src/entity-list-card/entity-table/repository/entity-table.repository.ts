@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { XmDynamicService } from '@xm-ngx/dynamic';
 import { XmElasticRequestBuilder, XmEntityRepository, XmEntityRepositoryQuery, XmFilterQueryParams } from '@xm-ngx/components/table';
 import { Observable, map } from 'rxjs';
-import { isEmpty } from 'lodash';
 
 export interface XmEntityTableQueryParams extends XmFilterQueryParams { 
     filterParams: {
@@ -22,7 +21,7 @@ export class XmEntityTableRepository<T extends XmEntity> extends XmEntityReposit
     public query(filterQueryParams: XmFilterQueryParams): Observable<HttpResponse<T[] & PageableAndSortable>> {
         const tableParams = filterQueryParams as XmEntityTableQueryParams;
 
-        if (isEmpty(tableParams?.filterParams?.fastSearch) == false) {
+        if (tableParams?.filterParams?.fastSearch) {
             return this.searchQuery(filterQueryParams);
         }
 
