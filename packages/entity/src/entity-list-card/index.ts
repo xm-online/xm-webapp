@@ -8,3 +8,4 @@ export * from './entity-table/shared/entity-table-state.component';
 export * from './entity-table/shared/entity-table-delete-buttom.component';
 export * from './entity-table/shared/entity-table-actions.component';
 export * from './entity-table/shared/entity-table-link.component';
+export * from './entity-table/repository/entity-table.repository';

@@ -67,17 +67,17 @@ export class XmEntityTableComponent implements OnChanges, OnInit {
             collection: {
                 type: 'repository',
                 repository: {
-                    selector: '@xm-ngx/components/entity-repository',
+                    selector: '@xm-ngx/components/application-table-repository',
                     config: {
                         useOnlySpecifiedParams: true,
                         paramsToRequest: {
                             page: 'queryParams.pageIndex',
                             size: 'queryParams.pageSize',
                             sort: "queryParams.sortBy + ',' + queryParams.sortOrder",
-                            query: `(!!queryParams.query) ? queryParams.query : 'typeKey:${typeKey}*'`,
+                            query: 'queryParams.fastSearch',
                             typeKey: `"${typeKey}"`,
                         },
-                        resourceUrl: 'entity/api/_search/v2/xm-entities',
+                        resourceUrl: 'entity/api/xm-entities',
                     },
                 },
             },
@@ -129,7 +129,7 @@ export class XmEntityTableComponent implements OnChanges, OnInit {
                     multiple: false,
                     items: chips,
                 },
-                name: 'query',
+                name: 'fastSearch',
             },
         ] : [];
     }
