@@ -5,6 +5,7 @@ import { Dashboard } from '@xm-ngx/core/dashboard';
 import { MenuItem } from './menu.interface';
 import { XmEntitySpec } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
+import {ISideBarConfig} from "./menu.component";
 
 function checkCondition(item: { config?: { condition?: JavascriptCode } }, contextService: ContextService): boolean {
     if (!item.config || !item.config.condition) {
@@ -24,14 +25,14 @@ export function filterByConditionDashboards(dashboards: Dashboard[], contextServ
     return dashboards.filter((i) => checkCondition(i, contextService));
 }
 
-export function applicationsToCategory(applications: XmEntitySpec[]): MenuItem[] {
+export function applicationsToCategory(applications: XmEntitySpec[], sideBarConfig?: ISideBarConfig): MenuItem[] {
     const parent = {
         path: 'application',
         position: 0,
         permission: 'XMENTITY_SPEC.GET',
         url: ['application'],
-        title: 'global.menu.applications.main',
-        icon: 'apps',
+        title: sideBarConfig?.sidebar?.applicationTitle || 'global.menu.applications.main',
+        icon: sideBarConfig?.sidebar?.applicationIcon || 'apps',
         parent: null,
         children: [],
     };
