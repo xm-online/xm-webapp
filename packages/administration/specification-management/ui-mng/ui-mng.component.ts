@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
-import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
+import {
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
 import { finalize } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
 
@@ -19,7 +23,8 @@ export class UiMngComponent implements OnInit {
     public uiSpecificationProgress: boolean;
 
     public aceEditorOptions: XmAceEditorControlOptions = {
-        mode: 'yaml',
+        mode: XmAceEditorControlModeEnum.YAML,
+        type: XmAceEditorControlTypeEnum.STRING,
         height: '700px',
     };
 

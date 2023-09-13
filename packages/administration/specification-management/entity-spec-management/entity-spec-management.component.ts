@@ -1,11 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
-import { StatesManagementDialogComponent } from '@xm-ngx/entity';
-import { XmConfigService } from '@xm-ngx/core/config';
+import {Component, Input, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
+import {StatesManagementDialogComponent} from '@xm-ngx/entity';
+import {XmConfigService} from '@xm-ngx/core/config';
 
-import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
-import { ConfigVisualizerDialogComponent } from '../config-visualizer-dialog/config-visualizer-dialog.component';
+import {ConfigValidatorUtil} from '../config-validator/config-validator.util';
+import {ConfigVisualizerDialogComponent} from '../config-visualizer-dialog/config-visualizer-dialog.component';
 
 @Component({
     selector: 'xm-entity-spec-mng',
@@ -21,7 +25,8 @@ export class EntitySpecManagementComponent implements OnInit {
     public entitySpecificationOut: string;
     public line: number;
     public aceEditorOptions: XmAceEditorControlOptions = {
-        mode: 'yaml',
+        mode: XmAceEditorControlModeEnum.YAML,
+        type: XmAceEditorControlTypeEnum.STRING,
         options: {
             highlightActiveLine: true,
             maxLines: 50,

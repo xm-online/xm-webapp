@@ -1,7 +1,7 @@
-<mat-card [ngSwitch]="list?.length === 1" class="mb-4">
+<div [ngSwitch]="list?.length === 1" class="mb-4">
   <xm-loader [showLoader]="showLoader"></xm-loader>
   <!-- start header for the one entity type  -->
-  <div *ngSwitchCase="true" class="card-header card-header-icon card-header-primary">
+  <div *ngSwitchCase="true" class="card-header card-header-icon card-header-primary mb-3">
     <div class="card-icon">
       <mat-icon>{{list[0]?.xmEntitySpec?.icon ? list[0]?.xmEntitySpec?.icon : 'search'}}</mat-icon>
     </div>
@@ -12,12 +12,25 @@
   <ng-container *ngSwitchCase="true">
     <ng-container *ngFor="let item of list; index as i; first as isFirst">
       <ng-container [class.hidden]="!item.entities">
-        <xm-entity-list [item]="item"
-                        [spec]="spec"
-                        [options]="options"
-                        [pageSize]="entitiesPerPage"
-                        [reverse]="reverse"
-                        [predicate]="predicate"></xm-entity-list>
+        <ng-container *ngIf="options?.useNewTable; then newTable else oldList"></ng-container>
+
+        <ng-template #newTable>
+          <xm-entity-table 
+            [hideActionsMenu]="options.hideOptionsMenu" 
+            [hideDeleteButton]="options.hideDelete" 
+            [tableConfig]="options.tableConfig"
+            [adaptConfig]="item"></xm-entity-table>
+        </ng-template>
+
+        <ng-template #oldList>
+          <xm-entity-list 
+            [item]="item"
+            [spec]="spec"
+            [options]="options"
+            [pageSize]="entitiesPerPage"
+            [reverse]="reverse"
+            [predicate]="predicate"></xm-entity-list>
+        </ng-template>
       </ng-container>
     </ng-container>
   </ng-container>
@@ -42,4 +55,4 @@
       </mat-tab>
     </mat-tab-group>
   </ng-container>
-</mat-card>
+</div>

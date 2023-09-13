@@ -1,48 +1,48 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { HttpHeaders } from '@angular/common/http';
+import {SelectionModel} from '@angular/cdk/collections';
+import {HttpHeaders} from '@angular/common/http';
 import {
-    OnInit,
-    OnDestroy,
-    OnChanges,
-    Input,
-    inject,
-    SimpleChanges,
     Directive,
+    inject,
+    Input,
+    OnChanges,
+    OnDestroy,
+    OnInit,
     Optional,
+    SimpleChanges,
     SkipSelf,
 } from '@angular/core';
-import { coerceArray } from '@angular/flex-layout';
-import { FormControl, NgControl } from '@angular/forms';
-import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { LanguageService } from '@xm-ngx/translation';
+import {coerceArray} from '@angular/flex-layout';
+import {FormControl, NgControl} from '@angular/forms';
+import {format, takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
+import {LanguageService} from '@xm-ngx/translation';
 import _ from 'lodash';
 import {
-    Observable,
     BehaviorSubject,
-    startWith,
-    map,
-    switchMap,
-    of,
-    tap,
-    distinctUntilChanged,
-    debounceTime,
     catchError,
-    finalize,
-    shareReplay,
-    pairwise,
+    debounceTime,
+    distinctUntilChanged,
     filter,
+    finalize,
+    map,
+    Observable,
+    of,
+    pairwise,
+    shareReplay,
+    startWith,
+    switchMap,
+    tap,
 } from 'rxjs';
-import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
-import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
+import {EntityCollectionFactoryService} from '@xm-ngx/repositories';
+import {NgModelWrapper} from '@xm-ngx/components/ng-accessor';
 import {
     AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG,
-    XmAutocompleteControlConfig,
-    XmAutocompleteControlMapper,
-    XmAutocompleteControlListItem,
-    XmAutocompleteControlParams,
     XmAutocompleteControlBody,
+    XmAutocompleteControlConfig,
+    XmAutocompleteControlListItem,
+    XmAutocompleteControlMapper,
+    XmAutocompleteControlParams,
 } from './autocomple-control.interface';
-import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import {XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES} from '@xm-ngx/components/validator-processing';
 
 @Directive()
 export class XmAutocompleteControl extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {

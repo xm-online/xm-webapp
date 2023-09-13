@@ -7,3 +7,4 @@ export * from './src/primitive.model';
 export * from './src/data-qa.model';
 export * from './src/json-object.model';
 export * from './src/xm-config.model';
+export * from './src/ts-helper.model';

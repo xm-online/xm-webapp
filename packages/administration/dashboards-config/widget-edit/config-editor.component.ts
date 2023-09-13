@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
-import { XmAceEditorControl, XmAceEditorControlOptions } from '@xm-ngx/components/ace-editor';
-import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
-import { FormsModule } from '@angular/forms';
+import {Component} from '@angular/core';
+import {
+    XmAceEditorControl,
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
+import {NgControlAccessor} from '@xm-ngx/components/ng-accessor';
+import {FormsModule} from '@angular/forms';
 
 @Component({
     selector: 'xm-config-editor',
@@ -23,7 +28,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class ConfigEditorComponent extends NgControlAccessor<string> {
     public aceEditorOptions: Partial<XmAceEditorControlOptions> = {
-        mode: 'object-to-yaml',
+        mode: XmAceEditorControlModeEnum.JSON,
+        type: XmAceEditorControlTypeEnum.OBJECT,
         title: '',
         options: {
             tabSize: 2,
