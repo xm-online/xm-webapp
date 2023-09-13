@@ -99,10 +99,14 @@ export class MenuComponent implements OnInit, OnDestroy {
                 }
                 let applications = sideBarConfig.spec.filter((t) => t.isApp);
                 applications = applications.filter((t) => this.principal.hasPrivilegesInline([ `APPLICATION.${ t.key }` ]));
-                sideBarConfig.sidebar.applicationTitle = this.translate.translate(
-                    sideBarConfig.sidebar?.applicationTitle || 'global.menu.applications.main',
-                    {},
-                );
+
+                if (sideBarConfig.sidebar) {
+                    sideBarConfig.sidebar.applicationTitle = this.translate.translate(
+                        sideBarConfig.sidebar?.applicationTitle || 'global.menu.applications.main',
+                        {},
+                    );
+                }
+
                 return applicationsToCategory(applications, sideBarConfig);
             }),
         );
