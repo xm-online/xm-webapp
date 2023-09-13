@@ -42,7 +42,7 @@ export class RestRepositoryService<T = any> {
         } = resource ?? {};
 
         if (!url) {
-            return of(null);
+            return of({} as T);
         }
         const formattedUrl = this.getRequestContext({url}).url;
         const client = this.collectionFactory.create(formattedUrl);
@@ -65,7 +65,7 @@ export class RestRepositoryService<T = any> {
             catchError((error) => {
                 console.warn(error);
 
-                return of(null);
+                return of({} as T);
             }),
         );
     }
@@ -84,7 +84,7 @@ export class RestRepositoryService<T = any> {
         } = resource ?? {};
 
         if (!url) {
-            return of(null);
+            return of({} as T);
         }
         const formattedUrl = this.getRequestContext({url}).url;
         const client = this.collectionFactory.create(formattedUrl);
@@ -107,7 +107,7 @@ export class RestRepositoryService<T = any> {
             catchError((error) => {
                 console.warn(error);
 
-                return of(null);
+                return of({} as T);
             }),
         );
     }
@@ -122,7 +122,7 @@ export class RestRepositoryService<T = any> {
                 locale,
                 languages,
                 query: this.route.snapshot.queryParams,
-                context
+                context,
             });
         } catch (error) {
             console.warn(error);
