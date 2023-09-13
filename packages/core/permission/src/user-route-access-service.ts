@@ -6,7 +6,6 @@ import {
     CanLoad,
     Route,
     Router,
-    RouterStateSnapshot,
     UrlSegment,
 } from '@angular/router';
 
@@ -24,27 +23,27 @@ export class UserRouteAccessService implements CanActivate, CanActivateChild, Ca
     ) {
     }
 
-    public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-        return this.canActivateFunc(route.data as PermissionGuardData, state.url);
+    public canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
+        return this.canActivateFunc(route.data as PermissionGuardData);
     }
 
-    public canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-        return this.canActivateFunc(route.data as PermissionGuardData, state.url);
+    public canActivateChild(route: ActivatedRouteSnapshot): Promise<boolean> {
+        return this.canActivateFunc(route.data as PermissionGuardData);
     }
 
     public canLoad(route: Route, _segments: UrlSegment[]): Promise<boolean> {
-        return this.canActivateFunc(route.data as PermissionGuardData, this.router.url);
+        return this.canActivateFunc(route.data as PermissionGuardData);
     }
 
-    private canActivateFunc(data: PermissionGuardData, url: string): Promise<boolean> {
+    private canActivateFunc(data: PermissionGuardData): Promise<boolean> {
         const privileges = data.privileges || { value: [] };
         if (!(privileges.value && privileges.value.length)) {
             return Promise.resolve(true);
         }
-        return this.checkLogin(url, privileges);
+        return this.checkLogin(privileges);
     }
 
-    private checkLogin(url: string, privileges: any = {}): Promise<boolean> {
+    private checkLogin(privileges: any = {}): Promise<boolean> {
         const principal = this.principal;
         return Promise.resolve(principal.identity().then((account) => {
             if (account && privileges.value && privileges.value.length) {
@@ -60,7 +59,7 @@ export class UserRouteAccessService implements CanActivate, CanActivateChild, Ca
                     });
             }
 
-            this.stateStorageService.storeUrl(url);
+            this.stateStorageService.storeUrl(window.location.href.substring(window.location.origin.length));
             this.router.navigate(['/']);
             return false;
         }));

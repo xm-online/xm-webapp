@@ -40,7 +40,7 @@ export class XmThemeLoader {
             theme = this.themeManager.get();
         }
         // Config theme
-        else if (rawOptions.theme != null) {
+        if (rawOptions.theme != null && theme?.name !== rawOptions.theme) {
             theme = {
                 name: rawOptions.theme,
                 lightTheme: rawOptions.lightTheme || rawOptions.theme,
