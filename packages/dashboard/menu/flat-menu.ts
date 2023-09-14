@@ -5,7 +5,7 @@ import { Dashboard } from '@xm-ngx/core/dashboard';
 import { MenuItem } from './menu.interface';
 import { XmEntitySpec } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
-import {ISideBarConfig} from "./menu.component";
+import { ISideBarConfig } from './menu.component';
 
 function checkCondition(item: { config?: { condition?: JavascriptCode } }, contextService: ContextService): boolean {
     if (!item.config || !item.config.condition) {
