@@ -15,7 +15,7 @@ export interface XmCheckboxControlOptions extends DataQa {
     id: string;
     class: string;
     cancelable: boolean,
-    isRequired?: boolean,
+    required?: boolean,
 }
 
 export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
@@ -81,6 +81,6 @@ export class XmCheckboxControl extends NgFormAccessor<Primitive> implements XmDy
     }
 
     public ngOnInit(): void {
-        this.control.setValidators(this.config?.isRequired ? Validators.requiredTrue : null);
+        this.control.setValidators(this.config?.required ? Validators.requiredTrue : null);
     }
 }
