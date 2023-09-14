@@ -18,10 +18,19 @@ import {MenuItem, MenuOptions} from './menu.interface';
 import {XmUiConfigService} from '@xm-ngx/core/config';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import {XmTranslationModule} from '@xm-ngx/translation';
+import {Translate, XmTranslateService, XmTranslationModule} from '@xm-ngx/translation';
 import {CommonModule} from '@angular/common';
 import {XmPermissionModule} from '@xm-ngx/core/permission';
 import {ConditionDirective} from '@xm-ngx/components/condition';
+
+export type ISideBarConfig = {
+    sidebar?: {
+        hideAdminConsole?: boolean;
+        hideApplication?: boolean;
+        applicationTitle?: Translate;
+        applicationIcon?: string;
+    }
+};
 
 @Component({
     selector: 'xm-menu',
@@ -64,7 +73,8 @@ export class MenuComponent implements OnInit, OnDestroy {
         protected readonly dashboardService: DashboardStore,
         protected readonly router: Router,
         protected readonly principal: Principal,
-        protected readonly uiConfigService: XmUiConfigService<{ sidebar?: { hideAdminConsole?: boolean; hideApplication?: boolean; } }>,
+        protected readonly translate: XmTranslateService,
+        protected readonly uiConfigService: XmUiConfigService<ISideBarConfig>,
         protected readonly entityConfigService: XmEntitySpecWrapperService,
         protected readonly contextService: ContextService,
         protected readonly userService: XmUserService,
@@ -81,17 +91,24 @@ export class MenuComponent implements OnInit, OnDestroy {
         const applications$ = from(this.principal.identity()).pipe(
             switchMap(() => this.entityConfigService.entitySpec$()),
             switchMap((spec) => this.uiConfigService.config$().pipe(
-                map((c) => c.sidebar?.hideApplication ? [] : spec)),
+                map((c) => c.sidebar?.hideApplication ? {} : {sidebar: c.sidebar || {}, spec})),
             ),
-            map((spec) => {
-                if (!spec) {
-                    spec = [];
+            map((sideBarConfig) => {
+                if (!sideBarConfig.spec) {
+                    sideBarConfig.spec = [];
                 }
-                let applications = spec.filter((t) => t.isApp);
+                let applications = sideBarConfig.spec.filter((t) => t.isApp);
                 applications = applications.filter((t) => this.principal.hasPrivilegesInline([ `APPLICATION.${ t.key }` ]));
-                return applications;
+
+                if (sideBarConfig.sidebar) {
+                    sideBarConfig.sidebar.applicationTitle = this.translate.translate(
+                        sideBarConfig.sidebar?.applicationTitle || 'global.menu.applications.main',
+                        {},
+                    );
+                }
+
+                return applicationsToCategory(applications, sideBarConfig);
             }),
-            map((dashboards) => applicationsToCategory(dashboards)),
         );
 
         const default$ = this.uiConfigService.config$().pipe(

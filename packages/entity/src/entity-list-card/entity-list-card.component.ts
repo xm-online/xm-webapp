@@ -11,6 +11,7 @@ import { XmConfigService } from '@xm-ngx/core/config';
 import { ContextService } from '@xm-ngx/core/context';
 import { getFieldValue } from '../../entity-list-helper';
 import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
+import { set } from 'lodash';
 
 
 @Component({
@@ -33,7 +34,6 @@ export class EntityListCardComponent implements OnInit, OnChanges {
     public showPagination: boolean;
     private entitiesUiConfig: any[] = [];
     private currentEntitiesUiConfig: any[] = [];
-
 
     constructor(private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private xmEntityService: XmEntityService,
@@ -107,6 +107,10 @@ export class EntityListCardComponent implements OnInit, OnChanges {
                         hideDelete: res?.hideDelete,
                     };
                 }
+
+                set(this.options, 'useNewTable', res?.useNewTable);
+                set(this.options, 'tableConfig', res?.tableConfig);
+                set(this.options, 'typeKeysTableConfig', res?.typeKeysTableConfig);
             }),
             map((conf) => conf.entities || []),
             tap((entities) => this.entitiesUiConfig = entities),

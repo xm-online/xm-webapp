@@ -70,6 +70,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { CalendarChangeService } from './calendar-card/calendar-view/calendar-change.service';
 import { XmEntityIconPipe } from '@xm-ngx/entity/pipes';
+import { XmEntityTableComponent } from './entity-list-card/entity-table/entity-table.component';
+import { XmEntityTableMenuComponent } from './entity-list-card/entity-table/shared/entity-table-menu.component';
 
 const MODULES = [
     StatesManagementDialogModule,
@@ -114,6 +116,7 @@ const COMPONENTS = [
     AttachmentListSimplifiedComponent,
     AttachmentListBaseComponent,
     EntityListComponent,
+    XmEntityTableMenuComponent,
 ];
 
 @NgModule({
@@ -129,6 +132,7 @@ const COMPONENTS = [
         ModalCloseModule,
         OwlDateTimeModule,
         XmEntityIconPipe,
+        XmEntityTableComponent,
     ],
     declarations: [
         COMPONENTS,

@@ -3,6 +3,7 @@ export interface FieldOptions {
     title?: any;
     hiddenTitle?: boolean;
     useKeyword?: boolean;
+    dateFormat?: string;
     func?: string;
     action?: ActionOptions;
     actions?: ActionOptions[];
