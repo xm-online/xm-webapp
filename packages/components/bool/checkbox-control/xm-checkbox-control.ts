@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/interfaces';
@@ -6,7 +6,7 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -15,6 +15,7 @@ export interface XmCheckboxControlOptions extends DataQa {
     id: string;
     class: string;
     cancelable: boolean,
+    isRequired?: boolean,
 }
 
 export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
@@ -67,7 +68,7 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 /** @beta */
-export class XmCheckboxControl extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmCheckboxControlOptions> {
+export class XmCheckboxControl extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmCheckboxControlOptions>, OnInit {
     private _config: XmCheckboxControlOptions = clone(XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT);
 
     public get config(): XmCheckboxControlOptions {
@@ -77,5 +78,9 @@ export class XmCheckboxControl extends NgFormAccessor<Primitive> implements XmDy
     @Input()
     public set config(value: XmCheckboxControlOptions) {
         this._config = defaults({}, value, XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT);
+    }
+
+    public ngOnInit(): void {
+        this.control.setValidators(this.config?.isRequired ? Validators.requiredTrue : null);
     }
 }
