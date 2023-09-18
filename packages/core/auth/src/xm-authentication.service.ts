@@ -9,6 +9,7 @@ import { AuthRefreshTokenService } from './auth-refresh-token.service';
 import { GuestTokenResponse } from './guest-token.response';
 import { AuthTokenResponse } from './auth-token.response';
 import { XmAuthenticationConfig } from './xm-authentication-config.service';
+import {AuthServerProvider} from "@xm-ngx/core/user";
 
 
 @Injectable()
@@ -20,6 +21,7 @@ export class XmAuthenticationService {
         private storeService: XmAuthenticationStoreService,
         private refreshTokenService: AuthRefreshTokenService,
         private sessionService: XmSessionService,
+        private authServerProvider: AuthServerProvider,
     ) {
     }
 
@@ -42,7 +44,7 @@ export class XmAuthenticationService {
             }),
             tap((res) => this.updateTokens(res)),
             catchError(() => {
-                this.sessionService.clear();
+                this.authServerProvider.logoutToStart();
                 return of(null);
             }),
         );
