@@ -195,15 +195,11 @@ export class AuthServerProvider {
             this.sessionService.update();
         }, (error) => {
             console.info('Refresh token fails: %o', error);
-            this.logoutToStart();
+            this.logout().subscribe();
+            this.principal.logout();
+            this.router.navigate(['']);
+            this.sessionService.clear();
         });
-    }
-
-    public logoutToStart() {
-        this.logout().subscribe();
-        this.principal.logout();
-        this.router.navigate(['']);
-        this.sessionService.clear();
     }
 
     private getGuestAccessToken(): Observable<void> {
