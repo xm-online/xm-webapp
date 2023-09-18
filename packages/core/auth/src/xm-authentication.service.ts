@@ -9,7 +9,7 @@ import { AuthRefreshTokenService } from './auth-refresh-token.service';
 import { GuestTokenResponse } from './guest-token.response';
 import { AuthTokenResponse } from './auth-token.response';
 import { XmAuthenticationConfig } from './xm-authentication-config.service';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 
 @Injectable()
