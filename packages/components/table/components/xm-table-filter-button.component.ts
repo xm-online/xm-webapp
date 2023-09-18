@@ -88,7 +88,13 @@ export class XmTableFilterButtonComponent implements OnDestroy {
             filter(i => i.data.state != 'cancel'),
             map(res => res.data),
             takeUntilOnDestroy(this),
-        ).subscribe(res => this.tableFilterController.set(res.result));
+        ).subscribe(res => {
+            if (res.state === 'reset') {
+                this.tableFilterController.clearExceptFixedFilters(this.config.filters);
+            } else {
+                this.tableFilterController.set(res.result);
+            }
+        });
     }
 
     public ngOnDestroy(): void {
