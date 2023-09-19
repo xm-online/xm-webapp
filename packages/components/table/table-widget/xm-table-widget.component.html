@@ -7,7 +7,10 @@
               [xmTableController]="getCollectionController()"
 >
 
-  <mat-card *ngIf="xmTable.context$ | async as context" class="no-horizontal-paddings mb-3">
+  <mat-card *ngIf="xmTable.context$ | async as context" [ngClass]="{
+    'no-horizontal-paddings mb-3': true,
+    'pb-4': xmTable.config?.pageableAndSortable?.hidePagination,
+  }">
 
     <xm-table-header [config]="config" [loading]="context.collection.loading">
       <xm-table-filter-button [config]="config"

@@ -194,26 +194,7 @@ export class XmTableFilterChipsComponent {
     }
 
     public removeAll(): void {
-        const cacheFilters = this.entitiesRequestBuilder.get();
-        const removableFilters = (this.config.filters ?? [])
-            .filter(filter => filter.removable === false)
-            .reduce((acc, filter) => {
-                return {
-                    ...acc,
-                    [filter.name]: filter.removable,
-                };
-            }, {});
-        
-        const keepRemovableFilters = Object.keys(cacheFilters)
-            .filter(key => removableFilters[key] === false)
-            .reduce((acc, key) => {
-                return {
-                    ...acc,
-                    [key]: cacheFilters[key],
-                };
-            }, {});
-
-        this.entitiesRequestBuilder.set(keepRemovableFilters);
+        this.entitiesRequestBuilder.clearExceptFixedFilters(this.config.filters);
     }
 
     private setFilters(chipsFilters: XmTableFilterInlineFilter[]): void {
