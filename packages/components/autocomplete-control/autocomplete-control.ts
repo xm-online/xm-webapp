@@ -169,6 +169,9 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             debounceTime(300),
             filter(searchQuery => searchQuery?.length === 0 || (searchQuery?.length >= this.config.startFromCharSearch)),
             switchMap((searchQuery) => {
+                if (this.isEmptySearchResult(searchQuery)) {
+                    return of([]);
+                }
                 return this.searchByQuery(searchQuery).pipe(
                     catchError(() => of([])),
                 );
@@ -195,6 +198,11 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         if (this.config.startEmptySearch) {
             this.searchQueryControl.setValue('');
         }
+    }
+
+    private isEmptySearchResult(searchQuery: string): boolean {
+        const isSearchLimited: boolean = searchQuery?.length < this.config.startFromCharSearch;
+        return !this.config.startEmptySearch && (!searchQuery?.length || isSearchLimited);
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
