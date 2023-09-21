@@ -29,6 +29,7 @@ export type ISideBarConfig = {
         hideApplication?: boolean;
         applicationTitle?: Translate;
         applicationIcon?: string;
+        applicationPosition?: number;
     }
 };
 
@@ -116,7 +117,10 @@ export class MenuComponent implements OnInit, OnDestroy {
         );
 
         this.categories$ = combineLatest([ dashboards$, applications$, default$ ]).pipe(
-            map(([ a, b, c ]) => [ ...a, ...b, ...c ]),
+            map(([ dashboards, applications, defaultMenu ]) => {
+                const mainMenu = _.orderBy([...dashboards, ...applications], [ 'position' ], 'asc');
+                return [ ...mainMenu, ...defaultMenu ];
+            }),
             takeUntilOnDestroy(this),
             shareReplay(1),
         );
