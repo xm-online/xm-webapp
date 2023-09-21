@@ -118,8 +118,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 
         this.categories$ = combineLatest([ dashboards$, applications$, default$ ]).pipe(
             map(([ dashboards, applications, defaultMenu ]) => {
-                const mainMenu =  _.orderBy([...dashboards, ...applications], [ 'position' ], 'asc');
-                return [ ...mainMenu, ...defaultMenu ]
+                const mainMenu = _.orderBy([...dashboards, ...applications], [ 'position' ], 'asc');
+                return [ ...mainMenu, ...defaultMenu ];
             }),
             takeUntilOnDestroy(this),
             shareReplay(1),
