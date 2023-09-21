@@ -61,7 +61,7 @@ export class LogoutComponent implements OnInit, OnDestroy {
                 takeUntilOnDestroy(this),
             )
             .subscribe(([logout, config]) => {
-                if (idpLogoutUri && config?.idp?.enabled && idpClient) {
+                if (idpLogoutUri && config?.idp?.enabled && config?.idp?.logoutFromIdp && idpClient) {
                     location.href = idpLogoutUri;
                 } else {
                     this.router.navigate(['']);
