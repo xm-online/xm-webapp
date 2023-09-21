@@ -28,7 +28,7 @@ export function filterByConditionDashboards(dashboards: Dashboard[], contextServ
 export function applicationsToCategory(applications: XmEntitySpec[], sideBarConfig?: ISideBarConfig): MenuItem[] {
     const parent = {
         path: 'application',
-        position: 0,
+        position: sideBarConfig?.sidebar?.applicationPosition || Number.MAX_SAFE_INTEGER,
         permission: 'XMENTITY_SPEC.GET',
         url: ['application'],
         title: sideBarConfig?.sidebar?.applicationTitle || 'global.menu.applications.main',
