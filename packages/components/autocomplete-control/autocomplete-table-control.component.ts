@@ -50,7 +50,7 @@ export class RowCheckedPipe implements PipeTransform {
             <input
                 matInput
                 [formControl]="searchQueryControl"
-                [placeholder]="config.title | translate">
+                [placeholder]="(config.placeholder || config.title) | translate">
 
             <div matSuffix class="ms-3 me-3">
                 <mat-progress-spinner diameter="24" mode="indeterminate" *ngIf="loading | async"></mat-progress-spinner>
