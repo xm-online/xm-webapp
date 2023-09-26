@@ -22,6 +22,7 @@ export interface XmAutocompleteControlListItem {
 export interface XmAutocompleteControlConfig {
     hint?: HintText;
     title?: Translate;
+    placeholder?: Translate;
     search: XmAutocompleteSearchParams;
     fetchSelectedByCriteria: XmAutocompleteFetchParams;
     multiple: boolean;

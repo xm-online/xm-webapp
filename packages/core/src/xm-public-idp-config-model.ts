@@ -3,6 +3,7 @@ import { XmConfig } from '@xm-ngx/interfaces';
 export interface IIdpConfig extends XmConfig {
     idp?: {
         enabled?: boolean;
+        logoutFromIdp?: boolean;
         devClientKey?: string;
         clients?: IIdpClient[];
         features?: {
