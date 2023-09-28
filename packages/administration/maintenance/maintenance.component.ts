@@ -1,16 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatDialogConfig } from '@angular/material/dialog';
-import {
-    ExportEntitiesDetailsComponent
-} from './export-entities-details/export-entities-details.component';
-import {
-    ImportEntitiesDetailsComponent
-} from './import-entities-details/import-entities-details.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ExportEntitiesDetailsComponent } from './export-entities-details/export-entities-details.component';
+import { ImportEntitiesDetailsComponent } from './import-entities-details/import-entities-details.component';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { XmConfigService } from '@xm-ngx/core/config';
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 /** Default settings for mat-dialogs */
 export const XM_MAT_DIALOG_DEFAULT_OPTIONS: MatDialogConfig = {
@@ -38,6 +35,7 @@ export const XM_MAT_DIALOG_DEFAULT_OPTIONS: MatDialogConfig = {
 export class MaintenanceComponent {
 
     public isTenantCfgUpdating: boolean;
+    public showRefreshAll$: Observable<any>;
 
     @Input() public config: { showReindex: boolean } = {showReindex: true};
 
@@ -47,6 +45,9 @@ export class MaintenanceComponent {
         private toasterService: XmToasterService,
         private dialog: MatDialog,
     ) {
+        this.showRefreshAll$ = service.isUpdateTenantsConfigAvailable().pipe(
+            map(it => it.available)
+        );
     }
 
     public reindexElastic(): void {

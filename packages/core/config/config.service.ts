@@ -120,6 +120,10 @@ export class XmConfigService {
         return this.http.post(this.configMaintenanceUrl + '/refresh', {});
     }
 
+    public isUpdateTenantsConfigAvailable(): Observable<any> {
+        return this.http.get(this.configMaintenanceUrl + '/refresh/available', {});
+    }
+
     public updateTenantConfig(): Observable<any> {
         // TODO: Fix method to return JSON
         return this.http.post(this.configUrl + '/refresh', {});
