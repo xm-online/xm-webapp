@@ -4,6 +4,7 @@ import { AsyncSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PasswordSpec } from './password-spec.model';
 import { XmApplicationConfigService } from './xm-config.service';
+import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADER_KEY } from "@xm-ngx/core";
 
 interface IUIConfig {
     logoUrl?: string;
@@ -120,8 +121,10 @@ export class XmConfigService {
         return this.http.post(this.configMaintenanceUrl + '/refresh', {});
     }
 
-    public isUpdateTenantsConfigAvailable(): Observable<any> {
-        return this.http.get(this.configMaintenanceUrl + '/refresh/available', {});
+    public isUpdateTenantsConfigAvailable(): Observable<{available: boolean}> {
+        const headers = {};
+        headers[SKIP_ERROR_HANDLER_INTERCEPTOR_HEADER_KEY] = '';
+        return this.http.get<{available: boolean}>(this.configMaintenanceUrl + '/refresh/available', { headers });
     }
 
     public updateTenantConfig(): Observable<any> {

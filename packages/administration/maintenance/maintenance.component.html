@@ -10,7 +10,7 @@
       </button>
     </ng-container>
 
-    <ng-container *ngIf="showRefreshAll$">
+    <ng-container *ngIf="showRefreshAll$ | async">
     <button (click)="updateTenantsConfiguration()"
             *xmPermitted="['CONFIG.ADMIN.REFRESH']"
             color="primary"
