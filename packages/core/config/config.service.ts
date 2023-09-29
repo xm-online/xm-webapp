@@ -4,7 +4,7 @@ import { AsyncSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PasswordSpec } from './password-spec.model';
 import { XmApplicationConfigService } from './xm-config.service';
-import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADER_KEY } from "@xm-ngx/core";
+import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADER_KEY } from '@xm-ngx/core';
 
 interface IUIConfig {
     logoUrl?: string;
