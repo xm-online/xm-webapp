@@ -1,5 +1,6 @@
 export * from './xm-date.registry';
 export * from './xm-html.registry';
+export * from './xm-icon.registry';
 export * from './xm-text.registry';
 export * from './xm-bool.registry';
 export * from './xm-angular-editor-control.registry';
