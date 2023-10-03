@@ -88,7 +88,7 @@ export class XmEntityTableComponent implements OnChanges, OnInit {
     
     private buildTableActions(): XmDynamicPresentationLayout[] {
         const { typeKey, xmEntitySpec } = (this.adaptConfig ?? {});
-        const { functions } = xmEntitySpec;
+        const { functions } = (xmEntitySpec ?? {});
         
         const actions: XmDynamicPresentationLayout[] = [];
 
@@ -138,7 +138,7 @@ export class XmEntityTableComponent implements OnChanges, OnInit {
 
     private buildTableColumns(): DeepPartial<XmTableColumn[]> {
         const { routerLink, noDeepLink, fields, xmEntitySpec } = (this.adaptConfig ?? {});
-        const { functions } = xmEntitySpec;
+        const { functions } = (xmEntitySpec ?? {});
 
         const fieldsAsColumn =
             !this.hideDeleteButton 
