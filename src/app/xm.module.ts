@@ -29,7 +29,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@ang
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
 import { NgxMaskModule } from 'ngx-mask';
 import { XM_DATE_ELEMENTS, XM_LAYOUT_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_HTML_ELEMENTS } from '@xm-ngx/components/registry';
+import { XM_HTML_ELEMENTS, XM_ICON_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_COPY_ELEMENTS } from '@xm-ngx/components/registry';
@@ -124,6 +124,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
         XmDynamicModule.forRoot([].concat(
             XM_DATE_ELEMENTS,
             XM_HTML_ELEMENTS,
+            XM_ICON_ELEMENTS,
             XM_TEXT_ELEMENTS,
             XM_BOOL_ELEMENTS,
             XM_COPY_ELEMENTS,
