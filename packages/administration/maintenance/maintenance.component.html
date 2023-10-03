@@ -10,6 +10,7 @@
       </button>
     </ng-container>
 
+    <ng-container *ngIf="showRefreshAll$ | async">
     <button (click)="updateTenantsConfiguration()"
             *xmPermitted="['CONFIG.ADMIN.REFRESH']"
             color="primary"
@@ -17,6 +18,7 @@
       <mat-icon>warning</mat-icon>
       {{'global.common.maintenance-update-tenants-configuration' | translate}}
     </button>
+    </ng-container>
 
     <button (click)="updateTenantConfiguration()"
             *xmPermitted="['CONFIG.CLIENT.REFRESH']"

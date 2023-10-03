@@ -123,8 +123,10 @@ export class XmTableDirective implements OnInit, OnDestroy {
     }
 
     public updatePagination(): void {
-        const sortBy = this._config.columns.find((i) => i.name === this.sort.active)?.name;
-        const sortOrder = this.sort.direction;
+        const { sortBy: defaultSortBy, sortOrder: defaultSortOrder } = this._config.pageableAndSortable;
+
+        const sortBy = this._config.columns.find((i) => i.name === this.sort.active)?.name ?? defaultSortBy;
+        const sortOrder = this.sort.direction ?? defaultSortOrder;
         const pageIndex = this.paginator.pageIndex;
         const pageSize = this.paginator.pageSize;
         const total = this.paginator.length;

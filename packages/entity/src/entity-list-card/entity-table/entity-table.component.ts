@@ -73,6 +73,8 @@ export class XmEntityTableComponent implements OnChanges, OnInit {
                         paramsToRequest: {
                             page: 'queryParams.pageIndex',
                             size: 'queryParams.pageSize',
+                            sortBy: 'queryParams.sortBy',
+                            sortOrder: 'queryParams.sortOrder',
                             sort: "queryParams.sortBy + ',' + queryParams.sortOrder",
                             query: 'queryParams.fastSearch',
                             typeKey: `"${typeKey}"`,
