@@ -183,12 +183,14 @@ export class ApplicationComponent implements OnInit, OnDestroy {
 
     protected buildOptions(defaultFields: any): void {
         const config = this.getListConfig();
+        const applicationConfig = this.getApplicationUiConfig();
 
         const fields = config && config.fields ? config.fields : defaultFields;
 
         if (this.isSearch) {
             this.options = {
                 hideDelete: config && config.hideDelete,
+                useNewTable: applicationConfig?.useNewTable ?? false,
                 entities: [
                     {
                         currentQuery: (config ? config.query : '') + this.searchQuery,
@@ -202,6 +204,7 @@ export class ApplicationComponent implements OnInit, OnDestroy {
             this.entityType = this.getTypeFromSpec(this.spec, this.typeKey) || '';
             this.options = {
                 hideDelete: config && config.hideDelete,
+                useNewTable: applicationConfig?.useNewTable ?? false,
                 entities: [
                     {
                         typeKey: this.typeKey,
@@ -215,6 +218,10 @@ export class ApplicationComponent implements OnInit, OnDestroy {
                 ],
             };
         }
+    }
+
+    private getApplicationUiConfig(): Record<string, any> {
+        return this.uiConfig?.applications?.config ?? {};
     }
 
     protected getListConfig(): null | any {
