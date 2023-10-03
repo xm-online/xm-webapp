@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "5.3.33",
+  "version": "5.3.34",
   "release": "5.0.0",
   "private": true,
   "description": "Xm-webapp",
@@ -162,7 +162,7 @@
     "webstomp-client": "1.2.6",
     "yaml": "2.3.1",
     "yamljs": "0.3.0",
-    "zone.js": "0.11.8"
+    "zone.js": "0.11.8",
     "types-ramda": "0.29.4"
   },
   "devDependencies": {
