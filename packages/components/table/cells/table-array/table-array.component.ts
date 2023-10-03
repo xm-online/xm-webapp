@@ -67,8 +67,9 @@ export class XmTableArrayComponent implements XmDynamicPresentation<XmTableArray
             const found = _find(this.value, this.config.predicate);
             this.data = _get(found, this.config.fieldKey, null);
         }
-        if (this.config?.splitLine && this.config?.splitLine?.splitSymbol && typeof (this.data) === 'string') {
-            this.list = this.data.split(this.config?.splitLine?.splitSymbol||',');
+        const { splitSymbol } = this.config?.splitLine || {};
+        if (splitSymbol && typeof (this.data) === 'string') {
+            this.list = this.data.split(splitSymbol);
         }
     }
 }
