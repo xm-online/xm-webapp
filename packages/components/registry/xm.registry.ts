@@ -2,6 +2,10 @@ import { XmDynamicEntry } from '@xm-ngx/dynamic';
 
 export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     {
+        selector: '@xm-ngx/components/icon',
+        loadChildren: () => import('@xm-ngx/components/icon/xm-icon.component').then(m => m.XmIconComponent),
+    },
+    {
         selector: '@xm-ngx/components/sidebar-logo',
         loadChildren: () => import('@xm-ngx/components/logo').then(m => m.LogoComponent),
     },
