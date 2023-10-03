@@ -92,6 +92,7 @@
     "@types/chartist": "1.0.0",
     "@types/estree": "1.0.0",
     "@types/heatmap.js": "2.0.37",
+    "@types/ramda": "^0.29.4",
     "@xm-ngx/cli": "file:./packages/cli",
     "@xm-ngx/dashboards": "file:./packages/dashboards",
     "@xm-ngx/styles": "file:./packages/styles",
