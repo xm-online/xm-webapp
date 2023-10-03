@@ -77,7 +77,7 @@ export class XmEntityTableComponent implements OnChanges, OnInit {
                             sortOrder: 'queryParams.sortOrder',
                             sort: "queryParams.sortBy + ',' + queryParams.sortOrder",
                             query: 'queryParams.fastSearch',
-                            typeKey: `"${typeKey}"`,
+                            typeKey: `"${typeKey ?? ''}"`,
                         },
                         resourceUrl: 'entity/api/xm-entities',
                     },
