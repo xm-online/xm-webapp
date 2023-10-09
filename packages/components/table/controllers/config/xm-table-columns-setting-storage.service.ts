@@ -74,7 +74,7 @@ export class XmTableSettingStore implements OnDestroy {
         const c1 = (s1?.columns ?? []).map(s => s.name).join(',');
         const c2 = (s2?.columns ?? []).map(s => s.name).join(',');
 
-        return c1 != c2;
+        return c1 !== c2;
     }
 }
 
