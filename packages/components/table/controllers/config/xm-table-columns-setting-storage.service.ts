@@ -39,6 +39,10 @@ export class XmTableSettingStore implements OnDestroy {
         this.store.complete();
     }
 
+    private getSettingsByKey(key: string): XmTableSettingStoreStateItem {
+        return this.store.value[key];
+    }
+
     public updateStore(key: string, value: XmTableSettingStoreStateItem): void {
         const state = this.store.value;
         state[key] = value;
@@ -46,10 +50,13 @@ export class XmTableSettingStore implements OnDestroy {
     }
 
     public defaultStore(key: string, items: XmTableSettingStoreStateItem): void {
-        if (!this.store.value[key])
-            this.updateStore(key, items);
-    }
+        const settings = this.getSettingsByKey(key);
+        const hasChanges = this.hasColumnChanges(settings, items);
 
+        if (hasChanges) {
+            this.updateStore(key, items);
+        }
+    }
 
     public getStore(key: string): Observable<XmTableSettingStoreStateItem> {
         return this.store.pipe(
@@ -61,6 +68,13 @@ export class XmTableSettingStore implements OnDestroy {
         const state = this.store.value;
         delete state[key];
         this.store.next(state);
+    }
+
+    private hasColumnChanges(s1: XmTableSettingStoreStateItem, s2: XmTableSettingStoreStateItem): boolean {
+        const c1 = (s1?.columns ?? []).map(s => s.name).join(',');
+        const c2 = (s2?.columns ?? []).map(s => s.name).join(',');
+
+        return c1 !== c2;
     }
 }
 

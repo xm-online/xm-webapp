@@ -1,6 +1,6 @@
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, UntypedFormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { EDIT_ACTION, EDIT_EVENT, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
@@ -22,6 +22,7 @@ import { FormLayoutConfig } from './form-layout.model';
         MatCardModule,
         XmDynamicModule,
         NgIf,
+        ReactiveFormsModule,
         NgForOf,
         AsyncPipe,
         ConditionModule,
