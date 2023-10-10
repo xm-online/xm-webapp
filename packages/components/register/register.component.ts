@@ -16,6 +16,7 @@ import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
 import { FocusDirective } from '@xm-ngx/components/text';
+import { PasswordPoliciesComponent } from '@xm-ngx/components/password-policies/password-policies.component';
 
 @Component({
     selector: 'xm-register',
@@ -31,6 +32,7 @@ import { FocusDirective } from '@xm-ngx/components/text';
         ReCaptchaModule,
         PasswordStrengthBarComponent,
         FocusDirective,
+        PasswordPoliciesComponent,
     ],
     providers: [RegisterService],
 })
@@ -56,6 +58,7 @@ export class RegisterComponent implements OnInit {
     public publicKey: string;
     public passwordSettings: PasswordSpec;
     public patternMessage: string;
+    public passwordConfig: any;
 
     constructor(private jhiLanguageService: JhiLanguageService,
                 private xmConfigService: XmConfigService,
@@ -175,6 +178,7 @@ export class RegisterComponent implements OnInit {
     }
 
     private makePasswordSettings(config?: any): void {
+        this.passwordConfig = config;
         this.passwordSettings = this.xmConfigService.mapPasswordSettings(config);
         if (this.passwordSettings.patternMessage) {
             this.patternMessage = this.updatePatternMessage(this.passwordSettings.patternMessage);

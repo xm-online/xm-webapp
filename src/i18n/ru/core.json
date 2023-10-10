@@ -347,6 +347,9 @@
     "title": "Gateway"
   },
   "global": {
+    "policies": {
+      "count-passed": "{{count}} из {{required}} условий выполнено"
+    },
     "actionPerformed": "Action performed",
     "all": "Все",
     "common": {

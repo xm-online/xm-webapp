@@ -38,6 +38,7 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     public config: IResetPasswordFormConfig;
     public passwordSettings: PasswordSpec;
     public patternMessage: string;
+    public passwordConfig: any;
 
     @ViewChild('passwordInputElement', {static: false}) public passwordInputElement: MatInput;
 
@@ -134,6 +135,7 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     }
 
     private makePasswordSettings(config?: any): void {
+        this.passwordConfig = config;
         this.passwordSettings = this.xmConfigService.mapPasswordSettings(config);
         if (this.passwordSettings.patternMessage) {
             this.patternMessage = this.updatePatternMessage(this.passwordSettings.patternMessage);

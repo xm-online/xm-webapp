@@ -347,6 +347,9 @@
     "title": "Шлюз"
   },
   "global": {
+    "policies": {
+      "count-passed": "{{count}} з {{required}} умов виконано"
+    },
     "actionPerformed": "Action performed",
     "all": "Все",
     "common": {
