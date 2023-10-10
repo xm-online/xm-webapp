@@ -75,6 +75,6 @@
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "useDefineForClassFields": false,
+    "useDefineForClassFields": false
   }
 }
