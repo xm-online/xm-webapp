@@ -62,6 +62,9 @@
       ],
       "@angular/*": [
         "node_modules/@angular/*"
+      ],
+      "@xm-ngx/*": [
+        "packages/*",
       ]
     },
     "inlineSources": true,
@@ -75,6 +78,6 @@
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
   }
 }
