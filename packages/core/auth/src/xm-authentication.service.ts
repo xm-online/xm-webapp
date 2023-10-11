@@ -10,7 +10,10 @@ import { GuestTokenResponse } from './guest-token.response';
 import { AuthTokenResponse } from './auth-token.response';
 import { XmAuthenticationConfig } from './xm-authentication-config.service';
 import { Router } from '@angular/router';
+import { XmAuthTargetUrlService } from './xm-auth-target-url.service';
 
+
+export const ROLE_ANONYMOUS = 'ROLE_ANONYMOUS';
 
 @Injectable()
 export class XmAuthenticationService {
@@ -21,6 +24,7 @@ export class XmAuthenticationService {
         private storeService: XmAuthenticationStoreService,
         private refreshTokenService: AuthRefreshTokenService,
         private sessionService: XmSessionService,
+        private xmAuthTargetUrlService: XmAuthTargetUrlService,
         private router: Router
     ) {
     }
@@ -45,6 +49,7 @@ export class XmAuthenticationService {
             tap((res) => this.updateTokens(res)),
             catchError(() => {
                 this.sessionService.clear();
+                this.xmAuthTargetUrlService.storeCurrentUrl();
                 this.router.navigate(['']);
                 return of(null);
             }),
@@ -53,6 +58,28 @@ export class XmAuthenticationService {
 
     public getHeaders(token: string): { [name: string]: string | string[] } {
         return { Authorization: `Bearer ${token}` };
+    }
+
+    // return true when it's guest, and return false when not sure
+    public isSureGuestSession(): boolean {
+        if (this.storeService.hasRefreshToken()) {
+            return false;
+        }
+        if (!this.storeService.hasAuthenticationToken()) {
+            return true;
+        } else {
+            try {
+                const jwt = this.storeService.getAuthenticationToken();
+                const token = JSON.parse(atob(jwt.split('.')[1]));
+                if (!token.user_key && token.authorities?.length === 1 && token.authorities[0] === ROLE_ANONYMOUS) {
+                    return true;
+                }
+            } catch (e) {
+                console.error(e);
+            }
+            return false; //default false
+        }
+
     }
 
     private updateTokens(res: AuthTokenResponse | GuestTokenResponse): void {

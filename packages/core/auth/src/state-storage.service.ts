@@ -3,6 +3,7 @@ import { SessionStorageService } from 'ngx-webstorage';
 
 const PREV_STATE = 'previousState';
 const DEST_STATE = 'previousState';
+const PREVIOUS_URL = 'previousUrl';
 
 @Injectable()
 export class StateStorageService {
@@ -38,11 +39,11 @@ export class StateStorageService {
     }
 
     public storeUrl(url: string): void {
-        this.$sessionStorage.store('previousUrl', url);
+        this.$sessionStorage.store(PREVIOUS_URL, url);
     }
 
     public getUrl(): any {
-        return this.$sessionStorage.retrieve('previousUrl');
+        return this.$sessionStorage.retrieve(PREVIOUS_URL);
     }
 
     public storeDestinationState(destinationState: any, destinationStateParams: any, fromState: any): void {
@@ -57,5 +58,9 @@ export class StateStorageService {
             },
         };
         this.$sessionStorage.store(DEST_STATE, destinationInfo);
+    }
+
+    public clearUrl() {
+        this.$sessionStorage.clear(PREVIOUS_URL)
     }
 }

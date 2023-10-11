@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardBase, DashboardWidget } from '@xm-ngx/dashboard';
@@ -9,6 +8,7 @@ import { cloneDeep } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { XmLoggerService } from '@xm-ngx/logger';
+import { XmAuthTargetUrlService } from "@xm-ngx/core/auth";
 
 interface HomeLayout extends XmDynamicLayout {
     content?: HomeLayout[];
@@ -40,7 +40,7 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
     constructor(
         private xmConfigService: XmUiConfigService<HomeConfig>,
         private sessionService: XmSessionService,
-        private router: Router,
+        private xmAuthTargetUrlService: XmAuthTargetUrlService,
         loggerService: XmLoggerService,
     ) {
         super(loggerService.create({ name: 'HomeComponent' }));
@@ -54,7 +54,7 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
             takeUntilOnDestroy(this),
             map(([config, active]) => {
                 if (active === true) {
-                    this.router.navigate(['/dashboard']);
+                    this.xmAuthTargetUrlService.initialRedirect();
                     return [];
                 }
 
@@ -72,6 +72,7 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
+        this.xmAuthTargetUrlService.cleanUrl();
         takeUntilOnDestroyDestroy(this);
     }
 
