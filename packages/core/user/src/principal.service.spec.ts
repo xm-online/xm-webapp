@@ -6,8 +6,8 @@ import { of } from 'rxjs';
 import { AccountService } from './account.service';
 import { Principal } from './principal.service';
 import { XmUserService } from '@xm-ngx/core/user';
-import { MockXmAuthenticationService } from "../testing";
-import { XmAuthenticationService } from "@xm-ngx/core/auth";
+import { MockXmAuthenticationService } from '../testing';
+import { XmAuthenticationService } from '@xm-ngx/core/auth';
 
 describe('PrincipalService', () => {
 
