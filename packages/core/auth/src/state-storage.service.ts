@@ -60,7 +60,7 @@ export class StateStorageService {
         this.$sessionStorage.store(DEST_STATE, destinationInfo);
     }
 
-    public clearUrl() {
-        this.$sessionStorage.clear(PREVIOUS_URL)
+    public clearUrl(): void {
+        this.$sessionStorage.clear(PREVIOUS_URL);
     }
 }

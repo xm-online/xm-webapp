@@ -8,7 +8,7 @@ import { cloneDeep } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { XmLoggerService } from '@xm-ngx/logger';
-import { XmAuthTargetUrlService } from "@xm-ngx/core/auth";
+import { XmAuthTargetUrlService } from '@xm-ngx/core/auth';
 
 interface HomeLayout extends XmDynamicLayout {
     content?: HomeLayout[];

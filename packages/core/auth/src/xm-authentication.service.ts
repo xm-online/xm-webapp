@@ -67,19 +67,19 @@ export class XmAuthenticationService {
         }
         if (!this.storeService.hasAuthenticationToken()) {
             return true;
-        } else {
-            try {
-                const jwt = this.storeService.getAuthenticationToken();
-                const token = JSON.parse(atob(jwt.split('.')[1]));
-                if (!token.user_key && token.authorities?.length === 1 && token.authorities[0] === ROLE_ANONYMOUS) {
-                    return true;
-                }
-            } catch (e) {
-                console.error(e);
-            }
-            return false; //default false
         }
 
+        try {
+            const jwt = this.storeService.getAuthenticationToken();
+            const token = JSON.parse(atob(jwt.split('.')[1]));
+            if (!token.user_key && token.authorities?.length === 1 && token.authorities[0] === ROLE_ANONYMOUS) {
+                return true;
+            }
+        } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error(e);
+        }
+        return false; //default false
     }
 
     private updateTokens(res: AuthTokenResponse | GuestTokenResponse): void {
