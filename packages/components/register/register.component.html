@@ -146,7 +146,7 @@
         <span *ngIf="passwordSettings.patternMessage && patternMessage">{{patternMessage}}</span>
       </mat-error>
     </mat-form-field>
-    <xm-password-strength-bar [passwordToCheck]="registerAccount.password"></xm-password-strength-bar>
+    <xm-password-strength-bar [passwordConfig]="passwordConfig" [passwordToCheck]="registerAccount.password"></xm-password-strength-bar>
   </div>
 
   <div class="form-group">
@@ -197,6 +197,8 @@
       </small>
     </div>
   </div>
+
+  <xm-password-policies [config]="passwordConfig" [password]="registerAccount.password"></xm-password-policies>
 
   <div class="text-end">
     <button type="submit"

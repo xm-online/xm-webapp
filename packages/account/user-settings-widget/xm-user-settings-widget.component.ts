@@ -54,7 +54,7 @@ export class XmUserSettingsWidgetComponent implements OnInit, XmDynamicWidget {
                     return of(null);
                 })
             )
-        )
+        );
         if (!uiConfig?.disableAccountSettingsJsf) {
             this.initJsfForAccountRole();
         }
