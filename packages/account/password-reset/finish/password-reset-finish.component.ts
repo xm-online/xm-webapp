@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { PasswordResetFinish } from './password-reset-finish.service';
 import { ModulesLanguageHelper } from '@xm-ngx/translation';
-import { IPasswordPolicyConfig } from '@xm-ngx/components/password-policies/password-policies.component';
+import { IPasswordPolicyConfig } from '@xm-ngx/components/password-policies';
 
 interface IResetPasswordFormConfig {
     formTitle: string;

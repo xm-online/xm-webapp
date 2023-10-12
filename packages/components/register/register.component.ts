@@ -17,9 +17,8 @@ import { FormsModule } from '@angular/forms';
 import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
 import { FocusDirective } from '@xm-ngx/components/text';
 import {
-    IPasswordPolicyConfig,
-    PasswordPoliciesComponent
-} from '@xm-ngx/components/password-policies/password-policies.component';
+    PasswordPoliciesComponent, IPasswordPolicyConfig
+} from '@xm-ngx/components/password-policies';
 
 @Component({
     selector: 'xm-register',

@@ -1,10 +1,9 @@
 import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { Subscription } from 'rxjs';
-import { IPasswordPolicy } from '@xm-ngx/components/password-policies/password-policies.component';
 import { XmEventManager } from '@xm-ngx/core';
 import { CommonModule } from '@angular/common';
-import { XM_EVENT_LIST } from '../../../src/app/xm.constants';
+import { IPasswordPolicy, EVENT_POLICY_UPDATED } from '@xm-ngx/components/password-policies';
 
 const DEF_POINT_COUNT = 5;
 
@@ -44,21 +43,18 @@ export class PasswordStrengthBarComponent {
 
         this.policiesUpdateSubscription =
             this.eventManager.listenTo(
-                XM_EVENT_LIST.XM_PASSWORD_POLICY_UPDATE,
-                ).subscribe((event) => {
-                    const payload: unknown = event?.payload;
-                if (this.policies && payload['passedPolicies']['content']) {
-                    this.mapPassedPolicies(payload['passedPolicies']['content']);
+                EVENT_POLICY_UPDATED,
+            ).subscribe((event) => {
+                const passedPolicies: number = event?.content;
+                if (this.policies) {
+                    this.mapPassedPolicies(passedPolicies);
                 }
             });
-        if (this.policies) {
-            this.mapPassedPolicies(2);
-        }
     }
 
     @Input()
     public set passwordToCheck(password: string) {
-        if (password) {
+        if (password && !(this.policies && this.policies.length)) {
             const c = this.getColor(this.measureStrength(password));
             const element = this.elementRef.nativeElement;
             if (element.className) {
@@ -75,7 +71,8 @@ export class PasswordStrengthBarComponent {
         }
     }
 
-    @Input() public set passwordConfig(c: string) {
+    @Input()
+    public set passwordConfig(c: string) {
         if (c) {
             const config = JSON.parse(c);
             this.policies = config && config.passwordPolicies;

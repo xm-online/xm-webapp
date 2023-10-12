@@ -8,8 +8,8 @@ import { PasswordComponent } from './password.component';
 import { Password } from './password.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { PasswordPoliciesComponent } from '@xm-ngx/components/password-policies';
 import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
-import { PasswordPoliciesComponent } from '@xm-ngx/components/password-policies/password-policies.component';
 
 @NgModule({
     exports: [PasswordComponent],
@@ -23,8 +23,8 @@ import { PasswordPoliciesComponent } from '@xm-ngx/components/password-policies/
         CommonModule,
         MatCardModule,
         MatIconModule,
-        PasswordStrengthBarComponent,
         PasswordPoliciesComponent,
+        PasswordStrengthBarComponent,
     ],
 })
 export class PasswordModule {

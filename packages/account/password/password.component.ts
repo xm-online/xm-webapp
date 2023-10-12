@@ -6,7 +6,7 @@ import { XmConfigService } from '@xm-ngx/core/config';
 import { ChangePassword } from './password.model';
 import { Password } from './password.service';
 import { ModulesLanguageHelper } from '@xm-ngx/translation';
-import { IPasswordPolicyConfig } from '@xm-ngx/components/password-policies/password-policies.component';
+import { IPasswordPolicyConfig } from '@xm-ngx/components/password-policies';
 
 @Component({
     selector: 'xm-password',

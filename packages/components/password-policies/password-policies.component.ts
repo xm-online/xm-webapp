@@ -1,23 +1,11 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlContainer, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
-import { XM_EVENT_LIST } from '../../../src/app/xm.constants';
 import { XmEventManager } from '@xm-ngx/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTranslationModule } from '@xm-ngx/translation';
-
-export interface IPasswordPolicyConfig {
-    passwordPolicies?: IPasswordPolicy[];
-    passwordPoliciesMinimalMatchCount?: number;
-}
-
-export interface IPasswordPolicy {
-    pattern: string;
-    patternMessage: { [key: string]: string };
-    message?: string;
-    passed?: boolean;
-}
+import { EVENT_POLICY_UPDATED, IPasswordPolicy } from './password-policy.model';
 
 @Component({
     selector: 'xm-password-policies',
@@ -63,7 +51,7 @@ export class PasswordPoliciesComponent implements OnChanges {
         });
 
         this.passedPolicies = this.policies.filter(policy => Boolean(policy.passed)).length;
-        this.eventManager.broadcast({name: XM_EVENT_LIST.XM_PASSWORD_POLICY_UPDATE, content: this.passedPolicies})
+        this.eventManager.broadcast({name: EVENT_POLICY_UPDATED, content: this.passedPolicies});
     }
 
     private handleConfig(): void {

@@ -40,6 +40,7 @@ import { XmGMapApiInitDirective } from '@xm-ngx/components/google-maps';
 import { IdpComponent } from '@xm-ngx/components/login';
 import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
 import { XmJsonSchemaComponentsModule } from '@xm-ngx/json-schema-form';
+import { PasswordPoliciesComponent } from '@xm-ngx/components/password-policies';
 
 const PIPES = [
     XmDateTimePipe,
@@ -60,6 +61,7 @@ const COMPONENTS = [
     LoginComponent,
     RegisterComponent,
     PasswordStrengthBarComponent,
+    PasswordPoliciesComponent,
     IdpComponent,
 ];
 

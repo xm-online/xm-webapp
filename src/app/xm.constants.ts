@@ -16,7 +16,6 @@ export const IDP_CLIENT = 'idp_client';
  * @internal
  */
 enum _XM_EVENT_LIST {
-    XM_PASSWORD_POLICY_UPDATE = 'xmPasswordPolicyUpdate',
     XM_REGISTRATION = 'xmRegistration',
     XM_SUCCESS_AUTH = 'authenticationSuccess',
     XM_UNAUTHORIZED = 'xm.unauthorized',
