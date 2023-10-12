@@ -82,7 +82,7 @@ export class PasswordStrengthBarComponent {
         }
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy(): void {
         if (this.policiesUpdateSubscription) {
             this.policiesUpdateSubscription.unsubscribe();
         }
