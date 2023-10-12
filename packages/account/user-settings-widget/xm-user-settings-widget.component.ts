@@ -4,8 +4,8 @@ import { XmUser } from '@xm-ngx/core/user';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { LanguageModule, LanguageService, Locale, TitleService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { interval, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { firstValueFrom, interval, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { AccountService, Principal } from '@xm-ngx/core/user';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { CommonModule } from '@angular/common';
@@ -16,11 +16,13 @@ import { FormsModule } from '@angular/forms';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { XmConfigService, XmUiConfigService } from '@xm-ngx/core/config';
+import { buildJsfAttributes, nullSafe, XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form';
 
 @Component({
     selector: 'xm-user-settings-widget',
     templateUrl: './xm-user-settings-widget.component.html',
-    imports: [CommonModule, MatCardModule, TranslateModule, MatFormFieldModule, MatInputModule, FormsModule, XmPermissionModule, MatSelectModule, MatButtonModule, LanguageModule],
+    imports: [CommonModule, MatCardModule, TranslateModule, MatFormFieldModule, MatInputModule, FormsModule, XmPermissionModule, MatSelectModule, MatButtonModule, LanguageModule, XmJsonSchemaFormModule],
     standalone: true,
 })
 export class XmUserSettingsWidgetComponent implements OnInit, XmDynamicWidget {
@@ -31,18 +33,32 @@ export class XmUserSettingsWidgetComponent implements OnInit, XmDynamicWidget {
     public settingsAccount: XmUser;
     public error: string;
     public success: string;
+    public jsfAttributes: any;
     public clock$: Observable<Date> = interval(1000).pipe(map(() => new Date()));
 
     constructor(
         private accountService: AccountService,
         private translateService: TranslateService,
         private titleService: TitleService,
-        private principal: Principal,
+        public principal: Principal,
+        private uiConfigService: XmUiConfigService,
         private languageService: LanguageService,
+        private configService: XmConfigService,
     ) {
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
+        const uiConfig = await firstValueFrom(
+            this.uiConfigService.config$().pipe(
+                catchError(() => {
+                    return of(null);
+                })
+            )
+        )
+        if (!uiConfig?.disableAccountSettingsJsf) {
+            this.initJsfForAccountRole();
+        }
+
         this.principal.identity().then((account: XmUser) => {
             if (!account){
                 return;
@@ -77,5 +93,23 @@ export class XmUserSettingsWidgetComponent implements OnInit, XmDynamicWidget {
         });
     }
 
+    public onChangeJsf(jsfFormData: any): void {
+        if (this.settingsAccount.data) {
+            this.settingsAccount = { ...this.settingsAccount, data: { ...this.settingsAccount.data, ...jsfFormData } };
+        } else {
+            this.settingsAccount = { ...this.settingsAccount, data: { ...jsfFormData } };
+        }
+    }
+
+    private initJsfForAccountRole(): void {
+        this.principal.identity().then((account) => {
+            this.configService.getUaaDataSchema(account.roleKey)
+                .subscribe(res => {
+                    const { dataSpec, dataForm } = res;
+                    this.jsfAttributes = buildJsfAttributes(dataSpec, dataForm);
+                    this.jsfAttributes.data = Object.assign(nullSafe(this.jsfAttributes.data), nullSafe(account.data));
+                });
+        });
+    }
 
 }
