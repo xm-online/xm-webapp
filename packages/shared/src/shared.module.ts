@@ -12,7 +12,6 @@ import { MatModule } from './mat.module';
 import {
     CSRFService,
     StateStorageService,
-    XmAuthTargetUrlService,
 } from '@xm-ngx/core/auth';
 
 import {
@@ -117,7 +116,6 @@ export class XmSharedModule {
                 RegisterService,
                 AccountService,
                 StateStorageService,
-                XmAuthTargetUrlService,
                 CSRFService,
                 AuthServerProvider,
                 AuthService,

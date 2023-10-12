@@ -8,7 +8,6 @@ import { XmAuthenticationRepository } from './xm-authentication-repository.servi
 import { XmAuthenticationConfig } from './xm-authentication-config.service';
 import { XmAuthTargetUrlService } from './xm-auth-target-url.service';
 
-
 @NgModule()
 export class XmCoreAuthModule {
     public static forRoot(): ModuleWithProviders<XmCoreAuthModule> {
