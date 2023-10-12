@@ -7,6 +7,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTranslationModule } from '@xm-ngx/translation';
 
+export interface IPasswordPolicyConfig {
+    passwordPolicies?: IPasswordPolicy[];
+    passwordPoliciesMinimalMatchCount?: number;
+}
+
 export interface IPasswordPolicy {
     pattern: string;
     patternMessage: { [key: string]: string };

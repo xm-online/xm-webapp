@@ -16,7 +16,10 @@ import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PasswordStrengthBarComponent } from '@xm-ngx/components/password-strength-bar';
 import { FocusDirective } from '@xm-ngx/components/text';
-import { PasswordPoliciesComponent } from '@xm-ngx/components/password-policies/password-policies.component';
+import {
+    IPasswordPolicyConfig,
+    PasswordPoliciesComponent
+} from '@xm-ngx/components/password-policies/password-policies.component';
 
 @Component({
     selector: 'xm-register',
@@ -58,7 +61,7 @@ export class RegisterComponent implements OnInit {
     public publicKey: string;
     public passwordSettings: PasswordSpec;
     public patternMessage: string;
-    public passwordConfig: any;
+    public passwordConfig: IPasswordPolicyConfig;
 
     constructor(private jhiLanguageService: JhiLanguageService,
                 private xmConfigService: XmConfigService,

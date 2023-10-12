@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { PasswordResetFinish } from './password-reset-finish.service';
 import { ModulesLanguageHelper } from '@xm-ngx/translation';
+import { IPasswordPolicyConfig } from '@xm-ngx/components/password-policies/password-policies.component';
 
 interface IResetPasswordFormConfig {
     formTitle: string;
@@ -38,7 +39,7 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     public config: IResetPasswordFormConfig;
     public passwordSettings: PasswordSpec;
     public patternMessage: string;
-    public passwordConfig: any;
+    public passwordConfig: IPasswordPolicyConfig;
 
     @ViewChild('passwordInputElement', {static: false}) public passwordInputElement: MatInput;
 
