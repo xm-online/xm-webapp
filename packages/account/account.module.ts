@@ -23,7 +23,6 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { XmUserSettingsWidgetComponent } from '@xm-ngx/account/user-settings-widget';
 import { XmUserSecuritySettingsComponent } from '@xm-ngx/account/user-security-settings';
 import { XmUserLoginWidgetComponent } from '@xm-ngx/account/user-login-widget';
-import { PasswordPoliciesComponent } from '@xm-ngx/components/password-policies/password-policies.component';
 
 
 @NgModule({
@@ -36,7 +35,6 @@ import { PasswordPoliciesComponent } from '@xm-ngx/components/password-policies/
         XmUserSecuritySettingsComponent,
         XmUserLoginWidgetComponent,
         MarkdownModule,
-        PasswordPoliciesComponent,
     ],
     declarations: [
         ActivateComponent,
