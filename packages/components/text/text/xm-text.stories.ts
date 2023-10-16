@@ -1,5 +1,5 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import { XmTextComponent } from '@xm-ngx/components/text';
+import { XmTextComponent } from '../text';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';

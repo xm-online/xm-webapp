@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { XmCheckboxControl, XmCheckboxControlOptions } from '@xm-ngx/components/bool';
+import { XmCheckboxControl, XmCheckboxControlOptions } from './xm-checkbox-control';
 
 export default {
     title: 'Core/Control/Bool/Checkbox',

@@ -12,7 +12,7 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { XmArrayControl, XmArrayControlOptions } from '@xm-ngx/components/array-control';
+import { XmArrayControl, XmArrayControlOptions } from './xm-array-control.component';
 
 export default {
     title: 'Core/Control/Array',

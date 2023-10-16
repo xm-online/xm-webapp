@@ -8,6 +8,7 @@ export interface XmHtmlOptions {
 @Component({
     selector: 'xm-html',
     template: '<div [innerHTML]="html"></div>',
+    standalone: true,
 })
 export class XmHtmlComponent {
     public html: string;
@@ -30,7 +31,7 @@ export class XmHtmlComponent {
 
 @NgModule({
     exports: [XmHtmlComponent],
-    declarations: [XmHtmlComponent],
+    imports:[XmHtmlComponent]
 })
 export class XmHtmlModule {
     public entry: Type<XmHtmlComponent> = XmHtmlComponent;

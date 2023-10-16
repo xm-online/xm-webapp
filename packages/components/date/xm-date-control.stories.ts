@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { CommonModule } from '@angular/common';
 import { HintModule } from '@xm-ngx/components/hint';
-import { XmDateControl, XmDateControlOptions } from '@xm-ngx/components/date';
+import { XmDateControl, XmDateControlOptions } from './xm-date-control';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MatNativeDateModule } from '@angular/material/core';

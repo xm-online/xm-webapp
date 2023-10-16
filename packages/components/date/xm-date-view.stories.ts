@@ -1,9 +1,10 @@
 import { XmTextViewModule } from '@xm-ngx/components/text';
-import { XmDateValue, XmDateView, XmDateViewOptions } from '@xm-ngx/components/date';
+import { XmDateValue, XmDateViewOptions } from '@xm-ngx/components/date';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import { XmDateView } from './xm-date-view';
 
 // default export to define the component metadata
 export default {

@@ -7,9 +7,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmBoolControl } from '@xm-ngx/components/bool';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import { XmBoolControl } from './xm-bool-control';
 
 export default {
     title: 'Core/Control/Bool/Select',

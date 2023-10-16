@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
@@ -10,7 +10,7 @@ import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
@@ -89,6 +89,9 @@ export class XmMultipleEnumControl
     public itemsMap: {[value: string]: XmEnumControlOptionsItem};
     private _config: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
 
+    constructor(@Optional() @Self() public ngControl: NgControl) {
+        super(ngControl);
+    }
     public get value(): XmEnumValue[] {
         return this._value == undefined ? [] : this._value;
     }

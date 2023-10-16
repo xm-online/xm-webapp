@@ -1,11 +1,12 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmEnumComponent, XmEnumView } from '@xm-ngx/components/enum';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XmTextViewModule } from '@xm-ngx/components/text';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import { XmEnumView } from './xm-enum-view';
+import { XmEnumComponent } from '../value/xm-enum.component';
 
 export default {
     title: 'Core/Presentation/Enum/View',

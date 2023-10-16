@@ -5,13 +5,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import {
-    XmAceEditorControl, XmAceEditorControlModeEnum, XmAceEditorControlTypeEnum,
+    XmAceEditorControlModeEnum, XmAceEditorControlTypeEnum,
     XmAceEditorDirective,
     XmAceEditorThemeSchemeAdapterDirective,
 } from '@xm-ngx/components/ace-editor';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import { XmAceEditorControl } from './xm-ace-editor-control';
 
 export default {
     title: 'Core/Control/Text/Ace editor',

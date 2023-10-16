@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, ViewEncapsulation} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
 import {NgControlAccessor} from '@xm-ngx/components/ng-accessor';
 import {XmTranslationModule} from '@xm-ngx/translation';
 import {XmAceEditorDirective} from '../xm-ace-editor.directive';
@@ -13,6 +13,7 @@ import {
     XmAceEditorControlOptions,
     XmAceEditorControlTypeEnum
 } from './xm-ace-editor-control.model';
+import { NgControl } from '@angular/forms';
 
 const XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS: XmAceEditorControlOptions = {
     options: {},
@@ -37,6 +38,7 @@ type AceEditorValue = string | object;
         MatFormFieldModule,
         ControlErrorModule,
         XmAceEditorThemeSchemeAdapterDirective,
+        XmAceEditorControl,
     ],
     standalone: true,
     template: `
@@ -71,8 +73,10 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
 
     @Input() @Defaults(XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS)
     public config: XmAceEditorControlOptions;
-
     public _value: string = '';
+    constructor(@Optional() @Self() public ngControl: NgControl){
+        super(ngControl);
+    }
 
     public get value(): AceEditorValue {
         try {

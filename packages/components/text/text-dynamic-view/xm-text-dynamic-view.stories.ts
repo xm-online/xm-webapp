@@ -1,7 +1,7 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
-import { XmTextDynamicOptions, XmTextDynamicView } from '@xm-ngx/components/text';
+import { XmTextDynamicOptions, XmTextDynamicView } from './xm-text-dynamic-view';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/registry';

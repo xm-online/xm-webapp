@@ -13,8 +13,8 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import {
     XmDateTimeControlComponent,
     XmDateTimeControlConfig,
-    XmDateTimeControlFieldComponent
-} from '@xm-ngx/components/date';
+    XmDateTimeControlFieldComponent,
+} from '../date';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';

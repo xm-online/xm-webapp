@@ -1,5 +1,5 @@
 import { applicationConfig, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XmTableSettingStore, XmTableWidget, XmTableWidgetConfig } from '@xm-ngx/components/table';
+import { XmTableWidget } from './xm-table-widget.component';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -16,6 +16,8 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { XmRepositoryConfig } from '@xm-ngx/repositories';
 import { Observable, of } from 'rxjs';
 import { DateAdapter, MatNativeDateModule, NativeDateAdapter } from '@angular/material/core';
+import { XmTableWidgetConfig } from './xm-table-widget.config';
+import { XmTableSettingStore } from '@xm-ngx/components/table';
 
 
 const mockLocalStorage = {
