@@ -3,7 +3,7 @@ import { Params, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthServerProvider } from '@xm-ngx/core/user';
 import { Principal } from '@xm-ngx/core/user';
-import { StateStorageService } from '@xm-ngx/core/auth';
+import { StateStorageService, XmAuthTargetUrlService } from '@xm-ngx/core/auth';
 import { SessionStorageService } from 'ngx-webstorage';
 import { IIdpClient, IIdpConfig, XmCoreConfig, XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { DOCUMENT, Location } from '@angular/common';
@@ -20,6 +20,7 @@ export class LoginService {
                 private authRefreshTokenService: AuthRefreshTokenService,
                 private authServerProvider: AuthServerProvider,
                 private stateStorageService: StateStorageService,
+                private xmAuthTargetUrlService: XmAuthTargetUrlService,
                 private $sessionStorage: SessionStorageService,
                 protected modalService: MatDialog,
                 protected eventManager: XmEventManager,
@@ -117,17 +118,7 @@ export class LoginService {
             name: 'authenticationSuccess',
             content: 'Sending Authentication Success',
         });
-
-        /*
-         * PreviousState was set in the authExpiredInterceptor before being redirected to login modal.
-         * since login is succesful, go to stored previousState and clear previousState
-         */
-        const redirect = this.stateStorageService.getUrl();
-        if (redirect) {
-            this.router.navigateByUrl(redirect);
-        } else {
-            this.router.navigate(['dashboard']);
-        }
+        this.xmAuthTargetUrlService.initialRedirect();
     }
 
     public showTermsDialog(token: string, config: unknown): Promise<string> {

@@ -3,7 +3,7 @@ import { XmSessionService } from '@xm-ngx/core';
 import {
     AuthRefreshTokenService,
     XmAuthenticationRepository,
-    XmAuthenticationStoreService,
+    XmAuthenticationStoreService, XmAuthTargetUrlService,
 } from '@xm-ngx/core/auth';
 
 import { XmAuthenticationService } from '@xm-ngx/core/auth';
@@ -14,6 +14,7 @@ describe('XmAuthenticationService', () => {
         providers: [
             {provide: XmAuthenticationRepository, useValue: {}},
             {provide: XmAuthenticationStoreService, useValue: {}},
+            {provide: XmAuthTargetUrlService, useValue: {}},
             {provide: XmAuthenticationConfig, useValue: {}},
             {provide: AuthRefreshTokenService, useValue: {}},
             {provide: XmSessionService, useValue: null},

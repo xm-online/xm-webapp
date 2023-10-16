@@ -10,7 +10,7 @@ import { filter, shareReplay, takeUntil } from 'rxjs/operators';
 
 
 import { AccountService } from './account.service';
-import { SUPER_ADMIN } from '@xm-ngx/core/auth';
+import { SUPER_ADMIN, XmAuthenticationService } from '@xm-ngx/core/auth';
 
 const CACHE_SIZE = 1;
 
@@ -26,6 +26,7 @@ export class Principal implements OnDestroy, OnInitialize {
 
     constructor(private account: AccountService,
                 private sessionService: XmSessionService,
+                private xmAuthenticationService: XmAuthenticationService,
                 private userService: XmUserService,
     ) {
     }
@@ -123,6 +124,12 @@ export class Principal implements OnDestroy, OnInitialize {
                  * if we have, reuse it by immediately resolving
                  */
             if (this.userIdentity) {
+                this.promise = null;
+                resolve(this.userIdentity);
+                return;
+            }
+
+            if (this.xmAuthenticationService.isSureGuestSession()) {
                 this.promise = null;
                 resolve(this.userIdentity);
                 return;

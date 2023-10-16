@@ -351,6 +351,9 @@
     "title": "Tor"
   },
   "global": {
+    "policies": {
+      "count-passed": "{{count}} von {{required}} bedingungen sind erfüllt"
+    },
     "actionPerformed": "Ausgeführte Aktion",
     "all": "Alle",
     "common": {

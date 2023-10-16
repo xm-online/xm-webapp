@@ -34,17 +34,23 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         if (request.headers.has(SKIP_ERROR_HANDLER_INTERCEPTOR_HEADER_KEY)) {
             const headers = request.headers.delete(SKIP_ERROR_HANDLER_INTERCEPTOR_HEADER_KEY);
             return next.handle(request.clone({ headers }));
-        } 
+        }
         return next.handle(request).pipe(tap({
             error: (err: HttpErrorResponse) => this.handleError(err, request),
         }));
-        
+
     }
 
     private handleError(err: HttpErrorResponse, request: HttpRequest<unknown>): void {
         if (err instanceof HttpErrorResponse
             && !(err.status === 401 &&
-                (err.message === '' || (err.url && err.url.includes('/api/account'))))) {
+                (err.message === '' || (err.url && (
+                    err.url.includes('/api/account')
+                    ||
+                    err.url.includes('/api/dashboards/')
+                    ||
+                    err.url.includes('/oauth/token')
+                ))))) {
             this.eventManager.broadcast({ name: ErrorHandlerEventName, content: err, request });
         }
     }

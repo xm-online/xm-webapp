@@ -6,6 +6,8 @@ import { MockLanguageService, XmTranslationTestingModule } from '@xm-ngx/transla
 import { MockPrincipalService } from '@xm-ngx/core/user/testing';
 
 import { XmUserSettingsWidgetComponent } from './xm-user-settings-widget.component';
+import { XmConfigService, XmUiConfigService } from '@xm-ngx/core/config';
+import { MockUiConfigService, MockConfigService } from '@xm-ngx/core/config/testing';
 
 describe('XmUserSettingsWidgetComponent', () => {
     let component: XmUserSettingsWidgetComponent;
@@ -18,6 +20,8 @@ describe('XmUserSettingsWidgetComponent', () => {
                 { provide: Principal, useClass: MockPrincipalService },
                 { provide: LanguageService, useClass: MockLanguageService },
                 { provide: TitleService, useValue: null },
+                { provide: XmUiConfigService, useValue: MockUiConfigService },
+                { provide: XmConfigService, useValue: MockConfigService },
                 { provide: AccountService, useValue: null },
             ],
             schemas: [NO_ERRORS_SCHEMA],
