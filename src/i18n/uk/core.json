@@ -347,6 +347,9 @@
     "title": "Шлюз"
   },
   "global": {
+    "policies": {
+      "count-passed": "{{count}} з {{required}} умов виконано"
+    },
     "actionPerformed": "Action performed",
     "all": "Все",
     "common": {
@@ -741,7 +744,7 @@
     "hoursAgo": " годин(-и) тому",
     "yesterday": "Вчора",
     "daysAgo": " дні(-в) тому",
-    "weeksAgo": " тиждень(-ні) тому"
+    "weeksAgo": " тиж. тому"
   },
   "password": {
     "form": {

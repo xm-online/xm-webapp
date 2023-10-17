@@ -10,7 +10,7 @@ import {
 } from '@angular/router';
 
 import { Principal } from '@xm-ngx/core/user';
-import { StateStorageService } from '@xm-ngx/core/auth';
+import { XmAuthTargetUrlService } from '@xm-ngx/core/auth';
 import { PermissionGuardData } from './permission.guard';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class UserRouteAccessService implements CanActivate, CanActivateChild, Ca
     constructor(
         private router: Router,
         private principal: Principal,
-        private stateStorageService: StateStorageService,
+        private xmAuthTargetUrlService: XmAuthTargetUrlService,
     ) {
     }
 
@@ -59,7 +59,7 @@ export class UserRouteAccessService implements CanActivate, CanActivateChild, Ca
                     });
             }
 
-            this.stateStorageService.storeUrl(window.location.href.substring(window.location.origin.length));
+            this.xmAuthTargetUrlService.storeCurrentUrl();
             this.router.navigate(['/']);
             return false;
         }));

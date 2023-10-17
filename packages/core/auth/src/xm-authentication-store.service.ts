@@ -38,6 +38,14 @@ export class XmAuthenticationStoreService {
         return this.sessionStorage.retrieve(AUTH_TOKEN) || this.localStorage.retrieve(AUTH_TOKEN);
     }
 
+    public hasAuthenticationToken(): boolean {
+        return !!this.getAuthenticationToken();
+    }
+
+    public hasRefreshToken(): boolean {
+        return !!this.getRefreshToken();
+    }
+
     public getRefreshToken(): string {
         return this.sessionStorage.retrieve(REFRESH_TOKEN) || this.localStorage.retrieve(REFRESH_TOKEN);
     }

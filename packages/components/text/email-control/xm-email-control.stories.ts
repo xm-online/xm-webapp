@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
-import { XmEmailControl } from '@xm-ngx/components/text';
+import { XmEmailControl } from '../email-control';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 

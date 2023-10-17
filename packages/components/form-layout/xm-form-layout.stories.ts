@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmFormLayoutComponent, XmFormLayoutControl } from '@xm-ngx/components/form-layout';
+import { XmFormLayoutComponent} from './xm-form-layout.component';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/registry';
@@ -23,6 +23,7 @@ import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/registry';
 import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/registry';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import { XmFormLayoutControl } from './xm-form-layout-control.component';
 
 export default {
     title: 'Core/Control/Form layout',

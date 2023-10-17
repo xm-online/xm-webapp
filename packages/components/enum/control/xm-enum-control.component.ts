@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
@@ -9,7 +9,7 @@ import { XmEnumViewOptions } from '../view/xm-enum-view';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
@@ -105,7 +105,7 @@ export class XmEnumControl
     extends NgFormAccessor<XmEnumValue>
     implements XmDynamicControl<XmEnumValue, XmEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];
-    public itemsMap: {[value: string]: XmEnumControlOptionsItem};
+    public itemsMap: { [value: string]: XmEnumControlOptionsItem };
     private _config: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);
 
     public get config(): XmEnumControlOptions {
@@ -126,5 +126,9 @@ export class XmEnumControl
         if (value?.enum) {
             console.warn('"enum" is deprecated use "items" instead!');
         }
+    }
+
+    constructor(@Optional() @Self() public ngControl: NgControl) {
+        super(ngControl);
     }
 }

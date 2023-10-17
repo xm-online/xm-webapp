@@ -357,6 +357,9 @@
     "title": "Gateway"
   },
   "global": {
+    "policies": {
+      "count-passed": "{{count}} of {{required}} conditions are met"
+    },
     "actionPerformed": "Action performed",
     "all": "All",
     "common": {

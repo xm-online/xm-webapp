@@ -7,7 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmMultipleEnumControl } from '@xm-ngx/components/enum';
+import { XmMultipleEnumControl } from './xm-multiple-enum-control.component';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmPermissionModule } from '@xm-ngx/core/permission';

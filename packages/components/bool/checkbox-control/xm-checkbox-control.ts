@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/interfaces';
@@ -6,7 +6,7 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -78,4 +78,9 @@ export class XmCheckboxControl extends NgFormAccessor<Primitive> implements XmDy
     public set config(value: XmCheckboxControlOptions) {
         this._config = defaults({}, value, XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT);
     }
+
+    constructor(@Optional() @Self() public ngControl: NgControl){
+        super(ngControl);
+    }
+
 }

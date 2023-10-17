@@ -6,6 +6,7 @@ import { XmAuthenticationStoreService } from './xm-authentication-store.service'
 import { XmAuthenticationService } from './xm-authentication.service';
 import { XmAuthenticationRepository } from './xm-authentication-repository.service';
 import { XmAuthenticationConfig } from './xm-authentication-config.service';
+import { XmAuthTargetUrlService } from './xm-auth-target-url.service';
 
 @NgModule()
 export class XmCoreAuthModule {
@@ -22,6 +23,7 @@ export class XmCoreAuthModule {
                 AuthRefreshTokenService,
                 XmAuthenticationRepository,
                 XmAuthenticationService,
+                XmAuthTargetUrlService,
                 XmAuthenticationStoreService,
             ],
             ngModule: XmCoreAuthModule,
