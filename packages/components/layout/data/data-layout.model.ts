@@ -6,6 +6,10 @@ export type DataLayoutConfig = {
     condition?: JavascriptCode;
     transform?: string;
     layout: DynamicLayoutConfig;
+    dataController?: {
+        key: string;
+        method: string;
+    }
 };
 
 export type DynamicLayoutConfig<C extends XmConfig = XmConfig> = {

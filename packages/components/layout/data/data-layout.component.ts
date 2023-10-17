@@ -1,10 +1,10 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { ResourceDataService } from '@xm-ngx/controllers/features/resource-data';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { injectByKey, XmDynamicModule } from '@xm-ngx/dynamic';
+import {injectByKey, XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicModule} from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { get } from 'lodash';
 import { Observable, of } from 'rxjs';
@@ -28,11 +28,11 @@ import { DataLayoutConfig } from './data-layout.model';
 })
 export class DataLayoutComponent implements OnInit, OnDestroy {
 
-    private dataController = injectByKey<ResourceDataService>('data');
+    public config: DataLayoutConfig = inject<DataLayoutConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
 
-    public config: DataLayoutConfig;
+    private dataController = injectByKey<ResourceDataService>(this.config.dataController?.key  || 'data');
 
-    private value$: Observable<any> = this.dataController.get().pipe(
+    private value$: Observable<any> = this.dataController[this.config.dataController?.method || 'get']().pipe(
         map(obj => this.config?.field ? get(obj, this.config.field) : obj),
         switchMap(value => {
             if (this.config?.transform) {
