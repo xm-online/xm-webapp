@@ -9,7 +9,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
 import { IfDashboardSlugModule } from '@xm-ngx/components/if-dashboard-slug';
-import { XmLinkButtonComponent } from '@xm-ngx/components/link';
+import { XmLinkButtonComponent } from '../../link';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { DashboardStore } from '@xm-ngx/dashboard';

@@ -15,10 +15,10 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmAutocompleteControlConfig } from '@xm-ngx/components/autocomplete-control';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { XmAutocompleteTableControl } from '@xm-ngx/components/autocomplete-control';
 import { XmTableColumnDynamicCellsOptions } from '@xm-ngx/components/table';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/registry';
+import { XmAutocompleteTableControl } from './autocomplete-table-control.component';
 
 function StaticLoaderFactory() {
     return of(require('src/i18n/en.json'));

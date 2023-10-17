@@ -1,5 +1,5 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import { XmHtmlComponent } from '@xm-ngx/components/html';
+import { XmHtmlComponent } from './xm-html';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 
@@ -10,6 +10,7 @@ export default {
         moduleMetadata({
             imports: [
                 XmTranslationTestingModule,
+                XmHtmlComponent,
             ],
         }),
     ],

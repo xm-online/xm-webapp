@@ -7,7 +7,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { MatIconModule } from '@angular/material/icon';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
-import { XmPasswordControl } from '@xm-ngx/components/text';
+import { XmPasswordControl } from '../password-control';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 
 const getCaptionForLocale = (locale) => {

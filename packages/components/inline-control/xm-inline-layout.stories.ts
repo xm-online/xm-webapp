@@ -11,7 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmInlineControlComponent } from '@xm-ngx/components/inline-control';
+import { XmInlineControlComponent } from '../inline-control';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XM_DATE_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_HTML_ELEMENTS } from '@xm-ngx/components/registry';

@@ -20,10 +20,10 @@ import { XM_LINK_ELEMENTS } from '@xm-ngx/components/registry';
 import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/registry';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { NavbarUserWidgetComponent } from '@xm-ngx/dashboard/navbar-user-widget';
 import { MockUserService } from '@xm-ngx/core/user/testing';
 import { ActivatedRoute } from '@angular/router';
 import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
+import { NavbarUserWidgetComponent } from '../../dashboard/navbar-user-widget';
 
 export default {
     title: 'Core/Widget/Navbar user',
