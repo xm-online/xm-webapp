@@ -12,6 +12,12 @@ export interface XmCarouselBreakpoint {
     slidesCount: number;
 }
 
+export interface XmCarouselBreakpointChange { 
+    adaptive: XmCarouselAdaptiveSettings; 
+    contents: XmCarouselContentDirective[];
+    switched: boolean;
+}
+
 export interface XmCarouselContainerMeasure { 
     offsetWidth: number;
     scrollWidth: number;
