@@ -30,7 +30,7 @@ export class DataLayoutComponent implements OnInit, OnDestroy {
 
     public config: DataLayoutConfig = inject<DataLayoutConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
 
-    private dataController = injectByKey<ResourceDataService>(this.config.dataController?.key  || 'data');
+    private dataController = injectByKey<ResourceDataService>(this.config.dataController?.key || 'data');
 
     private value$: Observable<any> = this.dataController[this.config.dataController?.method || 'get']().pipe(
         map(obj => this.config?.field ? get(obj, this.config.field) : obj),
