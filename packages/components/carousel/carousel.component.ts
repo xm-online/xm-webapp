@@ -2,9 +2,9 @@ import { AsyncPipe, NgFor, NgIf, NgStyle } from '@angular/common';
 import { AfterViewInit, Component, ContentChild, ContentChildren, ElementRef, inject, Input, NgZone, OnDestroy, QueryList, ViewChild } from '@angular/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { defaults, sortBy } from 'lodash';
-import { combineLatestWith, last, fromEvent, map, Observable, merge, startWith, Subject, switchMap, takeUntil, tap, withLatestFrom, BehaviorSubject, share, scan } from 'rxjs';
+import { combineLatestWith, last, fromEvent, map, Observable, merge, startWith, Subject, switchMap, takeUntil, tap, withLatestFrom, BehaviorSubject, share, scan, of } from 'rxjs';
 import { XmCarouselContentDirective, XmCarouselNextButtonDirective, XmCarouselPrevButtonDirective, XmCarouselSwitchButtonDirective } from './carousel.directive';
-import { XmCarouselAdaptiveSettings, XmCarouselConfig, XmCarouselContainerMeasure, XmCarouselGesture, XmCarouselGestureEvent, XmCarouselHandleButton } from './carousel.interface';
+import { XmCarouselAdaptiveSettings, XmCarouselBreakpointChange, XmCarouselConfig, XmCarouselContainerMeasure, XmCarouselGesture, XmCarouselGestureEvent, XmCarouselHandleButton } from './carousel.interface';
 
 export const XM_CAROUSEL_DEFAULTS = {
     swipeThreshold: 50,
@@ -72,9 +72,9 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
     private ngZone = inject(NgZone);
 
     @ViewChild('list', { read: ElementRef }) public listRef: ElementRef<HTMLElement>;
-    @ContentChild(XmCarouselSwitchButtonDirective) public switchButton: XmCarouselSwitchButtonDirective;
-    @ContentChild(XmCarouselNextButtonDirective) public nextButton: XmCarouselNextButtonDirective;
-    @ContentChild(XmCarouselPrevButtonDirective) public prevButton: XmCarouselPrevButtonDirective;
+    @ContentChild(XmCarouselSwitchButtonDirective) public switchButton?: XmCarouselSwitchButtonDirective;
+    @ContentChild(XmCarouselNextButtonDirective) public nextButton?: XmCarouselNextButtonDirective;
+    @ContentChild(XmCarouselPrevButtonDirective) public prevButton?: XmCarouselPrevButtonDirective;
 
     @ContentChildren(XmCarouselContentDirective) public contents: QueryList<XmCarouselContentDirective>;
 
@@ -127,11 +127,19 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
                 const noPrevSlides = offsetCount <= 0;
 
                 this.asRows = switched;
-                this.switchButton.switched = switched;
-                this.switchButton.disabled = noPrevSlides && noNextSlides;
 
-                this.prevButton.disabled = switched ? true : noPrevSlides;
-                this.nextButton.disabled = switched ? true : noNextSlides;
+                if (this.switchButton) {
+                    this.switchButton.switched = switched;
+                    this.switchButton.disabled = noPrevSlides && noNextSlides;
+                }
+
+                if (this.prevButton) {
+                    this.prevButton.disabled = switched ? true : noPrevSlides;
+                }
+
+                if (this.nextButton) {
+                    this.nextButton.disabled = switched ? true : noNextSlides;
+                }
 
                 if (slidesMoreThanContents) {
                     this.offsetX = 0;
@@ -157,17 +165,29 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
         takeUntilOnDestroyDestroy(this);
     }
 
-    private setupButtonsEvents(): Observable<PointerEvent> {
-        return merge(
-            fromEvent<PointerEvent>(this.switchButton.element, 'click').pipe(
+    private setupButtonsEvents(): Observable<PointerEvent | null> {
+        const switchButtonEvent = this.switchButton?.element 
+            ? fromEvent<PointerEvent>(this.switchButton.element, 'click').pipe(
                 tap(() => this.toSwitch()),
-            ),
-            fromEvent<PointerEvent>(this.nextButton.element, 'click').pipe(
+            )
+            : of(null);
+
+        const nextButtonEvent = this.nextButton?.element 
+            ? fromEvent<PointerEvent>(this.nextButton.element, 'click').pipe(
                 tap(() => this.toNext()),
-            ),
-            fromEvent<PointerEvent>(this.prevButton.element, 'click').pipe(
+            )
+            : of(null);
+
+        const prevButtonEvent = this.prevButton?.element 
+            ? fromEvent<PointerEvent>(this.prevButton.element, 'click').pipe(
                 tap(() => this.toPrevious()),
-            ),
+            )
+            : of(null);
+
+        return merge(
+            switchButtonEvent,
+            nextButtonEvent,
+            prevButtonEvent,
         );
     }
 
@@ -296,12 +316,12 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
 
     private contentChanges(): Observable<XmCarouselContentDirective[]> {
         return this.contents.changes.pipe(
-            startWith(this.contents.toArray()),
+            startWith<XmCarouselContentDirective[]>(this.contents.toArray()),
             share(),
         );
     }
 
-    private breakpointChanges(): Observable<{ adaptive, contents, switched }> {
+    private breakpointChanges(): Observable<XmCarouselBreakpointChange> {
         return this.resizeChanges().pipe(
             combineLatestWith(
                 this.contentChanges(),
