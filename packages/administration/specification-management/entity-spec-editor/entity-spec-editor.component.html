@@ -1,4 +1,4 @@
-<div class="d-flex sticky-top bg-white rounded justify-content-end mat-elevation-z1">
+<div class="d-flex sticky-top bg-white rounded justify-content-end mat-elevation-z1 block-entity-controls">
   <button (click)="onAddEntitySpec()"
           [disabled]="disabled"
           [matTooltip]="('admin-config.specification-mng.editor.add-entity-spec' | translate)"
@@ -33,54 +33,63 @@
     </mat-expansion-panel-header>
 
     <div *ngIf="openedEntitySpec === index">
-      <mat-form-field>
-        <input [(ngModel)]="entitySpec.key"
-               [placeholder]="('admin-config.specification-mng.editor.key' | translate)"
-               matInput
-               type="text">
-      </mat-form-field>
+      <div class="form-group">
+        <mat-form-field>
+          <input [(ngModel)]="entitySpec.key"
+                 [placeholder]="('admin-config.specification-mng.editor.key' | translate)"
+                 matInput
+                 type="text">
+        </mat-form-field>
+      </div>
 
-      <xm-multi-language-control
-        (valueChange)="fromMultiLanguageDataModel(entitySpec.name, $event)"
-        [config]="{title: ('admin-config.specification-mng.editor.name' | translate)}"
-        [value]="toMultiLanguageDataModel(entitySpec.name)"
-      ></xm-multi-language-control>
+      <div class="form-group">
+        <xm-multi-language-control
+          (valueChange)="fromMultiLanguageDataModel(entitySpec.name, $event)"
+          [config]="{title: ('admin-config.specification-mng.editor.name' | translate)}"
+          [value]="toMultiLanguageDataModel(entitySpec.name)"
+        ></xm-multi-language-control>
+      </div>
 
-      <xm-multi-language-control
-        (valueChange)="fromMultiLanguageDataModel(entitySpec.pluralName, $event)"
-        [config]="{title: ('admin-config.specification-mng.editor.plural-name' | translate)}"
-        [value]="toMultiLanguageDataModel(entitySpec.pluralName)"
-      ></xm-multi-language-control>
+      <div class="form-group">
+        <xm-multi-language-control
+          (valueChange)="fromMultiLanguageDataModel(entitySpec.pluralName, $event)"
+          [config]="{title: ('admin-config.specification-mng.editor.plural-name' | translate)}"
+          [value]="toMultiLanguageDataModel(entitySpec.pluralName)"
+        ></xm-multi-language-control>
+      </div>
 
-      <div class="row">
-        <div class="col-4">
-          <mat-checkbox [(ngModel)]="entitySpec.isAbstract" color="primary">
-            {{'admin-config.specification-mng.editor.is-abstract' | translate}}
-          </mat-checkbox>
-        </div>
-        <div class="col-4">
-          <mat-checkbox [(ngModel)]="entitySpec.isApp" color="primary">
-            {{'admin-config.specification-mng.editor.is-application' | translate}}
-          </mat-checkbox>
-        </div>
-        <div class="col-4">
-          <mat-form-field>
-            <mat-label>{{'admin-config.specification-mng.editor.icon' | translate}}</mat-label>
-            <mat-select [(ngModel)]="entitySpec.icon">
-              <mat-select-trigger>
-                {{entitySpec.icon}}
-              </mat-select-trigger>
-              <mat-option *ngFor="let icon of icons" [value]="icon">
-                <mat-icon>{{icon}}</mat-icon>
-                {{icon}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-6">
+            <mat-checkbox [(ngModel)]="entitySpec.isAbstract" color="primary">
+              {{'admin-config.specification-mng.editor.is-abstract' | translate}}
+            </mat-checkbox>
+          </div>
+          <div class="col-6">
+            <mat-checkbox [(ngModel)]="entitySpec.isApp" color="primary">
+              {{'admin-config.specification-mng.editor.is-application' | translate}}
+            </mat-checkbox>
+          </div>
         </div>
       </div>
 
-      <mat-label>{{'admin-config.specification-mng.editor.data-spec' | translate}}</mat-label>
-      <div class="text-end">
+      <div class="form-group">
+        <mat-form-field>
+          <mat-label>{{'admin-config.specification-mng.editor.icon' | translate}}</mat-label>
+          <mat-select [(ngModel)]="entitySpec.icon">
+            <mat-select-trigger>
+              {{entitySpec.icon}}
+            </mat-select-trigger>
+            <mat-option *ngFor="let icon of icons" [value]="icon">
+              <mat-icon>{{icon}}</mat-icon>
+              {{icon}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-label>{{'admin-config.specification-mng.editor.data-spec' | translate}}</mat-label>
         <div (textChanged)="onDataSpecChanged(entitySpec, $event)"
              [mode]="'json'"
              [config]="{ highlightActiveLine: true, maxLines: 25 }"
@@ -90,8 +99,8 @@
         </div>
       </div>
 
-      <mat-label>{{'admin-config.specification-mng.editor.form-spec' | translate}}</mat-label>
-      <div class="text-end">
+      <div class="form-group">
+        <mat-label>{{'admin-config.specification-mng.editor.form-spec' | translate}}</mat-label>
         <div (textChanged)="onDataFormChanged(entitySpec, $event)"
              [mode]="'json'"
              [config]="{ highlightActiveLine: true, maxLines: 25 }"

@@ -23,7 +23,7 @@
   <div class="row align-items-center mt2 mb-2">
     <div class="col-xs-12 col-sm-3">
       <form (ngSubmit)="searchByLogin()" action="" novalidate>
-        <div class="d-flex flex-nowrap align-items-center">
+        <div class="d-flex flex-nowrap align-items-center block-simple-search">
           <div class="pe-1">
             <mat-form-field>
               <mat-label>{{'userManagement.search-by-login' | translate}}</mat-label>
@@ -50,7 +50,9 @@
     </div>
     <div class="col"></div>
     <div class="col-auto">
-      {{'userManagement.onlineUsers' | translate}} {{onlineUsers}}
+      <div class="block-user-online-count">
+        {{'userManagement.onlineUsers' | translate}} {{onlineUsers}}
+      </div>
     </div>
   </div>
 
