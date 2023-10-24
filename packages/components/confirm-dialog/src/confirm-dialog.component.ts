@@ -43,16 +43,16 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
             </form>
 
             <div mat-dialog-actions [align]="'end'">
-                <button mat-stroked-button mat-dialog-close>{{ data?.cancelButtonText | translate }}</button>
+                <button mat-stroked-button mat-dialog-close *ngIf="data?.cancelButtonText">{{ data.cancelButtonText | translate }}</button>
 
                 <ng-container *ngIf="data.hasControls; then applyTpl else confirmTpl"></ng-container>
 
                 <ng-template #applyTpl>
-                    <button mat-flat-button color="primary" [disabled]="isFormDisabled | async" (click)="applyForm(form)">{{ data?.confirmButtonText | translate }}</button>
+                    <button mat-flat-button color="primary" [disabled]="isFormDisabled | async" (click)="applyForm(form)" *ngIf="data?.confirmButtonText">{{ data.confirmButtonText | translate }}</button>
                 </ng-template>
 
                 <ng-template #confirmTpl>
-                    <button mat-flat-button color="primary" (click)="confirm()">{{ data?.confirmButtonText | translate }}</button>
+                    <button mat-flat-button color="primary" (click)="confirm()" *ngIf="data?.confirmButtonText">{{ data.confirmButtonText | translate }}</button>
                 </ng-template>
             </div>
         </ng-container>
