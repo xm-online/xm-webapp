@@ -19,4 +19,5 @@ export interface XmAlertConfig {
     showConfirmButton?: boolean;
     confirmButtonText?: Translate;
     cancelButtonText?: Translate;
+    className?: string;
 }

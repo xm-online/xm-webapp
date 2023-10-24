@@ -115,6 +115,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                     title,
                     width: '42rem',
                     icon: messageSettings[1],
+                    className: messageSettings && messageSettings[1] ? `type-${messageSettings[1]}` : '',
                 }).subscribe((result) => {
                     if (result && config.redirectUrl) {
                         const redirect = (config.redirectUrl === '/') ? '' : config.redirectUrl;
