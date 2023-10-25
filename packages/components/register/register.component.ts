@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 
-import { ReCaptchaComponent, ReCaptchaModule } from 'angular2-recaptcha';
+import { RecaptchaModule, RecaptchaComponent } from 'ng-recaptcha';
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { PasswordSpec } from '@xm-ngx/core/config';
@@ -31,7 +31,7 @@ import {
         MatButtonModule,
         NgIf,
         FormsModule,
-        ReCaptchaModule,
+        RecaptchaModule,
         PasswordStrengthBarComponent,
         FocusDirective,
         PasswordPoliciesComponent,
@@ -41,7 +41,7 @@ import {
 export class RegisterComponent implements OnInit {
 
     @Input() public config: any;
-    @ViewChild(ReCaptchaComponent, {static: false}) public captcha: ReCaptchaComponent;
+    @ViewChild(RecaptchaComponent, {static: false}) public captcha: RecaptchaComponent;
 
     public email: string;
     public msisdn: string;
