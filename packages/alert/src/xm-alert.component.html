@@ -1,4 +1,4 @@
-<div class="heading" mat-dialog-title [class.center]="data?.center">
+<div class="heading {{data?.className}}" mat-dialog-title [class.center]="data?.center">
   <div class="heading-icon" *ngIf="data?.icon">
     <mat-icon [style.color]="data?.iconColor">{{data.icon}}</mat-icon>
   </div>
