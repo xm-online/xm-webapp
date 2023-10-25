@@ -27,7 +27,7 @@ export class XmTableReadOnlyArrayCollectionController<T = unknown>
         throw new NotSupportedException();
     }
 
-    public config: XmTableReadOnlyArrayCollectionControllerConfig;
+    public declare config: XmTableReadOnlyArrayCollectionControllerConfig;
     private entity: object;
 
     constructor(

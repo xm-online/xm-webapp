@@ -25,7 +25,7 @@ export interface XmTableReadOnlyRepositoryCollectionControllerConfig extends IXm
 export class XmTableReadOnlyRepositoryCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
-    public config: XmTableReadOnlyRepositoryCollectionControllerConfig;
+    public declare config: XmTableReadOnlyRepositoryCollectionControllerConfig;
     public entity: object;
     private repository: IEntityCollectionPageable<T, PageableAndSortable>;
 

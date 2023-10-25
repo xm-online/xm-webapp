@@ -201,8 +201,8 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
 
     private _toView(value: XmMultiSelectItemOrString[]): XmMultiSelectItem[] {
         return (value ?? []).map(item => {
-            const valueKey = _.get(item, this.config?.valueKey, item);
-            const titleKey = _.get(item, this.config?.titleKey, item);
+            const valueKey = _.get(item, this.config?.valueKey, item) as string;
+            const titleKey = _.get(item, this.config?.titleKey, item) as string;
 
             return {
                 valueKey,
@@ -213,7 +213,7 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
 
     private _toModel(value: XmMultiSelectItemOrString[]): string[] {
         return (value ?? []).map(item => {
-            return _.get(item, this.config?.valueKey, item);
+            return _.get(item, this.config?.valueKey, item) as string;
         }).filter(value => !!value);
     }
 }

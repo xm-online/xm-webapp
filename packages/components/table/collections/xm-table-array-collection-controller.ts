@@ -23,7 +23,7 @@ export interface XmTableArrayCollectionControllerConfig extends XmTableEntity {
 export class XmTableArrayCollectionController<T = unknown>
     extends AXmTableLocalPageableCollectionController<T>
     implements IXmTableCollectionController<T> {
-    public config: XmTableArrayCollectionControllerConfig;
+    public declare config: XmTableArrayCollectionControllerConfig;
     private entity: object;
 
     private entityController = injectByKey<XmTableEntityController<object>>('table-entity-controller', {optional: true}) || inject<XmTableEntityController<object>>(XmTableEntityController);

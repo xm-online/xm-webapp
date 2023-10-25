@@ -53,8 +53,8 @@ export const XM_LINK_VIEW_COPY_DEFAULT_OPTIONS: XmLinkViewCopyOptions = assign(
     encapsulation: ViewEncapsulation.None,
 })
 export class XmLinkViewCopyComponent extends XmLinkViewComponent implements XmDynamicPresentation<IId, XmLinkViewOptions>, OnInit, OnChanges {
-    @Input() public value: IId;
-    @Input() public config: XmLinkViewCopyOptions;
+    @Input() public declare value: IId;
+    @Input() public declare config: XmLinkViewCopyOptions;
     public copyValue: unknown;
     public copyOptions: XmCopyIconOptions;
     protected defaultOptions: XmLinkViewCopyOptions = clone(XM_LINK_VIEW_COPY_DEFAULT_OPTIONS);

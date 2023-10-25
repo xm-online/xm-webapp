@@ -43,7 +43,7 @@ export class XmTableLinkedCollectionController<T extends IId & {name?: string} =
     extends AXmTableLocalPageableCollectionController<T>
     implements IXmTableCollectionController<T> {
     public entity: IId;
-    public config: LinkListConfig;
+    public declare config: LinkListConfig;
 
     private repository: IEntityCollectionPageable<T, PageableAndSortable>;
     private entityController = injectByKey<XmTableEntityController<object>>('table-entity-controller', {optional: true}) || inject<XmTableEntityController<object>>(XmTableEntityController);

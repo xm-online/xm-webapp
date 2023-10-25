@@ -19,7 +19,7 @@ export class XmTableConfigCollectionController<T = unknown>
     extends AXmTableLocalPageableCollectionController<T>
     implements IXmTableCollectionController<T> {
 
-    public config: XmTableConfigCollectionControllerConfig;
+    public declare config: XmTableConfigCollectionControllerConfig;
 
     public load(request: XmFilterQueryParams): void {
         const rawData = _.get(this.config, this.config.path, []) as T[];

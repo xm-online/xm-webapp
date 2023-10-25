@@ -64,16 +64,16 @@ export class XmDynamicControlDirective<V, C>
     private controlValue = new ReplaySubject<V>(1);
 
     /** Component value */
-    @Input() public value: V;
+    @Input() public declare value: V;
 
     /** Component value */
-    @Input() public disabled: boolean;
+    @Input() public declare disabled: boolean;
 
     /** Component options */
-    @Input() public options: C;
+    @Input() public declare options: C;
 
     /** Component ref */
-    @Input() public selector: XmDynamicControlConstructor<V, C> | string;
+    @Input() public declare selector: XmDynamicControlConstructor<V, C> | string;
 
     /** Component value changes */
     @Output() public valueChange: EventEmitter<V> = new EventEmitter<V>();

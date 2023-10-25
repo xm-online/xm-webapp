@@ -35,10 +35,10 @@ export const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
 export class ByEntityIdComponent extends ByEntityIdValueComponent implements OnInit, OnChanges {
 
     /** {@inheritDoc XmDynamicPresentation.config} */
-    @Input() public config: ByEntityIdOptions;
+    @Input() public declare config: ByEntityIdOptions;
 
     /** {@inheritDoc XmDynamicPresentation.value} */
-    @Input() public value: Id;
+    @Input() public declare value: Id;
 
     /** {@inheritDoc ByEntityIdValueComponent.defaultOptions} */
     protected defaultOptions: ByEntityIdOptions = clone(BY_ENTITY_ID_OPTIONS);

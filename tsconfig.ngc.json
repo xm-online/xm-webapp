@@ -13,6 +13,7 @@
     "baseUrl": ".",
     "target": "es2015",
     "module": "esnext",
+    "useDefineForClassFields": false,
     "moduleResolution": "node",
     "outDir": "",
     "resolveJsonModule": true,
