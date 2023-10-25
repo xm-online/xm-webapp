@@ -6,6 +6,6 @@
   },
   "dependencies": {
     "html2canvas": "1.4.1",
-    "ng-recaptcha": "12.0.2"
+    "ng-recaptcha": "11.0.0"
   }
 }

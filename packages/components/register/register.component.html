@@ -186,7 +186,7 @@
     <re-captcha (resolved)="handleCorrectCaptcha($event)"
                 (errored)="handleCaptchaExpired($event)"
                 [lang]="language"
-                siteKey="{{publicKey}}"></re-captcha>
+                [siteKey]="publicKey"></re-captcha>
 
     <input type="hidden" class="form-control" id="captcha" name="captcha"
            #captcha="ngModel"

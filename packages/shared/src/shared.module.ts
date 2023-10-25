@@ -3,7 +3,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form';
-import { ReCaptchaModule } from 'angular2-recaptcha';
+import { RecaptchaModule } from 'ng-recaptcha';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { MarkdownModule } from 'ngx-markdown';
@@ -72,7 +72,7 @@ const COMPONENTS = [
     imports: [
         XmJsonSchemaFormModule,
         GateSharedLibsModule,
-        ReCaptchaModule,
+        RecaptchaModule,
         MarkdownModule.forChild(),
         MatModule,
         CovalentTextEditorModule,
