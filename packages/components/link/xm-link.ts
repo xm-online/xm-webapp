@@ -20,6 +20,7 @@ export interface XmLinkOptions {
     /** Material icon */
     valueIcon: string;
     style?: string;
+    newWindow?: boolean;
 }
 
 export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
@@ -42,7 +43,8 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
     template: `
         <a [queryParams]="queryParams"
            [routerLink]="routerLink"
-           [style]="config?.style || config?.config?.style">
+           [target]="config?.newWindow ? '_blank' : '_self'"
+           [style]="config?.style || config?.config?.style" >
             <mat-icon *ngIf="config?.valueIcon || config?.config?.valueIcon">{{config.valueIcon || config?.config?.valueIcon}}</mat-icon>
             <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
             <span *ngIf="fieldValue">{{fieldValue}}</span>
@@ -63,13 +65,13 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
         if (!this.value) {
             return;
         }
-        
+
         this.fieldValue = get(this.value, this.config?.valueField || this.config?.config?.valueField || this.defaultOptions.valueField, null);
         this.fieldTitle = this.config?.valueTitle || this.config?.config?.valueTitle;
         this.queryParams = transformByMap(this.value, this.config?.queryParamsFromEntityFields || this.config?.config?.queryParamsFromEntityFields || this.defaultOptions.queryParamsFromEntityFields);
-        
+
         const routerLink = this.config?.routerLink || this.config?.config?.routerLink;
-        
+
         this.routerLink = isString(routerLink) ? interpolate(routerLink, {
             value: this.value,
         }) : routerLink;
