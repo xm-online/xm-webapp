@@ -24,7 +24,7 @@
     "ng": "ng",
     "xm-ngx": "xm-ngx",
     "postinstall": "npm run build:packages && ngcc --properties esm5 browser module main",
-    "build:packages": "node ./scripts/build-packages_copy-dist-package.js && npm install --ignore-scripts && node ./scripts/build-packages.js && npm i --ignore-scripts",
+    "build:packages": "node ./scripts/build-packages.js packages",
     "prebuild": "xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && xm-ngx dynamic-specification && npm run import-jsf-exts",
     "start": "npm run prebuild && ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0",
     "start:minimal": "ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0",
@@ -156,13 +156,13 @@
     "ts-morph": "18.0.0",
     "tslib": "2.4.0",
     "twitter-bootstrap-wizard": "1.2.0",
+    "types-ramda": "0.29.4",
     "validate": "5.2.0",
     "web-animations-js": "2.3.2",
     "webstomp-client": "1.2.6",
     "yaml": "2.3.1",
     "yamljs": "0.3.0",
-    "zone.js": "0.11.8",
-    "types-ramda": "0.29.4"
+    "zone.js": "0.11.8"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "15.2.4",
@@ -183,8 +183,8 @@
     "@types/jasminewd2": "2.0.10",
     "@types/lodash": "4.14.186",
     "@types/node": "18.17.5",
-    "@types/sass": "1.43.1",
     "@types/ramda": "0.29.4",
+    "@types/sass": "1.43.1",
     "@typescript-eslint/eslint-plugin": "6.10.0",
     "@typescript-eslint/parser": "6.10.0",
     "codelyzer": "6.0.2",
@@ -198,13 +198,13 @@
     "karma-coverage-istanbul-reporter": "3.0.3",
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.1.0",
+    "marked": "9.1.6",
     "ng-packagr": "15.2.2",
     "protractor": "7.0.0",
     "stylelint-config-recommended": "13.0.0",
     "stylelint-declaration-use-variable": "1.7.3",
     "ts-node": "10.9.1",
     "typescript": "4.9.5",
-    "marked": "9.1.6",
     "webpack-bundle-analyzer": "4.9.1"
   }
 }

@@ -4,5 +4,9 @@
   "scripts": {
     "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
   },
-  "dependencies": {}
+  "peerDependencies": {
+    "@xm-ngx/operators": "latest",
+    "@xm-ngx/repositories": "latest",
+    "@xm-ngx/tranlations": "latest"
+  }
 }

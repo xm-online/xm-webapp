@@ -5,6 +5,7 @@
     "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
   },
   "peerDependencies": {
-    "@xm-ngx/shared": "latest"
+    "@xm-ngx/shared": "latest",
+    "@xm-ngx/timeline": "latest"
   }
 }

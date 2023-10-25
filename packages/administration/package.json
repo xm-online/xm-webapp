@@ -7,5 +7,9 @@
   },
   "scripts": {
     "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
+  },
+  "peerDependencies": {
+    "@xm-ngx/dashboard": "latest",
+    "@xm-ngx/cli": "latest"
   }
 }
