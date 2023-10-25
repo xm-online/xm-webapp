@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager } from '@xm-ngx/jhipster';
 import { ErrorHandlerInterceptor } from './error-handler.interceptor';
 import { XmEventManagerService as XmEventManager } from './xm-event-manager.service';
 import { XM_CORE_EXTERNAL_CONFIG, XmCoreConfig } from './xm-core-config';

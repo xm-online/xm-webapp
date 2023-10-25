@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { JhiDateUtils } from 'ng-jhipster';
+import { JhiDateUtils } from '@xm-ngx/jhipster';
 import { Observable } from 'rxjs';
 
 import { Role, RoleMatrix } from './role.model';

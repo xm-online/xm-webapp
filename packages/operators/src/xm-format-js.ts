@@ -50,7 +50,7 @@ export function xmFormatJs<T>(template: XmFormatJsTemplateRecursive, context: un
             const value = template[key];
             if (typeof value === 'string') {
                 res[key] = interpolate(`{{${value}}}`, context as object);
-            } else if (value instanceof Array<XmFormatJsTemplateRecursive>) {
+            } else if (value instanceof Array) {
                 res[key] = _.map(value, item => xmFormatJs<T>(item, context));
             } else if (typeof value === 'object') {
                 res[key] = xmFormatJs(value, context);

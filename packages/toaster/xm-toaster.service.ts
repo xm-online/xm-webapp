@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarDismiss } from '@angular/material/snack-bar';
 import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { JhiAlert, JhiAlertService } from 'ng-jhipster';
+import { JhiAlert, JhiAlertService } from '@xm-ngx/jhipster';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { XmPublicUiConfigService } from '@xm-ngx/core';

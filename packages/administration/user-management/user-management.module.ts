@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { UnblockLockUserModule } from './unblock-lock-user/unblock-lock-user.module';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { NgJhipsterModule } from 'ng-jhipster';
+import { NgJhipsterModule } from '@xm-ngx/jhipster';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';

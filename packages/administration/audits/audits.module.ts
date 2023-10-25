@@ -12,7 +12,7 @@ import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { PerPageModule } from '@xm-ngx/components/per-page';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { NgJhipsterModule } from 'ng-jhipster';
+import { NgJhipsterModule } from '@xm-ngx/jhipster';
 import { AuditsComponent } from './audits.component';
 import { AuditsService } from './audits.service';
 

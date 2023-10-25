@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { JhiLanguageService } from 'ng-jhipster';
+import { JhiLanguageService } from '@xm-ngx/jhipster';
 import { Subscription } from 'rxjs';
 
 import { Principal } from '@xm-ngx/core/user';

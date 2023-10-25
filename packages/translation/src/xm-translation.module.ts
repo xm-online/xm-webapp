@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { LOCALE_ID, ModuleWithProviders, NgModule } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { JhiLanguageService } from 'ng-jhipster';
+import { JhiLanguageService } from '@xm-ngx/jhipster';
 
 import { XmJhiLanguageService } from './services/jhiLanguage.service';
 import { JhiLanguageHelper } from './services/language.helper';

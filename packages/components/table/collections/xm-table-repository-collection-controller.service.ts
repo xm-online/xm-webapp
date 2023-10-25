@@ -33,7 +33,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
     public repository: IEntityCollectionPageable<T, PageableAndSortable>;
-    public config: XmTableReadOnlyRepositoryCollectionControllerConfig;
+    public declare config: XmTableReadOnlyRepositoryCollectionControllerConfig;
 
     constructor(
         protected repositoryResolver: XmTableRepositoryResolver<T>,

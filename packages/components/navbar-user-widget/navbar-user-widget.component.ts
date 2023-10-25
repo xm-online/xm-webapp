@@ -38,7 +38,7 @@ import { UserNavBar } from './navbar-user-widget.model';
 })
 export class NavbarUserWidgetComponent extends UserWidgetBase {
     public selectedFile: File = null;
-    public config: UserNavBar;
+    public declare config: UserNavBar;
 
     constructor(dashboardService: DashboardStore, userService: XmUserService, contextService: ContextService, router: Router) {
         super(dashboardService, userService, contextService, router);

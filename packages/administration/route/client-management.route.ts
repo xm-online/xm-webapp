@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Routes } from '@angular/router';
 
 import { ClientMgmtComponent } from '@xm-ngx/administration/client-management';
-import { JhiPaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from '@xm-ngx/jhipster';
 
 @Injectable()
 export class ClientResolvePagingParams implements Resolve<any> {

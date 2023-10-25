@@ -3,6 +3,11 @@ const {execSync} = require('child_process');
 
 execSync('(cd ./packages/cli && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/eslint-plugin && npm run build && cd ../../)', {stdio: 'inherit'});
+
+// Adapted third-party libs for Angular 17
+execSync('(cd ./packages/jhipster && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/google-places-autocomplete && npm run build && cd ../../)', {stdio: 'inherit'});
+
 execSync('(cd ./packages/styles && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/interfaces && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/exceptions && npm run build && cd ../../)', {stdio: 'inherit'});

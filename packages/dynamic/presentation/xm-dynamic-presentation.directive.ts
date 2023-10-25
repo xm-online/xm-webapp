@@ -25,17 +25,17 @@ import {
 export class XmDynamicPresentationDirective<V, O> extends XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V, O>, OnChanges, OnInit {
     @Input() public controllers: XmDynamicControllerDeclaration[] = [];
     /** Component value */
-    @Input() public value: V;
+    @Input() public declare value: V;
     /**
      * @deprecated
      * Component options
      **/
-    @Input() public options: O;
+    @Input() public declare options: O;
     /** Component config */
-    @Input() public config: O;
+    @Input() public declare config: O;
     /** Component ref */
-    @Input() public selector: XmDynamicPresentationConstructor<V, O> | XmDynamicSelector;
+     @Input() public declare selector: XmDynamicPresentationConstructor<V, O> | XmDynamicSelector;
 
-    @Input() public class: string;
-    @Input() public style: string;
+    @Input() public declare class: string;
+    @Input() public declare style: string;
 }

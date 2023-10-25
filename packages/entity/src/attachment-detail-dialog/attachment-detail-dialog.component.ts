@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { JhiDataUtils } from 'ng-jhipster';
+import { JhiDataUtils } from '@xm-ngx/jhipster';
 
 import { Principal } from '@xm-ngx/core/user';
 import { AttachmentSpec } from '@xm-ngx/core/entity';
