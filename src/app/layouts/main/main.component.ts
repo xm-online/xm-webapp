@@ -14,7 +14,7 @@ export interface XmMainConfig extends XmUIConfig{
 @Component({
     selector: 'xm-main',
     templateUrl: './main.component.html',
-    styleUrls: ['./main.component.scss', './heatmap-container.scss'],
+    styleUrls: ['./main.component.scss'],
 })
 export class XmMainComponent implements OnInit, OnDestroy {
     public resolved$: Observable<boolean> = this.xmConfigService.isResolved();

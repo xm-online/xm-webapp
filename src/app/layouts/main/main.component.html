@@ -3,8 +3,7 @@
 <xm-password-needed></xm-password-needed>
 <xm-maintenance-view></xm-maintenance-view>
 
-<div class="heatmap-container-wrapper">
-  <div class="hidden-heatmap" id="heatmapContainer">
+<xm-heatmap-container>
     <div class="wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}">
       <div xmGuestBackground></div>
 
@@ -30,7 +29,5 @@
       </div>
 
       <xm-sidebar-right></xm-sidebar-right>
-
     </div>
-  </div>
-</div>
+</xm-heatmap-container>

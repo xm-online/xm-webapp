@@ -4,10 +4,13 @@ import { SUPER_ADMIN } from '@xm-ngx/core/auth';
 import { Principal } from '@xm-ngx/core/user';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { XM_EVENT_LIST } from '../../xm.constants';
-import { ProfileInfo } from './profile-info.model';
-import { ProfileService } from './profile.service';
+import { ProfileInfo } from '@xm-ngx/components/page-ribbon/profiles';
+import { ProfileService } from '@xm-ngx/components/page-ribbon/profiles';
 import { XmApplicationConfigService, XmUIConfig } from '@xm-ngx/core/config';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { CommonModule } from '@angular/common';
+
+const XM_SUCCESS_AUTH = 'authenticationSuccess';
 
 export interface PageRibbonXmUIConfig extends XmUIConfig {
     ribbon: boolean;
@@ -17,12 +20,14 @@ export interface PageRibbonXmUIConfig extends XmUIConfig {
     selector: 'xm-page-ribbon',
     template: `
         <div class="ribbon" *ngIf="ribbonEnv || roleKey">
-            <a href="" *ngIf="ribbonEnv; else basicRibbon">{{'global.ribbon.'+ribbonEnv|translate}}</a>
+            <a href="" *ngIf="ribbonEnv; else basicRibbon">{{'global.ribbon.' + ribbonEnv | translate}}</a>
             <ng-template #basicRibbon>
                 <a href="">{{roleKey}}</a>
             </ng-template>
         </div>`,
-    styleUrls: ['page-ribbon.css'],
+    styleUrls: ['page-ribbon.scss'],
+    imports:[XmTranslationModule, CommonModule],
+    standalone: true,
     providers: [ProfileService],
 })
 export class PageRibbonComponent implements OnInit, OnDestroy {
@@ -84,7 +89,7 @@ export class PageRibbonComponent implements OnInit, OnDestroy {
     private registerChangeAuth(): void {
         if (this.ribbonEnv || this.showRibbon) {
             this.eventAuthSubscriber = this.eventManager
-                .subscribe(XM_EVENT_LIST.XM_SUCCESS_AUTH, () => this.ngOnInit());
+                .subscribe(XM_SUCCESS_AUTH, () => this.ngOnInit());
         }
     }
 }

@@ -10,21 +10,23 @@ import { XmPasswordNeededModule } from '@xm-ngx/components/password-needed';
 import { XmRibbonComponent } from '@xm-ngx/components/ribbon';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmEntityModule } from '@xm-ngx/entity';
-import { XmSharedModule } from '@xm-ngx/shared';
 import { XmBalanceModule } from '@xm-ngx/balance';
 import { XmMaintenanceViewModule } from '@xm-ngx/components/maintenance';
 import { XmSidebarRightModule } from '@xm-ngx/components/sidebar-right';
 import { XmSidebarModule } from '@xm-ngx/dashboard/sidebar';
 import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
 import { XmTimelineModule } from '@xm-ngx/timeline/timeline-widget';
-import { FooterComponent } from './footer/footer.component';
+import { XmFooterComponent } from '@xm-ngx/components/footer';
 import { XmMainComponent } from './main/main.component';
-import { XmNavbarModule } from './navbar/xm-navbar.module';
-import { PageRibbonComponent } from './profiles/page-ribbon.component';
+import { XmNavbarModule } from '@xm-ngx/administration/navbar';
+import { PageRibbonComponent } from '@xm-ngx/components/page-ribbon';
 import { JhiAlertErrorComponent } from '@xm-ngx/error-messages';
+import { CommonModule } from '@angular/common';
+import { XmHeatmapContainerComponent } from '@xm-ngx/components/navbar-heatmap-widget';
 
 @NgModule({
     imports: [
+        XmFooterComponent,
         JhiAlertErrorComponent,
         XmPasswordNeededModule,
         LanguageModule,
@@ -34,25 +36,22 @@ import { JhiAlertErrorComponent } from '@xm-ngx/error-messages';
         XmMaintenanceViewModule,
         XmEntityModule,
         XmTimelineModule,
+        CommonModule,
         RouterModule,
         XmSidebarModule.forRoot(),
         XmSidebarRightModule,
         XmRibbonComponent,
-        XmSharedModule,
         XmDynamicModule,
         FeedbackModule,
         XmNavbarModule,
         GuestBackgroundModule,
         RouteLoadingDirectiveModule,
         RouteChangeAnimationModule,
+        PageRibbonComponent,
+        XmHeatmapContainerComponent,
     ],
     exports: [XmMainComponent],
-    declarations: [
-        XmMainComponent,
-        PageRibbonComponent,
-        FooterComponent,
-    ],
-    providers: [],
+    declarations: [XmMainComponent],
 })
 export class LayoutModule {
 }
