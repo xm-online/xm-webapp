@@ -48,7 +48,7 @@ export class IdleLogoutService implements OnInitialize, OnDestroy {
             const userAutoLogoutEnabled = user.autoLogoutEnabled || false;
             const userAutoLogoutSeconds = user.autoLogoutTimeoutSeconds || config?.idleLogout || null;
             if (userAutoLogoutEnabled && userAutoLogoutSeconds && !isNaN(userAutoLogoutSeconds)) {
-                this.start(config.idleLogout);
+                this.start(userAutoLogoutSeconds);
             }
         }
     }
