@@ -7,6 +7,7 @@ import 'brace/ext/searchbox';
 import 'brace/mode/javascript';
 import 'brace/mode/json';
 import 'brace/mode/yaml';
+import 'brace/mode/html';
 import 'brace/theme/chrome';
 import 'brace/theme/tomorrow_night';
 import _ from 'lodash';
