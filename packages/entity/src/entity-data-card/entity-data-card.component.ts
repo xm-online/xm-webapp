@@ -20,6 +20,7 @@ export class EntityDataCardComponent implements OnInit {
 
     @Input() public xmEntity: XmEntity;
     @Input() public xmEntitySpec: XmEntitySpec;
+    @Input() public preventDefaultUpdateSuccess?: boolean;
     @Input() public preventDefaultUpdateError?: boolean;
     @Output() public saveError: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -46,7 +47,9 @@ export class EntityDataCardComponent implements OnInit {
                 (res) => {
                     this.eventManager.broadcast({ name: 'xmEntityDetailModification', content: { entity: res.body } });
                     this.xmEntity = Object.assign(this.xmEntity, res.body);
-                    this.toasterService.success('xm-entity.entity-data-card.update-success');
+                    if (!this.preventDefaultUpdateSuccess) {
+                        this.toasterService.success('xm-entity.entity-data-card.update-success');
+                    }
                 },
                 (err) => {
                     if (!this.preventDefaultUpdateError) {
