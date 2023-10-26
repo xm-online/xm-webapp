@@ -9,3 +9,4 @@ export * from './location-map-widget/location-map-widget.component';
 export * from './location-countries-widget/md-table.component';
 export * from './stats-widget/stats-widget.component';
 export * from './tasks-widget/tasks-widget.component';
+export * from './module/ext-common-entity.module';

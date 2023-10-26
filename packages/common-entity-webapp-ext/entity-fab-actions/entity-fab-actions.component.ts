@@ -15,8 +15,14 @@ import {
     XmEntitySpecWrapperService,
 } from '@xm-ngx/entity';
 import { FunctionCallDialogComponent } from '@xm-ngx/entity';
-import { XM_EVENT_LIST } from '../../../xm.constants';
 import { pluck, takeUntil } from 'rxjs/operators';
+
+const XM_EVENT_LIST = {
+    XM_FUNCTION_CALL_SUCCESS: 'xm.functionCall.success',
+    XM_ENTITY_LIST_MODIFICATION: 'xmEntityListModification',
+    XM_ENTITY_LIST_SELECTION_CHANGED: 'xmEntityListSelection',
+}
+
 
 const ENTITY_SELECTED = 'xm-entity-selected';
 

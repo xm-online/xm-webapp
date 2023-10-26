@@ -118,6 +118,14 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
             ],
         }),
         XmDynamicExtensionModule.forRoot([
+            {
+                selector: 'ext-common-entity',
+                loadChildren: () => import('@xm-ngx/common-entity-webapp-ext').then(m => m.ExtCommonEntityModule),
+            },
+            {
+                selector: 'ext-ext-common-entity',
+                loadChildren: () => import('@xm-ngx/common-entity-webapp-ext').then(m => m.ExtCommonEntityModule),
+            },
             // #regionstart dynamic-extension-modules
             // #regionend dynamic-extension-modules
         ]),

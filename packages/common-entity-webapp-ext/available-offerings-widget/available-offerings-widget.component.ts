@@ -8,8 +8,9 @@ import { Subscription } from 'rxjs';
 import { I18nNamePipe } from '@xm-ngx/translation';
 import { Principal } from '@xm-ngx/core/user';
 import { FunctionCallDialogComponent, FunctionService, XmEntity, XmEntityService } from '@xm-ngx/entity';
-import { XM_EVENT_LIST } from '../../../xm.constants';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
+
+const XM_FUNCTION_CALL_SUCCESS = 'xm.functionCall.success';
 
 @Component({
     selector: 'xm-available-offerings-widget',
@@ -38,7 +39,7 @@ export class AvailableOfferingsWidgetComponent implements OnInit, OnDestroy, XmD
         this.rowSize = this.config.rowSize ? this.config.rowSize : 3;
         this.load();
         this.availableOfferingActionSuccessSubscription = this.eventManager
-            .subscribe(XM_EVENT_LIST.XM_FUNCTION_CALL_SUCCESS,
+            .subscribe(XM_FUNCTION_CALL_SUCCESS,
                 () => this.load());
     }
 

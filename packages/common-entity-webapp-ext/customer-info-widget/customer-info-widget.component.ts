@@ -8,11 +8,10 @@ import { catchError, finalize, map, mergeMap, startWith, take } from 'rxjs/opera
 
 import { Principal } from '@xm-ngx/core/user';
 import { Attachment, AttachmentDetailDialogComponent, AttachmentService, XmEntityService } from '@xm-ngx/entity';
-import { XM_EVENT_LIST } from '../../../xm.constants';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 const ATTACHMENT_EVENT = 'attachmentListModification';
-
+const XM_UNAUTHORIZED = 'xm.unauthorized';
 @Component({
     selector: 'xm-customer-info-widget',
     templateUrl: './customer-info-widget.component.html',
@@ -156,7 +155,7 @@ export class CustomerInfoWidgetComponent implements OnInit, OnDestroy, XmDynamic
         switch (this.state = profile.stateKey) {
             case 'ACTIVE':
                 this.alertService.info('nemondo.notification.' + profile.stateKey);
-                this.eventManager.broadcast({name: XM_EVENT_LIST.XM_UNAUTHORIZED});
+                this.eventManager.broadcast({name: XM_UNAUTHORIZED});
                 break;
             case 'EMAIL-VERIFIED':
             case 'UPDATE-NEEDED':
