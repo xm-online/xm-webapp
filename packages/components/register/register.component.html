@@ -183,10 +183,10 @@
   </div>
 
   <div class="form-group" *ngIf="needCaptcha">
-    <re-captcha (captchaResponse)="handleCorrectCaptcha($event)"
-                (captchaExpired)="handleCaptchaExpired($event)"
-                [language]="language"
-                site_key="{{publicKey}}"></re-captcha>
+    <re-captcha (resolved)="handleCorrectCaptcha($event)"
+                (errored)="handleCaptchaExpired($event)"
+                [lang]="language"
+                [siteKey]="publicKey"></re-captcha>
 
     <input type="hidden" class="form-control" id="captcha" name="captcha"
            #captcha="ngModel"
