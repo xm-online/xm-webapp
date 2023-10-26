@@ -14,7 +14,7 @@ const ROUTES: Routes = [
         data: { authorities: [], pageTitle: 'error.title', error403: true },
     },
     { path: 'administration', loadChildren: () => import('@xm-ngx/administration/route').then((m) => m.XmAdminModule) },
-    { path: '', loadChildren: () => import('./home/home.module').then((m) => m.GateHomeModule) },
+    { path: '', loadChildren: () => import('@xm-ngx/dashboard/home').then((m) => m.GateHomeModule) },
     { path: '', loadChildren: () => import('@xm-ngx/account').then((m) => m.GateAccountModule) },
     {
         path: 'application',
