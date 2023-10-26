@@ -5,6 +5,7 @@
     "entryFile": "./index.ts"
   },
   "allowedNonPeerDependencies": [
-    "html2canvas"
+    "html2canvas",
+    "ng-recaptcha"
   ]
 }
