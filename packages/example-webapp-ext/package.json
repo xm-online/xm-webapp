@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "xm-online extension for the core entities",
   "scripts": {
-    "build": "ng-packagr -p . -c ../../../../tsconfig.ngc.json"
+    "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
   },
-  "dependencies": {
-  },
-  "devDependencies": {
+  "peerDependencies": {
+    "@xm-ngx/dynamic": "latest"
   }
 }

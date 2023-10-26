@@ -118,6 +118,14 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
             ],
         }),
         XmDynamicExtensionModule.forRoot([
+            {
+                selector: 'example',
+                loadChildren: () => import('@xm-ngx/example-webapp-ext').then(m => m.ExampleWebappExtModule),
+            },
+            {
+                selector: 'ext-example',
+                loadChildren: () => import('@xm-ngx/example-webapp-ext').then(m => m.ExampleWebappExtModule),
+            },
             // #regionstart dynamic-extension-modules
             // #regionend dynamic-extension-modules
         ]),

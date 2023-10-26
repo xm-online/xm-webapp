@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../lib/example-webapp-ext",
+  "assets": [
+    "assets/**/*",
+    "i18n/**/*",
+    "styles/**/*"
+  ],
+  "lib": {
+    "entryFile": "./index.ts"
+  }
+}
