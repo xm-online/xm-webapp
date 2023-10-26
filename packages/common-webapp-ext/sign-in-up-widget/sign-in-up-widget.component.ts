@@ -3,11 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { Subscription } from 'rxjs';
 
-import { XM_EVENT_LIST } from '../../../xm.constants';
 import { LanguageService } from '@xm-ngx/translation';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { XmUIConfig } from '@xm-ngx/core/config';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
+
+enum XM_EVENT_LIST {
+    XM_REGISTRATION = 'xmRegistration',
+    XM_CHANGE_LANGUAGE = 'changeLanguage',
+}
 
 @Component({
     selector: 'xm-sign-in-up-widget',

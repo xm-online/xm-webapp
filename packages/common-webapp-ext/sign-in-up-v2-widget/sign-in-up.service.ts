@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DEFAULT_AUTH_TOKEN, DEFAULT_CONTENT_TYPE } from '../../../xm.constants';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CustomUriEncoder } from '@xm-ngx/operators';
 import {
@@ -18,8 +17,8 @@ import { map, tap } from 'rxjs/operators';
 import { XmSessionService } from '@xm-ngx/core';
 
 const DEFAULT_HEADERS = {
-    'Content-Type': DEFAULT_CONTENT_TYPE,
-    Authorization: DEFAULT_AUTH_TOKEN,
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Authorization: 'Basic d2ViYXBwOndlYmFwcA==',
 };
 
 @Injectable({

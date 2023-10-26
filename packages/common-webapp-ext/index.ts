@@ -12,3 +12,4 @@ export * from './twitter-timeline-widget/twitter-timeline-widget.component';
 export * from './weather-widget/weather.service';
 export * from './weather-widget/weather-widget.component';
 export * from './welcome-widget/welcome-widget.component';
+export * from './module/ext-common.module';
