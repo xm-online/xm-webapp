@@ -10,7 +10,6 @@ import { XmEntityModule } from '@xm-ngx/entity';
 import { ApplicationComponent } from './application.component';
 import { ApplicationResolvePagingParams, applicationRoute } from './application.route';
 import { EntityDetailComponent } from './entity-detail.component';
-import { XmJsfExtModule } from '../xm-jsf-ext.module';
 
 @NgModule({
     imports: [
@@ -21,7 +20,6 @@ import { XmJsfExtModule } from '../xm-jsf-ext.module';
         XmEntityModule,
         XmBalanceModule,
         XmDynamicModule,
-        XmJsfExtModule,
         XmEntityModule,
     ],
     declarations: [
