@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.ngc.json",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@xm-ngx/*": [
+        "./*"
+      ]
+    }
+  }
+}
