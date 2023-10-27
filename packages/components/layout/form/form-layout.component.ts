@@ -1,8 +1,9 @@
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { ConditionModule } from '@xm-ngx/components/condition';
+import { ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import { EDIT_ACTION, EDIT_EVENT, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
 import { ResourceDataService } from '@xm-ngx/controllers/features/resource-data';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
@@ -11,7 +12,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
 import { get, set } from 'lodash';
 import { of } from 'rxjs';
 import { debounceTime, filter, map, startWith, switchMap, withLatestFrom } from 'rxjs/operators';
-import { FormLayoutConfig } from './form-layout.model';
+import { FormGroupFields, FormLayoutConfig } from './form-layout.model';
 
 @Component({
     standalone: true,
@@ -30,38 +31,35 @@ import { FormLayoutConfig } from './form-layout.model';
     providers: [DashboardStore],
     changeDetection: ChangeDetectionStrategy.Default, // keep OnPush
 })
-export class FormLayoutComponent {
-
+export class FormLayoutComponent implements OnInit, OnDestroy {
     private dataController = injectByKey<ResourceDataService>('data');
     private editStateStore = injectByKey<EditStateStoreService>('edit-state-store');
 
+    private validatorProcessing = inject(ValidatorProcessingService);
     private fb = inject<FormBuilder>(FormBuilder);
 
-    public formGroup: FormGroup<any>;
+    public formGroup: FormGroup<FormGroupFields>;
 
     public config: FormLayoutConfig;
 
     public ngOnInit(): void {
-        this.formGroup = this.fb.group(Object.fromEntries(this.config.fields.map(field => [field.property, new UntypedFormControl()])));
+        this.formGroup = this.buildFormGroup();
 
         this.dataController.get().pipe(
             takeUntilOnDestroy(this),
             map(data => {
-                return Object.fromEntries(this.config.fields.map(({property}) => [property, property ? get(data, property) : data]));
+                return this.buildRecordFromData(data);
             }),
         ).subscribe(value => {
             this.formGroup.patchValue(value, {emitEvent: false});
+            this.markSaveButtonEnabled();
         });
 
         this.formGroup.valueChanges.pipe(
             takeUntilOnDestroy(this),
             startWith(null),
         ).subscribe(() => {
-            if (this.formGroup.valid) {
-                this.editStateStore.enable([EDIT_ACTION.SAVE]);
-            } else {
-                this.editStateStore.disable([EDIT_ACTION.SAVE]);
-            }
+            this.markSaveButtonEnabled();
         });
 
         this.formGroup.valueChanges.pipe(
@@ -97,7 +95,60 @@ export class FormLayoutComponent {
     }
 
     public getControl(property: string): UntypedFormControl {
-        return this.formGroup.controls[property] as UntypedFormControl;
+        return this.formGroup.get([property]) as UntypedFormControl;
     }
 
+    private buildFormGroup(): FormGroup<FormGroupFields> {
+        const controls = this.config.fields
+            .reduce<FormGroupFields>((acc, field) => {
+                const {
+                    defaultValue = null,
+                    defaultDisabled = false,
+                    validators = [],
+                    asyncValidators = [],
+                } = (field ?? {});
+
+                const control = this.fb.control({ value: defaultValue, disabled: defaultDisabled });
+
+                if (validators.length > 0) {
+                    control.addValidators(this.validatorProcessing.validatorsFactory(validators));
+                }
+
+                if (asyncValidators.length > 0) {
+                    control.addAsyncValidators(this.validatorProcessing.asyncValidatorsFactory(asyncValidators));
+                }
+
+                return {
+                    ...acc,
+                    [field.property]: control,
+                };
+            }, {});
+
+        return this.fb.group(controls);
+    }
+
+    private buildRecordFromData(data: unknown): Record<string, unknown> {
+        return this.config.fields
+            .reduce((acc, field) => {
+                const { 
+                    property,
+                    defaultValue,
+                } = (field ?? {});
+
+                const value: unknown = property ? get(data, property, defaultValue) : data;
+
+                return {
+                    ...acc,
+                    [property]: value,
+                };
+            }, {});
+    }
+
+    private markSaveButtonEnabled(): void {
+        if (this.formGroup.valid) {
+            this.editStateStore.enable([EDIT_ACTION.SAVE]);
+        } else {
+            this.editStateStore.disable([EDIT_ACTION.SAVE]);
+        }
+    }
 }
