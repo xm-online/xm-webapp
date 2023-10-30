@@ -157,6 +157,14 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         super.writeValue(value);
     }
 
+    public setDisabledState?(isDisabled: boolean): void {
+        isDisabled
+            ? this.group.disable({ emitEvent: false })
+            : this.group.enable({ emitEvent: false });
+
+        super.setDisabledState(isDisabled);
+    }
+
     public change(value: XmDateRangeValueOrString): void {
         this._onChange(value);
         this.valueChange.next(value);
