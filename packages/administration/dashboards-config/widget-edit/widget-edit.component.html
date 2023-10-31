@@ -2,7 +2,7 @@
 
   <xm-loader [showLoader]="loading$ | async"></xm-loader>
 
-  <div class="d-flex justify-content-between">
+  <div class="d-flex justify-content-between block-sidebar-right-header">
 
     <button (click)="backToOrganisation()"
             [matTooltip]="TRS.dashboard | translate"
@@ -11,10 +11,10 @@
       <mat-icon>keyboard_backspace</mat-icon>
     </button>
 
-    <h5 *ngIf="editType === EditType.Create" class="pt-2">{{ TRS.addWidget | translate }}</h5>
-    <h5 *ngIf="editType === EditType.Edit" class="pt-2">{{ TRS.editWidget | translate }}</h5>
+    <h4 *ngIf="editType === EditType.Create" class="pt-2 ps-3">{{ TRS.addWidget | translate }}</h4>
+    <h4 *ngIf="editType === EditType.Edit" class="pt-2 ps-3">{{ TRS.editWidget | translate }}</h4>
 
-    <div>
+    <div class="d-flex flex-grow-1 ps-3 header-controls">
       <button (click)="onAdd()"
               *ngIf="editType === EditType.Create"
               [disabled]="!form.valid || disabled"
@@ -32,44 +32,37 @@
               mat-icon-button>
         <mat-icon>save</mat-icon>
       </button>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
+
+      <button (click)="onCopyToClipboard()"
+              *ngIf="editType === EditType.Edit"
+              [disabled]="!form.valid || disabled"
+              [matTooltip]="'copy to clipboard'"
+              mat-icon-button>
+        <mat-icon>content_copy</mat-icon>
       </button>
 
-      <mat-menu #menu="matMenu" class="d-flex flex-grow-1 ps-3">
+      <button (click)="onPasteFromClipboard()"
+              *ngIf="editType === EditType.Create"
+              [disabled]="!form.valid || disabled"
+              [matTooltip]="'paste'"
+              mat-icon-button>
+        <mat-icon>content_paste</mat-icon>
+      </button>
 
-        <button (click)="onCopyToClipboard()"
-                *ngIf="editType === EditType.Edit"
-                [disabled]="!form.valid || disabled"
-                [matTooltip]="'copy to clipboard'"
-                mat-icon-button>
-          <mat-icon>content_copy</mat-icon>
-        </button>
+      <button (click)="onDelete()"
+              *ngIf="editType === EditType.Edit"
+              [disabled]="!form.valid  || disabled"
+              [matTooltip]="TRS.delete | translate: { value: value.name }"
+              mat-icon-button>
+        <mat-icon>delete_outline</mat-icon>
+      </button>
 
-        <button (click)="onPasteFromClipboard()"
-                *ngIf="editType === EditType.Create"
-                [disabled]="!form.valid || disabled"
-                [matTooltip]="'paste'"
-                mat-icon-button>
-          <mat-icon>content_paste</mat-icon>
-        </button>
-
-        <button (click)="onDelete()"
-                *ngIf="editType === EditType.Edit"
-                [disabled]="!form.valid  || disabled"
-                [matTooltip]="TRS.delete | translate: { value: value.name }"
-                mat-icon-button>
-          <mat-icon>delete_outline</mat-icon>
-        </button>
-
-        <button (click)="onCancel()"
-                [matTooltip]="TRS.cancel | translate"
-                class="ms-auto"
-                mat-icon-button>
-          <mat-icon>cancel</mat-icon>
-        </button>
-
-      </mat-menu>
+      <button (click)="onCancel()"
+              [matTooltip]="TRS.cancel | translate"
+              class="ms-auto"
+              mat-icon-button>
+        <mat-icon>cancel</mat-icon>
+      </button>
     </div>
   </div>
 
