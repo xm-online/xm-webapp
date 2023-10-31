@@ -139,8 +139,8 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
             filter(({ to }) => !!to),
             takeUntilOnDestroy(this),
         ).subscribe((dates) => {
-
             let value: XmDateRangeValueOrString;
+
             if (this._config.valueType === 'string') {
                 value = this.transformDateStringCodec.fromModel(dates as XmDateRangeControlValue);
             } else {
@@ -177,13 +177,14 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
 
     private syncValue(dates: XmDateRangeValueOrString): void {
         let model: XmDateRangeValueOrString;
+
         if (this.config.valueType === 'string') {
             model = this.transformDateStringCodec.toModel(dates);
         } else {
             if (typeof dates === 'string') {
                 throw new Error('XmDateRangeControl dates type is string, make sure that value is object or config.valueType="string".');
             } else {
-                model = { from: dates.from, to: dates.to };
+                model = { from: dates?.from, to: dates?.to };
             }
         }
 

@@ -5,6 +5,7 @@ import { XmConfigService } from '@xm-ngx/core/config';
 
 import { UaaLoginMngComponent } from './uaa-login-mng.component';
 import { of } from 'rxjs';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 describe('UaaLoginMngComponent', () => {
     let component: UaaLoginMngComponent;
@@ -12,7 +13,7 @@ describe('UaaLoginMngComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
+            imports: [HttpClientTestingModule, XmTranslationTestingModule],
             declarations: [UaaLoginMngComponent],
             providers: [
                 { provide: XmConfigService, useValue: { getConfig: () => of(null) } },
