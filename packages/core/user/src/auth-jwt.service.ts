@@ -17,7 +17,7 @@ import { Principal } from './principal.service';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { IIdpClient } from '@xm-ngx/core';
 import { XmAuthenticationRepository } from '@xm-ngx/core/auth';
-import { XmAuthTargetUrlService } from '../../auth';
+import { XmAuthTargetUrlService } from '@xm-ngx/core/auth';
 
 
 const DEFAULT_HEADERS = {
