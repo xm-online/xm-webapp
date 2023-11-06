@@ -17,6 +17,7 @@ import { Principal } from './principal.service';
 import { StateStorageService } from '@xm-ngx/core/auth';
 import { IIdpClient } from '@xm-ngx/core';
 import { XmAuthenticationRepository } from '@xm-ngx/core/auth';
+import { XmAuthTargetUrlService } from '../../auth';
 
 
 const DEFAULT_HEADERS = {
@@ -55,6 +56,7 @@ export class AuthServerProvider {
         private refreshTokenService: AuthRefreshTokenService,
         private $sessionStorage: SessionStorageService,
         private stateStorageService: StateStorageService,
+        private xmAuthTargetUrlService: XmAuthTargetUrlService,
         private router: Router,
     ) {
     }
@@ -195,6 +197,7 @@ export class AuthServerProvider {
             this.sessionService.update();
         }, (error) => {
             console.info('Refresh token fails: %o', error);
+            this.xmAuthTargetUrlService.storeCurrentUrl();
             this.logout().subscribe();
             this.principal.logout();
             this.router.navigate(['']);
