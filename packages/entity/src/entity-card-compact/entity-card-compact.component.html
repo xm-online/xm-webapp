@@ -3,8 +3,7 @@
      [ngSwitch]="isAvatarEnabled"
      class="card card-custom">
   <ng-container *ngIf="displayMode === 'BOTH' || displayMode === 'HEAD'">
-
-    <div class="row flex-nowrap">
+    <div class="row flex-nowrap align-items-center mb-3">
       <div class="col-auto pr-0" *ngIf="navBackEnabled">
         <div class="arrow-back">
           <button (click)="onBack()"
@@ -16,7 +15,7 @@
       </div>
 
       <div class="col pr-0" [class.pr-0]="!navBackEnabled">
-        <div class="card-header card-header-icon card-header-primary text-start">
+        <div class="card-header">
           <!-- avatar is shown as a card heading, avatar editing is in the card-menu -->
           <ng-container *ngIf="isAvatarEnabled">
             <div *ngIf="xmEntity.avatarUrl" class="card-icon avatar">
@@ -26,13 +25,20 @@
               <mat-icon>{{xmEntitySpec.icon ? xmEntitySpec.icon : './assets/img/placeholder.png'}}</mat-icon>
             </div>
           </ng-container>
-          <h4 class="card-title">{{xmEntity.name}}</h4>
+
+          <div class="card-title">
+            <h4>{{xmEntity.name}}</h4>
+
+            <xm-rating-list-section #rating
+                                    *ngIf="xmEntitySpec?.ratings"
+                                    [ratingSpecs]="xmEntitySpec?.ratings"
+                                    [xmEntityId]="xmEntity.id"></xm-rating-list-section>
+          </div>
         </div>
       </div>
 
       <div class="col-auto">
         <div class="state-holder">
-          <span>{{'xm-entity.entity-data-card.current-state' | translate}}: </span>
           <xm-entity-state class="state-top" [stateSpec]="getCurrentStateSpec()"></xm-entity-state>
         </div>
       </div>
@@ -66,7 +72,6 @@
               </button>
             </div>
 
-
             <ng-container>
               <xm-function-list-section
                       [functionSpecs]="commonFunctionSpec"
@@ -79,46 +84,37 @@
     </div>
   </ng-container>
 
-
-  <!-- TODO: Fix layout margin to follow card-body class -->
   <div class="card-body-removed">
     <ng-container *ngIf="displayMode === 'BOTH' || displayMode === 'HEAD'">
-      <!-- description, TODO: fix expanding of the long text -->
-      <div class="row row-compact">
-        <div *ngIf="xmEntity?.description" [class.desc-full-view]="isDescFull" class="row card-desc">
-          <div class="card-desc-inner">
-            <p [innerHTML]="formatDescription(xmEntity.description)" class="description m-0"></p>
-          </div>
-          <div (click)="isDescFull = !isDescFull" class="card-desc-toggle"></div>
+      <div class="block-description-wrapper">
+        <button type="button"
+                *ngIf="xmEntity?.description?.length > 150"
+                class="btn-toggle"
+                mat-icon-button
+                (click)="isDescFull = !isDescFull">
+          <mat-icon>unfold_more</mat-icon>
+        </button>
+        <div *ngIf="xmEntity?.description"
+             [class.full-view]="isDescFull"
+             [innerHTML]="formatDescription(xmEntity.description)"
+             class="block-description">
         </div>
       </div>
-      <div class="row row-compact">
-        <xm-function-list-section-compact
-          *ngIf="xmEntity || (getNextStates()?.length || xmEntitySpec.functions)"
-          [functionSpecsUpdates]="entityFunctionSpec"
-          [nextStates]="getNextStates()"
-          [stateSpec]="getState()"
-          [xmEntityId]="xmEntity.id"
-          [xmEntitySpec]="xmEntitySpec"
-          [xmEntity]="xmEntity"
-          class="function-list">
-        </xm-function-list-section-compact>
-      </div>
-      <div class="row row-compact">
-        <div class="row row-compact">
-          <div *ngIf="xmEntitySpec?.ratings"
-               [class.hidden]="!rating?.ratingSpecs?.length"
-               class="col-auto col-compact">
-            <xm-rating-list-section #rating
-                                    [ratingSpecs]="xmEntitySpec?.ratings"
-                                    [xmEntityId]="xmEntity.id"></xm-rating-list-section>
-          </div>
 
-          <div *ngIf="xmEntitySpec?.tags" class="col-auto col-compact">
-            <xm-tag-list-section [tagSpecs]="xmEntitySpec?.tags" [xmEntityId]="xmEntity.id"></xm-tag-list-section>
-          </div>
-        </div>
-      </div>
+      <xm-tag-list-section *ngIf="xmEntitySpec?.tags"
+                           [tagSpecs]="xmEntitySpec?.tags"
+                           [xmEntityId]="xmEntity.id"></xm-tag-list-section>
+
+      <xm-function-list-section-compact
+        *ngIf="xmEntity || (getNextStates()?.length || xmEntitySpec.functions)"
+        [functionSpecsUpdates]="entityFunctionSpec"
+        [nextStates]="getNextStates()"
+        [stateSpec]="getState()"
+        [xmEntityId]="xmEntity.id"
+        [xmEntitySpec]="xmEntitySpec"
+        [xmEntity]="xmEntity"
+        class="function-list">
+      </xm-function-list-section-compact>
     </ng-container>
 
     <ng-container *ngIf="displayMode === 'BOTH' || displayMode === 'BODY'">

@@ -1,33 +1,78 @@
 :host {
-   .card-title {
-       word-break: break-word;
-       margin: 0 0 10px 0;
-   }
+  .card-header {
+    margin-bottom: 0 !important;
 
-    .state-holder {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 48px;
-        gap: 5px;
-    }
+    .card-title {
+      h4 {
+        margin: 0;
+      }
 
-    .pr-0 {
-        padding-right: 0 !important;
+      xm-rating-list-section {
+        display: block;
+        margin: -5px 0 0 0;
+        height: 20px;
+      }
     }
+  }
 
-    .pl-0 {
-        padding-left: 0 !important;
-    }
+  .avatar {
+    width: 48px;
+    height: 48px;
+    overflow:      hidden;
+    border-radius: 50%;
 
-    .card-header {
-        padding-top: 12px;
+    img{
+      width: 100%;
+      height: 100%;
     }
+  }
+
+  xm-tag-list-section {
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .state-holder {
+    margin-right: -15px;
+  }
+
+  .pr-0 {
+    padding-right: 0 !important;
+  }
+
+  .pl-0 {
+    padding-left: 0 !important;
+  }
 }
 
-.description{
-    color: #909090;
-    font-size: 12px;
+.block-description-wrapper {
+  position: relative;
+
+  &:hover {
+    .btn-toggle {
+      opacity: 1;
+    }
+  }
+
+  .btn-toggle {
+    position: absolute;
+    top: 50%;
+    left: -24px;
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+}
+
+.block-description {
+  line-height: 20px;
+  max-height: 20px * 3;
+  overflow: hidden;
+  margin-bottom: 15px;
+  position: relative;
+
+  &.full-view {
+    max-height: none;
+  }
 }
 
 .col-compact {
@@ -65,12 +110,7 @@
     box-shadow: 0 0 5px 1px rgb(225, 225, 225);
 }
 
- .card-icon img{
-    width:         70px;
-    height:        70px;
-    overflow:      hidden;
-    border-radius: 3px;
-}
+
 .card-custom .card-icon.avatar{
     padding:0px;
 }
@@ -123,47 +163,12 @@
       margin-top: 6px;
       font-size: 18px;
     }
-
-
 }
 
 
 .function-list{
     width:100%;
     margin-top:15px;
-}
-
-.card-desc {
-    margin-top: 10px;
-    margin-left: 15px;
-    margin-right: 15px;
-    position:   relative;
-    max-height: 62px;
-    overflow:   hidden;
-    transition: all 0.3s ease;
-    width: calc(100% - 30px)
-
-    &-toggle {
-        position:    absolute;
-        right:       5px;
-        top:         5px;
-        width:       10px;
-        height:      10px;
-        transform:   rotate(45deg);
-        cursor:      pointer;
-        border:      2px solid #666;
-        border-left: none;
-        border-top:  none;
-    }
-
-    &.desc-full-view {
-        max-height: 250px;
-
-        .card-desc-toggle {
-            transform: rotate(225deg);
-        }
-    }
-
 }
 
 :host::ng-deep {
