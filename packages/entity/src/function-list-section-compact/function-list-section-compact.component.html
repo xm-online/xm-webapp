@@ -37,7 +37,7 @@
             <div (click)="onChangeState(nextState.key)"
                  *ngFor="let nextState of nextStates"
                  [style.background]="nextState.color"
-                 class="xm-state"
+                 class="xm-state color-{{nextState.color}}"
                  title="{{nextState.actionName | translate}}">
               <div [style.background]="'transparent'" class="xm-state-icon me-0">
                 <mat-icon>{{nextState.icon}}</mat-icon>
