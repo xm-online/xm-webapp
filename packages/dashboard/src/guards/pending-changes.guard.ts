@@ -1,65 +1,54 @@
-import { inject, Injectable } from '@angular/core';
-import { EDIT_ACTION, EDIT_EVENT, EDIT_STATE, EditDisableState } from './edit-state-store.model';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { cloneDeep } from 'lodash';
+import { Injectable } from '@angular/core';
+import { CanDeactivate, UrlTree } from '@angular/router';
+import { XmAlertResult, XmAlertService } from '@xm-ngx/alert';
+import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { PageChangesStore, PageChangesStoreType } from '@xm-ngx/core/dashboard';
 
 @Injectable()
-export class EditStateStoreService {
-    private pageChangesStore= inject(PageChangesStore);
-    private state: BehaviorSubject<EDIT_STATE> = new BehaviorSubject<EDIT_STATE>(EDIT_STATE.EDIT);
-    public state$: Observable<EDIT_STATE> = this.state.asObservable();
-    public disable$: BehaviorSubject<EditDisableState> = new BehaviorSubject<EditDisableState>({
-        [EDIT_ACTION.EDIT]: false,
-        [EDIT_ACTION.SAVE]: false,
-        [EDIT_ACTION.CANCEL]: false,
-    }); // there could be several error producers
-    private event: Subject<EDIT_EVENT> = new Subject<EDIT_EVENT>();
-    public event$: Observable<EDIT_EVENT> = this.event.asObservable();
+export class PendingChangesGuard implements CanDeactivate<unknown> {
+    private logger: XmLogger = this.loggerService.create({ name: 'PendingChangesGuard' });
 
-    public change(state: EDIT_STATE): void {
-        if (state === EDIT_STATE.EDIT) {
-            this.pageChangesStore.setState(PageChangesStoreType.EDIT);
-        } else {
-            this.pageChangesStore.setState(PageChangesStoreType.PRISTINE);
-        }
-
-        this.state.next(state);
+    constructor(
+        private pageStore: PageChangesStore,
+        private alertService: XmAlertService,
+        private loggerService: XmLoggerService,
+    ) {
     }
 
-    public emitEvent(event: EDIT_EVENT): void {
-        this.event.next(event);
+    private static isPendingState(state: PageChangesStoreType): boolean {
+        return state === PageChangesStoreType.EDIT;
     }
 
-    public disable(actions: EDIT_ACTION[] = []): void {
-        if (actions.length) {
-            const state = cloneDeep(this.disable$.value);
-            actions.forEach(action => state[action] = true);
-            this.disable$.next(state);
-        } else {
-            this.disable$.next({
-                [EDIT_ACTION.EDIT]: true,
-                [EDIT_ACTION.SAVE]: true,
-                [EDIT_ACTION.CANCEL]: true,
-            });
-        }
+    public canDeactivate(): Observable<boolean | UrlTree>
+        | Promise<boolean | UrlTree>
+        | boolean
+        | UrlTree {
+        return this.isPending$().pipe(
+            take(1),
+            switchMap((isPending) => {
+                this.logger.debug(`canDeactivate "${String(isPending)}".`);
+                if (isPending) {
+                    return this.isAlertConfirmed$();
+                }
+                return of(true);
+
+            }),
+        );
     }
 
-    public enable(actions: EDIT_ACTION[] = []): void {
-        if (actions.length) {
-            const state = cloneDeep(this.disable$.value);
-            actions.forEach(action => state[action] = false);
-            this.disable$.next(state);
-        } else {
-            this.disable$.next({
-                [EDIT_ACTION.EDIT]: false,
-                [EDIT_ACTION.SAVE]: false,
-                [EDIT_ACTION.CANCEL]: false,
-            });
-        }
+    private isPending$(): Observable<boolean> {
+        return this.pageStore.state$().pipe(
+            map((i) => PendingChangesGuard.isPendingState(i)),
+        );
     }
 
-    public isDisabled(action: EDIT_ACTION): boolean {
-        return this.disable$.value[action];
+    private isAlertConfirmed$(): Observable<boolean> {
+        return this.showAlert$().pipe(map((i) => !i?.dismiss));
+    }
+
+    private showAlert$(): Observable<XmAlertResult> {
+        return this.alertService.yesNo({ title: 'common-webapp-ext.alert.leave-the-page' });
     }
 }
