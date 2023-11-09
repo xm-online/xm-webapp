@@ -10,8 +10,6 @@ import { AttachmentSpec } from '@xm-ngx/core/entity';
 import { Attachment } from '@xm-ngx/core/entity';
 import { AttachmentService } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
-import * as url from 'url';
-
 
 @Component({
     selector: 'xm-attachment-card',
@@ -139,5 +137,4 @@ export class AttachmentCardComponent implements OnInit {
         saveFile(blob, filename, body.valueContentType);
     }
 
-    protected readonly url = url;
 }
