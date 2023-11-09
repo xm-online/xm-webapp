@@ -31,38 +31,33 @@
 
   <ng-template #statesAndFunctions>
     <ng-container>
-      <div class="container-fluid">
-        <div class="row row-compact mt-3 mb-3 text-start displayblock">
-
-
-          <ng-container *xmPermitted="['XMENTITY.STATE']">
-            <ng-container *ngIf="nextStates?.length">
-              <div (click)="onChangeState(nextState.key)"
-                   *ngFor="let nextState of nextStates"
-                   [style.background]="nextState.color"
-                   class="xm-state act-as-button no-wrap me-1 mb-1"
-                   title="{{nextState.actionName | translate}}">
-                <div [style.background]="'transparent'" class="xm-state-icon me-0">
-                  <mat-icon>{{nextState.icon}}</mat-icon>
-                </div>
-                {{nextState.actionName | translate}}
+      <div class="block-state-functions">
+        <ng-container *xmPermitted="['XMENTITY.STATE']">
+          <ng-container *ngIf="nextStates?.length">
+            <div (click)="onChangeState(nextState.key)"
+                 *ngFor="let nextState of nextStates"
+                 [style.background]="nextState.color"
+                 class="xm-state color-{{nextState.color}}"
+                 title="{{nextState.actionName | translate}}">
+              <div [style.background]="'transparent'" class="xm-state-icon me-0">
+                <mat-icon>{{nextState.icon}}</mat-icon>
               </div>
-            </ng-container>
+              {{nextState.actionName | translate}}
+            </div>
           </ng-container>
+        </ng-container>
 
-          <ng-container *ngIf="defaultFunctions$ | async as defaultFunctions">
-            <ng-container *ngIf="defaultFunctions.length" class="func-compact-blk">
-                  <div (click)="onCallFunction(functionSpec)"
-                       *ngFor="let functionSpec of defaultFunctions"
-                          class="xm-state act-as-button  me-1 mb-1 no-wrap func-btn"
-                          title="{{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}">
-                    {{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}
-                  </div>
-            </ng-container>
+        <ng-container *ngIf="defaultFunctions$ | async as defaultFunctions">
+          <ng-container *ngIf="defaultFunctions.length" class="func-compact-blk">
+                <div (click)="onCallFunction(functionSpec)"
+                     *ngFor="let functionSpec of defaultFunctions"
+                        class="xm-state"
+                        title="{{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}">
+                  {{(functionSpec.actionName ? functionSpec.actionName : functionSpec.name) | translate}}
+                </div>
           </ng-container>
+        </ng-container>
 <!-- end new version -->
-
-        </div>
       </div>
     </ng-container>
   </ng-template>

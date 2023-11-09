@@ -1,4 +1,4 @@
-<div *ngIf="stateSpec" class="xm-state no-wrap" title="{{stateSpec.name | translate}}">
+<div *ngIf="stateSpec" class="xm-state no-wrap color-{{stateSpec.color}}" title="{{stateSpec.name | translate}}">
   <div [style.background]="stateSpec.color" class="xm-state-icon">
     <mat-icon>{{stateSpec.icon}}</mat-icon>
   </div>

@@ -72,6 +72,8 @@ import { CalendarChangeService } from './calendar-card/calendar-view/calendar-ch
 import { XmEntityIconPipe } from '@xm-ngx/entity/pipes';
 import { XmEntityTableComponent } from './entity-list-card/entity-table/entity-table.component';
 import { XmEntityTableMenuComponent } from './entity-list-card/entity-table/shared/entity-table-menu.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 const MODULES = [
     StatesManagementDialogModule,
@@ -133,6 +135,8 @@ const COMPONENTS = [
         OwlDateTimeModule,
         XmEntityIconPipe,
         XmEntityTableComponent,
+        MatButtonModule,
+        MatIconModule,
     ],
     declarations: [
         COMPONENTS,
