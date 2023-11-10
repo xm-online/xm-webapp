@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
