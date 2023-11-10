@@ -1,14 +1,13 @@
+/* eslint-disable no-console */
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { XmConfigService } from '@xm-ngx/core/config';
+import { AttachmentsView, EntityDetailLayout, EntityUiConfig, XmConfigService } from '@xm-ngx/core/config';
 import { ContextService } from '@xm-ngx/core/context';
-import { AttachmentsView, EntityDetailLayout, EntityUiConfig } from '@xm-ngx/core/config';
 import { FullLinkSpec, LinkSpec, Spec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/entity';
-import { DEBUG_INFO_ENABLED } from '../../../xm.constants';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
@@ -46,10 +45,10 @@ export class EntityWidgetComponent implements OnInit, OnDestroy, XmDynamicWidget
 
     public ngOnInit(): void {
         this.showLoader = true;
-        if (DEBUG_INFO_ENABLED) {
-            console.info('DBG entity  e=%o', this.xmEntity);
-            console.info('DBG spec  e=%o', this.spec);
-        }
+
+        console.debug(`entity=${JSON.stringify(this.xmEntity)}`);
+        console.debug(`spec=${JSON.stringify(this.spec)}`,);
+
         this.activatedRoute.queryParams.subscribe((params) => {
             if (params.xmEntityId) {
                 this.contextService.put('xmEntityId', params.xmEntityId);
@@ -163,14 +162,13 @@ export class EntityWidgetComponent implements OnInit, OnDestroy, XmDynamicWidget
                 map((responce) => responce.body),
                 tap((entity) => this.xmEntity = entity),
                 tap((entity) => this.xmEntitySpec = this.getXmEntitySpec(entity.typeKey)),
-                tap(() => DEBUG_INFO_ENABLED ? console.info('DBG spec = %o', this.xmEntitySpec) : undefined),
+                tap(() => console.debug(`spec=${JSON.stringify(this.xmEntitySpec)}`)),
                 tap((entity) => this.backLinkSpecs = this.getBackLinkSpecs(entity.typeKey)),
                 tap(() => this.defineUiConfig()),
-                tap(() => this.linkSpecs$.next(
-                    this.xmEntitySpec && this.xmEntitySpec.links ?
-                        this.xmEntitySpec.links.map((spec) => this.addInterfaceSpec(spec, this.entityUiConfig)) : [],
-                ),
-                ),
+                tap(() => this.linkSpecs$.next(this.xmEntitySpec && this.xmEntitySpec.links
+                    ? this.xmEntitySpec.links.map((spec) => this.addInterfaceSpec(spec, this.entityUiConfig))
+                    : []
+                )),
                 tap(() => this.backLinkSpecs$.next(
                     this.backLinkSpecs.map((spec) => this.addInterfaceSpec(spec, this.entityUiConfig)),
                 )),
