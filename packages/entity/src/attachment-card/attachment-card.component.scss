@@ -1,11 +1,32 @@
-.attachment-card-image {
-    min-height: 80px;
-}
-
 .cursor-pointer {
   cursor: pointer;
 }
 
 .attachment-card-title {
     font-size: 14px;
+}
+
+
+:host {
+  .place-holder {
+    display: block;
+    width: 100%;
+  }
+
+  .img-block {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+    width: 100%;
+    transition-duration: 0.3s;
+
+    &:hover:not(.type-icon) {
+      transform: scale(1.1);
+    }
+
+    &.type-icon {
+      background-size: 90px;
+    }
+  }
 }
