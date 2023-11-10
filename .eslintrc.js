@@ -1,6 +1,5 @@
 module.exports = {
     root: true,
-    ignorePatterns: ['projects/**/*'],
     overrides: [
         {
             files: ['*.js'],
@@ -102,14 +101,19 @@ module.exports = {
                 '@angular-eslint/no-host-metadata-property': 'warn',
                 // Blocked by https://github.com/angular/angular/milestone/103
                 '@typescript-eslint/no-unsafe-assignment': 'warn',
+                '@typescript-eslint/no-redundant-type-constituents': 'warn',
                 '@typescript-eslint/restrict-template-expressions': 'warn',
+                '@typescript-eslint/no-base-to-string': 'warn',
                 '@typescript-eslint/no-unsafe-member-access': 'warn',
                 '@typescript-eslint/no-unsafe-call': 'warn',
                 '@typescript-eslint/no-floating-promises': 'warn',
                 '@typescript-eslint/restrict-plus-operands': 'warn',
                 '@typescript-eslint/no-unsafe-return': 'warn',
                 'no-prototype-builtins': 'warn',
+                '@typescript-eslint/no-unused-vars': 'warn',
+                '@typescript-eslint/no-unsafe-enum-comparison': 'warn',
                 '@typescript-eslint/no-implied-eval': 'warn',
+                '@typescript-eslint/no-explicit-any': 'warn',
                 '@typescript-eslint/ban-types': 'warn',
                 '@typescript-eslint/prefer-regexp-exec': 'warn',
                 '@typescript-eslint/no-misused-promises': 'warn',

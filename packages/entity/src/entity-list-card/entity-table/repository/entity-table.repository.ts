@@ -8,7 +8,7 @@ import { Observable, map } from 'rxjs';
 import { isEmpty } from 'lodash';
 import { ActivatedRoute } from '@angular/router';
 
-export interface XmEntityTableQueryParams extends XmFilterQueryParams { 
+export interface XmEntityTableQueryParams extends XmFilterQueryParams {
     filterParams: {
         fastSearch?: string;
     }
@@ -19,7 +19,7 @@ export type XmEntityTableQuery = XmEntityRepositoryQuery & { typeKey?: string; q
 @Injectable()
 export class XmEntityTableRepository<T extends XmEntity> extends XmEntityRepository<T> implements XmDynamicService<XmRepositoryConfig> {
     private route = inject(ActivatedRoute);
-    
+
     constructor(httpClient: HttpClient, requestBuilder: XmElasticRequestBuilder) {
         super(httpClient, requestBuilder);
     }
