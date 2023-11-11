@@ -34,8 +34,8 @@ export class ExampleTextComponent implements OnInit {
         this.jsf.initializeControl(this);
     }
 
-    changeText($event) {
-        this.jsf.updateValue(this, $event.target.value);
+    changeText($event: Event): void {
+        this.jsf.updateValue(this, ($event.target as HTMLInputElement).value);
     }
 
 }
