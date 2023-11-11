@@ -5,8 +5,7 @@
   "scripts": {
     "build": "ng-packagr -p . -c ../../../../tsconfig.ngc.json"
   },
-  "dependencies": {
-  },
-  "devDependencies": {
+  "peerDependencies": {
+    "@xm-ngx/dynamic": "latest"
   }
 }

@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
+  },
+  "peerDependencies": {
+    "@xm-ngx/components": "latest"
   }
 }

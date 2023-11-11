@@ -5,7 +5,23 @@
     "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
   },
   "dependencies": {
-    "html2canvas": "1.4.1",
+    "html2canvas": "1.0.0-rc.7",
     "ng-recaptcha": "11.0.0"
+  },
+  "peerDependencies": {
+    "@xm-ngx/styles": "latest",
+    "@xm-ngx/interfaces": "latest",
+    "@xm-ngx/exceptions": "latest",
+    "@xm-ngx/pipes": "latest",
+    "@xm-ngx/validators": "latest",
+    "@xm-ngx/operators": "latest",
+    "@xm-ngx/repositories": "latest",
+    "@xm-ngx/core": "latest",
+    "@xm-ngx/dynamic": "latest",
+    "@xm-ngx/logger": "latest",
+    "@xm-ngx/translation": "latest",
+    "@xm-ngx/toaster": "latest",
+    "@xm-ngx/alert": "latest",
+    "@xm-ngx/controllers": "latest"
   }
 }
