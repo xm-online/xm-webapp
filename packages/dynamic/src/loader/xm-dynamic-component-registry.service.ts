@@ -1,5 +1,5 @@
 import { createNgModule, Injectable, Injector, NgModuleRef, Type } from '@angular/core';
-import { Dictionary, flatten, keyBy, tail } from 'lodash';
+import { Dictionary, flatten, keyBy } from 'lodash';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
 import { XmDynamicModuleRegistry } from './xm-dynamic-module-registry.service';
 import { NotFoundException } from '@xm-ngx/exceptions';
@@ -131,37 +131,26 @@ export class XmDynamicComponentRegistry {
     }
 
     private findComponentInRegistry(injector: Injector, selector: string): XmDynamicEntry {
-
-        if (this.isCoreComponent(selector)) {
-            const entries = this.moduleRef.injector.get(XM_DYNAMIC_ENTRIES, [[]]);
-            const flattened = flatten(entries);
-            const dynamicMap = keyBy(flattened, 'selector');
-
-            return dynamicMap[selector];
-        }
-
         const entries = injector.get(XM_DYNAMIC_ENTRIES, [[]]);
         const flattened = flatten(entries);
         const dynamicMap = keyBy(flattened, 'selector');
-
-        const componentSelector = selector.includes('/')
-            ? tail(selector.split('/')).join('/')
-            : selector;
-        return dynamicMap[componentSelector];
+        return dynamicMap[selector];
     }
 
     private isModuleSelector(selector: string): boolean {
-        return !this.isCoreComponent(selector)
-            && this.isSelectorIncludesExtension(selector);
+        const moduleSelector = this.getModuleSelector(selector);
+        return this.dynamicModules.contains(moduleSelector);
     }
 
-    private isSelectorIncludesExtension(selector: string): boolean {
-        return selector.includes('/');
-    }
+    private getModuleSelector(selector: string): string {
+        const parts = selector.split('/');
 
+        const isScopedPackage = selector.startsWith('@');
+        if (isScopedPackage) {
+            return parts.slice(0, 2).join('/');
+        }
 
-    private isCoreComponent(selector: string): boolean {
-        return selector.startsWith('@xm-ngx/');
+        return parts[0];
     }
 
     private simplifyExtSelector(selector: string): string {
