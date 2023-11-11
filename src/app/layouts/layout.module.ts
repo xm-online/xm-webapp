@@ -17,7 +17,7 @@ import { XmSidebarModule } from '@xm-ngx/dashboard/sidebar';
 import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
 import { XmTimelineModule } from '@xm-ngx/timeline/timeline-widget';
 import { XmFooterComponent } from '@xm-ngx/components/footer';
-import { XmMainComponent } from './main/main.component';
+import { XmMainComponent } from './main.component';
 import { XmNavbarModule } from '@xm-ngx/administration/navbar';
 import { PageRibbonComponent } from '@xm-ngx/components/page-ribbon';
 import { JhiAlertErrorComponent } from '@xm-ngx/error-messages';

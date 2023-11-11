@@ -3,7 +3,7 @@ import { XmSessionService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Observable } from 'rxjs';
 import { XmApplicationConfigService, XmUIConfig } from '@xm-ngx/core/config';
-import { VERSION } from '../../xm.constants';
+import { VERSION } from '../xm.constants';
 import { XmLoggerService } from '@xm-ngx/logger';
 
 
