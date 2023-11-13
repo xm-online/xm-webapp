@@ -75,7 +75,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                             this.injector = this.componentInjector;
                         }
                         resolve(page);
-                    }))
+                    }));
                 }),
                 switchMap((page) => {
                     if (!this.dashboard) {
