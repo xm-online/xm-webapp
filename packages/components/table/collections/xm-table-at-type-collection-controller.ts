@@ -7,7 +7,7 @@ import {
 } from './a-xm-table-local-pageable-collection-controller.service';
 import { Injectable } from '@angular/core';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
-import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
+import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
 import { XmConfig } from '@xm-ngx/interfaces';
 
 export interface AtTypeListConfig extends XmConfig {

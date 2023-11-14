@@ -9,11 +9,11 @@ import {
     PageableAndSortable,
 } from '@xm-ngx/repositories';
 import { firstValueFrom } from 'rxjs';
-import { XmTableRepositoryResolver, } from '../../repositories/xm-table-repository-resolver.service';
+import { XmTableRepositoryResolver, } from '../repositories/xm-table-repository-resolver.service';
 import { cloneDeep } from 'lodash';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
-import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
+import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
 import { xmFormatJs } from '@xm-ngx/operators';
 import { IXmTableRepositoryCollectionControllerConfig } from './xm-table-repository-collection-controller.service';
 

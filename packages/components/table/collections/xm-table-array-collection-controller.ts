@@ -4,7 +4,7 @@ import { XmConfig } from '@xm-ngx/interfaces';
 import { UUID } from 'angular2-uuid';
 import { cloneDeep, get, set } from 'lodash';
 import { firstValueFrom } from 'rxjs';
-import { XmTableEntityController, } from '../entity/xm-table-entity-controller.service';
+import { XmTableEntityController, } from '../controllers/entity/xm-table-entity-controller.service';
 import { AXmTableLocalPageableCollectionController, } from './a-xm-table-local-pageable-collection-controller.service';
 import { IXmTableCollectionController, XmFilterQueryParams, } from './i-xm-table-collection-controller';
 

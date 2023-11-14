@@ -6,7 +6,7 @@ import {
     AXmTableLocalPageableCollectionController,
 } from './a-xm-table-local-pageable-collection-controller.service';
 import { get } from 'lodash';
-import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
+import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableEntity } from './xm-table-array-collection-controller';
 

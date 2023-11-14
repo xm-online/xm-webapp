@@ -30,7 +30,7 @@ import { IXmTableCollectionController } from './i-xm-table-collection-controller
 import {
     XmTableElasticSearchCollectionController,
     XmTableElasticSearchCollectionControllerConfig
-} from '../elastic/xm-table-elastic-search-collection-controller.service';
+} from '../controllers/elastic/xm-table-elastic-search-collection-controller.service';
 import { XmDynamicWithConfig } from '@xm-ngx/dynamic';
 
 export type XmTableCollectionControllerType = null

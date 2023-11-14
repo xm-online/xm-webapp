@@ -9,7 +9,7 @@ import {
 import { cloneDeep, set } from 'lodash';
 import { firstValueFrom } from 'rxjs';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
-import { XmTableEntityController } from '../entity/xm-table-entity-controller.service';
+import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
 import { XmConfig } from '@xm-ngx/interfaces';
 
 interface StringArrayListManagerItem {

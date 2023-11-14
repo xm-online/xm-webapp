@@ -3,7 +3,7 @@ import { IEntityCollectionPageable, XmRepositoryConfig } from '@xm-ngx/repositor
 import { XmFilterQueryParams, IXmTableCollectionController, } from './i-xm-table-collection-controller';
 
 import { cloneDeep } from 'lodash';
-import { XmTableRepositoryResolver, } from '../../repositories/xm-table-repository-resolver.service';
+import { XmTableRepositoryResolver, } from '../repositories/xm-table-repository-resolver.service';
 import { NotSupportedException } from '@xm-ngx/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 import { take } from 'rxjs/operators';

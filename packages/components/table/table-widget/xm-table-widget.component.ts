@@ -22,7 +22,7 @@ import {
     IXmTableCollectionController,
     XM_TABLE_CONTROLLERS,
     XmTableCollectionControllerResolver,
-} from '../controllers';
+} from '../collections';
 import { XmTableMatPaginatorAdapterDirective } from '../directives/xm-table-mat-paginator-adapter.directive';
 import { XmTableMatSortAdapterDirective } from '../directives/xm-table-mat-sort-adapter.directive';
 import { XmTableSelectionDirective } from '../directives/xm-table-selection.directive';

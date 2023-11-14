@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { XmInlineControlComponent, XmInlineControlConfig, } from '@xm-ngx/components/inline-control';
 import { FormsModule } from '@angular/forms';
-import { IXmTableCollectionController } from '../controllers/collections/i-xm-table-collection-controller';
+import { IXmTableCollectionController } from '../collections/i-xm-table-collection-controller';
 
 import { XM_DYNAMIC_TABLE_CELL, XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { cloneDeep, set } from 'lodash';
