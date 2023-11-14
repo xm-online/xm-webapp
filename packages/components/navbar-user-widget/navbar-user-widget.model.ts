@@ -1,8 +1,8 @@
 import { ITranslate } from '@xm-ngx/translation';
 import { XmUser } from '@xm-ngx/core/user';
-import { SidebarUserSubtitleOptions } from '@xm-ngx/dashboard/sidebar-user';
+import { SidebarUserSubtitleOptions } from '@xm-ngx/components/sidebar-user';
 import { Observable } from 'rxjs';
-import { MenuItem } from '@xm-ngx/dashboard/menu';
+import { MenuItem } from '@xm-ngx/components/menu';
 
 export interface LinkItem {
     url: string,

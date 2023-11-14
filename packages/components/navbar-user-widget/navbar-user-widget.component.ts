@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { SidebarUserComponent, SidebarUserSubtitle, UserWidgetBase } from '@xm-ngx/dashboard/sidebar-user';
+import { SidebarUserComponent, SidebarUserSubtitle, UserWidgetBase } from '@xm-ngx/components/sidebar-user';
 import { CommonModule } from '@angular/common';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { MenuComponent } from '@xm-ngx/dashboard/menu';
+import { MenuComponent } from '@xm-ngx/components/menu';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
