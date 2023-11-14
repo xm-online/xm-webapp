@@ -85,16 +85,12 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
                 loadChildren: () => import('@xm-ngx/administration/dashboards-config').then(m => m.DashboardsModule),
             },
             {
-                selector: '@xm-ngx/components/navbar-dashboard-edit-widget',
+                selector: 'navbar-dashboard-edit-widget',
                 loadChildren: () => import('@xm-ngx/administration/navbar-dashboard-edit-widget').then(m => m.NavbarDashboardEditWidgetComponent),
             },
             {
-                selector: '@xm-ngx/components/dynamic-list-widget',
-                loadChildren: () => import('@xm-ngx/administration').then(m => m.XmDynamicListModule),
-            },
-            {
-                selector: '@xm-ngx/components/navbar-language-menu-widget',
-                loadChildren: () => import('@xm-ngx/administration/language-menu').then(m => m.XmNavbarLanguageMenuWidget),
+                selector: 'dynamic-list-widget',
+                loadChildren: () => import('@xm-ngx/administration/dashboards-config').then(m => m.XmDynamicListModule),
             },
         ]),
     ],

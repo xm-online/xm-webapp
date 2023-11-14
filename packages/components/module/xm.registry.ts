@@ -92,4 +92,8 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
         selector: 'edit-widget-buttons',
         loadChildren: () => import('@xm-ngx/components/edit-buttons').then(m => m.EditWidgetButtonsModule),
     },
+    {
+        selector: 'navbar-language-menu-widget',
+        loadChildren: () => import('@xm-ngx/components/language-menu').then(m => m.XmNavbarLanguageMenuWidget),
+    },
 ];

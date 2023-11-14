@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {
     ExtendedDynamicComponents,
     WidgetListService,
-} from './dashboards-config/widget-edit/widget-list.service';
+} from './widget-edit/widget-list.service';
 import { XmTextControl } from '@xm-ngx/components/text';
 import { XmAceEditorControl } from '@xm-ngx/components/ace-editor';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
