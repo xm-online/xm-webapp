@@ -1,4 +1,4 @@
-<div class="d-flex" [style.visibility]="isHidden ? 'hidden' : 'visible'">
+<div class="d-flex" [style.visibility]="isHidden ? 'hidden' : 'visible'" *xmPermission="config?.permissions">
 
   <button (click)="onEdit($event)"
           *ngIf="!isEdit"
