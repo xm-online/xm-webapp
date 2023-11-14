@@ -1,15 +1,25 @@
-.idea/
-*.iml
-node_modules/
-dist/
-!src/swagger-ui/dist/
-out-tsc/
+# MacOS folder config
 .DS_Store
-# local dev configuration
-local.proxy.conf.js
+
+# IDE
+.idea/
+.vscode/
+*.iml
 .vscode/
 *.code-workspace
 
+# Dependenices
+node_modules/
+
+# Build
+dist/
+!src/swagger-ui/dist/
+out-tsc/
+
+# local dev configuration
+local.proxy.conf.js
+
+# i18n
 src/i18n/ext
 src/i18n/settings.json
 src/i18n/en.json
@@ -55,10 +65,10 @@ lerna-debug.log*
 # xm-ngx dynamic-specification
 /src/assets/specification/
 
-
-package-lock.json
-
 # cache
 .angular
 /documentation.json
 lib
+
+# ignore workspaces
+package-lock.json

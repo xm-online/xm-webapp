@@ -1,0 +1,10 @@
+# MacOS folder config
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Dependenices
+node_modules/
