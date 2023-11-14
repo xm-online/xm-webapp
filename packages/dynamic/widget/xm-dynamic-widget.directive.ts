@@ -43,7 +43,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
     @Input() public class: string;
     @Input() public style: string;
     public compRef: ComponentRef<XmDynamicWidget>;
-    private _layout: XmDynamicWidgetConfig & {controllers?: XmDynamicControllerDeclaration[]};
+    private _layout: XmDynamicWidgetConfig & { controllers?: XmDynamicControllerDeclaration[], injector: Injector };
 
     protected dynamicControllerInjectorFactory = inject(XmDynamicControllerInjectorFactoryService);
 
@@ -53,12 +53,12 @@ export class XmDynamicWidgetDirective implements OnChanges {
                 private viewRef: ViewContainerRef) {
     }
 
-    public get init(): XmDynamicWidgetConfig & {controllers?: XmDynamicControllerDeclaration[]} {
+    public get init(): XmDynamicWidgetConfig & { controllers?: XmDynamicControllerDeclaration[], injector: Injector } {
         return this._layout;
     }
 
     @Input()
-    public set init(value: XmDynamicWidgetConfig & {controllers?: XmDynamicControllerDeclaration[]}) {
+    public set init(value: XmDynamicWidgetConfig & { controllers?: XmDynamicControllerDeclaration[], injector: Injector }) {
         if (!value) {
             return;
         }
@@ -83,7 +83,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
             provide: XM_DYNAMIC_COMPONENT_CONFIG,
             useValue: value.config,
         };
-        const injector = await this.dynamicControllerInjectorFactory.defineProviders(value.controllers ?? [], [configProvider], this.injector);
+        const injector = await this.dynamicControllerInjectorFactory.defineProviders(value.controllers ?? [], [configProvider], value.injector || this.injector);
         try {
             const result = await this.dynamicComponents.find<XmDynamicWidget>(this._layout.selector, injector);
             this.createComponent(this._layout, result);
@@ -99,6 +99,7 @@ export class XmDynamicWidgetDirective implements OnChanges {
     }
 
     private createComponent<T extends XmDynamicWidget>(value: XmDynamicWidgetConfig, data: XmDynamicComponentRecord<XmDynamicWidget>): void {
+        this.viewRef.clear();
         this.compRef = this.viewRef.createComponent<XmDynamicWidget>(data.componentType, {
             ngModuleRef: data.ngModuleRef,
             injector: data.injector,
