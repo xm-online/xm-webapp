@@ -17,7 +17,7 @@ import {
     FieldOptions,
 } from '../../entity-list-card/entity-list-card-options.model';
 import { FunctionCallDialogComponent } from '../../function-call-dialog/function-call-dialog.component';
-import { transpilingForIE } from '@xm-ngx/json-schema-form/components';
+import { transpilingForIE } from '@xm-ngx/operators';
 import { takeUntilOnDestroy } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';

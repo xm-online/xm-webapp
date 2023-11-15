@@ -39,6 +39,10 @@ export class XmDynamicComponentRegistry {
         //     return this.cache[fullSelector] as Promise<XmDynamicComponentRecord<T>>;
         // }
 
+        if(this.isGlobalSelector(fullSelector)){
+            return this.cache[fullSelector] = this.resolveComponent<T>(fullSelector, injector, null);
+        }
+
         if (this.isModuleSelector(fullSelector)) {
             return this.cache[fullSelector] = this.loadModule<T>(fullSelector, injector);
         }
@@ -135,6 +139,10 @@ export class XmDynamicComponentRegistry {
         const flattened = flatten(entries);
         const dynamicMap = keyBy(flattened, 'selector');
         return dynamicMap[selector];
+    }
+
+    private isGlobalSelector(selector: string): boolean {
+        return !!this.findComponentInRegistry(this.moduleRef.injector, selector);
     }
 
     private isModuleSelector(selector: string): boolean {
