@@ -16,7 +16,33 @@ export interface XmDynamicComponentRecord<T> {
 }
 
 @Injectable()
-export class XmDynamicComponentRegistry {
+class _XmDynamicComponentRegistry {
+    private readonly entries: Dictionary<XmDynamicEntry>;
+
+    constructor(
+        moduleRef: NgModuleRef<unknown>
+    ) {
+        this.entries = this.getEntriesMap(moduleRef.injector);
+    }
+
+    private getEntriesMap(injector: Injector): Dictionary<XmDynamicEntry> {
+        const entries = injector.get(XM_DYNAMIC_ENTRIES, [[]]);
+        const flattened = flatten(flatten(entries));
+        return keyBy(flattened, 'selector');
+    }
+
+    protected findComponentInRegistry(injector: Injector, selector: string): XmDynamicEntry {
+        const dynamicMap = this.getEntriesMap(injector);
+        return dynamicMap[selector];
+    }
+
+    public contains(selector: string): boolean {
+        return !!this.entries[selector];
+    }
+}
+
+@Injectable()
+export class XmDynamicComponentRegistry extends _XmDynamicComponentRegistry {
 
     private cache: Dictionary<Promise<XmDynamicComponentRecord<unknown>>> = {};
 
@@ -24,6 +50,7 @@ export class XmDynamicComponentRegistry {
         private moduleRef: NgModuleRef<unknown>,
         private dynamicModules: XmDynamicModuleRegistry,
     ) {
+        super(moduleRef);
     }
 
     /**
@@ -39,7 +66,7 @@ export class XmDynamicComponentRegistry {
         //     return this.cache[fullSelector] as Promise<XmDynamicComponentRecord<T>>;
         // }
 
-        if(this.isGlobalSelector(fullSelector)){
+        if (this.isGlobalSelector(fullSelector)) {
             return this.cache[fullSelector] = this.resolveComponent<T>(fullSelector, injector, null);
         }
 
@@ -54,7 +81,7 @@ export class XmDynamicComponentRegistry {
         selector: string,
         injector: Injector,
     ): Promise<XmDynamicComponentRecord<T>> {
-        const moduleSelector = selector.split('/')[0];
+        const moduleSelector = this.getModuleSelector(selector);
         const ngModuleRef = await this.dynamicModules.find<T>(moduleSelector, injector);
         const restSelector = selector.replace(moduleSelector + '/', '');
         return this.resolveComponent<T>(restSelector, ngModuleRef.injector, ngModuleRef);
@@ -134,15 +161,8 @@ export class XmDynamicComponentRegistry {
         return res;
     }
 
-    private findComponentInRegistry(injector: Injector, selector: string): XmDynamicEntry {
-        const entries = injector.get(XM_DYNAMIC_ENTRIES, [[]]);
-        const flattened = flatten(entries);
-        const dynamicMap = keyBy(flattened, 'selector');
-        return dynamicMap[selector];
-    }
-
     private isGlobalSelector(selector: string): boolean {
-        return !!this.findComponentInRegistry(this.moduleRef.injector, selector);
+        return this.contains(selector);
     }
 
     private isModuleSelector(selector: string): boolean {
