@@ -11,7 +11,6 @@ import { Link } from './link.model';
 export class LinkService {
 
     private resourceUrl: string ='entity/api/links';
-    private resourceSearchUrl: string ='entity/api/_search/links';
     private resourceLinksSearch: string ='entity/api/xm-entities';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
@@ -42,12 +41,6 @@ export class LinkService {
 
     public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
-    }
-
-    public search(req?: any): Observable<HttpResponse<Link[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<Link[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<Link[]>) => this.convertArrayResponse(res)));
     }
 
     public searchLinks(

@@ -11,6 +11,7 @@ import { TagService } from '@xm-ngx/core/entity';
 import { XmEntity } from '@xm-ngx/core/entity';
 import { XmEntityService } from '@xm-ngx/core/entity';
 import { XM_ENTITY_EVENT_LIST } from '../constants';
+import _ from 'lodash';
 
 @Component({
     selector: 'xm-tag-list-section',
@@ -22,7 +23,7 @@ export class TagListSectionComponent implements OnInit, OnChanges, OnDestroy {
     @Input() public xmEntityId: number;
     @Input() public tagSpecs: TagSpec[];
     public xmEntity: XmEntity;
-    public tags: Tag[];
+    public tags: Record<string, Tag[]> = {};
     private eventSubscriber: Subscription;
 
     constructor(private eventManager: XmEventManager,
@@ -46,12 +47,12 @@ export class TagListSectionComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    public onAdd(xmTag: Tag): void {
+    public onAdd(xmTag: Tag, typeKey: string): void {
         const tag: Tag = {
-            typeKey: this.xmEntity?.typeKey,
+            typeKey: typeKey,
             name: xmTag.name.toUpperCase(),
             startDate: new Date().toJSON(),
-            xmEntity: this.xmEntity,
+            xmEntity: {id: this.xmEntity.id, typeKey: this.xmEntity.typeKey},
         };
         this.tagService.create(tag).subscribe(
             () => this.load(),
@@ -80,7 +81,7 @@ export class TagListSectionComponent implements OnInit, OnChanges, OnDestroy {
         this.xmEntityService.find(this.xmEntityId, {embed: 'tags'}).subscribe((xmEntity: HttpResponse<XmEntity>) => {
             this.xmEntity = xmEntity.body;
             if (xmEntity.body.tags) {
-                this.tags = [...xmEntity.body.tags];
+                this.tags = _.groupBy(xmEntity.body.tags, 'typeKey');
             }
         });
     }
