@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Injector, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // import { environment } from '@xm-ngx/core/environment';
@@ -10,8 +10,9 @@ import { Dashboard } from '@xm-ngx/core/dashboard';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { of } from 'rxjs';
+import { from, of } from 'rxjs';
 import { mapTo, switchMap, tap } from 'rxjs/operators';
+import { XmDynamicControllerInjectorFactoryService } from '@xm-ngx/dynamic';
 
 
 @Component({
@@ -23,9 +24,12 @@ import { mapTo, switchMap, tap } from 'rxjs/operators';
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
     public childrenDashboards: Dashboard[] = [];
 
-    public dashboard: Dashboard = { isPublic: false };
+    public dashboard: Dashboard = {isPublic: false};
     public showLoader: boolean;
     public spec: Spec;
+    public injector: Injector;
+    protected dynamicControllerInjectorFactory = inject(XmDynamicControllerInjectorFactoryService);
+    private componentInjector = inject(Injector);
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -36,7 +40,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 loggerService: XmLoggerService,
                 pageTitleService: PageTitleService,
     ) {
-        super(loggerService.create({ name: 'DashboardComponent' }));
+        super(loggerService.create({name: 'DashboardComponent'}));
         pageTitleService.init();
     }
 
@@ -62,6 +66,16 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                     this.logger.info(`Dashboard is loaded name="${page.name}" id="${page.id}".`);
                     this.dashboard = this.loadDashboard(page);
                     this.showLoader = false;
+                }),
+                switchMap(page => {
+                    return from(new Promise(async (resolve, reject) => {
+                        if (this.dashboard?.config?.controllers?.length > 0) {
+                            this.injector = await this.dynamicControllerInjectorFactory.defineProviders(this.dashboard.config.controllers, [], this.componentInjector);
+                        } else {
+                            this.injector = this.componentInjector;
+                        }
+                        resolve(page);
+                    }));
                 }),
                 switchMap((page) => {
                     if (!this.dashboard) {

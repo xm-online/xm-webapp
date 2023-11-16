@@ -86,7 +86,7 @@ export class RestRepositoryService<T = any> {
         if (!url) {
             return of({} as T);
         }
-        const formattedUrl = this.getRequestContext({url}).url;
+        const formattedUrl = this.getRequestContext({url}, context).url;
         const client = this.collectionFactory.create(formattedUrl);
 
         let {
