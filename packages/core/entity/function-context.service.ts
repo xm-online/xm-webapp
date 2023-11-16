@@ -11,7 +11,6 @@ import { FunctionContext } from './function-context.model';
 export class FunctionContextService {
 
     private resourceUrl: string ='entity/api/function-contexts';
-    private resourceSearchUrl: string ='entity/api/_search/function-contexts';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
@@ -41,12 +40,6 @@ export class FunctionContextService {
 
     public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
-    }
-
-    public search(req?: any): Observable<HttpResponse<FunctionContext[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<FunctionContext[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<FunctionContext[]>) => this.convertArrayResponse(res)));
     }
 
     private convertResponse(res: HttpResponse<FunctionContext>): HttpResponse<FunctionContext> {
