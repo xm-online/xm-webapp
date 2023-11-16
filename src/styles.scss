@@ -24,7 +24,7 @@ $material-icons-font-path: '/assets/fonts/material-design-icons-v5.woff2';
 @import '@xm-ngx/styles/src/_loader-dizabled-container';
 @import 'packages/alert/alert';
 
-@import 'src/app/layouts/main/main-theme';
+@import 'src/app/layouts/main-theme';
 // increase css priority with xm-body class
 .xm-body {
   @include xm-components-theme($xm-theme);
