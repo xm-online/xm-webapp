@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { DASHBOARDS_TRANSLATES } from '../const';
+import { DASHBOARDS_TRANSLATES } from '../../const';
 import { XmAlertService } from '@xm-ngx/alert';
 import { Dashboard, DashboardService, DashboardWidget, DashboardWithWidgets } from '@xm-ngx/core/dashboard';
 import * as _ from 'lodash';
 import { BehaviorSubject, concat, forkJoin, lastValueFrom, Observable, throwError } from 'rxjs';
 import { concatAll, exhaustMap, finalize, map, switchMap, tap, filter, shareReplay, catchError } from 'rxjs/operators';
-import { DashboardCollection, WidgetCollection } from '../injectors';
+import { DashboardCollection, WidgetCollection } from '../../injectors';
 import { DashboardsExport } from './dashboards-export.service';
 import { XmToasterService } from '@xm-ngx/toaster';
 

@@ -9,33 +9,44 @@ import {
     Type,
     ViewChild,
 } from '@angular/core';
-import {AbstractControl, FormControl, ValidationErrors, Validators} from '@angular/forms';
-import {TranslateService} from '@ngx-translate/core';
-import {XmAlertService} from '@xm-ngx/alert';
+import { AbstractControl, FormControl, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { XmAlertService } from '@xm-ngx/alert';
 import {
+    XmAceEditorControl,
     XmAceEditorControlModeEnum,
     XmAceEditorControlOptions,
     XmAceEditorControlTypeEnum
 } from '@xm-ngx/components/ace-editor';
-import {XM_CONTROL_ERRORS_TRANSLATES} from '@xm-ngx/components/control-error';
-import {XmTextControlOptions} from '@xm-ngx/components/text';
-import {XmEventManager} from '@xm-ngx/core';
-import {Dashboard, DashboardConfig, DashboardLayout, DashboardStore, DashboardWidget} from '@xm-ngx/core/dashboard';
-import {Principal} from '@xm-ngx/core/user';
-import {copyToClipboard, readFromClipboard, takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
-import {XmToasterService} from '@xm-ngx/toaster';
-import {XmTranslateService} from '@xm-ngx/translation';
+import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
+import { XmTextControl, XmTextControlOptions } from '@xm-ngx/components/text';
+import { XmEventManager } from '@xm-ngx/core';
+import { Dashboard, DashboardConfig, DashboardLayout, DashboardStore, DashboardWidget } from '@xm-ngx/core/dashboard';
+import { Principal } from '@xm-ngx/core/user';
+import { copyToClipboard, readFromClipboard, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import {cloneDeep, omit} from 'lodash';
-import {prop} from 'lodash/fp';
-import {merge, Observable} from 'rxjs';
-import {delay, distinctUntilChanged, filter, map, switchMap, take, tap} from 'rxjs/operators';
-import {DASHBOARDS_TRANSLATES} from '../const';
-import {CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS} from '../dashboard-editor.service';
+import { cloneDeep, omit } from 'lodash';
+import { prop } from 'lodash/fp';
+import { merge, Observable } from 'rxjs';
+import { delay, distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { DASHBOARDS_TRANSLATES } from '../../const';
 import {
-    DashboardsListExpandComponent,
-} from '../dashboards-list/dashboards-list-expand/dashboards-list-expand.component';
-import {DashboardCollection, DashboardConfig as DashboardConfigInjector} from '../injectors';
+    CONFIG_TYPE,
+    CopiedObject,
+    DashboardEditorService,
+    XM_WEBAPP_OPERATIONS
+} from '../../services/dashboard-editor.service';
+import { DashboardsListExpandComponent, } from '../dashboards-list-expand/dashboards-list-expand.component';
+import { DashboardCollection, DashboardConfig as DashboardConfigInjector } from '../../injectors';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
+import { LoaderModule } from '@xm-ngx/components/loader';
+import { RouterLink } from '@angular/router';
 
 export enum EditType {
     Create = 1,
@@ -45,46 +56,51 @@ export enum EditType {
 const uniqValueInListValidator = (stream: Observable<any[]>) => (control: AbstractControl): Observable<ValidationErrors> => {
     return stream.pipe(
         take(1),
-        map((arr) => !arr.includes(control.value) ? null : {notUniqInList: true}),
+        map((arr) => !arr.includes(control.value) ? null : { notUniqInList: true }),
     );
 };
 
 @Component({
     selector: 'xm-dashboard-edit',
+    standalone: true,
+    imports: [
+        XmTranslationModule,
+        MatTooltipModule,
+        MatIconModule,
+        MatButtonModule,
+        CommonModule,
+        MatTabsModule,
+        DashboardsListExpandComponent,
+        XmTextControl,
+        LoaderModule,
+        XmAceEditorControl,
+        RouterLink,
+        ReactiveFormsModule
+    ],
     templateUrl: './dashboard-edit.component.html',
     styleUrls: ['./dashboard-edit.component.scss'],
 })
 export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
     public EditType: typeof EditType = EditType;
-
-    private dashboardService: DashboardStore = inject(DashboardStore);
-    private xmControlErrorsTranslates = inject(XM_CONTROL_ERRORS_TRANSLATES);
-    private dashboardList$: Observable<Dashboard[]> = this.dashboardService.dashboards$().pipe(
-        takeUntilOnDestroy(this),
-        map(dashboards => dashboards.filter(dashboard => !this.value?.id || dashboard.id !== this.value.id))
-    );
-
-    // TODO: Find out the way to use FormGroup instead. P.S. faced with type mismatch.
-    public nameControl = new FormControl<string>('', [Validators.required], [uniqValueInListValidator(this.dashboardList$.pipe(map(dashboards => dashboards.map(prop('name')))))]);
-    public typeKeyControl = new FormControl<string>('', [Validators.required, Validators.pattern('^[A-Z0-9\\.-]+$')], [uniqValueInListValidator(this.dashboardList$.pipe(map(dashboards => dashboards.map(prop('typeKey')))))]);
     public configControl = new FormControl<DashboardConfig>({});
     public layoutControl = new FormControl<DashboardLayout>({});
     public valid: boolean = false;
-
     public loading$: Observable<boolean>;
     public disabled: boolean;
     public EDIT_EVENT: string = this.dashboardConfig.EDIT_DASHBOARD_EVENT;
-
     public aceEditorOptions: XmAceEditorControlOptions = {
         title: '',
         mode: XmAceEditorControlModeEnum.JSON,
         type: XmAceEditorControlTypeEnum.OBJECT,
         height: 'calc(100vh - 350px)',
     };
-
     public editType: EditType;
     public widgetEditComponentType: Type<unknown> = this.dashboardConfig.widgetRef;
+    // Used only for copy functional
+    @ViewChild(DashboardsListExpandComponent) public widgetsCompRef: DashboardsListExpandComponent;
+    private dashboardService: DashboardStore = inject(DashboardStore);
+    private xmControlErrorsTranslates = inject(XM_CONTROL_ERRORS_TRANSLATES);
     public nameOptions: XmTextControlOptions = {
         title: this.TRS.name, dataQa: '', errors: {
             required: this.xmControlErrorsTranslates.required,
@@ -107,16 +123,13 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
             },
         },
     };
-
-    // Used only for copy functional
-    @ViewChild(DashboardsListExpandComponent) public widgetsCompRef: DashboardsListExpandComponent;
-
-    @HostListener('document:keydown.escape', ['$event'])
-    public onKeydownHandler(event: KeyboardEvent): void {
-        if (event) {
-            this.onCancel();
-        }
-    }
+    private dashboardList$: Observable<Dashboard[]> = this.dashboardService.dashboards$().pipe(
+        takeUntilOnDestroy(this),
+        map(dashboards => dashboards.filter(dashboard => !this.value?.id || dashboard.id !== this.value.id))
+    );
+    // TODO: Find out the way to use FormGroup instead. P.S. faced with type mismatch.
+    public nameControl = new FormControl<string>('', [Validators.required], [uniqValueInListValidator(this.dashboardList$.pipe(map(dashboards => dashboards.map(prop('name')))))]);
+    public typeKeyControl = new FormControl<string>('', [Validators.required, Validators.pattern('^[A-Z0-9\\.-]+$')], [uniqValueInListValidator(this.dashboardList$.pipe(map(dashboards => dashboards.map(prop('typeKey')))))]);
 
     constructor(protected readonly dashboardCollection: DashboardCollection,
                 protected readonly editorService: DashboardEditorService,
@@ -128,31 +141,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
                 protected readonly translateService: TranslateService,
                 protected readonly toasterService: XmToasterService) {
         this.loading$ = this.dashboardCollection.loading$.pipe(delay(0), tap((i) => this.disabled = i));
-    }
-
-    public ngAfterViewInit(): void {
-        this.typeKeyControl.valueChanges.pipe(
-            takeUntilOnDestroy(this),
-            distinctUntilChanged(),
-        ).subscribe(rawValue => {
-            const value = rawValue.toUpperCase().replace(/ /g, '-');
-            this.typeKeyControl.patchValue(value, {emitEvent: true});
-        });
-    }
-
-    public ngOnInit(): void {
-        merge(
-            this.nameControl.valueChanges,
-            this.typeKeyControl.valueChanges,
-            this.configControl.valueChanges,
-            this.layoutControl.valueChanges,
-        )
-            .pipe(
-                takeUntilOnDestroy(this),
-            )
-            .subscribe(() => {
-                this.valid = this.nameControl.valid && this.typeKeyControl.valid && this.configControl.valid && this.layoutControl.valid;
-            });
     }
 
     protected _value: Dashboard = {};
@@ -177,6 +165,38 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         }
     }
 
+    @HostListener('document:keydown.escape', ['$event'])
+    public onKeydownHandler(event: KeyboardEvent): void {
+        if (event) {
+            this.onCancel();
+        }
+    }
+
+    public ngAfterViewInit(): void {
+        this.typeKeyControl.valueChanges.pipe(
+            takeUntilOnDestroy(this),
+            distinctUntilChanged(),
+        ).subscribe(rawValue => {
+            const value = rawValue.toUpperCase().replace(/ /g, '-');
+            this.typeKeyControl.patchValue(value, { emitEvent: true });
+        });
+    }
+
+    public ngOnInit(): void {
+        merge(
+            this.nameControl.valueChanges,
+            this.typeKeyControl.valueChanges,
+            this.configControl.valueChanges,
+            this.layoutControl.valueChanges,
+        )
+            .pipe(
+                takeUntilOnDestroy(this),
+            )
+            .subscribe(() => {
+                this.valid = this.nameControl.valid && this.typeKeyControl.valid && this.configControl.valid && this.layoutControl.valid;
+            });
+    }
+
     public onCancel(): void {
         this.editorService.close();
     }
@@ -192,11 +212,11 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.created,
-                    textOptions: {value: res.name},
+                    textOptions: { value: res.name },
                 }).subscribe();
                 this.value = res;
                 this.editType = EditType.Edit;
-                this.eventManager.broadcast({name: this.EDIT_EVENT, id: this.value.id, add: true});
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, add: true });
             }),
         ).subscribe();
     }
@@ -206,11 +226,11 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         delete this._value.widgets;
         this.dashboardCollection.update(this._value).pipe(
             tap((res) => {
-                this.eventManager.broadcast({name: this.EDIT_EVENT, id: this.value.id, edit: true});
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, edit: true });
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.updated,
-                    textOptions: {value: res.name},
+                    textOptions: { value: res.name },
                 }).subscribe();
             }),
         ).subscribe();
@@ -230,7 +250,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     public onDelete(): void {
         this.alertService.delete({
-            title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.delete, {value: this.value.name}),
+            title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.delete, { value: this.value.name }),
         }).pipe(
             filter((i) => i.value),
             switchMap(() => this.dashboardCollection.delete(this.value.id)),
@@ -238,9 +258,9 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
                 this.toasterService.create({
                     type: 'success',
                     text: DASHBOARDS_TRANSLATES.deleted,
-                    textOptions: {value: this.value.name},
+                    textOptions: { value: this.value.name },
                 }).subscribe();
-                this.eventManager.broadcast({name: this.EDIT_EVENT, id: this.value.id, delete: true});
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, delete: true });
             }),
             tap(() => this.editorService.close()),
         ).subscribe();

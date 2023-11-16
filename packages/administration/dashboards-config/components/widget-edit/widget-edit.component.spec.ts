@@ -1,28 +1,28 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, forwardRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateService } from '@ngx-translate/core';
-import { DashboardEditorService } from '../index';
-import { DashboardCollection, DashboardConfig } from '../injectors';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { DashboardEditorService } from '../../index';
+import {
+    DashboardCollection,
+    DashboardConfig,
+    WidgetCollection,
+} from '../../injectors';
 import { XmAlertService } from '@xm-ngx/alert';
-import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { MockEntityCollection } from '@xm-ngx/repositories/testing';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmEventManager } from '@xm-ngx/core';
-import { Principal } from '@xm-ngx/core/user';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
-import { DashboardEditComponent } from './dashboard-edit.component';
-import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { DashboardStore } from '@xm-ngx/dashboard';
-import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
+import { WidgetEditComponent } from './widget-edit.component';
+import {JsonSchemaFormModule} from '@ajsf/core';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
-    selector: 'xm-text-control, xm-ace-editor-control',
+    selector: 'xm-schema-editor, xm-text-control, xm-selector-text-control, xm-ace-editor-control',
     template: '',
+    standalone: true,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -34,31 +34,29 @@ import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
 export class MockXmTextControlComponent extends NgModelWrapper<undefined> {
 }
 
-describe('DashboardEditComponent', () => {
-    let component: DashboardEditComponent;
-    let fixture: ComponentFixture<DashboardEditComponent>;
+describe('WidgetEditComponent', () => {
+    let component: WidgetEditComponent;
+    let fixture: ComponentFixture<WidgetEditComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
                 XmTranslationTestingModule,
-                NoopAnimationsModule,
                 HttpClientTestingModule,
                 FormsModule,
-                ReactiveFormsModule,
-                ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
+                JsonSchemaFormModule,
+                MatMenuModule,
+                MockXmTextControlComponent,
             ],
-            declarations: [DashboardEditComponent, MockXmTextControlComponent],
+            declarations: [WidgetEditComponent],
             providers: [
+                { provide: WidgetCollection, useClass: MockEntityCollection },
                 { provide: DashboardCollection, useClass: MockEntityCollection },
                 { provide: DashboardEditorService, useValue: null },
-                { provide: XmAlertService, useValue: null },
                 { provide: DashboardConfig, useValue: {} },
-                { provide: XmEventManager, useValue: null },
-                { provide: Principal, useValue: null },
-                { provide: TranslateService, useValue: null },
+                { provide: XmAlertService, useValue: null },
                 { provide: XmToasterService, useValue: null },
-                { provide: DashboardStore, useClass: MockDashboardStore },
+                XmEventManager,
             ],
             schemas: [NO_ERRORS_SCHEMA],
         })
@@ -66,7 +64,7 @@ describe('DashboardEditComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(DashboardEditComponent);
+        fixture = TestBed.createComponent(WidgetEditComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -8,8 +8,8 @@ import {
     DashboardsExportService,
     DashboardsImportService,
     DashboardsManagerService,
-} from '../index';
-import { DashboardCollection, WidgetCollection } from '../injectors';
+} from '../../index';
+import { DashboardCollection, WidgetCollection } from '../../injectors';
 import { MockEntityCollection } from '@xm-ngx/repositories/testing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 

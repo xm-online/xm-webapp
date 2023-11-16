@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, Type } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 
 import { DashboardWidget } from '@xm-ngx/core/dashboard';
 import { Id } from '@xm-ngx/interfaces';
@@ -8,20 +8,24 @@ import { set } from 'lodash';
 import { Observable } from 'rxjs';
 import { delay, map, tap, withLatestFrom } from 'rxjs/operators';
 import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES } from '../../const';
-import { CONFIG_TYPE, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../../dashboard-editor.service';
-import { DashboardsManagerService } from '../../dashboards-manager.service';
+import { CONFIG_TYPE, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../../services/dashboard-editor.service';
+import { DashboardsManagerService } from '../../services/dashboards-manager.service';
 
 import { DashboardCollection, WidgetCollection } from '../../injectors';
-import { WidgetEditComponent } from '../../widget-edit/widget-edit.component';
+import { WidgetEditComponent } from '../widget-edit/widget-edit.component';
 import { readFromClipboard, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { MatDialog } from '@angular/material/dialog';
-import {
-    OPERATIONS,
-} from '../dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
-import {
-    WidgetCopyDialogComponent,
-} from '../../widget-edit/widget-copy-dialog/widget-copy-dialog.component';
+import { OPERATIONS } from '../dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
+import { WidgetCopyDialogComponent } from '../widget-copy-dialog/widget-copy-dialog.component';
+import { LoaderModule } from '@xm-ngx/components/loader';
+import { MatSortModule } from '@angular/material/sort';
+import { XmBoolComponent } from '@xm-ngx/components/bool';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 const DISPLAYED_COLUMNS = [
     'name',
@@ -38,6 +42,20 @@ export interface CopiedWidgetObject {
 
 @Component({
     selector: 'xm-dashboards-list-expand',
+    standalone: true,
+    imports: [
+        MatTableModule,
+        LoaderModule,
+        MatSortModule,
+        XmBoolComponent,
+        AsyncPipe,
+        MatTooltipModule,
+        XmTranslationModule,
+        MatIconModule,
+        NgClass,
+        MatButtonModule,
+        NgIf
+    ],
     templateUrl: './dashboards-list-expand.component.html',
     styleUrls: ['./dashboards-list-expand.component.scss'],
 })

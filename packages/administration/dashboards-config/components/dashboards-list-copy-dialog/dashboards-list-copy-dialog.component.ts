@@ -1,11 +1,16 @@
 import { Component, Input } from '@angular/core';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { Defaults } from '@xm-ngx/operators';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import {
-    OPERATIONS,
-} from '../../dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+
+export enum OPERATIONS {
+    COPY = 'COPY',
+    REPLACE = 'REPLACE'
+}
 
 export interface DialogCopyConfig {
     title?: Translate;
@@ -17,8 +22,8 @@ export interface DialogCopyConfig {
 
 const DEFAULT_CONFIG = {
     title: {
-        uk: 'Вже існує віджет з такою назвою',
-        en: 'Widget with such name exists already',
+        uk: 'Вже існує панель з такими параметрами (name, slug або typeKey)',
+        en: 'Dashboard with parameters exists already (name, slug or typeKey)',
     },
     modalText: {
         uk: 'Оберіть дію',
@@ -29,7 +34,7 @@ const DEFAULT_CONFIG = {
         en: 'Make a copy',
     },
     replaceButtonText: {
-        uk: 'Замінити існуючий',
+        uk: 'Замінити існуючу',
         en: 'Replace',
     },
     closeText: {
@@ -37,20 +42,22 @@ const DEFAULT_CONFIG = {
         en: 'Cancel',
     },
 };
+
 @Component({
-    selector: 'xm-widget-copy-dialog',
-    templateUrl: './widget-copy-dialog.component.html',
-    styleUrls: ['./widget-copy-dialog.component.scss'],
+    selector: 'xm-dashboards-list-copy-dialog',
+    templateUrl: './dashboards-list-copy-dialog.component.html',
+    styleUrls: ['./dashboards-list-copy-dialog.component.scss'],
     standalone: true,
     imports: [
-        MatDialogModule,
         MatButtonModule,
-        XmTranslationModule,
-        XmTranslationModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
         XmTranslationModule,
     ],
 })
-export class WidgetCopyDialogComponent {
+export class DashboardsListCopyDialogComponent {
     @Input() @Defaults(DEFAULT_CONFIG) public config: DialogCopyConfig = DEFAULT_CONFIG;
     constructor(private matDialogRef: MatDialogRef<DialogCopyConfig>) {
     }
