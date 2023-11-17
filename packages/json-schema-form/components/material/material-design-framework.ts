@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MaterialDesignFramework } from '@ajsf/material';
-import { XmFlexLayoutSectionComponent } from '../components/flex-layout-section.component';
-import { XmFlexLayoutRootComponent } from '../components/flex-layout-root.component';
-import { XmMaterialDesignFrameworkComponent } from '../components/material-design-framework.component';
-import { XmMaterialAddReferenceComponent } from '../components/xm-material-add-reference.component';
+import { XmFlexLayoutSectionComponent } from './flex-layout-section.component';
+import { XmFlexLayoutRootComponent } from './flex-layout-root.component';
+import { XmMaterialDesignFrameworkComponent } from './material-design-framework.component';
+import { XmMaterialAddReferenceComponent } from './xm-material-add-reference.component';
 
 @Injectable()
 export class XmMaterialDesignFramework extends MaterialDesignFramework {

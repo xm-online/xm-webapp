@@ -4,7 +4,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { JsonSchemaFormService } from '@ajsf/core';
 import { fromEvent as observableFromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { CurrentLocationOptions } from './validation-component.model';
+import { ValidationOptions } from './validation-component.model';
 
 @Component({
     selector: 'xm-validation-widget',
@@ -18,7 +18,7 @@ export class ValidationComponent implements OnInit, OnDestroy {
 
     public click: Subscription;
 
-    public options: CurrentLocationOptions;
+    public options: ValidationOptions;
     private eventManagerSubscription: Subscription;
     constructor(private jsf: JsonSchemaFormService,
                 private eventManager: XmEventManager) {

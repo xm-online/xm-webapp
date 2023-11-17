@@ -13,13 +13,13 @@ import { NgModule } from '@angular/core';
 import { RU_INTL } from './locale/ru-config';
 import { UK_INTL } from './locale/uk-config';
 import { LanguageService } from '@xm-ngx/translation';
-import { XmMaterialDesignFramework } from './material-design-framework';
+import { XmMaterialDesignFramework } from '../components/material/material-design-framework';
 import { fixFlexLayout } from './fix-flex-layout';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { XmFlexLayoutSectionComponent } from '../components/flex-layout-section.component';
-import { XmMaterialDesignFrameworkComponent } from '../components/material-design-framework.component';
-import { XmFlexLayoutRootComponent } from '../components/flex-layout-root.component';
+import { XmFlexLayoutSectionComponent } from '../components/material/flex-layout-section.component';
+import { XmMaterialDesignFrameworkComponent } from '../components/material/material-design-framework.component';
+import { XmFlexLayoutRootComponent } from '../components/material/flex-layout-root.component';
 
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
