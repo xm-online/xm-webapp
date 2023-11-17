@@ -3,7 +3,7 @@ import { JsonSchemaFormService } from '@ajsf/core';
 
 
 /**
- *
+ * Configuration sample:
  *```json
  *{
  *  "schema": {
@@ -22,7 +22,7 @@ import { JsonSchemaFormService } from '@ajsf/core';
 })
 export class ExampleTextComponent implements OnInit {
 
-    @Input() public layoutNode: any;
+    @Input() public layoutNode: unknown;
     public controlValue: string;
 
     constructor(
@@ -30,11 +30,11 @@ export class ExampleTextComponent implements OnInit {
     ) {
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.jsf.initializeControl(this);
     }
 
-    changeText($event: Event): void {
+    public changeText($event: Event): void {
         this.jsf.updateValue(this, ($event.target as HTMLInputElement).value);
     }
 

@@ -28,7 +28,7 @@ export interface EditWidgetButtonsEvent {
     templateUrl: './edit-widget-buttons.component.html',
 })
 export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
-    public config = inject<EditWidgetButtonsConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
+    public config = inject<EditWidgetButtonsConfig>(XM_DYNAMIC_COMPONENT_CONFIG, { optional: true });
 
     private editStateStore = injectByKey<EditStateStoreService>('edit-state-store', { optional: true });
 

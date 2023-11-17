@@ -4,7 +4,7 @@ import { ExampleTextComponent } from './example-text.component';
 
 @NgModule({
     imports: [ExampleTextComponent],
-    exports: [ExampleTextComponent]
+    exports: [ExampleTextComponent],
 })
 export class ExampleWebappExtJsfModule {
     constructor(widgetService: JsfComponentRegistryService) {
