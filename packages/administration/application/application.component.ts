@@ -6,7 +6,6 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from '@xm-ngx/core/environment';
 import { I18nNamePipe } from '@xm-ngx/translation';
 import { Principal } from '@xm-ngx/core/user';
 import { XmConfigService } from '@xm-ngx/core/config';
@@ -67,10 +66,6 @@ export class ApplicationComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        if (!environment.production) {
-            console.info('ApplicationComponent.ngOnInit');
-        }
-
         this.spec$ = this.xmEntitySpecWrapperService.specv2();
 
         this.xmConfigService.getUiConfig().subscribe((result) => {
