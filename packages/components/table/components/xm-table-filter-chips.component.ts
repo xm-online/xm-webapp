@@ -7,7 +7,7 @@ import {
 } from './xm-table-filter-button-dialog-controls.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import * as _ from 'lodash';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isArray } from 'lodash';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy, } from '@xm-ngx/operators';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { MatChipsModule } from '@angular/material/chips';
@@ -16,7 +16,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
-import { XmInlineControlConfig, XmInlineControlDynamic, XmInlineControlDynamicView } from '@xm-ngx/components/inline-control';
+import {
+    XmInlineControlConfig,
+    XmInlineControlDynamic,
+    XmInlineControlDynamicView,
+} from '@xm-ngx/components/inline-control';
 import { XmTableFilterChipsControlComponent } from './xm-table-filter-chips-control.component';
 
 export interface XmTableInlineFilterFormLayoutItem extends FormLayoutItem {
@@ -40,7 +44,7 @@ export interface XmTableFilterInlineFilter {
     title: Translate;
     config: FormLayoutItem;
     inlineConfig: XmInlineControlConfig;
-    value: string;
+    value: string | string[];
     removable: boolean;
     name: string;
 }
@@ -59,7 +63,7 @@ export interface XmTableFilterInlineFilter {
                                  selected
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
-                                                   [value]="filter.value"
+                                                   [value]="createValueView(filter)"
                                                    [disabled]="filter.config?.disabled"
                                                    (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
@@ -89,7 +93,7 @@ export interface XmTableFilterInlineFilter {
         <mat-menu #hiddenChips>
             <mat-chip-listbox class="chip-listbox ps-1 pe-1" [selectable]="false" [multiple]="true">
                 <mat-chip-option *ngFor="let filter of hiddenFilters"
-                                 (removed)="remove(filter)"
+                                 (removed)="remove(filter.value)"
                                  [removable]="filter.removable"
                                  selected
                                  color="accent"
@@ -243,6 +247,10 @@ export class XmTableFilterChipsComponent {
                     name: config.name,
                 } as XmTableFilterInlineFilter;
             });
+    }
+
+    public createValueView(filter: XmTableFilterInlineFilter): string {
+        return isArray(filter.value) ? filter.value.join(', ') : filter.value;
     }
 
 }
