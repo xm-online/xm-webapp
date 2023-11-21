@@ -1,4 +1,6 @@
-$xm-menu-item-hover:        rgba(200, 200, 200, 0.2) !default;
+@use '@xm-ngx/styles/src/scroll';
+
+$xm-menu-item-hover:        linear-gradient(0deg, rgba(196, 199, 197, .08), rgba(196, 199, 197, .08)) !default;
 $xm-menu-item-active:       0 4px 20px 0 rgba(246, 126, 126, 0.14), 0 7px 10px -5px rgba(#000, 0.4) !default;
 $xm-menu-list-padding-left: 0 !default;
 $xm-menu-icon-font-size:    20px !default;
@@ -20,9 +22,23 @@ $xm-menu-icon-font-size:    20px !default;
   }
 
   &.active {
+    position:   relative;
     outline:    0;
     color:      $xm-menu-item-active-color;
     background: $xm-menu-item-hover;
+
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 100%;
+      width: 100%;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, .3);
+      border-radius: 24px;
+      animation: stretch-background 250ms;
+    }
   }
 
   &:hover:not(.active),
@@ -37,9 +53,74 @@ $xm-menu-icon-font-size:    20px !default;
     outline:    0;
     background: $xm-menu-item-hover;
   }
+
+  &.active-menu-category {
+    outline:    0;
+    color:      $xm-menu-item-active-color;
+    background: $xm-menu-item-hover;
+  }
 }
 
 @mixin xm-menu-theme($theme) {
+
+  $xm-primary: map-get($theme, primary);
+  $xm-menu-item-active-color: map-get($theme, sidebar-text-active-color) or $xm-primary;
+
+  .menu-view {
+    display: flex;
+    border-radius: 0 16px 16px 0;
+    background-color: #444746;
+
+    .global-categories {
+      min-width: 88px;
+      width: 88px;
+      height: calc(100vh - 64px);
+      padding: 8px 0 8px;
+      //min-height: calc(100vh - 64px);
+      max-height: calc(100vh - 64px);
+      overflow-x: hidden;
+      overflow-y: auto;
+      border-right: 1px solid rgba(196, 199, 197, .5);
+      @include xm-scrollbar();
+
+      .global-category {
+        width: 80px;
+        margin: 0 auto 14px;
+        padding: 2px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #c4c7c5;
+        cursor: pointer;
+
+        &__icon {
+          display: flex;
+          position: relative;
+          align-items: center;
+          justify-content: center;
+          width: 56px;
+          height: 32px;
+          margin: 0 auto 4px;
+          transition: font-size .2s cubic-bezier(.2,0,0,1);
+          border-radius: 16px;
+        }
+
+        &__name {
+
+        }
+      }
+    }
+
+    cdk-tree {
+      width: 100%;
+      height: calc(100vh - 80px);
+      overflow-y: auto;
+      margin: 8px 0 8px;
+      @include xm-scrollbar();
+    }
+  }
 
   .menu-title {
 
@@ -55,12 +136,20 @@ $xm-menu-icon-font-size:    20px !default;
     // TODO: override default ul styles
     padding-left:    $xm-menu-list-padding-left;
     margin-bottom:   0;
+    width: 240px;
+    max-width: 240px;
 
     &.collapsed {
       overflow: hidden;
       // TODO: override default ul styles
       margin:   0;
     }
+  }
+
+  .nested-menu-list {
+    padding: 0 2px 0 18px;
+    width: 100%;
+    max-width: 100%;
   }
 
   .mat-expansion-indicator {
@@ -79,7 +168,9 @@ $xm-menu-icon-font-size:    20px !default;
     flex-direction: row;
     align-items:    center;
     color:          inherit;
-    padding:        $xm-sidebar-menu-item-padding-y $xm-sidebar-padding-x $xm-sidebar-menu-item-padding-y $xm-sidebar-padding-x * 2;
+    padding:        $xm-sidebar-menu-item-padding-y $xm-sidebar-padding-x;
+    margin: 2px 8px;
+    border-radius: 24px;
 
 
     &:not(.active) > .mat-icon {
@@ -93,8 +184,9 @@ $xm-menu-icon-font-size:    20px !default;
     }
 
     &-icon {
-      background-color: rgba(225, 255, 255, 0.1);
-      border-radius: 4px;
+      margin: 0 8px 0 16px;
+      //background-color: rgba(225, 255, 255, 0.1);
+      //border-radius: 4px;
     }
 
     @include xm-menu-link-theme($theme);
@@ -106,4 +198,13 @@ $xm-menu-icon-font-size:    20px !default;
     min-width: 24px;
   }
 
+}
+
+@keyframes stretch-background {
+  0% {
+    transform: scale(0.5, 1);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
 }

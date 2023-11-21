@@ -11,12 +11,14 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
             id,
             name: dashboardName,
             config: {
-                slug, hidden = false,
+                slug,
+                hidden = false,
                 menu: configMenu = {},
                 icon: configIcon,
                 orderIndex: configOrder,
                 name: configName,
                 permission,
+                globalCategory,
             } = {},
         }) => {
             if (hidden) {
@@ -78,6 +80,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         url: [ 'dashboard', groupKey ],
                         parent: null,
                         children: [],
+                        globalCategory,
                     });
                 }
 
@@ -105,6 +108,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         url: [ 'dashboard', ...slug.split('/') ],
                         parent: tree,
                         children: [],
+                        globalCategory,
                     };
 
                     tree.children.push(node);
@@ -116,6 +120,5 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
 
             return data;
         }, []);
-
     return _.orderBy(result, [ 'position' ], 'asc');
 }

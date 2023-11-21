@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {matExpansionAnimations} from '@angular/material/expansion';
 import {NavigationEnd, Router, RouterModule} from '@angular/router';
 import {DashboardStore} from '@xm-ngx/core/dashboard';
@@ -14,14 +14,15 @@ import {CdkTreeModule, NestedTreeControl} from '@angular/cdk/tree';
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy, treeNodeSearch} from '@xm-ngx/operators';
 import {buildMenuTree} from './nested-menu';
 import {applicationsToCategory, filterByConditionDashboards} from './flat-menu';
-import {MenuItem, MenuOptions} from './menu.interface';
+import {GlobalMenuCategory, MenuItem, MenuOptions} from './menu.interface';
 import {XmUiConfigService} from '@xm-ngx/core/config';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {Translate, XmTranslateService, XmTranslationModule} from '@xm-ngx/translation';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DOCUMENT} from '@angular/common';
 import {XmPermissionModule} from '@xm-ngx/core/permission';
 import {ConditionDirective} from '@xm-ngx/components/condition';
+import {showHideSubCategories} from '@xm-ngx/dashboard/menu/menu.animtion';
 
 export type ISideBarConfig = {
     sidebar?: {
@@ -39,6 +40,7 @@ export type ISideBarConfig = {
     animations: [
         matExpansionAnimations.bodyExpansion,
         matExpansionAnimations.indicatorRotate,
+        showHideSubCategories
     ],
     host: {
         class: 'xm-menu',
@@ -63,12 +65,18 @@ export class MenuComponent implements OnInit, OnDestroy {
             'mode': 'toggle',
         });
     }
+
     get config(): MenuOptions {
         return this._config;
     }
 
     public treeControl = new NestedTreeControl<MenuItem>(node => node.children);
     public categories$: Observable<MenuItem[]>;
+    public globalCategories: GlobalMenuCategory[];
+    public filteredCategories: MenuItem[];
+    public selectedCategory: GlobalMenuCategory;
+    public hoveredCategory: GlobalMenuCategory;
+    public parentCategory: MenuItem;
 
     constructor(
         protected readonly dashboardService: DashboardStore,
@@ -79,6 +87,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         protected readonly entityConfigService: XmEntitySpecWrapperService,
         protected readonly contextService: ContextService,
         protected readonly userService: XmUserService,
+        @Inject(DOCUMENT) private document: Document
     ) {
     }
 
@@ -99,7 +108,7 @@ export class MenuComponent implements OnInit, OnDestroy {
                     sideBarConfig.spec = [];
                 }
                 let applications = sideBarConfig.spec.filter((t) => t.isApp);
-                applications = applications.filter((t) => this.principal.hasPrivilegesInline([ `APPLICATION.${ t.key }` ]));
+                applications = applications.filter((t) => this.principal.hasPrivilegesInline([`APPLICATION.${t.key}`]));
 
                 if (sideBarConfig.sidebar) {
                     sideBarConfig.sidebar.applicationTitle = this.translate.translate(
@@ -116,10 +125,10 @@ export class MenuComponent implements OnInit, OnDestroy {
             map(i => i?.sidebar?.hideAdminConsole ? [] : getDefaultMenuList()),
         );
 
-        this.categories$ = combineLatest([ dashboards$, applications$, default$ ]).pipe(
-            map(([ dashboards, applications, defaultMenu ]) => {
-                const mainMenu = _.orderBy([...dashboards, ...applications], [ 'position' ], 'asc');
-                return [ ...mainMenu, ...defaultMenu ];
+        this.categories$ = combineLatest([dashboards$, applications$, default$]).pipe(
+            map(([dashboards, applications, defaultMenu]) => {
+                const mainMenu = _.orderBy([...dashboards, ...applications], ['position'], 'asc');
+                return [...mainMenu, ...defaultMenu];
             }),
             takeUntilOnDestroy(this),
             shareReplay(1),
@@ -133,11 +142,22 @@ export class MenuComponent implements OnInit, OnDestroy {
             takeUntilOnDestroy(this),
         ).subscribe(a => {
             const active = this.getActiveNode(a);
+            !this.selectedCategory && this.filterSections(a, active?.parent?.globalCategory);
             this.unfoldParentNode(active);
         });
+
+        // TODO do this configuration in Administration > Configuration > Specification > UI section
+        const sidebarEl: HTMLElement = this.document.querySelector('.vf-sidebar-menu-scroll');
+        sidebarEl.classList.remove('overflow-auto');
+        sidebarEl.style.overflowY = 'hidden';
+        sidebarEl.style.height = '100%';
     }
 
-    private getActiveDashboards(): Observable<MenuItem[]>{
+    public scrollToSelectedLink(): void {
+        this.document.querySelector('cdk-tree .menu-link.active')?.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+
+    private getActiveDashboards(): Observable<MenuItem[]> {
         return this.userService.user$().pipe(
             switchMap((user) => {
                 return this.dashboardService.dashboards$().pipe(
@@ -145,10 +165,45 @@ export class MenuComponent implements OnInit, OnDestroy {
                     filter((dashboards) => Boolean(dashboards)),
                     map((i) => filterByConditionDashboards(i, this.contextService)),
                     map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
-                    map((dashboards) => buildMenuTree(dashboards, ConditionDirective.checkCondition, {user: user})),
+                    map((dashboards) => {
+                        if (dashboards?.length) {
+                            const menu: MenuItem[] = buildMenuTree(dashboards, ConditionDirective.checkCondition, {user: user});
+                            this.globalCategories =
+                                menu.filter((menuItem: MenuItem) => menuItem.globalCategory)
+                                    .map((menuItem: MenuItem) => menuItem.globalCategory);
+                            this.globalCategories.push(this.otherGlobalCategory);
+                            return menu;
+                        }
+                        return [];
+                    }),
                 );
             }),
         );
+    }
+
+    public filterSections(categories: MenuItem[], selectedCategory: GlobalMenuCategory): void {
+        if (!selectedCategory) {
+            selectedCategory = this.otherGlobalCategory;
+        }
+        const selectedCategoryName: string = selectedCategory.name.en.toLowerCase();
+        if (this.hoveredCategory?.name?.en.toLowerCase() !== selectedCategoryName) {
+            this.filteredCategories = null;
+            this.hoveredCategory = selectedCategory;
+            setTimeout(() => {
+                this.filteredCategories = categories.filter((category: MenuItem) => {
+                    if (selectedCategoryName === 'other') {
+                        return !category?.globalCategory;
+                    }
+                    return category?.globalCategory?.name?.en.toLowerCase() === selectedCategoryName;
+                });
+            });
+        }
+    }
+
+    public setSelectedGlobalCategory(node: MenuItem): void {
+        const { parent } = node || {};
+        this.selectedCategory = parent?.globalCategory || this.otherGlobalCategory;
+        this.parentCategory = parent;
     }
 
     public getActiveNode(nodes: MenuItem[]): MenuItem {
@@ -175,7 +230,9 @@ export class MenuComponent implements OnInit, OnDestroy {
         }
 
         let node = child;
-
+        const { parent } = node || {};
+        !this.selectedCategory && (this.selectedCategory = parent?.globalCategory || this.otherGlobalCategory);
+        !this.parentCategory && (this.parentCategory = parent);
         while ((node = node.parent)) {
             this.treeControl.expand(node);
         }
@@ -215,7 +272,7 @@ export class MenuComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.treeControl.collapseAll();
+        // this.treeControl.collapseAll();
 
         // Unfold current node
         this.unfoldParentNode(node);
@@ -231,4 +288,14 @@ export class MenuComponent implements OnInit, OnDestroy {
         return this.treeControl.isExpanded(node) ? 'expanded' : 'collapsed';
     }
 
+    private get otherGlobalCategory(): GlobalMenuCategory {
+        return {
+            name: {
+                en: 'Other',
+                ru: 'Іньше',
+                uk: 'Іньше',
+            },
+            icon: 'more_horiz',
+        };
+    }
 }

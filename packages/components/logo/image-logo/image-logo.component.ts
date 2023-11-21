@@ -24,6 +24,18 @@ const DEFAULT: ImageLogoConfig = {
 @Component({
     selector: 'xm-image-logo',
     templateUrl: './image-logo.component.html',
+    styles:[`
+        a {
+            position: relative;
+        }
+        a:after {
+            position: absolute;
+            content: '';
+            background-color: #DADADA;
+            width: 100%;
+            height: 64px;
+        }
+    `],
     imports: [
         CommonModule,
         RouterModule,

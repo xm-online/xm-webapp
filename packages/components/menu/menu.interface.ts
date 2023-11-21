@@ -1,4 +1,4 @@
-import { Translate } from '@xm-ngx/translation';
+import {ITranslate, Translate} from '@xm-ngx/translation';
 
 /**
  * toggle: Just open like accordion
@@ -22,6 +22,7 @@ export interface MenuItem {
     icon: string;
     title: Translate;
     parent: MenuItem,
+    globalCategory?: GlobalMenuCategory;
     /**
      * @deprecated
      *
@@ -35,4 +36,9 @@ export interface MenuItem {
     */
     isLink?: boolean;
     children: MenuItem[];
+}
+
+export interface GlobalMenuCategory {
+    name: ITranslate;
+    icon: string;
 }

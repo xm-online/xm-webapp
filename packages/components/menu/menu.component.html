@@ -1,27 +1,47 @@
-<cdk-tree [dataSource]="categories$ | async" [treeControl]="treeControl">
-  <cdk-tree-node *cdkTreeNodeDef="let node">
-    <a class="menu-link" *permitted="node.permission" routerLinkActive="active" [routerLink]="node.url">
-      <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
+<div class="menu-view" *ngIf="categories$ | async as categories">
+  <div class="global-categories" *ngIf="globalCategories?.length">
+    <div
+      *ngFor="let category of globalCategories"
+      class="global-categories__category global-category"
+      (mouseenter)="filterSections(categories, category)">
+      <div class="global-category__icon menu-link"
+           [ngClass]="{'active': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}">
+        <mat-icon>{{ category?.icon }}</mat-icon>
+      </div>
+      <span class="global-category__name">{{ category?.name | translate }}</span>
+    </div>
+  </div>
+  <cdk-tree *ngIf="filteredCategories"
+            [dataSource]="filteredCategories"
+            [treeControl]="treeControl"
+            [@showHideSubCategories]
+            (@showHideSubCategories.done)="scrollToSelectedLink()">
+    <cdk-tree-node *cdkTreeNodeDef="let node">
+      <a class="menu-link"
+         *permitted="node.permission"
+         routerLinkActive="active"
+         (click)="setSelectedGlobalCategory(node)"
+         [routerLink]="node.url">
       <span class="xm-menu-item-text" [title]="node?.title | translate">
         {{node?.title | translate}}
       </span>
-    </a>
-  </cdk-tree-node>
+      </a>
+    </cdk-tree-node>
 
-  <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
-    <a class="menu-link"
-       *permitted="node.permission"
-       (click)="toggleOrNavigate(node, $event)"
-       [class.active]="treeControl.isExpanded(node)">
-      <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
-      <span class="xm-menu-item-text">{{node?.title | translate}}</span>
-      <span class="ms-auto"></span>
+    <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
+      <a class="menu-link"
+         *permitted="node.permission"
+         (click)="toggle(node, $event)"
+         [ngClass]="{'active-menu-category': node === parentCategory }">
+        <span class="xm-menu-item-text">{{node?.title | translate}}</span>
+        <span class="ms-auto"></span>
 
-      <mat-icon class="menu-link-icon" (click)="toggle(node, $event)" [@indicatorRotate]="isNodeExpanded(node)">expand_more</mat-icon>
-    </a>
+        <mat-icon class="menu-link-icon" (click)="toggle(node, $event)" [@indicatorRotate]="isNodeExpanded(node)">arrow_drop_up</mat-icon>
+      </a>
 
-    <div class="menu-list" role="group" [@bodyExpansion]="isNodeExpanded(node)">
-      <ng-container cdkTreeNodeOutlet></ng-container>
-    </div>
-  </cdk-nested-tree-node>
-</cdk-tree>
+      <div class="menu-list nested-menu-list" role="group" [@bodyExpansion]="isNodeExpanded(node)">
+        <ng-container cdkTreeNodeOutlet></ng-container>
+      </div>
+    </cdk-nested-tree-node>
+  </cdk-tree>
+</div>
