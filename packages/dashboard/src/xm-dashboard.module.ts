@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
-import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { XmDynamicControllerInjectorFactoryService, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmSharedModule } from '@xm-ngx/shared';
 
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -32,7 +32,7 @@ import { MatRippleModule } from '@angular/material/core';
         MatRippleModule,
     ],
     declarations: [DashboardComponent],
-    providers: [WidgetService, PendingChangesGuard],
+    providers: [WidgetService, PendingChangesGuard, XmDynamicControllerInjectorFactoryService],
 })
 export class XmDashboardModule {
     public static forRoot(): ModuleWithProviders<XmDashboardModule> {

@@ -4,14 +4,12 @@ import { JhiDateUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { createRequestOption } from '@xm-ngx/operators';
 import { Vote } from './vote.model';
 
 @Injectable()
 export class VoteService {
 
     private resourceUrl: string ='entity/api/votes';
-    private resourceSearchUrl: string ='entity/api/_search/votes';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
@@ -33,33 +31,12 @@ export class VoteService {
             map((res: HttpResponse<Vote>) => this.convertResponse(res)));
     }
 
-    public query(req?: any): Observable<HttpResponse<Vote[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<Vote[]>(this.resourceUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<Vote[]>) => this.convertArrayResponse(res)));
-    }
-
     public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
     }
 
-    public search(req?: any): Observable<HttpResponse<Vote[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<Vote[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<Vote[]>) => this.convertArrayResponse(res)));
-    }
-
     private convertResponse(res: HttpResponse<Vote>): HttpResponse<Vote> {
         const body: Vote = this.convertItemFromServer(res.body);
-        return res.clone({body});
-    }
-
-    private convertArrayResponse(res: HttpResponse<Vote[]>): HttpResponse<Vote[]> {
-        const jsonResponse: Vote[] = res.body;
-        const body: Vote[] = [];
-        for (const i of jsonResponse) {
-            body.push(this.convertItemFromServer(i));
-        }
         return res.clone({body});
     }
 

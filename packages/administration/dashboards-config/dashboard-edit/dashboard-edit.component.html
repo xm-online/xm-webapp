@@ -1,12 +1,12 @@
 <form class="p-3 mb-0 h-100">
   <xm-loader [showLoader]="loading$ | async"></xm-loader>
 
-  <div class="d-flex justify-content-between">
+  <div class="d-flex justify-content-between block-sidebar-right-header">
 
     <h4 *ngIf="editType === EditType.Create" class="pt-2">{{ TRS.createDashboard | translate }}</h4>
     <h4 *ngIf="editType === EditType.Edit" class="pt-2">{{ TRS.editDashboard | translate }}</h4>
 
-    <div class="d-flex flex-grow-1 ps-3">
+    <div class="d-flex flex-grow-1 ps-3 header-controls">
 
       <button (click)="onAdd()"
               *ngIf="editType === EditType.Create"

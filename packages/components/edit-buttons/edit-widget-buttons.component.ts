@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import {
     EDIT_ACTION,
     EDIT_EVENT,
@@ -6,8 +6,9 @@ import {
     EditStateStoreService
 } from '@xm-ngx/controllers/features/edit-state-store';
 import { XmEventManager } from '@xm-ngx/core';
-import { injectByKey } from '@xm-ngx/dynamic';
+import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { EditWidgetButtonsConfig } from './edit-widget-buttons.model';
 
 export const XM_EDIT_WIDGET_BUTTONS_CHANGE_EVENT = 'XM_EDIT_WIDGET_BUTTONS_CHANGE_EVENT';
 
@@ -27,6 +28,7 @@ export interface EditWidgetButtonsEvent {
     templateUrl: './edit-widget-buttons.component.html',
 })
 export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
+    public config = inject<EditWidgetButtonsConfig>(XM_DYNAMIC_COMPONENT_CONFIG, { optional: true });
 
     private editStateStore = injectByKey<EditStateStoreService>('edit-state-store', { optional: true });
 

@@ -11,7 +11,6 @@ import { Tag } from './tag.model';
 export class TagService {
 
     private resourceUrl: string ='entity/api/tags';
-    private resourceSearchUrl: string ='entity/api/_search/tags';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
@@ -41,12 +40,6 @@ export class TagService {
 
     public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
-    }
-
-    public search(req?: any): Observable<HttpResponse<Tag[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<Tag[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<Tag[]>) => this.convertArrayResponse(res)));
     }
 
     private convertResponse(res: HttpResponse<Tag>): HttpResponse<Tag> {

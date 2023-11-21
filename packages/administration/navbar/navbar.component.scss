@@ -1,0 +1,50 @@
+@import '@xm-ngx/styles/theming';
+
+
+// TODO; redesign and remove ng-deep
+::ng-deep {
+  .xm-navbar-container {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-wrap: nowrap;
+    align-items: center;
+    max-width: 100%;
+
+    ::ng-deep .navbar-toggler {
+      display: none;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .xm-navbar-container {
+      .navbar-toggler {
+        display: block;
+        margin-right: -5px;
+      }
+    }
+  }
+
+  .xm-guest-layout .xm-nav-logo {
+    // TODO: refactor, implement with .ts
+    display: block !important;
+  }
+}
+
+.navbar {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  z-index: $zindex-sticky;
+}
+
+.xm-navbar-widgets-container {
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 32px;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+  height: 64px;
+  z-index: $zindex-sticky;
+}

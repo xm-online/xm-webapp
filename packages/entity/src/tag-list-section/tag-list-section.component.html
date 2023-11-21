@@ -1,13 +1,15 @@
-<div *ngIf="tagSpecs?.length > 0" class="xm-sources-tags">
-  <div class="holder">
-    <tag-input (onAdd)="onAdd($event)"
-               (onRemove)="onRemove($event)"
-               [(ngModel)]='tags'
-               [displayBy]="'name'"
-               [identifyBy]="'id'"
-               [placeholder]="'xm-entity.tag-list-section.type-tag' | translate"
-               [secondaryPlaceholder]="'xm-entity.tag-list-section.type-tag' | translate"
-               theme="filled-theme">
-    </tag-input>
+<ng-container *ngIf="tagSpecs?.length > 0">
+  <div class="xm-sources-tags" *ngFor="let tagSpec of tagSpecs">
+    <div class="holder">
+      <tag-input (onAdd)="onAdd($event, tagSpec.key)"
+                 (onRemove)="onRemove($event)"
+                 [(ngModel)]='tags[tagSpec.key]'
+                 [displayBy]="'name'"
+                 [identifyBy]="'id'"
+                 [placeholder]="'xm-entity.tag-list-section.type-tag' | translate"
+                 [secondaryPlaceholder]="'xm-entity.tag-list-section.type-tag' | translate"
+                 theme="filled-theme">
+      </tag-input>
+    </div>
   </div>
-</div>
+</ng-container>

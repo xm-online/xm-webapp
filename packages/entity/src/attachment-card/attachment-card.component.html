@@ -1,17 +1,17 @@
 <div class="card card-product">
-    <div (click)="canDownload && onDownload()"
-         [class.cursor-pointer]="canDownload"
-         class="card-header card-header-image attachment-card-image d-flex align-items-center">
-      <img *ngIf="isImage() && imageSrc"
-           [src]="imageSrc"
-           class="img img-fluid"/>
-      <img *ngIf="!isImage() && getFileTypeImage()"
-           [src]="getFileTypeImage()"
-           class="img img-fluid"/>
-      <img *ngIf="!(isImage() && imageSrc) && !(!isImage() && getFileTypeImage())"
-           [src]="'./assets/img/filetypes/filetype-noimg.png'"
-           class="img img-fluid">
+  <div (click)="canDownload && onDownload()"
+       [class.cursor-pointer]="canDownload"
+       class="card-header card-header-image d-flex align-items-center">
+    <div class="img-block" *ngIf="isImage() && imageSrc" [style.background-image]="'url('+imageSrc+')'">
+      <img class="place-holder" [src]="'./assets/img/3x2_transparent.png'" alt="attachment?.name">
     </div>
+    <div class="img-block type-icon" *ngIf="!isImage() && getFileTypeImage()" [style.background-image]="'url('+getFileTypeImage()+')'">
+      <img class="place-holder" [src]="'./assets/img/3x2_transparent.png'" alt="attachment?.name">
+    </div>
+    <div class="img-block type-icon" *ngIf="!(isImage() && imageSrc) && !(!isImage() && getFileTypeImage())" [style.background-image]="'url(./assets/img/filetypes/filetype-noimg.png)'">
+      <img class="place-holder" [src]="'./assets/img/3x2_transparent.png'" alt="attachment?.name">
+    </div>
+  </div>
   <div class="card-body text-center">
     <p class="category"><em>{{attachmentSpec?.name | translate | uppercase}}</em></p>
     <h5 class="card-title attachment-card-title xm-word-wrap">{{attachment?.name}}</h5>

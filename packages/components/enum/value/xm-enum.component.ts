@@ -43,7 +43,7 @@ export class XmEnumComponent implements XmDynamicPresentation<XmEnumValue, XmEnu
         if (config?.titles) {
             this.titles = config?.titles;
             console.warn('"titles" is deprecated use "items" instead!');
-        } else if (config.items) {
+        } else if (config?.items) {
             this.titles = mapValues(keyBy(config.items, 'value'), 'title');
         }
         this._config = config;

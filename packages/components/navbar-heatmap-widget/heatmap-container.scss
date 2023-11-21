@@ -1,0 +1,20 @@
+:host.heatmap-container-wrapper {
+  width:    100%;
+  height:   100%;
+  position: absolute;
+}
+
+#heatmapContainer {
+  width:  100%;
+  height: 100%
+}
+
+:host ::ng-deep .hidden-heatmap .heatmap-canvas {
+  opacity: 0;
+  display: none;
+}
+
+:host ::ng-deep .heatmap-canvas {
+  pointer-events: none;
+  width:          100%;
+}

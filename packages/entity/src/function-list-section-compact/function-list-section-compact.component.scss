@@ -1,40 +1,13 @@
-.limetedWidth {
-    max-width: 160px;
+.block-state-functions {
+  display: flex;
+  margin: 0 0 5px 0;
 
-    @media screen and (max-width: 420px) {
-        max-width: 100%;
-    }
-}
-
-div.displayblock
-{
-    display:block !important;
-}
-
-div.col-auto
-{
-    width:100% !important;
-}
-
-.no-wrap {
-    white-space:   nowrap;
-    max-width:     100%;
-    overflow:      hidden;
+  .xm-state {
+    margin: 0 20px 10px 0;
+    cursor: pointer;
+    white-space: nowrap;
+    max-width: 90%;
+    overflow: hidden;
     text-overflow: ellipsis;
+  }
 }
-
-.func-btn {
-    background: rgb(160,160,160);
-
-    @media screen and (max-width: 420px) {
-        width:   100%;
-        display: block;
-    }
-}
-
-.row-compact{
-    margin-left:0px;
-    margin-right:0px;
-}
-
-

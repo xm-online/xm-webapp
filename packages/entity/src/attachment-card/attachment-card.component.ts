@@ -11,7 +11,6 @@ import { Attachment } from '@xm-ngx/core/entity';
 import { AttachmentService } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
 
-
 @Component({
     selector: 'xm-attachment-card',
     templateUrl: './attachment-card.component.html',

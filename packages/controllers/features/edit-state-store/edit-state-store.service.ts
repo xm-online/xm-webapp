@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { EDIT_EVENT, EDIT_STATE, EDIT_ACTION, EditDisableState } from './edit-state-store.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { cloneDeep } from 'lodash';
+import { PageChangesStore, PageChangesStoreType } from '@xm-ngx/core/dashboard';
 
 @Injectable()
 export class EditStateStoreService {
+    private pageChangesStore= inject(PageChangesStore);
     private state: BehaviorSubject<EDIT_STATE> = new BehaviorSubject<EDIT_STATE>(EDIT_STATE.EDIT);
     public state$: Observable<EDIT_STATE> = this.state.asObservable();
     public disable$: BehaviorSubject<EditDisableState> = new BehaviorSubject<EditDisableState>({
@@ -16,6 +18,11 @@ export class EditStateStoreService {
     public event$: Observable<EDIT_EVENT> = this.event.asObservable();
 
     public change(state: EDIT_STATE): void {
+        if (state === EDIT_STATE.EDIT) {
+            this.pageChangesStore.setState(PageChangesStoreType.EDIT);
+        } else {
+            this.pageChangesStore.setState(PageChangesStoreType.PRISTINE);
+        }
         this.state.next(state);
     }
 

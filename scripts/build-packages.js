@@ -27,6 +27,8 @@ execSync('(cd ./packages/timeline && npm run build && cd ../../)', {stdio: 'inhe
 execSync('(cd ./packages/account && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/dashboard && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/administration && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/common-webapp-ext && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/common-entity-webapp-ext && npm run build && cd ../../)', {stdio: 'inherit'});
 
 // TODO:WORKAROUND next release
 // execSync('(cd ./src/app/ext/example-webapp-ext && npm run build && cd ../../../../)', {stdio: 'inherit'});

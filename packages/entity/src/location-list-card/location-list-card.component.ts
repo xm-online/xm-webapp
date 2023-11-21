@@ -134,7 +134,7 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public onManage(location: any): void {
-        const modalRef = this.modalService.open(LocationDetailDialogComponent, {width: '500px'});
+        const modalRef = this.modalService.open(LocationDetailDialogComponent);
         modalRef.componentInstance.xmEntity = this.xmEntity;
         modalRef.componentInstance.locationSpecs = this.locationSpecs;
         modalRef.componentInstance.location = Object.assign({}, location);

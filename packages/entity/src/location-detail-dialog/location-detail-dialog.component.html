@@ -109,7 +109,7 @@
             <input
               formControlName="city"
               matInput
-              
+
               type="text"
             >
           </mat-form-field>
@@ -140,7 +140,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md">
+        <div class="col-6">
           <mat-form-field>
             <input
               formControlName="latitude"
@@ -157,7 +157,7 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md">
+        <div class="col-5">
           <mat-form-field>
             <input
               formControlName="longitude"
@@ -174,14 +174,12 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md-auto">
+        <div class="col-auto">
           <button
             (click)="applyCoordinates()"
             [disabled]="coordinatesInvalid"
-            class="btn btn-primary btn-icon btn-just-icon rounded-circle"
             mat-icon-button
-            type="button"
-          >
+            type="button">
             <mat-icon>sync</mat-icon>
           </button>
         </div>

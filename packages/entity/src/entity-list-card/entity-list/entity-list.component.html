@@ -205,7 +205,7 @@
               [disabled]="field.sortable === false"
               [mat-sort-header]="field?.field">{{field.title | translate}}</th>
           <td *matCellDef="let xmEntity">
-            <div *ngIf="xmEntity.state" class="xm-state">
+            <div *ngIf="xmEntity.state" class="xm-state color-{{xmEntity.state?.color}}">
               <div [style.background]="xmEntity.state?.color" class="xm-state-icon">
                 <mat-icon>{{xmEntity.state?.icon}}</mat-icon>
               </div>
