@@ -17,6 +17,10 @@ export class ResourceDataService<T extends IId = any> {
 
     private useCache: boolean = false;
 
+    public getSync(): T {
+        return cloneDeep(this.data$.value);
+    }
+
     public get(): Observable<T> {
         if (this.useCache) {
             return this.data$.pipe(shareReplay(1));
