@@ -11,7 +11,6 @@ import { Calendar } from './calendar.model';
 export class CalendarService {
 
     private resourceUrl: string ='entity/api/calendars';
-    private resourceSearchUrl: string ='entity/api/_search/calendars';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
@@ -41,12 +40,6 @@ export class CalendarService {
 
     public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
-    }
-
-    public search(req?: any): Observable<HttpResponse<Calendar[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<Calendar[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<Calendar[]>) => this.convertArrayResponse(res)));
     }
 
     public getEvents(id: number, req?: any): Observable<Event[]> {

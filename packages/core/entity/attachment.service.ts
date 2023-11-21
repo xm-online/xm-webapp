@@ -11,7 +11,6 @@ import { Attachment } from './attachment.model';
 export class AttachmentService {
 
     private resourceUrl: string ='entity/api/attachments';
-    private resourceSearchUrl: string ='entity/api/_search/attachments';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
@@ -41,12 +40,6 @@ export class AttachmentService {
 
     public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
-    }
-
-    public search(req?: any): Observable<HttpResponse<Attachment[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<Attachment[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<Attachment[]>) => this.convertArrayResponse(res)));
     }
 
     private convertResponse(res: HttpResponse<Attachment>): HttpResponse<Attachment> {

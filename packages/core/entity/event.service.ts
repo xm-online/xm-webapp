@@ -12,7 +12,6 @@ import * as moment from 'moment-timezone';
 export class EventService {
 
     private resourceUrl: string ='entity/api/events';
-    private resourceSearchUrl: string ='entity/api/_search/events';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
@@ -42,12 +41,6 @@ export class EventService {
 
     public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
-    }
-
-    public search(req?: any): Observable<HttpResponse<Event[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<Event[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<Event[]>) => this.convertArrayResponse(res)));
     }
 
     private convertResponse(res: HttpResponse<Event>): HttpResponse<Event> {

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "xm-online extension for the core entities",
   "scripts": {
-    "build": "ng-packagr -p . -c ../../../../tsconfig.ngc.json"
+    "build": "ng-packagr -p . -c ../../../../tsconfig.ngc.json",
+    "lint": "cd ../../../../ && eslint src/app/ext/example-webapp-ext",
+    "test": "cd ../../../../ && ng test --include=\"src/app/ext/example-webapp-ext\" --source-map=false"
   },
   "dependencies": {
   },
