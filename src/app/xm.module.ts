@@ -52,6 +52,7 @@ import { XmSharedModule } from '@xm-ngx/shared';
 import { MaintenanceService } from '@xm-ngx/components/maintenance';
 import { XmCoreEntityModule } from '@xm-ngx/core/entity';
 import { UserLoginService } from '@xm-ngx/account/user-login-widget';
+import { XmJsfExtModule } from './xm-jsf-ext.module';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
     appearance: 'fill',
@@ -67,6 +68,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
         HttpClientModule,
         BrowserAnimationsModule,
         XmRoutingModule,
+        XmJsfExtModule,
         XmSharedModule.forRoot(),
         XmCoreModule.forRoot({
             SERVER_API_URL: environment.serverApiUrl,

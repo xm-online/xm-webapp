@@ -4,14 +4,12 @@ import { JhiDateUtils } from 'ng-jhipster';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { createRequestOption } from '@xm-ngx/operators';
 import { Rating } from './rating.model';
 
 @Injectable()
 export class RatingService {
 
     private resourceUrl: string ='entity/api/ratings';
-    private resourceSearchUrl: string ='entity/api/_search/ratings';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
@@ -33,33 +31,17 @@ export class RatingService {
             map((res: HttpResponse<Rating>) => this.convertResponse(res)));
     }
 
-    public query(req?: any): Observable<HttpResponse<Rating[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<Rating[]>(this.resourceUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<Rating[]>) => this.convertArrayResponse(res)));
+    public countVotes(ratingId: number): Observable<{count: number}> {
+        return this.http.get<{count: number}>(`${this.resourceUrl}/${ratingId}/votes/count`, {observe: 'response'}).pipe(
+            map((res: HttpResponse<{count: number}>) => res.body));
     }
 
     public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
     }
 
-    public search(req?: any): Observable<HttpResponse<Rating[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<Rating[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<Rating[]>) => this.convertArrayResponse(res)));
-    }
-
     private convertResponse(res: HttpResponse<Rating>): HttpResponse<Rating> {
         const body: Rating = this.convertItemFromServer(res.body);
-        return res.clone({body});
-    }
-
-    private convertArrayResponse(res: HttpResponse<Rating[]>): HttpResponse<Rating[]> {
-        const jsonResponse: Rating[] = res.body;
-        const body: Rating[] = [];
-        for (const i of jsonResponse) {
-            body.push(this.convertItemFromServer(i));
-        }
         return res.clone({body});
     }
 
@@ -86,4 +68,5 @@ export class RatingService {
         copy.endDate = this.dateUtils.toDate(rating.endDate);
         return copy;
     }
+
 }

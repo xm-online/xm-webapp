@@ -11,7 +11,6 @@ import { Comment } from './comment.model';
 export class CommentService {
 
     private resourceUrl: string ='entity/api/comments';
-    private resourceSearchUrl: string ='entity/api/_search/comments';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
@@ -41,12 +40,6 @@ export class CommentService {
 
     public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
-    }
-
-    public search(req?: any): Observable<HttpResponse<Comment[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<Comment[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<Comment[]>) => this.convertArrayResponse(res)));
     }
 
     private convertResponse(res: HttpResponse<Comment>): HttpResponse<Comment> {

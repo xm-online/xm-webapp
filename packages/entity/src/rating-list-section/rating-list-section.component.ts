@@ -79,12 +79,10 @@ export class RatingListSectionComponent implements OnChanges {
             }
 
             for (const rating of this.ratings) {
-                this.voteService.search({query: `rating.id:${rating.id}`}).subscribe(
-                    (response: HttpResponse<Vote[]>) => {
-                        this.votesNumber[rating.typeKey] = parseInt(response.headers.get('X-Total-Count'), 10);
-                    },
-                    // TODO: error processing
-                    (err) => console.info(err),
+                this.ratingService.countVotes(rating.id).subscribe(
+                    (response: {count: number}) => {
+                        this.votesNumber[rating.typeKey] = response.count;
+                    }
                 );
             }
         });

@@ -10,7 +10,6 @@ import { Location } from './location.model';
 export class LocationService {
 
     private resourceUrl: string ='entity/api/locations';
-    private resourceSearchUrl: string ='entity/api/_search/locations';
 
     constructor(private http: HttpClient) {
     }
@@ -40,12 +39,6 @@ export class LocationService {
 
     public delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, {observe: 'response'});
-    }
-
-    public search(req?: any): Observable<HttpResponse<Location[]>> {
-        const options = createRequestOption(req);
-        return this.http.get<Location[]>(this.resourceSearchUrl, {params: options, observe: 'response'}).pipe(
-            map((res: HttpResponse<Location[]>) => this.convertArrayResponse(res)));
     }
 
     private convertResponse(res: HttpResponse<Location>): HttpResponse<Location> {
