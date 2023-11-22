@@ -85,8 +85,7 @@ export class XmDynamicComponentRegistry {
         if (this.isEntryModule(loaded)) {
             const compiledModule = createNgModule<XmDynamicEntryModule<T>>(loaded as Type<XmDynamicEntryModule<T>>, injector);
             if (compiledModule?.instance?.entry) {
-                // eslint-disable-next-line no-console
-                console.error(`Deprecated solution. Will be removed in v6.0.0. Make selector=${selector} a standalone component`);
+                // modules HAVE TO be supported forever!
                 return {
                     componentType: compiledModule.instance.entry,
                     injector: compiledModule.injector,
