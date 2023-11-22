@@ -9,12 +9,14 @@ export interface XmIconOptions {
     tooltip?: Translate;
     showTooltipDelay?: number;
     tooltipPosition?: TooltipPosition;
+    style?: string;
 }
 
 @Component({
     selector: 'xm-icon',
     template: `
         <mat-icon
+            [style]="config?.style"
             [matTooltip]="config?.tooltip | translate"
             [matTooltipShowDelay]="config?.showTooltipDelay"
             [matTooltipPosition]="config?.tooltipPosition"
