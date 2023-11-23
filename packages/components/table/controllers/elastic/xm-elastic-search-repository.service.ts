@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { SortDirection } from '@angular/material/sort';
 import { XmDynamicService } from '@xm-ngx/dynamic';
-import { XmFilterQueryParams } from '../collections/i-xm-table-collection-controller';
+import { XmFilterQueryParams } from '../../collections/i-xm-table-collection-controller';
 import { Defaults, XmFormatJsTemplateRecursive } from '@xm-ngx/operators';
 import { XmElasticRequestBuilder } from '../elastic/xm-elastic-request-builder.service';
 import { ElasticType } from './xm-table-filters-elastic-string-query';

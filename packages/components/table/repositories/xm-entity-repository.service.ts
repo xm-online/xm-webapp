@@ -12,7 +12,7 @@ import { uuid } from '@xm-ngx/operators';
 import { Injectable } from '@angular/core';
 import { PageableAndSortable } from '@xm-ngx/repositories';
 import { XmDynamicService } from '@xm-ngx/dynamic';
-import { XmFilterQueryParams } from '../controllers/collections/i-xm-table-collection-controller';
+import { XmFilterQueryParams } from '../collections/i-xm-table-collection-controller';
 import {
     XmEntityRepositoryConfig,
 } from '../controllers/elastic/xm-elastic-search-repository.service';

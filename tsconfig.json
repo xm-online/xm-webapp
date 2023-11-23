@@ -33,6 +33,9 @@
       "@xm-ngx/entity/registry": [
         "node_modules/@xm-ngx/entity/registry"
       ],
+      "@xm-ngx/entity/module": [
+        "node_modules/@xm-ngx/entity/module"
+      ],
       "@xm-ngx/entity/card": [
         "node_modules/@xm-ngx/entity/card"
       ],

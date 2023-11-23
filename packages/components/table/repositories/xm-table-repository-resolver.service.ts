@@ -3,7 +3,7 @@ import { IEntityCollection, XmRepositoryConfig } from '@xm-ngx/repositories';
 import { XmDynamicService, XmDynamicServiceFactory } from '@xm-ngx/dynamic';
 import {
     XmTableRepositoryCollectionConfig
-} from '../controllers/collections/xm-table-repository-collection-controller.service';
+} from '../collections/xm-table-repository-collection-controller.service';
 
 @Injectable()
 export class XmTableRepositoryResolver<T> {

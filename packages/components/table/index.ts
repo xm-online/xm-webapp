@@ -26,6 +26,7 @@ export * from './components/xm-table-loading.component';
 export * from './configs/xm-table-config-root.service';
 
 export * from './controllers';
+export * from './collections';
 
 export * from './repositories/xm-http-repository.service';
 export * from './repositories/xm-entity-repository.service';

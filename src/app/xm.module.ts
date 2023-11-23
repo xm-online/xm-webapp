@@ -28,21 +28,7 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
 import { NgxMaskModule } from 'ngx-mask';
-import { XM_DATE_ELEMENTS, XM_LAYOUT_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_HTML_ELEMENTS, XM_ICON_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_COPY_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_LINK_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_ARRAY_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_TABLE_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_NAVBAR_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_DASHBOARD_ELEMENTS } from '@xm-ngx/dashboard/registry';
-import { XM_ADMINISTRATION_ELEMENTS } from '@xm-ngx/administration/registry';
-import { XM_ENTITY_ELEMENTS } from '@xm-ngx/entity/registry';
-import { XM_COMPONENTS_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_ACCOUNT_ELEMENTS } from '@xm-ngx/account/registry';
+
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
 
@@ -66,7 +52,6 @@ import { XmSharedModule } from '@xm-ngx/shared';
 import { MaintenanceService } from '@xm-ngx/components/maintenance';
 import { XmCoreEntityModule } from '@xm-ngx/core/entity';
 import { UserLoginService } from '@xm-ngx/account/user-login-widget';
-import { XM_CONTROLLERS } from '@xm-ngx/controllers/registry';
 import { XmJsfExtModule } from './xm-jsf-ext.module';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
@@ -136,29 +121,64 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
                 selector: 'ext-ext-common-entity',
                 loadChildren: () => import('@xm-ngx/common-entity-webapp-ext').then(m => m.ExtCommonEntityModule),
             },
+            {
+                selector: '@xm-ngx/components',
+                loadChildren: () => import('@xm-ngx/components/module').then(m => m.XmNgxComponentsModule),
+            },
+            {
+                selector: '@xm-ngx/controllers',
+                loadChildren: () => import('@xm-ngx/controllers/module').then(m => m.XmNgxControllersModule),
+            },
+            {
+                selector: '@xm-ngx/dashboard',
+                loadChildren: () => import('@xm-ngx/dashboard/module').then(m => m.XmNgxDashboardModule),
+            },
+            {
+                selector: '@xm-ngx/administration',
+                loadChildren: () => import('@xm-ngx/administration/module').then(m => m.XmNgxAdministrationModule),
+            },
+            {
+                selector: '@xm-ngx/entity',
+                loadChildren: () => import('@xm-ngx/entity/module').then(m => m.XmNgxEntityModule),
+            },
+            {
+                selector: '@xm-ngx/account',
+                loadChildren: () => import('@xm-ngx/account/module').then(m => m.XmNgxAccountModule),
+            },
             // #regionstart dynamic-extension-modules
             // #regionend dynamic-extension-modules
         ]),
-        XmDynamicModule.forRoot([].concat(
-            XM_DATE_ELEMENTS,
-            XM_HTML_ELEMENTS,
-            XM_ICON_ELEMENTS,
-            XM_TEXT_ELEMENTS,
-            XM_BOOL_ELEMENTS,
-            XM_COPY_ELEMENTS,
-            XM_LINK_ELEMENTS,
-            XM_ENUM_ELEMENTS,
-            XM_ARRAY_ELEMENTS,
-            XM_TABLE_ELEMENTS,
-            XM_NAVBAR_ELEMENTS,
-            XM_DASHBOARD_ELEMENTS,
-            XM_ADMINISTRATION_ELEMENTS,
-            XM_COMPONENTS_ELEMENTS,
-            XM_ENTITY_ELEMENTS,
-            XM_ACCOUNT_ELEMENTS,
-            XM_LAYOUT_ELEMENTS,
-            XM_CONTROLLERS,
-        )),
+        XmDynamicModule.forRoot([
+            // TODO: update selector to @x-mgx/entity/*
+            {
+                selector: '@xm-ngx/components/navbar-search-widget',
+                loadChildren: () => import('@xm-ngx/entity/search').then(m => m.XmNavbarSearchWidget),
+            },
+            {
+                selector: '@xm-ngx/components/application-table-menu',
+                loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableMenuComponent),
+            },
+            {
+                selector: '@xm-ngx/components/application-table-state',
+                loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableStateComponent),
+            },
+            {
+                selector: '@xm-ngx/components/application-table-delete-button',
+                loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableDeleteButtonComponent),
+            },
+            {
+                selector: '@xm-ngx/components/application-table-actions',
+                loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableActionsComponent),
+            },
+            {
+                selector: '@xm-ngx/components/application-table-link',
+                loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableLinkComponent),
+            },
+            {
+                selector: '@xm-ngx/components/application-table-repository',
+                loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableRepository),
+            }
+        ]),
         LayoutModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],
