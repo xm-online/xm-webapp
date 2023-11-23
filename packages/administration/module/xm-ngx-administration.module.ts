@@ -82,7 +82,7 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
             },
             {
                 selector: 'dashboards-config-widget',
-                loadChildren: () => import('@xm-ngx/administration/dashboards-config').then(m => m.DashboardsModule),
+                loadChildren: () => import('@xm-ngx/administration/dashboards-config').then(m => m.DashboardsConfigComponent),
             },
             {
                 selector: 'navbar-dashboard-edit-widget',

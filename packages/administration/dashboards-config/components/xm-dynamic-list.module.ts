@@ -3,15 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnInit, Type } from '@angular/core';
 import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import {
-    ExtendedDynamicComponents,
-    WidgetListService,
-} from './widget-edit/widget-list.service';
 import { XmTextControl } from '@xm-ngx/components/text';
 import { XmAceEditorControl } from '@xm-ngx/components/ace-editor';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
+import { ExtendedDynamicComponents, WidgetListService } from './widget-edit/widget-list.service';
 
 @Component({
     selector: 'xm-dynamic-list-widget',

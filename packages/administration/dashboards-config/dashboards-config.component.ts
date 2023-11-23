@@ -9,7 +9,7 @@ import {
     EDIT_WIDGET_EVENT,
     WidgetEditComponent
 } from './components/widget-edit/widget-edit.component';
-import { EDIT_DASHBOARD_EVENT } from '@xm-ngx/administration/dashboards-config/const';
+import { EDIT_DASHBOARD_EVENT } from './const';
 
 export const DASHBOARD_CONFIG_PROVIDER: ValueProvider = {
     provide: DashboardConfig,
