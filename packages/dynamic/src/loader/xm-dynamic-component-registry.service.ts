@@ -1,5 +1,5 @@
 import { createNgModule, Injectable, Injector, NgModuleRef, Type } from '@angular/core';
-import { Dictionary, flatten, keyBy, tail } from 'lodash';
+import { Dictionary, flatten, keyBy } from 'lodash';
 import { XM_DYNAMIC_ENTRIES } from '../dynamic.injectors';
 import { XmDynamicModuleRegistry } from './xm-dynamic-module-registry.service';
 import { NotFoundException } from '@xm-ngx/exceptions';
@@ -16,7 +16,33 @@ export interface XmDynamicComponentRecord<T> {
 }
 
 @Injectable()
-export class XmDynamicComponentRegistry {
+class _XmDynamicComponentRegistry {
+    private readonly entries: Dictionary<XmDynamicEntry>;
+
+    constructor(
+        moduleRef: NgModuleRef<unknown>
+    ) {
+        this.entries = this.getEntriesMap(moduleRef.injector);
+    }
+
+    private getEntriesMap(injector: Injector): Dictionary<XmDynamicEntry> {
+        const entries = injector.get(XM_DYNAMIC_ENTRIES, [[]]);
+        const flattened = flatten(flatten(entries));
+        return keyBy(flattened, 'selector');
+    }
+
+    protected findComponentInRegistry(injector: Injector, selector: string): XmDynamicEntry {
+        const dynamicMap = this.getEntriesMap(injector);
+        return dynamicMap[selector];
+    }
+
+    public contains(selector: string): boolean {
+        return !!this.entries[selector];
+    }
+}
+
+@Injectable()
+export class XmDynamicComponentRegistry extends _XmDynamicComponentRegistry {
 
     private cache: Dictionary<Promise<XmDynamicComponentRecord<unknown>>> = {};
 
@@ -24,6 +50,7 @@ export class XmDynamicComponentRegistry {
         private moduleRef: NgModuleRef<unknown>,
         private dynamicModules: XmDynamicModuleRegistry,
     ) {
+        super(moduleRef);
     }
 
     /**
@@ -39,6 +66,10 @@ export class XmDynamicComponentRegistry {
         //     return this.cache[fullSelector] as Promise<XmDynamicComponentRecord<T>>;
         // }
 
+        if (this.isGlobalSelector(fullSelector)) {
+            return this.cache[fullSelector] = this.resolveComponent<T>(fullSelector, injector, null);
+        }
+
         if (this.isModuleSelector(fullSelector)) {
             return this.cache[fullSelector] = this.loadModule<T>(fullSelector, injector);
         }
@@ -50,7 +81,7 @@ export class XmDynamicComponentRegistry {
         selector: string,
         injector: Injector,
     ): Promise<XmDynamicComponentRecord<T>> {
-        const moduleSelector = selector.split('/')[0];
+        const moduleSelector = this.getModuleSelector(selector);
         const ngModuleRef = await this.dynamicModules.find<T>(moduleSelector, injector);
         const restSelector = selector.replace(moduleSelector + '/', '');
         return this.resolveComponent<T>(restSelector, ngModuleRef.injector, ngModuleRef);
@@ -129,38 +160,24 @@ export class XmDynamicComponentRegistry {
         return res;
     }
 
-    private findComponentInRegistry(injector: Injector, selector: string): XmDynamicEntry {
-
-        if (this.isCoreComponent(selector)) {
-            const entries = this.moduleRef.injector.get(XM_DYNAMIC_ENTRIES, [[]]);
-            const flattened = flatten(entries);
-            const dynamicMap = keyBy(flattened, 'selector');
-
-            return dynamicMap[selector];
-        }
-
-        const entries = injector.get(XM_DYNAMIC_ENTRIES, [[]]);
-        const flattened = flatten(entries);
-        const dynamicMap = keyBy(flattened, 'selector');
-
-        const componentSelector = selector.includes('/')
-            ? tail(selector.split('/')).join('/')
-            : selector;
-        return dynamicMap[componentSelector];
+    private isGlobalSelector(selector: string): boolean {
+        return this.contains(selector);
     }
 
     private isModuleSelector(selector: string): boolean {
-        return !this.isCoreComponent(selector)
-            && this.isSelectorIncludesExtension(selector);
+        const moduleSelector = this.getModuleSelector(selector);
+        return this.dynamicModules.contains(moduleSelector);
     }
 
-    private isSelectorIncludesExtension(selector: string): boolean {
-        return selector.includes('/');
-    }
+    private getModuleSelector(selector: string): string {
+        const parts = selector.split('/');
 
+        const isScopedPackage = selector.startsWith('@');
+        if (isScopedPackage) {
+            return parts.slice(0, 2).join('/');
+        }
 
-    private isCoreComponent(selector: string): boolean {
-        return selector.startsWith('@xm-ngx/');
+        return parts[0];
     }
 
     private simplifyExtSelector(selector: string): string {

@@ -1,8 +1,10 @@
 import { ContentChild, Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import {
-    ColumnsSettingStorageItem,
     IXmTableCollectionController,
     IXmTableCollectionState,
+} from '../collections';
+import {
+    ColumnsSettingStorageItem,
     XmTableColumnsSettingStorageService,
     XmTableFilterController,
     XmTableQueryParamsStoreService,

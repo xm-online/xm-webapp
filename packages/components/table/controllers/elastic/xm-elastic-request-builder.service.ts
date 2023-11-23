@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { XmFilterQueryParams } from '../collections/i-xm-table-collection-controller';
+import { XmFilterQueryParams } from '../../collections/i-xm-table-collection-controller';
 import { PageableAndSortable, QueryParams, QueryParamsPageable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { xmFormatJs } from '@xm-ngx/operators';

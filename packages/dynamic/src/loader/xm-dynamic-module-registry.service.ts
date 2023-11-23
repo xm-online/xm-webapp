@@ -16,7 +16,7 @@ export class XmDynamicModuleRegistry {
         private moduleRef: NgModuleRef<unknown>,
         @Inject(XM_DYNAMIC_EXTENSIONS) dynamicExtensions: XmDynamicExtensionEntry[][],
     ) {
-        const flattened = flatten(dynamicExtensions);
+        const flattened = flatten(flatten(dynamicExtensions));
 
         const duplicates = filter(flattened, (o, i) =>
             find(flattened, (e) => e.selector == o.selector, i + 1)

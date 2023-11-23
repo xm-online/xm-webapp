@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParamsPageable } from '@xm-ngx/repositories';
 import { format } from '@xm-ngx/operators';
 import { isEmpty, set, get, merge, isString, omitBy } from 'lodash';
-import { XmFilterQueryParams } from '../collections/i-xm-table-collection-controller';
+import { XmFilterQueryParams } from '../../collections/i-xm-table-collection-controller';
 import { XmTableQueryParamsToFilter } from '../../table-widget/xm-table-widget.config';
 
 @Injectable()
