@@ -8,7 +8,6 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmDynamicExtensionModule, XmDynamicModule, XmDynamicService } from '@xm-ngx/dynamic';
 import { XmLogger, XmLoggerModule } from '@xm-ngx/logger';
 import { RouterTestingModule } from '@angular/router/testing';
-import { XM_DATE_ELEMENTS, XM_TEXT_ELEMENTS, } from '@xm-ngx/components/registry';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
@@ -62,8 +61,6 @@ export default {
                 XmTranslationTestingModule,
                 ControlErrorModule.forRoot({ errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES }),
                 XmDynamicModule.forRoot([].concat(
-                    XM_DATE_ELEMENTS,
-                    XM_TEXT_ELEMENTS,
                     [
                         {
                             selector: 'xm-repository-mock-service',

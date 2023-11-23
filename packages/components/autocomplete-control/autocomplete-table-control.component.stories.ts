@@ -17,7 +17,6 @@ import { XmAutocompleteControlConfig } from '@xm-ngx/components/autocomplete-con
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { XmTableColumnDynamicCellsOptions } from '@xm-ngx/components/table';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
-import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/registry';
 import { XmAutocompleteTableControl } from './autocomplete-table-control.component';
 
 function StaticLoaderFactory() {
@@ -136,9 +135,7 @@ export default {
                 XmTranslationModule.forRoot(),
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 XmDynamicExtensionModule.forRoot([]),
-                XmDynamicModule.forRoot([].concat(
-                    XM_TEXT_ELEMENTS,
-                )),
+                XmDynamicModule.forRoot([]),
             ],
             providers: [
                 {

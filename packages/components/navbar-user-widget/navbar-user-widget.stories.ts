@@ -11,13 +11,6 @@ import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
 import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { XM_DATE_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_HTML_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_BOOL_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_COPY_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_LINK_ELEMENTS } from '@xm-ngx/components/registry';
-import { XM_ENUM_ELEMENTS } from '@xm-ngx/components/registry';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { MockUserService } from '@xm-ngx/core/user/testing';
@@ -37,15 +30,7 @@ export default {
                 FormsModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 XmDynamicExtensionModule.forRoot([]),
-                XmDynamicModule.forRoot([].concat(
-                    XM_DATE_ELEMENTS,
-                    XM_HTML_ELEMENTS,
-                    XM_TEXT_ELEMENTS,
-                    XM_BOOL_ELEMENTS,
-                    XM_COPY_ELEMENTS,
-                    XM_LINK_ELEMENTS,
-                    XM_ENUM_ELEMENTS,
-                )),
+                XmDynamicModule.forRoot([]),
             ],
             providers: [
                 EntityCollectionFactoryService,

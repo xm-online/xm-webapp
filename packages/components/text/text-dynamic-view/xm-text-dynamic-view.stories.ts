@@ -1,26 +1,11 @@
-import {Meta, moduleMetadata, Story} from '@storybook/angular';
-import {ControlErrorModule} from '@xm-ngx/components/control-error';
-import {HintModule} from '@xm-ngx/components/hint';
-import {XmTextDynamicOptions, XmTextDynamicView} from './xm-text-dynamic-view';
-import {XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES} from '@xm-ngx/components/validator-processing';
-import {
-    XM_ARRAY_ELEMENTS,
-    XM_BOOL_ELEMENTS,
-    XM_COMPONENTS_ELEMENTS,
-    XM_COPY_ELEMENTS,
-    XM_DATE_ELEMENTS,
-    XM_ENUM_ELEMENTS,
-    XM_HTML_ELEMENTS, XM_ICON_ELEMENTS,
-    XM_LINK_ELEMENTS,
-    XM_NAVBAR_ELEMENTS,
-    XM_TABLE_ELEMENTS,
-    XM_TEXT_ELEMENTS
-} from '@xm-ngx/components/registry';
-import {XM_DASHBOARD_ELEMENTS} from '@xm-ngx/dashboard/registry';
-import {XM_ADMINISTRATION_ELEMENTS} from '@xm-ngx/administration/registry';
-import {XmDynamicExtensionModule, XmDynamicModule} from '@xm-ngx/dynamic';
-import {Primitive} from '@xm-ngx/interfaces';
-import {XmTranslationTestingModule} from '@xm-ngx/translation/testing';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { HintModule } from '@xm-ngx/components/hint';
+import { XmTextDynamicOptions, XmTextDynamicView } from './xm-text-dynamic-view';
+import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
+import { Primitive } from '@xm-ngx/interfaces';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 export default {
     title: 'Core/Presentation/Text/Dynamic view',
@@ -32,21 +17,7 @@ export default {
                 HintModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 XmDynamicExtensionModule.forRoot([]),
-                XmDynamicModule.forRoot([].concat(
-                    XM_DATE_ELEMENTS,
-                    XM_HTML_ELEMENTS,
-                    XM_TEXT_ELEMENTS,
-                    XM_BOOL_ELEMENTS,
-                    XM_COPY_ELEMENTS,
-                    XM_LINK_ELEMENTS,
-                    XM_ENUM_ELEMENTS,
-                    XM_ARRAY_ELEMENTS,
-                    XM_TABLE_ELEMENTS,
-                    XM_NAVBAR_ELEMENTS,
-                    XM_DASHBOARD_ELEMENTS,
-                    XM_ICON_ELEMENTS,
-                    XM_ADMINISTRATION_ELEMENTS,
-                    XM_COMPONENTS_ELEMENTS)),
+                XmDynamicModule.forRoot([].concat()),
             ],
         }),
     ],
