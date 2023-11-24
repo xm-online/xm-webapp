@@ -3,7 +3,6 @@ import { Component, forwardRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslateService } from '@ngx-translate/core';
 import { DashboardEditorService } from '../../services/dashboard-editor.service';
 import { DashboardCollection, DashboardConfig } from '../../injectors';
 import { XmAlertService } from '@xm-ngx/alert';
@@ -19,6 +18,7 @@ import { DashboardEditComponent } from './dashboard-edit.component';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { DashboardStore } from '@xm-ngx/dashboard';
 import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 @Component({
     selector: 'xm-text-control, xm-ace-editor-control',
@@ -46,9 +46,11 @@ describe('DashboardEditComponent', () => {
                 HttpClientTestingModule,
                 FormsModule,
                 ReactiveFormsModule,
+                DashboardEditComponent,
+                RouterTestingModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
             ],
-            declarations: [DashboardEditComponent, MockXmTextControlComponent],
+            declarations: [MockXmTextControlComponent],
             providers: [
                 { provide: DashboardCollection, useClass: MockEntityCollection },
                 { provide: DashboardEditorService, useValue: null },
@@ -56,7 +58,6 @@ describe('DashboardEditComponent', () => {
                 { provide: DashboardConfig, useValue: {} },
                 { provide: XmEventManager, useValue: null },
                 { provide: Principal, useValue: null },
-                { provide: TranslateService, useValue: null },
                 { provide: XmToasterService, useValue: null },
                 { provide: DashboardStore, useClass: MockDashboardStore },
             ],

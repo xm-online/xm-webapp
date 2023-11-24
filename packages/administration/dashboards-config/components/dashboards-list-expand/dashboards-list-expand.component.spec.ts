@@ -22,9 +22,10 @@ describe('DashboardsListExpandComponent', () => {
                 HttpClientTestingModule,
                 NoopAnimationsModule,
                 MatSnackBarModule,
-                MatDialogModule
+                MatDialogModule,
+                DashboardsListExpandComponent
             ],
-            declarations: [DashboardsListExpandComponent],
+            declarations: [],
             providers: [
                 { provide: DashboardsManagerService, useValue: { activeWidget: null } },
                 { provide: DashboardEditorService, useValue: null },
