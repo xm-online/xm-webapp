@@ -1,19 +1,21 @@
-import { async, TestBed } from '@angular/core/testing';
-import { XmDynamicComponentRegistry } from './xm-dynamic-component-registry.service';
-import { XmDynamicModuleRegistry } from './xm-dynamic-module-registry.service';
-import { dynamicExtensionModuleInitializer, dynamicModuleInitializer } from '@xm-ngx/dynamic';
-import { Component, NgModule } from '@angular/core';
+import {async, TestBed} from '@angular/core/testing';
+import {XmDynamicComponentRegistry} from './xm-dynamic-component-registry.service';
+import {XmDynamicModuleRegistry} from './xm-dynamic-module-registry.service';
+import {Component, NgModule} from '@angular/core';
+import {XM_DYNAMIC_ENTRIES, XM_DYNAMIC_EXTENSIONS} from '../dynamic.injectors';
 
-@Component({ selector: 'spec-mock-component', template: '' })
+@Component({selector: 'spec-mock-component', template: ''})
 export class MockComponent {
 }
 
 @NgModule({
     providers: [
-        dynamicModuleInitializer([
-            { selector: 'component-selector', loadChildren: () => Promise.resolve(MockComponent) },
-            { selector: 'scope/component-selector', loadChildren: () => Promise.resolve(MockComponent) }
-        ]),
+        {
+            provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: [
+                {selector: 'component-selector', loadChildren: () => Promise.resolve(MockComponent)},
+                {selector: 'scope/component-selector', loadChildren: () => Promise.resolve(MockComponent)}
+            ]
+        },
     ]
 })
 export class MockExtensionModule {
@@ -25,14 +27,21 @@ describe('XmDynamicComponentRegistry', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                dynamicExtensionModuleInitializer([
-                    { selector: 'package', loadChildren: () => Promise.resolve(MockExtensionModule) },
-                    { selector: '@scope/package', loadChildren: () => Promise.resolve(MockExtensionModule) }
-                ]),
-                dynamicModuleInitializer([
-                    { selector: 'global-component-selector', loadChildren: () => Promise.resolve(MockComponent) },
-                    { selector: '@scope/global-component-selector', loadChildren: () => Promise.resolve(MockComponent) }
-                ]),
+                {
+                    provide: XM_DYNAMIC_EXTENSIONS, multi: true, useValue: [
+                        {selector: 'package', loadChildren: () => Promise.resolve(MockExtensionModule)},
+                        {selector: '@scope/package', loadChildren: () => Promise.resolve(MockExtensionModule)}
+                    ]
+                },
+                {
+                    provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: [
+                        {selector: 'global-component-selector', loadChildren: () => Promise.resolve(MockComponent)},
+                        {
+                            selector: '@scope/global-component-selector',
+                            loadChildren: () => Promise.resolve(MockComponent)
+                        }
+                    ]
+                },
                 XmDynamicComponentRegistry,
                 XmDynamicModuleRegistry,
             ],
