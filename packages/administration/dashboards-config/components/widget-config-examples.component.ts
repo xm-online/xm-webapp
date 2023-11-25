@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Injectable, Input } from '@angular/core';
+import {AfterContentInit, Component, Injectable, Input} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { XmCodeContainerModule, XmCodeModule } from '@xm-ngx/components/code';
 import { XmTextControl } from '@xm-ngx/components/text';
@@ -107,7 +107,7 @@ export class WidgetCollectionStore extends WidgetCollection {
     ],
     standalone: true,
 })
-export class WidgetConfigExamplesComponent implements AfterViewInit {
+export class WidgetConfigExamplesComponent implements AfterContentInit {
     @Input() public value: string;
     public formControl: FormControl<string> = new FormControl();
     public loading = false;
@@ -132,7 +132,7 @@ export class WidgetConfigExamplesComponent implements AfterViewInit {
     ) {
     }
 
-    public ngAfterViewInit(): void {
+    public ngAfterContentInit(): void {
         this.formControl.setValue(this.value);
     }
 }

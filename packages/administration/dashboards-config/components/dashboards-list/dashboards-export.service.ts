@@ -5,7 +5,7 @@ import { download } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 import { BehaviorSubject, Observable, zip } from 'rxjs';
 import { delay, finalize, map, take, tap } from 'rxjs/operators';
-import { DashboardCollection, WidgetCollection } from '../injectors';
+import { DashboardCollection, WidgetCollection } from '../../injectors';
 
 export interface DashboardsExport {
     dashboards: Dashboard[];

@@ -1,13 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, forwardRef, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DashboardEditorService } from '../index';
+import { DashboardEditorService } from '../../index';
 import {
     DashboardCollection,
     DashboardConfig,
     WidgetCollection,
-} from '../injectors';
+} from '../../injectors';
 import { XmAlertService } from '@xm-ngx/alert';
 import { MockEntityCollection } from '@xm-ngx/repositories/testing';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
@@ -18,6 +18,9 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { WidgetEditComponent } from './widget-edit.component';
 import {JsonSchemaFormModule} from '@ajsf/core';
 import { MatMenuModule } from '@angular/material/menu';
+import {XM_CONTROL_ERRORS_TRANSLATES, XM_CONTROL_ERRORS_TRANSLATES_DEFAULT} from '@xm-ngx/components/control-error';
+import {XmDynamicExtensionModule, XmDynamicModule} from '@xm-ngx/dynamic';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
     selector: 'xm-schema-editor, xm-text-control, xm-selector-text-control, xm-ace-editor-control',
@@ -47,9 +50,14 @@ describe('WidgetEditComponent', () => {
                 JsonSchemaFormModule,
                 MatMenuModule,
                 MockXmTextControlComponent,
+                WidgetEditComponent,
+                XmDynamicExtensionModule.forRoot([]),
+                XmDynamicModule.forRoot([]),
+                NoopAnimationsModule
             ],
-            declarations: [WidgetEditComponent],
+            declarations: [],
             providers: [
+                { provide: XM_CONTROL_ERRORS_TRANSLATES, useValue: XM_CONTROL_ERRORS_TRANSLATES_DEFAULT },
                 { provide: WidgetCollection, useClass: MockEntityCollection },
                 { provide: DashboardCollection, useClass: MockEntityCollection },
                 { provide: DashboardEditorService, useValue: null },
@@ -58,7 +66,7 @@ describe('WidgetEditComponent', () => {
                 { provide: XmToasterService, useValue: null },
                 XmEventManager,
             ],
-            schemas: [NO_ERRORS_SCHEMA],
+            schemas: [],
         })
             .compileComponents();
     }));

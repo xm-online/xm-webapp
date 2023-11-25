@@ -8,14 +8,16 @@ import {
     DashboardsExportService,
     DashboardsImportService,
     DashboardsManagerService,
-} from '../index';
-import { DashboardCollection, WidgetCollection } from '../injectors';
+} from '../../index';
+import { DashboardCollection, WidgetCollection } from '../../injectors';
 import { MockEntityCollection } from '@xm-ngx/repositories/testing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardsListComponent } from './dashboards-list.component';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { MatDialogModule } from '@angular/material/dialog';
+import {XM_CONTROL_ERRORS_TRANSLATES, XM_CONTROL_ERRORS_TRANSLATES_DEFAULT} from '@xm-ngx/components/control-error';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('DashboardsListComponent', () => {
     let component: DashboardsListComponent;
@@ -30,10 +32,13 @@ describe('DashboardsListComponent', () => {
                 CommonModule,
                 MatSnackBarModule,
                 MatDialogModule,
+                DashboardsListComponent,
+                NoopAnimationsModule,
             ],
-            declarations: [DashboardsListComponent],
+            declarations: [],
             providers: [
                 DatePipe,
+                { provide: XM_CONTROL_ERRORS_TRANSLATES, useValue: XM_CONTROL_ERRORS_TRANSLATES_DEFAULT },
                 { provide: XmToasterService, useValue: {} },
                 { provide: WidgetCollection, useClass: MockEntityCollection },
                 { provide: DashboardCollection, useClass: MockEntityCollection },

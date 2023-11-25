@@ -3,7 +3,7 @@ import { UntypedFormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@ang
 import {
     ExtendedDynamicComponents,
     WidgetListService,
-} from '../widget-list.service';
+} from '../widget-edit/widget-list.service';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmTextControlOptions } from '@xm-ngx/components/text';
 import { XmDynamicControl } from '@xm-ngx/dynamic';

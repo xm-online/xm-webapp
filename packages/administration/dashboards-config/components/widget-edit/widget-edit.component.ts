@@ -7,20 +7,48 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { DASHBOARDS_TRANSLATES } from '../const';
+import { DASHBOARDS_TRANSLATES } from '../../const';
 import { EditType } from '../dashboard-edit/dashboard-edit.component';
-import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../dashboard-editor.service';
-import { DashboardCollection, DashboardConfig, WidgetCollection } from '../injectors';
-import { SchemaEditorOptions } from './schema-editor/schema-editor.component';
-import { XmTranslateService } from '@xm-ngx/translation';
-import { CopiedWidgetObject } from '../../dashboards-config';
+import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../../services/dashboard-editor.service';
+import { DashboardCollection, DashboardConfig, WidgetCollection } from '../../injectors';
+import { SchemaEditorComponent, SchemaEditorOptions } from '../schema-editor/schema-editor.component';
+import { XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
+import { LoaderModule } from '@xm-ngx/components/loader';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ConfigEditorComponent } from '../config-editor.component';
+import { XmTextControl } from '@xm-ngx/components/text';
+import { FormsModule } from '@angular/forms';
+import { WidgetConfigExamplesComponent } from '../widget-config-examples.component';
+import { SelectorTextControlComponent } from '../selector-text-control/selector-text-control.component';
+import { CopiedWidgetObject } from '../dashboards-list-expand/dashboards-list-expand.component';
 
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
 @Component({
+    imports: [
+        LoaderModule,
+        MatTooltipModule,
+        MatIconModule,
+        MatButtonModule,
+        NgIf,
+        WidgetConfigExamplesComponent,
+        MatTabsModule,
+        XmTranslationModule,
+        SelectorTextControlComponent,
+        ConfigEditorComponent,
+        XmTextControl,
+        FormsModule,
+        AsyncPipe,
+        SchemaEditorComponent
+    ],
     selector: 'xm-widget-edit',
-    templateUrl: './widget-edit.component.html',
+    standalone: true,
     styleUrls: ['./widget-edit.component.scss'],
+    templateUrl: './widget-edit.component.html'
 })
 export class WidgetEditComponent implements OnChanges {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;

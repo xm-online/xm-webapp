@@ -4,8 +4,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
     MockWidgetListService
-} from '../testing/mock-widget-list.service';
-import { WidgetListService } from '../widget-list.service';
+} from '../../testing/mock-widget-list.service';
+import { WidgetListService } from '../widget-edit/widget-list.service';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { SelectorTextControlComponent } from './selector-text-control.component';

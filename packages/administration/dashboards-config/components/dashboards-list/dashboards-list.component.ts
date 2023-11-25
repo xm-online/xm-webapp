@@ -1,28 +1,35 @@
 import { ChangeDetectionStrategy, Component, inject, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { expand } from '@xm-ngx/components/animations';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard } from '@xm-ngx/core/dashboard';
 import * as _ from 'lodash';
 import { combineLatest, forkJoin, from, Observable, Subject, switchMap } from 'rxjs';
 import { debounceTime, finalize, map, take, tap, withLatestFrom } from 'rxjs/operators';
-import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES, EDIT_DASHBOARD_EVENT } from '../const';
+import { ACTIONS_COLUMN, DASHBOARDS_TRANSLATES, EDIT_DASHBOARD_EVENT } from '../../const';
 import { DashboardEditComponent } from '../dashboard-edit/dashboard-edit.component';
-import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../dashboard-editor.service';
-import { DashboardsManagerService } from '../dashboards-manager.service';
-import { DashboardCollection, WidgetCollection } from '../injectors';
+import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../../services/dashboard-editor.service';
+import { DashboardsManagerService } from '../../services/dashboards-manager.service';
+import { DashboardCollection, WidgetCollection } from '../../injectors';
 import { DashboardsExportService } from './dashboards-export.service';
 import { DashboardsImportService } from './dashboards-import.service';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { XmTextControl, XmTextControlOptions } from '@xm-ngx/components/text';
-import { Location } from '@angular/common';
+import { AsyncPipe, Location, NgClass, NgIf } from '@angular/common';
 import { readFromClipboard, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { MatDialog } from '@angular/material/dialog';
 import {
     DashboardsListCopyDialogComponent, OPERATIONS,
-} from '../dashboards-list/dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
+} from '../dashboards-list-copy-dialog/dashboards-list-copy-dialog.component';
 import { XmToasterService } from '@xm-ngx/toaster';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmBoolComponent } from '@xm-ngx/components/bool';
+import { XmExpansionIndicatorModule } from '@xm-ngx/components/expansion-indicator';
+import { DashboardsListExpandComponent } from '../dashboards-list-expand/dashboards-list-expand.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { cloneDeep } from 'lodash';
 
 const EXPORT_FILENAME = 'dashboards';
@@ -40,14 +47,37 @@ const columnMap = {
 };
 
 @Component({
+    standalone: true,
     selector: 'xm-dashboards-list',
     templateUrl: './dashboards-list.component.html',
     styleUrls: ['./dashboards-list.component.scss'],
     animations: [
         expand,
     ],
-    providers: [DashboardEditorService, DashboardsExportService, DashboardsImportService, DashboardsManagerService],
+    providers: [
+        DashboardEditorService,
+        DashboardsExportService,
+        DashboardsImportService,
+        DashboardsManagerService,
+    ],
     changeDetection: ChangeDetectionStrategy.Default,
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        XmTextControl,
+        MatTableModule,
+        CdkDropList,
+        AsyncPipe,
+        XmTranslationModule,
+        CdkDrag,
+        RouterLink,
+        XmBoolComponent,
+        XmExpansionIndicatorModule,
+        DashboardsListExpandComponent,
+        MatTooltipModule,
+        NgClass,
+        NgIf
+    ]
 })
 export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;

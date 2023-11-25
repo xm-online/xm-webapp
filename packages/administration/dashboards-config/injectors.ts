@@ -1,6 +1,7 @@
 import { Injectable, Type } from '@angular/core';
 import { EntityCollectionBase, EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { Dashboard, DashboardWidget } from '@xm-ngx/core/dashboard';
+
 import { DASHBOARD_API_URL, DASHBOARD_WIDGET_API_URL } from './const';
 
 export class DashboardConfig {

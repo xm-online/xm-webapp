@@ -1,18 +1,14 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 
 import { UserRouteAccessService } from '@xm-ngx/core/permission';
 import { specificationMngRoute } from './specification-mng.route';
 
-const ADMIN_CONFIG_ROUTES = [
-    ...specificationMngRoute,
-];
 
-export const adminConfigState: Routes = [{
+export const ADMIN_CONFIG_ROUTE: Route = {
     path: '',
     data: {
         authorities: ['ROLE_ADMIN'],
     },
     canActivateChild: [UserRouteAccessService],
-    children: ADMIN_CONFIG_ROUTES,
-},
-];
+    children: [specificationMngRoute],
+};
