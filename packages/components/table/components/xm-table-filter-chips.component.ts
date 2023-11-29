@@ -64,7 +64,7 @@ export interface XmTableFilterInlineFilter {
                                  selected
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
-                                                   [value]="filter.title | translate"
+                                                   [value]="filter.title"
                                                    [disabled]="filter.config?.disabled"
                                                    (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
@@ -269,7 +269,7 @@ export class XmTableFilterChipsComponent {
                 return {
                     ...tableFilterInlineFilter,
                     value: this.value[config.name],
-                    title: config['title'] || this.value[config.name],
+                    title: this.value[config.name],
                 } as XmTableFilterInlineFilter;
             }));
     }
