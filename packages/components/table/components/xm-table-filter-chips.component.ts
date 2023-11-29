@@ -150,8 +150,6 @@ export interface XmTableFilterInlineFilter {
         MatMenuModule,
         XmTableFilterChipsControlComponent,
         XmTranslationModule,
-        XmTranslationModule,
-        XmTranslationModule,
     ],
 })
 export class XmTableFilterChipsComponent {
