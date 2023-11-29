@@ -3,15 +3,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTableConfig } from '@xm-ngx/components/table';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
     selector: 'xm-table-expand-panel-button',
     standalone: true,
     template: `
         <div class="expanded-button" (click)="change()">
-            <mat-icon *ngIf="!config.isCollapsed">keyboard_arrow_up</mat-icon>
-            <mat-icon *ngIf="config.isCollapsed">keyboard_arrow_down</mat-icon>
+            <mat-icon [ngClass]="{'rotate-down': config?.isCollapsed}">keyboard_arrow_up</mat-icon>
         </div>
     `,
     styles: [`
@@ -19,12 +18,18 @@ import { NgIf } from '@angular/common';
             margin-left: 5px;
             cursor: pointer;
         }
+
+        .expanded-button  .rotate-down {
+            transform: rotate(180deg);
+            transition: 0ms transform;
+        }
     `],
     imports: [
         MatButtonModule,
         XmTranslationModule,
         MatIconModule,
-        NgIf
+        NgIf,
+        NgClass
     ],
 })
 export class XmTableExpandPanelButtonComponent {
