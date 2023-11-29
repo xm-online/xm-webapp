@@ -21,7 +21,6 @@ import { NgClass, NgIf } from '@angular/common';
 
         .expanded-button  .rotate-down {
             transform: rotate(180deg);
-            transition: 0ms transform;
         }
     `],
     imports: [
