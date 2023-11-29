@@ -251,7 +251,7 @@ export class XmTableFilterChipsComponent {
                     name: config.name,
                 }
                 if(isArray(this.value[config.name])){
-                    return (this.value[config.name] as Primitive[]).map((value) => {
+                    return (this.value[config.name] as Primitive[]).map(value => {
                         let title;
                         if(config['title']) {
                             title = config['title'][value] ? config['title'][value] : config.name;
