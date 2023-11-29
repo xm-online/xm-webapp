@@ -29,6 +29,8 @@ import { XmTableSelectionDirective } from '../directives/xm-table-selection.dire
 import { XmTableDirective } from '../directives/xm-table.directive';
 import { XM_TABLE_CONFIG_DEFAULT } from '../directives/xm-table.model';
 import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-widget.config';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { XmTableExpandPanelButtonComponent } from '../components/xm-table-expand-panel-button.component';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -71,9 +73,17 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         XmTableMatSortAdapterDirective,
         XmTableLoadingColumnComponent,
         XmTableLoadingComponent,
+        XmTableExpandPanelButtonComponent
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,
+    ],
+    animations: [
+        trigger('tableExpand', [
+            state('collapsed', style({height: '0px', minHeight: '0'})),
+            state('expanded', style({height: '*'})),
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
     ],
 })
 export class XmTableWidget {
