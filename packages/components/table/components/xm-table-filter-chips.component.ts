@@ -7,7 +7,7 @@ import {
 } from './xm-table-filter-button-dialog-controls.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import * as _ from 'lodash';
-import { cloneDeep, isArray } from 'lodash';
+import { cloneDeep, flatten, isArray } from 'lodash';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy, } from '@xm-ngx/operators';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import { MatChipsModule } from '@angular/material/chips';
@@ -41,7 +41,7 @@ const DEFAULT_CONFIG: XmTableInlineFilterChipsConfig = {
 };
 
 export interface XmTableFilterInlineFilter {
-    title: Translate;
+    title: Translate | Record<string, Translate>;
     config: FormLayoutItem;
     inlineConfig: XmInlineControlConfig;
     value: string | string[];
@@ -63,7 +63,7 @@ export interface XmTableFilterInlineFilter {
                                  selected
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
-                                                   [value]="createValueView(filter)"
+                                                   [value]="filter.title | translate"
                                                    [disabled]="filter.config?.disabled"
                                                    (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
@@ -99,7 +99,7 @@ export interface XmTableFilterInlineFilter {
                                  color="accent"
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
-                                                   [value]="filter.value"
+                                                   [value]="filter.title | translate"
                                                    [disabled]="filter.config?.disabled"
                                                    (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
@@ -149,6 +149,9 @@ export interface XmTableFilterInlineFilter {
         MatIconModule,
         MatMenuModule,
         XmTableFilterChipsControlComponent,
+        XmTranslationModule,
+        XmTranslationModule,
+        XmTranslationModule,
     ],
 })
 export class XmTableFilterChipsComponent {
@@ -193,7 +196,11 @@ export class XmTableFilterChipsComponent {
 
     public remove(filter: XmTableFilterInlineFilter): void {
         const copy = cloneDeep(this.value);
-        delete copy[filter.name];
+        if(isArray(copy[filter.name])){
+            copy[filter.name] = (copy[filter.name] as any[]).filter(value => value !== filter.value)
+        }else {
+            delete copy[filter.name];
+        }
         this.entitiesRequestBuilder.set(copy);
     }
 
@@ -228,7 +235,7 @@ export class XmTableFilterChipsComponent {
     }
 
     private getChipsFilters(): XmTableFilterInlineFilter[] {
-        return this.config.filters
+        return flatten(this.config.filters
             .filter(i => !!this.value[i.name])
             .map((config) => {
                 const overrideView =
@@ -238,19 +245,34 @@ export class XmTableFilterChipsComponent {
                     view: overrideView as XmInlineControlDynamicView<unknown, unknown>,
                     edit: config as XmInlineControlDynamic<unknown>,
                 };
+                if(isArray(this.value[config.name])){
+                    return (this.value[config.name] as any[]).map((value, index) => {
+                        let title;
+                        if(config['title']) {
+                            title = config['title'][value] ? config['title'][value] : config.name;
+                        } else {
+                            title = config['title'] || config.name;
+                        }
+                        return {
+                            config: config,
+                            inlineConfig: inlineConfig,
+                            value: value,
+                            removable: config?.removable !== false,
+                            title: title,
+                            name: config.name,
+                        } as XmTableFilterInlineFilter;
+                    })
+                }
+
                 return {
                     config: config,
                     inlineConfig: inlineConfig,
                     value: this.value[config.name],
                     removable: config?.removable !== false,
-                    title: config['title'] || config.name,
+                    title: config['title'] || this.value[config.name],
                     name: config.name,
                 } as XmTableFilterInlineFilter;
-            });
-    }
-
-    public createValueView(filter: XmTableFilterInlineFilter): string {
-        return isArray(filter.value) ? filter.value.join(', ') : filter.value;
+            }));
     }
 
 }
