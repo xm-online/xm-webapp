@@ -22,6 +22,7 @@ import {
     XmInlineControlDynamicView,
 } from '@xm-ngx/components/inline-control';
 import { XmTableFilterChipsControlComponent } from './xm-table-filter-chips-control.component';
+import { Primitive } from '@xm-ngx/interfaces';
 
 export interface XmTableInlineFilterFormLayoutItem extends FormLayoutItem {
     removable?: boolean;
@@ -195,7 +196,7 @@ export class XmTableFilterChipsComponent {
     public remove(filter: XmTableFilterInlineFilter): void {
         const copy = cloneDeep(this.value);
         if(isArray(copy[filter.name])){
-            copy[filter.name] = (copy[filter.name] as any[]).filter(value => value !== filter.value)
+            copy[filter.name] = (copy[filter.name] as Primitive[]).filter(value => value !== filter.value)
         }else {
             delete copy[filter.name];
         }
@@ -243,8 +244,14 @@ export class XmTableFilterChipsComponent {
                     view: overrideView as XmInlineControlDynamicView<unknown, unknown>,
                     edit: config as XmInlineControlDynamic<unknown>,
                 };
+                const tableFilterInlineFilter = {
+                    config,
+                    inlineConfig,
+                    removable: !config?.removable,
+                    name: config.name,
+                }
                 if(isArray(this.value[config.name])){
-                    return (this.value[config.name] as any[]).map((value, index) => {
+                    return (this.value[config.name] as Primitive[]).map((value) => {
                         let title;
                         if(config['title']) {
                             title = config['title'][value] ? config['title'][value] : config.name;
@@ -252,23 +259,17 @@ export class XmTableFilterChipsComponent {
                             title = config['title'] || config.name;
                         }
                         return {
-                            config: config,
-                            inlineConfig: inlineConfig,
-                            value: value,
-                            removable: config?.removable !== false,
-                            title: title,
-                            name: config.name,
+                            ...tableFilterInlineFilter,
+                            value,
+                            title,
                         } as XmTableFilterInlineFilter;
                     })
                 }
 
                 return {
-                    config: config,
-                    inlineConfig: inlineConfig,
+                    ...tableFilterInlineFilter,
                     value: this.value[config.name],
-                    removable: config?.removable !== false,
                     title: config['title'] || this.value[config.name],
-                    name: config.name,
                 } as XmTableFilterInlineFilter;
             }));
     }
