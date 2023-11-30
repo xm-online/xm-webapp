@@ -19,9 +19,10 @@ import { BehaviorSubject, combineLatestWith, Observable, Subject, Subscription }
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { QueryParams } from '@xm-ngx/repositories';
+import { Primitive } from '@xm-ngx/interfaces';
 
 export interface FiltersControlValue extends QueryParams {
-    [key: string]: string | object | number;
+    [key: string]: string | object | number | Primitive[];
 }
 
 
