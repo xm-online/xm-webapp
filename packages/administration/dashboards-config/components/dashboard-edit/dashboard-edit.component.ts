@@ -29,6 +29,7 @@ import { LoaderModule } from '@xm-ngx/components/loader';
 import { RouterLink } from '@angular/router';
 import { ConfigurationHistoryComponent } from '../../configuration-history/configuration-history.component';
 import { HistoryEvent } from '@xm-ngx/administration/dashboards-config/configuration-history/models/config-history.model';
+import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
 
 export enum EditType {
     Create = 1,
@@ -63,6 +64,7 @@ const uniqValueInListValidator = (stream: Observable<any[]>) => (control: Abstra
     ],
     templateUrl: './dashboard-edit.component.html',
     styleUrls: ['./dashboard-edit.component.scss'],
+    providers: [DashboardsConfigHistoryService],
 })
 export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
@@ -111,7 +113,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
             },
         },
     };
-    public historyEvents: Observable<HistoryEvent[]>;
+    public configHistoryEvents: Observable<HistoryEvent[]>;
+    public layoutHistoryEvents: Observable<HistoryEvent[]>;
 
     private dashboardList$: Observable<Dashboard[]> = this.dashboardService.dashboards$().pipe(
         takeUntilOnDestroy(this),
@@ -135,6 +138,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         protected readonly xmTranslateService: XmTranslateService,
         protected readonly translateService: TranslateService,
         protected readonly toasterService: XmToasterService,
+        protected readonly dashboardsConfigHistoryService: DashboardsConfigHistoryService,
     ) {
         this.loading$ = this.dashboardCollection.loading$.pipe(
             delay(0),
@@ -159,7 +163,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
         if (value && value.id) {
             this.editType = EditType.Edit;
-            this.historyEvents = this.dashboardCollection.getHistoryById(value.id);
+            this.configHistoryEvents = this.dashboardsConfigHistoryService.dashboardConfigHistory(value.id);
+            this.layoutHistoryEvents = this.dashboardsConfigHistoryService.dashboardLayoutHistory(value.id);
         } else {
             this.editType = EditType.Create;
         }

@@ -26,6 +26,7 @@ import { WidgetConfigExamplesComponent } from '../widget-config-examples.compone
 import { SelectorTextControlComponent } from '../selector-text-control/selector-text-control.component';
 import { CopiedWidgetObject } from '../dashboards-list-expand/dashboards-list-expand.component';
 import { ConfigurationHistoryComponent } from '../../configuration-history/configuration-history.component';
+import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
 
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
@@ -50,7 +51,8 @@ export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
     selector: 'xm-widget-edit',
     standalone: true,
     styleUrls: ['./widget-edit.component.scss'],
-    templateUrl: './widget-edit.component.html'
+    templateUrl: './widget-edit.component.html',
+    providers: [ DashboardsConfigHistoryService ],
 })
 export class WidgetEditComponent implements OnChanges {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
@@ -71,7 +73,7 @@ export class WidgetEditComponent implements OnChanges {
 
     public selectedIndex: number = 1;
 
-    public historyEvents = this.widgetService.getHistoryById(42);
+    public historyEvents;
 
     constructor(
         protected readonly widgetService: WidgetCollection,
@@ -81,7 +83,9 @@ export class WidgetEditComponent implements OnChanges {
         protected readonly dashboardConfig: DashboardConfig,
         protected readonly alertService: XmAlertService,
         protected readonly xmTranslateService: XmTranslateService,
-        protected readonly toasterService: XmToasterService) {
+        protected readonly toasterService: XmToasterService,
+        protected readonly dashboardsConfigHistoryService: DashboardsConfigHistoryService,
+    ) {
         this.loading$ = this.widgetService.loading$.pipe(tap((i) => this.disabled = i));
     }
 
@@ -97,6 +101,7 @@ export class WidgetEditComponent implements OnChanges {
 
         if (value && value.id) {
             this.editType = EditType.Edit;
+            this.historyEvents = this.dashboardsConfigHistoryService.widgetConfigHistory(value.id);
         } else {
             this.editType = EditType.Create;
         }

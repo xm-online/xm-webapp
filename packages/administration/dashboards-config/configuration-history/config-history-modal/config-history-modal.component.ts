@@ -54,7 +54,7 @@ export class ConfigHistoryModalComponent implements OnInit {
         title: '',
         mode: XmAceEditorControlModeEnum.JSON,
         height: 'calc(100vh - 350px)',
-        type: XmAceEditorControlTypeEnum.OBJECT,
+        type: XmAceEditorControlTypeEnum.STRING,
     };
 
     public ngOnInit(): void {

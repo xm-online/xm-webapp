@@ -8,20 +8,25 @@ import { ConfigHistoryModalComponent } from './config-history-modal/config-histo
 import { HistoryEvent } from './models/config-history.model';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { DASHBOARDS_TRANSLATES } from '@xm-ngx/administration/dashboards-config';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
     selector: 'xm-configuration-history',
     standalone: true,
-    imports: [CommonModule, MatButtonModule, MatTooltipModule, MatIconModule],
+    imports: [CommonModule, MatButtonModule, MatTooltipModule, MatIconModule, XmTranslationModule, MatBadgeModule],
     templateUrl: './configuration-history.component.html',
     styleUrls: ['./configuration-history.component.scss'],
 })
 export class ConfigurationHistoryComponent {
-    private dialogService = inject(MatDialog);
+    public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
+
+    private dialogService: MatDialog = inject(MatDialog);
     @Input() public historyEvents: Observable<HistoryEvent[]>;
 
     public onClick(): void {
-        this.historyEvents.pipe(take(1)).subscribe((history) => {
+        this.historyEvents.pipe(take(1)).subscribe(history => {
             if (!history || !history.length) {
                 // TODO handle no history state
                 return;

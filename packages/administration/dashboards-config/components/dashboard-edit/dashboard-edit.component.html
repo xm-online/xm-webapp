@@ -26,8 +26,6 @@
         <mat-icon>save</mat-icon>
       </button>
 
-      <xm-configuration-history [historyEvents]="historyEvents"></xm-configuration-history>
-
       <button (click)="onDuplicate()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!valid || disabled"
@@ -102,7 +100,13 @@
         </xm-dashboards-list-expand>
       </mat-tab>
 
-      <mat-tab [label]="TRS.config | translate">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="d-flex align-items-center gap-5">
+            <span> {{TRS.config | translate}} </span>
+            <xm-configuration-history [historyEvents]="configHistoryEvents"></xm-configuration-history>
+          </div>
+        </ng-template>
         <xm-ace-editor-control [formControl]="configControl"
                                [disabled]="disabled"
                                [config]="aceEditorOptions"
@@ -110,7 +114,13 @@
         </xm-ace-editor-control>
       </mat-tab>
 
-      <mat-tab [label]="TRS.layout | translate">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="d-flex align-items-center gap-5">
+            <span> {{TRS.layout | translate}} </span>
+            <xm-configuration-history [historyEvents]="layoutHistoryEvents"></xm-configuration-history>
+          </div>
+        </ng-template>
         <xm-ace-editor-control [formControl]="layoutControl"
                                [disabled]="disabled"
                                [config]="aceEditorOptions"
