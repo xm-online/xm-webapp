@@ -27,3 +27,13 @@ export interface AuditContent {
     revInfo: { lastModifiedBy: string; revtstmp: Date; rev: number };
     operation: 'ADD' | 'MOD';
 }
+
+export interface HistoryModalConfig {
+    itemType: 'dashboard' | 'widget';
+    itemName: string;
+    changesType: 'config' | 'layout';
+}
+export interface HistoryModalData {
+    events: HistoryEvent[];
+    config: HistoryModalConfig;
+}

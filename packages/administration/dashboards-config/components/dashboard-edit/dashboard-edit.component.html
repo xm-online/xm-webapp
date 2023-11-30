@@ -104,7 +104,7 @@
         <ng-template mat-tab-label>
           <div class="d-flex align-items-center gap-5">
             <span> {{TRS.config | translate}} </span>
-            <xm-configuration-history [historyEvents]="configHistoryEvents"></xm-configuration-history>
+            <xm-configuration-history [historyEvents]="configHistoryEvents" [config]="{itemType: 'dashboard', itemName: value?.name, changesType: 'config'}"></xm-configuration-history>
           </div>
         </ng-template>
         <xm-ace-editor-control [formControl]="configControl"
@@ -118,7 +118,7 @@
         <ng-template mat-tab-label>
           <div class="d-flex align-items-center gap-5">
             <span> {{TRS.layout | translate}} </span>
-            <xm-configuration-history [historyEvents]="layoutHistoryEvents"></xm-configuration-history>
+            <xm-configuration-history [historyEvents]="layoutHistoryEvents" [config]="{itemType: 'dashboard', itemName: value?.name, changesType: 'layout'}"></xm-configuration-history>
           </div>
         </ng-template>
         <xm-ace-editor-control [formControl]="layoutControl"

@@ -28,8 +28,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { RouterLink } from '@angular/router';
 import { ConfigurationHistoryComponent } from '../../configuration-history/configuration-history.component';
-import { HistoryEvent } from '@xm-ngx/administration/dashboards-config/configuration-history/models/config-history.model';
 import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
+import { HistoryEvent } from '../../configuration-history/models/config-history.model';
 
 export enum EditType {
     Create = 1,

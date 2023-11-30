@@ -10,11 +10,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatListModule } from '@angular/material/list';
-import { HistoryEvent } from '../models/config-history.model';
+import { HistoryEvent, HistoryModalConfig, HistoryModalData } from '../models/config-history.model';
 import { AceDiffControlComponent, XmAceEditorControl, XmAceEditorControlModeEnum, XmAceEditorControlOptions, XmAceEditorControlTypeEnum } from '@xm-ngx/components/ace-editor';
 import { XmDateTimePipe } from '@xm-ngx/translation/pipes';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
+import { XmDateComponent } from '@xm-ngx/components/date';
 
 @Component({
     selector: 'xm-config-history-modal',
@@ -38,29 +39,29 @@ import { MatBadgeModule } from '@angular/material/badge';
         MatCardModule,
         XmDateTimePipe,
         MatBadgeModule,
-        XmTranslationModule,
+        XmDateComponent,
     ],
     templateUrl: './config-history-modal.component.html',
     styleUrls: ['./config-history-modal.component.scss'],
 })
 export class ConfigHistoryModalComponent implements OnInit {
-    private data = inject(MAT_DIALOG_DATA);
+    private data = inject<HistoryModalData>(MAT_DIALOG_DATA);
     public prevConfig: string;
     public prevDate: Date;
-    public historyEvents: HistoryEvent[] = this.data;
+    public historyEvents: HistoryEvent[] = this.data.events;
+    public modalConfig: HistoryModalConfig= this.data.config;
     public activeEvent: HistoryEvent;
 
     public aceEditorOptions: XmAceEditorControlOptions = {
         title: '',
         mode: XmAceEditorControlModeEnum.JSON,
-        height: 'calc(100vh - 350px)',
         type: XmAceEditorControlTypeEnum.STRING,
     };
 
     public ngOnInit(): void {
         setTimeout(() => {
             this.setPrevValues(0);
-            this.activeEvent = this.data?.[0];
+            this.activeEvent = this.historyEvents?.[0];
         }, 150);
     }
 
