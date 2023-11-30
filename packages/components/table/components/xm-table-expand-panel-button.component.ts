@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
-import { XmTableConfig } from '@xm-ngx/components/table';
 import { NgClass, NgIf } from '@angular/common';
+import { XmTableConfig } from '../directives/xm-table.model';
 
 @Component({
     selector: 'xm-table-expand-panel-button',
