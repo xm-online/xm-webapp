@@ -1,4 +1,4 @@
-<form class="p-3 mb-0 h-100">
+<form class="p-3 mb-0 h-100" (ngSubmit)="$event.preventDefault()">
   <xm-loader [showLoader]="loading$ | async"></xm-loader>
 
   <div class="d-flex justify-content-between block-sidebar-right-header">

@@ -25,6 +25,7 @@ import { FormsModule } from '@angular/forms';
 import { WidgetConfigExamplesComponent } from '../widget-config-examples.component';
 import { SelectorTextControlComponent } from '../selector-text-control/selector-text-control.component';
 import { CopiedWidgetObject } from '../dashboards-list-expand/dashboards-list-expand.component';
+import { ConfigurationHistoryComponent } from '../../configuration-history/configuration-history.component';
 
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
@@ -43,7 +44,8 @@ export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
         XmTextControl,
         FormsModule,
         AsyncPipe,
-        SchemaEditorComponent
+        SchemaEditorComponent,
+        ConfigurationHistoryComponent,
     ],
     selector: 'xm-widget-edit',
     standalone: true,

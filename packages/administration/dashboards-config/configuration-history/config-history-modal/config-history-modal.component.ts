@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +11,7 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatListModule } from '@angular/material/list';
 import { HistoryEvent } from '../models/config-history.model';
-import { XmAceEditorControl, XmAceEditorControlOptions, AceDiffControlComponent } from '@xm-ngx/components/ace-editor';
+import { AceDiffControlComponent, XmAceEditorControl, XmAceEditorControlModeEnum, XmAceEditorControlOptions, XmAceEditorControlTypeEnum } from '@xm-ngx/components/ace-editor';
 import { XmDateTimePipe } from '@xm-ngx/translation/pipes';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -43,24 +43,25 @@ import { MatBadgeModule } from '@angular/material/badge';
     templateUrl: './config-history-modal.component.html',
     styleUrls: ['./config-history-modal.component.scss'],
 })
-export class ConfigHistoryModalComponent implements OnInit{
-    private data = inject(MAT_DIALOG_DATA)
-
-        ;
+export class ConfigHistoryModalComponent implements OnInit {
+    private data = inject(MAT_DIALOG_DATA);
     public prevConfig: string;
     public prevDate: Date;
     public historyEvents: HistoryEvent[] = this.data;
     public activeEvent: HistoryEvent;
 
-    public aceEditorOptions: XmAceEditorControlOptions = { title: '', mode: 'json', height: 'calc(100vh - 350px)' };
+    public aceEditorOptions: XmAceEditorControlOptions = {
+        title: '',
+        mode: XmAceEditorControlModeEnum.JSON,
+        height: 'calc(100vh - 350px)',
+        type: XmAceEditorControlTypeEnum.OBJECT,
+    };
 
     public ngOnInit(): void {
-        setTimeout(() =>{
+        setTimeout(() => {
             this.setPrevValues(0);
             this.activeEvent = this.data?.[0];
         }, 150);
-
-
     }
 
     public onEventClicked(event: HistoryEvent, eventIndex: number): void {
@@ -72,7 +73,7 @@ export class ConfigHistoryModalComponent implements OnInit{
         return event === this.historyEvents[0];
     }
 
-    private setPrevValues(index: number): void{
+    private setPrevValues(index: number): void {
         const prevEvent = this.historyEvents[index + 1];
         this.prevConfig = prevEvent?.config ?? '{}';
         this.prevDate = prevEvent?.date ?? null;
