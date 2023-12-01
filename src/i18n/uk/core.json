@@ -213,7 +213,14 @@
     "selector": "Селектор",
     "typeKey": "TypeKey",
     "updated": "Оновлено {{value}}",
-    "widgets": "Віджети"
+    "widgets": "Віджети",
+    "historyChangesBtnTitle": "Історія змін",
+    "change-history": "Історія змін",
+    "type": "Тип",
+    "changed-type": "Зміни в",
+    "no-active": "Відстуня активна подія історії.",
+    "change-lists": "Перелік змін" ,
+    "empty-history": "Відстуні записи в історії."
   },
   "date-time-picker": {
     "labels": {

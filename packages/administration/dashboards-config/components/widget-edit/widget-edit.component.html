@@ -32,7 +32,7 @@
               mat-icon-button>
         <mat-icon>save</mat-icon>
       </button>
-
+      <xm-configuration-history [historyEvents]="historyEvents" [config]="{itemType: 'widget', itemName: value?.name, changesType: 'config'}"></xm-configuration-history>
       <button (click)="onCopyToClipboard()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!form.valid || disabled"
