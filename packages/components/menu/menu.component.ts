@@ -22,7 +22,7 @@ import {Translate, XmTranslateService, XmTranslationModule} from '@xm-ngx/transl
 import {CommonModule, DOCUMENT} from '@angular/common';
 import {XmPermissionModule} from '@xm-ngx/core/permission';
 import {ConditionDirective} from '@xm-ngx/components/condition';
-import {showHideSubCategories} from '@xm-ngx/dashboard/menu/menu.animtion';
+import {showHideSubCategories} from './menu.animation';
 
 export type ISideBarConfig = {
     sidebar?: {

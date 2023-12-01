@@ -4,29 +4,37 @@
 <xm-maintenance-view></xm-maintenance-view>
 
 <xm-heatmap-container>
-    <div class="wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}">
+    <div style="display: flex;" class="wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}">
       <div xmGuestBackground></div>
+      <div
+        style="height: 100vh; width: 88px; background: #444746;"
+      ></div>
+      <mat-drawer-container style="width: 100%" hasBackdrop="false">
+        <mat-drawer #drawer mode="over">
+          <xm-sidebar *ngIf="!isGuestLayout"></xm-sidebar>
+        </mat-drawer>
 
-      <xm-sidebar *ngIf="!isGuestLayout" class="sidebar"></xm-sidebar>
+        <div *ngIf="resolved$ | async"
+             class="main-panel xm-main-panel"
+             id="main">
+          <xm-loader [absolute]="true" routerLoading></xm-loader>
 
-      <div *ngIf="resolved$ | async"
-           class="main-panel xm-main-panel"
-           id="main">
+          <xm-navbar class="mb-3"></xm-navbar>
+          <button style="position: absolute; z-index: 9999999; top: 0; right: 50%;" (click)="drawer.toggle()">toggle menu</button>
 
-        <xm-loader [absolute]="true" routerLoading></xm-loader>
+          <div [ngClass]="(isGuestLayout && !config.fullWidth) ? 'container' : 'container-fluid'"
+               class="main-content xm-main-content">
+            <router-outlet></router-outlet>
+          </div>
 
-        <xm-navbar class="mb-3"></xm-navbar>
+          <router-outlet name="popup"></router-outlet>
 
-        <div [ngClass]="(isGuestLayout && !config.fullWidth) ? 'container' : 'container-fluid'"
-             class="main-content xm-main-content">
-          <router-outlet></router-outlet>
+          <xm-footer></xm-footer>
+
         </div>
+      </mat-drawer-container>
+<!--      <xm-sidebar *ngIf="!isGuestLayout" class="sidebar"></xm-sidebar>-->
 
-        <router-outlet name="popup"></router-outlet>
-
-        <xm-footer></xm-footer>
-
-      </div>
 
       <xm-sidebar-right></xm-sidebar-right>
     </div>

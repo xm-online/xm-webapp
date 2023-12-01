@@ -74,10 +74,10 @@ $xm-menu-icon-font-size:    20px !default;
     .global-categories {
       min-width: 88px;
       width: 88px;
-      height: calc(100vh - 64px);
+      //height: calc(100vh - 64px);
       padding: 8px 0 8px;
       //min-height: calc(100vh - 64px);
-      max-height: calc(100vh - 64px);
+      //max-height: calc(100vh - 64px);
       overflow-x: hidden;
       overflow-y: auto;
       border-right: 1px solid rgba(196, 199, 197, .5);
