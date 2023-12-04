@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatListModule } from '@angular/material/list';
-import { HistoryEvent, HistoryModalConfig, HistoryModalData } from '../models/config-history.model';
+import { HistoryEvent, HistoryModalData } from '../models/config-history.model';
 import { AceDiffControlComponent, XmAceEditorControl, XmAceEditorControlModeEnum, XmAceEditorControlOptions, XmAceEditorControlTypeEnum } from '@xm-ngx/components/ace-editor';
 import { XmDateTimePipe } from '@xm-ngx/translation/pipes';
 import { MatCardModule } from '@angular/material/card';
@@ -45,15 +45,14 @@ import { XmDateComponent } from '@xm-ngx/components/date';
     styleUrls: ['./config-history-modal.component.scss'],
 })
 export class ConfigHistoryModalComponent implements OnInit {
-    private data = inject<HistoryModalData>(MAT_DIALOG_DATA);
+    public data: HistoryModalData = inject<HistoryModalData>(MAT_DIALOG_DATA);
     public prevConfig: string;
     public prevDate: Date;
-    public historyEvents: HistoryEvent[] = this.data.events;
-    public modalConfig: HistoryModalConfig= this.data.config;
     public activeEvent: HistoryEvent;
 
     public aceEditorOptions: XmAceEditorControlOptions = {
         title: '',
+        height: '100%',
         mode: XmAceEditorControlModeEnum.JSON,
         type: XmAceEditorControlTypeEnum.STRING,
     };
@@ -61,7 +60,7 @@ export class ConfigHistoryModalComponent implements OnInit {
     public ngOnInit(): void {
         setTimeout(() => {
             this.setPrevValues(0);
-            this.activeEvent = this.historyEvents?.[0];
+            this.activeEvent = this.data?.events?.[0];
         }, 150);
     }
 
@@ -71,11 +70,11 @@ export class ConfigHistoryModalComponent implements OnInit {
     }
 
     public isCurrent(event: HistoryEvent): boolean {
-        return event === this.historyEvents[0];
+        return event === this.data?.events?.[0];
     }
 
     private setPrevValues(index: number): void {
-        const prevEvent = this.historyEvents[index + 1];
+        const prevEvent = this.data?.events?.[index + 1];
         this.prevConfig = prevEvent?.config ?? '{}';
         this.prevDate = prevEvent?.date ?? null;
     }

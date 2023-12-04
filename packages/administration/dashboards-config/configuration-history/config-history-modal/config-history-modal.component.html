@@ -1,6 +1,6 @@
 <div mat-dialog-title>
     <div class="text-center">
-        {{ 'dashboard-config-widget.change-history' | translate }}: <span class="fw-bold">{{ modalConfig?.itemName | translate }}</span>
+        {{ 'dashboard-config-widget.change-history' | translate }}: <span class="fw-bold">{{ data?.config?.itemName | translate }}</span>
     </div>
     <xm-modal-close mat-dialog-close></xm-modal-close>
 </div>
@@ -9,10 +9,10 @@
         <mat-card class="w-100 mb-2">
             <mat-card-content class="d-flex gap-2">
                 <div>
-                    {{ 'dashboard-config-widget.type' | translate }}: <span class="fw-bold">{{ modalConfig?.itemType | translate }}</span>
+                    {{ 'dashboard-config-widget.type' | translate }}: <span class="fw-bold">{{ data?.config?.itemType | translate }}</span>
                 </div>
                 <div>
-                    {{ 'dashboard-config-widget.changed-type' | translate }}: <span class="fw-bold">{{ modalConfig?.changesType | translate }}</span>
+                    {{ 'dashboard-config-widget.changed-type' | translate }}: <span class="fw-bold">{{ data?.config?.changesType | translate }}</span>
                 </div>
             </mat-card-content>
         </mat-card>
@@ -48,9 +48,9 @@
         <mat-card class="w-100">
             <mat-card-content>
                 <h2 class="w-100">{{ 'dashboard-config-widget.change-lists' | translate }}</h2>
-                <mat-list *ngIf="historyEvents?.length; else noHistory">
+                <mat-list *ngIf="data?.events?.length; else noHistory">
                     <mat-list-item
-                        *ngFor="let event of historyEvents; let i = index"
+                        *ngFor="let event of data?.events; let i = index"
                         matBadge="&#8288;"
                         [matBadgeHidden]="!isCurrent(event)"
                         [matBadgePosition]="'before'"
