@@ -1,12 +1,14 @@
 import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as ace from 'brace';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-ace.Range = ace.acequire('ace/range').Range;
 import 'brace/theme/chrome';
 import 'brace/mode/json';
 import AceDiff from 'ace-diff';
+
+const localAce = ace;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+localAce.Range = ace.acequire('ace/range').Range;
 
 @Component({
     selector: 'xm-ace-diff-control',
@@ -40,7 +42,7 @@ export class AceDiffControlComponent implements AfterViewInit {
     }
     private initDiff(): void{
         this._diffContainer = new AceDiff({
-            ace,
+            ace: localAce,
             element: this.container.nativeElement,
             diffGranularity: 'specific',
             showDiffs: true,
