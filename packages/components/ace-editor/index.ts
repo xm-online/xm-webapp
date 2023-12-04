@@ -15,3 +15,4 @@ export {
 export {
     XmAceEditorThemeSchemeAdapterDirective,
 } from './xm-ace-editor-theme-scheme-adapter.directive';
+export { AceDiffControlComponent } from './ace-diff-control/ace-diff-control.component';

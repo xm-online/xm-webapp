@@ -35,6 +35,7 @@ export const DASHBOARDS_TRANSLATES = {
     close: `${dashboards}close`,
     filter: `${dashboards}filter`,
     empty: `${dashboards}empty`,
+    historyChangesBtnTitle: `${dashboards}historyChangesBtnTitle`,
 };
 
 export const EDIT_DASHBOARD_EVENT = 'EDIT_DASHBOARD_EVENT';

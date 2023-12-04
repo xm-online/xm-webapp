@@ -196,7 +196,7 @@ export class XmTableFilterChipsComponent {
     public remove(filter: XmTableFilterInlineFilter): void {
         const copy = cloneDeep(this.value);
         if(isArray(copy[filter.name])){
-            copy[filter.name] = (copy[filter.name] as Primitive[]).filter(value => value !== filter.value)
+            copy[filter.name] = (copy[filter.name] as Primitive[]).filter(value => value !== filter.value);
         }else {
             delete copy[filter.name];
         }
@@ -249,7 +249,7 @@ export class XmTableFilterChipsComponent {
                     inlineConfig,
                     removable: !config?.removable,
                     name: config.name,
-                }
+                };
                 if(isArray(this.value[config.name])){
                     return (this.value[config.name] as Primitive[]).map(value => {
                         let title;
@@ -263,7 +263,7 @@ export class XmTableFilterChipsComponent {
                             value,
                             title,
                         } as XmTableFilterInlineFilter;
-                    })
+                    });
                 }
 
                 return {
