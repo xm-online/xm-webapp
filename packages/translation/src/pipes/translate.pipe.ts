@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Injectable, OnDestroy, Optional, Pipe, PipeTransform } from '@angular/core';
 import { TranslatePipe as NgxTranslate, TranslateService } from '@ngx-translate/core';
 
-import { ITranslate, LanguageService, Translate } from '@xm-ngx/translation';
+import { ITranslate, LanguageService, Translate } from '../services/language.service';
 
 export interface ITrKeyTranslates {
     trKey: string;
