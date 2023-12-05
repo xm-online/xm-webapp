@@ -2,7 +2,7 @@ import { EventEmitter, Injectable, NgModule, Pipe, PipeTransform } from '@angula
 import { DefaultLangChangeEvent, LangChangeEvent, TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { LanguageService, TranslatePipe, XmTranslateService } from '@xm-ngx/translation';
-import { MockXmTranslateService } from '@xm-ngx/translation/testing/mock-xm-translate.service';
+import { MockXmTranslateService } from './mock-xm-translate.service';
 
 @Injectable()
 @Pipe({ name: 'translate' })
