@@ -149,7 +149,7 @@ export class WidgetEditComponent implements OnChanges {
 
     public onSave(): void {
         if (!this.valid) {
-            console.warn("Widget isn't valid")
+            console.warn("Widget isn't valid");
             return;
         }
 

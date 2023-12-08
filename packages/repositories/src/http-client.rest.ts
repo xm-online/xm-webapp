@@ -121,7 +121,7 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
             return obs.pipe(
                 finalize(() => {
                     this.loadingCount--;
-                    this.loading$.next(this.loadingCount > 0)
+                    this.loading$.next(this.loadingCount > 0);
                 }),
             );
         });
