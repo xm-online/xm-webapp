@@ -15,4 +15,10 @@
     min-height:     100px;
     @include xm-scrollbar();
   }
+
+  button {
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
 }
