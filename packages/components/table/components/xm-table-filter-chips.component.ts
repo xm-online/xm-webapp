@@ -197,6 +197,9 @@ export class XmTableFilterChipsComponent {
         const copy = cloneDeep(this.value);
         if(isArray(copy[filter.name])){
             copy[filter.name] = (copy[filter.name] as Primitive[]).filter(value => value !== filter.value);
+            if (!(copy[filter.name] as Primitive[]).length) {
+                delete copy[filter.name];
+            }
         }else {
             delete copy[filter.name];
         }
