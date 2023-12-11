@@ -374,6 +374,7 @@
       "are-you-sure": "Are you sure?",
       "cancel": "Cancel",
       "delete": "Delete",
+      "add-to": "Add to",
       "delete-message": "Remove the {{value}}?",
       "maintenance-description": "It usually takes a few minutes, otherwise contact your system administrator.",
       "maintenance-export-entities": "Export of entity",

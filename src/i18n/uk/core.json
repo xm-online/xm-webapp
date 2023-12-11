@@ -364,6 +364,7 @@
       "are-you-sure": "Ви впевнені?",
       "cancel": "Скасувати",
       "delete": "Видалити",
+      "add-to": "Додати до",
       "delete-message": "Видалити {{value}}?",
       "maintenance-description": "Зазвичай це займає кілька хвилин, в іншому випадку зверніться до системного адміністратром.",
       "maintenance-export-entities": "Експорт сутності",
