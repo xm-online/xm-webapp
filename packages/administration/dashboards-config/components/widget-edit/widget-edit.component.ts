@@ -91,6 +91,10 @@ export class WidgetEditComponent implements OnChanges {
 
     private _value: DashboardWidget = {config: null, selector: null};
 
+    public get valid(): boolean {
+        return !!this.formGroup && !!this.formGroup.name && !!this.formGroup.selector;
+    }
+
     public get value(): DashboardWidget {
         return this._value;
     }
@@ -104,6 +108,7 @@ export class WidgetEditComponent implements OnChanges {
             this.historyEvents = this.dashboardsConfigHistoryService.widgetConfigHistory(value.id);
         } else {
             this.editType = EditType.Create;
+            this.selectedIndex = 0;
         }
         this.ngOnChanges({});
     }
@@ -143,6 +148,11 @@ export class WidgetEditComponent implements OnChanges {
     }
 
     public onSave(): void {
+        if (!this.valid) {
+            console.warn("Widget isn't valid");
+            return;
+        }
+
         this.widgetService.update(this.formGroup).pipe(
             tap((res) => {
                 this.toasterService.create({

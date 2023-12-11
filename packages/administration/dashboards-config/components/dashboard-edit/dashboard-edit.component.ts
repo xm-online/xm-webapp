@@ -196,8 +196,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         this.editorService.close();
     }
 
-    public onAdd(): void {
-        const req: Dashboard = this.dashboardValue();
+    public onAdd(req: Dashboard = this.dashboardValue()): void {
         // TODO: improve BE
         req.isPublic = false;
         req.owner = this.principal.getUserKey();
@@ -242,14 +241,14 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     public onDuplicate(): void {
-        const req: Dashboard = this.dashboardValue();
-
-        this.dashboardCollection.getById(req.id).subscribe(d => {
+        this.dashboardCollection.getById(this.value.id).subscribe(d => {
+            const req: Dashboard = this.dashboardValue();
             req.id = null;
             req.name = `${req.name} ${this.translateService.instant(DASHBOARDS_TRANSLATES.copy)}`;
-            req.widgets = this.getUnbindedWidgets(d.widgets);
+            req.widgets = this.getUnbindedWidgets(d.widgets || []);
+            req.typeKey = `${this.value.typeKey}-copy`;
 
-            this.onAdd();
+            this.onAdd(req);
         });
     }
 

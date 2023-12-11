@@ -95,7 +95,7 @@ export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
 
     public isUpdateIndexRequired = false;
 
-    public filterOptions: XmTextControlOptions = {title: this.TRS.filter, dataQa: ''};
+    public filterOptions: XmTextControlOptions = {title: this.TRS.filter, dataQa: '', required: false};
 
     public disabled = false;
 
