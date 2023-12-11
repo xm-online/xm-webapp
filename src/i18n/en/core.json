@@ -213,7 +213,14 @@
     "selector": "Selector",
     "typeKey": "TypeKey",
     "updated": "Updated {{value}}",
-    "widgets": "Widgets"
+    "widgets": "Widgets",
+    "historyChangesBtnTitle": "History changes",
+    "change-history": "Change History",
+    "type": "Type",
+    "changed-type": "Changes",
+    "no-active": "No active event.",
+    "change-lists": "Changes" ,
+    "empty-history": "Empty for this item."
   },
   "date-time-picker": {
     "labels": {

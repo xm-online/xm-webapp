@@ -17,7 +17,7 @@
     <div class="d-flex flex-grow-1 ps-3 header-controls">
       <button (click)="onAdd()"
               *ngIf="editType === EditType.Create"
-              [disabled]="!form.valid || disabled"
+              [disabled]="!form.valid || disabled || !valid"
               color="primary"
               mat-flat-button>
         <mat-icon>create</mat-icon>
@@ -26,16 +26,16 @@
 
       <button (click)="onSave()"
               *ngIf="editType === EditType.Edit"
-              [disabled]="!form.valid || disabled"
+              [disabled]="!form.valid || disabled || !valid"
               [matTooltip]="(TRS.save | translate) + ' Ctrl+S'"
               color="primary"
               mat-icon-button>
         <mat-icon>save</mat-icon>
       </button>
-
+      <xm-configuration-history [historyEvents]="historyEvents" [config]="{itemType: 'widget', itemName: value?.name, changesType: 'config'}"></xm-configuration-history>
       <button (click)="onCopyToClipboard()"
               *ngIf="editType === EditType.Edit"
-              [disabled]="!form.valid || disabled"
+              [disabled]="!form.valid || disabled || !valid"
               [matTooltip]="'copy to clipboard'"
               mat-icon-button>
         <mat-icon>content_copy</mat-icon>
@@ -43,7 +43,7 @@
 
       <button (click)="onPasteFromClipboard()"
               *ngIf="editType === EditType.Create"
-              [disabled]="!form.valid || disabled"
+              [disabled]="!form.valid || disabled || !valid"
               [matTooltip]="'paste'"
               mat-icon-button>
         <mat-icon>content_paste</mat-icon>
@@ -51,7 +51,7 @@
 
       <button (click)="onDelete()"
               *ngIf="editType === EditType.Edit"
-              [disabled]="!form.valid  || disabled"
+              [disabled]="!form.valid  || disabled || !valid"
               [matTooltip]="TRS.delete | translate: { value: value.name }"
               mat-icon-button>
         <mat-icon>delete_outline</mat-icon>
@@ -80,7 +80,7 @@
         <xm-selector-text-control [(ngModel)]="formGroup.selector"
                                   [disabled]="disabled"
                                   (valueChange)="ngOnChanges({})"
-                                  [options]="{ title: TRS.selector }"
+                                  [options]="{ title: TRS.selector, required: true }"
                                   name="selector"></xm-selector-text-control>
       </mat-tab>
 

@@ -31,6 +31,7 @@ import { XmExpansionIndicatorModule } from '@xm-ngx/components/expansion-indicat
 import { DashboardsListExpandComponent } from '../dashboards-list-expand/dashboards-list-expand.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { cloneDeep } from 'lodash';
+import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
 
 const EXPORT_FILENAME = 'dashboards';
 const DISPLAYED_COLUMNS = [
@@ -59,6 +60,7 @@ const columnMap = {
         DashboardsExportService,
         DashboardsImportService,
         DashboardsManagerService,
+        DashboardsConfigHistoryService,
     ],
     changeDetection: ChangeDetectionStrategy.Default,
     imports: [
@@ -76,8 +78,8 @@ const columnMap = {
         DashboardsListExpandComponent,
         MatTooltipModule,
         NgClass,
-        NgIf
-    ]
+        NgIf,
+    ],
 })
 export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
@@ -93,7 +95,7 @@ export class DashboardsListComponent implements OnInit, OnDestroy, OnChanges {
 
     public isUpdateIndexRequired = false;
 
-    public filterOptions: XmTextControlOptions = {title: this.TRS.filter, dataQa: ''};
+    public filterOptions: XmTextControlOptions = {title: this.TRS.filter, dataQa: '', required: false};
 
     public disabled = false;
 

@@ -25,6 +25,8 @@ import { FormsModule } from '@angular/forms';
 import { WidgetConfigExamplesComponent } from '../widget-config-examples.component';
 import { SelectorTextControlComponent } from '../selector-text-control/selector-text-control.component';
 import { CopiedWidgetObject } from '../dashboards-list-expand/dashboards-list-expand.component';
+import { ConfigurationHistoryComponent } from '../../configuration-history/configuration-history.component';
+import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
 
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
@@ -43,12 +45,14 @@ export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
         XmTextControl,
         FormsModule,
         AsyncPipe,
-        SchemaEditorComponent
+        SchemaEditorComponent,
+        ConfigurationHistoryComponent,
     ],
     selector: 'xm-widget-edit',
     standalone: true,
     styleUrls: ['./widget-edit.component.scss'],
-    templateUrl: './widget-edit.component.html'
+    templateUrl: './widget-edit.component.html',
+    providers: [ DashboardsConfigHistoryService ],
 })
 export class WidgetEditComponent implements OnChanges {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
@@ -69,6 +73,8 @@ export class WidgetEditComponent implements OnChanges {
 
     public selectedIndex: number = 1;
 
+    public historyEvents;
+
     constructor(
         protected readonly widgetService: WidgetCollection,
         protected dashboardService: DashboardCollection,
@@ -77,11 +83,17 @@ export class WidgetEditComponent implements OnChanges {
         protected readonly dashboardConfig: DashboardConfig,
         protected readonly alertService: XmAlertService,
         protected readonly xmTranslateService: XmTranslateService,
-        protected readonly toasterService: XmToasterService) {
+        protected readonly toasterService: XmToasterService,
+        protected readonly dashboardsConfigHistoryService: DashboardsConfigHistoryService,
+    ) {
         this.loading$ = this.widgetService.loading$.pipe(tap((i) => this.disabled = i));
     }
 
     private _value: DashboardWidget = {config: null, selector: null};
+
+    public get valid(): boolean {
+        return !!this.formGroup && !!this.formGroup.name && !!this.formGroup.selector;
+    }
 
     public get value(): DashboardWidget {
         return this._value;
@@ -93,8 +105,10 @@ export class WidgetEditComponent implements OnChanges {
 
         if (value && value.id) {
             this.editType = EditType.Edit;
+            this.historyEvents = this.dashboardsConfigHistoryService.widgetConfigHistory(value.id);
         } else {
             this.editType = EditType.Create;
+            this.selectedIndex = 0;
         }
         this.ngOnChanges({});
     }
@@ -134,6 +148,11 @@ export class WidgetEditComponent implements OnChanges {
     }
 
     public onSave(): void {
+        if (!this.valid) {
+            console.warn("Widget isn't valid");
+            return;
+        }
+
         this.widgetService.update(this.formGroup).pipe(
             tap((res) => {
                 this.toasterService.create({

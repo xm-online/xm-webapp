@@ -29,6 +29,8 @@ import { XmTableSelectionDirective } from '../directives/xm-table-selection.dire
 import { XmTableDirective } from '../directives/xm-table.directive';
 import { XM_TABLE_CONFIG_DEFAULT } from '../directives/xm-table.model';
 import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-widget.config';
+import { XmTableExpandPanelButtonComponent } from '../components/xm-table-expand-panel-button.component';
+import { TableExpand } from '../animations/xm-table-widget.animation';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -71,9 +73,13 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         XmTableMatSortAdapterDirective,
         XmTableLoadingColumnComponent,
         XmTableLoadingComponent,
+        XmTableExpandPanelButtonComponent
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,
+    ],
+    animations: [
+        TableExpand
     ],
 })
 export class XmTableWidget {

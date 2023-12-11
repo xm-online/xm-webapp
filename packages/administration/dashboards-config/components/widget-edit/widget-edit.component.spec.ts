@@ -16,11 +16,12 @@ import { XmToasterService } from '@xm-ngx/toaster';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { WidgetEditComponent } from './widget-edit.component';
-import {JsonSchemaFormModule} from '@ajsf/core';
+import { JsonSchemaFormModule } from '@ajsf/core';
 import { MatMenuModule } from '@angular/material/menu';
-import {XM_CONTROL_ERRORS_TRANSLATES, XM_CONTROL_ERRORS_TRANSLATES_DEFAULT} from '@xm-ngx/components/control-error';
-import {XmDynamicExtensionModule, XmDynamicModule} from '@xm-ngx/dynamic';
+import { XM_CONTROL_ERRORS_TRANSLATES, XM_CONTROL_ERRORS_TRANSLATES_DEFAULT } from '@xm-ngx/components/control-error';
+import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
     selector: 'xm-schema-editor, xm-text-control, xm-selector-text-control, xm-ace-editor-control',
@@ -53,7 +54,8 @@ describe('WidgetEditComponent', () => {
                 WidgetEditComponent,
                 XmDynamicExtensionModule.forRoot([]),
                 XmDynamicModule.forRoot([]),
-                NoopAnimationsModule
+                NoopAnimationsModule,
+                MatDialogModule,
             ],
             declarations: [],
             providers: [

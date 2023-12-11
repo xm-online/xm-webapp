@@ -6,13 +6,13 @@ import { ITranslate, LanguageService, Translate } from '../services/language.ser
 export interface ITrKeyTranslates {
     trKey: string;
 }
-
+/** @deprecated solution. Use {@link XmTranslatePipe} instead. Will be removed in v8.0.0. */
 @Injectable()
 @Pipe({
     name: 'translate',
     pure: false,
 })
-/** @deprecated solution. Use {@link XmTranslatePipe} instead. Will be removed in v8.0.0. */
+
 export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDestroy {
 
     constructor(protected translateService: TranslateService,

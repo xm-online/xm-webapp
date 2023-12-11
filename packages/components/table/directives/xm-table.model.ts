@@ -18,6 +18,8 @@ export interface XmTableConfig {
     pageableAndSortable: XmTableWithColumnDynamicCellOptionsPagination,
     storageKey: string;
     triggerTableKey: string;
+    isCollapsed: boolean;
+    isExpandable: boolean;
 }
 
 export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
@@ -32,6 +34,8 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     },
     storageKey: '',
     triggerTableKey: '',
+    isCollapsed: false,
+    isExpandable: false,
 };
 
 export enum XmTableEventType {
