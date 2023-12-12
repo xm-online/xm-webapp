@@ -32,10 +32,10 @@ export class MockXmRepositoryService implements XmDynamicService<XmRepositoryCon
     public config: XmRepositoryConfig;
 
     public query(): Observable<{ body: { date: string }[] }> {
-        const data = [{ date: '2023-07-26T19:55:19.923Z' }];
-        const pagination = { total: 1 };
+        const data = [{date: '2023-07-26T19:55:19.923Z'}];
+        const pagination = {total: 1};
         const res = Object.assign(data, pagination);
-        return of({ body: res });
+        return of({body: res});
     }
 }
 
@@ -45,8 +45,8 @@ export default {
     decorators: [
         applicationConfig({
             providers: [
-                { provide: LocalStorageService, useValue: mockLocalStorage },
-                { provide: DateAdapter, useClass: NativeDateAdapter },
+                {provide: LocalStorageService, useValue: mockLocalStorage},
+                {provide: DateAdapter, useClass: NativeDateAdapter},
             ],
         }),
         moduleMetadata({
@@ -59,7 +59,7 @@ export default {
                 XmLoggerModule,
                 XmDynamicExtensionModule.forRoot([]),
                 XmTranslationTestingModule,
-                ControlErrorModule.forRoot({ errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES }),
+                ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 XmDynamicModule.forRoot([].concat(
                     [
                         {
@@ -71,10 +71,10 @@ export default {
             ],
             providers: [
                 XmTableSettingStore,
-                { provide: LocalStorageService, useValue: mockLocalStorage },
-                { provide: XmToasterService, useValue: {} },
-                { provide: XmAlertService, useValue: {} },
-                { provide: XmLogger, useValue: {} },
+                {provide: LocalStorageService, useValue: mockLocalStorage},
+                {provide: XmToasterService, useValue: {}},
+                {provide: XmAlertService, useValue: {}},
+                {provide: XmLogger, useValue: {}},
             ],
         }),
     ],
@@ -90,25 +90,25 @@ export const Config: StoryObj<XmTableWidget> = {
             collection: {
                 type: 'config',
                 path: 'staticData',
-                staticData: [{ id: 111, name: 'test', age: '25' }],
+                staticData: [{id: 111, name: 'test', age: '25'}],
             },
             columns: [
                 {
                     selector: '@xm-ngx/components/text',
-                    title: { en: 'Name' },
+                    title: {en: 'Name'},
                     field: 'name',
                     sortable: true,
                     sticky: true,
                     name: 'name',
                     dataClass: 'string',
                     dataStyle: 'data',
-                    class: 'data',
+                    class: '',
                     style: 'data',
                 },
                 {
                     name: 'id',
                     field: 'id',
-                    title: { en: 'ID' },
+                    title: {en: 'ID'},
                     sortable: true,
                     dataClass: '',
                     dataStyle: '',
@@ -119,7 +119,7 @@ export const Config: StoryObj<XmTableWidget> = {
                 {
                     name: 'age',
                     field: 'age',
-                    title: { en: 'Age' },
+                    title: {en: 'Age'},
                     sortable: true,
                     dataClass: '',
                     dataStyle: '',
@@ -128,6 +128,67 @@ export const Config: StoryObj<XmTableWidget> = {
                     style: '',
                 },
             ],
+            showFilterChips: false,
+            filters: [
+                {
+                    selector: '@xm-ngx/components/text-control',
+                    name: 'name',
+                    class: 'col-6',
+                    condition: '',
+                    value: '',
+                    options: {
+                        title: {en: 'name'},
+                        required: false,
+                    },
+                },
+                {
+                    selector: '@xm-ngx/components/text-control',
+                    name: 'id',
+                    class: 'col-6',
+                    condition: '',
+                    value: '',
+                    options: {
+                        title: {en: 'id'},
+                        required: false,
+                    },
+                }
+            ],
+            pageableAndSortable: {
+                pageIndex: 0,
+                pageSize: 10,
+                total: 0,
+                sortOrder: 'asc',
+                sortBy: 'id',
+                pageSizeOptions: [10, 20, 50],
+                hidePagination: false,
+
+            },
+            title: {en: 'Test table'},
+        } as XmTableWidgetConfig,
+    },
+};
+
+export const ConfigFilterPopPup: StoryObj<XmTableWidget> = {
+    args: {
+        config: {
+            collection: {
+                type: 'config',
+                path: 'staticData',
+                staticData: [{id: 111, name: 'test', age: '25'}],
+            },
+            columns: [
+                {
+                    selector: '@xm-ngx/components/text',
+                    title: {en: 'Name'},
+                    field: 'name',
+                    sortable: true,
+                    name: 'name',
+                    class: 'data',
+                    style: 'data',
+                },
+            ],
+            popUpFilter: true,
+            showFilterChips: true,
             filters: [{
                 selector: '@xm-ngx/components/text-control',
                 name: 'name',
@@ -136,7 +197,7 @@ export const Config: StoryObj<XmTableWidget> = {
                 condition: '',
                 value: '',
                 options: {
-                    title: { en: 'name' },
+                    title: {en: 'name'},
                     required: false,
                 },
             }],
@@ -150,7 +211,7 @@ export const Config: StoryObj<XmTableWidget> = {
                 hidePagination: false,
 
             },
-            title: { en: 'Test table' },
+            title: {en: 'Test table'},
         } as XmTableWidgetConfig,
     },
 };
