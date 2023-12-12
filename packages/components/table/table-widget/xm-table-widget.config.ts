@@ -23,6 +23,8 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     filtersClass?: string,
     /** Selection configuration */
     selection: XmDynamicPresentationLayout[],
+    popUpFilter?: boolean;
+    showFilterChips?: boolean;
 }
 
 export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
@@ -35,4 +37,6 @@ export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
     selection: [],
     chips: [],
     actions: [],
+    popUpFilter: false,
+    showFilterChips: true,
 };
