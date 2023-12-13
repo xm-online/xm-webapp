@@ -31,6 +31,7 @@ import { XM_TABLE_CONFIG_DEFAULT } from '../directives/xm-table.model';
 import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-widget.config';
 import { XmTableExpandPanelButtonComponent } from '../components/xm-table-expand-panel-button.component';
 import { TableExpand } from '../animations/xm-table-widget.animation';
+import { XmTableFilterInlineComponent } from '../components/xm-table-filter-inline.component';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -73,7 +74,8 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         XmTableMatSortAdapterDirective,
         XmTableLoadingColumnComponent,
         XmTableLoadingComponent,
-        XmTableExpandPanelButtonComponent
+        XmTableExpandPanelButtonComponent,
+        XmTableFilterInlineComponent
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,

@@ -89,7 +89,7 @@ export class XmTableFilterButtonDialogControlComponent<T = FiltersControlValue> 
             this.disabled ? this.formGroup.disable() : this.formGroup.enable();
         }
 
-        if (this.formGroup && changes.value && !_.isEqual(this.value, changes.value.currentValue)) {
+        if (this.formGroup && changes.value) {
             this.formGroup.setValue(this.value);
         }
 
@@ -133,7 +133,7 @@ export class XmTableFilterButtonDialogControlComponent<T = FiltersControlValue> 
 
     private updateValue(): void {
         if (this.formGroup) {
-            this.formGroup.patchValue(this.value || {}, { emitEvent: false });
+            this.formGroup.patchValue(this.value || {}, {emitEvent: false});
         }
     }
 

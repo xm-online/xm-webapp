@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, Optional } from '@angular/core';
+import { Component, Input, OnChanges, Optional, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
@@ -30,6 +30,14 @@ export class UserLoginFormComponent implements OnChanges {
     public success: boolean;
     @Input()
     public user: User;
+    private _editForm: NgForm;
+    public get editForm(): NgForm {
+        return this._editForm;
+    }
+    @ViewChild('editForm') public set editForm(editForm: NgForm) {
+        this._editForm = editForm;
+        editForm.form.setValidators([() => this.isSubmitValid() ? null : { logins: true }]);
+    }
 
     constructor(@Optional() private activeModal: MatDialogRef<UserLoginFormComponent>,
                 private userService: UserService,
@@ -43,9 +51,9 @@ export class UserLoginFormComponent implements OnChanges {
         this.reload();
     }
 
-    public isSubmitValid(editForm: NgForm): boolean {
-        for (const key in editForm.value) {
-            if (editForm.value[key]) {
+    public isSubmitValid(): boolean {
+        for (const key in this.editForm.value) {
+            if (this.editForm.value[key]) {
                 return true;
             }
         }
