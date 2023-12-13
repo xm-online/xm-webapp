@@ -17,12 +17,14 @@ import {
     BehaviorSubject
 } from 'rxjs';
 import _ from 'lodash';
+import { XmEmptyPipe } from '@xm-ngx/pipes';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'xm-table-filter-inline',
     standalone: true,
     template: `
-        <div class="m-3">
+        <div class="m-3" *ngIf="!(config?.filters | xmEmpty)">
             <xm-filters-control-request [options]="config"
                                         [request]="value"
                                         (requestChange)="requestChange($event)"
@@ -51,7 +53,9 @@ import _ from 'lodash';
     imports: [
         MatButtonModule,
         XmTableFilterButtonDialogControlsComponent,
-        XmTranslationModule
+        XmTranslationModule,
+        XmEmptyPipe,
+        NgIf,
     ],
 })
 export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
