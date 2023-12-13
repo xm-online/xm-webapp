@@ -20,6 +20,8 @@ export interface XmTableConfig {
     triggerTableKey: string;
     isCollapsed: boolean;
     isExpandable: boolean;
+    showFilterChips?: boolean;
+    popUpFilter?: boolean;
 }
 
 export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
@@ -36,6 +38,8 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     triggerTableKey: '',
     isCollapsed: false,
     isExpandable: false,
+    popUpFilter: false,
+    showFilterChips: true,
 };
 
 export enum XmTableEventType {

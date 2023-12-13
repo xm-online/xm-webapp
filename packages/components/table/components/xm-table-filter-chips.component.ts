@@ -55,7 +55,7 @@ export interface XmTableFilterInlineFilter {
     standalone: true,
     host: { class: 'xm-table-filter-chips' },
     template: `
-        <div class="filter-container" #elementRef>
+        <div class="filter-container ms-1" #elementRef>
             <mat-chip-listbox class="chip-listbox" [selectable]="false" [multiple]="true">
                 <mat-chip-option *ngFor="let filter of activeFilters"
                                  (removed)="remove(filter)"

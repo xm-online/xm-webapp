@@ -14,11 +14,12 @@
 
     <xm-table-header [config]="config" [loading]="context.collection.loading">
       <ng-container *ngIf="!xmTable.config.isCollapsed">
-        <xm-table-filter-button [config]="config"
+        <xm-table-filter-button *ngIf="xmTable.config.popUpFilter"
+                                [config]="config"
                                 [loading]="context.collection.loading"
         ></xm-table-filter-button>
 
-        <xm-table-filter-chips [config]="config"></xm-table-filter-chips>
+        <xm-table-filter-chips *ngIf="xmTable.config.showFilterChips" [config]="config"></xm-table-filter-chips>
       </ng-container>
 
       <ng-container expandPanelButton *ngIf="xmTable.config.isExpandable">
@@ -31,6 +32,11 @@
     <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
 
     <div class="xm-table-wrapper" [@tableExpand]="xmTable.config.isCollapsed ? 'collapsed' : 'expanded'">
+
+      <xm-table-filter-inline *ngIf="!xmTable.config.popUpFilter"
+                              [config]="config"
+                              [loading]="context.collection.loading"></xm-table-filter-inline>
+
       <div class="xm-table-overflow-wrap">
         <table
           [style.width]="config?.width"
