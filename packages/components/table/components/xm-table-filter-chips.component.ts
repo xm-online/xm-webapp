@@ -195,9 +195,10 @@ export class XmTableFilterChipsComponent {
 
     public remove(filter: XmTableFilterInlineFilter): void {
         const copy = cloneDeep(this.value);
-        if(isArray(copy[filter.name])){
-            copy[filter.name] = (copy[filter.name] as Primitive[]).filter(value => value !== filter.value);
-        }else {
+        const filterOptions = isArray(copy[filter.name]) && (copy[filter.name] as Primitive[]).filter(value => value !== filter.value);
+        if (filterOptions?.length) {
+            copy[filter.name] = filterOptions;
+        } else {
             delete copy[filter.name];
         }
         this.entitiesRequestBuilder.set(copy);
