@@ -227,6 +227,6 @@ export class WidgetEditComponent implements OnChanges {
     }
 
     private get dashboardId(): number {
-        return this.value?.dashboard?.id || this.value?.dashboard;
+        return this.value.dashboard.id || this.value.dashboard;
     }
 }

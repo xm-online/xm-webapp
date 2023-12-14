@@ -6,10 +6,11 @@ import {
     XmAceEditorControlTypeEnum
 } from '@xm-ngx/components/ace-editor';
 import {StatesManagementDialogComponent} from '@xm-ngx/entity';
-import {XmConfigService} from '@xm-ngx/core/config';
+import { XmConfigService, XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 
 import {ConfigValidatorUtil} from '../config-validator/config-validator.util';
 import {ConfigVisualizerDialogComponent} from '../config-visualizer-dialog/config-visualizer-dialog.component';
+import { firstValueFrom } from "rxjs";
 
 @Component({
     selector: 'xm-entity-spec-mng',
@@ -22,6 +23,7 @@ export class EntitySpecManagementComponent implements OnInit {
     public entityValidation: any;
     public isXmEntitySpecValid: boolean;
     public entitySpecificationIn: string;
+    public disableEntitySpecificationEditor: boolean;
     public entitySpecificationOut: string;
     public line: number;
     public aceEditorOptions: XmAceEditorControlOptions = {
@@ -36,14 +38,17 @@ export class EntitySpecManagementComponent implements OnInit {
     constructor(
         private modalService: MatDialog,
         private service: XmConfigService,
+        private xmUiConfigService: XmUiConfigService<EntitySpecEditorConfig>,
     ) {
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.service.getConfig('/entity/xmentityspec.yml').subscribe((result) => {
             this.entitySpecificationIn = result;
             this.entitySpecificationOut = result;
         });
+        let uiConfig = await firstValueFrom(this.xmUiConfigService.config$());
+        this.disableEntitySpecificationEditor = uiConfig?.disableEntitySpecificationEditor;
     }
 
     public onApplyChanges(event: string): void {
@@ -90,4 +95,8 @@ export class EntitySpecManagementComponent implements OnInit {
         });
     }
 
+}
+
+interface EntitySpecEditorConfig extends XmUIConfig {
+    disableEntitySpecificationEditor: boolean;
 }

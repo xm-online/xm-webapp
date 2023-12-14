@@ -10,7 +10,8 @@ export interface XmBetaFeatureConfig extends XmUIConfig {
  * Conditionally includes an HTML element if beta features enabled
  */
 @Directive({
-    selector: '[xm-beta-feature]'
+    selector: '[xm-beta-feature]',
+    standalone: true,
 })
 export class XmBetaFeatureDirective implements OnInit, AfterContentInit {
 
