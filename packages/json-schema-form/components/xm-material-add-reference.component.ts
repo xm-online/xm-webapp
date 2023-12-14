@@ -26,7 +26,7 @@ export class XmMaterialAddReferenceComponent extends MaterialAddReferenceCompone
     private translateService = inject(XmTranslateService);
     public modifiedButtonTitle: string;
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         super.ngOnInit();
         this.modifiedButtonTitle = this.buttonText.replace('Add to', this.translateService.translate('global.common.add-to'));
     }
