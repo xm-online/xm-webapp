@@ -1,6 +1,7 @@
 import { AfterContentInit, Directive, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { XmUIConfig, XmUiConfigService } from "./";
+import { XmUIConfig } from "./xm-ui-config-model";
+import { XmUiConfigService } from "./xm-ui-config.service";
 
 export interface XmBetaFeatureConfig extends XmUIConfig {
     betaFeaturesEnabled: boolean;
