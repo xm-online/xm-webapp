@@ -10,7 +10,7 @@ import { XmConfigService, XmUIConfig, XmUiConfigService } from '@xm-ngx/core/con
 
 import {ConfigValidatorUtil} from '../config-validator/config-validator.util';
 import {ConfigVisualizerDialogComponent} from '../config-visualizer-dialog/config-visualizer-dialog.component';
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom } from 'rxjs';
 
 @Component({
     selector: 'xm-entity-spec-mng',
@@ -47,7 +47,7 @@ export class EntitySpecManagementComponent implements OnInit {
             this.entitySpecificationIn = result;
             this.entitySpecificationOut = result;
         });
-        let uiConfig = await firstValueFrom(this.xmUiConfigService.config$());
+        const uiConfig = await firstValueFrom(this.xmUiConfigService.config$());
         this.disableEntitySpecificationEditor = uiConfig?.disableEntitySpecificationEditor;
     }
 
