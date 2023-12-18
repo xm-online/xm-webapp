@@ -20,8 +20,8 @@ import { DashboardStore } from '@xm-ngx/dashboard';
 import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule } from '@angular/material/dialog';
-import { XmUiConfigService } from "@xm-ngx/core/config";
-import { MockUiConfigService } from "@xm-ngx/core/config/testing";
+import { XmUiConfigService } from '@xm-ngx/core/config';
+import { MockUiConfigService } from '@xm-ngx/core/config/testing';
 
 @Component({
     selector: 'xm-text-control, xm-ace-editor-control',
