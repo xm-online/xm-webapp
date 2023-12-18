@@ -26,45 +26,47 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
     selector: 'xm-table-filter-inline',
     standalone: true,
     template: `
-        <div class="d-flex flex-row justify-content-between" *ngIf="!(config?.filters | xmEmpty)">
-            <div class="m-3 d-flex filter-holder">
-                <div [@bodyExpansion]="filterExpand ? 'collapsed' : 'expanded'">
-                    <xm-filters-control-request [options]="config"
-                                                [request]="value"
-                                                (requestChange)="requestChange($event)"
-                                                #formContainer
-                                                class="xm-filters-control"
-                                                [ngClass]="{'xm-filters-control-hidden': filterExpand}"
-                    >
-                    </xm-filters-control-request>
-                </div>
+        <ng-container *ngIf="!(config?.filters | xmEmpty)">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="m-3 d-flex filter-holder">
+                    <div [@bodyExpansion]="filterExpand ? 'collapsed' : 'expanded'">
+                        <xm-filters-control-request [options]="config"
+                                                    [request]="value"
+                                                    (requestChange)="requestChange($event)"
+                                                    #formContainer
+                                                    class="xm-filters-control"
+                                                    [ngClass]="{'xm-filters-control-hidden': filterExpand}"
+                        >
+                        </xm-filters-control-request>
+                    </div>
 
-                <div *ngIf="!config?.isOnlyExpand" class="d-flex flex-row xm-filters-btn">
-                    <button (click)="filterExpand = !filterExpand"
-                            class="align-self-top ms-2"
-                            color="accent"
-                            mat-icon-button
-                            type="button">
-                        <mat-icon>filter_list</mat-icon>
-                    </button>
+                    <div *ngIf="!config?.isOnlyExpand" class="d-flex flex-row xm-filters-btn">
+                        <button (click)="filterExpand = !filterExpand"
+                                class="align-self-top ms-2"
+                                color="accent"
+                                mat-icon-button
+                                type="button">
+                            <mat-icon>filter_list</mat-icon>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="d-flex justify-content-end me-3 ms-3 mb-3">
-            <button mat-button
-                    class="me-3"
-                    (click)="reset()">
-                {{'table.filter.button.reset' | translate}}
-            </button>
+            <div class="d-flex justify-content-end me-3 ms-3 mb-3">
+                <button mat-button
+                        class="me-3"
+                        (click)="reset()">
+                    {{'table.filter.button.reset' | translate}}
+                </button>
 
-            <button mat-button
-                    mat-raised-button
-                    color="primary"
-                    [disabled]="formContainer.disabled"
-                    (click)="submit()">
-                {{'table.filter.button.search' | translate}}
-            </button>
-        </div>
+                <button mat-button
+                        mat-raised-button
+                        color="primary"
+                        [disabled]="formContainer.disabled"
+                        (click)="submit()">
+                    {{'table.filter.button.search' | translate}}
+                </button>
+            </div>
+        </ng-container>
     `,
     styles: [`
         .xm-filters-control {
