@@ -3,6 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import { XmDynamicModuleRegistry, XM_DYNAMIC_ENTRIES, XM_DYNAMIC_EXTENSIONS } from '@xm-ngx/dynamic';
 
 import { WidgetListService } from './widget-list.service';
+import { XmUiConfigService } from '@xm-ngx/core/config';
+import { MockUiConfigService } from '@xm-ngx/core/config/testing';
 
 describe('WidgetListService', () => {
     let service: WidgetListService;
@@ -14,6 +16,7 @@ describe('WidgetListService', () => {
                 { provide: XM_DYNAMIC_EXTENSIONS, useValue: [] },
                 { provide: XM_DYNAMIC_ENTRIES, useValue: [] },
                 { provide: XmDynamicModuleRegistry, useValue: null },
+                { provide: XmUiConfigService, useClass: MockUiConfigService },
                 { provide: Injector, useValue: null },
                 { provide: ApplicationRef, useValue: null },
             ],

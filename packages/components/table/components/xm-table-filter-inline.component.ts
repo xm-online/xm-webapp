@@ -20,12 +20,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NgClass, NgIf } from '@angular/common';
 import _ from 'lodash';
+import { XmEmptyPipe } from '@xm-ngx/pipes';
 
 @Component({
     selector: 'xm-table-filter-inline',
     standalone: true,
     template: `
-        <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex flex-row justify-content-between" *ngIf="!(config?.filters | xmEmpty)">
             <div class="m-3 d-flex filter-holder">
                 <div [@bodyExpansion]="filterExpand ? 'collapsed' : 'expanded'">
                     <xm-filters-control-request [options]="config"
@@ -89,9 +90,11 @@ import _ from 'lodash';
         MatButtonModule,
         XmTableFilterButtonDialogControlsComponent,
         XmTranslationModule,
+        XmEmptyPipe,
+        NgIf,
+        XmTranslationModule,
         MatIconModule,
         NgClass,
-        NgIf,
     ],
     animations: [
         matExpansionAnimations.bodyExpansion,

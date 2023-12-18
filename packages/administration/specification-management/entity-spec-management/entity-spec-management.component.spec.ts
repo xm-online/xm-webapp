@@ -3,9 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
-import { XmConfigService } from '@xm-ngx/core/config';
+import { XmConfigService, XmUiConfigService } from '@xm-ngx/core/config';
 
 import { EntitySpecManagementComponent } from './entity-spec-management.component';
+import { MockUiConfigService } from '@xm-ngx/core/config/testing';
 
 describe('TenantSpecMngComponent', () => {
     let component: EntitySpecManagementComponent;
@@ -15,6 +16,7 @@ describe('TenantSpecMngComponent', () => {
         TestBed.configureTestingModule({
             providers: [
                 { provide: MatDialog, useValue: null },
+                { provide: XmUiConfigService, useClass: MockUiConfigService },
                 { provide: XmConfigService, useValue: { getConfig: () => of(null) } },
             ],
             schemas: [NO_ERRORS_SCHEMA],

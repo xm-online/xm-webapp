@@ -1,4 +1,4 @@
-<div *ngIf="entitySpecificationIn" class="mb-3">
+<div *ngIf="entitySpecificationIn && !disableEntitySpecificationEditor" class="mb-3">
   <xm-entity-spec-editor
     [disabled]="disabled"
     (entitySpecChange)="onApplyChanges($event)"
