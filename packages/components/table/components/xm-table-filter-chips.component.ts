@@ -94,7 +94,7 @@ export interface XmTableFilterInlineFilter {
         <mat-menu #hiddenChips>
             <mat-chip-listbox class="chip-listbox ps-1 pe-1" [selectable]="false" [multiple]="true">
                 <mat-chip-option *ngFor="let filter of hiddenFilters"
-                                 (removed)="remove(filter.value)"
+                                 (removed)="remove(filter)"
                                  [removable]="filter.removable"
                                  selected
                                  color="accent"
