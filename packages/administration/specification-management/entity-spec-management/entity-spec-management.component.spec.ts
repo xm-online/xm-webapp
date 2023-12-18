@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { XmConfigService, XmUiConfigService } from '@xm-ngx/core/config';
 
 import { EntitySpecManagementComponent } from './entity-spec-management.component';
-import { MockUiConfigService } from "@xm-ngx/core/config/testing";
+import { MockUiConfigService } from '@xm-ngx/core/config/testing';
 
 describe('TenantSpecMngComponent', () => {
     let component: EntitySpecManagementComponent;

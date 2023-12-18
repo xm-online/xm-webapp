@@ -142,7 +142,7 @@ export class WidgetEditComponent implements OnChanges {
                 }).subscribe();
                 this.value = res;
                 this.editType = EditType.Edit;
-                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.dashboard.id, add: true });
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.dashboardId, add: true });
             }),
         ).subscribe();
     }
@@ -160,7 +160,7 @@ export class WidgetEditComponent implements OnChanges {
                     text: DASHBOARDS_TRANSLATES.updated,
                     textOptions: { value: res.name },
                 }).subscribe();
-                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.dashboard.id, add: true });
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.dashboardId, add: true });
             }),
         ).subscribe();
     }
@@ -178,7 +178,7 @@ export class WidgetEditComponent implements OnChanges {
                     textOptions: { value: this.value.name },
                 }).subscribe();
                 this.editorService.close();
-                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.dashboard.id, delete: true });
+                this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.dashboardId, delete: true });
             }),
         ).subscribe();
     }
@@ -191,7 +191,7 @@ export class WidgetEditComponent implements OnChanges {
     }
 
     public backToOrganisation(): void {
-        const id = this.value.dashboard.id;
+        const id = this.dashboardId;
         this.dashboardService.getById(id).subscribe((i) => {
             this.editorService.editDashboard(this.dashboardEditComponentType, i);
         });
@@ -224,5 +224,9 @@ export class WidgetEditComponent implements OnChanges {
         }
 
         this.value = _.merge(this.value, copiedObject.config);
+    }
+
+    private get dashboardId(): number {
+        return this.value.dashboard.id || this.value.dashboard;
     }
 }

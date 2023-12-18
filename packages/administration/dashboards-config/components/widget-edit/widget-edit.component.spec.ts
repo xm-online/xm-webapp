@@ -22,6 +22,8 @@ import { XM_CONTROL_ERRORS_TRANSLATES, XM_CONTROL_ERRORS_TRANSLATES_DEFAULT } fr
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { XmUiConfigService } from '@xm-ngx/core/config';
+import { MockUiConfigService } from '@xm-ngx/core/config/testing';
 
 @Component({
     selector: 'xm-schema-editor, xm-text-control, xm-selector-text-control, xm-ace-editor-control',
@@ -62,6 +64,7 @@ describe('WidgetEditComponent', () => {
                 { provide: XM_CONTROL_ERRORS_TRANSLATES, useValue: XM_CONTROL_ERRORS_TRANSLATES_DEFAULT },
                 { provide: WidgetCollection, useClass: MockEntityCollection },
                 { provide: DashboardCollection, useClass: MockEntityCollection },
+                { provide: XmUiConfigService, useClass: MockUiConfigService },
                 { provide: DashboardEditorService, useValue: null },
                 { provide: DashboardConfig, useValue: {} },
                 { provide: XmAlertService, useValue: null },

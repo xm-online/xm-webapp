@@ -12,11 +12,12 @@ import { DASHBOARDS_TRANSLATES } from '../const';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatBadgeModule } from '@angular/material/badge';
 import { DialogModule } from '@angular/cdk/dialog';
+import { XmBetaFeatureDirective } from '@xm-ngx/core/config';
 
 @Component({
     selector: 'xm-configuration-history',
     standalone: true,
-    imports: [CommonModule, MatButtonModule, MatTooltipModule, MatIconModule, XmTranslationModule, MatBadgeModule, DialogModule],
+    imports: [CommonModule, MatButtonModule, MatTooltipModule, MatIconModule, XmTranslationModule, MatBadgeModule, DialogModule, XmBetaFeatureDirective],
     templateUrl: './configuration-history.component.html',
     styleUrls: ['./configuration-history.component.scss'],
 })
