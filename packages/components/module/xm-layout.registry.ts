@@ -10,6 +10,10 @@ export const XM_LAYOUT_ELEMENTS: XmDynamicEntry[] = [
         loadChildren: () => import('@xm-ngx/components/layout/list').then(m => m.ListLayoutComponent),
     },
     {
+        selector: 'template-list-layout',
+        loadChildren: () => import('@xm-ngx/components/layout/template-list').then(m => m.TemplateListLayoutComponent),
+    },
+    {
         selector: 'expandable-layout',
         loadChildren: () => import('@xm-ngx/components/layout/expandable').then(m => m.ExpandableLayoutComponent),
     },

@@ -16,6 +16,10 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
                 selector: 'resource-data',
                 loadChildren: () => import('@xm-ngx/controllers/features/resource-data').then(m => m.ResourceDataService),
             },
+            {
+                selector: 'resource-array-data',
+                loadChildren: () => import('@xm-ngx/controllers/features/resource-array-data').then(m => m.ResourceArrayDataService),
+            },
         ]),
     ],
 })
