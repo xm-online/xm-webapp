@@ -2,9 +2,10 @@ import {Component, Input} from '@angular/core';
 import {XmTextTitleOptions} from '../text-title';
 import {XmDynamicModule, XmDynamicPresentation,} from '@xm-ngx/dynamic';
 import {Primitive} from '@xm-ngx/interfaces';
-import {XmTranslationModule} from '@xm-ngx/translation';
+import {Translate, XmTranslationModule} from '@xm-ngx/translation';
 import {XmTextViewModule} from '../text-view/xm-text-view.component';
 import {NgForOf, NgIf} from '@angular/common';
+import {XmEmptyPipe} from '@xm-ngx/pipes';
 
 export interface XmTextDynamicOptions extends XmTextTitleOptions {
     textStyle?: 'inline';
@@ -12,6 +13,7 @@ export interface XmTextDynamicOptions extends XmTextTitleOptions {
     labelStyleInline?: string;
     selector: string;
     options: unknown;
+    emptyValue?: Translate;
     dynamicLabel: (XmTextTitleOptions & XmDynamicPresentation)[];
 }
 
@@ -33,16 +35,23 @@ export interface XmTextDynamicOptions extends XmTextTitleOptions {
                     [controllers]="layout.controllers"
                 ></ng-container>
             </div>
+
             <span xmLabel *ngIf="config.title">{{config.title | translate}}</span>
-            <span xmDynamicPresentation
-                  xmValue
-                  [selector]="config.selector"
-                  [value]="value"
-                  [config]="config.options"
-                  [options]="config.options"></span>
+
+            <span *ngIf="!(value | xmEmpty)"
+                xmValue
+                xmDynamicPresentation
+                [selector]="config.selector"
+                [value]="value"
+                [config]="config.options"
+                [options]="config.options"></span>
+
+            <span xmValue *ngIf="(value | xmEmpty) && !(config?.emptyValue | xmEmpty)">
+                {{config.emptyValue | translate}}
+            </span>
         </xm-text-view-container>
     `,
-    imports: [XmTranslationModule, XmTextViewModule, XmDynamicModule, NgIf, NgForOf],
+    imports: [XmTranslationModule, XmTextViewModule, XmDynamicModule, XmEmptyPipe, NgIf, NgForOf],
     standalone: true,
 })
 export class XmTextDynamicView implements XmDynamicPresentation<Primitive, XmTextDynamicOptions> {
