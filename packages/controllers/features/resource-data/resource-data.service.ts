@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { RestRepositoryService } from '@xm-ngx/controllers/features/repository/rest-repository';
 import { injectByKey } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/interfaces';
 import { cloneDeep } from 'lodash';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { shareReplay, tap } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class ResourceDataService<T extends IId = any> {
 
     private resourceController = injectByKey<RestRepositoryService>('resource');
+    private activatedRoute=inject(ActivatedRoute);
 
     private data$: BehaviorSubject<T> = new BehaviorSubject<T>({} as T);
 
@@ -27,11 +29,15 @@ export class ResourceDataService<T extends IId = any> {
         }
 
         this.useCache = true;
-        return this.resourceController.get().pipe(
-            switchMap(data => {
-                this.data$.next(data);
-                this.stable = cloneDeep(data);
-                return this.data$.pipe(shareReplay(1));
+        return this.activatedRoute.queryParams.pipe(
+            switchMap((params) => {
+                return this.resourceController.get(params||null).pipe(
+                    switchMap((data) => {
+                        this.data$.next(data);
+                        this.stable = cloneDeep(data);
+                        return this.data$.pipe(shareReplay(1));
+                    })
+                );
             }),
         );
     }
