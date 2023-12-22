@@ -39,7 +39,8 @@
 
     <mat-card-content *ngIf="entity"
                       [@bodyExpansion]="contentHidden ? 'collapsed' : 'expanded'"
-                      [ngClass]="options.contentClass">
+                      [ngClass]="options.contentClass"
+                      class="overflow-hidden">
 
       <ng-content select="[xmContent]"></ng-content>
 
