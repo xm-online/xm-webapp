@@ -1,8 +1,5 @@
 import { ContentChild, Directive, Input, OnDestroy, OnInit } from '@angular/core';
-import {
-    IXmTableCollectionController,
-    IXmTableCollectionState,
-} from '../collections';
+import { IXmTableCollectionController, IXmTableCollectionState, } from '../collections';
 import {
     ColumnsSettingStorageItem,
     XmTableColumnsSettingStorageService,
@@ -14,9 +11,9 @@ import { PageableAndSortable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { cloneDeep } from 'lodash';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-table.model';
-import { map, startWith } from 'rxjs/operators';
+import { map, shareReplay, startWith } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmEventManagerService } from '@xm-ngx/core';
 
@@ -77,6 +74,18 @@ export class XmTableDirective implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.onControllerStateChangeUpdateContext();
+    }
+
+    public getSortActiveAndDirection(): Observable<Sort> {
+        return this.xmTableController.state$().pipe(
+            map((state) => {
+                return {
+                    active: state?.pageableAndSortable?.sortBy as string,
+                    direction: state?.pageableAndSortable?.sortOrder,
+                };
+            }),
+            shareReplay(1),
+        );
     }
 
     public onControllerStateChangeUpdateContext(): void {
