@@ -266,6 +266,11 @@ export class Principal implements OnDestroy, OnInitialize {
         return moment().format('Z');
     }
 
+    public getTimezoneOffset(): string {
+        // For now setting offset from browser
+        return this.userIdentity?.timeZoneOffset || '';
+    }
+
     /**
      * True if resolved. Inner helper method.
      * @returns `{boolean}`

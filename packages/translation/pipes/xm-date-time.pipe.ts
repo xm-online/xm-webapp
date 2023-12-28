@@ -41,7 +41,7 @@ export class XmDateTimePipe implements PipeTransform {
     }
 
     private getOffset(): string {
-        return this.account?.timeZoneOffset || '';
+        return this.principal.getTimezoneOffset();
     }
 
     private getDefaultFormat(): string {
