@@ -44,6 +44,8 @@
           matSort
           xmTableMatSortAdapter
           matSortDisableClear
+          [matSortActive]="(xmTable.getSortActiveAndDirection() | async).active"
+          [matSortDirection]="(xmTable.getSortActiveAndDirection() | async).direction"
           [dataSource]="context.collection.items"
         >
 
