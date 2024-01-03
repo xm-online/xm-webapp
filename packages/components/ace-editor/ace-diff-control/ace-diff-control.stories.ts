@@ -1,5 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/angular';
-import {AceDiffControlComponent} from '@xm-ngx/components/ace-editor/ace-diff-control/ace-diff-control.component';
+import {AceDiffControlComponent} from './ace-diff-control.component';
 
 
 const meta: Meta<AceDiffControlComponent> = {
