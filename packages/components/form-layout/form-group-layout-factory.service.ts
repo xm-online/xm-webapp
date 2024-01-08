@@ -14,6 +14,7 @@ export interface FormGroupLayoutItem<V = unknown, C = unknown> extends XmDynamic
     /** Control validators */
     validators?: ValidatorProcessingOption[];
     disabled?: boolean;
+    isArray?: boolean;
 }
 
 @Injectable({
@@ -37,7 +38,11 @@ export class FormGroupLayoutFactoryService {
     }
 
     public createForm(options: FormGroupLayoutItem[]): UntypedFormGroup {
-        const controls = options.map((option) => [option.name, this.createControl(option)]);
+        const controls = options.map((option: FormGroupLayoutItem) => {
+            const form: UntypedFormArray | UntypedFormControl = option.isArray ?
+                this.formBuilder.array([]) : this.createControl(option);
+            return [option.name, form];
+        });
         return this.formBuilder.group(fromPairs(controls));
     }
 
@@ -48,5 +53,15 @@ export class FormGroupLayoutFactoryService {
     private createFormArray(options: FormGroupLayoutItem[]): UntypedFormArray {
         const controls = options.map((layoutItem) => this.createControl(layoutItem));
         return this.formBuilder.array(controls);
+    }
+
+    public createBasicFormGroup(options: FormGroupLayoutItem[]): UntypedFormGroup {
+        const controls = options.reduce((accumulator, currentValue) => {
+            return {
+                ...accumulator,
+                [currentValue.name]: this.formBuilder.control(''),
+            };
+        }, {});
+        return this.formBuilder.group(controls);
     }
 }

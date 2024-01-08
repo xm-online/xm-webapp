@@ -268,7 +268,7 @@ export class Principal implements OnDestroy, OnInitialize {
 
     public getTimezoneOffset(): string {
         // For now setting offset from browser
-        return this.userIdentity.timeZoneOffset || '';
+        return this.userIdentity?.timeZoneOffset || '';
     }
 
     /**
