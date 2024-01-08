@@ -1,16 +1,16 @@
 <div class="menu-view" *ngIf="categories$ | async as categories">
-  <div class="global-categories" *ngIf="globalCategories?.length">
-    <div
-      *ngFor="let category of globalCategories"
-      class="global-categories__category global-category"
-      (mouseenter)="filterSections(categories, category)">
-      <div class="global-category__icon menu-link"
-           [ngClass]="{'active': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}">
-        <mat-icon>{{ category?.icon }}</mat-icon>
-      </div>
-      <span class="global-category__name">{{ category?.name | translate }}</span>
-    </div>
-  </div>
+<!--  <div class="global-categories" *ngIf="globalCategories?.length">-->
+<!--    <div-->
+<!--      *ngFor="let category of globalCategories"-->
+<!--      class="global-categories__category global-category"-->
+<!--      (mouseenter)="filterSections(categories, category)">-->
+<!--      <div class="global-category__icon menu-link"-->
+<!--           [ngClass]="{'active': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}">-->
+<!--        <mat-icon>{{ category?.icon }}</mat-icon>-->
+<!--      </div>-->
+<!--      <span class="global-category__name">{{ category?.name | translate }}</span>-->
+<!--    </div>-->
+<!--  </div>-->
   <cdk-tree *ngIf="filteredCategories"
             [dataSource]="filteredCategories"
             [treeControl]="treeControl"

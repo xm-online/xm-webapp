@@ -14,7 +14,7 @@ import {CdkTreeModule, NestedTreeControl} from '@angular/cdk/tree';
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy, treeNodeSearch} from '@xm-ngx/operators';
 import {buildMenuTree} from './nested-menu';
 import {applicationsToCategory, filterByConditionDashboards} from './flat-menu';
-import {GlobalMenuCategory, MenuItem, MenuOptions} from './menu.interface';
+import {MenuCategory, MenuItem, MenuOptions} from './menu.interface';
 import {XmUiConfigService} from '@xm-ngx/core/config';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -23,6 +23,7 @@ import {CommonModule, DOCUMENT} from '@angular/common';
 import {XmPermissionModule} from '@xm-ngx/core/permission';
 import {ConditionDirective} from '@xm-ngx/components/condition';
 import {showHideSubCategories} from './menu.animation';
+import {MenuService} from './menu.service';
 
 export type ISideBarConfig = {
     sidebar?: {
@@ -72,10 +73,10 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     public treeControl = new NestedTreeControl<MenuItem>(node => node.children);
     public categories$: Observable<MenuItem[]>;
-    public globalCategories: GlobalMenuCategory[];
+    public globalCategories: MenuCategory[];
     public filteredCategories: MenuItem[];
-    public selectedCategory: GlobalMenuCategory;
-    public hoveredCategory: GlobalMenuCategory;
+    public selectedCategory: MenuCategory;
+    public hoveredCategory: MenuCategory;
     public parentCategory: MenuItem;
 
     constructor(
@@ -87,6 +88,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         protected readonly entityConfigService: XmEntitySpecWrapperService,
         protected readonly contextService: ContextService,
         protected readonly userService: XmUserService,
+        protected readonly menuService: MenuService,
         @Inject(DOCUMENT) private document: Document
     ) {
     }
@@ -142,7 +144,7 @@ export class MenuComponent implements OnInit, OnDestroy {
             takeUntilOnDestroy(this),
         ).subscribe(a => {
             const active = this.getActiveNode(a);
-            !this.selectedCategory && this.filterSections(a, active?.parent?.globalCategory);
+            !this.selectedCategory && this.filterSections(a, active?.parent?.category);
             this.unfoldParentNode(active);
         });
 
@@ -169,9 +171,10 @@ export class MenuComponent implements OnInit, OnDestroy {
                         if (dashboards?.length) {
                             const menu: MenuItem[] = buildMenuTree(dashboards, ConditionDirective.checkCondition, {user: user});
                             this.globalCategories =
-                                menu.filter((menuItem: MenuItem) => menuItem.globalCategory)
-                                    .map((menuItem: MenuItem) => menuItem.globalCategory);
+                                menu.filter((menuItem: MenuItem) => menuItem.category)
+                                    .map((menuItem: MenuItem) => menuItem.category);
                             this.globalCategories.push(this.otherGlobalCategory);
+                            this.menuService.setMenuCategories(this.globalCategories);
                             return menu;
                         }
                         return [];
@@ -181,7 +184,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         );
     }
 
-    public filterSections(categories: MenuItem[], selectedCategory: GlobalMenuCategory): void {
+    public filterSections(categories: MenuItem[], selectedCategory: MenuCategory): void {
         if (!selectedCategory) {
             selectedCategory = this.otherGlobalCategory;
         }
@@ -190,11 +193,11 @@ export class MenuComponent implements OnInit, OnDestroy {
             this.filteredCategories = null;
             this.hoveredCategory = selectedCategory;
             setTimeout(() => {
-                this.filteredCategories = categories.filter((category: MenuItem) => {
+                this.filteredCategories = categories.filter((menu: MenuItem) => {
                     if (selectedCategoryName === 'other') {
-                        return !category?.globalCategory;
+                        return !menu?.category;
                     }
-                    return category?.globalCategory?.name?.en.toLowerCase() === selectedCategoryName;
+                    return menu?.category?.name?.en.toLowerCase() === selectedCategoryName;
                 });
             });
         }
@@ -202,7 +205,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     public setSelectedGlobalCategory(node: MenuItem): void {
         const { parent } = node || {};
-        this.selectedCategory = parent?.globalCategory || this.otherGlobalCategory;
+        this.selectedCategory = parent?.category || this.otherGlobalCategory;
         this.parentCategory = parent;
     }
 
@@ -231,7 +234,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
         let node = child;
         const { parent } = node || {};
-        !this.selectedCategory && (this.selectedCategory = parent?.globalCategory || this.otherGlobalCategory);
+        !this.selectedCategory && (this.selectedCategory = parent?.category || this.otherGlobalCategory);
         !this.parentCategory && (this.parentCategory = parent);
         while ((node = node.parent)) {
             this.treeControl.expand(node);
@@ -288,7 +291,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         return this.treeControl.isExpanded(node) ? 'expanded' : 'collapsed';
     }
 
-    private get otherGlobalCategory(): GlobalMenuCategory {
+    private get otherGlobalCategory(): MenuCategory {
         return {
             name: {
                 en: 'Other',

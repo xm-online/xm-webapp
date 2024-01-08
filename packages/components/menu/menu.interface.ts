@@ -22,7 +22,7 @@ export interface MenuItem {
     icon: string;
     title: Translate;
     parent: MenuItem,
-    globalCategory?: GlobalMenuCategory;
+    category?: MenuCategory;
     /**
      * @deprecated
      *
@@ -38,7 +38,7 @@ export interface MenuItem {
     children: MenuItem[];
 }
 
-export interface GlobalMenuCategory {
+export interface MenuCategory {
     name: ITranslate;
     icon: string;
 }

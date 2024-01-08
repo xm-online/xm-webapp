@@ -18,7 +18,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                 orderIndex: configOrder,
                 name: configName,
                 permission,
-                globalCategory,
+                category,
             } = {},
         }) => {
             if (hidden) {
@@ -80,7 +80,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         url: [ 'dashboard', groupKey ],
                         parent: null,
                         children: [],
-                        globalCategory,
+                        category,
                     });
                 }
 
@@ -108,7 +108,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         url: [ 'dashboard', ...slug.split('/') ],
                         parent: tree,
                         children: [],
-                        globalCategory,
+                        category,
                     };
 
                     tree.children.push(node);

@@ -1,0 +1,16 @@
+<ng-container *ngIf="categories$ | async as categories">
+  <div class="menu-categories" *ngIf="categories?.length">
+    <div
+      *ngFor="let category of categories"
+      class="menu-categories__category menu-category"
+      (mouseenter)="onHoverCategory(category)"
+      (mouseleave)="onLeaveCategory()">
+      <div class="menu-category__icon menu-link"
+           [ngClass]="{'active': true}">
+        <!--selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()-->
+        <mat-icon>{{ category?.icon }}</mat-icon>
+      </div>
+      <span class="menu-category__name">{{ category?.name | translate }}</span>
+    </div>
+  </div>
+</ng-container>

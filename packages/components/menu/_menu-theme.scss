@@ -71,48 +71,6 @@ $xm-menu-icon-font-size:    20px !default;
     border-radius: 0 16px 16px 0;
     background-color: #444746;
 
-    .global-categories {
-      min-width: 88px;
-      width: 88px;
-      //height: calc(100vh - 64px);
-      padding: 8px 0 8px;
-      //min-height: calc(100vh - 64px);
-      //max-height: calc(100vh - 64px);
-      overflow-x: hidden;
-      overflow-y: auto;
-      border-right: 1px solid rgba(196, 199, 197, .5);
-      @include xm-scrollbar();
-
-      .global-category {
-        width: 80px;
-        margin: 0 auto 14px;
-        padding: 2px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        color: #c4c7c5;
-        cursor: pointer;
-
-        &__icon {
-          display: flex;
-          position: relative;
-          align-items: center;
-          justify-content: center;
-          width: 56px;
-          height: 32px;
-          margin: 0 auto 4px;
-          transition: font-size .2s cubic-bezier(.2,0,0,1);
-          border-radius: 16px;
-        }
-
-        &__name {
-
-        }
-      }
-    }
-
     cdk-tree {
       width: 100%;
       height: calc(100vh - 80px);
