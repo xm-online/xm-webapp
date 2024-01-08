@@ -8,7 +8,7 @@ import { Link } from '@xm-ngx/entity';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 import moment from 'moment';
-import { JhiOrderByPipe, JhiParseLinks } from 'ng-jhipster';
+import { JhiOrderByPipe, JhiParseLinks } from '@xm-ngx/jhipster';
 import { merge } from 'rxjs';
 import { Audit } from './audit.model';
 import { AuditsService } from './audits.service';

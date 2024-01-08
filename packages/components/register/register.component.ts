@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 
-import { RecaptchaModule, RecaptchaComponent } from 'ng-recaptcha';
-import { JhiLanguageService } from 'ng-jhipster';
+import { RecaptchaComponent, RecaptchaModule } from 'ng-recaptcha';
+import { JhiLanguageService } from '@xm-ngx/jhipster';
 
 import { PasswordSpec } from '@xm-ngx/core/config';
 import { PrivacyAndTermsDialogComponent } from '@xm-ngx/components/privacy-and-terms-dialog';

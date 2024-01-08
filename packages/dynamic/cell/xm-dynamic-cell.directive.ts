@@ -19,8 +19,8 @@ import { XmDynamicPresentationBase } from '../presentation';
 import { XmDynamicLayoutNode } from '../src/interfaces';
 
 
-export const XM_DYNAMIC_TABLE_ROW = new InjectionToken<string>('XM_DYNAMIC_TABLE_ROW');
-export const XM_DYNAMIC_TABLE_CELL = new InjectionToken<string>('XM_DYNAMIC_TABLE_CELL');
+export const XM_DYNAMIC_TABLE_ROW = new InjectionToken<unknown>('XM_DYNAMIC_TABLE_ROW');
+export const XM_DYNAMIC_TABLE_CELL = new InjectionToken<unknown>('XM_DYNAMIC_TABLE_CELL');
 
 /**
  * XmDynamicCellDirective cell configuration

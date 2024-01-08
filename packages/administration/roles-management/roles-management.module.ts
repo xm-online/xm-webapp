@@ -20,7 +20,7 @@ import { NoDataModule } from '@xm-ngx/components/no-data';
 import { PerPageModule } from '@xm-ngx/components/per-page';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { NgJhipsterModule } from 'ng-jhipster';
+import { NgJhipsterModule } from '@xm-ngx/jhipster';
 import { WordAutocompleteModule } from '@xm-ngx/components/text';
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
 import { RoleMgmtDialogComponent } from './roles-management-dialog.component';

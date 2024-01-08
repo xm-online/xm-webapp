@@ -9,7 +9,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 
-import { JhiParseLinks } from 'ng-jhipster';
+import { JhiParseLinks } from '@xm-ngx/jhipster';
 import { merge, Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith, switchMap } from 'rxjs/operators';
 import { User, UserService } from '@xm-ngx/core/user';

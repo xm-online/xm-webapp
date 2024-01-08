@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
@@ -66,6 +66,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
     imports: [
         BrowserModule,
         HttpClientModule,
+        HttpClientJsonpModule,
         BrowserAnimationsModule,
         XmRoutingModule,
         XmJsfExtModule,
@@ -177,7 +178,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
             {
                 selector: '@xm-ngx/components/application-table-repository',
                 loadChildren: () => import('@xm-ngx/entity').then(m => m.XmEntityTableRepository),
-            }
+            },
         ]),
         LayoutModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),

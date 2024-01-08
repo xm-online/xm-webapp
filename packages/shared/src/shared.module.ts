@@ -5,7 +5,7 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { GooglePlaceModule } from '@xm-ngx/google-places-autocomplete';
 import { MarkdownModule } from 'ngx-markdown';
 
 import { MatModule } from './mat.module';

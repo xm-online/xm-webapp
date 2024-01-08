@@ -22,7 +22,7 @@ export function transformByMap<T, R, M>(data: T, mapper: M, allowAnyValue = fals
         if (Object.prototype.hasOwnProperty.call(mapper, optionKey)) {
             const optionValue = mapper[optionKey];
             if (typeof optionValue === 'string') {
-                const fieldValue: null | undefined | string = get(data, optionValue);
+                const fieldValue = get(data, optionValue);
                 const isNullValue = fieldValue !== null && fieldValue !== undefined;
 
                 if (isNullValue || allowAnyValue) {

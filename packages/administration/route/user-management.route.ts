@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Resolve, Routes } from '@angular/r
 import { UserMgmtDetailComponent } from '@xm-ngx/administration/user-management-detail';
 import { UserMgmtComponent } from '@xm-ngx/administration/user-management';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
-import { JhiPaginationUtil } from 'ng-jhipster';
+import { JhiPaginationUtil } from '@xm-ngx/jhipster';
 
 import { Principal } from '@xm-ngx/core/user';
 

@@ -23,7 +23,7 @@ export class XmTableElasticSearchCollectionController<T = unknown>
     implements IXmTableCollectionController<T> {
     public repository: IEntityCollectionPageable<T, PageableAndSortable>;
     public entity: object;
-    public config: XmTableReadOnlyRepositoryCollectionControllerConfig;
+    public declare config: XmTableReadOnlyRepositoryCollectionControllerConfig;
 
     constructor(
         protected repositoryResolver: XmTableRepositoryResolver<T>

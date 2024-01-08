@@ -9,7 +9,7 @@ You should create a `src/app/styles/theme.scss` file.
 
 ```scss
 // Import material variables
-@import '@angular/material/theming';
+@import '@angular/material';
 
 // Override the variable
 $xm-primary-palette: $mat-teal;
@@ -57,7 +57,7 @@ Create a tenant `feature-webapp-ext`.
 And create a theme file `feature-webapp-ext/theme.scss`.
 ###### Example - feature-webapp-ext/theme.scss
 ```scss
-@import '@angular/material/theming';
+@import '@angular/material';
 $xm-primary-palette: $mat-teal;
 @import '@xm-ngx/styles/theming';
 ```

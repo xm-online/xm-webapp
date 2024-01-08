@@ -35,7 +35,7 @@ export class XmTableAtTypeCollectionController<T extends AtType = AtType>
     extends AXmTableLocalPageableCollectionController<T>
     implements IXmTableCollectionController<T> {
     private entity: object;
-    public config: AtTypeListConfig;
+    public declare config: AtTypeListConfig;
     private initialData: T[];
 
     constructor(

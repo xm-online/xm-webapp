@@ -1,0 +1,8 @@
+{
+    "name": "@xm-ngx/google-places-autocomplete",
+    "version": "1.0.0",
+    "scripts": {
+      "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
+    }
+  }
+  

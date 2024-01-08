@@ -8,7 +8,7 @@ import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { Principal } from '@xm-ngx/core/user';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { JhiOrderByPipe } from 'ng-jhipster';
+import { JhiOrderByPipe } from '@xm-ngx/jhipster';
 import { finalize } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { RoleMatrix, RoleMatrixPermission } from '@xm-ngx/core/role';

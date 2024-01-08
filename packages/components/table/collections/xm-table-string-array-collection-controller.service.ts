@@ -26,7 +26,7 @@ export class XmTableStringArrayCollectionController<T extends StringArrayListMan
     extends AXmTableLocalPageableCollectionController<T>
     implements IXmTableCollectionController<T> {
     public entity: XmEntity;
-    public config: StringArrayListConfig;
+    public declare config: StringArrayListConfig;
 
     constructor(
         private entityController: XmTableEntityController<object>,
@@ -37,7 +37,7 @@ export class XmTableStringArrayCollectionController<T extends StringArrayListMan
     public async load(request: XmFilterQueryParams): Promise<void> {
         this.entity = await firstValueFrom(this.entityController.entity$());
         const primary = _.get(this.entity, this.config.path, []);
-        const modify = primary.map((i) => ({ value: i }));
+        const modify = primary.map((i) => ({ value: i } as T));
         this.items = modify;
     }
 

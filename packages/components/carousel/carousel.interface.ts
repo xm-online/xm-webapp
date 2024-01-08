@@ -28,6 +28,7 @@ export interface XmCarouselAdaptiveSettings {
     containerWidth: number;
     containerScroll: number;
     slideWidth: number;
+    slideGap: number;
     direction?: 'prev' | 'next';
     overflow: boolean;
 }

@@ -13,7 +13,7 @@ import { LoaderModule } from '@xm-ngx/components/loader';
 import { PerPageModule } from '@xm-ngx/components/per-page';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { NgJhipsterModule } from 'ng-jhipster';
+import { NgJhipsterModule } from '@xm-ngx/jhipster';
 import { RolesMatrixComponent } from './roles-matrix.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
