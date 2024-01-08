@@ -59,4 +59,14 @@ export class XmCarouselNextButtonDirective extends XmCarouselButtonDirective {}
 })
 export class XmCarouselSwitchButtonDirective extends XmCarouselButtonDirective {
     public switched = false;
+
+    @Input() public alwaysAvailable = false;
+
+    public setDisabled(disabled: boolean): void {
+        if (this.alwaysAvailable) {
+            return;
+        }
+
+        this.disabled = disabled;
+    }
 }
