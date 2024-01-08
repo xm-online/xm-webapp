@@ -51,6 +51,7 @@
   "dependencies": {
     "@ajsf/core": "0.8.0",
     "@ajsf/material": "0.8.0",
+    "@angular-architects/module-federation": "17.0.1",
     "@angular/animations": "17.0.4",
     "@angular/cdk": "17.0.4",
     "@angular/common": "17.0.4",
@@ -125,6 +126,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "0.5.40",
     "ng2-nouislider": "1.8.3",
+    "ngx-build-plus": " 17.0.0",
     "ngx-chips": "3.0.0",
     "ngx-cookie-service": "14.0.1",
     "ngx-img-cropper": "14.0.1",
