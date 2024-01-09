@@ -1,11 +1,6 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { loadManifest } from '@angular-architects/module-federation';
 
-import { XmModule } from './app/xm.module';
-import { environment } from './environments/environment';
-
-if (environment.production) {
-    enableProdMode();
-}
-
-platformBrowserDynamic().bootstrapModule(XmModule);
+loadManifest('/assets/federation.manifest.json')
+    .catch(err => console.error(err))
+    .then(_ => import('./bootstrap'))
+    .catch(err => console.error(err));

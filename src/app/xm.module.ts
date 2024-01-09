@@ -37,6 +37,7 @@ import { XmMainComponent } from 'src/app/layouts';
 import { LayoutModule } from 'src/app/layouts/layout.module';
 import { XmRoutingModule } from 'src/app/xm-routing.module';
 import { XM_MAT_DIALOG_DEFAULT_OPTIONS } from 'src/app/xm.constants';
+import { loadRemoteModule } from '@angular-architects/module-federation';
 
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import {
@@ -147,6 +148,27 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
                 loadChildren: () => import('@xm-ngx/account/module').then(m => m.XmNgxAccountModule),
             },
             // #regionstart dynamic-extension-modules
+            {
+                selector: 'example',
+                loadChildren: () =>
+                    loadRemoteModule({
+                        remoteEntry: 'http://localhost:4201/remoteEntry.js',
+                        type: 'script',
+                        remoteName: 'example-webapp-ext',
+                        exposedModule: './Module',
+                    }).then((m) => m.ExampleWebappExtModule),
+            },
+            {
+                selector: 'ext-example',
+                loadChildren: () =>
+                    loadRemoteModule({
+                        remoteEntry: 'http://localhost:4201/remoteEntry.js',
+                        type: 'script',
+                        remoteName: 'example-webapp-ext',
+                        exposedModule: './Module',
+                    }).then((m) => m.ExampleWebappExtModule),
+                // loadChildren: () => import('example-widget-ext/Module').then(m => m.ExampleWebappExtModule),
+            },
             // #regionend dynamic-extension-modules
         ]),
         XmDynamicModule.forRoot([

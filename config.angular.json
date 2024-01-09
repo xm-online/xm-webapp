@@ -3,6 +3,37 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+
+    "example-webapp-ext": {
+      "projectType": "application",
+      "root": "src/app/ext/example-webapp-ext",
+      "sourceRoot": "src/app/ext/example-webapp-ext",
+      "prefix": "example-webapp-ext",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist/example-webapp-ext",
+            "index": "src/app/ext/example-webapp-ext/index.html",
+            "main": "src/app/ext/example-webapp-ext/main.ts",
+            "tsConfig": "src/app/ext/example-webapp-ext/tsconfig.app.json",
+            "scripts": [],
+            "extraWebpackConfig": "src/app/ext/example-webapp-ext/webpack.config.js",
+            "commonChunk": false
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
+            "browserTarget": "example-webapp-ext:build",
+            "publicHost": "http://localhost:4201",
+            "port": 4201,
+            "extraWebpackConfig": "src/app/ext/example-webapp-ext/webpack.config.js"
+          }
+        }
+      }
+    },
+
     "xm-webapp": {
       "root": "",
       "sourceRoot": "",
@@ -10,7 +41,7 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "allowedCommonJsDependencies": [
               "moment-timezone",
@@ -18,6 +49,7 @@
               "lodash",
               "lodash/fp"
             ],
+            "extraWebpackConfig": "src/webpack.config.js",
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -124,11 +156,12 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "ngx-build-plus:dev-server",
           "options": {
             "browserTarget": "xm-webapp:build:development",
             "proxyConfig": "proxy.conf.js",
-            "host": "0.0.0.0"
+            "host": "0.0.0.0",
+            "extraWebpackConfig": "src/webpack.config.js"
           },
           "configurations": {
             "production": {
@@ -155,7 +188,9 @@
             "karmaConfig": "karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
-            "include": ["**/*.spec.ts"],
+            "include": [
+              "**/*.spec.ts"
+            ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/popper.js/dist/umd/popper.js",
