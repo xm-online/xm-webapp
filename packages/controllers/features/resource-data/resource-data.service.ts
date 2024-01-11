@@ -6,6 +6,7 @@ import { cloneDeep } from 'lodash';
 import { BehaviorSubject, debounceTime, Observable, switchMap } from 'rxjs';
 import { filter, shareReplay, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
+import { DataResourceOptions } from '@xm-ngx/controllers/features/resource-data/resource-data.model';
 const DEFAULT_DURATION = 300;
 @Injectable()
 export class ResourceDataService<T extends IId = any> {
@@ -88,8 +89,4 @@ export class ResourceDataService<T extends IId = any> {
     }
 }
 
-interface DataResourceOptions{
-    updateIfEntityChange?: boolean,
-    updateEntityChangeParams?: string[],
-    updateDelay?: number
-}
+
