@@ -76,10 +76,12 @@ export class ResourceDataService<T extends IId = any> {
         return this.data$;
     }
 
-    private shouldFilterParams(params: any): boolean {
-        if (this.config?.updateEntityChangeParams) {
-            const hasIdChanged: boolean = params[this.config?.updateEntityChangeParams[0]] !== this.previousId;
-            this.previousId = params[this.config?.updateEntityChangeParams[0]];
+    private shouldFilterParams(params: Params): boolean {
+        const {updateEntityChangeParams} = this.config || {};
+        if (updateEntityChangeParams) {
+            const param = params[updateEntityChangeParams[0]];
+            const hasIdChanged: boolean = param !== this.previousId;
+            this.previousId = param;
             return hasIdChanged;
         }
         return true;
