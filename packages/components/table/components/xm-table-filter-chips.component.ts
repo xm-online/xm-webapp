@@ -257,7 +257,7 @@ export class XmTableFilterChipsComponent {
                         if(config['title']) {
                             title = config['title'][value] ? config['title'][value] : config.name;
                         } else {
-                            title = config['title'] || config.name;
+                            title = value || config.name;
                         }
                         return {
                             ...tableFilterInlineFilter,
