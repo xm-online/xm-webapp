@@ -1,21 +1,24 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { RestRepositoryService } from '@xm-ngx/controllers/features/repository/rest-repository';
 import { injectByKey } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/interfaces';
 import { cloneDeep } from 'lodash';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
-import { shareReplay, tap } from 'rxjs/operators';
-
+import { distinctUntilChanged, shareReplay, tap } from 'rxjs/operators';
+import { ActivatedRoute, Params } from '@angular/router';
+import { DataResourceOptions } from '@xm-ngx/controllers/features/resource-data/resource-data.model';
 @Injectable()
 export class ResourceDataService<T extends IId = any> {
 
     private resourceController = injectByKey<RestRepositoryService>('resource');
+    private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
     private data$: BehaviorSubject<T> = new BehaviorSubject<T>({} as T);
 
     private stable: T;
 
     private useCache: boolean = false;
+    public config: DataResourceOptions;
 
     public getSync(): T {
         return cloneDeep(this.data$.value);
@@ -27,8 +30,28 @@ export class ResourceDataService<T extends IId = any> {
         }
 
         this.useCache = true;
-        return this.resourceController.get().pipe(
-            switchMap(data => {
+        if (this.config?.listenQueryParams) {
+            return this.activatedRoute.queryParams.pipe(
+                distinctUntilChanged((prev: Params, next: Params) => {
+                    for (const key of this.config.listenQueryParams) {
+                        if (prev[key] !== next[key]) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }),
+                switchMap((params: Params) => {
+                    return this.getDataFromResource(params);
+                }),
+            );
+        }
+        return this.getDataFromResource();
+
+    }
+
+    private getDataFromResource(params?: Params): Observable<T> {
+        return this.resourceController.get(params || null).pipe(
+            switchMap((data) => {
                 this.data$.next(data);
                 this.stable = cloneDeep(data);
                 return this.data$.pipe(shareReplay(1));
@@ -54,4 +77,7 @@ export class ResourceDataService<T extends IId = any> {
         this.data$.next(cloneDeep(this.stable));
         return this.data$;
     }
+
 }
+
+
