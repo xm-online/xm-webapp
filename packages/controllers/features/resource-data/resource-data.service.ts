@@ -6,7 +6,8 @@ import { cloneDeep } from 'lodash';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { distinctUntilChanged, shareReplay, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
-import { DataResourceOptions } from '@xm-ngx/controllers/features/resource-data/resource-data.model';
+import { DataResourceOptions } from './resource-data.model';
+
 @Injectable()
 export class ResourceDataService<T extends IId = any> {
 
