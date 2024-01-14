@@ -87,7 +87,7 @@
                           framework="material-design"
                           [layout]="jsfAttributes.layout | i18nJsf:principal"
                           [options]="jsfAttributes.options | i18nJsf:principal"
-                          [schema]="jsfAttributes.schema"
+                          [schema]="jsfAttributes.schema | i18nJsf"
                           [widgets]="jsfAttributes.widgets"
                           (onChanges)="onChangeJsf($event)"
                           class="json-form-hide-submit">
