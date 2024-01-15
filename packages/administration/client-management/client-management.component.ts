@@ -17,7 +17,7 @@ import { Client, ClientService } from '@xm-ngx/core/client';
 import { BaseAdminListComponent } from '@xm-ngx/administration';
 import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dialog.component';
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';
-import { Role, RoleService } from "@xm-ngx/core/role";
+import { Role, RoleService } from '@xm-ngx/core/role';
 
 
 @Component({

@@ -22,7 +22,7 @@ import { BaseAdminListComponent } from '@xm-ngx/administration';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
 import { UserMgmtDialogComponent } from './user-management-dialog/user-management-dialog.component';
-import { TranslatePipe } from "@xm-ngx/translation";
+import { TranslatePipe } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-user-mgmt',
@@ -275,7 +275,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
 })
 export class RoleNamePipe implements PipeTransform {
 
-    private translatePipe = inject(TranslatePipe)
+    private translatePipe = inject(TranslatePipe);
 
     public transform(value: User, authoritiesMap: Record<string, Role>): any {
         if (value.authorities?.length) {
