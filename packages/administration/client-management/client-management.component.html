@@ -56,7 +56,9 @@
 
         <ng-container matColumnDef="roleKey">
           <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'clientManagement.roleKey' | translate}}</th>
-          <td *matCellDef="let client" mat-cell> {{client.roleKey}} </td>
+          <td *matCellDef="let client" mat-cell>
+              {{(authoritiesMap[client.roleKey]?.name ? authoritiesMap[client.roleKey]?.name : client.roleKey) | translate}}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="description">

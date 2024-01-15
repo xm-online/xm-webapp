@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -13,7 +13,7 @@ import { JhiParseLinks } from '@xm-ngx/jhipster';
 import { merge, Observable, Subscription } from 'rxjs';
 import { finalize, map, startWith, switchMap } from 'rxjs/operators';
 import { User, UserService } from '@xm-ngx/core/user';
-import { RoleService } from '@xm-ngx/core/role';
+import { Role, RoleService } from '@xm-ngx/core/role';
 import { UserLogin, UserLoginService } from '@xm-ngx/account/user-login-widget';
 import { Client } from '@xm-ngx/core/client';
 
@@ -22,6 +22,7 @@ import { BaseAdminListComponent } from '@xm-ngx/administration';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
 import { UserMgmtDialogComponent } from './user-management-dialog/user-management-dialog.component';
+import { TranslatePipe } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-user-mgmt',
@@ -33,7 +34,8 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
     public eventSubscriber: Subscription;
     public basePredicate: string = 'id';
     public login: string;
-    public authorities: any[];
+    public authorities: Role[];
+    public authoritiesMap: Record<string, Role> = {};
     public currentSearch: string;
     public onlineUsers: number = 0;
 
@@ -94,7 +96,10 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         this.registerChangeInList();
         this.roleService.getRoles()
             .pipe(takeUntilOnDestroy(this))
-            .subscribe((roles) => this.authorities = roles.map((role) => role.roleKey).sort());
+            .subscribe((roles: Role[]) => {
+                this.authorities = roles.sort(it => it.roleKey.localeCompare(it.roleKey));
+                this.authoritiesMap = Object.fromEntries(roles.map(it => [it.roleKey, it]));
+            });
         this.userService.getOnlineUsers()
             .pipe(takeUntilOnDestroy(this))
             .subscribe((result) => this.onlineUsers = result.body);
@@ -209,7 +214,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
             });
     }
 
-    public searchByLogin(): void | null {
+    public searchByLogin(): void {
         this.matSort.active = this.basePredicate;
         this.pagination.pageIndex = 0;
         this.currentSearch = null;
@@ -262,4 +267,21 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         });
     }
 
+}
+
+@Pipe({
+    name: 'roleName',
+    standalone: true,
+})
+export class RoleNamePipe implements PipeTransform {
+
+    private translatePipe = inject(TranslatePipe);
+
+    public transform(value: User, authoritiesMap: Record<string, Role>): any {
+        if (value.authorities?.length) {
+            return value.authorities?.map(it => authoritiesMap[it]?.name ? authoritiesMap[it].name : it)
+                .map(it => this.translatePipe.transform(it));
+        }
+        return authoritiesMap[value.roleKey] || value.roleKey;
+    }
 }

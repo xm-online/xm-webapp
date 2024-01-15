@@ -6,7 +6,9 @@ import { ITranslate, LanguageService, Translate } from '../services/language.ser
 export interface ITrKeyTranslates {
     trKey: string;
 }
-/** @deprecated solution. Use {@link XmTranslatePipe} instead. Will be removed in v8.0.0. */
+/** @deprecated solution. Use {@link XmTranslatePipe} instead. Will be removed in v8.0.0.
+ * TODO Before remove add to XmTranslationService logic related to default language in case if translation empty and handle trKey.
+ */
 @Injectable()
 @Pipe({
     name: 'translate',

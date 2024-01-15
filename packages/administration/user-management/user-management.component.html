@@ -10,13 +10,13 @@
             mat-flat-button>
       {{'global.all' | translate}}
     </button>
-    <button (click)="applySearchByRole(authority)"
+    <button (click)="applySearchByRole(authority.roleKey)"
             *ngFor="let authority of authorities"
             class="size-sm"
             color="primary"
-            [color]="currentSearch === authority ? 'primary': null"
+            [color]="currentSearch === authority.roleKey ? 'primary': null"
             mat-flat-button>
-      {{authority | translate}}
+      {{authority.name || authority.roleKey | translate}}
     </button>
   </div>
 
@@ -109,7 +109,9 @@
 
       <ng-container matColumnDef="roleKey">
         <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'userManagement.role' | translate}}</th>
-        <td *matCellDef="let user" mat-cell>{{user.authorities?.length ? user.authorities : user.roleKey}}</td>
+        <td *matCellDef="let user" mat-cell>
+            {{user | roleName: authoritiesMap}}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="createdDate">
