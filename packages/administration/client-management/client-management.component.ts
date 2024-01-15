@@ -17,6 +17,7 @@ import { Client, ClientService } from '@xm-ngx/core/client';
 import { BaseAdminListComponent } from '@xm-ngx/administration';
 import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dialog.component';
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';
+import { Role, RoleService } from "@xm-ngx/core/role";
 
 
 @Component({
@@ -29,6 +30,7 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
     public eventModify: string = 'clientListModification';
     public basePredicate: string = 'lastModifiedDate';
     public clientId: string;
+    public authoritiesMap: Record<string, Role> = {};
     public dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>([]);
     @ViewChild(MatSort, { static: true }) public matSort: MatSort;
     @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
@@ -48,6 +50,7 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
 
     constructor(
         protected clientService: ClientService,
+        protected roleService: RoleService,
         protected activatedRoute: ActivatedRoute,
         protected toasterService: XmToasterService,
         protected alertService: XmAlertService,
@@ -68,6 +71,10 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
 
         this.dataSource.sort = this.matSort;
         this.dataSource.paginator = this.paginator;
+
+        this.roleService.getRoles().subscribe((roles) => {
+            this.authoritiesMap = Object.fromEntries(roles.map(it => [it.roleKey, it]));
+        });
     }
 
     public ngAfterViewInit(): void {

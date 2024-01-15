@@ -2,6 +2,7 @@ import { Permission } from './permission.model';
 
 export interface Role {
     roleKey?: string;
+    name?: Record<string, string>;
     basedOn?: string;
     description?: string;
     createdDate?: any;

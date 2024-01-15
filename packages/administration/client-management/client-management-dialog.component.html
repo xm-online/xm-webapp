@@ -49,7 +49,7 @@
                     name="authority"
                     required>
           <mat-option *ngFor="let authority of authorities" [value]="authority">
-            {{authority}}
+            {{(authoritiesMap[authority]?.name ? authoritiesMap[authority]?.name : authority) | translate}}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="clientAuthority.hasError('required')">

@@ -31,6 +31,7 @@ export class XmTranslateService {
      */
     public translate(text: Translate, interpolateParams: object = {}): string | null {
         if (typeof text === 'object' && text !== null) {
+            // TODO  add logic related to default language in case if translation empty and handle trKey
             const str = text[this.languageService.locale];
             const interpolated = this.interpolate(str, interpolateParams);
             return interpolated ? this.translateService.instant(interpolated, interpolateParams) : '';
