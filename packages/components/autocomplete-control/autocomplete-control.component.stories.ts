@@ -16,6 +16,9 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmAutocompleteControlConfig } from '@xm-ngx/components/autocomplete-control';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { XmAuthenticationService } from '@xm-ngx/core/auth';
+import { XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { XmSharedModule } from '@xm-ngx/shared';
 
 function StaticLoaderFactory() {
     return of(require('src/i18n/en.json'));
@@ -110,7 +113,9 @@ export default {
         applicationConfig({
             providers: [
                 importProvidersFrom(NgxWebstorageModule.forRoot()),
+                importProvidersFrom(XmSharedModule.forRoot()),
                 importProvidersFrom(XmCoreModule.forRoot()),
+                importProvidersFrom(XmCoreAuthModule.forRoot()),
                 importProvidersFrom(XmLoggerModule.forRoot()),
                 importProvidersFrom(XmCoreConfigModule),
                 importProvidersFrom(HttpClientModule),
