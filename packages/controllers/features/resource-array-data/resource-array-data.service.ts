@@ -19,6 +19,9 @@ export class ResourceArrayDataService<T extends IId = any> {
     private injector = inject(Injector);
     private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
 
+    private get key(): string {
+        return this.config?.dataController?.key || 'data';
+    }
     public getSync(): T {
         return cloneDeep(this.data$.value);
     }
@@ -29,7 +32,7 @@ export class ResourceArrayDataService<T extends IId = any> {
         }
 
         this.useCache = true;
-        return this.getControllerByKey<RestRepositoryService>(this.config?.dataController?.key || 'data').get().pipe(
+        return this.getControllerByKey<RestRepositoryService>(this.key).get().pipe(
             filter(v => !isEmpty(v)),
             map(data => {
                 const fieldValue = this.config?.path ? get(data, this.config.path) : data;
@@ -50,7 +53,7 @@ export class ResourceArrayDataService<T extends IId = any> {
 
     public save(): Observable<T> {
         if (this.data$.value?.id) {
-            return this.getControllerByKey<RestRepositoryService>(this.config?.dataController?.key || 'data').update(this.data$.value).pipe(
+            return this.getControllerByKey<RestRepositoryService>(this.key).update(this.data$.value).pipe(
                 tap(entity => this.data$.next(entity)),
             );
         }
