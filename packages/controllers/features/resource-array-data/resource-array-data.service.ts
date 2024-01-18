@@ -1,15 +1,13 @@
-import { Injectable } from '@angular/core';
-import { RestRepositoryService } from '@xm-ngx/controllers/features/repository/rest-repository';
-import { injectByKey } from '@xm-ngx/dynamic';
+import { inject, Injectable, Injector, ProviderToken } from '@angular/core';
+import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/interfaces';
 import { cloneDeep, get, isEmpty } from 'lodash';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { filter, map, shareReplay, tap } from 'rxjs/operators';
+import { RestRepositoryService } from '@xm-ngx/controllers/features/repository/rest-repository';
 
 @Injectable()
 export class ResourceArrayDataService<T extends IId = any> {
-
-    private resourceController = injectByKey<RestRepositoryService>('data');
 
     private data$: BehaviorSubject<T> = new BehaviorSubject<T>({} as T);
 
@@ -18,6 +16,8 @@ export class ResourceArrayDataService<T extends IId = any> {
     private useCache: boolean = false;
 
     public config: any;
+    private injector = inject(Injector);
+    private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
 
     public getSync(): T {
         return cloneDeep(this.data$.value);
@@ -29,10 +29,10 @@ export class ResourceArrayDataService<T extends IId = any> {
         }
 
         this.useCache = true;
-        return this.resourceController.get().pipe(
+        return this.getControllerByKey<RestRepositoryService>(this.config?.dataController?.key || 'data').get().pipe(
             filter(v => !isEmpty(v)),
             map(data => {
-                const fieldValue = get(data, this.config.path);
+                const fieldValue = this.config?.path ? get(data, this.config.path) : data;
                 return this.config.arrayItemIndex !== undefined ? fieldValue[this.config.arrayItemIndex] : fieldValue;
             }),
             switchMap(data => {
@@ -50,7 +50,7 @@ export class ResourceArrayDataService<T extends IId = any> {
 
     public save(): Observable<T> {
         if (this.data$.value?.id) {
-            return this.resourceController.update(this.data$.value).pipe(
+            return this.getControllerByKey<RestRepositoryService>(this.config?.dataController?.key || 'data').update(this.data$.value).pipe(
                 tap(entity => this.data$.next(entity)),
             );
         }
@@ -60,5 +60,9 @@ export class ResourceArrayDataService<T extends IId = any> {
     public reset(): Observable<T> {
         this.data$.next(cloneDeep(this.stable));
         return this.data$;
+    }
+    private getControllerByKey<R>(key: string): R {
+        const providerToken: ProviderToken<any> = this.injectionTokenService.resolve(key);
+        return this.injector.get<R>(providerToken, undefined,{optional: true});
     }
 }
