@@ -78,7 +78,6 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
     }
 
     public getName(code: string, type: string, valueKey: string): void {
-
         if (!code) return;
         if (type === 'uaa') {
             this.userService.findPublic(code).pipe(
