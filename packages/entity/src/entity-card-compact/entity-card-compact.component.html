@@ -105,16 +105,39 @@
                            [tagSpecs]="xmEntitySpec?.tags"
                            [xmEntityId]="xmEntity.id"></xm-tag-list-section>
 
-      <xm-function-list-section-compact
-        *ngIf="xmEntity || (getNextStates()?.length || xmEntitySpec.functions)"
-        [functionSpecsUpdates]="entityFunctionSpec"
-        [nextStates]="getNextStates()"
-        [stateSpec]="getState()"
-        [xmEntityId]="xmEntity.id"
-        [xmEntitySpec]="xmEntitySpec"
-        [xmEntity]="xmEntity"
-        class="function-list">
-      </xm-function-list-section-compact>
+      <div class="row block-created-info-wrapper">
+        <div class="col">
+          <xm-function-list-section-compact
+            *ngIf="xmEntity || (getNextStates()?.length || xmEntitySpec.functions)"
+            [functionSpecsUpdates]="entityFunctionSpec"
+            [nextStates]="getNextStates()"
+            [stateSpec]="getState()"
+            [xmEntityId]="xmEntity.id"
+            [xmEntitySpec]="xmEntitySpec"
+            [xmEntity]="xmEntity"
+            class="function-list">
+          </xm-function-list-section-compact>
+        </div>
+
+        <div class="col">
+          <div class="block-created-info">
+            <ng-container *ngIf="createdBy || xmEntity.startDate">
+              Created
+              <ng-container *ngIf="createdBy">by {{updatedBy}}</ng-container>
+              <ng-container *ngIf="!createdBy">date</ng-container>
+              {{xmEntity.startDate | date: 'MM/dd/yyyy hh:mm'}}
+              <br>
+            </ng-container>
+            <ng-container *ngIf="updatedBy || xmEntity.updateDate">
+              Changed
+              <ng-container *ngIf="updatedBy">by {{updatedBy}}</ng-container>
+              <ng-container *ngIf="!updatedBy">date</ng-container>
+              {{xmEntity.updateDate | date: 'MM/dd/yyyy hh:mm'}}
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
     </ng-container>
 
     <ng-container *ngIf="displayMode === 'BOTH' || displayMode === 'BODY'">

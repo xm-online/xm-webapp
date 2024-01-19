@@ -5,7 +5,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { JsfAttributes } from '@xm-ngx/json-schema-form';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize, take } from 'rxjs/operators';
-import { Principal } from '@xm-ngx/core/user';
+import { Principal, UserService } from '@xm-ngx/core/user';
 import { nullSafe } from '@xm-ngx/json-schema-form/components';
 import { EntityCardComponent } from '../entity-card/entity-card.component';
 import { RatingListSectionComponent } from '../rating-list-section/rating-list-section.component';
@@ -57,8 +57,9 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
         protected xmEntityService: XmEntityService,
         protected widgetService: JsfComponentRegistryService,
         private location: Location,
+        protected userService: UserService,
     ) {
-        super(modalService, principal, eventManager);
+        super(modalService, principal, eventManager, xmEntityService, userService);
     }
 
     public onBack(): void {
