@@ -1,14 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
-import { FunctionSpec, NextSpec, StateSpec, XmEntityService } from '@xm-ngx/core/entity';
-import { Principal, UserService } from '@xm-ngx/core/user';
+import { FunctionSpec, NextSpec, StateSpec } from '@xm-ngx/core/entity';
+import { Principal } from '@xm-ngx/core/user';
 import { AvatarDialogComponent } from '../avatar-dialog/avatar-dialog.component';
 import { XmEntitySpec } from '@xm-ngx/core/entity';
 import { XmEntity } from '@xm-ngx/core/entity';
 import { XM_ENTITY_EVENT_LIST } from '../constants';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+
 
 @Component({
     selector: 'xm-entity-card',
@@ -19,18 +18,13 @@ export class EntityCardComponent implements OnInit {
 
     @Input() public xmEntity: XmEntity;
     @Input() public xmEntitySpec: XmEntitySpec;
-    @Input() public entityUiConfig: any;
 
     public isAvatarEnabled: boolean;
-    public updatedBy: string;
-    public createdBy: string;
 
     constructor(
         protected modalService: MatDialog,
         protected principal: Principal,
-        protected eventManager: XmEventManager,
-        protected xmEntityService: XmEntityService,
-        protected userService: UserService,
+        protected eventManager: XmEventManager
     ) {
     }
 
@@ -52,22 +46,7 @@ export class EntityCardComponent implements OnInit {
 
     public ngOnInit(): void {
         this.isAvatarEnabled = this.xmEntitySpec.isAvatarEnabled ? this.xmEntitySpec.isAvatarEnabled : false;
-        this.getName(this.xmEntity.updatedBy, this.entityUiConfig.userInfoSource, 'updatedBy');
-        this.getName(this.xmEntity.createdBy, this.entityUiConfig.userInfoSource, 'createdBy');
     }
-
-    public getName(code: string, type: string, valueKey: string): void {
-        if (!code) return;
-        if (type === 'uaa') {
-            this.userService.findPublic(code).pipe(
-                catchError(() => of(null)),
-            ).subscribe(res => this[valueKey] = `${res.firstName} ${res.lastName}`);
-        } else if (type === 'profile') {
-            this.xmEntityService.getById(code).pipe(
-                catchError(() => of(null)),
-            ).subscribe(res => this[valueKey] = res.name);
-        }
-    };
 
     public getCurrentStateSpec(): StateSpec {
         return this.xmEntitySpec.states &&

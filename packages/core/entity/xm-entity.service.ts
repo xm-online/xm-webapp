@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { QueryParams } from '@xm-ngx/repositories';
 import { JhiDateUtils } from '@xm-ngx/jhipster';
@@ -58,8 +58,9 @@ export class XmEntityService {
             map((res) => this.convertResponse(res))));
     }
 
-    public getById<T extends XmEntity>(key: number | string, params: { embed: string } & QueryParams = { embed: 'data' }): Observable<T> {
-        return this.handle(this.http.get<T>(`${this.resourceUrl}/${key}`, { params }).pipe(
+    public getById<T extends XmEntity>(key: number | string, params: { embed: string } & QueryParams = { embed: 'data' },
+                                       headers: HttpHeaders | { [header: string]: string | string[]; }  = {}): Observable<T> {
+        return this.handle(this.http.get<T>(`${this.resourceUrl}/${key}`, { params, headers }).pipe(
             map((res) => this.convertItemFromServer(res)),
         ));
     }
