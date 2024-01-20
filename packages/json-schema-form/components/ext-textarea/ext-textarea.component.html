@@ -1,7 +1,9 @@
 <mat-form-field>
+  <mat-label>{{options?.title | translate}}</mat-label>
   <textarea matInput
-            [style.height]="options.height"
-            [readonly]="options.readonly"
+            [style.height]="options?.height"
+            [placeholder]="options?.placeholder | translate"
+            [readonly]="options?.readonly"
             [value]="controlValue"
             (change)="changeText($event)">
      {{controlValue}}
