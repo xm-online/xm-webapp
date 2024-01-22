@@ -54,6 +54,7 @@ export type EntityDetailLayout = 'DEFAULT' | 'ALL-IN-ROW' | 'COMPACT';
 export type EntityDetailDisplayMode = 'HEAD' | 'BODY' | 'BOTH';
 
 export interface EntityUiConfig {
+    userInfoSource?: 'uaa' | 'profile';
     typeKey: string;
     addButtonPermission?: string;
     editButtonPermission?: string;
