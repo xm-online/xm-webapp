@@ -1102,6 +1102,10 @@
     },
     "entity-data-card": {
       "title": "Data",
+      "created-by": "Created by",
+      "created-date": "Created date",
+      "update-by": "Updated by",
+      "update-date": "Updated date",
       "update-error": "Not updated. Try again.",
       "update-success": "Updated successfully.",
       "change-avatar": "Change Picture",

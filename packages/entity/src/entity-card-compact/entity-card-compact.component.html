@@ -122,16 +122,14 @@
         <div class="col">
           <div class="block-created-info">
             <ng-container *ngIf="createdBy || xmEntity?.startDate">
-              Created
-              <ng-container *ngIf="createdBy">by {{createdBy}}</ng-container>
-              <ng-container *ngIf="!createdBy">date</ng-container>
+              <ng-container *ngIf="createdBy">{{ 'xm-entity.entity-data-card.created-by' | translate }} {{createdBy}}</ng-container>
+              <ng-container *ngIf="!createdBy">{{ 'xm-entity.entity-data-card.created-date' | translate }}</ng-container>
               {{xmEntity?.startDate | date: 'MM/dd/yyyy hh:mm'}}
               <br>
             </ng-container>
             <ng-container *ngIf="updatedBy || xmEntity?.updateDate">
-              Changed
-              <ng-container *ngIf="updatedBy">by {{updatedBy}}</ng-container>
-              <ng-container *ngIf="!updatedBy">date</ng-container>
+              <ng-container *ngIf="updatedBy">{{ 'xm-entity.entity-data-card.updated-by' | translate }} {{updatedBy}}</ng-container>
+              <ng-container *ngIf="!updatedBy">{{ 'xm-entity.entity-data-card.updated-date' | translate }}</ng-container>
               {{xmEntity?.updateDate | date: 'MM/dd/yyyy hh:mm'}}
             </ng-container>
           </div>

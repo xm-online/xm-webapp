@@ -58,8 +58,11 @@ export class XmEntityService {
             map((res) => this.convertResponse(res))));
     }
 
-    public getById<T extends XmEntity>(key: number | string, params: { embed: string } & QueryParams = { embed: 'data' },
-                                       headers: HttpHeaders | { [header: string]: string | string[]; }  = {}): Observable<T> {
+
+    public getById<T extends XmEntity>(
+        key: number | string, params: { embed: string } & QueryParams = { embed: 'data' },
+        headers: HttpHeaders | { [header: string]: string | string[]; } = {}
+    ): Observable<T> {
         return this.handle(this.http.get<T>(`${this.resourceUrl}/${key}`, { params, headers }).pipe(
             map((res) => this.convertItemFromServer(res)),
         ));
