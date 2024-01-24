@@ -1,6 +1,6 @@
 <cdk-tree [dataSource]="categories$ | async" [treeControl]="treeControl">
   <cdk-tree-node *cdkTreeNodeDef="let node">
-    <a class="menu-link" *permitted="node.permission" routerLinkActive="active" [routerLink]="node.url">
+    <a class="menu-link" *permitted="node.permission" routerLinkActive="active" [routerLink]="node.url" [class.active]="node | activeMenuItem | async">
       <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
       <span class="xm-menu-item-text" [title]="node?.title | translate">
         {{node?.title | translate}}
