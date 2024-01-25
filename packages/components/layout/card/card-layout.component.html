@@ -1,4 +1,4 @@
-<mat-card [class]="config?.theme?.class" [style]="config?.theme?.style">
+<mat-card [class]="config?.theme?.class" [style]="config?.theme?.style" [attr.data-qa]="config?.dataQaCardLayout">
   <ng-container *ngIf="config.header as header">
     <ng-container
       *ngIf="header.layout as layout"
