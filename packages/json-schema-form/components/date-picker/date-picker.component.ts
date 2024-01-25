@@ -14,6 +14,9 @@ import { DataPickerLayoutNode } from './data-picker.layoutNode';
 import { dayjs } from '@xm-ngx/operators';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 const DEF_FORMAT = 'YYYY-MM-DD';
 
