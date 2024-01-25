@@ -2,14 +2,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { LanguageService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 
-import moment from 'moment';
+import { dayjs } from '@xm-ngx/operators';
 
 import { Principal } from '@xm-ngx/core/user';
 import { XmConfigService } from '@xm-ngx/core/config';
 
 /**
  * Pipe is used to display formatted date
- * It accepts two optional params: format?: string (moment.js) and offset?: string
+ * It accepts two optional params: format?: string (dayjs) and offset?: string
  * If used without params, would be taken from account in Principal
  * and formating also can be override from config UI
  */
@@ -34,10 +34,8 @@ export class XmDateTimePipe implements PipeTransform {
     }
 
     public transform(time: any, format?: string, offset?: string): any {
-        const timeMoment = moment(time);
-        timeMoment.utc();
-        timeMoment.utcOffset(offset ? offset : this.getOffset());
-        return timeMoment.format(format ? format : this.getDefaultFormat());
+        const timeDayjs = dayjs(time).utc().utcOffset(offset ? offset : this.getOffset());
+        return timeDayjs.format(format ? format : this.getDefaultFormat());
     }
 
     private getOffset(): string {

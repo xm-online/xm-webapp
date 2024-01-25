@@ -8,7 +8,7 @@ import {
 import { JavascriptCode } from '@xm-ngx/interfaces';
 import { XmTranslateService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import moment from 'moment';
+import { dayjs } from '@xm-ngx/operators';
 
 export interface XmTextJoinValueOptionsTemplateType {
     value: 'date',
@@ -64,10 +64,10 @@ export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknow
             });
 
             if(item.type?.value === 'date') {
-                const isDateValue = moment(translates).isValid();
+                const isDateValue = dayjs(translates).isValid();
 
                 if(isDateValue) {
-                    translates = moment(translates).format(item.type?.format);
+                    translates = dayjs(translates).format(item.type?.format);
                 }
             }
 
