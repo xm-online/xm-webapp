@@ -17,6 +17,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                 orderIndex: configOrder,
                 name: configName,
                 permission,
+                activeItemPathPatterns,
             } = {},
         }) => {
             if (hidden) {
@@ -43,6 +44,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         url: [ 'dashboard', `${id}` ],
                         parent: null,
                         children: [],
+                        activeItemPathPatterns,
                     });
                 } else {
                     group.children.push({
@@ -54,6 +56,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         url: [ 'dashboard', `${id}` ],
                         parent: null,
                         children: [],
+                        activeItemPathPatterns,
                     });
                 }
 
@@ -78,6 +81,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         url: [ 'dashboard', groupKey ],
                         parent: null,
                         children: [],
+                        activeItemPathPatterns,
                     });
                 }
 
@@ -105,6 +109,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         url: [ 'dashboard', ...slug.split('/') ],
                         parent: tree,
                         children: [],
+                        activeItemPathPatterns,
                     };
 
                     tree.children.push(node);
