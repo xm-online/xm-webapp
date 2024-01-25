@@ -1,4 +1,4 @@
-<mat-accordion *ngIf="config" [attr.data-qa]="config?.dataQaExpandableLayout">
+<mat-accordion *ngIf="config" [attr.data-qa]="config?.dataQa">
   <mat-expansion-panel [class]="config?.panel?.class ? config.panel.class : 'mat-elevation-z mdc-elevation-z'"
                        [style]="config?.panel?.style"
                        [togglePosition]="config?.header?.togglePosition ?? 'before'"

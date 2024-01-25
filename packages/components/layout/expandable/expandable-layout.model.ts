@@ -11,7 +11,7 @@ export type ExpandableLayoutConfig = {
         expanded?: boolean;
         layout: DynamicLayoutConfig
     },
-    dataQaExpandableLayout?: string,
+    dataQa?: string,
 };
 
 export type DynamicLayoutConfig<C extends XmConfig = XmConfig> = {
