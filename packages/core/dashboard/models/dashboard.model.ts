@@ -13,6 +13,7 @@ export interface DashboardConfig {
     hidden?: JavascriptCode;
     permission?: string;
     icon?: string;
+    activeItemPathPatterns?: string[];
     menu?: {
         section?: string;
         name?: string;
