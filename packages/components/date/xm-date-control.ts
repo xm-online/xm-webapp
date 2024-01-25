@@ -121,7 +121,8 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
         let minDate: Date;
         if (this.config?.intervalFromMinDateInDays) {
             const startDate = new Date();
-            startDate.setHours( this.config?.intervalFromMinDateInDays*24,0,0,0);//set hours at midnight
+            const midNightHours = this.config?.intervalFromMinDateInDays*24;
+            startDate.setHours( midNightHours,0,0,0);
             minDate = new Date(startDate);
         } else {
             minDate = new Date(Date.now());
