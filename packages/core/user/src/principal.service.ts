@@ -4,7 +4,7 @@ import { XmUserService } from './xm-user.service';
 import { OnInitialize } from '@xm-ngx/interfaces';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
-import moment from 'moment';
+import { dayjs } from '@xm-ngx/operators';
 import { Observable, Subject } from 'rxjs';
 import { filter, shareReplay, takeUntil } from 'rxjs/operators';
 
@@ -263,7 +263,7 @@ export class Principal implements OnDestroy, OnInitialize {
 
     public setTimezoneOffset(): string {
         // For now setting offset from browser
-        return moment().format('Z');
+        return dayjs().format('Z');
     }
 
     public getTimezoneOffset(): string {
