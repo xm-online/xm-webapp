@@ -7,6 +7,8 @@ import { map } from 'rxjs/operators';
 import { createRequestOption } from '@xm-ngx/operators';
 import { Event } from './event.model';
 import { dayjs } from '@xm-ngx/operators';
+import timezone from 'dayjs/plugin/timezone';
+dayjs.extend(timezone);
 
 @Injectable()
 export class EventService {
