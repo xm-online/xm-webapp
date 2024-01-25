@@ -74,8 +74,8 @@ export class EventService {
      */
     private convert(event: Event, timezone?: string): Event {
         const copy: Event | any = Object.assign({}, event);
-        copy.startDate = dayjs.tz(event.startDate, timezone).utc();
-        copy.endDate = dayjs.tz(event.endDate, timezone).utc();
+        copy.startDate = dayjs(event.startDate).tz(timezone).utc();
+        copy.endDate = dayjs(event.endDate).tz(timezone).utc();
         return copy;
     }
 }
