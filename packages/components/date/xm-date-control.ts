@@ -117,7 +117,10 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
         return this.config?.disableFutureDates ? maxDate : null;
     }
 
-    public defineStartDate(): Date | null {
+    public defineStartDate(): Date | undefined {
+        if (!this.config?.dateNow) {
+            return undefined;
+        }
         let minDate: Date;
         if (this.config?.intervalFromMinDateInDays) {
             const startDate = new Date();
@@ -128,7 +131,7 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
             minDate = new Date(Date.now());
         }
 
-        return this.config?.dateNow ? minDate : undefined;
+        return minDate;
     }
 
     public changeDateControl({ value }: MatDatepickerInputEvent<unknown>): void {
