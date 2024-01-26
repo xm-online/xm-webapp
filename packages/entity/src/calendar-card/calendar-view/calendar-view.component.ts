@@ -37,6 +37,7 @@ import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import interactionPlugin from '@fullcalendar/interaction';
 import { XmAlertService } from '@xm-ngx/alert';
 import { dayjs } from '@xm-ngx/operators';
+import timezone from 'dayjs/plugin/timezone';
 
 // import { XM_CALENDAR_VIEW } from '../../../../../src/app/xm.constants';
 
@@ -54,6 +55,7 @@ export const CALENDAR_VIEW = {
     [XM_CALENDAR_VIEW.WEEK]: 'agendaWeek',
     [XM_CALENDAR_VIEW.DAY]: 'agendaDay',
 };
+dayjs.extend(timezone);
 
 @Component({
     selector: 'xm-calendar-view',

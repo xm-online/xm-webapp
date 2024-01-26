@@ -7,6 +7,10 @@ import { map } from 'rxjs/operators';
 import { createRequestOption } from '@xm-ngx/operators';
 import { Event } from './event.model';
 import { dayjs } from '@xm-ngx/operators';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 @Injectable()
 export class EventService {
@@ -74,8 +78,8 @@ export class EventService {
      */
     private convert(event: Event, timezone?: string): Event {
         const copy: Event | any = Object.assign({}, event);
-        copy.startDate = dayjs.tz(event.startDate, timezone).utc();
-        copy.endDate = dayjs.tz(event.endDate, timezone).utc();
+        copy.startDate = dayjs(event.startDate).tz(timezone).utc();
+        copy.endDate = dayjs(event.endDate).tz(timezone).utc();
         return copy;
     }
 }
