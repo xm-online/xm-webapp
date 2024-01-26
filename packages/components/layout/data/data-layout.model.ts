@@ -8,7 +8,7 @@ export type DataLayoutConfig = {
     layout: DynamicLayoutConfig;
     dataController?: {
         key: string;
-        method: string;
+        method?: string;
     }
 };
 

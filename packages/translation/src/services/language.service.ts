@@ -8,12 +8,14 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
 import { SessionStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
-import * as moment from 'moment';
-
+import { dayjs } from '@xm-ngx/operators';
+import utc from 'dayjs/plugin/utc';
 import { getBrowserLocale } from '../operators/getBrowserLocale';
 import { LANGUAGES } from '../language.constants';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 import { Principal } from '@xm-ngx/core/user';
+import timezone from 'dayjs/plugin/timezone';
+
 
 /**
  * Translates as json
@@ -52,6 +54,8 @@ export const EVENT_CHANGE_LOCALE = 'TRANSLATION.EVENT_CHANGE_LOCALE';
 export const SESSION_LOCALE = 'currentLang';
 
 export type Locale = string | 'en' | 'ru' | 'uk' | 'de' | 'it';
+
+dayjs.extend(utc);
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService implements OnDestroy, OnInitialize {
@@ -160,7 +164,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
                         map(c => c && c.langs && c.langs[0] ? c.langs[0] : null),
                     )
         ).subscribe(locale => {
-            moment.locale(locale);
+            dayjs.locale(locale);
             this.translate.setDefaultLang(locale);
             this.update(locale);
         });
