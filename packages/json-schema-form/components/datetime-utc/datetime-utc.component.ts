@@ -7,6 +7,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { JsonSchemaFormService } from '@ajsf/core';
 import { DatetimeUtcOptionsModel } from './datetime-utc-options.model';
 import { dayjs } from '@xm-ngx/operators';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 @Component({
     standalone: true,
