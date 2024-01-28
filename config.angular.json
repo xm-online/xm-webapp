@@ -270,5 +270,8 @@
     "@schematics/angular:directive": {
       "prefix": "xm"
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

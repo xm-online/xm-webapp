@@ -84,12 +84,15 @@ export class FunctionListSectionComponent implements OnInit, OnDestroy {
 
         let title = this.translateService.instant('xm-entity.function-list-card.change-state.title');
         title = nextSpec.actionName || nextSpec.name || title;
+        const inputForm = this.getInputForm(nextSpec);
+        const dialogTitle = inputForm?.dialogTitle || title;
+        const buttonTitle = inputForm?.buttonTitle || title;
 
         const modalRef = this.modalService.open(StateChangeDialogComponent, {width: '500px'});
         modalRef.componentInstance.xmEntity = this.xmEntity;
         modalRef.componentInstance.nextSpec = nextSpec;
-        modalRef.componentInstance.dialogTitle = title;
-        modalRef.componentInstance.buttonTitle = title;
+        modalRef.componentInstance.dialogTitle = dialogTitle;
+        modalRef.componentInstance.buttonTitle = buttonTitle;
         modalRef
             .afterClosed()
             .pipe(takeUntil(this.destroyed$))
@@ -103,6 +106,15 @@ export class FunctionListSectionComponent implements OnInit, OnDestroy {
                 }
             });
 
+    }
+
+    private getInputForm(nextSpec: NextSpec) {
+        try {
+            return nextSpec.inputForm ? JSON.parse(nextSpec.inputForm) : null;
+        } catch (e) {
+            console.warn(e);
+            return null;
+        }
     }
 
     public getCurrentStateSpec(): StateSpec {

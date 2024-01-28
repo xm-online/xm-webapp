@@ -1,15 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewChild, SimpleChanges } from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { XmEventManager } from '@xm-ngx/core';
+import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS, XmEventManager } from '@xm-ngx/core';
 import { JsfAttributes } from '@xm-ngx/json-schema-form';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize, take } from 'rxjs/operators';
-import { Principal } from '@xm-ngx/core/user';
+import { Principal, UserService } from '@xm-ngx/core/user';
 import { nullSafe } from '@xm-ngx/json-schema-form/components';
 import { EntityCardComponent } from '../entity-card/entity-card.component';
 import { RatingListSectionComponent } from '../rating-list-section/rating-list-section.component';
 import { XmEntityService } from '@xm-ngx/core/entity';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 /**
  *
@@ -41,6 +43,8 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
     public jsfAttributes: JsfAttributes;
     public showLoader: boolean;
     public isDescFull: boolean;
+    public updatedBy: string;
+    public createdBy: string;
 
     // transferred from entity-detail-fab
     public showEditButton: boolean;
@@ -57,6 +61,7 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
         protected xmEntityService: XmEntityService,
         protected widgetService: JsfComponentRegistryService,
         private location: Location,
+        protected userService: UserService,
     ) {
         super(modalService, principal, eventManager);
     }
@@ -68,7 +73,22 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
     public ngOnInit(): void {
         super.ngOnInit();
         this.loadJsfAttr();
+        this.getName(this.xmEntity.updatedBy, this.entityUiConfig.userInfoSource, 'updatedBy');
+        this.getName(this.xmEntity.createdBy, this.entityUiConfig.userInfoSource, 'createdBy');
     }
+
+    public getName(code: string, type: string, valueKey: string): void {
+        if (!code) return;
+        if (type === 'uaa') {
+            this.userService.findPublic(code).pipe(
+                catchError(() => of(null)),
+            ).subscribe(res => this[valueKey] = `${res.firstName} ${res.lastName}`);
+        } else if (type === 'profile') {
+            this.xmEntityService.getById(code, null, SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS).pipe(
+                catchError(() => of(null)),
+            ).subscribe(res => this[valueKey] = res.name);
+        }
+    };
 
     /**
      *
