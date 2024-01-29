@@ -1,11 +1,11 @@
-import {Component, Input} from '@angular/core';
-import {XmTextTitleOptions} from '../text-title';
-import {XmDynamicModule, XmDynamicPresentation,} from '@xm-ngx/dynamic';
-import {Primitive} from '@xm-ngx/interfaces';
-import {Translate, XmTranslationModule} from '@xm-ngx/translation';
-import {XmTextViewModule} from '../text-view/xm-text-view.component';
-import {NgForOf, NgIf} from '@angular/common';
-import {XmEmptyPipe} from '@xm-ngx/pipes';
+import { Component, Input } from '@angular/core';
+import { XmTextTitleOptions } from '../text-title';
+import { XmDynamicModule, XmDynamicPresentation, } from '@xm-ngx/dynamic';
+import { Primitive } from '@xm-ngx/interfaces';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { XmTextViewModule } from '../text-view/xm-text-view.component';
+import { NgForOf, NgIf } from '@angular/common';
+import { XmEmptyPipe } from '@xm-ngx/pipes';
 
 export interface XmTextDynamicOptions extends XmTextTitleOptions {
     textStyle?: 'inline';
@@ -14,7 +14,7 @@ export interface XmTextDynamicOptions extends XmTextTitleOptions {
     selector: string;
     options: unknown;
     emptyValue?: Translate;
-    dynamicLabel: (XmTextTitleOptions & XmDynamicPresentation)[];
+    dynamicLabel?: (XmTextTitleOptions & XmDynamicPresentation)[];
 }
 
 @Component({
@@ -36,18 +36,18 @@ export interface XmTextDynamicOptions extends XmTextTitleOptions {
                 ></ng-container>
             </div>
 
-            <span xmLabel *ngIf="config.title">{{config.title | translate}}</span>
+            <span xmLabel *ngIf="config.title">{{ config.title | translate }}</span>
 
             <span *ngIf="!(value | xmEmpty)"
-                xmValue
-                xmDynamicPresentation
-                [selector]="config.selector"
-                [value]="value"
-                [config]="config.options"
-                [options]="config.options"></span>
+                  xmValue
+                  xmDynamicPresentation
+                  [selector]="config.selector"
+                  [value]="value"
+                  [config]="config.options"
+                  [options]="config.options"></span>
 
             <span xmValue *ngIf="(value | xmEmpty) && !(config?.emptyValue | xmEmpty)">
-                {{config.emptyValue | translate}}
+                {{ config.emptyValue | translate }}
             </span>
         </xm-text-view-container>
     `,
