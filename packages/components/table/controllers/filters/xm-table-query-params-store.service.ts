@@ -25,18 +25,33 @@ export class XmTableQueryParamsStoreService {
     }
 
     public set(queryParams: QueryParamsPageable, removeFieldsFromUrl?: Record<string, string>): void {
+        const flattenedParams = this.flattenJson(queryParams);
+
         this.router.navigate(
             [],
             {
                 relativeTo: this.activatedRoute,
                 queryParams: {
                     ...(removeFieldsFromUrl ?? {}),
-                    [this.key]: JSON.stringify(queryParams)
+                    ...flattenedParams,
                 },
-                queryParamsHandling: 'merge'
+                queryParamsHandling: 'merge',
             },
         );
+    }
 
+    private flattenJson(data: QueryParamsPageable, parentKey: string = '', result: FlattenedType = {}): FlattenedType {
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const propName = parentKey ? parentKey + '.' + key : key;
+                if (typeof data[key] === 'object') {
+                    this.flattenJson(data[key], propName, result);
+                } else {
+                    result[propName] = data[key];
+                }
+            }
+        }
+        return result;
     }
 
     public get(queryParamsToFillter?: XmTableQueryParamsToFilter): QueryParamsPageable {
@@ -60,3 +75,4 @@ export class XmTableQueryParamsStoreService {
     }
 
 }
+type FlattenedType = Record<string, string | number | boolean>;
