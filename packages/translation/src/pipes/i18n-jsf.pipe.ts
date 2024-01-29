@@ -22,7 +22,7 @@ export class I18nJsfPipe implements PipeTransform {
                 } else if (typeof obj[property] === 'object' && property !== 'title') {
                     this.transformTitles(obj[property], principal);
                 } else {
-                    if (property === 'title' || property === 'label') {
+                    if (property === 'title' || property === 'label' || property === 'name' || property === 'helpvalue' || property === 'placeholder') {
                         this.setTitle(obj, property, principal);
                     }
                 }
