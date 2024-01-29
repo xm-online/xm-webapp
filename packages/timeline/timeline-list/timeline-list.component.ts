@@ -81,6 +81,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
     public formFilter: any = {};
     private totalCount: number = 0;
     private page: number = 0;
+    private timeLineItems = [];
 
     constructor(private timelineService: TimelineService,
                 private i18nNamePipe: I18nNamePipe,
@@ -153,15 +154,42 @@ export class TimelineListComponent implements OnInit, OnDestroy {
             });
     }
 
-    public loadAllV2(): void {
-        this.timelineService.searchV2(this.getSearchBodyV2({ size: this.totalCount, page: 0 }))
+    public loadAllTimeLineItemsV2(): void {
+        this.isMoreLoading = true;
+        this.isLoading = true;
+
+        const searchAllTimeLineItemsV2 = (size: number = 1000): Observable<any> => this.timelineService
+            .searchV2(this.getSearchBodyV2({ size: size, page: 0 }))
             .pipe(
-                tap((resp: HttpResponse<any>) => {
-                    this.totalCount = parseInt(resp.headers.get('X-Total-Count'));
+                map((resp: HttpResponse<any>) => {
+                    this.totalCount -= 1000;
                     this.nextV2 = (this.totalCount - resp.body.length);
+
+                    return resp;
                 }),
-                pluck('body'),
-                finalize(() => this.isMoreLoading = false))
+                switchMap((resp) => {
+                    this.timeLineItems.push(...resp.body);
+
+                    if (this.totalCount > 1000) {
+                        return searchAllTimeLineItemsV2(1000);
+                    }
+
+                    if (this.totalCount > 0 && this.totalCount <= 1000) {
+                        return searchAllTimeLineItemsV2(this.totalCount);
+                    }
+
+                    return of(this.timeLineItems);
+
+                }),
+            );
+
+        searchAllTimeLineItemsV2()
+            .pipe(
+                finalize(() => {
+                    this.isMoreLoading = false;
+                    this.isLoading = false;
+                }),
+            )
             .subscribe((res: TimeLineItem[]) => {
                 this.timeLines = [];
                 this.generateTimelines(res);
