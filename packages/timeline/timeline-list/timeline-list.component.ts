@@ -158,32 +158,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         this.isMoreLoading = true;
         this.isLoading = true;
 
-        const searchAllTimeLineItemsV2 = (size: number = 1000): Observable<any> => this.timelineService
-            .searchV2(this.getSearchBodyV2({ size: size, page: 0 }))
-            .pipe(
-                map((resp: HttpResponse<any>) => {
-                    this.totalCount -= 1000;
-                    this.nextV2 = (this.totalCount - resp.body.length);
-
-                    return resp;
-                }),
-                switchMap((resp) => {
-                    this.timeLineItems.push(...resp.body);
-
-                    if (this.totalCount > 1000) {
-                        return searchAllTimeLineItemsV2(1000);
-                    }
-
-                    if (this.totalCount > 0 && this.totalCount <= 1000) {
-                        return searchAllTimeLineItemsV2(this.totalCount);
-                    }
-
-                    return of(this.timeLineItems);
-
-                }),
-            );
-
-        searchAllTimeLineItemsV2()
+        this.searchAllTimeLineItemsV2()
             .pipe(
                 finalize(() => {
                     this.isMoreLoading = false;
@@ -209,6 +184,33 @@ export class TimelineListComponent implements OnInit, OnDestroy {
             .subscribe((res: TimeLineItem[]) => {
                 this.generateTimelines(res);
             });
+    }
+
+    private searchAllTimeLineItemsV2(size: number = 1000): Observable<any> {
+        return this.timelineService
+            .searchV2(this.getSearchBodyV2({ size: size, page: 0 }))
+            .pipe(
+                map((resp: HttpResponse<any>) => {
+                    this.totalCount -= 1000;
+                    this.nextV2 = (this.totalCount - resp?.body?.length);
+
+                    return resp;
+                }),
+                switchMap((resp) => {
+                    this.timeLineItems.push(...resp?.body);
+
+                    if (this.totalCount > 1000) {
+                        return this.searchAllTimeLineItemsV2(1000);
+                    }
+
+                    if (this.totalCount > 0 && this.totalCount <= 1000) {
+                        return this.searchAllTimeLineItemsV2(this.totalCount);
+                    }
+
+                    return of(this.timeLineItems);
+
+                }),
+            );
     }
 
     private load(): void {
