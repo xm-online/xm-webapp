@@ -186,25 +186,27 @@ export class TimelineListComponent implements OnInit, OnDestroy {
             });
     }
 
-    private searchAllTimeLineItemsV2(size: number = 1000): Observable<any> {
+    private searchAllTimeLineItemsV2(size: number = 1000, page: number = 0): Observable<any> {
         return this.timelineService
-            .searchV2(this.getSearchBodyV2({ size: size, page: 0 }))
+            .searchV2(this.getSearchBodyV2({ size: size, page: page }))
             .pipe(
                 map((resp: HttpResponse<any>) => {
                     this.totalCount -= 1000;
+                    page += 1;
                     this.nextV2 = (this.totalCount - resp?.body?.length);
 
                     return resp;
                 }),
                 switchMap((resp) => {
+                    console.log(page);
                     this.timeLineItems.push(...resp?.body);
 
                     if (this.totalCount > 1000) {
-                        return this.searchAllTimeLineItemsV2(1000);
+                        return this.searchAllTimeLineItemsV2(1000, page);
                     }
 
                     if (this.totalCount > 0 && this.totalCount <= 1000) {
-                        return this.searchAllTimeLineItemsV2(this.totalCount);
+                        return this.searchAllTimeLineItemsV2(this.totalCount, page);
                     }
 
                     return of(this.timeLineItems);
