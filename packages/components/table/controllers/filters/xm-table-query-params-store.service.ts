@@ -7,7 +7,7 @@ import {
     XmTableQueryParamsToFilter,
     XmTableWithColumnDynamicCellOptionsPagination
 } from '../../table-widget/xm-table-widget.config';
-import { flattenObjectDeep, unFlattenObjectDeep } from '@xm-ngx/operators/src/flattenObjectDeep';
+import { flattenObjectDeep, unFlattenObjectDeep } from '@xm-ngx/operators';
 
 @Injectable()
 export class XmTableQueryParamsStoreService {
