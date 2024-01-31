@@ -68,6 +68,9 @@ export class XmTableDirective implements OnInit, OnDestroy {
     @Input('xmTableConfig')
     public set config(value: XmTableConfig) {
         this._config = _.defaultsDeep({}, value, cloneDeep(XM_TABLE_CONFIG_DEFAULT));
+        this._config.storageKey = this._config.storageKey || location.pathname;
+        this._config.queryPrefixKey = this._config.storageKey;
+
         this.setStorageKeys();
         this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));
     }
@@ -147,9 +150,8 @@ export class XmTableDirective implements OnInit, OnDestroy {
 
 
     private setStorageKeys(): void {
-        const storageKey: string = this.config.storageKey || location.pathname;
-        this.columnsSettingStorageService.key = storageKey;
-        this.queryParamsStoreService.key = this.config.queryPrefixKey || this.config.storageKey || location.pathname;
+        this.columnsSettingStorageService.key = this.config.storageKey;
+        this.queryParamsStoreService.key = this.config.queryPrefixKey;
     }
 
     private initQueryParams(): void {
