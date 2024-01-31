@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { QueryParamsPageable } from '@xm-ngx/repositories';
+import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
+import { PageableAndSortable, QueryParamsPageable } from '@xm-ngx/repositories';
 import { format } from '@xm-ngx/operators';
-import { isEmpty, set, get, merge, isString, omitBy } from 'lodash';
-import { XmFilterQueryParams } from '../../collections/i-xm-table-collection-controller';
-import { XmTableQueryParamsToFilter } from '../../table-widget/xm-table-widget.config';
+import { get, isEmpty, merge, omitBy, set } from 'lodash';
+import {
+    XmTableQueryParamsToFilter,
+    XmTableWithColumnDynamicCellOptionsPagination
+} from '../../table-widget/xm-table-widget.config';
+import { flattenObjectWithArray, unflattenObjectWithKey } from '@xm-ngx/operators/src/flattenObjectWithArray';
 
 @Injectable()
 export class XmTableQueryParamsStoreService {
@@ -24,55 +27,57 @@ export class XmTableQueryParamsStoreService {
         return this._key;
     }
 
-    public set(queryParams: QueryParamsPageable, removeFieldsFromUrl?: Record<string, string>): void {
-        const flattenedParams = this.flattenJson(queryParams);
+
+    public set(queryParams: QueryParamsPageable, removeFieldsFromUrl?: Record<string, string>, queryParamsHandling: QueryParamsHandling = 'merge'): void {
+        const currentParams = this.activatedRoute.snapshot.queryParams;
+        const deleteparams = {};
+        for (const currentParamsKey in currentParams) {
+            if (currentParamsKey.startsWith(this.key + '_')) {
+                deleteparams[currentParamsKey] = null;
+            }
+        }
+        const flattenedParams = flattenObjectWithArray(queryParams, this.key + '_');
+        const finalQuery = {
+            ...(removeFieldsFromUrl ?? {}),
+            ...deleteparams,
+            ...flattenedParams,
+        };
 
         this.router.navigate(
             [],
             {
                 relativeTo: this.activatedRoute,
-                queryParams: {
-                    ...(removeFieldsFromUrl ?? {}),
-                    ...flattenedParams,
-                },
-                queryParamsHandling: 'merge',
+                queryParams: finalQuery,
+                queryParamsHandling: queryParamsHandling,
             },
         );
     }
 
-    private flattenJson(data: QueryParamsPageable, parentKey: string = '', result: FlattenedType = {}): FlattenedType {
-        for (const key in data) {
-            if (data.hasOwnProperty(key)) {
-                const propName = parentKey ? parentKey + '.' + key : key;
-                if (typeof data[key] === 'object') {
-                    this.flattenJson(data[key], propName, result);
-                } else {
-                    result[propName] = data[key];
-                }
-            }
-        }
-        return result;
-    }
 
     public get(queryParamsToFillter?: XmTableQueryParamsToFilter): QueryParamsPageable {
         const queryParams = this.activatedRoute.snapshot.queryParams;
-        const jsonString = queryParams?.[this.key] as string;
-
-        const jsonParams = (isString(jsonString) && !isEmpty(jsonString)
-            ? JSON.parse(jsonString)
-            : {}
-        ) as (XmFilterQueryParams | object);
+        const unflattenQueryParams = unflattenObjectWithKey(queryParams, this.key + '_');
 
         if (!isEmpty(queryParamsToFillter)) {
             const queryParamsFilter= omitBy(format(queryParamsToFillter ?? {}, queryParams) ?? {}, isEmpty);
-            const jsonFilterParams = get(jsonParams, 'filterParams', {}) as object;
+            const jsonFilterParams = get(unflattenQueryParams, 'filterParams', {}) as object;
             const preferFilterParams = merge({}, queryParamsFilter, jsonFilterParams);
 
-            set(jsonParams, 'filterParams', preferFilterParams);
+            set(unflattenQueryParams, 'filterParams', preferFilterParams);
         }
 
-        return jsonParams;
+        return unflattenQueryParams;
     }
 
+
+    public checkPageableAndSortable(pageableAndSortable: PageableAndSortable, configParams: XmTableWithColumnDynamicCellOptionsPagination): PageableAndSortable {
+        const keysToCheck: string[] = ['pageIndex', 'pageSize', 'sortBy', 'sortOrder'];
+        const changedValues: PageableAndSortable = {};
+        keysToCheck.forEach((key: string) => {
+            if (configParams[key].toString() !== pageableAndSortable[key].toString()) {
+                changedValues[key] = pageableAndSortable[key];
+            }
+        });
+        return changedValues;
+    }
 }
-type FlattenedType = Record<string, string | number | boolean>;

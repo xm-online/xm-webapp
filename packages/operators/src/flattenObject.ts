@@ -16,6 +16,8 @@ function deep(obj: Flatten, path: string[] = [], separator: string): Array<Flatt
 
 /**
  * TODO: do not support Arrays
+ * TODO deprecated
+ * use flattenObjectWithArray
  *
  */
 export function flattenObject(object: Flatten, separator: string = '.'): Flatten {

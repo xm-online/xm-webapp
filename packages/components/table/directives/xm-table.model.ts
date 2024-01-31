@@ -17,6 +17,7 @@ export interface XmTableConfig {
     queryParamsToFillter?: XmTableQueryParamsToFilter;
     pageableAndSortable: XmTableWithColumnDynamicCellOptionsPagination,
     storageKey: string;
+    queryPrefixKey?: string;
     triggerTableKey: string;
     isCollapsed: boolean;
     isExpandable: boolean;
