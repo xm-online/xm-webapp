@@ -1,4 +1,3 @@
-
 import { Meta, moduleMetadata, applicationConfig } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
