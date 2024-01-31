@@ -19,16 +19,23 @@ export class I18nJsfPipe implements PipeTransform {
             if (obj.hasOwnProperty(property)) {
                 if (property === 'validationMessages') {
                     this.transformValidationMessages(obj[property], principal);
-                } else if (typeof obj[property] === 'object' && property !== 'title') {
+                } else if (typeof obj[property] === 'object' && !this.fieldsToTranslate(property)) {
                     this.transformTitles(obj[property], principal);
                 } else {
                     if (property === 'title' || property === 'label') {
                         this.setTitle(obj, property, principal);
                     }
+                    if (property === 'name' || property === 'helpvalue' || property === 'placeholder') {
+                        obj[property] = this.pipe.transform(obj[property], principal);
+                    }
                 }
             }
         }
         return obj;
+    }
+
+    private fieldsToTranslate(property: string) {
+        return property === 'title' || property === 'label' || property === 'name' || property === 'helpvalue' || property === 'placeholder';
     }
 
     private setTitle(obj: any, property: string, principal: Principal) {

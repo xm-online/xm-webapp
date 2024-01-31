@@ -14,7 +14,6 @@ import { getBrowserLocale } from '../operators/getBrowserLocale';
 import { LANGUAGES } from '../language.constants';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 import { Principal } from '@xm-ngx/core/user';
-import timezone from 'dayjs/plugin/timezone';
 
 
 /**
