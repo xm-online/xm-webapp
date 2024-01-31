@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, QueryParamsHandling, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PageableAndSortable, QueryParamsPageable } from '@xm-ngx/repositories';
 import { format } from '@xm-ngx/operators';
 import { get, isEmpty, merge, omitBy, set } from 'lodash';
@@ -7,7 +7,7 @@ import {
     XmTableQueryParamsToFilter,
     XmTableWithColumnDynamicCellOptionsPagination
 } from '../../table-widget/xm-table-widget.config';
-import { flattenObjectWithArray, unflattenObjectWithKey } from '@xm-ngx/operators/src/flattenObjectWithArray';
+import { flattenObjectDeep, unFlattenObjectDeep } from '@xm-ngx/operators/src/flattenObjectDeep';
 
 @Injectable()
 export class XmTableQueryParamsStoreService {
@@ -28,18 +28,22 @@ export class XmTableQueryParamsStoreService {
     }
 
 
-    public set(queryParams: QueryParamsPageable, removeFieldsFromUrl?: Record<string, string>, queryParamsHandling: QueryParamsHandling = 'merge'): void {
-        const currentParams = this.activatedRoute.snapshot.queryParams;
-        const deleteparams = {};
-        for (const currentParamsKey in currentParams) {
-            if (currentParamsKey.startsWith(this.key + '_')) {
-                deleteparams[currentParamsKey] = null;
-            }
-        }
-        const flattenedParams = flattenObjectWithArray(queryParams, this.key + '_');
+    public set(queryParams: QueryParamsPageable, config: any): void {
+        const clearPageableAndSortable = this.removeEmptyFields(queryParams.pageableAndSortable, config.pageableAndSortable);
+
+        const removeFiltersFieldsQueryParams = Object.keys(config.queryParamsToFillter ?? {})
+            .reduce((acc, key) => ({...acc, [key]: null}), {}) ?? {};
+        const deleteParams = this.getNullubleQueryParams();
+
+        const clearedQueryParams = merge({},
+            {pageableAndSortable: clearPageableAndSortable},
+            {filterParams: queryParams.filterParams});
+
+        const flattenedParams = flattenObjectDeep(clearedQueryParams, this.key + '_');
+
         const finalQuery = {
-            ...(removeFieldsFromUrl ?? {}),
-            ...deleteparams,
+            ...removeFiltersFieldsQueryParams,
+            ...deleteParams,
             ...flattenedParams,
         };
 
@@ -48,15 +52,26 @@ export class XmTableQueryParamsStoreService {
             {
                 relativeTo: this.activatedRoute,
                 queryParams: finalQuery,
-                queryParamsHandling: queryParamsHandling,
+                queryParamsHandling: 'merge',
             },
         );
+    }
+
+    private getNullubleQueryParams(): { [key: string]: null } {
+        const currentParams = this.activatedRoute.snapshot.queryParams;
+        const deleteParams = {};
+        for (const currentParamsKey in currentParams) {
+            if (currentParamsKey.startsWith(this.key + '_')) {
+                deleteParams[currentParamsKey] = null;
+            }
+        }
+        return deleteParams;
     }
 
 
     public get(queryParamsToFillter?: XmTableQueryParamsToFilter): QueryParamsPageable {
         const queryParams = this.activatedRoute.snapshot.queryParams;
-        const unflattenQueryParams = unflattenObjectWithKey(queryParams, this.key + '_');
+        const unflattenQueryParams = unFlattenObjectDeep(queryParams, this.key + '_');
 
         if (!isEmpty(queryParamsToFillter)) {
             const queryParamsFilter= omitBy(format(queryParamsToFillter ?? {}, queryParams) ?? {}, isEmpty);
@@ -70,7 +85,7 @@ export class XmTableQueryParamsStoreService {
     }
 
 
-    public checkPageableAndSortable(pageableAndSortable: PageableAndSortable, configParams: XmTableWithColumnDynamicCellOptionsPagination): PageableAndSortable {
+    public removeEmptyFields(pageableAndSortable: PageableAndSortable, configParams: XmTableWithColumnDynamicCellOptionsPagination): PageableAndSortable {
         const keysToCheck: string[] = ['pageIndex', 'pageSize', 'sortBy', 'sortOrder'];
         const changedValues: PageableAndSortable = {};
         keysToCheck.forEach((key: string) => {
