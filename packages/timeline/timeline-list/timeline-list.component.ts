@@ -198,7 +198,6 @@ export class TimelineListComponent implements OnInit, OnDestroy {
                     return resp;
                 }),
                 switchMap((resp) => {
-                    console.log(page);
                     this.timeLineItems.push(...resp?.body);
 
                     if (this.totalCount > 1000) {
