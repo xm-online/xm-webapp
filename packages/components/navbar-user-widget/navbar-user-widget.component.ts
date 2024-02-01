@@ -1,18 +1,18 @@
 import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { SidebarUserComponent, SidebarUserSubtitle, UserWidgetBase } from '@xm-ngx/components/sidebar-user';
+import { UserNavBar } from './navbar-user-widget.model';
 import { CommonModule } from '@angular/common';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { MenuComponent } from '@xm-ngx/components/menu';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterModule } from '@angular/router';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { MatDividerModule } from '@angular/material/divider';
+import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MenuComponent } from '@xm-ngx/components/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { DashboardStore } from '@xm-ngx/core/dashboard';
+import { MatDividerModule } from '@angular/material/divider';
 import { XmUserService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
-import { UserNavBar } from './navbar-user-widget.model';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
 
 @Component({
     selector: 'xm-navbar-user-widget',
@@ -22,7 +22,6 @@ import { UserNavBar } from './navbar-user-widget.model';
     imports: [
         CommonModule,
         XmPermissionModule,
-        SidebarUserComponent,
         MenuComponent,
         MatMenuModule,
         MatIconModule,
@@ -31,7 +30,7 @@ import { UserNavBar } from './navbar-user-widget.model';
         MatDividerModule,
         SidebarUserSubtitle,
         MatButtonModule,
-        SidebarUserSubtitle,
+        SidebarUserComponent,
     ],
     standalone: true,
     encapsulation: ViewEncapsulation.None,
