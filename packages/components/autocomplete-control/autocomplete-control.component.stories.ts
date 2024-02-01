@@ -16,7 +16,6 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmAutocompleteControlConfig } from '@xm-ngx/components/autocomplete-control';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { XmAuthenticationService } from '@xm-ngx/core/auth';
 import { XmCoreAuthModule } from '@xm-ngx/core/auth';
 import { XmSharedModule } from '@xm-ngx/shared';
 
@@ -34,9 +33,9 @@ class MockHttpSearch {
         const search = (httpParams?.search ?? '').toLowerCase();
 
         let data = [
-            { name: 'Option 1', id: 1 },
-            { name: 'Option 2', id: 2 },
-            { name: 'Option 3', id: 3 },
+            {name: 'Option 1', id: 1},
+            {name: 'Option 2', id: 2},
+            {name: 'Option 3', id: 3},
         ];
 
         if (search.length > 0) {
@@ -57,9 +56,9 @@ class MockHttpSearchWrapInObject {
         const search = (httpParams?.search ?? '').toLowerCase();
 
         let data = [
-            { name: 'Option 1', id: 1 },
-            { name: 'Option 2', id: 2 },
-            { name: 'Option 3', id: 3 },
+            {name: 'Option 1', id: 1},
+            {name: 'Option 2', id: 2},
+            {name: 'Option 3', id: 3},
         ];
 
         if (search.length > 0) {
@@ -147,7 +146,7 @@ export default {
         }),
     ],
     argTypes: {
-        change: { action: 'change' },
+        change: {action: 'change'},
     },
 } as Meta;
 
@@ -162,7 +161,7 @@ export const SimpleAutocomplete = simpleAutocompleteTemplate.bind({});
 SimpleAutocomplete.args = {
     config: {
         hint: {
-            title: { en: 'Select an option' },
+            title: {en: 'Select an option'},
         },
         title: {
             en: 'Options',
@@ -201,7 +200,7 @@ export const SimpleMultipleAutocomplete = simpleMultipleAutocompleteTemplate.bin
 SimpleMultipleAutocomplete.args = {
     config: {
         hint: {
-            title: { en: 'Select an option' },
+            title: {en: 'Select an option'},
         },
         title: {
             en: 'Options',
@@ -242,7 +241,7 @@ export const ValueAsObjectAutocomplete = valueAsObjectAutocompleteTemplate.bind(
 ValueAsObjectAutocomplete.args = {
     config: {
         hint: {
-            title: { en: 'Select an option' },
+            title: {en: 'Select an option'},
         },
         title: {
             en: 'Options',
@@ -285,7 +284,7 @@ export const startFromCharSearchAutocomplete = startFromCharSearchAutocompleteTe
 startFromCharSearchAutocomplete.args = {
     config: {
         hint: {
-            title: { en: 'Select an option' },
+            title: {en: 'Select an option'},
         },
         title: {
             en: 'Options',
@@ -330,7 +329,7 @@ export const whenBackendWrapsDataInObjectAutocomplete = whenBackendWrapsDataInOb
 whenBackendWrapsDataInObjectAutocomplete.args = {
     config: {
         hint: {
-            title: { en: 'Select an option' },
+            title: {en: 'Select an option'},
         },
         title: {
             en: 'Options',
@@ -373,10 +372,10 @@ const compareObjectInAutocompleteTemplate = (args: DemoAutocompleteControlArgs) 
 export const compareObjectInAutocomplete = compareObjectInAutocompleteTemplate.bind({});
 
 compareObjectInAutocomplete.args = {
-    selected: { name: 'Option 2', id: 2 },
+    selected: {name: 'Option 2', id: 2},
     config: {
         hint: {
-            title: { en: 'Select an option' },
+            title: {en: 'Select an option'},
         },
         title: {
             en: 'Options',
