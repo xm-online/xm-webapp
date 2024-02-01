@@ -12,7 +12,7 @@ import { XmDynamicWidgetDirective } from '../../widget/xm-dynamic-widget.directi
 import { XmDynamicComponentRegistry } from '../loader/xm-dynamic-component-registry.service';
 import { XmDynamicModuleRegistry } from '../loader/xm-dynamic-module-registry.service';
 import { XmDynamicServiceFactory } from '../../services/xm-dynamic-service-factory.service';
-import { XmPermissionModule } from '../../../core/permission';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
 
 export function dynamicModuleInitializer(components: XmDynamicEntries): Provider {
     return [{provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: components}];
