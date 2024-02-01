@@ -11,7 +11,11 @@ export interface XmLayoutWithPermission {
     permissionStrategy?: string;
 }
 
-export type XmDynamicLayoutNode<C = XmConfig> = XmDynamicWithConfig<C> & XmDynamicWithSelector & XmLayoutNode & XmLayoutWithPermission;
+export interface XmDynamicLayoutNode<C = XmConfig> extends
+    XmDynamicWithConfig<C>,
+    XmDynamicWithSelector,
+    XmLayoutNode,
+    XmLayoutWithPermission {}
 
 /**
  * @deprecated use XmDynamicLayout instead. will be remove in 6.0.0 version.
