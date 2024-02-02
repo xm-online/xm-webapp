@@ -35,7 +35,7 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
 @Directive({
     selector: '[xmTable]',
     exportAs: 'xmTable',
-    host: { class: 'xm-table' },
+    host: {class: 'xm-table'},
     providers: [
         XmTableFilterController,
         XmTableColumnsSettingStorageService,
@@ -46,8 +46,8 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
 export class XmTableDirective implements OnInit, OnDestroy {
     public context$: Observable<IXmTableContext>;
     public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
-    @ContentChild(MatPaginator, { static: false }) public paginator: MatPaginator | null;
-    @ContentChild(MatSort, { static: false }) public sort: MatSort | null;
+    @ContentChild(MatPaginator, {static: false}) public paginator: MatPaginator | null;
+    @ContentChild(MatSort, {static: false}) public sort: MatSort | null;
     @Input()
     public xmTableController: IXmTableCollectionController<unknown>;
 
@@ -68,6 +68,9 @@ export class XmTableDirective implements OnInit, OnDestroy {
     @Input('xmTableConfig')
     public set config(value: XmTableConfig) {
         this._config = _.defaultsDeep({}, value, cloneDeep(XM_TABLE_CONFIG_DEFAULT));
+        this._config.storageKey = this._config.storageKey || location.pathname;
+        this._config.queryPrefixKey = this._config.storageKey;
+
         this.setStorageKeys();
         this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));
     }
@@ -97,7 +100,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
                 const displayedColumns = _.map(_.filter(a, i => !i.hidden), i => i.name);
                 return ({
                     collection: state,
-                    settings: { displayedColumns },
+                    settings: {displayedColumns},
                 });
             }),
         );
@@ -117,11 +120,9 @@ export class XmTableDirective implements OnInit, OnDestroy {
             .subscribe((obsObj) => {
                 const filterParams = obsObj.tableFilter;
                 const pageableAndSortable = obsObj.pageableAndSortable;
-                const queryParams = _.merge({}, { pageableAndSortable }, { filterParams });
-                const removeFieldsFromUrl = Object.keys(this._config.queryParamsToFillter ?? {})
-                    .reduce((acc, key) => ({ ...acc, [key]: null }), {});
+                const queryParams = _.merge({}, {pageableAndSortable}, {filterParams});
 
-                this.queryParamsStoreService.set(queryParams, removeFieldsFromUrl);
+                this.queryParamsStoreService.set(queryParams, this._config);
 
                 this.xmTableController.load(queryParams);
             });
@@ -129,32 +130,35 @@ export class XmTableDirective implements OnInit, OnDestroy {
         this.initQueryParams();
     }
 
+
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
 
+
     public updatePagination(): void {
-        const { sortBy: defaultSortBy, sortOrder: defaultSortOrder } = this._config.pageableAndSortable;
+        const {sortBy: defaultSortBy, sortOrder: defaultSortOrder} = this._config.pageableAndSortable;
 
         const sortBy = this._config.columns.find((i) => i.name === this.sort.active)?.name ?? defaultSortBy;
         const sortOrder = this.sort.direction ?? defaultSortOrder;
         const pageIndex = this.paginator.pageIndex;
         const pageSize = this.paginator.pageSize;
         const total = this.paginator.length;
-        const pageAndSort: PageableAndSortable = { pageIndex, pageSize, sortOrder, sortBy, total };
+        const pageAndSort: PageableAndSortable = {pageIndex, pageSize, sortOrder, sortBy, total};
         this.pageableAndSortable$.next(pageAndSort);
     }
 
+
     private setStorageKeys(): void {
-        const storageKey: string = this.config.storageKey || location.pathname;
-        this.columnsSettingStorageService.key = this.queryParamsStoreService.key = storageKey;
+        this.columnsSettingStorageService.key = this.config.storageKey;
+        this.queryParamsStoreService.key = this.config.queryPrefixKey;
     }
 
     private initQueryParams(): void {
         const queryParams = this.queryParamsStoreService.get(this._config.queryParamsToFillter);
 
         this.tableFilterController.set(queryParams.filterParams);
-        const { pageIndex, pageSize, sortBy, sortOrder } = this._config.pageableAndSortable;
+        const {pageIndex, pageSize, sortBy, sortOrder} = this._config.pageableAndSortable;
         const pageParams = {
             pageIndex,
             pageSize,
