@@ -8,6 +8,7 @@ import { XmEntitySpec } from '@xm-ngx/core/entity';
 import { XmEntity } from '@xm-ngx/core/entity';
 import { XM_ENTITY_EVENT_LIST } from '../constants';
 
+
 @Component({
     selector: 'xm-entity-card',
     templateUrl: './entity-card.component.html',
@@ -23,7 +24,7 @@ export class EntityCardComponent implements OnInit {
     constructor(
         protected modalService: MatDialog,
         protected principal: Principal,
-        protected eventManager: XmEventManager,
+        protected eventManager: XmEventManager
     ) {
     }
 

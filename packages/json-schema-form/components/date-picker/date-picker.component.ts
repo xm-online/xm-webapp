@@ -11,8 +11,12 @@ import { DateTimeAdapter, OwlDateTimeIntl } from '@danielmoncada/angular-datetim
 import { DatePickerOptionsModel } from './date-picker-options.model';
 import { DataPickerLayoutNode } from './data-picker.layoutNode';
 
-import moment from 'moment';
+import { dayjs } from '@xm-ngx/operators';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 const DEF_FORMAT = 'YYYY-MM-DD';
 
@@ -55,13 +59,13 @@ export class DatePickerComponent implements OnInit {
 
     private updateViewValue(): void {
         this.controlValueDisplayed = this.controlValue
-            ? moment(this.controlValue).local().format(this.getFormat())
+            ? dayjs(this.controlValue).local().format(this.getFormat())
             : '';
     }
 
     private updateModelValue(value: string | null): void {
         const modelValue = value
-            ? moment(value).format(DEF_FORMAT)
+            ? dayjs(value).format(DEF_FORMAT)
             : null;
 
         this.jsf.updateValue(this, modelValue);

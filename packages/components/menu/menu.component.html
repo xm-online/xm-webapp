@@ -12,6 +12,7 @@
          *permitted="node.permission"
          routerLinkActive="active"
          [routerLink]="node.url"
+         [class.active]="node | activeMenuItem | async"
          (click)="setSelectedCategory(node)"
       >
       <span class="xm-menu-item-text" [title]="node?.title | translate">

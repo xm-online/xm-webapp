@@ -43,6 +43,8 @@ export interface MenuItem {
     */
     isLink?: boolean;
     children: MenuItem[];
+
+    activeItemPathPatterns?: string[];
 }
 
 export interface MenuCategory {

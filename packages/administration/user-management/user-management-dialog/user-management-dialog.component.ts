@@ -5,7 +5,7 @@ import { LanguageService } from '@xm-ngx/translation';
 import { filter, take } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { User, UserService } from '@xm-ngx/core/user';
-import { RoleService } from '@xm-ngx/core/role';
+import { Role, RoleService } from '@xm-ngx/core/role';
 
 // import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { XmLanguageUiConfig } from '@xm-ngx/administration/translations';
@@ -20,6 +20,7 @@ export class UserMgmtDialogComponent implements OnInit {
     public userRoles: string | string[] | undefined | null;
     public languages: string[];
     public authorities: string[];
+    public authoritiesMap: Record<string, Role> = {};
     public showLoader: boolean;
     public isMultiRole: boolean = false;
     @ViewChild('userLoginForm', { static: false }) public userLoginForm: any;
@@ -54,6 +55,7 @@ export class UserMgmtDialogComponent implements OnInit {
 
         this.roleService.getRoles().subscribe((roles) => {
             this.authorities = roles.map((role) => role.roleKey).sort();
+            this.authoritiesMap = Object.fromEntries(roles.map(it => [it.roleKey, it]));
         });
 
         this.xmConfigService.config$().pipe(

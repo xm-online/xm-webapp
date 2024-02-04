@@ -7,7 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Link } from '@xm-ngx/entity';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
-import moment from 'moment';
+import { dayjs } from '@xm-ngx/operators';
+
 import { JhiOrderByPipe, JhiParseLinks } from '@xm-ngx/jhipster';
 import { merge } from 'rxjs';
 import { Audit } from './audit.model';
@@ -55,8 +56,8 @@ export class AuditsComponent implements OnInit, OnDestroy {
         this.auditsService.query({
             page: this.paginator.pageIndex,
             size: this.paginator.pageSize,
-            fromDate: moment(this.fromDate).format('YYYY-MM-DD'),
-            toDate: moment(this.toDate).format('YYYY-MM-DD'),
+            fromDate: dayjs(this.fromDate).format('YYYY-MM-DD'),
+            toDate: dayjs(this.toDate).format('YYYY-MM-DD'),
         }).subscribe(
             (res) => {
                 this.links = this.parseLinks.parse(res.headers.get('link'));

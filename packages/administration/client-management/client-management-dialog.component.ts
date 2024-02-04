@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { finalize, map, startWith } from 'rxjs/operators';
 
 import { Client, ClientService } from '@xm-ngx/core/client';
-import { RoleService } from '@xm-ngx/core/role';
+import { Role, RoleService } from '@xm-ngx/core/role';
 import { XmConfigService } from '@xm-ngx/core/config';
 import { JhiLanguageHelper } from '@xm-ngx/translation';
 
@@ -34,6 +34,7 @@ export class ClientMgmtDialogComponent implements OnInit {
     public languages: any[];
     public scopes: any[] = [];
     public authorities: any[];
+    public authoritiesMap: Record<string, Role> = {};
     public showLoader: boolean;
     public clientIdNotUnique: boolean;
     public scopesVariants: any[] = [];
@@ -100,6 +101,7 @@ export class ClientMgmtDialogComponent implements OnInit {
         }
         this.roleService.getRoles().subscribe((roles) => {
             this.authorities = roles.map((role) => role.roleKey).sort();
+            this.authoritiesMap = Object.fromEntries(roles.map(it => [it.roleKey, it]));
         });
         this.xmConfigService.getUiConfig().subscribe((config) => {
             this.languageHelper.getAll().then((languages) => {

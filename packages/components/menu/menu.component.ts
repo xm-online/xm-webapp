@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    inject,
+    Input,
+    OnDestroy,
+    OnInit,
+    Pipe,
+    PipeTransform
+} from '@angular/core';
 import {matExpansionAnimations} from '@angular/material/expansion';
 import {NavigationEnd, Router, RouterModule} from '@angular/router';
 import {DashboardStore} from '@xm-ngx/core/dashboard';
@@ -37,6 +46,24 @@ export type ISideBarConfig = {
     }
 };
 
+@Pipe({
+    standalone: true,
+    name: 'activeMenuItem',
+})
+export class ActiveMenuItemPipe implements PipeTransform {
+
+    private router: Router = inject(Router);
+
+    public transform(node: MenuItem): Observable<boolean> {
+        const patterns = node.activeItemPathPatterns || [];
+        return this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd),
+            map(event => event as NavigationEnd),
+            map((event) => !!patterns.find(pattern => new RegExp(pattern).test(event.urlAfterRedirects)))
+        );
+    }
+}
+
 @Component({
     selector: 'xm-menu',
     templateUrl: './menu.component.html',
@@ -56,6 +83,7 @@ export type ISideBarConfig = {
         CommonModule,
         CdkTreeModule,
         XmPermissionModule,
+        ActiveMenuItemPipe,
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
