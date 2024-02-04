@@ -35,7 +35,7 @@ $xm-menu-icon-font-size:    20px !default;
       height: 100%;
       width: 100%;
       margin: 0 auto;
-      background: rgba(255, 255, 255, .3);
+      background: rgba($xm-menu-item-active-color, .3);
       border-radius: 24px;
       animation: stretch-background 250ms;
     }
@@ -65,18 +65,33 @@ $xm-menu-icon-font-size:    20px !default;
 
   $xm-primary: map-get($theme, primary);
   $xm-menu-item-active-color: map-get($theme, sidebar-text-active-color) or $xm-primary;
+  $xm-sidebar-background: map-get($theme, sidebar-background) or transparent;
+  $xm-sidebar-width: map-get($theme, sidebar-width-m3) or 256px;
 
   .menu-view {
     display: flex;
-    border-radius: 0 16px 16px 0;
-    background-color: #444746;
+    min-width: $xm-sidebar-width;
+    max-width: $xm-sidebar-width;
+    background-color: $xm-sidebar-background;
 
     cdk-tree {
       width: 100%;
-      height: calc(100vh - 80px);
+      height: calc(100vh - 16px);
       overflow-y: auto;
       margin: 8px 0 8px;
       @include xm-scrollbar();
+    }
+  }
+
+  .old-menu {
+    height: calc(100vh - 64px);
+    border-radius: 0;
+    width: 100%;
+    max-width: none;
+
+    cdk-tree {
+      height: 100%;
+      margin: 0;
     }
   }
 
@@ -143,14 +158,15 @@ $xm-menu-icon-font-size:    20px !default;
 
     &-icon {
       margin: 0 8px 0 16px;
-      //background-color: rgba(225, 255, 255, 0.1);
-      //border-radius: 4px;
     }
 
     @include xm-menu-link-theme($theme);
   }
 
   .menu-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: $xm-menu-icon-font-size;
     /** fix bug of side bar mini */
     min-width: 24px;

@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewEncapsulation } from '@angula
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { MatButtonModule } from '@angular/material/button';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
+import {MenuService} from '@xm-ngx/components/menu/menu.service';
 
 @Component({
     selector: 'xm-navbar-toggle-widget',
@@ -33,24 +34,24 @@ export class XmNavbarToggleWidget implements OnInit, XmDynamicWidget {
     @Input() public config: unknown;
 
     protected mobileMenuVisible: boolean = false;
-    private sidebarVisible: boolean;
 
     constructor(
         private element: ElementRef,
+        private menuService: MenuService,
     ) {
-        this.sidebarVisible = false;
     }
 
     public ngOnInit(): void {
         this.sidebarOpen();
     }
 
-    public sidebarToggle(): void {
-        if (this.sidebarVisible === false) {
+    public async sidebarToggle(): Promise<void> {
+        if (!this.menuService.sidenav.opened) {
             this.sidebarOpen();
         } else {
             this.sidebarClose();
         }
+        await this.menuService.sidenav.toggle();
     }
 
     // TODO: refactor
@@ -86,7 +87,6 @@ export class XmNavbarToggleWidget implements OnInit, XmDynamicWidget {
         $layer.onclick = (() => {
             body.classList.remove('nav-open');
             this.mobileMenuVisible = false;
-            this.sidebarVisible = false;
 
             $layer.classList.remove('visible');
             setTimeout(() => {
@@ -97,7 +97,6 @@ export class XmNavbarToggleWidget implements OnInit, XmDynamicWidget {
 
         body.classList.add('nav-open');
         this.mobileMenuVisible = true;
-        this.sidebarVisible = true;
     }
 
     // TODO: refactor
@@ -113,7 +112,6 @@ export class XmNavbarToggleWidget implements OnInit, XmDynamicWidget {
         const $layer = document.createElement('div');
         $layer.setAttribute('class', 'close-layer');
 
-        this.sidebarVisible = false;
         body.classList.remove('nav-open');
         if ($layer) {
             $layer.remove();

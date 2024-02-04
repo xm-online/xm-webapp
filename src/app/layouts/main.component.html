@@ -4,14 +4,22 @@
 <xm-maintenance-view></xm-maintenance-view>
 
 <xm-heatmap-container>
-    <div style="display: flex;" class="wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}">
+    <div class="wrapper body-wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}"
+         *ngIf="menuCategories$ | async as categories"
+    >
       <div xmGuestBackground></div>
-<!--      <div-->
-<!--        style="height: 100vh; width: 88px; background: #444746; position: sticky; z-index: 100"-->
-<!--      ></div>-->
-      <xm-menu-categories></xm-menu-categories>
-      <mat-sidenav-container style="width: 100%" hasBackdrop="false">
-        <mat-sidenav #sidenav mode="over" [fixedInViewport]="true">
+      <xm-menu-categories *ngIf="!isGuestLayout"></xm-menu-categories>
+      <mat-sidenav-container class="menu-sidenav-container" hasBackdrop="false">
+        <mat-sidenav #sidenav
+                     [ngClass]="{
+                        'menu-sidenav': categories?.length > 1,
+                        'border-none': !categories?.length,
+                        'no-box-shadow': sidenav.mode === 'push'
+                     }"
+                     [mode]="'side'"
+                     [opened]="initialSidenavOpenedState"
+                     [fixedInViewport]="true"
+        >
           <xm-sidebar *ngIf="!isGuestLayout"></xm-sidebar>
         </mat-sidenav>
         <mat-sidenav-content>
@@ -20,8 +28,7 @@
                id="main">
             <xm-loader [absolute]="true" routerLoading></xm-loader>
 
-            <xm-navbar class="mb-3"></xm-navbar>
-            <button style="position: absolute; z-index: 9999999; top: 0; right: 50%;" (click)="sidenav.toggle()">toggle menu</button>
+            <xm-navbar class="mb-3" [ngClass]="{'relative-position': isSidenavOpen$ | async}"></xm-navbar>
 
             <div [ngClass]="(isGuestLayout && !config.fullWidth) ? 'container' : 'container-fluid'"
                  class="main-content xm-main-content">
@@ -35,8 +42,6 @@
           </div>
         </mat-sidenav-content>
       </mat-sidenav-container>
-<!--      <xm-sidebar *ngIf="!isGuestLayout" class="sidebar"></xm-sidebar>-->
-
 
       <xm-sidebar-right></xm-sidebar-right>
     </div>

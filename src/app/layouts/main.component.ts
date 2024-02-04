@@ -7,6 +7,7 @@ import {VERSION} from '../xm.constants';
 import {XmLoggerService} from '@xm-ngx/logger';
 import {MenuService} from '@xm-ngx/components/menu/menu.service';
 import {MatSidenav} from '@angular/material/sidenav';
+import {MenuCategory} from '@xm-ngx/components/menu/menu.interface';
 
 
 export interface XmMainConfig extends XmUIConfig{
@@ -22,6 +23,9 @@ export class XmMainComponent implements OnInit, AfterViewInit, OnDestroy {
     public resolved$: Observable<boolean> = this.xmConfigService.isResolved();
     public isGuestLayout: boolean = true;
     public config: XmMainConfig = this.xmConfigService.getAppConfig();
+    public menuCategories$: Observable<MenuCategory[]>;
+    public isSidenavOpen$: Observable<boolean>;
+    public initialSidenavOpenedState: boolean;
     @ViewChild('sidenav') public sidenav: MatSidenav;
 
     constructor(
@@ -35,6 +39,8 @@ export class XmMainComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.menuCategories$ = this.menuService.menuCategories;
+        this.initialSidenavOpenedState = this.menuService.initialSidenavOpenedState;
         this.sessionService.isActive().pipe(takeUntilOnDestroy(this)).subscribe(
             (auth) => this.isGuestLayout = !auth,
             () => this.isGuestLayout = true,
@@ -43,6 +49,12 @@ export class XmMainComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public ngAfterViewInit(): void {
         this.menuService.sidenav = this.sidenav;
+        this.isSidenavOpen$ = this.menuService.isSidenavOpen;
+        this.observeSidenavConfiguration();
+    }
+
+    private observeSidenavConfiguration(): void {
+        this.menuService.observeWindowSizeChange().pipe(takeUntilOnDestroy(this)).subscribe();
     }
 
     public ngOnDestroy(): void {

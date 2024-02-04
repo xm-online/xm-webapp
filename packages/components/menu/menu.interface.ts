@@ -1,11 +1,18 @@
 import {ITranslate, Translate} from '@xm-ngx/translation';
+import {MenuPositionEnum} from '@xm-ngx/components/menu/menu.model';
 
-/**
- * toggle: Just open like accordion
- * click: Open like accordion and navigate to first child
- */
 export interface MenuOptions {
+    /**
+     * toggle: Just open like accordion
+     * click: Open like accordion and navigate to first child
+     */
     mode: 'toggle' | 'click';
+    /**
+     * start = left side of the screen
+     * end = right side of the screen
+     * More info: https://material.angular.io/components/sidenav/api#MatDrawer (`position` property)
+     */
+    mobileMenuPositioning: MenuPositionEnum;
 }
 
 export interface MenuItem {
@@ -39,6 +46,22 @@ export interface MenuItem {
 }
 
 export interface MenuCategory {
-    name: ITranslate;
-    icon: string;
+    name?: ITranslate;
+    icon?: string;
+    url?: string[];
+    order?: number;
+    isLogo?: boolean;
+    logo?: BrandLogo;
+    hasChildren?: boolean;
+    isLinkWithoutSubcategories?: boolean;
+}
+
+export interface BrandLogo {
+    logoUrl: string;
+    size: number;
+}
+
+export interface HoveredMenuCategory {
+    hoveredCategory: MenuCategory;
+    isOpenMenu: boolean;
 }

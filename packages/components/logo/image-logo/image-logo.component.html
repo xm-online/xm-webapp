@@ -1,8 +1,10 @@
-<!--<ng-container *ngIf="session$ | async as session">-->
-<!--    <a [routerLink]="session.active ? config.userRootUrl : config.rootUrl"-->
-<!--       routerLinkActive="active">-->
-<!--        <img [alt]="config.title | translate"-->
-<!--             [src]="imgPath"/>-->
-<!--    </a>-->
-<!--</ng-container>-->
+<ng-container *ngIf="{session: session$ | async, menuCategories: menuCategories$ | async} as data">
+    <ng-container *ngIf="!data.menuCategories?.length || data.menuCategories.length === 1">
+      <a [routerLink]="data.session.active ? config.userRootUrl : config.rootUrl"
+         routerLinkActive="active">
+        <img [alt]="config.title | translate"
+             [src]="imgPath"/>
+      </a>
+    </ng-container>
+</ng-container>
 

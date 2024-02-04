@@ -1,16 +1,37 @@
 <ng-container *ngIf="categories$ | async as categories">
-  <div class="menu-categories" *ngIf="categories?.length">
-    <div
-      *ngFor="let category of categories"
-      class="menu-categories__category menu-category"
-      (mouseenter)="onHoverCategory(category)"
-      (mouseleave)="onLeaveCategory()">
-      <div class="menu-category__icon menu-link"
-           [ngClass]="{'active': true}">
-        <!--selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()-->
-        <mat-icon>{{ category?.icon }}</mat-icon>
+  <ng-container *ngIf="categories?.length">
+    <ng-container *ngIf="isCategoriesHidden$ | async">
+      <div class="menu-categories-spacer"></div>
+      <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES" [@hideCategories]>
+        <div *ngIf="logoCategory$ | async as logoCategory" class="menu-categories__logo">
+          <img *ngIf="logoCategory?.logo?.logoUrl"
+               [ngSrc]="logoCategory?.logo?.logoUrl"
+               [width]="logoCategory?.logo?.size || DEFAULT_LOGO_SIZE"
+               [height]="logoCategory?.logo?.size || DEFAULT_LOGO_SIZE"
+               alt="brand-logo">
+        </div>
+        <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES_CONTAINER">
+          <div
+            *ngFor="let category of categories"
+            [class]="menuCategoriesClassesEnum.MENU_CATEGORY"
+            (click)="onNavigate(category)"
+            (mouseenter)="onHoverCategory(category)">
+            <div *ngIf="category.icon"
+                 class="menu-category__icon menu-link"
+                 [ngClass]="{'active': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}">
+              <mat-icon>{{ category?.icon }}</mat-icon>
+            </div>
+            <span *ngIf="category?.name" class="menu-category__name">{{ category?.name | translate }}</span>
+          </div>
+        </div>
+        <div class="menu-categories__actions">
+          <button mat-mini-fab
+                  [disabled]="selectedCategory?.isLinkWithoutSubcategories"
+                  (click)="toggleSidenav()">
+            <mat-icon class="action-icon" [ngClass]="{'rotate-chevron': isSidenavOpened$ | async}">chevron_right</mat-icon>
+          </button>
+        </div>
       </div>
-      <span class="menu-category__name">{{ category?.name | translate }}</span>
-    </div>
-  </div>
+    </ng-container>
+  </ng-container>
 </ng-container>

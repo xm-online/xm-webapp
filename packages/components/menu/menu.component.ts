@@ -4,7 +4,7 @@ import {NavigationEnd, Router, RouterModule} from '@angular/router';
 import {DashboardStore} from '@xm-ngx/core/dashboard';
 import {XmEntitySpecWrapperService} from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
-import {combineLatest, from, Observable} from 'rxjs';
+import {animationFrameScheduler, combineLatest, debounceTime, from, Observable, observeOn, of, tap, timer} from 'rxjs';
 import {filter, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
 
 import {ContextService} from '@xm-ngx/core/context';
@@ -14,7 +14,7 @@ import {CdkTreeModule, NestedTreeControl} from '@angular/cdk/tree';
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy, treeNodeSearch} from '@xm-ngx/operators';
 import {buildMenuTree} from './nested-menu';
 import {applicationsToCategory, filterByConditionDashboards} from './flat-menu';
-import {MenuCategory, MenuItem, MenuOptions} from './menu.interface';
+import {HoveredMenuCategory, MenuCategory, MenuItem, MenuOptions} from './menu.interface';
 import {XmUiConfigService} from '@xm-ngx/core/config';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -24,6 +24,8 @@ import {XmPermissionModule} from '@xm-ngx/core/permission';
 import {ConditionDirective} from '@xm-ngx/components/condition';
 import {showHideSubCategories} from './menu.animation';
 import {MenuService} from './menu.service';
+import {MatDrawerToggleResult} from '@angular/material/sidenav';
+import {MenuPositionEnum, MenuSubcategoriesAnimationStateEnum} from '@xm-ngx/components/menu/menu.model';
 
 export type ISideBarConfig = {
     sidebar?: {
@@ -41,7 +43,7 @@ export type ISideBarConfig = {
     animations: [
         matExpansionAnimations.bodyExpansion,
         matExpansionAnimations.indicatorRotate,
-        showHideSubCategories
+        showHideSubCategories,
     ],
     host: {
         class: 'xm-menu',
@@ -65,6 +67,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         this._config = _.defaultsDeep(value, {
             'mode': 'toggle',
         });
+        this.menuService.mobileMenuPositioning = value.mobileMenuPositioning || MenuPositionEnum.END;
     }
 
     get config(): MenuOptions {
@@ -72,9 +75,11 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
 
     public treeControl = new NestedTreeControl<MenuItem>(node => node.children);
-    public categories$: Observable<MenuItem[]>;
-    public globalCategories: MenuCategory[];
-    public filteredCategories: MenuItem[];
+    public categories: MenuCategory[] = [];
+    public subCategories$: Observable<MenuItem[]>;
+    public menuByCategories: Record<string, MenuItem[]>;
+    public filteredCategories: MenuItem[] = [];
+    public showSubCategoriesState: string = MenuSubcategoriesAnimationStateEnum.HIDE;
     public selectedCategory: MenuCategory;
     public hoveredCategory: MenuCategory;
     public parentCategory: MenuItem;
@@ -94,13 +99,69 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
 
     public hasChild = (_: number, node: MenuItem): boolean => {
+        if (node?.category && !node.category.isLinkWithoutSubcategories) {
+            return true;
+        }
         return node.isLink == null ? (!!node.children && node.children.length > 0) : !node.isLink;
     };
 
     public ngOnInit(): void {
-        const dashboards$ = this.getActiveDashboards();
+        this.observeSidenavOpen();
+        this.observeSidenavClose();
+        this.observeSectionsFiltering();
+        this.assignSubCategories();
+        this.observeNavigation();
 
-        const applications$ = from(this.principal.identity()).pipe(
+        this.uiFix();
+    }
+
+    private uiFix(): void {
+        // This changes should be implemented with configuration in Administration > Configuration > Specification > UI section
+        // TODO Must be removed after changes in configuration. Should be approved by all (XM, Vodafone projects)
+        const sidebarEl: HTMLElement = this.document.querySelector('.vf-sidebar-menu-scroll');
+        sidebarEl.classList.remove('overflow-auto');
+        sidebarEl.style.overflowY = 'hidden';
+        sidebarEl.style.height = '100%';
+        sidebarEl.style.maxHeight = '100%';
+    }
+
+    private assignSubCategories(): void {
+        this.subCategories$ = combineLatest([this.activeDashboards$, this.applications$, this.defaultMenuItems$]).pipe(
+            map(([dashboards, applications, defaultMenu]) => {
+                const mainMenu = _.orderBy([...dashboards, ...applications], ['position'], 'asc');
+                return [...mainMenu, ...defaultMenu];
+            }),
+            takeUntilOnDestroy(this),
+            shareReplay(1),
+        );
+    }
+
+    private get activeDashboards$(): Observable<MenuItem[]> {
+        return this.userService.user$().pipe(
+            switchMap((user) => {
+                return this.dashboardService.dashboards$().pipe(
+                    startWith([]),
+                    filter((dashboards) => Boolean(dashboards)),
+                    map((i) => filterByConditionDashboards(i, this.contextService)),
+                    map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
+                    map((dashboards) => {
+                        if (dashboards?.length) {
+                            const menuTree: MenuItem[] = buildMenuTree(dashboards, ConditionDirective.checkCondition, {user});
+                            const menu: MenuItem[] = this.menuService.mapMenuCategories(menuTree);
+                            this.categories = this.menuService.getUniqMenuCategories(menu);
+                            this.menuByCategories = this.menuService.getGroupedMenuCategories(menu);
+                            this.categories.length > 1 && this.menuService.setMenuCategories(this.categories);
+                            return menu;
+                        }
+                        return [];
+                    }),
+                );
+            }),
+        );
+    }
+
+    private get applications$(): Observable<MenuItem[]> {
+        return from(this.principal.identity()).pipe(
             switchMap(() => this.entityConfigService.entitySpec$()),
             switchMap((spec) => this.uiConfigService.config$().pipe(
                 map((c) => c.sidebar?.hideApplication ? {} : {sidebar: c.sidebar || {}, spec})),
@@ -122,104 +183,97 @@ export class MenuComponent implements OnInit, OnDestroy {
                 return applicationsToCategory(applications, sideBarConfig);
             }),
         );
+    }
 
-        const default$ = this.uiConfigService.config$().pipe(
+    private get defaultMenuItems$(): Observable<MenuItem[]> {
+        return this.uiConfigService.config$().pipe(
             map(i => i?.sidebar?.hideAdminConsole ? [] : getDefaultMenuList()),
         );
+    }
 
-        this.categories$ = combineLatest([dashboards$, applications$, default$]).pipe(
-            map(([dashboards, applications, defaultMenu]) => {
-                const mainMenu = _.orderBy([...dashboards, ...applications], ['position'], 'asc');
-                return [...mainMenu, ...defaultMenu];
-            }),
-            takeUntilOnDestroy(this),
-            shareReplay(1),
-        );
-
+    private observeNavigation(): void {
         combineLatest([
-            this.categories$,
+            this.subCategories$,
             this.router.events.pipe(filter((e) => e instanceof NavigationEnd)),
         ]).pipe(
             map((i) => i[0]),
             takeUntilOnDestroy(this),
         ).subscribe(a => {
             const active = this.getActiveNode(a);
-            !this.selectedCategory && this.filterSections(a, active?.parent?.category);
+            this.selectedCategory = this.menuService.setCategoryOnRouteChange(active);
             this.unfoldParentNode(active);
         });
-
-        // TODO do this configuration in Administration > Configuration > Specification > UI section
-        const sidebarEl: HTMLElement = this.document.querySelector('.vf-sidebar-menu-scroll');
-        sidebarEl.classList.remove('overflow-auto');
-        sidebarEl.style.overflowY = 'hidden';
-        sidebarEl.style.height = '100%';
     }
 
-    public scrollToSelectedLink(): void {
-        this.document.querySelector('cdk-tree .menu-link.active')?.scrollIntoView({behavior: 'smooth', block: 'center'});
-    }
-
-    private getActiveDashboards(): Observable<MenuItem[]> {
-        return this.userService.user$().pipe(
-            switchMap((user) => {
-                return this.dashboardService.dashboards$().pipe(
-                    startWith([]),
-                    filter((dashboards) => Boolean(dashboards)),
-                    map((i) => filterByConditionDashboards(i, this.contextService)),
-                    map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
-                    map((dashboards) => {
-                        if (dashboards?.length) {
-                            const menu: MenuItem[] = buildMenuTree(dashboards, ConditionDirective.checkCondition, {user: user});
-                            this.globalCategories =
-                                menu.filter((menuItem: MenuItem) => menuItem.category)
-                                    .map((menuItem: MenuItem) => menuItem.category);
-                            this.globalCategories.push(this.otherGlobalCategory);
-                            this.menuService.setMenuCategories(this.globalCategories);
-                            return menu;
-                        }
-                        return [];
-                    }),
-                );
-            }),
-        );
-    }
-
-    public filterSections(categories: MenuItem[], selectedCategory: MenuCategory): void {
-        if (!selectedCategory) {
-            selectedCategory = this.otherGlobalCategory;
-        }
-        const selectedCategoryName: string = selectedCategory.name.en.toLowerCase();
-        if (this.hoveredCategory?.name?.en.toLowerCase() !== selectedCategoryName) {
-            this.filteredCategories = null;
-            this.hoveredCategory = selectedCategory;
-            setTimeout(() => {
-                this.filteredCategories = categories.filter((menu: MenuItem) => {
-                    if (selectedCategoryName === 'other') {
-                        return !menu?.category;
+    public observeSectionsFiltering(): void {
+        this.menuService.hoveredCategory
+            .pipe(
+                debounceTime(100),
+                observeOn(animationFrameScheduler),
+                switchMap((category: HoveredMenuCategory) => {
+                    const { hoveredCategory, isOpenMenu } = category;
+                    const hoveredCategoryName: string = hoveredCategory?.name?.en?.toLowerCase();
+                    if (this.isTwoLevelMenu) {
+                        this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW;
+                        this.filteredCategories = this.menuByCategories[hoveredCategoryName];
                     }
-                    return menu?.category?.name?.en.toLowerCase() === selectedCategoryName;
-                });
-            });
-        }
+                    if (!hoveredCategory || this.isTwoLevelMenu) {
+                        return of(null);
+                    }
+                    if (this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName && this.menuByCategories) {
+                        this.filteredCategories = this.menuByCategories[hoveredCategoryName];
+                        const isOneLevelCategory = !!(this.filteredCategories?.length === 1 && this.filteredCategories[0]?.category?.isLinkWithoutSubcategories);
+                        if (!isOneLevelCategory) {
+                            this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
+                            this.hoveredCategory = hoveredCategory;
+                            const next$: Observable<MatDrawerToggleResult | number> =
+                                !this.menuService.sidenav.opened && isOpenMenu ? from(this.menuService.sidenav.open()) : timer(0);
+                            return next$.pipe(
+                                observeOn(animationFrameScheduler),
+                                tap(() => this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW),
+                            );
+                        }
+
+                        this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
+                        return from(this.menuService.sidenav.close()).pipe(observeOn(animationFrameScheduler));
+                    }
+                    return of(hoveredCategory);
+                }),
+                takeUntilOnDestroy(this),
+            )
+            .subscribe();
     }
 
-    public setSelectedGlobalCategory(node: MenuItem): void {
-        const { parent } = node || {};
-        this.selectedCategory = parent?.category || this.otherGlobalCategory;
+    private observeSidenavOpen(): void {
+        this.menuService.sidenav.openedStart
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(() => this.menuService.setIsSidenavOpen(true));
+    }
+
+    private observeSidenavClose(): void {
+        this.menuService.sidenav.closedStart
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(() => {
+                this.hoveredCategory = null;
+                this.menuService.setIsSidenavOpen(false);
+            });
+    }
+
+    public setSelectedCategory(node: MenuItem): void {
+        const {parent} = node || {};
+        this.selectedCategory = parent?.category || this.menuService.selectedCategory.value || this.menuService.otherCategory;
+        this.menuService.selectedCategory.next(this.selectedCategory);
         this.parentCategory = parent;
+    }
+
+    public async hideMenuRightSide(event: any): Promise<void> {
+        await this.menuService.hideMenuRightSide(this.selectedCategory, event);
     }
 
     public getActiveNode(nodes: MenuItem[]): MenuItem {
         return treeNodeSearch<MenuItem>(nodes,
             (item) => item.children,
-            item => {
-                return this.router.isActive(item.url?.join('/'), {
-                    fragment: 'ignored',
-                    matrixParams: 'ignored',
-                    queryParams: 'ignored',
-                    paths: 'exact',
-                });
-            },
+            item => this.menuService.isActiveUrl(item),
         );
     }
 
@@ -233,8 +287,11 @@ export class MenuComponent implements OnInit, OnDestroy {
         }
 
         let node = child;
-        const { parent } = node || {};
-        !this.selectedCategory && (this.selectedCategory = parent?.category || this.otherGlobalCategory);
+        const {parent} = node || {};
+        if (!this.selectedCategory) {
+            this.selectedCategory = parent?.category || this.menuService.selectedCategory.value || this.menuService.otherCategory;
+            this.menuService.selectedCategory.next(this.selectedCategory);
+        }
         !this.parentCategory && (this.parentCategory = parent);
         while ((node = node.parent)) {
             this.treeControl.expand(node);
@@ -269,13 +326,23 @@ export class MenuComponent implements OnInit, OnDestroy {
         evt.preventDefault();
         evt.stopPropagation();
 
+        if (!node.children?.length) {
+            this.router.navigate(node.url);
+            if (node.category) {
+                this.menuService.selectedCategory.next(node.category);
+                this.selectedCategory = node.category;
+                this.parentCategory = node;
+            }
+            return;
+        }
+
         if (this.treeControl.isExpanded(node)) {
             this.treeControl.collapse(node);
 
             return;
         }
 
-        // this.treeControl.collapseAll();
+        this.isTwoLevelMenu && this.treeControl.collapseAll();
 
         // Unfold current node
         this.unfoldParentNode(node);
@@ -291,14 +358,15 @@ export class MenuComponent implements OnInit, OnDestroy {
         return this.treeControl.isExpanded(node) ? 'expanded' : 'collapsed';
     }
 
-    private get otherGlobalCategory(): MenuCategory {
-        return {
-            name: {
-                en: 'Other',
-                ru: 'Іньше',
-                uk: 'Іньше',
-            },
-            icon: 'more_horiz',
-        };
+    public onHideSubCategoriesDone(): void {
+        this.document.querySelector('cdk-tree .menu-link.active')?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+        });
+    }
+
+    /** is old version of menu */
+    private get isTwoLevelMenu(): boolean {
+        return this.categories.length === 1;
     }
 }

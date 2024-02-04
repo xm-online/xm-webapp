@@ -1,27 +1,19 @@
-<div class="menu-view" *ngIf="categories$ | async as categories">
-<!--  <div class="global-categories" *ngIf="globalCategories?.length">-->
-<!--    <div-->
-<!--      *ngFor="let category of globalCategories"-->
-<!--      class="global-categories__category global-category"-->
-<!--      (mouseenter)="filterSections(categories, category)">-->
-<!--      <div class="global-category__icon menu-link"-->
-<!--           [ngClass]="{'active': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}">-->
-<!--        <mat-icon>{{ category?.icon }}</mat-icon>-->
-<!--      </div>-->
-<!--      <span class="global-category__name">{{ category?.name | translate }}</span>-->
-<!--    </div>-->
-<!--  </div>-->
-  <cdk-tree *ngIf="filteredCategories"
-            [dataSource]="filteredCategories"
+<div class="menu-view"
+     [ngClass]="{'old-menu': categories?.length === 1}"
+     *ngIf="subCategories$ | async"
+     (mouseleave)="hideMenuRightSide($event)">
+  <cdk-tree [dataSource]="filteredCategories"
             [treeControl]="treeControl"
-            [@showHideSubCategories]
-            (@showHideSubCategories.done)="scrollToSelectedLink()">
+            [@showHideSubCategories]="{value: showSubCategoriesState}"
+            (@showHideSubCategories.done)="onHideSubCategoriesDone()"
+  >
     <cdk-tree-node *cdkTreeNodeDef="let node">
       <a class="menu-link"
          *permitted="node.permission"
          routerLinkActive="active"
-         (click)="setSelectedGlobalCategory(node)"
-         [routerLink]="node.url">
+         [routerLink]="node.url"
+         (click)="setSelectedCategory(node)"
+      >
       <span class="xm-menu-item-text" [title]="node?.title | translate">
         {{node?.title | translate}}
       </span>
@@ -31,12 +23,23 @@
     <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
       <a class="menu-link"
          *permitted="node.permission"
-         (click)="toggle(node, $event)"
-         [ngClass]="{'active-menu-category': node === parentCategory }">
+         (click)="toggleOrNavigate(node, $event)"
+         [ngClass]="{
+            'active-menu-category': node === parentCategory,
+            'active': !node.children?.length && node?.category === selectedCategory
+         }"
+      >
+        <mat-icon class="menu-icon" *ngIf="categories.length === 1">{{node.icon}}</mat-icon>
         <span class="xm-menu-item-text">{{node?.title | translate}}</span>
         <span class="ms-auto"></span>
 
-        <mat-icon class="menu-link-icon" (click)="toggle(node, $event)" [@indicatorRotate]="isNodeExpanded(node)">arrow_drop_up</mat-icon>
+        <mat-icon
+          *ngIf="node.children?.length"
+          class="menu-link-icon"
+          (click)="toggle(node, $event)"
+          [@indicatorRotate]="isNodeExpanded(node)">
+          arrow_drop_down
+        </mat-icon>
       </a>
 
       <div class="menu-list nested-menu-list" role="group" [@bodyExpansion]="isNodeExpanded(node)">

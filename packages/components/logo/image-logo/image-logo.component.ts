@@ -6,6 +6,8 @@ import { SPA_AUTH_ROOT_URL, SPA_ROOT_URL } from '../logo.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { XmTranslationModule } from '@xm-ngx/translation';
+import {MenuService} from '@xm-ngx/components/menu/menu.service';
+import {MenuCategory} from '@xm-ngx/components/menu/menu.interface';
 
 interface ImageLogoConfig {
     title: string;
@@ -24,18 +26,6 @@ const DEFAULT: ImageLogoConfig = {
 @Component({
     selector: 'xm-image-logo',
     templateUrl: './image-logo.component.html',
-    styles:[`
-        a {
-            position: relative;
-        }
-        a:after {
-            position: absolute;
-            content: '';
-            background-color: #DADADA;
-            width: 100%;
-            height: 64px;
-        }
-    `],
     imports: [
         CommonModule,
         RouterModule,
@@ -46,16 +36,21 @@ const DEFAULT: ImageLogoConfig = {
 })
 export class ImageLogoComponent implements OnInit {
     public session$: Observable<ISession>;
+    public menuCategories$: Observable<MenuCategory[]>;
 
     @Input() @Defaults(DEFAULT) public config: ImageLogoConfig;
     public imgPath: string;
 
-    constructor(private readonly sessionService: XmSessionService) {
+    constructor(
+        private readonly sessionService: XmSessionService,
+        private menuService: MenuService,
+    ) {
     }
 
     public ngOnInit(): void {
         this.imgPath = this.getImageUrl(this.config.imageUrls);
         this.session$ = this.sessionService.get();
+        this.menuCategories$ = this.menuService.menuCategories;
     }
 
     public getImageUrl(imageUrls: string[]): string {

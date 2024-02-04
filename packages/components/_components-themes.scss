@@ -5,6 +5,7 @@
 @import 'text/xm-text-theme';
 @import 'code/xm-code-theme';
 @import 'menu/menu-theme';
+@import 'menu/menu-categories/menu-categories-theme';
 @import 'sidebar-user/user-theme';
 @import 'ribbon/xm-ribbon-theme';
 @import 'multilanguage/xm-angular-editor-theme';
@@ -14,6 +15,7 @@
 
 @mixin xm-components-theme($xm-theme) {
   @include xm-sidebar-theme($xm-theme);
+  @include xm-menu-categories-theme($xm-theme);
   @include xm-angular-editor-theme($xm-theme);
   @include xm-sidebar-right-theme($xm-theme);
   @include xm-navbar-guest-background-theme($xm-theme);

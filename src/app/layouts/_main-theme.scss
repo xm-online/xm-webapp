@@ -57,7 +57,6 @@ $breakpoint-tablet:     991px !default;
 
   .main-panel {
     position:    relative;
-    margin-left: $xm-sidebar-width;
 
     @include transition($xm-sidebar-transition);
   }
@@ -69,7 +68,6 @@ $breakpoint-tablet:     991px !default;
 
     .nav-open .wrapper:not(.xm-guest-layout) .main-panel {
       left: 0;
-      @include transform(translate3d(-$xm-sidebar-width, 0, 0));
     }
   }
 

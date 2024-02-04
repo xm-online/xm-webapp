@@ -3,6 +3,26 @@
   @import 'packages/components/navbar-guest-background/navbar-guest-background';
 }
 
+.body-wrapper {
+  display: flex;
+
+  .menu-sidenav-container {
+    width: 100%;
+
+    .menu-sidenav {
+      border-radius: 0 16px 16px 0;
+    }
+
+    .border-none {
+      border: none;
+    }
+
+    .no-box-shadow {
+      box-shadow: none;
+    }
+  }
+}
+
 .xm-main-panel {
   position: relative;
   display:        flex;
@@ -11,7 +31,7 @@
 }
 
 .xm-navbar {
-  position: fixed; // TODO has to be sticky
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -25,4 +45,10 @@
   flex-direction: column;
   flex-grow:      1;
   margin-top: 5rem;
+}
+
+@media all and (max-width: 991px) {
+  .relative-position {
+    position: relative;
+  }
 }
