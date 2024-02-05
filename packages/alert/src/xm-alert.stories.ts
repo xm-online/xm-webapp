@@ -12,6 +12,8 @@ import { XmLoggerModule } from '@xm-ngx/logger';
 import { XmCoreModule } from '@xm-ngx/core';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { of } from 'rxjs';
+import { XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { XmSharedModule } from '@xm-ngx/shared';
 
 function StaticLoaderFactory() {
     return of(require('src/i18n/en.json'));
@@ -41,16 +43,18 @@ export default {
         applicationConfig({
             providers: [
                 importProvidersFrom(NgxWebstorageModule.forRoot()),
+                importProvidersFrom(XmSharedModule.forRoot()),
                 importProvidersFrom(XmCoreModule.forRoot()),
+                importProvidersFrom(XmCoreAuthModule.forRoot()),
                 importProvidersFrom(XmLoggerModule.forRoot()),
                 importProvidersFrom(XmCoreConfigModule),
                 importProvidersFrom(HttpClientModule),
                 importProvidersFrom(BrowserAnimationsModule),
                 importProvidersFrom(TranslateModule.forRoot({
                     isolate: false,
-                    loader: { 
-                        deps: [HttpClient], 
-                        provide: TranslateLoader, 
+                    loader: {
+                        deps: [HttpClient],
+                        provide: TranslateLoader,
                         useFactory: StaticLoaderFactory,
                     },
                 })),
@@ -68,9 +72,7 @@ export default {
                 XmTranslationModule.forRoot(),
                 XmAlertModule.forRoot(),
             ],
-            providers: [
-                
-            ],
+            providers: [],
         }),
     ],
     parameters: {

@@ -16,7 +16,7 @@ function deep(obj: Flatten, path: string[] = [], separator: string): Array<Flatt
 
 /**
  * TODO: do not support Arrays
- *
+ * @deprecated Use {@link flattenObjectDeep} instead. Will be removed in removed 9.0.0 .
  */
 export function flattenObject(object: Flatten, separator: string = '.'): Flatten {
     const flattenObj = deep(object, [], separator);
