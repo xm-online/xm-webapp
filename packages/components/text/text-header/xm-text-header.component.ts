@@ -29,7 +29,7 @@ export const XM_TEXT_HEADER_OPTIONS_DEFAULT = {
     template: `
         <h5 class="text-header"
             [style]="config?.layout?.theme?.style"
-            [className]="config?.layout?.theme?.class">
+            [class]="config?.layout?.theme?.class">
             {{ (value || config.title)| translate }}
         </h5>
     `,
