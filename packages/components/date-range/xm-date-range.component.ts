@@ -9,8 +9,7 @@ import {
 import { XmDynamicPresentation, } from '@xm-ngx/dynamic';
 import { XM_DATE_CONFIG_DEFAULT, XmDateConfig, XmDateValue } from '@xm-ngx/components/date';
 import { Defaults } from '@xm-ngx/operators';
-import { XmUserService } from '@xm-ngx/core/user';
-import { take } from 'rxjs/operators';
+import { Principal } from '@xm-ngx/core/user';
 
 export interface XmDateRangeConfig extends XmDateConfig {
     separator: string;
@@ -40,15 +39,9 @@ export class XmDateRangeComponent implements XmDynamicPresentation<XmDateRangeVa
     @Input() @Defaults(XM_DATE_RANGE_CONFIG_DEFAULT) public config: XmDateRangeConfig;
     public locale: string = 'en';
 
-    private xmUserService: XmUserService = inject(XmUserService);
+    private xmPrincipalService: Principal = inject(Principal);
 
     public ngOnInit(): void {
-        this.xmUserService.user$()
-            .pipe(
-                take(1)
-            )
-            .subscribe((user) => {
-                this.locale = user.langKey;
-            });
+        this.locale = this.xmPrincipalService.getLangKey();
     }
 }
