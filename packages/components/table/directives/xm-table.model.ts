@@ -17,6 +17,7 @@ export interface XmTableConfig {
     queryParamsToFillter?: XmTableQueryParamsToFilter;
     pageableAndSortable: XmTableWithColumnDynamicCellOptionsPagination,
     storageKey: string;
+    queryPrefixKey: string;
     triggerTableKey: string;
     isCollapsed: boolean;
     isExpandable: boolean;
@@ -40,6 +41,7 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     isExpandable: false,
     popUpFilter: false,
     showFilterChips: true,
+    queryPrefixKey: '',
 };
 
 export enum XmTableEventType {
