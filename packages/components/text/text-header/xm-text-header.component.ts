@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { clone, defaults } from 'lodash';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { NgIf } from '@angular/common';
 
 export interface XmTextHeaderOptions {
     title: Translate,
@@ -27,14 +28,14 @@ export const XM_TEXT_HEADER_OPTIONS_DEFAULT = {
 @Component({
     selector: 'xm-text-header',
     template: `
-        <h5 class="text-header"
+        <h5 class="text-header" *ngIf="value || config.title"
             [style]="config?.layout?.theme?.style"
             [class]="config?.layout?.theme?.class">
             {{ (value || config.title)| translate }}
         </h5>
     `,
     styleUrl: './xm-text-header.component.scss',
-    imports: [XmTranslationModule],
+    imports: [XmTranslationModule, NgIf],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
 })
