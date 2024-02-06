@@ -7,7 +7,7 @@ import {
 import { XmDynamicPresentation, } from '@xm-ngx/dynamic';
 import { XM_DATE_CONFIG_DEFAULT, XmDateConfig, XmDateValue } from '@xm-ngx/components/date';
 import { Defaults } from '@xm-ngx/operators';
-import { XmDatePipe } from '@xm-ngx/translation/pipes/xm-date.pipe';
+import { XmDatePipe } from '@xm-ngx/pipes';
 
 export interface XmDateRangeConfig extends XmDateConfig {
     separator: string;
