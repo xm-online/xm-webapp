@@ -1,6 +1,6 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { Principal } from '@xm-ngx/core/user';
 import { DatePipe } from '@angular/common';
+import { Principal } from '@xm-ngx/core/user';
 
 @Pipe({name: 'xmDate', standalone: true})
 export class XmDatePipe implements PipeTransform {
