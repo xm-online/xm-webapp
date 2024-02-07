@@ -24,7 +24,7 @@ import {JhiAlertErrorComponent} from '@xm-ngx/error-messages';
 import {CommonModule} from '@angular/common';
 import {XmHeatmapContainerComponent} from '@xm-ngx/components/navbar-heatmap-widget';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import {MenuCategoriesComponent} from '@xm-ngx/components/menu/menu-categories/menu-categories.component';
+import {MenuCategoriesComponent} from '@xm-ngx/components/menu';
 
 @NgModule({
     imports: [
