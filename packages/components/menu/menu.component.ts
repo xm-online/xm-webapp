@@ -390,25 +390,4 @@ export class MenuComponent implements OnInit, OnDestroy {
     private get isTwoLevelMenu(): boolean {
         return this.categories.length === 1;
     }
-
-    public onRouterLinkActive(isRouterFinishedNavigation: boolean, node: MenuItem): void {
-        console.log('onRouterLinkActive: ', this.router.url);
-        // if (!isRouterFinishedNavigation) {
-        //     if (this.previousActiveNode) {
-        //         this.filteredCategories.forEach((item: MenuItem) => item?.url === this.previousActiveNode?.url && (item.isActiveRoute = false));
-        //     }
-        //     const isPattern: boolean = [/pg-history-packages/, /pg-history-vouchers/]?.some(pattern => new RegExp(pattern).test(this.router.url));
-        //     console.log('isPattern: ', isPattern);
-        //     node.isActiveRoute = isPattern || false;
-        //     this.previousActiveNode = node;
-        // } else {
-        //     if (this.previousActiveNode) {
-        //         this.filteredCategories.forEach((item: MenuItem) => item?.url === this.previousActiveNode?.url && (item.isActiveRoute = false));
-        //     }
-        //     node.isActiveRoute = true;
-        //     this.previousActiveNode = node;
-        // }
-        console.log('onRouterLinkActive: ', isRouterFinishedNavigation);
-        console.log('onRouterLinkActive: ', node);
-    }
 }
