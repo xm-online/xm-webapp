@@ -5,7 +5,7 @@ import {MatDrawerMode, MatDrawerToggleResult, MatSidenav} from '@angular/materia
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
 import {orderBy, uniqBy, groupBy} from 'lodash';
 import {Router} from '@angular/router';
-import {MenuCategoriesClassesEnum, MenuPositionEnum} from '@xm-ngx/components/menu/menu.model';
+import {MenuCategoriesClassesEnum, MenuPositionEnum} from './menu.model';
 
 @Injectable({providedIn: 'root'})
 export class MenuService {
@@ -192,10 +192,10 @@ export class MenuService {
         await this.sidenav.toggle();
     }
 
-    public setCategoryOnRouteChange(active: MenuItem): MenuCategory {
+    public setCategoryOnRouteChange(active: MenuItem, menu: MenuItem[]): MenuCategory {
         const singleCategory: MenuCategory = this._menuCategories.value?.find((category: MenuCategory) => this.isActiveUrl(category));
-        const selectedCategory: MenuCategory = active?.parent?.category || singleCategory ||
-            this.selectedCategory.value || active?.category || this.otherCategory;
+        const selectedCategory: MenuCategory = active?.parent?.category || active?.category || singleCategory ||
+            this.selectedCategory.value || this.findPossibleCategoryForHiddenSection(menu) || this.reservedCategory;
         this.selectedCategory.next(selectedCategory);
         this.setHoveredCategory(selectedCategory);
         const isOpenMenu: boolean = !this.sidenav.opened && this.breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN);
@@ -210,6 +210,16 @@ export class MenuService {
             queryParams: 'ignored',
             paths: 'exact',
         });
+    }
+
+    private findPossibleCategoryForHiddenSection(menu: MenuItem[]): MenuCategory {
+        const parentPath: string = this.router.url.split('/')[2];
+        return menu.find((item: MenuItem) => item.url[1] === parentPath)?.category;
+    }
+
+    private get reservedCategory(): MenuCategory {
+        const isOtherCategoryExists: boolean = this._menuCategories.value.some((category: MenuCategory) => category.name === this.otherCategory.name);
+        return isOtherCategoryExists ? this.otherCategory : this._menuCategories.value[0];
     }
 
     public get isOverMode(): boolean {

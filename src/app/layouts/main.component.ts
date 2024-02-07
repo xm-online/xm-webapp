@@ -5,9 +5,9 @@ import {Observable} from 'rxjs';
 import {XmApplicationConfigService, XmUIConfig} from '@xm-ngx/core/config';
 import {VERSION} from '../xm.constants';
 import {XmLoggerService} from '@xm-ngx/logger';
-import {MenuService} from '@xm-ngx/components/menu/menu.service';
+import {MenuService} from '@xm-ngx/components/menu';
 import {MatSidenav} from '@angular/material/sidenav';
-import {MenuCategory} from '@xm-ngx/components/menu/menu.interface';
+import {MenuCategory} from '@xm-ngx/components/menu';
 
 
 export interface XmMainConfig extends XmUIConfig{

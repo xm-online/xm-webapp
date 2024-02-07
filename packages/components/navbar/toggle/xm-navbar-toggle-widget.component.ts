@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewEncapsulation } from '@angula
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { MatButtonModule } from '@angular/material/button';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import {MenuService} from '@xm-ngx/components/menu/menu.service';
+import {MenuService} from '@xm-ngx/components/menu';
 
 @Component({
     selector: 'xm-navbar-toggle-widget',

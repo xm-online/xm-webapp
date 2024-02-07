@@ -8,8 +8,8 @@ import {Observable} from 'rxjs';
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
 import {MatButtonModule} from '@angular/material/button';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
-import {hideCategories} from '@xm-ngx/components/menu/menu.animation';
-import {MenuCategoriesClassesEnum} from '@xm-ngx/components/menu/menu.model';
+import {hideCategories} from '../menu.animation';
+import {MenuCategoriesClassesEnum} from '../menu.model';
 
 @Component({
     selector: 'xm-menu-categories',

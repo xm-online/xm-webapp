@@ -10,9 +10,8 @@
     <cdk-tree-node *cdkTreeNodeDef="let node">
       <a class="menu-link"
          *permitted="node.permission"
-         routerLinkActive="active"
          [routerLink]="node.url"
-         [class.active]="node | activeMenuItem | async"
+         [ngClass]="{'active': node.isActiveRoute}"
          (click)="setSelectedCategory(node)"
       >
       <span class="xm-menu-item-text" [title]="node?.title | translate">

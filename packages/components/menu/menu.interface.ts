@@ -1,5 +1,5 @@
 import {ITranslate, Translate} from '@xm-ngx/translation';
-import {MenuPositionEnum} from '@xm-ngx/components/menu/menu.model';
+import {MenuPositionEnum} from './menu.model';
 
 export interface MenuOptions {
     /**
@@ -45,6 +45,7 @@ export interface MenuItem {
     children: MenuItem[];
 
     activeItemPathPatterns?: string[];
+    isActiveRoute?: boolean;
 }
 
 export interface MenuCategory {

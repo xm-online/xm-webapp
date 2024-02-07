@@ -1,12 +1,10 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    inject,
+    Inject,
     Input,
     OnDestroy,
     OnInit,
-    Pipe,
-    PipeTransform
 } from '@angular/core';
 import {matExpansionAnimations} from '@angular/material/expansion';
 import {NavigationEnd, Router, RouterModule} from '@angular/router';
@@ -31,10 +29,11 @@ import {Translate, XmTranslateService, XmTranslationModule} from '@xm-ngx/transl
 import {CommonModule, DOCUMENT} from '@angular/common';
 import {XmPermissionModule} from '@xm-ngx/core/permission';
 import {ConditionDirective} from '@xm-ngx/components/condition';
+import {ActiveMenuItemPipe} from './pipes/active-menu-item.pipe';
 import {showHideSubCategories} from './menu.animation';
 import {MenuService} from './menu.service';
 import {MatDrawerToggleResult} from '@angular/material/sidenav';
-import {MenuPositionEnum, MenuSubcategoriesAnimationStateEnum} from '@xm-ngx/components/menu/menu.model';
+import {MenuPositionEnum, MenuSubcategoriesAnimationStateEnum} from './menu.model';
 
 export type ISideBarConfig = {
     sidebar?: {
@@ -45,24 +44,6 @@ export type ISideBarConfig = {
         applicationPosition?: number;
     }
 };
-
-@Pipe({
-    standalone: true,
-    name: 'activeMenuItem',
-})
-export class ActiveMenuItemPipe implements PipeTransform {
-
-    private router: Router = inject(Router);
-
-    public transform(node: MenuItem): Observable<boolean> {
-        const patterns = node.activeItemPathPatterns || [];
-        return this.router.events.pipe(
-            filter(event => event instanceof NavigationEnd),
-            map(event => event as NavigationEnd),
-            map((event) => !!patterns.find(pattern => new RegExp(pattern).test(event.urlAfterRedirects)))
-        );
-    }
-}
 
 @Component({
     selector: 'xm-menu',
@@ -90,6 +71,7 @@ export class ActiveMenuItemPipe implements PipeTransform {
 })
 export class MenuComponent implements OnInit, OnDestroy {
     private _config: MenuOptions;
+    private previousActiveNode: MenuItem;
 
     @Input() set config(value: MenuOptions | null) {
         this._config = _.defaultsDeep(value, {
@@ -145,7 +127,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     private uiFix(): void {
         // This changes should be implemented with configuration in Administration > Configuration > Specification > UI section
-        // TODO Must be removed after changes in configuration. Should be approved by all (XM, Vodafone projects)
+        // TODO Must be removed after changes in configuration. Should be approved by all users.
         const sidebarEl: HTMLElement = this.document.querySelector('.vf-sidebar-menu-scroll');
         sidebarEl.classList.remove('overflow-auto');
         sidebarEl.style.overflowY = 'hidden';
@@ -226,11 +208,22 @@ export class MenuComponent implements OnInit, OnDestroy {
         ]).pipe(
             map((i) => i[0]),
             takeUntilOnDestroy(this),
-        ).subscribe(a => {
-            const active = this.getActiveNode(a);
-            this.selectedCategory = this.menuService.setCategoryOnRouteChange(active);
-            this.unfoldParentNode(active);
+        ).subscribe((subCategories: MenuItem[]) => {
+            const activeNode: MenuItem = this.getActiveNode(subCategories);
+            this.selectedCategory = this.menuService.setCategoryOnRouteChange(activeNode, subCategories);
+            this.setIsActiveRoute(activeNode);
+            this.unfoldParentNode(activeNode);
         });
+    }
+
+    private setIsActiveRoute(activeNode: MenuItem): void {
+        if (activeNode) {
+            if (this.previousActiveNode) {
+                this.previousActiveNode.isActiveRoute = false;
+            }
+            activeNode.isActiveRoute = true;
+            this.previousActiveNode = activeNode;
+        }
     }
 
     public observeSectionsFiltering(): void {
@@ -243,13 +236,13 @@ export class MenuComponent implements OnInit, OnDestroy {
                     const hoveredCategoryName: string = hoveredCategory?.name?.en?.toLowerCase();
                     if (this.isTwoLevelMenu) {
                         this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW;
-                        this.filteredCategories = this.menuByCategories[hoveredCategoryName];
+                        this.filteredCategories = this.menuByCategories[hoveredCategoryName] || [];
                     }
                     if (!hoveredCategory || this.isTwoLevelMenu) {
                         return of(null);
                     }
                     if (this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName && this.menuByCategories) {
-                        this.filteredCategories = this.menuByCategories[hoveredCategoryName];
+                        this.filteredCategories = this.menuByCategories[hoveredCategoryName] || [];
                         const isOneLevelCategory = !!(this.filteredCategories?.length === 1 && this.filteredCategories[0]?.category?.isLinkWithoutSubcategories);
                         if (!isOneLevelCategory) {
                             this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
@@ -396,5 +389,26 @@ export class MenuComponent implements OnInit, OnDestroy {
     /** is old version of menu */
     private get isTwoLevelMenu(): boolean {
         return this.categories.length === 1;
+    }
+
+    public onRouterLinkActive(isRouterFinishedNavigation: boolean, node: MenuItem): void {
+        console.log('onRouterLinkActive: ', this.router.url);
+        // if (!isRouterFinishedNavigation) {
+        //     if (this.previousActiveNode) {
+        //         this.filteredCategories.forEach((item: MenuItem) => item?.url === this.previousActiveNode?.url && (item.isActiveRoute = false));
+        //     }
+        //     const isPattern: boolean = [/pg-history-packages/, /pg-history-vouchers/]?.some(pattern => new RegExp(pattern).test(this.router.url));
+        //     console.log('isPattern: ', isPattern);
+        //     node.isActiveRoute = isPattern || false;
+        //     this.previousActiveNode = node;
+        // } else {
+        //     if (this.previousActiveNode) {
+        //         this.filteredCategories.forEach((item: MenuItem) => item?.url === this.previousActiveNode?.url && (item.isActiveRoute = false));
+        //     }
+        //     node.isActiveRoute = true;
+        //     this.previousActiveNode = node;
+        // }
+        console.log('onRouterLinkActive: ', isRouterFinishedNavigation);
+        console.log('onRouterLinkActive: ', node);
     }
 }
