@@ -7,7 +7,7 @@
     <mat-card-header class="d-flex justify-content-between">
 
       <div mat-card-title>
-        <span *ngIf="options.title">{{options.title | translate}}</span>
+        <xm-text-header *ngIf="options.title" [value]="options.title"></xm-text-header>
         <ng-content select="[xmHeaderTitle]"></ng-content>
       </div>
 
