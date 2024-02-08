@@ -54,7 +54,7 @@ export class SchemaEditorComponent
     public ngOnChanges(changes: SimpleChanges): void {
         if (this.options.selector) {
             this.entity = this.componentSpecification
-                .find(i => i.selector == this.options.selector);
+                .find(i => i.selector == this.options.selector || i.alternativeSelector == this.options.selector);
 
             this.fields = this.entity
                 ? getSchema(this.formlyJsonschema, this.entity.configurationSchema)

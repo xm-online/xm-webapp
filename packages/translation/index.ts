@@ -25,3 +25,4 @@ export { FindLanguageFromKeyPipe } from './src/pipes/find-language-from-key.pipe
 export { I18nJsfPipe } from './src/pipes/i18n-jsf.pipe';
 export { I18nNamePipe } from './src/pipes/i18n-name.pipe';
 export { LanguageModule } from './src/language.module';
+export { XmDatePipe } from './pipes/xm-date.pipe';

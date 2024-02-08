@@ -21,3 +21,4 @@ export { randomInt } from './src/random-int';
 export * from './src/request-util';
 export * from './src/transpilingForIE';
 export * from './src/dayjs-util';
+export * from './src/flattenObjectDeep';
