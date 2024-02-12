@@ -22,12 +22,25 @@ export const XM_DATE_RANGE_CONFIG_DEFAULT: XmDateRangeConfig = {
     ],
     standalone: true,
     template: `
-        {{ value.from | date : config.format : config.timezone : config.locale }}{{config.separator}}{{ value.to | date : config.format : config.timezone : config.locale }}
+        {{ date.from | date : config.format : config.timezone : config.locale }}{{config.separator}}{{ date.to | date : config.format : config.timezone : config.locale }}
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmDateRangeComponent implements XmDynamicPresentation<XmDateRangeValue, XmDateRangeConfig> {
-    @Input() @Defaults({ from: '', to: '' }) public value: XmDateRangeValue;
     @Input() @Defaults(XM_DATE_RANGE_CONFIG_DEFAULT) public config: XmDateRangeConfig;
+    public date: XmDateRangeValue;
+    @Input()
+    public set value(value: XmDateRangeValue) {
+        if (value?.from && value?.to) {
+            this.date = value;
+            return;
+        }
+        const str = String(value)?.replace(/\[|\]/g, '');
+        const [from, to] = str?.split('TO');
+        this.date = {
+            from,
+            to
+        };
+    };
 }
