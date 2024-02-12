@@ -81,6 +81,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
     public formFilter: any = {};
     private totalCount: number = 0;
     private page: number = 0;
+    private timeLineItems = [];
 
     constructor(private timelineService: TimelineService,
                 private i18nNamePipe: I18nNamePipe,
@@ -153,15 +154,17 @@ export class TimelineListComponent implements OnInit, OnDestroy {
             });
     }
 
-    public loadAllV2(): void {
-        this.timelineService.searchV2(this.getSearchBodyV2({ size: this.totalCount, page: 0 }))
+    public loadAllTimeLineItemsV2(): void {
+        this.isMoreLoading = true;
+        this.isLoading = true;
+
+        this.searchAllTimeLineItemsV2()
             .pipe(
-                tap((resp: HttpResponse<any>) => {
-                    this.totalCount = parseInt(resp.headers.get('X-Total-Count'));
-                    this.nextV2 = (this.totalCount - resp.body.length);
+                finalize(() => {
+                    this.isMoreLoading = false;
+                    this.isLoading = false;
                 }),
-                pluck('body'),
-                finalize(() => this.isMoreLoading = false))
+            )
             .subscribe((res: TimeLineItem[]) => {
                 this.timeLines = [];
                 this.generateTimelines(res);
@@ -181,6 +184,34 @@ export class TimelineListComponent implements OnInit, OnDestroy {
             .subscribe((res: TimeLineItem[]) => {
                 this.generateTimelines(res);
             });
+    }
+
+    private searchAllTimeLineItemsV2(size: number = 1000, page: number = 0): Observable<any> {
+        return this.timelineService
+            .searchV2(this.getSearchBodyV2({ size: size, page: page }))
+            .pipe(
+                map((resp: HttpResponse<any>) => {
+                    this.totalCount -= 1000;
+                    page += 1;
+                    this.nextV2 = (this.totalCount - resp?.body?.length);
+
+                    return resp;
+                }),
+                switchMap((resp) => {
+                    this.timeLineItems.push(...resp?.body);
+
+                    if (this.totalCount > 1000) {
+                        return this.searchAllTimeLineItemsV2(1000, page);
+                    }
+
+                    if (this.totalCount > 0 && this.totalCount <= 1000) {
+                        return this.searchAllTimeLineItemsV2(this.totalCount, page);
+                    }
+
+                    return of(this.timeLineItems);
+
+                }),
+            );
     }
 
     private load(): void {
