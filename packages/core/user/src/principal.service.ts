@@ -11,7 +11,7 @@ import { filter, shareReplay, takeUntil } from 'rxjs/operators';
 
 import { AccountService } from './account.service';
 import { SUPER_ADMIN, XmAuthenticationService } from '@xm-ngx/core/auth';
-import { ContextService } from "../../context";
+import { ContextService } from '@xm-ngx/core/context';
 
 const CACHE_SIZE = 1;
 
@@ -42,7 +42,7 @@ export class Principal implements OnDestroy, OnInitialize {
         ).subscribe(it => {
             this.contextService.put('user', it);
             this.contextService.put('principal', this);
-        })
+        });
     }
 
     public ngOnDestroy(): void {
