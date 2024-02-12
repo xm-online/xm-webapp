@@ -38,8 +38,6 @@ export class XmTableArrayCollectionController<T = unknown>
     public async load(request: XmFilterQueryParams): Promise<void> {
         this.entity = await firstValueFrom(this.getEntityController().entity$());
 
-        console.log(this.entity);
-
         const pathList = get(this.entity, this.config.path, []) as T[];
 
         // TODO: provide default value
