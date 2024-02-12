@@ -7,6 +7,7 @@ import { getSchema, JsfNode } from './get-schema';
 export interface DynamicComponentSpecEntity {
     name: string;
     selector: string;
+    alternativeSelector: string;
     compatibles: string[];
     configurationSchema: JsfNode;
 }
@@ -28,6 +29,14 @@ function isDynamicComponent(classDeclaration: ClassDeclaration): boolean {
 
 function getName(classDeclaration: ClassDeclaration): string {
     return classDeclaration.getName() || '';
+}
+
+function getAlternativeSelector(classDeclaration: ClassDeclaration): string {
+    const selector = getSelector(classDeclaration);
+    if (selector.indexOf('/xm-') > 0) {
+        return selector.replace('/xm-', '/');
+    }
+    return selector;
 }
 
 function getSelector(classDeclaration: ClassDeclaration): string {
@@ -56,7 +65,7 @@ function getSelector(classDeclaration: ClassDeclaration): string {
         return '';
     }
 
-    let selector = stringLiteral.getLiteralValue();
+    const selector = stringLiteral.getLiteralValue();
     if (!selector) {
         return '';
     }
@@ -72,10 +81,6 @@ function getSelector(classDeclaration: ClassDeclaration): string {
     } else {
         const index = invertedPath.indexOf('packages');
         prefix = '@xm-ngx/' + invertedPath[index - 1];
-    }
-
-    if (selector.startsWith('xm-')) {
-        selector = selector.replace('xm-', '');
     }
 
     return prefix + '/' + selector;
@@ -140,6 +145,7 @@ export class DynamicSpecificationCommand implements Command {
                 dynamicComponentSpecs.push({
                     name: getName(dynamicClase),
                     selector: getSelector(dynamicClase),
+                    alternativeSelector: getAlternativeSelector(dynamicClase),
                     compatibles: getCompatibleTypes(dynamicClase),
                     configurationSchema: getConfigurationSchema(dynamicClase),
                 });

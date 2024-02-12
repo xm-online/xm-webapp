@@ -1,8 +1,13 @@
-import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    ViewEncapsulation,
+} from '@angular/core';
 import { XmDynamicPresentation, } from '@xm-ngx/dynamic';
 import { XM_DATE_CONFIG_DEFAULT, XmDateConfig, XmDateValue } from '@xm-ngx/components/date';
 import { Defaults } from '@xm-ngx/operators';
+import { XmDatePipe } from '@xm-ngx/translation';
 
 export interface XmDateRangeConfig extends XmDateConfig {
     separator: string;
@@ -18,7 +23,7 @@ export const XM_DATE_RANGE_CONFIG_DEFAULT: XmDateRangeConfig = {
 @Component({
     selector: 'xm-date-range',
     imports: [
-        DatePipe,
+        XmDatePipe,
     ],
     standalone: true,
     template: `

@@ -16,7 +16,10 @@ import { XmRepositoryConfig } from '@xm-ngx/repositories';
 import { Observable, of } from 'rxjs';
 import { DateAdapter, MatNativeDateModule, NativeDateAdapter } from '@angular/material/core';
 import { XmTableWidgetConfig } from './xm-table-widget.config';
-import { XmTableSettingStore } from '@xm-ngx/components/table';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { XmTextComponent, XmTextControl } from '@xm-ngx/components/text';
+import { XmDateComponent, XmDateControl } from '@xm-ngx/components/date';
+import { XmTableSettingStore } from '../controllers/config/xm-table-columns-setting-storage.service';
 
 
 const mockLocalStorage = {
@@ -55,6 +58,7 @@ export default {
                 MatTableModule,
                 BrowserAnimationsModule,
                 HttpClientModule,
+                HttpClientTestingModule,
                 MatNativeDateModule,
                 XmLoggerModule,
                 XmDynamicExtensionModule.forRoot([]),
@@ -65,6 +69,22 @@ export default {
                         {
                             selector: 'xm-repository-mock-service',
                             loadChildren: () => MockXmRepositoryService,
+                        },
+                        {
+                            selector: '@xm-ngx/components/text',
+                            loadChildren: () => XmTextComponent,
+                        },
+                        {
+                            selector: '@xm-ngx/components/text-control',
+                            loadChildren: () => XmTextControl,
+                        },
+                        {
+                            selector: '@xm-ngx/components/date',
+                            loadChildren: () => XmDateComponent,
+                        },
+                        {
+                            selector: '@xm-ngx/components/date-control',
+                            loadChildren: () => XmDateControl,
                         },
                     ],
                 )),
