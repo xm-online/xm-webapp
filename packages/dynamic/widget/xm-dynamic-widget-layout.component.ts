@@ -16,11 +16,14 @@ import { XmDynamicLayout } from '../src/interfaces';
         </ng-template>
 
         <ng-template #dynamicRef let-item="item">
-            <ng-container xm-dynamic-widget
-                          [class]="item.layout.class"
-                          [style]="item.layout.style"
-                          [init]="item.customParams">
-            </ng-container>
+            <ng-template [xmPermission]="item?.customParams?.permission" [strategy]="item?.customParams?.permissionStrategy">
+                <ng-container
+                    xm-dynamic-widget
+                    [class]="item.layout.class"
+                    [style]="item.layout.style"
+                    [init]="item.customParams">
+                </ng-container>
+            </ng-template>
         </ng-template>
 
         <ng-template ngFor [ngForOf]="sanitizedLayouts" let-item>

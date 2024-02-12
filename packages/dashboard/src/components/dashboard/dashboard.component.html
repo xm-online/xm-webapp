@@ -1,64 +1,58 @@
 <xm-loader [showLoader]="showLoader"></xm-loader>
 
-<div [className]="dashboard?.layout?.class || ''">
-  <ng-container *ngFor="let item of dashboard?.layout?.grid">
-    <ng-container *ngTemplateOutlet="dashboardItem;context:{item: item}"></ng-container>
-  </ng-container>
+<div [class]="dashboard?.layout?.class" [style]="dashboard?.layout?.style">
+  @for (item of dashboard?.layout?.grid; track item) {
+    <ng-container *ngTemplateOutlet="dashboardItem; context: {item: item}"></ng-container>
+  }
 </div>
 
 <ng-template #dashboardItem let-item="item">
-  <div *ngIf="!!item.class" [className]="item.class">
-    <ng-container *ngTemplateOutlet="dashboardContent;context:{item: item}"></ng-container>
-  </div>
-
-  <ng-container *ngIf="!item.class">
-    <ng-container *ngTemplateOutlet="dashboardContent;context:{item: item}"></ng-container>
-  </ng-container>
+  @if ((item.class | xmNotEmpty) || (item.style | xmNotEmpty)) {
+    <div [class]="item?.class" [style]="item?.style">
+      <ng-container *ngTemplateOutlet="dashboardContent; context: {item: item}"></ng-container>
+    </div>
+  } @else {
+    <ng-container *ngTemplateOutlet="dashboardContent; context: {item: item}"></ng-container>
+  }
 </ng-template>
 
 <ng-template #dashboardContent let-item="item">
-  <ng-container *ngFor="let subitem of item?.content">
-    <ng-container *ngTemplateOutlet="dashboardItem;context:{item: subitem}"></ng-container>
-  </ng-container>
+  @for (subitem of item?.content; track subitem) {
+    <ng-container *ngTemplateOutlet="dashboardItem; context: {item: subitem}"></ng-container>
+  }
 
-  <ng-container *ngIf="item?.widget && item.widget?.module && spec && injector">
-    <ng-template xm-dynamic-widget
-                 [init]="{
-                          module: item.widget?.module,
-                          selector: item.widget?.selector,
-                          component: item.widget?.component,
-                          config: item.widget?.config,
-                          spec: spec,
-                          controllers: item.controllers,
-                          injector: injector
-                       }">
+  @if (item?.widget && item.widget?.module && spec && injector) {
+    <ng-template
+      xm-dynamic-widget
+      [init]="{
+        module: item.widget?.module,
+        selector: item.widget?.selector,
+        component: item.widget?.component,
+        config: item.widget?.config,
+        spec: spec,
+        controllers: item.controllers,
+        injector: injector
+      }">
     </ng-template>
-  </ng-container>
+  }
 </ng-template>
 
-<ng-container *ngIf="childrenDashboards?.length > 0 then childDashboards else emptyData"></ng-container>
-
-<ng-template #childDashboards>
-  <div fxLayout="row wrap" fxLayoutGap="16px grid">
-    <ng-container *ngFor="let childDashboard of childrenDashboards">
-      <div *permitted="childDashboard.permission || 'DASHBOARD.GET_LIST'"
-           fxFlex="33%" fxFlex.sm="50%" fxFlex.xs="100%">
+@if (childrenDashboards?.length > 0) {
+  <div class="row g-2">
+    @for (childDashboard of childrenDashboards; track index; let index = $index) {
+      <div class="col-6 col-md-4 col-xl-2" *permitted="childDashboard?.config?.permission || 'DASHBOARD.GET_LIST'">
         <mat-card matRipple [routerLink]="['/dashboard/'].concat(childDashboard.config.slug.split('/'))">
           <mat-card-header class="pb-3">
             <mat-card-subtitle>
               {{childDashboard.config.slug}}
             </mat-card-subtitle>
-
             <mat-card-title>{{childDashboard.config.name | translate}}</mat-card-title>
-
             <mat-icon class="position-absolute" style="top: .5rem; right: .5rem">call_made</mat-icon>
           </mat-card-header>
         </mat-card>
       </div>
-    </ng-container>
+    }
   </div>
-</ng-template>
-
-<ng-template #emptyData>
+} @else {
   <no-data [show]="!dashboard?.layout?.grid?.length"></no-data>
-</ng-template>
+}
