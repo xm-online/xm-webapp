@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { XmFilterQueryParams } from '../../collections/i-xm-table-collection-controller';
 import { PageableAndSortable, QueryParams, QueryParamsPageable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
-import { xmFormatJs } from '@xm-ngx/operators';
+import { format, xmFormatJs } from '@xm-ngx/operators';
 import {
     XmElasticSearchRepositoryQueryParamsPageable,
     XmEntityRepositoryConfig
@@ -27,9 +27,13 @@ export class XmElasticRequestBuilder {
         this.config = _.cloneDeep(config);
         const { pageableAndSortable, filterParams } = request;
         let queryParams = this.createQueryParams(pageableAndSortable, filterParams);
-        if (this.config.paramsToRequest) {
+        if (this.config?.format) {
+            queryParams = this.createFormatFiltersToRequest(queryParams, filterParams);
+        }
+        else if (this.config.paramsToRequest) {
             queryParams = this.createFiltersToRequest(queryParams, this.config.useOnlySpecifiedParams);
-        } else {
+        }
+        else {
             queryParams = this.createElasticTypeFiltersToRequest(queryParams, filterParams);
         }
         return queryParams;
@@ -94,11 +98,31 @@ export class XmElasticRequestBuilder {
         return _.omitBy(mergeFilters, _.isEmpty) as { query: string };
     }
 
+    private createFormatFiltersToRequest(
+        queryParams: QueryParamsPageable,
+        filterParams: QueryParams,
+    ): XmElasticSearchRepositoryQueryParamsPageable {
+        const formattedObj = format(this.config.format?.query, filterParams);
+
+        const searchArr = Object.keys(formattedObj)
+            .filter(key => !_.isEmpty(formattedObj[key]))
+            .map(key => `${key}: ${formattedObj[key]}`);
+
+        const query = searchArr.join(' AND ');
+
+        return _.merge(
+            {},
+            queryParams,
+            {
+                query,
+            },
+        );
+    }
+
     private getElastic(key: string, value: unknown): string {
         const configFilter = this.config.filtersToQuery[key] || { field: key, elasticType: '' };
         const elasticType = configFilter.elasticType || '';
         const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[elasticType];
         return fn ? fn(value, configFilter) : null;
     }
-
 }

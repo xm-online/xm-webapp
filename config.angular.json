@@ -38,6 +38,7 @@
             "styles": [
               "src/styles.scss"
             ],
+            "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/styles",
@@ -180,6 +181,7 @@
               "node_modules/oboe/dist/oboe-browser.js",
               "node_modules/yamljs/dist/yaml.js"
             ],
+            "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/styles",
