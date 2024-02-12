@@ -6,7 +6,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
 
 import { dayjs } from '@xm-ngx/operators';
 import { Observable, Subject } from 'rxjs';
-import { filter, shareReplay, takeUntil } from 'rxjs/operators';
+import { filter, shareReplay, takeUntil, tap } from 'rxjs/operators';
 
 
 import { AccountService } from './account.service';
@@ -31,18 +31,18 @@ export class Principal implements OnDestroy, OnInitialize {
                 private userService: XmUserService,
                 private contextService: ContextService,
     ) {
-    }
-
-    public init(): void {
-        this.sessionService.isActive().pipe(
-            filter(i => i === false),
-        ).subscribe(() => this.logout());
         this.authenticationState.pipe(
             takeUntilOnDestroy(this)
         ).subscribe(it => {
             this.contextService.put('user', it);
             this.contextService.put('principal', this);
         });
+    }
+
+    public init(): void {
+        this.sessionService.isActive().pipe(
+            filter(i => i === false),
+        ).subscribe(() => this.logout());
     }
 
     public ngOnDestroy(): void {
@@ -288,7 +288,9 @@ export class Principal implements OnDestroy, OnInitialize {
     }
 
     private loadProfile(): Observable<any> {
-        return this.account.getProfile();
+        return this.account.getProfile().pipe(
+            tap(profile => this.contextService.put('profile', profile))
+        );
     }
 
     private resetCachedProfile(): void {
