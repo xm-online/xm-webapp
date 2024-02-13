@@ -120,10 +120,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
             )
             .subscribe((obsObj) => {
                 const filterParams = obsObj.tableFilter;
-                const pageableAndSortable = obsObj.pageableAndSortable;
-                if (!isEqual(filterParams, this.filters)){
-                    set(pageableAndSortable, 'pageIndex', 0);
-                }
+                const pageableAndSortable = this.mapPageableAndSortable(filterParams, obsObj.pageableAndSortable);
                 this.filters = cloneDeep(filterParams);
                 const queryParams = _.merge({}, {pageableAndSortable}, {filterParams});
 
@@ -133,6 +130,13 @@ export class XmTableDirective implements OnInit, OnDestroy {
             });
 
         this.initQueryParams();
+    }
+
+    private mapPageableAndSortable(filterParams, pageableAndSortable) {
+        if (!isEqual(filterParams, this.filters)){
+            set(pageableAndSortable, 'pageIndex', 0);
+        }
+        return pageableAndSortable;
     }
 
 
