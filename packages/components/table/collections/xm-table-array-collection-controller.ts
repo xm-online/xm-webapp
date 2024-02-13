@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { injectByKey } from '@xm-ngx/dynamic';
+import { inject, Injectable, Injector, ProviderToken } from '@angular/core';
+import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { UUID } from 'angular2-uuid';
 import { cloneDeep, get, set } from 'lodash';
@@ -16,7 +16,10 @@ export interface XmTableEntity extends XmConfig {
 }
 
 export interface XmTableArrayCollectionControllerConfig extends XmTableEntity {
-    type: 'array'
+    type: 'array',
+    entityController?: {
+        key?: string,
+    },
 }
 
 @Injectable()
@@ -26,10 +29,15 @@ export class XmTableArrayCollectionController<T = unknown>
     public declare config: XmTableArrayCollectionControllerConfig;
     private entity: object;
 
-    private entityController = injectByKey<XmTableEntityController<object>>('table-entity-controller', {optional: true}) || inject<XmTableEntityController<object>>(XmTableEntityController);
+    private injector = inject(Injector);
+
+    private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
+
+    private entityController = inject<XmTableEntityController<object>>(XmTableEntityController);
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.entity = await firstValueFrom(this.entityController.entity$());
+        this.entity = await firstValueFrom(this.getEntityController().entity$());
+
         const pathList = get(this.entity, this.config.path, []) as T[];
 
         // TODO: provide default value
@@ -49,6 +57,15 @@ export class XmTableArrayCollectionController<T = unknown>
 
     public save(): void {
         set(this.entity, this.config.path, cloneDeep(this.items));
-        this.entityController.update(this.entity);
+        this.getEntityController().update(this.entity);
+    }
+
+    private getEntityController(): XmTableEntityController<object> {
+        return this.getControllerByKey(this.config?.entityController?.key || 'table-entity-controller') || this.entityController;
+    }
+
+    private getControllerByKey(key: string): any {
+        const providerToken: ProviderToken<any> = this.injectionTokenService.resolve(key);
+        return this.injector.get(providerToken, undefined,{optional: true});
     }
 }
