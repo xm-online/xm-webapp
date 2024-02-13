@@ -1,11 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    Input,
-    OnDestroy,
-    OnInit,
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {matExpansionAnimations} from '@angular/material/expansion';
 import {NavigationEnd, Router, RouterModule} from '@angular/router';
 import {DashboardStore} from '@xm-ngx/core/dashboard';
@@ -29,7 +22,6 @@ import {Translate, XmTranslateService, XmTranslationModule} from '@xm-ngx/transl
 import {CommonModule, DOCUMENT} from '@angular/common';
 import {XmPermissionModule} from '@xm-ngx/core/permission';
 import {ConditionDirective} from '@xm-ngx/components/condition';
-import {ActiveMenuItemPipe} from './pipes/active-menu-item.pipe';
 import {showHideSubCategories} from './menu.animation';
 import {MenuService} from './menu.service';
 import {MatDrawerToggleResult} from '@angular/material/sidenav';
@@ -64,7 +56,6 @@ export type ISideBarConfig = {
         CommonModule,
         CdkTreeModule,
         XmPermissionModule,
-        ActiveMenuItemPipe,
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,

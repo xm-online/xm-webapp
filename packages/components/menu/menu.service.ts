@@ -204,12 +204,18 @@ export class MenuService {
     }
 
     public isActiveUrl(menuItem: MenuItem | MenuCategory): boolean {
-        return this.router.isActive(menuItem.url?.join('/'), {
+        const isActiveRoute: boolean = this.router.isActive(menuItem.url?.join('/'), {
             fragment: 'ignored',
             matrixParams: 'ignored',
             queryParams: 'ignored',
             paths: 'exact',
         });
+        /** For the case when page is hidden (doesn't display in menu) but we have to highlight the parent menu section */
+        if (!isActiveRoute && menuItem.hasOwnProperty('activeItemPathPatterns')) {
+            return (menuItem as MenuItem)?.activeItemPathPatterns?.some(pattern => new RegExp(pattern).test(this.router.url));
+        }
+
+        return isActiveRoute;
     }
 
     private findPossibleCategoryForHiddenSection(menu: MenuItem[]): MenuCategory {
