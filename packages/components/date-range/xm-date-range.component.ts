@@ -27,7 +27,7 @@ export const XM_DATE_RANGE_CONFIG_DEFAULT: XmDateRangeConfig = {
     ],
     standalone: true,
     template: `
-        {{ date.from | date : config.format : config.timezone : config.locale }}{{config.separator}}{{ date.to | date : config.format : config.timezone : config.locale }}
+        {{ date.from | xmDate : config.format : config.timezone : config.locale }}{{config.separator}}{{ date.to | xmDate : config.format : config.timezone : config.locale }}
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
