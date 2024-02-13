@@ -16,6 +16,7 @@ import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-t
 import { map, shareReplay, startWith } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmEventManagerService } from '@xm-ngx/core';
+import {FiltersControlValue} from "@xm-ngx/components/table";
 
 export interface IXmTableContext {
     collection: IXmTableCollectionState<unknown>,
@@ -132,7 +133,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
         this.initQueryParams();
     }
 
-    private mapPageableAndSortable(filterParams, pageableAndSortable) {
+    private mapPageableAndSortable(filterParams: FiltersControlValue, pageableAndSortable: PageableAndSortable) :PageableAndSortable {
         if (!isEqual(filterParams, this.filters)){
             set(pageableAndSortable, 'pageIndex', 0);
         }
