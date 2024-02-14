@@ -16,7 +16,7 @@ import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-t
 import { map, shareReplay, startWith } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmEventManagerService } from '@xm-ngx/core';
-import {FiltersControlValue} from "@xm-ngx/components/table";
+import { FiltersControlValue } from '../components/xm-table-filter-button-dialog-control.component';
 
 export interface IXmTableContext {
     collection: IXmTableCollectionState<unknown>,
