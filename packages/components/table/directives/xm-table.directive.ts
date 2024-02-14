@@ -133,7 +133,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
         this.initQueryParams();
     }
 
-    private mapPageableAndSortable(filterParams: FiltersControlValue, pageableAndSortable: PageableAndSortable) :PageableAndSortable {
+    private mapPageableAndSortable(filterParams: FiltersControlValue, pageableAndSortable: PageableAndSortable): PageableAndSortable {
         if (!isEqual(filterParams, this.filters)){
             set(pageableAndSortable, 'pageIndex', 0);
         }
