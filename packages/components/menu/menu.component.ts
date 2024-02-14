@@ -113,18 +113,18 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.assignSubCategories();
         this.observeNavigation();
 
-        this.uiFix();
+        // this.uiFix();
     }
 
-    private uiFix(): void {
-        // This changes should be implemented with configuration in Administration > Configuration > Specification > UI section
-        // TODO Must be removed after changes in configuration. Should be approved by all users.
-        const sidebarEl: HTMLElement = this.document.querySelector('.vf-sidebar-menu-scroll');
-        sidebarEl.classList.remove('overflow-auto');
-        sidebarEl.style.overflowY = 'hidden';
-        sidebarEl.style.height = '100%';
-        sidebarEl.style.maxHeight = '100%';
-    }
+    // private uiFix(): void {
+    //     // This changes should be implemented with configuration in Administration > Configuration > Specification > UI section
+    //     // TODO Must be removed after changes in configuration. Should be approved by all users.
+    //     const sidebarEl: HTMLElement = this.document.querySelector('.vf-sidebar-menu-scroll');
+    //     sidebarEl.classList.remove('overflow-auto');
+    //     sidebarEl.style.overflowY = 'hidden';
+    //     sidebarEl.style.height = '100%';
+    //     sidebarEl.style.maxHeight = '100%';
+    // }
 
     private assignSubCategories(): void {
         this.subCategories$ = combineLatest([this.activeDashboards$, this.applications$, this.defaultMenuItems$]).pipe(
