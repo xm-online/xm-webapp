@@ -197,9 +197,7 @@ export class MenuService {
         const selectedCategory: MenuCategory = active?.parent?.category || active?.category || singleCategory ||
             this.selectedCategory.value || this.findPossibleCategoryForHiddenSection(menu) || this.reservedCategory;
         this.selectedCategory.next(selectedCategory);
-        this.setHoveredCategory(selectedCategory);
-        const isOpenMenu: boolean = !this.sidenav.opened && this.breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN);
-        this.setHoveredCategory(selectedCategory, isOpenMenu);
+        this.setHoveredCategory(selectedCategory, false);
         return selectedCategory;
     }
 
