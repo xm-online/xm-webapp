@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {matExpansionAnimations} from '@angular/material/expansion';
 import {NavigationEnd, Router, RouterModule} from '@angular/router';
 import {DashboardStore} from '@xm-ngx/core/dashboard';
@@ -60,7 +60,7 @@ export type ISideBarConfig = {
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class MenuComponent implements OnInit, OnDestroy {
+export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     private _config: MenuOptions;
     private previousActiveNode: MenuItem;
 
@@ -107,13 +107,16 @@ export class MenuComponent implements OnInit, OnDestroy {
     };
 
     public ngOnInit(): void {
-        this.observeSidenavOpen();
-        this.observeSidenavClose();
         this.observeSectionsFiltering();
         this.assignSubCategories();
         this.observeNavigation();
 
         // this.uiFix();
+    }
+
+    public ngAfterViewInit(): void {
+        this.observeSidenavOpen();
+        this.observeSidenavClose();
     }
 
     // private uiFix(): void {
@@ -226,8 +229,9 @@ export class MenuComponent implements OnInit, OnDestroy {
                     const { hoveredCategory, isOpenMenu } = category;
                     const hoveredCategoryName: string = hoveredCategory?.name?.en?.toLowerCase();
                     if (this.isTwoLevelMenu) {
+                        const otherCategoryName: string = this.menuService.otherCategory.name.en.toLowerCase();
                         this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW;
-                        this.filteredCategories = this.menuByCategories[hoveredCategoryName] || [];
+                        this.filteredCategories = this.menuByCategories[hoveredCategoryName || otherCategoryName] || [];
                     }
                     if (!hoveredCategory || this.isTwoLevelMenu) {
                         return of(null);

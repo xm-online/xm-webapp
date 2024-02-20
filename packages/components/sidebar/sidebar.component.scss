@@ -36,4 +36,9 @@ $xm-sidebar-backdrop-z-index: -1 !default;
     @include xm-scrollbar();
   }
 
+  &__dynamic-content {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
 }
