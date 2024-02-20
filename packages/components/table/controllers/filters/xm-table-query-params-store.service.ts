@@ -89,7 +89,7 @@ export class XmTableQueryParamsStoreService {
         const keysToCheck: string[] = ['pageIndex', 'pageSize', 'sortBy', 'sortOrder'];
         const changedValues: PageableAndSortable = {};
         keysToCheck.forEach((key: string) => {
-            if (configParams[key] !== undefined && pageableAndSortable[key] !== undefined && configParams[key].toString() !== pageableAndSortable[key].toString()) {
+            if (configParams[key] !== undefined && pageableAndSortable[key] !== undefined && configParams[key]?.toString() !== pageableAndSortable[key]?.toString()) {
                 changedValues[key] = pageableAndSortable[key];
             }
         });
