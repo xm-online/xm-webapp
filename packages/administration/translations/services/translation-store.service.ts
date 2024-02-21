@@ -48,10 +48,11 @@ export class TranslationStoreService {
     }
 
     public updateKeys(keysName: string, newTranslate: { key: string; value: string }): void {
-        const newKeys = {...this.store.getValue()[keysName].keys};
-        setToObject(newKeys, newTranslate.key, newTranslate.value);
-
-        this.updateStore(keysName, newKeys, true);
+        if (this.store.getValue()[keysName] && this.store.getValue()[keysName].keys) {
+            const newKeys = {...this.store.getValue()[keysName].keys};
+            setToObject(newKeys, newTranslate.key, newTranslate.value);
+            this.updateStore(keysName, newKeys, true);
+        }
     }
 
     public isExist(keysName: string): StoreItem {

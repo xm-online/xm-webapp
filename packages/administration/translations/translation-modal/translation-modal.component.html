@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Add Translation</h2>
+<mat-dialog-content>
+  <form [formGroup]="translationForm">
+    <mat-form-field>
+      <mat-label>Key</mat-label>
+      <input required matInput formControlName="key">
+    </mat-form-field>
+<!--    <mat-button-toggle-group *ngIf="data.langs"
+                             formControlName="language"
+                             (change)="setLang($event.value)"
+                             [value]="data.langs[0]"
+                             name="lang"
+                             class="translate__toggle-group mat-btn-group-m3 w-100"
+                             aria-label="lang">
+      <mat-button-toggle *ngFor="let lang of data.langs" [value]="lang">{{ lang }}</mat-button-toggle>
+    </mat-button-toggle-group>-->
+ <!--   <mat-form-field>
+      <mat-label>Value</mat-label>
+      <input required matInput formControlName="value">
+    </mat-form-field>-->
+    <xm-multi-language-control formControlName="value"
+                               [config]="{title:'language'}"
+                               (valueChange)="setValue($event)"
+                               [value]="[{languageKey:'uk',value:''},{languageKey:'en',value:''}]">
+    </xm-multi-language-control>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="null">Cancel</button>
+  <button mat-button [mat-dialog-close]="translationForm.value" cdkFocusInitial>Add</button>
+</mat-dialog-actions>

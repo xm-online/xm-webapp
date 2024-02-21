@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { flattenObj } from '../services/helpers';
 
 @Component({
@@ -6,16 +6,17 @@ import { flattenObj } from '../services/helpers';
     templateUrl: './keys-view.component.html',
     styleUrls: ['./keys-view.component.scss'],
 })
-export class KeysViewComponent {
+export class KeysViewComponent implements OnInit{
     public translationKeys: [string, string][] = [];
     public filterTranslationKeys: [string, string][] = [];
     public rawJson: {} = {};
-    public unSave: {[key: string]: string} = {};
-
+    public unSave: { [key: string]: string } = {};
+    @Input() public editable: boolean = false;
     public filters: { byValue: string; byKey: string } = {
         byKey: '',
         byValue: '',
     };
+
 
     @Input() set json(json: {}) {
         if (!json) {
@@ -27,8 +28,11 @@ export class KeysViewComponent {
         this.resetState();
     }
 
-    @Output() public updateTranslate: EventEmitter<{key: string; value: string}> = new EventEmitter();
+    @Output() public updateTranslate: EventEmitter<{ key: string; value: string }> = new EventEmitter();
 
+    public ngOnInit():void {
+        this.editable;
+    }
     public changeTranslate(key: string): void {
         this.updateTranslate.emit({key, value: this.unSave[key]});
 
@@ -38,6 +42,7 @@ export class KeysViewComponent {
     public changeInput(key: string, value: string): void {
         this.unSave[key] = value;
     }
+
 
     public saveAll(): void {
         Object.entries(this.unSave).forEach(([key, value]) => {
