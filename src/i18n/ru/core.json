@@ -595,6 +595,7 @@
     "title": "Добро пожаловать!"
   },
   "login": {
+    "separator": "Или",
     "form": {
       "button": "Войти",
       "hide-password": "Скрыть пароль",

@@ -614,6 +614,7 @@
     "title": "Welcome!"
   },
   "login": {
+    "separator": "Or",
     "form": {
       "button": "Sign in",
       "hide-password": "Hide password",

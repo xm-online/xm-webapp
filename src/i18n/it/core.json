@@ -600,6 +600,7 @@
     "title": "Benvenuto!"
   },
   "login": {
+    "separator": "O",
     "form": {
       "button": "Accedi",
       "hide-password": "Nascondi password",
