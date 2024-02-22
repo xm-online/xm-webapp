@@ -10,7 +10,7 @@ import {
 import * as _ from 'lodash';
 import {Observable} from 'rxjs';
 import {XmEntity} from '@xm-ngx/core/entity';
-import {interpolate, uuid, xmFormatJs} from '@xm-ngx/operators';
+import {interpolate, uuid} from '@xm-ngx/operators';
 import {inject, Injectable} from '@angular/core';
 import {XmDynamicService} from '@xm-ngx/dynamic';
 import {XmFilterQueryParams} from '../collections/i-xm-table-collection-controller';
@@ -33,16 +33,14 @@ export type XmEntityRepositoryCustomConfig = XmEntityRepositoryConfig & {
      * ```ts
      * // the route is https://domain/page?id=12345
      * const config = {
-     *     "resourceUrlInterpolation": {
-     *         "entityId": "id" // where `id` is the name of the property in url queryParams
-     *     }
-     *     "resourceUrl": 'ms/api/someResource/{{entityId}}'
+     *     "isResourceUrlQueryParamsInterpolation": true,
+     *     "resourceUrl": 'ms/api/someResource/{{id}}' // where `id` is the name of the property in url queryParams
      * }
      *
      * // result ms/api/someResource/12345
      * ```
      */
-    resourceUrlInterpolation: Record<string, string>;
+    isResourceUrlQueryParamsInterpolation: boolean;
 }
 
 @Injectable()
@@ -78,12 +76,10 @@ export class XmEntityRepository<T extends XmEntity>
 
     protected override resourceUrl(): string {
         let url: string = this.config.resourceUrl;
-        if (this.config.resourceUrlInterpolation) {
-            const interpolation: Record<string, string> =
-                xmFormatJs(this.config.resourceUrlInterpolation, this.activatedRoute?.snapshot?.queryParams || {});
-            url = interpolate(url, interpolation);
+        if (this.config.isResourceUrlQueryParamsInterpolation) {
+            url = interpolate(url, this.activatedRoute?.snapshot?.queryParams || {});
         }
-        return url || this.config.resourceUrl;
+        return url;
     }
 
     protected getParams(request: XmFilterQueryParams): QueryParamsPageable {
