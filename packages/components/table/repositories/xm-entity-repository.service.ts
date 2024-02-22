@@ -1,24 +1,21 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
 import {
     HttpClientRest,
+    PageableAndSortable,
     QueryParams,
     QueryParamsPageable,
     XmRepositoryConfig
 } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { uuid } from '@xm-ngx/operators';
-import { Injectable } from '@angular/core';
-import { PageableAndSortable } from '@xm-ngx/repositories';
-import { XmDynamicService } from '@xm-ngx/dynamic';
-import { XmFilterQueryParams } from '../collections/i-xm-table-collection-controller';
-import {
-    XmEntityRepositoryConfig,
-} from '../controllers/elastic/xm-elastic-search-repository.service';
-import {
-    XmElasticRequestBuilder
-} from '../controllers/elastic/xm-elastic-request-builder.service';
+import {Observable} from 'rxjs';
+import {XmEntity} from '@xm-ngx/core/entity';
+import {interpolate, uuid, xmFormatJs} from '@xm-ngx/operators';
+import {inject, Injectable} from '@angular/core';
+import {XmDynamicService} from '@xm-ngx/dynamic';
+import {XmFilterQueryParams} from '../collections/i-xm-table-collection-controller';
+import {XmEntityRepositoryConfig} from '../controllers/elastic/xm-elastic-search-repository.service';
+import {XmElasticRequestBuilder} from '../controllers/elastic/xm-elastic-request-builder.service';
 
 export interface XmEntityRepositoryExtra {
     page: number,
@@ -30,6 +27,22 @@ export type XmEntityRepositoryQuery = QueryParamsPageable & XmEntityRepositoryEx
 
 export type XmEntityRepositoryCustomConfig = XmEntityRepositoryConfig & {
     updateResourceUrl: string;
+    /**
+     * Use when you need to dynamically change resourceUrl
+     * @example
+     * ```ts
+     * // the route is https://domain/page?id=12345
+     * const config = {
+     *     "resourceUrlInterpolation": {
+     *         "entityId": "id" // where `id` is the name of the property in url queryParams
+     *     }
+     *     "resourceUrl": 'ms/api/someResource/{{entityId}}'
+     * }
+     *
+     * // result ms/api/someResource/12345
+     * ```
+     */
+    resourceUrlInterpolation: Record<string, string>;
 }
 
 @Injectable()
@@ -37,6 +50,7 @@ export class XmEntityRepository<T extends XmEntity>
     extends HttpClientRest<T, PageableAndSortable>
     implements XmDynamicService<XmRepositoryConfig> {
     public config: XmEntityRepositoryCustomConfig;
+    private activatedRoute = inject(ActivatedRoute);
 
     constructor(httpClient: HttpClient, private requestBuilder: XmElasticRequestBuilder) {
         super(null, httpClient);
@@ -44,7 +58,6 @@ export class XmEntityRepository<T extends XmEntity>
 
     public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
         const url = this.config.updateResourceUrl ?? this.url;
-
         return this.handle(this.httpClient.put<T>(url, entity, { params, observe: 'response', headers }));
     }
 
@@ -64,7 +77,13 @@ export class XmEntityRepository<T extends XmEntity>
     }
 
     protected override resourceUrl(): string {
-        return this.config.resourceUrl;
+        let url: string = this.config.resourceUrl;
+        if (this.config.resourceUrlInterpolation) {
+            const interpolation: Record<string, string> =
+                xmFormatJs(this.config.resourceUrlInterpolation, this.activatedRoute?.snapshot?.queryParams || {});
+            url = interpolate(url, interpolation);
+        }
+        return url || this.config.resourceUrl;
     }
 
     protected getParams(request: XmFilterQueryParams): QueryParamsPageable {
