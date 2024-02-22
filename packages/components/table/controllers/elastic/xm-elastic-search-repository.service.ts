@@ -42,6 +42,9 @@ export interface XmEntityRepositoryConfig extends XmRepositoryConfig {
     useOnlySpecifiedParams: boolean;
     query: { typeKey: string }
     filtersToQuery: Record<string, FilterToQuery>,
+    format: {
+        query: Record<string, string>
+    }
 }
 
 export type XmElasticSearchRepositoryRequest = QueryParamsPageable

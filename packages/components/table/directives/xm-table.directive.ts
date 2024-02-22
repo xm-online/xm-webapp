@@ -9,13 +9,14 @@ import {
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { PageableAndSortable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
-import { cloneDeep } from 'lodash';
+import {cloneDeep, isEqual, set} from 'lodash';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-table.model';
 import { map, shareReplay, startWith } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmEventManagerService } from '@xm-ngx/core';
+import { FiltersControlValue } from '../components/xm-table-filter-button-dialog-control.component';
 
 export interface IXmTableContext {
     collection: IXmTableCollectionState<unknown>,
@@ -60,6 +61,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
     }
 
     private _config: XmTableConfig;
+    public filters: {};
 
     public get config(): XmTableConfig {
         return this._config;
@@ -119,7 +121,8 @@ export class XmTableDirective implements OnInit, OnDestroy {
             )
             .subscribe((obsObj) => {
                 const filterParams = obsObj.tableFilter;
-                const pageableAndSortable = obsObj.pageableAndSortable;
+                const pageableAndSortable = this.mapPageableAndSortable(filterParams, obsObj.pageableAndSortable);
+                this.filters = cloneDeep(filterParams);
                 const queryParams = _.merge({}, {pageableAndSortable}, {filterParams});
 
                 this.queryParamsStoreService.set(queryParams, this._config);
@@ -130,18 +133,25 @@ export class XmTableDirective implements OnInit, OnDestroy {
         this.initQueryParams();
     }
 
+    private mapPageableAndSortable(filterParams: FiltersControlValue, pageableAndSortable: PageableAndSortable): PageableAndSortable {
+        if (!isEqual(filterParams, this.filters)){
+            set(pageableAndSortable, 'pageIndex', 0);
+        }
+        return pageableAndSortable;
+    }
+
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
 
 
-    public updatePagination(): void {
+    public updatePagination(refreshIndex?: boolean): void {
         const {sortBy: defaultSortBy, sortOrder: defaultSortOrder} = this._config.pageableAndSortable;
 
         const sortBy = this._config.columns.find((i) => i.name === this.sort.active)?.name ?? defaultSortBy;
         const sortOrder = this.sort.direction ?? defaultSortOrder;
-        const pageIndex = this.paginator.pageIndex;
+        const pageIndex = refreshIndex ? 0 : this.paginator.pageIndex;
         const pageSize = this.paginator.pageSize;
         const total = this.paginator.length;
         const pageAndSort: PageableAndSortable = {pageIndex, pageSize, sortOrder, sortBy, total};

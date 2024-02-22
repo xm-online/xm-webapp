@@ -600,6 +600,7 @@
     "title": "Willkommen!"
   },
   "login": {
+    "separator": "Oder",
     "form": {
       "button": "Anmelden",
       "hide-password": "Passwort ausblenden",

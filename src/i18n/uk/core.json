@@ -614,6 +614,7 @@
         "title": "Ласкаво просимо!"
     },
     "login": {
+        "separator": "Або",
         "form": {
             "button": "Увійти",
             "hide-password": "Приховати пароль",
