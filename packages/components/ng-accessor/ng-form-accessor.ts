@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { NgControlAccessor } from './ng-control-accessor';
 import { ArgumentException } from '@xm-ngx/exceptions';
 
-@Directive()
 /**
  * @deprecated
  * Use NgControlAccessor
@@ -14,6 +13,7 @@ import { ArgumentException } from '@xm-ngx/exceptions';
  * This control accessor does the same as NgControlAccessor, except has input control.
  * This means that inside the control we accept another control, it's incorrect behavior
  */
+@Directive()
 export class NgFormAccessor<T> extends NgControlAccessor<T> implements OnInit, OnDestroy {
     private valueSubscription: Subscription;
 
