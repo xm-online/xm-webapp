@@ -12,8 +12,9 @@ import { KeysViewComponent } from './keys-view/keys-view.component';
 import { TranslationComponent } from './translation.component';
 import { TranslationService } from './services/translation.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { TranslationAddComponent } from '@xm-ngx/administration/translations/translation-add/translation-add.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { TranslationAddComponent } from './translation-add/translation-add.component';
+import { LoaderModule } from '@xm-ngx/components/loader';
 
 @NgModule({
     imports: [
@@ -28,8 +29,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         ScrollingModule,
         XmTranslationModule,
         CommonModule,
-        TranslationAddComponent,
         MatSlideToggleModule,
+        TranslationAddComponent,
+        LoaderModule,
     ],
     exports: [TranslationComponent],
     declarations: [TranslationComponent, KeysViewComponent],

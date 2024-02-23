@@ -5,7 +5,10 @@ import { distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/op
 
 import { KeysExtractorOptions, TranslationStoreService } from './services/translation-store.service';
 import { TranslationService, XmLanguageUiConfig } from './services/translation.service';
-import { TranslationConfigService } from '@xm-ngx/administration/translations/services/translation-config.service';
+import { TranslationConfigService } from './services/translation-config.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageObj, TranslationObject } from './services/translation.model';
+import { URL_TRANSLATION } from '@xm-ngx/translation/src/xm-translation.module';
 
 const coreName = 'core';
 
@@ -25,20 +28,22 @@ export class TranslationComponent implements OnInit {
     public selectedLang: string = 'en';
 
     public translations$: Observable<object> = this.getTranslations();
-    public translationsConfig$: Observable<any> = this.getConfigTranslations();
+    public translationsConfig$: Observable<any> = this.getTranslationsFromConfig();
 
+    public translationsConfig: TranslationObject = {};
     public isConfig: boolean = false;
-    public translationsConfig;
+    public loading: boolean = false;
+
 
     constructor(private translationKeysStoreService: TranslationStoreService,
                 private translationConfigService: TranslationConfigService,
-                private translationService: TranslationService,) {
+                private translationService: TranslationService,
+                private coreTranslationService: TranslateService,
+    ) {
     }
 
     public ngOnInit(): void {
         this.initGetTranslations();
-        this.config;
-
     };
 
     private loadConfig(): Observable<XmLanguageUiConfig> {
@@ -61,6 +66,9 @@ export class TranslationComponent implements OnInit {
     public setLang(value: string): void {
         this.selectedLang = value;
         this.selectedLang$.next(value);
+        if (this.isConfig) {
+            this.translationsConfig$ = this.getTranslationsFromConfig(value);
+        }
     }
 
     public updateTranslate(newTranslate: { key: string; value: string }): void {
@@ -68,6 +76,7 @@ export class TranslationComponent implements OnInit {
             take(1),
         ).subscribe((path) => this.translationKeysStoreService.updateKeys(path, newTranslate));
     }
+
 
     public downloadAssets(): void {
         this.getPath$().pipe(
@@ -87,7 +96,6 @@ export class TranslationComponent implements OnInit {
                 .pipe(map((res) => ({path, res}))),
             ),
         ).subscribe(({path, res}) => {
-            debugger
             return this.translationKeysStoreService.updateStore(path, res);
         });
     }
@@ -95,10 +103,6 @@ export class TranslationComponent implements OnInit {
     private getTranslations(): Observable<object> {
         return this.getPath$().pipe(
             switchMap((path) => this.translationKeysStoreService.getKeysFromStore(path)),
-            tap((res) => {
-                debugger
-                res
-            })
         );
     }
 
@@ -112,14 +116,8 @@ export class TranslationComponent implements OnInit {
             ),
         ).subscribe(({path, res}) => this.translationKeysStoreService.updateStore(path, res));
 
-        this.getConfigPath$().pipe(
-            filter((path) => !this.translationKeysStoreService.isExist(path)),
-            switchMap((path) => this.translationConfigService.loadConfig(this.selectedLang)
-                .pipe(map((res) => ({path, res}))),
-            ),
-        ).subscribe(({path, res}) => {
-            debugger
-            this.translationKeysStoreService.updateStore(path, res);
+        this.getPathTranslationsFromConfig$().pipe().subscribe((res) => {
+            return this.translationConfigService.loadConfigTranslations(this.selectedLang).pipe(map((res) => ({res})));
         });
     }
 
@@ -136,76 +134,67 @@ export class TranslationComponent implements OnInit {
         );
     }
 
-    private getConfigPath$(language?: string): Observable<string> {
+    private getPathTranslationsFromConfig$(language?: string): Observable<string> {
         if (language) {
-            return of('config/api/profile/webapp/public/translations/' + `${language}.json`);
+            return of(URL_TRANSLATION + `${language}.json`);
         }
-        return this.selectedLang$.pipe(map((lang) => {
-            return 'config/api/profile/webapp/public/translations/' + `${lang}.json`;
+        return this.selectedLang$.pipe(map((lang: string) => {
+            return URL_TRANSLATION + `${lang}.json`;
         }));
-
     }
 
 
-    public getConfigTranslations(language?: string): Observable<any> {
-        return this.getConfigPath$(language).pipe(
-            switchMap((path) => this.translationKeysStoreService.getKeysFromStore(path)),
-            tap((res) => {
+    public getTranslationsFromConfig(language?: string): Observable<TranslationObject> {
+        return this.getPathTranslationsFromConfig$(language).pipe(
+            switchMap((path) => this.translationConfigService.loadConfigTranslations(this.selectedLang)),
+            tap((res: TranslationObject) => {
                 this.translationsConfig = res;
             }),
         );
     }
 
-    public updateConfigTranslate(newTranslate: { key: string; value: string }, language?: string): void {
-        combineLatest([this.getConfigTranslations(language), this.getConfigPath$(language)]).pipe(take(1))
-            .subscribe(([translationsConfig, path]) => {
-                this.setToObject(translationsConfig, newTranslate.key, newTranslate.value);
-                this.translationKeysStoreService.updateKeys(path, newTranslate);
-                this.translationConfigService.updateConfig(translationsConfig, language || this.selectedLang).pipe()
-                    .subscribe((res)=>{
-                    debugger
-                    res
-                })
+    public updateTranslateFromConfig(newTranslate: { key: string; value: string }, language?: string): void {
+        this.loading = true;
+        this.translationConfigService.loadConfigTranslations(language||this.selectedLang).pipe(take(1))
+            .subscribe((translationsConfig) => {
+                const currentTranslations= this.translationConfigService.setToObject(translationsConfig, newTranslate.key, newTranslate.value);
+                this.translationConfigService.updateConfigTranslations(currentTranslations, language || this.selectedLang).pipe()
+                    .subscribe((res) => {
+                        this.loading = false;
+                        this.translationsConfig$ = of(Object.assign({}, currentTranslations));
+                        this.coreTranslationService.setTranslation(language || this.selectedLang, currentTranslations, true);
+                    }, error => {
+                        this.loading = false;
+                    });
             });
-
-
     }
 
-    private setToObject(obj: any, prop: string, value: any): void {
-        const index = prop.indexOf('.');
-        if (index > -1) {
-            const key = prop.substring(0, index);
-            if (!obj[key] || typeof obj[key] !== 'object') {
-                obj[key] = {};
-            }
-            this.setToObject(obj[key], prop.substring(index + 1), value);
-        } else {
-            obj[prop] = value;
-        }
+    public deleteTranslation(translationKey: string): void {
+        this.loading=true;
+        this.selectedLang$.pipe(
+            take(1),
+            switchMap((lang)=>{
+                return this.getTranslationsFromConfig(lang);
+            }),
+        ).subscribe((translationsConfig) => {
+            const currentTranslations = this.translationConfigService.deleteFromObject(translationsConfig, translationKey);
+            this.translationConfigService.updateConfigTranslations(currentTranslations, this.selectedLang).pipe()
+                .subscribe((res) => {
+                    this.translationsConfig$ = of(currentTranslations);
+                    this.coreTranslationService.setTranslation(this.selectedLang, currentTranslations);
+                    this.loading=false;
+                }, error => {
+                    error;
+                    this.loading=false;
+                });
+        });
     }
 
 
     public addNewTranslation(translations: LanguageObj): void {
         for (const translation of translations.value) {
-            this.updateConfigTranslate({key: translations.key, value: translation.name}, translation.languageKey);
+            this.updateTranslateFromConfig({key: translations.key, value: translation.name}, translation.languageKey);
         }
 
     }
-
-
-}
-
-export interface LanguageContent {
-    language: string;
-    content: any;
-}
-
-interface LanguageObj {
-    key: string,
-    value: LanguageTranslation[]
-}
-
-interface LanguageTranslation {
-    languageKey: string,
-    name: string,
 }

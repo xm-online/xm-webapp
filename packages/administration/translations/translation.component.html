@@ -11,7 +11,6 @@
     </div>
     </div>
     <div class="action-header  w-100 mb-4">
-      <!--<mat-slide-toggle [(ngModel)]="isConfig">i18n/config translations</mat-slide-toggle>-->
       <mat-button-toggle-group class="mat-btn-group-m3" #group name="translations" aria-label="translations" [value]="isConfig" >
         <mat-button-toggle [value]="false" (click)="isConfig=false;setLang(selectedLang)">i18n</mat-button-toggle>
         <mat-button-toggle [value]="true" (click)="isConfig=true;setLang(selectedLang)">Config</mat-button-toggle>
@@ -53,14 +52,15 @@
     </div>
   </header>
   <div *ngIf="!isConfig">
-    <h2>Project translations</h2>
+    <h2>{{ ('translate-management.title.project' | translate)|| "Project translations" }}</h2>
     <xm-keys-view [json]="translations$ | async" [editable]="!isConfig"
                   (updateTranslate)="updateTranslate($event)"></xm-keys-view>
   </div>
 
   <div *ngIf="isConfig">
-    <h2>Config translations</h2>
+    <h2>{{ ('translate-management.title.config' | translate)||"Config translations" }}</h2>
+    <xm-loader [absolute]="true" [showLoader]="loading"></xm-loader>
     <xm-keys-view [json]="translationsConfig$ | async" [editable]="isConfig"
-                  (updateTranslate)="updateConfigTranslate($event)"></xm-keys-view>
+                  (updateTranslate)="updateTranslateFromConfig($event)" (deleteTranslate)="deleteTranslation($event)" ></xm-keys-view>
   </div>
 </mat-card>

@@ -58,6 +58,12 @@
                                     [disabled]="input.invalid">
                                 <mat-icon>save</mat-icon>
                             </button>
+                          <button class="keys-view__button"
+                                  *ngIf="editable"
+                                  mat-icon-button
+                                  type="button" (click)="delete(translationKey[0])">
+                            <mat-icon>delete</mat-icon>
+                          </button>
                         </ng-container>
 
                         <span matIconPrefix>
