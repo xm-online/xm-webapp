@@ -23,7 +23,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { XmUserSettingsWidgetComponent } from '@xm-ngx/account/user-settings-widget';
 import { XmUserSecuritySettingsComponent } from '@xm-ngx/account/user-security-settings';
 import { XmUserLoginWidgetComponent } from '@xm-ngx/account/user-login-widget';
-import { MatchPasswordDirective } from '@xm-ngx/account/password-reset/finish/match-password.directive';
+import { MatchPasswordDirective } from './password-reset/finish/match-password.directive';
 
 
 @NgModule({

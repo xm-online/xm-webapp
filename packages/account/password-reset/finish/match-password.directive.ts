@@ -6,9 +6,9 @@ import { Directive, Input } from '@angular/core';
     providers: [{ provide: NG_VALIDATORS, useExisting: MatchPasswordDirective, multi: true }]
 })
 export class MatchPasswordDirective implements Validator {
-    @Input('matchPassword') MatchPassword: string[] = [];
+    @Input('matchPassword') public MatchPassword: string[] = [];
 
-    validate(formGroup: FormGroup): ValidationErrors {
+    public validate(formGroup: FormGroup): ValidationErrors {
         const matchPasswordFn = (password: string, confirmPassword: string) => {
             return (formGroup: FormGroup) => {
                 const passwordControl = formGroup.controls[password];
@@ -27,8 +27,9 @@ export class MatchPasswordDirective implements Validator {
                 } else {
                     confirmPasswordControl.setErrors(null);
                 }
-            }
-        }
+                return null;
+            };
+        };
 
         return matchPasswordFn(this.MatchPassword[0], this.MatchPassword[1])(formGroup);
     }
