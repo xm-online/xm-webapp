@@ -10,6 +10,9 @@ export class XmDatePipe implements PipeTransform {
     private datePipe: DatePipe = inject(DatePipe);
 
     public transform(date: string | Date, format?: string, timezone?: string, locale?: string): string | null {
+        if (!date) {
+            return null;
+        }
         this.locale = this.xmPrincipalService.getLangKey();
         return this.datePipe.transform(date, format, timezone, locale || this.locale);
     }
