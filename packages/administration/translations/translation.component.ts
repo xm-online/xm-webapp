@@ -161,7 +161,9 @@ export class TranslationComponent implements OnInit {
                 this.translationConfigService.updateConfigTranslations(currentTranslations, language || this.selectedLang).pipe()
                     .subscribe((res) => {
                         this.loading = false;
-                        this.translationsConfig$ = of(Object.assign({}, currentTranslations));
+                        if(language===this.selectedLang) {
+                            this.translationsConfig$ = of(Object.assign({}, currentTranslations));
+                        }
                         this.coreTranslationService.setTranslation(language || this.selectedLang, currentTranslations, true);
                     }, error => {
                         this.loading = false;
