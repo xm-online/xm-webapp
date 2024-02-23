@@ -1,5 +1,5 @@
 import { ContentChild, Directive, Input, OnDestroy, OnInit } from '@angular/core';
-import { IXmTableCollectionController, IXmTableCollectionState, } from '../collections';
+import { IXmTableCollectionController, IXmTableCollectionState } from '../collections';
 import {
     ColumnsSettingStorageItem,
     XmTableColumnsSettingStorageService,
@@ -13,7 +13,7 @@ import {cloneDeep, isEqual, set} from 'lodash';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-table.model';
-import { map, shareReplay, startWith, tap } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmEventManagerService } from '@xm-ngx/core';
 import { FiltersControlValue } from '../components/xm-table-filter-button-dialog-control.component';
@@ -112,7 +112,6 @@ export class XmTableDirective implements OnInit, OnDestroy {
         this.eventManagerService.listenTo<{ queryParams: Params }>(
             this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE,
         ).pipe(
-            startWith(null),
             tap((updateEvent) => {
                 let filterParams = this.tableFilterController.get();
 
