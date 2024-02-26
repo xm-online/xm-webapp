@@ -388,20 +388,24 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         const { value: pickerDate } = this.datetime.get('date');
         const { value: pickerTime, valid: validTime } = this.datetime.get('time');
 
-        let date: Date;
+        const date = new Date(pickerDate);
 
-        try {
-            date = new Date(pickerDate);
-        } catch (error) {
-            console.warn(error);
-
+        if (!isDate(date)) {
             this.onChange('');
+            return;
         }
 
-        if (!isEmpty(pickerTime) && validTime) {
+        if (isEmpty(pickerTime)) {
+            this.onChange(date);
+            return;
+        }
+
+        if (validTime) {
             const { hours, minutes, seconds } = parseTime(pickerTime);
 
             date.setHours(hours, minutes, seconds);
+        } else {
+            date.setHours(0, 0, 0);
         }
 
         this.onChange(date);
