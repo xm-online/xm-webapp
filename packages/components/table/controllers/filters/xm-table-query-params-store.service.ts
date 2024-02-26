@@ -27,12 +27,9 @@ export class XmTableQueryParamsStoreService {
         return this._key;
     }
 
-
     public set(queryParams: QueryParamsPageable, config: any): void {
         const clearPageableAndSortable = this.removeEmptyFields(queryParams.pageableAndSortable, config.pageableAndSortable);
 
-        const removeFiltersFieldsQueryParams = Object.keys(config.queryParamsToFillter ?? {})
-            .reduce((acc, key) => ({...acc, [key]: null}), {}) ?? {};
         const deleteParams = this.getNullubleQueryParams();
 
         const clearedQueryParams = merge({},
@@ -42,7 +39,6 @@ export class XmTableQueryParamsStoreService {
         const flattenedParams = flattenObjectDeep(clearedQueryParams, this.key + '_');
 
         const finalQuery = {
-            ...removeFiltersFieldsQueryParams,
             ...deleteParams,
             ...flattenedParams,
         };

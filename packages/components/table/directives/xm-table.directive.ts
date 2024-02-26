@@ -1,5 +1,5 @@
 import { ContentChild, Directive, Input, OnDestroy, OnInit } from '@angular/core';
-import { IXmTableCollectionController, IXmTableCollectionState, } from '../collections';
+import { IXmTableCollectionController, IXmTableCollectionState } from '../collections';
 import {
     ColumnsSettingStorageItem,
     XmTableColumnsSettingStorageService,
@@ -13,10 +13,12 @@ import {cloneDeep, isEqual, set} from 'lodash';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-table.model';
-import { map, shareReplay, startWith } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmEventManagerService } from '@xm-ngx/core';
 import { FiltersControlValue } from '../components/xm-table-filter-button-dialog-control.component';
+import { Params } from '@angular/router';
+import { checkIfEmpty } from '@xm-ngx/pipes';
 
 export interface IXmTableContext {
     collection: IXmTableCollectionState<unknown>,
@@ -107,14 +109,28 @@ export class XmTableDirective implements OnInit, OnDestroy {
             }),
         );
 
+        this.eventManagerService.listenTo<{ queryParams: Params }>(
+            this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE,
+        ).pipe(
+            tap((updateEvent) => {
+                let filterParams = this.tableFilterController.get();
+
+                const eventFilterParams = updateEvent?.payload?.queryParams;
+
+                if (!checkIfEmpty(eventFilterParams)) {
+                    filterParams = _.merge({}, filterParams, (eventFilterParams ?? {}));
+                }
+
+                this.tableFilterController.set(filterParams);
+            }),
+            takeUntilOnDestroy(this),
+        ).subscribe();
+
         combineLatest(
             {
                 tableFilter: this.tableFilterController.change$(),
                 pageableAndSortable: this.pageableAndSortable$,
-                updateEvent: this.eventManagerService.listenTo(
-                    this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE,
-                ).pipe(startWith(null)),
-            }
+            },
         )
             .pipe(
                 takeUntilOnDestroy(this),
@@ -144,7 +160,6 @@ export class XmTableDirective implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
-
 
     public updatePagination(refreshIndex?: boolean): void {
         const {sortBy: defaultSortBy, sortOrder: defaultSortOrder} = this._config.pageableAndSortable;
