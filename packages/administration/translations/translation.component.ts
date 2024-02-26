@@ -155,13 +155,13 @@ export class TranslationComponent implements OnInit {
 
     public updateTranslateFromConfig(newTranslate: { key: string; value: string }, language?: string): void {
         this.loading = true;
-        this.translationConfigService.loadConfigTranslations(language||this.selectedLang).pipe(take(1))
+        this.translationConfigService.loadConfigTranslations(language || this.selectedLang).pipe(take(1))
             .subscribe((translationsConfig) => {
-                const currentTranslations= this.translationConfigService.setToObject(translationsConfig, newTranslate.key, newTranslate.value);
+                const currentTranslations = this.translationConfigService.setToObject(translationsConfig, newTranslate.key, newTranslate.value);
                 this.translationConfigService.updateConfigTranslations(currentTranslations, language || this.selectedLang).pipe()
                     .subscribe((res) => {
                         this.loading = false;
-                        if(language===this.selectedLang) {
+                        if (language === this.selectedLang) {
                             this.translationsConfig$ = of(Object.assign({}, currentTranslations));
                         }
                         this.coreTranslationService.setTranslation(language || this.selectedLang, currentTranslations, true);
@@ -172,10 +172,10 @@ export class TranslationComponent implements OnInit {
     }
 
     public deleteTranslation(translationKey: string): void {
-        this.loading=true;
+        this.loading = true;
         this.selectedLang$.pipe(
             take(1),
-            switchMap((lang)=>{
+            switchMap((lang) => {
                 return this.getTranslationsFromConfig(lang);
             }),
         ).subscribe((translationsConfig) => {
@@ -184,10 +184,9 @@ export class TranslationComponent implements OnInit {
                 .subscribe((res) => {
                     this.translationsConfig$ = of(currentTranslations);
                     this.coreTranslationService.setTranslation(this.selectedLang, currentTranslations);
-                    this.loading=false;
+                    this.loading = false;
                 }, error => {
-                    error;
-                    this.loading=false;
+                    this.loading = false;
                 });
         });
     }
