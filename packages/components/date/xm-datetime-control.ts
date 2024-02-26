@@ -36,22 +36,25 @@ export type XmDateTimeFormGroup = {
     time: FormControl<string>;
 };
 
-export function parseTime(value: string): { hours: number; minutes: number; } {
-    let time = /(\d?\d):?(\d?\d?)/.exec(value);
+export function parseTime(value: string): { hours: number; minutes: number; seconds: number; } {
+    let time = /(\d?\d):?(\d?\d)?:?(\d?\d)?/.exec(value);
 
     let h = parseInt(time[1], 10);
     let m = parseInt(time[2], 10) || 0;
+    let s = parseInt(time[3], 10) || 0;
 
     if (h > 24) {
-        time = /(\d)(\d?\d?)/.exec(value);
+        time = /(\d)(\d?\d?):?(\d?\d)?/.exec(value);
 
         h = parseInt(time[1], 10);
         m = parseInt(time[2], 10) || 0;
+        s = parseInt(time[3], 10) || 0;
     }
 
     return {
         hours: h,
         minutes: m,
+        seconds: s,
     };
 }
 
@@ -119,8 +122,8 @@ const dateTimeValidator = (localeId: string) => {
                 <input
                     matInput
                     formControlName="time"
-                    placeholder="00:00"
-                    mask="Hh:m0"
+                    placeholder="00:00:00"
+                    mask="Hh:m0||Hh:m0:s0"
                     [validation]="true"
                     (keyup.backspace)="autoFocusPrev(datetime.controls.time, dateInputRef)"
                     #timeInputRef />
@@ -138,7 +141,7 @@ const dateTimeValidator = (localeId: string) => {
         }
 
         .xm-datetime-time {
-            width: 45px;
+            width: 65px;
         }
     `],
 })
@@ -216,24 +219,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
 
     @Input()
     set value(value: XmDateTimeControlValue) {
-        const date = value ? new Date(value) : null;
-
-        if (isDate(date)) {
-            const h = date.getHours();
-            const m = date.getMinutes();
-
-            const hh = h < 10 ? `0${h}` : h;
-            const mm = m < 10 ? `0${m}` : m;
-
-            this.datetime.setValue({
-                date: date,
-                time: `${hh}:${mm}`,
-            }, { emitEvent: false });
-        } else {
-            this.datetime.setValue({ date: '', time: '' }, { emitEvent: false });
-        }
-
-        this.stateChanges.next();
+        this.syncValue(value);
     }
 
     // Display parent errors
@@ -287,6 +273,39 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         this.focusMonitor.stopMonitoring(this.elementRef);
     }
 
+    private syncValue(value: XmDateTimeControlValue): void {
+        const date = value ? new Date(value) : null;
+
+        if (isDate(date)) {
+            const time = this.getTimeOfDate(date);
+
+            this.datetime.setValue({
+                date: date,
+                time,
+            }, { emitEvent: false });
+        } else {
+            this.datetime.setValue({ date: '', time: '' }, { emitEvent: false });
+        }
+
+        this.stateChanges.next();
+    }
+
+    private getTimeOfDate(date?: Date): string {
+        if (!isDate(date)) {
+            return '';
+        }
+
+        const h = date.getHours();
+        const m = date.getMinutes();
+        const s = date.getSeconds();
+
+        const hh = h < 10 ? `0${h}` : h;
+        const mm = m < 10 ? `0${m}` : m;
+        const ss = s < 10 ? `0${s}` : s;
+
+        return `${hh}:${mm}:${ss}`;
+    }
+
     private getNestedErrors(groupErrors: ValidationErrors | null): Record<string, ValidationErrors> | null {
         const errors = Object.entries(this.datetime.controls).reduce((acc, [controlName, control]) => {
             if (control.errors != null) {
@@ -332,7 +351,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
 
     public onContainerClick(): void {
         const { value: pickerDate, valid: validDate } = this.datetime.get('date');
-        
+
         if (isDate(pickerDate) && validDate) {
             this.focusMonitor.focusVia(this.timeInput, 'program');
         } else {
@@ -380,9 +399,9 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         }
 
         if (!isEmpty(pickerTime) && validTime) {
-            const { hours, minutes } = parseTime(pickerTime);
+            const { hours, minutes, seconds } = parseTime(pickerTime);
 
-            date.setHours(hours, minutes);
+            date.setHours(hours, minutes, seconds);
         }
 
         this.onChange(date);
