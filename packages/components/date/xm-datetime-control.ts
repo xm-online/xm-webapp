@@ -16,6 +16,7 @@ import { distinctUntilChanged, Subject, tap } from 'rxjs';
 import { NgxMaskModule } from 'ngx-mask';
 import { clone, isDate, isEmpty } from 'lodash';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { parseTime } from './shared/parse-time';
 
 export interface XmDateTimeControlConfig {
     title?: Translate;
@@ -24,7 +25,7 @@ export interface XmDateTimeControlConfig {
     required?: boolean;
 }
 
-export type XmDateTimeControlValue = Date | string | number | null;
+export type XmDateTimeControlValue = Date | string | number;
 
 export interface XmDateTimeControlParts {
     date: string;
@@ -35,28 +36,6 @@ export type XmDateTimeFormGroup = {
     date: FormControl<string | number | Date>;
     time: FormControl<string>;
 };
-
-export function parseTime(value: string): { hours: number; minutes: number; seconds: number; } {
-    let time = /(\d?\d):?(\d?\d)?:?(\d?\d)?/.exec(value);
-
-    let h = parseInt(time[1], 10);
-    let m = parseInt(time[2], 10) || 0;
-    let s = parseInt(time[3], 10) || 0;
-
-    if (h > 24) {
-        time = /(\d)(\d?\d?):?(\d?\d)?/.exec(value);
-
-        h = parseInt(time[1], 10);
-        m = parseInt(time[2], 10) || 0;
-        s = parseInt(time[3], 10) || 0;
-    }
-
-    return {
-        hours: h,
-        minutes: m,
-        seconds: s,
-    };
-}
 
 const dateTimeValidator = (localeId: string) => {
     return (control: AbstractControl<{ date: XmDateTimeControlValue; time: string; }>): ValidationErrors | null => {
@@ -159,9 +138,12 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
     public formField = inject(MatFormField, { optional: true });
     public ngControl = inject(NgControl, { optional: true, self: true });
 
+    public dateControl = this.fb.nonNullable.control('');
+    public timeControl = this.fb.nonNullable.control('');
+
     public datetime = this.fb.group<XmDateTimeFormGroup>({
-        date: this.fb.control(''),
-        time: this.fb.control(''),
+        date: this.dateControl,
+        time: this.timeControl,
     }, {
         validators: [dateTimeValidator(this.localeId)],
     });
@@ -240,6 +222,10 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
             tap(() => {
                 const errors = this.getNestedErrors(this.datetime.errors);
 
+                if (!this.ngControl?.control) {
+                    return;
+                }
+
                 this.ngControl.control.setErrors(errors);
                 this.ngControl.control.updateValueAndValidity();
             }),
@@ -262,7 +248,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         this.picker.datepickerInput.dateChange
             .pipe(takeUntilOnDestroy(this))
             .subscribe(() => {
-                this.autoFocusNext(this.datetime.get('date'), this.timeInput.nativeElement);
+                this.autoFocusNext(this.dateControl, this.timeInput.nativeElement);
             });
     }
 
@@ -350,7 +336,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
     }
 
     public onContainerClick(): void {
-        const { value: pickerDate, valid: validDate } = this.datetime.get('date');
+        const { value: pickerDate, valid: validDate } = this.dateControl;
 
         if (isDate(pickerDate) && validDate) {
             this.focusMonitor.focusVia(this.timeInput, 'program');
@@ -385,23 +371,27 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
     public onTouched = (): void => {};
 
     public change(): void {
-        const { value: pickerDate } = this.datetime.get('date');
-        const { value: pickerTime, valid: validTime } = this.datetime.get('time');
+        const { value: pickerDate } = this.dateControl;
+        const { value: pickerTime, valid: validTime } = this.timeControl;
 
-        let date: Date;
+        const date = new Date(pickerDate);
 
-        try {
-            date = new Date(pickerDate);
-        } catch (error) {
-            console.warn(error);
-
+        if (!isDate(date)) {
             this.onChange('');
+            return;
         }
 
-        if (!isEmpty(pickerTime) && validTime) {
+        if (isEmpty(pickerTime)) {
+            this.onChange(date);
+            return;
+        }
+
+        if (validTime) {
             const { hours, minutes, seconds } = parseTime(pickerTime);
 
             date.setHours(hours, minutes, seconds);
+        } else {
+            date.setHours(0, 0, 0);
         }
 
         this.onChange(date);
@@ -437,6 +427,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
                 [picker]="picker"
                 [hasErrors]="ngControl?.control?.errors"
                 [ngModel]="value"
+                [ngModelOptions]="{ standalone: true }"
                 [disabled]="disabled"
                 [required]="config?.required"
                 (ngModelChange)="change($event)">
@@ -451,7 +442,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
             <mat-hint [hint]="config?.hint"></mat-hint>
 
             <mat-error
-                *xmControlErrors="getAllErrors(field?.ngControl?.control, ngControl?.control); translates (config.errors || messageErrors); message as message">{{message}}</mat-error>
+                *xmControlErrors="getAllErrors(field?.ngControl?.control, ngControl?.control); translates (config?.errors || messageErrors); message as message">{{message}}</mat-error>
         </mat-form-field>
     `,
 })
