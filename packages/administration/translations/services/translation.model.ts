@@ -1,11 +1,11 @@
 export interface LanguageObj {
-    key: string,
-    value: LanguageTranslation[]
+    key: string;
+    value: LanguageTranslation[];
 }
 
 export interface LanguageTranslation {
-    languageKey: string,
-    name: string,
+    languageKey: string;
+    name: string;
 }
 
 export interface TranslationObject {
@@ -19,5 +19,5 @@ export interface TranslationProp {
 }
 
 export interface ModalLanguageList {
-    langs: string[]
+    langs: string[];
 }
