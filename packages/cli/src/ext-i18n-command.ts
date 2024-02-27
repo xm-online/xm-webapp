@@ -38,7 +38,7 @@ export class ExtI18nCommand implements Command {
             const customTranslations = getTranslations(this.customPathMask(lang));
 
             const savePath = this.distPathMask(lang);
-            const mergedTranslates = _.mergeWith({}, coreTranslations, customTranslations, (a, b) => a || b);
+            const mergedTranslates = _.mergeWith({}, coreTranslations, customTranslations);
             saveAsJson(savePath, mergedTranslates);
             console.info('Updated: ', savePath);
         });

@@ -501,7 +501,8 @@
           "password-max-length": "Your confirmation password cannot be longer than {{maxLength}} characters.",
           "password-min-length": "Your confirmation password is required to be at least {{minLength}} characters.",
           "password-pattern": "Your password dose not match pattern {{pattern}}",
-          "required": "Your confirmation password is required."
+          "required": "Your confirmation password is required.",
+          "not-match": "Your password and confirmation password does not match."
         },
         "email": {
           "invalid": "Your email is invalid.",
@@ -614,6 +615,7 @@
     "title": "Welcome!"
   },
   "login": {
+    "separator": "Or",
     "form": {
       "button": "Sign in",
       "hide-password": "Hide password",
@@ -1102,6 +1104,10 @@
     },
     "entity-data-card": {
       "title": "Data",
+      "created-by": "Created by",
+      "created-date": "Created date",
+      "updated-by": "Updated by",
+      "updated-date": "Updated date",
       "update-error": "Not updated. Try again.",
       "update-success": "Updated successfully.",
       "change-avatar": "Change Picture",

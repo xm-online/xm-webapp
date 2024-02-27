@@ -35,4 +35,6 @@ export interface MenuItem {
     */
     isLink?: boolean;
     children: MenuItem[];
+
+    activeItemPathPatterns?: string[];
 }

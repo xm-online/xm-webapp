@@ -18,6 +18,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { XmTableColumnDynamicCellsOptions } from '@xm-ngx/components/table';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmAutocompleteTableControl } from './autocomplete-table-control.component';
+import { XmSharedModule } from '@xm-ngx/shared';
+import { XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { XmTextComponent, XmTextTitleComponent } from '../text';
 
 function StaticLoaderFactory() {
     return of(require('src/i18n/en.json'));
@@ -112,7 +115,9 @@ export default {
         applicationConfig({
             providers: [
                 importProvidersFrom(NgxWebstorageModule.forRoot()),
+                importProvidersFrom(XmSharedModule.forRoot()),
                 importProvidersFrom(XmCoreModule.forRoot()),
+                importProvidersFrom(XmCoreAuthModule.forRoot()),
                 importProvidersFrom(XmLoggerModule.forRoot()),
                 importProvidersFrom(XmCoreConfigModule),
                 importProvidersFrom(HttpClientModule),
@@ -135,7 +140,16 @@ export default {
                 XmTranslationModule.forRoot(),
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 XmDynamicExtensionModule.forRoot([]),
-                XmDynamicModule.forRoot([]),
+                XmDynamicModule.forRoot([
+                    {
+                        selector: '@xm-ngx/components/text-title',
+                        loadChildren: () => XmTextTitleComponent,
+                    },
+                    {
+                        selector: '@xm-ngx/components/text',
+                        loadChildren: () => XmTextComponent,
+                    },
+                ]),
             ],
             providers: [
                 {

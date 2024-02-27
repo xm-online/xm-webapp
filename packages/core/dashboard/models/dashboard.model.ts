@@ -1,7 +1,5 @@
-// import { XmDynamicLayout } from '@xm-ngx/dynamic';
 import { BaseEntity } from '@xm-ngx/core/entity';
 import { JavascriptCode } from '@xm-ngx/interfaces';
-// import { Translate } from '@xm-ngx/translation';
 import { DashboardWidget } from './dashboard-widget.model';
 
 export interface DashboardConfig {
@@ -13,6 +11,7 @@ export interface DashboardConfig {
     hidden?: JavascriptCode;
     permission?: string;
     icon?: string;
+    activeItemPathPatterns?: string[];
     menu?: {
         section?: string;
         name?: string;
@@ -47,6 +46,7 @@ export interface DashboardLayoutLayout extends Partial<any> {
 
 export interface DashboardLayout {
     class?: string;
+    style?: string;
     layout?: DashboardLayoutLayout | DashboardLayoutLayout[];
     /** @deprecated use layout instead */
     grid?: DashboardLayoutLayout[];

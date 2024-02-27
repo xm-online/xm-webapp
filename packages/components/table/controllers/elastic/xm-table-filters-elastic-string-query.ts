@@ -15,6 +15,7 @@ import {
     templateElastic,
     userDelegationElastic,
     userFullnameElastic,
+    dateRangeElastic
 } from './xm-table-filter-elastic';
 import { XmTableFiltersElasticStringQuery } from './xm-table-filters-elastic-string-query.model';
 
@@ -36,6 +37,7 @@ export const Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY: XmTableFiltersElasticStringQ
     userDelegation: userDelegationElastic,
     linkCategory: containsElastic,
     chips: elasticQueryChips,
+    dateRange: dateRangeElastic,
     '': containsElastic,
 };
 

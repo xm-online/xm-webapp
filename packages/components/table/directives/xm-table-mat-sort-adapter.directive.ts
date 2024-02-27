@@ -24,7 +24,7 @@ export class XmTableMatSortAdapterDirective implements AfterViewInit, OnDestroy 
     public observeTableAndUpdateMatSort(): void {
         this.matSort.sortChange
             .pipe(takeUntilOnDestroy(this))
-            .subscribe(() => this.xmTableDirective.updatePagination());
+            .subscribe(() => this.xmTableDirective.updatePagination(true));
     }
 
     public ngOnDestroy(): void {

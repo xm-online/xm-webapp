@@ -6,8 +6,10 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { Component, Input, OnInit } from '@angular/core';
 import { JsonSchemaFormService } from '@ajsf/core';
 import { DatetimeUtcOptionsModel } from './datetime-utc-options.model';
+import { dayjs } from '@xm-ngx/operators';
+import utc from 'dayjs/plugin/utc';
 
-declare let moment: any;
+dayjs.extend(utc);
 
 @Component({
     standalone: true,
@@ -31,11 +33,11 @@ export class DatetimeUtcComponent implements OnInit {
         this.options = this.layoutNode.options || {};
         this.jsf.initializeControl(this);
         if (this.controlValue) {
-            this.controlValueFormatted = moment(this.controlValue).local().format('YYYY-MM-DD[T]HH:mm:ss');
+            this.controlValueFormatted = dayjs(this.controlValue).local().format('YYYY-MM-DD[T]HH:mm:ss');
         }
     }
 
     public changeText(event: any): void {
-        this.jsf.updateValue(this, moment(event.target.value).utc().format('YYYY-MM-DD[T]HH:mm:ss[Z]'));
+        this.jsf.updateValue(this, dayjs(event.target.value).utc().format('YYYY-MM-DD[T]HH:mm:ss[Z]'));
     }
 }

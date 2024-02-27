@@ -23,7 +23,6 @@ import { Principal } from '@xm-ngx/core/user';
 //     DEFAULT_CALENDAR_VIEW,
 // } from 'src/app/xm.constants';
 import { DEFAULT_CALENDAR_EVENT_FETCH_SIZE } from '../calendar-card.component';
-import moment from 'moment-timezone';
 import { Event } from '@xm-ngx/core/entity';
 import { CalendarEventDialogComponent } from '../../calendar-event-dialog/calendar-event-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -37,6 +36,9 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import interactionPlugin from '@fullcalendar/interaction';
 import { XmAlertService } from '@xm-ngx/alert';
+import { dayjs } from '@xm-ngx/operators';
+import timezone from 'dayjs/plugin/timezone';
+
 // import { XM_CALENDAR_VIEW } from '../../../../../src/app/xm.constants';
 
 export const DEFAULT_DAY_MAX_EVENT_ROWS = 300;
@@ -53,6 +55,7 @@ export const CALENDAR_VIEW = {
     [XM_CALENDAR_VIEW.WEEK]: 'agendaWeek',
     [XM_CALENDAR_VIEW.DAY]: 'agendaDay',
 };
+dayjs.extend(timezone);
 
 @Component({
     selector: 'xm-calendar-view',
@@ -148,9 +151,9 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
             events: ({start, end}, callback): void => {
                 this.calendar.id && this.calendarService.getEvents(this.calendar.id, {
                     'endDate.greaterThanOrEqual':
-                        `${moment(start).subtract(1, 'd').format('YYYY-MM-DD')}T${moment(start).format('HH:mm:ss')}Z`,
+                        `${dayjs(start).subtract(1, 'd').format('YYYY-MM-DD')}T${dayjs(start).format('HH:mm:ss')}Z`,
                     'startDate.lessThanOrEqual':
-                        `${moment(end).add(1, 'd').format('YYYY-MM-DD')}T${moment(end).format('HH:mm:ss')}Z`,
+                        `${dayjs(end).add(1, 'd').format('YYYY-MM-DD')}T${dayjs(end).format('HH:mm:ss')}Z`,
                     size: this.config.queryPageSize ? this.config.queryPageSize : DEFAULT_CALENDAR_EVENT_FETCH_SIZE,
                 })
                     .subscribe(
@@ -197,8 +200,8 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
     private formatEventDates(event: Event, startDate: Date, endDate: Date): Event {
         const format = 'YYYY-MM-DDTHH:mm:ss';
         const timezone = this.getCalendarTimezone();
-        event.startDate = moment(startDate).tz(timezone).format(format);
-        event.endDate = moment(endDate).tz(timezone).format(format);
+        event.startDate = dayjs(startDate).tz(timezone).format(format);
+        event.endDate = dayjs(endDate).tz(timezone).format(format);
         return event;
     }
 

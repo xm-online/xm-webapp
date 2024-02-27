@@ -6,10 +6,20 @@
     *ngFor="let client of clients;"
     [title]="client.name | translate"
     (click)="onLogin(client)"
-    [ngClass]="client?.icon?.class"
-    [style]="client?.icon?.style"
+    [ngClass]="client?.class"
+    [style]="client?.style"
     [class.has-image]="client?.icon?.src">
-    <img [src]="client?.icon?.src" *ngIf="client?.icon?.src">
-    {{(client.name | translate)[0] || ''}}
+      @if(client?.icon?.src) {
+          <img [src]="client?.icon?.src" [style]="client?.icon?.style" [ngClass]="client.icon?.class">
+      }
+      @if(client?.label?.text) {
+          <span class="idp-label" [style]="client?.label?.style" [ngClass]="client.label?.class">{{client?.label?.text | translate}}</span>
+      } @else {
+          {{(client.name | translate)[0] || ''}}
+      }
   </button>
+
+  <div class="block-separator"><span>{{'login.separator' | translate}}</span></div>
 </div>
+
+

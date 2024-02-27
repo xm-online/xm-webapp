@@ -42,6 +42,7 @@ export {
     XmTextTitleModule,
 } from './text-title';
 
+
 export {
     XmTextTranslateComponent,
     XmTextTranslateModule,
@@ -66,3 +67,8 @@ export { XmTextCellComponent, XmTextCellConfig } from './text-cell/text-cell.com
 export { FocusDirective } from './focus.directive';
 export { InputPreventPasteDirective } from './input-prevent-paste.directive';
 export { WordAutocompleteDirective, WordAutocompleteModule } from './word-autocomplete.directive';
+
+export {
+    XmTextHeaderOptions,
+    XmTextHeaderComponent,
+} from './text-header';

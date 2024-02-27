@@ -45,6 +45,22 @@
   }
 }
 
+.block-created-info-wrapper {
+  margin-bottom: 15px;
+  align-items: center;
+
+  ::ng-deep .block-state-functions {
+    margin-bottom: -10px !important;
+  }
+}
+
+.block-created-info {
+  text-align: right;
+  font-size: 11px;
+  line-height: 22px;
+  color: #696969;
+}
+
 .block-description-wrapper {
   position: relative;
 

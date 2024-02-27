@@ -1,6 +1,6 @@
 import { XmEntity } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
-import moment from 'moment';
+import { dayjs } from '@xm-ngx/operators';
 
 export interface IWithField {
     field: string;
@@ -73,7 +73,7 @@ export const strictNumberOrContainsStringElastic = (v: string | number, o: IWith
     : strictNumberElastic(v, o));
 
 export const dateElastic = ([f, t]: Date[], o: IWithField & { includeFullDay?: boolean }): string => {
-    const toDate = o.includeFullDay ? moment(t).clone().endOf('day').toDate() : new Date(t);
+    const toDate = o.includeFullDay ? dayjs(t).clone().endOf('day').toDate() : new Date(t);
 
     const from = f ? `${o.field}: >=${new Date(f).getTime()}` : '';
     const to = t ? ` AND ${o.field}: <=${toDate.getTime()}` : '';
@@ -87,4 +87,10 @@ export const userDelegationElastic = (v: string, o: IWithField): string => {
 
 export const elasticQueryChips = (value: unknown): string => {
     return `${Array.isArray(value) ? value?.join(' AND ') : value}`;
+};
+
+export const dateRangeElastic = (date: {from: Date, to: Date}, o: IWithField): string => {
+    const from = date?.from ? `${o.field}: >=${dayjs(date.from).toDate().getTime()}` : '';
+    const to = date?.to ? ` AND ${o.field}: <=${dayjs(date.to).toDate().getTime()}` : '';
+    return from + to;
 };
