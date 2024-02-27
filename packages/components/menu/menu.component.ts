@@ -31,7 +31,7 @@ import {Translate, XmTranslateService, XmTranslationModule} from '@xm-ngx/transl
 import {CommonModule} from '@angular/common';
 import {XmPermissionModule} from '@xm-ngx/core/permission';
 import {ConditionDirective} from '@xm-ngx/components/condition';
-import { XmEventManager } from "@xm-ngx/core";
+import { XmEventManager } from '@xm-ngx/core';
 
 export type ISideBarConfig = {
     sidebar?: {
