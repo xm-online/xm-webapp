@@ -5,7 +5,7 @@
       <h4>{{ 'translate-managment.title' | translate }}</h4>
       <ng-container *ngIf="isConfig">
         <ng-container *ngIf="langs$ | async as langs">
-          <xm-translation-add [config]="{langs:langs}" (createEvent)="addNewTranslation($event)"></xm-translation-add>
+          <xm-translation-add [config]="{langs:langs,translations:config}" (createEvent)="addNewTranslation($event)"></xm-translation-add>
         </ng-container>
       </ng-container>
     </div>

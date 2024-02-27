@@ -15,6 +15,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MultiLanguageComponent } from '@xm-ngx/components/multilanguage';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { ModalTranslationConfig } from '@xm-ngx/administration/translations/services/translation.model';
 
 @Component({
     selector: 'xm-translation-modal',
@@ -22,19 +24,19 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     imports: [CommonModule, MatDialogTitle, MatDialogContent,
         ReactiveFormsModule, MatFormFieldModule, MatInputModule,
         MatSelectModule, MatDialogActions, MatDialogClose,
-        MatButtonModule, MultiLanguageComponent, MatButtonToggleModule],
+        MatButtonModule, MultiLanguageComponent, MatButtonToggleModule, XmTranslationModule],
     templateUrl: './translation-modal.component.html',
     styleUrl: './translation-modal.component.scss',
 })
 export class TranslationModalComponent implements OnInit {
     public translationForm: FormGroup<{
-        key: FormControl<string|null>,
-        value: FormControl<string|null>}>;
+        key: FormControl<string | null>,
+        value: FormControl<string | null> }>;
 
     constructor(
         private fb: FormBuilder,
         public dialogRef: MatDialogRef<TranslationModalComponent>,
-        @Optional() @Inject(MAT_DIALOG_DATA) public data: TranslateAdd,
+        @Optional() @Inject(MAT_DIALOG_DATA) public data: ModalTranslationConfig,
     ) {
     }
 
@@ -44,8 +46,4 @@ export class TranslationModalComponent implements OnInit {
             value: '',
         });
     }
-}
-
-interface TranslateAdd {
-    langs: string[];
 }

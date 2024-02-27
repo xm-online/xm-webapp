@@ -29,6 +29,7 @@ export interface ExtractorFromBackend {
 
 export interface KeysExtractorOptions {
     extractorFromBackend: ExtractorFromBackend;
+    translations?: unknown;
 }
 
 export const TRANSLATION_STORE_NAME = '[translation] store';
