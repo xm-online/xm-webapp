@@ -6,7 +6,11 @@ import {
 } from '@xm-ngx/administration/translations/translation-modal/translation-modal.component';
 import { MatButtonModule } from '@angular/material/button';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { ModalTranslationConfig, TranslationProp } from '@xm-ngx/administration/translations/services/translation.model';
+import {
+    ModalTranslationConfig,
+    TranslationProp
+} from '@xm-ngx/administration/translations/services/translation.model';
+import { take } from 'rxjs';
 
 @Component({
     selector: 'xm-translation-add',
@@ -33,11 +37,13 @@ export class TranslationAddComponent {
                 data: this.config,
             });
 
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                this.createEvent.next(result);
-            }
-        });
+        dialogRef.afterClosed()
+            .pipe(take(1))
+            .subscribe(result => {
+                if (result) {
+                    this.createEvent.next(result);
+                }
+            });
     }
 
 }
