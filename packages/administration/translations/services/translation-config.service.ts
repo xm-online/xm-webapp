@@ -40,12 +40,12 @@ export class TranslationConfigService {
     }
 
 
-    public deleteFromObject(translation: TranslationObject | string, prop: string): TranslationObject | string {
+    public deleteFromObject(translation: TranslationObject, prop: string): TranslationObject {
         const index = prop.indexOf('.');
         if (index > -1) {
             const parentObj = prop.substring(0, index);
-            if (translation[parentObj] !== undefined) {
-                this.deleteFromObject(translation[parentObj], prop.substr(index + 1));
+            if (translation[parentObj] !== undefined && typeof translation[parentObj] === 'object') {
+                this.deleteFromObject(translation[parentObj] as TranslationObject, prop.substr(index + 1));
             }
         } else {
             if (translation[prop] !== undefined) {

@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { download, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { download, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { combineLatest, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, finalize, map, switchMap, take, tap } from 'rxjs/operators';
 
@@ -8,7 +8,6 @@ import { TranslationService, XmLanguageUiConfig } from './services/translation.s
 import { TranslationConfigService } from './services/translation-config.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageObj, TranslationObject, TranslationProp } from './services/translation.model';
-import { URL_TRANSLATION } from '@xm-ngx/translation/src/xm-translation.module';
 
 const coreName = 'core';
 
@@ -28,7 +27,7 @@ export class TranslationComponent implements OnInit, OnDestroy {
     public selectedLang: string = 'en';
 
     public translations$: Observable<object> = this.getTranslations();
-    public translationsConfig$: Observable<any> = this.getTranslationsFromConfig();
+    public translationsConfig$: Observable<object> = this.getTranslationsFromConfig();
 
     public translationsConfig: TranslationObject = {};
     public isConfig: boolean = false;
@@ -119,10 +118,6 @@ export class TranslationComponent implements OnInit, OnDestroy {
                 .pipe(map((res) => ({path, res}))),
             ),
         ).subscribe(({path, res}) => this.translationKeysStoreService.updateStore(path, res));
-
-        this.getPathTranslationsFromConfig$().pipe(takeUntilOnDestroy(this)).subscribe((res) => {
-            return this.translationConfigService.loadConfigTranslations(this.selectedLang);
-        });
     }
 
 
@@ -138,20 +133,12 @@ export class TranslationComponent implements OnInit, OnDestroy {
         );
     }
 
-    private getPathTranslationsFromConfig$(language?: string): Observable<string> {
-        if (language) {
-            return of(URL_TRANSLATION + `${language}.json`);
-        }
-        return this.selectedLang$.pipe(map((lang: string) => {
-            return URL_TRANSLATION + `${lang}.json`;
-        }));
-    }
-
 
     public getTranslationsFromConfig(language?: string): Observable<TranslationObject> {
-        return this.getPathTranslationsFromConfig$(language).pipe(
-            switchMap((path) => this.translationConfigService.loadConfigTranslations(this.selectedLang)),
+        this.loading = true;
+        return this.translationConfigService.loadConfigTranslations(language || this.selectedLang).pipe(
             tap((res: TranslationObject) => {
+                this.loading = false;
                 this.translationsConfig = res;
             }),
         );
@@ -169,7 +156,7 @@ export class TranslationComponent implements OnInit, OnDestroy {
                     );
                 }),
                 tap(updatedTranslations => {
-                    if (!language ||language === this.selectedLang) {
+                    if (!language || language === this.selectedLang) {
                         this.translationsConfig$ = of({...updatedTranslations});
                     }
                     this.coreTranslationService.setTranslation(this.selectedLang, updatedTranslations, true);
@@ -183,12 +170,12 @@ export class TranslationComponent implements OnInit, OnDestroy {
     public deleteTranslation(translationKey: string): void {
         this.loading = true;
         this.selectedLang$.pipe(
-            switchMap((lang: string) => this.getTranslationsFromConfig(lang)),
+            switchMap((lang: string) => this.getTranslationsFromConfig(lang).pipe(tap(() => this.loading = true))),
             map(translationsConfig => this.translationConfigService.deleteFromObject(translationsConfig, translationKey)),
             switchMap(currentTranslations => this.translationConfigService
                 .updateConfigTranslations(currentTranslations, this.selectedLang).pipe(
                     tap(() => {
-                        this.translationsConfig$ = of(currentTranslations);
+                        this.translationsConfig$ = of({...currentTranslations});
                         this.coreTranslationService.setTranslation(this.selectedLang, currentTranslations);
                     }),
                 )),

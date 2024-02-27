@@ -2,12 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import {
-    TranslationModalComponent
+    TranslationModalComponent,
 } from '@xm-ngx/administration/translations/translation-modal/translation-modal.component';
 import { MatButtonModule } from '@angular/material/button';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { TranslationProp } from '@xm-ngx/administration/translations/translation.component';
-import { ModalLanguageList } from '@xm-ngx/administration/translations/services/translation.model';
+import { ModalLanguageList, TranslationProp } from '@xm-ngx/administration/translations/services/translation.model';
 
 @Component({
     selector: 'xm-translation-add',
@@ -28,10 +27,11 @@ export class TranslationAddComponent {
     }
 
     public openAddTranslationModal(): void {
-        const dialogRef = this.dialog.open<TranslationModalComponent, ModalLanguageList, TranslationProp>(TranslationModalComponent, {
-            width: '350px',
-            data: this.config,
-        });
+        const dialogRef = this.dialog
+            .open<TranslationModalComponent, ModalLanguageList, TranslationProp>(TranslationModalComponent, {
+                width: '350px',
+                data: this.config,
+            });
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
