@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { TranslationObject } from '@xm-ngx/administration/translations/services/translation.model';
+import { last, isObject, get, isEmpty, set } from 'lodash';
 
 @Injectable({
     providedIn: 'root',
@@ -19,35 +19,26 @@ export class TranslationConfigService {
         return this.httpClient.get<TranslationObject>(this.resourceUrl + `/${lang}.json`);
     }
 
-    public updateConfigTranslations(configContent: TranslationObject|string, lang: string): Observable<any> {
-        return this.httpClient.put(this.resourceUrl + `/${lang}.json`, configContent, this.headers()).pipe(
-            map((res: any) => res));
+    public updateConfigTranslations(configContent: TranslationObject | string, lang: string): Observable<object> {
+        return this.httpClient.put(this.resourceUrl + `/${lang}.json`, configContent, {headers: this.headers()});
     }
 
-    private headers(): any {
-        return {headers: new HttpHeaders({'Content-Type': 'text/plain'})};
+    private headers() {
+        return new HttpHeaders({'Content-Type': 'text/plain'});
     }
 
-    public setToObject(obj: TranslationObject, prop: string, value: any): TranslationObject | string {
+    public setToObject(obj: TranslationObject, prop: string, value: string): TranslationObject {
         const keys = prop.split('.');
-        let current: TranslationObject | string = obj;
-        for (let i = 0; i < keys.length; i++) {
-            const key = keys[i];
-            const isLastKey = i === keys.length - 1;
-            if (isLastKey && current.hasOwnProperty(key) && typeof current[key] === 'object' && Object.keys(current[key]).length > 0) {
-                return current;
-            }
-            if (!isLastKey) {
-                if (typeof current[key] !== 'object' || Array.isArray(current[key]) || Object.keys(current[key]).length === 0) {
-                    current[key] = {};
-                }
-                current = current[key];
-            } else {
-                current[key] = value;
-            }
+        const pathToLastKey = keys.slice(0, -1).join('.');
+        const lastKey = last(keys);
+        const parentObject = pathToLastKey ? get(obj, pathToLastKey, {}) : obj;
+        if (lastKey && isObject(get(parentObject, lastKey)) && !isEmpty(get(parentObject, lastKey))) {
+            return obj;
         }
+        set(obj, prop, value);
         return obj;
     }
+
 
     public deleteFromObject(translation: TranslationObject | string, prop: string): TranslationObject | string {
         const index = prop.indexOf('.');

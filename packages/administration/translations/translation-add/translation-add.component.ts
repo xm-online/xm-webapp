@@ -6,6 +6,8 @@ import {
 } from '@xm-ngx/administration/translations/translation-modal/translation-modal.component';
 import { MatButtonModule } from '@angular/material/button';
 import { XmTranslationModule } from '@xm-ngx/translation';
+import { TranslationProp } from '@xm-ngx/administration/translations/translation.component';
+import { ModalLanguageList } from '@xm-ngx/administration/translations/services/translation.model';
 
 @Component({
     selector: 'xm-translation-add',
@@ -19,15 +21,14 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 })
 export class TranslationAddComponent {
 
-    @Input() public config: ModalConfig;
-    @Output() public createEvent: EventEmitter<string> = new EventEmitter<string>();
+    @Input() public config: ModalLanguageList;
+    @Output() public createEvent: EventEmitter<TranslationProp> = new EventEmitter<TranslationProp>();
 
     constructor(public dialog: MatDialog) {
     }
 
     public openAddTranslationModal(): void {
-        debugger
-        const dialogRef = this.dialog.open(TranslationModalComponent, {
+        const dialogRef = this.dialog.open<TranslationModalComponent, ModalLanguageList, TranslationProp>(TranslationModalComponent, {
             width: '350px',
             data: this.config,
         });
@@ -41,6 +42,4 @@ export class TranslationAddComponent {
 
 }
 
-interface ModalConfig {
-    langs: string[]
-}
+

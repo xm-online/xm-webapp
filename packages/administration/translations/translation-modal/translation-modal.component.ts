@@ -1,13 +1,13 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
     MAT_DIALOG_DATA,
     MatDialogActions,
     MatDialogClose,
     MatDialogContent,
     MatDialogRef,
-    MatDialogTitle
+    MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,19 +27,14 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     styleUrl: './translation-modal.component.scss',
 })
 export class TranslationModalComponent implements OnInit {
-    public translationForm: FormGroup;
-
-    public languages = [
-        {name: 'English', code: 'en'},
-        {name: 'Spanish', code: 'es'},
-        // Add more languages as needed
-    ];
+    public translationForm: FormGroup<{
+        key: FormControl<string|null>,
+        value: FormControl<string|null>}>;
 
     constructor(
         private fb: FormBuilder,
         public dialogRef: MatDialogRef<TranslationModalComponent>,
-        @Optional() @Inject(MAT_DIALOG_DATA) public data: TranslataAdd,
-        // private translationService: TranslationService // Inject the translation service
+        @Optional() @Inject(MAT_DIALOG_DATA) public data: TranslateAdd,
     ) {
     }
 
@@ -49,23 +44,8 @@ export class TranslationModalComponent implements OnInit {
             value: '',
         });
     }
-
-    public addTranslation(): void {
-        if (this.translationForm.valid) {
-            //this.translationService.addTranslation(this.translationForm.value);
-            this.dialogRef.close();
-        }
-    }
-
-    public setValue(event: any): void {
-        event;
-    }
-
-    public setLang(lang: any): void {
-        lang;
-    }
 }
 
-interface TranslataAdd {
-    langs: string[],
+interface TranslateAdd {
+    langs: string[];
 }
