@@ -10,6 +10,7 @@ const TERMS_ERROR= 'needAcceptTermsOfConditions';
 const TERMS_PROP = 'privacyAndTermsEnabled';
 
 interface IErrorTerm {
+    status?: number,
     error?: {
         oneTimeToken?: string, error?: string
     }
@@ -71,6 +72,8 @@ export class IdpCallbackComponent implements OnDestroy {
                     this.isTermsShown = false;
                 }
             });
+        } else if (err?.status === 504) {
+            this.navigate();
         }
     }
 

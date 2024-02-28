@@ -5,8 +5,9 @@ import * as _ from 'lodash';
 import { clone } from 'lodash';
 import { Params } from '@angular/router';
 import { ThemePalette } from '@angular/material/core';
+import {DataQa} from '@xm-ngx/interfaces';
 
-export interface MatFabConfigBase {
+export interface MatFabConfigBase extends DataQa {
     icon?: string;
     tooltip?: Translate;
     indent?: boolean;
@@ -28,6 +29,7 @@ export const MAT_FAB_DEFAULT_CONFIG: MatFabConfig = {
     color: 'primary',
     // ACCOUNT.ACTIVATE is default permission available for all authed users
     permitted: 'ACCOUNT.ACTIVATE',
+    dataQa: 'fab-button-default-key',
 };
 
 @Component({
