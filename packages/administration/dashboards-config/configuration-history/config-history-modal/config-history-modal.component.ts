@@ -16,6 +16,7 @@ import { XmDateTimePipe } from '@xm-ngx/translation/pipes';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
 import { XmDateComponent } from '@xm-ngx/components/date';
+import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
 
 @Component({
     selector: 'xm-config-history-modal',
@@ -48,6 +49,7 @@ export class ConfigHistoryModalComponent implements OnInit {
     public prevConfig: string;
     public prevDate: Date;
     public activeEvent: HistoryEvent;
+    private dashboardsConfigHistoryService: DashboardsConfigHistoryService = inject<DashboardsConfigHistoryService>(DashboardsConfigHistoryService);
 
     public aceEditorOptions: XmAceEditorControlOptions = {
         title: '',
@@ -68,12 +70,20 @@ export class ConfigHistoryModalComponent implements OnInit {
     }
 
     public isCurrent(event: HistoryEvent): boolean {
-        return event === this.data?.events?.[0];
+        return event.date === this.data?.events?.[0]?.date;
     }
 
     private setPrevValues(index: number): void {
         const prevEvent = this.data?.events?.[index + 1];
         this.prevConfig = prevEvent?.config ?? '{}';
         this.prevDate = prevEvent?.date ?? null;
+    }
+    public loadMore(): void {
+        if (this.data?.config.itemType === 'dashboard') {
+            this.dashboardsConfigHistoryService.nextDashboardPage();
+        }
+        if(this.data?.config.itemType === 'widget'){
+            this.dashboardsConfigHistoryService.nexWidgetPage();
+        }
     }
 }

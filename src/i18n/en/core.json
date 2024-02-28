@@ -219,7 +219,8 @@
     "type": "Type",
     "changed-type": "Changes",
     "no-active": "No active event.",
-    "change-lists": "Changes" ,
+    "change-lists": "Changes",
+    "show-more": "Show more",
     "empty-history": "Empty for this item."
   },
   "date-time-picker": {

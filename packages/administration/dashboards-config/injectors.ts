@@ -22,19 +22,20 @@ export abstract class EntityCollectionWithHistory<T> extends EntityCollectionBas
         super(factoryService.create(apiUrl));
     }
 
-    public getHistoryById(id: number): Observable<AuditResponse> {
-        return this.httpClient.get<AuditResponse>(`${this.apiUrl}-audit/${id}?page=0&size=3000`);
+    public getHistoryById(id: number, pagination: { page: number; size: number } = { page: 0, size: 10 }): Observable<AuditResponse> {
+        const { page, size } = pagination;
+        return this.httpClient.get<AuditResponse>(`${this.apiUrl}-audit/${id}?sort=revtstmp,desc&page=${page}&size=${size}`);
     }
 }
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class DashboardCollection extends EntityCollectionWithHistory<Dashboard> {
     constructor(factoryService: EntityCollectionFactoryService) {
         super(factoryService, DASHBOARD_API_URL);
     }
 }
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class WidgetCollection extends EntityCollectionWithHistory<DashboardWidget> {
     constructor(factoryService: EntityCollectionFactoryService) {
         super(factoryService, DASHBOARD_WIDGET_API_URL);

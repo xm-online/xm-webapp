@@ -2,7 +2,9 @@ export interface HistoryEvent {
     user: string;
     date: Date;
     config: string;
+    operation: Operation;
     version?: number;
+    hasNext?: boolean;
 }
 
 export interface AuditResponse {
@@ -25,8 +27,10 @@ export interface AuditResponse {
 export interface AuditContent {
     audit: { config: object; layout: object; widgets: { id: number; name: string; selector: string; config: object }[] };
     revInfo: { lastModifiedBy: string; revtstmp: Date; rev: number };
-    operation: 'ADD' | 'MOD';
+    operation: Operation;
 }
+
+export type Operation = 'ADD' | 'MOD';
 
 export interface HistoryModalConfig {
     itemType: 'dashboard' | 'widget';

@@ -48,9 +48,10 @@
         <mat-card class="w-100">
             <mat-card-content>
                 <h2 class="w-100">{{ 'dashboard-config-widget.change-lists' | translate }}</h2>
-                <mat-list *ngIf="data?.events?.length; else noHistory">
+                <mat-list *ngIf="data?.events?.length; else noHistory" class="d-flex flex-column justify-content-center">
+                    @for(event of data?.events; track event.version; let i = $index; let last = $last; let first = $first){
                     <mat-list-item
-                        *ngFor="let event of data?.events; let i = index"
+                        *ngIf="first || !last || !event.hasNext"
                         matBadge="&#8288;"
                         [matBadgeHidden]="!isCurrent(event)"
                         [matBadgePosition]="'before'"
@@ -61,6 +62,14 @@
                         <span matListItemTitle><xm-date [value]="event.date" [config]="{ format: 'medium' }"></xm-date></span>
                         <span matListItemLine>{{ event.user }}</span>
                     </mat-list-item>
+                      @if(last && event.hasNext){
+                        <button class="mt-3" mat-stroked-button (click)="loadMore()">
+                          <mat-icon>expand_more</mat-icon>
+                          {{ 'dashboard-config-widget.show-more' | translate }}
+                        </button>
+                      }
+
+                    }
                 </mat-list>
                 <ng-template #noHistory>
                     <div class="empty-state">
