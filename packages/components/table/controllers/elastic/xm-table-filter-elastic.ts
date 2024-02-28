@@ -88,3 +88,9 @@ export const userDelegationElastic = (v: string, o: IWithField): string => {
 export const elasticQueryChips = (value: unknown): string => {
     return `${Array.isArray(value) ? value?.join(' AND ') : value}`;
 };
+
+export const dateRangeElastic = (date: {from: Date, to: Date}, o: IWithField): string => {
+    const from = date?.from ? `${o.field}: >=${dayjs(date.from).toDate().getTime()}` : '';
+    const to = date?.to ? ` AND ${o.field}: <=${dayjs(date.to).toDate().getTime()}` : '';
+    return from + to;
+};
