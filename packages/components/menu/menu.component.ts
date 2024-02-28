@@ -22,7 +22,7 @@ import {Translate, XmTranslateService, XmTranslationModule} from '@xm-ngx/transl
 import {CommonModule, DOCUMENT} from '@angular/common';
 import {XmPermissionModule} from '@xm-ngx/core/permission';
 import {ConditionDirective} from '@xm-ngx/components/condition';
-import { XmEventManager } from '@xm-ngx/core';
+import {XmEventManager, XmEventManagerAction} from '@xm-ngx/core';
 import {showHideSubCategories} from './menu.animation';
 import {MenuService} from './menu.service';
 import {MatDrawerToggleResult} from '@angular/material/sidenav';
@@ -109,9 +109,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     public ngOnInit(): void {
-        const context$ = this.eventManager.listenTo('CONTEXT_UPDATED')
-            .pipe(takeUntilOnDestroy(this))
-            .pipe(startWith({}));
         this.observeSectionsFiltering();
         this.assignSubCategories();
         this.observeNavigation();
@@ -135,7 +132,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     // }
 
     private assignSubCategories(): void {
-        this.subCategories$ = combineLatest([this.activeDashboards$, this.applications$, this.defaultMenuItems$]).pipe(
+        this.subCategories$ = combineLatest([this.activeDashboards$, this.applications$, this.defaultMenuItems$, this.context$]).pipe(
             map(([dashboards, applications, defaultMenu]) => {
                 const mainMenu = _.orderBy([...dashboards, ...applications], ['position'], 'asc');
                 return [...mainMenu, ...defaultMenu];
@@ -198,6 +195,14 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         return this.uiConfigService.config$().pipe(
             map(i => i?.sidebar?.hideAdminConsole ? [] : getDefaultMenuList()),
         );
+    }
+
+    private get context$(): Observable<XmEventManagerAction<unknown>> {
+        return this.eventManager.listenTo('CONTEXT_UPDATED')
+            .pipe(
+                startWith(null),
+                takeUntilOnDestroy(this),
+            );
     }
 
     private observeNavigation(): void {
