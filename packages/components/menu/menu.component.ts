@@ -4,7 +4,7 @@ import {NavigationEnd, Router, RouterModule} from '@angular/router';
 import {DashboardStore} from '@xm-ngx/core/dashboard';
 import {XmEntitySpecWrapperService} from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
-import {animationFrameScheduler, combineLatest, debounceTime, from, Observable, observeOn, of, tap, timer} from 'rxjs';
+import { animationFrameScheduler, combineLatest, debounceTime, from, Observable, observeOn, of, tap, timer} from 'rxjs';
 import {filter, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
 
 import {ContextService} from '@xm-ngx/core/context';
@@ -22,6 +22,7 @@ import {Translate, XmTranslateService, XmTranslationModule} from '@xm-ngx/transl
 import {CommonModule, DOCUMENT} from '@angular/common';
 import {XmPermissionModule} from '@xm-ngx/core/permission';
 import {ConditionDirective} from '@xm-ngx/components/condition';
+import { XmEventManager } from '@xm-ngx/core';
 import {showHideSubCategories} from './menu.animation';
 import {MenuService} from './menu.service';
 import {MatDrawerToggleResult} from '@angular/material/sidenav';
@@ -94,6 +95,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         protected readonly entityConfigService: XmEntitySpecWrapperService,
         protected readonly contextService: ContextService,
         protected readonly userService: XmUserService,
+        protected readonly eventManager: XmEventManager,
         protected readonly menuService: MenuService,
         @Inject(DOCUMENT) private document: Document
     ) {
@@ -107,6 +109,9 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     public ngOnInit(): void {
+        const context$ = this.eventManager.listenTo('CONTEXT_UPDATED')
+            .pipe(takeUntilOnDestroy(this))
+            .pipe(startWith({}));
         this.observeSectionsFiltering();
         this.assignSubCategories();
         this.observeNavigation();

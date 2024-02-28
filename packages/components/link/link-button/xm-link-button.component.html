@@ -3,6 +3,7 @@
     <a [color]="config.color"
        [matTooltip]="config.tooltip | translate"
        [routerLink]="config.navigateTo"
+       [attr.data-qa]="config.dataQa"
        class="mat-fab-button"
        mat-flat-button
        routerLinkActive="active">
