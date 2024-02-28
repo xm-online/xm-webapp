@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TranslationObject } from '@xm-ngx/administration/translations/services/translation.model';
+import { TranslationObject } from './translation.model';
 import { last, isObject, get, isEmpty, set } from 'lodash';
 
 @Injectable({
