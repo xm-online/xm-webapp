@@ -8,9 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import {
     ModalTranslationConfig,
-    TranslationProp
+    TranslationProp,
 } from '@xm-ngx/administration/translations/services/translation.model';
-import { take } from 'rxjs';
 
 @Component({
     selector: 'xm-translation-add',
@@ -38,7 +37,6 @@ export class TranslationAddComponent {
             });
 
         dialogRef.afterClosed()
-            .pipe(take(1))
             .subscribe(result => {
                 if (result) {
                     this.createEvent.next(result);
