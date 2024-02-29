@@ -1,13 +1,13 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, Input, Optional, Self, ViewChild } from '@angular/core';
-import { UntypedFormControl, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { Component, ElementRef, Input, Optional, ViewChild } from '@angular/core';
+import { UntypedFormControl, NgControl, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
-import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { AriaLabel, DataQa } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { map, share, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
+import { map, share, shareReplay, startWith, switchMap } from 'rxjs/operators';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { EntityCollectionFactoryService, QueryParams } from '@xm-ngx/repositories';
 import { uniqBy as _uniqBy, get as _get, template as _template } from 'lodash/fp';
@@ -71,7 +71,7 @@ export const XM_ARRAY_CONTROL_OPTIONS_DEFAULT: XmArrayControlOptions = {
     ],
     standalone: true,
 })
-export class XmArrayControl extends NgFormAccessor<string[]> {
+export class XmArrayControl extends NgControlAccessor<string[]> {
     public searchControl: UntypedFormControl = new UntypedFormControl();
     public chipControl: UntypedFormControl = new UntypedFormControl();
 
@@ -89,13 +89,17 @@ export class XmArrayControl extends NgFormAccessor<string[]> {
         return this._selectedItems.getValue();
     }
 
+    get control(): AbstractControl {
+        return this.ngControl?.control;
+    }
+
     public presetAutocomplete: XmArrayItem[] = [];
 
     @ViewChild('input') public input: ElementRef<HTMLInputElement>;
     @ViewChild('auto') public matAutocomplete: MatAutocomplete;
 
     constructor(
-        @Optional() @Self() public ngControl: NgControl,
+        @Optional() public ngControl: NgControl,
         private factoryService: EntityCollectionFactoryService,
     ) {
         super(ngControl);
@@ -118,8 +122,6 @@ export class XmArrayControl extends NgFormAccessor<string[]> {
     }
 
     public ngOnInit(): void {
-        super.ngOnInit();
-
         const searchQuery = this.searchControl.valueChanges.pipe(startWith<string, null>(null));
         const fetchAutocompleteItems = of(this.presetAutocomplete).pipe(
             switchMap((autocompleteList) => {
@@ -179,9 +181,6 @@ export class XmArrayControl extends NgFormAccessor<string[]> {
                 }
 
                 return this.buildItems(selectedItems);
-            }),
-            tap(() => {
-                this.input?.nativeElement?.focus();
             }),
             shareReplay(),
         );
