@@ -24,7 +24,12 @@ export abstract class EntityCollectionWithHistory<T> extends EntityCollectionBas
 
     public getHistoryById(id: number, pagination: { page: number; size: number } = { page: 0, size: 10 }): Observable<AuditResponse> {
         const { page, size } = pagination;
-        return this.httpClient.get<AuditResponse>(`${this.apiUrl}-audit/${id}?sort=revtstmp,desc&page=${page}&size=${size}`);
+        const params = {
+            page,
+            size,
+            sort: 'revtstmp,desc',
+        };
+        return this.httpClient.get<AuditResponse>(`${this.apiUrl}-audit/${id}`, {params});
     }
 }
 

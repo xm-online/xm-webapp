@@ -79,11 +79,13 @@ export class ConfigHistoryModalComponent implements OnInit {
         this.prevDate = prevEvent?.date ?? null;
     }
     public loadMore(): void {
-        if (this.data?.config.itemType === 'dashboard') {
-            this.dashboardsConfigHistoryService.nextDashboardPage();
-        }
-        if (this.data?.config.itemType === 'widget') {
-            this.dashboardsConfigHistoryService.nexWidgetPage();
+        switch(this.data?.config.itemType) {
+            case 'dashboard':
+                this.dashboardsConfigHistoryService.nextDashboardPage();
+                break;
+            case 'widget':
+                this.dashboardsConfigHistoryService.nexWidgetPage();
+                break;
         }
     }
 }
