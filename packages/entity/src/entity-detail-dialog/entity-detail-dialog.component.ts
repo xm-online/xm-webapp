@@ -17,8 +17,8 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
+import { stringSubstitute } from '@xm-ngx/operators';
 import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
-import * as formatString from 'string-template';
 
 import { nullSafe } from '@xm-ngx/json-schema-form/components';
 import { Spec } from '@xm-ngx/core/entity';
@@ -46,7 +46,6 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
     public showLoader: boolean;
     public nameValidPattern: string;
     public isJsonFormValid: boolean = true;
-    public smartDescription: any;
 
     constructor(private activeModal: MatDialogRef<EntityDetailDialogComponent>,
                 private changeDetector: ChangeDetectorRef,
@@ -55,20 +54,12 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
                 protected widgetService: JsfComponentRegistryService
     ) {
         this.nameValidPattern = null;
-        this.smartDescription = {
-            active: false,
-            value: '',
-            template: '',
-        };
-
     }
 
     public ngOnInit(): void {
         this.isEdit = !!(this.xmEntity && this.xmEntity.id);
-        this.smartDescription.active = true;
         if (this.isEdit) {
             this.name = this.xmEntity.name;
-            this.smartDescription.value = this.xmEntity.description;
             this.onChangeEntityType(this.xmEntitySpec);
         } else {
             if (this.spec && this.spec.types) {
@@ -96,12 +87,8 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
             this.jsfAttributes.data = Object.assign(nullSafe(this.jsfAttributes.data), nullSafe(this.xmEntity.data));
         }
         this.nameValidPattern = xmEntitySpec.nameValidationPattern ? xmEntitySpec.nameValidationPattern : null;
-        this.smartDescription.template = xmEntitySpec.descriptionPattern ? xmEntitySpec.descriptionPattern : null;
 
-        if (this.jsfAttributes
-            && this.jsfAttributes.entity
-            && this.jsfAttributes.entity.hideNameAndDescription
-            && !this.xmEntity.name) {
+        if ((this.jsfAttributes?.entity?.hideNameAndDescription || this.selectedXmEntitySpec.namePattern) && !this.xmEntity.name) {
             this.xmEntity.name = '###';
         } else if (this.xmEntity.name === '###') {
             this.xmEntity.name = '';
@@ -110,7 +97,14 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
 
     public onConfirmSave(): void {
         this.showLoader = true;
-        this.xmEntity.description = this.smartDescription.value;
+
+        if (this.selectedXmEntitySpec?.namePattern) {
+            this.xmEntity.name = stringSubstitute(this.selectedXmEntitySpec.namePattern, this.xmEntity);
+        }
+        if (this.selectedXmEntitySpec?.descriptionPattern) {
+            this.xmEntity.description = stringSubstitute(this.selectedXmEntitySpec.descriptionPattern, this.xmEntity);
+        }
+
         if (this.xmEntity.id !== undefined) {
             this.xmEntityService.update(this.xmEntity).pipe(finalize(() => this.showLoader = false))
                 .subscribe((resp) => this.onSaveSuccess(resp.body),
@@ -132,7 +126,6 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
 
     public onChangeForm(data: any): void {
         this.xmEntity.data = data;
-        this.formatSmartDescription(data);
     }
 
     private onConfirmError(err: any): void {
@@ -151,12 +144,6 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
         this.activeModal.close(true);
         if (this.onSuccess) {
             this.onSuccess();
-        }
-    }
-
-    private formatSmartDescription(data: any): void {
-        if (this.smartDescription.active && this.smartDescription.template) {
-            this.smartDescription.value = formatString(this.smartDescription.template, data);
         }
     }
 

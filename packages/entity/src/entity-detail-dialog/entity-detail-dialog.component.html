@@ -50,7 +50,7 @@
       </mat-form-field>
     </div>
 
-    <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription" class="form-group">
+    <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription && !selectedXmEntitySpec?.namePattern" class="form-group">
       <mat-form-field>
         <input #entityName="ngModel"
                [(ngModel)]="xmEntity.name"
@@ -87,11 +87,12 @@
       </mat-form-field>
     </div>
 
-    <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription" class="form-group">
+    <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription && !selectedXmEntitySpec?.descriptionPattern && !selectedXmEntitySpec?.namePattern"
+         class="form-group">
       <mat-form-field>
         <mat-label>{{'xm-entity.common.fields.description' | translate}}</mat-label>
-        <textarea (keyup)="smartDescription.active = false;"
-                  [(ngModel)]="smartDescription.value"
+        <textarea #entityName="ngModel"
+                  [(ngModel)]="xmEntity.description"
                   matInput
                   name="description"
                   rows="4">
