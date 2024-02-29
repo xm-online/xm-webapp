@@ -212,7 +212,7 @@ export class ValidatorProcessingService {
                 return null;
             }
 
-            let compareDateValue = new Date(valueToCompare);
+            const compareDateValue = new Date(valueToCompare);
 
             if(value <= compareDateValue) {
                 return {
