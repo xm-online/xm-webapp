@@ -1,5 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, Input, Optional, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Optional, ViewChild } from '@angular/core';
 import { UntypedFormControl, NgControl, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
@@ -71,7 +71,7 @@ export const XM_ARRAY_CONTROL_OPTIONS_DEFAULT: XmArrayControlOptions = {
     ],
     standalone: true,
 })
-export class XmArrayControl extends NgControlAccessor<string[]> {
+export class XmArrayControl extends NgControlAccessor<string[]> implements OnInit {
     public searchControl: UntypedFormControl = new UntypedFormControl();
     public chipControl: UntypedFormControl = new UntypedFormControl();
 
@@ -122,7 +122,7 @@ export class XmArrayControl extends NgControlAccessor<string[]> {
     }
 
     public ngOnInit(): void {
-        const searchQuery = this.searchControl.valueChanges.pipe(startWith<string, null>(null));
+        const searchQuery = this.searchControl.valueChanges.pipe(startWith(null));
         const fetchAutocompleteItems = of(this.presetAutocomplete).pipe(
             switchMap((autocompleteList) => {
                 const { resourceUrl, queryParams, displayFn, pickKey } = this.config?.search || {};
