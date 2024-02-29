@@ -31,5 +31,6 @@ export interface XmEntitySpec extends BaseSpec {
     comments?: CommentSpec[];
     pluralName?: any;
     nameValidationPattern?: string;
+    namePattern?: string;
     descriptionPattern?: string;
 }
