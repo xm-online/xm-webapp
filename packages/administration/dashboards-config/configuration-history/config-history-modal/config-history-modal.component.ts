@@ -82,7 +82,7 @@ export class ConfigHistoryModalComponent implements OnInit {
         if (this.data?.config.itemType === 'dashboard') {
             this.dashboardsConfigHistoryService.nextDashboardPage();
         }
-        if(this.data?.config.itemType === 'widget'){
+        if (this.data?.config.itemType === 'widget') {
             this.dashboardsConfigHistoryService.nexWidgetPage();
         }
     }
