@@ -73,8 +73,8 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
     public ngOnInit(): void {
         super.ngOnInit();
         this.loadJsfAttr();
-        this.getName(this.xmEntity.updatedBy, this.entityUiConfig.userInfoSource, 'updatedBy');
-        this.getName(this.xmEntity.createdBy, this.entityUiConfig.userInfoSource, 'createdBy');
+        this.getName(this.xmEntity?.updatedBy, this.entityUiConfig?.userInfoSource, 'updatedBy');
+        this.getName(this.xmEntity?.createdBy, this.entityUiConfig?.userInfoSource, 'createdBy');
     }
 
     public getName(code: string, type: string, valueKey: string): void {
