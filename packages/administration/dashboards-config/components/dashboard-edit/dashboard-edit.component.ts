@@ -64,7 +64,6 @@ const uniqValueInListValidator = (stream: Observable<any[]>) => (control: Abstra
     ],
     templateUrl: './dashboard-edit.component.html',
     styleUrls: ['./dashboard-edit.component.scss'],
-    providers: [DashboardsConfigHistoryService],
 })
 export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
