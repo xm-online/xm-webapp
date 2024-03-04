@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MultiLanguageComponent } from '@xm-ngx/components/multilanguage';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { ModalTranslationConfig } from '@xm-ngx/administration/translations/services/translation.model';
+import { ModalTranslationConfig } from '../services/translation.model';
 
 @Component({
     selector: 'xm-translation-modal',
