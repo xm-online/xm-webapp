@@ -52,7 +52,6 @@ export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
     standalone: true,
     styleUrls: ['./widget-edit.component.scss'],
     templateUrl: './widget-edit.component.html',
-    providers: [ DashboardsConfigHistoryService ],
 })
 export class WidgetEditComponent implements OnChanges {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;

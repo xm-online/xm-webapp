@@ -7,6 +7,7 @@ import {
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import * as _ from 'lodash';
 import Ajv from 'ajv';
+import { get } from 'lodash';
 
 
 /***
@@ -20,8 +21,7 @@ export const XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES: XmControlErrorsT
     valueLessThanIn: marker('xm-validator-processing.validators.valueLessThanIn'),
     valueMoreThanIn: marker('xm-validator-processing.validators.valueMoreThanIn'),
     severalEmails: marker('xm-validator-processing.validators.severalEmails'),
-    dateLessThanIn: marker('xm-control-errors.validators.pattern'),
-    dateMoreThanIn: marker('xm-control-errors.validators.pattern'),
+    dateMoreThanIn: marker('xm-control-errors.validators.dateLessOrEqual'),
 };
 
 export interface ValidatorProcessingOption {
@@ -43,6 +43,7 @@ export class ValidatorProcessingService {
         min: Validators.min,
         maxLength: Validators.maxLength,
         minDate: ValidatorProcessingService.minDate,
+        dateMoreThanIn: ValidatorProcessingService.dateMoreThanIn,
         valueLessThanIn: ValidatorProcessingService.valueLessThanIn,
         valueMoreThanIn: ValidatorProcessingService.valueMoreThanIn,
         severalEmails: ValidatorProcessingService.severalEmails,
@@ -79,7 +80,7 @@ export class ValidatorProcessingService {
             if (files.length == 0) {
                 return Promise.resolve(null);
             }
-            
+
             const jsonFiles = await Promise.allSettled(files.map(file => new Response(file).json()));
             const parsedJsonFiles = jsonFiles
                 .filter((p): p is PromiseFulfilledResult<unknown> => p.status === 'fulfilled')
@@ -199,6 +200,28 @@ export class ValidatorProcessingService {
                 };
             }
             _.get(control?.parent?.controls, controlName)?.setErrors(null);
+            return null;
+        };
+    }
+
+    public static dateMoreThanIn(controlName: string): ValidatorFn | null {
+        return (control: AbstractControl) => {
+            const valueToCompare = get(control?.parent?.value, controlName);
+            const value = control.value;
+            if (!value || !valueToCompare) {
+                return null;
+            }
+
+            const compareDateValue = new Date(valueToCompare);
+
+            if(value <= compareDateValue) {
+                return {
+                    dateMoreThanIn: {
+                        controlName,
+                        compareValue: compareDateValue.toISOString().split('T')[0],
+                    },
+                };
+            }
             return null;
         };
     }

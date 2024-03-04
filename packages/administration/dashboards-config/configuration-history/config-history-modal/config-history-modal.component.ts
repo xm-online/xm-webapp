@@ -11,11 +11,12 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatListModule } from '@angular/material/list';
 import { HistoryEvent, HistoryModalData } from '../models/config-history.model';
-import { AceDiffControlComponent, XmAceEditorControl, XmAceEditorControlModeEnum, XmAceEditorControlOptions, XmAceEditorControlTypeEnum } from '@xm-ngx/components/ace-editor';
+import { AceDiffControlComponent, XmAceEditorControlModeEnum, XmAceEditorControlOptions, XmAceEditorControlTypeEnum } from '@xm-ngx/components/ace-editor';
 import { XmDateTimePipe } from '@xm-ngx/translation/pipes';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
 import { XmDateComponent } from '@xm-ngx/components/date';
+import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
 
 @Component({
     selector: 'xm-config-history-modal',
@@ -33,13 +34,12 @@ import { XmDateComponent } from '@xm-ngx/components/date';
         ReactiveFormsModule,
         XmTranslationModule,
         MatListModule,
-        XmAceEditorControl,
-        AceDiffControlComponent,
         XmDateTimePipe,
         MatCardModule,
         XmDateTimePipe,
         MatBadgeModule,
         XmDateComponent,
+        AceDiffControlComponent,
     ],
     templateUrl: './config-history-modal.component.html',
     styleUrls: ['./config-history-modal.component.scss'],
@@ -49,10 +49,10 @@ export class ConfigHistoryModalComponent implements OnInit {
     public prevConfig: string;
     public prevDate: Date;
     public activeEvent: HistoryEvent;
+    private dashboardsConfigHistoryService: DashboardsConfigHistoryService = inject<DashboardsConfigHistoryService>(DashboardsConfigHistoryService);
 
     public aceEditorOptions: XmAceEditorControlOptions = {
         title: '',
-        height: '100%',
         mode: XmAceEditorControlModeEnum.JSON,
         type: XmAceEditorControlTypeEnum.STRING,
     };
@@ -61,7 +61,7 @@ export class ConfigHistoryModalComponent implements OnInit {
         setTimeout(() => {
             this.setPrevValues(0);
             this.activeEvent = this.data?.events?.[0];
-        }, 150);
+        }, 500);
     }
 
     public onEventClicked(event: HistoryEvent, eventIndex: number): void {
@@ -70,12 +70,22 @@ export class ConfigHistoryModalComponent implements OnInit {
     }
 
     public isCurrent(event: HistoryEvent): boolean {
-        return event === this.data?.events?.[0];
+        return event.date === this.data?.events?.[0]?.date;
     }
 
     private setPrevValues(index: number): void {
         const prevEvent = this.data?.events?.[index + 1];
         this.prevConfig = prevEvent?.config ?? '{}';
         this.prevDate = prevEvent?.date ?? null;
+    }
+    public loadMore(): void {
+        switch(this.data?.config.itemType) {
+            case 'dashboard':
+                this.dashboardsConfigHistoryService.nextDashboardPage();
+                break;
+            case 'widget':
+                this.dashboardsConfigHistoryService.nexWidgetPage();
+                break;
+        }
     }
 }
