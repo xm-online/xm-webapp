@@ -10,12 +10,13 @@ export class KeysViewComponent {
     public translationKeys: [string, string][] = [];
     public filterTranslationKeys: [string, string][] = [];
     public rawJson: {} = {};
-    public unSave: {[key: string]: string} = {};
-
+    public unSave: { [key: string]: string } = {};
+    @Input() public editable: boolean = false;
     public filters: { byValue: string; byKey: string } = {
         byKey: '',
         byValue: '',
     };
+
 
     @Input() set json(json: {}) {
         if (!json) {
@@ -27,7 +28,9 @@ export class KeysViewComponent {
         this.resetState();
     }
 
-    @Output() public updateTranslate: EventEmitter<{key: string; value: string}> = new EventEmitter();
+    @Output() public updateTranslate: EventEmitter<{ key: string; value: string }> = new EventEmitter();
+    @Output() public deleteTranslate: EventEmitter<string> = new EventEmitter();
+
 
     public changeTranslate(key: string): void {
         this.updateTranslate.emit({key, value: this.unSave[key]});
@@ -39,12 +42,17 @@ export class KeysViewComponent {
         this.unSave[key] = value;
     }
 
+
     public saveAll(): void {
         Object.entries(this.unSave).forEach(([key, value]) => {
             this.updateTranslate.emit({key, value});
         });
 
         this.unSave = {};
+    }
+
+    public delete(value: string): void {
+        this.deleteTranslate.emit(value);
     }
 
     public resetInput(key: string): void {

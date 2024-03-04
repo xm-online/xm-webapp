@@ -56,8 +56,9 @@ export class TranslationService {
         ]).pipe(
             map((res) => {
                 const regexForExtractKeys = new RegExp(`(${additionalKeys.translationKeyName}.*?)"`, 'gu');
-                return (JSON.stringify(res).match(regexForExtractKeys) || [])
+                const text=(JSON.stringify(res).match(regexForExtractKeys) || [])
                     .map(e => e.replace(regexForExtractKeys, '$1'));
+                return text;
             }),
         );
     }
