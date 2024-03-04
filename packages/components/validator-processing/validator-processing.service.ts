@@ -18,10 +18,10 @@ export const XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES: XmControlErrorsT
     minDate: marker('xm-validator-processing.validators.minDate'),
     languageRequired: marker('xm-validator-processing.validators.languageRequired'),
     minArrayLength: marker('xm-validator-processing.validators.minArrayLength'),
+    dateMoreThanIn: marker('xm-validator-processing.validators.dateLessOrEqual'),
     valueLessThanIn: marker('xm-validator-processing.validators.valueLessThanIn'),
     valueMoreThanIn: marker('xm-validator-processing.validators.valueMoreThanIn'),
     severalEmails: marker('xm-validator-processing.validators.severalEmails'),
-    dateMoreThanIn: marker('xm-control-errors.validators.dateLessOrEqual'),
 };
 
 export interface ValidatorProcessingOption {
