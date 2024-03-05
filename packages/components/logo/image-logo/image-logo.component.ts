@@ -6,7 +6,7 @@ import {SPA_AUTH_ROOT_URL, SPA_ROOT_URL} from '../logo.component';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {XmTranslationModule} from '@xm-ngx/translation';
-import {MenuCategory, MenuService} from '@xm-ngx/components/menu';
+import {MenuService} from '@xm-ngx/components/menu';
 
 interface ImageLogoConfig {
     title: string;
@@ -35,7 +35,7 @@ const DEFAULT: ImageLogoConfig = {
 })
 export class ImageLogoComponent implements OnInit {
     public session$: Observable<ISession>;
-    public menuCategories$: Observable<MenuCategory[]>;
+    public isOldMenu$: Observable<boolean>;
 
     @Input() @Defaults(DEFAULT) public config: ImageLogoConfig;
     public imgPath: string;
@@ -49,7 +49,7 @@ export class ImageLogoComponent implements OnInit {
     public ngOnInit(): void {
         this.imgPath = this.getImageUrl(this.config.imageUrls);
         this.session$ = this.sessionService.get();
-        this.menuCategories$ = this.menuService.menuCategories;
+        this.isOldMenu$ = this.menuService.isOldMenu;
     }
 
     public getImageUrl(imageUrls: string[]): string {

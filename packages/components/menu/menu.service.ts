@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, debounceTime, from, Observable, of, Subject, switchMap} from 'rxjs';
-import {HoveredMenuCategory, MenuCategory, MenuItem} from './menu.interface';
+import {BehaviorSubject, combineLatest, debounceTime, from, Observable, of, Subject, switchMap} from 'rxjs';
+import {BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem} from './menu.interface';
 import {MatDrawerMode, MatDrawerToggleResult, MatSidenav} from '@angular/material/sidenav';
 import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
-import {orderBy, uniqBy, groupBy} from 'lodash';
+import {groupBy, orderBy, uniqBy} from 'lodash';
 import {Router} from '@angular/router';
 import {MenuCategoriesClassesEnum, MenuPositionEnum} from './menu.model';
 
@@ -15,9 +15,10 @@ export class MenuService {
     private readonly MOBILE_SCREEN: string = '(max-width: 991px)';
     private _sidenav: MatSidenav;
     private _menuCategories: BehaviorSubject<MenuCategory[]> = new BehaviorSubject<MenuCategory[]>([]);
-    private _logoCategory: BehaviorSubject<MenuCategory> = new BehaviorSubject<MenuCategory>(null);
+    private _brandLogo: BehaviorSubject<BrandLogo> = new BehaviorSubject<BrandLogo>(null);
     private _hoveredCategory: Subject<HoveredMenuCategory> = new Subject<HoveredMenuCategory>();
     private _isSidenavOpen: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    private _isOldMenu: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
     public selectedCategory: BehaviorSubject<MenuCategory> = new BehaviorSubject<MenuCategory>(null);
     public initialSidenavOpenedState: boolean;
     public isCategoriesHidden$: Observable<boolean>;
@@ -44,7 +45,7 @@ export class MenuService {
 
     public set sidenav(sidenav: MatSidenav) {
         this._sidenav = sidenav;
-        this.setIsSidenavOpen(this.sidenav.opened);
+        this.setIsSidenavOpen(sidenav?.opened);
     }
 
     public get menuCategories(): Observable<MenuCategory[]> {
@@ -52,23 +53,16 @@ export class MenuService {
     }
 
     public setMenuCategories(menuCategories: MenuCategory[]): void {
-        this.setLogoCategory(menuCategories);
-        const orderedCategories: MenuCategory[] = this.orderCategories(menuCategories);
+        const orderedCategories: MenuCategory[] = orderBy(menuCategories, 'order', 'asc');
         this._menuCategories.next(orderedCategories);
     }
 
-    private orderCategories(menuCategories: MenuCategory[]): MenuCategory[] {
-        const categoriesWithoutLogo: MenuCategory[] = menuCategories.filter((category: MenuCategory) => !category.isLogo);
-        return orderBy(categoriesWithoutLogo, 'order', 'asc');
+    public setBrandLogo(brandLogo: BrandLogo): void {
+        this._brandLogo.next(brandLogo);
     }
 
-    public setLogoCategory(menuCategories: MenuCategory[]): void {
-        const logo: MenuCategory = menuCategories.find((category: MenuCategory) => category.isLogo);
-        this._logoCategory.next(logo);
-    }
-
-    public get logoCategory(): Observable<MenuCategory> {
-        return this._logoCategory.asObservable();
+    public get brandLogo(): Observable<BrandLogo> {
+        return this._brandLogo.asObservable();
     }
 
     public get hoveredCategory(): Observable<HoveredMenuCategory> {
@@ -91,15 +85,24 @@ export class MenuService {
         this._isSidenavOpen.next(isOpen);
     }
 
+    public get isOldMenu(): Observable<boolean> {
+        return this._isOldMenu.asObservable();
+    }
+
+    public setIsOldMenu(isOldMenu: boolean): void {
+        this._isOldMenu.next(isOldMenu);
+    }
+
     public observeWindowSizeChange(): Observable<BreakpointState | MatDrawerToggleResult> {
-        return this.breakpointObserver.observe([this.TABLET_SCREEN, this.DESKTOP_SMALL_SCREEN, this.MOBILE_SCREEN, this.DESKTOP_BIG_SCREEN])
+        const windowSize$ = this.breakpointObserver.observe([this.TABLET_SCREEN, this.DESKTOP_SMALL_SCREEN, this.MOBILE_SCREEN, this.DESKTOP_BIG_SCREEN]);
+        return combineLatest([windowSize$, this.isOldMenu])
             .pipe(
-                debounceTime(200),
-                switchMap((breakpointState: BreakpointState) => {
+                debounceTime(150),
+                switchMap(([breakpointState, isOldMenu]: [BreakpointState, boolean]) => {
                     const { value } = this._menuCategories;
                     const { breakpoints } = breakpointState;
 
-                    this.sidenav.mode = this.getSidenavModeForCurrentWindowSize(breakpoints);
+                    this.sidenav.mode = this.getSidenavModeForCurrentWindowSize(breakpoints, isOldMenu);
                     const isMobileScreen: boolean = breakpoints[this.MOBILE_SCREEN];
                     this.sidenav.position = isMobileScreen && !value.length ? this.mobileMenuPositioning : MenuPositionEnum.START;
 
@@ -107,12 +110,12 @@ export class MenuService {
                         return from(this.sidenav.close());
                     }
 
-                    if (!this._menuCategories.value?.length && !this.sidenav.opened) {
+                    if (!this._menuCategories.value?.length && !this.sidenav.opened && isOldMenu) {
                         this.setHoveredCategory(this.otherCategory);
                         return !this.breakpointObserver.isMatched(this.MOBILE_SCREEN) ? from(this.sidenav.open()) : of(null);
                     }
 
-                    if (this._menuCategories.value?.length > 1) {
+                    if (this._menuCategories.value?.length && !isOldMenu) {
                         const isBigScreen: boolean = breakpoints[this.DESKTOP_BIG_SCREEN];
                         const isLargeAndClosed: boolean = isBigScreen && !this.sidenav.opened;
                         return isLargeAndClosed && !this.selectedCategory.value?.isLinkWithoutSubcategories ?
@@ -123,8 +126,8 @@ export class MenuService {
             );
     }
 
-    private getSidenavModeForCurrentWindowSize(breakpoints: Record<string, boolean>): MatDrawerMode {
-        if (breakpoints[this.DESKTOP_BIG_SCREEN]) {
+    private getSidenavModeForCurrentWindowSize(breakpoints: Record<string, boolean>, isOldMenu: boolean): MatDrawerMode {
+        if (isOldMenu || breakpoints[this.DESKTOP_BIG_SCREEN]) {
             return 'side';
         }
 

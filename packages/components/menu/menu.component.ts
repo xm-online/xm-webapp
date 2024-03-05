@@ -4,7 +4,7 @@ import {NavigationEnd, Router, RouterModule} from '@angular/router';
 import {DashboardStore} from '@xm-ngx/core/dashboard';
 import {XmEntitySpecWrapperService} from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
-import { animationFrameScheduler, combineLatest, debounceTime, from, Observable, observeOn, of, tap, timer} from 'rxjs';
+import {animationFrameScheduler, combineLatest, debounceTime, from, Observable, observeOn, of, tap, timer} from 'rxjs';
 import {filter, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
 
 import {ContextService} from '@xm-ngx/core/context';
@@ -69,6 +69,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this._config = _.defaultsDeep(value, {
             'mode': 'toggle',
         });
+        this.menuService.setBrandLogo(value.logo);
         this.menuService.mobileMenuPositioning = value.mobileMenuPositioning || MenuPositionEnum.END;
     }
 
@@ -85,6 +86,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     public selectedCategory: MenuCategory;
     public hoveredCategory: MenuCategory;
     public parentCategory: MenuItem;
+    public isOldMenu: boolean;
 
     constructor(
         protected readonly dashboardService: DashboardStore,
@@ -111,7 +113,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     public ngOnInit(): void {
         this.observeSectionsFiltering();
         this.assignSubCategories();
-        this.observeNavigation();
+        this.observeNavigationAndSubCategories();
 
         // this.uiFix();
     }
@@ -133,9 +135,17 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private assignSubCategories(): void {
         this.subCategories$ = combineLatest([this.activeDashboards$, this.applications$, this.defaultMenuItems$, this.context$]).pipe(
+            debounceTime(300),
             map(([dashboards, applications, defaultMenu]) => {
                 const mainMenu = _.orderBy([...dashboards, ...applications], ['position'], 'asc');
-                return [...mainMenu, ...defaultMenu];
+                const menu: MenuItem[] = this.menuService.mapMenuCategories([...mainMenu, ...defaultMenu]);
+                this.categories = this.menuService.getUniqMenuCategories(menu);
+                this.menuByCategories = this.menuService.getGroupedMenuCategories(menu);
+                if (this.isOnlyOtherCategory) {
+                    return menu;
+                }
+                this.menuService.setMenuCategories(this.categories);
+                return menu;
             }),
             takeUntilOnDestroy(this),
             shareReplay(1),
@@ -146,18 +156,12 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         return this.userService.user$().pipe(
             switchMap((user) => {
                 return this.dashboardService.dashboards$().pipe(
-                    startWith([]),
                     filter((dashboards) => Boolean(dashboards)),
                     map((i) => filterByConditionDashboards(i, this.contextService)),
                     map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
                     map((dashboards) => {
                         if (dashboards?.length) {
-                            const menuTree: MenuItem[] = buildMenuTree(dashboards, ConditionDirective.checkCondition, {user});
-                            const menu: MenuItem[] = this.menuService.mapMenuCategories(menuTree);
-                            this.categories = this.menuService.getUniqMenuCategories(menu);
-                            this.menuByCategories = this.menuService.getGroupedMenuCategories(menu);
-                            this.categories.length > 1 && this.menuService.setMenuCategories(this.categories);
-                            return menu;
+                            return buildMenuTree(dashboards, ConditionDirective.checkCondition, {user});
                         }
                         return [];
                     }),
@@ -205,7 +209,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
             );
     }
 
-    private observeNavigation(): void {
+    private observeNavigationAndSubCategories(): void {
         combineLatest([
             this.subCategories$,
             this.router.events.pipe(filter((e) => e instanceof NavigationEnd)),
@@ -236,14 +240,14 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                 debounceTime(100),
                 observeOn(animationFrameScheduler),
                 switchMap((category: HoveredMenuCategory) => {
-                    const { hoveredCategory, isOpenMenu } = category;
+                    const {hoveredCategory, isOpenMenu} = category;
                     const hoveredCategoryName: string = hoveredCategory?.name?.en?.toLowerCase();
-                    if (this.isTwoLevelMenu) {
+                    if (this.isOldMenu) {
                         const otherCategoryName: string = this.menuService.otherCategory.name.en.toLowerCase();
                         this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW;
                         this.filteredCategories = this.menuByCategories[hoveredCategoryName || otherCategoryName] || [];
                     }
-                    if (!hoveredCategory || this.isTwoLevelMenu) {
+                    if (!hoveredCategory || this.isOldMenu) {
                         return of(null);
                     }
                     if (this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName && this.menuByCategories) {
@@ -368,7 +372,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
             return;
         }
 
-        this.isTwoLevelMenu && this.treeControl.collapseAll();
+        this.isOldMenu && this.treeControl.collapseAll();
 
         // Unfold current node
         this.unfoldParentNode(node);
@@ -385,14 +389,16 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public onHideSubCategoriesDone(): void {
-        this.document.querySelector('cdk-tree .menu-link.active')?.scrollIntoView({
+        this.document.querySelector('cdk-tree .menu-link.active-with-stretch')?.scrollIntoView({
             behavior: 'smooth',
             block: 'center',
         });
     }
 
-    /** is old version of menu */
-    private get isTwoLevelMenu(): boolean {
-        return this.categories.length === 1;
+    private get isOnlyOtherCategory(): boolean {
+        const categoriesKeys: string[] = Object.keys(this.menuByCategories);
+        this.isOldMenu = categoriesKeys?.length === 1 && categoriesKeys[0] === this.menuService.otherCategory.name.en.toLowerCase();
+        this.menuService.setIsOldMenu(this.isOldMenu);
+        return this.isOldMenu;
     }
 }

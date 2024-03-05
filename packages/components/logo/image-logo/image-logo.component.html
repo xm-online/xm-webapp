@@ -1,5 +1,5 @@
-<ng-container *ngIf="{session: session$ | async, menuCategories: menuCategories$ | async} as data">
-    <ng-container *ngIf="!data.menuCategories?.length || data.menuCategories.length === 1">
+<ng-container *ngIf="{session: session$ | async, isOldMenu: isOldMenu$ | async} as data">
+    <ng-container *ngIf="data.isOldMenu !== null && data.isOldMenu">
       <a [routerLink]="data.session.active ? config.userRootUrl : config.rootUrl"
          routerLinkActive="active">
         <img [alt]="config.title | translate"

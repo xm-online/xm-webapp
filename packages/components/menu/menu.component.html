@@ -1,5 +1,5 @@
 <div class="menu-view"
-     [ngClass]="{'old-menu': categories?.length === 1}"
+     [ngClass]="{'old-menu': isOldMenu}"
      *ngIf="subCategories$ | async"
      (mouseleave)="hideMenuRightSide($event)">
   <cdk-tree [dataSource]="filteredCategories"
@@ -11,10 +11,15 @@
       <a class="menu-link"
          *permitted="node.permission"
          [routerLink]="node.url"
-         [ngClass]="{'active': node.isActiveRoute}"
+         [ngClass]="{
+            'active': node.isActiveRoute,
+            'active-with-stretch': node.isActiveRoute && !isOldMenu,
+            'rounded-menu-link': !isOldMenu
+         }"
          (click)="setSelectedCategory(node)"
       >
-      <span class="xm-menu-item-text" [title]="node?.title | translate">
+        <mat-icon class="menu-icon" *ngIf="isOldMenu">{{node?.icon}}</mat-icon>
+        <span class="xm-menu-item-text" [title]="node?.title | translate">
         {{node?.title | translate}}
       </span>
       </a>
@@ -26,10 +31,12 @@
          (click)="toggleOrNavigate(node, $event)"
          [ngClass]="{
             'active-menu-category': node === parentCategory,
-            'active': !node.children?.length && node?.category === selectedCategory
+            'active': isOldMenu && !node.children?.length && node?.category === selectedCategory,
+            'active-with-stretch': !isOldMenu && !node.children?.length && node?.category === selectedCategory,
+            'rounded-menu-link': !isOldMenu,
          }"
       >
-        <mat-icon class="menu-icon" *ngIf="categories.length === 1">{{node.icon}}</mat-icon>
+        <mat-icon class="menu-icon" *ngIf="isOldMenu">{{node.icon}}</mat-icon>
         <span class="xm-menu-item-text">{{node?.title | translate}}</span>
         <span class="ms-auto"></span>
 
@@ -42,7 +49,10 @@
         </mat-icon>
       </a>
 
-      <div class="menu-list nested-menu-list" role="group" [@bodyExpansion]="isNodeExpanded(node)">
+      <div
+        class="menu-list"
+        [ngClass]="{'nested-menu-list': !isOldMenu}"
+        role="group" [@bodyExpansion]="isNodeExpanded(node)">
         <ng-container cdkTreeNodeOutlet></ng-container>
       </div>
     </cdk-nested-tree-node>

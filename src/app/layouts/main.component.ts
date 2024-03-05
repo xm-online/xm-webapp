@@ -24,6 +24,7 @@ export class XmMainComponent implements OnInit, AfterViewInit, OnDestroy {
     public isGuestLayout: boolean = true;
     public config: XmMainConfig = this.xmConfigService.getAppConfig();
     public menuCategories$: Observable<MenuCategory[]>;
+    public isOldMenu: boolean;
     public isSidenavOpen$: Observable<boolean>;
     public initialSidenavOpenedState: boolean;
     @ViewChild('sidenav') public sidenav: MatSidenav;
@@ -39,6 +40,7 @@ export class XmMainComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.observeIsOldMenu();
         this.menuCategories$ = this.menuService.menuCategories;
         this.initialSidenavOpenedState = this.menuService.initialSidenavOpenedState;
         this.sessionService.isActive().pipe(takeUntilOnDestroy(this)).subscribe(
@@ -55,6 +57,10 @@ export class XmMainComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private observeSidenavConfiguration(): void {
         this.menuService.observeWindowSizeChange().pipe(takeUntilOnDestroy(this)).subscribe();
+    }
+
+    private observeIsOldMenu(): void {
+        this.menuService.isOldMenu.pipe(takeUntilOnDestroy(this)).subscribe((isOldMenu: boolean) => this.isOldMenu = isOldMenu);
     }
 
     public ngOnDestroy(): void {

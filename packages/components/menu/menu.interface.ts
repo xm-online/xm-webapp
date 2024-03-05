@@ -13,6 +13,11 @@ export interface MenuOptions {
      * More info: https://material.angular.io/components/sidenav/api#MatDrawer (`position` property)
      */
     mobileMenuPositioning: MenuPositionEnum;
+    /**
+     * Your brand logo that will be shown in the top of the categories
+     * Applicable only for M3 menu configuration
+     */
+    logo: BrandLogo;
 }
 
 export interface MenuItem {
@@ -53,15 +58,13 @@ export interface MenuCategory {
     icon?: string;
     url?: string[];
     order?: number;
-    isLogo?: boolean;
-    logo?: BrandLogo;
     hasChildren?: boolean;
     isLinkWithoutSubcategories?: boolean;
 }
 
 export interface BrandLogo {
-    logoUrl: string;
-    size: number;
+    url: string;
+    size?: number;
 }
 
 export interface HoveredMenuCategory {

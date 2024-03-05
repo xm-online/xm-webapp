@@ -3,11 +3,11 @@
     <ng-container *ngIf="isCategoriesHidden$ | async">
       <div class="menu-categories-spacer"></div>
       <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES" [@hideCategories]>
-        <div *ngIf="logoCategory$ | async as logoCategory" class="menu-categories__logo">
-          <img *ngIf="logoCategory?.logo?.logoUrl"
-               [ngSrc]="logoCategory?.logo?.logoUrl"
-               [width]="logoCategory?.logo?.size || DEFAULT_LOGO_SIZE"
-               [height]="logoCategory?.logo?.size || DEFAULT_LOGO_SIZE"
+        <div *ngIf="brandLogo$ | async as brandLogo" class="menu-categories__logo">
+          <img *ngIf="brandLogo?.url"
+               [ngSrc]="brandLogo?.url"
+               [width]="brandLogo?.size || DEFAULT_LOGO_SIZE"
+               [height]="brandLogo?.size || DEFAULT_LOGO_SIZE"
                alt="brand-logo">
         </div>
         <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES_CONTAINER">
@@ -17,8 +17,8 @@
             (click)="onNavigate(category)"
             (mouseenter)="onHoverCategory(category)">
             <div *ngIf="category.icon"
-                 class="menu-category__icon menu-link"
-                 [ngClass]="{'active': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}">
+                 class="menu-category__icon menu-link rounded-menu-link"
+                 [ngClass]="{'active-with-stretch': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}">
               <mat-icon>{{ category?.icon }}</mat-icon>
             </div>
             <span *ngIf="category?.name" class="menu-category__name">{{ category?.name | translate }}</span>

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {XmTranslationModule} from '@xm-ngx/translation';
-import {MenuCategory} from '../menu.interface';
+import {BrandLogo, MenuCategory} from '../menu.interface';
 import {MenuService} from '../menu.service';
 import {Observable} from 'rxjs';
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
@@ -26,7 +26,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
     public selectedCategory: MenuCategory;
     public isSidenavOpened$: Observable<boolean>;
     public isCategoriesHidden$: Observable<boolean>;
-    public logoCategory$: Observable<MenuCategory>;
+    public brandLogo$: Observable<BrandLogo>;
 
 
     constructor(
@@ -45,7 +45,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
         this.categories$ = this.menuService.menuCategories;
         this.isSidenavOpened$ = this.menuService.isSidenavOpen;
         this.isCategoriesHidden$ = this.menuService.isCategoriesHidden$;
-        this.logoCategory$ = this.menuService.logoCategory;
+        this.brandLogo$ = this.menuService.brandLogo;
     }
 
     private observeSelectedCategory(): void {
