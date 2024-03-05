@@ -154,6 +154,7 @@ export class ChangeableDirective implements OnInit, OnDestroy, AfterViewInit {
         }
         this.renderer.addClass(this.el.nativeElement, newClass);
         this.sizeClass = newClass;
+        this.updateClass();
     }
 
     public updateClass(): void {
