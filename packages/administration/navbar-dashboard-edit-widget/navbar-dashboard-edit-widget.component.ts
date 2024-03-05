@@ -21,6 +21,9 @@ import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import {
+    ChangebleDirectiveService
+} from '@xm-ngx/dashboard/src/changeable/changeble-directive.service';
 
 export const NAVBAR_EDIT_DASHBOARD_EVENT = 'NAVBAR_EDIT_DASHBOARD_EVENT';
 export const NAVBAR_EDIT_WIDGET_EVENT = 'NAVBAR_EDIT_WIDGET_EVENT';
@@ -77,6 +80,7 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, Xm
         private pageService: PageService,
         protected readonly dashboardConfig: DashboardConfig,
         private editorService: DashboardEditorService,
+        private changebleDirectiveService: ChangebleDirectiveService,
     ) {
     }
 
@@ -110,7 +114,9 @@ export class NavbarDashboardEditWidgetComponent implements OnInit, OnDestroy, Xm
     public onEdit(): void {
         this.editorService.editDashboard(this.dashboardConfig.dashboardRef, this.page);
         sessionStorage.setItem(NAVBAR_DASHBOARD_EDIT_STORAGE_KEY, NavbarDashboardEditState.Open);
+        this.editorService.setValue(!this.isEditing);
         this.isEditing = true;
+        this.changebleDirectiveService.setValue(true);
     }
 
     public ngOnDestroy(): void {

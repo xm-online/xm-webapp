@@ -1,7 +1,44 @@
 :host {
-  display:        flex;
-  flex-grow:      1;
+  display: flex;
+  flex-grow: 1;
   flex-direction: column;
   padding-left: 30px;
   padding-right: 30px;
+}
+
+.edit-ui-configurator {
+  border: 2px dashed blue;
+  border-radius: 20px;
+  position: relative;
+  z-index: 6;
+}
+
+.ui-constructor-edit {
+  margin:0 5px;
+}
+
+.ui-constructor-resize {
+}
+
+.ui-constructor-save {
+}
+
+.save-dashboard-btn {
+  position: absolute;
+  margin: 10px;
+  bottom: 20px;
+  right: 0;
+  z-index: 9;
+}
+
+.ui-constructor-container{
+  position:absolute;
+  margin: 10px;
+  top: 0;
+  right: 0;
+  z-index: 9;
+}
+
+.hidden {
+  display: none
 }

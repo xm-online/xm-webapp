@@ -1,8 +1,30 @@
-import { AfterViewInit, Component, HostListener, inject, Input, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {
+    AfterViewInit,
+    Component,
+    HostListener,
+    inject,
+    Input,
+    OnDestroy,
+    OnInit,
+    Type,
+    ViewChild
+} from '@angular/core';
+import {
+    AbstractControl,
+    FormControl,
+    FormsModule,
+    ReactiveFormsModule,
+    ValidationErrors,
+    Validators
+} from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
-import { XmAceEditorControl, XmAceEditorControlModeEnum, XmAceEditorControlOptions, XmAceEditorControlTypeEnum } from '@xm-ngx/components/ace-editor';
+import {
+    XmAceEditorControl,
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { XmTextControl, XmTextControlOptions } from '@xm-ngx/components/text';
 import { XmEventManager } from '@xm-ngx/core';
@@ -17,7 +39,12 @@ import { prop } from 'lodash/fp';
 import { merge, Observable } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../../const';
-import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../../services/dashboard-editor.service';
+import {
+    CONFIG_TYPE,
+    CopiedObject,
+    DashboardEditorService,
+    XM_WEBAPP_OPERATIONS
+} from '../../services/dashboard-editor.service';
 import { DashboardsListExpandComponent } from '../dashboards-list-expand/dashboards-list-expand.component';
 import { DashboardCollection, DashboardConfig as DashboardConfigInjector } from '../../injectors';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -30,6 +57,9 @@ import { RouterLink } from '@angular/router';
 import { ConfigurationHistoryComponent } from '../../configuration-history/configuration-history.component';
 import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
 import { HistoryEvent } from '../../configuration-history/models/config-history.model';
+import {
+    ChangebleDirectiveService
+} from '@xm-ngx/dashboard/src/changeable/changeble-directive.service';
 
 export enum EditType {
     Create = 1,
@@ -139,6 +169,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         protected readonly translateService: TranslateService,
         protected readonly toasterService: XmToasterService,
         protected readonly dashboardsConfigHistoryService: DashboardsConfigHistoryService,
+        protected readonly changeableDirectiveService: ChangebleDirectiveService,
     ) {
         this.loading$ = this.dashboardCollection.loading$.pipe(
             delay(0),
@@ -193,6 +224,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     public onCancel(): void {
+        this.changeableDirectiveService.setValue(false);
         this.editorService.close();
     }
 

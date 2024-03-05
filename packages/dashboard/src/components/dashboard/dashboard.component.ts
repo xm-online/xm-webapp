@@ -13,13 +13,17 @@ import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { from, of } from 'rxjs';
 import { mapTo, switchMap, tap } from 'rxjs/operators';
 import { XmDynamicControllerInjectorFactoryService } from '@xm-ngx/dynamic';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { ChangebleDirectiveService } from '@xm-ngx/dashboard/src/changeable/changeble-directive.service';
+import { DashboardCollection } from '@xm-ngx/administration/dashboards-config';
+import { XmEventManager } from '@xm-ngx/core';
 
 
 @Component({
     selector: 'xm-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
-    providers: [PageTitleService],
+    providers: [PageTitleService,DashboardCollection],
 })
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
     public childrenDashboards: Dashboard[] = [];
@@ -30,12 +34,17 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     public injector: Injector;
     protected dynamicControllerInjectorFactory = inject(XmDynamicControllerInjectorFactoryService);
     private componentInjector = inject(Injector);
+    public isEdit: boolean = false;
+    public EDIT_EVENT: string = 'EDIT_WIDGET_EVENT';
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private cdf: ChangeDetectorRef,
                 private dashboardStore: DashboardStore,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
+                private changebleDirectiveService: ChangebleDirectiveService,
+                protected readonly dashboardCollection: DashboardCollection,
+                protected readonly eventManager: XmEventManager,
                 private pageService: PageService<Page<{ slug?: string }>>,
                 loggerService: XmLoggerService,
                 pageTitleService: PageTitleService,
@@ -45,6 +54,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     }
 
     public ngOnInit(): void {
+        this.isEdit=this.changebleDirectiveService.getEditStorageState();
         this.xmEntitySpecWrapperService.spec().then((spec) => this.spec = spec);
 
         this.route.params
@@ -97,6 +107,12 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 }),
                 takeUntilOnDestroy(this),
             ).subscribe();
+
+        this.changebleDirectiveService.getValue()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((isEdit) => {
+                this.isEdit = isEdit;
+            });
     }
 
     public ngOnDestroy(): void {
@@ -114,5 +130,38 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
             config: layout.widget.config,
             spec: this.spec,
         };
+    }
+
+    public drop(event: CdkDragDrop<any[]>): void {
+        if (event.previousContainer === event.container) {
+            this.dashboard.layout.layout[0].content;
+            moveItemInArray(this.dashboard.layout.layout[0].content, event.previousIndex, event.currentIndex);
+        }
+    }
+
+    public updateDashboard(): void {
+        const content=this.transformWidgetsArray(this.dashboard.layout.layout[0].content);
+        this.dashboard.layout.layout[0].content=content;
+        delete this.dashboard.layout.grid;
+        this.dashboardCollection.update(this.dashboard).pipe().subscribe((res) => {
+            this.eventManager.broadcast({name: this.EDIT_EVENT, id: res.id, edit: true});
+        });
+    }
+
+
+    public transformWidgetsArray(widgetsArray: any[]): any {
+        const content = widgetsArray.map(widget => {
+            if (widget.hasOwnProperty('class')) {
+                return {
+                    class: widget.class,
+                    widgetName: widget.widgetName,
+                };
+            }
+            return {
+                widgetName: widget.widgetName,
+            };
+
+        });
+        return content;
     }
 }

@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>Edit config</h1>
+
+
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col mb-2">
+      <strong>Selector:</strong>{{ data.widget.selector}}
+      <strong>Widget Name:</strong>{{ data.widgetName }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mb-2">
+      <label>Widget class</label>
+      <input type="text" [(ngModel)]="data.class" name="classInput">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col scroll">
+      <xm-config-editor [(ngModel)]="data.widget.config">
+      </xm-config-editor>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-button [color]="'primary'" (click)="save()">Save</button>
+</div>
