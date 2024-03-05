@@ -40,5 +40,6 @@ export interface XmEntity<D = any> extends BaseEntity, IId {
     functionContexts?: FunctionContext[];
     events?: Event[];
     createdBy?: string;
+    updatedBy?: string;
     version?: number;
 }

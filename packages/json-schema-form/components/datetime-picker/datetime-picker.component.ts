@@ -2,7 +2,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,8 +13,8 @@ import { DateTimeAdapter, OwlDateTimeIntl } from '@danielmoncada/angular-datetim
 
 import { ModulesLanguageHelper } from '@xm-ngx/translation';
 import { DatetimePickerOptionsModel } from './datetime-picker-options.model';
+import { dayjs } from '@xm-ngx/operators';
 
-declare let moment;
 const DEF_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss[Z]';
 
 @Component({
@@ -46,14 +46,14 @@ export class DatetimePickerComponent implements OnInit {
         this.setLocalizedButtons();
         if (this.controlValue) {
             const formatString = this.getFormat();
-            this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
+            this.controlValueDisplayed = dayjs(this.controlValue).local().format(formatString);
         }
     }
 
     public updateValue(event: any): void {
         const value = event.value || null;
         const formatString = this.getFormat();
-        this.controlValueDisplayed = moment(this.controlValue).local().format(formatString);
+        this.controlValueDisplayed = dayjs(this.controlValue).local().format(formatString);
         this.jsf.updateValue(this, this.getSendValue(value));
     }
 
@@ -66,13 +66,13 @@ export class DatetimePickerComponent implements OnInit {
         this.dateTimeAdapterLabels.setBtnLabel = this.translateService.instant('global.common.set');
     }
 
-    private getSendValue(value: string | unknown): string {
+    private getSendValue(value: string | unknown | any): string {
         let valueToSend: string;
 
         if (this.options && this.options.sendFormatString) {
-            valueToSend = moment(value).format(this.options.sendFormatString);
+            valueToSend = dayjs(value).format(this.options.sendFormatString);
         } else {
-            valueToSend = moment(value).utc().format(DEF_FORMAT);
+            valueToSend = dayjs(value).utc().format(DEF_FORMAT);
         }
 
         return valueToSend;

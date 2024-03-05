@@ -12,6 +12,7 @@ export interface XmRepositoryConfig {
 export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pageable> implements IEntityCollectionPageable<T, Extra> {
 
     public readonly loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    private loadingCount = 0; // counter of loading that in progress
 
     public constructor(protected plural: string,
                        protected readonly httpClient: HttpClient) {
@@ -116,8 +117,12 @@ export class HttpClientRest<T extends IId = unknown, Extra extends Pageable = Pa
     private loadingPipe<T>(obs: Observable<T>): Observable<T> {
         return defer(() => {
             this.loading$.next(true);
+            this.loadingCount++;
             return obs.pipe(
-                finalize(() => this.loading$.next(false)),
+                finalize(() => {
+                    this.loadingCount--;
+                    this.loading$.next(this.loadingCount > 0);
+                }),
             );
         });
     }

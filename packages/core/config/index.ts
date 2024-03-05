@@ -5,7 +5,7 @@ export {
     UIPrivateConfig,
     XmUIConfig,
 } from './src/xm-ui-config-model';
-
+export { XmBetaFeatureDirective } from './src/xm-beta-feature.directive';
 export { UIConfig,XmConfigService } from './config.service';
 export { PasswordSpec } from './password-spec.model';
 export { XmApplicationConfigService } from './xm-config.service';

@@ -29,14 +29,17 @@ export interface XmDynamicPresentationLayout<V = unknown, C = XmConfig> extends 
         </ng-template>
 
         <ng-template #dynamicRef let-item="item">
-            <ng-container xmDynamicPresentation
-                          [class]="item.layout.class"
-                          [style]="item.layout.style"
-                          [selector]="item.customParams.selector"
-                          [value]="item.customParams.value"
-                          [config]="item.customParams.config"
-                          [options]="item.customParams.config || item.customParams.options">
-            </ng-container>
+            <ng-template [xmPermission]="item?.customParams?.permission" [strategy]="item?.customParams?.permissionStrategy">
+                <ng-container
+                    xmDynamicPresentation
+                    [class]="item.layout.class"
+                    [style]="item.layout.style"
+                    [selector]="item.customParams.selector"
+                    [value]="item.customParams.value"
+                    [config]="item.customParams.config"
+                    [options]="item.customParams.config || item.customParams.options">
+                </ng-container>
+            </ng-template>
         </ng-template>
 
         <ng-template ngFor [ngForOf]="sanitizedLayouts" let-item>

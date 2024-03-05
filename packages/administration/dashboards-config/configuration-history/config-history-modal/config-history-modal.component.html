@@ -1,0 +1,90 @@
+<div mat-dialog-title>
+  <div class="text-center">
+    {{ 'dashboard-config-widget.change-history' | translate }}: <span
+    class="fw-bold">{{ data?.config?.itemName | translate }}</span>
+  </div>
+  <xm-modal-close mat-dialog-close></xm-modal-close>
+</div>
+<div class="gap-3 d-flex w-100 p-3">
+  <div class="w-75">
+    <mat-card class="w-100 mb-2">
+      <mat-card-content class="d-flex gap-2">
+        <div>
+          {{ 'dashboard-config-widget.type' | translate }}: <span
+          class="fw-bold">{{ data?.config?.itemType | translate }}</span>
+        </div>
+        <div>
+          {{ 'dashboard-config-widget.changed-type' | translate }}: <span
+          class="fw-bold">{{ data?.config?.changesType | translate }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="w-100 diff-card">
+      <mat-card-content>
+        @if (activeEvent) {
+          <ng-container class="fade-in">
+            <div class="d-flex justify-content-between">
+              <h3 class="text-uppercase font-weight-bold">
+                @if (prevDate) {
+                  <span> <xm-date [value]="prevDate" [config]="{ format: 'medium' }"></xm-date> </span>
+                }
+              </h3>
+              <h3
+                class="text-uppercase font-weight-bold"
+                matBadge="&#8288;"
+                [matBadgeOverlap]="false"
+                [matBadgeHidden]="!isCurrent(activeEvent)"
+                [matBadgePosition]="'before'"
+                [matBadgeSize]="'small'"
+              >
+                <xm-date [value]="activeEvent?.date" [config]="{ format: 'medium' }"></xm-date>
+              </h3>
+            </div>
+            <xm-ace-diff-control [value]="activeEvent.config" [compareValue]="prevConfig"
+                                 [config]="aceEditorOptions"></xm-ace-diff-control>
+          </ng-container>
+        } @else {
+          <div class="empty-state">
+            <p>{{ 'dashboard-config-widget.no-active' | translate }}</p>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="w-25">
+    <mat-card class="w-100">
+      <mat-card-content>
+        <h2 class="w-100">{{ 'dashboard-config-widget.change-lists' | translate }}</h2>
+        @if (data?.events?.length) {
+          <mat-list class="d-flex flex-column justify-content-center">
+            @for (event of data?.events; track event.version; let i = $index; let last = $last; let first = $first) {
+              @if (first || !last || !event.hasNext) {
+                <mat-list-item
+                  matBadge="&#8288;"
+                  [matBadgeHidden]="!isCurrent(event)"
+                  [matBadgePosition]="'before'"
+                  [matBadgeSize]="'small'"
+                  [class.active]="activeEvent?.date === event.date"
+                  (click)="onEventClicked(event, i)"
+                >
+                  <span matListItemTitle><xm-date [value]="event.date" [config]="{ format: 'medium' }"></xm-date></span>
+                  <span matListItemLine>{{ event.user }}</span>
+                </mat-list-item>
+              }
+              @if (last && event.hasNext) {
+                <button class="mt-3" mat-stroked-button (click)="loadMore()">
+                  <mat-icon>expand_more</mat-icon>
+                  {{ 'dashboard-config-widget.show-more' | translate }}
+                </button>
+              }
+            }
+          </mat-list>
+        } @else {
+          <div class="empty-state">
+            <p>{{ 'dashboard-config-widget.empty-history' | translate }}</p>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

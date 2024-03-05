@@ -22,13 +22,16 @@ import {
     IXmTableCollectionController,
     XM_TABLE_CONTROLLERS,
     XmTableCollectionControllerResolver,
-} from '../controllers';
+} from '../collections';
 import { XmTableMatPaginatorAdapterDirective } from '../directives/xm-table-mat-paginator-adapter.directive';
 import { XmTableMatSortAdapterDirective } from '../directives/xm-table-mat-sort-adapter.directive';
 import { XmTableSelectionDirective } from '../directives/xm-table-selection.directive';
 import { XmTableDirective } from '../directives/xm-table.directive';
 import { XM_TABLE_CONFIG_DEFAULT } from '../directives/xm-table.model';
 import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-widget.config';
+import { XmTableExpandPanelButtonComponent } from '../components/xm-table-expand-panel-button.component';
+import { TableExpand } from '../animations/xm-table-widget.animation';
+import { XmTableFilterInlineComponent } from '../components/xm-table-filter-inline.component';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -71,9 +74,14 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         XmTableMatSortAdapterDirective,
         XmTableLoadingColumnComponent,
         XmTableLoadingComponent,
+        XmTableExpandPanelButtonComponent,
+        XmTableFilterInlineComponent
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,
+    ],
+    animations: [
+        TableExpand
     ],
 })
 export class XmTableWidget {

@@ -18,9 +18,9 @@ import { TextSectionComponent } from './text-section/text-section.component';
 import { ValidationComponent } from './validation-component/validation-component.component';
 import { MultilingualInputV2Component } from './multilingual-input-v2/multilingual-input-v2.component';
 import { GeoInputComponent } from './geo-input/geo-input.component';
+import { transpilingForIE } from '@xm-ngx/operators';
 
 declare const $: any;
-declare let Babili: any;
 
 /**
  * Returns available JSON Scheme Form widgets.
@@ -91,14 +91,7 @@ export const nullSafe = (object: any): any => {
     return object ? object : {};
 };
 
-export const isJsonString = (str: any): any => {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-};
+
 
 export const toJsonString = (str: any): any => {
     try {
@@ -302,38 +295,4 @@ export const formLayout = (): void => {
     }, 50);
 };
 
-export const transpilingForIE = (code: any, obj: any): any => {
-    const tmpCode = parseTemplateLiterals(code, obj);
-    if (isJsonString(tmpCode)) {
-        return tmpCode;
-    }
-    let result;
-    try {
-        result = Babili.transform(tmpCode, {presets: ['es2015']}).code.replace(/"use strict";/, '');
-    } catch (e) {
-        result = tmpCode;
-    }
-    return result;
 
-};
-
-export const parseTemplateLiterals = (str: string, obj: any = {}): any => {
-    let tmpStr = str.slice().replace(/\n/g, ' ');
-    while (/\$\{.+\}/.test(tmpStr)) {
-        // Find and get Template Literal "${...}" from string
-        let literalVar = tmpStr.replace(/^(?:.*)(\$\{.+\})(?:.*)/, '$1');
-        literalVar = literalVar.slice(0, literalVar.indexOf('}') + 1);
-        const varArr = literalVar.slice(2, -1).split('.');
-        varArr.shift();
-        const value = varArr.reduce((res, el) => {
-            try {
-                res = res[el];
-            } catch (e) {
-                // empty block
-            }
-            return res;
-        }, obj);
-        tmpStr = tmpStr.replace(literalVar, value || '');
-    }
-    return tmpStr;
-};

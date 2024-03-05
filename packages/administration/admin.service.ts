@@ -9,7 +9,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { Link } from '@xm-ngx/entity';
 import { XmToasterService } from '@xm-ngx/toaster';
 import * as _ from 'lodash';
-import { JhiParseLinks } from 'ng-jhipster';
+import { JhiParseLinks } from '@xm-ngx/jhipster';
 import { Subscription } from 'rxjs';
 import { Client } from '@xm-ngx/core/client';
 import { NotImplementedException } from '@xm-ngx/exceptions';

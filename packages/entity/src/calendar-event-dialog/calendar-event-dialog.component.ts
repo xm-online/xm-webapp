@@ -2,7 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs/operators';
-import moment from 'moment';
+import { dayjs } from '@xm-ngx/operators';
 
 import { XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
@@ -125,11 +125,11 @@ export class CalendarEventDialogComponent implements OnInit {
     }
 
     public eventEndDateChange(event: { value: string }): void {
-        this.event.endDate = moment(event.value).format('YYYY-MM-DDTHH:mm:ss');
+        this.event.endDate = dayjs(event.value).format('YYYY-MM-DDTHH:mm:ss');
     }
 
     public eventStartDateChange(event: { value: string }): void {
-        this.event.startDate = moment(event.value).format('YYYY-MM-DDTHH:mm:ss');
+        this.event.startDate = dayjs(event.value).format('YYYY-MM-DDTHH:mm:ss');
     }
 
     private onSaveSuccess(calendarId: number): void {

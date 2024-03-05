@@ -9,9 +9,12 @@ $custom-dialog-button-theme: (
   container-shape: 30px
 );
 
+$custom-dialog-border-radius: 30px;
+
 @mixin xm-alert-theme($xm-theme) {
   .xm-alert {
     @include mdc-dialog-theme.theme-styles($custom-dialog-theme);
+    @include mdc-dialog-theme.container-shape($custom-dialog-border-radius);
 
     .mdc-dialog__title {
       padding-bottom: 16px;
@@ -41,5 +44,9 @@ $custom-dialog-button-theme: (
       right: 5px;
       z-index: 1;
     }
+  }
+
+  .mat-mdc-dialog-container {
+    @include mdc-dialog-theme.container-shape($custom-dialog-border-radius);
   }
 }

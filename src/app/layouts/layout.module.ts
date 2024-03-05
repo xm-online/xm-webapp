@@ -13,7 +13,7 @@ import { XmEntityModule } from '@xm-ngx/entity';
 import { XmBalanceModule } from '@xm-ngx/balance';
 import { XmMaintenanceViewModule } from '@xm-ngx/components/maintenance';
 import { XmSidebarRightModule } from '@xm-ngx/components/sidebar-right';
-import { XmSidebarModule } from '@xm-ngx/dashboard/sidebar';
+import { XmSidebarModule } from '@xm-ngx/components/sidebar';
 import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
 import { XmTimelineModule } from '@xm-ngx/timeline/timeline-widget';
 import { XmFooterComponent } from '@xm-ngx/components/footer';

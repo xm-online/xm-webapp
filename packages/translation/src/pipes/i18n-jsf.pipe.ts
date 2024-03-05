@@ -19,16 +19,31 @@ export class I18nJsfPipe implements PipeTransform {
             if (obj.hasOwnProperty(property)) {
                 if (property === 'validationMessages') {
                     this.transformValidationMessages(obj[property], principal);
-                } else if (typeof obj[property] === 'object' && property !== 'title') {
+                } else if (typeof obj[property] === 'object' && !this.fieldsToTranslate(property)) {
                     this.transformTitles(obj[property], principal);
                 } else {
-                    if (property === 'title') {
+                    if (property === 'title' || property === 'label') {
+                        this.setTitle(obj, property, principal);
+                    }
+                    if (property === 'name' || property === 'helpvalue' || property === 'placeholder') {
                         obj[property] = this.pipe.transform(obj[property], principal);
                     }
                 }
             }
         }
         return obj;
+    }
+
+    private fieldsToTranslate(property: string) {
+        return property === 'title' || property === 'label' || property === 'name' || property === 'helpvalue' || property === 'placeholder';
+    }
+
+    private setTitle(obj: any, property: string, principal: Principal) {
+        if (obj[property] && (obj[property].trKey || Object.keys(obj[property]).filter((it) => it.length !== 2).length === 0)) {
+            // assign to title this is not are mistake, from different properties to title
+            // reason: title can be only string, for store object we are using label field
+            obj.title = this.pipe.transform(obj[property], principal);
+        }
     }
 
     public transformValidationMessages(obj: any, principal: Principal): void {

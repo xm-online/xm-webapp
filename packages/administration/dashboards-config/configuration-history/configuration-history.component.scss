@@ -1,0 +1,26 @@
+.mat-list-item {
+  transition: background-color 0.3s ease;
+}
+
+.mat-list-item:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.fade-in {
+  animation: fadeIn ease 1s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  color: #999;
+}

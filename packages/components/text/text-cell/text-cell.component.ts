@@ -101,7 +101,7 @@ export class XmTextCellComponent implements OnInit, XmDynamicPresentation<unknow
         return value;
     }
 
-    private extractValue(value: {} | []): string {
+    private extractValue(value: any): string {
         const { path } = this.config ?? {};
 
         const objectOrValue = this.getNestedObject(value);

@@ -12,13 +12,13 @@
     </mat-form-field>
   </div>
 
-  <div *ngIf="!isCreate" class="text-end">
+  <div *ngIf="!isCreate" class="text-end mt-4">
     <button (click)="clear()" *ngIf="isUser" class="btn me-1 ms-auto" data-dismiss="modal" mat-button type="button">
       <span>{{'entity.action.cancel' | translate}}</span>
     </button>
 
     <button *xmPermitted="['ACCOUNT.LOGIN.UPDATE']"
-            [disabled]="!isSubmitValid(editForm)"
+            [disabled]="editForm.form.invalid"
             color="primary"
             mat-flat-button>
       <span>{{'entity.action.save' | translate}}</span>

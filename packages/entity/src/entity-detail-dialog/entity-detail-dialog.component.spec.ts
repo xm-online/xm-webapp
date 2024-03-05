@@ -11,7 +11,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { JhiConfigService, JhiDateUtils, JhiModuleConfig } from 'ng-jhipster';
+import { JhiConfigService, JhiDateUtils, JhiModuleConfig } from '@xm-ngx/jhipster';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 
 import { XmEntityService } from '@xm-ngx/core/entity';

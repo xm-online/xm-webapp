@@ -111,7 +111,7 @@
                     (selectionChange)="roleSelect($event.value)"
                     name="authority">
           <mat-option *ngFor="let authority of authorities" [value]="authority">
-            {{authority}}
+            {{(authoritiesMap[authority]?.name ? authoritiesMap[authority]?.name : authority) | translate}}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -123,7 +123,7 @@
       <span class="fa fa-ban"></span>&nbsp;<span>{{'entity.action.cancel'|translate}}</span>
     </button>
 
-    <button [disabled]="editForm.form.invalid || showLoader"
+    <button [disabled]="editForm.form.invalid || userLoginForm?.editForm?.form?.invalid || showLoader"
             mat-flat-button
             color="primary"
             type="submit">

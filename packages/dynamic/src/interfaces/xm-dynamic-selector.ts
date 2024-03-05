@@ -8,7 +8,6 @@ export interface XmDynamicWithSelector {
 }
 
 /**
- * @deprecated Will be removed in v6.0.0. Use standalone component instead.
  * Determines input(control) options.
  **/
 interface XmWithOptions<O> {

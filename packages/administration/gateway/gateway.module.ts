@@ -9,7 +9,7 @@ import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { NgJhipsterModule } from 'ng-jhipster';
+import { NgJhipsterModule } from '@xm-ngx/jhipster';
 import { JhiGatewayComponent } from './gateway.component';
 import {MatIconModule} from '@angular/material/icon';
 

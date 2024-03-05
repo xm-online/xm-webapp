@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JhiLanguageService } from 'ng-jhipster';
+import { JhiLanguageService } from '@xm-ngx/jhipster';
 import { finalize, map } from 'rxjs/operators';
 
 import { XmConfigService } from '@xm-ngx/core/config';

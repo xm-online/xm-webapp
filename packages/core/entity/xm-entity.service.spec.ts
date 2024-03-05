@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { JhiDateUtils } from 'ng-jhipster';
+import { JhiDateUtils } from '@xm-ngx/jhipster';
 import { XmEntityService } from './xm-entity.service';
 
 describe('XmEntityService', () => {

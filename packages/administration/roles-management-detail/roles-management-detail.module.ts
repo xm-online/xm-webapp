@@ -20,7 +20,7 @@ import { LoaderModule } from '@xm-ngx/components/loader';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { NgJhipsterModule } from 'ng-jhipster';
+import { NgJhipsterModule } from '@xm-ngx/jhipster';
 import { WordAutocompleteModule } from '@xm-ngx/components/text';
 import { PerPageModule } from '@xm-ngx/components/per-page';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';

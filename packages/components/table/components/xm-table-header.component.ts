@@ -9,7 +9,7 @@ import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.compo
 
 @Component({
     selector: 'xm-table-header',
-    host: { class: 'xm-table-header' },
+    host: {class: 'xm-table-header'},
     template: `
         <div *ngIf="config.title">
             <h5 class="no-margin">{{config.title | xmTranslate }}</h5>
@@ -20,6 +20,8 @@ import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.compo
         <xm-table-actions-buttons
             class="push-self-right"
             [config]="config.actions"></xm-table-actions-buttons>
+
+        <ng-content select="[expandPanelButton]"></ng-content>
     `,
     styles: [`
         :host(.xm-table-header) {

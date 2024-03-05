@@ -38,6 +38,7 @@
             "styles": [
               "src/styles.scss"
             ],
+            "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/styles",
@@ -49,9 +50,7 @@
               "node_modules/jquery/dist/jquery.js",
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
-              "node_modules/arrive/src/arrive.js",
               "node_modules/moment/moment.js",
-              "node_modules/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
               "node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js",
               "node_modules/nouislider/dist/nouislider.min.js",
@@ -60,7 +59,6 @@
               "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
               "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
               "node_modules/bootstrap-tagsinput-2021/dist/bootstrap-tagsinput.js",
-              "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/jvectormap/jquery-jvectormap.min.js",
               "node_modules/jvectormap/lib/jquery-mousewheel.js",
               "node_modules/jvectormap/tests/assets/jquery-jvectormap-map.js",
@@ -163,9 +161,7 @@
               "node_modules/jquery/dist/jquery.js",
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
-              "node_modules/arrive/src/arrive.js",
               "node_modules/moment/moment.js",
-              "node_modules/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
               "node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js",
               "node_modules/nouislider/dist/nouislider.min.js",
@@ -174,7 +170,6 @@
               "node_modules/datatables.net-bs/js/dataTables.bootstrap.js",
               "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
               "node_modules/bootstrap-tagsinput-2021/dist/bootstrap-tagsinput.js",
-              "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/jvectormap/jquery-jvectormap.min.js",
               "node_modules/jvectormap/lib/jquery-mousewheel.js",
               "node_modules/jvectormap/tests/assets/jquery-jvectormap-map.js",
@@ -186,6 +181,7 @@
               "node_modules/oboe/dist/oboe-browser.js",
               "node_modules/yamljs/dist/yaml.js"
             ],
+            "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/styles",
@@ -276,5 +272,8 @@
     "@schematics/angular:directive": {
       "prefix": "xm"
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

@@ -2,15 +2,16 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUserService } from './xm-user.service';
 import { OnInitialize } from '@xm-ngx/interfaces';
-import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
-import moment from 'moment';
+import { dayjs } from '@xm-ngx/operators';
 import { Observable, Subject } from 'rxjs';
-import { filter, shareReplay, takeUntil } from 'rxjs/operators';
+import { filter, shareReplay, takeUntil, tap } from 'rxjs/operators';
 
 
 import { AccountService } from './account.service';
 import { SUPER_ADMIN, XmAuthenticationService } from '@xm-ngx/core/auth';
+import { ContextService } from '@xm-ngx/core/context';
 
 const CACHE_SIZE = 1;
 
@@ -28,7 +29,14 @@ export class Principal implements OnDestroy, OnInitialize {
                 private sessionService: XmSessionService,
                 private xmAuthenticationService: XmAuthenticationService,
                 private userService: XmUserService,
+                private contextService: ContextService,
     ) {
+        this.authenticationState.pipe(
+            takeUntilOnDestroy(this)
+        ).subscribe(it => {
+            this.contextService.put('user', it);
+            this.contextService.put('principal', this);
+        });
     }
 
     public init(): void {
@@ -263,7 +271,12 @@ export class Principal implements OnDestroy, OnInitialize {
 
     public setTimezoneOffset(): string {
         // For now setting offset from browser
-        return moment().format('Z');
+        return dayjs().format('Z');
+    }
+
+    public getTimezoneOffset(): string {
+        // For now setting offset from browser
+        return this.userIdentity?.timeZoneOffset || '';
     }
 
     /**
@@ -275,7 +288,9 @@ export class Principal implements OnDestroy, OnInitialize {
     }
 
     private loadProfile(): Observable<any> {
-        return this.account.getProfile();
+        return this.account.getProfile().pipe(
+            tap(profile => this.contextService.put('profile', profile))
+        );
     }
 
     private resetCachedProfile(): void {

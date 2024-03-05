@@ -1,6 +1,6 @@
 import {
     XmTableCollectionControllerType
-} from '../controllers/collections/xm-table-collection-controller-resolver.service';
+} from '../collections/xm-table-collection-controller-resolver.service';
 import { PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
 import {
@@ -11,13 +11,17 @@ import {
 export interface XmTableConfig {
     /** Columns configuration */
     columns: XmTableColumn[],
-    collectionKey?: string;
     /** @deprecated use dynamic collection instead */
     collection: XmTableCollectionControllerType,
     queryParamsToFillter?: XmTableQueryParamsToFilter;
     pageableAndSortable: XmTableWithColumnDynamicCellOptionsPagination,
     storageKey: string;
+    queryPrefixKey: string;
     triggerTableKey: string;
+    isCollapsed: boolean;
+    isExpandable: boolean;
+    showFilterChips?: boolean;
+    popUpFilter?: boolean;
 }
 
 export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
@@ -32,6 +36,11 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     },
     storageKey: '',
     triggerTableKey: '',
+    isCollapsed: false,
+    isExpandable: false,
+    popUpFilter: false,
+    showFilterChips: true,
+    queryPrefixKey: '',
 };
 
 export enum XmTableEventType {

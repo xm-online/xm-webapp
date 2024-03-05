@@ -16,8 +16,9 @@ import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compo
 import { XmAutocompleteControlConfig } from '@xm-ngx/components/autocomplete-control';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
-import { XM_TEXT_ELEMENTS } from '@xm-ngx/components/registry';
 import { XmAutocompleteChipsControlComponent } from '@xm-ngx/components/autocomplete-control';
+import { XmCoreAuthModule } from '@xm-ngx/core/auth';
+import { XmSharedModule } from '@xm-ngx/shared';
 
 function StaticLoaderFactory() {
     return of(require('src/i18n/en.json'));
@@ -112,7 +113,9 @@ export default {
         applicationConfig({
             providers: [
                 importProvidersFrom(NgxWebstorageModule.forRoot()),
+                importProvidersFrom(XmSharedModule.forRoot()),
                 importProvidersFrom(XmCoreModule.forRoot()),
+                importProvidersFrom(XmCoreAuthModule.forRoot()),
                 importProvidersFrom(XmLoggerModule.forRoot()),
                 importProvidersFrom(XmCoreConfigModule),
                 importProvidersFrom(HttpClientModule),
@@ -135,9 +138,7 @@ export default {
                 XmTranslationModule.forRoot(),
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 XmDynamicExtensionModule.forRoot([]),
-                XmDynamicModule.forRoot([].concat(
-                    XM_TEXT_ELEMENTS,
-                )),
+                XmDynamicModule.forRoot([]),
             ],
             providers: [
                 {

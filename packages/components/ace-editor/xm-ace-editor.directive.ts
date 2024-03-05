@@ -79,7 +79,7 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
     }
 
     @Input() set text(text: string) {
-        if (!text) {
+        if (!text || text === 'null') {
             text = '';
         }
 

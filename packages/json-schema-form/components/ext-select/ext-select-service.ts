@@ -10,7 +10,9 @@ import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 
 export const URL_TEMPLATE_LITERAL = /@{(\w+(\[\])?.?)+}/g;
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ExtSelectService {
 
     public static isTemplateUrl(url: string): boolean {

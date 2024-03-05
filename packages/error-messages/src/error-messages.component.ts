@@ -7,7 +7,7 @@ import { ErrorHandlerEventName, ErrorHandlerEventPayload, XmEventManager, XmPubl
 import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService } from '@xm-ngx/jhipster';
 import { Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { XmAlertService } from '@xm-ngx/alert';

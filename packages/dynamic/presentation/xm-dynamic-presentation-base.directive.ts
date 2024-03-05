@@ -41,7 +41,6 @@ export interface XmDynamicPresentationConstructor<V = unknown, C = unknown> exte
 
 /**
  * The base interface for all dynamic modules
- * @deprecated Will be removed in v6.0.0. Use standalone component instead.
  */
 export interface XmDynamicPresentationEntryModule extends XmDynamicEntryModule<XmDynamicPresentation> {
     entry: XmDynamicPresentationConstructor;

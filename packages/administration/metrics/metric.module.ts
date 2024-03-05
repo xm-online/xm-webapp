@@ -11,7 +11,7 @@ import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { NgJhipsterModule } from 'ng-jhipster';
+import { NgJhipsterModule } from '@xm-ngx/jhipster';
 import { JhiMetricsMonitoringModalComponent } from './metrics-modal.component';
 import { JhiMetricsMonitoringComponent } from './metrics.component';
 import { JhiMetricsService } from './metrics.service';

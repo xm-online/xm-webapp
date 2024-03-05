@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmPasswordNeededModule } from '@xm-ngx/components/password-needed';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { JhiConfigService, NgJhipsterModule } from 'ng-jhipster';
+import { JhiConfigService, NgJhipsterModule } from '@xm-ngx/jhipster';
 import { XmMaintenanceViewModule } from '@xm-ngx/components/maintenance';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { PerPageModule } from '@xm-ngx/components/per-page';

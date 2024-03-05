@@ -19,9 +19,10 @@ import { BehaviorSubject, combineLatestWith, Observable, Subject, Subscription }
 import { map, takeUntil, tap } from 'rxjs/operators';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { QueryParams } from '@xm-ngx/repositories';
+import { Primitive } from '@xm-ngx/interfaces';
 
 export interface FiltersControlValue extends QueryParams {
-    [key: string]: string | object | number;
+    [key: string]: string | object | number | Primitive[];
 }
 
 
@@ -88,7 +89,7 @@ export class XmTableFilterButtonDialogControlComponent<T = FiltersControlValue> 
             this.disabled ? this.formGroup.disable() : this.formGroup.enable();
         }
 
-        if (this.formGroup && changes.value && !_.isEqual(this.value, changes.value.currentValue)) {
+        if (this.formGroup && changes.value) {
             this.formGroup.setValue(this.value);
         }
 
@@ -132,7 +133,7 @@ export class XmTableFilterButtonDialogControlComponent<T = FiltersControlValue> 
 
     private updateValue(): void {
         if (this.formGroup) {
-            this.formGroup.patchValue(this.value || {}, { emitEvent: false });
+            this.formGroup.patchValue(this.value || {}, {emitEvent: false});
         }
     }
 

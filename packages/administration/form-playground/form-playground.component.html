@@ -97,7 +97,7 @@
           <json-schema-form
             *ngIf="formActive"
             [framework]="'material-design'"
-            [schema]="jsonFormObject.schema"
+            [schema]="jsonFormObject.schema | i18nJsf"
             [layout]="jsonFormObject.layout | i18nJsf"
             [data]="jsonFormObject.data"
             [options]="jsonFormObject.options | i18nJsf"

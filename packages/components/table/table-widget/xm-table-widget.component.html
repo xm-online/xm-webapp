@@ -13,58 +13,77 @@
   }">
 
     <xm-table-header [config]="config" [loading]="context.collection.loading">
-      <xm-table-filter-button [config]="config"
-                              [loading]="context.collection.loading"
-      ></xm-table-filter-button>
+      <ng-container *ngIf="!xmTable.config.isCollapsed">
+        <xm-table-filter-button *ngIf="xmTable.config.popUpFilter"
+                                [config]="config"
+                                [loading]="context.collection.loading"
+        ></xm-table-filter-button>
 
-      <xm-table-filter-chips [config]="config"></xm-table-filter-chips>
+        <xm-table-filter-chips *ngIf="xmTable.config.showFilterChips" [config]="config"></xm-table-filter-chips>
+      </ng-container>
+
+      <ng-container expandPanelButton *ngIf="xmTable.config.isExpandable">
+        <xm-table-expand-panel-button [config]="config"
+                                      (changeCollapsed)="xmTable.config.isCollapsed = $event"></xm-table-expand-panel-button>
+      </ng-container>
+
     </xm-table-header>
 
     <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
 
-    <div class="xm-table-overflow-wrap">
-      <table
-        [style.width]="config?.width"
-        mat-table
-        matSort
-        xmTableMatSortAdapter
-        matSortDisableClear
-        [dataSource]="context.collection.items"
-      >
+    <div class="xm-table-wrapper" [@tableExpand]="xmTable.config.isCollapsed ? 'collapsed' : 'expanded'">
 
-        <xm-table-empty [config]="config.noRows"
-                        [colspan]="context.settings.displayedColumns.length"
-                        [type]="'initial'"></xm-table-empty>
+      <xm-table-filter-inline *ngIf="!xmTable.config.popUpFilter"
+                              [config]="config"
+                              [loading]="context.collection.loading"></xm-table-filter-inline>
 
-        <xm-table-selection-column [column]="xmTableSelection.selectColumn"
-                                   #selectionRow
-                                   [rows]="context.collection.items"></xm-table-selection-column>
+      <div class="xm-table-overflow-wrap">
+        <table
+          [style.width]="config?.width"
+          mat-table
+          matSort
+          xmTableMatSortAdapter
+          matSortDisableClear
+          [matSortActive]="(xmTable.getSortActiveAndDirection() | async).active"
+          [matSortDirection]="(xmTable.getSortActiveAndDirection() | async).direction"
+          [dataSource]="context.collection.items"
+        >
 
-        <xm-table-column-dynamic-cell *ngFor="let column of xmTableSelection.dynamicColumns"
-                                      [column]="column"></xm-table-column-dynamic-cell>
+          <xm-table-empty [config]="config.noRows"
+                          [colspan]="context.settings.displayedColumns.length"
+                          [type]="'initial'"></xm-table-empty>
 
-        <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row></tr>
+          <xm-table-selection-column [column]="xmTableSelection.selectColumn"
+                                     #selectionRow
+                                     [rows]="context.collection.items"></xm-table-selection-column>
 
-        <xm-table-loading [isLoading]="context.collection.loading" [colspan]="context.settings.displayedColumns.length"></xm-table-loading>
+          <xm-table-column-dynamic-cell *ngFor="let column of xmTableSelection.dynamicColumns"
+                                        [column]="column"></xm-table-column-dynamic-cell>
 
-        <tr *matRowDef="let row; columns: context.settings.displayedColumns"
-            class="xm-table-hoverable-row xm-table-row-background"
-            [ngClass]="{
+          <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row></tr>
+
+          <xm-table-loading [isLoading]="context.collection.loading"
+                            [colspan]="context.settings.displayedColumns.length"></xm-table-loading>
+
+          <tr *matRowDef="let row; columns: context.settings.displayedColumns"
+              class="xm-table-hoverable-row xm-table-row-background"
+              [ngClass]="{
             'xm-table-row-selected' : selectionRow.selection.isSelected(row),
             'xm-table-row-loading' : context.collection.loading
           }"
-            mat-row
-        ></tr>
+              mat-row
+          ></tr>
 
-      </table>
+        </table>
+      </div>
+
+      <mat-paginator showFirstLastButtons
+                     xmTableMatPaginatorAdapter
+                     [hidden]="xmTable.config.pageableAndSortable.hidePagination"
+                     [pageSizeOptions]="xmTable.config.pageableAndSortable.pageSizeOptions"
+      >
+      </mat-paginator>
     </div>
-
-    <mat-paginator showFirstLastButtons
-                   xmTableMatPaginatorAdapter
-                   [hidden]="xmTable.config.pageableAndSortable.hidePagination"
-                   [pageSizeOptions]="xmTable.config.pageableAndSortable.pageSizeOptions"
-    >
-    </mat-paginator>
 
   </mat-card>
 </ng-container>
