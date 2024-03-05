@@ -15,23 +15,34 @@ export class DashboardConfig {
 }
 
 @Injectable()
-export class DashboardCollection extends EntityCollectionBase<Dashboard> {
-    private httpClient: HttpClient = inject<HttpClient>(HttpClient);
-    constructor(factoryService: EntityCollectionFactoryService) {
-        super(factoryService.create(DASHBOARD_API_URL));
+export abstract class EntityCollectionWithHistory<T> extends EntityCollectionBase<T> {
+    protected httpClient: HttpClient = inject<HttpClient>(HttpClient);
+
+    constructor(factoryService: EntityCollectionFactoryService, private apiUrl: string) {
+        super(factoryService.create(apiUrl));
     }
-    public getHistoryById(id: number): Observable<AuditResponse> {
-        return this.httpClient.get<AuditResponse>(`dashboard/api/dashboards-audit/${id}`);
+
+    public getHistoryById(id: number, pagination: { page: number; size: number } = { page: 0, size: 10 }): Observable<AuditResponse> {
+        const { page, size } = pagination;
+        const params = {
+            page,
+            size,
+            sort: 'revtstmp,desc',
+        };
+        return this.httpClient.get<AuditResponse>(`${this.apiUrl}-audit/${id}`, {params});
     }
 }
 
-@Injectable()
-export class WidgetCollection extends EntityCollectionBase<DashboardWidget> {
-    private httpClient: HttpClient = inject<HttpClient>(HttpClient);
+@Injectable({providedIn: 'root'})
+export class DashboardCollection extends EntityCollectionWithHistory<Dashboard> {
     constructor(factoryService: EntityCollectionFactoryService) {
-        super(factoryService.create(DASHBOARD_WIDGET_API_URL));
+        super(factoryService, DASHBOARD_API_URL);
     }
-    public getHistoryById(id: number): Observable<AuditResponse> {
-        return this.httpClient.get<AuditResponse>(`dashboard/api/widgets-audit/${id}`);
+}
+
+@Injectable({providedIn: 'root'})
+export class WidgetCollection extends EntityCollectionWithHistory<DashboardWidget> {
+    constructor(factoryService: EntityCollectionFactoryService) {
+        super(factoryService, DASHBOARD_WIDGET_API_URL);
     }
 }

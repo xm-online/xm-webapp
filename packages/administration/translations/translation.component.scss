@@ -1,25 +1,57 @@
-.translate{
-    &__toggle-group {
-        margin-right: 20px;
+$primary:red;
+
+.translate {
+  &__toggle-group {
+    margin-right: 20px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__toggle-btn {
+    border: 1px solid #e5e5e5;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__header-toggle {
+
+  }
+
+  &__button-group {
+    display: flex;
+    margin: 10px 0;
+
+    & button:not(:last-child) {
+      margin-right: 10px;
     }
+  }
+}
 
-    &__header {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
+.action-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mat-btn-group-m3{
+  border-radius:24px;
+}
 
-    &__header-toggle {
+.mat-btn-group-m3 .mat-button-toggle{
+  flex: 1 1 auto;
+}
 
-    }
-
-    &__button-group {
-        display: flex;
-        margin: 10px 0;
-
-        & button:not(:last-child) {
-            margin-right: 10px;
-        }
-    }
+.mat-btn-group-m3 .mat-button-toggle-checked {
+  color: #fff; /* Use primary color for text */
+  background-color: $primary; /* Use a lighter primary color for background */
 }

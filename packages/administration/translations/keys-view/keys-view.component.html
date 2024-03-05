@@ -31,11 +31,15 @@
         <div class="keys-view__row" *cdkVirtualFor="let translationKey of filterTranslationKeys || translationKeys">
             <div class="keys-view__col">{{translationKey[0]}}</div>
             <div class="keys-view__col">
-                <form (ngSubmit)="changeTranslate(translationKey[0])">
+
+              <p *ngIf="!editable">{{unSave[translationKey[0]] || translationKey[1]}}</p>
+
+                <form (ngSubmit)="changeTranslate(translationKey[0])" *ngIf="editable">
                     <mat-form-field class="keys-view__input" [floatLabel]="'never'">
                         <input #input="ngModel"
                                matInput
                                required
+                               [readonly]="!editable"
                                [ngModel]="unSave[translationKey[0]] || translationKey[1]"
                                [ngModelOptions]="{standalone: true}"
                                (ngModelChange)="changeInput(translationKey[0], input.value)">
@@ -54,6 +58,12 @@
                                     [disabled]="input.invalid">
                                 <mat-icon>save</mat-icon>
                             </button>
+                          <button class="keys-view__button"
+                                  *ngIf="editable"
+                                  mat-icon-button
+                                  type="button" (click)="delete(translationKey[0])">
+                            <mat-icon>delete</mat-icon>
+                          </button>
                         </ng-container>
 
                         <span matIconPrefix>

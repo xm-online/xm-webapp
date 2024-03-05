@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>{{ data.translations.modal.title | translate }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="translationForm">
+    <mat-form-field>
+      <mat-label>{{ data.translations.modal.form.key | translate }}</mat-label>
+      <input required matInput formControlName="key">
+    </mat-form-field>
+    <xm-multi-language-control formControlName="value" required
+                               [config]="{title:data.translations.modal.form.value | translate}"
+                               [value]="[{languageKey:'en',value:''},{languageKey:'uk',value:''}]">
+    </xm-multi-language-control>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <div class="ps-3 pe-3 pb-3">
+      <button mat-button [mat-dialog-close]="null">{{ data.translations.modal.form.cancel | translate }}</button>
+      <button mat-button color="primary" [mat-dialog-close]="translationForm.value"
+              cdkFocusInitial>{{ data.translations.modal.form.add | translate }}
+      </button>
+    </div>
+</mat-dialog-actions>

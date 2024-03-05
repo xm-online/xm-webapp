@@ -12,9 +12,41 @@ import './locales';
 import { ModulesLanguageHelper } from './services/modules-language.helper';
 import { TranslateDirective } from './directives/translate.directive';
 import { TranslatePipe } from './pipes/translate.pipe';
+import { TranslateLoader } from '@ngx-translate/core';
+import { catchError, forkJoin, map, Observable, of } from 'rxjs';
+export const URL_TRANSLATION='config/api/profile/webapp/public/translations/';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './i18n/', '.json');
+}
+
+export function CompositeLoaderFactory(http: HttpClient): TranslateLoader {
+    const loaders = [
+        new TranslateHttpLoader(http, './i18n/', '.json'),
+        new CustomTranslateLoader(http),
+    ];
+
+    return new CompositeTranslateLoader(loaders);
+}
+
+export class CustomTranslateLoader implements TranslateLoader {
+    constructor(private http: HttpClient) {}
+    public getTranslation(lang: string): Observable<object> {
+        return this.http.get<object>(URL_TRANSLATION + `${lang}.json`);
+    }
+}
+
+export class CompositeTranslateLoader implements TranslateLoader {
+    constructor(private loaders: TranslateLoader[]) {
+    }
+
+    public getTranslation(lang: string): Observable<any> {
+        return forkJoin(this.loaders.map(loader => loader.getTranslation(lang).pipe(
+            catchError(() => of({}))
+        ))).pipe(
+            map(response => Object.assign({}, ...response)),
+        );
+    }
 }
 
 @NgModule({
