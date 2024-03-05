@@ -12,6 +12,11 @@ export const XM_TEXT_TRANSLATE_ENTRY: XmDynamicEntry = {
     selector: 'text-translate',
     loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextTranslateModule),
 };
+export const XM_TEXT_HEADER_ENTRY: XmDynamicEntry = {
+    selector: 'text-header',
+    loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextHeaderComponent),
+};
+
 
 export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
     {
@@ -52,6 +57,7 @@ export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
     ...XM_TEXT_RANGE_ELEMENTS,
     XM_TEXT_TITLE_ENTRY,
     XM_TEXT_TRANSLATE_ENTRY,
+    XM_TEXT_HEADER_ENTRY,
     {
         selector: 'text-view',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextViewModule),
@@ -69,5 +75,7 @@ export const XM_TEXT_ELEMENTS: XmDynamicEntry[] = [
         selector: 'text-cell',
         loadChildren: () => import('@xm-ngx/components/text').then(m => m.XmTextCellComponent),
     },
+
     ...XM_ANGULAR_EDITOR_CONTROL_ELEMENTS,
 ];
+

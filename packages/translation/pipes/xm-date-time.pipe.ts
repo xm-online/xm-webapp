@@ -3,10 +3,12 @@ import { LanguageService } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 
 import { dayjs } from '@xm-ngx/operators';
+import utc from 'dayjs/plugin/utc';
 
 import { Principal } from '@xm-ngx/core/user';
 import { XmConfigService } from '@xm-ngx/core/config';
 
+dayjs.extend(utc);
 /**
  * Pipe is used to display formatted date
  * It accepts two optional params: format?: string (dayjs) and offset?: string

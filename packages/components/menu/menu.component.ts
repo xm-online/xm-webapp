@@ -1,10 +1,19 @@
-import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    inject,
+    Input,
+    OnDestroy,
+    OnInit,
+    Pipe,
+    PipeTransform
+} from '@angular/core';
 import {matExpansionAnimations} from '@angular/material/expansion';
 import {NavigationEnd, Router, RouterModule} from '@angular/router';
 import {DashboardStore} from '@xm-ngx/core/dashboard';
 import {XmEntitySpecWrapperService} from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
-import {combineLatest, from, Observable} from 'rxjs';
+import { combineLatest, from, Observable } from 'rxjs';
 import {filter, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
 
 import {ContextService} from '@xm-ngx/core/context';
@@ -22,6 +31,7 @@ import {Translate, XmTranslateService, XmTranslationModule} from '@xm-ngx/transl
 import {CommonModule} from '@angular/common';
 import {XmPermissionModule} from '@xm-ngx/core/permission';
 import {ConditionDirective} from '@xm-ngx/components/condition';
+import { XmEventManager } from '@xm-ngx/core';
 
 export type ISideBarConfig = {
     sidebar?: {
@@ -32,6 +42,24 @@ export type ISideBarConfig = {
         applicationPosition?: number;
     }
 };
+
+@Pipe({
+    standalone: true,
+    name: 'activeMenuItem',
+})
+export class ActiveMenuItemPipe implements PipeTransform {
+
+    private router: Router = inject(Router);
+
+    public transform(node: MenuItem): Observable<boolean> {
+        const patterns = node.activeItemPathPatterns || [];
+        return this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd),
+            map(event => event as NavigationEnd),
+            map((event) => !!patterns.find(pattern => new RegExp(pattern).test(event.urlAfterRedirects)))
+        );
+    }
+}
 
 @Component({
     selector: 'xm-menu',
@@ -51,6 +79,7 @@ export type ISideBarConfig = {
         CommonModule,
         CdkTreeModule,
         XmPermissionModule,
+        ActiveMenuItemPipe,
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
@@ -79,6 +108,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         protected readonly entityConfigService: XmEntitySpecWrapperService,
         protected readonly contextService: ContextService,
         protected readonly userService: XmUserService,
+        protected readonly eventManager: XmEventManager,
     ) {
     }
 
@@ -87,6 +117,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     };
 
     public ngOnInit(): void {
+        const context$ = this.eventManager.listenTo('CONTEXT_UPDATED')
+            .pipe(takeUntilOnDestroy(this))
+            .pipe(startWith({}));
+
         const dashboards$ = this.getActiveDashboards();
 
         const applications$ = from(this.principal.identity()).pipe(
@@ -116,7 +150,7 @@ export class MenuComponent implements OnInit, OnDestroy {
             map(i => i?.sidebar?.hideAdminConsole ? [] : getDefaultMenuList()),
         );
 
-        this.categories$ = combineLatest([ dashboards$, applications$, default$ ]).pipe(
+        this.categories$ = combineLatest([ dashboards$, applications$, default$, context$ ]).pipe(
             map(([ dashboards, applications, defaultMenu ]) => {
                 const mainMenu = _.orderBy([...dashboards, ...applications], [ 'position' ], 'asc');
                 return [ ...mainMenu, ...defaultMenu ];

@@ -1,33 +1,66 @@
-<mat-card>
-    <h4>{{'translate-managment.title' | translate}}</h4>
-
-    <header class="translate__header">
-        <div class="translate__header-toggle">
-            <mat-button-toggle-group *ngIf="extNames$ | async as extNames"
-                                     (change)="setExt($event.value)"
-                                     [value]="extNames[0]"
-                                     name="extsName"
-                                     class="translate__toggle-group"
-                                     aria-label="Exts name">
-                <mat-button-toggle *ngFor="let extNames of extNames" [value]="extNames">{{extNames}}</mat-button-toggle>
-            </mat-button-toggle-group>
-
-            <mat-button-toggle-group *ngIf="langs$ | async as langs"
-                                     (change)="setLang($event.value)"
-                                     [value]="langs[0]"
-                                     name="lang"
-                                     class="translate__toggle-group"
-                                     aria-label="lang">
-                <mat-button-toggle *ngFor="let lang of langs" [value]="lang">{{lang}}</mat-button-toggle>
-            </mat-button-toggle-group>
+<mat-card class="p-4">
+  <header class="translate__header">
+    <div class="row">
+    <div class="col translate__title d-flex">
+      <h4>{{ 'translate-managment.title' | translate }}</h4>
+      <ng-container *ngIf="isConfig">
+        <ng-container *ngIf="langs$ | async as langs">
+          <xm-translation-add [config]="{langs:langs,translations:config}" (createEvent)="addNewTranslation($event)"></xm-translation-add>
+        </ng-container>
+      </ng-container>
+    </div>
+    </div>
+    <div class="action-header  w-100 mb-4">
+      <mat-button-toggle-group class="mat-btn-group-m3" #group name="translations" aria-label="translations" [value]="isConfig" >
+        <mat-button-toggle [value]="false" (click)="isConfig=false;setLang(selectedLang)">i18n</mat-button-toggle>
+        <mat-button-toggle [value]="true" (click)="isConfig=true;setLang(selectedLang)">Config</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div class="translate__header-toggle">
+      <div class="row">
+        <div class="col mb-4" *ngIf="!isConfig">
+          <mat-button-toggle-group *ngIf="extNames$ | async as extNames"
+                                   (change)="setExt($event.value)"
+                                   [value]="extNames[0]"
+                                   name="extsName"
+                                   class="translate__toggle-group d-flex w-100 mat-btn-group-m3"
+                                   aria-label="Exts name">
+            <mat-button-toggle class="translate__toggle-btn" *ngFor="let extNames of extNames"
+                               [value]="extNames">{{ extNames }}
+            </mat-button-toggle>
+          </mat-button-toggle-group>
         </div>
-
-
-        <div class="translate__button-group">
-            <button mat-raised-button (click)="downloadAssets()">{{'translate-managment.download-button' | translate}}</button>
-            <button mat-raised-button (click)="clearCache()">{{'translate-managment.clear-cache-button' | translate}}</button>
+      </div>
+      <div class="row">
+        <div class="col mb-4">
+          <mat-button-toggle-group *ngIf="langs$ | async as langs"
+                                   (change)="setLang($event.value)"
+                                   [value]="langs[0]"
+                                   name="lang"
+                                   class="translate__toggle-group mat-btn-group-m3 w-100"
+                                   aria-label="lang">
+            <mat-button-toggle *ngFor="let lang of langs" [value]="lang">{{ lang }}</mat-button-toggle>
+          </mat-button-toggle-group>
         </div>
-    </header>
+      </div>
+    </div>
+    <div class="translate__button-group">
+      <button mat-raised-button (click)="downloadAssets()">{{ 'translate-managment.download-button' | translate }}
+      </button>
+      <button mat-raised-button (click)="clearCache()">{{ 'translate-managment.clear-cache-button' | translate }}
+      </button>
+    </div>
+  </header>
+  <div *ngIf="!isConfig">
+    <h2>{{ ('translate-management.title.project' | translate)|| "Project translations" }}</h2>
+    <xm-keys-view [json]="translations$ | async" [editable]="!isConfig"
+                  (updateTranslate)="updateTranslate($event)"></xm-keys-view>
+  </div>
 
-    <xm-keys-view [json]="translations$ | async" (updateTranslate)="updateTranslate($event)"></xm-keys-view>
+  <div *ngIf="isConfig">
+    <h2>{{ ('translate-management.title.config' | translate)||"Config translations" }}</h2>
+    <xm-loader [absolute]="true" [showLoader]="loading"></xm-loader>
+    <xm-keys-view [json]="translationsConfig$ | async" [editable]="isConfig"
+                  (updateTranslate)="updateTranslateFromConfig($event)" (deleteTranslate)="deleteTranslation($event)" ></xm-keys-view>
+  </div>
 </mat-card>

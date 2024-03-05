@@ -22,6 +22,7 @@ export interface XmDateControlOptions {
     useUtc?: boolean;
     errors?: XmControlErrorsTranslates;
     disableFutureDates?: boolean;
+    intervalFromMinDateInDays?: number;
     dateNow?: boolean;
 }
 
@@ -43,7 +44,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
             <input matInput
                    (dateChange)="changeDateControl($event)"
                    [formControl]="control"
-                   [min]="config?.dateNow ? dateNow : undefined"
+                   [min]="minDate"
                    [max]="maxDate"
                    [matDatepicker]="picker"
                    [name]="config?.name"
@@ -90,9 +91,8 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
         super(ngControl);
     }
 
-    public dateNow = new Date(Date.now());
-
     public maxDate: Date | null;
+    public minDate: Date | null;
 
     private _config: XmDateControlOptions = DEFAULT_CONFIG;
 
@@ -103,17 +103,35 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
             errors: this.xmControlErrorsTranslates,
         });
 
-        this.maxDate = this.disablingFutureDates();
+        this.maxDate = this.disableFutureDates();
+        this.minDate = this.defineStartDate();
     }
 
     public get config(): XmDateControlOptions {
         return this._config;
     }
 
-    public disablingFutureDates(): Date | null {
+    public disableFutureDates(): Date | null {
         const maxDate = new Date();
 
         return this.config?.disableFutureDates ? maxDate : null;
+    }
+
+    public defineStartDate(): Date | undefined {
+        if (!this.config?.dateNow) {
+            return undefined;
+        }
+        let minDate: Date;
+        if (this.config?.intervalFromMinDateInDays) {
+            const startDate = new Date();
+            const midNightHours = this.config?.intervalFromMinDateInDays*24;
+            startDate.setHours( midNightHours,0,0,0);
+            minDate = new Date(startDate);
+        } else {
+            minDate = new Date(Date.now());
+        }
+
+        return minDate;
     }
 
     public changeDateControl({ value }: MatDatepickerInputEvent<unknown>): void {

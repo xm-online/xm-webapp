@@ -11,7 +11,8 @@ export type CardLayoutConfig = {
     },
     footer?: {
         layout: DynamicLayoutConfig
-    }
+    },
+    dataQa?: string,
 };
 
 export type DynamicLayoutConfig<C extends XmConfig = XmConfig> = {

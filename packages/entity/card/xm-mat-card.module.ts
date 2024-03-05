@@ -9,6 +9,7 @@ import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmMatCardComponent } from './xm-mat-card.component';
+import { XmTextHeaderComponent } from '@xm-ngx/components/text';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { XmMatCardComponent } from './xm-mat-card.component';
         XmTranslationModule,
         XmPermissionModule,
         XmLoadingModule,
+        XmTextHeaderComponent,
     ],
 })
 export class XmMatCardModule {

@@ -20,11 +20,18 @@ export interface IIdpClient {
     features?: unknown;
     key: string;
     name?: string;
+    class?: string;
+    style?: string;
     icon?: {
         class?: string;
         name: string;
         src?: string;
         style?: string;
+    }
+    label?: {
+        class?: string;
+        style?: string;
+        text?: string;
     }
     openIdConfig: IOpenIdConfig;
     redirectUri: string;
