@@ -11,7 +11,7 @@ import { firstValueFrom } from 'rxjs';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
 import { XmConfig } from '@xm-ngx/interfaces';
-import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
+import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import {
     filter,
     take
@@ -38,9 +38,9 @@ export class XmTableStringArrayCollectionController<T extends StringArrayListMan
     public entity: XmEntity;
     public declare config: StringArrayListConfig;
 
-    private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
     private entityController = inject<XmTableEntityController<object>>(XmTableEntityController, {optional: true});
     protected alert: XmAlertService = inject(XmAlertService);
+    private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
 
     public async load(request: XmFilterQueryParams): Promise<void> {
         this.entity = await firstValueFrom(this.getEntityController().entity$());
@@ -56,7 +56,7 @@ export class XmTableStringArrayCollectionController<T extends StringArrayListMan
     }
 
     private getEntityController(): XmTableEntityController<object> {
-        return this.injectionTokenService.getControllerByKey(this.config?.entityController?.key || 'table-entity-controller') || this.entityController;
+        return this.xmDynamicInstanceService.getControllerByKey(this.config?.entityController?.key || 'table-entity-controller') || this.entityController;
     }
 
     public remove(item: T, options?: XmTableArrayCollectionControllerConfig): void {

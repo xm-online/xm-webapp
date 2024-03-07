@@ -1,6 +1,6 @@
-import { inject, Injectable, Injector, ProviderToken } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
-    XmDynamicInjectionTokenStoreService
+    XmDynamicInstanceService
 } from '@xm-ngx/dynamic';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { UUID } from 'angular2-uuid';
@@ -34,11 +34,10 @@ export class XmTableArrayCollectionController<T = unknown>
     public declare config: XmTableArrayCollectionControllerConfig;
     private entity: object;
 
-    private injector = inject(Injector);
-    private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
     private entityController = inject<XmTableEntityController<object>>(XmTableEntityController, {optional: true});
     protected toaster: XmToasterService = inject(XmToasterService);
     protected alert: XmAlertService = inject(XmAlertService);
+    private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
 
     public async load(request: XmFilterQueryParams): Promise<void> {
         this.entity = await firstValueFrom(this.getEntityController().entity$());
@@ -66,12 +65,7 @@ export class XmTableArrayCollectionController<T = unknown>
     }
 
     private getEntityController(): XmTableEntityController<object> {
-        return this.getControllerByKey(this.config?.entityController?.key || 'table-entity-controller') || this.entityController;
-    }
-
-    private getControllerByKey(key: string): any {
-        const providerToken: ProviderToken<any> = this.injectionTokenService.resolve(key);
-        return this.injector.get(providerToken, undefined,{optional: true});
+        return this.xmDynamicInstanceService.getControllerByKey(this.config?.entityController?.key || 'table-entity-controller') || this.entityController;
     }
 
     public remove(item: T, options?: XmTableArrayCollectionControllerConfig): void {

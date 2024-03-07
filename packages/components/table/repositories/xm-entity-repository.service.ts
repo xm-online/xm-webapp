@@ -12,7 +12,7 @@ import {Observable} from 'rxjs';
 import {XmEntity} from '@xm-ngx/core/entity';
 import { Defaults, interpolate, uuid } from '@xm-ngx/operators';
 import { inject, Injectable } from '@angular/core';
-import { XmDynamicInjectionTokenStoreService, XmDynamicService } from '@xm-ngx/dynamic';
+import { XmDynamicInstanceService, XmDynamicService } from '@xm-ngx/dynamic';
 import {XmFilterQueryParams} from '../collections/i-xm-table-collection-controller';
 import {XmEntityRepositoryConfig} from '../controllers/elastic/xm-elastic-search-repository.service';
 import {XmElasticRequestBuilder} from '../controllers/elastic/xm-elastic-request-builder.service';
@@ -57,8 +57,8 @@ export class XmEntityRepository<T extends XmEntity>
     public config: XmEntityRepositoryCustomConfig;
     private activatedRoute = inject(ActivatedRoute);
 
-    private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
-    private requestBuilder: XmElasticRequestBuilder = this.injectionTokenService.getControllerByKey('table-request-builder') || inject(XmElasticRequestBuilder);
+    private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
+    private requestBuilder: XmElasticRequestBuilder = this.xmDynamicInstanceService.getControllerByKey('table-request-builder') || inject(XmElasticRequestBuilder);
     protected httpClient: HttpClient = inject(HttpClient);
 
     constructor() {
@@ -95,7 +95,7 @@ export class XmEntityRepository<T extends XmEntity>
 
     protected getParams(request: XmFilterQueryParams): QueryParamsPageable {
         if(this.config.requestBuilderController?.key) {
-            this.requestBuilder = this.injectionTokenService.getControllerByKey(
+            this.requestBuilder = this.xmDynamicInstanceService.getControllerByKey(
                 this.config.requestBuilderController.key
             );
         }
