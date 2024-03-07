@@ -220,7 +220,8 @@
         "changed-type": "Зміни в",
         "no-active": "Відстуня активна подія історії.",
         "change-lists": "Перелік змін",
-        "empty-history": "Відстуні записи в історії."
+        "empty-history": "Відстуні записи в історії.",
+        "show-more": "Показати більше"
     },
     "date-time-picker": {
         "labels": {
@@ -1632,6 +1633,7 @@
             "languageRequired": "Потрібна принаймні одна мова",
             "minArrayLength": "Масив менший за мінімальну допустиму довжину ({{requiredLength}}).",
             "valueMoreThanIn": "Значення більше ніж {{compareValue}}",
+            "dateLessOrEqual": "\"Дата до\" не включена в період. \"Дата від\" - \"дата до\" не можуть співпадати.",
             "valueLessThanIn": "Значення менше ніж {{compareValue}}",
             "severalEmails": "Невалідний email або значення повинні бути розділені знаком: ';'",
             "dateMoreThanIn": "Значення вище дозволеного діапазону",

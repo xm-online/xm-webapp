@@ -219,7 +219,8 @@
     "type": "Type",
     "changed-type": "Changes",
     "no-active": "No active event.",
-    "change-lists": "Changes" ,
+    "change-lists": "Changes",
+    "show-more": "Show more",
     "empty-history": "Empty for this item."
   },
   "date-time-picker": {
@@ -1632,6 +1633,7 @@
       "languageRequired": "At least one language is required",
       "minArrayLength": "Array is less then the minimum length ({{requiredLength}}).",
       "valueMoreThanIn": "Value is more than {{compareValue}}",
+      "dateLessOrEqual": "\"End date\" - not included. \"Start date\" - \"And date\" can't match",
       "valueLessThanIn": "Value is less than {{compareValue}}",
       "severalEmails": "Invalid email or values should be separating by next symbol: ';'",
       "dateMoreThanIn": "Value more then allowable range",
