@@ -8,7 +8,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { XmAlertModule } from '@xm-ngx/alert';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
-import { XmCoreModule } from '@xm-ngx/core';
+import { XmCoreModule, XmPublicUiConfigService } from '@xm-ngx/core';
 import { AuthServerProvider } from '@xm-ngx/core/user';
 import { XmCoreAuthModule } from '@xm-ngx/core/auth';
 import { LoginService } from '@xm-ngx/components/login';
@@ -21,7 +21,7 @@ import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardDynamicRouteResolverGuard, XmDashboardModule } from '@xm-ngx/dashboard';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmLoggerModule, XmLoggerWatcherService } from '@xm-ngx/logger';
-import { HttpLoaderFactory, LanguageService, TitleService, XmTranslationModule } from '@xm-ngx/translation';
+import { LanguageService, TitleService, XmTranslationModule,CompositeLoaderFactory } from '@xm-ngx/translation';
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
@@ -86,7 +86,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
         NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
         TranslateModule.forRoot({
             isolate: false,
-            loader: { deps: [HttpClient], provide: TranslateLoader, useFactory: HttpLoaderFactory },
+            loader: { deps: [HttpClient, XmPublicUiConfigService], provide: TranslateLoader, useFactory: CompositeLoaderFactory },
         }),
         XmLoggerModule.forRoot(),
         XmAlertModule.forRoot(),

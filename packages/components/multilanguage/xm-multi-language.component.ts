@@ -7,10 +7,7 @@ import {
     OnDestroy,
     ViewChild,
 } from '@angular/core';
-import {
-    UntypedFormControl,
-    NG_VALUE_ACCESSOR, FormsModule, ReactiveFormsModule,
-} from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, UntypedFormControl, } from '@angular/forms';
 import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { ITranslate, Locale, Translate, XmTranslationModule } from '@xm-ngx/translation';
@@ -18,8 +15,8 @@ import { propEq } from 'lodash/fp';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { take } from 'rxjs/operators';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
-import { clone } from 'lodash';
 import * as _ from 'lodash';
+import { clone } from 'lodash';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
@@ -267,10 +264,11 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             const value = this.getValue<'object'>();
             return value[this.selectedLng] ?? '';
         }
-
-        const oldValue = (this.getValue<'array'>() ?? []).slice();
+        let oldValue = (this.getValue<'array'>() ?? []).slice();
+        if (typeof oldValue=== 'string') {
+            oldValue=[];
+        }
         const langValue = oldValue.find(propEq('languageKey', this.selectedLng));
-
         return langValue ? langValue.name : '';
     }
 
@@ -288,11 +286,12 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
                 this.value = null;
             }
         } else {
-            const oldValue = (this.getValue<'array'>() ?? []);
+            let oldValue = (this.getValue<'array'>() ?? []);
+            if (typeof oldValue === 'string') {
+                oldValue=[];
+            }
             const langValue = {languageKey: this.selectedLng, name: value};
-
             const index = oldValue.findIndex(propEq('languageKey', this.selectedLng));
-
             if (index > -1) {
                 oldValue.splice(index, 1, langValue);
             } else {
