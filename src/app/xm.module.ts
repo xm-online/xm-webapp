@@ -21,7 +21,7 @@ import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardDynamicRouteResolverGuard, XmDashboardModule } from '@xm-ngx/dashboard';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmLoggerModule, XmLoggerWatcherService } from '@xm-ngx/logger';
-import { LanguageService, TitleService, XmTranslationModule } from '@xm-ngx/translation';
+import { LanguageService, TitleService, XmTranslationModule,CompositeLoaderFactory } from '@xm-ngx/translation';
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
@@ -53,7 +53,6 @@ import { MaintenanceService } from '@xm-ngx/components/maintenance';
 import { XmCoreEntityModule } from '@xm-ngx/core/entity';
 import { UserLoginService } from '@xm-ngx/account/user-login-widget';
 import { XmJsfExtModule } from './xm-jsf-ext.module';
-import { CompositeLoaderFactory } from '@xm-ngx/translation/src/xm-translation.module';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
     appearance: 'fill',
