@@ -1,4 +1,4 @@
-import { inject, Injectable, Injector, ProviderToken } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { XmEntity } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
