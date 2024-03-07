@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, Injector, ProviderToken } from '@angular/core';
 
 import { XmEntity } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
@@ -11,14 +11,24 @@ import { firstValueFrom } from 'rxjs';
 import { XmFilterQueryParams, IXmTableCollectionController } from './i-xm-table-collection-controller';
 import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
 import { XmConfig } from '@xm-ngx/interfaces';
+import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
+import {
+    filter,
+    take
+} from 'rxjs/operators';
+import { XmTableArrayCollectionControllerConfig } from '@xm-ngx/components/table';
+import { XmAlertService } from '@xm-ngx/alert';
 
 interface StringArrayListManagerItem {
-    value: string
+    value: string;
 }
 
 export interface StringArrayListConfig extends XmConfig {
     type: 'stringArray'
-    path: string
+    path: string,
+    entityController?: {
+        key?: string,
+    },
 }
 
 @Injectable()
@@ -28,22 +38,39 @@ export class XmTableStringArrayCollectionController<T extends StringArrayListMan
     public entity: XmEntity;
     public declare config: StringArrayListConfig;
 
-    constructor(
-        private entityController: XmTableEntityController<object>,
-    ) {
-        super();
-    }
+    private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
+    private entityController = inject<XmTableEntityController<object>>(XmTableEntityController, {optional: true});
+    protected alert: XmAlertService = inject(XmAlertService);
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.entity = await firstValueFrom(this.entityController.entity$());
+        this.entity = await firstValueFrom(this.getEntityController().entity$());
         const primary = _.get(this.entity, this.config.path, []);
-        const modify = primary.map((i) => ({ value: i } as T));
+        const modify = primary.map((i) => ({value: i} as T));
         this.items = modify;
     }
 
     public save(): void {
         const items = this.items.map((i) => i.value);
         set(this.entity, this.config.path, cloneDeep(items));
-        this.entityController.update(this.entity);
+        this.getEntityController().update(this.entity);
+    }
+
+    private getEntityController(): XmTableEntityController<object> {
+        return this.injectionTokenService.getControllerByKey(this.config?.entityController?.key || 'table-entity-controller') || this.entityController;
+    }
+
+    public remove(item: T, options?: XmTableArrayCollectionControllerConfig): void {
+        this.alert.delete(options).pipe(
+            take(1),
+            filter((i) => i.value),
+        ).subscribe(() => {
+            super.remove(item);
+            this.save();
+        });
+    }
+
+    public edit(item: T, newItem: T): void {
+        super.edit(item, newItem);
+        this.save();
     }
 }

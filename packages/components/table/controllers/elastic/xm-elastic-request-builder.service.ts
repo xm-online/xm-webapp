@@ -18,23 +18,30 @@ export interface XmTableConfigFilters extends FormGroupLayoutItem {
     }
 }
 
-@Injectable()
+@Injectable(
+    {providedIn: 'root'}
+)
 export class XmElasticRequestBuilder {
 
     protected config: XmEntityRepositoryConfig;
 
-    public getQueryParams(request: XmFilterQueryParams, config: any): XmElasticSearchRepositoryQueryParamsPageable {
+    public getQueryParams(request: XmFilterQueryParams, config: XmEntityRepositoryConfig): XmElasticSearchRepositoryQueryParamsPageable {
         this.config = _.cloneDeep(config);
-        const { pageableAndSortable, filterParams } = request;
+        const { pageableAndSortable, filterParams, params } = request as XmFilterQueryParams & { params: QueryParams };
         let queryParams = this.createQueryParams(pageableAndSortable, filterParams);
-        if (this.config?.format) {
+        if (this.config.format) {
             queryParams = this.createFormatFiltersToRequest(queryParams, filterParams);
         }
         else if (this.config.paramsToRequest) {
             queryParams = this.createFiltersToRequest(queryParams, this.config.useOnlySpecifiedParams);
         }
-        else {
+        else if (this.config.filtersToQuery){
             queryParams = this.createElasticTypeFiltersToRequest(queryParams, filterParams);
+        }
+        else if (params) {
+            queryParams = _.merge(queryParams, params);
+        } else {
+            queryParams = this.createDefaultFiltersToRequest(queryParams, filterParams);
         }
         return queryParams;
     }
@@ -62,24 +69,22 @@ export class XmElasticRequestBuilder {
         queryParams: QueryParamsPageable,
         filterParams: QueryParams,
     ): XmElasticSearchRepositoryQueryParamsPageable {
-        const typeKey = this.config.query.typeKey;
-
         const searchArr = Object.keys(filterParams)
             .filter(key => !_.isEmpty(filterParams[key]))
             .map(key => this.getElastic(key, filterParams[key]));
 
-        if (typeKey) {
-            searchArr.push(`typeKey: ${typeKey}`);
-        }
-        const query = searchArr.join(' AND ');
+        return this.buildParamsWithElasticQuery(queryParams, searchArr);
+    }
 
-        return _.merge(
-            {},
-            queryParams,
-            {
-                query,
-            },
-        );
+    private createDefaultFiltersToRequest(
+        queryParams: QueryParamsPageable,
+        filterParams: QueryParams,
+    ): XmElasticSearchRepositoryQueryParamsPageable {
+        const searchArr = Object.keys(filterParams)
+            .filter(key => !_.isEmpty(filterParams[key]))
+            .map(key => `${key}: ${filterParams[key]}`);
+
+        return this.buildParamsWithElasticQuery(queryParams, searchArr);
     }
 
     private createFiltersToRequest(
@@ -103,11 +108,26 @@ export class XmElasticRequestBuilder {
         filterParams: QueryParams,
     ): XmElasticSearchRepositoryQueryParamsPageable {
         const formattedObj = format(this.config.format?.query, filterParams);
-
         const searchArr = Object.keys(formattedObj)
             .filter(key => !_.isEmpty(formattedObj[key]))
             .map(key => `${key}: ${formattedObj[key]}`);
 
+        return this.buildParamsWithElasticQuery(queryParams, searchArr);
+    }
+
+    private getElastic(key: string, value: unknown): string {
+        const configFilter = this.config.filtersToQuery[key] || { field: key, elasticType: '' };
+        const elasticType = configFilter.elasticType || '';
+        const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[elasticType];
+        return fn ? fn(value, configFilter) : null;
+    }
+
+    private buildParamsWithElasticQuery(queryParams: QueryParamsPageable, searchArr: string[]): XmElasticSearchRepositoryQueryParamsPageable {
+        const typeKey = this.config.query?.typeKey;
+
+        if (typeKey) {
+            searchArr.push(`typeKey: ${typeKey}`);
+        }
         const query = searchArr.join(' AND ');
 
         return _.merge(
@@ -117,12 +137,5 @@ export class XmElasticRequestBuilder {
                 query,
             },
         );
-    }
-
-    private getElastic(key: string, value: unknown): string {
-        const configFilter = this.config.filtersToQuery[key] || { field: key, elasticType: '' };
-        const elasticType = configFilter.elasticType || '';
-        const fn = Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY[elasticType];
-        return fn ? fn(value, configFilter) : null;
     }
 }

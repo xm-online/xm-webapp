@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {
     HttpClientRest,
@@ -10,9 +10,9 @@ import {
 import * as _ from 'lodash';
 import {Observable} from 'rxjs';
 import {XmEntity} from '@xm-ngx/core/entity';
-import {interpolate, uuid} from '@xm-ngx/operators';
-import {inject, Injectable} from '@angular/core';
-import {XmDynamicService} from '@xm-ngx/dynamic';
+import { Defaults, interpolate, uuid } from '@xm-ngx/operators';
+import { inject, Injectable } from '@angular/core';
+import { XmDynamicInjectionTokenStoreService, XmDynamicService } from '@xm-ngx/dynamic';
 import {XmFilterQueryParams} from '../collections/i-xm-table-collection-controller';
 import {XmEntityRepositoryConfig} from '../controllers/elastic/xm-elastic-search-repository.service';
 import {XmElasticRequestBuilder} from '../controllers/elastic/xm-elastic-request-builder.service';
@@ -41,17 +41,28 @@ export type XmEntityRepositoryCustomConfig = XmEntityRepositoryConfig & {
      * ```
      */
     isResourceUrlQueryParamsInterpolation: boolean;
+    requestBuilderController?: {
+        key?: string,
+    },
 }
 
 @Injectable()
 export class XmEntityRepository<T extends XmEntity>
     extends HttpClientRest<T, PageableAndSortable>
     implements XmDynamicService<XmRepositoryConfig> {
+    @Defaults({
+        paramsToRequest: null,
+        resourceUrl: 'entity/api/_search/xm-entities',
+    })
     public config: XmEntityRepositoryCustomConfig;
     private activatedRoute = inject(ActivatedRoute);
 
-    constructor(httpClient: HttpClient, private requestBuilder: XmElasticRequestBuilder) {
-        super(null, httpClient);
+    private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
+    private requestBuilder: XmElasticRequestBuilder = this.injectionTokenService.getControllerByKey('table-request-builder') || inject(XmElasticRequestBuilder);
+    protected httpClient: HttpClient = inject(HttpClient);
+
+    constructor() {
+        super(null, null);
     }
 
     public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
@@ -83,6 +94,12 @@ export class XmEntityRepository<T extends XmEntity>
     }
 
     protected getParams(request: XmFilterQueryParams): QueryParamsPageable {
+        if(this.config.requestBuilderController?.key) {
+            this.requestBuilder = this.injectionTokenService.getControllerByKey(
+                this.config.requestBuilderController.key
+            );
+        }
+
         const params = this.requestBuilder.getQueryParams(request, this.config);
 
         if (this.config.useOnlySpecifiedParams) {
