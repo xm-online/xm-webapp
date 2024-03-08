@@ -7,10 +7,10 @@ export class XmDynamicInstanceService {
     private dynamicInjectionTokenStoreService = inject(XmDynamicInjectionTokenStoreService);
 
     public getControllerByKey(key: string): any {
-        if(!key) {
-            return;
+        if (!key) {
+            return null;
         }
         const providerToken: ProviderToken<any> = this.dynamicInjectionTokenStoreService.resolve(key);
-        return this.injector.get(providerToken, undefined,{optional: true});
+        return this.injector.get(providerToken, undefined, {optional: true});
     }
 }

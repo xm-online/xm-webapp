@@ -13,7 +13,7 @@ import { XmDynamicComponentRegistry } from '../loader/xm-dynamic-component-regis
 import { XmDynamicModuleRegistry } from '../loader/xm-dynamic-module-registry.service';
 import { XmDynamicServiceFactory } from '../../services/xm-dynamic-service-factory.service';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { XmDynamicInstanceService } from '../../src/services/xm-dynamic-instance.service'
+import { XmDynamicInstanceService } from '../../src/services/xm-dynamic-instance.service';
 
 export function dynamicModuleInitializer(components: XmDynamicEntries): Provider {
     return [{provide: XM_DYNAMIC_ENTRIES, multi: true, useValue: components}];
