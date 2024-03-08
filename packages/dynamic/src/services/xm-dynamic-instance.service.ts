@@ -3,14 +3,14 @@ import { XmDynamicInjectionTokenStoreService } from './xm-dynamic-injection-toke
 
 @Injectable()
 export class XmDynamicInstanceService {
-    private injector = inject(Injector);
+    public injector = inject(Injector);
     private dynamicInjectionTokenStoreService = inject(XmDynamicInjectionTokenStoreService);
 
-    public getControllerByKey(key: string): any {
+    public getControllerByKey(key: string, injector = this.injector): any {
         if (!key) {
             return null;
         }
         const providerToken: ProviderToken<any> = this.dynamicInjectionTokenStoreService.resolve(key);
-        return this.injector.get(providerToken, undefined, {optional: true});
+        return injector.get(providerToken, undefined, {optional: true});
     }
 }

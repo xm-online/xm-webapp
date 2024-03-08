@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Injector } from '@angular/core';
 import {
     XmDynamicInstanceService
 } from '@xm-ngx/dynamic';
@@ -38,6 +38,7 @@ export class XmTableArrayCollectionController<T = unknown>
     protected toaster: XmToasterService = inject(XmToasterService);
     protected alert: XmAlertService = inject(XmAlertService);
     private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
+    private injector: Injector = inject(Injector);
 
     public async load(request: XmFilterQueryParams): Promise<void> {
         this.entity = await firstValueFrom(this.getEntityController().entity$());
@@ -65,7 +66,10 @@ export class XmTableArrayCollectionController<T = unknown>
     }
 
     private getEntityController(): XmTableEntityController<object> {
-        return this.xmDynamicInstanceService.getControllerByKey(this.config?.entityController?.key || 'table-entity-controller') || this.entityController;
+        return this.xmDynamicInstanceService.getControllerByKey(
+            this.config?.entityController?.key || 'table-entity-controller',
+            this.injector
+        ) || this.entityController;
     }
 
     public remove(item: T, options?: XmTableArrayCollectionControllerConfig): void {
