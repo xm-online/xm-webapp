@@ -16,7 +16,6 @@ import {
     filter,
     take
 } from 'rxjs/operators';
-import { XmTableArrayCollectionControllerConfig } from '@xm-ngx/components/table';
 import { XmAlertService } from '@xm-ngx/alert';
 
 interface StringArrayListManagerItem {
@@ -59,7 +58,7 @@ export class XmTableStringArrayCollectionController<T extends StringArrayListMan
         return this.xmDynamicInstanceService.getControllerByKey(this.config?.entityController?.key || 'table-entity-controller') || this.entityController;
     }
 
-    public remove(item: T, options?: XmTableArrayCollectionControllerConfig): void {
+    public remove(item: T, options?: StringArrayListConfig): void {
         this.alert.delete(options).pipe(
             take(1),
             filter((i) => i.value),
