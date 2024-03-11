@@ -106,14 +106,10 @@
             <ng-container *ngFor="let role of matrix?.roles; index as i">
               <ng-container [matColumnDef]="role">
                 <th *matHeaderCellDef scope="col" mat-header-cell>
-                  <mat-chip-grid #gridRoles class="mt-2 mb-2 d-block">
-                    <mat-chip-row (removed)="onHideRole(role, i)" removable>
-                      {{role}}
-                      <mat-icon matChipRemove>cancel</mat-icon>
-                    </mat-chip-row>
-
-                    <input [matChipInputFor]="gridRoles" />
-                  </mat-chip-grid>
+                  <mat-chip (removed)="onHideRole(role, i)" removable>
+                    {{role}}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
 
                   <div class="mt-2 mb-2">
                     <mat-slide-toggle (change)="onAllChanged(role, $event);"
