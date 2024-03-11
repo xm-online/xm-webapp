@@ -1,12 +1,17 @@
-import { inject, Injectable, Injector, ProviderToken } from '@angular/core';
-import { XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
+import { inject, Injectable, Injector } from '@angular/core';
+import {
+    XmDynamicInstanceService
+} from '@xm-ngx/dynamic';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { UUID } from 'angular2-uuid';
-import { cloneDeep, get, set } from 'lodash';
+import _, { cloneDeep, get, set } from 'lodash';
 import { firstValueFrom } from 'rxjs';
 import { XmTableEntityController, } from '../controllers/entity/xm-table-entity-controller.service';
 import { AXmTableLocalPageableCollectionController, } from './a-xm-table-local-pageable-collection-controller.service';
 import { IXmTableCollectionController, XmFilterQueryParams, } from './i-xm-table-collection-controller';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { XmAlertService } from '@xm-ngx/alert';
+import { filter, take } from 'rxjs/operators';
 
 export interface XmTableEntity extends XmConfig {
     path: string;
@@ -29,11 +34,11 @@ export class XmTableArrayCollectionController<T = unknown>
     public declare config: XmTableArrayCollectionControllerConfig;
     private entity: object;
 
-    private injector = inject(Injector);
-
-    private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
-
-    private entityController = inject<XmTableEntityController<object>>(XmTableEntityController);
+    private entityController = inject<XmTableEntityController<object>>(XmTableEntityController, {optional: true});
+    protected toaster: XmToasterService = inject(XmToasterService);
+    protected alert: XmAlertService = inject(XmAlertService);
+    private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
+    private injector: Injector = inject(Injector);
 
     public async load(request: XmFilterQueryParams): Promise<void> {
         this.entity = await firstValueFrom(this.getEntityController().entity$());
@@ -61,11 +66,23 @@ export class XmTableArrayCollectionController<T = unknown>
     }
 
     private getEntityController(): XmTableEntityController<object> {
-        return this.getControllerByKey(this.config?.entityController?.key || 'table-entity-controller') || this.entityController;
+        return this.xmDynamicInstanceService.getControllerByKey(
+            this.config?.entityController?.key || 'table-entity-controller',
+            this.injector
+        ) || this.entityController;
     }
 
-    private getControllerByKey(key: string): any {
-        const providerToken: ProviderToken<any> = this.injectionTokenService.resolve(key);
-        return this.injector.get(providerToken, undefined,{optional: true});
+    public remove(item: T, options?: XmTableArrayCollectionControllerConfig): void {
+        this.alert.delete(options).pipe(
+            take(1),
+            filter((i) => i.value),
+        ).subscribe(() => {
+            super.remove(item);
+        });
+    }
+
+    public edit(item: T, newItem: T): void {
+        super.edit(item, newItem);
+        this.save();
     }
 }

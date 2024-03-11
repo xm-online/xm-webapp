@@ -41,4 +41,16 @@ export const XM_TABLE_ELEMENTS: XmDynamicEntry[] = [
         selector: 'table/collections/table-linked',
         loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableLinkedCollectionController),
     },
+    {
+        selector: 'table-array-collection-controller',
+        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableArrayCollectionController),
+    },
+    {
+        selector: 'table-string-array-collection-controller',
+        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableStringArrayCollectionController),
+    },
+    {
+        selector: 'table-request-builder',
+        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmElasticRequestBuilder),
+    },
 ];

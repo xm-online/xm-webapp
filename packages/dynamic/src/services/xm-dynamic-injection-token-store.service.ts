@@ -4,7 +4,6 @@ import { XmDynamicService } from '../../services/xm-dynamic-service-factory.serv
 
 @Injectable()
 export class XmDynamicInjectionTokenStoreService {
-
     private mapper: Record<string, InjectionToken<unknown>> = {};
 
     public resolve<T extends XmDynamicService>(key: string): InjectionToken<T> {
@@ -13,5 +12,4 @@ export class XmDynamicInjectionTokenStoreService {
         }
         return this.mapper[key];
     }
-
 }
