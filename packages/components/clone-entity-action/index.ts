@@ -1,1 +1,1 @@
-export * from './clone-entity-action.component';
+export * from './clone-action.component';

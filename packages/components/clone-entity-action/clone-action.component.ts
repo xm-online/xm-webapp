@@ -7,7 +7,6 @@ import { XmAceEditorControl } from '@xm-ngx/components/ace-editor';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { IXmTableCollectionController } from '@xm-ngx/components/table';
 import { injectByKey, XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
-import { XmEntity } from '@xm-ngx/entity';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 
 @Component({
@@ -29,13 +28,13 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
         MatIconModule,
     ],
 })
-export class CloneEntityActionComponent {
+export class CloneActionComponent {
     @Input() public config: {
         title: Translate,
     };
 
     private collectionController = injectByKey<IXmTableCollectionController<unknown>>('collection');
-    protected item: XmEntity = inject<XmEntity>(XM_DYNAMIC_TABLE_ROW, {optional: true});
+    protected item = inject(XM_DYNAMIC_TABLE_ROW, {optional: true});
 
     public clone(): void {
         this.collectionController.add(this.item);
