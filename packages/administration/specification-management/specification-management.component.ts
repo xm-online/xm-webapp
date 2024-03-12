@@ -14,7 +14,6 @@ export class SpecificationManagementComponent implements OnInit {
     public specificationTypes: any[] = [
         { slug: 'ui', icon: 'view_quilt' },
         { slug: 'entity', icon: 'build' },
-        { slug: 'timeline', icon: 'history' },
         { slug: 'uaa', icon: 'security' },
         { slug: 'uaa-login', icon: 'fingerprint' },
         { slug: 'tenant', icon: 'ballot' },
@@ -55,6 +54,9 @@ export class SpecificationManagementComponent implements OnInit {
         });
 
         this.service.getUiConfig().subscribe(result => {
+            if (!result?.disableTimeline) {
+                this.specificationTypes.push({ slug: 'timeline', icon: 'history' });
+            }
             this.disabled = result.readOnlyConfig;
         });
     }
