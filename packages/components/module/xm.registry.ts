@@ -106,6 +106,6 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: 'clone-action',
-        loadChildren: () => import('@xm-ngx/components/clone-entity-action').then(m => m.CloneActionComponent),
+        loadChildren: () => import('@xm-ngx/components/clone-action').then(m => m.CloneActionComponent),
     },
 ];
