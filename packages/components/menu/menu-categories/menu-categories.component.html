@@ -15,7 +15,9 @@
             *ngFor="let category of categories"
             [class]="menuCategoriesClassesEnum.MENU_CATEGORY"
             (click)="onNavigate(category)"
-            (mouseenter)="onHoverCategory(category)">
+            (mouseenter)="onHoverCategory(category)"
+            [attr.data-qa]="category.dataQa || 'default-' + category.icon + 'category'"
+          >
             <div *ngIf="category.icon"
                  class="menu-category__icon menu-link rounded-menu-link"
                  [ngClass]="{'active-with-stretch': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}">

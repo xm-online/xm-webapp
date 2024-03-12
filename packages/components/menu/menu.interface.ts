@@ -1,5 +1,6 @@
 import {ITranslate, Translate} from '@xm-ngx/translation';
 import {MenuPositionEnum} from './menu.model';
+import {DataQa} from '@xm-ngx/interfaces';
 
 export interface MenuOptions {
     /**
@@ -20,7 +21,7 @@ export interface MenuOptions {
     logo: BrandLogo;
 }
 
-export interface MenuItem {
+export interface MenuItem extends DataQa {
     path: string;
     /**
      * @deprecated
@@ -53,7 +54,7 @@ export interface MenuItem {
     isActiveRoute?: boolean;
 }
 
-export interface MenuCategory {
+export interface MenuCategory extends DataQa {
     name?: ITranslate;
     icon?: string;
     url?: string[];

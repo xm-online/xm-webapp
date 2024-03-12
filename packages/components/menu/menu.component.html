@@ -17,6 +17,7 @@
             'rounded-menu-link': !isOldMenu
          }"
          (click)="setSelectedCategory(node)"
+         [attr.data-qa]="node.dataQa || 'default-menu-child-key'"
       >
         <mat-icon class="menu-icon" *ngIf="isOldMenu">{{node?.icon}}</mat-icon>
         <span class="xm-menu-item-text" [title]="node?.title | translate">
@@ -35,6 +36,7 @@
             'active-with-stretch': !isOldMenu && !node.children?.length && node?.category === selectedCategory,
             'rounded-menu-link': !isOldMenu,
          }"
+         [attr.data-qa]="node.dataQa || 'default-menu-parent-key'"
       >
         <mat-icon class="menu-icon" *ngIf="isOldMenu">{{node.icon}}</mat-icon>
         <span class="xm-menu-item-text">{{node?.title | translate}}</span>

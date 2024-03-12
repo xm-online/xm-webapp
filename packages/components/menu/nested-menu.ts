@@ -20,6 +20,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                 permission,
                 activeItemPathPatterns,
                 category,
+                dataQa
             } = {},
         }) => {
             if (hidden) {
@@ -85,6 +86,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         children: [],
                         activeItemPathPatterns,
                         category,
+                        dataQa
                     });
                 }
 
@@ -114,6 +116,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         children: [],
                         activeItemPathPatterns,
                         category,
+                        dataQa
                     };
 
                     tree.children.push(node);
