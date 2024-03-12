@@ -104,4 +104,12 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
         selector: 'navbar-user-widget',
         loadChildren: () => import('@xm-ngx/components/navbar-user-widget').then(m => m.NavbarUserWidgetComponent),
     },
+    {
+        selector: 'navbar-user-widget',
+        loadChildren: () => import('@xm-ngx/components/navbar-user-widget').then(m => m.NavbarUserWidgetComponent),
+    },
+    {
+        selector: 'clone-entity-action',
+        loadChildren: () => import('@xm-ngx/components/clone-entity-action').then(m => m.CloneEntityActionComponent),
+    },
 ];
