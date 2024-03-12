@@ -7,6 +7,7 @@
         display: flex;
         padding: 5px;
         align-items: center;
+        margin: 0 -8px;
     }
 
     &__row{
@@ -25,6 +26,7 @@
         flex: 1;
         font-size: 16px;
         position: relative;
+        padding: 0 8px;
     }
 
     &__warning-icon {
