@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { LOCALE_ID, ModuleWithProviders, NgModule } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -13,26 +13,47 @@ import { ModulesLanguageHelper } from './services/modules-language.helper';
 import { TranslateDirective } from './directives/translate.directive';
 import { TranslatePipe } from './pipes/translate.pipe';
 import { TranslateLoader } from '@ngx-translate/core';
-import { catchError, forkJoin, map, Observable, of } from 'rxjs';
-export const URL_TRANSLATION='config/api/profile/webapp/public/translations/';
+import { catchError, forkJoin, map, Observable, of, switchMap, take } from 'rxjs';
+import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS, XmPublicUiConfigService } from '@xm-ngx/core';
+import { filter } from 'rxjs/operators';
+import { isEmpty } from 'lodash';
+
+export const URL_TRANSLATION = 'config/api/profile/webapp/public/translations/';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './i18n/', '.json');
 }
 
-export function CompositeLoaderFactory(http: HttpClient): TranslateLoader {
+export function CompositeLoaderFactory(http: HttpClient, publicUiConfigService: XmPublicUiConfigService): TranslateLoader {
     const loaders = [
         new TranslateHttpLoader(http, './i18n/', '.json'),
-        new CustomTranslateLoader(http),
+        new CustomTranslateLoader(http, publicUiConfigService),
     ];
 
     return new CompositeTranslateLoader(loaders);
 }
 
 export class CustomTranslateLoader implements TranslateLoader {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private publicUiConfigService: XmPublicUiConfigService) {
+    }
+
     public getTranslation(lang: string): Observable<object> {
-        return this.http.get<object>(URL_TRANSLATION + `${lang}.json`);
+        return this.publicUiConfigService.config$()
+            .pipe(
+                filter((res) => !isEmpty(res)),
+                take(1),
+                switchMap((publicUiConfig) => {
+                    if (publicUiConfig.translationsFromMsConfig) {
+                        return this.http.get<object>(URL_TRANSLATION + `${lang}.json`, {headers: SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS})
+                            .pipe(
+                                catchError((error: HttpErrorResponse) => {
+                                    console.warn(error);
+                                    return of({});
+                                }),
+                            );
+                    }
+                    return of({});
+                }));
     }
 }
 
@@ -42,7 +63,10 @@ export class CompositeTranslateLoader implements TranslateLoader {
 
     public getTranslation(lang: string): Observable<any> {
         return forkJoin(this.loaders.map(loader => loader.getTranslation(lang).pipe(
-            catchError(() => of({}))
+            catchError((error) => {
+                console.warn(error);
+                return of({});
+            }),
         ))).pipe(
             map(response => Object.assign({}, ...response)),
         );
@@ -55,7 +79,7 @@ export class CompositeTranslateLoader implements TranslateLoader {
     providers: [
         TranslatePipe,
         JhiLanguageHelper,
-        { provide: JhiLanguageService, useClass: XmJhiLanguageService, deps: [LanguageService] },
+        {provide: JhiLanguageService, useClass: XmJhiLanguageService, deps: [LanguageService]},
         ModulesLanguageHelper,
     ],
     exports: [TranslatePipe, TranslateDirective],
@@ -65,7 +89,7 @@ export class XmTranslationModule {
         return {
             ngModule: XmTranslationModule,
             providers: [
-                { provide: JhiLanguageService, useClass: XmJhiLanguageService, deps: [LanguageService] },
+                {provide: JhiLanguageService, useClass: XmJhiLanguageService, deps: [LanguageService]},
                 Title,
                 {
                     provide: LOCALE_ID,
