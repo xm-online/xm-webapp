@@ -487,6 +487,7 @@
           "password-max-length": "Ihr Bestätigungskennwort darf nicht länger als {{maxLength}}-Zeichen sein.",
           "password-min-length": "Ihr Bestätigungskennwort muss mindestens aus {{minLength}}-Zeichen bestehen.",
           "password-pattern": "Ihre Passwortdosis stimmt nicht mit muster {{muster}} überein",
+          "space": "Ihr Bestätigungspasswort darf keine Leerzeichen enthalten.",
           "required": "Ihr Bestätigungspasswort ist erforderlich.",
           "not-match": "Ihr Passwort und Ihr Bestätigungspasswort stimmen nicht überein."
         },
@@ -512,6 +513,7 @@
           "password-max-length": "Ihr Kennwort darf nicht länger als {{maxLength}}-Zeichen sein.",
           "password-min-length": "Ihr Passwort muss mindestens aus {{minLength}}-Zeichen bestehen.",
           "password-pattern": "Ihre Passwortdosis stimmt nicht mit muster {{muster}} überein",
+          "space": "Ihr Passwort darf keine Leerzeichen enthalten.",
           "required": "Ihr Passwort ist erforderlich.",
           "strength": "Passwortstärke:"
         },

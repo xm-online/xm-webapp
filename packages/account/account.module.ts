@@ -23,7 +23,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { XmUserSettingsWidgetComponent } from '@xm-ngx/account/user-settings-widget';
 import { XmUserSecuritySettingsComponent } from '@xm-ngx/account/user-security-settings';
 import { XmUserLoginWidgetComponent } from '@xm-ngx/account/user-login-widget';
-import { MatchPasswordDirective } from './password-reset/finish/match-password.directive';
+import { PasswordMatchDirective } from './password-reset/finish/password-match.directive';
+import { NoSpacePatternDirective } from './password-reset/finish/password-pattern.directive';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { MatchPasswordDirective } from './password-reset/finish/match-password.d
         XmUserSecuritySettingsComponent,
         XmUserLoginWidgetComponent,
         MarkdownModule,
+        NoSpacePatternDirective,
     ],
     declarations: [
         ActivateComponent,
@@ -48,7 +50,7 @@ import { MatchPasswordDirective } from './password-reset/finish/match-password.d
         PasswordSettingsComponent,
         IdpCallbackComponent,
         LoginErrorComponent,
-        MatchPasswordDirective
+        PasswordMatchDirective
     ],
     providers: [
         Activate,
