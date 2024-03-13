@@ -15,7 +15,7 @@ import { TranslatePipe } from './pipes/translate.pipe';
 import { TranslateLoader } from '@ngx-translate/core';
 import { catchError, forkJoin, map, Observable, of, switchMap, take } from 'rxjs';
 import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS, XmPublicUiConfigService } from '@xm-ngx/core';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { isEmpty } from 'lodash';
 
 export const URL_TRANSLATION = 'config/api/profile/webapp/public/translations/';
@@ -42,10 +42,16 @@ export class CustomTranslateLoader implements TranslateLoader {
             .pipe(
                 filter((res) => !isEmpty(res)),
                 take(1),
+                tap((res)=>{
+                    console.warn('config$',res.translationsFromMsConfig);
+                }),
                 switchMap((publicUiConfig) => {
                     if (publicUiConfig.translationsFromMsConfig) {
                         return this.http.get<object>(URL_TRANSLATION + `${lang}.json`, {headers: SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS})
                             .pipe(
+                                tap((res)=>{
+                                    console.warn('TRANSLATION',res);
+                                }),
                                 catchError((error: HttpErrorResponse) => {
                                     console.warn(error);
                                     return of({});
@@ -63,6 +69,9 @@ export class CompositeTranslateLoader implements TranslateLoader {
 
     public getTranslation(lang: string): Observable<any> {
         return forkJoin(this.loaders.map(loader => loader.getTranslation(lang).pipe(
+            tap((res)=>{
+                console.warn('getTranslation',res);
+            }),
             catchError((error) => {
                 console.warn(error);
                 return of({});
