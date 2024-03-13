@@ -43,7 +43,7 @@ export class CustomTranslateLoader implements TranslateLoader {
                 filter((res) => !isEmpty(res)),
                 take(1),
                 tap((res)=>{
-                    console.warn('config$',res.translationsFromMsConfig);
+                    console.warn('config$',res);
                 }),
                 switchMap((publicUiConfig) => {
                     if (publicUiConfig.translationsFromMsConfig) {
