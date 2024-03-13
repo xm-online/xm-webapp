@@ -944,7 +944,11 @@
     "filter-by-key": "Filter by key",
     "filter-by-value": "Filter by value",
     "save-all-button": "Save all",
-    "title": "Translate management"
+    "title": {
+      "main": "Translate management",
+      "project": "Project translations",
+      "config": "Config translations"
+    }
   },
   "userManagement": {
     "activated": "Activated",
