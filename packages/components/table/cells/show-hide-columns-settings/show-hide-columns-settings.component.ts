@@ -32,7 +32,8 @@ import { MatListModule } from '@angular/material/list';
 })
 export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
     public form: UntypedFormGroup;
-    public columns: ColumnsSettingStorageItem[] = [];
+    public allColumns: ColumnsSettingStorageItem[] = [];
+    public optionalColumns: ColumnsSettingStorageItem[] = [];
     public isSelectedAll: boolean;
     public TRS = {
         selectAll: {
@@ -49,27 +50,16 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
     }
 
     public get columnsControl(): AbstractControl {
-        return this.form?.get('columns');
+        return this.form?.get('optionalColumns');
     }
 
     public ngOnInit(): void {
-        this.form = this.fb.group({
-            columns: [],
-        });
-
-        this.columnsSettingStorageService.getStore()
-            .pipe(
-                takeUntilOnDestroy(this),
-            )
-            .subscribe(res => {
-                this.columns = res.filter((column) => column?.optional);
-                this.isSelectedAll = this.columns.every(item => !item.hidden);
-            });
+        this.getColumnsFromStorage();
     }
 
     public submit(): void {
         this.setUnCheckedColumns();
-        this.columnsSettingStorageService.updateStore(this.columns);
+        this.columnsSettingStorageService.updateStore(this.allColumns);
     }
 
     public onClosedMenu(): void {
@@ -83,7 +73,7 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
     }
 
     public setSelectedAll(): void {
-        this.isSelectedAll = this.columnsControl?.value.filter(control => !!control).length === this.columns.length;
+        this.isSelectedAll = this.columnsControl?.value.filter(control => !!control).length === this.optionalColumns.length;
 
         if (this.isSelectedAll) {
             this.setSelectedAllToOptions(this.isSelectedAll);
@@ -94,19 +84,43 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
         takeUntilOnDestroyDestroy(this);
     }
 
+    private getColumnsFromStorage(): void {
+        this.form = this.fb.group({
+            optionalColumns: [],
+        });
+
+        this.columnsSettingStorageService.getStore()
+            .pipe(
+                takeUntilOnDestroy(this),
+            )
+            .subscribe(res => {
+                this.allColumns = res;
+                this.optionalColumns = res.filter((column) => column?.optional);
+                this.isSelectedAll = this.optionalColumns.every(item => !item.hidden);
+            });
+    }
+
     private setUnCheckedColumns(): void {
-        this.columns.forEach(item => {
+        this.optionalColumns.forEach(item => {
             item.hidden = !this.columnsControl?.value.some(control => control?.name === item?.name);
+        });
+
+        this.allColumns.map((column) => {
+            this.optionalColumns.forEach((optionalColumn) => {
+                if (column.name === optionalColumn.name) {
+                    column.hidden = optionalColumn.hidden;
+                }
+            });
         });
     }
 
     private setSelectedAllToOptions(isSelectedAll: boolean): void {
-        this.columns.forEach(item => {
+        this.optionalColumns.forEach(item => {
             if(!item.isHideLock) {
                 item.hidden = !isSelectedAll;
             }
         });
 
-        this.columnsControl.patchValue(this.columns, { emitEvent: false });
+        this.columnsControl.patchValue(this.optionalColumns, { emitEvent: false });
     }
 }
