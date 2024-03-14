@@ -44,10 +44,12 @@ import {
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { checkIfEmpty } from '@xm-ngx/pipes';
 import { cloneDeep, defaultsDeep, get, intersectionBy, isArray, isEmpty, isEqual, isMatch, isObject, omitBy, template, uniqWith } from 'lodash';
+import { ActivatedRoute } from '@angular/router';
 
 @Directive()
 export class XmAutocompleteControl extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {
     private _config: XmAutocompleteControlConfig = AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG;
+    private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
     @Input()
     public set config(value: XmAutocompleteControlConfig) {
@@ -266,7 +268,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
     private getSearchCriteriaContext(search: unknown): Record<string, unknown> {
         return {
-            search, ...this.getLocaleContext(),
+            search, ...this.getQueryParamsContext(), ...this.getLocaleContext(),
         };
     }
 
@@ -277,6 +279,10 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             locale,
             languages,
         };
+    }
+    private getQueryParamsContext(): Record<string, unknown> {
+        const params = this.activatedRoute.snapshot.queryParams || {};
+        return {...params};
     }
 
     private buildRequest(httpParams: XmAutocompleteControlParams, httpBody: XmAutocompleteControlBody): Observable<XmAutocompleteControlListItem[]> {
