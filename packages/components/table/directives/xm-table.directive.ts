@@ -27,15 +27,13 @@ export interface IXmTableContext {
 
 function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[] {
     const displayedColumns = config.columns;
-    return displayedColumns.map((column) => {
-        return {
-            name: column.name || column.field,
-            hidden: column['hidden'] || false,
-            title: column.title,
-            isHideLock: column['isHideLock'] || false,
-            optional: column['optional'] || false,
-        };
-    });
+    return displayedColumns.map(column => ({
+        name: column.name || column.field,
+        hidden: column['hidden'] || false,
+        title: column.title,
+        isHideLock: column['isHideLock'] || false,
+        optional: column['optional'] || false,
+    }));
 }
 
 @Directive({
