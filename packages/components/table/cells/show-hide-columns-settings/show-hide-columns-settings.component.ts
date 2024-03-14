@@ -62,7 +62,7 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
                 takeUntilOnDestroy(this),
             )
             .subscribe(res => {
-                this.columns = res;
+                this.columns = res.filter((column) => column?.optional);
                 this.isSelectedAll = this.columns.every(item => !item.hidden);
             });
     }

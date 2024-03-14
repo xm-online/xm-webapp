@@ -9,6 +9,7 @@ export interface ColumnsSettingStorageItem {
     title: Translate;
     hidden: boolean;
     isHideLock: boolean;
+    optional?: boolean;
 }
 
 export const COLUMNS_SETTING_STORE_NAME = 'XmTableSettingStoreState';
