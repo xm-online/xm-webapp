@@ -16,6 +16,7 @@
             [class]="menuCategoriesClassesEnum.MENU_CATEGORY"
             (click)="onNavigate(category)"
             (mouseenter)="onHoverCategory(category)"
+            (mouseleave)="closeHoverSubscription()"
             [attr.data-qa]="category.dataQa || 'default-' + category.icon + 'category'"
           >
             <div *ngIf="category.icon"

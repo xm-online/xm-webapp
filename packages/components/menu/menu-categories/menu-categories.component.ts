@@ -4,7 +4,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {XmTranslationModule} from '@xm-ngx/translation';
 import {BrandLogo, MenuCategory} from '../menu.interface';
 import {MenuService} from '../menu.service';
-import {Observable} from 'rxjs';
+import {concatMap, from, Observable, of, Subscription, take, timer} from 'rxjs';
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
 import {MatButtonModule} from '@angular/material/button';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
@@ -27,6 +27,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
     public isSidenavOpened$: Observable<boolean>;
     public isCategoriesHidden$: Observable<boolean>;
     public brandLogo$: Observable<BrandLogo>;
+    private hoverSubscription: Subscription;
 
 
     constructor(
@@ -59,12 +60,23 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
             });
     }
 
-    public async onHoverCategory(category?: MenuCategory): Promise<void> {
-        if (!category.isLinkWithoutSubcategories || category?.hasChildren) {
-            this.menuService.setHoveredCategory(category);
-        } else {
-            this.menuService.sidenav.opened && !this.selectedCategory?.hasChildren && await this.menuService.sidenav.close();
-        }
+    public onHoverCategory(category?: MenuCategory): void {
+        this.closeHoverSubscription();
+        this.hoverSubscription = timer(200).pipe(
+            concatMap(() => {
+                if (!category.isLinkWithoutSubcategories || category?.hasChildren) {
+                    this.menuService.setHoveredCategory(category);
+                    return of(null);
+                }
+
+                return this.menuService.sidenav.opened && !this.selectedCategory?.hasChildren ? from(this.menuService.sidenav.close()) : of(null);
+            }),
+            take(1),
+        ).subscribe();
+    }
+
+    public closeHoverSubscription(): void {
+        this.hoverSubscription && !this.hoverSubscription.closed && this.hoverSubscription.unsubscribe();
     }
 
     public async toggleSidenav(): Promise<void> {

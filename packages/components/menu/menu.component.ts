@@ -237,7 +237,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     public observeSectionsFiltering(): void {
         this.menuService.hoveredCategory
             .pipe(
-                debounceTime(100),
+                debounceTime(250),
                 observeOn(animationFrameScheduler),
                 switchMap((category: HoveredMenuCategory) => {
                     const {hoveredCategory, isOpenMenu} = category;

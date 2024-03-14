@@ -173,7 +173,8 @@ export class MenuService {
     }
 
     public async hideMenuRightSide(selectedCategory?: MenuCategory, event?: any): Promise<void> {
-        if (!this.breakpointObserver.isMatched(this.MOBILE_SCREEN)) {
+        const isCategoriesContainer: boolean = event?.toElement?.classList?.contains(MenuCategoriesClassesEnum.MENU_CATEGORIES) as boolean;
+        if (!this.breakpointObserver.isMatched(this.MOBILE_SCREEN) && !isCategoriesContainer) {
             !this.isOverMode && this.sidenav.opened && this.setHoveredCategory(selectedCategory);
             this.selectedCategory.next(selectedCategory);
         }
