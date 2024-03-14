@@ -919,7 +919,11 @@
     "filter-by-key": "Filtra per chiave",
     "filter-by-value": "Filtra per valore",
     "save-all-button": "Salva tutto",
-    "title": "Gestione delle traduzioni"
+    "title": {
+      "main": "Gestione delle traduzioni",
+      "project": "Traduzioni di progetti",
+      "config": "Traduzioni di configurazione"
+    }
   },
   "userManagement": {
     "activated": "Attivante",
