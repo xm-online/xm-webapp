@@ -1,5 +1,6 @@
 import { Directive, HostBinding } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import _ from 'lodash';
 
 @Directive({
     selector: '[navigationClass]',
@@ -22,10 +23,8 @@ export class NavigationClassDirective {
     ) {
         this.router.events.subscribe(val => {
             if (val instanceof NavigationEnd) {
-                this.className = val.url.slice(1)
-                    .replace(/[/]/g, '-')
-                    .replace(/\./g, '')
-                    .toLowerCase() || 'root-page';
+                const slug = _.words(val.url).join('-');
+                this.className = slug ? `slug-${slug}` : 'root-slug';
             }
         });
     }
