@@ -23,6 +23,7 @@ import { PageRibbonComponent } from '@xm-ngx/components/page-ribbon';
 import { JhiAlertErrorComponent } from '@xm-ngx/error-messages';
 import { CommonModule } from '@angular/common';
 import { XmHeatmapContainerComponent } from '@xm-ngx/components/navbar-heatmap-widget';
+import { NavigationClassDirective } from './navigation-class.directive';
 
 @NgModule({
     imports: [
@@ -49,6 +50,7 @@ import { XmHeatmapContainerComponent } from '@xm-ngx/components/navbar-heatmap-w
         RouteChangeAnimationModule,
         PageRibbonComponent,
         XmHeatmapContainerComponent,
+        NavigationClassDirective
     ],
     exports: [XmMainComponent],
     declarations: [XmMainComponent],
