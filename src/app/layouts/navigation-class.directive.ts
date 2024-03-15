@@ -24,7 +24,7 @@ export class NavigationClassDirective {
         this.router.events.subscribe(val => {
             if (val instanceof NavigationEnd) {
                 const slug = _.words(val.url).join('-');
-                this.className = slug ? `slug-${slug}` : 'root-slug';
+                this.className = slug ? `slug-${slug}` : 'slug-root';
             }
         });
     }
