@@ -42,7 +42,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 
                 <div class="mat-mdc-option" [hidden]="!selection.selected" (click)="deselect()">
                     <mat-icon>close</mat-icon>
-                    {{'common-webapp-ext.buttons.cancel' | translate}}
+                    {{ (config.deselectText ?? 'common-webapp-ext.buttons.cancel') | translate}}
                 </div>
 
                 <ng-container *ngIf="(list | async)?.length > 0; then listing"></ng-container>
