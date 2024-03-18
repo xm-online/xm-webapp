@@ -9,8 +9,8 @@ import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 
 export interface XmTableSelectTableColumn extends XmTableColumn {
-    width: string,
-    selectionKey: string,
+    width: string;
+    selectionKey: string;
 }
 
 export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
