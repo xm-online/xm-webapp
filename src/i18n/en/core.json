@@ -502,6 +502,7 @@
           "password-max-length": "Your confirmation password cannot be longer than {{maxLength}} characters.",
           "password-min-length": "Your confirmation password is required to be at least {{minLength}} characters.",
           "password-pattern": "Your password dose not match pattern {{pattern}}",
+          "space": "Your confirmation password cannot contain spaces.",
           "required": "Your confirmation password is required.",
           "not-match": "Your password and confirmation password does not match."
         },
@@ -527,6 +528,7 @@
           "password-max-length": "Your password cannot be longer than {{maxLength}} characters.",
           "password-min-length": "Your password is required to be at least {{minLength}} characters.",
           "password-pattern": "Your password dose not match pattern {{pattern}}",
+          "space": "Your password cannot contain spaces.",
           "required": "Your password is required.",
           "strength": "Password strength:"
         },
@@ -942,7 +944,11 @@
     "filter-by-key": "Filter by key",
     "filter-by-value": "Filter by value",
     "save-all-button": "Save all",
-    "title": "Translate management"
+    "title": {
+      "main": "Translate management",
+      "project": "Project translations",
+      "config": "Config translations"
+    }
   },
   "userManagement": {
     "activated": "Activated",

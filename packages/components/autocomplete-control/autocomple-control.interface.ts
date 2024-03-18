@@ -38,6 +38,7 @@ export interface XmAutocompleteControlConfig {
     height: number;
     searchPlaceholder?: Translate;
     notFoundSearchPlaceholder?: Translate;
+    deselectText?: Translate;
     startFromCharSearch?: number;
     errors?: XmControlErrorsTranslates;
     required?: boolean;
