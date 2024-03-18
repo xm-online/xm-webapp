@@ -6,6 +6,7 @@
 <xm-heatmap-container>
     <div class="wrapper body-wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}"
          *ngIf="menuCategories$ | async as categories"
+         navigationClass
     >
       <div xmGuestBackground></div>
       <xm-menu-categories *ngIf="!isGuestLayout"></xm-menu-categories>
