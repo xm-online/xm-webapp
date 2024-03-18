@@ -1,15 +1,15 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {MatIconModule} from '@angular/material/icon';
-import {XmTranslationModule} from '@xm-ngx/translation';
-import {BrandLogo, MenuCategory} from '../menu.interface';
-import {MenuService} from '../menu.service';
-import {concatMap, from, Observable, of, Subscription, take, timer} from 'rxjs';
-import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
-import {MatButtonModule} from '@angular/material/button';
-import {Router, RouterLink, RouterLinkActive} from '@angular/router';
-import {hideCategories} from '../menu.animation';
-import {MenuCategoriesClassesEnum} from '../menu.model';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { BrandLogo, MenuCategory } from '../menu.interface';
+import { MenuService } from '../menu.service';
+import { concatMap, from, Observable, of, Subscription, take, timer } from 'rxjs';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { MatButtonModule } from '@angular/material/button';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { hideCategories } from '../menu.animation';
+import { MenuCategoriesClassesEnum } from '../menu.model';
 
 @Component({
     selector: 'xm-menu-categories',

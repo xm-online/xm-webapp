@@ -146,8 +146,6 @@ export class MenuService {
 
     public mapMenuCategories(menu: MenuItem[]): MenuItem[] {
         return menu.map((menuItem: MenuItem) => {
-            // menuItem.category = this.otherCategory;
-
             const { children, url } = menuItem || {};
             if (!menuItem.category) {
                 menuItem.category = this.otherCategory;

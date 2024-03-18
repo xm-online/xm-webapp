@@ -1,32 +1,42 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {matExpansionAnimations} from '@angular/material/expansion';
-import {NavigationEnd, Router, RouterModule} from '@angular/router';
-import {DashboardStore} from '@xm-ngx/core/dashboard';
-import {XmEntitySpecWrapperService} from '@xm-ngx/core/entity';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { matExpansionAnimations } from '@angular/material/expansion';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
+import { XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
-import {animationFrameScheduler, combineLatest, debounceTime, from, Observable, observeOn, of, tap, timer} from 'rxjs';
-import {filter, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
+import {
+    animationFrameScheduler,
+    combineLatest,
+    debounceTime,
+    from,
+    Observable,
+    observeOn,
+    of,
+    tap,
+    timer
+} from 'rxjs';
+import { filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 
-import {ContextService} from '@xm-ngx/core/context';
-import {Principal, XmUserService} from '@xm-ngx/core/user';
-import {getDefaultMenuList} from './default-menu-list';
-import {CdkTreeModule, NestedTreeControl} from '@angular/cdk/tree';
-import {takeUntilOnDestroy, takeUntilOnDestroyDestroy, treeNodeSearch} from '@xm-ngx/operators';
-import {buildMenuTree} from './nested-menu';
-import {applicationsToCategory, filterByConditionDashboards} from './flat-menu';
-import {HoveredMenuCategory, MenuCategory, MenuItem, MenuOptions} from './menu.interface';
-import {XmUiConfigService} from '@xm-ngx/core/config';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {Translate, XmTranslateService, XmTranslationModule} from '@xm-ngx/translation';
-import {CommonModule, DOCUMENT} from '@angular/common';
-import {XmPermissionModule} from '@xm-ngx/core/permission';
-import {ConditionDirective} from '@xm-ngx/components/condition';
-import {XmEventManager, XmEventManagerAction} from '@xm-ngx/core';
-import {showHideSubCategories} from './menu.animation';
-import {MenuService} from './menu.service';
-import {MatDrawerToggleResult} from '@angular/material/sidenav';
-import {MenuPositionEnum, MenuSubcategoriesAnimationStateEnum} from './menu.model';
+import { ContextService } from '@xm-ngx/core/context';
+import { Principal, XmUserService } from '@xm-ngx/core/user';
+import { getDefaultMenuList } from './default-menu-list';
+import { CdkTreeModule, NestedTreeControl } from '@angular/cdk/tree';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy, treeNodeSearch } from '@xm-ngx/operators';
+import { buildMenuTree } from './nested-menu';
+import { applicationsToCategory, filterByConditionDashboards } from './flat-menu';
+import { HoveredMenuCategory, MenuCategory, MenuItem, MenuOptions } from './menu.interface';
+import { XmUiConfigService } from '@xm-ngx/core/config';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { Translate, XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { ConditionDirective } from '@xm-ngx/components/condition';
+import { XmEventManager, XmEventManagerAction } from '@xm-ngx/core';
+import { showHideSubCategories } from './menu.animation';
+import { MenuService } from './menu.service';
+import { MatDrawerToggleResult } from '@angular/material/sidenav';
+import { MenuPositionEnum, MenuSubcategoriesAnimationStateEnum } from './menu.model';
 
 export type ISideBarConfig = {
     sidebar?: {
@@ -114,24 +124,12 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this.observeSectionsFiltering();
         this.assignSubCategories();
         this.observeNavigationAndSubCategories();
-
-        // this.uiFix();
     }
 
     public ngAfterViewInit(): void {
         this.observeSidenavOpen();
         this.observeSidenavClose();
     }
-
-    // private uiFix(): void {
-    //     // This changes should be implemented with configuration in Administration > Configuration > Specification > UI section
-    //     // TODO Must be removed after changes in configuration. Should be approved by all users.
-    //     const sidebarEl: HTMLElement = this.document.querySelector('.vf-sidebar-menu-scroll');
-    //     sidebarEl.classList.remove('overflow-auto');
-    //     sidebarEl.style.overflowY = 'hidden';
-    //     sidebarEl.style.height = '100%';
-    //     sidebarEl.style.maxHeight = '100%';
-    // }
 
     private assignSubCategories(): void {
         this.subCategories$ = combineLatest([this.activeDashboards$, this.applications$, this.defaultMenuItems$, this.context$]).pipe(
@@ -240,38 +238,47 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                 debounceTime(250),
                 observeOn(animationFrameScheduler),
                 switchMap((category: HoveredMenuCategory) => {
-                    const {hoveredCategory, isOpenMenu} = category;
+                    const {hoveredCategory} = category;
                     const hoveredCategoryName: string = hoveredCategory?.name?.en?.toLowerCase();
                     if (this.isOldMenu) {
-                        const otherCategoryName: string = this.menuService.otherCategory.name.en.toLowerCase();
-                        this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW;
-                        this.filteredCategories = this.menuByCategories[hoveredCategoryName || otherCategoryName] || [];
+                        this.setStateForOldMenu(hoveredCategoryName);
                     }
                     if (!hoveredCategory || this.isOldMenu) {
                         return of(null);
                     }
                     if (this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName && this.menuByCategories) {
-                        this.filteredCategories = this.menuByCategories[hoveredCategoryName] || [];
-                        const isOneLevelCategory = !!(this.filteredCategories?.length === 1 && this.filteredCategories[0]?.category?.isLinkWithoutSubcategories);
-                        if (!isOneLevelCategory) {
-                            this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
-                            this.hoveredCategory = hoveredCategory;
-                            const next$: Observable<MatDrawerToggleResult | number> =
-                                !this.menuService.sidenav.opened && isOpenMenu ? from(this.menuService.sidenav.open()) : timer(0);
-                            return next$.pipe(
-                                observeOn(animationFrameScheduler),
-                                tap(() => this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW),
-                            );
-                        }
-
-                        this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
-                        return from(this.menuService.sidenav.close()).pipe(observeOn(animationFrameScheduler));
+                        return this.setStateWhenCategoryChanged(hoveredCategoryName, category);
                     }
                     return of(hoveredCategory);
                 }),
                 takeUntilOnDestroy(this),
             )
             .subscribe();
+    }
+
+    private setStateForOldMenu(hoveredCategoryName: string): void {
+        const otherCategoryName: string = this.menuService.otherCategory.name.en.toLowerCase();
+        this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW;
+        this.filteredCategories = this.menuByCategories[hoveredCategoryName || otherCategoryName] || [];
+    }
+
+    private setStateWhenCategoryChanged(hoveredCategoryName: string, category: HoveredMenuCategory): Observable<MatDrawerToggleResult | number> {
+        const {hoveredCategory, isOpenMenu} = category;
+        this.filteredCategories = this.menuByCategories[hoveredCategoryName] || [];
+        const isOneLevelCategory = !!(this.filteredCategories?.length === 1 && this.filteredCategories[0]?.category?.isLinkWithoutSubcategories);
+        if (!isOneLevelCategory) {
+            this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
+            this.hoveredCategory = hoveredCategory;
+            const next$: Observable<MatDrawerToggleResult | number> =
+                !this.menuService.sidenav.opened && isOpenMenu ? from(this.menuService.sidenav.open()) : timer(0);
+            return next$.pipe(
+                observeOn(animationFrameScheduler),
+                tap(() => this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW),
+            );
+        }
+
+        this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
+        return from(this.menuService.sidenav.close()).pipe(observeOn(animationFrameScheduler));
     }
 
     private observeSidenavOpen(): void {
