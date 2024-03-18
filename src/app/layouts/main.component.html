@@ -13,7 +13,7 @@
       <mat-sidenav-container class="menu-sidenav-container" hasBackdrop="false">
         <mat-sidenav #sidenav
                      [ngClass]="{
-                        'menu-sidenav': !isOldMenu,
+                        'menu-sidenav': !isOldMenu && isOldMenu !== null,
                         'border-none': !categories?.length,
                         'no-box-shadow': sidenav.mode === 'push'
                      }"
