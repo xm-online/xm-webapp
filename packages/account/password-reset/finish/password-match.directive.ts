@@ -3,9 +3,9 @@ import { Directive, Input } from '@angular/core';
 
 @Directive({
     selector: '[matchPassword]',
-    providers: [{ provide: NG_VALIDATORS, useExisting: MatchPasswordDirective, multi: true }]
+    providers: [{ provide: NG_VALIDATORS, useExisting: PasswordMatchDirective, multi: true }]
 })
-export class MatchPasswordDirective implements Validator {
+export class PasswordMatchDirective implements Validator {
     @Input('matchPassword') public MatchPassword: string[] = [];
 
     public validate(formGroup: FormGroup): ValidationErrors {

@@ -2,7 +2,7 @@
   <header class="translate__header">
     <div class="row">
     <div class="col translate__title d-flex">
-      <h4>{{ 'translate-managment.title' | translate }}</h4>
+      <h4>{{ 'translate-managment.title.main' | translate }}</h4>
       <ng-container *ngIf="isConfig">
         <ng-container *ngIf="langs$ | async as langs">
           <xm-translation-add [config]="{langs:langs,translations:config}" (createEvent)="addNewTranslation($event)"></xm-translation-add>
@@ -17,24 +17,24 @@
       </mat-button-toggle-group>
     </div>
     <div class="translate__header-toggle">
-      <div class="row">
-        <div class="col mb-4" *ngIf="!isConfig">
-          <mat-button-toggle-group *ngIf="extNames$ | async as extNames"
-                                   (change)="setExt($event.value)"
-                                   [value]="extNames[0]"
-                                   name="extsName"
-                                   class="translate__toggle-group d-flex w-100 mat-btn-group-m3"
-                                   aria-label="Exts name">
-            <mat-button-toggle class="translate__toggle-btn" *ngFor="let extNames of extNames"
-                               [value]="extNames">{{ extNames }}
-            </mat-button-toggle>
-          </mat-button-toggle-group>
+      <ng-container *ngIf="!isConfig">
+        <div class="row" *ngIf="extNames$ | async as extNames">
+          <div class="col mb-4">
+            <mat-button-toggle-group (change)="setExt($event.value)"
+                                     [value]="extNames[0]"
+                                     name="extsName"
+                                     class="translate__toggle-group d-flex w-100 mat-btn-group-m3"
+                                     aria-label="Exts name">
+              <mat-button-toggle class="translate__toggle-btn" *ngFor="let extNames of extNames"
+                                 [value]="extNames">{{ extNames }}
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
         </div>
-      </div>
-      <div class="row">
+      </ng-container>
+      <div class="row" *ngIf="langs$ | async as langs">
         <div class="col mb-4">
-          <mat-button-toggle-group *ngIf="langs$ | async as langs"
-                                   (change)="setLang($event.value)"
+          <mat-button-toggle-group (change)="setLang($event.value)"
                                    [value]="langs[0]"
                                    name="lang"
                                    class="translate__toggle-group mat-btn-group-m3 w-100"
@@ -52,13 +52,13 @@
     </div>
   </header>
   <div *ngIf="!isConfig">
-    <h2>{{ ('translate-management.title.project' | translate)|| "Project translations" }}</h2>
+    <h2>{{ 'translate-managment.title.project' | translate }}</h2>
     <xm-keys-view [json]="translations$ | async" [editable]="!isConfig"
                   (updateTranslate)="updateTranslate($event)"></xm-keys-view>
   </div>
 
   <div *ngIf="isConfig">
-    <h2>{{ ('translate-management.title.config' | translate)||"Config translations" }}</h2>
+    <h2>{{ ('translate-managment.title.config' | translate)||"Config translations" }}</h2>
     <xm-loader [absolute]="true" [showLoader]="loading"></xm-loader>
     <xm-keys-view [json]="translationsConfig$ | async" [editable]="isConfig"
                   (updateTranslate)="updateTranslateFromConfig($event)" (deleteTranslate)="deleteTranslation($event)" ></xm-keys-view>
