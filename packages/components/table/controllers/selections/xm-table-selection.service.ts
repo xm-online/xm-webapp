@@ -8,11 +8,8 @@ import { unset } from 'lodash';
     providedIn: 'root',
 })
 export class XmTableSelectionService<T> {
-    private selections$: BehaviorSubject<Record<string, SelectionModel<T>>> = new BehaviorSubject<Record<string, SelectionModel<T>>>({});
-
-    public createSelectionModel(): SelectionModel<T> {
-        return new SelectionModel<T>(true, []);
-    }
+    public selection: SelectionModel<T> = new SelectionModel<T>(true, []);
+    private selections$ = new BehaviorSubject({});
 
     public push<T>(key: string = 'table-selection', value: SelectionModel<T>): void {
         this.selections$.next({...this.selections$.value, [key]: value});

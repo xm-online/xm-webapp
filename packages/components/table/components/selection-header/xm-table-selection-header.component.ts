@@ -54,7 +54,7 @@ export class XmTableSelectionHeaderComponent implements OnInit, OnDestroy {
     public selectionModel: SelectionModel<unknown>;
 
     constructor(private selectionService: XmTableSelectionService<unknown>) {
-        this.selectionModel = this.selectionService.createSelectionModel();
+        this.selectionModel = this.selectionService.selection;
     }
 
     private _config: XmDynamicPresentationLayout[] = [];

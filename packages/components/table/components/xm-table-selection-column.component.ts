@@ -94,7 +94,7 @@ export class XmTableSelectionColumnComponent<T> implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.selection = this.selectionService.createSelectionModel();
+        this.selection = this.selectionService.selection;
 
         this._columnDef.name = this.column.name;
         this._columnDef.cell = this._cell;
