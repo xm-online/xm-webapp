@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/cdk/table';
-import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
 import { XmTableSelectionService } from '../controllers/selections/xm-table-selection.service';
 import { XmCheckboxControl } from '@xm-ngx/components/bool';
@@ -9,7 +9,8 @@ import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 
 export interface XmTableSelectTableColumn extends XmTableColumn {
-    width: string
+    width: string,
+    selectionKey: string,
 }
 
 export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
@@ -26,6 +27,7 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
     width: '',
     name: '_selectColumn',
     sticky: false,
+    selectionKey: ''
 };
 
 @Component({
@@ -84,19 +86,22 @@ export class XmTableSelectionColumnComponent<T> implements OnInit, OnDestroy {
     @ViewChild(CdkCellDef, { static: true }) private readonly _cell: CdkCellDef;
     @ViewChild(CdkHeaderCellDef, { static: true }) private readonly _headerCell: CdkHeaderCellDef;
 
+    private selectionService: XmTableSelectionService<T> = inject(XmTableSelectionService);
+
     constructor(
         @Inject(CdkTable) private _table: CdkTable<T>,
-        @Inject(XmTableSelectionService) private _selection: XmTableSelectionService<T>,
     ) {
     }
 
     public ngOnInit(): void {
-        this.selection = this._selection.selection;
+        this.selection = this.selectionService.createSelectionModel();
 
         this._columnDef.name = this.column.name;
         this._columnDef.cell = this._cell;
         this._columnDef.headerCell = this._headerCell;
         this._table.addColumnDef(this._columnDef);
+
+        this.selectionService.push(this.column.selectionKey, this.selection);
     }
 
     public allToggle(): void {
