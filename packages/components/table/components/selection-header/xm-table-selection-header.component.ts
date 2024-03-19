@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { XmDynamicModule, XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { tap } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
     selector: 'xm-table-selection-header',
@@ -50,7 +51,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
 })
 export class XmTableSelectionHeaderComponent implements OnInit, OnDestroy {
     public isVisible: boolean;
-    public selectionModel;
+    public selectionModel: SelectionModel<unknown>;
 
     constructor(private selectionService: XmTableSelectionService<unknown>) {
         this.selectionModel = this.selectionService.selection;
@@ -72,7 +73,7 @@ export class XmTableSelectionHeaderComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.selectionService.selection.changed.pipe(
+        this.selectionModel.changed.pipe(
             tap((select) => {
                 this.isVisible = !select.source.isEmpty();
             }),

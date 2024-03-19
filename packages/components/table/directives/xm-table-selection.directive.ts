@@ -1,5 +1,4 @@
 import { Directive, Input } from '@angular/core';
-import { XmTableSelectionService } from '../controllers/selections/xm-table-selection.service';
 
 import {
     XM_TABLE_SELECTION_COLUMN_DEFAULT,
@@ -14,9 +13,6 @@ const SELECT_COLUMN_KEY = '_selectColumn';
 @Directive({
     selector: '[xmTableSelection]',
     exportAs: 'xmTableSelection',
-    providers: [
-        XmTableSelectionService,
-    ],
     standalone: true,
 })
 export class XmTableSelectionDirective {
