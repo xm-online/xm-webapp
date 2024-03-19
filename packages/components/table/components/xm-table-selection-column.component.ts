@@ -140,5 +140,6 @@ export class XmTableSelectionColumnComponent<T> implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this._table.removeColumnDef(this._columnDef);
+        this.selectionService.clear(this.column.selectionKey);
     }
 }
