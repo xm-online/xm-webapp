@@ -219,7 +219,7 @@ export class XmTableFilterChipsComponent {
         let slicedIndex = 0;
         chips.forEach((item, i) => {
             const itemWidth = item.getBoundingClientRect().width;
-            chipsWidth += itemWidth;
+            chipsWidth += (itemWidth + 15);
             if (chipsWidth > containerWidth && !slicedIndex) {
                 slicedIndex = i;
             }
