@@ -27,7 +27,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
-import { NgxMaskModule } from 'ngx-mask';
+import { IConfig, NgxMaskModule, initialConfig } from 'ngx-mask';
 
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
@@ -44,7 +44,7 @@ import {
     ConfigComponent,
     MultiSchemaTypeComponent,
     NullTypeComponent,
-    ObjectTypeComponent
+    ObjectTypeComponent,
 } from '@xm-ngx/administration/dashboards-config';
 import { FormlyModule } from '@ngx-formly/core';
 
@@ -60,6 +60,18 @@ const formFieldOptions: MatFormFieldDefaultOptions = {
 
 const paginatorOptions: MatPaginatorDefaultOptions = {
     formFieldAppearance: 'outline',
+};
+
+export const ngxMaskConfig = (): IConfig | object => {
+    return {
+        ...(initialConfig ?? {}),
+        patterns: {
+            ...(initialConfig.patterns ?? {}),
+            'C': {
+                pattern: new RegExp('[а-яА-Я]'),
+            },
+        },
+    };
 };
 
 @NgModule({
@@ -95,7 +107,7 @@ const paginatorOptions: MatPaginatorDefaultOptions = {
         XmDashboardModule.forRoot(),
         MarkdownModule.forRoot(),
         XmBreadcrumbModule.forRoot(),
-        NgxMaskModule.forRoot(),
+        NgxMaskModule.forRoot(ngxMaskConfig),
         FormlyModule.forRoot({
             types: [
                 { name: 'null', component: NullTypeComponent, wrappers: ['form-field'] },
