@@ -8,7 +8,7 @@ import {
     transition,
     trigger,
 } from '@angular/animations';
-import {MenuSubcategoriesAnimationStateEnum} from './menu.model';
+import { MenuSubcategoriesAnimationStateEnum } from './menu.model';
 
 export const showHideSubCategories: AnimationTriggerMetadata = trigger('showHideSubCategories', [
     state(MenuSubcategoriesAnimationStateEnum.SHOW, style({opacity: 1})),

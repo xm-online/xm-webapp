@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {ISession, XmSessionService} from '@xm-ngx/core';
-import {Defaults, randomInt} from '@xm-ngx/operators';
-import {Observable} from 'rxjs';
-import {SPA_AUTH_ROOT_URL, SPA_ROOT_URL} from '../logo.component';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
-import {XmTranslationModule} from '@xm-ngx/translation';
-import {MenuService} from '@xm-ngx/components/menu';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ISession, XmSessionService } from '@xm-ngx/core';
+import { Defaults, randomInt } from '@xm-ngx/operators';
+import { Observable } from 'rxjs';
+import { SPA_AUTH_ROOT_URL, SPA_ROOT_URL } from '../logo.component';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import { MenuService } from '@xm-ngx/components/menu';
 
 interface ImageLogoConfig {
     title: string;

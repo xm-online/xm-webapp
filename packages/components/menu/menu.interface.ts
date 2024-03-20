@@ -1,6 +1,6 @@
-import {ITranslate, Translate} from '@xm-ngx/translation';
-import {MenuPositionEnum} from './menu.model';
-import {DataQa} from '@xm-ngx/interfaces';
+import { ITranslate, Translate } from '@xm-ngx/translation';
+import { MenuPositionEnum } from './menu.model';
+import { DataQa } from '@xm-ngx/interfaces';
 
 export interface MenuOptions {
     /**

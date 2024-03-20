@@ -1,7 +1,7 @@
-import {Dashboard} from '@xm-ngx/core/dashboard';
-import {MenuItem} from './menu.interface';
+import { Dashboard } from '@xm-ngx/core/dashboard';
+import { MenuItem } from './menu.interface';
 import * as _ from 'lodash';
-import {ConditionDirective} from '@xm-ngx/components/condition';
+import { ConditionDirective } from '@xm-ngx/components/condition';
 
 const DEFAULT_DASHBOARD_KEY = 'DASHBOARD';
 

@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, combineLatest, debounceTime, from, Observable, of, Subject, switchMap} from 'rxjs';
-import {BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem} from './menu.interface';
-import {MatDrawerMode, MatDrawerToggleResult, MatSidenav} from '@angular/material/sidenav';
-import {BreakpointObserver, BreakpointState} from '@angular/cdk/layout';
-import {groupBy, orderBy, uniqBy} from 'lodash';
-import {Router} from '@angular/router';
-import {MenuCategoriesClassesEnum, MenuPositionEnum} from './menu.model';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, combineLatest, debounceTime, from, Observable, of, Subject, switchMap } from 'rxjs';
+import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem } from './menu.interface';
+import { MatDrawerMode, MatDrawerToggleResult, MatSidenav } from '@angular/material/sidenav';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { groupBy, orderBy, uniqBy } from 'lodash';
+import { Router } from '@angular/router';
+import { MenuCategoriesClassesEnum, MenuPositionEnum } from './menu.model';
 
 @Injectable({providedIn: 'root'})
 export class MenuService {
