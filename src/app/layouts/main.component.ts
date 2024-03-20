@@ -1,13 +1,12 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {XmSessionService} from '@xm-ngx/core';
-import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
-import {Observable} from 'rxjs';
-import {XmApplicationConfigService, XmUIConfig} from '@xm-ngx/core/config';
-import {VERSION} from '../xm.constants';
-import {XmLoggerService} from '@xm-ngx/logger';
-import {MenuService} from '@xm-ngx/components/menu';
-import {MatSidenav} from '@angular/material/sidenav';
-import {MenuCategory} from '@xm-ngx/components/menu';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { XmSessionService } from '@xm-ngx/core';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { Observable } from 'rxjs';
+import { XmApplicationConfigService, XmUIConfig } from '@xm-ngx/core/config';
+import { VERSION } from '../xm.constants';
+import { XmLoggerService } from '@xm-ngx/logger';
+import { MenuCategory, MenuService } from '@xm-ngx/components/menu';
+import { MatSidenav } from '@angular/material/sidenav';
 
 
 export interface XmMainConfig extends XmUIConfig{
