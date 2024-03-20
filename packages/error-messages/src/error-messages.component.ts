@@ -11,10 +11,11 @@ import { JhiAlertService } from '@xm-ngx/jhipster';
 import { Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { XmAlertService } from '@xm-ngx/alert';
-import { ResponseConfig, ResponseConfigItem, ResponseContext } from '../response-config.model';
+import { ResponseConfig, ResponseConfigItem, ResponseConfigType, ResponseContext } from '../response-config.model';
 import { XmUIConfig } from '@xm-ngx/core/config';
 import { CommonModule } from '@angular/common';
 import { XmErrorMessagesNotifyComponent } from './error-messages-notify.component';
+import { MatDialog } from '@angular/material/dialog';
 
 interface ErrorHandlerEventPayloadProcessed extends ErrorHandlerEventPayload {
     content: HttpErrorResponse | any;
@@ -27,18 +28,19 @@ interface UIResponseConfig extends XmUIConfig {
 }
 
 interface UIResponseConfigResponses {
-    code: string
-    codePath: string
-    status: string
-    type: string
-    validationField: string
-    validationFieldsExtractor: string
+    code: string;
+    codePath: string;
+    status: string;
+    type: ResponseConfigType;
+    validationField: string;
+    validationFieldsExtractor: string;
     outputMessage: {
         type: string;
         value: string;
     }
-    condition: string
-    redirectUrl: string
+    condition: string;
+    requestPathPattern: string;
+    redirectUrl: string;
 }
 
 @Component({
@@ -62,6 +64,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
         private alertService: XmAlertService,
         private toasterService: XmToasterService,
         private eventManager: XmEventManager,
+        private dialogRef: MatDialog,
         private router: Router,
         private i18nNamePipe: I18nNamePipe,
         private translateService: TranslateService,
@@ -83,6 +86,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                             e.validationFieldsExtractor,
                             e.outputMessage,
                             e.condition,
+                            e.requestPathPattern,
                             e.redirectUrl,
                         );
                     }));
@@ -110,6 +114,13 @@ export class JhiAlertErrorComponent implements OnDestroy {
         );
         const messageSettings = config.type.split('.') || [];
         switch (messageSettings[0]) {
+            case 'redirect': {
+                const redirect = (config.redirectUrl === '/') ? '' : config.redirectUrl;
+                response.content.handled = true;
+                this.dialogRef.closeAll();
+                this.router.navigate([redirect]);
+                break;
+            }
             case 'swal': {
                 this.alertService.open({
                     title,
