@@ -21,9 +21,6 @@
       "dom"
     ],
     "paths": {
-      "@xm-ngx/*": [
-        "packages/*",
-      ],
       "@xm-ngx/core/environment": [
         "src/environments"
       ],
