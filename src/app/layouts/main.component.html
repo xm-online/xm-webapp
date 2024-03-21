@@ -4,7 +4,7 @@
 <xm-maintenance-view></xm-maintenance-view>
 
 <xm-heatmap-container>
-    <div class="wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}">
+    <div class="wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}" navigationClass>
       <div xmGuestBackground></div>
 
       <xm-sidebar *ngIf="!isGuestLayout" class="sidebar"></xm-sidebar>
