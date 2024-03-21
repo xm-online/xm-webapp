@@ -16,7 +16,7 @@ export interface XmEnumOptions {
     /** @deprecated use {@link items} instead */
     titles?: Titles;
     items: XmEnumOptionsItem[];
-    dynamicConfig?: {
+    layout?: {
         selector?: string;
         config?: any;
         class?: string;
@@ -27,14 +27,14 @@ export interface XmEnumOptions {
 @Component({
     selector: 'xm-enum',
     template: `
-        @if (config?.dynamicConfig) {
+        @if (config?.layout) {
             <ng-container
                 xmDynamicPresentation
                 [value]="(titles[value + ''] || value) | translate"
-                [class]="config?.dynamicConfig?.class"
-                [style]="config?.dynamicConfig?.style"
-                [selector]="config?.dynamicConfig?.selector"
-                [config]="config?.dynamicConfig?.config">
+                [class]="config?.layout?.class"
+                [style]="config?.layout?.style"
+                [selector]="config?.layout?.selector"
+                [config]="config?.layout?.config">
             </ng-container>
         } @else {{{(titles[value + ''] || value) | translate}}}
     `,
