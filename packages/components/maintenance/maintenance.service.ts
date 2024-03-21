@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { XmThemeLoader } from '@xm-ngx/core/theme';
 import { XmApplicationConfigService } from '@xm-ngx/core/config';
 
@@ -18,8 +18,11 @@ export class MaintenanceService {
 
     public init(): void {
         this.themeLoader.loaded$.subscribe({
-            next: (it) => this.applicationConfigService.setResolved(!!it),
-            error: () => this.setMaintenanceProgress(true)
+            next: (it) => this.applicationConfigService.setResolved(it),
+            error: (err) => {
+                this.setMaintenanceProgress(true)
+                return throwError(err);
+            }
         });
     }
 
