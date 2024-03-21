@@ -1,15 +1,15 @@
 import { Component, Injector, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TitleService, XmTranslationModule } from '@xm-ngx/translation';
-import { XmPublicUiConfigService } from "@xm-ngx/core";
-import { XmUIConfig } from "@xm-ngx/core/config";
-import { XmDynamicModule, XmDynamicSelector } from "@xm-ngx/dynamic";
-import { firstValueFrom } from "rxjs";
+import { XmPublicUiConfigService } from '@xm-ngx/core';
+import { XmUIConfig } from '@xm-ngx/core/config';
+import { XmDynamicModule, XmDynamicSelector } from '@xm-ngx/dynamic';
+import { firstValueFrom } from 'rxjs';
 
 interface PublicUiErrorConfig {
-    "title": string;
-    "componentSelector": XmDynamicSelector;
-    "componentConfig": any;
+    title: string;
+    componentSelector: XmDynamicSelector;
+    componentConfig: any;
 }
 
 interface XmErrorConfig extends XmUIConfig {
