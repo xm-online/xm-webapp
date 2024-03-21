@@ -18,10 +18,7 @@ export class MaintenanceService {
 
     public init(): void {
         this.themeLoader.loaded$.subscribe({
-            next: (it) => {
-                console.log(it);
-                this.applicationConfigService.setResolved(!!it);
-            },
+            next: (it) => this.applicationConfigService.setResolved(!!it),
             error: () => this.setMaintenanceProgress(true)
         });
     }
