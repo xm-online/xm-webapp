@@ -27,13 +27,13 @@ export interface XmEnumOptions {
 @Component({
     selector: 'xm-enum',
     template: `
-        @if (config?.layout) {
+        @if (config?.layout?.selector) {
             <ng-container
                 xmDynamicPresentation
                 [value]="(titles[value + ''] || value) | translate"
                 [class]="config?.layout?.class"
                 [style]="config?.layout?.style"
-                [selector]="config?.layout?.selector"
+                [selector]="config.layout.selector"
                 [config]="config?.layout?.config">
             </ng-container>
         } @else {{{(titles[value + ''] || value) | translate}}}
