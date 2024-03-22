@@ -51,7 +51,7 @@ export class XmPublicComponent implements OnInit, OnDestroy {
             map(([slug, routes]) => routes.find(i => i.slug === slug)),
             map((r) => {
                 if (!r) {
-                    this.router.navigateByUrl('/accessdenied');
+                    this.router.navigateByUrl('/not-found');
                 }
 
                 return r.layout;
