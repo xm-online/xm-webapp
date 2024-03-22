@@ -52,7 +52,7 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
     private getFirstAvailableDashboard(): Observable<UrlTree> {
         return this.defaultDashboardService.getDefaultOrFirstAvailable().pipe(
             map((d) => {
-                const newUrl = d ? `/dashboard/${d.config?.slug || d.id}` : '/accessdenied';
+                const newUrl = d ? `/dashboard/${d.config?.slug || d.id}` : '/not-found';
                 this.logger.info(`Redirect router.url=${this.router.url}, newUrl=${newUrl}`);
                 return this.router.parseUrl(newUrl);
             }),
