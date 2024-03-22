@@ -27,6 +27,9 @@ import { SelectorTextControlComponent } from '../selector-text-control/selector-
 import { CopiedWidgetObject } from '../dashboards-list-expand/dashboards-list-expand.component';
 import { ConfigurationHistoryComponent } from '../../configuration-history/configuration-history.component';
 import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
+import {
+    WidgetPreviewComponent
+} from '@xm-ngx/administration/dashboards-config/components/widget-edit/widget-preview/widget-preview.component';
 
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
@@ -47,6 +50,7 @@ export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
         AsyncPipe,
         SchemaEditorComponent,
         ConfigurationHistoryComponent,
+        WidgetPreviewComponent,
     ],
     selector: 'xm-widget-edit',
     standalone: true,

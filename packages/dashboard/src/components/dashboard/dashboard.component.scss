@@ -58,3 +58,43 @@
 .hidden {
   display: none
 }
+
+
+.cdkDropList-main {
+  padding: 10px;
+  border: 2px dashed #f13a3a;
+  border-radius: 20px;
+}
+
+.cdkDropList-first {
+  border: 2px dashed #9a2538;
+  padding: 10px;
+  position: relative;
+  margin-bottom:10px;
+}
+
+.first-level-edit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  z-index: 3;
+}
+
+.cdk-drop-list-dragging {
+  background: lightgreen;
+}
+.top-level{
+  border: 2px dashed #9a2560;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.second-level{
+  border: 2px dashed #92259a;
+  padding: 10px;
+  border-radius: 20px;
+}
+.editor{
+  zoom:.7;
+}

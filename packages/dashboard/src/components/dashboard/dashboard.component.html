@@ -1,7 +1,6 @@
 <xm-loader [showLoader]="showLoader"></xm-loader>
 
-<div [class]="dashboard?.layout?.class" [style]="dashboard?.layout?.style" [ngClass]="{'edit-mode':isEdit}">
-  <button class="btn save-dashboard-btn" mat-flat-button color="primary" *ngIf="isEdit" (click)="updateDashboard()">Save</button>
+<div [class]="dashboard?.layout?.class" [style]="dashboard?.layout?.style" *ngIf="!isEdit">
   @for (item of dashboard?.layout?.grid; track item) {
     <ng-container *ngTemplateOutlet="dashboardItem; context: {item: item}"></ng-container>
   }
@@ -18,20 +17,16 @@
 </ng-template>
 
 <ng-template #dashboardContent let-item="item">
-
-  <div cdkDropList  class="dashboard-content" (cdkDropListDropped)="drop($event)" (cdkDropListDisabled)="!isEdit">
   @for (subitem of item?.content; track subitem) {
-    <div cdkDrag class="draggable"  [ngClass]="{draggable:isEdit}" >
     <ng-container *ngTemplateOutlet="dashboardItem; context: {item: subitem}"></ng-container>
-    </div>
   }
 
   @if (item?.widget && item.widget?.module && spec && injector) {
 
     <div class="xmchangable" xmChangeable [config]="item" [dashboard]="dashboard">
-    <ng-template
-      xm-dynamic-widget
-      [init]="{
+      <ng-template
+        xm-dynamic-widget
+        [init]="{
         module: item.widget?.module,
         selector: item.widget?.selector,
         component: item.widget?.component,
@@ -43,7 +38,6 @@
     </ng-template>
     </div>
   }
-  </div>
 </ng-template>
 
 @if (childrenDashboards?.length > 0) {
@@ -53,9 +47,9 @@
         <mat-card matRipple [routerLink]="['/dashboard/'].concat(childDashboard.config.slug.split('/'))">
           <mat-card-header class="pb-3">
             <mat-card-subtitle>
-              {{childDashboard.config.slug}}
+              {{ childDashboard.config.slug }}
             </mat-card-subtitle>
-            <mat-card-title>{{childDashboard.config.name | translate}}</mat-card-title>
+            <mat-card-title>{{ childDashboard.config.name | translate }}</mat-card-title>
             <mat-icon class="position-absolute" style="top: .5rem; right: .5rem">call_made</mat-icon>
           </mat-card-header>
         </mat-card>
@@ -65,3 +59,14 @@
 } @else {
   <no-data [show]="!dashboard?.layout?.grid?.length"></no-data>
 }
+
+
+<div *ngIf="isEdit &&visualdashboard &&injector&&spec">
+  <div class="editor">
+  <xm-visual-constructor [parentItem]="{content:visualdashboard}"
+                         [dashboard]="dashboard"
+                         [injector]="injector"
+                         [spec]="spec" >
+  </xm-visual-constructor>
+  </div>
+</div>

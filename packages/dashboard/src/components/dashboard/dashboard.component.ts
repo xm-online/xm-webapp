@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, Injector, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Injector, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // import { environment } from '@xm-ngx/core/environment';
@@ -17,6 +17,9 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangebleDirectiveService } from '@xm-ngx/dashboard/src/changeable/changeble-directive.service';
 import { DashboardCollection } from '@xm-ngx/administration/dashboards-config';
 import { XmEventManager } from '@xm-ngx/core';
+import {
+    VisualConstructorService
+} from '@xm-ngx/dashboard/src/components/dashboard/visual-constructor/visual-constructor.service';
 
 
 @Component({
@@ -36,7 +39,11 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     private componentInjector = inject(Injector);
     public isEdit: boolean = false;
     public EDIT_EVENT: string = 'EDIT_WIDGET_EVENT';
-
+    public activeDragZone;
+    public activeDragIndex;
+    @Output() public itemDrop: EventEmitter<any>;
+    public visualdashboard;
+    public visualdashboardIds;
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private cdf: ChangeDetectorRef,
@@ -45,6 +52,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 private changebleDirectiveService: ChangebleDirectiveService,
                 protected readonly dashboardCollection: DashboardCollection,
                 protected readonly eventManager: XmEventManager,
+                protected readonly visualConstructor: VisualConstructorService,
                 private pageService: PageService<Page<{ slug?: string }>>,
                 loggerService: XmLoggerService,
                 pageTitleService: PageTitleService,
@@ -56,7 +64,6 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     public ngOnInit(): void {
         this.isEdit=this.changebleDirectiveService.getEditStorageState();
         this.xmEntitySpecWrapperService.spec().then((spec) => this.spec = spec);
-
         this.route.params
             .pipe(takeUntilOnDestroy(this))
             .subscribe(() => {
@@ -75,6 +82,9 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                     }
                     this.logger.info(`Dashboard is loaded name="${page.name}" id="${page.id}".`);
                     this.dashboard = this.loadDashboard(page);
+                    const layout =this.visualConstructor.parseAndAssignIds(this.dashboard.layout);
+                    this.visualdashboard=layout.updatedLayout;
+                    this.visualdashboardIds=layout.idList;
                     this.showLoader = false;
                 }),
                 switchMap(page => {
@@ -134,9 +144,27 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
     public drop(event: CdkDragDrop<any[]>): void {
         if (event.previousContainer === event.container) {
-            this.dashboard.layout.layout[0].content;
-            moveItemInArray(this.dashboard.layout.layout[0].content, event.previousIndex, event.currentIndex);
+            if(Array.isArray(this.dashboard.layout.layout)){
+                moveItemInArray(this.dashboard.layout.layout as [], event.previousIndex, event.currentIndex);
+            }else{
+                moveItemInArray(this.dashboard.layout.layout[0].content, event.previousIndex, event.currentIndex);
+            }
         }
+    }
+
+    public drop2(event: CdkDragDrop<any[]>): void {
+        if (event.previousContainer === event.container) {
+            this.dashboard.layout.layout[0].content;
+            moveItemInArray(this.dashboard.layout.layout as [], event.previousIndex, event.currentIndex);
+        }
+    }
+
+    public trackItem(index:any, item:any):any {
+        return item?.widget?.id; // or any unique property of your items
+    }
+
+    public trackSubItem(index:any, item:any):any {
+        return item?.widget?.id; // or any unique property of your sub-items
     }
 
     public updateDashboard(): void {
@@ -164,4 +192,24 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
         });
         return content;
     }
+
+
+    public activeDrag(item,index):void{
+        this.activeDragZone=item;
+        this.activeDragIndex=index;
+    }
+    public isActiveDropList(idx: number): boolean {
+        return idx === this.activeDragIndex;
+    }
+
+    public dragStart(event:any):void{
+        console.warn(event);
+    }
+
+    public onDragDrop(event: void):void {
+        this.itemDrop.emit(event);
+    }
+
+
+
 }
