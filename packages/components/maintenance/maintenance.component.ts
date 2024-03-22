@@ -30,6 +30,7 @@ export class MaintenanceComponent implements OnInit {
             if (e instanceof NotFoundException) {
                 this.componentInRegistry = false;
             } else {
+                // eslint-disable-next-line no-console
                 console.error(e);
             }
         }

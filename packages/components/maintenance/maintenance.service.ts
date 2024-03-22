@@ -20,7 +20,7 @@ export class MaintenanceService {
         this.themeLoader.loaded$.subscribe({
             next: (it) => this.applicationConfigService.setResolved(it),
             error: (err) => {
-                this.setMaintenanceProgress(true)
+                this.setMaintenanceProgress(true);
                 return throwError(err);
             }
         });
