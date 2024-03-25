@@ -24,8 +24,7 @@ import { JhiAlertErrorComponent } from '@xm-ngx/error-messages';
 import { CommonModule } from '@angular/common';
 import { XmHeatmapContainerComponent } from '@xm-ngx/components/navbar-heatmap-widget';
 import { NavigationClassDirective } from './navigation-class.directive';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MenuCategoriesComponent } from '@xm-ngx/components/menu';
+import { LayoutWrapperComponent } from './components/layout-wrapper/layout-wrapper.component';
 
 @NgModule({
     imports: [
@@ -53,8 +52,7 @@ import { MenuCategoriesComponent } from '@xm-ngx/components/menu';
         PageRibbonComponent,
         XmHeatmapContainerComponent,
         NavigationClassDirective,
-        MatSidenavModule,
-        MenuCategoriesComponent,
+        LayoutWrapperComponent,
     ],
     exports: [XmMainComponent],
     declarations: [XmMainComponent],

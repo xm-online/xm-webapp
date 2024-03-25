@@ -1,5 +1,5 @@
 <div class="menu-view"
-     [ngClass]="{'old-menu': isOldMenu}"
+     [ngClass]="{'old-menu': !isMaterial3Menu}"
      *ngIf="subCategories$ | async"
      (mouseleave)="hideMenuRightSide($event)">
   <cdk-tree [dataSource]="filteredCategories"
@@ -13,13 +13,13 @@
          [routerLink]="node.url"
          [ngClass]="{
             'active': node.isActiveRoute,
-            'active-with-stretch': node.isActiveRoute && !isOldMenu,
-            'rounded-menu-link': !isOldMenu
+            'active-with-stretch': node.isActiveRoute && isMaterial3Menu,
+            'rounded-menu-link': isMaterial3Menu
          }"
          (click)="setSelectedCategory(node)"
          [attr.data-qa]="node.dataQa || 'default-menu-child-key'"
       >
-        <mat-icon class="menu-icon" *ngIf="isOldMenu">{{node?.icon}}</mat-icon>
+        <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{node?.icon}}</mat-icon>
         <span class="xm-menu-item-text" [title]="node?.title | translate">
         {{node?.title | translate}}
       </span>
@@ -32,13 +32,13 @@
          (click)="toggleOrNavigate(node, $event)"
          [ngClass]="{
             'active-menu-category': node === parentCategory,
-            'active': isOldMenu && !node.children?.length && node?.category === selectedCategory,
-            'active-with-stretch': !isOldMenu && !node.children?.length && node?.category === selectedCategory,
-            'rounded-menu-link': !isOldMenu,
+            'active': !isMaterial3Menu && !node.children?.length && node?.category === selectedCategory,
+            'active-with-stretch': isMaterial3Menu && !node.children?.length && node?.category === selectedCategory,
+            'rounded-menu-link': isMaterial3Menu,
          }"
          [attr.data-qa]="node.dataQa || 'default-menu-parent-key'"
       >
-        <mat-icon class="menu-icon" *ngIf="isOldMenu">{{node.icon}}</mat-icon>
+        <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{node.icon}}</mat-icon>
         <span class="xm-menu-item-text">{{node?.title | translate}}</span>
         <span class="ms-auto"></span>
 
@@ -53,7 +53,7 @@
 
       <div
         class="menu-list"
-        [ngClass]="{'nested-menu-list': !isOldMenu}"
+        [ngClass]="{'nested-menu-list': isMaterial3Menu}"
         role="group" [@bodyExpansion]="isNodeExpanded(node)">
         <ng-container cdkTreeNodeOutlet></ng-container>
       </div>

@@ -96,7 +96,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     public selectedCategory: MenuCategory;
     public hoveredCategory: MenuCategory;
     public parentCategory: MenuItem;
-    public isOldMenu: boolean;
+    public isMaterial3Menu: boolean;
 
     constructor(
         protected readonly dashboardService: DashboardStore,
@@ -139,7 +139,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                 const menu: MenuItem[] = this.menuService.mapMenuCategories([...mainMenu, ...defaultMenu]);
                 this.categories = this.menuService.getUniqMenuCategories(menu);
                 this.menuByCategories = this.menuService.getGroupedMenuCategories(menu);
-                if (this.isOnlyOtherCategory) {
+                if (!this.isOnlyOtherCategory) {
                     return menu;
                 }
                 this.menuService.setMenuCategories(this.categories);
@@ -240,10 +240,10 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                 switchMap((category: HoveredMenuCategory) => {
                     const {hoveredCategory} = category;
                     const hoveredCategoryName: string = hoveredCategory?.name?.en?.toLowerCase();
-                    if (this.isOldMenu) {
+                    if (!this.isMaterial3Menu) {
                         this.setStateForOldMenu(hoveredCategoryName);
                     }
-                    if (!hoveredCategory || this.isOldMenu) {
+                    if (!hoveredCategory || !this.isMaterial3Menu) {
                         return of(null);
                     }
                     if (this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName && this.menuByCategories) {
@@ -379,7 +379,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
             return;
         }
 
-        this.isOldMenu && this.treeControl.collapseAll();
+        !this.isMaterial3Menu && this.treeControl.collapseAll();
 
         // Unfold current node
         this.unfoldParentNode(node);
@@ -404,8 +404,8 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private get isOnlyOtherCategory(): boolean {
         const categoriesKeys: string[] = Object.keys(this.menuByCategories);
-        this.isOldMenu = categoriesKeys?.length === 1 && categoriesKeys[0] === this.menuService.otherCategory.name.en.toLowerCase();
-        this.menuService.setIsOldMenu(this.isOldMenu);
-        return this.isOldMenu;
+        this.isMaterial3Menu = categoriesKeys?.length > 1 && categoriesKeys[0] !== this.menuService.otherCategory.name.en.toLowerCase();
+        this.menuService.setIsMaterial3Menu(this.isMaterial3Menu);
+        return this.isMaterial3Menu;
     }
 }

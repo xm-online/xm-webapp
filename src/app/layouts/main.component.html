@@ -4,46 +4,30 @@
 <xm-maintenance-view></xm-maintenance-view>
 
 <xm-heatmap-container>
-    <div class="wrapper body-wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}"
-         *ngIf="menuCategories$ | async as categories"
-         navigationClass
-    >
+    <div class="wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}" navigationClass>
       <div xmGuestBackground></div>
-      <xm-menu-categories *ngIf="!isGuestLayout"></xm-menu-categories>
-      <mat-sidenav-container class="menu-sidenav-container" hasBackdrop="false">
-        <mat-sidenav #sidenav
-                     [ngClass]="{
-                        'menu-sidenav': !isOldMenu && isOldMenu !== null,
-                        'border-none': !categories?.length,
-                        'no-box-shadow': sidenav.mode === 'push'
-                     }"
-                     [mode]="'side'"
-                     [opened]="initialSidenavOpenedState"
-                     [fixedInViewport]="true"
-        >
-          <xm-sidebar *ngIf="!isGuestLayout"></xm-sidebar>
-        </mat-sidenav>
-        <mat-sidenav-content>
-          <div *ngIf="resolved$ | async"
-               class="main-panel xm-main-panel"
-               id="main">
-            <xm-loader [absolute]="true" routerLoading></xm-loader>
+      <xm-layout-wrapper
+        [isGuestLayout]="isGuestLayout"
+      >
+        <div *ngIf="resolved$ | async"
+             class="main-panel xm-main-panel"
+             id="main">
+          <xm-loader [absolute]="true" routerLoading></xm-loader>
 
-            <xm-navbar class="mb-3" [ngClass]="{'relative-position': isSidenavOpen$ | async}"></xm-navbar>
+          <xm-navbar class="mb-3" [ngClass]="{'relative-position': isSidenavOpen$ | async}"></xm-navbar>
 
-            <div [ngClass]="(isGuestLayout && !config.fullWidth) ? 'container' : 'container-fluid'"
-                 class="main-content xm-main-content">
-              <router-outlet></router-outlet>
-            </div>
-
-            <router-outlet name="popup"></router-outlet>
-
-            <xm-footer></xm-footer>
-
+          <div [ngClass]="(isGuestLayout && !config.fullWidth) ? 'container' : 'container-fluid'"
+               class="main-content xm-main-content">
+            <router-outlet></router-outlet>
           </div>
-        </mat-sidenav-content>
-      </mat-sidenav-container>
 
+          <router-outlet name="popup"></router-outlet>
+
+          <xm-footer></xm-footer>
+
+        </div>
+
+      </xm-layout-wrapper>
       <xm-sidebar-right></xm-sidebar-right>
     </div>
 </xm-heatmap-container>

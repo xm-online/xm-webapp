@@ -1,0 +1,20 @@
+<div class="layout-wrapper-view" *ngIf="menuCategories$ | async as categories">
+  <xm-menu-categories *ngIf="!isGuestLayout"></xm-menu-categories>
+  <mat-sidenav-container class="menu-sidenav-container" hasBackdrop="false">
+    <mat-sidenav #sidenav
+                 [ngClass]="{
+                        'menu-sidenav': isMaterial3Menu,
+                        'border-none': !categories?.length,
+                        'no-box-shadow': sidenav.mode === 'push'
+                     }"
+                 [mode]="'side'"
+                 [opened]="initialSidenavOpenedState"
+                 [fixedInViewport]="true"
+    >
+      <xm-sidebar *ngIf="!isGuestLayout"></xm-sidebar>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

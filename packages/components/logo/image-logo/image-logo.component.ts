@@ -35,7 +35,7 @@ const DEFAULT: ImageLogoConfig = {
 })
 export class ImageLogoComponent implements OnInit {
     public session$: Observable<ISession>;
-    public isOldMenu$: Observable<boolean>;
+    public isMaterial3Menu$: Observable<boolean>;
 
     @Input() @Defaults(DEFAULT) public config: ImageLogoConfig;
     public imgPath: string;
@@ -49,7 +49,7 @@ export class ImageLogoComponent implements OnInit {
     public ngOnInit(): void {
         this.imgPath = this.getImageUrl(this.config.imageUrls);
         this.session$ = this.sessionService.get();
-        this.isOldMenu$ = this.menuService.isOldMenu;
+        this.isMaterial3Menu$ = this.menuService.isMaterial3Menu;
     }
 
     public getImageUrl(imageUrls: string[]): string {
