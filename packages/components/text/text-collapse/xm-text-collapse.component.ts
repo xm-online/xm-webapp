@@ -13,14 +13,16 @@ export interface XmTextCollapseConfig {
 @Component({
     selector: 'xm-text-collapse',
     template: `
-        <button class="collapse"
-                [style.width]="config.maxWidth"
-                mat-button [matMenuTriggerFor]="aboveMenu">
-            {{value}}
-        </button>
-        <mat-menu #aboveMenu="matMenu" yPosition="below">
-            <div class="p-3">{{value}}</div>
-        </mat-menu>
+        @if (value) {
+            <button class="collapse"
+                    [style.width]="config.maxWidth"
+                    mat-button [matMenuTriggerFor]="aboveMenu">
+                {{value}}
+            </button>
+            <mat-menu #aboveMenu="matMenu" yPosition="below">
+                <div class="p-3">{{value}}</div>
+            </mat-menu>
+        }
     `,
     styles: [`
         :host .collapse {
