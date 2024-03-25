@@ -1,21 +1,21 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Translate } from '../services/language.service';
+import { Translate, LanguageService } from '../services/language.service';
 import { Principal } from '@xm-ngx/core/user';
 
 @Pipe({name: 'i18nName'})
 export class I18nNamePipe implements PipeTransform {
 
-    constructor(private translateService: TranslateService,
-                private principal: Principal) {
-    }
+    private translateService: TranslateService = inject(TranslateService);
+    private langService: LanguageService = inject(LanguageService);
+    private principal: Principal = inject(Principal);
 
-    /** @deprecated Use the TranslatePipe "translate" instead */
     public transform(name: any | { trKey: Translate }, principal: Principal = this.principal): string {
+        const langKey = principal.getLangKey() || this.langService.locale;
         if (name && name.trKey) {
             return this.translateService.instant(name.trKey);
-        } else if (name && name[principal.getLangKey()]) {
-            return name[principal.getLangKey()];
+        } else if (name && name[langKey]) {
+            return name[langKey];
         } else if (name && name.en) {
             return name.en;
         }
