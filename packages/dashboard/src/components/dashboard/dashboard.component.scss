@@ -1,7 +1,100 @@
 :host {
-  display:        flex;
-  flex-grow:      1;
+  display: flex;
+  flex-grow: 1;
   flex-direction: column;
   padding-left: 30px;
   padding-right: 30px;
+}
+
+.edit-mode {
+  zoom: 0.7;
+  border: 2px dashed #2d8f13;
+  padding: 20px;
+}
+
+.edit-ui-configurator {
+  border: 2px dashed #2298ec;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 20px;
+  position: relative;
+  z-index: 6;
+}
+
+.edit-ui-configurator > * {
+  margin: 10px;
+}
+
+.edit-ui-configurator .vf-toolbar-widget {
+  margin: 10px;
+}
+
+.ui-constructor-edit {
+  margin: 0 5px;
+}
+
+.ui-constructor-resize {
+}
+
+.ui-constructor-save {
+}
+
+.save-dashboard-btn {
+  position: absolute;
+  margin: 10px;
+  top: 20px;
+  right: 0;
+  z-index: 9;
+}
+
+.ui-constructor-container {
+  position: absolute;
+  margin: 10px;
+  top: 0;
+  right: 0;
+  z-index: 9;
+}
+
+.hidden {
+  display: none
+}
+
+
+.cdkDropList-main {
+  padding: 10px;
+  border: 2px dashed #f13a3a;
+  border-radius: 20px;
+}
+
+.cdkDropList-first {
+  border: 2px dashed #9a2538;
+  padding: 10px;
+  position: relative;
+  margin-bottom:10px;
+}
+
+.first-level-edit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  z-index: 3;
+}
+
+.cdk-drop-list-dragging {
+  background: lightgreen;
+}
+.top-level{
+  border: 2px dashed #9a2560;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.second-level{
+  border: 2px dashed #92259a;
+  padding: 10px;
+  border-radius: 20px;
+}
+.editor{
+  zoom:.7;
 }

@@ -17,7 +17,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatRippleModule } from '@angular/material/core';
 import { XmNotEmptyPipe } from '@xm-ngx/pipes';
-
+import { ChangeableDirective } from './changeable/changeable.directive';
+import { CdkDrag, CdkDragHandle, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
+import {
+    VisualConstructorComponent
+} from '@xm-ngx/dashboard/src/components/dashboard/visual-constructor/visual-constructor/visual-constructor.component';
 @NgModule({
     imports: [
         XmDynamicModule,
@@ -32,6 +36,12 @@ import { XmNotEmptyPipe } from '@xm-ngx/pipes';
         MatIconModule,
         MatRippleModule,
         XmNotEmptyPipe,
+        ChangeableDirective,
+        CdkDrag,
+        CdkDropList,
+        CdkDropListGroup,
+        CdkDragHandle,
+        VisualConstructorComponent,
     ],
     declarations: [DashboardComponent],
     providers: [WidgetService, PendingChangesGuard, XmDynamicControllerInjectorFactoryService],

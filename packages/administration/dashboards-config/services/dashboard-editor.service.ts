@@ -4,7 +4,7 @@ import { SidebarRightService } from '@xm-ngx/components/sidebar-right';
 import { Dashboard, DashboardWidget } from '@xm-ngx/core/dashboard';
 import { IId } from '@xm-ngx/interfaces';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { readFromClipboard } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 
@@ -28,6 +28,7 @@ export interface CopiedObject {
 
 @Injectable()
 export class DashboardEditorService {
+    private booleanValue = new BehaviorSubject<boolean>(false);
 
     private isEdit: Subject<boolean> = new Subject<boolean>();
     constructor(public layoutService: SidebarRightService,
@@ -35,6 +36,15 @@ export class DashboardEditorService {
                 protected activatedRoute: ActivatedRoute,
                 protected toasterService: XmToasterService,
                 public injector: Injector) {
+    }
+
+
+    public setValue(value: boolean): void {
+        this.booleanValue.next(value);
+    }
+
+    public getValue(): Observable<boolean> {
+        return this.isEdit.asObservable();
     }
 
     public close(): void {
