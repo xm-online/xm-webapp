@@ -191,7 +191,6 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
             const chipsFilters = this.getChipsFilters();
             this.activeFilters = chipsFilters;
 
-            console.log(chipsFilters);
             // TODO:WORKAROUND: Wait until filters create and hide the rest
             setTimeout(() => {
                 this.setFilters(chipsFilters);
@@ -282,7 +281,6 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
                     this.config.chips.find(i => i.name === config.name)
                     || { selector: '@xm-ngx/components/text', config: {} } as XmInlineControlDynamicView<unknown, unknown>;
 
-                console.log(overrideView);
                 const inlineConfig: XmInlineControlConfig = {
                     view: overrideView as XmInlineControlDynamicView<unknown, unknown>,
                     edit: config as XmInlineControlDynamic<unknown>,
