@@ -64,12 +64,13 @@ export interface XmTableFilterInlineFilter {
     standalone: true,
     host: { class: 'xm-table-filter-chips' },
     template: `
-        <div class="filter-container ms-1" #elementRef>
+        <div class="filter-container ms-1" #filterContainer>
             <mat-chip-listbox class="chip-listbox" [selectable]="false" [multiple]="true">
                 <mat-chip-option *ngFor="let filter of activeFilters"
                                  (removed)="remove(filter)"
                                  [removable]="filter.removable"
                                  color="accent"
+                                 #filterItem
                                  selected
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
@@ -81,41 +82,43 @@ export interface XmTableFilterInlineFilter {
             </mat-chip-listbox>
         </div>
 
-        <button
-            class="btn-clear-all ms-2"
-            mat-button
-            *ngIf="activeFilters?.length"
-            (click)="removeAll()"
-        >
-            {{'table.filter.button.clearAll' | translate}}
-        </button>
+        <div #filterChipsActions>
+            <button
+                class="btn-clear-all ms-2"
+                mat-button
+                *ngIf="activeFilters?.length"
+                (click)="removeAll()"
+            >
+                {{'table.filter.button.clearAll' | translate}}
+            </button>
 
-        <button
-            class="ms-1"
-            mat-button
-            *ngIf="hiddenFilters?.length"
-            [matMenuTriggerFor]="hiddenChips"
-            [matBadge]="hiddenFilters?.length"
-        >
-            {{'table.filter.button.more' | translate}}
-        </button>
+            <button
+                class="ms-1"
+                mat-button
+                *ngIf="hiddenFilters?.length"
+                [matMenuTriggerFor]="hiddenChips"
+                [matBadge]="hiddenFilters?.length"
+            >
+                {{'table.filter.button.more' | translate}}
+            </button>
 
-        <mat-menu #hiddenChips>
-            <mat-chip-listbox class="chip-listbox ps-1 pe-1" [selectable]="false" [multiple]="true">
-                <mat-chip-option *ngFor="let filter of hiddenFilters"
-                                 (removed)="remove(filter)"
-                                 [removable]="filter.removable"
-                                 selected
-                                 color="accent"
-                                 class="chip-option">
-                    <xm-table-filter-chips-control [config]="filter.inlineConfig"
-                                                   [value]="filter.title"
-                                                   [disabled]="filter.config?.disabled"
-                                                   (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
-                    <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
-                </mat-chip-option>
-            </mat-chip-listbox>
-        </mat-menu>
+            <mat-menu #hiddenChips>
+                <mat-chip-listbox class="chip-listbox ps-1 pe-1" [selectable]="false" [multiple]="true">
+                    <mat-chip-option *ngFor="let filter of hiddenFilters"
+                                     (removed)="remove(filter)"
+                                     [removable]="filter.removable"
+                                     selected
+                                     color="accent"
+                                     class="chip-option">
+                        <xm-table-filter-chips-control [config]="filter.inlineConfig"
+                                                       [value]="filter.title"
+                                                       [disabled]="filter.config?.disabled"
+                                                       (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
+                        <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
+                    </mat-chip-option>
+                </mat-chip-listbox>
+            </mat-menu>
+        </div>
     `,
     styles: [`
         :host(.xm-table-filter-chips) {
