@@ -76,7 +76,7 @@ export interface XmTableFilterInlineFilter {
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
                                                    [value]="filter.title"
-                                                   [disabled]="filter?.disabled || filter?.config?.disabled"
+                                                   [disabled]="filter.disabled"
                                                    (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
                 </mat-chip-option>
@@ -113,7 +113,7 @@ export interface XmTableFilterInlineFilter {
                                      class="chip-option">
                         <xm-table-filter-chips-control [config]="filter.inlineConfig"
                                                        [value]="filter.title"
-                                                       [disabled]="filter?.disabled || filter?.config?.disabled"
+                                                       [disabled]="filter.disabled"
                                                        (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                         <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
                     </mat-chip-option>
@@ -149,6 +149,7 @@ export interface XmTableFilterInlineFilter {
         }
 
         .filter-container {
+            width: 100%;
             overflow: hidden;
         }
     `],
@@ -290,7 +291,7 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
                     inlineConfig,
                     removable: !config?.removable,
                     name: config.name,
-                    disabled: overrideView?.disabled,
+                    disabled: overrideView.disabled || config.disabled,
                 };
                 if(isArray(this.value[config.name])){
                     return (this.value[config.name] as Primitive[]).map(value => {
