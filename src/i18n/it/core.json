@@ -487,6 +487,7 @@
           "password-max-length": "La password di conferma non può superare i caratteri {{maxLength}}.",
           "password-min-length": "La password di conferma deve contenere almeno {{minLength}}.",
           "password-pattern": "La dose della password non corrisponde al modello {{pattern}}",
+          "space": "La tua password di conferma non può contenere spazi.",
           "required": "La password di conferma è obbligatoria.",
           "not-match": "La tua password e la password di conferma non corrispondono."
         },
@@ -512,6 +513,7 @@
           "password-max-length": "La password non può superare i caratteri {{maxLength}}.",
           "password-min-length": "La password deve contenere almeno caratteri {{minLength}}.",
           "password-pattern": "La dose della password non corrisponde al modello {{pattern}}",
+          "space": "La tua password non può contenere spazi.",
           "required": "La password è obbligatoria.",
           "strength": "Sicurezza della password:"
         },
@@ -917,7 +919,11 @@
     "filter-by-key": "Filtra per chiave",
     "filter-by-value": "Filtra per valore",
     "save-all-button": "Salva tutto",
-    "title": "Gestione delle traduzioni"
+    "title": {
+      "main": "Gestione delle traduzioni",
+      "project": "Traduzioni di progetti",
+      "config": "Traduzioni di configurazione"
+    }
   },
   "userManagement": {
     "activated": "Attivante",

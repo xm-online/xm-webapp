@@ -11,11 +11,13 @@ export class ResponseConfig {
     }
 }
 
+export type ResponseConfigType = 'swal' | 'ignore' | 'validation' | 'alert' | 'redirect';
+
 export class ResponseConfigItem {
     constructor(public code?: string,
                 public codePath?: string,
                 public status?: string,
-                public type?: string,
+                public type?: ResponseConfigType,
                 public validationField?: string,
                 public validationFieldsExtractor?: string,
                 public outputMessage?: {
@@ -23,6 +25,7 @@ export class ResponseConfigItem {
                     value: string;
                 },
                 public condition?: any,
+                public requestPathPattern?: string,
                 public redirectUrl?: string) {
     }
 
@@ -35,6 +38,9 @@ export class ResponseConfigItem {
             return false;
         }
         try {
+            if ((this.requestPathPattern != null) && !new RegExp(this.requestPathPattern).test(rc.request.url)) {
+                return false;
+            }
             if ((this.condition != null) && !new Function('rc', this.condition)(rc)) {
                 return false;
             }

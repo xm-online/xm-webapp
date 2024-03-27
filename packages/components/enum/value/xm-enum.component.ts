@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { XmDynamicPresentation } from '@xm-ngx/dynamic';
+import { XmDynamicModule, XmDynamicPresentation, XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { keyBy, mapValues } from 'lodash';
 
@@ -16,14 +16,24 @@ export interface XmEnumOptions {
     /** @deprecated use {@link items} instead */
     titles?: Titles;
     items: XmEnumOptionsItem[];
+    layout?: XmDynamicPresentationLayout;
 }
 
 @Component({
     selector: 'xm-enum',
     template: `
-        {{(titles[value + ''] || value) | translate}}
+        @if (config?.layout?.selector) {
+            <ng-container
+                xmDynamicPresentation
+                [value]="(titles[value + ''] || value) | translate"
+                [class]="config?.layout?.class"
+                [style]="config?.layout?.style"
+                [selector]="config.layout.selector"
+                [config]="config?.layout?.config">
+            </ng-container>
+        } @else {{{(titles[value + ''] || value) | translate}}}
     `,
-    imports: [XmTranslationModule],
+    imports: [XmTranslationModule, XmDynamicModule],
     standalone: true,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,

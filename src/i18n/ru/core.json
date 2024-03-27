@@ -482,6 +482,7 @@
           "password-max-length": "Подтверждение пароля не может быть больше чем {{maxLength}} символов.",
           "password-min-length": "Длина подтверждения пароля должна быть хотя-бы {{minLength}} символов.",
           "password-pattern": "Пароль не отвечает шаблону {{pattern}}",
+          "space": "Ваш пароль подтверждения не может содержать пробелов.",
           "required": "подтверждение пароля должно быть указано.",
           "not-match": "Ваш пароль и пароль подтверждения не совпадают."
         },
@@ -507,6 +508,7 @@
           "password-max-length": "Пароль не может быть длиннее чем {{maxLength}} символов.",
           "password-min-length": "Длина пароля должна быть хотя-бы {{minLength}} символов.",
           "password-pattern": "Пароль не отвечает шаблону {{pattern}}",
+          "space": "Ваш пароль не может содержать пробелов.",
           "required": "Пароль должен быть указан.",
           "strength": "Сложность пароля:"
         },
@@ -922,7 +924,11 @@
     "filter-by-key": "Filter by key",
     "filter-by-value": "Filter by value",
     "save-all-button": "Save all",
-    "title": "Translate management"
+    "title": {
+      "main": "Управление переводами",
+      "project": "Переводы проектов",
+      "config": "Переводы конфигов"
+    }
   },
   "userManagement": {
     "activated": "Активен",

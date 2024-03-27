@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, Injectable, Provider, StaticProvider } from '@angular/core';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmThemeController } from './xm-theme-controller.service';
@@ -24,10 +24,10 @@ export class XmThemeLoader {
         return this.configService.config$().pipe(
             switchMap((c) => this.loadTheme(c)),
             take(1),
-            tap(() => this.loaded$.next(false)),
+            tap(() => this.loaded$.next(true)),
             catchError((err) => {
                 this.loaded$.error(err);
-                return throwError(err);
+                return of();
             }),
         ).toPromise();
     }

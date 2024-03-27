@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, of } from 'rxjs';
 import { TranslationObject } from './translation.model';
 import { last, isObject, get, isEmpty, set } from 'lodash';
 
@@ -16,7 +16,11 @@ export class TranslationConfigService {
     }
 
     public loadConfigTranslations(lang: string): Observable<TranslationObject> {
-        return this.httpClient.get<TranslationObject>(this.resourceUrl + `/${lang}.json`);
+        return this.httpClient.get<TranslationObject>(this.resourceUrl + `/${lang}.json`).pipe(
+            catchError((error: HttpErrorResponse) => {
+                return of({});
+            }),
+        );
     }
 
     public updateConfigTranslations(configContent: TranslationObject | string, lang: string): Observable<object> {

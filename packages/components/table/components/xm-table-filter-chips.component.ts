@@ -1,4 +1,13 @@
-import { Component, ElementRef, Input } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    Input,
+    OnDestroy,
+    QueryList,
+    ViewChild,
+    ViewChildren,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -55,12 +64,13 @@ export interface XmTableFilterInlineFilter {
     standalone: true,
     host: { class: 'xm-table-filter-chips' },
     template: `
-        <div class="filter-container ms-1" #elementRef>
+        <div class="filter-container ms-1" #filterContainer>
             <mat-chip-listbox class="chip-listbox" [selectable]="false" [multiple]="true">
                 <mat-chip-option *ngFor="let filter of activeFilters"
                                  (removed)="remove(filter)"
                                  [removable]="filter.removable"
                                  color="accent"
+                                 #filterItem
                                  selected
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
@@ -72,45 +82,48 @@ export interface XmTableFilterInlineFilter {
             </mat-chip-listbox>
         </div>
 
-        <button
-            class="btn-clear-all ms-2"
-            mat-button
-            *ngIf="activeFilters?.length"
-            (click)="removeAll()"
-        >
-            {{'table.filter.button.clearAll' | translate}}
-        </button>
+        <div #filterChipsActions>
+            <button
+                class="btn-clear-all ms-2"
+                mat-button
+                *ngIf="activeFilters?.length"
+                (click)="removeAll()"
+            >
+                {{'table.filter.button.clearAll' | translate}}
+            </button>
 
-        <button
-            class="ms-1"
-            mat-button
-            *ngIf="hiddenFilters?.length"
-            [matMenuTriggerFor]="hiddenChips"
-            [matBadge]="hiddenFilters?.length"
-        >
-            {{'table.filter.button.more' | translate}}
-        </button>
+            <button
+                class="ms-1"
+                mat-button
+                *ngIf="hiddenFilters?.length"
+                [matMenuTriggerFor]="hiddenChips"
+                [matBadge]="hiddenFilters?.length"
+            >
+                {{'table.filter.button.more' | translate}}
+            </button>
 
-        <mat-menu #hiddenChips>
-            <mat-chip-listbox class="chip-listbox ps-1 pe-1" [selectable]="false" [multiple]="true">
-                <mat-chip-option *ngFor="let filter of hiddenFilters"
-                                 (removed)="remove(filter)"
-                                 [removable]="filter.removable"
-                                 selected
-                                 color="accent"
-                                 class="chip-option">
-                    <xm-table-filter-chips-control [config]="filter.inlineConfig"
-                                                   [value]="filter.title"
-                                                   [disabled]="filter.config?.disabled"
-                                                   (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
-                    <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
-                </mat-chip-option>
-            </mat-chip-listbox>
-        </mat-menu>
+            <mat-menu #hiddenChips>
+                <mat-chip-listbox class="chip-listbox ps-1 pe-1" [selectable]="false" [multiple]="true">
+                    <mat-chip-option *ngFor="let filter of hiddenFilters"
+                                     (removed)="remove(filter)"
+                                     [removable]="filter.removable"
+                                     selected
+                                     color="accent"
+                                     class="chip-option">
+                        <xm-table-filter-chips-control [config]="filter.inlineConfig"
+                                                       [value]="filter.title"
+                                                       [disabled]="filter.config?.disabled"
+                                                       (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
+                        <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
+                    </mat-chip-option>
+                </mat-chip-listbox>
+            </mat-menu>
+        </div>
     `,
     styles: [`
         :host(.xm-table-filter-chips) {
             display: flex;
+            justify-content: space-between;
             flex-grow: 1;
             min-width: 0;
         }
@@ -135,9 +148,7 @@ export interface XmTableFilterInlineFilter {
         }
 
         .filter-container {
-            display: block;
-            overflow: clip;
-            width: calc(100% - 100px);
+            overflow: hidden;
         }
     `],
     imports: [
@@ -153,19 +164,21 @@ export interface XmTableFilterInlineFilter {
         XmTranslationModule,
     ],
 })
-export class XmTableFilterChipsComponent {
+export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
     public value: FiltersControlValue = {};
     public activeFilters: XmTableFilterInlineFilter[] = [];
     public hiddenFilters: XmTableFilterInlineFilter[] = [];
     @Input() @Defaults(DEFAULT_CONFIG) public config: XmTableInlineFilterChipsConfig;
 
+    @ViewChild('filterContainer') public filterContainer: ElementRef<HTMLElement>;
+    @ViewChild('filterChipsActions') public filterChipsActions: ElementRef<HTMLElement>;
+    @ViewChildren('filterItem', { read: ElementRef }) public filterItems: QueryList<ElementRef<HTMLElement>>;
+
     constructor(
         protected entitiesRequestBuilder: XmTableFilterController,
-        private elementRef: ElementRef<HTMLElement>,
-    ) {
-    }
+    ) {}
 
-    public ngOnInit(): void {
+    public ngAfterViewInit(): void {
         this.entitiesRequestBuilder.change$().pipe(
             takeUntilOnDestroy(this),
         ).subscribe((value) => {
@@ -179,7 +192,7 @@ export class XmTableFilterChipsComponent {
             // TODO:WORKAROUND: Wait until filters create and hide the rest
             setTimeout(() => {
                 this.setFilters(chipsFilters);
-            }, 110);
+            }, 1);
         });
     }
 
@@ -209,21 +222,7 @@ export class XmTableFilterChipsComponent {
     }
 
     private setFilters(chipsFilters: XmTableFilterInlineFilter[]): void {
-        const container = this.elementRef.nativeElement;
-        const chips = container.querySelectorAll('.chip-option');
-        const filterContainer = container.querySelector<HTMLElement>('.filter-container');
-
-        const containerWidth = filterContainer.getBoundingClientRect().width;
-
-        let chipsWidth = 0;
-        let slicedIndex = 0;
-        chips.forEach((item, i) => {
-            const itemWidth = item.getBoundingClientRect().width;
-            chipsWidth += itemWidth;
-            if (chipsWidth > containerWidth && !slicedIndex) {
-                slicedIndex = i;
-            }
-        });
+        const slicedIndex = this.calculateSliceIndex();
 
         if (slicedIndex) {
             this.hiddenFilters = chipsFilters.slice(slicedIndex);
@@ -232,6 +231,44 @@ export class XmTableFilterChipsComponent {
             this.hiddenFilters = [];
             this.activeFilters = chipsFilters;
         }
+    }
+
+    private calculateSliceIndex(): number {
+        if (!this.filterContainer) {
+            return -1;
+        }
+
+        const filterItems = this.filterItems.toArray();
+        const filterContainer = this.filterContainer.nativeElement;
+        const filterChipsActions = this.filterChipsActions.nativeElement;
+
+        const filterContainerStyle = window.getComputedStyle(filterContainer);
+
+        const containerWidth = parseInt(filterContainerStyle.width);
+        const actionsWidth = filterChipsActions.getBoundingClientRect().width;
+
+        const calcContainerOffset = containerWidth - actionsWidth;
+
+        const marginOffset = parseInt(filterContainerStyle?.marginLeft) + parseInt(filterContainerStyle.marginRight);
+
+        const paddingOffset = parseInt(filterContainerStyle.paddingLeft) + parseInt(filterContainerStyle.paddingRight);
+
+        const allGaps = paddingOffset + marginOffset;
+
+        let chipsWidth = allGaps;
+        let slicedIndex = 0;
+
+        filterItems.forEach((item, i) => {
+            const itemWidth = item.nativeElement.getBoundingClientRect().width;
+
+            chipsWidth += itemWidth;
+
+            if (chipsWidth > calcContainerOffset && !slicedIndex) {
+                slicedIndex = i;
+            }
+        });
+
+        return slicedIndex;
     }
 
     private getChipsFilters(): XmTableFilterInlineFilter[] {
