@@ -5,6 +5,7 @@ import { MenuCategoriesComponent, MenuCategory, MenuService } from '@xm-ngx/comp
 import { Observable } from 'rxjs';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmSidebarModule } from '@xm-ngx/components/sidebar';
+import { XmEventManager } from '@xm-ngx/core';
 
 @Component({
     selector: 'xm-layout-wrapper',
@@ -26,10 +27,14 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
 
     @ViewChild('sidenav') public sidenav: MatSidenav;
 
-    constructor(private menuService: MenuService) {
+    constructor(
+        private menuService: MenuService,
+        private eventManager: XmEventManager
+    ) {
     }
 
     public ngOnInit(): void {
+        this.observeLogoutEvent();
         this.observeIsMaterial3Menu();
         this.menuCategories$ = this.menuService.menuCategories;
         this.initialSidenavOpenedState = this.menuService.initialSidenavOpenedState;
@@ -38,6 +43,12 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
     public ngAfterViewInit(): void {
         this.menuService.sidenav = this.sidenav;
         this.observeSidenavConfiguration();
+    }
+
+    private observeLogoutEvent(): void {
+        this.eventManager.listenTo('USER-LOGOUT')
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(() => this.menuService.sidenav.close());
     }
 
     private observeSidenavConfiguration(): void {
