@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { inject, Inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthServerProvider } from '@xm-ngx/core/user';
@@ -10,10 +10,12 @@ import { DOCUMENT, Location } from '@angular/common';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PrivacyAndTermsDialogComponent } from '@xm-ngx/components/privacy-and-terms-dialog';
 import { AuthRefreshTokenService } from '@xm-ngx/core/auth';
+import { MenuService } from '@xm-ngx/components/menu';
 
 @Injectable()
 export class LoginService {
     public IDP_SERVER_API_URL: string;
+    private menuService: MenuService = inject(MenuService);
 
     constructor(private principal: Principal,
                 private router: Router,
@@ -133,12 +135,14 @@ export class LoginService {
     public logout(): void {
         this.principal.logout();
         this.authRefreshTokenService.clear();
+        this.menuService.sidenav.close();
         this.sessionService.clear();
         this.router.navigate(['']);
     }
 
     /** @deprecated use SessionService.clear() */
     public logout$(): Observable<void> {
+        this.menuService.sidenav.close();
         this.sessionService.clear();
         return of(null);
     }
