@@ -199,7 +199,65 @@ export class ValidatorProcessingService {
                     },
                 };
             }
-            _.get(control?.parent?.controls, controlName)?.setErrors(null);
+            control?.parent?.controls[controlName]?.setErrors(null);
+            return null;
+        };
+    }
+
+    public static dateMoreThanIn(options: {
+        controlName: string,
+        assignError?: string,
+    }): ValidatorFn | null {
+        return (control: AbstractControl) => {
+            if (!control.value) {
+                return null;
+            }
+            const compareValue = control?.parent?.value[options?.controlName] ?? 0;
+            const compareControl = control?.parent?.controls[options?.controlName];
+            const controlDate = ValidatorProcessingService.formatToDateTime(control?.value);
+            const compareDate = ValidatorProcessingService.formatToDateTime(compareValue);
+
+            if(compareValue && controlDate > compareDate) {
+                if(!options.assignError) {
+                    return {
+                        dateMoreThanIn: true,
+                    };
+                }
+                compareControl?.setErrors({
+                    [options.assignError]: true,
+                });
+            } else {
+                compareControl?.setErrors(null);
+            }
+            return null;
+        };
+    }
+
+    public static dateLessThanIn(options: {
+        controlName: string,
+        assignError?: string,
+    }): ValidatorFn | null {
+        return (control: AbstractControl) => {
+            if (!control.value) {
+                return null;
+            }
+            const compareValue = control?.parent?.value[options?.controlName] ?? 0;
+            const compareControl = control?.parent?.controls[options?.controlName];
+            const controlDate = ValidatorProcessingService.formatToDateTime(control?.value);
+            const compareDate = ValidatorProcessingService.formatToDateTime(compareValue);
+
+            if(compareValue && controlDate < compareDate) {
+                if(!options.assignError) {
+                    return {
+                        dateLessThanIn: true,
+                    };
+                }
+                compareControl?.setErrors({
+                    [options.assignError]: true,
+                });
+            } else {
+                compareControl?.setErrors(null);
+            }
             return null;
         };
     }
@@ -269,5 +327,11 @@ export class ValidatorProcessingService {
             return [];
         }
         return options.map(option => this.validatorFactory(option)).filter((v) => Boolean(v));
+    }
+
+    private static formatToDateTime(value: string | Date): number {
+        return Number.isInteger(value) ?
+            new Date().setDate(new Date().getDate() + Number(value)) :
+            new Date(value).getTime();
     }
 }
