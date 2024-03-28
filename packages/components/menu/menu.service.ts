@@ -232,6 +232,16 @@ export class MenuService {
         return this.sidenav.mode === 'over';
     }
 
+    public get isMobileView(): Observable<boolean> {
+        return this.breakpointObserver.observe([this.MOBILE_SCREEN, this.TABLET_SCREEN])
+            .pipe(
+                switchMap((breakpointState: BreakpointState) => {
+                    const {breakpoints} = breakpointState;
+                    return of(breakpoints[this.MOBILE_SCREEN]);
+                }),
+            );
+    }
+
     public get otherCategory(): MenuCategory {
         return {
             name: {

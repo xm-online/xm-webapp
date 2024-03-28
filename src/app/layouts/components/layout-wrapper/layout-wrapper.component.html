@@ -1,6 +1,6 @@
 <div class="layout-wrapper-view" *ngIf="menuCategories$ | async as categories">
   <xm-menu-categories *ngIf="!isGuestLayout"></xm-menu-categories>
-  <mat-sidenav-container class="menu-sidenav-container" hasBackdrop="false">
+  <mat-sidenav-container class="menu-sidenav-container" hasBackdrop="false" [@.disabled]="!isMaterial3Menu && !isMobileScreen">
     <mat-sidenav #sidenav
                  [ngClass]="{
                         'menu-sidenav': isMaterial3Menu,
