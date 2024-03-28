@@ -1,27 +1,62 @@
-<cdk-tree [dataSource]="categories$ | async" [treeControl]="treeControl">
-  <cdk-tree-node *cdkTreeNodeDef="let node">
-    <a class="menu-link" *permitted="node.permission" routerLinkActive="active" [routerLink]="node.url" [class.active]="node | activeMenuItem | async">
-      <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
-      <span class="xm-menu-item-text" [title]="node?.title | translate">
+<div class="menu-view"
+     [ngClass]="{'old-menu': !isMaterial3Menu}"
+     *ngIf="subCategories$ | async"
+     (mouseleave)="hideMenuRightSide($event)">
+  <cdk-tree [dataSource]="filteredCategories"
+            [treeControl]="treeControl"
+            [@showHideSubCategories]="{value: showSubCategoriesState}"
+            (@showHideSubCategories.done)="onHideSubCategoriesDone()"
+  >
+    <cdk-tree-node *cdkTreeNodeDef="let node">
+      <a class="menu-link"
+         *permitted="node.permission"
+         [routerLink]="node.url"
+         [ngClass]="{
+            'active': node.isActiveRoute,
+            'active-with-stretch': node.isActiveRoute && isMaterial3Menu,
+            'rounded-menu-link': isMaterial3Menu
+         }"
+         (click)="setSelectedCategory(node)"
+         [attr.data-qa]="node.dataQa || 'default-menu-child-key'"
+      >
+        <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{node?.icon}}</mat-icon>
+        <span class="xm-menu-item-text" [title]="node?.title | translate">
         {{node?.title | translate}}
       </span>
-    </a>
-  </cdk-tree-node>
+      </a>
+    </cdk-tree-node>
 
-  <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
-    <a class="menu-link"
-       *permitted="node.permission"
-       (click)="toggleOrNavigate(node, $event)"
-       [class.active]="treeControl.isExpanded(node)">
-      <mat-icon class="menu-icon">{{node?.icon}}</mat-icon>
-      <span class="xm-menu-item-text">{{node?.title | translate}}</span>
-      <span class="ms-auto"></span>
+    <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
+      <a class="menu-link"
+         *permitted="node.permission"
+         (click)="toggleOrNavigate(node, $event)"
+         [ngClass]="{
+            'active-menu-category': node === parentCategory,
+            'active': !isMaterial3Menu && !node.children?.length && node?.category === selectedCategory,
+            'active-with-stretch': isMaterial3Menu && !node.children?.length && node?.category === selectedCategory,
+            'rounded-menu-link': isMaterial3Menu,
+         }"
+         [attr.data-qa]="node.dataQa || 'default-menu-parent-key'"
+      >
+        <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{node.icon}}</mat-icon>
+        <span class="xm-menu-item-text">{{node?.title | translate}}</span>
+        <span class="ms-auto"></span>
 
-      <mat-icon class="menu-link-icon" (click)="toggle(node, $event)" [@indicatorRotate]="isNodeExpanded(node)">expand_more</mat-icon>
-    </a>
+        <mat-icon
+          *ngIf="node.children?.length"
+          class="menu-link-icon"
+          (click)="toggle(node, $event)"
+          [@indicatorRotate]="isNodeExpanded(node)">
+          arrow_drop_down
+        </mat-icon>
+      </a>
 
-    <div class="menu-list" role="group" [@bodyExpansion]="isNodeExpanded(node)">
-      <ng-container cdkTreeNodeOutlet></ng-container>
-    </div>
-  </cdk-nested-tree-node>
-</cdk-tree>
+      <div
+        class="menu-list"
+        [ngClass]="{'nested-menu-list': isMaterial3Menu}"
+        role="group" [@bodyExpansion]="isNodeExpanded(node)">
+        <ng-container cdkTreeNodeOutlet></ng-container>
+      </div>
+    </cdk-nested-tree-node>
+  </cdk-tree>
+</div>
