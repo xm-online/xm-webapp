@@ -259,7 +259,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     private setStateForOldMenu(hoveredCategoryName: string): void {
         const otherCategoryName: string = this.menuService.otherCategory.name.en.toLowerCase();
         this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW;
-        this.filteredCategories = this.menuByCategories[hoveredCategoryName || otherCategoryName] || [];
+        this.filteredCategories = this.menuByCategories?.[hoveredCategoryName || otherCategoryName] || [];
     }
 
     private setStateWhenCategoryChanged(hoveredCategoryName: string, category: HoveredMenuCategory): Observable<MatDrawerToggleResult | number> {
