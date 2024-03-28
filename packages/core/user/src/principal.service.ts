@@ -117,7 +117,7 @@ export class Principal implements OnDestroy, OnInitialize {
     }
 
     public identity(force: boolean = false, mockUser: boolean = false): Promise<any> {
-        if (!force && this.promise) {
+        if (!force && this.promise && this.userIdentity) {
             return this.promise;
         }
         return this.promise = new Promise((resolve, reject) => {

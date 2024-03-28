@@ -6,7 +6,7 @@ import { XmDynamicLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { cloneDeep } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, filter, map } from 'rxjs/operators';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { XmAuthTargetUrlService } from '@xm-ngx/core/auth';
 
@@ -47,6 +47,12 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.sessionService.isActive().pipe(
+            takeUntilOnDestroy(this),
+            filter(Boolean),
+        ).subscribe(() => {
+            this.xmAuthTargetUrlService.initialRedirect();
+        });
         this.layouts$ = combineLatest([
             this.xmConfigService.config$(),
             this.sessionService.isActive(),
@@ -54,7 +60,6 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
             takeUntilOnDestroy(this),
             map(([config, active]) => {
                 if (active === true) {
-                    this.xmAuthTargetUrlService.initialRedirect();
                     return [];
                 }
 
