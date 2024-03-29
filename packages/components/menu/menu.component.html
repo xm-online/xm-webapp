@@ -1,8 +1,8 @@
 <div class="menu-view"
      [ngClass]="{'old-menu': !isMaterial3Menu}"
-     *ngIf="subCategories$ | async"
      (mouseleave)="hideMenuRightSide($event)">
-  <cdk-tree [dataSource]="filteredCategories"
+  <cdk-tree *ngIf="subCategories$ | async"
+            [dataSource]="filteredCategories"
             [treeControl]="treeControl"
             [@showHideSubCategories]="{value: showSubCategoriesState}"
             (@showHideSubCategories.done)="onHideSubCategoriesDone()"
