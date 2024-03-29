@@ -1,8 +1,10 @@
-<ng-container *ngIf="session$ | async as session">
-    <a [routerLink]="session.active ? config.userRootUrl : config.rootUrl"
-       routerLinkActive="active">
+<ng-container *ngIf="{session: session$ | async, isMaterial3Menu: isMaterial3Menu$ | async} as data">
+    <ng-container *ngIf="data.isMaterial3Menu !== null && !data.isMaterial3Menu">
+      <a [routerLink]="data.session.active ? config.userRootUrl : config.rootUrl"
+         routerLinkActive="active">
         <img [alt]="config.title | translate"
              [src]="imgPath"/>
-    </a>
+      </a>
+    </ng-container>
 </ng-container>
 

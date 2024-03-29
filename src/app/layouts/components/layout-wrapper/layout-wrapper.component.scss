@@ -1,0 +1,19 @@
+.layout-wrapper-view {
+  display: flex;
+
+  .menu-sidenav-container {
+    width: 100%;
+
+    .menu-sidenav {
+      border-radius: 0 16px 16px 0;
+    }
+
+    .border-none {
+      border: none;
+    }
+
+    .no-box-shadow {
+      box-shadow: none;
+    }
+  }
+}
