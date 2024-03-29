@@ -18,14 +18,14 @@ export class XmRepositoryRequestBuilder {
         query: QueryParamsPageable
     } {
         this.config = _.cloneDeep(config);
-        const { pageableAndSortable, filterParams } = request as XmFilterQueryParams & { params: QueryParams };
+        const {pageableAndSortable, filterParams} = request as XmFilterQueryParams & { params: QueryParams };
 
         const params = {
             ...pageableAndSortable,
         };
         const filtersToRequest = this.config.format ?
             _.pickBy(
-                format(this.config.format?.query, filterParams) as Record<string, any>,
+                format<Record<string, any>>(this.config.format?.query, filterParams),
                 v => v !== null && v !== undefined && v !== ''
             ) : filterParams;
 
