@@ -1,14 +1,27 @@
-import { Translate } from '@xm-ngx/translation';
+import { ITranslate, Translate } from '@xm-ngx/translation';
+import { MenuPositionEnum } from './menu.model';
+import { DataQa } from '@xm-ngx/interfaces';
 
-/**
- * toggle: Just open like accordion
- * click: Open like accordion and navigate to first child
- */
 export interface MenuOptions {
+    /**
+     * toggle: Just open like accordion
+     * click: Open like accordion and navigate to first child
+     */
     mode: 'toggle' | 'click';
+    /**
+     * start = left side of the screen
+     * end = right side of the screen
+     * More info: https://material.angular.io/components/sidenav/api#MatDrawer (`position` property)
+     */
+    mobileMenuPositioning: MenuPositionEnum;
+    /**
+     * Your brand logo that will be shown in the top of the categories
+     * Applicable only for M3 menu configuration
+     */
+    logo: BrandLogo;
 }
 
-export interface MenuItem {
+export interface MenuItem extends DataQa {
     path: string;
     /**
      * @deprecated
@@ -22,6 +35,7 @@ export interface MenuItem {
     icon: string;
     title: Translate;
     parent: MenuItem,
+    category?: MenuCategory;
     /**
      * @deprecated
      *
@@ -37,4 +51,24 @@ export interface MenuItem {
     children: MenuItem[];
 
     activeItemPathPatterns?: string[];
+    isActiveRoute?: boolean;
+}
+
+export interface MenuCategory extends DataQa {
+    name?: ITranslate;
+    icon?: string;
+    url?: string[];
+    order?: number;
+    hasChildren?: boolean;
+    isLinkWithoutSubcategories?: boolean;
+}
+
+export interface BrandLogo {
+    url: string;
+    size?: number;
+}
+
+export interface HoveredMenuCategory {
+    hoveredCategory: MenuCategory;
+    isOpenMenu: boolean;
 }

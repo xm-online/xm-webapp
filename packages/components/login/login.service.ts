@@ -1,18 +1,17 @@
 import { Inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { AuthServerProvider } from '@xm-ngx/core/user';
-import { Principal } from '@xm-ngx/core/user';
-import { StateStorageService, XmAuthTargetUrlService } from '@xm-ngx/core/auth';
+import { AuthServerProvider, Principal } from '@xm-ngx/core/user';
+import { AuthRefreshTokenService, StateStorageService, XmAuthTargetUrlService } from '@xm-ngx/core/auth';
 import { SessionStorageService } from 'ngx-webstorage';
 import { IIdpClient, IIdpConfig, XmCoreConfig, XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { DOCUMENT, Location } from '@angular/common';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PrivacyAndTermsDialogComponent } from '@xm-ngx/components/privacy-and-terms-dialog';
-import { AuthRefreshTokenService } from '@xm-ngx/core/auth';
 
 @Injectable()
 export class LoginService {
+    private readonly LOGOUT_EVENT = 'USER-LOGOUT';
     public IDP_SERVER_API_URL: string;
 
     constructor(private principal: Principal,
@@ -133,12 +132,14 @@ export class LoginService {
     public logout(): void {
         this.principal.logout();
         this.authRefreshTokenService.clear();
+        this.eventManager.broadcast({name: this.LOGOUT_EVENT});
         this.sessionService.clear();
         this.router.navigate(['']);
     }
 
     /** @deprecated use SessionService.clear() */
     public logout$(): Observable<void> {
+        this.eventManager.broadcast({name: this.LOGOUT_EVENT});
         this.sessionService.clear();
         return of(null);
     }
