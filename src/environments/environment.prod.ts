@@ -5,7 +5,7 @@ import { IEnvironment } from './models';
 
 export const environment: IEnvironment = {
     environment: 'prod',
-    notFoundUrl: '/accessdenied',
+    notFoundUrl: '/not-found',
     serverApiUrl: '',
     version: npmPackage.version,
     release: npmPackage.release,

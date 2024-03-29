@@ -60,7 +60,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
             .pipe(
                 tap((page) => {
                     if (!page) {
-                        this.router.navigateByUrl('/accessdenied');
+                        this.router.navigateByUrl('/not-found');
                         return;
                     }
                     this.logger.info(`Dashboard is loaded name="${page.name}" id="${page.id}".`);
