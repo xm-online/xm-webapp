@@ -24,6 +24,7 @@ import { JhiAlertErrorComponent } from '@xm-ngx/error-messages';
 import { CommonModule } from '@angular/common';
 import { XmHeatmapContainerComponent } from '@xm-ngx/components/navbar-heatmap-widget';
 import { NavigationClassDirective } from './navigation-class.directive';
+import { LayoutWrapperComponent } from './components/layout-wrapper/layout-wrapper.component';
 
 @NgModule({
     imports: [
@@ -50,7 +51,8 @@ import { NavigationClassDirective } from './navigation-class.directive';
         RouteChangeAnimationModule,
         PageRibbonComponent,
         XmHeatmapContainerComponent,
-        NavigationClassDirective
+        NavigationClassDirective,
+        LayoutWrapperComponent,
     ],
     exports: [XmMainComponent],
     declarations: [XmMainComponent],

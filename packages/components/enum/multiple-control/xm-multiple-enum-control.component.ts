@@ -9,7 +9,7 @@ import { XmEnumViewOptions } from '../view/xm-enum-view';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -40,6 +40,7 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
                         [required]="config.required"
                         [id]="config.id"
                         [attr.data-qa]="config.dataQa"
+                        (selectionChange)="selectionsChange($event)"
                         multiple>
                 <mat-select-trigger>
                     <ng-container *ngIf="itemsMap && itemsMap[value[0] + '']">
@@ -115,5 +116,11 @@ export class XmMultipleEnumControl
             }
         });
         this.itemsMap = keyBy(this.itemsList, 'value');
+    }
+
+    public selectionsChange(res: MatSelectChange): void {
+        if (res.value?.length === 0) {
+            this.control.patchValue(null);
+        }
     }
 }

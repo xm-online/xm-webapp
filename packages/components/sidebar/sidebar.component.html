@@ -13,6 +13,6 @@
   </ng-template>
 
   <ng-container *ngIf="config?.layout; else defaultSidebarRef">
-    <xm-dynamic-widget-layout [layouts]="config.layout"></xm-dynamic-widget-layout>
+    <xm-dynamic-widget-layout class="xm-sidebar-content__dynamic-content" [layouts]="config.layout"></xm-dynamic-widget-layout>
   </ng-container>
 </aside>
