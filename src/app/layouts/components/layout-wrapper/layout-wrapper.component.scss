@@ -15,5 +15,9 @@
     .no-box-shadow {
       box-shadow: none;
     }
+
+    &__content {
+      height: 100vh;
+    }
   }
 }
