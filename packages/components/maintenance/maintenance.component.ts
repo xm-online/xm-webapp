@@ -1,39 +1,43 @@
-import { Component, effect, inject, Injector, OnInit, Signal } from '@angular/core';
+import { Component, inject, Injector, OnDestroy, OnInit, Signal } from '@angular/core';
 import { MaintenanceMode, MaintenanceService } from './maintenance.service';
 import { XmDynamicComponentRegistry } from '@xm-ngx/dynamic';
 import { NotFoundException } from '@xm-ngx/exceptions';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { LanguageService } from "@xm-ngx/translation";
+import { LanguageService } from '@xm-ngx/translation';
+import { Observable } from 'rxjs';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { first } from 'rxjs/operators';
 
 @Component({
     selector: 'xm-maintenance-view',
     templateUrl: './maintenance.component.html',
     styleUrls: ['./maintenance.component.scss'],
 })
-export class MaintenanceComponent implements OnInit {
+export class MaintenanceComponent implements OnInit, OnDestroy {
 
     protected readonly SELECTOR = 'xm-general/maintenance';
 
-    public isMaintenanceProgress$: Signal<boolean>;
+    public isMaintenanceProgress$: Observable<boolean>;
     public maintenanceMode$: Signal<MaintenanceMode>;
 
     public componentInjector = inject(Injector);
     private registry = inject(XmDynamicComponentRegistry);
 
-
-    public componentInRegistry: boolean = false;
+    public componentInRegistry: boolean = null;
 
     constructor(
         private maintenanceService: MaintenanceService,
         private languageService: LanguageService,
     ) {
-        this.isMaintenanceProgress$ = toSignal(this.maintenanceService.maintenance$());
         this.maintenanceMode$ = toSignal(this.maintenanceService.maintenanceMode$());
-        const locale$ = toSignal(this.languageService.locale$);
-        effect(() => {
-            if (this.isMaintenanceProgress$()) {
-                this.languageService.init();
-            }
+        this.isMaintenanceProgress$ = this.maintenanceService.maintenance$().pipe(
+            takeUntilOnDestroy(this),
+        );
+
+        this.isMaintenanceProgress$.pipe(
+            first(it => it === true)
+        ).subscribe(() => {
+            this.languageService.refresh();
         });
     }
 
@@ -49,6 +53,10 @@ export class MaintenanceComponent implements OnInit {
                 console.error(e);
             }
         }
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
     }
 
 }

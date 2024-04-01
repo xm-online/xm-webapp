@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as glob from 'glob';
+import glob from 'glob';
 import _ from 'lodash';
 import { Command } from './command';
 import { Config } from './config';

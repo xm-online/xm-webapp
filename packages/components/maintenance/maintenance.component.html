@@ -1,4 +1,4 @@
-<div class="xm-maintenance-view" *ngIf="isMaintenanceProgress$()">
+<div class="xm-maintenance-view" *ngIf="(isMaintenanceProgress$ | async) && componentInRegistry !== null">
     @if (componentInRegistry) {
         @if (maintenanceMode$()) {
             <ng-template

@@ -19,7 +19,7 @@ export class XmDynamicModuleRegistry {
         const flattened = flatten(flatten(dynamicExtensions));
 
         const duplicates = filter(flattened, (o, i) =>
-            find(flattened, (e) => e.selector == o.selector, i + 1)
+            find(flattened, (e) => e.selector == o.selector && e.selector !== 'xm-general', i + 1)
         ) as XmDynamicExtensionEntry[];
         // eslint-disable-next-line no-console
         duplicates.forEach(i => console.error(`Module with the same selector=${i.selector}.`));
