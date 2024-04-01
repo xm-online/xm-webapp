@@ -15,7 +15,7 @@ import { first } from 'rxjs/operators';
 })
 export class MaintenanceComponent implements OnInit, OnDestroy {
 
-    protected readonly SELECTOR = 'xm-general/maintenance';
+    protected readonly SELECTOR = 'xm-general/maintenance1';
 
     public isMaintenanceProgress$: Observable<boolean>;
     public maintenanceMode$: Signal<MaintenanceMode>;
