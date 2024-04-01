@@ -1,8 +1,9 @@
-import { Component, inject, Injector, OnInit } from '@angular/core';
-import { MaintenanceService } from './maintenance.service';
-import { Observable } from 'rxjs';
+import { Component, effect, inject, Injector, OnInit, Signal } from '@angular/core';
+import { MaintenanceMode, MaintenanceService } from './maintenance.service';
 import { XmDynamicComponentRegistry } from '@xm-ngx/dynamic';
 import { NotFoundException } from '@xm-ngx/exceptions';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { LanguageService } from "@xm-ngx/translation";
 
 @Component({
     selector: 'xm-maintenance-view',
@@ -10,21 +11,35 @@ import { NotFoundException } from '@xm-ngx/exceptions';
     styleUrls: ['./maintenance.component.scss'],
 })
 export class MaintenanceComponent implements OnInit {
-    public isMaintenanceProgress$: Observable<boolean>;
+
+    protected readonly SELECTOR = 'xm-general/maintenance';
+
+    public isMaintenanceProgress$: Signal<boolean>;
+    public maintenanceMode$: Signal<MaintenanceMode>;
+
     public componentInjector = inject(Injector);
     private registry = inject(XmDynamicComponentRegistry);
+
 
     public componentInRegistry: boolean = false;
 
     constructor(
         private maintenanceService: MaintenanceService,
+        private languageService: LanguageService,
     ) {
-        this.isMaintenanceProgress$ = this.maintenanceService.maintenance$();
+        this.isMaintenanceProgress$ = toSignal(this.maintenanceService.maintenance$());
+        this.maintenanceMode$ = toSignal(this.maintenanceService.maintenanceMode$());
+        const locale$ = toSignal(this.languageService.locale$);
+        effect(() => {
+            if (this.isMaintenanceProgress$()) {
+                this.languageService.init();
+            }
+        });
     }
 
     public async ngOnInit(): Promise<void> {
         try {
-            const component = await this.registry.find('xm-general/maintenance', this.componentInjector);
+            const component = await this.registry.find(this.SELECTOR, this.componentInjector);
             this.componentInRegistry = !!component;
         } catch (e) {
             if (e instanceof NotFoundException) {
@@ -35,4 +50,5 @@ export class MaintenanceComponent implements OnInit {
             }
         }
     }
+
 }
