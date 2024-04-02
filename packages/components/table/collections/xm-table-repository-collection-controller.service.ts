@@ -16,9 +16,9 @@ import {
     XmTableReadOnlyRepositoryCollectionControllerConfig
 } from './xm-table-read-only-repository-collection-controller';
 import { XmEventManagerService } from '@xm-ngx/core';
-import { XmTableEventType } from '@xm-ngx/components/table';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
+import { XmTableEventType } from '../directives/xm-table.model';
 
 export interface IXmTableRepositoryCollectionControllerConfig extends XmConfig {
     filtersToRequest?: XmFormatJsTemplateRecursive,
