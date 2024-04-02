@@ -4,6 +4,7 @@
 
   <input (blur)="touch(value)"
          (ngModelChange)="change($event)"
+         [ngModelOptions]="{standalone: true}"
          [id]="config.id"
          [mask]="config.mask"
          [ngModel]="inputValue"
