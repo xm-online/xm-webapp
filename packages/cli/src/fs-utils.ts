@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import glob from 'glob';
+import * as glob from 'glob';
 
 export const isDirectory = (source: string): boolean => fs.lstatSync(source).isDirectory();
 
