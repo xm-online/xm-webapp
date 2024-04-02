@@ -1,13 +1,13 @@
 import { Component, Injector, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { TitleService, XmTranslationModule } from '@xm-ngx/translation';
+import { Locale, TitleService, XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmUIConfig } from '@xm-ngx/core/config';
 import { XmDynamicModule, XmDynamicSelector } from '@xm-ngx/dynamic';
 import { firstValueFrom } from 'rxjs';
 
 interface PublicUiErrorConfig {
-    title: string;
+    title: Record<Locale, string>;
     componentSelector: XmDynamicSelector;
     componentConfig: any;
 }
@@ -68,6 +68,7 @@ export class ErrorComponent implements OnInit {
         private route: ActivatedRoute,
         private xmPublicUiConfigService: XmPublicUiConfigService<XmErrorConfig>,
         private titleService: TitleService,
+        private xmTranslateService: XmTranslateService,
         public componentInjector: Injector,
     ) { }
 
@@ -91,8 +92,9 @@ export class ErrorComponent implements OnInit {
 
     private handleDynamicErrorComponent(errorConfig: PublicUiErrorConfig) {
         if (errorConfig?.title) {
-            this.titleService.set(errorConfig.title);
-            this.route.snapshot.data.pageTitle = errorConfig.title;
+            const title = this.xmTranslateService.translate(errorConfig.title);
+            this.titleService.set(title);
+            this.route.snapshot.data.pageTitle = title;
         }
         if (errorConfig?.componentSelector) {
             this.dynamicErrorComponent = errorConfig.componentSelector;
