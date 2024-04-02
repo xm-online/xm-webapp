@@ -1,7 +1,8 @@
 import { Command } from '../command';
-import { ClassDeclaration, Node, Project, SyntaxKind } from 'ts-morph';
+import { ClassDeclaration, Project, SyntaxKind } from 'ts-morph';
 import fs from 'fs';
 import { getSchema, JsfNode } from './get-schema';
+import { getSelectorValue } from '../selector-util';
 
 
 export interface DynamicComponentSpecEntity {
@@ -40,32 +41,7 @@ function getAlternativeSelector(classDeclaration: ClassDeclaration): string {
 }
 
 function getSelector(classDeclaration: ClassDeclaration): string {
-    const decoratorDeclaration = classDeclaration.getDecorator('Component');
-    if (!decoratorDeclaration) {
-        return '';
-    }
-
-    const componentDeclaration = decoratorDeclaration.getArguments()[0];
-    if (!componentDeclaration) {
-        return '';
-    }
-    if (!Node.isObjectLiteralExpression(componentDeclaration)) {
-        return '';
-    }
-
-    const property = componentDeclaration.getProperty('selector');
-    if (!property) {
-        return '';
-    }
-    if (!Node.isPropertyAssignment(property)) {
-        return '';
-    }
-    const stringLiteral = property.getFirstChildByKind(SyntaxKind.StringLiteral);
-    if (!stringLiteral) {
-        return '';
-    }
-
-    const selector = stringLiteral.getLiteralValue();
+    const selector = getSelectorValue(classDeclaration);
     if (!selector) {
         return '';
     }
