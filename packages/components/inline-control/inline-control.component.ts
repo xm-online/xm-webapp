@@ -21,6 +21,7 @@ export interface XmInlineControlDynamic<C> {
     options?: C;
     style: string;
     class: string;
+    disabled?: boolean;
 }
 
 export interface XmInlineControlDynamicView<C, V> extends XmInlineControlDynamic<C> {
