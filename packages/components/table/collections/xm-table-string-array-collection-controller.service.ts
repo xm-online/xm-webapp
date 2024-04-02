@@ -49,7 +49,8 @@ export class XmTableStringArrayCollectionController<T extends StringArrayListMan
         this.items = modify;
     }
 
-    public save(): void {
+    public async save(): Promise<void> {
+        this.entity = await firstValueFrom(this.getEntityController().entity$());
         const items = this.items.map((i) => i.value);
         set(this.entity, this.config.path, cloneDeep(items));
         this.getEntityController().update(this.entity);

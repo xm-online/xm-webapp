@@ -2,10 +2,10 @@ import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@
 import { CommonModule } from '@angular/common';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MenuCategoriesComponent, MenuCategory, MenuService } from '@xm-ngx/components/menu';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest, switchMap, from, of } from 'rxjs';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmSidebarModule } from '@xm-ngx/components/sidebar';
-import { XmEventManager } from '@xm-ngx/core';
+import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 
 @Component({
     selector: 'xm-layout-wrapper',
@@ -30,7 +30,8 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
 
     constructor(
         private menuService: MenuService,
-        private eventManager: XmEventManager
+        private eventManager: XmEventManager,
+        private sessionService: XmSessionService,
     ) {
     }
 
@@ -44,6 +45,7 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
 
     public ngAfterViewInit(): void {
         this.menuService.sidenav = this.sidenav;
+        this.observeShouldOpenSidenavAfterSignIn();
         this.observeSidenavConfiguration();
     }
 
@@ -67,6 +69,19 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
         this.menuService.isMaterial3Menu
             .pipe(takeUntilOnDestroy(this))
             .subscribe((isMaterial3Menu: boolean) => this.isMaterial3Menu = isMaterial3Menu);
+    }
+
+    private observeShouldOpenSidenavAfterSignIn(): void {
+        combineLatest([this.sessionService.isActive(), this.menuService.isMobileView, this.menuService.isMaterial3Menu])
+            .pipe(
+                switchMap(([isActive, isMobileScreen, isMaterial3Menu]: [boolean, boolean, boolean]) => {
+                    const notMaterial3Menu = isMaterial3Menu !== null && !isMaterial3Menu;
+                    const shouldOpenMenu: boolean = notMaterial3Menu && isActive && !isMobileScreen && !this.menuService.sidenav.opened;
+                    return shouldOpenMenu ? from(this.menuService.sidenav.open()) : of(null);
+                }),
+                takeUntilOnDestroy(this),
+            )
+            .subscribe();
     }
 
     public ngOnDestroy(): void {
