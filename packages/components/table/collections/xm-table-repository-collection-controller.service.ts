@@ -1,5 +1,5 @@
 import { inject, Injectable, Injector } from '@angular/core';
-import { IEntityCollectionPageable, XmRepositoryConfig } from '@xm-ngx/repositories';
+import { IEntityCollectionPageable, QueryParams, XmRepositoryConfig } from '@xm-ngx/repositories';
 import { XmFilterQueryParams, IXmTableCollectionController, } from './i-xm-table-collection-controller';
 
 import { cloneDeep } from 'lodash';
@@ -18,6 +18,7 @@ import {
 import { XmEventManagerService } from '@xm-ngx/core';
 import { XmTableEventType } from '@xm-ngx/components/table';
 import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
 
 export interface IXmTableRepositoryCollectionControllerConfig extends XmConfig {
     filtersToRequest?: XmFormatJsTemplateRecursive,
@@ -120,36 +121,52 @@ export class XmTableRepositoryCollectionController<T = unknown>
         throw new NotSupportedException();
     }
 
-    public update(entity: T): Observable<unknown> {
+    public update(
+        payload: T,
+        params?: QueryParams,
+        headers?: HttpHeaders
+    ): Observable<T> {
         this.changePartial({loading: true});
-        return this.repository.update(entity)
+        return this.repository.update(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
                 finalize(() => this.changePartial({loading: false}))
             );
     }
 
-    public create(entity: T): Observable<unknown> {
+    public create(
+        payload: T,
+        params?: QueryParams,
+        headers?: HttpHeaders
+    ): Observable<T> {
         this.changePartial({loading: true});
-        return this.repository.create(entity)
+        return this.repository.create(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
                 finalize(() => this.changePartial({loading: false}))
             );
     }
 
-    public delete(id: string | number): Observable<unknown> {
+    public delete(
+        id: string | number,
+        params?: QueryParams,
+        headers?: HttpHeaders
+    ): Observable<T> {
         this.changePartial({loading: true});
-        return this.repository.delete(id)
+        return this.repository.delete(id, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
                 finalize(() => this.changePartial({loading: false}))
             );
     }
 
-    public patch(entity: T): Observable<unknown> {
+    public patch(
+        payload: T,
+        params?: QueryParams,
+        headers?: HttpHeaders
+    ): Observable<T> {
         this.changePartial({loading: true});
-        return this.repository.patch(entity)
+        return this.repository.patch(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
                 finalize(() => this.changePartial({loading: false}))
