@@ -55,7 +55,7 @@ export class ExtLazyModuleCommand implements Command {
                     const path = file.getFilePath();
                     if (module && path.indexOf('src/app/ext') > 0) {
                         let modulePath = path.substring(path.indexOf('src/app/ext'));
-                        modulePath = modulePath.substring(0, modulePath.lastIndexOf('/module'))
+                        modulePath = modulePath.substring(0, modulePath.lastIndexOf('/module'));
                         this.moduleByPath(modulePath, modules, 'xm-general');
                     }
                 }
