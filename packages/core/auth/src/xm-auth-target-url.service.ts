@@ -24,7 +24,7 @@ export class XmAuthTargetUrlService {
         // We need to investigate way to clean dashboard cache on user logout
         setTimeout(() => {
             if (redirect && redirect !== '/') {
-                this.router.navigate([redirect.split('?')[0]], redirect.includes('?') ? {queryParams: Object.fromEntries(redirect.split('?')[1].split('&').map(v => v.split('=')))} : {});
+                this.router.navigateByUrl(this.router.parseUrl(redirect));
             } else {
                 this.router.navigate(['dashboard']);
             }
