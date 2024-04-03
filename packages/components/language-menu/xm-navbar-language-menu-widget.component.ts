@@ -62,8 +62,13 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
     }
 
     public ngOnInit(): void {
-        this.xmUiConfigService.config$().pipe(takeUntilOnDestroy(this)).subscribe((config) => {
-            this.languages = (config && config.langs) ? config.langs : this.languageService.languages;
+        this.xmUiConfigService.config$().pipe(takeUntilOnDestroy(this)).subscribe({
+            next: (config) => {
+                this.languages = (config && config.langs) ? config.langs : this.languageService.languages;
+            },
+            error: () => {
+                this.languages = this.languageService.languages;
+            }
         });
     }
 
