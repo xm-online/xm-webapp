@@ -23,7 +23,7 @@ export class StyleManagerService {
                 resolve();
             }, {once: true});
         });
-        link.setAttribute('href', href); // have to be after init promise, because it can be loaded before promise inited
+        link.setAttribute('href', href); // have to be after init promise, because of this line invoke load immediately
         return promise;
     }
 

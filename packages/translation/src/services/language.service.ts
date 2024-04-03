@@ -94,6 +94,10 @@ export class LanguageService implements OnDestroy, OnInitialize {
             || this.$locale.getValue();
     }
 
+    public refresh(): void {
+        this.update(this.locale);
+    }
+
     public set locale(value: Locale) {
         this.update(value);
         this.logger.debug(`Change locale. locale="${value}".`);

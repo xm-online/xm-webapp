@@ -57,6 +57,7 @@ export interface XmTableFilterInlineFilter {
     value: string | string[];
     removable: boolean;
     name: string;
+    disabled?: boolean;
 }
 
 @Component({
@@ -75,7 +76,7 @@ export interface XmTableFilterInlineFilter {
                                  class="chip-option">
                     <xm-table-filter-chips-control [config]="filter.inlineConfig"
                                                    [value]="filter.title"
-                                                   [disabled]="filter.config?.disabled"
+                                                   [disabled]="filter.disabled"
                                                    (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                     <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
                 </mat-chip-option>
@@ -112,7 +113,7 @@ export interface XmTableFilterInlineFilter {
                                      class="chip-option">
                         <xm-table-filter-chips-control [config]="filter.inlineConfig"
                                                        [value]="filter.title"
-                                                       [disabled]="filter.config?.disabled"
+                                                       [disabled]="filter.disabled"
                                                        (valueChange)="change(filter.name, $event)"></xm-table-filter-chips-control>
                         <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
                     </mat-chip-option>
@@ -148,6 +149,7 @@ export interface XmTableFilterInlineFilter {
         }
 
         .filter-container {
+            width: 100%;
             overflow: hidden;
         }
     `],
@@ -189,6 +191,7 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
 
             const chipsFilters = this.getChipsFilters();
             this.activeFilters = chipsFilters;
+
             // TODO:WORKAROUND: Wait until filters create and hide the rest
             setTimeout(() => {
                 this.setFilters(chipsFilters);
@@ -278,6 +281,7 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
                 const overrideView =
                     this.config.chips.find(i => i.name === config.name)
                     || { selector: '@xm-ngx/components/text', config: {} } as XmInlineControlDynamicView<unknown, unknown>;
+
                 const inlineConfig: XmInlineControlConfig = {
                     view: overrideView as XmInlineControlDynamicView<unknown, unknown>,
                     edit: config as XmInlineControlDynamic<unknown>,
@@ -287,6 +291,7 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
                     inlineConfig,
                     removable: !config?.removable,
                     name: config.name,
+                    disabled: overrideView.disabled || config.disabled,
                 };
                 if(isArray(this.value[config.name])){
                     return (this.value[config.name] as Primitive[]).map(value => {

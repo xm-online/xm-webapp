@@ -1,24 +1,29 @@
-import { Injectable } from '@angular/core';
-import { IEntityCollectionPageable, XmRepositoryConfig } from '@xm-ngx/repositories';
+import { inject, Injectable, Injector } from '@angular/core';
+import { IEntityCollectionPageable, QueryParams, XmRepositoryConfig } from '@xm-ngx/repositories';
 import { XmFilterQueryParams, IXmTableCollectionController, } from './i-xm-table-collection-controller';
 
 import { cloneDeep } from 'lodash';
 import { XmTableRepositoryResolver, } from '../repositories/xm-table-repository-resolver.service';
 import { NotSupportedException } from '@xm-ngx/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
-import { take } from 'rxjs/operators';
+import { finalize, take, tap } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
-import { XmDynamicService, XmDynamicWithSelector } from '@xm-ngx/dynamic';
-import { XmFormatJsTemplateRecursive } from '@xm-ngx/operators';
+import { XmDynamicInstanceService, XmDynamicService, XmDynamicWithSelector } from '@xm-ngx/dynamic';
+import { Defaults, XmFormatJsTemplateRecursive } from '@xm-ngx/operators';
 import { XmConfig } from '@xm-ngx/interfaces';
 import {
     XmTableReadOnlyRepositoryCollectionControllerConfig
 } from './xm-table-read-only-repository-collection-controller';
+import { XmEventManagerService } from '@xm-ngx/core';
+import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
+import { XmTableEventType } from '../directives/xm-table.model';
 
 export interface IXmTableRepositoryCollectionControllerConfig extends XmConfig {
     filtersToRequest?: XmFormatJsTemplateRecursive,
     repository: XmTableRepositoryCollectionConfig;
+    triggerTableKey?: string;
 }
 
 export interface XmTableRepositoryCollectionControllerConfig extends IXmTableRepositoryCollectionControllerConfig {
@@ -32,8 +37,14 @@ export interface XmTableRepositoryCollectionConfig extends XmDynamicService<XmRe
 export class XmTableRepositoryCollectionController<T = unknown>
     extends AXmTableStateCollectionController<T>
     implements IXmTableCollectionController<T> {
-    public repository: IEntityCollectionPageable<T, PageableAndSortable>;
-    public declare config: XmTableReadOnlyRepositoryCollectionControllerConfig;
+    public repository: IEntityCollectionPageable<T, PageableAndSortable> | any;
+    @Defaults({
+        triggerTableKey: 'action'
+    }) public declare config: XmTableReadOnlyRepositoryCollectionControllerConfig;
+
+    private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
+    private injector: Injector = inject(Injector);
+    private eventManagerService = inject(XmEventManagerService);
 
     constructor(
         protected repositoryResolver: XmTableRepositoryResolver<T>,
@@ -41,12 +52,19 @@ export class XmTableRepositoryCollectionController<T = unknown>
         super();
     }
 
+    private getRepositoryController(): IEntityCollectionPageable<T, PageableAndSortable> {
+        return this.xmDynamicInstanceService.getControllerByKey(
+            'repository',
+            this.injector
+        );
+    }
+
     public async load(request: XmFilterQueryParams): Promise<void> {
         if (_.isEmpty(request.pageableAndSortable)) {
             request.pageableAndSortable = PAGEABLE_AND_SORTABLE_DEFAULT;
         }
 
-        this.repository = await this.repositoryResolver.get(this.config.repository);
+        this.repository = this.getRepositoryController() || await this.repositoryResolver.get(this.config.repository);
 
         this.changePartial({loading: true, pageableAndSortable: request.pageableAndSortable});
 
@@ -101,5 +119,57 @@ export class XmTableRepositoryCollectionController<T = unknown>
 
     public save(): void {
         throw new NotSupportedException();
+    }
+
+    public update(
+        payload: T,
+        params?: QueryParams,
+        headers?: HttpHeaders
+    ): Observable<T> {
+        this.changePartial({loading: true});
+        return this.repository.update(payload, params, headers)
+            .pipe(
+                tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
+                finalize(() => this.changePartial({loading: false}))
+            );
+    }
+
+    public create(
+        payload: T,
+        params?: QueryParams,
+        headers?: HttpHeaders
+    ): Observable<T> {
+        this.changePartial({loading: true});
+        return this.repository.create(payload, params, headers)
+            .pipe(
+                tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
+                finalize(() => this.changePartial({loading: false}))
+            );
+    }
+
+    public delete(
+        id: string | number,
+        params?: QueryParams,
+        headers?: HttpHeaders
+    ): Observable<T> {
+        this.changePartial({loading: true});
+        return this.repository.delete(id, params, headers)
+            .pipe(
+                tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
+                finalize(() => this.changePartial({loading: false}))
+            );
+    }
+
+    public patch(
+        payload: T,
+        params?: QueryParams,
+        headers?: HttpHeaders
+    ): Observable<T> {
+        this.changePartial({loading: true});
+        return this.repository.patch(payload, params, headers)
+            .pipe(
+                tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
+                finalize(() => this.changePartial({loading: false}))
+            );
     }
 }
