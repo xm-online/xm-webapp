@@ -6,26 +6,25 @@ import {
     Input,
     Output,
     QueryList,
-    ViewChildren
+    ViewChildren,
 } from '@angular/core';
-import { NgForOf } from '@angular/common';
+import { getBrowserOtp } from '@xm-ngx/operators';
 
 @Component({
     selector: 'xm-letters-control',
     standalone: true,
     template: `
-            <input *ngFor="let i of config.mask.split('')"
-                   [type]="config?.type||'number'"
-                   autocomplete="one-time-code"
-                   #letter
-                   maxlength="1"
-                   (input)="inputOTP($event.data,letter)"
-                   (paste)="onPaste($event, letter)"
-                   (keyup)="onKeyUp($event, letter)"/>
+        @for (i of config.mask.split(''); track $index) {
+            <input
+                #letter
+                maxlength="1"
+                autocomplete="one-time-code"
+                [type]="config?.type||'number'"
+                (input)="inputOTP($event.data,letter)"
+                (paste)="onPaste($event, letter)"
+                (keyup)="onKeyUp($event, letter)" />
+        }
     `,
-    imports: [
-        NgForOf,
-    ],
     styles: [`
         :host {
             display: block;
@@ -70,7 +69,6 @@ export class LettersControl implements AfterViewInit {
 
     public ngAfterViewInit(): void {
         this.listenForOtp();
-
     }
 
     public inputOTP(data: string, letter: HTMLInputElement): void {
@@ -90,32 +88,17 @@ export class LettersControl implements AfterViewInit {
     }
 
     private listenForOtp(): void {
-        if ('OTPCredential' in window) {
-            window.addEventListener('DOMContentLoaded', (e) => {
-                const ac = new AbortController();
-                const reqObj = {
-                    otp: {transport: ['sms']},
-                    signal: ac.signal,
-                };
-                navigator.credentials
-                    .get(reqObj)
-                    .then((otp: any) => {
-                        if (otp) {
-                            if (otp && otp.code) {
-                                this.fillByValues(otp.code, 0);
-                            }
-                        }
-                    })
-                    .catch((err) => {
-                        console.info('Web OTP API not supported, Please enter manually.');
-                        return;
-                    });
+        getBrowserOtp()
+            .then((otp) => {
+                if (otp?.code) {
+                    this.fillByValues(otp.code, 0);
+                }
+            })
+            .catch((err) => {
+                console.warn(err);
+                return;
             });
-        } else {
-            console.info('Web OTP API not supported, Please enter manually.');
-        }
     }
-
 
     public onKeyUp(e: KeyboardEvent, letter: HTMLInputElement): void {
         const components = this.components.toArray();
