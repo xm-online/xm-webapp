@@ -24,6 +24,7 @@ export interface XmDateControlOptions {
     disableFutureDates?: boolean;
     intervalFromMinDateInDays?: number;
     dateNow?: boolean;
+    useIsoString?: boolean;
 }
 
 const DEFAULT_CONFIG: XmDateControlOptions = {
@@ -136,14 +137,18 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
 
     public changeDateControl({ value }: MatDatepickerInputEvent<unknown>): void {
         if (value instanceof Date) {
+            let date: Date | string = value;
             if (this.config?.useUtc) {
-                const utcDate = new Date(
+                date = new Date(
                     Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()),
                 );
-                this.control.setValue(utcDate, { emitEvent: true });
-                this.control.markAsTouched();
-                this.control.markAsDirty();
             }
+            if (this.config?.useIsoString) {
+                date = date.toISOString();
+            }
+            this.control.setValue(date, { emitEvent: true });
+            this.control.markAsTouched();
+            this.control.markAsDirty();
         } else if (value === null) {
             this.control.setValue('', { emitEvent: true });
             this.control.markAsTouched();
