@@ -7,7 +7,10 @@ import {
     Output,
     QueryList,
     ViewChildren,
+    forwardRef,
 } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { getBrowserOtp } from '@xm-ngx/operators';
 
 @Component({
@@ -25,6 +28,13 @@ import { getBrowserOtp } from '@xm-ngx/operators';
                 (keyup)="onKeyUp($event, letter)"/>
         }
     `,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => LettersControl),
+            multi: true,
+        },
+    ],
     styles: [`
         :host {
             display: block;
@@ -62,7 +72,7 @@ import { getBrowserOtp } from '@xm-ngx/operators';
         }
     `],
 })
-export class LettersControl implements AfterViewInit {
+export class LettersControl extends NgModelWrapper<string> implements AfterViewInit {
     @Input() public config: { mask: string, type?: string };
     @Output() public submitEvent: EventEmitter<string> = new EventEmitter<string>();
     @ViewChildren('letter') public components: QueryList<ElementRef<HTMLInputElement>>;
