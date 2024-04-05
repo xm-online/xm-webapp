@@ -14,7 +14,7 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import {
     distinctUntilChanged,
     debounceTime,
-    BehaviorSubject
+    Subject
 } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { matExpansionAnimations } from '@angular/material/expansion';
@@ -98,7 +98,7 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
     public filterExpand: boolean = true;
     private cacheFilters: FiltersControlValue;
     private DELAY = 400;
-    private request$: BehaviorSubject<FiltersControlValue> = new BehaviorSubject<FiltersControlValue>(null);
+    private request$: Subject<FiltersControlValue> = new Subject<FiltersControlValue>();
 
     private tableFilterController: XmTableFilterController = inject(XmTableFilterController);
 
@@ -118,9 +118,12 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
         if (!this.cacheFilters) {
             this.cacheFilters = _.mapValues(value, () => null);
         }
-        this.value = value;
+        const prevValue = _.merge({}, this.cacheFilters, this.value);
 
-        this.request$.next(this.value);
+        if (!_.isEqual(prevValue, value)) {
+            this.value = value;
+            this.request$.next(this.value);
+        }
     }
 
     public submit(): void {

@@ -17,3 +17,5 @@ export * from './selections/xm-table-selection.service';
 export {
     XmTableFiltersElasticStringQuery,
 } from './elastic/xm-table-filters-elastic-string-query.model';
+
+export * from './repository/xm-repository-request-builder.service';
