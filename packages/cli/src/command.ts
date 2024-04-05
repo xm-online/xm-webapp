@@ -14,4 +14,5 @@ export type CliCommands = 'ext-assets'
     | 'dynamic-specification'
     | 'ext-routing'
     | 'ext-theming'
+    | 'ext-config'
     | 'ext-themes';

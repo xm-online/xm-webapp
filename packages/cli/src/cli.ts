@@ -7,6 +7,7 @@ import { ExtLazyModuleCommand } from './ext-lazy-module-command';
 import { ExtRoutingCommand } from './ext-routing-command';
 import { ExtThemesCommand } from './ext-themes-command';
 import { ExtThemingCommand } from './ext-theming-command';
+import { ExtConfigCommand } from './ext-config-command';
 import { HelpCommand } from './help-command';
 import { ReplaceCommand } from './replace-command';
 import { DynamicSpecificationCommand } from './dynamic-specification/dynamic-specification-command';
@@ -49,6 +50,10 @@ export function cli(terminalArgs: string[]): void {
         }
         case 'ext-themes': {
             new ExtThemesCommand(config).execute();
+            break;
+        }
+        case 'ext-config': {
+            new ExtConfigCommand().execute();
             break;
         }
         case 'ext-theming': {
