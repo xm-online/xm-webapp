@@ -3,6 +3,7 @@ import {
     Component,
     ElementRef,
     EventEmitter,
+    HostListener,
     Input,
     Output,
     QueryList,
@@ -24,7 +25,6 @@ import { getBrowserOtp } from '@xm-ngx/operators';
                 #letter
                 maxlength="1"
                 (input)="inputOTP($event.data,letter)"
-                (paste)="onPaste($event, letter)"
                 (keyup)="onKeyUp($event, letter)"/>
         }
     `,
@@ -76,6 +76,18 @@ export class LettersControl extends NgModelWrapper<string> implements AfterViewI
     @Input() public config: { mask: string, type?: string };
     @Output() public submitEvent: EventEmitter<string> = new EventEmitter<string>();
     @ViewChildren('letter') public components: QueryList<ElementRef<HTMLInputElement>>;
+
+    @HostListener('paste', ['$event']) public handlePasteEvent(e: ClipboardEvent): void {
+        e.preventDefault();
+
+        if (!e.clipboardData) {
+            return;
+        }
+
+        const text = e.clipboardData.getData('text');
+
+        this.fillByValues(text, 0);
+    }
 
     public ngAfterViewInit(): void {
         getBrowserOtp()
@@ -132,11 +144,6 @@ export class LettersControl extends NgModelWrapper<string> implements AfterViewI
         if ((e.key >= '0' && e.key <= '9') || (e.key >= 'a' && e.key <= 'z') || e.key === 'ArrowRight') {
             components[ix + 1].nativeElement.select();
         }
-    }
-
-    public onPaste(e: ClipboardEvent, letter: HTMLInputElement): void {
-        e.preventDefault();
-        this.fillInputs(e.clipboardData.getData('text'), letter);
     }
 
     private fillInputs(data: string, letter: HTMLInputElement): void {
